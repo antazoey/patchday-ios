@@ -14,6 +14,10 @@
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
 		137331021E22BA3E0048F91E /* PatchDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137331011E22BA3E0048F91E /* PatchDayTests.swift */; };
 		1373310D1E22BA3E0048F91E /* PatchDayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */; };
+		13B6D1A41EBE2348000E5D8A /* PatchDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B6D1A31EBE2348000E5D8A /* PatchDate.swift */; };
+		13E2483F1EBD716F00E0953D /* Patch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E2483E1EBD716F00E0953D /* Patch.swift */; };
+		13E248411EBD718600E0953D /* PatchSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E248401EBD718600E0953D /* PatchSchedule.swift */; };
+		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,11 @@
 		137331081E22BA3E0048F91E /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITests.swift; sourceTree = "<group>"; };
 		1373310E1E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
+		13B6D1A31EBE2348000E5D8A /* PatchDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatchDate.swift; path = ../PatchDate.swift; sourceTree = "<group>"; };
+		13E2483E1EBD716F00E0953D /* Patch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Patch.swift; path = ../Patch.swift; sourceTree = "<group>"; };
+		13E248401EBD718600E0953D /* PatchSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatchSchedule.swift; path = ../PatchSchedule.swift; sourceTree = "<group>"; };
+		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +106,11 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
+				13E248401EBD718600E0953D /* PatchSchedule.swift */,
+				13E2483E1EBD716F00E0953D /* Patch.swift */,
+				13B6D1A31EBE2348000E5D8A /* PatchDate.swift */,
+				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
+				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				137330EE1E22BA3E0048F91E /* ViewController.swift */,
 				137330F01E22BA3E0048F91E /* Main.storyboard */,
@@ -193,7 +207,13 @@
 				TargetAttributes = {
 					137330E81E22BA3E0048F91E = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = DNY59KF8C3;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					137330FC1E22BA3E0048F91E = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -259,7 +279,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13E248411EBD718600E0953D /* PatchSchedule.swift in Sources */,
 				137330EF1E22BA3E0048F91E /* ViewController.swift in Sources */,
+				13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */,
+				13E2483F1EBD716F00E0953D /* Patch.swift in Sources */,
+				13B6D1A41EBE2348000E5D8A /* PatchDate.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -410,11 +434,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
+				DEVELOPMENT_TEAM = DNY59KF8C3;
 				INFOPLIST_FILE = PatchDay/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -422,11 +449,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
+				DEVELOPMENT_TEAM = DNY59KF8C3;
 				INFOPLIST_FILE = PatchDay/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -503,6 +533,7 @@
 				137331131E22BA3E0048F91E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		137331141E22BA3E0048F91E /* Build configuration list for PBXNativeTarget "PatchDayTests" */ = {
 			isa = XCConfigurationList;
@@ -511,6 +542,7 @@
 				137331161E22BA3E0048F91E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		137331171E22BA3E0048F91E /* Build configuration list for PBXNativeTarget "PatchDayUITests" */ = {
 			isa = XCConfigurationList;
@@ -519,8 +551,22 @@
 				137331191E22BA3E0048F91E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */,
+			);
+			currentVersion = 13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */;
+			path = patchData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 137330E11E22BA3E0048F91E /* Project object */;
 }
