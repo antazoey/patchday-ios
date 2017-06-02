@@ -11,7 +11,7 @@ import Foundation
 class PatchSchedule {
     
     var patches = [Patch]()
-    
+
     // constructors:  schedule can hold up to four patches
     
     init(){
@@ -22,13 +22,27 @@ class PatchSchedule {
             self.patches.append(patch)
         }
     }
+
+    init(patches: [Patch]){
+        for patch in patches{
+            self.patches.append(patch)
+        }
+    }
     
     // end constructors
     
     // getters
     
     func getPatch(rank: Int) -> Patch {
-        return patches[rank]
+        var patch = Patch()
+        if rank < self.length(){
+            patch = patches[rank]
+        }
+        return patch
+    }
+    
+    func getPatchCount() -> Int {
+        return self.patches.count
     }
     
     func length() -> Int {
@@ -37,15 +51,27 @@ class PatchSchedule {
     
     // END getters
     
-    // return value methods
+    // MARK: return value methods
     
     func string() -> String {
         self.sort()
         var scheduleString = ""
-        for patch in patches {
-            scheduleString += patch.getLocation() + ", " +
-                patch.getPatchDate().string() +
-            "\r\n"
+        if self.getPatchCount() > 0 {
+            for patch in patches {
+                let location = patch.getLocation()
+                scheduleString += location
+                if location != "unplaced" {
+                    scheduleString += (", " +
+                    patch.getPatchDate().string() +
+                        "\r\n")
+                }
+                else {
+                    scheduleString += (" patch" + "\r\n")
+                }
+            }
+        }
+        else {
+            scheduleString = "Empty Patch Schedule"
         }
         return scheduleString
     }
@@ -62,15 +88,26 @@ class PatchSchedule {
         return message
     }
     
+    func oldestPatch() -> Patch {
+        // find the patch with the oldest date
+        var earliestPatch = patches[0]
+        for patch in patches {
+            if  patch.getPatchDate() < earliestPatch.getPatchDate(){
+                earliestPatch = patch
+            }
+        }
+        return earliestPatch
+    }
+    
     // end return value methods
     
-    //modifiers
+    // MARK: modifiers
     
     func changePatch(){
         if self.length() != 0 {
-        let changingPatch = oldestPatch()
-        changingPatch.getPatchDate().progressToNow()
-        changingPatch.setLocation(location: nextLocation())
+            let changingPatch = oldestPatch()
+            changingPatch.getPatchDate().progressToNow()
+            changingPatch.setLocation(location: nextLocation())
         }
     }
     
@@ -95,17 +132,6 @@ class PatchSchedule {
     // end modifiers
     
     // private functions
-    
-    private func oldestPatch() -> Patch {
-        // find the patch with the oldest date
-        var earliestPatch = patches[0]
-        for patch in patches {
-            if  patch.getPatchDate() < earliestPatch.getPatchDate(){
-                earliestPatch = patch
-            }
-        }
-        return earliestPatch
-    }
     
     private func nextLocation() -> String {
         // finds optimal location for next patch
@@ -147,5 +173,13 @@ class PatchSchedule {
             newLocation = oldestPatchLocation
         }
         return newLocation
+    }
+    
+    // Testing
+    
+    func printPatches(){
+        for patch in patches {
+            print(patch.string())
+        }
     }
 }

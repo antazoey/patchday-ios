@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="15G1421" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="DataSchedule" representedClassName="PatchScheduleMO" syncable="YES" codeGenerationType="class">
-        <attribute name="patch_a" attributeType="String" defaultValueString="5/9/16, 3:10 PM,Left Stomach" syncable="YES"/>
-        <attribute name="patch_b" attributeType="String" defaultValueString="5/9/17, 3:10 PM,Left Stomach" syncable="YES"/>
-        <attribute name="patch_c" attributeType="String" defaultValueString="5/9/17, 3:10 PM,Left Stomach" syncable="YES"/>
-        <attribute name="patch_d" attributeType="String" defaultValueString="5/9/17, 3:10 PM,Left Stomach" syncable="YES"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PatchDataStrings" representedClassName=".PatchDataStringsMO" syncable="YES">
+        <attribute name="patch_a" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="patch_b" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="patch_c" attributeType="String" syncable="YES"/>
+        <attribute name="patch_d" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DataSchedule" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="PatchDataStrings" positionX="-63" positionY="-18" width="128" height="105"/>
     </elements>
 </model>
