@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16E195" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="PatchDataStrings" representedClassName=".PatchDataStringsMO" syncable="YES">
-        <attribute name="patch_a" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="patch_b" attributeType="String" indexed="YES" syncable="YES"/>
-        <attribute name="patch_c" attributeType="String" syncable="YES"/>
-        <attribute name="patch_d" attributeType="String" syncable="YES"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="12141" systemVersion="16F73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="PatchA" representedClassName="Patch" syncable="YES">
+        <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="PatchB" representedClassName="Patch" syncable="YES">
+        <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="PatchC" representedClassName="Patch" syncable="YES">
+        <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="PatchD" representedClassName="Patch" syncable="YES">
+        <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="PatchDataStrings" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="PatchA" positionX="-63" positionY="9" width="128" height="75"/>
+        <element name="PatchB" positionX="-54" positionY="36" width="128" height="75"/>
+        <element name="PatchC" positionX="-36" positionY="45" width="128" height="75"/>
+        <element name="PatchD" positionX="-18" positionY="54" width="128" height="75"/>
     </elements>
 </model>

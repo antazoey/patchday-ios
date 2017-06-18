@@ -16,23 +16,13 @@ class PatchDayColors {
     static var lighterCuteGray = UIColor(red: 0.98,green: 0.98, blue: 0.98, alpha: 1.0)
     static var pdPink = UIColor(red: 0.9923, green: 0.980036, blue: 1.0, alpha: 1.0)
     
-    static var colorKeys = ["offWhite","lightBlue","cuteGray","lighterCuteGray"]
+    // for settings
+    static var darkLines = UIColor(white: 0.682134, alpha: 1.0)
+    static var lightLines = UIColor(red: 0.964251, green: 0.969299, blue: 0.969299, alpha: 1.0)
     
     static func getColor(from: String) -> UIColor {
-        var color = UIColor()
-        if from == colorKeys[0] {
-            color = offWhite
-        }
-        else if from == colorKeys[1] {
-            color = lightBlue
-        }
-        else if from == colorKeys[2] {
-            color = cuteGray
-        }
-        else if from == colorKeys[3] {
-            color = lighterCuteGray
-        }
-        return color
+        let colorDict: [String: UIColor] = [PatchDayStrings.offWhite(): offWhite, PatchDayStrings.lightBlue(): lightBlue, PatchDayStrings.cuteGray(): cuteGray, PatchDayStrings.lighterCuteGray(): lighterCuteGray]
+        return colorDict[from]!
     }
     
 }

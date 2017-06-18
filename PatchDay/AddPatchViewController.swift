@@ -10,6 +10,8 @@ import UIKit
 
 class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
+    //MARK: - Main
+    
     // main subview
     @IBOutlet var popUpView: UIView!
     
@@ -35,32 +37,32 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // cosmetics
     @IBOutlet var instructionLabel: UILabel!
     @IBOutlet var bigGap: UIView!
+    @IBOutlet var headingLabel: UILabel!
+    
+    // reference to which patch it is (index in patches = patchReference - 1)
+    private var patchReferernce = 0
     
     // date picker vars
     private var dateInputView = UIView()
     private var datePicker = UIDatePicker()
     
-    var defaultLocations = ["Right Buttock", "Left Buttock", "Right Stomach", "Left Stomach"]
-    
-    let savePatchImage: UIImage = #imageLiteral(resourceName: "Save")
-    
-    let savePatchImageDisabled: UIImage = #imageLiteral(resourceName: "SaveDisabled")
+    // bools
+    private var locationTextHasChanged = false
+    private var patchDateTextHasChanged = false
     
     override func viewDidLoad() {
+        self.patchLocationText.isUserInteractionEnabled = true
         super.viewDidLoad()
         self.setBackgroundColor(to: PatchDayColors.pdPink)
         self.setUpSaveButtonStart()
-        self.setInstruction()
+        self.setInstructionAndHeading()
         self.hideLocationPicker()
         self.patchLocationText.backgroundColor = PatchDayColors.pdPink
         self.autoChooseButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         self.bigGap.backgroundColor = PatchDayColors.pdPink
-        self.chooseDateTextButton.titleLabel!.sizeToFit()
         
         // default texts
-        self.chooseDateTextButton.setTitle("choose ⇢                            "
-            , for: UIControlState.normal)
-        self.patchLocationText.text = "⌨ custom or choose ⇢"
+        self.displayAttributeTexts()
         
         // text editing delegate as self
         self.patchLocationText.delegate = self
@@ -68,22 +70,42 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         // location picker set up
         self.locationPicker.delegate = self
         self.locationPicker.dataSource = self
-        
     }
     
     // Save Button
-    
     @IBAction func hitSaveButton(_ sender: Any) {
-        self.performSegue(withIdentifier: "idAddPatchSegue", sender: self)
+        self.saveSettings()
+        self.requestNotifications()
+        self.performSegue(withIdentifier: PatchDayStrings.addPatchSegueID, sender: self)
+        // lower badge number if patch was expired and it had a notification number
+        if (PatchDataController.getPatch(forIndex: self.getPatchIndex())?.isExpired())! {
+            if UIApplication.shared.applicationIconBadgeNumber > 0 {
+                UIApplication.shared.applicationIconBadgeNumber -= 1
+            }
+        }
+    }
+    
+    @IBAction func autoTapped(_ sender: Any) {
+        // Location is a suggested by SuggedPatchLocation's algorithm,
+        // Date is now.
+        self.autoPickLocationAndDate()
+        
+        // Enable save button
+        self.saveButtonLightUp()
+        
+        // Bools
+        self.locationAndDateChanged()
         
     }
     
-    // Text Edit Functions
+    // MARK: - Text Edit Functions
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.patchLocationText.isUserInteractionEnabled = true
         if textField.restorationIdentifier == "where" {
             self.patchLocationText.text = ""
         }
+        self.patchLocationText.becomeFirstResponder()
         self.disablePatchDateButton()
         self.disablePatchDateTextButton()
         self.disableLocationButton()
@@ -100,18 +122,12 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.enablePatchDateButton()
         self.enablePatchDateTextButton()
         self.unhideAutoButton()
+        self.locationChanged()
         return true
         
     }
     
-    // END Text Edit Functions
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    // Picker Functions
+    // MARK: - Picker Functions
     
     @IBAction func openLocationPicker(_ sender: Any) {
         self.unhideLocationPicker()
@@ -131,17 +147,16 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.defaultLocations.count
+        return PatchDayStrings.patchLocationNames.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.defaultLocations[row]
+        return PatchDayStrings.patchLocationNames[row]
         
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.patchLocationText.text = self.defaultLocations[row]
-        
+        self.patchLocationText.text = PatchDayStrings.patchLocationNames[row]
         // other view changes
         self.saveButtonLightUp()
         self.hideLocationPicker()
@@ -151,12 +166,11 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.enablePatchDateButton()
         self.enableLocationText()
         self.unhideAutoButton()
+        self.locationChanged()
         
     }
-    
-    // END Picker funcs
-    
-    // Date Picker funcs
+
+    // MARK: - Date Picker funcs
     
     @IBAction func chooseDateTextTapped(_ sender: Any) {
         
@@ -193,7 +207,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         dateFormatter.dateStyle = .medium
         dateFormatter.timeStyle = .short
         self.chooseDateTextButton.setTitle(dateFormatter.string(from: self.datePicker.date), for: UIControlState.normal)
-        self.chooseDateTextButton.titleLabel!.text = dateFormatter.string(from: self.datePicker.date)
+        // update patch attribute in core data
 
         // outer view changes
         self.enableSaveButton()
@@ -204,36 +218,117 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.unhideAutoButton()
         self.saveButtonLightUp()
         self.unhideLocationBar()
+        self.dateChanged()
 
     }
     
-    
-    // END Date Picker funcs
-    
-    func setBackgroundColor(to: UIColor) {
-        view.backgroundColor = to
-        
-    }
-    
-    func setInstruction() {
-        let instruction = "Edit when and where " +
-        "the patch was placed"
-        self.instructionLabel.text = instruction
-        
-    }
-    
-    // enables the save button and lights it up
-    func saveButtonLightUp() {
-        self.enableSaveButton()
-        self.unhideSaveButton()
-        if self.save.backgroundImage(for: .normal) != self.savePatchImage {
-            self.save.setBackgroundImage(self.savePatchImage, for: .normal)
+    private func displayAttributeTexts() {
+        let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex())!
+        // location unplaced
+        if patch.getLocation() == "unplaced" {
+            self.patchLocationText.text = PatchDayStrings.emptyLocationInstruction
+        }
+        // location placed
+        else {
+            // set location label text to patch's location
+            self.patchLocationText.text = patch.getLocation()
+
+        }
+        // date unplaced
+        if patch.getDatePlaced() == nil {
+            self.chooseDateTextButton.setTitle(PatchDayStrings.emptyDateInstruction
+                , for: UIControlState.normal)
+        }
+        // date placed
+        else {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            dateFormatter.timeStyle = .short
+            // set date choose button's text to patch's date palced data
+            self.chooseDateTextButton.setTitle(dateFormatter.string(from: patch.getDatePlaced()!) , for: .normal)
         }
     }
     
-    func setUpSaveButtonStart() {
-        self.disableSaveButton()
-        self.save.setBackgroundImage(self.savePatchImageDisabled, for: .disabled)
+    // MARK: -- public
+    public func setPatchReference(to: Int) {
+        self.patchReferernce = to
+    }
+    
+    public func getPatchReference() -> Int {
+        return self.patchReferernce
+    }
+    
+    // enables the save button and lights it up
+    public func saveButtonLightUp() {
+        self.enableSaveButton()
+        self.unhideSaveButton()
+        if self.save.backgroundImage(for: .normal) != PatchDayImages.save {
+            self.save.setBackgroundImage(PatchDayImages.save, for: .normal)
+        }
+    }
+    
+    public func saveSettings() {
+        if self.locationTextHasChanged {
+            // current patch must exist since we are editing it
+            PatchDataController.setPatchLocation(patchIndex: self.getPatchIndex(), with: self.patchLocationText.text!)
+        }
+        if self.patchDateTextHasChanged {
+            
+            PatchDataController.setPatchDate(patchIndex: self.getPatchIndex(), with: datePicker.date)
+        }
+        PatchDataController.saveContext()
+    }
+    
+    public func autoPickLocation() {
+        let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
+        self.patchLocationText.text = suggestedLocation
+    }
+    
+    public func autoPickDate() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .short
+        let now = Date()
+        self.chooseDateTextButton.setTitle(dateFormatter.string(from: now), for: .normal)
+    }
+    
+    public func autoPickLocationAndDate() {
+        self.autoPickLocation()
+        self.autoPickDate()
+    }
+    
+    public func requestNotifications() {
+        let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex())
+        // request notification iff exists Patch.datePlaced
+        if patch?.getDatePlaced() != nil {
+            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpiredAndChangeSoon(patchIndex: self.getPatchIndex())
+        }
+    }
+    
+    // MARK: - Private view creators
+    
+    private func setInstructionAndHeading() {
+        let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex())
+        var instruction = ""
+        var heading = ""
+        // unplaced patch instruction
+        if patch == nil || patch?.getLocation() == PatchDayStrings.unplaced_string {
+            instruction = PatchDayStrings.addPatchInstruction
+            heading = PatchDayStrings.addPatch_string
+        }
+        else {
+            if patch!.isExpired() {
+                instruction = PatchDayStrings.patchExpired_string
+            }
+            else {
+                instruction = PatchDayStrings.patchExpires_string
+            }
+            instruction += patch!.expirationDateAsString()
+            heading = PatchDayStrings.changePatch_string
+            
+        }
+        self.instructionLabel.text = instruction
+        self.headingLabel.text = heading
         
     }
     
@@ -287,7 +382,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
     }
     
-    // MARK: getters and setters
+    // MARK: private getters and setters
     
     private func getDateInputView() -> UIView {
         return self.dateInputView
@@ -297,12 +392,41 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return self.datePicker
     }
     
+    private func getPatchIndex() -> Int {
+        return patchReferernce - 1
+    }
+    
     private func setDateInputView(with: UIView) {
         self.dateInputView = with
     }
     
     private func setDatePicker(with: UIDatePicker) {
         self.datePicker = with
+    }
+    
+    private func setBackgroundColor(to: UIColor) {
+        view.backgroundColor = to
+    }
+    
+    private func setUpSaveButtonStart() {
+        self.disableSaveButton()
+        self.save.setBackgroundImage(#imageLiteral(resourceName: "SaveDisabled"), for: .disabled)
+        
+    }
+    
+    // MARK: - private bool functions
+    
+    private func locationChanged() {
+        self.locationTextHasChanged = true
+    }
+    
+    private func dateChanged() {
+        self.patchDateTextHasChanged = true
+    }
+    
+    private func locationAndDateChanged() {
+        self.locationChanged()
+        self.dateChanged()
     }
     
     // MARK: DISABLING
@@ -387,7 +511,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         if !self.locationStackView.isHidden {
             self.locationStackView.isHidden = true
         }
-    
+        
     }
     
     // MARK: ENABLING
@@ -472,4 +596,5 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             self.horizontalLineBelowLocation.isHidden = false
         }
     }
+
 }
