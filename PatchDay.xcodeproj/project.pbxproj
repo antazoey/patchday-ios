@@ -14,8 +14,7 @@
 		1340A9EA1EE5935A0003EFFA /* SuggestedPatchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */; };
 		1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */; };
 		1340A9F61EF0BDF80003EFFA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1340A9F51EF0BDF80003EFFA /* CloudKit.framework */; };
-		1340A9F81EF0C3C40003EFFA /* PDiCloudKeyValueStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9F71EF0C3C40003EFFA /* PDiCloudKeyValueStoreController.swift */; };
-		1340A9FA1EF215DB0003EFFA /* PDiCloudPatchStorageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9F91EF215DB0003EFFA /* PDiCloudPatchStorageController.swift */; };
+		1340A9F81EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */; };
 		137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
 		137330F21E22BA3E0048F91E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
 		137330F41E22BA3E0048F91E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
@@ -28,6 +27,7 @@
 		13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */; };
 		13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */; };
 		13E0BB5B1EF6331100939D37 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5A1EF6331100939D37 /* SettingsController.swift */; };
+		13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
 		13E980D21EDBC2180062B144 /* AddPatchSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D11EDBC2180062B144 /* AddPatchSegue.swift */; };
 		13E980D81EDFA54B0062B144 /* PatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* PatchesViewController.swift */; };
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
@@ -60,8 +60,7 @@
 		1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedPatchLocation.swift; sourceTree = "<group>"; };
 		1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDNotificationController.swift; sourceTree = "<group>"; };
 		1340A9F51EF0BDF80003EFFA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
-		1340A9F71EF0C3C40003EFFA /* PDiCloudKeyValueStoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDiCloudKeyValueStoreController.swift; sourceTree = "<group>"; };
-		1340A9F91EF215DB0003EFFA /* PDiCloudPatchStorageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDiCloudPatchStorageController.swift; sourceTree = "<group>"; };
+		1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStoreController.swift; sourceTree = "<group>"; };
 		137330E91E22BA3E0048F91E /* PatchDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PatchDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		137330EC1E22BA3E0048F91E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		137330F11E22BA3E0048F91E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleToSettingsSegue.swift; sourceTree = "<group>"; };
 		13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsToScheduleSegue.swift; sourceTree = "<group>"; };
 		13E0BB5A1EF6331100939D37 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertController.swift; sourceTree = "<group>"; };
 		13E980D11EDBC2180062B144 /* AddPatchSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPatchSegue.swift; sourceTree = "<group>"; };
 		13E980D71EDFA54B0062B144 /* PatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchesViewController.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
@@ -145,7 +145,7 @@
 			children = (
 				13E0BB5A1EF6331100939D37 /* SettingsController.swift */,
 				13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */,
-				1340A9F71EF0C3C40003EFFA /* PDiCloudKeyValueStoreController.swift */,
+				1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -222,7 +222,7 @@
 			children = (
 				1340A9FD1EF216710003EFFA /* Settings */,
 				1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */,
-				1340A9F91EF215DB0003EFFA /* PDiCloudPatchStorageController.swift */,
+				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
 				1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */,
 			);
@@ -398,7 +398,7 @@
 				133EEBAF1EF2EB0200E64C4D /* SettingsViewController.swift in Sources */,
 				13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */,
 				13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */,
-				1340A9F81EF0C3C40003EFFA /* PDiCloudKeyValueStoreController.swift in Sources */,
+				1340A9F81EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift in Sources */,
 				139754B51ED8EE27006C82B8 /* PatchDayColors.swift in Sources */,
 				13E980D81EDFA54B0062B144 /* PatchesViewController.swift in Sources */,
 				131F0B691EE3AAD700576200 /* PatchDayImages.swift in Sources */,
@@ -408,9 +408,9 @@
 				1340A9EA1EE5935A0003EFFA /* SuggestedPatchLocation.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */,
 				139754BE1EDA8C4D006C82B8 /* AddPatchViewController.swift in Sources */,
+				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				1340A9E81EE4D4220003EFFA /* PatchDayStrings.swift in Sources */,
-				1340A9FA1EF215DB0003EFFA /* PDiCloudPatchStorageController.swift in Sources */,
 				13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

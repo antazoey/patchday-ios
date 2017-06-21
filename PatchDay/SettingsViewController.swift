@@ -47,6 +47,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        PDAlertController.currentVC = self
+        self.numberOfPatches.tag = 10
         self.settingsView.backgroundColor = UIColor.white
         self.loadSwipe()
         self.delegatePicker()
@@ -59,7 +61,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.loadAutoChooseLocation()
     }
     
-    // MARK: - Data setters
+    // MARK: - Data loaders
     
     func loadChangePatchEvery() {
         self.changePatchEvery.setTitle(SettingsController.getExpirationInterval(), for: .normal)
@@ -148,11 +150,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         }
         else if self.getWhichTapped() == PatchDayStrings.count() {
             // WARNING: This overwrites patch data
-            self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PatchDayStrings.patchCounts, row: row)
-            // update User Defaults
-            SettingsController.setNumberOfPatches(with: PatchDayStrings.patchCounts[row])
-            // Overwrite data
-            PatchDataController.resetPatchData()
+            PDAlertController.alertForChangingPatchCount(newPatchCount: row, numberOfPatchesButton: self.numberOfPatches)
         }
         else if self.getWhichTapped() == PatchDayStrings.notifications() {
             self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
@@ -164,13 +162,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         if weAreHidingFromPicker {
             self.unHideNotificationOutlets()
         }
-    }
-    
-    private func configureButtonTitleFromPicker(fromButton: UIButton, withData: [String], row: Int) {
-        // change the pushed state of the button
-        fromButton.titleLabel?.text = withData[row]
-        // change the normal state of the button
-        fromButton.setTitle(withData[row], for: .normal)
     }
     
     // MARK: - IBActions Picker loads
@@ -316,6 +307,13 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         }
         self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
         
+    }
+    
+    private func configureButtonTitleFromPicker(fromButton: UIButton, withData: [String], row: Int) {
+        // change the pushed state of the button
+        fromButton.titleLabel?.text = withData[row]
+        // change the normal state of the button
+        fromButton.setTitle(withData[row], for: .normal)
     }
     
     // MARK: - set-and-getters

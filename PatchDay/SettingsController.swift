@@ -10,7 +10,7 @@ import UIKit
 
 class SettingsController {
     
-    static public var iCloudSettings = { return PDiCloudKeyValueStoreController() }()
+    static public var iCloudSettings = { return UbiquitousKeyValueStoreController() }()
     
     static public var usingCloud: Bool = { return (UIApplication.shared.delegate as! AppDelegate).iCloudIsAvailable() }()
     
@@ -27,8 +27,8 @@ class SettingsController {
     // MARK: - Getters. will try to grab icloud first
     
     static public func getNumberOfPatchesString() -> String {
-        if usingCloud {
-            return String(describing: iCloudSettings.patchCount!)
+        if usingCloud, let pcount = iCloudSettings.patchCount {
+                return String(describing: pcount)
         }
         else {
             return SettingsDefaultsController.getNumberOfPatches()
@@ -36,17 +36,20 @@ class SettingsController {
     }
     
     static public func getNumberOfPatchesInt() -> Int {
-        if usingCloud {
-            return iCloudSettings.patchCount!
+        if usingCloud, let pcount = iCloudSettings.patchCount {
+            return pcount
+        }
+        else if let pcount = Int(SettingsDefaultsController.getNumberOfPatches()) {
+            return pcount
         }
         else {
-            return Int(SettingsDefaultsController.getNumberOfPatches())!
+            return 0
         }
     }
     
     static public func getExpirationInterval() -> String {
-        if usingCloud {
-            return iCloudSettings.expirationInterval!
+        if usingCloud, let expInterval = iCloudSettings.expirationInterval {
+            return expInterval
         }
         else {
             return SettingsDefaultsController.getPatchInterval()
@@ -54,8 +57,8 @@ class SettingsController {
     }
     
     static public func getAutoChooseBool() -> Bool {
-        if usingCloud {
-            return iCloudSettings.autoChooseLocation!
+        if usingCloud, let autoLoc = iCloudSettings.autoChooseLocation  {
+            return autoLoc
         }
         else {
             return SettingsDefaultsController.getAutoChooseLocation()
@@ -63,8 +66,8 @@ class SettingsController {
     }
     
     static public func getNotificationTimeString() -> String {
-        if usingCloud {
-            return String(describing: iCloudSettings.notificationTime)
+        if usingCloud, let notTime = iCloudSettings.notificationTime {
+            return String(describing: notTime)
         }
         else {
             return SettingsDefaultsController.getNotificaitonOption()
@@ -72,17 +75,20 @@ class SettingsController {
     }
     
     static public func getNotificationTimeInt() -> Int {
-        if usingCloud {
-            return iCloudSettings.notificationTime!
+        if usingCloud, let notTime = iCloudSettings.notificationTime {
+            return notTime
+        }
+        else if let notTime = Int(SettingsDefaultsController.getNotificaitonOption()) {
+            return notTime
         }
         else {
-            return Int(SettingsDefaultsController.getNotificaitonOption())!
+            return 0
         }
     }
     
     static public func getNotifyMeBool() -> Bool {
-        if usingCloud {
-            return iCloudSettings.notifyMe!
+        if usingCloud, let notMe = iCloudSettings.notifyMe {
+            return notMe
         }
         else {
             return SettingsDefaultsController.getRemindMe()
@@ -100,8 +106,8 @@ class SettingsController {
     
     
     static public func setNumberOfPatches(with: String) {
-        if usingCloud {
-            iCloudSettings.set(numberOfPatches: Int(with)!)
+        if usingCloud, let pcount = Int(with) {
+            iCloudSettings.set(numberOfPatches: pcount)
         }
         SettingsDefaultsController.setNumberOfPatches(to: with)
     }
@@ -121,8 +127,8 @@ class SettingsController {
     }
     
     static public func setNotificationTime(with: String) {
-        if usingCloud {
-            iCloudSettings.setNotificationTime(with: Int(with)!)
+        if usingCloud, let notTime = Int(with)  {
+            iCloudSettings.setNotificationTime(with: notTime)
         }
         SettingsDefaultsController.setNotificationOption(to: with)
     }

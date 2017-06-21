@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Patch {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Patch> {
@@ -38,12 +37,8 @@ extension Patch {
     }
     
     public func getLocation() -> String {
-        var location = ""
-        if self.location != nil {
-            location = self.location!
-        }
-        else {
-            location = PatchDayStrings.unplaced_string
+        guard let location = self.location else {
+            return PatchDayStrings.unplaced_string
         }
         return location
     }
@@ -66,46 +61,29 @@ extension Patch {
     }
     
     public func getDatePlacedAsString() -> String {
-        var dateString = ""
-        if self.datePlaced != nil {
-            dateString = Patch.makeDateString(from: self.datePlaced!)
+        guard let dateAdded = self.datePlaced else {
+            return PatchDayStrings.unplaced_string
         }
-        else {
-            dateString = PatchDayStrings.unplaced_string
-        }
-        return dateString
+        return Patch.makeDateString(from: dateAdded)
     }
     
     public func expirationDateAsString() -> String {
-        var expirationAsString = ""
-        if self.getDatePlaced() != nil {
-            var expires = Date()
-            expires = self.expirationDate()
-            expirationAsString = Patch.makeDateString(from: expires)
+        if self.getDatePlaced() == nil {
+            return PatchDayStrings.hasNoDate
         }
-        else {
-            expirationAsString = PatchDayStrings.hasNoDate
-        }
-        return expirationAsString
+        let expires = self.expirationDate()
+        return Patch.makeDateString(from: expires)
     }
     
     // MARK: - booleans
     
     public func isEmpty() -> Bool {
-        var emptiness = false
-        if self.location == nil || self.location == PatchDayStrings.unplaced_string {
-            emptiness = true
-        }
-        return emptiness
+        return self.location == nil || self.location == PatchDayStrings.unplaced_string
     }
     
     public func isLessThanOneDayUntilExpired() -> Bool {
         let intervalUntilExpiration = self.determineIntervalToExpire()
-        var isLessThanADayAway: Bool = false
-        if intervalUntilExpiration != nil && intervalUntilExpiration! < 86400 {
-            isLessThanADayAway = true
-        }
-        return isLessThanADayAway
+        return intervalUntilExpiration != nil && intervalUntilExpiration! < 86400
     }
     
     public func isNotCustomLocated() -> Bool {
@@ -118,11 +96,7 @@ extension Patch {
     
     public func isExpired() -> Bool {
         let intervalUntilExpiration = self.determineIntervalToExpire()
-        var expired: Bool = false
-        if self.getDatePlaced() != nil && intervalUntilExpiration != nil && intervalUntilExpiration! <= 0 {
-            expired = true
-        }
-        return expired
+        return self.getDatePlaced() != nil && intervalUntilExpiration != nil && intervalUntilExpiration! <= 0
     }
     
     // MARK: - selectors
@@ -130,8 +104,13 @@ extension Patch {
     public func expirationDate() -> Date {
         let numberOfHoursPatchLasts = calculateHoursOfPatchDuration()
         let calendar = Calendar.current
-        let expirationDate = calendar.date(byAdding: .hour, value: numberOfHoursPatchLasts, to: self.getDatePlaced()!)
-        return expirationDate!
+        guard let dateAdded = self.getDatePlaced() else {
+            return Date()
+        }
+        guard let expDate = calendar.date(byAdding: .hour, value: numberOfHoursPatchLasts, to: dateAdded) else {
+            return Date()
+        }
+        return expDate
     }
     
     public func determineIntervalToExpire() -> TimeInterval? {

@@ -9,7 +9,7 @@
 import UIKit
 import CloudKit
 
-class PDiCloudKeyValueStoreController {
+class UbiquitousKeyValueStoreController {
     
     var store: NSUbiquitousKeyValueStore = { return NSUbiquitousKeyValueStore.default() }()
     

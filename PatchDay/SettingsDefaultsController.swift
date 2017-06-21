@@ -93,38 +93,32 @@ class SettingsDefaultsController: NSObject {
     // MARK: - loaders
     
     static private func loadPatchInterval() {
-        let interval = defaults.object(forKey: PatchDayStrings.patchChangeInterval_string()) as? String
-        if interval != nil {
-            patchInterval = interval!
+        if let interval = defaults.object(forKey: PatchDayStrings.patchChangeInterval_string()) as? String {
+            patchInterval = interval
         }
-    
     }
     
     static private func loadNumberOfPatches() {
-        let patchCount = defaults.object(forKey: PatchDayStrings.numberOfPatches_string()) as? String
-        if patchCount != nil {
-            numberOfPatches = patchCount!
+        if let patchCount = defaults.object(forKey: PatchDayStrings.numberOfPatches_string()) as? String {
+            numberOfPatches = patchCount
         }
     }
     
     static private func loadNotificationOption() {
-        let notifyTime = defaults.object(forKey: PatchDayStrings.notificationKey_string()) as? String
-        if notifyTime != nil {
-            notificationOption = notifyTime!
+        if let notifyTime = defaults.object(forKey: PatchDayStrings.notificationKey_string()) as? String {
+            notificationOption = notifyTime
         }
     }
     
     static private func loadAutoChooseLocation() {
-        let autoLoad = defaults.object(forKey: PatchDayStrings.autoChooseLocation_string()) as? Bool
-        if autoLoad != nil {
-            autoChooseLocation = autoLoad!
+        if let autoLoad = defaults.object(forKey: PatchDayStrings.autoChooseLocation_string()) as? Bool {
+            autoChooseLocation = autoLoad
         }
     }
     
     static private func loadRemindMe() {
-        let notifyMe = defaults.object(forKey: PatchDayStrings.remindMe_string()) as? Bool
-        if notifyMe != nil {
-            remindMe = notifyMe!
+        if let notifyMe = defaults.object(forKey: PatchDayStrings.remindMe_string()) as? Bool {
+            remindMe = notifyMe
         }
     }
     

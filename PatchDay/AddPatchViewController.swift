@@ -51,6 +51,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     private var patchDateTextHasChanged = false
     
     override func viewDidLoad() {
+        PDAlertController.currentVC = self
         self.patchLocationText.isUserInteractionEnabled = true
         super.viewDidLoad()
         self.setBackgroundColor(to: PatchDayColors.pdPink)
@@ -270,10 +271,12 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     public func saveSettings() {
         if self.locationTextHasChanged {
             // current patch must exist since we are editing it
-            PatchDataController.setPatchLocation(patchIndex: self.getPatchIndex(), with: self.patchLocationText.text!)
+            guard let newLocation = self.patchLocationText.text, newLocation != "" else {
+                return
+            }
+            PatchDataController.setPatchLocation(patchIndex: self.getPatchIndex(), with: newLocation)
         }
         if self.patchDateTextHasChanged {
-            
             PatchDataController.setPatchDate(patchIndex: self.getPatchIndex(), with: datePicker.date)
         }
         PatchDataController.saveContext()
@@ -380,6 +383,10 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.setDatePicker(with: datePickerView)
         self.setDateInputView(with: inputView)
         
+    }
+    
+    private func testAlert() {
+        PDAlertController.alertForCoreDataSaveError()
     }
     
     // MARK: private getters and setters

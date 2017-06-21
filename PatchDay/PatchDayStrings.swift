@@ -39,12 +39,30 @@ class PatchDayStrings {
     
     static var patchExpired_string: String = { return NSLocalizedString("Patch Expires: ", tableName: nil, comment: "instruction for patch details") }()
     
+    // notifications
+    
     static var notificationIntros: [String : String] = { return ["Right Stomach" : NSLocalizedString("Change patch on your right stomach at ", comment: "notification telling you where and when to change your patch."),"Left Stomach" : NSLocalizedString("Change patch on your left stomach at ", comment: "notification telling you where and when to change your patch."),"Right Buttock" : NSLocalizedString("Change patch on your right buttock at ", comment: "notification telling you where and when to change your patch."),"Left Buttock" : NSLocalizedString("Change patch on your left buttock at ", comment: "notification telling you where and when to change your patch.")] }()
     
     static var notificationForCustom: String = { return NSLocalizedString("Change patch located on: ", comment: "notification message for a custom located patch") }()
     static var notificationForCustom_at: String = { return NSLocalizedString("at: ", comment: " for displaying the date of the expired patch for a custom located notification, occruing directly after notificationForCustom message") }()
     
     static var notificationSuggestion: String = { return NSLocalizedString("Place new patch here: ", comment: "followed by a suggest location; second line in the notification if and only if the user enabled autoChooseLocation on the SettingsViewcontroller") }()
+    
+    // alerts
+    
+    static var coreDataSaveAlertTitle: String = NSLocalizedString("Save Error", comment: "this is a title to an alert displayed if patch data is not saved for some reason.")
+    
+    static var coreDataSaveAlertMessage: String = NSLocalizedString("Oh no! There was a problem saving your patch data!", comment: "this is a message to an alert displayed if patch data is not saved for some reason.")
+    
+    static var dismiss_string: String = NSLocalizedString("Dismiss", comment: "The word displayed on a button for dismissing an error message")
+    
+    static var changingNumberOfPatchesAlertTitle: String = NSLocalizedString("Warning", comment: "title for warning the user when they are changing the number of patches in the schedule, a variable to the program")
+    
+    static var changingNumberOfPatchesAlertMessage: String = NSLocalizedString("Changing the number of patches could result in a loss of data.", comment: "message for warning the user when they are changing the number of patches in the schedule, a variable to the program")
+    
+    static var proceed_string: String = NSLocalizedString("Proceed", comment: "an accept button title displayed on the 'changing number of patches' alert")
+    
+    static var forget_it_string: String = NSLocalizedString("Forget it", comment: "a cancel button title displayed on the 'changing number of patches' alert")
     
     // MARK: - general
     

@@ -29,6 +29,7 @@ class PatchesViewController: UIViewController {
     var numberOfPatches: Int = 1
     
     override func viewDidLoad() {
+        PDAlertController.currentVC = self
         self.updateFromBackground()
         super.viewDidLoad()
         self.setNumberOfPatches(to: SettingsController.getNumberOfPatchesInt())

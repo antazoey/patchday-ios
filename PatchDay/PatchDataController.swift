@@ -20,7 +20,7 @@ class PatchDataController: NSObject {
         let container = NSPersistentContainer(name: PatchDayStrings.patchData)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                
             }
         })
         return container
@@ -49,8 +49,7 @@ class PatchDataController: NSObject {
             do {
                 try persistentContainer.viewContext.save()
             } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                PDAlertController.alertForCoreDataSaveError()
             }
         }
     }

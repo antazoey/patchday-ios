@@ -10,10 +10,15 @@ import Foundation
 
 class SuggestedPatchLocation {
     
+    // This class focuses on an algorithm for suggesting a location to place the next patch based on the current locations of the patches in the schedule.
+    
     static func suggest(patchIndex: Int) -> String {
         
         let currentLocations: [String] = makeArrayOfLocations()
         var suggestedLocation = ""
+        
+        // currently, it mostly just picks the first default location it finds that is not occupied...
+        
         // four patches:
         if currentLocations.count == 4 {
             // consider custom locations
@@ -24,7 +29,7 @@ class SuggestedPatchLocation {
             // no custom locations
             else {
                 // consider all general spaces are occupied
-                // if true, return the current location of the patch
+                // if all spaces occupied, return the current location of the patch
                 if allSpacesOccupied(currentLocations: currentLocations) {
                     suggestedLocation = PatchDataController.getPatch(forIndex: patchIndex)!.getLocation()
                 }
@@ -34,6 +39,7 @@ class SuggestedPatchLocation {
                 }
             }
         }
+        // all other patch counts
         else {
             suggestedLocation = getLocationInGeneral(notInCurrent: currentLocations)
         }
