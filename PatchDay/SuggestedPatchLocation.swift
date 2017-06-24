@@ -10,57 +10,108 @@ import Foundation
 
 class SuggestedPatchLocation {
     
-    // This class focuses on an algorithm for suggesting a location to place the next patch based on the current locations of the patches in the schedule.
+    // An algorithm for suggesting a location to place the next patch based on the current locations of the patches in the schedule.
+    
+    // MARK: - Public
+    
+    static var generalLocations = PatchDayStrings.patchLocationNames
+    
+    static var currentLocations: [String] = PatchDataController.makeArrayOfLocations()
     
     static func suggest(patchIndex: Int) -> String {
         
-        let currentLocations: [String] = makeArrayOfLocations()
+        setCurrentLocations(with: PatchDataController.makeArrayOfLocations())
+        
+        let currentLocation = getCurrentLocation(patchIndex: patchIndex)
+        
         var suggestedLocation = ""
         
-        // currently, it mostly just picks the first default location it finds that is not occupied...
+        // I. FOUR PATCHES:
         
-        // four patches:
         if currentLocations.count == 4 {
-            // consider custom locations
+            
+            // a.) case: existing custom locations
             if doesExistCustomIn(locations: currentLocations) {
-                let nonCustomCurrentLocations = makeArrayOfNonCustomLocations(fromCurrentLocations: currentLocations)
-                suggestedLocation = getLocationInGeneral(notInCurrent: nonCustomCurrentLocations)
+                suggestedLocation = getNextLocationInGeneralThatIsAvailable(afterCurrentLocation: currentLocation)
             }
-            // no custom locations
+                
+            // b.) case: no existing custom locations
             else {
-                // consider all general spaces are occupied
-                // if all spaces occupied, return the current location of the patch
-                if allSpacesOccupied(currentLocations: currentLocations) {
+                
+                // i.) all general spaces are occupied. ->  (suggestedLocation = currentLocation)
+                if allGeneralLocationsOccupied(currentLocations: currentLocations) {
                     suggestedLocation = PatchDataController.getPatch(forIndex: patchIndex)!.getLocation()
                 }
-                // some patches are in the same space, and some or one general location is available
+                // ii.) some patches are in the same space. -> arbitrary available generalLocation (since there are likely not be but 1 or 2, and having 4 patches all together in spot is not a likely situation. if it were, this algthm would slowly dispense them out.
                 else {
-                    suggestedLocation = getLocationInGeneral(notInCurrent: currentLocations)
+                    suggestedLocation = getNextLocationInGeneralThatIsAvailable(afterCurrentLocation: currentLocation)
                 }
             }
         }
+        
+        // II.) THREE PATCHES:
+            
+        else if currentLocations.count == 3 {
+            // if 3 patches all in the general locations, pick the one general location that is free
+            let nonCustomCurrentLocations = makeArrayOfNonCustomLocations(fromCurrentLocations: currentLocations)
+            suggestedLocation = getArbitraryLocationInGeneral(notInCurrent: nonCustomCurrentLocations)
+        }
         // all other patch counts
         else {
-            suggestedLocation = getLocationInGeneral(notInCurrent: currentLocations)
+            suggestedLocation = getNextLocationInGeneralThatIsAvailable(afterCurrentLocation: currentLocation)
         }
         return suggestedLocation
     }
     
-    // called by suggest()
-    // just gets an array of all the current locations
-    private static func makeArrayOfLocations() -> [String] {
-        var locationArray: [String] = []
-        for i in 0...(PatchDataController.getPatches().count-1) {
-            locationArray.append(PatchDataController.getPatches()[i].getLocation())
-        }
-        return locationArray
+    // keeps the currentLocations current
+    public static func setCurrentLocations(with: [String]) {
+        currentLocations = with
     }
+    
+    public static func getCurrentLocationsCount() -> Int {
+        return PatchDataController.makeArrayOfLocations().count
+    }
+    
+    // returns 1 + an index value (modularly) in the list of general locations
+    public static func getNextGeneralIndex(fromIndex: Int, totalNumberOfGeneralLocationOptions: Int) -> Int {
+        let capIndex = totalNumberOfGeneralLocationOptions-1
+        if fromIndex < capIndex {
+            return fromIndex + 1
+        }
+        else {
+            return fromIndex%capIndex
+        }
+    }
+    
+    // returns the current location from the PatchDataController with the given patchIndex
+    public static func getCurrentLocation(patchIndex: Int) -> String {
+        if let patch = PatchDataController.getPatch(forIndex: patchIndex) {
+            return patch.getLocation()
+        }
+        return PatchDayStrings.unplaced_string
+    }
+    
+    private static func getNextIndexOfOrder() {
+        _ = currentLocations.count
+    }
+    
+    // returns the index of the patchLocation in the general list. if the location isn't general, it returns -1
+    public static func getCurrentIndexInGeneral(patchLocation: String) -> Int {
+        if let index = generalLocations.index(of: patchLocation) {
+            return index
+        }
+        else {
+            return -1
+        }
+    }
+    
+    // MARK: - private
     
     // called by suggest()
     // true if there exists a custom location currently
     private static func doesExistCustomIn(locations: [String]) -> Bool {
         for location in locations {
-            if !PatchDayStrings.patchLocationNames.contains(location) {
+            if !generalLocations.contains(location) {
                 return true
             }
         }
@@ -72,7 +123,7 @@ class SuggestedPatchLocation {
     private static func makeArrayOfNonCustomLocations(fromCurrentLocations: [String]) -> [String] {
         var nonCustomLocations: [String] = []
         for currentLocation in fromCurrentLocations {
-            if PatchDayStrings.patchLocationNames.contains(currentLocation) {
+            if generalLocations.contains(currentLocation) {
                 nonCustomLocations.append(currentLocation)
             }
         }
@@ -83,8 +134,7 @@ class SuggestedPatchLocation {
     // return all locations in general that are not in current
     private static func compareGeneralNonCustomLocations(withCurrentNonCustomLocations: [String]) -> [String] {
         var locsInGeneralThatAreNotInCurrent: [String] = []
-        let generalNonCustomLocations = PatchDayStrings.patchLocationNames
-        for generalLoc in generalNonCustomLocations {
+        for generalLoc in generalLocations {
             if !withCurrentNonCustomLocations.contains(generalLoc) {
                 locsInGeneralThatAreNotInCurrent.append(generalLoc)
             }
@@ -94,17 +144,59 @@ class SuggestedPatchLocation {
     
     // called by suggest()
     // get's an arbitrary general location that is not currently occupied
-    private static func getLocationInGeneral(notInCurrent: [String]) -> String {
+    private static func getArbitraryLocationInGeneral(notInCurrent: [String]) -> String {
         let choices = compareGeneralNonCustomLocations(withCurrentNonCustomLocations: notInCurrent)
         return choices[0]
     }
     
     // called by suggest()
-    private static func allSpacesOccupied(currentLocations: [String]) -> Bool {
+    private static func allGeneralLocationsOccupied(currentLocations: [String]) -> Bool {
+        // return if there are no locations in ["Right Stom..", "Left Stom..", "Right Butt..", "Left Butt"] that are in the [current locations]
         if compareGeneralNonCustomLocations(withCurrentNonCustomLocations: currentLocations).count == 0 {
             return true
         }
         return false
+    }
+    
+    private static func existsRepeatingGeneralLocationsInCurrentLocations(currentLocations: [String]) -> Bool {
+        for i in 0...(currentLocations.count-1) {
+            let testLoc = currentLocations[i]
+            for j in i...(currentLocations.count-1) {
+                let nextLoc = currentLocations[j]
+                if nextLoc == testLoc {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    // returns the number of times a given location appears in the current location
+    private static func howManyTimesLocationAppearsInCurrentLocations(generalLocation: String) -> Int {
+        var count = 0
+        for i in 0...(currentLocations.count-1) {
+            if currentLocations[i] == generalLocation {
+                count += 1
+            }
+        }
+        return count
+    }
+    
+    // returns if the given location is repeated
+    private static func isRepeatedInGeneralLocations(thisLocation: String) -> Bool {
+        return howManyTimesLocationAppearsInCurrentLocations(generalLocation: thisLocation) >= 2
+    }
+    
+    // picks the next available open general location starting at the index of current location.
+    private static func getNextLocationInGeneralThatIsAvailable(afterCurrentLocation: String) -> String {
+        let patchIndexAsInGeneral = getCurrentIndexInGeneral(patchLocation: afterCurrentLocation)
+        var testIndex = getNextGeneralIndex(fromIndex: patchIndexAsInGeneral, totalNumberOfGeneralLocationOptions: generalLocations.count)
+        var testLocation = generalLocations[testIndex]
+        while currentLocations.contains(testLocation) {
+            testIndex = getNextGeneralIndex(fromIndex: testIndex, totalNumberOfGeneralLocationOptions: generalLocations.count)
+            testLocation = generalLocations[testIndex]
+        }
+        return testLocation
     }
     
 }

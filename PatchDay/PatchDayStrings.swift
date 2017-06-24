@@ -48,21 +48,30 @@ class PatchDayStrings {
     
     static var notificationSuggestion: String = { return NSLocalizedString("Place new patch here: ", comment: "followed by a suggest location; second line in the notification if and only if the user enabled autoChooseLocation on the SettingsViewcontroller") }()
     
+    static var notificationWithoutLocation: String = { return NSLocalizedString("Change a patch at ", comment: "notification when there is no location pressent, this really should never happen") }()
+    
     // alerts
     
     static var coreDataSaveAlertTitle: String = NSLocalizedString("Save Error", comment: "this is a title to an alert displayed if patch data is not saved for some reason.")
     
-    static var coreDataSaveAlertMessage: String = NSLocalizedString("Oh no! There was a problem saving your patch data!", comment: "this is a message to an alert displayed if patch data is not saved for some reason.")
+    static var coreDataSaveAlertMessage: String = NSLocalizedString("there was a problem saving your patch data!", comment: "this is a message to an alert displayed if patch data is not saved for some reason.")
     
+    static var coreDataAlertTitle: String = NSLocalizedString("Core Data Error", comment: "this is a title to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
+    
+    static var coreDataAlertMessage: String = NSLocalizedString("there is a problem with managed object in the persistent store", comment: "this is a message to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
     static var dismiss_string: String = NSLocalizedString("Dismiss", comment: "The word displayed on a button for dismissing an error message")
     
     static var changingNumberOfPatchesAlertTitle: String = NSLocalizedString("Warning", comment: "title for warning the user when they are changing the number of patches in the schedule, a variable to the program")
     
     static var changingNumberOfPatchesAlertMessage: String = NSLocalizedString("Changing the number of patches could result in a loss of data.", comment: "message for warning the user when they are changing the number of patches in the schedule, a variable to the program")
     
-    static var proceed_string: String = NSLocalizedString("Proceed", comment: "an accept button title displayed on the 'changing number of patches' alert")
+    static var accept_string: String = NSLocalizedString("Accept", comment: "an accept button title displayed on the 'changing number of patches' alert")
     
-    static var forget_it_string: String = NSLocalizedString("Forget it", comment: "a cancel button title displayed on the 'changing number of patches' alert")
+    static var decline_string: String = NSLocalizedString("Decline", comment: "a cancel button title displayed on the 'changing number of patches' alert")
+    
+    static var resetPatchDataAlertTitle: String = NSLocalizedString("Reset Patch Data", comment: "title of an alert displayed when hitting a reset button")
+    
+    static var resetPatchDataAlertMessage: String = NSLocalizedString("This action will erase all current patches from the schedule.", comment: "title of an alert displayed when hitting a reset button")
     
     // MARK: - general
     

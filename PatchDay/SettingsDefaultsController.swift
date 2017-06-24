@@ -62,7 +62,7 @@ class SettingsDefaultsController: NSObject {
     
     static func setNumberOfPatches(to: String) {
         self.numberOfPatches = to
-        defaults.set(self.getNumberOfPatches(), forKey: PatchDayStrings.numberOfPatches_string())
+        defaults.set(to, forKey: PatchDayStrings.numberOfPatches_string())
         self.synchonize()
     }
     

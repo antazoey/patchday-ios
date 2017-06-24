@@ -19,7 +19,6 @@
 		137330F21E22BA3E0048F91E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
 		137330F41E22BA3E0048F91E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
-		137331021E22BA3E0048F91E /* PatchDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137331011E22BA3E0048F91E /* PatchDayTests.swift */; };
 		1373310D1E22BA3E0048F91E /* PatchDayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */; };
 		139754B51ED8EE27006C82B8 /* PatchDayColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PatchDayColors.swift */; };
 		139754BE1EDA8C4D006C82B8 /* AddPatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* AddPatchViewController.swift */; };
@@ -28,6 +27,7 @@
 		13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */; };
 		13E0BB5B1EF6331100939D37 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5A1EF6331100939D37 /* SettingsController.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
+		13E0BB5F1EFC23D900939D37 /* SuggestedPatchLocationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5E1EFC23D900939D37 /* SuggestedPatchLocationTest.swift */; };
 		13E980D21EDBC2180062B144 /* AddPatchSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D11EDBC2180062B144 /* AddPatchSegue.swift */; };
 		13E980D81EDFA54B0062B144 /* PatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* PatchesViewController.swift */; };
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
@@ -68,7 +68,6 @@
 		137330F61E22BA3E0048F91E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		137330F81E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		137330FD1E22BA3E0048F91E /* PatchDayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		137331011E22BA3E0048F91E /* PatchDayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayTests.swift; sourceTree = "<group>"; };
 		137331031E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		137331081E22BA3E0048F91E /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITests.swift; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsToScheduleSegue.swift; sourceTree = "<group>"; };
 		13E0BB5A1EF6331100939D37 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertController.swift; sourceTree = "<group>"; };
+		13E0BB5E1EFC23D900939D37 /* SuggestedPatchLocationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedPatchLocationTest.swift; sourceTree = "<group>"; };
 		13E980D11EDBC2180062B144 /* AddPatchSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddPatchSegue.swift; sourceTree = "<group>"; };
 		13E980D71EDFA54B0062B144 /* PatchesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchesViewController.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 		137331001E22BA3E0048F91E /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
-				137331011E22BA3E0048F91E /* PatchDayTests.swift */,
+				13E0BB5E1EFC23D900939D37 /* SuggestedPatchLocationTest.swift */,
 				137331031E22BA3E0048F91E /* Info.plist */,
 			);
 			path = PatchDayTests;
@@ -419,7 +419,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				137331021E22BA3E0048F91E /* PatchDayTests.swift in Sources */,
+				13E0BB5F1EFC23D900939D37 /* SuggestedPatchLocationTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

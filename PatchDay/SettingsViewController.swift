@@ -10,36 +10,36 @@ import UIKit
 
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    @IBOutlet var settingsView: UIView!
+    @IBOutlet weak var settingsView: UIView!
     
     // Picker Vars
-    @IBOutlet var multiPicker: UIPickerView!
+    @IBOutlet weak var multiPicker: UIPickerView!
     // options are "interval" and "count"
     private var whichTapped: String? = nil
     
-    @IBOutlet var numberOfPatchesPicker: UIPickerView!
+    @IBOutlet weak var numberOfPatchesPicker: UIPickerView!
     
     // Schedule outlets (in order of appearance
-    @IBOutlet var changePatchEvery: UIButton!
+    @IBOutlet weak var changePatchEvery: UIButton!
     @IBOutlet var numberOfPatches: UIButton!
     
     // Notification outlets (in order of appearance)
-    @IBOutlet var notificationHeading: UILabel!
-    @IBOutlet var lineUnderNotificationHeading: UIView!
-    @IBOutlet var reminderExplanation: UILabel!
-    @IBOutlet var lineUnderReminderExplanation: UIView!
-    @IBOutlet var receiveReminderLabel: UILabel!
-    @IBOutlet var receiveReminder: UISwitch!
-    @IBOutlet var lineUnderReceiveReminderSwitch: UIView!
-    @IBOutlet var minutesBeforeLabel: UILabel!
-    @IBOutlet var notificationOption: UIButton!
-    @IBOutlet var notificationArrow: UIButton!
-    @IBOutlet var lineUnderNotificationOption: UIView!
-    @IBOutlet var changePatchFunctionExplanation: UILabel!
-    @IBOutlet var lineUnderPatchFunctionExplanation: UIView!
-    @IBOutlet var suggestLocationLabel: UILabel!
-    @IBOutlet var autoChooseSuggestedLocationSwitch: UISwitch!
-    @IBOutlet var lineUnderAutoSuggest: UIView!
+    @IBOutlet weak var notificationHeading: UILabel!
+    @IBOutlet weak var lineUnderNotificationHeading: UIView!
+    @IBOutlet weak var reminderExplanation: UILabel!
+    @IBOutlet weak var lineUnderReminderExplanation: UIView!
+    @IBOutlet weak var receiveReminderLabel: UILabel!
+    @IBOutlet weak var receiveReminder: UISwitch!
+    @IBOutlet weak var lineUnderReceiveReminderSwitch: UIView!
+    @IBOutlet weak var minutesBeforeLabel: UILabel!
+    @IBOutlet weak var notificationOption: UIButton!
+    @IBOutlet weak var notificationArrow: UIButton!
+    @IBOutlet weak var lineUnderNotificationOption: UIView!
+    @IBOutlet weak var changePatchFunctionExplanation: UILabel!
+    @IBOutlet weak var lineUnderPatchFunctionExplanation: UIView!
+    @IBOutlet weak var suggestLocationLabel: UILabel!
+    @IBOutlet weak var autoChooseSuggestedLocationSwitch: UISwitch!
+    @IBOutlet weak var lineUnderAutoSuggest: UIView!
     
     // bool
     public var weAreHidingFromPicker: Bool = false
@@ -193,7 +193,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
     }
     
-    // MARK: - IBOutlet switches
+    // MARK: - IBActions switches
     
     @IBAction func receiveReminderSwitched(_ sender: Any) {
         let isOn = self.receiveReminder.isOn
@@ -210,6 +210,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         let state = self.autoChooseSuggestedLocationSwitch.isOn
         SettingsController.setAutoChoose(bool: state)
 
+    }
+    
+    // MARK: - other IBActions
+    
+    @IBAction func resetButtonTapped(_ sender: Any) {
+        PDAlertController.alertForResettingPatchData()
     }
     
     // MARK: - segues

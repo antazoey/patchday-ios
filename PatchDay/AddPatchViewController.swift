@@ -16,28 +16,28 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet var popUpView: UIView!
     
     // edit date and location buttons
-    @IBOutlet var addLocationButton: UIButton!
-    @IBOutlet var addDateButton: UIButton!
-    @IBOutlet var chooseDateTextButton: UIButton!
+    @IBOutlet weak var addLocationButton: UIButton!
+    @IBOutlet weak var addDateButton: UIButton!
+    @IBOutlet weak var chooseDateTextButton: UIButton!
     
     @IBOutlet var horizontalLineBelowLocation: UIView!
     // Location bar
-    @IBOutlet var horizontalLineAboveLocation: UIView!
-    @IBOutlet var locationStackView: UIStackView!
-    @IBOutlet var locationLabel: UILabel!
+    @IBOutlet weak var horizontalLineAboveLocation: UIView!
+    @IBOutlet weak var locationStackView: UIStackView!
+    @IBOutlet weak var locationLabel: UILabel!
 
     // save, auto choose
-    @IBOutlet var save: UIButton!
-    @IBOutlet var autoChooseButton: UIButton!
+    @IBOutlet weak var save: UIButton!
+    @IBOutlet weak var autoChooseButton: UIButton!
     
     // more location related
-    @IBOutlet var locationPicker: UIPickerView!
-    @IBOutlet var patchLocationText: UITextField!
+    @IBOutlet weak var locationPicker: UIPickerView!
+    @IBOutlet weak var patchLocationText: UITextField!
     
     // cosmetics
-    @IBOutlet var instructionLabel: UILabel!
-    @IBOutlet var bigGap: UIView!
-    @IBOutlet var headingLabel: UILabel!
+    @IBOutlet weak var instructionLabel: UILabel!
+    @IBOutlet weak var bigGap: UIView!
+    @IBOutlet weak var headingLabel: UILabel!
     
     // reference to which patch it is (index in patches = patchReference - 1)
     private var patchReferernce = 0
@@ -79,8 +79,8 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.requestNotifications()
         self.performSegue(withIdentifier: PatchDayStrings.addPatchSegueID, sender: self)
         // lower badge number if patch was expired and it had a notification number
-        if (PatchDataController.getPatch(forIndex: self.getPatchIndex())?.isExpired())! {
-            if UIApplication.shared.applicationIconBadgeNumber > 0 {
+        if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
+            if patch.isExpired() && UIApplication.shared.applicationIconBadgeNumber > 0 {
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         }
@@ -224,29 +224,35 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func displayAttributeTexts() {
-        let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex())!
-        // location unplaced
-        if patch.getLocation() == "unplaced" {
-            self.patchLocationText.text = PatchDayStrings.emptyLocationInstruction
+        if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
+            // location placed
+            if patch.getLocation() != PatchDayStrings.unplaced_string {
+                // set location label text to patch's location
+                self.patchLocationText.text = patch.getLocation()
+            }
+            // location not placed
+            else {
+                self.patchLocationText.text = PatchDayStrings.emptyLocationInstruction
+            }
+            // date placed
+            if let datePlaced = patch.getDatePlaced() {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateStyle = .medium
+                dateFormatter.timeStyle = .short
+                // set date choose button's text to patch's date palced data
+                self.chooseDateTextButton.setTitle(dateFormatter.string(from: datePlaced) , for: .normal)
+            }
+            // date unplaced
+            else {
+                self.chooseDateTextButton.setTitle(PatchDayStrings.emptyDateInstruction
+                    , for: UIControlState.normal)
+            }
         }
-        // location placed
+        // nil patch
         else {
-            // set location label text to patch's location
-            self.patchLocationText.text = patch.getLocation()
-
-        }
-        // date unplaced
-        if patch.getDatePlaced() == nil {
+            self.patchLocationText.text = PatchDayStrings.emptyLocationInstruction
             self.chooseDateTextButton.setTitle(PatchDayStrings.emptyDateInstruction
                 , for: UIControlState.normal)
-        }
-        // date placed
-        else {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .medium
-            dateFormatter.timeStyle = .short
-            // set date choose button's text to patch's date palced data
-            self.chooseDateTextButton.setTitle(dateFormatter.string(from: patch.getDatePlaced()!) , for: .normal)
         }
     }
     
@@ -311,28 +317,31 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - Private view creators
     
     private func setInstructionAndHeading() {
-        let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex())
         var instruction = ""
         var heading = ""
-        // unplaced patch instruction
-        if patch == nil || patch?.getLocation() == PatchDayStrings.unplaced_string {
+        if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {            // unplaced patch instruction
+            if patch.getLocation() == PatchDayStrings.unplaced_string {
+                instruction = PatchDayStrings.addPatchInstruction
+                heading = PatchDayStrings.addPatch_string
+            }
+            else {
+                if patch.isExpired() {
+                    instruction = PatchDayStrings.patchExpired_string
+                }
+                else {
+                    instruction = PatchDayStrings.patchExpires_string
+                }
+                instruction += patch.expirationDateAsString()
+                heading = PatchDayStrings.changePatch_string
+            
+            }
+            self.instructionLabel.text = instruction
+            self.headingLabel.text = heading
+        }
+        else {
             instruction = PatchDayStrings.addPatchInstruction
             heading = PatchDayStrings.addPatch_string
         }
-        else {
-            if patch!.isExpired() {
-                instruction = PatchDayStrings.patchExpired_string
-            }
-            else {
-                instruction = PatchDayStrings.patchExpires_string
-            }
-            instruction += patch!.expirationDateAsString()
-            heading = PatchDayStrings.changePatch_string
-            
-        }
-        self.instructionLabel.text = instruction
-        self.headingLabel.text = heading
-        
     }
     
     // for self.createDateAddSubview() self.dateAddTapped()

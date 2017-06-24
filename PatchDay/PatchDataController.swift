@@ -31,14 +31,16 @@ class PatchDataController: NSObject {
     static var patches: [Patch] = {
         var userPatches: [Patch] = []
         for i in 0...(getNumberOfPatches()-1) {
-            var userPatch = createPatchFromCoreData(patchEntityNameIndex: i)
-            // handles the case where there was never a Patch init() in core data
-            if userPatch == nil {
-                userPatch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[i])
-                saveContext()
+            if let userPatch = createPatchFromCoreData(patchEntityNameIndex: i) {
+                userPatches.append(userPatch)
             }
-            userPatches.append(userPatch!)
+            else {
+                let userPatch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[i])
+                userPatches.append(userPatch)
+            }
+            saveContext()
         }
+        
         return userPatches
     }()
     
@@ -71,8 +73,8 @@ class PatchDataController: NSObject {
         var oldestPatch: Patch = patches[0]
         if self.getNumberOfPatches() > 1 {
             for i in 1...(patches.count-1) {
-                if patches[i].getDatePlaced() != nil && oldestPatch.getDatePlaced() != nil {
-                    if patches[i].getDatePlaced()! < oldestPatch.getDatePlaced()! {
+                if let datePlaced = patches[i].getDatePlaced(), let oldDate = oldestPatch.getDatePlaced() {
+                    if datePlaced < oldDate {
                         oldestPatch = patches[i]
                     }
                 }
@@ -83,10 +85,93 @@ class PatchDataController: NSObject {
     
     public static func getPatch(forIndex: Int) -> Patch? {
         var patch: Patch?
-        if self.patches.count >= (forIndex+1) {
+        if self.patches.count >= (forIndex+1) && forIndex >= 0 && forIndex < self.patches.count {
             patch = self.patches[forIndex]
         }
         return patch
+    }
+    
+    // MARK: - public
+    
+    public static func appendToPatches(patch: Patch, patchIndex: Int) {
+        // if there is room
+        if patches.count < 4 {
+            patches.append(patch)
+        }
+        else {
+            setPatch(with: patch, patchIndex: patchIndex)
+        }
+    }
+    
+    public static func setPatchLocation(patchIndex: Int, with: String) {
+        // attempt to set the Patch's location at given index
+        if let patch = getPatch(forIndex: patchIndex) {
+            patch.setLocation(with: with)
+        }
+        // if there is no Patch there, make one there and set it's location
+        else if patchIndex >= 0 && patchIndex < 4 {
+            let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
+            patch.setLocation(with: with)
+            appendToPatches(patch: patch, patchIndex: patchIndex)
+        }
+        saveContext()
+    }
+    
+    public static func setPatchDate(patchIndex: Int, with: Date) {
+        // attempt to set Patch's date at given index
+        if let patch = getPatch(forIndex: patchIndex) {
+            patch.setDatePlaced(withDate: with)
+        }
+        // if there is no Patch, make one there and set that one's date
+        else {
+            let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
+            patch.setDatePlaced(withDate: with)
+            appendToPatches(patch: patch, patchIndex: patchIndex)
+        }
+        saveContext()
+    }
+    
+    public static func setPatch(patchIndex: Int, patchDate: Date, location: String) {
+        if let patch = getPatch(forIndex: patchIndex) {
+            patch.setDatePlaced(withDate: patchDate)
+            patch.setLocation(with: location)
+        }
+        else {
+            let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
+            patch.setDatePlaced(withDate: patchDate)
+            patch.setLocation(with: location)
+            appendToPatches(patch: patch, patchIndex: patchIndex)
+        }
+        saveContext()
+    }
+    
+    public static func setPatch(with: Patch, patchIndex: Int) {
+        if patchIndex <= 3 && patchIndex >= 0 {
+            patches[patchIndex] = with
+        }
+        saveContext()
+    }
+    
+    public static func getOldestPatchDate() -> Date {
+        if let oldestPatchDate = getOldestPatch().getDatePlaced() {
+            return oldestPatchDate
+        }
+        return Date()
+    }
+    
+    public static func resetPatchData() {
+        for patch in patches {
+            patch.reset()
+        }
+        self.saveContext()
+    }
+    
+    public static func makeArrayOfLocations() -> [String] {
+        var locationArray: [String] = []
+        for i in 0...(getNumberOfPatches()-1) {
+            locationArray.append(getPatches()[i].getLocation())
+        }
+        return locationArray
     }
     
     // MARK: - strings
@@ -96,17 +181,21 @@ class PatchDataController: NSObject {
     }
     
     public static func notificationString(index: Int) -> String {
-        let patch = self.getPatch(forIndex: index)!
-        var locationNotificationPart = ""
-        // for non-custom located patches
-        if patch.isNotCustomLocated() {
-            locationNotificationPart = PatchDayStrings.notificationIntros[patch.getLocation()]!
+        if let patch = self.getPatch(forIndex: index) {
+            // for non-custom located patches
+            if patch.isNotCustomLocated() {
+                guard let locationNotificationPart = PatchDayStrings.notificationIntros[patch.getLocation()] else {
+                    return PatchDayStrings.notificationWithoutLocation + patch.getDatePlacedAsString()
+                }
+                return locationNotificationPart + patch.getDatePlacedAsString()
+            }
+            // for custom located patches
+            else {
+                let locationNotificationPart = PatchDayStrings.notificationForCustom + patch.getLocation() + " " + PatchDayStrings.notificationForCustom_at
+                return locationNotificationPart + patch.getDatePlacedAsString()
+            }
         }
-        // for custom located patches
-        else {
-            locationNotificationPart = PatchDayStrings.notificationForCustom + patch.getLocation() + " " + PatchDayStrings.notificationForCustom_at
-        }
-        return locationNotificationPart + patch.getDatePlacedAsString()
+        return ""
     }
     
     public static func getOldestPatchDateAsString() -> String {
@@ -114,80 +203,46 @@ class PatchDataController: NSObject {
         return oldestPatch.getDatePlacedAsString()
     }
     
-    // MARK: - modifiers and setters
-    
-    public static func resetPatchData() {
-        for patch in patches {
-            patch.reset()
-        }
-        self.saveContext()
-    }
-    
-    public static func setPatchLocation(patchIndex: Int, with: String) {
-        getPatch(forIndex: patchIndex)!.setLocation(with: with)
-        saveContext()
-    }
-    
-    // MARK: - dates
-    
-    public static func getOldestPatchDate() -> Date {
-        return getOldestPatch().getDatePlaced()!
-    }
-    
-    public static func setPatchDate(patchIndex: Int, with: Date) {
-        getPatch(forIndex: patchIndex)!.setDatePlaced(withDate: with)
-        saveContext()
-    }
-    
     // MARK: - called by notification
     public static func changePatchFromNotification(patchIndex: Int) {
-        let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: patchIndex)
-        let suggestDate = Date()
-        let patch = getPatch(forIndex: patchIndex)!
-        patch.setLocation(with: suggestedLocation)
-        patch.setDatePlaced(withDate: suggestDate)
-        saveContext()
+        if let patch = getPatch(forIndex: patchIndex) {
+            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: patchIndex)
+            let suggestDate = Date()
+            patch.setLocation(with: suggestedLocation)
+            patch.setDatePlaced(withDate: suggestDate)
+            saveContext()
+        }
     }
     
     // MARK: Private functions
     
-    private static func createPatches() -> [Patch] {
-        var userPatches: [Patch] = []
-        for i in 0...(self.getNumberOfPatches()-1) {
-            var userPatch = createPatchFromCoreData(patchEntityNameIndex: i)
-            // handles the case where there was never a Patch init() in core data
-            if userPatch == nil {
-                userPatch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[i])
-                saveContext()
-            }
-            userPatches.append(userPatch!)
-        }
-        return userPatches
-    }
-    
     static private func createGenericPatch(entityName: String) -> Patch {
-        return NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as! Patch
-        
+        if let patch = NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as? Patch {
+            return patch
+        }
+        else {
+            PDAlertController.alertForCoreDataError()
+            return Patch()
+        }
     }
     
     // called by PatchDataController.createPatches()
     private static func createPatchFromCoreData(patchEntityNameIndex: Int) -> Patch? {
-        let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex)
         var userPatch: Patch?
-        patchFetchRequest!.propertiesToFetch = PatchDayStrings.patchPropertyNames
-        do {
-            // load user data if it exists
-            let requestedPatch = try persistentContainer.viewContext.fetch(patchFetchRequest!)
-            if requestedPatch.count > 0 {
-                userPatch = requestedPatch[0]
+        if let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex) {
+            patchFetchRequest.propertiesToFetch = PatchDayStrings.patchPropertyNames
+            do {
+                // load user data if it exists
+                let requestedPatch = try persistentContainer.viewContext.fetch(patchFetchRequest)
+                if requestedPatch.count > 0 {
+                    userPatch = requestedPatch[0]
+                }
+            }
+            catch {
+                print("PatchData Fetch Request Failed")
             }
         }
-        catch {
-            print("PatchData Fetch Request Failed")
-        }
-        
         return userPatch
-        
     }
     
     // called by PatchDataController.createPatchFromCoreData() to make a FetchRequest
