@@ -20,6 +20,7 @@ class UbiquitousKeyValueStoreController {
     public var autoChooseLocation: Bool?
     public var notificationTime: Int?
     public var notifyMe: Bool?
+    public var mentionedNotifications: Bool?
     
     public func becomeLive() {
         patchCountSetUp()
@@ -27,6 +28,7 @@ class UbiquitousKeyValueStoreController {
         autoChooseSetUp()
         notificationTimeSetUp()
         notifyMeSetUp()
+        mentionedNotificationsSetUp()
     }
     
     // MARK: - setters
@@ -60,6 +62,11 @@ class UbiquitousKeyValueStoreController {
         store.set(with, forKey: PatchDayStrings.remindMe_string())
     }
     
+    public func setMentioned(with: Bool) {
+        mentionedNotifications = with
+        store.set(with, forKey: PatchDayStrings.mentioned_string())
+    }
+    
     // MARK: - Existential
     
     public func existsExpirationInterval() -> Bool {
@@ -82,6 +89,10 @@ class UbiquitousKeyValueStoreController {
         return notifyMe != nil
     }
     
+    public func existsMentioned() -> Bool {
+        return mentionedNotifications != nil
+    }
+    
     // MAR: - Ubiquity and observation
     
     private func observe() {
@@ -94,6 +105,7 @@ class UbiquitousKeyValueStoreController {
         autoChooseLocation = store.value(forKey: PatchDayStrings.autoChooseLocation_string()) as? Bool
         notificationTime = store.value(forKey: PatchDayStrings.notificationKey_string()) as? Int
         notifyMe = store.value(forKey: PatchDayStrings.remindMe_string()) as? Bool
+        mentionedNotifications = store.value(forKey: PatchDayStrings.mentioned_string()) as? Bool
     }
 
     // MARK: - private
@@ -126,6 +138,12 @@ class UbiquitousKeyValueStoreController {
     private func notifyMeSetUp() {
         if let yesNotify: Bool = store.object(forKey: PatchDayStrings.remindMe_string()) as? Bool {
             notifyMe = yesNotify
+        }
+    }
+    
+    private func mentionedNotificationsSetUp() {
+        if let mentioned: Bool = store.object(forKey: PatchDayStrings.mentioned_string()) as? Bool {
+            mentionedNotifications = mentioned
         }
     }
     

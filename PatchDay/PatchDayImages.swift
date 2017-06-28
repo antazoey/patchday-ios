@@ -32,7 +32,6 @@ class PatchDayImages {
     
     // save
     static public var save: UIImage = { return #imageLiteral(resourceName: "Save") }()
-    static public var saveDisabled: UIImage = { return #imageLiteral(resourceName: "SaveDisabled") }()
     
     static func stringToImage(imageString: String) -> UIImage {
         let stringToImageDict = [PatchDayStrings.unplaced_string: addPatch, PatchDayStrings.rightButt(): rButt, PatchDayStrings.leftButt(): lButt, PatchDayStrings.rightStom(): rStom, PatchDayStrings.leftStom(): lStom]

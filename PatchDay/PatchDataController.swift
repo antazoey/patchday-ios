@@ -20,7 +20,7 @@ class PatchDataController: NSObject {
         let container = NSPersistentContainer(name: PatchDayStrings.patchData)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                
+                PDAlertController.alertForPersistentStoreLoadError(error: error)
             }
         })
         return container
@@ -169,7 +169,9 @@ class PatchDataController: NSObject {
     public static func makeArrayOfLocations() -> [String] {
         var locationArray: [String] = []
         for i in 0...(getNumberOfPatches()-1) {
-            locationArray.append(getPatches()[i].getLocation())
+            if let patch = getPatch(forIndex: i) {
+                locationArray.append(patch.getLocation())
+            }
         }
         return locationArray
     }
@@ -239,6 +241,7 @@ class PatchDataController: NSObject {
                 }
             }
             catch {
+                // no alert needed here (calling function will automatically create a generic patch if we can't load one from core data)
                 print("PatchData Fetch Request Failed")
             }
         }

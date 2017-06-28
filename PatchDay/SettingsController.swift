@@ -95,6 +95,15 @@ class SettingsController {
         }
     }
     
+    static public func getMentionedNotifications() -> Bool {
+        if usingCloud, let mentioned = iCloudSettings.mentionedNotifications {
+            return mentioned
+        }
+        else {
+            return SettingsDefaultsController.getMentionedNotifications()
+        }
+    }
+    
     // MARK: - Setters, always sets user defaults, conditionally sets icloud keys
     
     static public func setExpirationInterval(with: String) {
@@ -145,6 +154,13 @@ class SettingsController {
             iCloudSettings.setNotifyMe(with: bool)
         }
         SettingsDefaultsController.setRemindMe(to: bool)
+    }
+    
+    static public func setMentionedNotifications(with: Bool) {
+        if usingCloud {
+            iCloudSettings.setMentioned(with: with)
+        }
+        SettingsDefaultsController.setMentionedNotifications(to: with)
     }
     
 }

@@ -17,6 +17,7 @@ class SettingsDefaultsController: NSObject {
     static private var remindMe: Bool = true
     static private var notificationOption: String = "30"
     static private var autoChooseLocation: Bool = false
+    static private var mentionedNotifications: Bool = false
     
     static private var defaults = UserDefaults.standard
 
@@ -28,6 +29,7 @@ class SettingsDefaultsController: NSObject {
         loadNotificationOption()
         loadAutoChooseLocation()
         loadRemindMe()
+        loadMentionedNotifications()
     }
     
     // MARK: - Getters
@@ -50,6 +52,10 @@ class SettingsDefaultsController: NSObject {
     
     static func getRemindMe() -> Bool {
         return self.remindMe
+    }
+    
+    static func getMentionedNotifications() -> Bool {
+        return self.mentionedNotifications
     }
     
     // MARK: - Setters
@@ -81,6 +87,12 @@ class SettingsDefaultsController: NSObject {
     static func setRemindMe(to: Bool) {
         self.remindMe = to
         self.defaults.set(self.remindMe, forKey: PatchDayStrings.remindMe_string())
+        self.synchonize()
+    }
+    
+    static func setMentionedNotifications(to: Bool) {
+        self.mentionedNotifications = to
+        self.defaults.set(self.mentionedNotifications, forKey: PatchDayStrings.mentioned_string())
         self.synchonize()
     }
     
@@ -119,6 +131,12 @@ class SettingsDefaultsController: NSObject {
     static private func loadRemindMe() {
         if let notifyMe = defaults.object(forKey: PatchDayStrings.remindMe_string()) as? Bool {
             remindMe = notifyMe
+        }
+    }
+    
+    static private func loadMentionedNotifications() {
+        if let mentioned = defaults.object(forKey: PatchDayStrings.mentioned_string()) as? Bool {
+            mentionedNotifications = mentioned
         }
     }
     

@@ -117,7 +117,9 @@ class PatchesViewController: UIViewController {
     private func displayPatchButton(index: Int) {
         let buttonDict: [Int: UIButton] = [0: self.patchOneButton, 1: self.patchTwoButton, 2: self.patchThreeButton, 3: self.patchFourButton]
         let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
-        self.makePatchButton(patchButton: buttonDict[index]!, isBlue: colorDict[index]!, patchIndex: index)
+        if let pButton = buttonDict[index], let colorBool = colorDict[index] {
+            self.makePatchButton(patchButton: pButton, isBlue: colorBool, patchIndex: index)
+        }
     }
     
     // called by self. displayPatchButton()
@@ -160,50 +162,58 @@ class PatchesViewController: UIViewController {
     }
     
     private func determinePatchButtonImage(index: Int) -> UIImage {
-        let patch = PatchDataController.getPatch(forIndex: index)
-        var image: UIImage = UIImage()
-        // empty patch
-        if patch == nil || patch!.isEmpty() {
-            
-            image = PatchDayImages.addPatch
-        }
-        // custom patch
-        else if patch!.isCustomLocated() {
-            let customDict = [true: PatchDayImages.custom_notified, false: PatchDayImages.custom]
-            image = customDict[patch!.isExpired()]!
-            if patch!.isExpired() {
-                expiredPatchCount += 1
+        if let patch = PatchDataController.getPatch(forIndex: index) {
+            // empty patch
+            if patch.isEmpty() {
+                return PatchDayImages.addPatch
             }
-        }
-        else {
-            // not expired, normal images
-            if !patch!.isExpired() {
-                image = PatchDayImages.stringToImage(imageString: patch!.getLocation())
+            // custom patch
+            else if patch.isCustomLocated() {
+                let customDict = [true: PatchDayImages.custom_notified, false: PatchDayImages.custom]
+                if let image = customDict[patch.isExpired()] {
+                    if patch.isExpired() {
+                        expiredPatchCount += 1
+                    }
+                    return image
+                }
+                // failed to load custom patch (should never happen, but just in case)
+                else {
+                    return PatchDayImages.addPatch
+                }
             }
-            // expired...
+            // general located patch
             else {
-                image = PatchDayImages.stringToNotifiedImage(imageString: patch!.getLocation())
-                expiredPatchCount += 1
+                // not expired, normal images
+                if !patch.isExpired() {
+                    return PatchDayImages.stringToImage(imageString: patch.getLocation())
+                }
+                // expired...
+                else {
+                    expiredPatchCount += 1
+                    return PatchDayImages.stringToNotifiedImage(imageString: patch.getLocation())
+                }
             }
-            
         }
-        return image
+        // nil patch
+        else {
+            return PatchDayImages.addPatch
+        }
     }
     
     // called by patchButtonTapped()idScheduleToSettingsSegue"
     private func getReference(fromPatchButton: Any) -> Int {
         var ref = 0
         var count = 0
-        let givenPatchButtonID: String = (fromPatchButton as! UIButton).restorationIdentifier!
-        for patchID in PatchDayStrings.patchButtonIDs {
-            count += 1
-            if givenPatchButtonID == patchID {
-                ref = count
-                break
+        if let givenPatchButtonID: String = (fromPatchButton as! UIButton).restorationIdentifier {
+            for patchID in PatchDayStrings.patchButtonIDs {
+                count += 1
+                if givenPatchButtonID == patchID {
+                    ref = count
+                    break
+                }
             }
         }
         return ref
-        
     }
     
     private func addSwipeRecgonizer() -> UISwipeGestureRecognizer {
@@ -213,7 +223,6 @@ class PatchesViewController: UIViewController {
         self.view.addGestureRecognizer(swipeGestureRecognizer)
         swipeGestureRecognizer.isEnabled = true
         return swipeGestureRecognizer
-        
     }
     
     private func updateBadge() {

@@ -146,7 +146,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         if self.getWhichTapped() == PatchDayStrings.interval() {
             self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PatchDayStrings.expirationIntervals, row: row)
             // update User Defaults
+            // resets all the notifications
             SettingsController.setExpirationInterval(with: PatchDayStrings.expirationIntervals[row])
+            for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
+                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: i)
+                if SettingsController.getNotifyMeBool() {
+                    (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: i)
+                }
+            }
         }
         else if self.getWhichTapped() == PatchDayStrings.count() {
             // WARNING: This overwrites patch data
@@ -301,17 +308,30 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             self.weAreHidingFromPicker = true
         }
         // set start of picker
-        var selectedRowIndex = 0
         if self.getWhichTapped() == PatchDayStrings.interval() {
-            selectedRowIndex = PatchDayStrings.expirationIntervals.index(of: (self.changePatchEvery.titleLabel?.text)!)!
+            if let title = self.changePatchEvery.titleLabel, let readText = title.text {
+                guard let selectedRowIndex = PatchDayStrings.expirationIntervals.index(of: readText) else {
+                    return
+                }
+                self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
+            }
         }
         else if self.getWhichTapped() == PatchDayStrings.count() {
-            selectedRowIndex = PatchDayStrings.patchCounts.index(of: (self.numberOfPatches.titleLabel?.text)!)!
+            if let title = self.numberOfPatches.titleLabel, let readText = title.text {
+                guard let selectedRowIndex = PatchDayStrings.patchCounts.index(of: readText) else {
+                    return
+                }
+                self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
+            }
         }
         else if self.getWhichTapped() == PatchDayStrings.notifications() {
-            selectedRowIndex = PatchDayStrings.notificationSettings.index(of: (self.notificationOption.titleLabel?.text)!)!
+            if let title = self.notificationOption.titleLabel, let readText = title.text {
+                guard let selectedRowIndex = PatchDayStrings.notificationSettings.index(of: readText) else {
+                    return
+                }
+                self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
+            }
         }
-        self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
         
     }
     
@@ -333,7 +353,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func getBackgroundColor() -> UIColor {
-        return settingsView.backgroundColor!
+        if let color = settingsView.backgroundColor {
+            return color
+        }
+        return UIColor.white
     }
     
     private func getBottomLineY() -> CGFloat {

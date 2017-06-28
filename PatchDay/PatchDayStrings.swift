@@ -35,9 +35,9 @@ class PatchDayStrings {
     
     static var addPatchInstruction: String = {return NSLocalizedString("Edit when and where the patch was placed", tableName: nil, comment: "instruction for empty patch") }()
     
-    static var patchExpires_string: String = { return NSLocalizedString("Patch Expires: ", tableName: nil, comment: "instruction for patch details") }()
+    static var patchExpires_string: String = { return NSLocalizedString("Expires: ", tableName: nil, comment: "instruction for patch details") }()
     
-    static var patchExpired_string: String = { return NSLocalizedString("Patch Expires: ", tableName: nil, comment: "instruction for patch details") }()
+    static var patchExpired_string: String = { return NSLocalizedString("Expired: ", tableName: nil, comment: "instruction for patch details") }()
     
     // notifications
     
@@ -67,11 +67,23 @@ class PatchDayStrings {
     
     static var accept_string: String = NSLocalizedString("Accept", comment: "an accept button title displayed on the 'changing number of patches' alert")
     
+    static var yes_string: String = NSLocalizedString("Yes", comment: "a yes button for an alert")
+    
+    static var no_string: String = NSLocalizedString("No", comment: "a no button for an alert")
+    
     static var decline_string: String = NSLocalizedString("Decline", comment: "a cancel button title displayed on the 'changing number of patches' alert")
     
     static var resetPatchDataAlertTitle: String = NSLocalizedString("Reset Patch Data", comment: "title of an alert displayed when hitting a reset button")
     
     static var resetPatchDataAlertMessage: String = NSLocalizedString("This action will erase all current patches from the schedule.", comment: "title of an alert displayed when hitting a reset button")
+    
+    static var maybeYouShouldUseNotificationsAlertTitle: String = NSLocalizedString("Try Notifications?", comment: "a title for a popup alert asking the user to try the app with notifications turned on")
+    
+    static var maybeYouShouldUseNotificationsAlertMessage: String = NSLocalizedString("With notifications turned on, PatchDay is able to let you know when your patches expire. Turn on settings?", comment: "a message for a popup alert asking the user to try the app with notifications turned on")
+    
+    static var daysOfWeek: [String] = [
+        NSLocalizedString("Sunday", comment: "gregorian days of week"), NSLocalizedString("Monday", comment: "gregorian days of week"), NSLocalizedString("Tuesday", comment: "gregorian days of week"), NSLocalizedString("Wednesday", comment: "gregorian days of week"), NSLocalizedString("Thursday", comment: "gregorian days of week"), NSLocalizedString("Friday", comment: "gregorian days of week"),
+        NSLocalizedString("Saturday", comment: "gregorian days of week")]
     
     // MARK: - general
     
@@ -91,7 +103,7 @@ class PatchDayStrings {
     
     static var settingsChoices: [String] = { return ["interval", "count", "notifications"] }()
     
-    static var defaultKeys: [String] = { return ["patchChangeInterval", "numberOfPatches", "autoChooseLocation", "notification", "remindMe"] }()
+    static var defaultKeys: [String] = { return ["patchChangeInterval", "numberOfPatches", "autoChooseLocation", "notification", "remindMe", "mentioned"] }()
     
     static func interval() -> String {
         return settingsChoices[0]
@@ -121,6 +133,10 @@ class PatchDayStrings {
     
     static func remindMe_string() -> String {
         return defaultKeys[4]
+    }
+    
+    static func mentioned_string() -> String {
+        return defaultKeys[5]
     }
     
     // MARK: - Colors

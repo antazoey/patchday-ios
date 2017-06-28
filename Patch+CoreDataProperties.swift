@@ -75,6 +75,11 @@ extension Patch {
         return Patch.makeDateString(from: expires)
     }
     
+    public func dayOfWeekFromDate(date: Date) -> Int {
+        let calendar = Calendar(identifier: Locale.current.calendar.identifier)
+        return calendar.component(.weekday, from: date)
+    }
+    
     // MARK: - booleans
     
     public func isEmpty() -> Bool {

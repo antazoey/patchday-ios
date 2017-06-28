@@ -55,7 +55,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.patchLocationText.isUserInteractionEnabled = true
         super.viewDidLoad()
         self.setBackgroundColor(to: PatchDayColors.pdPink)
-        self.setUpSaveButtonStart()
+        self.hideSaveButton()
         self.setInstructionAndHeading()
         self.hideLocationPicker()
         self.patchLocationText.backgroundColor = PatchDayColors.pdPink
@@ -87,6 +87,8 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     @IBAction func autoTapped(_ sender: Any) {
+        
+        
         // Location is a suggested by SuggedPatchLocation's algorithm,
         // Date is now.
         self.autoPickLocationAndDate()
@@ -289,6 +291,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     public func autoPickLocation() {
+        
         let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
         self.patchLocationText.text = suggestedLocation
     }
@@ -331,7 +334,13 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
                 else {
                     instruction = PatchDayStrings.patchExpires_string
                 }
+                if Locale.current.calendar.identifier == Calendar.Identifier.gregorian {
+                    let weekday: Int = patch.dayOfWeekFromDate(date: patch.expirationDate())
+                    let day: String = PatchDayStrings.daysOfWeek[weekday-1]
+                    instruction += (day + ", ")
+                }
                 instruction += patch.expirationDateAsString()
+                    
                 heading = PatchDayStrings.changePatch_string
             
             }
@@ -422,12 +431,6 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     private func setBackgroundColor(to: UIColor) {
         view.backgroundColor = to
-    }
-    
-    private func setUpSaveButtonStart() {
-        self.disableSaveButton()
-        self.save.setBackgroundImage(#imageLiteral(resourceName: "SaveDisabled"), for: .disabled)
-        
     }
     
     // MARK: - private bool functions

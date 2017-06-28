@@ -27,7 +27,6 @@ class SuggestedPatchLocation {
         var suggestedLocation = ""
         
         // I. FOUR PATCHES:
-        
         if currentLocations.count == 4 {
             
             // a.) case: existing custom locations
