@@ -33,7 +33,7 @@ class PatchDayStrings {
     
     static var patchLocationNames: [String] = { return [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")] }()
     
-    static var addPatchInstruction: String = {return NSLocalizedString("Edit when and where the patch was placed", tableName: nil, comment: "instruction for empty patch") }()
+    static var patchDetailsInstruction: String = {return NSLocalizedString("Edit when and where the patch was placed", tableName: nil, comment: "instruction for empty patch") }()
     
     static var patchExpires_string: String = { return NSLocalizedString("Expires: ", tableName: nil, comment: "instruction for patch details") }()
     
@@ -71,6 +71,8 @@ class PatchDayStrings {
     
     static var no_string: String = NSLocalizedString("No", comment: "a no button for an alert")
     
+    static var continue_string: String = NSLocalizedString("Continue", comment: "a button for proceeding during an alert")
+    
     static var decline_string: String = NSLocalizedString("Decline", comment: "a cancel button title displayed on the 'changing number of patches' alert")
     
     static var resetPatchDataAlertTitle: String = NSLocalizedString("Reset Patch Data", comment: "title of an alert displayed when hitting a reset button")
@@ -80,6 +82,12 @@ class PatchDayStrings {
     static var maybeYouShouldUseNotificationsAlertTitle: String = NSLocalizedString("Try Notifications?", comment: "a title for a popup alert asking the user to try the app with notifications turned on")
     
     static var maybeYouShouldUseNotificationsAlertMessage: String = NSLocalizedString("With notifications turned on, PatchDay is able to let you know when your patches expire. Turn on settings?", comment: "a message for a popup alert asking the user to try the app with notifications turned on")
+    
+    static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the 'auto suggest' bool from the Settings")
+    
+        static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Auto Suggest' is turned on, the 'Auto' button from the Patch Details View chooses the optimal general location based on the current general locations in the patch schedule.  It also enables changing the patch from a 'Patch Expired Notification'.", comment: "a descriptive alert message that appears when enabling or disabling the 'auto suggest' bool from the Settings")
+    
+    /// MARK: - more
     
     static var daysOfWeek: [String] = [
         NSLocalizedString("Sunday", comment: "gregorian days of week"), NSLocalizedString("Monday", comment: "gregorian days of week"), NSLocalizedString("Tuesday", comment: "gregorian days of week"), NSLocalizedString("Wednesday", comment: "gregorian days of week"), NSLocalizedString("Thursday", comment: "gregorian days of week"), NSLocalizedString("Friday", comment: "gregorian days of week"),
@@ -186,7 +194,7 @@ class PatchDayStrings {
     
     static var scheduleToSettingsID: String = { return "idScheduleToSettingsSegue" }()
     static var settingsToScheduleID: String = { return "idSettingsToScheduleSegue" }()
-    static var addPatchSegueID: String = { return "idAddPatchSegue" }()
+    static var patchDetailsSegueID: String = { return "idPatchDetailsSegue" }()
     
     // MARK: - patch button id's
     static var patchButtonIDs: [String] = { return ["patch1", "patch2", "patch3", "patch4"] }()

@@ -146,13 +146,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         if self.getWhichTapped() == PatchDayStrings.interval() {
             self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PatchDayStrings.expirationIntervals, row: row)
             // update User Defaults
-            // resets all the notifications
             SettingsController.setExpirationInterval(with: PatchDayStrings.expirationIntervals[row])
+            // resets all the notifications
             for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
-                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: i)
-                if SettingsController.getNotifyMeBool() {
-                    (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: i)
-                }
+                self.requestNotifications(patchIndex: i)
             }
         }
         else if self.getWhichTapped() == PatchDayStrings.count() {
@@ -163,6 +160,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
             // update User Defaults
             SettingsController.setNotificationTime(with: PatchDayStrings.notificationSettings[row])
+            // resets all the notifications
+            for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
+                self.requestNotifications(patchIndex: i)
+            }
         }
         
         self.multiPicker.isHidden = true
@@ -215,8 +216,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     @IBAction func autoChooseLocationChangeSwitch(_ sender: Any) {
         let state = self.autoChooseSuggestedLocationSwitch.isOn
-        SettingsController.setAutoChoose(bool: state)
-
+        PDAlertController.alertForAutoSuggestLocationDescription(changingTo: state)
     }
     
     // MARK: - other IBActions
@@ -371,6 +371,18 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     private func pickerViewDoesObtrude() -> Bool {
         // indicates if certain views are in the way of seeing the picker
         return (self.getPickerY() + 45) <= self.getBottomLineY()
+    }
+    
+    public func requestNotifications(patchIndex: Int) {
+        // request notification iff exists Patch.datePlaced
+        if let _ = PatchDataController.getPatch(forIndex: patchIndex) {
+            
+            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: patchIndex)
+            if SettingsController.getNotifyMeBool() {
+                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: patchIndex)
+            }
+        }
+        
     }
 
 }

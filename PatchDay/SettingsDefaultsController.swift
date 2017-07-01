@@ -16,7 +16,7 @@ class SettingsDefaultsController: NSObject {
     //notifications
     static private var remindMe: Bool = true
     static private var notificationOption: String = "30"
-    static private var autoChooseLocation: Bool = false
+    static private var autoChooseLocation: Bool = true
     static private var mentionedNotifications: Bool = false
     
     static private var defaults = UserDefaults.standard

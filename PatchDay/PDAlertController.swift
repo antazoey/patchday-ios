@@ -55,6 +55,23 @@ class PDAlertController {
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     
+    // MARK: - enabling or disabling "Auto suggest location"
+    
+    static public func alertForAutoSuggestLocationDescription(changingTo: Bool) {
+        print(PatchDayStrings.suggestLocationAlertTitle)
+        print(PatchDayStrings.suggestLocationAlertMessage)
+        currentAlert = UIAlertController(title: PatchDayStrings.suggestLocationAlertTitle,
+                                         message: PatchDayStrings.suggestLocationAlertMessage,
+                                         preferredStyle: .alert)
+        let continueAction = UIAlertAction(title: PatchDayStrings.continue_string, style: UIAlertActionStyle.default) {
+            (void) in
+            SettingsController.setAutoChoose(bool: changingTo)
+        }
+        currentAlert.addAction(continueAction)
+        currentVC.present(currentAlert, animated: true, completion: nil)
+        
+    }
+    
     // MARK: - resetting patch data
     
     static public func alertForResettingPatchData() {

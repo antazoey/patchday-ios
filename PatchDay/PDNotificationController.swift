@@ -46,35 +46,35 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
 
     // MARK: - notifications
     
-    func requestNotifyExpiredAndChangeSoon(patchIndex: Int) {
-        self.requestNotifyExpired(patchIndex: patchIndex)
-        self.requestNotifyChangeSoon(patchIndex: patchIndex)
-    }
-    
     func requestNotifyChangeSoon(patchIndex: Int) {
-        if sendingNotifications && SettingsController.getNotifyMeBool() {
+        if let patch = PatchDataController.getPatch(forIndex: patchIndex), sendingNotifications, SettingsController.getNotifyMeBool() {
             let minutesBefore = Double(SettingsController.getNotificationTimeString())
             let secondsBefore = minutesBefore! * 60.0
-            let intervalUntilTrigger = (PatchDataController.getPatch(forIndex: patchIndex)!.determineIntervalToExpire()! - secondsBefore)
+            let intervalUntilTrigger = patch.determineIntervalToExpire() - secondsBefore
             // notification's attributes
             let content = UNMutableNotificationContent()
             content.title = PatchDayStrings.changePatch_string
             content.body = PatchDataController.notificationString(index: patchIndex)
             content.sound = UNNotificationSound.default()
             // trigger
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: intervalUntilTrigger, repeats: false)
-            // request
-            let request = UNNotificationRequest(identifier: PatchDayStrings.patchChangeSoonIDs[patchIndex]! + "chg", content: content, trigger: trigger) // Schedule the notification.
-            self.center.add(request) { (error : Error?) in
-                if error != nil {
-                    print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+            if intervalUntilTrigger > 0 {
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: intervalUntilTrigger, repeats: false)
+                // request
+                if let id = PatchDayStrings.patchChangeSoonIDs[patchIndex] {
+                    let request = UNNotificationRequest(identifier: id + "chg", content: content, trigger: trigger) // Schedule the notification.
+                    self.center.add(request) { (error : Error?) in
+                        if error != nil {
+                        print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+                        }
+                    }
+                    
                 }
             }
         }
     }
     
     func requestNotifyExpired(patchIndex: Int) {
-        if sendingNotifications {
+        if let patch = PatchDataController.getPatch(forIndex: patchIndex), sendingNotifications {
             self.currentPatchIndex = patchIndex
             let allowsAutoChooseLocation = SettingsController.getAutoChooseBool()
             if allowsAutoChooseLocation {
@@ -86,7 +86,6 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
                                                          options: [])
                 self.center.setNotificationCategories([changePatchCategory])
             }
-        
             // notification's attributes
             let content = UNMutableNotificationContent()
             content.title = PatchDayStrings.expiredPatch_string
@@ -100,15 +99,20 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
                 content.categoryIdentifier = "changePatchCategoryID"
             }
             // Trigger
-            let timeInterval = PatchDataController.getPatch(forIndex: patchIndex)!.determineIntervalToExpire()!
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeInterval, repeats: false)
-            // Request
-            let request = UNNotificationRequest(identifier: PatchDayStrings.patchChangeSoonIDs[patchIndex]! + "exp", content: content, trigger: trigger) // Schedule the notification.
-            self.center.add(request) { (error : Error?) in
-                if error != nil {
-                    print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+            let timeIntervalUntilExpire = patch.determineIntervalToExpire()
+            if timeIntervalUntilExpire > 0 {
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
+                // Request
+                if let id = PatchDayStrings.patchChangeSoonIDs[patchIndex] {
+                    let request = UNNotificationRequest(identifier: id + "exp", content: content, trigger: trigger) // Schedule the notification.
+                    self.center.add(request) { (error : Error?) in
+                        if error != nil {
+                            print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+                        }
+                    }
                 }
             }
         }
     }
+    
 }

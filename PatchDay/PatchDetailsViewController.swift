@@ -1,5 +1,5 @@
 //
-//  AddPatchViewController.swift
+//  PatchDetailsViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/27/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     //MARK: - Main
     
@@ -77,7 +77,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBAction func hitSaveButton(_ sender: Any) {
         self.saveSettings()
         self.requestNotifications()
-        self.performSegue(withIdentifier: PatchDayStrings.addPatchSegueID, sender: self)
+        self.performSegue(withIdentifier: PatchDayStrings.patchDetailsSegueID, sender: self)
         // lower badge number if patch was expired and it had a notification number
         if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
             if patch.isExpired() && UIApplication.shared.applicationIconBadgeNumber > 0 {
@@ -87,17 +87,16 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     @IBAction func autoTapped(_ sender: Any) {
-        
-        
         // Location is a suggested by SuggedPatchLocation's algorithm,
         // Date is now.
         self.autoPickLocationAndDate()
-        
         // Enable save button
         self.saveButtonLightUp()
-        
         // Bools
-        self.locationAndDateChanged()
+        self.dateChanged()
+        if SettingsController.getAutoChooseBool() {
+            self.locationChanged()
+        }
         
     }
     
@@ -271,9 +270,6 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     public func saveButtonLightUp() {
         self.enableSaveButton()
         self.unhideSaveButton()
-        if self.save.backgroundImage(for: .normal) != PatchDayImages.save {
-            self.save.setBackgroundImage(PatchDayImages.save, for: .normal)
-        }
     }
     
     public func saveSettings() {
@@ -291,9 +287,13 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     public func autoPickLocation() {
-        
-        let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
-        self.patchLocationText.text = suggestedLocation
+        if SettingsController.getAutoChooseBool() {
+            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
+            self.patchLocationText.text = suggestedLocation
+        }
+        else {
+            self.patchLocationText.text = ""
+        }
     }
     
     public func autoPickDate() {
@@ -310,11 +310,14 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     public func requestNotifications() {
-        let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex())
         // request notification iff exists Patch.datePlaced
-        if patch?.getDatePlaced() != nil {
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpiredAndChangeSoon(patchIndex: self.getPatchIndex())
+        if let _ = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
+            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: self.getPatchIndex())
+            if SettingsController.getNotifyMeBool() {
+                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: self.getPatchIndex())
+            }
         }
+        
     }
     
     // MARK: - Private view creators
@@ -324,7 +327,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         var heading = ""
         if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {            // unplaced patch instruction
             if patch.getLocation() == PatchDayStrings.unplaced_string {
-                instruction = PatchDayStrings.addPatchInstruction
+                instruction = PatchDayStrings.patchDetailsInstruction
                 heading = PatchDayStrings.addPatch_string
             }
             else {
@@ -348,7 +351,7 @@ class AddPatchViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             self.headingLabel.text = heading
         }
         else {
-            instruction = PatchDayStrings.addPatchInstruction
+            instruction = PatchDayStrings.patchDetailsInstruction
             heading = PatchDayStrings.addPatch_string
         }
     }

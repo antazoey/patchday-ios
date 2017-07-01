@@ -30,9 +30,6 @@ class PatchDayImages {
     static public var custom: UIImage = { return #imageLiteral(resourceName: "Custom") }()
     static public var custom_notified: UIImage = { return #imageLiteral(resourceName: "Custom Notified") }()
     
-    // save
-    static public var save: UIImage = { return #imageLiteral(resourceName: "Save") }()
-    
     static func stringToImage(imageString: String) -> UIImage {
         let stringToImageDict = [PatchDayStrings.unplaced_string: addPatch, PatchDayStrings.rightButt(): rButt, PatchDayStrings.leftButt(): lButt, PatchDayStrings.rightStom(): rStom, PatchDayStrings.leftStom(): lStom]
         return stringToImageDict[imageString]!

@@ -88,7 +88,7 @@ extension Patch {
     
     public func isLessThanOneDayUntilExpired() -> Bool {
         let intervalUntilExpiration = self.determineIntervalToExpire()
-        return intervalUntilExpiration != nil && intervalUntilExpiration! < 86400
+        return intervalUntilExpiration < 86400
     }
     
     public func isNotCustomLocated() -> Bool {
@@ -101,7 +101,7 @@ extension Patch {
     
     public func isExpired() -> Bool {
         let intervalUntilExpiration = self.determineIntervalToExpire()
-        return self.getDatePlaced() != nil && intervalUntilExpiration != nil && intervalUntilExpiration! <= 0
+        return self.getDatePlaced() != nil && intervalUntilExpiration <= 0
     }
     
     // MARK: - selectors
@@ -118,19 +118,20 @@ extension Patch {
         return expDate
     }
     
-    public func determineIntervalToExpire() -> TimeInterval? {
-        var interval = TimeInterval()
+    public func determineIntervalToExpire() -> TimeInterval {
         if self.getDatePlaced() != nil {
             let expirationDate = self.expirationDate()
             let now = Date()
-            if expirationDate > now {
-                interval = DateInterval(start: now, end: expirationDate).duration
+            // for non-expired patches, it's time to expire is positive
+            if expirationDate >= now {
+                return DateInterval(start: now, end: expirationDate).duration
             }
+            // for expired patches, it's time to expire is negative
             else {
-                interval = -DateInterval(start: expirationDate, end: now).duration
+                return -DateInterval(start: expirationDate, end: now).duration
             }
         }
-        return interval
+        return TimeInterval()
         
     }
     

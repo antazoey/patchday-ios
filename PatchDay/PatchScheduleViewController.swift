@@ -10,7 +10,7 @@ import UIKit
 import Foundation
 import CoreData
 
-class PatchesViewController: UIViewController {
+class PatchScheduleViewController: UIViewController {
     
     // MARK: - Main
     
@@ -23,7 +23,7 @@ class PatchesViewController: UIViewController {
     
     private var expiredPatchCount: Int = 0
     
-    // for segue to addPatchViewController
+    // for segue to PatchDetailsViewController
     private var patchButtonTapped = 0
     
     var numberOfPatches: Int = 1
@@ -40,8 +40,8 @@ class PatchesViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
-        if segue.identifier == PatchDayStrings.addPatchSegueID {
-            if let destination = segue.destination as? AddPatchViewController {
+        if segue.identifier == PatchDayStrings.patchDetailsSegueID {
+            if let destination = segue.destination as? PatchDetailsViewController {
                 destination.setPatchReference(to: self.getPatchButtonTapped())
             }
         }
@@ -86,7 +86,7 @@ class PatchesViewController: UIViewController {
     }
     
     @objc private func showAddPatchView() {
-        self.performSegue(withIdentifier: PatchDayStrings.addPatchSegueID, sender: self)
+        self.performSegue(withIdentifier: PatchDayStrings.patchDetailsSegueID, sender: self)
         
     }
     
