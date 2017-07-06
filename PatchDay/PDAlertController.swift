@@ -14,6 +14,30 @@ class PDAlertController {
     
     static public var currentAlert = UIAlertController()
     
+    // MARL: - alert for viewing schedule info
+    
+    static public func alertForViewingScheduleInfo() {
+        let closeAction = UIAlertAction(title: PatchDayStrings.dismiss_string, style: .default, handler: nil)
+        var title = ""
+        let oldPatch = PatchDataController.getOldestPatch()
+        if oldPatch.isCustomLocated() || oldPatch.getLocation() == "unplaced" {
+            title = PatchDayStrings.notificationForCustom
+        }
+        else {
+            if let tempTitle = PatchDayStrings.notificationIntros[oldPatch.getLocation()] {
+                title = tempTitle
+            }
+        }
+        if title != "" {
+            if oldPatch.getDatePlaced() != nil {
+                title += oldPatch.expirationDateAsString()
+            }
+            currentAlert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+            currentAlert.addAction(closeAction)
+            currentVC.present(currentAlert, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: - core data save error
     
     static public func alertForCoreDataSaveError() {

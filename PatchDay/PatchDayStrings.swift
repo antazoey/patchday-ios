@@ -33,7 +33,7 @@ class PatchDayStrings {
     
     static var patchLocationNames: [String] = { return [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")] }()
     
-    static var patchDetailsInstruction: String = {return NSLocalizedString("Edit when and where the patch was placed", tableName: nil, comment: "instruction for empty patch") }()
+    static var patchDetailsInstruction: String = {return NSLocalizedString("...", tableName: nil, comment: "instruction for empty patch") }()
     
     static var patchExpires_string: String = { return NSLocalizedString("Expires: ", tableName: nil, comment: "instruction for patch details") }()
     
@@ -41,14 +41,14 @@ class PatchDayStrings {
     
     // notifications
     
-    static var notificationIntros: [String : String] = { return ["Right Stomach" : NSLocalizedString("Change patch on your right stomach at ", comment: "notification telling you where and when to change your patch."),"Left Stomach" : NSLocalizedString("Change patch on your left stomach at ", comment: "notification telling you where and when to change your patch."),"Right Buttock" : NSLocalizedString("Change patch on your right buttock at ", comment: "notification telling you where and when to change your patch."),"Left Buttock" : NSLocalizedString("Change patch on your left buttock at ", comment: "notification telling you where and when to change your patch.")] }()
+    static var notificationIntros: [String : String] = { return ["Right Stomach" : NSLocalizedString("Change patch on your 'Right Stomach' ", comment: "notification telling you where and when to change your patch."),"Left Stomach" : NSLocalizedString("Change patch on your 'Left Stomach' ", comment: "notification telling you where and when to change your patch."),"Right Buttock" : NSLocalizedString("Change patch on your 'Right Buttock' ", comment: "notification telling you where and when to change your patch."),"Left Buttock" : NSLocalizedString("Change patch on your 'Left Buttock' ", comment: "notification telling you where and when to change your patch.")] }()
     
-    static var notificationForCustom: String = { return NSLocalizedString("Change patch located on: ", comment: "notification message for a custom located patch") }()
+    static var notificationForCustom: String = { return NSLocalizedString("Change patch ", comment: "notification message for a custom located patch") }()
     static var notificationForCustom_at: String = { return NSLocalizedString("at: ", comment: " for displaying the date of the expired patch for a custom located notification, occruing directly after notificationForCustom message") }()
     
     static var notificationSuggestion: String = { return NSLocalizedString("Place new patch here: ", comment: "followed by a suggest location; second line in the notification if and only if the user enabled autoChooseLocation on the SettingsViewcontroller") }()
     
-    static var notificationWithoutLocation: String = { return NSLocalizedString("Change a patch at ", comment: "notification when there is no location pressent, this really should never happen") }()
+    static var notificationWithoutLocation: String = { return NSLocalizedString("Change a patch ", comment: "notification when there is no location pressent, this really should never happen") }()
     
     // alerts
     
@@ -86,12 +86,6 @@ class PatchDayStrings {
     static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the 'auto suggest' bool from the Settings")
     
         static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Auto Suggest' is turned on, the 'Auto' button from the Patch Details View chooses the optimal general location based on the current general locations in the patch schedule.  It also enables changing the patch from a 'Patch Expired Notification'.", comment: "a descriptive alert message that appears when enabling or disabling the 'auto suggest' bool from the Settings")
-    
-    /// MARK: - more
-    
-    static var daysOfWeek: [String] = [
-        NSLocalizedString("Sunday", comment: "gregorian days of week"), NSLocalizedString("Monday", comment: "gregorian days of week"), NSLocalizedString("Tuesday", comment: "gregorian days of week"), NSLocalizedString("Wednesday", comment: "gregorian days of week"), NSLocalizedString("Thursday", comment: "gregorian days of week"), NSLocalizedString("Friday", comment: "gregorian days of week"),
-        NSLocalizedString("Saturday", comment: "gregorian days of week")]
     
     // MARK: - general
     

@@ -19,6 +19,9 @@ class PatchScheduleViewController: UIViewController {
     @IBOutlet var patchThreeButton: UIButton!
     @IBOutlet var patchFourButton: UIButton!
     
+    // the next patch button is for getting the next patch to change, when & where
+    @IBOutlet weak var nextPatchButton: UIButton!
+    
     var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer()
     
     private var expiredPatchCount: Int = 0
@@ -30,6 +33,7 @@ class PatchScheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         PDAlertController.currentVC = self
+        self.configureNextPatchButton()
         self.updateFromBackground()
         super.viewDidLoad()
         self.setNumberOfPatches(to: SettingsController.getNumberOfPatchesInt())
@@ -52,6 +56,12 @@ class PatchScheduleViewController: UIViewController {
         self.swipeRight.isEnabled = false
         self.showAddPatchView()
     }
+    
+    @IBAction func nextPatchWhenAndWhereButtonTapped(_ sender: Any) {
+        PDAlertController.alertForViewingScheduleInfo()
+        
+    }
+    
     
     //MARK: - Public Setters
     
@@ -227,6 +237,18 @@ class PatchScheduleViewController: UIViewController {
     
     private func updateBadge() {
         UIApplication.shared.applicationIconBadgeNumber = expiredPatchCount
+    }
+    
+    private func configureNextPatchButton() {
+        // the button for giving you the next patch to change when / where is onle enabled if there is at least one patch with a date attribute in the schedule
+        if PatchDataController.scheduleHasNoDates() || PatchDataController.oldestPatchInScheduleHasNoDateAndIsCustomLocated() {
+            // if there are no dates, than the "Next Patch" button makes no sense.  It also does not make much sense if the patch is custom located and has no date
+            nextPatchButton.isEnabled = false
+            nextPatchButton.setTitleColor(PatchDayColors.cuteGray, for: .disabled)
+        }
+        else {
+            nextPatchButton.isEnabled = true
+        }
     }
     
 }

@@ -48,8 +48,8 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     
     func requestNotifyChangeSoon(patchIndex: Int) {
         if let patch = PatchDataController.getPatch(forIndex: patchIndex), sendingNotifications, SettingsController.getNotifyMeBool() {
-            let minutesBefore = Double(SettingsController.getNotificationTimeString())
-            let secondsBefore = minutesBefore! * 60.0
+            let minutesBefore = SettingsController.getNotificationTimeDouble()
+            let secondsBefore = minutesBefore * 60.0
             let intervalUntilTrigger = patch.determineIntervalToExpire() - secondsBefore
             // notification's attributes
             let content = UNMutableNotificationContent()

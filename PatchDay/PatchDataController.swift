@@ -72,11 +72,11 @@ class PatchDataController: NSObject {
     public static func getOldestPatch() -> Patch {
         var oldestPatch: Patch = patches[0]
         if self.getNumberOfPatches() > 1 {
-            for i in 1...(patches.count-1) {
-                if let datePlaced = patches[i].getDatePlaced(), let oldDate = oldestPatch.getDatePlaced() {
-                    if datePlaced < oldDate {
-                        oldestPatch = patches[i]
-                    }
+            for i in 1...(self.getNumberOfPatches()-1) {
+                if let patch = getPatch(forIndex: i), let datePlaced = patch.getDatePlaced(), let oldDate = oldestPatch.getDatePlaced() {
+                        if datePlaced < oldDate {
+                            oldestPatch = patches[i]
+                        }
                 }
             }
         }
@@ -85,7 +85,7 @@ class PatchDataController: NSObject {
     
     public static func getPatch(forIndex: Int) -> Patch? {
         var patch: Patch?
-        if self.patches.count >= (forIndex+1) && forIndex >= 0 && forIndex < self.patches.count {
+        if forIndex < SettingsController.getNumberOfPatchesInt() && forIndex >= 0 {
             patch = self.patches[forIndex]
         }
         return patch
@@ -98,7 +98,7 @@ class PatchDataController: NSObject {
         if patches.count < 4 {
             patches.append(patch)
         }
-        else {
+        else if patchIndex < SettingsController.getNumberOfPatchesInt() && patchIndex >= 0 {
             setPatch(with: patch, patchIndex: patchIndex)
         }
     }
@@ -176,6 +176,43 @@ class PatchDataController: NSObject {
         return locationArray
     }
     
+    public static func scheduleHasNoDates() -> Bool {
+        var allEmptyDates: Bool = true
+        
+        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1) {
+            if let patch = PatchDataController.getPatch(forIndex: i) {
+                if patch.getDatePlaced() != nil {
+                    allEmptyDates = false
+                    break
+                }
+            }
+        }
+        return allEmptyDates
+        
+    }
+    
+    public static func scheduleHasNoLocations() -> Bool {
+        var allEmptyLocations: Bool = true
+        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1){
+            if let patch = PatchDataController.getPatch(forIndex: i) {
+                if patch.getLocation() != "unplaced" {
+                    allEmptyLocations = false
+                    break
+                }
+            }
+        }
+        return allEmptyLocations
+    }
+    
+    public static func scheduleIsEmpty() -> Bool {
+        return scheduleHasNoDates() && scheduleHasNoLocations()
+    }
+    
+    public static func oldestPatchInScheduleHasNoDateAndIsCustomLocated() -> Bool {
+        let oldestPatch = self.getOldestPatch()
+        return oldestPatch.getDatePlaced() == nil && oldestPatch.isCustomLocated()
+    }
+    
     // MARK: - strings
     
     public static func suggestLocation(patchIndex: Int) -> String {
@@ -187,14 +224,14 @@ class PatchDataController: NSObject {
             // for non-custom located patches
             if patch.isNotCustomLocated() {
                 guard let locationNotificationPart = PatchDayStrings.notificationIntros[patch.getLocation()] else {
-                    return PatchDayStrings.notificationWithoutLocation + patch.getDatePlacedAsString()
+                    return PatchDayStrings.notificationWithoutLocation + patch.getDatePlacedAsString(dateStyle: .full)
                 }
-                return locationNotificationPart + patch.getDatePlacedAsString()
+                return locationNotificationPart + patch.getDatePlacedAsString(dateStyle: .full)
             }
             // for custom located patches
             else {
                 let locationNotificationPart = PatchDayStrings.notificationForCustom + patch.getLocation() + " " + PatchDayStrings.notificationForCustom_at
-                return locationNotificationPart + patch.getDatePlacedAsString()
+                return locationNotificationPart + patch.getDatePlacedAsString(dateStyle: .full)
             }
         }
         return ""
@@ -202,7 +239,7 @@ class PatchDataController: NSObject {
     
     public static func getOldestPatchDateAsString() -> String {
         let oldestPatch = getOldestPatch()
-        return oldestPatch.getDatePlacedAsString()
+        return oldestPatch.getDatePlacedAsString(dateStyle: .full)
     }
     
     // MARK: - called by notification

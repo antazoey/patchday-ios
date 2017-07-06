@@ -57,10 +57,10 @@ extension Patch {
     // MARK: - strings
     
     public func string() -> String {
-        return self.getDatePlacedAsString() + "," + self.getLocation()
+        return self.getDatePlacedAsString(dateStyle: .medium) + "," + self.getLocation()
     }
     
-    public func getDatePlacedAsString() -> String {
+    public func getDatePlacedAsString(dateStyle: DateFormatter.Style) -> String {
         guard let dateAdded = self.datePlaced else {
             return PatchDayStrings.unplaced_string
         }
@@ -92,7 +92,7 @@ extension Patch {
     }
     
     public func isNotCustomLocated() -> Bool {
-        return PatchDayStrings.patchLocationNames.contains(self.getLocation())
+        return PatchDayStrings.patchLocationNames.contains(self.getLocation()) || getLocation() == "unplaced"
     }
     
     public func isCustomLocated() -> Bool {
@@ -107,7 +107,7 @@ extension Patch {
     // MARK: - selectors
     
     public func expirationDate() -> Date {
-        let numberOfHoursPatchLasts = calculateHoursOfPatchDuration()
+        let numberOfHoursPatchLasts = Patch.calculateHoursOfPatchDuration()
         let calendar = Calendar.current
         guard let dateAdded = self.getDatePlaced() else {
             return Date()
@@ -135,9 +135,7 @@ extension Patch {
         
     }
     
-    // MARK: - private
-    
-    private func calculateHoursOfPatchDuration() -> Int {
+    static func calculateHoursOfPatchDuration() -> Int {
         let patchInterval = SettingsController.getExpirationInterval()
         // defaults as half week
         var numberOfHours = 84
@@ -152,9 +150,18 @@ extension Patch {
     
     static func makeDateString(from: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "EEEE, MMM d, yyyy, h:mm a"
         return dateFormatter.string(from: from)
+    }
+    
+    static func expiredDate(fromDate: Date) -> Date {
+        let numberOfHoursPatchLasts = calculateHoursOfPatchDuration()
+        let calendar = Calendar.current
+        guard let expDate = calendar.date(byAdding: .hour, value: numberOfHoursPatchLasts, to: fromDate) else {
+            return Date()
+        }
+        return expDate
+        
     }
   
 }

@@ -86,6 +86,18 @@ class SettingsController {
         }
     }
     
+    static public func getNotificationTimeDouble() -> Double {
+        if usingCloud, let notTimeInt = iCloudSettings.notificationTime {
+            return Double(notTimeInt)
+        }
+        else if let notTime = Double(SettingsDefaultsController.getNotificaitonOption()) {
+            return notTime
+        }
+        else {
+            return 0
+        }
+    }
+    
     static public func getNotifyMeBool() -> Bool {
         if usingCloud, let notMe = iCloudSettings.notifyMe {
             return notMe

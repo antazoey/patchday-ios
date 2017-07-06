@@ -16,9 +16,15 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet var popUpView: UIView!
     
     // edit date and location buttons
-    @IBOutlet weak var addLocationButton: UIButton!
-    @IBOutlet weak var addDateButton: UIButton!
+
+    @IBOutlet var locationTextEdit: UITextField!
+    
     @IBOutlet weak var chooseDateTextButton: UIButton!
+    @IBOutlet var addLocationTextButton: UIButton!
+    
+    @IBOutlet var expiresOrExpiredLabel: UILabel!
+    
+    @IBOutlet var expirationDateLabel: UILabel!
     
     @IBOutlet var horizontalLineBelowLocation: UIView!
     // Location bar
@@ -32,12 +38,14 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // more location related
     @IBOutlet weak var locationPicker: UIPickerView!
-    @IBOutlet weak var patchLocationText: UITextField!
     
     // cosmetics
-    @IBOutlet weak var instructionLabel: UILabel!
+    @IBOutlet var bigGap2: UIView!
     @IBOutlet weak var bigGap: UIView!
     @IBOutlet weak var headingLabel: UILabel!
+    @IBOutlet var lineUnderExpires: UIView!
+    @IBOutlet var lineUnderDateAndTimePlaced: UIView!
+    @IBOutlet var lineUnderDatePlaced: UIView!
     
     // reference to which patch it is (index in patches = patchReference - 1)
     private var patchReferernce = 0
@@ -50,24 +58,27 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     private var locationTextHasChanged = false
     private var patchDateTextHasChanged = false
     
+    @IBOutlet var lineUnderExpirationDate: UIView!
+    @IBOutlet var dateAndTimePlaced: UILabel!
+    
     override func viewDidLoad() {
         PDAlertController.currentVC = self
-        self.patchLocationText.isUserInteractionEnabled = true
         super.viewDidLoad()
         self.setBackgroundColor(to: PatchDayColors.pdPink)
         self.hideSaveButton()
-        self.setInstructionAndHeading()
+        self.setExpirationAndHeading()
         self.hideLocationPicker()
-        self.patchLocationText.backgroundColor = PatchDayColors.pdPink
         self.autoChooseButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         self.bigGap.backgroundColor = PatchDayColors.pdPink
+        self.bigGap2.backgroundColor = PatchDayColors.pdPink
         
         // default texts
         self.displayAttributeTexts()
         
         // text editing delegate as self
-        self.patchLocationText.delegate = self
-        
+        self.locationTextEdit.delegate = self
+
+ 
         // location picker set up
         self.locationPicker.delegate = self
         self.locationPicker.dataSource = self
@@ -100,31 +111,41 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
     }
     
+    
     // MARK: - Text Edit Functions
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.patchLocationText.isUserInteractionEnabled = true
-        if textField.restorationIdentifier == "where" {
-            self.patchLocationText.text = ""
-        }
-        self.patchLocationText.becomeFirstResponder()
-        self.disablePatchDateButton()
-        self.disablePatchDateTextButton()
-        self.disableLocationButton()
-        self.hideSaveButton()
-        self.hideAutoButton()
-        
+    @IBAction func keyboardTapped(_ sender: Any) {
+        self.locationTextEdit.restorationIdentifier = "type"
+        self.locationTextEdit.becomeFirstResponder()
     }
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.locationTextEdit.isUserInteractionEnabled = true
+        if textField.restorationIdentifier == "pick" {
+            self.openLocationPicker(textField)
+        }
+        else if textField.restorationIdentifier == "type" {
+            self.locationTextEdit.text = ""
+            self.locationTextEdit.becomeFirstResponder()
+        }
+        self.disablePatchDateTextButton()
+        self.disableLocationText()
+        self.hideSaveButton()
+        self.hideAutoButton()
+        textField.restorationIdentifier = "pick"
+ 
+    }
+ 
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.patchLocationText.endEditing(true)
+        self.locationTextEdit.endEditing(true)
         self.saveButtonLightUp()
-        self.enableLocationText()
-        self.enableLocationButton()
-        self.enablePatchDateButton()
+        self.enableLocationTextEdit()
         self.enablePatchDateTextButton()
         self.unhideAutoButton()
         self.locationChanged()
+        self.unhideLocationTextbutton()
+        self.enableLocationText()
         return true
         
     }
@@ -138,12 +159,12 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         self.hideAutoButton()
         self.disableAutoButton()
         self.disableLocationText()
-        self.disablePatchDateButton()
+        self.disableLocationTextEdit()
         self.disablePatchDateTextButton()
-        self.disableLocationButton()
         self.hideSaveButton()
+
     }
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -158,15 +179,15 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.patchLocationText.text = PatchDayStrings.patchLocationNames[row]
+        self.locationTextEdit.text = PatchDayStrings.patchLocationNames[row]
         // other view changes
         self.saveButtonLightUp()
         self.hideLocationPicker()
         self.enableAutoButton()
-        self.enableLocationButton()
         self.enablePatchDateTextButton()
-        self.enablePatchDateButton()
         self.enableLocationText()
+        self.enableLocationTextEdit()
+        self.unhideLocationTextbutton()
         self.unhideAutoButton()
         self.locationChanged()
         
@@ -178,49 +199,30 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         self.createDateAddSubview()
         // disable \ hide stuff
-        self.disableLocationButton()
         self.hideAutoButton()
-        self.disablePatchDateButton()
         self.disablePatchDateTextButton()
         self.disableLocationText()
         self.hideSaveButton()
-        self.hideLocationBar()
+        self.disableLocationTextEdit()
 
-    }
-    
-    @IBAction func dateAddTapped(_ sender: Any) {
-        
-        self.createDateAddSubview()
-        
-        // disable \ hide stuff
-        self.disableLocationButton()
-        self.hideAutoButton()
-        self.disablePatchDateTextButton()
-        self.disablePatchDateButton()
-        self.disableLocationText()
-        self.hideSaveButton()
-        self.hideLocationBar()
-        
     }
     
     func datePickerDone(sender: UIButton) {
         self.dateInputView.isHidden = true
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .short
-        self.chooseDateTextButton.setTitle(dateFormatter.string(from: self.datePicker.date), for: UIControlState.normal)
-        // update patch attribute in core data
+        // set date and time placed on screen
+        self.chooseDateTextButton.setTitle(Patch.makeDateString(from: self.datePicker.date), for: UIControlState.normal)
+        // set exp date and time on screen
+        self.expirationDateLabel.text = Patch.makeDateString(from: Patch.expiredDate(fromDate: self.datePicker.date))
 
         // outer view changes
         self.enableSaveButton()
-        self.enablePatchDateButton()
         self.enablePatchDateTextButton()
-        self.enableLocationButton()
         self.enableLocationText()
         self.unhideAutoButton()
         self.saveButtonLightUp()
         self.unhideLocationBar()
         self.dateChanged()
+        self.enableLocationTextEdit()
 
     }
     
@@ -229,19 +231,17 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
             // location placed
             if patch.getLocation() != PatchDayStrings.unplaced_string {
                 // set location label text to patch's location
-                self.patchLocationText.text = patch.getLocation()
+                self.locationTextEdit.text = patch.getLocation()
             }
             // location not placed
             else {
-                self.patchLocationText.text = PatchDayStrings.emptyLocationInstruction
+                self.locationTextEdit.text = PatchDayStrings.emptyLocationInstruction
             }
             // date placed
             if let datePlaced = patch.getDatePlaced() {
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateStyle = .medium
-                dateFormatter.timeStyle = .short
                 // set date choose button's text to patch's date palced data
-                self.chooseDateTextButton.setTitle(dateFormatter.string(from: datePlaced) , for: .normal)
+                self.chooseDateTextButton.setTitle(Patch.makeDateString(from: datePlaced) , for: .normal)
+                self.expirationDateLabel.text = patch.expirationDateAsString()
             }
             // date unplaced
             else {
@@ -251,7 +251,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
         // nil patch
         else {
-            self.patchLocationText.text = PatchDayStrings.emptyLocationInstruction
+            self.locationTextEdit.text = PatchDayStrings.emptyLocationInstruction
             self.chooseDateTextButton.setTitle(PatchDayStrings.emptyDateInstruction
                 , for: UIControlState.normal)
         }
@@ -275,7 +275,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     public func saveSettings() {
         if self.locationTextHasChanged {
             // current patch must exist since we are editing it
-            guard let newLocation = self.patchLocationText.text, newLocation != "" else {
+            guard let newLocation = self.locationTextEdit.text, newLocation != "" else {
                 return
             }
             PatchDataController.setPatchLocation(patchIndex: self.getPatchIndex(), with: newLocation)
@@ -289,19 +289,18 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     public func autoPickLocation() {
         if SettingsController.getAutoChooseBool() {
             let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
-            self.patchLocationText.text = suggestedLocation
+            self.locationTextEdit.text = suggestedLocation
         }
         else {
-            self.patchLocationText.text = ""
+            self.locationTextEdit.text = ""
         }
     }
     
     public func autoPickDate() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.timeStyle = .short
         let now = Date()
-        self.chooseDateTextButton.setTitle(dateFormatter.string(from: now), for: .normal)
+        self.chooseDateTextButton.setTitle(Patch.makeDateString(from: now), for: .normal)
+        let expDate = Patch.expiredDate(fromDate: now)
+        self.expirationDateLabel.text = Patch.makeDateString(from: expDate)
     }
     
     public func autoPickLocationAndDate() {
@@ -322,36 +321,29 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // MARK: - Private view creators
     
-    private func setInstructionAndHeading() {
-        var instruction = ""
+    private func setExpirationAndHeading() {
+        var exp = ""
         var heading = ""
         if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {            // unplaced patch instruction
             if patch.getLocation() == PatchDayStrings.unplaced_string {
-                instruction = PatchDayStrings.patchDetailsInstruction
+                exp = PatchDayStrings.patchDetailsInstruction
                 heading = PatchDayStrings.addPatch_string
             }
             else {
                 if patch.isExpired() {
-                    instruction = PatchDayStrings.patchExpired_string
+                    self.expiresOrExpiredLabel.text = PatchDayStrings.patchExpired_string
                 }
                 else {
-                    instruction = PatchDayStrings.patchExpires_string
+                    self.expiresOrExpiredLabel.text = PatchDayStrings.patchExpires_string
                 }
-                if Locale.current.calendar.identifier == Calendar.Identifier.gregorian {
-                    let weekday: Int = patch.dayOfWeekFromDate(date: patch.expirationDate())
-                    let day: String = PatchDayStrings.daysOfWeek[weekday-1]
-                    instruction += (day + ", ")
-                }
-                instruction += patch.expirationDateAsString()
-                    
+                exp = patch.expirationDateAsString()
                 heading = PatchDayStrings.changePatch_string
-            
             }
-            self.instructionLabel.text = instruction
+            self.expirationDateLabel.text = exp
             self.headingLabel.text = heading
         }
         else {
-            instruction = PatchDayStrings.patchDetailsInstruction
+            exp = PatchDayStrings.patchDetailsInstruction
             heading = PatchDayStrings.addPatch_string
         }
     }
@@ -384,8 +376,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         let doneButton = UIButton(frame: doneRect)
         doneButton.setTitle("Done", for: UIControlState.normal)
         doneButton.setTitle("Done", for: UIControlState.highlighted)
-        doneButton.setTitleColor(UIColor.black, for: UIControlState.normal)
-        doneButton.setTitleColor(UIColor.gray, for: UIControlState.highlighted)
+        doneButton.setTitleColor(UIColor.blue, for: UIControlState.normal)
+        doneButton.setTitleColor(UIColor.black, for: UIControlState.highlighted)
         return doneButton
         
     }
@@ -453,25 +445,10 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // MARK: DISABLING
     
-    // location
-    private func disableLocationButton() {
-        if self.addLocationButton.isEnabled {
-            self.addLocationButton.isEnabled = false
-        }
-        
-    }
-    
     //auto
     private func disableAutoButton() {
         if self.autoChooseButton.isEnabled {
             self.autoChooseButton.isEnabled = false
-        }
-    }
-    
-    // patch date
-    private func disablePatchDateButton() {
-        if self.addDateButton.isEnabled {
-            self.addDateButton.isEnabled = false
         }
     }
     
@@ -491,12 +468,25 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // location text
     private func disableLocationText() {
-        if self.patchLocationText.isEnabled {
-            self.patchLocationText.isEnabled = false
+        if self.addLocationTextButton.isEnabled {
+            self.addLocationTextButton.isEnabled = false
+        }
+    }
+    
+    private func disableLocationTextEdit() {
+        if self.locationTextEdit.isEnabled {
+            self.locationTextEdit.isEnabled = false
         }
     }
     
     // MARK: HIDING
+    
+    // date
+    private func hideDatePlaced() {
+        if !self.chooseDateTextButton.isHidden {
+            self.chooseDateTextButton.isHidden = true
+        }
+    }
     
     // auto
     private func hideAutoButton() {
@@ -519,14 +509,41 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    // location bar
-    private func hideLocationBar() {
-        if !self.horizontalLineBelowLocation.isHidden {
-            self.horizontalLineBelowLocation.isHidden = true
+    // gaps
+    
+    private func hideGaps() {
+        if !self.bigGap.isHidden {
+            self.bigGap.isHidden = true
+        }
+        if !self.bigGap2.isHidden {
+            self.bigGap2.isHidden = true
+        }
+    }
+    
+    private func hideLines() {
+        if !self.lineUnderExpirationDate.isHidden {
+            self.lineUnderExpirationDate.isHidden = true
+        }
+        if !self.lineUnderDateAndTimePlaced.isHidden {
+            self.lineUnderDateAndTimePlaced.isHidden = true
+        }
+        if !self.lineUnderExpires.isHidden {
+            self.lineUnderExpires.isHidden = true
         }
         if !self.horizontalLineAboveLocation.isHidden {
             self.horizontalLineAboveLocation.isHidden = true
         }
+        if !self.horizontalLineBelowLocation.isHidden {
+            self.horizontalLineBelowLocation.isHidden = true
+        }
+        if !self.lineUnderDatePlaced.isHidden {
+            self.lineUnderDatePlaced.isHidden = true
+        }
+        
+    }
+    
+    // location bar
+    private func hideLocationBar() {
         if !self.locationLabel.isHidden {
             self.locationLabel.isHidden = true
         }
@@ -536,26 +553,27 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
     }
     
-    // MARK: ENABLING
-    
-    // location
-    private func enableLocationButton() {
-        if !self.addLocationButton.isEnabled {
-            self.addLocationButton.isEnabled = true
+    private func hideExpDate() {
+        if !self.expirationDateLabel.isHidden {
+            self.expirationDateLabel.isHidden = true
+        }
+        if !self.expiresOrExpiredLabel.isHidden {
+            self.expiresOrExpiredLabel.isHidden =  true
         }
     }
+    
+    private func hideLocText() {
+        if !self.locationTextEdit.isHidden {
+            self.locationTextEdit.isHidden = true
+        }
+    }
+    
+    // MARK: ENABLING
     
     // auto
     private func enableAutoButton() {
         if !self.autoChooseButton.isEnabled {
             self.autoChooseButton.isEnabled = true
-        }
-    }
-    
-    // patch date
-    private func enablePatchDateButton() {
-        if !self.addDateButton.isEnabled {
-            self.addDateButton.isEnabled = true
         }
     }
     
@@ -575,12 +593,26 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // location text
     private func enableLocationText() {
-        if !self.patchLocationText.isEnabled {
-            self.patchLocationText.isEnabled = true
+        if !self.addLocationTextButton.isEnabled {
+            self.addLocationTextButton.isEnabled = true
+        }
+    }
+    
+    private func enableLocationTextEdit() {
+        if !self.locationTextEdit.isEnabled {
+            self.locationTextEdit.isEnabled = true
         }
     }
     
     // MARK: UNHIDING
+    
+    // date
+    
+    private func unhideDatePlaced() {
+        if self.chooseDateTextButton.isHidden {
+            self.chooseDateTextButton.isHidden = false
+        }
+    }
     
     // auto
     private func unhideAutoButton() {
@@ -603,6 +635,48 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
+    // gaps
+    
+    private func unhideGaps() {
+        if self.bigGap.isHidden {
+            self.bigGap.isHidden = false
+        }
+        if self.bigGap2.isHidden {
+            self.bigGap2.isHidden = false
+        }
+    }
+    
+    private func unhideLines() {
+        if self.lineUnderExpirationDate.isHidden {
+            self.lineUnderExpirationDate.isHidden = false
+        }
+        if self.lineUnderDateAndTimePlaced.isHidden {
+            self.lineUnderDateAndTimePlaced.isHidden = false
+        }
+        if self.lineUnderExpires.isHidden {
+            self.lineUnderExpires.isHidden = false
+        }
+        if self.horizontalLineAboveLocation.isHidden {
+            self.horizontalLineAboveLocation.isHidden = false
+        }
+        if self.horizontalLineBelowLocation.isHidden {
+            self.horizontalLineBelowLocation.isHidden = false
+        }
+        if self.lineUnderDatePlaced.isHidden {
+            self.lineUnderDatePlaced.isHidden = false
+        }
+        
+    }
+    
+    private func unhideExpDate() {
+        if self.expirationDateLabel.isHidden {
+            self.expirationDateLabel.isHidden = false
+        }
+        if self.expiresOrExpiredLabel.isHidden {
+            self.expiresOrExpiredLabel.isHidden = false
+        }
+    }
+    
     // location bar
     private func unhideLocationBar() {
         if self.locationStackView.isHidden {
@@ -611,11 +685,13 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         if self.locationLabel.isHidden {
             self.locationLabel.isHidden = false
         }
-        if self.horizontalLineAboveLocation.isHidden {
-            self.horizontalLineAboveLocation.isHidden = false
-        }
-        if self.horizontalLineBelowLocation.isHidden {
-            self.horizontalLineBelowLocation.isHidden = false
+    }
+    
+    
+    // loc text edit
+    private func unhideLocationTextbutton() {
+        if self.locationTextEdit.isHidden {
+            self.locationTextEdit.isHidden = false
         }
     }
 
