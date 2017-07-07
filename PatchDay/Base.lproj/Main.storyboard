@@ -6,8 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -424,7 +422,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="MWd-0N-S80">
-                                <rect key="frame" x="16" y="93.5" width="343" height="395.5"/>
+                                <rect key="frame" x="16" y="93" width="343" height="395.5"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yL0-xU-md0">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="25"/>
@@ -735,14 +733,8 @@
                                 <rect key="frame" x="0.0" y="451" width="375" height="216"/>
                                 <gestureRecognizers/>
                             </pickerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nbW-tw-X4f">
-                                <rect key="frame" x="293" y="46" width="67" height="20.5"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                <color key="highlightedColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bm0-pQ-CZr">
-                                <rect key="frame" x="16" y="28" width="45" height="50.5"/>
+                                <rect key="frame" x="16" y="28" width="45" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="45" id="1fK-B8-sHy"/>
                                     <constraint firstAttribute="height" constant="50" id="fvO-EY-nYy"/>
@@ -755,23 +747,30 @@
                                     <segue destination="BYZ-38-t0r" kind="custom" identifier="idSettingsToScheduleSegue" customClass="SettingsToScheduleSegue" customModule="PatchDay" customModuleProvider="target" id="lC6-PN-gD1"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nbW-tw-X4f">
+                                <rect key="frame" x="154" y="28" width="67" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="51" id="u8a-XK-HEE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <color key="highlightedColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="nbW-tw-X4f" secondAttribute="trailing" constant="-1" id="0iq-M8-OIl"/>
                             <constraint firstItem="89k-Af-vI0" firstAttribute="leading" secondItem="SRe-HN-CiN" secondAttribute="leading" id="2Vu-lf-lg4"/>
-                            <constraint firstItem="bm0-pQ-CZr" firstAttribute="firstBaseline" secondItem="nbW-tw-X4f" secondAttribute="baseline" id="FIk-0h-waJ"/>
-                            <constraint firstItem="nbW-tw-X4f" firstAttribute="top" secondItem="oP9-vZ-0mf" secondAttribute="bottom" constant="26" id="NZE-xm-xL7"/>
+                            <constraint firstItem="nbW-tw-X4f" firstAttribute="centerX" secondItem="MWd-0N-S80" secondAttribute="centerX" id="K97-Yd-Acm"/>
+                            <constraint firstItem="nbW-tw-X4f" firstAttribute="top" secondItem="bm0-pQ-CZr" secondAttribute="top" id="RV7-3O-RDU"/>
                             <constraint firstItem="MWd-0N-S80" firstAttribute="leading" secondItem="SRe-HN-CiN" secondAttribute="leadingMargin" id="Sfq-4t-6Gh"/>
-                            <constraint firstItem="MWd-0N-S80" firstAttribute="top" secondItem="nbW-tw-X4f" secondAttribute="bottom" constant="27" id="SnO-Pr-5QE"/>
                             <constraint firstItem="MWd-0N-S80" firstAttribute="top" secondItem="bm0-pQ-CZr" secondAttribute="bottom" constant="15" id="XkU-rp-C5P"/>
                             <constraint firstAttribute="trailing" secondItem="89k-Af-vI0" secondAttribute="trailing" id="d93-Qw-li3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="MWd-0N-S80" secondAttribute="trailing" id="eBx-WY-QoG"/>
                             <constraint firstItem="bm0-pQ-CZr" firstAttribute="leading" secondItem="MWd-0N-S80" secondAttribute="leading" id="md8-IC-y8K"/>
+                            <constraint firstItem="nbW-tw-X4f" firstAttribute="bottom" secondItem="bm0-pQ-CZr" secondAttribute="bottom" constant="1" id="tNe-TB-Ixd"/>
                             <constraint firstItem="bm0-pQ-CZr" firstAttribute="top" secondItem="oP9-vZ-0mf" secondAttribute="bottom" constant="8" symbolic="YES" id="vcD-XO-d1w"/>
                             <constraint firstItem="Esq-kq-ua2" firstAttribute="top" secondItem="89k-Af-vI0" secondAttribute="bottom" id="we3-ML-2V1"/>
-                            <constraint firstItem="bm0-pQ-CZr" firstAttribute="baseline" secondItem="nbW-tw-X4f" secondAttribute="baseline" id="y2c-Dk-aLY"/>
                         </constraints>
                     </view>
                     <connections>
@@ -799,14 +798,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CGY-jG-fWY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1076" y="-244"/>
+            <point key="canvasLocation" x="-1076" y="-244.22788605697153"/>
         </scene>
     </scenes>
     <resources>
         <image name="Logo" width="157" height="49"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LSN-2h-Kiv"/>
+        <segue reference="lC6-PN-gD1"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1005799463190184" colorSpace="calibratedRGB"/>
 </document>

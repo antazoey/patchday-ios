@@ -350,11 +350,21 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // for self.createDateAddSubview() self.dateAddTapped()
     private func makeInputViewForDatePicker() -> UIView {
-        let viewPoint = CGPoint(x: 0, y: self.view.frame.height/2)
+        let viewPoint = CGPoint(x: configureDatePickerStartX(), y: self.view.frame.height/2)
         let viewSize = CGSize(width: self.view.frame.width, height: 240)
         let viewRect = CGRect(origin: viewPoint, size: viewSize)
         return UIView(frame: viewRect)
         
+    }
+    
+    // for self.makeInputViewForDatePicker
+    private func configureDatePickerStartX() -> CGFloat {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
+            return 0
+        }
+        else {
+            return self.view.frame.width/2.8
+        }
     }
     
     // for self.createDateAddSubview() self.dateAddTapped()
@@ -370,7 +380,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // for self.createDateAddSubview() from self.dateAddTapped()
     private func makeDoneButton() -> UIButton {
-        let donePoint = CGPoint(x: (self.view.frame.size.width/2) - (100/2), y: 0)
+        let donePoint = CGPoint(x: configureDoneButtonStartX(), y: 0)
         let doneSize = CGSize(width: 100, height: 50)
         let doneRect = CGRect(origin: donePoint, size: doneSize)
         let doneButton = UIButton(frame: doneRect)
@@ -380,6 +390,16 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         doneButton.setTitleColor(UIColor.black, for: UIControlState.highlighted)
         return doneButton
         
+    }
+    
+    // for self.makedoneButton()
+    private func configureDoneButtonStartX() -> CGFloat {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
+            return (self.view.frame.size.width/2) - 50
+        }
+        else {
+            return 0
+        }
     }
     
     // for self.dateAddTapped()
