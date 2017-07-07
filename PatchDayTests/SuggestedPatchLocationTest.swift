@@ -38,8 +38,13 @@ class SuggestedPatchLocationTest: XCTestCase {
             PatchDataController.setPatch(patchIndex: 1, patchDate: Date(), location: "Custom")
             PatchDataController.setPatch(patchIndex: 2, patchDate: Date(), location: "Custom")
             PatchDataController.setPatch(patchIndex: 3, patchDate: Date(), location: "Custom")
+        
+        print(SuggestedPatchLocation.suggest(patchIndex: 0))
+        
+        
             XCTAssert(SuggestedPatchLocation.suggest(patchIndex: 0) == testLocationArray[0])
             XCTAssert(PatchDataController.patches.count == 4)
+        
         
             // ii.) three customs
             PatchDataController.setPatchLocation(patchIndex: 1, with: testLocationArray[0])
@@ -176,8 +181,14 @@ class SuggestedPatchLocationTest: XCTestCase {
         XCTAssert(SettingsController.getNumberOfPatchesInt() == PatchDataController.getNumberOfPatches() && PatchDataController.getNumberOfPatches() == 1 && SuggestedPatchLocation.getCurrentLocationsCount() == 1)
         
         PatchDataController.setPatch(patchIndex: 0, patchDate: Date(), location: testLocationArray[2])
+        
+        
         PatchDataController.setPatchLocation(patchIndex: 1, with: SuggestedPatchLocation.suggest(patchIndex: 1))
+        
+        
         PatchDataController.setPatchLocation(patchIndex: -1, with: SuggestedPatchLocation.suggest(patchIndex: -1))
+        
+        
         PatchDataController.setPatchLocation(patchIndex: 0, with: SuggestedPatchLocation.suggest(patchIndex: 0))
         XCTAssert(PatchDataController.getPatch(forIndex: 0)!.getLocation() == testLocationArray[3])
         PatchDataController.setPatchLocation(patchIndex: 0, with: SuggestedPatchLocation.suggest(patchIndex: 0))

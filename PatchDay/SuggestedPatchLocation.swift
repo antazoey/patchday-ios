@@ -20,6 +20,10 @@ class SuggestedPatchLocation {
     
     static func suggest(patchIndex: Int) -> String {
         
+        if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
+            return ""
+        }
+        
         setCurrentLocations(with: PatchDataController.makeArrayOfLocations())
         
         let currentLocation = getCurrentLocation(patchIndex: patchIndex)

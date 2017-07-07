@@ -85,7 +85,7 @@ class PatchDataController: NSObject {
     
     public static func getPatch(forIndex: Int) -> Patch? {
         var patch: Patch?
-        if forIndex < SettingsController.getNumberOfPatchesInt() && forIndex >= 0 {
+        if forIndex < SettingsController.getNumberOfPatchesInt() && forIndex >= 0 && forIndex < self.patches.count {
             patch = self.patches[forIndex]
         }
         return patch
@@ -105,6 +105,9 @@ class PatchDataController: NSObject {
     
     public static func setPatchLocation(patchIndex: Int, with: String) {
         // attempt to set the Patch's location at given index
+        if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
+            return
+        }
         if let patch = getPatch(forIndex: patchIndex) {
             patch.setLocation(with: with)
         }
@@ -118,6 +121,9 @@ class PatchDataController: NSObject {
     }
     
     public static func setPatchDate(patchIndex: Int, with: Date) {
+        if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
+            return
+        }
         // attempt to set Patch's date at given index
         if let patch = getPatch(forIndex: patchIndex) {
             patch.setDatePlaced(withDate: with)
