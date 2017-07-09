@@ -58,27 +58,6 @@ class PDAlertController {
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     
-    // MARK: - changing patch count
-    
-    static public func alertForChangingPatchCount(newPatchCount: Int, numberOfPatchesButton: UIButton) {
-        print(PatchDayStrings.changingNumberOfPatchesAlertTitle)
-        print(PatchDayStrings.changingNumberOfPatchesAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.changingNumberOfPatchesAlertTitle, message: PatchDayStrings.changingNumberOfPatchesAlertMessage, preferredStyle: .alert)
-        // accepting stored the new patch count in user defaults
-        let acceptAction = UIAlertAction(title: PatchDayStrings.accept_string, style: UIAlertActionStyle.default) {
-            (void) in
-            // update User Defaults
-            SettingsController.setNumberOfPatches(with: PatchDayStrings.patchCounts[newPatchCount])
-            // set button title
-            numberOfPatchesButton.setTitle(SettingsController.getNumberOfPatchesString(), for: .normal)
-        }
-        // declining dismisses the alert
-        let declineAction = UIAlertAction(title: PatchDayStrings.decline_string, style: UIAlertActionStyle.cancel, handler: nil)
-        currentAlert.addAction(acceptAction)
-        currentAlert.addAction(declineAction)
-        currentVC.present(currentAlert, animated: true, completion: nil)
-    }
-    
     // MARK: - enabling or disabling "Auto suggest location"
     
     static public func alertForAutoSuggestLocationDescription(changingTo: Bool) {

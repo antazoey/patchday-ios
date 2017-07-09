@@ -10,14 +10,21 @@ import UIKit
 
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    @IBOutlet weak var settingsView: UIView!
+    // Pickers
     
-    // Picker Vars
-    @IBOutlet weak var multiPicker: UIPickerView!
-    // options are "interval" and "count"
-    private var whichTapped: String? = nil
+    @IBOutlet weak var expirationIntervalPicker: UIPickerView!
     
     @IBOutlet weak var numberOfPatchesPicker: UIPickerView!
+    
+    @IBOutlet weak var reminderTimePicker: UIPickerView!
+    
+    @IBOutlet weak var settingsView: UIView!
+    
+    @IBOutlet weak var settingsStack: UIStackView!
+
+    // options are "interval" and "count"
+    private var whichTapped: String?
+    private var selectedRow: Int?
     
     // Schedule outlets (in order of appearance
     @IBOutlet weak var changePatchEvery: UIButton!
@@ -51,7 +58,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.numberOfPatches.tag = 10
         self.settingsView.backgroundColor = UIColor.white
         self.loadSwipe()
-        self.delegatePicker()
+        self.delegatePickers()
         
         // load titles
         self.loadRemindMe()
@@ -91,10 +98,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // MARK: - Picker Functions
     
-    func delegatePicker() {
-        self.multiPicker.delegate = self
-        self.multiPicker.dataSource = self
-        
+    func delegatePickers() {
+        self.expirationIntervalPicker.delegate = self
+        self.numberOfPatchesPicker.delegate = self
+        self.reminderTimePicker.delegate = self
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -125,15 +132,21 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         var title = " "
         // for change patch every tapped:
         if self.getWhichTapped() == PatchDayStrings.interval() {
-            title = PatchDayStrings.expirationIntervals[row]
+            if row < PatchDayStrings.expirationIntervals.count && row >= 0 {
+                title = PatchDayStrings.expirationIntervals[row]
+            }
         }
         // for number of patches tapped:
         else if self.getWhichTapped() == PatchDayStrings.count() {
-            title = PatchDayStrings.patchCounts[row]
+            if row < PatchDayStrings.patchCounts.count && row >= 0 {
+                title = PatchDayStrings.patchCounts[row]
+            }
         }
         // for notification options tapped
-        else if self.getWhichTapped() == PatchDayStrings.notifications() {
-            title = PatchDayStrings.notificationSettings[row]
+        else if self.getWhichTapped() == PatchDayStrings.notifications()  {
+            if row < PatchDayStrings.notificationSettings.count && row >= 0 {
+                title = PatchDayStrings.notificationSettings[row]
+            }
         }
         return title
         
@@ -141,63 +154,136 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // AFTER PICKED...
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        // DID SELECT ROW
-        // change label of corresponding button
+        
+        self.selectedRow = row
+        
         if self.getWhichTapped() == PatchDayStrings.interval() {
-            self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PatchDayStrings.expirationIntervals, row: row)
-            // update User Defaults
-            SettingsController.setExpirationInterval(with: PatchDayStrings.expirationIntervals[row])
-            // resets all the notifications
-            for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
-                self.requestNotifications(patchIndex: i)
-            }
-        }
-        else if self.getWhichTapped() == PatchDayStrings.count() {
-            // WARNING: This overwrites patch data
-            PDAlertController.alertForChangingPatchCount(newPatchCount: row, numberOfPatchesButton: self.numberOfPatches)
-        }
-        else if self.getWhichTapped() == PatchDayStrings.notifications() {
-            self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
-            // update User Defaults
-            SettingsController.setNotificationTime(with: PatchDayStrings.notificationSettings[row])
-            // resets all the notifications
-            for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
-                self.requestNotifications(patchIndex: i)
+            // save
+            if let row: Int = self.selectedRow {
+                SettingsController.setExpirationInterval(with: PatchDayStrings.expirationIntervals[row])
+                // configure button title
+                self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PatchDayStrings.expirationIntervals, row: row)
             }
         }
         
-        self.multiPicker.isHidden = true
-        if weAreHidingFromPicker {
-            self.unHideNotificationOutlets()
+        else if self.getWhichTapped() == PatchDayStrings.count() {
+            // save
+            if let row: Int = self.selectedRow {
+                SettingsController.setNumberOfPatches(with: PatchDayStrings.patchCounts[row])
+                // configure button title
+                self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PatchDayStrings.patchCounts, row: row)
+            }
         }
+        
+        else if self.getWhichTapped() == PatchDayStrings.notifications() {
+            // save
+            if let row: Int = self.selectedRow {
+                SettingsController.setNotificationTime(with: PatchDayStrings.patchCounts[row])
+                // configure button title
+                self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
+            }
+        }
+        
+        // resets all the notifications
+        for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
+            self.requestNotifications(patchIndex: i)
+        }
+        
     }
     
-    // MARK: - IBActions Picker loads
+    private func openOrClosePicker(key: String) {
+        // key is either "interval" , "count" , "notifications"
+        
+        // change member variable for determining correct picker
+        self.setWhichTapped(to: key)
+        
+        // INTERVAL
+        if self.getWhichTapped() == PatchDayStrings.interval() {
+            self.expirationIntervalPicker.reloadAllComponents()
+            // if any other pickers are open, then close them
+            if self.numberOfPatchesPicker.isHidden == false {
+                self.numberOfPatchesPicker.isHidden = true
+            }
+            if self.reminderTimePicker.isHidden == false {
+                self.reminderTimePicker.isHidden = true
+            }
+            self.openOrClose(picker: self.expirationIntervalPicker, buttonTapped: self.changePatchEvery, settingsList: PatchDayStrings.expirationIntervals)
+            
+        }
+            
+        // COUNT
+        else if self.getWhichTapped() == PatchDayStrings.count() {
+            self.numberOfPatchesPicker.reloadAllComponents()
+            // if any other pickers are open, then close them
+            if self.expirationIntervalPicker.isHidden == false {
+                self.expirationIntervalPicker.isHidden = true
+            }
+            if self.reminderTimePicker.isHidden == false {
+                self.reminderTimePicker.isHidden = true
+            }
+            self.openOrClose(picker: self.numberOfPatchesPicker, buttonTapped: self.numberOfPatches, settingsList: PatchDayStrings.patchCounts)
+        }
+            
+        // NOTIFICATIONS
+        else if self.getWhichTapped() == PatchDayStrings.notifications() {
+            self.reminderTimePicker.reloadAllComponents()
+            // if any other pickers are open, then close them
+            if self.expirationIntervalPicker.isHidden == false {
+                self.expirationIntervalPicker.isHidden = true
+            }
+            if self.numberOfPatchesPicker.isHidden == false {
+                self.numberOfPatchesPicker.isHidden = true
+            }
+            self.openOrClose(picker: self.reminderTimePicker, buttonTapped: self.notificationOption, settingsList: PatchDayStrings.notificationSettings)
+        }
+        
+    }
     
+    private func openOrClose(picker: UIPickerView, buttonTapped: UIButton, settingsList: [String]) {
+        // if already open, close the picker
+        if picker.isHidden == false {
+            // close it
+            picker.isHidden = true
+            // exit call
+            return
+        }
+        if let title = buttonTapped.titleLabel, let readText = title.text {
+            guard let selectedRowIndex = settingsList.index(of: readText) else {
+                picker.selectRow(0, inComponent: 0, animated: false)
+                picker.isHidden = false
+                return
+            }
+            picker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
+        }
+        picker.isHidden = false
+    }
+
+    // MARK: - IBActions Picker loads
+
     @IBAction func notificationOptionArrowTapped(_ sender: Any) {
-        self.loadPicker(key: PatchDayStrings.notifications())
+        self.openOrClosePicker(key: PatchDayStrings.notifications())
         
     }
     @IBAction func notificationOptionTapped(_ sender: Any) {
-       self.loadPicker(key: PatchDayStrings.notifications())
+       self.openOrClosePicker(key: PatchDayStrings.notifications())
     }
     
     @IBAction func changePatchEveryArrowButtonTapped(_ sender: Any) {
-        self.loadPicker(key: PatchDayStrings.interval())
+        self.openOrClosePicker(key: PatchDayStrings.interval())
     }
     
     @IBAction func numberOfPatchesArrowButtonTapped(_ sender: Any) {
-        self.loadPicker(key: PatchDayStrings.count())
+        self.openOrClosePicker(key: PatchDayStrings.count())
     }
     
     @IBAction func changePatchEveryTapped(_ sender: Any) {
-        self.loadPicker(key: PatchDayStrings.interval())
+        self.openOrClosePicker(key: PatchDayStrings.interval())
         
     }
     
     @IBAction func numberOfPatchesTapped(_ sender: Any) {
         // change member variable for determining correct picker
-        self.loadPicker(key: PatchDayStrings.count())
+        self.openOrClosePicker(key: PatchDayStrings.count())
         
     }
     
@@ -254,87 +340,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
-    private func hideNotificationOutlets() {
-        self.notificationHeading.isHidden = true
-        self.lineUnderNotificationHeading.backgroundColor = self.getBackgroundColor()
-        self.reminderExplanation.isHidden = true
-        self.lineUnderReminderExplanation.backgroundColor = self.getBackgroundColor()
-        self.receiveReminderLabel.isHidden = true
-        self.receiveReminder.isHidden = true
-        self.lineUnderReceiveReminderSwitch.backgroundColor = self.getBackgroundColor()
-        self.minutesBeforeLabel.isHidden = true
-        self.notificationOption.isHidden = true
-        self.notificationArrow.isHidden = true
-        self.lineUnderNotificationOption.backgroundColor = self.getBackgroundColor()
-        self.changePatchFunctionExplanation.isHidden = true
-        self.lineUnderPatchFunctionExplanation.backgroundColor = self.getBackgroundColor()
-        self.suggestLocationLabel.isHidden = true
-        self.autoChooseSuggestedLocationSwitch.isHidden = true
-        self.lineUnderAutoSuggest.backgroundColor = self.getBackgroundColor()
-        
-    }
-    
-    private func unHideNotificationOutlets() {
-        self.notificationHeading.isHidden = false
-        self.lineUnderNotificationHeading.backgroundColor = PatchDayColors.darkLines
-        self.reminderExplanation.isHidden = false
-        self.lineUnderReminderExplanation.backgroundColor = PatchDayColors.lightLines
-        self.receiveReminderLabel.isHidden = false
-        self.receiveReminder.isHidden = false
-        self.lineUnderReceiveReminderSwitch.backgroundColor = PatchDayColors.lightLines
-        self.minutesBeforeLabel.isHidden = false
-        self.notificationOption.isHidden = false
-        self.notificationArrow.isHidden = false
-        self.lineUnderNotificationOption.backgroundColor = PatchDayColors.lightLines
-        self.changePatchFunctionExplanation.isHidden = false
-        self.lineUnderPatchFunctionExplanation.backgroundColor = PatchDayColors.lightLines
-        self.suggestLocationLabel.isHidden = false
-        self.autoChooseSuggestedLocationSwitch.isHidden = false
-        self.lineUnderAutoSuggest.backgroundColor = PatchDayColors.lightLines
-
-    }
-    
-    private func loadPicker(key: String) {
-        // key is either "interval" , "count" , "notifications"
-        
-        // change member variable for determining correct picker
-        self.setWhichTapped(to: key)
-        self.multiPicker.reloadAllComponents()
-        // Unhide the picker
-        self.multiPicker.isHidden = false
-        // hide outlets that get in the way of the picker on some devices...
-        if self.pickerViewDoesObtrude() {
-            self.hideNotificationOutlets()
-            self.weAreHidingFromPicker = true
-        }
-        // set start of picker
-        if self.getWhichTapped() == PatchDayStrings.interval() {
-            if let title = self.changePatchEvery.titleLabel, let readText = title.text {
-                guard let selectedRowIndex = PatchDayStrings.expirationIntervals.index(of: readText) else {
-                    return
-                }
-                self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
-            }
-        }
-        else if self.getWhichTapped() == PatchDayStrings.count() {
-            if let title = self.numberOfPatches.titleLabel, let readText = title.text {
-                guard let selectedRowIndex = PatchDayStrings.patchCounts.index(of: readText) else {
-                    return
-                }
-                self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
-            }
-        }
-        else if self.getWhichTapped() == PatchDayStrings.notifications() {
-            if let title = self.notificationOption.titleLabel, let readText = title.text {
-                guard let selectedRowIndex = PatchDayStrings.notificationSettings.index(of: readText) else {
-                    return
-                }
-                self.multiPicker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
-            }
-        }
-        
-    }
-    
     private func configureButtonTitleFromPicker(fromButton: UIButton, withData: [String], row: Int) {
         // change the pushed state of the button
         fromButton.titleLabel?.text = withData[row]
@@ -359,24 +364,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return UIColor.white
     }
     
-    private func getBottomLineY() -> CGFloat {
-        let convertedFrame = self.lineUnderAutoSuggest.convert(self.notificationHeading.frame, to: self.settingsView)
-        return convertedFrame.origin.y
-    }
-    
-    private func getPickerY() -> CGFloat {
-        return self.multiPicker.frame.origin.y
-    }
-    
-    private func pickerViewDoesObtrude() -> Bool {
-        // indicates if certain views are in the way of seeing the picker
-        return (self.getPickerY() + 45) <= self.getBottomLineY()
-    }
-    
     public func requestNotifications(patchIndex: Int) {
         // request notification iff exists Patch.datePlaced
         if let _ = PatchDataController.getPatch(forIndex: patchIndex) {
-            
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: patchIndex)
             if SettingsController.getNotifyMeBool() {
                 (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: patchIndex)
@@ -385,4 +375,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
     }
 
+}
+
+extension SettingsViewController: UIScrollViewDelegate {
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return settingsStack
+    }
 }

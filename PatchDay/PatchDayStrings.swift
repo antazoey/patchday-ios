@@ -61,10 +61,6 @@ class PatchDayStrings {
     static var coreDataAlertMessage: String = NSLocalizedString("there is a problem with managed object in the persistent store", comment: "this is a message to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
     static var dismiss_string: String = NSLocalizedString("Dismiss", comment: "The word displayed on a button for dismissing an error message")
     
-    static var changingNumberOfPatchesAlertTitle: String = NSLocalizedString("Warning", comment: "title for warning the user when they are changing the number of patches in the schedule, a variable to the program")
-    
-    static var changingNumberOfPatchesAlertMessage: String = NSLocalizedString("Changing the number of patches could result in a loss of data.", comment: "message for warning the user when they are changing the number of patches in the schedule, a variable to the program")
-    
     static var accept_string: String = NSLocalizedString("Accept", comment: "an accept button title displayed on the 'changing number of patches' alert")
     
     static var yes_string: String = NSLocalizedString("Yes", comment: "a yes button for an alert")
