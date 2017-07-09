@@ -75,24 +75,6 @@ class PDAlertController {
         
     }
     
-    // MARK: - resetting patch data
-    
-    static public func alertForResettingPatchData() {
-        print(PatchDayStrings.resetPatchDataAlertTitle)
-        print(PatchDayStrings.resetPatchDataAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.resetPatchDataAlertTitle, message: PatchDayStrings.resetPatchDataAlertMessage, preferredStyle: .alert)
-        let acceptAction = UIAlertAction(title: PatchDayStrings.accept_string, style: .default) {
-            (void) in
-            // reset the patch data
-            PatchDataController.resetPatchData()
-        }
-        let declineAction = UIAlertAction(title: PatchDayStrings.decline_string, style: .cancel, handler: nil)
-        currentAlert.addAction(acceptAction)
-        currentAlert.addAction(declineAction)
-        currentVC.present(currentAlert, animated: true, completion: nil)
-        
-    }
-    
     // MARK: - try notifications alert
     
     static public func alertForMaybeYouShouldUseNotifications() {

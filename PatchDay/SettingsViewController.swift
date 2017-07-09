@@ -305,12 +305,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         PDAlertController.alertForAutoSuggestLocationDescription(changingTo: state)
     }
     
-    // MARK: - other IBActions
-    
-    @IBAction func resetButtonTapped(_ sender: Any) {
-        PDAlertController.alertForResettingPatchData()
-    }
-    
     // MARK: - segues
     
     // to Patch Schedule - this is needed for the swipe, see viewDidLoad()
