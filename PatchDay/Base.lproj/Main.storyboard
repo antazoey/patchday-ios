@@ -291,12 +291,15 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U81-gO-D96">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="139"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n18-9f-ThC">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch1" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n18-9f-ThC">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="139"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="n18-9f-ThC" secondAttribute="height" multiplier="343:139" id="Gg1-RT-VKM"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YFr-dA-r2S"/>
                                                 </connections>
@@ -306,12 +309,15 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ri6-PF-R7Q">
                                         <rect key="frame" x="0.0" y="139" width="343" height="139"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch2" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vU-op-qLy">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch2" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vU-op-qLy">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="139"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="0vU-op-qLy" secondAttribute="height" multiplier="343:139" id="cfD-fL-5Ju"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d4p-Dw-6ot"/>
                                                 </connections>
@@ -321,12 +327,15 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2la-YC-rNi">
                                         <rect key="frame" x="0.0" y="278" width="343" height="139"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch3" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VxV-0X-CKx">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch3" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VxV-0X-CKx">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="139"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="VxV-0X-CKx" secondAttribute="height" multiplier="343:139" id="ggu-2A-AyE"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vf3-pf-hwO"/>
                                                 </connections>
@@ -336,12 +345,15 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XLA-dA-8qk">
                                         <rect key="frame" x="0.0" y="417" width="343" height="139"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch4" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tV-Xz-Eqt">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="patch4" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tV-Xz-Eqt">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="139"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="3tV-Xz-Eqt" secondAttribute="height" multiplier="343:139" id="q5d-Cl-wZQ"/>
                                                 </constraints>
-                                                <state key="normal" title="Button"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oKQ-8F-acG"/>
                                                 </connections>
@@ -360,16 +372,6 @@
                                     <segue destination="vQS-Ij-BG5" kind="custom" identifier="idScheduleToSettingsSegue" customClass="ScheduleToSettingsSegue" customModule="PatchDay" customModuleProvider="target" id="am6-Lh-EwW"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="30w-kb-VDJ">
-                                <rect key="frame" x="16" y="28" width="62" height="35"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <state key="normal" title="Next Patch">
-                                    <color key="titleColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
-                                </state>
-                                <connections>
-                                    <action selector="nextPatchWhenAndWhereButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b8V-P2-tZK"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="TXT-WQ-F0Z">
                                 <rect key="frame" x="129" y="28" width="117" height="39"/>
                                 <constraints>
@@ -382,23 +384,18 @@
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="fbo-rk-nJE" firstAttribute="top" secondItem="TXT-WQ-F0Z" secondAttribute="top" id="1QH-LK-JnM"/>
-                            <constraint firstItem="30w-kb-VDJ" firstAttribute="leading" secondItem="toK-9k-zgd" secondAttribute="leading" id="3R8-Zb-5j2"/>
-                            <constraint firstItem="30w-kb-VDJ" firstAttribute="top" secondItem="TXT-WQ-F0Z" secondAttribute="top" id="EXm-lX-JXq"/>
                             <constraint firstItem="TXT-WQ-F0Z" firstAttribute="centerX" secondItem="toK-9k-zgd" secondAttribute="centerX" id="IG2-05-IAW"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="toK-9k-zgd" secondAttribute="bottom" constant="20" id="IYZ-3r-ElH"/>
                             <constraint firstItem="fbo-rk-nJE" firstAttribute="trailing" secondItem="toK-9k-zgd" secondAttribute="trailing" id="Nek-L3-yVG"/>
-                            <constraint firstItem="TXT-WQ-F0Z" firstAttribute="leading" secondItem="30w-kb-VDJ" secondAttribute="trailing" priority="999" constant="51" id="QNs-8g-ZCe"/>
                             <constraint firstItem="fbo-rk-nJE" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="axw-xg-AEz"/>
                             <constraint firstItem="toK-9k-zgd" firstAttribute="top" secondItem="TXT-WQ-F0Z" secondAttribute="bottom" constant="24" id="gTf-5h-68J"/>
                             <constraint firstAttribute="trailingMargin" secondItem="toK-9k-zgd" secondAttribute="trailing" id="m4Q-WD-WrJ"/>
-                            <constraint firstItem="toK-9k-zgd" firstAttribute="top" secondItem="30w-kb-VDJ" secondAttribute="bottom" constant="28" id="smx-4B-TS1"/>
                             <constraint firstItem="toK-9k-zgd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="uG4-YQ-CaA"/>
                             <constraint firstItem="fbo-rk-nJE" firstAttribute="bottom" secondItem="TXT-WQ-F0Z" secondAttribute="bottom" id="wh6-Um-IAv"/>
                             <constraint firstItem="fbo-rk-nJE" firstAttribute="leading" secondItem="TXT-WQ-F0Z" secondAttribute="trailing" constant="60" id="wjY-cA-7Ww"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="nextPatchButton" destination="30w-kb-VDJ" id="tir-Ck-qsV"/>
                         <outlet property="patchFourButton" destination="3tV-Xz-Eqt" id="iNL-nA-5BW"/>
                         <outlet property="patchOneButton" destination="n18-9f-ThC" id="Lf7-Oc-bhS"/>
                         <outlet property="patchThreeButton" destination="VxV-0X-CKx" id="chh-hr-QAX"/>

@@ -40,7 +40,8 @@ class PatchDataController: NSObject {
             }
             saveContext()
         }
-        
+        // sort during init()
+        userPatches.sort(by: <)
         return userPatches
     }()
     
@@ -101,6 +102,9 @@ class PatchDataController: NSObject {
         else if patchIndex < SettingsController.getNumberOfPatchesInt() && patchIndex >= 0 {
             setPatch(with: patch, patchIndex: patchIndex)
         }
+    }
+    public static func sortSchedule() {
+        self.patches.sort(by: <)
     }
     
     public static func setPatchLocation(patchIndex: Int, with: String) {

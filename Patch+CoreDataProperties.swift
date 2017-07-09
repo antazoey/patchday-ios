@@ -15,6 +15,27 @@ extension Patch {
         return NSFetchRequest<Patch>(entityName: PatchDayStrings.entityName)
     }
     
+    static func < (lhs: Patch, rhs: Patch) -> Bool {
+        if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
+            return l_date < r_date
+        }
+        return false
+    }
+    
+    static func > (lhs: Patch, rhs: Patch) -> Bool {
+        if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
+            return l_date > r_date
+        }
+        return false
+    }
+    
+    static func == (lhs: Patch, rhs: Patch) -> Bool {
+        if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
+            return l_date == r_date
+        }
+        return false
+    }
+    
     //MARK: - setters
     
    public func setDatePlaced(withDate: Date) {
@@ -73,11 +94,6 @@ extension Patch {
         }
         let expires = self.expirationDate()
         return Patch.makeDateString(from: expires)
-    }
-    
-    public func dayOfWeekFromDate(date: Date) -> Int {
-        let calendar = Calendar(identifier: Locale.current.calendar.identifier)
-        return calendar.component(.weekday, from: date)
     }
     
     // MARK: - booleans
@@ -162,6 +178,12 @@ extension Patch {
         }
         return expDate
         
+    }
+    
+    public static func dayOfWeekString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, h:mm a"
+        return dateFormatter.string(from: date)
     }
   
 }

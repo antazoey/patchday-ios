@@ -178,7 +178,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else if self.getWhichTapped() == PatchDayStrings.notifications() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsController.setNotificationTime(with: PatchDayStrings.patchCounts[row])
+                SettingsController.setNotificationTime(with: PatchDayStrings.notificationSettings[row])
                 // configure button title
                 self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
             }

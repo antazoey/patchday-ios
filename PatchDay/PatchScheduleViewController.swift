@@ -19,9 +19,6 @@ class PatchScheduleViewController: UIViewController {
     @IBOutlet var patchThreeButton: UIButton!
     @IBOutlet var patchFourButton: UIButton!
     
-    // the next patch button is for getting the next patch to change, when & where
-    @IBOutlet weak var nextPatchButton: UIButton!
-    
     var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer()
     
     private var expiredPatchCount: Int = 0
@@ -33,10 +30,10 @@ class PatchScheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         PDAlertController.currentVC = self
-        self.configureNextPatchButton()
         self.updateFromBackground()
         super.viewDidLoad()
         self.setNumberOfPatches(to: SettingsController.getNumberOfPatchesInt())
+        PatchDataController.sortSchedule()
         self.setBackgroundColor(to: PatchDayColors.lighterCuteGray)
         self.swipeRight = self.addSwipeRecgonizer()
         self.displayPatches()
@@ -56,12 +53,6 @@ class PatchScheduleViewController: UIViewController {
         self.swipeRight.isEnabled = false
         self.showAddPatchView()
     }
-    
-    @IBAction func nextPatchWhenAndWhereButtonTapped(_ sender: Any) {
-        PDAlertController.alertForViewingScheduleInfo()
-        
-    }
-    
     
     //MARK: - Public Setters
     
@@ -138,8 +129,28 @@ class PatchScheduleViewController: UIViewController {
         if isBlue {
             patchButton.backgroundColor = PatchDayColors.lightBlue
         }
-        patchButton.setTitle("", for: .normal)
+        let title = self.determinePatchButtonTitle(patchIndex: patchIndex)
+        patchButton.setTitle(title, for: .normal)
+        patchButton.setTitleColor(PatchDayColors.darkLines, for: .normal)
         patchButton.isEnabled = true
+    }
+    
+    // called by self.makePatchButton()
+    private func determinePatchButtonTitle(patchIndex: Int) -> String {
+        var title: String = ""
+        if let patch = PatchDataController.getPatch(forIndex: patchIndex) {
+            if patch.getDatePlaced() != nil {
+                if patch.isExpired() {
+                    title += PatchDayStrings.patchExpired_string
+                }
+                else {
+                    title += PatchDayStrings.patchExpires_string
+                }
+                title += Patch.dayOfWeekString(date: patch.expirationDate())
+            }
+            return title
+        }
+        return ""
     }
     
     // called by self.displayPatches()
@@ -237,18 +248,6 @@ class PatchScheduleViewController: UIViewController {
     
     private func updateBadge() {
         UIApplication.shared.applicationIconBadgeNumber = expiredPatchCount
-    }
-    
-    private func configureNextPatchButton() {
-        // the button for giving you the next patch to change when / where is onle enabled if there is at least one patch with a date attribute in the schedule
-        if PatchDataController.scheduleHasNoDates() || PatchDataController.oldestPatchInScheduleHasNoDateAndIsCustomLocated() {
-            // if there are no dates, than the "Next Patch" button makes no sense.  It also does not make much sense if the patch is custom located and has no date
-            nextPatchButton.isEnabled = false
-            nextPatchButton.setTitleColor(PatchDayColors.cuteGray, for: .disabled)
-        }
-        else {
-            nextPatchButton.isEnabled = true
-        }
     }
     
 }
