@@ -13,7 +13,6 @@
 		1340A9E81EE4D4220003EFFA /* PatchDayStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */; };
 		1340A9EA1EE5935A0003EFFA /* SuggestedPatchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */; };
 		1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */; };
-		1340A9F61EF0BDF80003EFFA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1340A9F51EF0BDF80003EFFA /* CloudKit.framework */; };
 		1340A9F81EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */; };
 		137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
 		137330F21E22BA3E0048F91E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
@@ -59,7 +58,6 @@
 		1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayStrings.swift; sourceTree = "<group>"; };
 		1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedPatchLocation.swift; sourceTree = "<group>"; };
 		1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDNotificationController.swift; sourceTree = "<group>"; };
-		1340A9F51EF0BDF80003EFFA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UbiquitousKeyValueStoreController.swift; sourceTree = "<group>"; };
 		137330E91E22BA3E0048F91E /* PatchDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PatchDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		137330EC1E22BA3E0048F91E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1340A9F61EF0BDF80003EFFA /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +132,6 @@
 		1340A9F41EF0BDF80003EFFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1340A9F51EF0BDF80003EFFA /* CloudKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

@@ -21,9 +21,9 @@ class PatchDayStrings {
     
     static var expiredPatch_string: String = { return NSLocalizedString("Expired Patch", comment: "Label for view when changing a patch") }()
     
-    static var emptyDateInstruction: String = { return NSLocalizedString("choose ⇢", comment: "placeholder in date text field when it's a new patch") }()
+    static var emptyDateInstruction: String = { return NSLocalizedString("choose date", comment: "placeholder in date text field when it's a new patch") }()
     
-    static var emptyLocationInstruction: String = { return NSLocalizedString("⌨ custom or choose ⇢", comment: "placeholder in location text field when it's a new patch") }()
+    static var emptyLocationInstruction: String = { return NSLocalizedString("type or choose location", comment: "placeholder in location text field when it's a new patch") }()
     
     static var expirationIntervals: [String] = { return [NSLocalizedString("Half-Week", tableName: nil, comment: "SettingsViewController, it's an option for choosing which interval the patches expire. "), NSLocalizedString("Week", tableName: nil, comment: "SettingsViewController, it's an option for choosing which interval the patches expire. ")] }()
     
@@ -77,7 +77,13 @@ class PatchDayStrings {
     
     static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the 'auto suggest' bool from the Settings")
     
-        static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Auto Suggest' is turned on, the 'Auto' button from the Patch Details View chooses the optimal general location based on the current general locations in the patch schedule.  It also enables changing the patch from a 'Patch Expired Notification'.", comment: "a descriptive alert message that appears when enabling or disabling the 'auto suggest' bool from the Settings")
+    static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Auto Suggest' is turned on, the 'Auto' button from the Patch Details View chooses the optimal general location based on the current general locations in the patch schedule.  It also enables changing the patch from a 'Patch Expired Notification'.", comment: "a descriptive alert message that appears when enabling or disabling the 'auto suggest' bool from the Settings")
+    
+    static var disclaimerAlertTitle: String = NSLocalizedString("Disclaimer", comment: "Title for an alert that shows up the first time the app launches.")
+    
+    static var disclaimerAlertMessage: String = NSLocalizedString("Use PatchDay responsibly, and please follow prescription or drug instructions!  Go to tryum.ph/patch_day.html to learn more about how to use PatchDay.", comment: "Message for an alert that shows up the first time the app launches.")
+    
+    static var goToSupport: String = NSLocalizedString("Support page", comment: "")
     
     // MARK: - general
     

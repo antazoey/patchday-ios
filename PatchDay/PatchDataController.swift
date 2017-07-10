@@ -300,4 +300,8 @@ class PatchDataController: NSObject {
         return NSFetchRequest<Patch>(entityName: PatchDayStrings.patchEntityNames[patchEntityNameIndex])
     }
     
+    // MARK: - iCloud Document Methods
+    
+    static public var usingCloud: Bool = { return (UIApplication.shared.delegate as! AppDelegate).iCloudIsAvailable() }()
+    
 }

@@ -23,13 +23,6 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
         super.init()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
             // Enable or disable features based on authorization, granted is a bool meaning it errored
-            if granted && !SettingsController.getNotifyMeBool() {
-                self.sendingNotifications = false
-                if !SettingsController.getMentionedNotifications() {
-                    PDAlertController.alertForMaybeYouShouldUseNotifications()
-                    SettingsController.setMentionedNotifications(with: true)
-                }
-            }
         }
         UNUserNotificationCenter.current().delegate = self
     }

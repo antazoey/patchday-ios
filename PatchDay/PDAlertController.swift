@@ -14,6 +14,28 @@ class PDAlertController {
     
     static public var currentAlert = UIAlertController()
     
+    // MARK: - disclaimer / tutorial alert
+    
+    static public func alertForDisclaimerAndTutorial() {
+        print(PatchDayStrings.disclaimerAlertTitle)
+        print(PatchDayStrings.disclaimerAlertMessage)
+        currentAlert = UIAlertController(title: PatchDayStrings.disclaimerAlertTitle, message: PatchDayStrings.disclaimerAlertMessage, preferredStyle: .actionSheet)
+        let closeAction = UIAlertAction(title: PatchDayStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
+        let goToAction = UIAlertAction(title: PatchDayStrings.goToSupport, style: .default) {
+            (void) in
+            if let url = URL(string: "http://tryum.ph/patch_day.html") {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+        currentAlert.addAction(goToAction)
+        currentAlert.addAction(closeAction)
+        currentVC.present(currentAlert, animated: true, completion: nil)
+    }
+    
     //MARK: - core data save error
     
     static public func alertForCoreDataSaveError() {
@@ -47,25 +69,6 @@ class PDAlertController {
             SettingsController.setAutoChoose(bool: changingTo)
         }
         currentAlert.addAction(continueAction)
-        currentVC.present(currentAlert, animated: true, completion: nil)
-        
-    }
-    
-    // MARK: - try notifications alert
-    
-    static public func alertForMaybeYouShouldUseNotifications() {
-        print(PatchDayStrings.maybeYouShouldUseNotificationsAlertTitle)
-        print(PatchDayStrings.maybeYouShouldUseNotificationsAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.maybeYouShouldUseNotificationsAlertTitle, message: PatchDayStrings.maybeYouShouldUseNotificationsAlertMessage, preferredStyle: .alert)
-        let goToSettingsAction = UIAlertAction(title: PatchDayStrings.yes_string, style: .default) {
-            (void) in
-            if let url = URL(string: "App-Prefs:root=NOTIFICATIONS_ID") {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }
-        let dontGoAction = UIAlertAction(title: PatchDayStrings.no_string, style: .default)
-        currentAlert.addAction(goToSettingsAction)
-        currentAlert.addAction(dontGoAction)
         currentVC.present(currentAlert, animated: true, completion: nil)
         
     }

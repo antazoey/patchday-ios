@@ -40,6 +40,16 @@ class PatchScheduleViewController: UIViewController {
         self.updateBadge()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        // alert for disclaimer and tutorial on first start up
+        if !SettingsDefaultsController.getMentionedDisclaimer() {
+            PDAlertController.alertForDisclaimerAndTutorial()
+            SettingsDefaultsController.setMentionedDisclaimer(to: true)
+        }
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
         if segue.identifier == PatchDayStrings.patchDetailsSegueID {
             if let destination = segue.destination as? PatchDetailsViewController {
