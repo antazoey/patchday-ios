@@ -19,6 +19,7 @@
 		137330F41E22BA3E0048F91E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
 		1373310D1E22BA3E0048F91E /* PatchDayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */; };
+		138620671F13FBE5007161CA /* PatchComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620661F13FBE5007161CA /* PatchComparable.swift */; };
 		139754B51ED8EE27006C82B8 /* PatchDayColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PatchDayColors.swift */; };
 		139754BE1EDA8C4D006C82B8 /* PatchDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */; };
 		13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
@@ -70,6 +71,7 @@
 		137331081E22BA3E0048F91E /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITests.swift; sourceTree = "<group>"; };
 		1373310E1E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		138620661F13FBE5007161CA /* PatchComparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatchComparable.swift; path = ../PatchDay/PatchComparable.swift; sourceTree = "<group>"; };
 		139754B41ED8EE27006C82B8 /* PatchDayColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayColors.swift; sourceTree = "<group>"; };
 		139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsViewController.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
@@ -188,6 +190,7 @@
 		137331001E22BA3E0048F91E /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
+				138620661F13FBE5007161CA /* PatchComparable.swift */,
 				13E0BB5E1EFC23D900939D37 /* SuggestedPatchLocationTest.swift */,
 				137331031E22BA3E0048F91E /* Info.plist */,
 			);
@@ -415,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				138620671F13FBE5007161CA /* PatchComparable.swift in Sources */,
 				13E0BB5F1EFC23D900939D37 /* SuggestedPatchLocationTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

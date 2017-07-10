@@ -15,18 +15,30 @@ extension Patch {
         return NSFetchRequest<Patch>(entityName: PatchDayStrings.entityName)
     }
     
+    // Note:  nil dates are > non-nil dates than in this scheme
+    
     static func < (lhs: Patch, rhs: Patch) -> Bool {
         if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
             return l_date < r_date
         }
-        return false
+        else if lhs.getDatePlaced() == nil {
+            return false
+        }
+        else {
+            return true
+        }
     }
     
     static func > (lhs: Patch, rhs: Patch) -> Bool {
         if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
             return l_date > r_date
         }
-        return false
+        else if lhs.getDatePlaced() == nil {
+            return true
+        }
+        else {
+            return false
+        }
     }
     
     static func == (lhs: Patch, rhs: Patch) -> Bool {
