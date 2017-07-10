@@ -32,7 +32,6 @@ class PatchComparable: XCTestCase {
         PatchDataController.setPatchLocation(patchIndex: 2, with: "custom")
         XCTAssert(PatchDataController.getPatch(forIndex: 1)! < PatchDataController.getPatch(forIndex: 2)!)
         
-        
     }
     
 }

@@ -14,6 +14,8 @@ import UIKit
 
 class PatchDataController: NSObject {
     
+    static public var usingCloud: Bool = { return (UIApplication.shared.delegate as! AppDelegate).iCloudIsAvailable() }()
+    
     // MARK: - Core Data stack
     
     static var persistentContainer: NSPersistentContainer = {
@@ -31,12 +33,16 @@ class PatchDataController: NSObject {
     static var patches: [Patch] = {
         var userPatches: [Patch] = []
         for i in 0...(getNumberOfPatches()-1) {
+            // note that createPatchFromCoreData() updates patches with iCloud attributes if they exist
             if let userPatch = createPatchFromCoreData(patchEntityNameIndex: i) {
                 userPatches.append(userPatch)
             }
             else {
                 let userPatch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[i])
                 userPatches.append(userPatch)
+            }
+            if SettingsController.usingCloud {
+                SettingsController.iCloudSettings.store.synchronize()
             }
             saveContext()
         }
@@ -109,17 +115,23 @@ class PatchDataController: NSObject {
     
     public static func setPatchLocation(patchIndex: Int, with: String) {
         // attempt to set the Patch's location at given index
+        // exit function if given bad patchIndex
         if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
             return
         }
+        // set location
         if let patch = getPatch(forIndex: patchIndex) {
             patch.setLocation(with: with)
         }
         // if there is no Patch there, make one there and set it's location
-        else if patchIndex >= 0 && patchIndex < 4 {
+        else {
             let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
             patch.setLocation(with: with)
             appendToPatches(patch: patch, patchIndex: patchIndex)
+        }
+        // update icloud
+        if usingCloud {
+            SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: with)
         }
         saveContext()
     }
@@ -138,6 +150,9 @@ class PatchDataController: NSObject {
             patch.setDatePlaced(withDate: with)
             appendToPatches(patch: patch, patchIndex: patchIndex)
         }
+        if usingCloud {
+            SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: with)
+        }
         saveContext()
     }
     
@@ -152,12 +167,22 @@ class PatchDataController: NSObject {
             patch.setLocation(with: location)
             appendToPatches(patch: patch, patchIndex: patchIndex)
         }
+        if usingCloud {
+            SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: patchDate)
+            SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: location)
+        }
         saveContext()
     }
     
     public static func setPatch(with: Patch, patchIndex: Int) {
         if patchIndex <= 3 && patchIndex >= 0 {
             patches[patchIndex] = with
+        }
+        if usingCloud {
+            if let date = with.getDatePlaced() {
+                SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: date)
+            }
+            SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: with.getLocation())
         }
         saveContext()
     }
@@ -172,6 +197,9 @@ class PatchDataController: NSObject {
     public static func resetPatchData() {
         for patch in patches {
             patch.reset()
+        }
+        if usingCloud {
+            SettingsController.iCloudSettings.resetPatches()
         }
         self.saveContext()
     }
@@ -259,6 +287,10 @@ class PatchDataController: NSObject {
             let suggestDate = Date()
             patch.setLocation(with: suggestedLocation)
             patch.setDatePlaced(withDate: suggestDate)
+            if usingCloud {
+                SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: suggestDate)
+                SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: suggestedLocation)
+            }
             saveContext()
         }
     }
@@ -278,6 +310,7 @@ class PatchDataController: NSObject {
     // called by PatchDataController.createPatches()
     private static func createPatchFromCoreData(patchEntityNameIndex: Int) -> Patch? {
         var userPatch: Patch?
+
         if let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex) {
             patchFetchRequest.propertiesToFetch = PatchDayStrings.patchPropertyNames
             do {
@@ -285,6 +318,17 @@ class PatchDataController: NSObject {
                 let requestedPatch = try persistentContainer.viewContext.fetch(patchFetchRequest)
                 if requestedPatch.count > 0 {
                     userPatch = requestedPatch[0]
+                }
+                
+                // use icloud settings if possible
+                if usingCloud {
+                    if let patchDate = SettingsController.iCloudSettings.getPatchDate(fromIndex: patchEntityNameIndex) {
+                        userPatch?.setDatePlaced(withDate: patchDate)
+                    }
+                    if let patchLocation = SettingsController.iCloudSettings.getPatchLocation(fromIndex: patchEntityNameIndex) {
+                        userPatch?.setLocation(with: patchLocation)
+                    }
+                    saveContext()
                 }
             }
             catch {
@@ -299,9 +343,5 @@ class PatchDataController: NSObject {
     private static func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
         return NSFetchRequest<Patch>(entityName: PatchDayStrings.patchEntityNames[patchEntityNameIndex])
     }
-    
-    // MARK: - iCloud Document Methods
-    
-    static public var usingCloud: Bool = { return (UIApplication.shared.delegate as! AppDelegate).iCloudIsAvailable() }()
     
 }

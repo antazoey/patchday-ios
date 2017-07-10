@@ -20,6 +20,7 @@
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
 		1373310D1E22BA3E0048F91E /* PatchDayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */; };
 		138620671F13FBE5007161CA /* PatchComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620661F13FBE5007161CA /* PatchComparable.swift */; };
+		138620691F1406B8007161CA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138620681F1406B8007161CA /* CloudKit.framework */; };
 		139754B51ED8EE27006C82B8 /* PatchDayColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PatchDayColors.swift */; };
 		139754BE1EDA8C4D006C82B8 /* PatchDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */; };
 		13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
@@ -72,6 +73,7 @@
 		1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITests.swift; sourceTree = "<group>"; };
 		1373310E1E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		138620661F13FBE5007161CA /* PatchComparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatchComparable.swift; path = ../PatchDay/PatchComparable.swift; sourceTree = "<group>"; };
+		138620681F1406B8007161CA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		139754B41ED8EE27006C82B8 /* PatchDayColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayColors.swift; sourceTree = "<group>"; };
 		139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsViewController.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				138620691F1406B8007161CA /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,18 +137,9 @@
 		1340A9F41EF0BDF80003EFFA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				138620681F1406B8007161CA /* CloudKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		1340A9FD1EF216710003EFFA /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				13E0BB5A1EF6331100939D37 /* SettingsController.swift */,
-				13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */,
-				1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */,
-			);
-			name = Settings;
 			sourceTree = "<group>";
 		};
 		137330E01E22BA3E0048F91E = {
@@ -219,8 +213,10 @@
 		139754BA1ED8F7B4006C82B8 /* DataControllers */ = {
 			isa = PBXGroup;
 			children = (
-				1340A9FD1EF216710003EFFA /* Settings */,
 				1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */,
+				13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */,
+				13E0BB5A1EF6331100939D37 /* SettingsController.swift */,
+				1340A9F71EF0C3C40003EFFA /* UbiquitousKeyValueStoreController.swift */,
 				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
 				1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */,
