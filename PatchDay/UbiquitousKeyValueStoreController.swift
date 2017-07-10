@@ -289,15 +289,15 @@ class UbiquitousKeyValueStoreController {
         }
         
         if let bLoc: String = store.string(forKey: "patchBLoc") {
-            patchA_location = bLoc
+            patchB_location = bLoc
         }
         
         if let cLoc: String = store.string(forKey: "patchCLoc") {
-            patchA_location = cLoc
+            patchC_location = cLoc
         }
         
         if let dLoc: String = store.string(forKey: "patchDLoc") {
-            patchA_location = dLoc
+            patchD_location = dLoc
         }
     }
     
@@ -321,7 +321,8 @@ class UbiquitousKeyValueStoreController {
     
     public func setPatchDate(fromIndex: Int, with: Date) {
         var dates = [patchA_datePlaced, patchB_datePlaced, patchC_datePlaced, patchD_datePlaced]
-        if fromIndex > 0 && fromIndex < SettingsController.getNumberOfPatchesInt() {
+        if fromIndex >= 0 && fromIndex < SettingsController.getNumberOfPatchesInt() {
+            // find which date attribute to set
             if dates[fromIndex] == patchA_datePlaced {
                 self.setPatchADP(with: with)
             }
@@ -338,8 +339,10 @@ class UbiquitousKeyValueStoreController {
     }
     
     public func setPatchLocation(fromIndex: Int, with: String) {
+        print(fromIndex)
         let locs = [patchA_location, patchB_location, patchC_location, patchD_location]
-        if fromIndex > 0 && fromIndex < SettingsController.getNumberOfPatchesInt() {
+        if fromIndex >= 0 && fromIndex < SettingsController.getNumberOfPatchesInt() {
+            // find which location attribute to set
             if locs[fromIndex] == patchA_location {
                 self.setPatchALoc(with: with)
             }
@@ -364,5 +367,14 @@ class UbiquitousKeyValueStoreController {
         patchB_location = nil
         patchC_location = nil
         patchD_location = nil
+        store.removeObject(forKey: "patchADP")
+        store.removeObject(forKey: "patchBDP")
+        store.removeObject(forKey: "patchCDP")
+        store.removeObject(forKey: "patchDDP")
+        store.removeObject(forKey: "patchALoc")
+        store.removeObject(forKey: "patchBLoc")
+        store.removeObject(forKey: "patchCLoc")
+        store.removeObject(forKey: "patchDLoc")
+        
     }
 }

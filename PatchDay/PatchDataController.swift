@@ -319,17 +319,6 @@ class PatchDataController: NSObject {
                 if requestedPatch.count > 0 {
                     userPatch = requestedPatch[0]
                 }
-                
-                // use icloud settings if possible
-                if usingCloud {
-                    if let patchDate = SettingsController.iCloudSettings.getPatchDate(fromIndex: patchEntityNameIndex) {
-                        userPatch?.setDatePlaced(withDate: patchDate)
-                    }
-                    if let patchLocation = SettingsController.iCloudSettings.getPatchLocation(fromIndex: patchEntityNameIndex) {
-                        userPatch?.setLocation(with: patchLocation)
-                    }
-                    saveContext()
-                }
             }
             catch {
                 // no alert needed here (calling function will automatically create a generic patch if we can't load one from core data)
@@ -342,6 +331,37 @@ class PatchDataController: NSObject {
     // called by PatchDataController.createPatchFromCoreData() to make a FetchRequest
     private static func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
         return NSFetchRequest<Patch>(entityName: PatchDayStrings.patchEntityNames[patchEntityNameIndex])
+    }
+    
+    public static func syncWithCloud() {
+        // use icloud settings if possible
+        if !SettingsController.usingCloud {
+            return
+        }
+        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1) {
+            // set location
+            if let patch = getPatch(forIndex: i) {
+                // set patch to icloud value for location
+                if let location = SettingsController.iCloudSettings.getPatchLocation(fromIndex: i) {
+                    patch.setLocation(with: location)
+                }
+                // if no location exists in the cloud, add the current core data location to the cloud!
+                else {
+                    SettingsController.iCloudSettings.setPatchLocation(fromIndex: i, with: patch.getLocation())
+                }
+                // set patch to icloud value for datePlaced
+                if let date = SettingsController.iCloudSettings.getPatchDate(fromIndex: i) {
+                    patch.setDatePlaced(withDate: date)
+                }
+                // if the date is not in iCloud but is in Core date, add it to icloud
+                else {
+                    if let date = patch.getDatePlaced() {
+                        SettingsController.iCloudSettings.setPatchDate(fromIndex: i, with: date)
+                    }
+                }
+            }
+        }
+        PatchDataController.saveContext()
     }
     
 }
