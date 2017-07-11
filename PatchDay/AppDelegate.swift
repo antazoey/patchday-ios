@@ -51,12 +51,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        // self.patchDataController.saveContext()
     }
     
+    public func iCloudToken() -> NSObjectProtocol? {
+        if let token = FileManager.default.ubiquityIdentityToken {
+            return token
+        }
+        return nil
+    }
+    
     public func iCloudIsAvailable() -> Bool {
         // when iCloud is available, this property contains an opaque
-        if (FileManager.default.ubiquityIdentityToken != nil) {
+        if let token = iCloudToken() {
+            if let recordedToken = SettingsDefaultsController.getCloudKey() {
+                if token.isEqual(recordedToken) {
+                    return true
+                }
+                else {
+                    // return false if tokens are mismatch
+                    return false
+                }
+            }
+            else {
+                SettingsDefaultsController.setCloudKey(to: token)
+            }
             return true
         }
-            // nil otherwise
+        // nil otherwise
         else {
             return false
         }

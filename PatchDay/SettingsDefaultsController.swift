@@ -31,6 +31,8 @@ class SettingsDefaultsController: NSObject {
         loadNotificationOption()
         loadAutoChooseLocation()
         loadRemindMe()
+        
+        // non icloud included
         loadMentionedDisclaimer()
     }
     
@@ -55,6 +57,15 @@ class SettingsDefaultsController: NSObject {
     static func getRemindMe() -> Bool {
         return self.remindMe
     }
+    
+    static func getCloudKey() -> NSObjectProtocol? {
+        if let key = defaults.object(forKey: "cloudKey") {
+            return key as? NSObjectProtocol
+        }
+        return nil
+    }
+    
+    // non icloud included
     
     static func getMentionedDisclaimer() -> Bool {
         return self.mentionedDisclaimer
@@ -92,9 +103,16 @@ class SettingsDefaultsController: NSObject {
         self.synchonize()
     }
     
+    // non icloud included
+    
     static func setMentionedDisclaimer(to: Bool) {
         self.mentionedDisclaimer = to
         self.defaults.set(self.mentionedDisclaimer, forKey: PatchDayStrings.mentioned_string())
+        self.synchonize()
+    }
+    
+    static func setCloudKey(to: NSObjectProtocol) {
+        self.defaults.set(to, forKey: "cloudKey")
         self.synchonize()
     }
     
@@ -135,6 +153,8 @@ class SettingsDefaultsController: NSObject {
             remindMe = notifyMe
         }
     }
+    
+    // non icloud included
     
     static private func loadMentionedDisclaimer() {
         if let mentioned = defaults.object(forKey: PatchDayStrings.mentioned_string()) as? Bool {

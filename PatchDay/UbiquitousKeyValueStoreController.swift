@@ -204,6 +204,7 @@ class UbiquitousKeyValueStoreController {
     
     @objc private func ubiquitousKeyValueStoreDidChangeExternally() {
         
+        
         // settings
         patchCount = store.value(forKey: PatchDayStrings.numberOfPatches_string()) as? Int
         expirationInterval = store.string(forKey: PatchDayStrings.patchChangeInterval_string())
@@ -265,7 +266,7 @@ class UbiquitousKeyValueStoreController {
     
     // MARK: - private (core data)
     
-    private func setUpPatches() {
+    public func setUpPatches() {
         
         // date placed 
         
@@ -301,28 +302,65 @@ class UbiquitousKeyValueStoreController {
         }
     }
     
+    private func patches() -> [PatchData] {
+        let dates = [patchA_datePlaced, patchB_datePlaced, patchC_datePlaced, patchD_datePlaced]
+        let locs = [patchA_location, patchB_location, patchC_location, patchD_location]
+        var patches: [PatchData] = []
+        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1) {
+            let patch = PatchData()
+            if let date = dates[i] {
+                patch.datePlaced = date
+            }
+            if let loc = locs[i] {
+                patch.location = loc
+            }
+            patches.append(patch)
+        }
+        patches.sort(by: <)
+        // set old attributes for future reference
+        let count = patches.count
+        if count >= 1 {
+            self.patchA_datePlaced = patches[0].datePlaced
+            self.patchA_location = patches[0].location
+        }
+        if count >= 2 {
+            self.patchB_datePlaced = patches[1].datePlaced
+            self.patchB_location = patches[1].location
+        }
+        if count >= 3 {
+            self.patchC_datePlaced = patches[2].datePlaced
+            self.patchC_location = patches[2].location
+        }
+        if count >= 4 {
+            self.patchD_datePlaced = patches[3].datePlaced
+            self.patchD_location = patches[3].location
+        }
+        return patches
+    }
+    
     // MARK: - public core data
     
     public func getPatchDate(fromIndex: Int) -> Date? {
-        let dates = [patchA_datePlaced, patchB_datePlaced, patchC_datePlaced, patchD_datePlaced]
-        if let date = dates[fromIndex] {
-            return date
+        let patches = self.patches()
+        if fromIndex < patches.count {
+            return patches[fromIndex].datePlaced
         }
         return nil
     }
+        
     
     public func getPatchLocation(fromIndex: Int) -> String? {
-        let locs = [patchA_location, patchB_location, patchC_location, patchD_location]
-        if let loc = locs[fromIndex] {
-            return loc
+        let patches = self.patches()
+        if fromIndex < patches.count {
+            return patches[fromIndex].location
         }
         return nil
     }
     
     public func setPatchDate(fromIndex: Int, with: Date) {
-        var dates = [patchA_datePlaced, patchB_datePlaced, patchC_datePlaced, patchD_datePlaced]
+        let dates = [patchA_datePlaced, patchB_datePlaced, patchC_datePlaced, patchD_datePlaced]
         if fromIndex >= 0 && fromIndex < SettingsController.getNumberOfPatchesInt() {
-            // find which date attribute to set
+            // find which location attribute to set
             if dates[fromIndex] == patchA_datePlaced {
                 self.setPatchADP(with: with)
             }

@@ -29,6 +29,12 @@ class PatchScheduleViewController: UIViewController {
     var numberOfPatches: Int = 1
     
     override func viewDidLoad() {
+        
+        /*
+        SettingsController.iCloudSettings.setUpPatches()
+        PatchDataController.syncWithCloud()
+ */
+        
         PDAlertController.currentVC = self
         self.updateFromBackground()
         super.viewDidLoad()
@@ -245,6 +251,10 @@ class PatchScheduleViewController: UIViewController {
             }
         }
         return ref
+    }
+    
+    private func checkForSync() {
+
     }
     
     private func addSwipeRecgonizer() -> UISwipeGestureRecognizer {
