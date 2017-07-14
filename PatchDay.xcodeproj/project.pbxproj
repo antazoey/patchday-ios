@@ -11,7 +11,7 @@
 		131F0B691EE3AAD700576200 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		1335B9BB1EC7500D00DD7088 /* PatchDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */; };
 		133EEBAF1EF2EB0200E64C4D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133EEBAE1EF2EB0200E64C4D /* SettingsViewController.swift */; };
-		1340A9E81EE4D4220003EFFA /* PatchDayStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */; };
+		1340A9E81EE4D4220003EFFA /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		1340A9EA1EE5935A0003EFFA /* SuggestedPatchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */; };
 		1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */; };
 		137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
@@ -58,7 +58,7 @@
 		131F0B681EE3AAD700576200 /* PDImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDImages.swift; sourceTree = "<group>"; };
 		1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDataController.swift; sourceTree = "<group>"; };
 		133EEBAE1EF2EB0200E64C4D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayStrings.swift; sourceTree = "<group>"; };
+		1340A9E71EE4D4220003EFFA /* PDStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDStrings.swift; sourceTree = "<group>"; };
 		1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedPatchLocation.swift; sourceTree = "<group>"; };
 		1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDNotificationController.swift; sourceTree = "<group>"; };
 		137330E91E22BA3E0048F91E /* PatchDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PatchDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,16 +122,9 @@
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				131F0B681EE3AAD700576200 /* PDImages.swift */,
 				139754B41ED8EE27006C82B8 /* PDColors.swift */,
+				1340A9E71EE4D4220003EFFA /* PDStrings.swift */,
 			);
 			name = Assets;
-			sourceTree = "<group>";
-		};
-		1340A9F31EE998E80003EFFA /* Strings */ = {
-			isa = PBXGroup;
-			children = (
-				1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */,
-			);
-			name = Strings;
 			sourceTree = "<group>";
 		};
 		1340A9F41EF0BDF80003EFFA /* Frameworks */ = {
@@ -166,14 +159,11 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
-				139754B91ED8F7A9006C82B8 /* DataTypes */,
 				138620701F159ACD007161CA /* PatchDataController */,
-				1386206C1F1595A3007161CA /* Settings */,
 				1386206F1F159AB2007161CA /* AppDelegate */,
 				139754BB1ED8F7C0006C82B8 /* Segues */,
 				139754BC1ED8F7CA006C82B8 /* ViewControllers */,
 				137330F01E22BA3E0048F91E /* Main.storyboard */,
-				1340A9F31EE998E80003EFFA /* Strings */,
 				131F0B6B1EE3BB3000576200 /* Assets */,
 				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
@@ -201,18 +191,11 @@
 			path = PatchDayUITests;
 			sourceTree = "<group>";
 		};
-		1386206C1F1595A3007161CA /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */,
-			);
-			name = Settings;
-			sourceTree = "<group>";
-		};
 		1386206F1F159AB2007161CA /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
+				13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */,
 				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
 			);
@@ -222,22 +205,23 @@
 		138620701F159ACD007161CA /* PatchDataController */ = {
 			isa = PBXGroup;
 			children = (
+				138A65611F198B4D0068A972 /* CoreData */,
 				1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */,
 				1309A5231F17E2C500520B2F /* PatchSchedule.swift */,
-				138620731F15A427007161CA /* CorePatchData.swift */,
 				1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */,
 			);
 			name = PatchDataController;
 			sourceTree = "<group>";
 		};
-		139754B91ED8F7A9006C82B8 /* DataTypes */ = {
+		138A65611F198B4D0068A972 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
 				13F82DF11EE1F36C006C8041 /* Patch+CoreDataClass.swift */,
 				13F82DF21EE1F36C006C8041 /* Patch+CoreDataProperties.swift */,
 				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
+				138620731F15A427007161CA /* CorePatchData.swift */,
 			);
-			name = DataTypes;
+			name = CoreData;
 			sourceTree = "<group>";
 		};
 		139754BB1ED8F7C0006C82B8 /* Segues */ = {
@@ -421,7 +405,7 @@
 				139754BE1EDA8C4D006C82B8 /* PatchDetailsViewController.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
-				1340A9E81EE4D4220003EFFA /* PatchDayStrings.swift in Sources */,
+				1340A9E81EE4D4220003EFFA /* PDStrings.swift in Sources */,
 				13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
