@@ -14,40 +14,7 @@ extension Patch {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Patch> {
         return NSFetchRequest<Patch>(entityName: PatchDayStrings.entityName)
     }
-    
-    // Note:  nil dates are > non-nil dates than in this scheme
-    
-    static func < (lhs: Patch, rhs: Patch) -> Bool {
-        if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
-            return l_date < r_date
-        }
-        else if lhs.getDatePlaced() == nil {
-            return false
-        }
-        else {
-            return true
-        }
-    }
-    
-    static func > (lhs: Patch, rhs: Patch) -> Bool {
-        if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
-            return l_date > r_date
-        }
-        else if lhs.getDatePlaced() == nil {
-            return true
-        }
-        else {
-            return false
-        }
-    }
-    
-    static func == (lhs: Patch, rhs: Patch) -> Bool {
-        if let l_date = lhs.getDatePlaced(), let r_date = rhs.getDatePlaced() {
-            return l_date == r_date
-        }
-        return false
-    }
-    
+
     //MARK: - setters
     
    public func setDatePlaced(withDate: Date) {
@@ -164,7 +131,7 @@ extension Patch {
     }
     
     static func calculateHoursOfPatchDuration() -> Int {
-        let patchInterval = SettingsController.getExpirationInterval()
+        let patchInterval = SettingsDefaultsController.getPatchInterval()
         // defaults as half week
         var numberOfHours = 84
         // full week
@@ -197,5 +164,20 @@ extension Patch {
         dateFormatter.dateFormat = "EEEE, h:mm a"
         return dateFormatter.string(from: date)
     }
-  
+    
+    public func notificationString() -> String {
+        if self.isNotCustomLocated() {
+            guard let locationNotificationPart = PatchDayStrings.notificationIntros[getLocation()] else {
+                return PatchDayStrings.notificationWithoutLocation + getDatePlacedAsString(dateStyle: .full)
+            }
+            return locationNotificationPart + getDatePlacedAsString(dateStyle: .full)
+        }
+        
+            // for custom located patches
+        else {
+            let locationNotificationPart = PatchDayStrings.notificationForCustom + self.getLocation() + " " + PatchDayStrings.notificationForCustom_at
+            return locationNotificationPart + self.getDatePlacedAsString(dateStyle: .full)
+        }
+    }
+
 }

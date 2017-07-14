@@ -86,11 +86,11 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // Save Button
     @IBAction func hitSaveButton(_ sender: Any) {
-        self.saveSettings()
+        self.saveAttributes()
         self.requestNotifications()
         self.performSegue(withIdentifier: PatchDayStrings.patchDetailsSegueID, sender: self)
         // lower badge number if patch was expired and it had a notification number
-        if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
+        if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
             if patch.isExpired() && UIApplication.shared.applicationIconBadgeNumber > 0 {
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
@@ -105,7 +105,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         self.saveButtonLightUp()
         // Bools
         self.dateChanged()
-        if SettingsController.getAutoChooseBool() {
+        if SettingsDefaultsController.getAutoChooseLocation() {
             self.locationChanged()
         }
         
@@ -227,7 +227,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     private func displayAttributeTexts() {
-        if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
+        if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
             // location placed
             if patch.getLocation() != PatchDayStrings.unplaced_string {
                 // set location label text to patch's location
@@ -272,7 +272,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         self.unhideSaveButton()
     }
     
-    public func saveSettings() {
+    public func saveAttributes() {
         if self.locationTextHasChanged {
             // current patch must exist since we are editing it
             guard let newLocation = self.locationTextEdit.text, newLocation != "" else {
@@ -283,11 +283,11 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         if self.patchDateTextHasChanged {
             PatchDataController.setPatchDate(patchIndex: self.getPatchIndex(), with: datePicker.date)
         }
-        PatchDataController.saveContext()
+        PatchDataController.save()
     }
     
     public func autoPickLocation() {
-        if SettingsController.getAutoChooseBool() {
+        if SettingsDefaultsController.getAutoChooseLocation() {
             let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
             self.locationTextEdit.text = suggestedLocation
         }
@@ -310,9 +310,9 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     public func requestNotifications() {
         // request notification iff exists Patch.datePlaced
-        if let _ = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {
+        if let _ = PatchDataController.getPatch(index: self.getPatchIndex()) {
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: self.getPatchIndex())
-            if SettingsController.getNotifyMeBool() {
+            if SettingsDefaultsController.getRemindMe() {
                 (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: self.getPatchIndex())
             }
         }
@@ -324,7 +324,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     private func setExpirationAndHeading() {
         var exp = ""
         var heading = ""
-        if let patch = PatchDataController.getPatch(forIndex: self.getPatchIndex()) {            // unplaced patch instruction
+        if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {            // unplaced patch instruction
             if patch.getLocation() == PatchDayStrings.unplaced_string {
                 exp = PatchDayStrings.patchDetailsInstruction
                 heading = PatchDayStrings.addPatch_string

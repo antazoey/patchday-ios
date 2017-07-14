@@ -71,11 +71,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - Data loaders
     
     func loadChangePatchEvery() {
-        self.changePatchEvery.setTitle(SettingsController.getExpirationInterval(), for: .normal)
+        self.changePatchEvery.setTitle(SettingsDefaultsController.getPatchInterval(), for: .normal)
     }
     
     func loadNumberOfPatches() {
-        self.numberOfPatches.setTitle(SettingsController.getNumberOfPatchesString(), for: .normal)
+        self.numberOfPatches.setTitle(SettingsDefaultsController.getNumberOfPatchesString(), for: .normal)
     }
     
     func loadNotificationOption() {
@@ -85,15 +85,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else {
             self.disableNotificationButtons()
         }
-        self.notificationOption.setTitle(SettingsController.getNotificationTimeString(), for: .normal)
+        self.notificationOption.setTitle(SettingsDefaultsController.getNotificaitonTimeString(), for: .normal)
     }
     
     func loadAutoChooseLocation() {
-        self.autoChooseSuggestedLocationSwitch.setOn(SettingsController.getAutoChooseBool(), animated: true)
+        self.autoChooseSuggestedLocationSwitch.setOn(SettingsDefaultsController.getAutoChooseLocation(), animated: true)
     }
     
     func loadRemindMe() {
-        self.receiveReminder.setOn(SettingsController.getNotifyMeBool(), animated: true)
+        self.receiveReminder.setOn(SettingsDefaultsController.getRemindMe(), animated: true)
     }
     
     // MARK: - Picker Functions
@@ -160,7 +160,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         if self.getWhichTapped() == PatchDayStrings.interval() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsController.setExpirationInterval(with: PatchDayStrings.expirationIntervals[row])
+                SettingsDefaultsController.setPatchInterval(to: PatchDayStrings.expirationIntervals[row])
                 // configure button title
                 self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PatchDayStrings.expirationIntervals, row: row)
             }
@@ -169,7 +169,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else if self.getWhichTapped() == PatchDayStrings.count() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsController.setNumberOfPatches(with: PatchDayStrings.patchCounts[row])
+                SettingsDefaultsController.setNumberOfPatches(to: PatchDayStrings.patchCounts[row])
                 // configure button title
                 self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PatchDayStrings.patchCounts, row: row)
             }
@@ -178,14 +178,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else if self.getWhichTapped() == PatchDayStrings.notifications() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsController.setNotificationTime(with: PatchDayStrings.notificationSettings[row])
+                SettingsDefaultsController.setNotificationOption(to: PatchDayStrings.notificationSettings[row])
                 // configure button title
                 self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
             }
         }
         
         // resets all the notifications
-        for i in 0...(SettingsController.getNumberOfPatchesInt()-1) {
+        for i in 0...(SettingsDefaultsController.getNumberOfPatchesInt()-1) {
             self.requestNotifications(patchIndex: i)
         }
         
@@ -297,7 +297,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else {
             self.disableNotificationButtons()
         }
-        SettingsController.setNotifyMe(bool: isOn)
+        SettingsDefaultsController.setRemindMe(to: isOn)
     }
     
     @IBAction func autoChooseLocationChangeSwitch(_ sender: Any) {
@@ -360,13 +360,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     public func requestNotifications(patchIndex: Int) {
         // request notification iff exists Patch.datePlaced
-        if let _ = PatchDataController.getPatch(forIndex: patchIndex) {
+        if let _ = PatchDataController.getPatch(index: patchIndex) {
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: patchIndex)
-            if SettingsController.getNotifyMeBool() {
+            if SettingsDefaultsController.getRemindMe() {
                 (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: patchIndex)
             }
         }
-        
     }
 
 }

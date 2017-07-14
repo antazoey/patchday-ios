@@ -29,17 +29,10 @@ class PatchScheduleViewController: UIViewController {
     var numberOfPatches: Int = 1
     
     override func viewDidLoad() {
-        
-        /*
-        SettingsController.iCloudSettings.setUpPatches()
-        PatchDataController.syncWithCloud()
- */
-        
         PDAlertController.currentVC = self
         self.updateFromBackground()
         super.viewDidLoad()
-        self.setNumberOfPatches(to: SettingsController.getNumberOfPatchesInt())
-        PatchDataController.sortSchedule()
+        self.setNumberOfPatches(to: SettingsDefaultsController.getNumberOfPatchesInt())
         self.setBackgroundColor(to: PatchDayColors.lighterCuteGray)
         self.swipeRight = self.addSwipeRecgonizer()
         self.displayPatches()
@@ -154,7 +147,7 @@ class PatchScheduleViewController: UIViewController {
     // called by self.makePatchButton()
     private func determinePatchButtonTitle(patchIndex: Int) -> String {
         var title: String = ""
-        if let patch = PatchDataController.getPatch(forIndex: patchIndex) {
+        if let patch = PatchDataController.getPatch(index: patchIndex) {
             if patch.getDatePlaced() != nil {
                 if patch.isExpired() {
                     title += PatchDayStrings.patchExpired_string
@@ -199,7 +192,7 @@ class PatchScheduleViewController: UIViewController {
     }
     
     private func determinePatchButtonImage(index: Int) -> UIImage {
-        if let patch = PatchDataController.getPatch(forIndex: index) {
+        if let patch = PatchDataController.getPatch(index: index) {
             // empty patch
             if patch.isEmpty() {
                 return PatchDayImages.addPatch

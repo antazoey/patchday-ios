@@ -16,15 +16,15 @@ class SuggestedPatchLocation {
     
     static var generalLocations = PatchDayStrings.patchLocationNames
     
-    static var currentLocations: [String] = PatchDataController.makeArrayOfLocations()
+    static var currentLocations: [String] = PatchDataController.patchSchedule().makeArrayOfLocations()
     
     static func suggest(patchIndex: Int) -> String {
         
-        if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
+        if patchIndex >= SettingsDefaultsController.getNumberOfPatchesInt() || patchIndex < 0 {
             return ""
         }
         
-        setCurrentLocations(with: PatchDataController.makeArrayOfLocations())
+        setCurrentLocations(with: PatchDataController.patchSchedule().makeArrayOfLocations())
         
         let currentLocation = getCurrentLocation(patchIndex: patchIndex)
         
@@ -43,7 +43,7 @@ class SuggestedPatchLocation {
                 
                 // i.) all general spaces are occupied. ->  (suggestedLocation = currentLocation)
                 if allGeneralLocationsOccupied(currentLocations: currentLocations) {
-                    suggestedLocation = PatchDataController.getPatch(forIndex: patchIndex)!.getLocation()
+                    suggestedLocation = PatchDataController.getPatch(index: patchIndex)!.getLocation()
                 }
                 // ii.) some patches are in the same space. -> arbitrary available generalLocation (since there are likely not be but 1 or 2, and having 4 patches all together in spot is not a likely situation. if it were, this algthm would slowly dispense them out.
                 else {
@@ -72,7 +72,7 @@ class SuggestedPatchLocation {
     }
     
     public static func getCurrentLocationsCount() -> Int {
-        return PatchDataController.makeArrayOfLocations().count
+        return PatchDataController.patchSchedule().makeArrayOfLocations().count
     }
     
     // returns 1 + an index value (modularly) in the list of general locations
@@ -88,7 +88,7 @@ class SuggestedPatchLocation {
     
     // returns the current location from the PatchDataController with the given patchIndex
     public static func getCurrentLocation(patchIndex: Int) -> String {
-        if let patch = PatchDataController.getPatch(forIndex: patchIndex) {
+        if let patch = PatchDataController.getPatch(index: patchIndex) {
             return patch.getLocation()
         }
         return PatchDayStrings.unplaced_string

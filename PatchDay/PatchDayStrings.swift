@@ -99,7 +99,7 @@ class PatchDayStrings {
     
     static var patchData: String = { return "patchData" }()
     
-    // MARK: - SettingsController
+    // MARK: - SettingsDefaultsController
     
     static var settingsChoices: [String] = { return ["interval", "count", "notifications"] }()
     

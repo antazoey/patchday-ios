@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var notificationsController = PDNotificationController()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        SettingsController.startUp()
-        PatchDataController.syncWithCloud()
+        SettingsDefaultsController.setUp()
         return true
     }
 
@@ -46,38 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        // Saves changes in the application's managed object context before the application terminates.
-       // self.patchDataController.saveContext()
+        // sync cloud
     }
-    
-    public func iCloudToken() -> NSObjectProtocol? {
-        if let token = FileManager.default.ubiquityIdentityToken {
-            return token
-        }
-        return nil
-    }
-    
-    public func iCloudIsAvailable() -> Bool {
-        // when iCloud is available, this property contains an opaque
-        if let token = iCloudToken() {
-            if let recordedToken = SettingsDefaultsController.getCloudKey() {
-                if token.isEqual(recordedToken) {
-                    return true
-                }
-                else {
-                    // return false if tokens are mismatch
-                    return false
-                }
-            }
-            else {
-                SettingsDefaultsController.setCloudKey(to: token)
-            }
-            return true
-        }
-        // nil otherwise
-        else {
-            return false
-        }
-    }
+
 }

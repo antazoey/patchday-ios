@@ -40,14 +40,14 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     // MARK: - notifications
     
     func requestNotifyChangeSoon(patchIndex: Int) {
-        if let patch = PatchDataController.getPatch(forIndex: patchIndex), sendingNotifications, SettingsController.getNotifyMeBool() {
-            let minutesBefore = SettingsController.getNotificationTimeDouble()
+        if let patch = PatchDataController.getPatch(index: patchIndex), sendingNotifications, SettingsDefaultsController.getRemindMe() {
+            let minutesBefore = SettingsDefaultsController.getNotificationTimeDouble()
             let secondsBefore = minutesBefore * 60.0
             let intervalUntilTrigger = patch.determineIntervalToExpire() - secondsBefore
             // notification's attributes
             let content = UNMutableNotificationContent()
             content.title = PatchDayStrings.changePatch_string
-            content.body = PatchDataController.notificationString(index: patchIndex)
+            content.body = patch.notificationString()
             content.sound = UNNotificationSound.default()
             // trigger
             if intervalUntilTrigger > 0 {
@@ -67,9 +67,9 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     }
     
     func requestNotifyExpired(patchIndex: Int) {
-        if let patch = PatchDataController.getPatch(forIndex: patchIndex), sendingNotifications {
+        if let patch = PatchDataController.getPatch(index: patchIndex), sendingNotifications {
             self.currentPatchIndex = patchIndex
-            let allowsAutoChooseLocation = SettingsController.getAutoChooseBool()
+            let allowsAutoChooseLocation = SettingsDefaultsController.getAutoChooseLocation()
             if allowsAutoChooseLocation {
                 let changePatchAction = UNNotificationAction(identifier: "changePatchActionID",
                                                      title: PatchDayStrings.changePatch_string, options: [])
@@ -82,12 +82,12 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
             // notification's attributes
             let content = UNMutableNotificationContent()
             content.title = PatchDayStrings.expiredPatch_string
-            content.body = PatchDataController.notificationString(index: patchIndex)
+            content.body = patch.notificationString()
             content.sound = UNNotificationSound.default()
             content.badge = 1
             if allowsAutoChooseLocation {
                 // suggest location in text
-                content.body += "\n\n" + PatchDayStrings.notificationSuggestion + PatchDataController.suggestLocation(patchIndex: patchIndex)
+                content.body += "\n\n" + PatchDayStrings.notificationSuggestion + PatchDataController.patchSchedule().suggestLocation(patchIndex: patchIndex)
                 // adopt category
                 content.categoryIdentifier = "changePatchCategoryID"
             }

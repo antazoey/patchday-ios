@@ -66,7 +66,7 @@ class PDAlertController {
                                          preferredStyle: .alert)
         let continueAction = UIAlertAction(title: PatchDayStrings.continue_string, style: UIAlertActionStyle.default) {
             (void) in
-            SettingsController.setAutoChoose(bool: changingTo)
+            SettingsDefaultsController.setAutoChooseLocation(to: changingTo)
         }
         currentAlert.addAction(continueAction)
         currentVC.present(currentAlert, animated: true, completion: nil)

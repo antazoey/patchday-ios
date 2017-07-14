@@ -42,12 +42,39 @@ class SettingsDefaultsController: NSObject {
         return self.patchInterval
     }
     
-    static func getNumberOfPatches() -> String {
+    static func getNumberOfPatchesString() -> String {
         return self.numberOfPatches
     }
     
-    static func getNotificaitonOption() -> String {
+    static func getNumberOfPatchesInt() -> Int {
+        if let int = Int(getNumberOfPatchesString()) {
+            return int
+        }
+        else {
+            return -1
+        }
+    }
+    
+    static func getNotificaitonTimeString() -> String {
         return self.notificationOption
+    }
+    
+    static func getNotificationTimeInt() -> Int {
+        if let int = Int(self.notificationOption) {
+            return int
+        }
+        else {
+            return -1
+        }
+    }
+    
+    static func getNotificationTimeDouble() -> Double {
+        if let double = Double(self.notificationOption) {
+            return double
+        }
+        else {
+            return -1
+        }
     }
     
     static func getAutoChooseLocation() -> Bool {
@@ -75,7 +102,7 @@ class SettingsDefaultsController: NSObject {
     
     static func setPatchInterval(to: String) {
         self.patchInterval = to
-        self.defaults.set(self.getPatchInterval(), forKey: PatchDayStrings.patchChangeInterval_string())
+        self.defaults.set(to, forKey: PatchDayStrings.patchChangeInterval_string())
         self.synchonize()
     }
     
@@ -87,19 +114,19 @@ class SettingsDefaultsController: NSObject {
     
     static func setNotificationOption(to: String) {
         self.notificationOption = to
-        defaults.set(self.getNotificaitonOption(), forKey: PatchDayStrings.notificationKey_string())
+        defaults.set(to, forKey: PatchDayStrings.notificationKey_string())
         self.synchonize()
     }
     
     static func setAutoChooseLocation(to: Bool) {
         self.autoChooseLocation = to
-        self.defaults.set(self.autoChooseLocation, forKey: PatchDayStrings.autoChooseLocation_string())
+        self.defaults.set(to, forKey: PatchDayStrings.autoChooseLocation_string())
         self.synchonize()
     }
     
     static func setRemindMe(to: Bool) {
         self.remindMe = to
-        self.defaults.set(self.remindMe, forKey: PatchDayStrings.remindMe_string())
+        self.defaults.set(to, forKey: PatchDayStrings.remindMe_string())
         self.synchonize()
     }
     
@@ -107,7 +134,7 @@ class SettingsDefaultsController: NSObject {
     
     static func setMentionedDisclaimer(to: Bool) {
         self.mentionedDisclaimer = to
-        self.defaults.set(self.mentionedDisclaimer, forKey: PatchDayStrings.mentioned_string())
+        self.defaults.set(to, forKey: PatchDayStrings.mentioned_string())
         self.synchonize()
     }
     

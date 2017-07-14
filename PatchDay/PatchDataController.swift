@@ -14,354 +14,63 @@ import UIKit
 
 class PatchDataController: NSObject {
     
-    static public var usingCloud: Bool = { return (UIApplication.shared.delegate as! AppDelegate).iCloudIsAvailable() }()
+    // Class for handling getting and setting patch data, such as datePlaced and location for each patch.
+    // Also has access to a PatchSchedule object for quering the patch data collectively
     
-    // MARK: - Core Data stack
+    static public var corePatchData: CorePatchData = CorePatchData()
     
-    static var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: PatchDayStrings.patchData)
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                PDAlertController.alertForPersistentStoreLoadError(error: error)
-            }
-        })
-        return container
-    }()
+    // MARK: - Public
     
-    // MARK: - Managed Object Array
-    
-    static var patches: [Patch] = {
-        var userPatches: [Patch] = []
-        for i in 0...(getNumberOfPatches()-1) {
-            // note that createPatchFromCoreData() updates patches with iCloud attributes if they exist
-            if let userPatch = createPatchFromCoreData(patchEntityNameIndex: i) {
-                userPatches.append(userPatch)
-            }
-            else {
-                let userPatch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[i])
-                userPatches.append(userPatch)
-            }
-            if SettingsController.usingCloud {
-                SettingsController.iCloudSettings.store.synchronize()
-            }
-            saveContext()
-        }
-        // sort during init()
-        userPatches.sort(by: <)
-        return userPatches
-    }()
-    
-    // MARK: - Core Data Saving support
-    
-    static func saveContext () {
-        if PatchDataController.persistentContainer.viewContext.hasChanges {
-            do {
-                try persistentContainer.viewContext.save()
-            } catch {
-                PDAlertController.alertForCoreDataSaveError()
-            }
-        }
-    }
-
-    // MARK: ints
-    
-    public static func getNumberOfPatches() -> Int {
-        return Int(SettingsController.getNumberOfPatchesInt())
+    public static func patchSchedule() -> PatchSchedule {
+        return PatchSchedule(patches: self.corePatchData.userPatches)
     }
     
-    public static func getPatches() -> [Patch] {
-        return self.patches
+    public static func save() {
+        // save core data
+        CorePatchData.saveContext()
     }
     
-    
-    // MARK: - patches
-    
-    public static func getOldestPatch() -> Patch {
-        var oldestPatch: Patch = patches[0]
-        if self.getNumberOfPatches() > 1 {
-            for i in 1...(self.getNumberOfPatches()-1) {
-                if let patch = getPatch(forIndex: i), let datePlaced = patch.getDatePlaced(), let oldDate = oldestPatch.getDatePlaced() {
-                        if datePlaced < oldDate {
-                            oldestPatch = patches[i]
-                        }
-                }
-            }
-        }
-        return oldestPatch
-    }
-    
-    public static func getPatch(forIndex: Int) -> Patch? {
-        var patch: Patch?
-        if forIndex < SettingsController.getNumberOfPatchesInt() && forIndex >= 0 && forIndex < self.patches.count {
-            patch = self.patches[forIndex]
-        }
-        return patch
-    }
-    
-    // MARK: - public
-    
-    public static func appendToPatches(patch: Patch, patchIndex: Int) {
-        // if there is room
-        if patches.count < 4 {
-            patches.append(patch)
-        }
-        else if patchIndex < SettingsController.getNumberOfPatchesInt() && patchIndex >= 0 {
-            setPatch(with: patch, patchIndex: patchIndex)
-        }
-    }
-    public static func sortSchedule() {
-        self.patches.sort(by: <)
+    public static func getPatch(index: Int) -> Patch? {
+        return PatchDataController.corePatchData.getPatch(forIndex: index)
     }
     
     public static func setPatchLocation(patchIndex: Int, with: String) {
-        // attempt to set the Patch's location at given index
-        // exit function if given bad patchIndex
-        if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
-            return
-        }
-        // set location
-        if let patch = getPatch(forIndex: patchIndex) {
-            patch.setLocation(with: with)
-        }
-        // if there is no Patch there, make one there and set it's location
-        else {
-            let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
-            patch.setLocation(with: with)
-            appendToPatches(patch: patch, patchIndex: patchIndex)
-        }
-        // update icloud
-        if usingCloud {
-            SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: with)
-        }
-        saveContext()
+        self.corePatchData.setPatchLocation(patchIndex: patchIndex, with: with)
+        corePatchData = CorePatchData()
+        save()
     }
     
     public static func setPatchDate(patchIndex: Int, with: Date) {
-        if patchIndex >= SettingsController.getNumberOfPatchesInt() || patchIndex < 0 {
-            return
-        }
-        // attempt to set Patch's date at given index
-        if let patch = getPatch(forIndex: patchIndex) {
-            patch.setDatePlaced(withDate: with)
-        }
-        // if there is no Patch, make one there and set that one's date
-        else {
-            let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
-            patch.setDatePlaced(withDate: with)
-            appendToPatches(patch: patch, patchIndex: patchIndex)
-        }
-        if usingCloud {
-            SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: with)
-        }
-        saveContext()
+        self.corePatchData.setPatchDate(patchIndex: patchIndex, with: with)
+        corePatchData = CorePatchData()
+        save()
     }
     
     public static func setPatch(patchIndex: Int, patchDate: Date, location: String) {
-        if let patch = getPatch(forIndex: patchIndex) {
-            patch.setDatePlaced(withDate: patchDate)
-            patch.setLocation(with: location)
-        }
-        else {
-            let patch = createGenericPatch(entityName: PatchDayStrings.patchEntityNames[patchIndex])
-            patch.setDatePlaced(withDate: patchDate)
-            patch.setLocation(with: location)
-            appendToPatches(patch: patch, patchIndex: patchIndex)
-        }
-        if usingCloud {
-            SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: patchDate)
-            SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: location)
-        }
-        saveContext()
+        self.corePatchData.setPatch(patchIndex: patchIndex, patchDate: patchDate, location: location)
+        corePatchData = CorePatchData()
+        save()
     }
     
     public static func setPatch(with: Patch, patchIndex: Int) {
-        if patchIndex <= 3 && patchIndex >= 0 {
-            patches[patchIndex] = with
-        }
-        if usingCloud {
-            if let date = with.getDatePlaced() {
-                SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: date)
-            }
-            SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: with.getLocation())
-        }
-        saveContext()
-    }
-    
-    public static func getOldestPatchDate() -> Date {
-        if let oldestPatchDate = getOldestPatch().getDatePlaced() {
-            return oldestPatchDate
-        }
-        return Date()
+        self.corePatchData.setPatch(with: with, patchIndex: patchIndex)
+        corePatchData = CorePatchData()
+        save()
     }
     
     public static func resetPatchData() {
-        for patch in patches {
-            patch.reset()
-        }
-        if usingCloud {
-            SettingsController.iCloudSettings.resetPatches()
-        }
-        self.saveContext()
-    }
-    
-    public static func makeArrayOfLocations() -> [String] {
-        var locationArray: [String] = []
-        for i in 0...(getNumberOfPatches()-1) {
-            if let patch = getPatch(forIndex: i) {
-                locationArray.append(patch.getLocation())
-            }
-        }
-        return locationArray
-    }
-    
-    public static func scheduleHasNoDates() -> Bool {
-        var allEmptyDates: Bool = true
-        
-        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1) {
-            if let patch = PatchDataController.getPatch(forIndex: i) {
-                if patch.getDatePlaced() != nil {
-                    allEmptyDates = false
-                    break
-                }
-            }
-        }
-        return allEmptyDates
-        
-    }
-    
-    public static func scheduleHasNoLocations() -> Bool {
-        var allEmptyLocations: Bool = true
-        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1){
-            if let patch = PatchDataController.getPatch(forIndex: i) {
-                if patch.getLocation() != "unplaced" {
-                    allEmptyLocations = false
-                    break
-                }
-            }
-        }
-        return allEmptyLocations
-    }
-    
-    public static func scheduleIsEmpty() -> Bool {
-        return scheduleHasNoDates() && scheduleHasNoLocations()
-    }
-    
-    public static func oldestPatchInScheduleHasNoDateAndIsCustomLocated() -> Bool {
-        let oldestPatch = self.getOldestPatch()
-        return oldestPatch.getDatePlaced() == nil && oldestPatch.isCustomLocated()
-    }
-    
-    // MARK: - strings
-    
-    public static func suggestLocation(patchIndex: Int) -> String {
-        return SuggestedPatchLocation.suggest(patchIndex: patchIndex)
-    }
-    
-    public static func notificationString(index: Int) -> String {
-        if let patch = self.getPatch(forIndex: index) {
-            // for non-custom located patches
-            if patch.isNotCustomLocated() {
-                guard let locationNotificationPart = PatchDayStrings.notificationIntros[patch.getLocation()] else {
-                    return PatchDayStrings.notificationWithoutLocation + patch.getDatePlacedAsString(dateStyle: .full)
-                }
-                return locationNotificationPart + patch.getDatePlacedAsString(dateStyle: .full)
-            }
-            // for custom located patches
-            else {
-                let locationNotificationPart = PatchDayStrings.notificationForCustom + patch.getLocation() + " " + PatchDayStrings.notificationForCustom_at
-                return locationNotificationPart + patch.getDatePlacedAsString(dateStyle: .full)
-            }
-        }
-        return ""
-    }
-    
-    public static func getOldestPatchDateAsString() -> String {
-        let oldestPatch = getOldestPatch()
-        return oldestPatch.getDatePlacedAsString(dateStyle: .full)
+        self.corePatchData.resetPatchData()
     }
     
     // MARK: - called by notification
+    
     public static func changePatchFromNotification(patchIndex: Int) {
-        if let patch = getPatch(forIndex: patchIndex) {
+        if getPatch(index: patchIndex) != nil {
             let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: patchIndex)
             let suggestDate = Date()
-            patch.setLocation(with: suggestedLocation)
-            patch.setDatePlaced(withDate: suggestDate)
-            if usingCloud {
-                SettingsController.iCloudSettings.setPatchDate(fromIndex: patchIndex, with: suggestDate)
-                SettingsController.iCloudSettings.setPatchLocation(fromIndex: patchIndex, with: suggestedLocation)
-            }
-            saveContext()
+            setPatch(patchIndex: patchIndex, patchDate: suggestDate, location: suggestedLocation)
+            save()
         }
-    }
-    
-    // MARK: Private functions
-    
-    static private func createGenericPatch(entityName: String) -> Patch {
-        if let patch = NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as? Patch {
-            return patch
-        }
-        else {
-            PDAlertController.alertForCoreDataError()
-            return Patch()
-        }
-    }
-    
-    // called by PatchDataController.createPatches()
-    private static func createPatchFromCoreData(patchEntityNameIndex: Int) -> Patch? {
-        var userPatch: Patch?
-
-        if let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex) {
-            patchFetchRequest.propertiesToFetch = PatchDayStrings.patchPropertyNames
-            do {
-                // load user data if it exists
-                let requestedPatch = try persistentContainer.viewContext.fetch(patchFetchRequest)
-                if requestedPatch.count > 0 {
-                    userPatch = requestedPatch[0]
-                }
-            }
-            catch {
-                // no alert needed here (calling function will automatically create a generic patch if we can't load one from core data)
-                print("PatchData Fetch Request Failed")
-            }
-        }
-        return userPatch
-    }
-    
-    // called by PatchDataController.createPatchFromCoreData() to make a FetchRequest
-    private static func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
-        return NSFetchRequest<Patch>(entityName: PatchDayStrings.patchEntityNames[patchEntityNameIndex])
-    }
-    
-    public static func syncWithCloud() {
-        // use icloud settings if possible
-        if !SettingsController.usingCloud {
-            return
-        }
-        for i in 0...(SettingsController.getNumberOfPatchesInt() - 1) {
-            // set location
-            if let patch = getPatch(forIndex: i) {
-                // set patch to icloud value for location
-                if let location = SettingsController.iCloudSettings.getPatchLocation(fromIndex: i) {
-                    patch.setLocation(with: location)
-                }
-                // if no location exists in the cloud, add the current core data location to the cloud!
-                else {
-                    SettingsController.iCloudSettings.setPatchLocation(fromIndex: i, with: patch.getLocation())
-                }
-                // set patch to icloud value for datePlaced
-                if let date = SettingsController.iCloudSettings.getPatchDate(fromIndex: i) {
-                    patch.setDatePlaced(withDate: date)
-                }
-                // if the date is not in iCloud but is in Core date, add it to icloud
-                else {
-                    if let date = patch.getDatePlaced() {
-                        SettingsController.iCloudSettings.setPatchDate(fromIndex: i, with: date)
-                    }
-                }
-            }
-        }
-        PatchDataController.saveContext()
     }
     
 }

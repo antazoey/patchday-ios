@@ -22,15 +22,15 @@ class PatchComparable: XCTestCase {
     }
     
     func testExample() {
-        SettingsController.setNumberOfPatches(with: 3)
+        SettingsDefaultsController.setNumberOfPatches(to: "3")
         let oldDate = Date(timeIntervalSince1970: 0)
         PatchDataController.setPatch(patchIndex: 0, patchDate: Date(), location: "custom")
         PatchDataController.setPatch(patchIndex: 1, patchDate: oldDate, location: "custom")
-        XCTAssert(PatchDataController.getPatch(forIndex: 0)!.getDatePlaced()! > PatchDataController.getPatch(forIndex: 1)!.getDatePlaced()!)
-        XCTAssert(PatchDataController.getPatch(forIndex: 0)! > PatchDataController.getPatch(forIndex: 1)!)
-        XCTAssert(PatchDataController.getPatch(forIndex: 1)! < PatchDataController.getPatch(forIndex: 0)!)
+        XCTAssert(PatchDataController.getPatch(index: 0)!.getDatePlaced()! > PatchDataController.getPatch(index: 1)!.getDatePlaced()!)
+        XCTAssert(PatchDataController.getPatch(index: 0)! > PatchDataController.getPatch(index: 1)!)
+        XCTAssert(PatchDataController.getPatch(index: 1)! < PatchDataController.getPatch(index: 0)!)
         PatchDataController.setPatchLocation(patchIndex: 2, with: "custom")
-        XCTAssert(PatchDataController.getPatch(forIndex: 1)! < PatchDataController.getPatch(forIndex: 2)!)
+        XCTAssert(PatchDataController.getPatch(index: 1)! < PatchDataController.getPatch(index: 2)!)
         
     }
     
