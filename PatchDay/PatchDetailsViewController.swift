@@ -64,13 +64,13 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     override func viewDidLoad() {
         PDAlertController.currentVC = self
         super.viewDidLoad()
-        self.setBackgroundColor(to: PatchDayColors.pdPink)
+        self.setBackgroundColor(to: PDColors.pdPink)
         self.hideSaveButton()
         self.setExpirationAndHeading()
         self.hideLocationPicker()
         self.autoChooseButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
-        self.bigGap.backgroundColor = PatchDayColors.pdPink
-        self.bigGap2.backgroundColor = PatchDayColors.pdPink
+        self.bigGap.backgroundColor = PDColors.pdPink
+        self.bigGap2.backgroundColor = PDColors.pdPink
         
         // default texts
         self.displayAttributeTexts()
@@ -88,7 +88,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBAction func hitSaveButton(_ sender: Any) {
         self.saveAttributes()
         self.requestNotifications()
-        self.performSegue(withIdentifier: PatchDayStrings.patchDetailsSegueID, sender: self)
+        self.performSegue(withIdentifier: PDStrings.patchDetailsSegueID, sender: self)
         // lower badge number if patch was expired and it had a notification number
         if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
             if patch.isExpired() && UIApplication.shared.applicationIconBadgeNumber > 0 {
@@ -170,16 +170,16 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PatchDayStrings.patchLocationNames.count
+        return PDStrings.patchLocationNames.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return PatchDayStrings.patchLocationNames[row]
+        return PDStrings.patchLocationNames[row]
         
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.locationTextEdit.text = PatchDayStrings.patchLocationNames[row]
+        self.locationTextEdit.text = PDStrings.patchLocationNames[row]
         // other view changes
         self.saveButtonLightUp()
         self.hideLocationPicker()
@@ -229,13 +229,13 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     private func displayAttributeTexts() {
         if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
             // location placed
-            if patch.getLocation() != PatchDayStrings.unplaced_string {
+            if patch.getLocation() != PDStrings.unplaced_string {
                 // set location label text to patch's location
                 self.locationTextEdit.text = patch.getLocation()
             }
             // location not placed
             else {
-                self.locationTextEdit.text = PatchDayStrings.emptyLocationInstruction
+                self.locationTextEdit.text = PDStrings.emptyLocationInstruction
             }
             // date placed
             if let datePlaced = patch.getDatePlaced() {
@@ -245,14 +245,14 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
             }
             // date unplaced
             else {
-                self.chooseDateTextButton.setTitle(PatchDayStrings.emptyDateInstruction
+                self.chooseDateTextButton.setTitle(PDStrings.emptyDateInstruction
                     , for: UIControlState.normal)
             }
         }
         // nil patch
         else {
-            self.locationTextEdit.text = PatchDayStrings.emptyLocationInstruction
-            self.chooseDateTextButton.setTitle(PatchDayStrings.emptyDateInstruction
+            self.locationTextEdit.text = PDStrings.emptyLocationInstruction
+            self.chooseDateTextButton.setTitle(PDStrings.emptyDateInstruction
                 , for: UIControlState.normal)
         }
     }
@@ -325,26 +325,26 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         var exp = ""
         var heading = ""
         if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {            // unplaced patch instruction
-            if patch.getLocation() == PatchDayStrings.unplaced_string {
-                exp = PatchDayStrings.patchDetailsInstruction
-                heading = PatchDayStrings.addPatch_string
+            if patch.getLocation() == PDStrings.unplaced_string {
+                exp = PDStrings.patchDetailsInstruction
+                heading = PDStrings.addPatch_string
             }
             else {
                 if patch.isExpired() {
-                    self.expiresOrExpiredLabel.text = PatchDayStrings.patchExpired_string
+                    self.expiresOrExpiredLabel.text = PDStrings.patchExpired_string
                 }
                 else {
-                    self.expiresOrExpiredLabel.text = PatchDayStrings.patchExpires_string
+                    self.expiresOrExpiredLabel.text = PDStrings.patchExpires_string
                 }
                 exp = patch.expirationDateAsString()
-                heading = PatchDayStrings.changePatch_string
+                heading = PDStrings.changePatch_string
             }
             self.expirationDateLabel.text = exp
             self.headingLabel.text = heading
         }
         else {
-            exp = PatchDayStrings.patchDetailsInstruction
-            heading = PatchDayStrings.addPatch_string
+            exp = PDStrings.patchDetailsInstruction
+            heading = PDStrings.addPatch_string
         }
     }
     

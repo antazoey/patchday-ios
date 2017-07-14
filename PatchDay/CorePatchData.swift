@@ -15,7 +15,7 @@ class CorePatchData {
     // MARK: - Core Data stack
     
     static var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: PatchDayStrings.patchData)
+        let container = NSPersistentContainer(name: PDStrings.patchData)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 PDAlertController.alertForPersistentStoreLoadError(error: error)
@@ -35,7 +35,7 @@ class CorePatchData {
                 patches.append(userPatch)
             }
             else {
-                let userPatch = CorePatchData.createGenericPatch(entityName: PatchDayStrings.patchEntityNames[i])
+                let userPatch = CorePatchData.createGenericPatch(entityName: PDStrings.patchEntityNames[i])
                 patches.append(userPatch)
             }
             CorePatchData.saveContext()
@@ -131,7 +131,7 @@ class CorePatchData {
         var userPatch: Patch?
         
         if let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex) {
-            patchFetchRequest.propertiesToFetch = PatchDayStrings.patchPropertyNames
+            patchFetchRequest.propertiesToFetch = PDStrings.patchPropertyNames
             do {
                 // load user data if it exists
                 let requestedPatch = try persistentContainer.viewContext.fetch(patchFetchRequest)
@@ -149,7 +149,7 @@ class CorePatchData {
     
     // called by PatchDataController.createPatchFromCoreData() to make a FetchRequest
     private static func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
-        return NSFetchRequest<Patch>(entityName: PatchDayStrings.patchEntityNames[patchEntityNameIndex])
+        return NSFetchRequest<Patch>(entityName: PDStrings.patchEntityNames[patchEntityNameIndex])
     }
     
 }

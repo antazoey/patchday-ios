@@ -112,16 +112,16 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         var numberOfRows = 0;
         // for change patch every tapped:
-        if self.getWhichTapped() == PatchDayStrings.interval() {
-            numberOfRows = PatchDayStrings.expirationIntervals.count
+        if self.getWhichTapped() == PDStrings.interval() {
+            numberOfRows = PDStrings.expirationIntervals.count
         }
         // for number of patches tapped:
-        else if self.getWhichTapped() == PatchDayStrings.count() {
-            numberOfRows = PatchDayStrings.patchCounts.count
+        else if self.getWhichTapped() == PDStrings.count() {
+            numberOfRows = PDStrings.patchCounts.count
         }
         // for notification options tapped
-        else if self.getWhichTapped() == PatchDayStrings.notifications() {
-            numberOfRows = PatchDayStrings.notificationSettings.count
+        else if self.getWhichTapped() == PDStrings.notifications() {
+            numberOfRows = PDStrings.notificationSettings.count
         }
         return numberOfRows
         
@@ -131,21 +131,21 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title = " "
         // for change patch every tapped:
-        if self.getWhichTapped() == PatchDayStrings.interval() {
-            if row < PatchDayStrings.expirationIntervals.count && row >= 0 {
-                title = PatchDayStrings.expirationIntervals[row]
+        if self.getWhichTapped() == PDStrings.interval() {
+            if row < PDStrings.expirationIntervals.count && row >= 0 {
+                title = PDStrings.expirationIntervals[row]
             }
         }
         // for number of patches tapped:
-        else if self.getWhichTapped() == PatchDayStrings.count() {
-            if row < PatchDayStrings.patchCounts.count && row >= 0 {
-                title = PatchDayStrings.patchCounts[row]
+        else if self.getWhichTapped() == PDStrings.count() {
+            if row < PDStrings.patchCounts.count && row >= 0 {
+                title = PDStrings.patchCounts[row]
             }
         }
         // for notification options tapped
-        else if self.getWhichTapped() == PatchDayStrings.notifications()  {
-            if row < PatchDayStrings.notificationSettings.count && row >= 0 {
-                title = PatchDayStrings.notificationSettings[row]
+        else if self.getWhichTapped() == PDStrings.notifications()  {
+            if row < PDStrings.notificationSettings.count && row >= 0 {
+                title = PDStrings.notificationSettings[row]
             }
         }
         return title
@@ -157,30 +157,30 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         self.selectedRow = row
         
-        if self.getWhichTapped() == PatchDayStrings.interval() {
+        if self.getWhichTapped() == PDStrings.interval() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsDefaultsController.setPatchInterval(to: PatchDayStrings.expirationIntervals[row])
+                SettingsDefaultsController.setPatchInterval(to: PDStrings.expirationIntervals[row])
                 // configure button title
-                self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PatchDayStrings.expirationIntervals, row: row)
+                self.configureButtonTitleFromPicker(fromButton: self.changePatchEvery, withData: PDStrings.expirationIntervals, row: row)
             }
         }
         
-        else if self.getWhichTapped() == PatchDayStrings.count() {
+        else if self.getWhichTapped() == PDStrings.count() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsDefaultsController.setNumberOfPatches(to: PatchDayStrings.patchCounts[row])
+                SettingsDefaultsController.setNumberOfPatches(to: PDStrings.patchCounts[row])
                 // configure button title
-                self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PatchDayStrings.patchCounts, row: row)
+                self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PDStrings.patchCounts, row: row)
             }
         }
         
-        else if self.getWhichTapped() == PatchDayStrings.notifications() {
+        else if self.getWhichTapped() == PDStrings.notifications() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsDefaultsController.setNotificationOption(to: PatchDayStrings.notificationSettings[row])
+                SettingsDefaultsController.setNotificationOption(to: PDStrings.notificationSettings[row])
                 // configure button title
-                self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PatchDayStrings.notificationSettings, row: row)
+                self.configureButtonTitleFromPicker(fromButton: self.notificationOption, withData: PDStrings.notificationSettings, row: row)
             }
         }
         
@@ -198,7 +198,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.setWhichTapped(to: key)
         
         // INTERVAL
-        if self.getWhichTapped() == PatchDayStrings.interval() {
+        if self.getWhichTapped() == PDStrings.interval() {
             self.expirationIntervalPicker.reloadAllComponents()
             // if any other pickers are open, then close them
             if self.numberOfPatchesPicker.isHidden == false {
@@ -207,12 +207,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             if self.reminderTimePicker.isHidden == false {
                 self.reminderTimePicker.isHidden = true
             }
-            self.openOrClose(picker: self.expirationIntervalPicker, buttonTapped: self.changePatchEvery, settingsList: PatchDayStrings.expirationIntervals)
+            self.openOrClose(picker: self.expirationIntervalPicker, buttonTapped: self.changePatchEvery, settingsList: PDStrings.expirationIntervals)
             
         }
             
         // COUNT
-        else if self.getWhichTapped() == PatchDayStrings.count() {
+        else if self.getWhichTapped() == PDStrings.count() {
             self.numberOfPatchesPicker.reloadAllComponents()
             // if any other pickers are open, then close them
             if self.expirationIntervalPicker.isHidden == false {
@@ -221,11 +221,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             if self.reminderTimePicker.isHidden == false {
                 self.reminderTimePicker.isHidden = true
             }
-            self.openOrClose(picker: self.numberOfPatchesPicker, buttonTapped: self.numberOfPatches, settingsList: PatchDayStrings.patchCounts)
+            self.openOrClose(picker: self.numberOfPatchesPicker, buttonTapped: self.numberOfPatches, settingsList: PDStrings.patchCounts)
         }
             
         // NOTIFICATIONS
-        else if self.getWhichTapped() == PatchDayStrings.notifications() {
+        else if self.getWhichTapped() == PDStrings.notifications() {
             self.reminderTimePicker.reloadAllComponents()
             // if any other pickers are open, then close them
             if self.expirationIntervalPicker.isHidden == false {
@@ -234,7 +234,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             if self.numberOfPatchesPicker.isHidden == false {
                 self.numberOfPatchesPicker.isHidden = true
             }
-            self.openOrClose(picker: self.reminderTimePicker, buttonTapped: self.notificationOption, settingsList: PatchDayStrings.notificationSettings)
+            self.openOrClose(picker: self.reminderTimePicker, buttonTapped: self.notificationOption, settingsList: PDStrings.notificationSettings)
         }
         
     }
@@ -261,29 +261,29 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - IBActions Picker loads
 
     @IBAction func notificationOptionArrowTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PatchDayStrings.notifications())
+        self.openOrClosePicker(key: PDStrings.notifications())
         
     }
     @IBAction func notificationOptionTapped(_ sender: Any) {
-       self.openOrClosePicker(key: PatchDayStrings.notifications())
+       self.openOrClosePicker(key: PDStrings.notifications())
     }
     
     @IBAction func changePatchEveryArrowButtonTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PatchDayStrings.interval())
+        self.openOrClosePicker(key: PDStrings.interval())
     }
     
     @IBAction func numberOfPatchesArrowButtonTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PatchDayStrings.count())
+        self.openOrClosePicker(key: PDStrings.count())
     }
     
     @IBAction func changePatchEveryTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PatchDayStrings.interval())
+        self.openOrClosePicker(key: PDStrings.interval())
         
     }
     
     @IBAction func numberOfPatchesTapped(_ sender: Any) {
         // change member variable for determining correct picker
-        self.openOrClosePicker(key: PatchDayStrings.count())
+        self.openOrClosePicker(key: PDStrings.count())
         
     }
     
@@ -309,7 +309,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // to Patch Schedule - this is needed for the swipe, see viewDidLoad()
     func showPatchScheduleView() {
-        self.performSegue(withIdentifier: PatchDayStrings.settingsToScheduleID, sender: self)
+        self.performSegue(withIdentifier: PDStrings.settingsToScheduleID, sender: self)
     }
     
     // MARK: - view loading and altering

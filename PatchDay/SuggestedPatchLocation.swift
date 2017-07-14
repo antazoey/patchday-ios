@@ -14,7 +14,7 @@ class SuggestedPatchLocation {
     
     // MARK: - Public
     
-    static var generalLocations = PatchDayStrings.patchLocationNames
+    static var generalLocations = PDStrings.patchLocationNames
     
     static var currentLocations: [String] = PatchDataController.patchSchedule().makeArrayOfLocations()
     
@@ -91,7 +91,7 @@ class SuggestedPatchLocation {
         if let patch = PatchDataController.getPatch(index: patchIndex) {
             return patch.getLocation()
         }
-        return PatchDayStrings.unplaced_string
+        return PDStrings.unplaced_string
     }
     
     private static func getNextIndexOfOrder() {

@@ -1,5 +1,5 @@
 //
-//  PatchDayImages.swift
+//  PDImages.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/3/17.
@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PatchDayImages {
+class PDImages {
     
     static public var logo: UIImage = { return #imageLiteral(resourceName: "Logo") }()
     static public var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
@@ -31,12 +31,12 @@ class PatchDayImages {
     static public var custom_notified: UIImage = { return #imageLiteral(resourceName: "Custom Notified") }()
     
     static func stringToImage(imageString: String) -> UIImage {
-        let stringToImageDict = [PatchDayStrings.unplaced_string: addPatch, PatchDayStrings.rightButt(): rButt, PatchDayStrings.leftButt(): lButt, PatchDayStrings.rightStom(): rStom, PatchDayStrings.leftStom(): lStom]
+        let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt, PDStrings.leftButt(): lButt, PDStrings.rightStom(): rStom, PDStrings.leftStom(): lStom]
         return stringToImageDict[imageString]!
     }
     
     static func stringToNotifiedImage(imageString: String) -> UIImage {
-        let stringToImageDict = [PatchDayStrings.unplaced_string: addPatch, PatchDayStrings.rightButt(): rButt_notified, PatchDayStrings.leftButt(): lButt_notified, PatchDayStrings.rightStom(): rStom_notified, PatchDayStrings.leftStom(): lStom_notified]
+        let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt_notified, PDStrings.leftButt(): lButt_notified, PDStrings.rightStom(): rStom_notified, PDStrings.leftStom(): lStom_notified]
         return stringToImageDict[imageString]!
     }
 }

@@ -46,14 +46,14 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
             let intervalUntilTrigger = patch.determineIntervalToExpire() - secondsBefore
             // notification's attributes
             let content = UNMutableNotificationContent()
-            content.title = PatchDayStrings.changePatch_string
+            content.title = PDStrings.changePatch_string
             content.body = patch.notificationString()
             content.sound = UNNotificationSound.default()
             // trigger
             if intervalUntilTrigger > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: intervalUntilTrigger, repeats: false)
                 // request
-                if let id = PatchDayStrings.patchChangeSoonIDs[patchIndex] {
+                if let id = PDStrings.patchChangeSoonIDs[patchIndex] {
                     let request = UNNotificationRequest(identifier: id + "chg", content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
                         if error != nil {
@@ -72,7 +72,7 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
             let allowsAutoChooseLocation = SettingsDefaultsController.getAutoChooseLocation()
             if allowsAutoChooseLocation {
                 let changePatchAction = UNNotificationAction(identifier: "changePatchActionID",
-                                                     title: PatchDayStrings.changePatch_string, options: [])
+                                                     title: PDStrings.changePatch_string, options: [])
                 let changePatchCategory = UNNotificationCategory(identifier: "changePatchCategoryID",
                                                          actions: [changePatchAction],
                                                          intentIdentifiers: [],
@@ -81,13 +81,13 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
             }
             // notification's attributes
             let content = UNMutableNotificationContent()
-            content.title = PatchDayStrings.expiredPatch_string
+            content.title = PDStrings.expiredPatch_string
             content.body = patch.notificationString()
             content.sound = UNNotificationSound.default()
             content.badge = 1
             if allowsAutoChooseLocation {
                 // suggest location in text
-                content.body += "\n\n" + PatchDayStrings.notificationSuggestion + PatchDataController.patchSchedule().suggestLocation(patchIndex: patchIndex)
+                content.body += "\n\n" + PDStrings.notificationSuggestion + PatchDataController.patchSchedule().suggestLocation(patchIndex: patchIndex)
                 // adopt category
                 content.categoryIdentifier = "changePatchCategoryID"
             }
@@ -96,7 +96,7 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
-                if let id = PatchDayStrings.patchChangeSoonIDs[patchIndex] {
+                if let id = PDStrings.patchChangeSoonIDs[patchIndex] {
                     let request = UNNotificationRequest(identifier: id + "exp", content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
                         if error != nil {

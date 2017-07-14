@@ -1,5 +1,5 @@
 //
-//  PatchDayStrings.swift
+//  PDStrings.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/4/17.
@@ -9,7 +9,7 @@
 import Foundation
 
 // read-only
-class PatchDayStrings {
+class PDStrings {
     
     // MARK: - Localizable
     

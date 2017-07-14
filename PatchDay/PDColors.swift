@@ -1,5 +1,5 @@
 //
-//  PatchDayColors.swift
+//  PDColors.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/26/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PatchDayColors {
+class PDColors {
     
     static var offWhite = UIColor(red: 1.0, green: 0.99, blue: 0.99, alpha: 1.0)
     static var lightBlue = UIColor(red: 0.86, green: 0.97, blue: 1.0, alpha: 0.25)
@@ -21,7 +21,7 @@ class PatchDayColors {
     static var lightLines = UIColor(red: 0.964251, green: 0.969299, blue: 0.969299, alpha: 1.0)
     
     static func getColor(from: String) -> UIColor {
-        let colorDict: [String: UIColor] = [PatchDayStrings.offWhite(): offWhite, PatchDayStrings.lightBlue(): lightBlue, PatchDayStrings.cuteGray(): cuteGray, PatchDayStrings.lighterCuteGray(): lighterCuteGray]
+        let colorDict: [String: UIColor] = [PDStrings.offWhite(): offWhite, PDStrings.lightBlue(): lightBlue, PDStrings.cuteGray(): cuteGray, PDStrings.lighterCuteGray(): lighterCuteGray]
         return colorDict[from]!
     }
     

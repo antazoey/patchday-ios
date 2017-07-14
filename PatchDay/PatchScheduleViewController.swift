@@ -33,7 +33,7 @@ class PatchScheduleViewController: UIViewController {
         self.updateFromBackground()
         super.viewDidLoad()
         self.setNumberOfPatches(to: SettingsDefaultsController.getNumberOfPatchesInt())
-        self.setBackgroundColor(to: PatchDayColors.lighterCuteGray)
+        self.setBackgroundColor(to: PDColors.lighterCuteGray)
         self.swipeRight = self.addSwipeRecgonizer()
         self.displayPatches()
         self.updateBadge()
@@ -50,7 +50,7 @@ class PatchScheduleViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
-        if segue.identifier == PatchDayStrings.patchDetailsSegueID {
+        if segue.identifier == PDStrings.patchDetailsSegueID {
             if let destination = segue.destination as? PatchDetailsViewController {
                 destination.setPatchReference(to: self.getPatchButtonTapped())
             }
@@ -92,11 +92,11 @@ class PatchScheduleViewController: UIViewController {
     
     @objc private func showSettingsView () {
         self.disableAllPatchButtons()
-        self.performSegue(withIdentifier: PatchDayStrings.scheduleToSettingsID, sender: self)
+        self.performSegue(withIdentifier: PDStrings.scheduleToSettingsID, sender: self)
     }
     
     @objc private func showAddPatchView() {
-        self.performSegue(withIdentifier: PatchDayStrings.patchDetailsSegueID, sender: self)
+        self.performSegue(withIdentifier: PDStrings.patchDetailsSegueID, sender: self)
         
     }
     
@@ -136,11 +136,11 @@ class PatchScheduleViewController: UIViewController {
     private func makePatchButton(patchButton: UIButton, isBlue: Bool, patchIndex: Int) {
         patchButton.setBackgroundImage(self.determinePatchButtonImage(index: patchIndex), for: .normal)
         if isBlue {
-            patchButton.backgroundColor = PatchDayColors.lightBlue
+            patchButton.backgroundColor = PDColors.lightBlue
         }
         let title = self.determinePatchButtonTitle(patchIndex: patchIndex)
         patchButton.setTitle(title, for: .normal)
-        patchButton.setTitleColor(PatchDayColors.darkLines, for: .normal)
+        patchButton.setTitleColor(PDColors.darkLines, for: .normal)
         patchButton.isEnabled = true
     }
     
@@ -150,10 +150,10 @@ class PatchScheduleViewController: UIViewController {
         if let patch = PatchDataController.getPatch(index: patchIndex) {
             if patch.getDatePlaced() != nil {
                 if patch.isExpired() {
-                    title += PatchDayStrings.patchExpired_string
+                    title += PDStrings.patchExpired_string
                 }
                 else {
-                    title += PatchDayStrings.patchExpires_string
+                    title += PDStrings.patchExpires_string
                 }
                 title += Patch.dayOfWeekString(date: patch.expirationDate())
             }
@@ -195,11 +195,11 @@ class PatchScheduleViewController: UIViewController {
         if let patch = PatchDataController.getPatch(index: index) {
             // empty patch
             if patch.isEmpty() {
-                return PatchDayImages.addPatch
+                return PDImages.addPatch
             }
             // custom patch
             else if patch.isCustomLocated() {
-                let customDict = [true: PatchDayImages.custom_notified, false: PatchDayImages.custom]
+                let customDict = [true: PDImages.custom_notified, false: PDImages.custom]
                 if let image = customDict[patch.isExpired()] {
                     if patch.isExpired() {
                         expiredPatchCount += 1
@@ -208,25 +208,25 @@ class PatchScheduleViewController: UIViewController {
                 }
                 // failed to load custom patch (should never happen, but just in case)
                 else {
-                    return PatchDayImages.addPatch
+                    return PDImages.addPatch
                 }
             }
             // general located patch
             else {
                 // not expired, normal images
                 if !patch.isExpired() {
-                    return PatchDayImages.stringToImage(imageString: patch.getLocation())
+                    return PDImages.stringToImage(imageString: patch.getLocation())
                 }
                 // expired...
                 else {
                     expiredPatchCount += 1
-                    return PatchDayImages.stringToNotifiedImage(imageString: patch.getLocation())
+                    return PDImages.stringToNotifiedImage(imageString: patch.getLocation())
                 }
             }
         }
         // nil patch
         else {
-            return PatchDayImages.addPatch
+            return PDImages.addPatch
         }
     }
     
@@ -235,7 +235,7 @@ class PatchScheduleViewController: UIViewController {
         var ref = 0
         var count = 0
         if let givenPatchButtonID: String = (fromPatchButton as! UIButton).restorationIdentifier {
-            for patchID in PatchDayStrings.patchButtonIDs {
+            for patchID in PDStrings.patchButtonIDs {
                 count += 1
                 if givenPatchButtonID == patchID {
                     ref = count

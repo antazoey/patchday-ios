@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1309A5241F17E2C500520B2F /* PatchSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1309A5231F17E2C500520B2F /* PatchSchedule.swift */; };
-		131F0B691EE3AAD700576200 /* PatchDayImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PatchDayImages.swift */; };
+		131F0B691EE3AAD700576200 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		1335B9BB1EC7500D00DD7088 /* PatchDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */; };
 		133EEBAF1EF2EB0200E64C4D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133EEBAE1EF2EB0200E64C4D /* SettingsViewController.swift */; };
 		1340A9E81EE4D4220003EFFA /* PatchDayStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */; };
@@ -22,7 +22,7 @@
 		138620671F13FBE5007161CA /* PatchComparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620661F13FBE5007161CA /* PatchComparable.swift */; };
 		138620691F1406B8007161CA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 138620681F1406B8007161CA /* CloudKit.framework */; };
 		138620741F15A427007161CA /* CorePatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620731F15A427007161CA /* CorePatchData.swift */; };
-		139754B51ED8EE27006C82B8 /* PatchDayColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PatchDayColors.swift */; };
+		139754B51ED8EE27006C82B8 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		139754BE1EDA8C4D006C82B8 /* PatchDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */; };
 		13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
 		13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */; };
@@ -55,7 +55,7 @@
 
 /* Begin PBXFileReference section */
 		1309A5231F17E2C500520B2F /* PatchSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchSchedule.swift; sourceTree = "<group>"; };
-		131F0B681EE3AAD700576200 /* PatchDayImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayImages.swift; sourceTree = "<group>"; };
+		131F0B681EE3AAD700576200 /* PDImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDImages.swift; sourceTree = "<group>"; };
 		1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDataController.swift; sourceTree = "<group>"; };
 		133EEBAE1EF2EB0200E64C4D /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1340A9E71EE4D4220003EFFA /* PatchDayStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayStrings.swift; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 		138620661F13FBE5007161CA /* PatchComparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatchComparable.swift; path = ../PatchDay/PatchComparable.swift; sourceTree = "<group>"; };
 		138620681F1406B8007161CA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		138620731F15A427007161CA /* CorePatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorePatchData.swift; sourceTree = "<group>"; };
-		139754B41ED8EE27006C82B8 /* PatchDayColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayColors.swift; sourceTree = "<group>"; };
+		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
 		139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsViewController.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDefaultsController.swift; sourceTree = "<group>"; };
@@ -120,8 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
-				131F0B681EE3AAD700576200 /* PatchDayImages.swift */,
-				139754B41ED8EE27006C82B8 /* PatchDayColors.swift */,
+				131F0B681EE3AAD700576200 /* PDImages.swift */,
+				139754B41ED8EE27006C82B8 /* PDColors.swift */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -410,9 +410,9 @@
 				133EEBAF1EF2EB0200E64C4D /* SettingsViewController.swift in Sources */,
 				13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */,
 				13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */,
-				139754B51ED8EE27006C82B8 /* PatchDayColors.swift in Sources */,
+				139754B51ED8EE27006C82B8 /* PDColors.swift in Sources */,
 				13E980D81EDFA54B0062B144 /* PatchScheduleViewController.swift in Sources */,
-				131F0B691EE3AAD700576200 /* PatchDayImages.swift in Sources */,
+				131F0B691EE3AAD700576200 /* PDImages.swift in Sources */,
 				13E980D21EDBC2180062B144 /* PatchDetailsSegue.swift in Sources */,
 				13F82DF31EE1F36C006C8041 /* Patch+CoreDataClass.swift in Sources */,
 				13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */,

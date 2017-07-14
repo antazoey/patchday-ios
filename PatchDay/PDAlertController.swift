@@ -17,11 +17,11 @@ class PDAlertController {
     // MARK: - disclaimer / tutorial alert
     
     static public func alertForDisclaimerAndTutorial() {
-        print(PatchDayStrings.disclaimerAlertTitle)
-        print(PatchDayStrings.disclaimerAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.disclaimerAlertTitle, message: PatchDayStrings.disclaimerAlertMessage, preferredStyle: .actionSheet)
-        let closeAction = UIAlertAction(title: PatchDayStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
-        let goToAction = UIAlertAction(title: PatchDayStrings.goToSupport, style: .default) {
+        print(PDStrings.disclaimerAlertTitle)
+        print(PDStrings.disclaimerAlertMessage)
+        currentAlert = UIAlertController(title: PDStrings.disclaimerAlertTitle, message: PDStrings.disclaimerAlertMessage, preferredStyle: .actionSheet)
+        let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
+        let goToAction = UIAlertAction(title: PDStrings.goToSupport, style: .default) {
             (void) in
             if let url = URL(string: "http://tryum.ph/patch_day.html") {
                 if #available(iOS 10.0, *) {
@@ -39,19 +39,19 @@ class PDAlertController {
     //MARK: - core data save error
     
     static public func alertForCoreDataSaveError() {
-        print(PatchDayStrings.coreDataSaveAlertTitle)
-        print(PatchDayStrings.coreDataSaveAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.coreDataSaveAlertTitle, message: PatchDayStrings.coreDataSaveAlertMessage, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: PatchDayStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
+        print(PDStrings.coreDataSaveAlertTitle)
+        print(PDStrings.coreDataSaveAlertMessage)
+        currentAlert = UIAlertController(title: PDStrings.coreDataSaveAlertTitle, message: PDStrings.coreDataSaveAlertMessage, preferredStyle: .alert)
+        let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
         currentAlert.addAction(closeAction)
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     
     static public func alertForCoreDataError() {
-        print(PatchDayStrings.coreDataSaveAlertTitle)
-        print(PatchDayStrings.coreDataAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.coreDataAlertTitle, message: PatchDayStrings.coreDataAlertMessage, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: PatchDayStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
+        print(PDStrings.coreDataSaveAlertTitle)
+        print(PDStrings.coreDataAlertMessage)
+        currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: PDStrings.coreDataAlertMessage, preferredStyle: .alert)
+        let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
         currentAlert.addAction(closeAction)
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
@@ -59,12 +59,12 @@ class PDAlertController {
     // MARK: - enabling or disabling "Auto suggest location"
     
     static public func alertForAutoSuggestLocationDescription(changingTo: Bool) {
-        print(PatchDayStrings.suggestLocationAlertTitle)
-        print(PatchDayStrings.suggestLocationAlertMessage)
-        currentAlert = UIAlertController(title: PatchDayStrings.suggestLocationAlertTitle,
-                                         message: PatchDayStrings.suggestLocationAlertMessage,
+        print(PDStrings.suggestLocationAlertTitle)
+        print(PDStrings.suggestLocationAlertMessage)
+        currentAlert = UIAlertController(title: PDStrings.suggestLocationAlertTitle,
+                                         message: PDStrings.suggestLocationAlertMessage,
                                          preferredStyle: .alert)
-        let continueAction = UIAlertAction(title: PatchDayStrings.continue_string, style: UIAlertActionStyle.default) {
+        let continueAction = UIAlertAction(title: PDStrings.continue_string, style: UIAlertActionStyle.default) {
             (void) in
             SettingsDefaultsController.setAutoChooseLocation(to: changingTo)
         }
@@ -76,10 +76,10 @@ class PDAlertController {
     // MARK: - persistent store load error
     
     static public func alertForPersistentStoreLoadError(error: NSError) {
-        print(PatchDayStrings.coreDataAlertTitle)
+        print(PDStrings.coreDataAlertTitle)
         print(String(describing: error))
-        currentAlert = UIAlertController(title: PatchDayStrings.coreDataAlertTitle, message: "(\(String(describing: error))", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: PatchDayStrings.accept_string, style: .destructive) {
+        currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: "(\(String(describing: error))", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: PDStrings.accept_string, style: .destructive) {
             (void) in
             fatalError()
         }
@@ -107,7 +107,7 @@ class PDAlertController {
     }
     
     static private func settingsToScheduleSegue() {
-        currentVC.performSegue(withIdentifier: PatchDayStrings.settingsToScheduleID, sender: currentVC)
+        currentVC.performSegue(withIdentifier: PDStrings.settingsToScheduleID, sender: currentVC)
     }
 
 }

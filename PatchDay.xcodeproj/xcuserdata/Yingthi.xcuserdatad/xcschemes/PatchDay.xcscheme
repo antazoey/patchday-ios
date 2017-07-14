@@ -37,6 +37,14 @@
                BlueprintName = "PatchDayTests"
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "PatchComparable">
+               </Test>
+               <Test
+                  Identifier = "SuggestedPatchLocationTest">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">

@@ -102,31 +102,31 @@ class SettingsDefaultsController: NSObject {
     
     static func setPatchInterval(to: String) {
         self.patchInterval = to
-        self.defaults.set(to, forKey: PatchDayStrings.patchChangeInterval_string())
+        self.defaults.set(to, forKey: PDStrings.patchChangeInterval_string())
         self.synchonize()
     }
     
     static func setNumberOfPatches(to: String) {
         self.numberOfPatches = to
-        defaults.set(to, forKey: PatchDayStrings.numberOfPatches_string())
+        defaults.set(to, forKey: PDStrings.numberOfPatches_string())
         self.synchonize()
     }
     
     static func setNotificationOption(to: String) {
         self.notificationOption = to
-        defaults.set(to, forKey: PatchDayStrings.notificationKey_string())
+        defaults.set(to, forKey: PDStrings.notificationKey_string())
         self.synchonize()
     }
     
     static func setAutoChooseLocation(to: Bool) {
         self.autoChooseLocation = to
-        self.defaults.set(to, forKey: PatchDayStrings.autoChooseLocation_string())
+        self.defaults.set(to, forKey: PDStrings.autoChooseLocation_string())
         self.synchonize()
     }
     
     static func setRemindMe(to: Bool) {
         self.remindMe = to
-        self.defaults.set(to, forKey: PatchDayStrings.remindMe_string())
+        self.defaults.set(to, forKey: PDStrings.remindMe_string())
         self.synchonize()
     }
     
@@ -134,7 +134,7 @@ class SettingsDefaultsController: NSObject {
     
     static func setMentionedDisclaimer(to: Bool) {
         self.mentionedDisclaimer = to
-        self.defaults.set(to, forKey: PatchDayStrings.mentioned_string())
+        self.defaults.set(to, forKey: PDStrings.mentioned_string())
         self.synchonize()
     }
     
@@ -152,31 +152,31 @@ class SettingsDefaultsController: NSObject {
     // MARK: - loaders
     
     static private func loadPatchInterval() {
-        if let interval = defaults.object(forKey: PatchDayStrings.patchChangeInterval_string()) as? String {
+        if let interval = defaults.object(forKey: PDStrings.patchChangeInterval_string()) as? String {
             patchInterval = interval
         }
     }
     
     static private func loadNumberOfPatches() {
-        if let patchCount = defaults.object(forKey: PatchDayStrings.numberOfPatches_string()) as? String {
+        if let patchCount = defaults.object(forKey: PDStrings.numberOfPatches_string()) as? String {
             numberOfPatches = patchCount
         }
     }
     
     static private func loadNotificationOption() {
-        if let notifyTime = defaults.object(forKey: PatchDayStrings.notificationKey_string()) as? String {
+        if let notifyTime = defaults.object(forKey: PDStrings.notificationKey_string()) as? String {
             notificationOption = notifyTime
         }
     }
     
     static private func loadAutoChooseLocation() {
-        if let autoLoad = defaults.object(forKey: PatchDayStrings.autoChooseLocation_string()) as? Bool {
+        if let autoLoad = defaults.object(forKey: PDStrings.autoChooseLocation_string()) as? Bool {
             autoChooseLocation = autoLoad
         }
     }
     
     static private func loadRemindMe() {
-        if let notifyMe = defaults.object(forKey: PatchDayStrings.remindMe_string()) as? Bool {
+        if let notifyMe = defaults.object(forKey: PDStrings.remindMe_string()) as? Bool {
             remindMe = notifyMe
         }
     }
@@ -184,7 +184,7 @@ class SettingsDefaultsController: NSObject {
     // non icloud included
     
     static private func loadMentionedDisclaimer() {
-        if let mentioned = defaults.object(forKey: PatchDayStrings.mentioned_string()) as? Bool {
+        if let mentioned = defaults.object(forKey: PDStrings.mentioned_string()) as? Bool {
             mentionedDisclaimer = mentioned
         }
     }

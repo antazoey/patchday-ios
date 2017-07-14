@@ -12,7 +12,7 @@ import CoreData
 extension Patch {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Patch> {
-        return NSFetchRequest<Patch>(entityName: PatchDayStrings.entityName)
+        return NSFetchRequest<Patch>(entityName: PDStrings.entityName)
     }
 
     //MARK: - setters
@@ -38,7 +38,7 @@ extension Patch {
     
     public func getLocation() -> String {
         guard let location = self.location else {
-            return PatchDayStrings.unplaced_string
+            return PDStrings.unplaced_string
         }
         return location
     }
@@ -51,7 +51,7 @@ extension Patch {
     
     public func reset() {
         self.datePlaced = nil
-        self.location = PatchDayStrings.unplaced_string
+        self.location = PDStrings.unplaced_string
     }
     
     // MARK: - strings
@@ -62,14 +62,14 @@ extension Patch {
     
     public func getDatePlacedAsString(dateStyle: DateFormatter.Style) -> String {
         guard let dateAdded = self.datePlaced else {
-            return PatchDayStrings.unplaced_string
+            return PDStrings.unplaced_string
         }
         return Patch.makeDateString(from: dateAdded)
     }
     
     public func expirationDateAsString() -> String {
         if self.getDatePlaced() == nil {
-            return PatchDayStrings.hasNoDate
+            return PDStrings.hasNoDate
         }
         let expires = self.expirationDate()
         return Patch.makeDateString(from: expires)
@@ -78,7 +78,7 @@ extension Patch {
     // MARK: - booleans
     
     public func isEmpty() -> Bool {
-        return self.location == nil || self.location == PatchDayStrings.unplaced_string
+        return self.location == nil || self.location == PDStrings.unplaced_string
     }
     
     public func isLessThanOneDayUntilExpired() -> Bool {
@@ -87,7 +87,7 @@ extension Patch {
     }
     
     public func isNotCustomLocated() -> Bool {
-        return PatchDayStrings.patchLocationNames.contains(self.getLocation()) || getLocation() == "unplaced"
+        return PDStrings.patchLocationNames.contains(self.getLocation()) || getLocation() == "unplaced"
     }
     
     public func isCustomLocated() -> Bool {
@@ -135,7 +135,7 @@ extension Patch {
         // defaults as half week
         var numberOfHours = 84
         // full week
-        if patchInterval == PatchDayStrings.expirationIntervals[1] {
+        if patchInterval == PDStrings.expirationIntervals[1] {
             numberOfHours = 168
         }
         return numberOfHours
@@ -167,15 +167,15 @@ extension Patch {
     
     public func notificationString() -> String {
         if self.isNotCustomLocated() {
-            guard let locationNotificationPart = PatchDayStrings.notificationIntros[getLocation()] else {
-                return PatchDayStrings.notificationWithoutLocation + getDatePlacedAsString(dateStyle: .full)
+            guard let locationNotificationPart = PDStrings.notificationIntros[getLocation()] else {
+                return PDStrings.notificationWithoutLocation + getDatePlacedAsString(dateStyle: .full)
             }
             return locationNotificationPart + getDatePlacedAsString(dateStyle: .full)
         }
         
             // for custom located patches
         else {
-            let locationNotificationPart = PatchDayStrings.notificationForCustom + self.getLocation() + " " + PatchDayStrings.notificationForCustom_at
+            let locationNotificationPart = PDStrings.notificationForCustom + self.getLocation() + " " + PDStrings.notificationForCustom_at
             return locationNotificationPart + self.getDatePlacedAsString(dateStyle: .full)
         }
     }
