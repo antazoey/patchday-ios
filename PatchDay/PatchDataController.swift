@@ -61,11 +61,14 @@ class PatchDataController: NSObject {
     public static func resetPatch(forIndex: Int) {
         if let patch = getPatch(index: forIndex) {
             patch.reset()
+            print("reset got here")
         }
+        save()
     }
     
     public static func resetPatchData() {
         self.corePatchData.resetPatchData()
+        save()
     }
     
     // MARK: - called by notification

@@ -51,7 +51,7 @@ class PDStrings {
     
     internal static var notificationWithoutLocation: String = { return NSLocalizedString("Change a patch ", comment: "notification when there is no location pressent, this really should never happen") }()
     
-    // alerts
+    // MARK: - core data alert
     
     internal static var coreDataSaveAlertTitle: String = NSLocalizedString("Save Error", comment: "this is a title to an alert displayed if patch data is not saved for some reason.")
     
@@ -68,17 +68,29 @@ class PDStrings {
     
     internal static var no_string: String = NSLocalizedString("No", comment: "a no button for an alert")
     
+    // MARK: - change patch alert
+    
+    internal static var changePatchCountAlertTitle: String = NSLocalizedString("Warning", comment: "title for alert for changing number of patches (could result in loss of data)")
+    
+    internal static var changePatchCountAlertMessage: String = NSLocalizedString("Decreasing the number of patches will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
+    
     internal static var continue_string: String = NSLocalizedString("Continue", comment: "a button for proceeding during an alert")
     
-    internal static var decline_string: String = NSLocalizedString("Decline", comment: "a cancel button title displayed on the 'changing number of patches' alert")
+    internal static var cancel_string: String = NSLocalizedString("Decline", comment: "a cancel button title displayed on the 'changing number of patches' alert")
+    
+    // MARK: - use notifications alert
     
     internal static var maybeYouShouldUseNotificationsAlertTitle: String = NSLocalizedString("Try Notifications?", comment: "a title for a popup alert asking the user to try the app with notifications turned on")
     
     internal static var maybeYouShouldUseNotificationsAlertMessage: String = NSLocalizedString("With notifications turned on, PatchDay is able to let you know when your patches expire. Turn on settings?", comment: "a message for a popup alert asking the user to try the app with notifications turned on")
     
+    // MARK: - suggest location alert
+    
     internal static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the 'auto suggest' bool from the Settings")
     
     internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Auto Suggest' is turned on, the 'Auto' button from the Patch Details View chooses the optimal general location based on the current general locations in the patch schedule.  It also enables changing the patch from a 'Patch Expired Notification'.", comment: "a descriptive alert message that appears when enabling or disabling the 'auto suggest' bool from the Settings")
+    
+    // MARK: - disclaimer
     
     internal static var disclaimerAlertTitle: String = NSLocalizedString("Disclaimer", comment: "Title for an alert that shows up the first time the app launches.")
     

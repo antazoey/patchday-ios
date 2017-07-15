@@ -11,7 +11,7 @@ import UIKit
 class SettingsDefaultsController: NSObject {
     
     static private var patchInterval: String = "Half-Week"
-    static private var numberOfPatches: String =  "4"
+    static internal var numberOfPatches: String =  "4"
     
     //notifications
     static private var remindMe: Bool = true
@@ -100,13 +100,13 @@ class SettingsDefaultsController: NSObject {
             if let startIndex = Int(to) {
                 // delete old patch data for easy sorting
                 if startIndex < oldNumberOfPatches {
-                for i in startIndex...(oldNumberOfPatches - 1) {
-                    PatchDataController.resetPatch(forIndex: i)
+                    PDAlertController.alertForChangingPatchCount(startIndexForReset: startIndex, endIndexForReset: oldNumberOfPatches, newPatchCount: to)
+                }
+                else {
+                    self.numberOfPatches = to
+                    defaults.set(to, forKey: PDStrings.numberOfPatches_string())
                 }
             }
-        }
-        self.numberOfPatches = to
-        defaults.set(to, forKey: PDStrings.numberOfPatches_string())
         self.synchonize()
     }
     

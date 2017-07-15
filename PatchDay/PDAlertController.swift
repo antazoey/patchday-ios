@@ -16,6 +16,24 @@ class PDAlertController {
     
     // MARK: - disclaimer / tutorial alert
     
+    static internal func alertForChangingPatchCount(startIndexForReset: Int, endIndexForReset: Int, newPatchCount: String) {
+        print(PDStrings.changePatchCountAlertTitle)
+        print(PDStrings.changePatchCountAlertMessage)
+        currentAlert = UIAlertController(title: PDStrings.changePatchCountAlertTitle, message: PDStrings.changePatchCountAlertMessage, preferredStyle: .actionSheet)
+        let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
+            (void) in
+            for i in startIndexForReset...(endIndexForReset - 1) {
+                print("resetting patch... " + String(describing: i))
+                PatchDataController.resetPatch(forIndex: i)
+                SettingsDefaultsController.numberOfPatches = newPatchCount
+            }
+        }
+        let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel, handler: nil)
+        currentAlert.addAction(continueAction)
+        currentAlert.addAction(cancelAction)
+        currentVC.present(currentAlert, animated: true, completion: nil)
+    }
+    
     static internal func alertForDisclaimerAndTutorial() {
         print(PDStrings.disclaimerAlertTitle)
         print(PDStrings.disclaimerAlertMessage)
