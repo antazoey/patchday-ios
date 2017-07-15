@@ -23,7 +23,7 @@ class PDAlertController {
         let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
             (void) in
             for i in startIndexForReset...(endIndexForReset - 1) {
-                print("resetting patch... " + String(describing: i))
+                print("resetting patch at index " + String(describing: i))
                 PatchDataController.resetPatch(forIndex: i)
                 SettingsDefaultsController.numberOfPatches = newPatchCount
             }

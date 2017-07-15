@@ -23,6 +23,8 @@
 		138620741F15A427007161CA /* CorePatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620731F15A427007161CA /* CorePatchData.swift */; };
 		139754B51ED8EE27006C82B8 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		139754BE1EDA8C4D006C82B8 /* PatchDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */; };
+		13B00C021F1A8EC700548019 /* Ensembles.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13B00C011F1A8EBD00548019 /* Ensembles.framework */; };
+		13B00C031F1A8EC700548019 /* Ensembles.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 13B00C011F1A8EBD00548019 /* Ensembles.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
 		13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */; };
 		13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */; };
@@ -50,7 +52,56 @@
 			remoteGlobalIDString = 137330E81E22BA3E0048F91E;
 			remoteInfo = PatchDay;
 		};
+		13B00BFA1F1A8EBD00548019 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 07BF374517F184DD00C56F64;
+			remoteInfo = "Ensembles iOS";
+		};
+		13B00BFC1F1A8EBD00548019 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 07571F0F1910EC02008479A9;
+			remoteInfo = "Ensembles Resources iOS";
+		};
+		13B00BFE1F1A8EBD00548019 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 070D336118018A960054BA23;
+			remoteInfo = "Tests iOS";
+		};
+		13B00C001F1A8EBD00548019 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 07F2D9B41D950FDB00EB9483;
+			remoteInfo = "Ensembles iOS Module";
+		};
+		13B00C041F1A8EC700548019 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 07F2D9B31D950FDB00EB9483;
+			remoteInfo = "Ensembles iOS Module";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		13B00C061F1A8EC700548019 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				13B00C031F1A8EC700548019 /* Ensembles.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1309A5231F17E2C500520B2F /* PatchSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchSchedule.swift; sourceTree = "<group>"; };
@@ -76,6 +127,7 @@
 		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
 		139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsViewController.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
+		13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Ensembles iOS.xcodeproj"; path = "../cocoapackages/ensembles-master/Framework/Ensembles iOS.xcodeproj"; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDefaultsController.swift; sourceTree = "<group>"; };
 		13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleToSettingsSegue.swift; sourceTree = "<group>"; };
 		13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsToScheduleSegue.swift; sourceTree = "<group>"; };
@@ -93,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13B00C021F1A8EC700548019 /* Ensembles.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +187,7 @@
 		137330E01E22BA3E0048F91E = {
 			isa = PBXGroup;
 			children = (
+				13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */,
 				137330EB1E22BA3E0048F91E /* PatchDay */,
 				137331001E22BA3E0048F91E /* PatchDayTests */,
 				1373310B1E22BA3E0048F91E /* PatchDayUITests */,
@@ -240,6 +294,17 @@
 			name = ViewControllers;
 			sourceTree = "<group>";
 		};
+		13B00BF21F1A8EBD00548019 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				13B00BFB1F1A8EBD00548019 /* libensembles.a */,
+				13B00BFD1F1A8EBD00548019 /* Ensembles.bundle */,
+				13B00BFF1F1A8EBD00548019 /* Tests iOS.xctest */,
+				13B00C011F1A8EBD00548019 /* Ensembles.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -250,10 +315,12 @@
 				137330E51E22BA3E0048F91E /* Sources */,
 				137330E61E22BA3E0048F91E /* Frameworks */,
 				137330E71E22BA3E0048F91E /* Resources */,
+				13B00C061F1A8EC700548019 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				13B00C051F1A8EC700548019 /* PBXTargetDependency */,
 			);
 			name = PatchDay;
 			productName = PatchDay;
@@ -342,6 +409,12 @@
 			mainGroup = 137330E01E22BA3E0048F91E;
 			productRefGroup = 137330EA1E22BA3E0048F91E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 13B00BF21F1A8EBD00548019 /* Products */;
+					ProjectRef = 13B00BE11F1A8EB500548019 /* Ensembles iOS.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				137330E81E22BA3E0048F91E /* PatchDay */,
@@ -350,6 +423,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		13B00BFB1F1A8EBD00548019 /* libensembles.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libensembles.a;
+			remoteRef = 13B00BFA1F1A8EBD00548019 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		13B00BFD1F1A8EBD00548019 /* Ensembles.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Ensembles.bundle;
+			remoteRef = 13B00BFC1F1A8EBD00548019 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		13B00BFF1F1A8EBD00548019 /* Tests iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests iOS.xctest";
+			remoteRef = 13B00BFE1F1A8EBD00548019 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		13B00C011F1A8EBD00548019 /* Ensembles.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Ensembles.framework;
+			remoteRef = 13B00C001F1A8EBD00548019 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		137330E71E22BA3E0048F91E /* Resources */ = {
@@ -435,6 +539,11 @@
 			isa = PBXTargetDependency;
 			target = 137330E81E22BA3E0048F91E /* PatchDay */;
 			targetProxy = 137331091E22BA3E0048F91E /* PBXContainerItemProxy */;
+		};
+		13B00C051F1A8EC700548019 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Ensembles iOS Module";
+			targetProxy = 13B00C041F1A8EC700548019 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

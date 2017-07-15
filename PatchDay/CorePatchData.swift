@@ -8,21 +8,9 @@
 
 import Foundation
 import CoreData
+import Ensembles
 
 internal class CorePatchData {
-
-    
-    // MARK: - Core Data stack
-    
-    internal static var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: PDStrings.patchData)
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                PDAlertController.alertForPersistentStoreLoadError(error: error)
-            }
-        })
-        return container
-    }()
     
     // MARK: - Managed Object Array
     
@@ -46,17 +34,6 @@ internal class CorePatchData {
         
     }
     
-    // MARK: - Core Data Saving support
-    
-    internal static func saveContext () {
-        if persistentContainer.viewContext.hasChanges {
-            do {
-                try persistentContainer.viewContext.save()
-            } catch {
-                PDAlertController.alertForCoreDataSaveError()
-            }
-        }
-    }
     
     // MARK: - Public
     
@@ -69,7 +46,7 @@ internal class CorePatchData {
         if forIndex < 0 {
             return nil
         }
-        // no patch in userPatches forIndex (such as the NumberOfPatches changed), and it is still less than the numberOfPatches... then make a new patch and append and return it.
+            // no patch in userPatches forIndex (such as the NumberOfPatches changed), and it is still less than the numberOfPatches... then make a new patch and append and return it.
         else if forIndex < SettingsDefaultsController.getNumberOfPatchesInt() {
             if forIndex >= userPatches.count {
                 let newPatch = CorePatchData.createGenericPatch(patchEntityNameIndex: forIndex)
@@ -107,7 +84,7 @@ internal class CorePatchData {
         if let patch = getPatch(forIndex: patchIndex) {
             patch.setDatePlaced(withDate: with)
         }
-            // if there is no Patch, make one there and set that one's date
+        // if there is no Patch, make one there and set that one's date
         CorePatchData.saveContext()
     }
     
@@ -133,6 +110,30 @@ internal class CorePatchData {
         CorePatchData.saveContext()
     }
     
+    // MARK: - Core Data stack
+    
+    internal static var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: PDStrings.patchData)
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                PDAlertController.alertForPersistentStoreLoadError(error: error)
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
+    
+    internal static func saveContext () {
+        if persistentContainer.viewContext.hasChanges {
+            do {
+                try persistentContainer.viewContext.save()
+            } catch {
+                PDAlertController.alertForCoreDataSaveError()
+            }
+        }
+    }
+    
     // MARK: Private functions
     
     static private func createGenericPatch(patchEntityNameIndex: Int) -> Patch {
@@ -149,7 +150,6 @@ internal class CorePatchData {
     // called by PatchDataController.createPatches()
     static private func createPatchFromCoreData(patchEntityNameIndex: Int) -> Patch? {
         var userPatch: Patch?
-        
         if let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex) {
             patchFetchRequest.propertiesToFetch = PDStrings.patchPropertyNames
             do {
