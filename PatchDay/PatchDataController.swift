@@ -36,26 +36,32 @@ class PatchDataController: NSObject {
     
     public static func setPatchLocation(patchIndex: Int, with: String) {
         self.corePatchData.setPatchLocation(patchIndex: patchIndex, with: with)
-        corePatchData = CorePatchData()
+        corePatchData.sortSchedule()
         save()
     }
     
     public static func setPatchDate(patchIndex: Int, with: Date) {
         self.corePatchData.setPatchDate(patchIndex: patchIndex, with: with)
-        corePatchData = CorePatchData()
+        corePatchData.sortSchedule()
         save()
     }
     
     public static func setPatch(patchIndex: Int, patchDate: Date, location: String) {
         self.corePatchData.setPatch(patchIndex: patchIndex, patchDate: patchDate, location: location)
-        corePatchData = CorePatchData()
+        corePatchData.sortSchedule()
         save()
     }
     
     public static func setPatch(with: Patch, patchIndex: Int) {
         self.corePatchData.setPatch(with: with, patchIndex: patchIndex)
-        corePatchData = CorePatchData()
+        corePatchData.sortSchedule()
         save()
+    }
+    
+    public static func resetPatch(forIndex: Int) {
+        if let patch = getPatch(index: forIndex) {
+            patch.reset()
+        }
     }
     
     public static func resetPatchData() {

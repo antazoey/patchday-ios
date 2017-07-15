@@ -96,6 +96,15 @@ class SettingsDefaultsController: NSObject {
     }
     
     public static func setNumberOfPatches(to: String) {
+        let oldNumberOfPatches = self.getNumberOfPatchesInt()
+            if let startIndex = Int(to) {
+                // delete old patch data for easy sorting
+                if startIndex < oldNumberOfPatches {
+                for i in startIndex...(oldNumberOfPatches - 1) {
+                    PatchDataController.resetPatch(forIndex: i)
+                }
+            }
+        }
         self.numberOfPatches = to
         defaults.set(to, forKey: PDStrings.numberOfPatches_string())
         self.synchonize()

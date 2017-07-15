@@ -35,7 +35,7 @@ internal class CorePatchData {
                 patches.append(userPatch)
             }
             else {
-                let userPatch = CorePatchData.createGenericPatch(entityName: PDStrings.patchEntityNames[i])
+                let userPatch = CorePatchData.createGenericPatch(patchEntityNameIndex: i)
                 patches.append(userPatch)
             }
             CorePatchData.saveContext()
@@ -60,11 +60,30 @@ internal class CorePatchData {
     
     // MARK: - Public
     
+    internal func sortSchedule() {
+        self.userPatches.sort(by: <)
+    }
+    
     internal func getPatch(forIndex: Int) -> Patch? {
-        if forIndex < userPatches.count && forIndex >= 0 {
-            return userPatches[forIndex]
+        // negative indices need not abide
+        if forIndex < 0 {
+            return nil
         }
-        return nil
+        // no patch in userPatches forIndex (such as the NumberOfPatches changed), and it is still less than the numberOfPatches... then make a new patch and append and return it.
+        else if forIndex < SettingsDefaultsController.getNumberOfPatchesInt() {
+            if forIndex >= userPatches.count {
+                let newPatch = CorePatchData.createGenericPatch(patchEntityNameIndex: forIndex)
+                userPatches.append(newPatch)
+                sortSchedule()
+                return newPatch
+            }
+            else {
+                return userPatches[forIndex]
+            }
+        }
+        else {
+            return nil
+        }
     }
     
     internal func setPatchLocation(patchIndex: Int, with: String) {
@@ -116,7 +135,8 @@ internal class CorePatchData {
     
     // MARK: Private functions
     
-    static private func createGenericPatch(entityName: String) -> Patch {
+    static private func createGenericPatch(patchEntityNameIndex: Int) -> Patch {
+        let entityName = PDStrings.patchEntityNames[patchEntityNameIndex]
         if let patch = NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as? Patch {
             return patch
         }
