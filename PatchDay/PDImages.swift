@@ -11,31 +11,31 @@ import UIKit
 
 class PDImages {
     
-    static public var logo: UIImage = { return #imageLiteral(resourceName: "Logo") }()
-    static public var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
+    static internal var logo: UIImage = { return #imageLiteral(resourceName: "Logo") }()
+    static internal var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
     
     // location images
-    static public var rButt: UIImage = { return #imageLiteral(resourceName: "Right Buttock") }()
-    static public var lButt: UIImage = { return #imageLiteral(resourceName: "Left Buttock") }()
-    static public var rStom: UIImage = { return #imageLiteral(resourceName: "Right Stomach") }()
-    static public var lStom: UIImage = { return #imageLiteral(resourceName: "Left Stomach") }()
+    static internal var rButt: UIImage = { return #imageLiteral(resourceName: "Right Buttock") }()
+    static internal var lButt: UIImage = { return #imageLiteral(resourceName: "Left Buttock") }()
+    static internal var rStom: UIImage = { return #imageLiteral(resourceName: "Right Stomach") }()
+    static internal var lStom: UIImage = { return #imageLiteral(resourceName: "Left Stomach") }()
     
     // locations with notification
-    static public var rButt_notified: UIImage = { return #imageLiteral(resourceName: "Right Buttock Notified") }()
-    static public var lButt_notified: UIImage = { return #imageLiteral(resourceName: "Left Buttock Notified") }()
-    static public var rStom_notified: UIImage = { return #imageLiteral(resourceName: "Right Stomach Notified") }()
-    static public var lStom_notified: UIImage = { return #imageLiteral(resourceName: "Left Stomach Notified") }()
+    static internal var rButt_notified: UIImage = { return #imageLiteral(resourceName: "Right Buttock Notified") }()
+    static internal var lButt_notified: UIImage = { return #imageLiteral(resourceName: "Left Buttock Notified") }()
+    static internal var rStom_notified: UIImage = { return #imageLiteral(resourceName: "Right Stomach Notified") }()
+    static internal var lStom_notified: UIImage = { return #imageLiteral(resourceName: "Left Stomach Notified") }()
     
     // custom
-    static public var custom: UIImage = { return #imageLiteral(resourceName: "Custom") }()
-    static public var custom_notified: UIImage = { return #imageLiteral(resourceName: "Custom Notified") }()
+    static internal var custom: UIImage = { return #imageLiteral(resourceName: "Custom") }()
+    static internal var custom_notified: UIImage = { return #imageLiteral(resourceName: "Custom Notified") }()
     
-    static func stringToImage(imageString: String) -> UIImage {
+    static internal func stringToImage(imageString: String) -> UIImage {
         let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt, PDStrings.leftButt(): lButt, PDStrings.rightStom(): rStom, PDStrings.leftStom(): lStom]
         return stringToImageDict[imageString]!
     }
     
-    static func stringToNotifiedImage(imageString: String) -> UIImage {
+    static internal func stringToNotifiedImage(imageString: String) -> UIImage {
         let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt_notified, PDStrings.leftButt(): lButt_notified, PDStrings.rightStom(): rStom_notified, PDStrings.leftStom(): lStom_notified]
         return stringToImageDict[imageString]!
     }

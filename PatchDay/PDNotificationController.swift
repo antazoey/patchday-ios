@@ -13,11 +13,11 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Essential
     
-    public var center = { return UNUserNotificationCenter.current() }()
+    internal var center = { return UNUserNotificationCenter.current() }()
     
-    public var currentPatchIndex = 0
+    internal var currentPatchIndex = 0
     
-    public var sendingNotifications = true
+    internal var sendingNotifications = true
     
     override init() {
         super.init()
@@ -27,7 +27,7 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
         UNUserNotificationCenter.current().delegate = self
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // ACTION:  Change Patch pressed
         if response.actionIdentifier == "changePatchActionID" {
             // change the current patch data
@@ -39,7 +39,7 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
 
     // MARK: - notifications
     
-    func requestNotifyChangeSoon(patchIndex: Int) {
+    internal func requestNotifyChangeSoon(patchIndex: Int) {
         if let patch = PatchDataController.getPatch(index: patchIndex), sendingNotifications, SettingsDefaultsController.getRemindMe() {
             let minutesBefore = SettingsDefaultsController.getNotificationTimeDouble()
             let secondsBefore = minutesBefore * 60.0
@@ -66,7 +66,7 @@ class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
-    func requestNotifyExpired(patchIndex: Int) {
+    internal func requestNotifyExpired(patchIndex: Int) {
         if let patch = PatchDataController.getPatch(index: patchIndex), sendingNotifications {
             self.currentPatchIndex = patchIndex
             let allowsAutoChooseLocation = SettingsDefaultsController.getAutoChooseLocation()

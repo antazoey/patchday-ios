@@ -21,7 +21,7 @@ public class Patch: NSManagedObject {
     
     // Note:  nil dates are > non-nil dates than in this scheme
     
-    static func < (lhs: Patch, rhs: Patch) -> Bool {
+    public static func < (lhs: Patch, rhs: Patch) -> Bool {
         if let l_date = lhs.datePlaced, let r_date = rhs.datePlaced {
             return l_date < r_date
         }
@@ -33,7 +33,7 @@ public class Patch: NSManagedObject {
         }
     }
     
-    static func > (lhs: Patch, rhs: Patch) -> Bool {
+    public static func > (lhs: Patch, rhs: Patch) -> Bool {
         if let l_date = lhs.datePlaced, let r_date = rhs.datePlaced {
             return l_date > r_date
         }
@@ -45,7 +45,7 @@ public class Patch: NSManagedObject {
         }
     }
     
-    static func == (lhs: Patch, rhs: Patch) -> Bool {
+    public static func == (lhs: Patch, rhs: Patch) -> Bool {
         if let l_date = lhs.datePlaced, let r_date = rhs.datePlaced {
             return l_date == r_date
         }

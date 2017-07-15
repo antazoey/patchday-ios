@@ -25,7 +25,7 @@ class SettingsDefaultsController: NSObject {
 
     // MARK: - a static init()
     
-    static func setUp() {
+    public static func setUp() {
         loadPatchInterval()
         loadNumberOfPatches()
         loadNotificationOption()
@@ -38,15 +38,15 @@ class SettingsDefaultsController: NSObject {
     
     // MARK: - Getters
     
-    static func getPatchInterval() -> String {
+    public static func getPatchInterval() -> String {
         return self.patchInterval
     }
     
-    static func getNumberOfPatchesString() -> String {
+    public static func getNumberOfPatchesString() -> String {
         return self.numberOfPatches
     }
     
-    static func getNumberOfPatchesInt() -> Int {
+    public static func getNumberOfPatchesInt() -> Int {
         if let int = Int(getNumberOfPatchesString()) {
             return int
         }
@@ -55,11 +55,11 @@ class SettingsDefaultsController: NSObject {
         }
     }
     
-    static func getNotificaitonTimeString() -> String {
+    public static func getNotificaitonTimeString() -> String {
         return self.notificationOption
     }
     
-    static func getNotificationTimeInt() -> Int {
+    public static func getNotificationTimeInt() -> Int {
         if let int = Int(self.notificationOption) {
             return int
         }
@@ -68,7 +68,7 @@ class SettingsDefaultsController: NSObject {
         }
     }
     
-    static func getNotificationTimeDouble() -> Double {
+    public static func getNotificationTimeDouble() -> Double {
         if let double = Double(self.notificationOption) {
             return double
         }
@@ -77,48 +77,46 @@ class SettingsDefaultsController: NSObject {
         }
     }
     
-    static func getAutoChooseLocation() -> Bool {
+    public static func getAutoChooseLocation() -> Bool {
         return self.autoChooseLocation
     }
     
-    static func getRemindMe() -> Bool {
+    public static func getRemindMe() -> Bool {
         return self.remindMe
     }
     
-    static func getCloudKey() -> NSObjectProtocol? {
+    public static func getCloudKey() -> NSObjectProtocol? {
         if let key = defaults.object(forKey: "cloudKey") {
             return key as? NSObjectProtocol
         }
         return nil
     }
     
-    // non icloud included
-    
-    static func getMentionedDisclaimer() -> Bool {
+    public static func getMentionedDisclaimer() -> Bool {
         return self.mentionedDisclaimer
     }
     
     // MARK: - Setters
     
-    static func setPatchInterval(to: String) {
+    public static func setPatchInterval(to: String) {
         self.patchInterval = to
         self.defaults.set(to, forKey: PDStrings.patchChangeInterval_string())
         self.synchonize()
     }
     
-    static func setNumberOfPatches(to: String) {
+    public static func setNumberOfPatches(to: String) {
         self.numberOfPatches = to
         defaults.set(to, forKey: PDStrings.numberOfPatches_string())
         self.synchonize()
     }
     
-    static func setNotificationOption(to: String) {
+    public static func setNotificationOption(to: String) {
         self.notificationOption = to
         defaults.set(to, forKey: PDStrings.notificationKey_string())
         self.synchonize()
     }
     
-    static func setAutoChooseLocation(to: Bool) {
+    public static func setAutoChooseLocation(to: Bool) {
         self.autoChooseLocation = to
         self.defaults.set(to, forKey: PDStrings.autoChooseLocation_string())
         self.synchonize()
@@ -129,23 +127,21 @@ class SettingsDefaultsController: NSObject {
         self.defaults.set(to, forKey: PDStrings.remindMe_string())
         self.synchonize()
     }
-    
-    // non icloud included
-    
-    static func setMentionedDisclaimer(to: Bool) {
+
+    public static func setMentionedDisclaimer(to: Bool) {
         self.mentionedDisclaimer = to
         self.defaults.set(to, forKey: PDStrings.mentioned_string())
         self.synchonize()
     }
     
-    static func setCloudKey(to: NSObjectProtocol) {
+    public static func setCloudKey(to: NSObjectProtocol) {
         self.defaults.set(to, forKey: "cloudKey")
         self.synchonize()
     }
     
     //MARK: - Synchronize
     
-    static func synchonize() {
+    public static func synchonize() {
         defaults.synchronize()
     }
     

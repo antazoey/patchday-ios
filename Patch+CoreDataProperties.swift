@@ -99,6 +99,21 @@ extension Patch {
         return self.getDatePlaced() != nil && intervalUntilExpiration <= 0
     }
     
+    public func notificationString() -> String {
+        if self.isNotCustomLocated() {
+            guard let locationNotificationPart = PDStrings.notificationIntros[getLocation()] else {
+                return PDStrings.notificationWithoutLocation + getDatePlacedAsString(dateStyle: .full)
+            }
+            return locationNotificationPart + getDatePlacedAsString(dateStyle: .full)
+        }
+            
+            // for custom located patches
+        else {
+            let locationNotificationPart = PDStrings.notificationForCustom + self.getLocation() + " " + PDStrings.notificationForCustom_at
+            return locationNotificationPart + self.getDatePlacedAsString(dateStyle: .full)
+        }
+    }
+    
     // MARK: - selectors
     
     public func expirationDate() -> Date {
@@ -130,7 +145,7 @@ extension Patch {
         
     }
     
-    static func calculateHoursOfPatchDuration() -> Int {
+    static public func calculateHoursOfPatchDuration() -> Int {
         let patchInterval = SettingsDefaultsController.getPatchInterval()
         // defaults as half week
         var numberOfHours = 84
@@ -143,13 +158,13 @@ extension Patch {
     
     // MARK: - static
     
-    static func makeDateString(from: Date) -> String {
+    static public func makeDateString(from: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy, h:mm a"
         return dateFormatter.string(from: from)
     }
     
-    static func expiredDate(fromDate: Date) -> Date {
+    static public func expiredDate(fromDate: Date) -> Date {
         let numberOfHoursPatchLasts = calculateHoursOfPatchDuration()
         let calendar = Calendar.current
         guard let expDate = calendar.date(byAdding: .hour, value: numberOfHoursPatchLasts, to: fromDate) else {
@@ -163,21 +178,6 @@ extension Patch {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, h:mm a"
         return dateFormatter.string(from: date)
-    }
-    
-    public func notificationString() -> String {
-        if self.isNotCustomLocated() {
-            guard let locationNotificationPart = PDStrings.notificationIntros[getLocation()] else {
-                return PDStrings.notificationWithoutLocation + getDatePlacedAsString(dateStyle: .full)
-            }
-            return locationNotificationPart + getDatePlacedAsString(dateStyle: .full)
-        }
-        
-            // for custom located patches
-        else {
-            let locationNotificationPart = PDStrings.notificationForCustom + self.getLocation() + " " + PDStrings.notificationForCustom_at
-            return locationNotificationPart + self.getDatePlacedAsString(dateStyle: .full)
-        }
     }
 
 }

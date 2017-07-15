@@ -13,42 +13,42 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     //MARK: - Main
     
     // main subview
-    @IBOutlet var popUpView: UIView!
+    @IBOutlet private weak var popUpView: UIView!
     
     // edit date and location buttons
 
-    @IBOutlet var locationTextEdit: UITextField!
+    @IBOutlet private weak var locationTextEdit: UITextField!
     
-    @IBOutlet weak var chooseDateTextButton: UIButton!
-    @IBOutlet var addLocationTextButton: UIButton!
+    @IBOutlet private weak var chooseDateTextButton: UIButton!
+    @IBOutlet private var addLocationTextButton: UIButton!
     
-    @IBOutlet var expiresOrExpiredLabel: UILabel!
+    @IBOutlet private weak var expiresOrExpiredLabel: UILabel!
     
-    @IBOutlet var expirationDateLabel: UILabel!
+    @IBOutlet private weak var expirationDateLabel: UILabel!
     
-    @IBOutlet var horizontalLineBelowLocation: UIView!
+    @IBOutlet private var horizontalLineBelowLocation: UIView!
     // Location bar
-    @IBOutlet weak var horizontalLineAboveLocation: UIView!
-    @IBOutlet weak var locationStackView: UIStackView!
-    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet private weak var horizontalLineAboveLocation: UIView!
+    @IBOutlet private weak var locationStackView: UIStackView!
+    @IBOutlet private weak var locationLabel: UILabel!
 
     // save, auto choose
-    @IBOutlet weak var save: UIButton!
-    @IBOutlet weak var autoChooseButton: UIButton!
+    @IBOutlet private weak var save: UIButton!
+    @IBOutlet private weak var autoChooseButton: UIButton!
     
     // more location related
-    @IBOutlet weak var locationPicker: UIPickerView!
+    @IBOutlet private weak var locationPicker: UIPickerView!
     
     // cosmetics
-    @IBOutlet var bigGap2: UIView!
-    @IBOutlet weak var bigGap: UIView!
-    @IBOutlet weak var headingLabel: UILabel!
-    @IBOutlet var lineUnderExpires: UIView!
-    @IBOutlet var lineUnderDateAndTimePlaced: UIView!
-    @IBOutlet var lineUnderDatePlaced: UIView!
+    @IBOutlet private weak var bigGap2: UIView!
+    @IBOutlet private weak var bigGap: UIView!
+    @IBOutlet private weak var headingLabel: UILabel!
+    @IBOutlet private weak var lineUnderExpires: UIView!
+    @IBOutlet private weak var lineUnderDateAndTimePlaced: UIView!
+    @IBOutlet private weak var lineUnderDatePlaced: UIView!
     
     // reference to which patch it is (index in patches = patchReference - 1)
-    private var patchReferernce = 0
+    internal var patchReferernce = 0
     
     // date picker vars
     private var dateInputView = UIView()
@@ -58,8 +58,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     private var locationTextHasChanged = false
     private var patchDateTextHasChanged = false
     
-    @IBOutlet var lineUnderExpirationDate: UIView!
-    @IBOutlet var dateAndTimePlaced: UILabel!
+    @IBOutlet private weak var lineUnderExpirationDate: UIView!
+    @IBOutlet private weak var dateAndTimePlaced: UILabel!
     
     override func viewDidLoad() {
         PDAlertController.currentVC = self
@@ -85,7 +85,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
     
     // Save Button
-    @IBAction func hitSaveButton(_ sender: Any) {
+    @IBAction private func hitSaveButton(_ sender: Any) {
         self.saveAttributes()
         self.requestNotifications()
         self.performSegue(withIdentifier: PDStrings.patchDetailsSegueID, sender: self)
@@ -97,7 +97,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    @IBAction func autoTapped(_ sender: Any) {
+    @IBAction private func autoTapped(_ sender: Any) {
         // Location is a suggested by SuggedPatchLocation's algorithm,
         // Date is now.
         self.autoPickLocationAndDate()
@@ -114,12 +114,12 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // MARK: - Text Edit Functions
     
-    @IBAction func keyboardTapped(_ sender: Any) {
+    @IBAction private func keyboardTapped(_ sender: Any) {
         self.locationTextEdit.restorationIdentifier = "type"
         self.locationTextEdit.becomeFirstResponder()
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
+    internal func textFieldDidBeginEditing(_ textField: UITextField) {
         self.locationTextEdit.isUserInteractionEnabled = true
         if textField.restorationIdentifier == "pick" {
             self.openLocationPicker(textField)
@@ -137,7 +137,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     }
  
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.locationTextEdit.endEditing(true)
         self.saveButtonLightUp()
         self.enableLocationTextEdit()
@@ -152,7 +152,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // MARK: - Picker Functions
     
-    @IBAction func openLocationPicker(_ sender: Any) {
+    @IBAction internal func openLocationPicker(_ sender: Any) {
         self.unhideLocationPicker()
         
         // other View changes
@@ -165,20 +165,20 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
     }
 
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return PDStrings.patchLocationNames.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return PDStrings.patchLocationNames[row]
         
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.locationTextEdit.text = PDStrings.patchLocationNames[row]
         // other view changes
         self.saveButtonLightUp()
@@ -195,7 +195,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
     // MARK: - Date Picker funcs
     
-    @IBAction func chooseDateTextTapped(_ sender: Any) {
+    @IBAction internal func chooseDateTextTapped(_ sender: Any) {
         
         self.createDateAddSubview()
         // disable \ hide stuff
@@ -207,7 +207,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
     }
     
-    func datePickerDone(sender: UIButton) {
+    internal func datePickerDone(sender: UIButton) {
         self.dateInputView.isHidden = true
         // set date and time placed on screen
         self.chooseDateTextButton.setTitle(Patch.makeDateString(from: self.datePicker.date), for: UIControlState.normal)
@@ -225,6 +225,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         self.enableLocationTextEdit()
 
     }
+    
+    // MARK: - private funcs
     
     private func displayAttributeTexts() {
         if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
@@ -257,22 +259,21 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    // MARK: -- public
-    public func setPatchReference(to: Int) {
+    internal func setPatchReference(to: Int) {
         self.patchReferernce = to
     }
     
-    public func getPatchReference() -> Int {
+    internal func getPatchReference() -> Int {
         return self.patchReferernce
     }
     
     // enables the save button and lights it up
-    public func saveButtonLightUp() {
+    private func saveButtonLightUp() {
         self.enableSaveButton()
         self.unhideSaveButton()
     }
     
-    public func saveAttributes() {
+    private func saveAttributes() {
         if self.locationTextHasChanged {
             // current patch must exist since we are editing it
             guard let newLocation = self.locationTextEdit.text, newLocation != "" else {
@@ -286,7 +287,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         PatchDataController.save()
     }
     
-    public func autoPickLocation() {
+    private func autoPickLocation() {
         if SettingsDefaultsController.getAutoChooseLocation() {
             let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
             self.locationTextEdit.text = suggestedLocation
@@ -296,19 +297,19 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    public func autoPickDate() {
+    private func autoPickDate() {
         let now = Date()
         self.chooseDateTextButton.setTitle(Patch.makeDateString(from: now), for: .normal)
         let expDate = Patch.expiredDate(fromDate: now)
         self.expirationDateLabel.text = Patch.makeDateString(from: expDate)
     }
     
-    public func autoPickLocationAndDate() {
+    private func autoPickLocationAndDate() {
         self.autoPickLocation()
         self.autoPickDate()
     }
     
-    public func requestNotifications() {
+    private func requestNotifications() {
         // request notification iff exists Patch.datePlaced
         if let _ = PatchDataController.getPatch(index: self.getPatchIndex()) {
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: self.getPatchIndex())

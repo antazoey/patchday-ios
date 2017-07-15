@@ -17,7 +17,7 @@ class PatchDataController: NSObject {
     // Class for handling getting and setting patch data, such as datePlaced and location for each patch.
     // Also has access to a PatchSchedule object for quering the patch data collectively
     
-    static public var corePatchData: CorePatchData = CorePatchData()
+    static internal var corePatchData: CorePatchData = CorePatchData()
     
     // MARK: - Public
     

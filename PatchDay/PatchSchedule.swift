@@ -8,14 +8,14 @@
 
 import Foundation
 
-class PatchSchedule {
+internal class PatchSchedule {
     
     // This is a class for working with the patches together as an array.
     // It exists mainly to seperate these relatively query-like functions from
     // the PatchDataController, which emphasises getting and setting the actual data.
     // It is a accessible through PatchDataController
     
-    var patches: [Patch]
+    private var patches: [Patch]
     
     init(patches: [Patch]) {
         self.patches = patches
@@ -24,11 +24,11 @@ class PatchSchedule {
     // MARK: - Suggest Patch Location
     
     // how to access the Suggest Patch Location Algorithm
-    public func suggestLocation(patchIndex: Int) -> String {
+    internal func suggestLocation(patchIndex: Int) -> String {
         return SuggestedPatchLocation.suggest(patchIndex: patchIndex)
     }
     
-    public func makeArrayOfLocations() -> [String] {
+    internal func makeArrayOfLocations() -> [String] {
         var locationArray: [String] = []
         for i in 0...(SettingsDefaultsController.getNumberOfPatchesInt() - 1) {
             if i < patches.count {

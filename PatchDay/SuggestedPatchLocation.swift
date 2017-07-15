@@ -8,17 +8,17 @@
 
 import Foundation
 
-class SuggestedPatchLocation {
+internal class SuggestedPatchLocation {
     
     // An algorithm for suggesting a location to place the next patch based on the current locations of the patches in the schedule.
     
     // MARK: - Public
     
-    static var generalLocations = PDStrings.patchLocationNames
+    internal static var generalLocations = PDStrings.patchLocationNames
     
-    static var currentLocations: [String] = PatchDataController.patchSchedule().makeArrayOfLocations()
+    internal static var currentLocations: [String] = PatchDataController.patchSchedule().makeArrayOfLocations()
     
-    static func suggest(patchIndex: Int) -> String {
+    internal static func suggest(patchIndex: Int) -> String {
         
         if patchIndex >= SettingsDefaultsController.getNumberOfPatchesInt() || patchIndex < 0 {
             return ""
@@ -67,16 +67,16 @@ class SuggestedPatchLocation {
     }
     
     // keeps the currentLocations current
-    public static func setCurrentLocations(with: [String]) {
+    internal static func setCurrentLocations(with: [String]) {
         currentLocations = with
     }
     
-    public static func getCurrentLocationsCount() -> Int {
+    internal static func getCurrentLocationsCount() -> Int {
         return PatchDataController.patchSchedule().makeArrayOfLocations().count
     }
     
     // returns 1 + an index value (modularly) in the list of general locations
-    public static func getNextGeneralIndex(fromIndex: Int, totalNumberOfGeneralLocationOptions: Int) -> Int {
+    internal static func getNextGeneralIndex(fromIndex: Int, totalNumberOfGeneralLocationOptions: Int) -> Int {
         let capIndex = totalNumberOfGeneralLocationOptions-1
         if fromIndex < capIndex {
             return fromIndex + 1
@@ -87,7 +87,7 @@ class SuggestedPatchLocation {
     }
     
     // returns the current location from the PatchDataController with the given patchIndex
-    public static func getCurrentLocation(patchIndex: Int) -> String {
+    internal static func getCurrentLocation(patchIndex: Int) -> String {
         if let patch = PatchDataController.getPatch(index: patchIndex) {
             return patch.getLocation()
         }

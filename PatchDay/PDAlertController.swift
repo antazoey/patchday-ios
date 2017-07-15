@@ -10,13 +10,13 @@ import UIKit
 
 class PDAlertController {
     
-    static public var currentVC = getRootVC()
+    static internal var currentVC = getRootVC()
     
-    static public var currentAlert = UIAlertController()
+    static internal var currentAlert = UIAlertController()
     
     // MARK: - disclaimer / tutorial alert
     
-    static public func alertForDisclaimerAndTutorial() {
+    static internal func alertForDisclaimerAndTutorial() {
         print(PDStrings.disclaimerAlertTitle)
         print(PDStrings.disclaimerAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.disclaimerAlertTitle, message: PDStrings.disclaimerAlertMessage, preferredStyle: .actionSheet)
@@ -38,7 +38,7 @@ class PDAlertController {
     
     //MARK: - core data save error
     
-    static public func alertForCoreDataSaveError() {
+    static internal func alertForCoreDataSaveError() {
         print(PDStrings.coreDataSaveAlertTitle)
         print(PDStrings.coreDataSaveAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.coreDataSaveAlertTitle, message: PDStrings.coreDataSaveAlertMessage, preferredStyle: .alert)
@@ -47,7 +47,7 @@ class PDAlertController {
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     
-    static public func alertForCoreDataError() {
+    static internal func alertForCoreDataError() {
         print(PDStrings.coreDataSaveAlertTitle)
         print(PDStrings.coreDataAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: PDStrings.coreDataAlertMessage, preferredStyle: .alert)
@@ -58,7 +58,7 @@ class PDAlertController {
     
     // MARK: - enabling or disabling "Auto suggest location"
     
-    static public func alertForAutoSuggestLocationDescription(changingTo: Bool) {
+    static internal func alertForAutoSuggestLocationDescription(changingTo: Bool) {
         print(PDStrings.suggestLocationAlertTitle)
         print(PDStrings.suggestLocationAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.suggestLocationAlertTitle,
@@ -75,7 +75,7 @@ class PDAlertController {
     
     // MARK: - persistent store load error
     
-    static public func alertForPersistentStoreLoadError(error: NSError) {
+    static internal func alertForPersistentStoreLoadError(error: NSError) {
         print(PDStrings.coreDataAlertTitle)
         print(String(describing: error))
         currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: "(\(String(describing: error))", preferredStyle: .alert)

@@ -12,44 +12,44 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // Pickers
     
-    @IBOutlet weak var expirationIntervalPicker: UIPickerView!
+    @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
     
-    @IBOutlet weak var numberOfPatchesPicker: UIPickerView!
+    @IBOutlet private weak var numberOfPatchesPicker: UIPickerView!
     
-    @IBOutlet weak var reminderTimePicker: UIPickerView!
+    @IBOutlet private weak var reminderTimePicker: UIPickerView!
     
-    @IBOutlet weak var settingsView: UIView!
+    @IBOutlet private weak var settingsView: UIView!
     
-    @IBOutlet weak var settingsStack: UIStackView!
+    @IBOutlet fileprivate weak var settingsStack: UIStackView!
 
     // options are "interval" and "count"
     private var whichTapped: String?
     private var selectedRow: Int?
     
     // Schedule outlets (in order of appearance
-    @IBOutlet weak var changePatchEvery: UIButton!
-    @IBOutlet var numberOfPatches: UIButton!
+    @IBOutlet private weak var changePatchEvery: UIButton!
+    @IBOutlet private weak var numberOfPatches: UIButton!
     
     // Notification outlets (in order of appearance)
-    @IBOutlet weak var notificationHeading: UILabel!
-    @IBOutlet weak var lineUnderNotificationHeading: UIView!
-    @IBOutlet weak var reminderExplanation: UILabel!
-    @IBOutlet weak var lineUnderReminderExplanation: UIView!
-    @IBOutlet weak var receiveReminderLabel: UILabel!
-    @IBOutlet weak var receiveReminder: UISwitch!
-    @IBOutlet weak var lineUnderReceiveReminderSwitch: UIView!
-    @IBOutlet weak var minutesBeforeLabel: UILabel!
-    @IBOutlet weak var notificationOption: UIButton!
-    @IBOutlet weak var notificationArrow: UIButton!
-    @IBOutlet weak var lineUnderNotificationOption: UIView!
-    @IBOutlet weak var changePatchFunctionExplanation: UILabel!
-    @IBOutlet weak var lineUnderPatchFunctionExplanation: UIView!
-    @IBOutlet weak var suggestLocationLabel: UILabel!
-    @IBOutlet weak var autoChooseSuggestedLocationSwitch: UISwitch!
-    @IBOutlet weak var lineUnderAutoSuggest: UIView!
+    @IBOutlet private weak var notificationHeading: UILabel!
+    @IBOutlet private weak var lineUnderNotificationHeading: UIView!
+    @IBOutlet private weak var reminderExplanation: UILabel!
+    @IBOutlet private weak var lineUnderReminderExplanation: UIView!
+    @IBOutlet private weak var receiveReminderLabel: UILabel!
+    @IBOutlet private weak var receiveReminder: UISwitch!
+    @IBOutlet private weak var lineUnderReceiveReminderSwitch: UIView!
+    @IBOutlet private weak var minutesBeforeLabel: UILabel!
+    @IBOutlet private weak var notificationOption: UIButton!
+    @IBOutlet private weak var notificationArrow: UIButton!
+    @IBOutlet private weak var lineUnderNotificationOption: UIView!
+    @IBOutlet private weak var changePatchFunctionExplanation: UILabel!
+    @IBOutlet private weak var lineUnderPatchFunctionExplanation: UIView!
+    @IBOutlet private weak var suggestLocationLabel: UILabel!
+    @IBOutlet private weak var autoChooseSuggestedLocationSwitch: UISwitch!
+    @IBOutlet private weak var lineUnderAutoSuggest: UIView!
     
     // bool
-    public var weAreHidingFromPicker: Bool = false
+    private var weAreHidingFromPicker: Bool = false
     
     override func viewDidLoad() {
         
@@ -70,15 +70,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // MARK: - Data loaders
     
-    func loadChangePatchEvery() {
+    private func loadChangePatchEvery() {
         self.changePatchEvery.setTitle(SettingsDefaultsController.getPatchInterval(), for: .normal)
     }
     
-    func loadNumberOfPatches() {
+    private func loadNumberOfPatches() {
         self.numberOfPatches.setTitle(SettingsDefaultsController.getNumberOfPatchesString(), for: .normal)
     }
     
-    func loadNotificationOption() {
+    private func loadNotificationOption() {
         if self.receiveReminder.isOn {
             self.enableNotificationButtons()
         }
@@ -88,28 +88,28 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.notificationOption.setTitle(SettingsDefaultsController.getNotificaitonTimeString(), for: .normal)
     }
     
-    func loadAutoChooseLocation() {
+    private func loadAutoChooseLocation() {
         self.autoChooseSuggestedLocationSwitch.setOn(SettingsDefaultsController.getAutoChooseLocation(), animated: true)
     }
     
-    func loadRemindMe() {
+    private func loadRemindMe() {
         self.receiveReminder.setOn(SettingsDefaultsController.getRemindMe(), animated: true)
     }
     
     // MARK: - Picker Functions
     
-    func delegatePickers() {
+    private func delegatePickers() {
         self.expirationIntervalPicker.delegate = self
         self.numberOfPatchesPicker.delegate = self
         self.reminderTimePicker.delegate = self
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     // NUM OF ROWS...
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         var numberOfRows = 0;
         // for change patch every tapped:
         if self.getWhichTapped() == PDStrings.interval() {
@@ -128,7 +128,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     // ROW TITLES...
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title = " "
         // for change patch every tapped:
         if self.getWhichTapped() == PDStrings.interval() {
@@ -153,7 +153,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     // AFTER PICKED...
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         self.selectedRow = row
         
@@ -260,28 +260,28 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     // MARK: - IBActions Picker loads
 
-    @IBAction func notificationOptionArrowTapped(_ sender: Any) {
+    @IBAction private func notificationOptionArrowTapped(_ sender: Any) {
         self.openOrClosePicker(key: PDStrings.notifications())
         
     }
-    @IBAction func notificationOptionTapped(_ sender: Any) {
+    @IBAction private func notificationOptionTapped(_ sender: Any) {
        self.openOrClosePicker(key: PDStrings.notifications())
     }
     
-    @IBAction func changePatchEveryArrowButtonTapped(_ sender: Any) {
+    @IBAction private func changePatchEveryArrowButtonTapped(_ sender: Any) {
         self.openOrClosePicker(key: PDStrings.interval())
     }
     
-    @IBAction func numberOfPatchesArrowButtonTapped(_ sender: Any) {
+    @IBAction private func numberOfPatchesArrowButtonTapped(_ sender: Any) {
         self.openOrClosePicker(key: PDStrings.count())
     }
     
-    @IBAction func changePatchEveryTapped(_ sender: Any) {
+    @IBAction private func changePatchEveryTapped(_ sender: Any) {
         self.openOrClosePicker(key: PDStrings.interval())
         
     }
     
-    @IBAction func numberOfPatchesTapped(_ sender: Any) {
+    @IBAction private func numberOfPatchesTapped(_ sender: Any) {
         // change member variable for determining correct picker
         self.openOrClosePicker(key: PDStrings.count())
         
@@ -289,7 +289,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // MARK: - IBActions switches
     
-    @IBAction func receiveReminderSwitched(_ sender: Any) {
+    @IBAction private func receiveReminderSwitched(_ sender: Any) {
         let isOn = self.receiveReminder.isOn
         if isOn {
             self.enableNotificationButtons()
@@ -300,7 +300,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         SettingsDefaultsController.setRemindMe(to: isOn)
     }
     
-    @IBAction func autoChooseLocationChangeSwitch(_ sender: Any) {
+    @IBAction private func autoChooseLocationChangeSwitch(_ sender: Any) {
         let state = self.autoChooseSuggestedLocationSwitch.isOn
         PDAlertController.alertForAutoSuggestLocationDescription(changingTo: state)
     }
@@ -308,7 +308,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - segues
     
     // to Patch Schedule - this is needed for the swipe, see viewDidLoad()
-    func showPatchScheduleView() {
+    @objc private func showPatchScheduleView() {
         self.performSegue(withIdentifier: PDStrings.settingsToScheduleID, sender: self)
     }
     
@@ -358,7 +358,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return UIColor.white
     }
     
-    public func requestNotifications(patchIndex: Int) {
+    internal func requestNotifications(patchIndex: Int) {
         // request notification iff exists Patch.datePlaced
         if let _ = PatchDataController.getPatch(index: patchIndex) {
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: patchIndex)
@@ -372,7 +372,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
 extension SettingsViewController: UIScrollViewDelegate {
     
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    internal func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return settingsStack
     }
 }

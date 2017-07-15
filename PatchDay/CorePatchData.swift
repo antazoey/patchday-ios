@@ -9,12 +9,12 @@
 import Foundation
 import CoreData
 
-class CorePatchData {
+internal class CorePatchData {
 
     
     // MARK: - Core Data stack
     
-    static var persistentContainer: NSPersistentContainer = {
+    internal static var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: PDStrings.patchData)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -26,7 +26,7 @@ class CorePatchData {
     
     // MARK: - Managed Object Array
     
-    var userPatches: [Patch]
+    internal var userPatches: [Patch]
     
     init() {
         var patches: [Patch] = []
@@ -48,7 +48,7 @@ class CorePatchData {
     
     // MARK: - Core Data Saving support
     
-    static func saveContext () {
+    internal static func saveContext () {
         if persistentContainer.viewContext.hasChanges {
             do {
                 try persistentContainer.viewContext.save()
@@ -60,14 +60,14 @@ class CorePatchData {
     
     // MARK: - Public
     
-    public func getPatch(forIndex: Int) -> Patch? {
+    internal func getPatch(forIndex: Int) -> Patch? {
         if forIndex < userPatches.count && forIndex >= 0 {
             return userPatches[forIndex]
         }
         return nil
     }
     
-    public func setPatchLocation(patchIndex: Int, with: String) {
+    internal func setPatchLocation(patchIndex: Int, with: String) {
         // attempt to set the Patch's location at given index
         // exit function if given bad patchIndex
         if patchIndex >= SettingsDefaultsController.getNumberOfPatchesInt() || patchIndex < 0 {
@@ -80,7 +80,7 @@ class CorePatchData {
         CorePatchData.saveContext()
     }
     
-    public func setPatchDate(patchIndex: Int, with: Date) {
+    internal func setPatchDate(patchIndex: Int, with: Date) {
         if patchIndex >= SettingsDefaultsController.getNumberOfPatchesInt() || patchIndex < 0 {
             return
         }
@@ -92,7 +92,7 @@ class CorePatchData {
         CorePatchData.saveContext()
     }
     
-    public func setPatch(patchIndex: Int, patchDate: Date, location: String) {
+    internal func setPatch(patchIndex: Int, patchDate: Date, location: String) {
         if let patch = getPatch(forIndex: patchIndex) {
             patch.setLocation(with: location)
             patch.setDatePlaced(withDate: patchDate)
@@ -100,14 +100,14 @@ class CorePatchData {
         CorePatchData.saveContext()
     }
     
-    public func setPatch(with: Patch, patchIndex: Int) {
+    internal func setPatch(with: Patch, patchIndex: Int) {
         if patchIndex < userPatches.count && patchIndex >= 0 {
             userPatches[patchIndex] = with
         }
         CorePatchData.saveContext()
     }
     
-    public func resetPatchData() {
+    internal func resetPatchData() {
         for patch in userPatches {
             patch.reset()
         }
@@ -116,7 +116,7 @@ class CorePatchData {
     
     // MARK: Private functions
     
-    static func createGenericPatch(entityName: String) -> Patch {
+    static private func createGenericPatch(entityName: String) -> Patch {
         if let patch = NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as? Patch {
             return patch
         }
@@ -127,7 +127,7 @@ class CorePatchData {
     }
     
     // called by PatchDataController.createPatches()
-    private static func createPatchFromCoreData(patchEntityNameIndex: Int) -> Patch? {
+    static private func createPatchFromCoreData(patchEntityNameIndex: Int) -> Patch? {
         var userPatch: Patch?
         
         if let patchFetchRequest = createPatchFetch(patchEntityNameIndex: patchEntityNameIndex) {
@@ -148,7 +148,7 @@ class CorePatchData {
     }
     
     // called by PatchDataController.createPatchFromCoreData() to make a FetchRequest
-    private static func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
+    static private func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
         return NSFetchRequest<Patch>(entityName: PDStrings.patchEntityNames[patchEntityNameIndex])
     }
     

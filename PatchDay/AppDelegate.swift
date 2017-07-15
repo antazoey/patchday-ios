@@ -15,9 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // get reference by let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    var window: UIWindow?
+    internal var window: UIWindow?
     
-    var notificationsController = PDNotificationController()
+    internal var notificationsController = PDNotificationController()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SettingsDefaultsController.setUp()

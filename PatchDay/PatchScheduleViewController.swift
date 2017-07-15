@@ -14,19 +14,19 @@ class PatchScheduleViewController: UIViewController {
     
     // MARK: - Main
     
-    @IBOutlet var patchOneButton: UIButton!
-    @IBOutlet var patchTwoButton: UIButton!
-    @IBOutlet var patchThreeButton: UIButton!
-    @IBOutlet var patchFourButton: UIButton!
+    @IBOutlet private var patchOneButton: UIButton!
+    @IBOutlet private var patchTwoButton: UIButton!
+    @IBOutlet private var patchThreeButton: UIButton!
+    @IBOutlet private var patchFourButton: UIButton!
     
-    var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer()
+    private var swipeRight: UISwipeGestureRecognizer = UISwipeGestureRecognizer()
     
     private var expiredPatchCount: Int = 0
     
     // for segue to PatchDetailsViewController
     private var patchButtonTapped = 0
     
-    var numberOfPatches: Int = 1
+    private var numberOfPatches: Int = 1
     
     override func viewDidLoad() {
         PDAlertController.currentVC = self
@@ -57,7 +57,7 @@ class PatchScheduleViewController: UIViewController {
         }
     }
     
-    @IBAction func patchButtonTapped(_ sender: Any) {
+    @IBAction private func patchButtonTapped(_ sender: Any) {
         self.setPatchButtonTapped(to: self.getReference(fromPatchButton: sender))
         self.swipeRight.isEnabled = false
         self.showAddPatchView()
@@ -65,26 +65,22 @@ class PatchScheduleViewController: UIViewController {
     
     //MARK: - Public Setters
     
-    public func setNumberOfPatches(to: Int) {
+    internal func setNumberOfPatches(to: Int) {
         self.numberOfPatches = to
     }
     
-    public func getNumberOfPatches() -> Int {
+    internal func getNumberOfPatches() -> Int {
         return self.numberOfPatches
-    }
-    
-    public func setBackgroundColor(to: UIColor) {
-        view.backgroundColor = to
     }
     
     // MARK: - updating from background
     
-    func updateFromBackground() {
+    internal func updateFromBackground() {
         // this part is for updating the patch buttons when VC is reloaded from a notification
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
-    func appWillEnterForeground() {
+    internal func appWillEnterForeground() {
         self.displayPatches()
     }
     
@@ -100,7 +96,11 @@ class PatchScheduleViewController: UIViewController {
         
     }
     
-    // MARK: - private getters
+    // MARK: - { get} { set }
+    
+    private func setBackgroundColor(to: UIColor) {
+        view.backgroundColor = to
+    }
     
     private func getPatchButtonTapped() -> Int {
         return self.patchButtonTapped

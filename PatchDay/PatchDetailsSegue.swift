@@ -10,7 +10,7 @@ import UIKit
 
 class PatchDetailsSegue: UIStoryboardSegue {
     
-    override func perform() {
+    override internal func perform() {
         let screenHeight = UIScreen.main.bounds.size.height
         let screenWidth = UIScreen.main.bounds.size.width
        // destination.view.alpha = 0.0

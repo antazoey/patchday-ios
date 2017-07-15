@@ -10,7 +10,7 @@ import UIKit
 
 class ScheduleToSettingsSegue: UIStoryboardSegue {
     
-    override func perform() {
+    override internal func perform() {
         // Assign source and destination views as local vars
         let patchScheduleVCView = self.source.view as UIView!
         let settingsVCView = self.destination.view as UIView!
