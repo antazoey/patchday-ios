@@ -110,14 +110,14 @@ internal class PatchSchedule {
     
     public func getOldestPatchDateAsString() -> String? {
         if let oldestPatch = getOldestPatch() {
-            return oldestPatch.getDatePlacedAsString(dateStyle: .full)
+            return oldestPatch.getDatePlacedAsString()
         }
         return nil
     }
     
     public static func printSchedule(patches: [Patch]) {
         for patch in patches {
-            print(patch.getLocation() + ", " + patch.getDatePlacedAsString(dateStyle: .short))
+            print(patch.getLocation() + ", " + patch.getDatePlacedAsString())
         }
     }
 
