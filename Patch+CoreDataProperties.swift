@@ -57,10 +57,10 @@ extension Patch {
     // MARK: - strings
     
     public func string() -> String {
-        return self.getDatePlacedAsString(dateStyle: .medium) + "," + self.getLocation()
+        return self.getDatePlacedAsString() + "," + self.getLocation()
     }
     
-    public func getDatePlacedAsString(dateStyle: DateFormatter.Style) -> String {
+    public func getDatePlacedAsString() -> String {
         guard let dateAdded = self.datePlaced else {
             return PDStrings.unplaced_string
         }
@@ -102,15 +102,15 @@ extension Patch {
     public func notificationString() -> String {
         if self.isNotCustomLocated() {
             guard let locationNotificationPart = PDStrings.notificationIntros[getLocation()] else {
-                return PDStrings.notificationWithoutLocation + getDatePlacedAsString(dateStyle: .full)
+                return PDStrings.notificationWithoutLocation + self.expirationDateAsString()
             }
-            return locationNotificationPart + getDatePlacedAsString(dateStyle: .full)
+            return locationNotificationPart + self.expirationDateAsString()
         }
             
             // for custom located patches
         else {
             let locationNotificationPart = PDStrings.notificationForCustom + self.getLocation() + " " + PDStrings.notificationForCustom_at
-            return locationNotificationPart + self.getDatePlacedAsString(dateStyle: .full)
+            return locationNotificationPart + self.expirationDateAsString()
         }
     }
     
