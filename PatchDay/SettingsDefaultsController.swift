@@ -10,16 +10,24 @@ import UIKit
 
 public class SettingsDefaultsController: NSObject {
     
+    // The SettingsDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (patchInterval) and the number of patches in the schedule (numberOfPatches).  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.  It also includes a bool for the auto suggest location functionality.
+    
+    // Schedule defaults:
+    
     static private var patchInterval: String = "Half-Week"
     static internal var numberOfPatches: String =  "4"
     
-    //notifications
+    // Notification defaults: 
+    
     static private var remindMe: Bool = true
     static private var notificationOption: String = "30"
     static private var autoChooseLocation: Bool = true
     
-    //rememberance
+    // Rememberance
+    
     static private var mentionedDisclaimer: Bool = false
+    
+    // App 
     
     static private var defaults = UserDefaults.standard
 
