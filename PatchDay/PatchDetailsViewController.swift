@@ -359,9 +359,11 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // for self.makeInputViewForDatePicker
     private func configureDatePickerStartX() -> CGFloat {
+        // iPhone
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
             return 0
         }
+            // iPad
         else {
             return self.view.frame.width/2.8
         }
@@ -394,9 +396,11 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // for self.makedoneButton()
     private func configureDoneButtonStartX() -> CGFloat {
+        // iPhone
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
             return (self.view.frame.size.width/2) - 50
         }
+            // iPad
         else {
             return 0
         }

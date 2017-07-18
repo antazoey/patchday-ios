@@ -16,7 +16,7 @@ internal class PDAlertController {
     
     // MARK: - disclaimer / tutorial alert
     
-    static internal func alertForChangingPatchCount(startIndexForReset: Int, endIndexForReset: Int, newPatchCount: String) {
+    static internal func alertForChangingPatchCount(startIndexForReset: Int, endIndexForReset: Int, newPatchCount: String, numberOfPatchesButton: UIButton) {
         print(PDStrings.changePatchCountAlertTitle)
         print(PDStrings.changePatchCountAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.changePatchCountAlertTitle, message: PDStrings.changePatchCountAlertMessage, preferredStyle: .actionSheet)
@@ -25,12 +25,19 @@ internal class PDAlertController {
             for i in startIndexForReset...(endIndexForReset - 1) {
                 print("resetting patch at index " + String(describing: i))
                 PatchDataController.resetPatch(forIndex: i)
-                SettingsDefaultsController.numberOfPatches = newPatchCount
+                print("new patch count: " + newPatchCount)
+                SettingsDefaultsController.setNumberOfPatchesWithoutWarning(to: newPatchCount)
             }
         }
         let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel, handler: nil)
         currentAlert.addAction(continueAction)
         currentAlert.addAction(cancelAction)
+        
+        // if using iPAD.. crashes otherwise...
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            currentAlert.popoverPresentationController?.sourceView = numberOfPatchesButton
+            currentAlert.popoverPresentationController?.sourceRect = CGRect(x: numberOfPatchesButton.frame.width * 0.35, y: 0, width: 100, height: 100)
+        }
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     

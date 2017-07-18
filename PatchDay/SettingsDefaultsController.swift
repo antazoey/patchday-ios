@@ -103,18 +103,25 @@ public class SettingsDefaultsController: NSObject {
         self.synchonize()
     }
     
-    public static func setNumberOfPatches(to: String) {
+    public static func setNumberOfPatchesWithWarning(to: String, numberOfPatchesButton: UIButton) {
         let oldNumberOfPatches = self.getNumberOfPatchesInt()
+        print ("old patch count: " + String(describing: oldNumberOfPatches))
             if let startIndex = Int(to) {
                 // delete old patch data for easy sorting
                 if startIndex < oldNumberOfPatches {
-                    PDAlertController.alertForChangingPatchCount(startIndexForReset: startIndex, endIndexForReset: oldNumberOfPatches, newPatchCount: to)
+                    PDAlertController.alertForChangingPatchCount(startIndexForReset: startIndex, endIndexForReset: oldNumberOfPatches, newPatchCount: to, numberOfPatchesButton: numberOfPatchesButton)
                 }
                 else {
                     self.numberOfPatches = to
                     defaults.set(to, forKey: PDStrings.numberOfPatches_string())
                 }
             }
+        self.synchonize()
+    }
+    
+    public static func setNumberOfPatchesWithoutWarning(to: String) {
+        self.numberOfPatches = to
+        defaults.set(to, forKey: PDStrings.numberOfPatches_string())
         self.synchonize()
     }
     

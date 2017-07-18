@@ -169,7 +169,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else if self.getWhichTapped() == PDStrings.count() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsDefaultsController.setNumberOfPatches(to: PDStrings.patchCounts[row])
+                SettingsDefaultsController.setNumberOfPatchesWithWarning(to: PDStrings.patchCounts[row], numberOfPatchesButton: self.numberOfPatches)
                 // configure button title
                 self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PDStrings.patchCounts, row: row)
             }
