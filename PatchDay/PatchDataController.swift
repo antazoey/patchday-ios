@@ -12,10 +12,9 @@ import UIKit
 
 // MARK: Strings
 
-class PatchDataController: NSObject {
+public class PatchDataController: NSObject {
     
-    // Class for handling getting and setting patch data, such as datePlaced and location for each patch.
-    // Also has access to a PatchSchedule object for quering the patch data collectively
+    // PatchDataController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch", an abstraction of a patch on the physical body.  The PatchDataController is how the user changes any of their patches.  The user may also use this to edit a patch's details.  The PatchDataController uses a "PatchSchedule" object to work with all of the patches together in an array.  PatchSchedules are for querying an array of patches.
     
     static internal var corePatchData: CorePatchData = CorePatchData()
     
@@ -74,7 +73,7 @@ class PatchDataController: NSObject {
     
     public static func changePatchFromNotification(patchIndex: Int) {
         if getPatch(index: patchIndex) != nil {
-            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: patchIndex)
+            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: patchIndex, generalLocations: patchSchedule().makeArrayOfLocations())
             let suggestDate = Date()
             setPatch(patchIndex: patchIndex, patchDate: suggestDate, location: suggestedLocation)
             save()

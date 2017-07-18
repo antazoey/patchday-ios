@@ -12,6 +12,8 @@ import CoreData
 @objc(Patch)
 public class Patch: NSManagedObject {
     
+    // Patch: NSManagedObject is a class for the Managed Object "Patch".  Patch objects are abstractions of patches on the physical body.  They have two attributes: 1.) the date/time when the patch was placed, and 2.), the location where the patch was placed at.  The expiration date of a patch is also important, which is accessible through a Patch.expirationDate() or Patch.expirationDateAsString()
+
     @NSManaged internal var datePlaced: Date?
     @NSManaged internal var location: String?
 

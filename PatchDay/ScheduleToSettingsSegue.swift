@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ScheduleToSettingsSegue: UIStoryboardSegue {
+internal class ScheduleToSettingsSegue: UIStoryboardSegue {
     
     override internal func perform() {
         // Assign source and destination views as local vars

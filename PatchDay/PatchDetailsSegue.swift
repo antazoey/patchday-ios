@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PatchDetailsSegue: UIStoryboardSegue {
+internal class PatchDetailsSegue: UIStoryboardSegue {
     
     override internal func perform() {
         let screenHeight = UIScreen.main.bounds.size.height

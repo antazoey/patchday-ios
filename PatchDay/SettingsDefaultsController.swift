@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsDefaultsController: NSObject {
+public class SettingsDefaultsController: NSObject {
     
     static private var patchInterval: String = "Half-Week"
     static internal var numberOfPatches: String =  "4"

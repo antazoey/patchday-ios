@@ -31,8 +31,8 @@
 		13E980D21EDBC2180062B144 /* PatchDetailsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */; };
 		13E980D81EDFA54B0062B144 /* PatchScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* PatchScheduleViewController.swift */; };
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
-		13F82DF31EE1F36C006C8041 /* Patch+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF11EE1F36C006C8041 /* Patch+CoreDataClass.swift */; };
-		13F82DF41EE1F36C006C8041 /* Patch+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF21EE1F36C006C8041 /* Patch+CoreDataProperties.swift */; };
+		13F82DF31EE1F36C006C8041 /* MOPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF11EE1F36C006C8041 /* MOPatch.swift */; };
+		13F82DF41EE1F36C006C8041 /* PatchObjectMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF21EE1F36C006C8041 /* PatchObjectMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,8 +97,8 @@
 		13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsSegue.swift; sourceTree = "<group>"; };
 		13E980D71EDFA54B0062B144 /* PatchScheduleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchScheduleViewController.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
-		13F82DF11EE1F36C006C8041 /* Patch+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Patch+CoreDataClass.swift"; path = "../Patch+CoreDataClass.swift"; sourceTree = "<group>"; };
-		13F82DF21EE1F36C006C8041 /* Patch+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Patch+CoreDataProperties.swift"; path = "../Patch+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		13F82DF11EE1F36C006C8041 /* MOPatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MOPatch.swift; path = ../MOPatch.swift; sourceTree = "<group>"; };
+		13F82DF21EE1F36C006C8041 /* PatchObjectMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PatchObjectMethods.swift; path = ../PatchObjectMethods.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,8 +225,8 @@
 		138A65611F198B4D0068A972 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				13F82DF11EE1F36C006C8041 /* Patch+CoreDataClass.swift */,
-				13F82DF21EE1F36C006C8041 /* Patch+CoreDataProperties.swift */,
+				13F82DF11EE1F36C006C8041 /* MOPatch.swift */,
+				13F82DF21EE1F36C006C8041 /* PatchObjectMethods.swift */,
 				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
 				138620731F15A427007161CA /* CorePatchData.swift */,
 			);
@@ -397,7 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13F82DF41EE1F36C006C8041 /* Patch+CoreDataProperties.swift in Sources */,
+				13F82DF41EE1F36C006C8041 /* PatchObjectMethods.swift in Sources */,
 				1309A5241F17E2C500520B2F /* PatchSchedule.swift in Sources */,
 				138620741F15A427007161CA /* CorePatchData.swift in Sources */,
 				1335B9BB1EC7500D00DD7088 /* PatchDataController.swift in Sources */,
@@ -408,7 +408,7 @@
 				13E980D81EDFA54B0062B144 /* PatchScheduleViewController.swift in Sources */,
 				131F0B691EE3AAD700576200 /* PDImages.swift in Sources */,
 				13E980D21EDBC2180062B144 /* PatchDetailsSegue.swift in Sources */,
-				13F82DF31EE1F36C006C8041 /* Patch+CoreDataClass.swift in Sources */,
+				13F82DF31EE1F36C006C8041 /* MOPatch.swift in Sources */,
 				13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */,
 				1340A9EA1EE5935A0003EFFA /* SuggestedPatchLocation.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */,

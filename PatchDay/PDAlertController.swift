@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PDAlertController {
+internal class PDAlertController {
     
     static internal var currentVC = getRootVC()
     

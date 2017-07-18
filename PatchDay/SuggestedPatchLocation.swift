@@ -10,15 +10,17 @@ import Foundation
 
 internal class SuggestedPatchLocation {
     
-    // An algorithm for suggesting a location to place the next patch based on the current locations of the patches in the schedule.
+    // The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the patch schedule. 3.) a suggest(patchIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
     
     // MARK: - Public
     
     internal static var generalLocations = PDStrings.patchLocationNames
     
-    internal static var currentLocations: [String] = PatchDataController.patchSchedule().makeArrayOfLocations()
+    internal static var currentLocations: [String] = []
     
-    internal static func suggest(patchIndex: Int) -> String {
+    internal static func suggest(patchIndex: Int, generalLocations: [String]) -> String {
+        
+        currentLocations = generalLocations
         
         if patchIndex >= SettingsDefaultsController.getNumberOfPatchesInt() || patchIndex < 0 {
             return ""
@@ -40,7 +42,6 @@ internal class SuggestedPatchLocation {
                 
             // b.) case: no existing custom locations
             else {
-                
                 // i.) all general spaces are occupied. ->  (suggestedLocation = currentLocation)
                 if allGeneralLocationsOccupied(currentLocations: currentLocations) {
                     suggestedLocation = PatchDataController.getPatch(index: patchIndex)!.getLocation()
@@ -59,7 +60,7 @@ internal class SuggestedPatchLocation {
             let nonCustomCurrentLocations = makeArrayOfNonCustomLocations(fromCurrentLocations: currentLocations)
             suggestedLocation = getArbitraryLocationInGeneral(notInCurrent: nonCustomCurrentLocations)
         }
-        // all other patch counts
+        // ALL OTHER PATCH COUNTS:
         else {
             suggestedLocation = getNextLocationInGeneralThatIsAvailable(afterCurrentLocation: currentLocation)
         }

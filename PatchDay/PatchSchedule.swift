@@ -8,12 +8,9 @@
 
 import Foundation
 
-internal class PatchSchedule {
+public class PatchSchedule {
     
-    // This is a class for working with the patches together as an array.
-    // It exists mainly to seperate these relatively query-like functions from
-    // the PatchDataController, which emphasises getting and setting the actual data.
-    // It is a accessible through PatchDataController
+    // PatchSchedule is a class for querying the user's managed object array ([Patch]).  All of the patches in the user's current schedule form the PatchSchedule.  The PatchSchedule is used to suggest a location, as part of the "Suggest Location Functionality" mentioned on the SettingsViewController.  It also finds the oldest patch in the schedule, which is important when changing a patch in the PatchDataController.
     
     private var patches: [Patch]
     
@@ -25,7 +22,7 @@ internal class PatchSchedule {
     
     // how to access the Suggest Patch Location Algorithm
     internal func suggestLocation(patchIndex: Int) -> String {
-        return SuggestedPatchLocation.suggest(patchIndex: patchIndex)
+        return SuggestedPatchLocation.suggest(patchIndex: patchIndex, generalLocations: makeArrayOfLocations())
     }
     
     internal func makeArrayOfLocations() -> [String] {
@@ -39,47 +36,7 @@ internal class PatchSchedule {
         return locationArray
     }
     
-    // MARK: - Bools
-    
-    public func scheduleHasNoDates() -> Bool {
-        var allEmptyDates: Bool = true
-        for i in 0...(patches.count - 1) {
-            let patch = patches[i]
-            if patch.getDatePlaced() != nil {
-                allEmptyDates = false
-                break
-            }
-        }
-        return allEmptyDates
-        
-    }
-    
-    public func scheduleHasNoLocations() -> Bool {
-        var allEmptyLocations: Bool = true
-        for i in 0...(patches.count - 1){
-            let patch = patches[i]
-            if patch.getLocation() != "unplaced" {
-                allEmptyLocations = false
-                break
-            }
-        }
-        return allEmptyLocations
-    }
-    
-    public func scheduleIsEmpty() -> Bool {
-        return scheduleHasNoDates() && scheduleHasNoLocations()
-    }
-    
-    public func oldestPatchInScheduleHasNoDateAndIsCustomLocated() -> Bool {
-        if let oldestPatch = getOldestPatch() {
-            return oldestPatch.getDatePlaced() == nil && oldestPatch.isCustomLocated()
-        }
-        return false
-    }
-    
-    
-    // MARK: - oldest patch
-    
+    // MARK: - Oldest Patch Related Methods
     
     public func getOldestPatch() -> Patch? {
         if patches.count > 0 {
@@ -120,7 +77,44 @@ internal class PatchSchedule {
             print(patch.getLocation() + ", " + patch.getDatePlacedAsString())
         }
     }
-
     
+    
+    // MARK: - Query Bools
+    
+    public func scheduleHasNoDates() -> Bool {
+        var allEmptyDates: Bool = true
+        for i in 0...(patches.count - 1) {
+            let patch = patches[i]
+            if patch.getDatePlaced() != nil {
+                allEmptyDates = false
+                break
+            }
+        }
+        return allEmptyDates
+        
+    }
+    
+    public func scheduleHasNoLocations() -> Bool {
+        var allEmptyLocations: Bool = true
+        for i in 0...(patches.count - 1){
+            let patch = patches[i]
+            if patch.getLocation() != "unplaced" {
+                allEmptyLocations = false
+                break
+            }
+        }
+        return allEmptyLocations
+    }
+    
+    public func scheduleIsEmpty() -> Bool {
+        return scheduleHasNoDates() && scheduleHasNoLocations()
+    }
+    
+    public func oldestPatchInScheduleHasNoDateAndIsCustomLocated() -> Bool {
+        if let oldestPatch = getOldestPatch() {
+            return oldestPatch.getDatePlaced() == nil && oldestPatch.isCustomLocated()
+        }
+        return false
+    }
     
 }

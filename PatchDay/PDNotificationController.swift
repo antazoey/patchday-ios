@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 
-class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
+internal class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     
     // MARK: - Essential
     
