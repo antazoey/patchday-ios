@@ -32,9 +32,9 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     @IBOutlet private weak var locationStackView: UIStackView!
     @IBOutlet private weak var locationLabel: UILabel!
 
-    // save, auto choose
+    // save, change patch
     @IBOutlet private weak var save: UIButton!
-    @IBOutlet private weak var autoChooseButton: UIButton!
+    @IBOutlet private weak var changePatchButton: UIButton!
     
     // more location related
     @IBOutlet private weak var locationPicker: UIPickerView!
@@ -68,7 +68,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         self.hideSaveButton()
         self.setExpirationAndHeading()
         self.hideLocationPicker()
-        self.autoChooseButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
+        self.changePatchButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         self.bigGap.backgroundColor = PDColors.pdPink
         self.bigGap2.backgroundColor = PDColors.pdPink
         
@@ -97,7 +97,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
     }
     
-    @IBAction private func autoTapped(_ sender: Any) {
+    @IBAction private func changePatchTapped(_ sender: Any) {
         // Location is a suggested by SuggedPatchLocation's algorithm,
         // Date is now.
         self.autoPickLocationAndDate()
@@ -110,7 +110,6 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         }
         
     }
-    
     
     // MARK: - Text Edit Functions
     
@@ -289,7 +288,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     private func autoPickLocation() {
         if SettingsDefaultsController.getAutoChooseLocation() {
-            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex())
+            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex(), generalLocations: PatchDataController.patchSchedule().makeArrayOfLocations())
             self.locationTextEdit.text = suggestedLocation
         }
         else {
@@ -468,8 +467,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     //auto
     private func disableAutoButton() {
-        if self.autoChooseButton.isEnabled {
-            self.autoChooseButton.isEnabled = false
+        if self.changePatchButton.isEnabled {
+            self.changePatchButton.isEnabled = false
         }
     }
     
@@ -511,8 +510,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // auto
     private func hideAutoButton() {
-        if !self.autoChooseButton.isHidden {
-            self.autoChooseButton.isHidden = true
+        if !self.changePatchButton.isHidden {
+            self.changePatchButton.isHidden = true
         }
     }
     
@@ -593,8 +592,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // auto
     private func enableAutoButton() {
-        if !self.autoChooseButton.isEnabled {
-            self.autoChooseButton.isEnabled = true
+        if !self.changePatchButton.isEnabled {
+            self.changePatchButton.isEnabled = true
         }
     }
     
@@ -637,8 +636,8 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     // auto
     private func unhideAutoButton() {
-        if self.autoChooseButton.isHidden {
-            self.autoChooseButton.isHidden = false
+        if self.changePatchButton.isHidden {
+            self.changePatchButton.isHidden = false
         }
     }
     

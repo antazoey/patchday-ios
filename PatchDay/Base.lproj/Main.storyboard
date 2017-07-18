@@ -194,7 +194,7 @@
                                     <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="autoTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="Cli-Hy-jSt"/>
+                                    <action selector="changePatchTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="W9H-Rr-D0x"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="add" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejS-YQ-rca">
@@ -248,9 +248,9 @@
                     </view>
                     <connections>
                         <outlet property="addLocationTextButton" destination="suw-Ai-Pxz" id="7ja-7P-Z5r"/>
-                        <outlet property="autoChooseButton" destination="ynp-FM-Qea" id="8SF-kD-syt"/>
                         <outlet property="bigGap" destination="nz8-r5-Kzo" id="O6R-1C-jce"/>
                         <outlet property="bigGap2" destination="KTZ-2V-ijz" id="cMI-Vd-uZi"/>
+                        <outlet property="changePatchButton" destination="ynp-FM-Qea" id="fv4-To-O9D"/>
                         <outlet property="chooseDateTextButton" destination="tNJ-il-X3d" id="xiX-wL-sVr"/>
                         <outlet property="dateAndTimePlaced" destination="1DI-qg-8qA" id="2mZ-zd-DM7"/>
                         <outlet property="expirationDateLabel" destination="vei-Lg-bch" id="15R-Br-99D"/>
@@ -793,7 +793,7 @@
         <image name="Logo" width="157" height="49"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lC6-PN-gD1"/>
+        <segue reference="LSN-2h-Kiv"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1005799463190184" colorSpace="calibratedRGB"/>
 </document>
