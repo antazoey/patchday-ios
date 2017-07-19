@@ -1,4 +1,4 @@
-//
+ //
 //  CorePatchData.swift
 //  PatchDay
 //
@@ -43,7 +43,7 @@ internal class CorePatchData {
     
     internal func getPatch(forIndex: Int) -> Patch? {
         // negative indices need not abide
-        if forIndex < 0 {
+        if forIndex < 0 || forIndex > 4 {
             return nil
         }
             // no patch in userPatches forIndex (such as the NumberOfPatches changed), and it is still less than the numberOfPatches... then make a new patch and append and return it.
@@ -137,12 +137,17 @@ internal class CorePatchData {
     // MARK: Private functions
     
     static private func createGenericPatch(patchEntityNameIndex: Int) -> Patch {
-        let entityName = PDStrings.patchEntityNames[patchEntityNameIndex]
-        if let patch = NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as? Patch {
-            return patch
+        if patchEntityNameIndex < PDStrings.patchEntityNames.count && patchEntityNameIndex >= 0 {
+            let entityName = PDStrings.patchEntityNames[patchEntityNameIndex]
+            if let patch = NSEntityDescription.insertNewObject(forEntityName: entityName, into: persistentContainer.viewContext) as? Patch  {
+                return patch
+            }
+            else {
+                PDAlertController.alertForCoreDataError()
+                return Patch()
+            }
         }
         else {
-            PDAlertController.alertForCoreDataError()
             return Patch()
         }
     }
@@ -169,7 +174,10 @@ internal class CorePatchData {
     
     // called by PatchDataController.createPatchFromCoreData() to make a FetchRequest
     static private func createPatchFetch(patchEntityNameIndex: Int) -> NSFetchRequest<Patch>? {
-        return NSFetchRequest<Patch>(entityName: PDStrings.patchEntityNames[patchEntityNameIndex])
+        if patchEntityNameIndex < PDStrings.patchEntityNames.count && patchEntityNameIndex >= 0 {
+            return NSFetchRequest<Patch>(entityName: PDStrings.patchEntityNames[patchEntityNameIndex])
+        }
+        return nil
     }
     
 }

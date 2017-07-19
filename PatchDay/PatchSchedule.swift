@@ -48,6 +48,7 @@ public class PatchSchedule {
     }
     
     public func oldestPatch() -> Patch? {
+        // finds oldest patch without using patches.sorted(by: <)[0]
         if patches.count > 0 {
             var oldestPatch: Patch = patches[0]
             if patches.count > 1 {
@@ -81,7 +82,7 @@ public class PatchSchedule {
         return nil
     }
     
-    public static func printSchedule(patches: [Patch]) {
+    public func printSchedule() {
         for patch in patches {
             print(patch.getLocation() + ", " + patch.getDatePlacedAsString())
         }

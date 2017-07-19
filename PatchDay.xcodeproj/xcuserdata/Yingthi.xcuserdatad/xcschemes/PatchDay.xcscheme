@@ -41,9 +41,6 @@
                <Test
                   Identifier = "PatchComparable">
                </Test>
-               <Test
-                  Identifier = "SuggestedPatchLocationTest">
-               </Test>
             </SkippedTests>
          </TestableReference>
          <TestableReference

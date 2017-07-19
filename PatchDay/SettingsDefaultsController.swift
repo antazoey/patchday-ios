@@ -105,14 +105,13 @@ public class SettingsDefaultsController: NSObject {
     
     public static func setNumberOfPatchesWithWarning(to: String, oldNumberOfPatches: Int, numberOfPatchesButton: UIButton) {
         print ("old patch count: " + String(describing: oldNumberOfPatches))
+        if let newPatchCount = Int(to), isAcceptable(patchCount: newPatchCount) {
         
-        /* 
-         This method will warn the user if they are about to delete patch data.
+         //This method will warn the user if they are about to delete patch data.
          
-         It is necessary to reset patches that are no longer in the schedule, which happens when the user has is decreasing the number of patches in a full schedule.  Resetting unused patches makes sorting the schedule less error prone and more comprehensive.
+         //It is necessary to reset patches that are no longer in the schedule, which happens when the user has is decreasing the number of patches in a full schedule.  Resetting unused patches makes sorting the schedule less error prone and more comprehensive.
         
-         The variable "startIndexForResetingAndNewNumberOfPatches" represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new number of Patches
-        */
+         //The variable "startIndexForResetingAndNewNumberOfPatches" represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new number of Patches
         
             if let startIndexForResettingAndNewNumberOfPatches = Int(to) {
                 // delete old patch data for easy sorting
@@ -128,18 +127,19 @@ public class SettingsDefaultsController: NSObject {
                     }
                 }
                 else {
-                    self.numberOfPatches = to
-                    defaults.set(to, forKey: PDStrings.numberOfPatches_string())
-                    self.synchonize()
-                    return
+                    self.setNumberOfPatchesWithoutWarning(to: to)
                 }
             }
+        }
     }
     
     public static func setNumberOfPatchesWithoutWarning(to: String) {
-        self.numberOfPatches = to
-        defaults.set(to, forKey: PDStrings.numberOfPatches_string())
-        self.synchonize()
+        // sets if greater than 0 and less than 5 first.
+        if let newPatchCount = Int(to), self.isAcceptable(patchCount: newPatchCount) {
+            self.numberOfPatches = to
+            defaults.set(to, forKey: PDStrings.numberOfPatches_string())
+            self.synchonize()
+        }
     }
     
     public static func setNotificationOption(to: String) {
@@ -182,7 +182,15 @@ public class SettingsDefaultsController: NSObject {
     
     static private func loadNumberOfPatches() {
         if let patchCount = defaults.object(forKey: PDStrings.numberOfPatches_string()) as? String {
-            numberOfPatches = patchCount
+            if let patchCountInt = Int(patchCount), patchCountInt < 1 {
+                numberOfPatches = "1"
+            }
+            else if let patchCountInt = Int(patchCount), patchCountInt > 4 {
+                numberOfPatches = "4"
+            }
+            else {
+                numberOfPatches = patchCount
+            }
         }
     }
     
@@ -207,6 +215,18 @@ public class SettingsDefaultsController: NSObject {
     static private func loadMentionedDisclaimer() {
         if let mentioned = defaults.object(forKey: PDStrings.mentioned_string()) as? Bool {
             mentionedDisclaimer = mentioned
+        }
+    }
+    
+    // MARK: - checkers
+    
+    static private func isAcceptable(patchCount: Int) -> Bool {
+        // checks to see if patchCount is reasonable for PatchDay
+        if patchCount > 0 && patchCount <= 4 {
+            return true
+        }
+        else {
+            return false
         }
     }
 }
