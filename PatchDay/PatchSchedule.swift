@@ -125,7 +125,7 @@ public class PatchSchedule {
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
                 if let patch = PatchDataController.getPatch(index: i) {
-                    // as soon as a patch is not empty, it will end the search, returning false.
+                    // as soon as a patch is not empty, it will end the search, returning false.2te
                     if !patch.isEmpty() {
                         return false
                     }
