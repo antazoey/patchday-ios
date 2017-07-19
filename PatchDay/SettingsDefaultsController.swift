@@ -125,6 +125,9 @@ public class SettingsDefaultsController: NSObject {
                         self.synchonize()
                         return
                     }
+                    else {
+                        self.setNumberOfPatchesWithoutWarning(to: to)
+                    }
                 }
                 else {
                     self.setNumberOfPatchesWithoutWarning(to: to)
