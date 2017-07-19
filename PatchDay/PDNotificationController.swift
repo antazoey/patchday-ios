@@ -11,6 +11,8 @@ import UserNotifications
 
 internal class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     
+    // Description:  class for controlling PatchDay's notifications.
+    
     // MARK: - Essential
     
     internal var center = { return UNUserNotificationCenter.current() }()
@@ -30,10 +32,16 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // ACTION:  Change Patch pressed
         if response.actionIdentifier == "changePatchActionID" {
-            // change the current patch data
-            PatchDataController.changePatchFromNotification(patchIndex: self.currentPatchIndex)
-            // erase badge number
-            UIApplication.shared.applicationIconBadgeNumber -= 1
+            if PatchDataController.getPatch(index: currentPatchIndex) != nil {
+                // Change the patch using a Suggested Location from the Suggest Location functionality.
+                let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: currentPatchIndex, generalLocations: PatchDataController.patchSchedule().makeArrayOfLocations())
+                // Suggested date and time is the current date and time.
+                let suggestDate = Date()
+                PatchDataController.setPatch(patchIndex: currentPatchIndex, patchDate: suggestDate, location: suggestedLocation)
+                PatchDataController.save()
+                // badge count --
+                UIApplication.shared.applicationIconBadgeNumber -= 1
+            }
         }
     }
 
@@ -71,12 +79,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             self.currentPatchIndex = patchIndex
             let allowsAutoChooseLocation = SettingsDefaultsController.getAutoChooseLocation()
             if allowsAutoChooseLocation {
+                // changePatchAction is an action for changing the patch from a notification using the suggested patch functionality (the suggested patch Bool from the Settings must be True) and the current date and time.
                 let changePatchAction = UNNotificationAction(identifier: "changePatchActionID",
-                                                     title: PDStrings.changePatch_string, options: [])
-                let changePatchCategory = UNNotificationCategory(identifier: "changePatchCategoryID",
-                                                         actions: [changePatchAction],
-                                                         intentIdentifiers: [],
-                                                         options: [])
+                    title: PDStrings.changePatch_string, options: [])
+                
+                let changePatchCategory = UNNotificationCategory(identifier: "changePatchCategoryID", actions: [changePatchAction], intentIdentifiers: [], options: [])
+                
                 self.center.setNotificationCategories([changePatchCategory])
             }
             // notification's attributes

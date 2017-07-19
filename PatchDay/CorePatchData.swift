@@ -11,6 +11,8 @@ import CoreData
 
 internal class CorePatchData {
     
+    // Description: CorePatchData is where the Core Data Stack is initialized. It is the internal class for interacting with core data to load and save patch attributes.  The core data model expresses Patch MOs with the attributes: datePlaced, serving as a Date object created on the day and time it was placed, and the location, a String representing the location of the patch.  CorePatchData is the class the PatchDataController, the UI class for the patch data, uses to load and save the patch data.  
+    
     // MARK: - Managed Object Array
     
     internal var userPatches: [Patch]
@@ -32,7 +34,6 @@ internal class CorePatchData {
         self.userPatches = patches
         
     }
-    
     
     // MARK: - Public
     

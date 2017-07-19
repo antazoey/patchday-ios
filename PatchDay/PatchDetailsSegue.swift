@@ -10,6 +10,8 @@ import UIKit
 
 internal class PatchDetailsSegue: UIStoryboardSegue {
     
+    // Description: PatchDetailsSegue animates upward to either the Patch Details VC or the Patch Schedule VC, depending on where it is coming from.
+    
     override internal func perform() {
         let screenHeight = UIScreen.main.bounds.size.height
         let screenWidth = UIScreen.main.bounds.size.width

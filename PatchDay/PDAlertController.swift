@@ -10,6 +10,8 @@ import UIKit
 
 internal class PDAlertController {
     
+    // Description:  class for controlling PatchDay's alerts.
+    
     static internal var currentVC = getRootVC()
     
     static internal var currentAlert = UIAlertController()
@@ -19,7 +21,16 @@ internal class PDAlertController {
     static internal func alertForChangingPatchCount(startIndexForReset: Int, endIndexForReset: Int, newPatchCount: String, numberOfPatchesButton: UIButton) {
         print(PDStrings.changePatchCountAlertTitle)
         print(PDStrings.changePatchCountAlertMessage)
-        currentAlert = UIAlertController(title: PDStrings.changePatchCountAlertTitle, message: PDStrings.changePatchCountAlertMessage, preferredStyle: .actionSheet)
+        var alertStyle: UIAlertControllerStyle
+        // ipad -> .alert
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            alertStyle = .alert
+        }
+            // iphone -> .actionSheet
+        else {
+            alertStyle = .actionSheet
+        }
+        currentAlert = UIAlertController(title: PDStrings.changePatchCountAlertTitle, message: PDStrings.changePatchCountAlertMessage, preferredStyle: alertStyle)
         let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
             (void) in
             for i in startIndexForReset...(endIndexForReset - 1) {
@@ -32,19 +43,22 @@ internal class PDAlertController {
         let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel, handler: nil)
         currentAlert.addAction(continueAction)
         currentAlert.addAction(cancelAction)
-        
-        // if using iPAD.. crashes otherwise...
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
-            currentAlert.popoverPresentationController?.sourceView = numberOfPatchesButton
-            currentAlert.popoverPresentationController?.sourceRect = CGRect(x: numberOfPatchesButton.frame.width * 0.35, y: 0, width: 100, height: 100)
-        }
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     
     static internal func alertForDisclaimerAndTutorial() {
         print(PDStrings.disclaimerAlertTitle)
         print(PDStrings.disclaimerAlertMessage)
-        currentAlert = UIAlertController(title: PDStrings.disclaimerAlertTitle, message: PDStrings.disclaimerAlertMessage, preferredStyle: .actionSheet)
+        // ipad -> .alert
+        var alertStyle: UIAlertControllerStyle
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            alertStyle = .alert
+        }
+            // iphone -> .actionSheet
+        else {
+            alertStyle = .actionSheet
+        }
+        currentAlert = UIAlertController(title: PDStrings.disclaimerAlertTitle, message: PDStrings.disclaimerAlertMessage, preferredStyle: alertStyle)
         let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
         let goToAction = UIAlertAction(title: PDStrings.goToSupport, style: .default) {
             (void) in
@@ -87,8 +101,7 @@ internal class PDAlertController {
         print(PDStrings.suggestLocationAlertTitle)
         print(PDStrings.suggestLocationAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.suggestLocationAlertTitle,
-                                         message: PDStrings.suggestLocationAlertMessage,
-                                         preferredStyle: .alert)
+            message: PDStrings.suggestLocationAlertMessage, preferredStyle: .alert)
         let continueAction = UIAlertAction(title: PDStrings.continue_string, style: UIAlertActionStyle.default) {
             (void) in
             SettingsDefaultsController.setAutoChooseLocation(to: changingTo)

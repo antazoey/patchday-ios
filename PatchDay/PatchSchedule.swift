@@ -10,7 +10,7 @@ import Foundation
 
 public class PatchSchedule {
     
-    // PatchSchedule is a class for querying the user's managed object array ([Patch]).  All of the patches in the user's current schedule form the PatchSchedule.  The PatchSchedule is used to suggest a location, as part of the "Suggest Location Functionality" mentioned on the SettingsViewController.  It also finds the oldest patch in the schedule, which is important when changing a patch in the PatchDataController.
+    // Description: PatchSchedule is a class for querying the user's managed object array ([Patch]).  All of the patches in the user's current schedule form the PatchSchedule.  The PatchSchedule is used to suggest a location, as part of the "Suggest Location Functionality" mentioned on the SettingsViewController.  It also finds the oldest patch in the schedule, which is important when changing a patch in the PatchDataController.
     
     private var patches: [Patch]
     
@@ -36,9 +36,18 @@ public class PatchSchedule {
         return locationArray
     }
     
-    // MARK: - Oldest Patch Related Methods
+    // MARK: - Oldest / Newest Patch Related Methods
     
-    public func getOldestPatch() -> Patch? {
+    public func newestPatch() -> Patch? {
+        if patches.count > 0 {
+            return patches.sorted(by: >)[0]
+        }
+        else {
+            return nil
+        }
+    }
+    
+    public func oldestPatch() -> Patch? {
         if patches.count > 0 {
             var oldestPatch: Patch = patches[0]
             if patches.count > 1 {
@@ -58,15 +67,15 @@ public class PatchSchedule {
         }
     }
     
-    public func getOldestPatchDate() -> Date? {
-        if let oldestPatch = getOldestPatch(), let oldestPatchDate = oldestPatch.getDatePlaced() {
+    public func oldestPatchDate() -> Date? {
+        if let oldestPatch = oldestPatch(), let oldestPatchDate = oldestPatch.getDatePlaced() {
             return oldestPatchDate
         }
         return nil
     }
     
     public func getOldestPatchDateAsString() -> String? {
-        if let oldestPatch = getOldestPatch() {
+        if let oldestPatch = oldestPatch() {
             return oldestPatch.getDatePlacedAsString()
         }
         return nil
@@ -111,7 +120,7 @@ public class PatchSchedule {
     }
     
     public func oldestPatchInScheduleHasNoDateAndIsCustomLocated() -> Bool {
-        if let oldestPatch = getOldestPatch() {
+        if let oldestPatch = oldestPatch() {
             return oldestPatch.getDatePlaced() == nil && oldestPatch.isCustomLocated()
         }
         return false

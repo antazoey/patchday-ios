@@ -10,6 +10,8 @@ import UIKit
 
 internal class ScheduleToSettingsSegue: UIStoryboardSegue {
     
+    // Description:  ScheduleToSettingsSegue animates to the right, to the Settings VC.
+    
     override internal func perform() {
         // Assign source and destination views as local vars
         let patchScheduleVCView = self.source.view as UIView!

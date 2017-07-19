@@ -10,7 +10,7 @@ import UIKit
 
 public class SettingsDefaultsController: NSObject {
     
-    // The SettingsDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (patchInterval) and the number of patches in the schedule (numberOfPatches).  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.  It also includes a bool for the auto suggest location functionality.
+    // Description: The SettingsDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (patchInterval) and the number of patches in the schedule (numberOfPatches).  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.  It also includes a bool for the auto suggest location functionality.
     
     // Schedule defaults:
     
@@ -103,20 +103,53 @@ public class SettingsDefaultsController: NSObject {
         self.synchonize()
     }
     
-    public static func setNumberOfPatchesWithWarning(to: String, numberOfPatchesButton: UIButton) {
-        let oldNumberOfPatches = self.getNumberOfPatchesInt()
+    public static func setNumberOfPatchesWithWarning(to: String, oldNumberOfPatches: Int, numberOfPatchesButton: UIButton) {
         print ("old patch count: " + String(describing: oldNumberOfPatches))
-            if let startIndex = Int(to) {
+        
+        /* 
+         This method will warn the user if they are about to delete patch data.
+         
+         It is necessary to reset patches that are no longer in the schedule, which happens when the user has is decreasing the number of patches in a full schedule.  Resetting unused patches makes sorting the schedule less error prone and more comprehensive.
+        
+         The variable "startIndexForResetingAndNewNumberOfPatches" represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new number of Patches
+        */
+        
+            if let startIndexForResettingAndNewNumberOfPatches = Int(to) {
                 // delete old patch data for easy sorting
-                if startIndex < oldNumberOfPatches {
-                    PDAlertController.alertForChangingPatchCount(startIndexForReset: startIndex, endIndexForReset: oldNumberOfPatches, newPatchCount: to, numberOfPatchesButton: numberOfPatchesButton)
+                if startIndexForResettingAndNewNumberOfPatches < oldNumberOfPatches {
+                    var patchesOnChoppingBlockHaveSetAttributes: Bool = true
+                    for i in (startIndexForResettingAndNewNumberOfPatches...SettingsDefaultsController.getNumberOfPatchesInt() - 1) {
+                        if let patch = PatchDataController.getPatch(index: i) {
+                            // Don't display warning if all the patches being erased are empty.
+                            if patch.isEmpty() {
+                                patchesOnChoppingBlockHaveSetAttributes = false
+                                self.numberOfPatches = to
+                                defaults.set(to, forKey: PDStrings.numberOfPatches_string())
+                                self.synchonize()
+                                return
+                            }
+                        }
+                        else {
+                            patchesOnChoppingBlockHaveSetAttributes = false
+                            self.numberOfPatches = to
+                            defaults.set(to, forKey: PDStrings.numberOfPatches_string())
+                            self.synchonize()
+                            return
+                        }
+                    }
+                    if patchesOnChoppingBlockHaveSetAttributes {
+                        PDAlertController.alertForChangingPatchCount(startIndexForReset: startIndexForResettingAndNewNumberOfPatches, endIndexForReset: oldNumberOfPatches, newPatchCount: to, numberOfPatchesButton: numberOfPatchesButton)
+                        self.synchonize()
+                        return
+                    }
                 }
                 else {
                     self.numberOfPatches = to
                     defaults.set(to, forKey: PDStrings.numberOfPatches_string())
+                    self.synchonize()
+                    return
                 }
             }
-        self.synchonize()
     }
     
     public static func setNumberOfPatchesWithoutWarning(to: String) {

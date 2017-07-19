@@ -9,6 +9,8 @@
 import UIKit
 
 internal class SettingsToScheduleSegue: UIStoryboardSegue {
+    
+    // Description:  SettingsToScheduleSegue animates to the left, to the Patch Schedule VC.
 
     override internal func perform() {
         // Assign source and destination views as local vars

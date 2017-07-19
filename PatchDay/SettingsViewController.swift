@@ -10,6 +10,8 @@ import UIKit
 
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can almost be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Suggest Location Functionality". SettingsDefaultsController is the object responsible saving and loading the settings that the user chooses here.
+    
     // Pickers
     
     @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
@@ -22,9 +24,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     @IBOutlet fileprivate weak var settingsStack: UIStackView!
 
-    // options are "interval" and "count"
+    // trackers
     private var whichTapped: String?
     private var selectedRow: Int?
+    private var numberOfPatchesWhenEnteredScene: Int?
+    private var weAreHidingFromPicker: Bool = false
     
     // Schedule outlets (in order of appearance
     @IBOutlet private weak var changePatchEvery: UIButton!
@@ -48,13 +52,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var autoChooseSuggestedLocationSwitch: UISwitch!
     @IBOutlet private weak var lineUnderAutoSuggest: UIView!
     
-    // bool
-    private var weAreHidingFromPicker: Bool = false
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
         PDAlertController.currentVC = self
+        self.setNumberOfPatchesWhenEnteredScene()
         self.numberOfPatches.tag = 10
         self.settingsView.backgroundColor = UIColor.white
         self.loadSwipe()
@@ -68,6 +70,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.loadAutoChooseLocation()
     }
     
+    internal func setNumberOfPatchesWhenEnteredScene() {
+        self.numberOfPatchesWhenEnteredScene = SettingsDefaultsController.getNumberOfPatchesInt()
+    }
+      
     // MARK: - Data loaders
     
     private func loadChangePatchEvery() {
@@ -169,7 +175,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         else if self.getWhichTapped() == PDStrings.count() {
             // save
             if let row: Int = self.selectedRow {
-                SettingsDefaultsController.setNumberOfPatchesWithWarning(to: PDStrings.patchCounts[row], numberOfPatchesButton: self.numberOfPatches)
+                guard let oldCount = self.numberOfPatchesWhenEnteredScene else {
+                    SettingsDefaultsController.setNumberOfPatchesWithWarning(to: PDStrings.patchCounts[row], oldNumberOfPatches: 0, numberOfPatchesButton: self.numberOfPatches)
+                    self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PDStrings.patchCounts, row: row)
+                    return
+                }
+                SettingsDefaultsController.setNumberOfPatchesWithWarning(to: PDStrings.patchCounts[row], oldNumberOfPatches: oldCount, numberOfPatchesButton: self.numberOfPatches)
                 // configure button title
                 self.configureButtonTitleFromPicker(fromButton: self.numberOfPatches, withData: PDStrings.patchCounts, row: row)
             }
@@ -192,6 +203,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func openOrClosePicker(key: String) {
+        
+        // initial selector method for the pickers
+        // for hiding or unhiding the correct picker
+        
         // key is either "interval" , "count" , "notifications"
         
         // change member variable for determining correct picker
@@ -240,6 +255,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func openOrClose(picker: UIPickerView, buttonTapped: UIButton, settingsList: [String]) {
+        
+        // second openOrClose method for either closing the picker of set the title to the current picker's row
+        
         // if already open, close the picker
         if picker.isHidden == false {
             // close it
@@ -247,6 +265,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             // exit call
             return
         }
+        // set starting row to current button title label's text
         if let title = buttonTapped.titleLabel, let readText = title.text {
             guard let selectedRowIndex = settingsList.index(of: readText) else {
                 picker.selectRow(0, inComponent: 0, animated: false)

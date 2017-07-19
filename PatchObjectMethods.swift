@@ -9,7 +9,9 @@
 import Foundation
 import CoreData
 
-    // Patch: NSManagedObject is a class for the Managed Object "Patch".  Patch objects are abstractions of patches on the physical body.  They have two attributes: 1.) the date/time when the patch was placed, and 2.), the location where the patch was placed at.  The expiration date of a patch is also important, which is accessible through a Patch.expirationDate() or Patch.expirationDateAsString()
+    // Description: Patch is a managed object class.  Patch objects are abstractions of patches on the physical body.  They have two attributes: 1.) the date/time when the patch was placed, and 2.), the location where the patch was placed at.  Patch.expirationDate() or Patch.expirationDateAsString() are useful in the PatchSchedule().
+
+    // This file is an extension of the Patch object to include useful methods.
 
 extension Patch {
 
@@ -80,7 +82,10 @@ extension Patch {
     // MARK: - booleans
     
     public func isEmpty() -> Bool {
-        return self.location == nil || self.location == PDStrings.unplaced_string
+        if self.location == "Unplaced" {
+            self.location = "unplaced"
+        }
+        return self.datePlaced == nil && self.location == "unplaced"
     }
     
     public func isLessThanOneDayUntilExpired() -> Bool {

@@ -14,7 +14,7 @@ import UIKit
 
 public class PatchDataController: NSObject {
     
-    // PatchDataController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch", an abstraction of a patch on the physical body.  The PatchDataController is how the user changes any of their patches.  The user may also use this to edit a patch's details.  The PatchDataController uses a "PatchSchedule" object to work with all of the patches together in an array.  PatchSchedules are for querying an array of patches.
+    // PatchDataController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch", an abstraction of a patch on the physical body.  The PatchDataController is how the user changes any of their patches.  The user may also use the PatchDataController to edit a patch's details.  This static class uses a "PatchSchedule" object to work with all of the patches together in an array.  PatchSchedules are for querying an array of patches.
     
     static internal var corePatchData: CorePatchData = CorePatchData()
     
@@ -68,16 +68,5 @@ public class PatchDataController: NSObject {
         self.corePatchData.resetPatchData()
         save()
     }
-    
-    // MARK: - called by notification
-    
-    public static func changePatchFromNotification(patchIndex: Int) {
-        if getPatch(index: patchIndex) != nil {
-            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: patchIndex, generalLocations: patchSchedule().makeArrayOfLocations())
-            let suggestDate = Date()
-            setPatch(patchIndex: patchIndex, patchDate: suggestDate, location: suggestedLocation)
-            save()
-        }
-    }
-    
+
 }

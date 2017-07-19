@@ -10,7 +10,7 @@ import Foundation
 
 internal class SuggestedPatchLocation {
     
-    // The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the patch schedule. 3.) a suggest(patchIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
+    // Description: The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the patch schedule. 3.) a suggest(patchIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
     
     // MARK: - Public
     
