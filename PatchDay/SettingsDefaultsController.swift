@@ -117,27 +117,11 @@ public class SettingsDefaultsController: NSObject {
             if let startIndexForResettingAndNewNumberOfPatches = Int(to) {
                 // delete old patch data for easy sorting
                 if startIndexForResettingAndNewNumberOfPatches < oldNumberOfPatches {
-                    var patchesOnChoppingBlockHaveSetAttributes: Bool = true
-                    for i in (startIndexForResettingAndNewNumberOfPatches...SettingsDefaultsController.getNumberOfPatchesInt() - 1) {
-                        if let patch = PatchDataController.getPatch(index: i) {
-                            // Don't display warning if all the patches being erased are empty.
-                            if patch.isEmpty() {
-                                patchesOnChoppingBlockHaveSetAttributes = false
-                                self.numberOfPatches = to
-                                defaults.set(to, forKey: PDStrings.numberOfPatches_string())
-                                self.synchonize()
-                                return
-                            }
-                        }
-                        else {
-                            patchesOnChoppingBlockHaveSetAttributes = false
-                            self.numberOfPatches = to
-                            defaults.set(to, forKey: PDStrings.numberOfPatches_string())
-                            self.synchonize()
-                            return
-                        }
-                    }
-                    if patchesOnChoppingBlockHaveSetAttributes {
+                    // if the schedule is not empty from this start index onward...
+                    // meaning if at least one patch location or datePlaced attribute is set...
+                    // than we are going to delete data and should alert the user.
+                    if !PatchDataController.patchSchedule().scheduleIsEmpty(fromThisIndexOnward:
+                        startIndexForResettingAndNewNumberOfPatches) {
                         PDAlertController.alertForChangingPatchCount(startIndexForReset: startIndexForResettingAndNewNumberOfPatches, endIndexForReset: oldNumberOfPatches, newPatchCount: to, numberOfPatchesButton: numberOfPatchesButton)
                         self.synchonize()
                         return

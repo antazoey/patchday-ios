@@ -119,11 +119,28 @@ public class PatchSchedule {
         return scheduleHasNoDates() && scheduleHasNoLocations()
     }
     
+    public func scheduleIsEmpty(fromThisIndexOnward: Int) -> Bool {
+        // returns true if each patch fromThisIndexOnward is empty
+        let lastIndex = SettingsDefaultsController.getNumberOfPatchesInt() - 1
+        if fromThisIndexOnward <= lastIndex {
+            for i in fromThisIndexOnward...lastIndex {
+                if let patch = PatchDataController.getPatch(index: i) {
+                    // as soon as a patch is not empty, it will end the search, returning false.
+                    if !patch.isEmpty() {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
+    }
+    
     public func oldestPatchInScheduleHasNoDateAndIsCustomLocated() -> Bool {
         if let oldestPatch = oldestPatch() {
             return oldestPatch.getDatePlaced() == nil && oldestPatch.isCustomLocated()
         }
         return false
     }
+    
     
 }
