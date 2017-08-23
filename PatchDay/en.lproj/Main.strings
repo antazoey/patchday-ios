@@ -95,8 +95,8 @@
 /* Class = "UILabel"; text = " "; ObjectID = "vei-Lg-bch"; */
 "vei-Lg-bch.text" = " ";
 
-/* Class = "UILabel"; text = "Recevie a reminder notification minutes before patch expiration."; ObjectID = "vfC-et-iHq"; */
-"vfC-et-iHq.text" = "Recevie a reminder notification minutes before patch expiration.";
+/* Class = "UILabel"; text = "Receive a reminder notification minutes before patch expiration."; ObjectID = "vfC-et-iHq"; */
+"vfC-et-iHq.text" = "Receive a reminder notification minutes before patch expiration.";
 
 /* Class = "UILabel"; text = "Patch duration:"; ObjectID = "xZp-Rx-dxb"; */
 "xZp-Rx-dxb.text" = "Patch duration:";
