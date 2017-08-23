@@ -28,10 +28,6 @@ class PDStrings {
     
     internal static var expirationIntervals: [String] = { return [NSLocalizedString("Half-Week", tableName: nil, comment: "SettingsViewController, it's an option for choosing which interval the patches expire. "), NSLocalizedString("Week", tableName: nil, comment: "SettingsViewController, it's an option for choosing which interval the patches expire. ")] }()
     
-    internal static var patchCounts: [String] = { return [NSLocalizedString("1", tableName: nil, comment: "number of patches"),NSLocalizedString("2", tableName: nil, comment: "number of patches"),NSLocalizedString("3", tableName: nil, comment: "number of patches"),NSLocalizedString("4", tableName: nil, comment: "number of patches")] }()
-    
-    internal static var notificationSettings: [String] = { return [NSLocalizedString("30", tableName: nil, comment: "discussing when to receive a notification"), NSLocalizedString("60", tableName: nil, comment: "discussing when to receive a notification"),NSLocalizedString("120", tableName: nil, comment: "discussing when to receive a notification")] }()
-    
     internal static var patchLocationNames: [String] = { return [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")] }()
     
     internal static var patchDetailsInstruction: String = {return NSLocalizedString("...", tableName: nil, comment: "instruction for empty patch") }()
@@ -97,6 +93,12 @@ class PDStrings {
     internal static var disclaimerAlertMessage: String = NSLocalizedString("Use PatchDay responsibly, and please follow prescription or drug instructions!  Go to tryum.ph/patch_day.html to learn more about how to use PatchDay.", comment: "Message for an alert that shows up the first time the app launches.")
     
     internal static var goToSupport: String = NSLocalizedString("Support page", comment: "")
+    
+    // MARK: - numerical
+    
+    internal static var patchCounts: [String] = { return ["1", "2", "3", "4"] }()
+    
+    internal static var notificationSettings: [String] = { return ["30", "60", "120"] }()
     
     // MARK: - general
     
