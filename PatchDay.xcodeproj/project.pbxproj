@@ -7,6 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130859D51F2560BD007BC43D /* PatchObjectMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF21EE1F36C006C8041 /* PatchObjectMethods.swift */; };
+		130859D61F2560BD007BC43D /* PatchSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1309A5231F17E2C500520B2F /* PatchSchedule.swift */; };
+		130859D71F2560BD007BC43D /* CorePatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620731F15A427007161CA /* CorePatchData.swift */; };
+		130859D81F2560BD007BC43D /* PatchDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */; };
+		130859D91F2560BD007BC43D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133EEBAE1EF2EB0200E64C4D /* SettingsViewController.swift */; };
+		130859DA1F2560BD007BC43D /* ScheduleToSettingsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */; };
+		130859DB1F2560BD007BC43D /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
+		130859DC1F2560BD007BC43D /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
+		130859DD1F2560BD007BC43D /* PatchScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* PatchScheduleViewController.swift */; };
+		130859DE1F2560BD007BC43D /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
+		130859DF1F2560BD007BC43D /* PatchDetailsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */; };
+		130859E01F2560BD007BC43D /* MOPatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF11EE1F36C006C8041 /* MOPatch.swift */; };
+		130859E11F2560BD007BC43D /* SettingsToScheduleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */; };
+		130859E21F2560BD007BC43D /* SuggestedPatchLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E91EE5935A0003EFFA /* SuggestedPatchLocation.swift */; };
+		130859E31F2560BD007BC43D /* PDNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */; };
+		130859E41F2560BD007BC43D /* PatchDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */; };
+		130859E51F2560BD007BC43D /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
+		130859E61F2560BD007BC43D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
+		130859E71F2560BD007BC43D /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
+		130859E81F2560BD007BC43D /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
+		130859EB1F2560BD007BC43D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
+		130859EC1F2560BD007BC43D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
+		130859ED1F2560BD007BC43D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
 		1309A5241F17E2C500520B2F /* PatchSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1309A5231F17E2C500520B2F /* PatchSchedule.swift */; };
 		131F0B691EE3AAD700576200 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		1335B9BB1EC7500D00DD7088 /* PatchDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */; };
@@ -52,6 +75,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		130859EE1F2560BD007BC43D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		13B00C061F1A8EC700548019 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,6 +98,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		130859F21F2560BD007BC43D /* PatchDay+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PatchDay+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		130859F31F2560BD007BC43D /* PatchDay copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PatchDay copy2-Info.plist"; path = "/Users/Yingthi/Documents/PatchDay/PatchDay copy2-Info.plist"; sourceTree = "<absolute>"; };
 		1309A5231F17E2C500520B2F /* PatchSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchSchedule.swift; sourceTree = "<group>"; };
 		131F0B681EE3AAD700576200 /* PDImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDImages.swift; sourceTree = "<group>"; };
 		1335B9BA1EC7500D00DD7088 /* PatchDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDataController.swift; sourceTree = "<group>"; };
@@ -100,6 +135,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		130859E91F2560BD007BC43D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		137330E61E22BA3E0048F91E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -150,6 +192,7 @@
 				1373310B1E22BA3E0048F91E /* PatchDayUITests */,
 				137330EA1E22BA3E0048F91E /* Products */,
 				1340A9F41EF0BDF80003EFFA /* Frameworks */,
+				130859F31F2560BD007BC43D /* PatchDay copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,6 +202,7 @@
 				137330E91E22BA3E0048F91E /* PatchDay.app */,
 				137330FD1E22BA3E0048F91E /* PatchDayTests.xctest */,
 				137331081E22BA3E0048F91E /* PatchDayUITests.xctest */,
+				130859F21F2560BD007BC43D /* PatchDay+.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -253,6 +297,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		130859D31F2560BD007BC43D /* PatchDay+ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 130859EF1F2560BD007BC43D /* Build configuration list for PBXNativeTarget "PatchDay+" */;
+			buildPhases = (
+				130859D41F2560BD007BC43D /* Sources */,
+				130859E91F2560BD007BC43D /* Frameworks */,
+				130859EA1F2560BD007BC43D /* Resources */,
+				130859EE1F2560BD007BC43D /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PatchDay+";
+			productName = PatchDay;
+			productReference = 130859F21F2560BD007BC43D /* PatchDay+.app */;
+			productType = "com.apple.product-type.application";
+		};
 		137330E81E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 137331111E22BA3E0048F91E /* Build configuration list for PBXNativeTarget "PatchDay" */;
@@ -317,6 +379,9 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Juliya Smith";
 				TargetAttributes = {
+					130859D31F2560BD007BC43D = {
+						DevelopmentTeam = 8U33TMB35U;
+					};
 					137330E81E22BA3E0048F91E = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 8U33TMB35U;
@@ -358,11 +423,22 @@
 				137330E81E22BA3E0048F91E /* PatchDay */,
 				137330FC1E22BA3E0048F91E /* PatchDayTests */,
 				137331071E22BA3E0048F91E /* PatchDayUITests */,
+				130859D31F2560BD007BC43D /* PatchDay+ */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		130859EA1F2560BD007BC43D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				130859EB1F2560BD007BC43D /* LaunchScreen.storyboard in Resources */,
+				130859EC1F2560BD007BC43D /* Assets.xcassets in Resources */,
+				130859ED1F2560BD007BC43D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		137330E71E22BA3E0048F91E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,6 +466,33 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		130859D41F2560BD007BC43D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				130859D51F2560BD007BC43D /* PatchObjectMethods.swift in Sources */,
+				130859D61F2560BD007BC43D /* PatchSchedule.swift in Sources */,
+				130859D71F2560BD007BC43D /* CorePatchData.swift in Sources */,
+				130859D81F2560BD007BC43D /* PatchDataController.swift in Sources */,
+				130859D91F2560BD007BC43D /* SettingsViewController.swift in Sources */,
+				130859DA1F2560BD007BC43D /* ScheduleToSettingsSegue.swift in Sources */,
+				130859DB1F2560BD007BC43D /* patchData.xcdatamodeld in Sources */,
+				130859DC1F2560BD007BC43D /* PDColors.swift in Sources */,
+				130859DD1F2560BD007BC43D /* PatchScheduleViewController.swift in Sources */,
+				130859DE1F2560BD007BC43D /* PDImages.swift in Sources */,
+				130859DF1F2560BD007BC43D /* PatchDetailsSegue.swift in Sources */,
+				130859E01F2560BD007BC43D /* MOPatch.swift in Sources */,
+				130859E11F2560BD007BC43D /* SettingsToScheduleSegue.swift in Sources */,
+				130859E21F2560BD007BC43D /* SuggestedPatchLocation.swift in Sources */,
+				130859E31F2560BD007BC43D /* PDNotificationController.swift in Sources */,
+				130859E41F2560BD007BC43D /* PatchDetailsViewController.swift in Sources */,
+				130859E51F2560BD007BC43D /* PDAlertController.swift in Sources */,
+				130859E61F2560BD007BC43D /* AppDelegate.swift in Sources */,
+				130859E71F2560BD007BC43D /* PDStrings.swift in Sources */,
+				130859E81F2560BD007BC43D /* SettingsDefaultsController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		137330E51E22BA3E0048F91E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -468,6 +571,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		130859F01F2560BD007BC43D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				INFOPLIST_FILE = "PatchDay copy2-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDayPlus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		130859F11F2560BD007BC43D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				INFOPLIST_FILE = "PatchDay copy2-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDayPlus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		1373310F1E22BA3E0048F91E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -646,6 +779,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		130859EF1F2560BD007BC43D /* Build configuration list for PBXNativeTarget "PatchDay+" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				130859F01F2560BD007BC43D /* Debug */,
+				130859F11F2560BD007BC43D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		137330E41E22BA3E0048F91E /* Build configuration list for PBXProject "PatchDay" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -21,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         SettingsDefaultsController.setUp()
+        
+        // unhide for resetting (for testing):
+        //PatchDataController.resetPatchData()
+        
         return true
     }
 
