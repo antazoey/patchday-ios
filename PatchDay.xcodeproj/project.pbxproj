@@ -118,6 +118,9 @@
 		137331081E22BA3E0048F91E /* PatchDayUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDayUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayUITests.swift; sourceTree = "<group>"; };
 		1373310E1E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		138426D01F4DDA98008C6E6D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		138426D11F4DDA98008C6E6D /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		138426D31F4DDB31008C6E6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		138620731F15A427007161CA /* CorePatchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CorePatchData.swift; sourceTree = "<group>"; };
 		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
 		139754BD1EDA8C4D006C82B8 /* PatchDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsViewController.swift; sourceTree = "<group>"; };
@@ -556,6 +559,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				137330F11E22BA3E0048F91E /* Base */,
+				138426D01F4DDA98008C6E6D /* zh-Hans */,
+				138426D31F4DDB31008C6E6D /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -564,6 +569,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				137330F61E22BA3E0048F91E /* Base */,
+				138426D11F4DDA98008C6E6D /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -605,6 +611,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -654,6 +661,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";

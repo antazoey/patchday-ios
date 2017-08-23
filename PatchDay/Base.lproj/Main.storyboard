@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -32,6 +32,14 @@
                                 <state key="normal" title="✕">
                                     <color key="titleColor" red="0.47722145469999999" green="0.4710952692" blue="0.48015790780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <attributedString key="userComments">
+                                    <fragment content="a close button (title)">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="custom" identifier="idPatchDetailsSegue" customClass="PatchDetailsSegue" customModule="PatchDay" customModuleProvider="target" id="LSN-2h-Kiv"/>
                                 </connections>
@@ -47,6 +55,14 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <attributedString key="userComments">
+                                            <fragment content="title for area where user enters the date and time placed for the patch">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="foS-VQ-Nyg">
                                         <rect key="frame" x="0.0" y="16" width="280" height="1"/>
@@ -95,6 +111,14 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <attributedString key="userComments">
+                                            <fragment content="title for area that states the expiration date">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RTx-3W-wfr">
                                         <rect key="frame" x="0.0" y="86" width="280" height="1"/>
@@ -139,6 +163,14 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
+                                        <attributedString key="userComments">
+                                            <fragment content="title for area that states the location the patch was placed at">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krO-wL-XDy">
                                         <rect key="frame" x="0.0" y="156" width="280" height="1"/>
@@ -193,6 +225,14 @@
                                 <state key="normal" title="Change Patch">
                                     <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <attributedString key="userComments">
+                                    <fragment content="Button title for changing a patch">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <connections>
                                     <action selector="changePatchTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="W9H-Rr-D0x"/>
                                 </connections>
@@ -214,6 +254,14 @@
                             </button>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlM-ae-RCE">
                                 <rect key="frame" x="28" y="402" width="320" height="214"/>
+                                <attributedString key="userComments">
+                                    <fragment content="a save button (title)">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                             </pickerView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Patch Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6B-yb-uBQ">
                                 <rect key="frame" x="135" y="23" width="105" height="43"/>
@@ -223,6 +271,14 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" red="0.47722145469999999" green="0.4710952692" blue="0.48015790780000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
+                                <attributedString key="userComments">
+                                    <fragment content="Name of View where you add Patch details">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="0.20235812883435583" colorSpace="calibratedWhite"/>
@@ -300,6 +356,14 @@
                                                 <state key="normal" title="Button">
                                                     <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </state>
+                                                <attributedString key="userComments">
+                                                    <fragment content="this doesn't need to be translated">
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="smallSystem"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YFr-dA-r2S"/>
                                                 </connections>
@@ -318,6 +382,53 @@
                                                 <state key="normal" title="Button">
                                                     <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </state>
+                                                <attributedString key="userComments">
+                                                    <fragment content="this doesn't need to be translated">
+                                                        <attributes>
+                                                            <font key="NSFont" size="11" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                                <tabStops>
+                                                                    <textTab alignment="left" location="28">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="56">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="84">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="112">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="140">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="168">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="196">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="224">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="252">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="280">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="308">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="336">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                </tabStops>
+                                                            </paragraphStyle>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="d4p-Dw-6ot"/>
                                                 </connections>
@@ -336,6 +447,53 @@
                                                 <state key="normal" title="Button">
                                                     <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </state>
+                                                <attributedString key="userComments">
+                                                    <fragment content="this doesn't need to be translated">
+                                                        <attributes>
+                                                            <font key="NSFont" size="11" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                                <tabStops>
+                                                                    <textTab alignment="left" location="28">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="56">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="84">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="112">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="140">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="168">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="196">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="224">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="252">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="280">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="308">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="336">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                </tabStops>
+                                                            </paragraphStyle>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vf3-pf-hwO"/>
                                                 </connections>
@@ -354,6 +512,53 @@
                                                 <state key="normal" title="Button">
                                                     <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </state>
+                                                <attributedString key="userComments">
+                                                    <fragment content="this doesn't need to be translated">
+                                                        <attributes>
+                                                            <font key="NSFont" size="11" name="HelveticaNeue"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                                <tabStops>
+                                                                    <textTab alignment="left" location="28">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="56">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="84">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="112">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="140">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="168">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="196">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="224">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="252">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="280">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="308">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                    <textTab alignment="left" location="336">
+                                                                        <options/>
+                                                                    </textTab>
+                                                                </tabStops>
+                                                            </paragraphStyle>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                                 <connections>
                                                     <action selector="patchButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oKQ-8F-acG"/>
                                                 </connections>
@@ -368,6 +573,14 @@
                                 <state key="normal" title="⚙">
                                     <color key="titleColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 </state>
+                                <attributedString key="userComments">
+                                    <fragment content="settings gear icon for traversing to the settings view">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                                 <connections>
                                     <segue destination="vQS-Ij-BG5" kind="custom" identifier="idScheduleToSettingsSegue" customClass="ScheduleToSettingsSegue" customModule="PatchDay" customModuleProvider="target" id="am6-Lh-EwW"/>
                                 </connections>
@@ -378,6 +591,14 @@
                                     <constraint firstAttribute="width" constant="117" id="UsZ-T2-G6F"/>
                                     <constraint firstAttribute="height" constant="39" id="pSM-su-nBz"/>
                                 </constraints>
+                                <attributedString key="userComments">
+                                    <fragment content="PatchDay logo">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -434,6 +655,14 @@
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="title that indicated where the Schedule settings starts">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                 </subviews>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -457,6 +686,14 @@
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jbd-oA-u2d">
                                                         <rect key="frame" x="104.5" y="0.0" width="221.5" height="37"/>
@@ -503,6 +740,14 @@
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="title for a nearby button for choosing the number of patches">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dhc-uH-T6d">
                                                         <rect key="frame" x="136" y="0.0" width="189" height="37"/>
@@ -558,6 +803,14 @@
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="title indicating that the below settings are related to Notifications">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                 </subviews>
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -576,6 +829,14 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
+                                                <attributedString key="userComments">
+                                                    <fragment content="the explanation about why one would enable a switch to receive a reminder before their patch expires">
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="smallSystem"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sep-G9-gEy">
                                                 <rect key="frame" x="0.0" y="682" width="355" height="1"/>
@@ -592,6 +853,14 @@
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="label next to switch for indicating whether the user wants to receive a reminder before their patch expires.">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e11-P1-tGB">
                                                         <rect key="frame" x="306" y="0.0" width="51" height="37"/>
@@ -616,6 +885,14 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="this title is for a button that lets the user choose how many minutes before they are receiving the reminder.">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gkg-w3-hAO">
                                                         <rect key="frame" x="107.5" y="0.0" width="218.5" height="37"/>
@@ -663,6 +940,15 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
+                                                <attributedString key="userComments">
+                                                    <fragment>
+                                                        <string key="content">the is the title for a switch that let's the user turn on a special functionality for suggest locations for the user when they change their patches.</string>
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="smallSystem"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSa-3b-JRd">
                                                 <rect key="frame" x="0.0" y="1009" width="355" height="20"/>
@@ -687,6 +973,54 @@
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment>
+                                                                <string key="content">the is the title for a switch that let's the user turn on a special functionality for suggest locations for the user when they change their patches.</string>
+                                                                <attributes>
+                                                                    <font key="NSFont" size="11" name="HelveticaNeue"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                                        <tabStops>
+                                                                            <textTab alignment="left" location="28">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="56">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="84">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="112">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="140">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="168">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="196">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="224">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="252">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="280">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="308">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                            <textTab alignment="left" location="336">
+                                                                                <options/>
+                                                                            </textTab>
+                                                                        </tabStops>
+                                                                    </paragraphStyle>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
                                                     </label>
                                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8eQ-hE-9ze">
                                                         <rect key="frame" x="306" y="0.0" width="51" height="37"/>
@@ -740,6 +1074,14 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                 <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <color key="highlightedColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <attributedString key="userComments">
+                                    <fragment content="title for the Settings view">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -793,7 +1135,7 @@
         <image name="Logo" width="157" height="49"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LSN-2h-Kiv"/>
+        <segue reference="lC6-PN-gD1"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1005799463190184" colorSpace="calibratedRGB"/>
 </document>
