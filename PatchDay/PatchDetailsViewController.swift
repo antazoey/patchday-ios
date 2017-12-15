@@ -78,10 +78,10 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         // text editing delegate as self
         self.locationTextEdit.delegate = self
 
- 
         // location picker set up
         self.locationPicker.delegate = self
         self.locationPicker.dataSource = self
+        self.locationPicker.selectRow(self.findLocationStartRow(), inComponent: 0, animated: false)
     }
     
     // Save Button
@@ -90,7 +90,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         self.requestNotifications()
         self.performSegue(withIdentifier: PDStrings.patchDetailsSegueID, sender: self)
         // lower badge number if patch was expired and it had a notification number
-        if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
+        if let patch = PatchDataController.getPatch(index: self.patchReferernce - 1) {
             if patch.isExpired() && UIApplication.shared.applicationIconBadgeNumber > 0 {
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
@@ -153,7 +153,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     @IBAction internal func openLocationPicker(_ sender: Any) {
         self.unhideLocationPicker()
-        
+        self.locationPicker.selectRow(self.findLocationStartRow(), inComponent: 0, animated: false)
         // other View changes
         self.hideAutoButton()
         self.disableAutoButton()
@@ -206,7 +206,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
 
     }
     
-    internal func datePickerDone(sender: UIButton) {
+    @objc internal func datePickerDone(sender: UIButton) {
         self.dateInputView.isHidden = true
         // set date and time placed on screen
         self.chooseDateTextButton.setTitle(Patch.makeDateString(from: self.datePicker.date), for: UIControlState.normal)
@@ -228,7 +228,7 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {
+        if let patch = PatchDataController.getPatch(index: self.patchReferernce - 1) {
             // location placed
             if patch.getLocation() != PDStrings.unplaced_string {
                 // set location label text to patch's location
@@ -278,17 +278,17 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
             guard let newLocation = self.locationTextEdit.text, newLocation != "" else {
                 return
             }
-            PatchDataController.setPatchLocation(patchIndex: self.getPatchIndex(), with: newLocation)
+            PatchDataController.setPatchLocation(patchIndex: self.patchReferernce - 1, with: newLocation)
         }
         if self.patchDateTextHasChanged {
-            PatchDataController.setPatchDate(patchIndex: self.getPatchIndex(), with: datePicker.date)
+            PatchDataController.setPatchDate(patchIndex: self.patchReferernce - 1, with: datePicker.date)
         }
         PatchDataController.save()
     }
     
     private func autoPickLocation() {
         if SettingsDefaultsController.getAutoChooseLocation() {
-            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.getPatchIndex(), generalLocations: PatchDataController.patchSchedule().makeArrayOfLocations())
+            let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: self.patchReferernce - 1, generalLocations: PatchDataController.patchSchedule().makeArrayOfLocations())
             self.locationTextEdit.text = suggestedLocation
         }
         else {
@@ -310,21 +310,37 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     private func requestNotifications() {
         // request notification iff exists Patch.datePlaced
-        if let _ = PatchDataController.getPatch(index: self.getPatchIndex()) {
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: self.getPatchIndex())
+        if let _ = PatchDataController.getPatch(index: self.patchReferernce - 1) {
+            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(patchIndex: self.patchReferernce - 1)
             if SettingsDefaultsController.getRemindMe() {
-                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: self.getPatchIndex())
+                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(patchIndex: self.patchReferernce - 1)
             }
         }
         
     }
     
-    // MARK: - Private view creators
+    // MARK: - Private view creators / modifiers
+    
+    private func findLocationStartRow() -> Int {
+        var selected = 0
+        let len = PDStrings.patchLocationNames.count
+        if let currentPatch = PatchDataController.getPatch(index: self.patchReferernce - 1) {
+            let currentLocation = currentPatch.getLocation()
+            for i in 0...(len-1){
+               // print(currentLocation)
+                if PDStrings.patchLocationNames[i] == currentLocation {
+                    selected = i
+                    break
+                }
+            }
+        }
+        return selected
+    }
     
     private func setExpirationAndHeading() {
         var exp = ""
         var heading = ""
-        if let patch = PatchDataController.getPatch(index: self.getPatchIndex()) {            // unplaced patch instruction
+        if let patch = PatchDataController.getPatch(index: self.patchReferernce - 1) {            // unplaced patch instruction
             if patch.getLocation() == PDStrings.unplaced_string {
                 exp = PDStrings.patchDetailsInstruction
                 heading = PDStrings.addPatch_string
@@ -434,10 +450,6 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
     
     private func getDatePicker() -> UIDatePicker {
         return self.datePicker
-    }
-    
-    private func getPatchIndex() -> Int {
-        return patchReferernce - 1
     }
     
     private func setDateInputView(with: UIView) {
@@ -710,7 +722,6 @@ class PatchDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
             self.locationLabel.isHidden = false
         }
     }
-    
     
     // loc text edit
     private func unhideLocationTextbutton() {

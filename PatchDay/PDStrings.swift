@@ -20,6 +20,8 @@ class PDStrings {
     
     internal static var changePatch_string: String = { return NSLocalizedString("Change Patch", comment: "Label for view when changing a patch") }()
     
+    internal static var changePatchSoon_string: String = { return NSLocalizedString("Change Patch Soon", comment: "Label for view when changing a patch") }()
+    
     internal static var expiredPatch_string: String = { return NSLocalizedString("Expired Patch", comment: "Label for view when changing a patch") }()
     
     internal static var emptyDateInstruction: String = { return NSLocalizedString("choose date", comment: "placeholder in date text field when it's a new patch") }()

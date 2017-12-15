@@ -54,7 +54,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             let intervalUntilTrigger = patch.determineIntervalToExpire() - secondsBefore
             // notification's attributes
             let content = UNMutableNotificationContent()
-            content.title = PDStrings.changePatch_string
+            content.title = PDStrings.changePatchSoon_string
             content.body = patch.notificationString()
             content.sound = UNNotificationSound.default()
             // trigger

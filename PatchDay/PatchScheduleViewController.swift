@@ -80,7 +80,7 @@ class PatchScheduleViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
-    internal func appWillEnterForeground() {
+    @objc internal func appWillEnterForeground() {
         self.displayPatches()
     }
     
