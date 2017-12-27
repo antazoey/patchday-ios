@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SettingsDefaultsController.setUp()
         
         // unhide for resetting (for testing):
-        //PatchDataController.resetPatchData()
+        //ScheduleController.resetPatchData()
         
         return true
     }

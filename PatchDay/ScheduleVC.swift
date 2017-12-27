@@ -10,9 +10,11 @@ import UIKit
 import Foundation
 import CoreData
 
-class PatchScheduleViewController: UIViewController {
+class ScheduleVC: UIViewController {
     
     // MARK: - Main
+    
+    @IBOutlet weak var pillNav: UIButton!
     
     @IBOutlet private var patchOneButton: UIButton!
     @IBOutlet private var patchTwoButton: UIButton!
@@ -23,7 +25,7 @@ class PatchScheduleViewController: UIViewController {
     
     private var expiredPatchCount: Int = 0
     
-    // for segue to PatchDetailsViewController
+    // for segue to ChangePatchVC
     private var patchButtonTapped = 0
     
     private var numberOfPatches: Int = 1
@@ -32,8 +34,16 @@ class PatchScheduleViewController: UIViewController {
         PDAlertController.currentVC = self
         self.updateFromBackground()
         super.viewDidLoad()
-        self.setNumberOfPatches(to: SettingsDefaultsController.getNumberOfPatchesInt())
-        self.setBackgroundColor(to: PDColors.lighterCuteGray)
+        if !SettingsDefaultsController.getIncludePG() && !SettingsDefaultsController.getIncludeTB() {
+            self.pillNav.isEnabled = false
+            self.pillNav.isHidden = true
+        }
+        else {
+            self.pillNav.isEnabled = true
+            self.pillNav.isHidden = false
+        }
+        self.setNumberOfPatches(to: SettingsDefaultsController.getQuantityInt())
+        self.view.backgroundColor = PDColors.lighterCuteGray
         self.swipeRight = self.addSwipeRecgonizer()
         self.displayPatches()
         self.updateBadge()
@@ -46,19 +56,18 @@ class PatchScheduleViewController: UIViewController {
             PDAlertController.alertForDisclaimerAndTutorial()
             SettingsDefaultsController.setMentionedDisclaimer(to: true)
         }
-        
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
         if segue.identifier == PDStrings.patchDetailsSegueID {
-            if let destination = segue.destination as? PatchDetailsViewController {
-                destination.setPatchReference(to: self.getPatchButtonTapped())
+            if let destination = segue.destination as? ChangePatchVC {
+                destination.setreference(to: self.patchButtonTapped)
             }
         }
     }
     
     @IBAction private func patchButtonTapped(_ sender: Any) {
-        self.setPatchButtonTapped(to: self.getReference(fromPatchButton: sender))
+        self.patchButtonTapped = self.getReference(fromPatchButton: sender)
         self.swipeRight.isEnabled = false
         self.showAddPatchView()
     }
@@ -93,34 +102,20 @@ class PatchScheduleViewController: UIViewController {
     
     @objc private func showAddPatchView() {
         self.performSegue(withIdentifier: PDStrings.patchDetailsSegueID, sender: self)
-        
     }
-    
-    // MARK: - { get} { set }
-    
-    private func setBackgroundColor(to: UIColor) {
-        view.backgroundColor = to
-    }
-    
-    private func getPatchButtonTapped() -> Int {
-        return self.patchButtonTapped
-    }
-    
-    private func setPatchButtonTapped(to: Int) {
-        self.patchButtonTapped = to
-    }
-    
+ 
     // MARK: private display funcs
     
     // called by self.viewDidLoad()
     private func displayPatches() {
         // give data and images to patches in schedule
-        for i in 0...(self.getNumberOfPatches()-1) {
-            self.displayPatchButton(index: i)
+        if self.getNumberOfPatches() > 0 {
+            for i in 0...(self.getNumberOfPatches()-1) {
+                self.displayPatchButton(index: i)
+            }
+            // disables unused button
+            self.disableUnusedPatchButtons()
         }
-        // disables unused button
-        self.disableUnusedPatchButtons()
-        
     }
     
     // called by self.displayPatches()
@@ -128,34 +123,34 @@ class PatchScheduleViewController: UIViewController {
         let buttonDict: [Int: UIButton] = [0: self.patchOneButton, 1: self.patchTwoButton, 2: self.patchThreeButton, 3: self.patchFourButton]
         let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
         if let pButton = buttonDict[index], let colorBool = colorDict[index] {
-            self.makePatchButton(patchButton: pButton, isBlue: colorBool, patchIndex: index)
+            self.makePatchButton(patchButton: pButton, isBlue: colorBool, scheduleIndex: index)
         }
     }
     
     // called by self. displayPatchButton()
-    private func makePatchButton(patchButton: UIButton, isBlue: Bool, patchIndex: Int) {
-        patchButton.setBackgroundImage(self.determinePatchButtonImage(index: patchIndex), for: .normal)
+    private func makePatchButton(patchButton: UIButton, isBlue: Bool, scheduleIndex: Int) {
+        patchButton.setBackgroundImage(self.determinePatchButtonImage(index: scheduleIndex), for: .normal)
         if isBlue {
             patchButton.backgroundColor = PDColors.lightBlue
         }
-        let title = self.determinePatchButtonTitle(patchIndex: patchIndex)
+        let title = self.determinePatchButtonTitle(scheduleIndex: scheduleIndex)
         patchButton.setTitle(title, for: .normal)
         patchButton.setTitleColor(PDColors.darkLines, for: .normal)
         patchButton.isEnabled = true
     }
     
     // called by self.makePatchButton()
-    private func determinePatchButtonTitle(patchIndex: Int) -> String {
+    private func determinePatchButtonTitle(scheduleIndex: Int) -> String {
         var title: String = ""
-        if let patch = PatchDataController.getPatch(index: patchIndex) {
-            if patch.getDatePlaced() != nil {
-                if patch.isExpired() {
+        if let patch = ScheduleController.getMO(index: scheduleIndex) {
+            if patch.getdate() != nil {
+                if patch.isExpired(timeInterval: SettingsDefaultsController.getTimeInterval()) {
                     title += PDStrings.patchExpired_string
                 }
                 else {
                     title += PDStrings.patchExpires_string
                 }
-                title += Patch.dayOfWeekString(date: patch.expirationDate())
+                title += MOEstrogenDelivery.dayOfWeekString(date: patch.expirationDate(timeInterval: SettingsDefaultsController.getTimeInterval()))
             }
             return title
         }
@@ -192,7 +187,7 @@ class PatchScheduleViewController: UIViewController {
     }
     
     private func determinePatchButtonImage(index: Int) -> UIImage {
-        if let patch = PatchDataController.getPatch(index: index) {
+        if let patch = ScheduleController.getMO(index: index) {
             // empty patch
             if patch.isEmpty() {
                 return PDImages.addPatch
@@ -200,8 +195,8 @@ class PatchScheduleViewController: UIViewController {
             // custom patch
             else if patch.isCustomLocated() {
                 let customDict = [true: PDImages.custom_notified, false: PDImages.custom]
-                if let image = customDict[patch.isExpired()] {
-                    if patch.isExpired() {
+                if let image = customDict[patch.isExpired(timeInterval: SettingsDefaultsController.getTimeInterval())] {
+                    if patch.isExpired(timeInterval: SettingsDefaultsController.getTimeInterval()) {
                         expiredPatchCount += 1
                     }
                     return image
@@ -214,7 +209,7 @@ class PatchScheduleViewController: UIViewController {
             // general located patch
             else {
                 // not expired, normal images
-                if !patch.isExpired() {
+                if !patch.isExpired(timeInterval: SettingsDefaultsController.getTimeInterval()) {
                     return PDImages.stringToImage(imageString: patch.getLocation())
                 }
                 // expired...
@@ -258,6 +253,8 @@ class PatchScheduleViewController: UIViewController {
         swipeGestureRecognizer.isEnabled = true
         return swipeGestureRecognizer
     }
+    
+    
     
     private func updateBadge() {
         UIApplication.shared.applicationIconBadgeNumber = expiredPatchCount

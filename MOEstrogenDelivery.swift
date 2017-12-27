@@ -1,5 +1,5 @@
 //
-//  Patch+CoreDataClass.swift
+//  MOEstrogenDelivery.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/2/17.
@@ -9,10 +9,10 @@
 import Foundation
 import CoreData
 
-@objc(Patch)
-public class Patch: NSManagedObject {
+@objc(MOEstrogenDelivery)
+public class MOEstrogenDelivery: NSManagedObject {
     
-    // Description: Patch is a managed object class.  Patch objects are abstractions of patches on the physical body.  They have two attributes: 1.) the date/time when the patch was placed, and 2.), the location where the patch was placed at.  Patch.expirationDate() or Patch.expirationDateAsString() are useful in the PatchSchedule().
+    // Description: MOEstrogenDelivery is a managed object class that represents either a Patch or an Injection.  MOEstrogenDelivery objects are abstractions of patches on the physical body or injections into the body.  They have two attributes: 1.) the date/time placed or injected, and 2.), the location placed or injected.  MOEstrogenDelivery.expirationDate() or MOEstrogenDelivery.expirationDateAsString() are useful in the Schedule.
 
     @NSManaged internal var datePlaced: Date?
     @NSManaged internal var location: String?
@@ -23,7 +23,7 @@ public class Patch: NSManagedObject {
     
     // Note:  nil dates are > non-nil dates than in this scheme
     
-    public static func < (lhs: Patch, rhs: Patch) -> Bool {
+    public static func < (lhs: MOEstrogenDelivery, rhs: MOEstrogenDelivery) -> Bool {
         if let l_date = lhs.datePlaced, let r_date = rhs.datePlaced {
             return l_date < r_date
         }
@@ -35,7 +35,7 @@ public class Patch: NSManagedObject {
         }
     }
     
-    public static func > (lhs: Patch, rhs: Patch) -> Bool {
+    public static func > (lhs: MOEstrogenDelivery, rhs: MOEstrogenDelivery) -> Bool {
         if let l_date = lhs.datePlaced, let r_date = rhs.datePlaced {
             return l_date > r_date
         }
@@ -47,7 +47,7 @@ public class Patch: NSManagedObject {
         }
     }
     
-    public static func == (lhs: Patch, rhs: Patch) -> Bool {
+    public static func == (lhs: MOEstrogenDelivery, rhs: MOEstrogenDelivery) -> Bool {
         if let l_date = lhs.datePlaced, let r_date = rhs.datePlaced {
             return l_date == r_date
         }

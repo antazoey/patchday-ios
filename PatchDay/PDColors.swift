@@ -20,6 +20,9 @@ class PDColors {
     static internal var darkLines = UIColor(white: 0.682134, alpha: 1.0)
     static internal var lightLines = UIColor(red: 0.964251, green: 0.969299, blue: 0.969299, alpha: 1.0)
     
+    // pills
+    static internal var pdGreen = UIColor(red: 0.10, green: 0.54, blue: 0.13, alpha: 1.0)
+    
     static internal func getColor(from: String) -> UIColor {
         let colorDict: [String: UIColor] = [PDStrings.offWhite(): offWhite, PDStrings.lightBlue(): lightBlue, PDStrings.cuteGray(): cuteGray, PDStrings.lighterCuteGray(): lighterCuteGray]
         return colorDict[from]!

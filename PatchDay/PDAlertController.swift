@@ -18,7 +18,7 @@ internal class PDAlertController {
     
     // MARK: - disclaimer / tutorial alert
     
-    static internal func alertForChangingPatchCount(startIndexForReset: Int, endIndexForReset: Int, newPatchCount: String, numberOfPatchesButton: UIButton) {
+    static internal func alertForChangingPatchCount(startIndexForReset: Int, endIndexForReset: Int, newPatchCount: String, countButton: UIButton) {
         print(PDStrings.changePatchCountAlertTitle)
         print(PDStrings.changePatchCountAlertMessage)
         var alertStyle: UIAlertControllerStyle
@@ -35,9 +35,9 @@ internal class PDAlertController {
             (void) in
             for i in startIndexForReset...(endIndexForReset - 1) {
                 print("resetting patch at index " + String(describing: i))
-                PatchDataController.resetPatch(forIndex: i)
+                ScheduleController.resetMO(forIndex: i)
                 print("new patch count: " + newPatchCount)
-                SettingsDefaultsController.setNumberOfPatchesWithoutWarning(to: newPatchCount)
+                SettingsDefaultsController.setQuantityWithoutWarning(to: newPatchCount)
             }
         }
         let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel, handler: nil)
@@ -95,16 +95,17 @@ internal class PDAlertController {
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
     
-    // MARK: - enabling or disabling "Auto suggest location"
+    // MARK: - enabling or disabling "Suggest location functionality"
     
-    static internal func alertForAutoSuggestLocationDescription(changingTo: Bool) {
+    // alertSLF(changingTo) : an alert displaying the description of the SLF: Suggestion Location Functionality.
+    static internal func alertSLF(changingTo: Bool) {
         print(PDStrings.suggestLocationAlertTitle)
         print(PDStrings.suggestLocationAlertMessage)
         currentAlert = UIAlertController(title: PDStrings.suggestLocationAlertTitle,
             message: PDStrings.suggestLocationAlertMessage, preferredStyle: .alert)
         let continueAction = UIAlertAction(title: PDStrings.continue_string, style: UIAlertActionStyle.default) {
             (void) in
-            SettingsDefaultsController.setAutoChooseLocation(to: changingTo)
+            SettingsDefaultsController.setSLF(to: changingTo)
         }
         currentAlert.addAction(continueAction)
         currentVC.present(currentAlert, animated: true, completion: nil)
@@ -124,6 +125,10 @@ internal class PDAlertController {
         currentAlert.addAction(cancelAction)
         currentVC.present(currentAlert, animated: true, completion: nil)
     }
+    
+    // MARK: - testosteron blocker reminder
+   // static internal func alertForTBlockerReminder
+    
     
     // MARK: - private, getting current view
     
@@ -147,5 +152,6 @@ internal class PDAlertController {
     static private func settingsToScheduleSegue() {
         currentVC.performSegue(withIdentifier: PDStrings.settingsToScheduleID, sender: currentVC)
     }
+    
 
 }

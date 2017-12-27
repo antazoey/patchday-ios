@@ -17,7 +17,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     internal var center = { return UNUserNotificationCenter.current() }()
     
-    internal var currentPatchIndex = 0
+    internal var currentscheduleIndex = 0
     
     internal var sendingNotifications = true
     
@@ -32,13 +32,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // ACTION:  Change Patch pressed
         if response.actionIdentifier == "changePatchActionID" {
-            if PatchDataController.getPatch(index: currentPatchIndex) != nil {
+            if ScheduleController.getMO(index: currentscheduleIndex) != nil {
                 // Change the patch using a Suggested Location from the Suggest Location functionality.
-                let suggestedLocation = SuggestedPatchLocation.suggest(patchIndex: currentPatchIndex, generalLocations: PatchDataController.patchSchedule().makeArrayOfLocations())
+                let suggestedLocation = SLF.suggest(scheduleIndex: currentscheduleIndex, generalLocations: ScheduleController.schedule().makeArrayOfLocations())
                 // Suggested date and time is the current date and time.
                 let suggestDate = Date()
-                PatchDataController.setPatch(patchIndex: currentPatchIndex, patchDate: suggestDate, location: suggestedLocation)
-                PatchDataController.save()
+                ScheduleController.setMO(scheduleIndex: currentscheduleIndex, date: suggestDate, location: suggestedLocation)
                 // badge count --
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
@@ -47,21 +46,22 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
 
     // MARK: - notifications
     
-    internal func requestNotifyChangeSoon(patchIndex: Int) {
-        if let patch = PatchDataController.getPatch(index: patchIndex), sendingNotifications, SettingsDefaultsController.getRemindMe() {
+    // Before expiration
+    internal func requestNotifyChangeSoon(scheduleIndex: Int) {
+        if let patch = ScheduleController.getMO(index: scheduleIndex), sendingNotifications, SettingsDefaultsController.getRemindMeBefore() {
             let minutesBefore = SettingsDefaultsController.getNotificationTimeDouble()
             let secondsBefore = minutesBefore * 60.0
-            let intervalUntilTrigger = patch.determineIntervalToExpire() - secondsBefore
+            let intervalUntilTrigger = patch.determineIntervalToExpire(timeInterval: SettingsDefaultsController.getTimeInterval()) - secondsBefore
             // notification's attributes
             let content = UNMutableNotificationContent()
             content.title = PDStrings.changePatchSoon_string
-            content.body = patch.notificationString()
+            content.body = patch.notificationString(timeInterval: SettingsDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
             // trigger
             if intervalUntilTrigger > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: intervalUntilTrigger, repeats: false)
                 // request
-                if let id = PDStrings.patchChangeSoonIDs[patchIndex] {
+                if let id = PDStrings.patchChangeSoonIDs[scheduleIndex] {
                     let request = UNNotificationRequest(identifier: id + "chg", content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
                         if error != nil {
@@ -74,37 +74,39 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         }
     }
     
-    internal func requestNotifyExpired(patchIndex: Int) {
-        if let patch = PatchDataController.getPatch(index: patchIndex), sendingNotifications {
-            self.currentPatchIndex = patchIndex
-            let allowsAutoChooseLocation = SettingsDefaultsController.getAutoChooseLocation()
-            if allowsAutoChooseLocation {
-                // changePatchAction is an action for changing the patch from a notification using the suggested patch functionality (the suggested patch Bool from the Settings must be True) and the current date and time.
-                let changePatchAction = UNNotificationAction(identifier: "changePatchActionID",
-                    title: PDStrings.changePatch_string, options: [])
-                
-                let changePatchCategory = UNNotificationCategory(identifier: "changePatchCategoryID", actions: [changePatchAction], intentIdentifiers: [], options: [])
-                
-                self.center.setNotificationCategories([changePatchCategory])
-            }
+    // Upon expiration
+    internal func requestNotifyExpired(scheduleIndex: Int) {
+        if let patch = ScheduleController.getMO(index: scheduleIndex), sendingNotifications,
+            SettingsDefaultsController.getRemindMeUpon() {
+            self.currentscheduleIndex = scheduleIndex
             // notification's attributes
             let content = UNMutableNotificationContent()
             content.title = PDStrings.expiredPatch_string
-            content.body = patch.notificationString()
+            content.body = patch.notificationString(timeInterval: SettingsDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
             content.badge = 1
-            if allowsAutoChooseLocation {
-                // suggest location in text
-                content.body += "\n\n" + PDStrings.notificationSuggestion + PatchDataController.patchSchedule().suggestLocation(patchIndex: patchIndex)
+            let allowsSLF = SettingsDefaultsController.getSLF()
+            if allowsSLF {
+                // changePatchAction is an action for changing the patch from a notification using the Suggest Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
+                let changePatchAction = UNNotificationAction(identifier: "changePatchActionID",
+                    title: PDStrings.changePatch_string, options: [])
+                
+                // add the action int the category
+                let changePatchCategory = UNNotificationCategory(identifier: "changePatchCategoryID", actions: [changePatchAction], intentIdentifiers: [], options: [])
+                self.center.setNotificationCategories([changePatchCategory])
+                
+                // suggest location in the notification body text
+                content.body += "\n\n" + PDStrings.notificationSuggestion + ScheduleController.schedule().suggestLocation(scheduleIndex: scheduleIndex)
+                
                 // adopt category
                 content.categoryIdentifier = "changePatchCategoryID"
             }
             // Trigger
-            let timeIntervalUntilExpire = patch.determineIntervalToExpire()
+            let timeIntervalUntilExpire = patch.determineIntervalToExpire(timeInterval: SettingsDefaultsController.getTimeInterval())
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
-                if let id = PDStrings.patchChangeSoonIDs[patchIndex] {
+                if let id = PDStrings.patchChangeSoonIDs[scheduleIndex] {
                     let request = UNNotificationRequest(identifier: id + "exp", content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
                         if error != nil {

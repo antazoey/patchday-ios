@@ -1,5 +1,5 @@
 //
-//  SuggestedPatchLocation.swift
+//  SuggestLocationFunctionality.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/5/17.
@@ -8,28 +8,24 @@
 
 import Foundation
 
-internal class SuggestedPatchLocation {
+internal class SLF {
     
-    // Description: The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the patch schedule. 3.) a suggest(patchIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
+    // Description: The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the patch schedule. 3.) a suggest(scheduleIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
     
     // MARK: - Public
     
-    internal static var generalLocations = PDStrings.patchLocationNames
-    
+    internal static var generalLocations = PDStrings.locationNames
     internal static var currentLocations: [String] = []
-    
-    internal static func suggest(patchIndex: Int, generalLocations: [String]) -> String {
+    internal static func suggest(scheduleIndex: Int, generalLocations: [String]) -> String {
         
         currentLocations = generalLocations
         
-        if patchIndex >= SettingsDefaultsController.getNumberOfPatchesInt() || patchIndex < 0 {
+        if scheduleIndex >= SettingsDefaultsController.getQuantityInt() || scheduleIndex < 0 {
             return ""
         }
         
-        setCurrentLocations(with: PatchDataController.patchSchedule().makeArrayOfLocations())
-        
-        let currentLocation = getCurrentLocation(patchIndex: patchIndex)
-        
+        setCurrentLocations(with: ScheduleController.schedule().makeArrayOfLocations())
+        let currentLocation = getCurrentLocation(scheduleIndex: scheduleIndex)
         var suggestedLocation = ""
         
         // I. FOUR PATCHES:
@@ -44,7 +40,7 @@ internal class SuggestedPatchLocation {
             else {
                 // i.) all general spaces are occupied. ->  (suggestedLocation = currentLocation)
                 if allGeneralLocationsOccupied(currentLocations: currentLocations) {
-                    suggestedLocation = PatchDataController.getPatch(index: patchIndex)!.getLocation()
+                    suggestedLocation = ScheduleController.getMO(index: scheduleIndex)!.getLocation()
                 }
                 // ii.) some patches are in the same space. -> arbitrary available generalLocation (since there are likely not be but 1 or 2, and having 4 patches all together in spot is not a likely situation. if it were, this algthm would slowly dispense them out.
                 else {
@@ -73,10 +69,10 @@ internal class SuggestedPatchLocation {
     }
     
     internal static func getCurrentLocationsCount() -> Int {
-        return PatchDataController.patchSchedule().makeArrayOfLocations().count
+        return ScheduleController.schedule().makeArrayOfLocations().count
     }
     
-    // returns 1 + an index value (modularly) in the list of general locations
+    // returns 1 + an index value in the list of general locations
     internal static func getNextGeneralIndex(fromIndex: Int, totalNumberOfGeneralLocationOptions: Int) -> Int {
         let capIndex = totalNumberOfGeneralLocationOptions-1
         if fromIndex < capIndex {
@@ -87,9 +83,9 @@ internal class SuggestedPatchLocation {
         }
     }
     
-    // returns the current location from the PatchDataController with the given patchIndex
-    internal static func getCurrentLocation(patchIndex: Int) -> String {
-        if let patch = PatchDataController.getPatch(index: patchIndex) {
+    // returns the current location from the ScheduleController with the given scheduleIndex
+    internal static func getCurrentLocation(scheduleIndex: Int) -> String {
+        if let patch = ScheduleController.getMO(index: scheduleIndex) {
             return patch.getLocation()
         }
         return PDStrings.unplaced_string
@@ -193,8 +189,8 @@ internal class SuggestedPatchLocation {
     
     // picks the next available open general location starting at the index of current location.
     private static func getNextLocationInGeneralThatIsAvailable(afterCurrentLocation: String) -> String {
-        let patchIndexAsInGeneral = getCurrentIndexInGeneral(patchLocation: afterCurrentLocation)
-        var testIndex = getNextGeneralIndex(fromIndex: patchIndexAsInGeneral, totalNumberOfGeneralLocationOptions: generalLocations.count)
+        let scheduleIndexAsInGeneral = getCurrentIndexInGeneral(patchLocation: afterCurrentLocation)
+        var testIndex = getNextGeneralIndex(fromIndex: scheduleIndexAsInGeneral, totalNumberOfGeneralLocationOptions: generalLocations.count)
         var testLocation = generalLocations[testIndex]
         while currentLocations.contains(testLocation) {
             testIndex = getNextGeneralIndex(fromIndex: testIndex, totalNumberOfGeneralLocationOptions: generalLocations.count)
