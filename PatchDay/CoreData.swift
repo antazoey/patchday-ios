@@ -19,7 +19,7 @@ internal class CoreData {
     
     init() {
         var mos: [MOEstrogenDelivery] = []
-        for i in 0...(SettingsDefaultsController.getQuantityInt() - 1) {
+        for i in 0...(UserDefaultsController.getQuantityInt() - 1) {
             if let mo = CoreData.createMO(entityIndex: i) {
                 mos.append(mo)
             }
@@ -59,7 +59,7 @@ internal class CoreData {
             return nil
         }
             // no MO in mo_array forIndex (such as the Count changed), and it is still less than the count... then make a new MO and append and return it.
-        else if forIndex < SettingsDefaultsController.getQuantityInt() {
+        else if forIndex < UserDefaultsController.getQuantityInt() {
             if forIndex >= mo_array.count {
                 let newMO = CoreData.generateMO(entityIndex: forIndex)
                 mo_array.append(newMO)
@@ -77,26 +77,28 @@ internal class CoreData {
     
     internal func setLocation(scheduleIndex: Int, with: String) {
         // attempt to set the MO's location at given index
-        // exit function if given bad scheduleIndex
-        if scheduleIndex >= SettingsDefaultsController.getQuantityInt() || scheduleIndex < 0 {
+        // index out of range...
+        if scheduleIndex >= UserDefaultsController.getQuantityInt() || scheduleIndex < 0 {
             return
         }
         // set location
         if let mo = getMO(forIndex: scheduleIndex) {
             mo.setLocation(with: with)
         }
+        self.sortSchedule()
         CoreData.saveContext()
     }
     
     internal func setDate(scheduleIndex: Int, with: Date) {
-        if scheduleIndex >= SettingsDefaultsController.getQuantityInt() || scheduleIndex < 0 {
+        // index out of range...
+        if scheduleIndex >= UserDefaultsController.getQuantityInt() || scheduleIndex < 0 {
             return
         }
         // attempt to set MO's date at given index
         if let mo = getMO(forIndex: scheduleIndex) {
             mo.setDatePlaced(withDate: with)
         }
-        // if there is no MO, make one there and set that one's date
+        self.sortSchedule()
         CoreData.saveContext()
     }
     
@@ -105,6 +107,7 @@ internal class CoreData {
             mo.setLocation(with: location)
             mo.setDatePlaced(withDate: date)
         }
+        self.sortSchedule()
         CoreData.saveContext()
     }
     
@@ -112,12 +115,15 @@ internal class CoreData {
         if scheduleIndex < mo_array.count && scheduleIndex >= 0 {
             mo_array[scheduleIndex] = with
         }
+        self.sortSchedule()
         CoreData.saveContext()
     }
     
-    internal func resetData() {
-        for mo in mo_array {
-            mo.reset()
+    internal func resetData(start_i: Int, end_i: Int) {
+        for i in start_i...end_i {
+            if let mo = self.getMO(forIndex: i) {
+                mo.reset()
+            }
         }
         CoreData.saveContext()
     }

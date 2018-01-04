@@ -14,6 +14,16 @@ class PDStrings {
     
     // MARK: - Localizable
     
+    internal static var count_label: String = NSLocalizedString("Count:", comment: "displaying on label, for choosing number of estrogen deliveries")
+    
+    internal static var beforeExpiration_label: String = NSLocalizedString("Before expiration:", comment: "for indicating whether the user wants to recieve a notification before an expiration")
+    
+    internal static var nothing_yet_placeholder: String = NSLocalizedString("Nothing yet", comment: "A placeholder where a date will go")
+    
+    internal static var emptyDate_placeholder: String = NSLocalizedString("choose date", comment: "placeholder in date text field")
+    
+    internal static var pills: String = NSLocalizedString("Pills", comment: "title of a nav bar button item for navigating to a pill schedule view")
+    
     internal static var save: String = NSLocalizedString("Save", comment: "for closing a picker view")
     
     internal static var undo: String = NSLocalizedString("undo", comment: "for undoing an action, placed on button")
@@ -26,58 +36,62 @@ class PDStrings {
     
     internal static var pg_disabled: String = NSLocalizedString("Progesterone (disabled)", comment: "for letting know the progesterone functionality is disabled, in a title")
     
-    internal static var expiresSoon: String = NSLocalizedString("Before expiration:", comment: "for indicating whether the user wants to recieve a notification before an expiration")
-    
     internal static var timeBeforeExp: String = NSLocalizedString("Time before:", comment: "for indicating the amount of time to recieve a reminder notification before medication expires")
     
-    internal static var first_time: String = NSLocalizedString("First ime:", comment: "for letting know the time when medication is taken")
+    internal static var first_time: String = NSLocalizedString("First time:", comment: "for letting know the time when medication is taken")
     
     internal static var hasNoDate: String = NSLocalizedString("Patch has no date!", comment: "for when there is no date associated with the patch")
     
-    internal static var addPatch_string: String = NSLocalizedString("Add Patch", comment: "Label for view when adding a new patch")
     
-    internal static var changePatch_string: String = NSLocalizedString("Change Patch", comment: "Label for view when changing a patch")
+    internal static var patchExpired_title: String = NSLocalizedString("Patch expired", comment: "title of notification about an expired patch")
     
-    internal static var changePatchSoon_string: String = NSLocalizedString("Change Patch Soon", comment: "Label for view when changing a patch")
+    internal static var patchExpiresSoon_title: String = NSLocalizedString("Patch expires soon", comment: "title of notification about an upcoming expired patch")
     
-    internal static var expiredPatch_string: String = NSLocalizedString("Expired Patch", comment: "Label for view when changing a patch")
+    internal static var auto_string: String = NSLocalizedString("Autofill", comment: "Label for autofilling properties")
     
-    internal static var emptyDateInstruction: String = NSLocalizedString("choose date", comment: "placeholder in date text field when it's a new patch")
-    
-    internal static var emptyLocationInstruction: String = NSLocalizedString("type or choose location", comment: "placeholder in location text field when it's a new patch")
+    internal static var emptyLocationInstruction: String = NSLocalizedString("type or choose location", comment: "placeholder in location text field when")
     
     internal static var expirationIntervals: [String] = [NSLocalizedString("One half-week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("One week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("Two weeks", comment: "Displayed in a picker.")]
     
-    internal static var locationNames: [String] = [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")]
+    internal static var patchLocationNames: [String] = [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")]
     
     internal static var patchDetailsInstruction: String = NSLocalizedString("...", tableName: nil, comment: "instruction for empty patch")
     
-    internal static var patchExpires_string: String = NSLocalizedString("Expires: ", tableName: nil, comment: "instruction for patch details")
+    internal static var patchExpires_string: String = NSLocalizedString("Expires: ", tableName: nil, comment: "label next to date")
     
-    internal static var patchExpired_string: String = NSLocalizedString("Expired: ", tableName: nil, comment: "instruction for patch details")
+    internal static var patchExpired_string: String = NSLocalizedString("Expired: ", tableName: nil, comment: "label next to date")
     
     internal static var pill_taken: String = NSLocalizedString("✔️", tableName: nil, comment: "letting you know a pill was taken, displayed on a button.")
     
     // notifications
     
-    internal static var notificationIntros: [String : String] = ["Right Stomach" : NSLocalizedString("Change patch on your 'Right Stomach' ", comment: "notification telling you where and when to change your patch."),"Left Stomach" : NSLocalizedString("Change patch on your 'Left Stomach' ", comment: "notification telling you where and when to change your patch."),"Right Buttock" : NSLocalizedString("Change patch on your 'Right Buttock' ", comment: "notification telling you where and when to change your patch."),"Left Buttock" : NSLocalizedString("Change patch on your 'Left Buttock' ", comment: "notification telling you where and when to change your patch.")]
+    internal static var expiredPatchNotificationIntros: [String : String] = ["Right Stomach" : NSLocalizedString("Change patch on your 'Right Stomach' ", comment: "notification telling you where and when to change your patch."),"Left Stomach" : NSLocalizedString("Change patch on your 'Left Stomach' ", comment: "notification telling you where and when to change your patch."),"Right Buttock" : NSLocalizedString("Change patch on your 'Right Buttock' ", comment: "notification telling you where and when to change your patch."),"Left Buttock" : NSLocalizedString("Change patch on your 'Left Buttock' ", comment: "notification telling you where and when to change your patch.")]
     
-    internal static var notificationForCustom: String = NSLocalizedString("Change patch ", comment: "notification message for a custom located patch")
-    internal static var notificationForCustom_at: String = NSLocalizedString("at: ", comment: " for displaying the date of the expired patch for a custom located notification, occruing directly after notificationForCustom message")
+    internal static var expiredPatchNotificationIntroForCustom: String = NSLocalizedString("Change patch ", comment: "notification tite for a custom located patch")
     
-    internal static var notificationSuggestion: String = NSLocalizedString("Place new patch here: ", comment: "followed by a suggest location; second line in the notification if and only if the user enabled Suggestion Location Functionality on the SettingsVC")
+    internal static var expiredPatchNotificationIntroForCustom_at: String = NSLocalizedString("at: ", comment: " for displaying the date of the expired patch for a custom located notification, occruing directly after expiredPatchNotificationIntroForCustom message")
     
-    internal static var notificationWithoutLocation: String = NSLocalizedString("Change a patch ", comment: "notification when there is no location pressent, this really should never happen")
+    internal static var notificationSuggestedLocation: String = NSLocalizedString("Place new patch here: ", comment: "followed by a suggest location; second line in the notification if and only if the user enabled Suggestion Location Functionality on the SettingsVC")
+    
+    internal static var notificationExpiredPatchWithoutLocation: String = NSLocalizedString("Change a patch ", comment: "notification when there is no location pressent, this really should never happen")
+    
+    internal static var takeTBNotificationTitle: String = NSLocalizedString("Take T-Blocker", comment: "A title for a notifiction, T-Blocker refers to Testosterone Blocker, a type of drug")
+    
+    internal static var takeTBNotificationMessage: String = NSLocalizedString("It is time to take your testosterone blocker.", comment: "A message of a notification")
+    
+    internal static var takePGNotificationTitle: String = NSLocalizedString("Take Progesterone", comment: "Title for a notification")
+    
+    internal static var takePGNotificationMessage: String = NSLocalizedString("It is take time to take your progesterone.", comment: "A message of a notificaiton")
     
     // MARK: - core data alert
     
     internal static var coreDataSaveAlertTitle: String = NSLocalizedString("Save Error", comment: "this is a title to an alert displayed if patch data is not saved for some reason.")
     
-    internal static var coreDataSaveAlertMessage: String = NSLocalizedString("there was a problem saving your patch data!", comment: "this is a message to an alert displayed if patch data is not saved for some reason.")
+    internal static var coreDataSaveAlertMessage: String = NSLocalizedString("There was a problem saving your patch data!", comment: "this is a message to an alert displayed if patch data is not saved for some reason.")
     
     internal static var coreDataAlertTitle: String = NSLocalizedString("Core Data Error", comment: "this is a title to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
     
-    internal static var coreDataAlertMessage: String = NSLocalizedString("there is a problem with managed object in the persistent store", comment: "this is a message to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
+    internal static var coreDataAlertMessage: String = NSLocalizedString("There is a problem with managed object in the persistent store", comment: "this is a message to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
     internal static var dismiss_string: String = NSLocalizedString("Dismiss", comment: "The word displayed on a button for dismissing an error message")
     
     internal static var accept_string: String = NSLocalizedString("Accept", comment: "an accept button title displayed on the 'changing number of patches' alert")
@@ -86,11 +100,11 @@ class PDStrings {
     
     internal static var no_string: String = NSLocalizedString("No", comment: "a no button for an alert")
     
-    // MARK: - change patch alert
+    // MARK: - change number of MOs
     
-    internal static var changePatchCountAlertTitle: String = NSLocalizedString("Warning", comment: "title for alert for changing number of patches (could result in loss of data)")
+    internal static var changeCountAlertTitle: String = NSLocalizedString("Warning", comment: "title for alert for changing number of patches (could result in loss of data)")
     
-    internal static var changePatchCountAlertMessage: String = NSLocalizedString("Decreasing the number of patches will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
+    internal static var changeCountAlertMessage: String = NSLocalizedString("Decreasing the count will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
     
     internal static var continue_string: String = NSLocalizedString("Continue", comment: "a button for proceeding during an alert")
     
@@ -100,13 +114,13 @@ class PDStrings {
     
     internal static var maybeYouShouldUseNotificationsAlertTitle: String = NSLocalizedString("Try Notifications?", comment: "a title for a popup alert asking the user to try the app with notifications turned on")
     
-    internal static var maybeYouShouldUseNotificationsAlertMessage: String = NSLocalizedString("With notifications turned on, PatchDay is able to let you know when your patches expire. Turn on settings?", comment: "a message for a popup alert asking the user to try the app with notifications turned on")
+    internal static var maybeYouShouldUseNotificationsAlertMessage: String = NSLocalizedString("With notifications turned on, PatchDay is able to let you know when your patches expire. Turn it on now?", comment: "a message for a popup alert asking the user to try the app with notifications turned on")
     
     // MARK: - suggest location alert
     
     internal static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the SLF bool from the Settings")
     
-    internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Suggest' is turned on, the 'Change Patch' button from the Patch Details View chooses the optimal general location based on the current general locations in the patch schedule.  It also enables changing the patch from a 'Patch Expired' notification.", comment: "a descriptive alert message that appears when enabling or disabling the Suggest Location Functionality bool from the Settings")
+    internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Suggest location' is turned on, the 'Autofill' button from the Details view chooses the optimal general location based on the current general locations in the schedule.  It also enables updating the new details from an expiration notification.", comment: "a descriptive alert message that appears when enabling or disabling the Suggest Location Functionality bool from the Settings")
     
     // MARK: - disclaimer
     
@@ -118,11 +132,11 @@ class PDStrings {
     
     // MARK: - numerical
     
-    internal static var patchCounts: [String] = { return ["1", "2", "3", "4"] }()
+    internal static var counts: [String] = { return ["1", "2", "3", "4"] }()
     
-    internal static var timesadayCounts: [String] = { return ["1", "2"] }()
+    internal static var dailyCounts: [String] = { return ["1", "2"] }()
     
-    internal static var notificationSettings: [String] = { return ["30 minutes", "60 minutes", "120 minutes"] }()
+    internal static var notificationSettings: [String] = { return ["0 minutes", "30 minutes", "60 minutes", "120 minutes"] }()
     
     // MARK: - general
     
@@ -138,9 +152,9 @@ class PDStrings {
     
     internal static var persistantContainer_key: String = { return "patchData" }()
     
-    // MARK: - SettingsDefaultsController
+    // MARK: - UserDefaultsController
     
-    internal static var defaultKeys: [String] = { return ["patchChangeInterval", "numberOfPatches", "autoChooseLocation", "notification", "remindMe", "mentioned", "i_tb", "i_pg", "tb_time", "pg_time", "tb_timesaday", "pg_timesaday", "tb_time2", "pg_time2", "remindMeUpon", "tb1_s", "tb2_s", "pg1_s", "pg2_s"] }()
+    internal static var defaultKeys: [String] = { return ["patchChangeInterval", "numberOfPatches", "autoChooseLocation", "notification", "remindMe", "mentioned", "i_tb", "i_pg", "tb_time", "pg_time", "tb_daily", "pg_daily", "tb_time2", "pg_time2", "remindMeUpon", "tb_stamp", "pg_stamp", "tb_next", "pg_next", "rTB", "rPG"] }()
     
     internal static func interval_key() -> String {
         return defaultKeys[0]
@@ -182,11 +196,11 @@ class PDStrings {
         return defaultKeys[9]
     }
     
-    internal static func tb_timesaday_key() -> String {
+    internal static func tb_daily_key() -> String {
         return defaultKeys[10]
     }
     
-    internal static func pg_timesaday_key() -> String {
+    internal static func pg_daily_key() -> String {
         return defaultKeys[11]
     }
     
@@ -202,20 +216,28 @@ class PDStrings {
         return defaultKeys[14]
     }
     
-    internal static func tb1Stamp_key() -> String {
+    internal static func tbStamp_key() -> String {
         return defaultKeys[15]
     }
     
-    internal static func tb2Stamp_key() -> String {
+    internal static func pgStamp_key() -> String {
         return defaultKeys[16]
     }
     
-    internal static func pg1Stamp_key() -> String {
+    internal static func tbNext_key() -> String {
         return defaultKeys[17]
     }
     
-    internal static func pg2Stamp_key() -> String {
+    internal static func pgNext_key() -> String {
         return defaultKeys[18]
+    }
+    
+    internal static func rTB_key() -> String {
+        return defaultKeys[19]
+    }
+    
+    internal static func rPG_key() -> String {
+        return defaultKeys[20]
     }
     
     // MARK: - Colors
@@ -241,35 +263,29 @@ class PDStrings {
     // MARK: - getting location names
     
     internal static func rightButt() -> String {
-        return locationNames[0]
+        return patchLocationNames[0]
     }
     
     internal static func leftButt() -> String {
-        return locationNames[1]
+        return patchLocationNames[1]
     }
     
     internal static func rightStom() -> String {
-        return locationNames[2]
+        return patchLocationNames[2]
     }
     
     internal static func leftStom() -> String {
-        return locationNames[3]
+        return patchLocationNames[3]
     }
     
     // MARK: - notification related
     
-    internal static var patchChangeSoonIDs: [Int: String] = [0: "CHANGEPATCH1", 1: "CHANGEPATCH2", 2: "CHANGEPATCH3", 3: "CHANGEPATCH4"]
+    internal static var changeSoonIDs: [Int: String] = [0: "CHANGEPATCH1", 1: "CHANGEPATCH2", 2: "CHANGEPATCH3", 3: "CHANGEPATCH4"]
     
-    // MARK: - segue id's
-    
-    internal static var scheduleToSettingsID: String = { return "idScheduleToSettingsSegue" }()
-    internal static var settingsToScheduleID: String = { return "idSettingsToScheduleSegue" }()
-    internal static var patchDetailsSegueID: String = { return "idPatchDetailsSegue" }()
-    internal static var scheduleToPillSegueID: String = { return "idScheduleToPillSegue" }()
-    internal static var pillToScheduleSegueID: String = { return "idPillToScheduleSegue" }()
+    internal static var pillIDs: [String] = ["TBPILL","PGPILL"]
     
     // MARK: - patch button id's
-    internal static var patchButtonIDs: [String] = { return ["patch1", "patch2", "patch3", "patch4"] }()
+    internal static var scheduleButtonIDs: [String] = { return ["patch1", "patch2", "patch3", "patch4"] }()
     
     
 }

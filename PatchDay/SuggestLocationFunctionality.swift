@@ -10,17 +10,17 @@ import Foundation
 
 internal class SLF {
     
-    // Description: The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the patch schedule. 3.) a suggest(scheduleIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
+    // Description: The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the schedule. 3.) a suggest(scheduleIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
     
     // MARK: - Public
     
-    internal static var generalLocations = PDStrings.locationNames
+    internal static var generalLocations = PDStrings.patchLocationNames
     internal static var currentLocations: [String] = []
     internal static func suggest(scheduleIndex: Int, generalLocations: [String]) -> String {
         
         currentLocations = generalLocations
         
-        if scheduleIndex >= SettingsDefaultsController.getQuantityInt() || scheduleIndex < 0 {
+        if scheduleIndex >= UserDefaultsController.getQuantityInt() || scheduleIndex < 0 {
             return ""
         }
         
@@ -40,7 +40,7 @@ internal class SLF {
             else {
                 // i.) all general spaces are occupied. ->  (suggestedLocation = currentLocation)
                 if allGeneralLocationsOccupied(currentLocations: currentLocations) {
-                    suggestedLocation = ScheduleController.getMO(index: scheduleIndex)!.getLocation()
+                    suggestedLocation = ScheduleController.coreData.getMO(forIndex: scheduleIndex)!.getLocation()
                 }
                 // ii.) some patches are in the same space. -> arbitrary available generalLocation (since there are likely not be but 1 or 2, and having 4 patches all together in spot is not a likely situation. if it were, this algthm would slowly dispense them out.
                 else {
@@ -85,7 +85,7 @@ internal class SLF {
     
     // returns the current location from the ScheduleController with the given scheduleIndex
     internal static func getCurrentLocation(scheduleIndex: Int) -> String {
-        if let patch = ScheduleController.getMO(index: scheduleIndex) {
+        if let patch = ScheduleController.coreData.getMO(forIndex: scheduleIndex) {
             return patch.getLocation()
         }
         return PDStrings.unplaced_string

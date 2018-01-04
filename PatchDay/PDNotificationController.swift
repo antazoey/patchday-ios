@@ -15,9 +15,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     // MARK: - Essential
     
-    internal var center = { return UNUserNotificationCenter.current() }()
+    internal var center = UNUserNotificationCenter.current()
     
-    internal var currentscheduleIndex = 0
+    internal var currentScheduleIndex = 0
     
     internal var sendingNotifications = true
     
@@ -30,14 +30,14 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        // ACTION:  Change Patch pressed
-        if response.actionIdentifier == "changePatchActionID" {
-            if ScheduleController.getMO(index: currentscheduleIndex) != nil {
+        // ACTION:  Autofill pressed
+        if response.actionIdentifier == "changeActionID" {
+            if ScheduleController.coreData.getMO(forIndex: currentScheduleIndex) != nil {
                 // Change the patch using a Suggested Location from the Suggest Location functionality.
-                let suggestedLocation = SLF.suggest(scheduleIndex: currentscheduleIndex, generalLocations: ScheduleController.schedule().makeArrayOfLocations())
+                let suggestedLocation = SLF.suggest(scheduleIndex: currentScheduleIndex, generalLocations: ScheduleController.schedule().makeArrayOfLocations())
                 // Suggested date and time is the current date and time.
                 let suggestDate = Date()
-                ScheduleController.setMO(scheduleIndex: currentscheduleIndex, date: suggestDate, location: suggestedLocation)
+                ScheduleController.coreData.setMO(scheduleIndex: currentScheduleIndex, date: suggestDate, location: suggestedLocation)
                 // badge count --
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
@@ -46,73 +46,110 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
 
     // MARK: - notifications
     
-    // Before expiration
-    internal func requestNotifyChangeSoon(scheduleIndex: Int) {
-        if let patch = ScheduleController.getMO(index: scheduleIndex), sendingNotifications, SettingsDefaultsController.getRemindMeBefore() {
-            let minutesBefore = SettingsDefaultsController.getNotificationTimeDouble()
-            let secondsBefore = minutesBefore * 60.0
-            let intervalUntilTrigger = patch.determineIntervalToExpire(timeInterval: SettingsDefaultsController.getTimeInterval()) - secondsBefore
-            // notification's attributes
-            let content = UNMutableNotificationContent()
-            content.title = PDStrings.changePatchSoon_string
-            content.body = patch.notificationString(timeInterval: SettingsDefaultsController.getTimeInterval())
-            content.sound = UNNotificationSound.default()
-            // trigger
-            if intervalUntilTrigger > 0 {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: intervalUntilTrigger, repeats: false)
-                // request
-                if let id = PDStrings.patchChangeSoonIDs[scheduleIndex] {
-                    let request = UNNotificationRequest(identifier: id + "chg", content: content, trigger: trigger) // Schedule the notification.
-                    self.center.add(request) { (error : Error?) in
-                        if error != nil {
-                        print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
-                        }
-                    }
-                    
-                }
-            }
-        }
-    }
-    
-    // Upon expiration
+    /****************************************************
+     requestNotifiyExpired(mode) : For expired patches or injection.
+     ****************************************************/
     internal func requestNotifyExpired(scheduleIndex: Int) {
-        if let patch = ScheduleController.getMO(index: scheduleIndex), sendingNotifications,
-            SettingsDefaultsController.getRemindMeUpon() {
-            self.currentscheduleIndex = scheduleIndex
+        if let mo = ScheduleController.coreData.getMO(forIndex: scheduleIndex), sendingNotifications,
+            UserDefaultsController.getRemindMeUpon(), var timeIntervalUntilExpire = mo.determineIntervalToExpire(timeInterval: UserDefaultsController.getTimeInterval()) {
+            self.currentScheduleIndex = scheduleIndex
             // notification's attributes
             let content = UNMutableNotificationContent()
-            content.title = PDStrings.expiredPatch_string
-            content.body = patch.notificationString(timeInterval: SettingsDefaultsController.getTimeInterval())
+            content.title = PDStrings.patchExpired_title
+            content.body = mo.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
             content.badge = 1
-            let allowsSLF = SettingsDefaultsController.getSLF()
+            let allowsSLF = UserDefaultsController.getSLF()
             if allowsSLF {
-                // changePatchAction is an action for changing the patch from a notification using the Suggest Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
-                let changePatchAction = UNNotificationAction(identifier: "changePatchActionID",
-                    title: PDStrings.changePatch_string, options: [])
+                // changeAction is an action for changing the patch from a notification using the Suggest Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
+                let changeAction = UNNotificationAction(identifier: "changeActionID",
+                    title: PDStrings.auto_string, options: [])
                 
                 // add the action int the category
-                let changePatchCategory = UNNotificationCategory(identifier: "changePatchCategoryID", actions: [changePatchAction], intentIdentifiers: [], options: [])
-                self.center.setNotificationCategories([changePatchCategory])
+                let changeCategory = UNNotificationCategory(identifier: "changeCategoryID", actions: [changeAction], intentIdentifiers: [], options: [])
+                self.center.setNotificationCategories([changeCategory])
                 
                 // suggest location in the notification body text
-                content.body += "\n\n" + PDStrings.notificationSuggestion + ScheduleController.schedule().suggestLocation(scheduleIndex: scheduleIndex)
+                content.body += "\n\n" + PDStrings.notificationSuggestedLocation + ScheduleController.schedule().suggestLocation(scheduleIndex: scheduleIndex)
                 
                 // adopt category
-                content.categoryIdentifier = "changePatchCategoryID"
+                content.categoryIdentifier = "changeCategoryID"
             }
             // Trigger
-            let timeIntervalUntilExpire = patch.determineIntervalToExpire(timeInterval: SettingsDefaultsController.getTimeInterval())
+            timeIntervalUntilExpire = timeIntervalUntilExpire - (UserDefaultsController.getNotificationTimeDouble() * 60.0)
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
-                if let id = PDStrings.patchChangeSoonIDs[scheduleIndex] {
-                    let request = UNNotificationRequest(identifier: id + "exp", content: content, trigger: trigger) // Schedule the notification.
+                if let id = PDStrings.changeSoonIDs[scheduleIndex] {
+                    let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
                         if error != nil {
                             print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
                         }
                     }
+                }
+            }
+        }
+    }
+    
+    /****************************************************
+    requestNotifiyTakePill(mode) : Where mode = 0 means TB,
+                                   mode = 1 means PG.
+    ****************************************************/
+    internal func requestNotifyTakePill(mode: Int) {
+        // Each array is 1x2, mode picks the correct values corresponding to TB or PG.
+        let titles: [String] = [PDStrings.takeTBNotificationTitle, PDStrings.takePGNotificationTitle]
+        let messages: [String] = [PDStrings.takeTBNotificationMessage, PDStrings.takePGNotificationMessage]
+        let timesadays: [Int] = [PillDataController.getTBDailyInt(), PillDataController.getPGDailyInt()]
+        let stamps: [Date?] = [PillDataController.getLaterStamp(stamps: PillDataController.tb_stamps), PillDataController.getLaterStamp(stamps: PillDataController.pg_stamps)]
+        let firstTimes: [Date?] = [PillDataController.getTB1Time(), PillDataController.getPG1Time()]
+        let secondTimes: [Date?] = [PillDataController.getTB2Time(), PillDataController.getPG2Time()]
+        let content = UNMutableNotificationContent()
+        
+        // Content
+        content.title = titles[mode]
+        content.body = messages[mode]
+        content.sound = UNNotificationSound.default()
+        content.badge = 1
+        
+        // Interval determination - TB1 or TB2? (or PG1 or PG2)
+        let usingSecondTime = PillDataController.useSecondTime(timesaday: timesadays[mode], stamp: stamps[mode])
+        print("Pill Notification using second time: " + String(describing: usingSecondTime))
+        var choiceDate = Date()
+        let now = Date()
+        // Using Second Time
+        if usingSecondTime, let secondTime = secondTimes[mode], let todayDate = PillDataController.getTodayDate(at: secondTime) {
+            choiceDate = todayDate
+        }
+        // Using First Time
+        else {
+            if let firstTime = firstTimes[mode] {
+                
+                if stamps[mode] == nil || (!PillDataController.wasStampedToday(stamp: stamps[mode]!)) {
+                    if let todayDate = PillDataController.getTodayDate(at: firstTime) {
+                        print("Today Date, First time")
+                        choiceDate = todayDate
+                    }
+                }
+                
+                else if let tomDate = PillDataController.getTomorrowDate(at: firstTime) {
+                    print("Tomorrow Date, First time")
+                    choiceDate = tomDate
+                }
+            }
+        }
+        
+        // Only request if the choiceDate is after now
+        if now < choiceDate {
+            let interval = choiceDate.timeIntervalSince(now)
+            print(interval)
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+            // Request
+            let id = PDStrings.pillIDs[mode]
+            let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
+            self.center.add(request) { (error : Error?) in
+                if error != nil {
+                    print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
                 }
             }
         }

@@ -18,44 +18,44 @@ public class ScheduleController: NSObject {
     
     static internal var coreData: CoreData = CoreData()
     
+    /***********************************************************
+    for button animation algorithm : knowing which buttons to animate when loading ScheduleVC
+    ***********************************************************/
+    static internal var animateScheduleFromChangeDelivery: Bool = false
+    static internal var increasedCount: Bool = false
+    static internal var decreasedCount: Bool = false
+    static internal var onlyLocationChanged: Bool = false
+    static internal var oldDeliveryCount: Int = 1
+    static internal var indexOfChangedDelivery: Int = -1
+    
     // MARK: - Public
     
     public static func schedule() -> EstrogenSchedule {
         return EstrogenSchedule(estrogens: coreData.mo_array)
     }
     
-    public static func getMO(index: Int) -> MOEstrogenDelivery? {
-        return coreData.getMO(forIndex: index)
-    }
-    
-    public static func setLocation(scheduleIndex: Int, with: String) {
-        coreData.setLocation(scheduleIndex: scheduleIndex, with: with)
-        coreData.sortSchedule()
-    }
-    
-    public static func setDate(scheduleIndex: Int, with: Date) {
-        coreData.setDate(scheduleIndex: scheduleIndex, with: with)
-        coreData.sortSchedule()
-    }
-    
-    public static func setMO(scheduleIndex: Int, date: Date, location: String) {
-        coreData.setMO(scheduleIndex: scheduleIndex, date: date, location: location)
-        coreData.sortSchedule()
-    }
-    
-    public static func setMO(with: MOEstrogenDelivery, scheduleIndex: Int) {
-        coreData.setMO(with: with, scheduleIndex: scheduleIndex)
-        coreData.sortSchedule()
-    }
-    
-    public static func resetMO(forIndex: Int) {
-        if let mo = getMO(index: forIndex) {
-            mo.reset()
+    /*************************************************************
+     ANIMATION ALGORITHM
+     *************************************************************/
+    public static func shouldAnimateFromCurrentConditions(scheduleIndex: Int, newBG: UIImage) -> Bool {
+        
+        /* -- Booleans -- */
+        // 1.) from DETAILS: animate affected non-empty patches when loading
+        let moreThanLocationChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlyLocationChanged && indexOfChangedDelivery  <= scheduleIndex
+        print("animate bool 1: " + String(moreThanLocationChangedFromDetails))
+        // 2.) animate only the one if new location from DETAILS
+        let isChangedLocationFromDetails: Bool = onlyLocationChanged && scheduleIndex == indexOfChangedDelivery
+        print("animate bool 2: " + String(isChangedLocationFromDetails))
+        // 3.) animate new empty deliveries when loading from the changing count from SETTINGS
+        let indexLessThanOldCountFromSettings: Bool = increasedCount && scheduleIndex >= oldDeliveryCount
+        print("animate bool 3: " + String(indexLessThanOldCountFromSettings))
+        
+        // Should animate ON START UP
+        if moreThanLocationChangedFromDetails || isChangedLocationFromDetails || indexLessThanOldCountFromSettings {
+            return true
         }
-    }
-    
-    public static func resetData() {
-        coreData.resetData()
+        return false                // Should not animate
+        
     }
 
 }

@@ -20,11 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var notificationsController = PDNotificationController()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        SettingsDefaultsController.setUp()
+        UserDefaultsController.setUp()
+        PillDataController.setUp()
         
         // unhide for resetting (for testing):
         //ScheduleController.resetPatchData()
         
+        // Navigation bar appearance
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.tintColor = UIColor.darkGray
+
         return true
     }
 

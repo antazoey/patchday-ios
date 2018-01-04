@@ -27,7 +27,7 @@ public class EstrogenSchedule {
     
     internal func makeArrayOfLocations() -> [String] {
         var locationArray: [String] = []
-        for i in 0...(SettingsDefaultsController.getQuantityInt() - 1) {
+        for i in 0...(UserDefaultsController.getQuantityInt() - 1) {
             if i < self.supply.count {
                 let mo = self.supply[i]
                 locationArray.append(mo.getLocation())
@@ -113,10 +113,10 @@ public class EstrogenSchedule {
     
     public func scheduleIsEmpty(fromThisIndexOnward: Int) -> Bool {
         // returns true if each MO fromThisIndexOnward is empty
-        let lastIndex = SettingsDefaultsController.getQuantityInt() - 1
+        let lastIndex = UserDefaultsController.getQuantityInt() - 1
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
-                if let mo = ScheduleController.getMO(index: i) {
+                if let mo = ScheduleController.coreData.getMO(forIndex: i) {
                     // as soon as a MO is not empty, it will end the search, returning false.2te
                     if !mo.isEmpty() {
                         return false

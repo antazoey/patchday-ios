@@ -7,29 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03CADF5480239185CB761758 /* Pods_PatchDayUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 873F0298E957F4AFE91806B8 /* Pods_PatchDayUITests.framework */; };
-		0D4E5F850C7D73615F3E62DD /* Pods_PatchDay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB83FB2EE9E4287326620C75 /* Pods_PatchDay.framework */; };
-		130101201FE5936E00AEFF7C /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1301011F1FE5936E00AEFF7C /* PillVC.swift */; };
+		130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1301011F1FE5936E00AEFF7C /* PillsVC.swift */; };
 		130859D51F2560BD007BC43D /* MOMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF21EE1F36C006C8041 /* MOMethods.swift */; };
 		130859D61F2560BD007BC43D /* EstrogenSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1309A5231F17E2C500520B2F /* EstrogenSchedule.swift */; };
 		130859D71F2560BD007BC43D /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620731F15A427007161CA /* CoreData.swift */; };
 		130859D81F2560BD007BC43D /* ScheduleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* ScheduleController.swift */; };
 		130859D91F2560BD007BC43D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */; };
-		130859DA1F2560BD007BC43D /* ScheduleToSettingsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */; };
 		130859DB1F2560BD007BC43D /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		130859DC1F2560BD007BC43D /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		130859DD1F2560BD007BC43D /* ScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* ScheduleVC.swift */; };
 		130859DE1F2560BD007BC43D /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
-		130859DF1F2560BD007BC43D /* PatchDetailsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */; };
 		130859E01F2560BD007BC43D /* MOEstrogenDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF11EE1F36C006C8041 /* MOEstrogenDelivery.swift */; };
-		130859E11F2560BD007BC43D /* SettingsToScheduleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */; };
 		130859E21F2560BD007BC43D /* SuggestLocationFunctionality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E91EE5935A0003EFFA /* SuggestLocationFunctionality.swift */; };
 		130859E31F2560BD007BC43D /* PDNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */; };
-		130859E41F2560BD007BC43D /* ChangePatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* ChangePatchVC.swift */; };
+		130859E41F2560BD007BC43D /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* DetailsVC.swift */; };
 		130859E51F2560BD007BC43D /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
 		130859E61F2560BD007BC43D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
 		130859E71F2560BD007BC43D /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
-		130859E81F2560BD007BC43D /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
+		130859E81F2560BD007BC43D /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* UserDefaultsController.swift */; };
 		130859EB1F2560BD007BC43D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
 		130859EC1F2560BD007BC43D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		130859ED1F2560BD007BC43D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
@@ -47,19 +42,17 @@
 		1373310D1E22BA3E0048F91E /* PatchDayUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1373310C1E22BA3E0048F91E /* PatchDayUITests.swift */; };
 		138620741F15A427007161CA /* CoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 138620731F15A427007161CA /* CoreData.swift */; };
 		139754B51ED8EE27006C82B8 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
-		139754BE1EDA8C4D006C82B8 /* ChangePatchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* ChangePatchVC.swift */; };
-		13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */; };
-		13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */; };
-		13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */; };
+		139754BE1EDA8C4D006C82B8 /* DetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* DetailsVC.swift */; };
+		1399391A1FF5DF5200B0041E /* PillDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139939191FF5DF5200B0041E /* PillDataController.swift */; };
+		13C746D11ED781DD00067A67 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* UserDefaultsController.swift */; };
+		13D2E1601FF33573003319DC /* PDNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2E15F1FF33573003319DC /* PDNavigationController.swift */; };
+		13D2E1621FF43F9D003319DC /* SegueFromLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2E1611FF43F9D003319DC /* SegueFromLeft.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
 		13E0BB5F1EFC23D900939D37 /* PDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5E1EFC23D900939D37 /* PDTests.swift */; };
-		13E980D21EDBC2180062B144 /* PatchDetailsSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */; };
 		13E980D81EDFA54B0062B144 /* ScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* ScheduleVC.swift */; };
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		13F82DF31EE1F36C006C8041 /* MOEstrogenDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF11EE1F36C006C8041 /* MOEstrogenDelivery.swift */; };
 		13F82DF41EE1F36C006C8041 /* MOMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF21EE1F36C006C8041 /* MOMethods.swift */; };
-		63287E7DFF906355502010DA /* Pods_PatchDayTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 528A597735C4D1114D635102 /* Pods_PatchDayTests.framework */; };
-		71FCDEE72EDA3637212EB66B /* Pods_PatchDay_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 571BB1B0660B52E0D676F483 /* Pods_PatchDay_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,7 +96,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1301011F1FE5936E00AEFF7C /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillVC.swift; sourceTree = "<group>"; };
+		1301011F1FE5936E00AEFF7C /* PillsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsVC.swift; sourceTree = "<group>"; };
 		130859F21F2560BD007BC43D /* PatchDay+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PatchDay+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		130859F31F2560BD007BC43D /* PatchDay copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PatchDay copy2-Info.plist"; path = "/Users/Yingthi/Documents/PatchDay/PatchDay copy2-Info.plist"; sourceTree = "<absolute>"; };
 		1309A5231F17E2C500520B2F /* EstrogenSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EstrogenSchedule.swift; sourceTree = "<group>"; };
@@ -131,30 +124,18 @@
 		138426D51F4DE0E2008C6E6D /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		138620731F15A427007161CA /* CoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreData.swift; sourceTree = "<group>"; };
 		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
-		139754BD1EDA8C4D006C82B8 /* ChangePatchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePatchVC.swift; sourceTree = "<group>"; };
+		139754BD1EDA8C4D006C82B8 /* DetailsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsVC.swift; sourceTree = "<group>"; };
+		139939191FF5DF5200B0041E /* PillDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDataController.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
-		13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDefaultsController.swift; sourceTree = "<group>"; };
-		13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleToSettingsSegue.swift; sourceTree = "<group>"; };
-		13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsToScheduleSegue.swift; sourceTree = "<group>"; };
+		13C746D01ED781DD00067A67 /* UserDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
+		13D2E15F1FF33573003319DC /* PDNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNavigationController.swift; sourceTree = "<group>"; };
+		13D2E1611FF43F9D003319DC /* SegueFromLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
 		13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertController.swift; sourceTree = "<group>"; };
 		13E0BB5E1EFC23D900939D37 /* PDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDTests.swift; sourceTree = "<group>"; };
-		13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDetailsSegue.swift; sourceTree = "<group>"; };
 		13E980D71EDFA54B0062B144 /* ScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleVC.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
 		13F82DF11EE1F36C006C8041 /* MOEstrogenDelivery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MOEstrogenDelivery.swift; path = ../MOEstrogenDelivery.swift; sourceTree = "<group>"; };
 		13F82DF21EE1F36C006C8041 /* MOMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MOMethods.swift; path = ../MOMethods.swift; sourceTree = "<group>"; };
-		4A57B4C50BAE8602D7774B97 /* Pods-PatchDayUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDayUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDayUITests/Pods-PatchDayUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		528A597735C4D1114D635102 /* Pods_PatchDayTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatchDayTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		571BB1B0660B52E0D676F483 /* Pods_PatchDay_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatchDay_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6796BF28EA1CCF5834954063 /* Pods-PatchDay.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDay.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDay/Pods-PatchDay.debug.xcconfig"; sourceTree = "<group>"; };
-		6BCF44517985A9B09F469350 /* Pods-PatchDayTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDayTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDayTests/Pods-PatchDayTests.release.xcconfig"; sourceTree = "<group>"; };
-		873F0298E957F4AFE91806B8 /* Pods_PatchDayUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatchDayUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		95F5E209D4FA9F3A65FAD0FE /* Pods-PatchDayTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDayTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDayTests/Pods-PatchDayTests.debug.xcconfig"; sourceTree = "<group>"; };
-		AF7A8D8DDF36E5A7AFE063C1 /* Pods-PatchDay+.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDay+.release.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDay+/Pods-PatchDay+.release.xcconfig"; sourceTree = "<group>"; };
-		BCDDCE2EC4DE351542789C85 /* Pods-PatchDay.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDay.release.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDay/Pods-PatchDay.release.xcconfig"; sourceTree = "<group>"; };
-		CB83FB2EE9E4287326620C75 /* Pods_PatchDay.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PatchDay.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2FE55EC07B6391E87A25CA3 /* Pods-PatchDay+.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDay+.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDay+/Pods-PatchDay+.debug.xcconfig"; sourceTree = "<group>"; };
-		EDE8EA36FEC9D073E763D0D0 /* Pods-PatchDayUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PatchDayUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PatchDayUITests/Pods-PatchDayUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +143,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71FCDEE72EDA3637212EB66B /* Pods_PatchDay_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +150,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D4E5F850C7D73615F3E62DD /* Pods_PatchDay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +157,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				63287E7DFF906355502010DA /* Pods_PatchDayTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +164,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03CADF5480239185CB761758 /* Pods_PatchDayUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,17 +181,6 @@
 			name = Assets;
 			sourceTree = "<group>";
 		};
-		1340A9F41EF0BDF80003EFFA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				CB83FB2EE9E4287326620C75 /* Pods_PatchDay.framework */,
-				571BB1B0660B52E0D676F483 /* Pods_PatchDay_.framework */,
-				528A597735C4D1114D635102 /* Pods_PatchDayTests.framework */,
-				873F0298E957F4AFE91806B8 /* Pods_PatchDayUITests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		137330E01E22BA3E0048F91E = {
 			isa = PBXGroup;
 			children = (
@@ -222,9 +188,7 @@
 				137331001E22BA3E0048F91E /* PatchDayTests */,
 				1373310B1E22BA3E0048F91E /* PatchDayUITests */,
 				137330EA1E22BA3E0048F91E /* Products */,
-				1340A9F41EF0BDF80003EFFA /* Frameworks */,
 				130859F31F2560BD007BC43D /* PatchDay copy2-Info.plist */,
-				B62A59F600822FFA2F7833F8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -242,9 +206,8 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
-				138620701F159ACD007161CA /* PatchDataController */,
+				138620701F159ACD007161CA /* MO Related */,
 				1386206F1F159AB2007161CA /* AppDelegate */,
-				139754BB1ED8F7C0006C82B8 /* Segues */,
 				139754BC1ED8F7CA006C82B8 /* ViewControllers */,
 				137330F01E22BA3E0048F91E /* Main.storyboard */,
 				131F0B6B1EE3BB3000576200 /* Assets */,
@@ -277,14 +240,15 @@
 			isa = PBXGroup;
 			children = (
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
-				13C746D01ED781DD00067A67 /* SettingsDefaultsController.swift */,
+				13C746D01ED781DD00067A67 /* UserDefaultsController.swift */,
+				139939191FF5DF5200B0041E /* PillDataController.swift */,
 				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
 			);
 			name = AppDelegate;
 			sourceTree = "<group>";
 		};
-		138620701F159ACD007161CA /* PatchDataController */ = {
+		138620701F159ACD007161CA /* MO Related */ = {
 			isa = PBXGroup;
 			children = (
 				138A65611F198B4D0068A972 /* CoreData */,
@@ -292,7 +256,7 @@
 				1309A5231F17E2C500520B2F /* EstrogenSchedule.swift */,
 				1340A9E91EE5935A0003EFFA /* SuggestLocationFunctionality.swift */,
 			);
-			name = PatchDataController;
+			name = "MO Related";
 			sourceTree = "<group>";
 		};
 		138A65611F198B4D0068A972 /* CoreData */ = {
@@ -306,40 +270,17 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
-		139754BB1ED8F7C0006C82B8 /* Segues */ = {
-			isa = PBXGroup;
-			children = (
-				13D50B3B1ED4E33700713972 /* ScheduleToSettingsSegue.swift */,
-				13D50B411ED51AF000713972 /* SettingsToScheduleSegue.swift */,
-				13E980D11EDBC2180062B144 /* PatchDetailsSegue.swift */,
-			);
-			name = Segues;
-			sourceTree = "<group>";
-		};
 		139754BC1ED8F7CA006C82B8 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */,
-				1301011F1FE5936E00AEFF7C /* PillVC.swift */,
-				139754BD1EDA8C4D006C82B8 /* ChangePatchVC.swift */,
+				1301011F1FE5936E00AEFF7C /* PillsVC.swift */,
+				139754BD1EDA8C4D006C82B8 /* DetailsVC.swift */,
 				13E980D71EDFA54B0062B144 /* ScheduleVC.swift */,
+				13D2E1611FF43F9D003319DC /* SegueFromLeft.swift */,
+				13D2E15F1FF33573003319DC /* PDNavigationController.swift */,
 			);
 			name = ViewControllers;
-			sourceTree = "<group>";
-		};
-		B62A59F600822FFA2F7833F8 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6796BF28EA1CCF5834954063 /* Pods-PatchDay.debug.xcconfig */,
-				BCDDCE2EC4DE351542789C85 /* Pods-PatchDay.release.xcconfig */,
-				E2FE55EC07B6391E87A25CA3 /* Pods-PatchDay+.debug.xcconfig */,
-				AF7A8D8DDF36E5A7AFE063C1 /* Pods-PatchDay+.release.xcconfig */,
-				95F5E209D4FA9F3A65FAD0FE /* Pods-PatchDayTests.debug.xcconfig */,
-				6BCF44517985A9B09F469350 /* Pods-PatchDayTests.release.xcconfig */,
-				4A57B4C50BAE8602D7774B97 /* Pods-PatchDayUITests.debug.xcconfig */,
-				EDE8EA36FEC9D073E763D0D0 /* Pods-PatchDayUITests.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -349,13 +290,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 130859EF1F2560BD007BC43D /* Build configuration list for PBXNativeTarget "PatchDay+" */;
 			buildPhases = (
-				A1938981DF5AFC6D5DA888B3 /* [CP] Check Pods Manifest.lock */,
 				130859D41F2560BD007BC43D /* Sources */,
 				130859E91F2560BD007BC43D /* Frameworks */,
 				130859EA1F2560BD007BC43D /* Resources */,
 				130859EE1F2560BD007BC43D /* Embed Frameworks */,
-				6F3AA67C28D2B7A88A777A4B /* [CP] Embed Pods Frameworks */,
-				8FABFDCACA8AE03FC8C598EF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -370,13 +308,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 137331111E22BA3E0048F91E /* Build configuration list for PBXNativeTarget "PatchDay" */;
 			buildPhases = (
-				9070B80AF4259C241E33D722 /* [CP] Check Pods Manifest.lock */,
 				137330E51E22BA3E0048F91E /* Sources */,
 				137330E61E22BA3E0048F91E /* Frameworks */,
 				137330E71E22BA3E0048F91E /* Resources */,
 				13B00C061F1A8EC700548019 /* Embed Frameworks */,
-				A941B9781864118976DC3A19 /* [CP] Embed Pods Frameworks */,
-				9F168031B979BFEA2861923D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -391,12 +326,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 137331141E22BA3E0048F91E /* Build configuration list for PBXNativeTarget "PatchDayTests" */;
 			buildPhases = (
-				EA9D39299FEEE43261A04F06 /* [CP] Check Pods Manifest.lock */,
 				137330F91E22BA3E0048F91E /* Sources */,
 				137330FA1E22BA3E0048F91E /* Frameworks */,
 				137330FB1E22BA3E0048F91E /* Resources */,
-				FB2292C7C798F2C01A4415E5 /* [CP] Embed Pods Frameworks */,
-				D5F402BD9CE2AABA45179795 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -412,12 +344,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 137331171E22BA3E0048F91E /* Build configuration list for PBXNativeTarget "PatchDayUITests" */;
 			buildPhases = (
-				735BC9EAA1CA572C9DC2AEE0 /* [CP] Check Pods Manifest.lock */,
 				137331041E22BA3E0048F91E /* Sources */,
 				137331051E22BA3E0048F91E /* Frameworks */,
 				137331061E22BA3E0048F91E /* Resources */,
-				B687D742113ED3C467FF47F1 /* [CP] Embed Pods Frameworks */,
-				226575CDD2582D5476D5DD78 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -528,189 +457,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		226575CDD2582D5476D5DD78 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDayUITests/Pods-PatchDayUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6F3AA67C28D2B7A88A777A4B /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDay+/Pods-PatchDay+-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		735BC9EAA1CA572C9DC2AEE0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		8FABFDCACA8AE03FC8C598EF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDay+/Pods-PatchDay+-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		9070B80AF4259C241E33D722 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		9F168031B979BFEA2861923D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDay/Pods-PatchDay-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A1938981DF5AFC6D5DA888B3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		A941B9781864118976DC3A19 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDay/Pods-PatchDay-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B687D742113ED3C467FF47F1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDayUITests/Pods-PatchDayUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D5F402BD9CE2AABA45179795 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDayTests/Pods-PatchDayTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		EA9D39299FEEE43261A04F06 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FB2292C7C798F2C01A4415E5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PatchDayTests/Pods-PatchDayTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		130859D41F2560BD007BC43D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -721,21 +467,18 @@
 				130859D71F2560BD007BC43D /* CoreData.swift in Sources */,
 				130859D81F2560BD007BC43D /* ScheduleController.swift in Sources */,
 				130859D91F2560BD007BC43D /* SettingsVC.swift in Sources */,
-				130859DA1F2560BD007BC43D /* ScheduleToSettingsSegue.swift in Sources */,
 				130859DB1F2560BD007BC43D /* patchData.xcdatamodeld in Sources */,
 				130859DC1F2560BD007BC43D /* PDColors.swift in Sources */,
 				130859DD1F2560BD007BC43D /* ScheduleVC.swift in Sources */,
 				130859DE1F2560BD007BC43D /* PDImages.swift in Sources */,
-				130859DF1F2560BD007BC43D /* PatchDetailsSegue.swift in Sources */,
 				130859E01F2560BD007BC43D /* MOEstrogenDelivery.swift in Sources */,
-				130859E11F2560BD007BC43D /* SettingsToScheduleSegue.swift in Sources */,
 				130859E21F2560BD007BC43D /* SuggestLocationFunctionality.swift in Sources */,
 				130859E31F2560BD007BC43D /* PDNotificationController.swift in Sources */,
-				130859E41F2560BD007BC43D /* ChangePatchVC.swift in Sources */,
+				130859E41F2560BD007BC43D /* DetailsVC.swift in Sources */,
 				130859E51F2560BD007BC43D /* PDAlertController.swift in Sources */,
 				130859E61F2560BD007BC43D /* AppDelegate.swift in Sources */,
 				130859E71F2560BD007BC43D /* PDStrings.swift in Sources */,
-				130859E81F2560BD007BC43D /* SettingsDefaultsController.swift in Sources */,
+				130859E81F2560BD007BC43D /* UserDefaultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,25 +488,25 @@
 			files = (
 				13F82DF41EE1F36C006C8041 /* MOMethods.swift in Sources */,
 				1309A5241F17E2C500520B2F /* EstrogenSchedule.swift in Sources */,
+				13D2E1601FF33573003319DC /* PDNavigationController.swift in Sources */,
 				138620741F15A427007161CA /* CoreData.swift in Sources */,
+				1399391A1FF5DF5200B0041E /* PillDataController.swift in Sources */,
 				1335B9BB1EC7500D00DD7088 /* ScheduleController.swift in Sources */,
 				133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */,
-				13D50B3C1ED4E33700713972 /* ScheduleToSettingsSegue.swift in Sources */,
 				13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */,
 				139754B51ED8EE27006C82B8 /* PDColors.swift in Sources */,
 				13E980D81EDFA54B0062B144 /* ScheduleVC.swift in Sources */,
 				131F0B691EE3AAD700576200 /* PDImages.swift in Sources */,
-				13E980D21EDBC2180062B144 /* PatchDetailsSegue.swift in Sources */,
 				13F82DF31EE1F36C006C8041 /* MOEstrogenDelivery.swift in Sources */,
-				13D50B421ED51AF000713972 /* SettingsToScheduleSegue.swift in Sources */,
 				1340A9EA1EE5935A0003EFFA /* SuggestLocationFunctionality.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */,
-				139754BE1EDA8C4D006C82B8 /* ChangePatchVC.swift in Sources */,
+				139754BE1EDA8C4D006C82B8 /* DetailsVC.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				1340A9E81EE4D4220003EFFA /* PDStrings.swift in Sources */,
-				130101201FE5936E00AEFF7C /* PillVC.swift in Sources */,
-				13C746D11ED781DD00067A67 /* SettingsDefaultsController.swift in Sources */,
+				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,
+				13D2E1621FF43F9D003319DC /* SegueFromLeft.swift in Sources */,
+				13C746D11ED781DD00067A67 /* UserDefaultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -825,7 +568,6 @@
 /* Begin XCBuildConfiguration section */
 		130859F01F2560BD007BC43D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E2FE55EC07B6391E87A25CA3 /* Pods-PatchDay+.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
@@ -841,7 +583,6 @@
 		};
 		130859F11F2560BD007BC43D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AF7A8D8DDF36E5A7AFE063C1 /* Pods-PatchDay+.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
@@ -962,7 +703,6 @@
 		};
 		137331121E22BA3E0048F91E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6796BF28EA1CCF5834954063 /* Pods-PatchDay.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
@@ -979,7 +719,6 @@
 		};
 		137331131E22BA3E0048F91E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BCDDCE2EC4DE351542789C85 /* Pods-PatchDay.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
@@ -996,7 +735,6 @@
 		};
 		137331151E22BA3E0048F91E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 95F5E209D4FA9F3A65FAD0FE /* Pods-PatchDayTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1004,7 +742,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PatchDay.app/PatchDay";
 			};
@@ -1012,7 +750,6 @@
 		};
 		137331161E22BA3E0048F91E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BCF44517985A9B09F469350 /* Pods-PatchDayTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1020,7 +757,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDayTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PatchDay.app/PatchDay";
 			};
@@ -1028,14 +765,13 @@
 		};
 		137331181E22BA3E0048F91E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A57B4C50BAE8602D7774B97 /* Pods-PatchDayUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = PatchDayUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDayUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = PatchDay;
 			};
@@ -1043,14 +779,13 @@
 		};
 		137331191E22BA3E0048F91E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDE8EA36FEC9D073E763D0D0 /* Pods-PatchDayUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = PatchDayUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDayUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = PatchDay;
 			};

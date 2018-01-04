@@ -1,5 +1,5 @@
 //
-//  ChangePatchVC.swift
+//  DetailsVC.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/27/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     //MARK: - Main
     
@@ -30,7 +30,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
 
     // save, change patch
     @IBOutlet private weak var save: UIButton!
-    @IBOutlet private weak var changePatchButton: UIButton!
+    @IBOutlet private weak var changeButton: UIButton!
     
     // MOEstrogenDeliveryre location related
     @IBOutlet private weak var locationPicker: UIPickerView!
@@ -38,7 +38,6 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     // cosmetics
     @IBOutlet private weak var bigGap2: UIView!
     @IBOutlet private weak var bigGap: UIView!
-    @IBOutlet private weak var headingLabel: UILabel!
     @IBOutlet private weak var lineUnderExpires: UIView!
     @IBOutlet private weak var lineUnderDateAndTimePlaced: UIView!
     @IBOutlet private weak var lineUnderdate: UIView!
@@ -58,13 +57,12 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
     
     override func viewDidLoad() {
-        PDAlertController.currentVC = self
         super.viewDidLoad()
         view.backgroundColor = PDColors.pdPink
         self.save.isHidden = true
         self.setExpirationAndHeading()
         self.locationPicker.isHidden = true
-        self.changePatchButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
+        self.changeButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         self.bigGap.backgroundColor = PDColors.pdPink
         self.bigGap2.backgroundColor = PDColors.pdPink
         
@@ -81,19 +79,26 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     // Save Button
-    @IBAction private func hitSaveButton(_ sender: Any) {
+    @IBAction private func saveButtonTapped(_ sender: Any) {
+        ScheduleController.indexOfChangedDelivery = self.reference - 1         // for schedule animation
         self.saveAttributes()
         self.requestNotifications()
-        self.performSegue(withIdentifier: PDStrings.patchDetailsSegueID, sender: self)
-        // lower badge number if patch was expired and it had a notification number
-        if let patch = ScheduleController.getMO(index: self.reference - 1) {
-            if patch.isExpired(timeInterval: SettingsDefaultsController.getTimeInterval()) && UIApplication.shared.applicationIconBadgeNumber > 0 {
+        ScheduleController.animateScheduleFromChangeDelivery = true
+        // lower badge number if necessary
+        if let mo = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
+            if mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval()) && UIApplication.shared.applicationIconBadgeNumber > 0 {
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         }
+        
+        // transition
+        if let navCon = self.navigationController {
+            navCon.popViewController(animated: true)
+        }
+ 
     }
     
-    @IBAction private func changePatchTapped(_ sender: Any) {
+    @IBAction private func changeTapped(_ sender: Any) {
         // Location is a suggested by SLP's alg.,
         // Date is now.
         self.autoPickLocation()
@@ -126,7 +131,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         self.chooseDateTextButton.isEnabled = false
         self.addLocationTextButton.isEnabled = false
         self.save.isHidden = true
-        self.changePatchButton.isHidden = true
+        self.changeButton.isHidden = true
         textField.restorationIdentifier = "pick"
  
     }
@@ -138,7 +143,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         self.save.isHidden = false
         self.locationTextEdit.isEnabled = true
         self.chooseDateTextButton.isEnabled = true
-        self.changePatchButton.isHidden = false
+        self.changeButton.isHidden = false
         self.locationTextHasChanged = true
         self.locationTextEdit.isHidden = false
         self.addLocationTextButton.isEnabled = true
@@ -152,8 +157,8 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         self.locationPicker.isHidden = false
         self.locationPicker.selectRow(self.findLocationStartRow(), inComponent: 0, animated: false)
         // other View changes
-        self.changePatchButton.isHidden = true
-        self.changePatchButton.isEnabled = false
+        self.changeButton.isHidden = true
+        self.changeButton.isEnabled = false
         self.addLocationTextButton.isEnabled = false
         self.locationTextEdit.isEnabled = false
         self.chooseDateTextButton.isEnabled = false
@@ -166,25 +171,25 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PDStrings.locationNames.count
+        return PDStrings.patchLocationNames.count
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return PDStrings.locationNames[row]
+        return PDStrings.patchLocationNames[row]
     }
     
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.locationTextEdit.text = PDStrings.locationNames[row]
+        self.locationTextEdit.text = PDStrings.patchLocationNames[row]
         // other view changes
         self.save.isEnabled = true
         self.save.isHidden = false
         self.locationPicker.isHidden = true
-        self.changePatchButton.isEnabled = true
+        self.changeButton.isEnabled = true
         self.chooseDateTextButton.isEnabled = true
         self.addLocationTextButton.isEnabled = true
         self.locationTextEdit.isEnabled = true
         self.locationTextEdit.isHidden = false
-        self.changePatchButton.isHidden = false
+        self.changeButton.isHidden = false
         self.locationTextHasChanged = true
         
     }
@@ -195,7 +200,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         
         self.createDateAddSubview()
         // disable \ hide stuff
-        self.changePatchButton.isHidden = true
+        self.changeButton.isHidden = true
         self.chooseDateTextButton.isEnabled = false
         self.addLocationTextButton.isEnabled = false
         self.save.isHidden = true
@@ -205,7 +210,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     
     @objc internal func datePickerDone(sender: UIButton) {
         self.dateInputView.isHidden = true
-        // disp date and time placed
+        // disp date and time applied
         self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: self.datePicker.date), for: UIControlState.normal)
         if let expDate = MOEstrogenDelivery.expiredDate(fromDate: self.datePicker.date) {            // disp exp date
             self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate)
@@ -214,7 +219,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         self.save.isEnabled = true
         self.chooseDateTextButton.isEnabled = true
         self.addLocationTextButton.isEnabled = true
-        self.changePatchButton.isHidden = false
+        self.changeButton.isHidden = false
         self.save.isEnabled = true
         self.save.isHidden = false
         self.locationStackView.isHidden = false
@@ -227,7 +232,7 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        if let patch = ScheduleController.getMO(index: self.reference - 1) {
+        if let patch = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
             // location placed
             if patch.getLocation() != PDStrings.unplaced_string {
                 // set location label text to patch's location
@@ -241,23 +246,23 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
             if let date = patch.getdate() {
                 // set date choose button's text to patch's date palced data
                 self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: date) , for: .normal)
-                self.expirationDateLabel.text = patch.expirationDateAsString(timeInterval: SettingsDefaultsController.getTimeInterval())
+                self.expirationDateLabel.text = patch.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval())
             }
             // date unplaced
             else {
-                self.chooseDateTextButton.setTitle(PDStrings.emptyDateInstruction
+                self.chooseDateTextButton.setTitle(PDStrings.emptyDate_placeholder
                     , for: UIControlState.normal)
             }
         }
         // nil patch
         else {
             self.locationTextEdit.text = PDStrings.emptyLocationInstruction
-            self.chooseDateTextButton.setTitle(PDStrings.emptyDateInstruction
+            self.chooseDateTextButton.setTitle(PDStrings.emptyDate_placeholder
                 , for: UIControlState.normal)
         }
     }
     
-    internal func setreference(to: Int) {
+    internal func setReference(to: Int) {
         self.reference = to
     }
     
@@ -272,16 +277,21 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
             guard let newLocation = self.locationTextEdit.text, newLocation != "" else {
                 return
             }
-            ScheduleController.setLocation(scheduleIndex: self.reference - 1, with: newLocation)
+            ScheduleController.coreData.setLocation(scheduleIndex: self.reference - 1, with: newLocation)
+            // set values for ScheduleVC animation algorithm
+            if !self.dateTextHasChanged {
+                ScheduleController.onlyLocationChanged = true
+            }
         }
         if self.dateTextHasChanged {
-            ScheduleController.setDate(scheduleIndex: self.reference - 1, with: datePicker.date)
+            ScheduleController.coreData.setDate(scheduleIndex: self.reference - 1, with: datePicker.date)
         }
+        
     }
     
     private func autoPickLocation() {
         // "Suggest Patch Location" functionality is enabled...
-        if SettingsDefaultsController.getSLF() {
+        if UserDefaultsController.getSLF() {
             let suggestedLocation = SLF.suggest(scheduleIndex: self.reference - 1, generalLocations: ScheduleController.schedule().makeArrayOfLocations())
             self.locationTextEdit.text = suggestedLocation
         }
@@ -301,11 +311,8 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     
     private func requestNotifications() {
         // request notification iff exists Patch.date
-        if let _ = ScheduleController.getMO(index: self.reference - 1) {
+        if let _ = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(scheduleIndex: self.reference - 1)
-            if SettingsDefaultsController.getRemindMeBefore() {
-                (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyChangeSoon(scheduleIndex: self.reference - 1)
-            }
         }
         
     }
@@ -314,12 +321,12 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     
     private func findLocationStartRow() -> Int {
         var selected = 0
-        let len = PDStrings.locationNames.count
-        if let currentPatch = ScheduleController.getMO(index: self.reference - 1) {
+        let len = PDStrings.patchLocationNames.count
+        if let currentPatch = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
             let currentLocation = currentPatch.getLocation()
             for i in 0...(len-1){
                // print(currentLocation)
-                if PDStrings.locationNames[i] == currentLocation {
+                if PDStrings.patchLocationNames[i] == currentLocation {
                     selected = i
                     break
                 }
@@ -329,13 +336,11 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     }
     
     private func setExpirationAndHeading() {
-        let interval = SettingsDefaultsController.getTimeInterval()
+        let interval = UserDefaultsController.getTimeInterval()
         var exp = ""
-        var heading = ""
-        if let patch = ScheduleController.getMO(index: self.reference - 1) {            // unplaced patch instruction
+        if let patch = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {            // unplaced patch instruction
             if patch.getLocation() == PDStrings.unplaced_string {
                 exp = PDStrings.patchDetailsInstruction
-                heading = PDStrings.addPatch_string
             }
             else {
                 if patch.isExpired(timeInterval: interval) {
@@ -345,14 +350,11 @@ class ChangePatchVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
                     self.expiresOrExpiredLabel.text = PDStrings.patchExpires_string
                 }
                 exp = patch.expirationDateAsString(timeInterval: interval)
-                heading = PDStrings.changePatch_string
             }
             self.expirationDateLabel.text = exp
-            self.headingLabel.text = heading
         }
         else {
             exp = PDStrings.patchDetailsInstruction
-            heading = PDStrings.addPatch_string
         }
     }
     

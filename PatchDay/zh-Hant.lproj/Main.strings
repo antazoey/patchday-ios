@@ -2,8 +2,8 @@
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "0vU-op-qLy"; Note = "this doesn't need to be translated"; */
 "0vU-op-qLy.normalTitle" = "Button";
 
-/* Class = "UILabel"; text = "Date and time placed:"; ObjectID = "1DI-qg-8qA"; Note = "title for area where user enters the date and time placed for the patch"; */
-"1DI-qg-8qA.text" = "Date and time placed:";
+/* Class = "UILabel"; text = "Date and time applied:"; ObjectID = "1DI-qg-8qA"; Note = "title for area where user enters the date and time applied for the patch"; */
+"1DI-qg-8qA.text" = "Date and time applied:";
 
 /* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "2qc-jj-Sae"; */
 "2qc-jj-Sae.normalTitle" = "   〉";
@@ -14,8 +14,8 @@
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3tV-Xz-Eqt"; Note = "this doesn't need to be translated"; */
 "3tV-Xz-Eqt.normalTitle" = "Button";
 
-/* Class = "UILabel"; text = "Minutes before:"; ObjectID = "4Mq-Q9-v4s"; Note = "this title is for a button that lets the user choose how many minutes before they are receiving the reminder."; */
-"4Mq-Q9-v4s.text" = "Minutes before:";
+/* Class = "UILabel"; text = "Notify before expire:"; ObjectID = "4Mq-Q9-v4s"; Note = "this title is for a button that lets the user choose how many minutes before they are receiving the reminder."; */
+"4Mq-Q9-v4s.text" = "Notify before expire:";
 
 /* Class = "UILabel"; text = "Expires:"; ObjectID = "5x3-eZ-12Y"; Note = "title for area that states the expiration date"; */
 "5x3-eZ-12Y.text" = "Expires:";
@@ -26,11 +26,11 @@
 /* Class = "UILabel"; text = "Receive reminder:"; ObjectID = "8jB-BF-JTf"; Note = "label next to switch for indicating whether the user wants to receive a reminder before their patch expires."; */
 "8jB-BF-JTf.text" = "Receive reminder:";
 
-/* Class = "UIViewController"; title = "Patch Schedule"; ObjectID = "BYZ-38-t0r"; */
-"BYZ-38-t0r.title" = "Patch Schedule";
+/* Class = "UIViewController"; title = "Main"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Main";
 
-/* Class = "UILabel"; text = "Patch Details"; ObjectID = "E6B-yb-uBQ"; Note = "Name of View where you add Patch details"; */
-"E6B-yb-uBQ.text" = "Patch Details";
+/* Class = "UILabel"; text = "Details"; ObjectID = "E6B-yb-uBQ"; Note = "Name of View where you add Patch details"; */
+"E6B-yb-uBQ.text" = "Details";
 
 /* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "EEv-5c-Ivy"; */
 "EEv-5c-Ivy.normalTitle" = "   〉";
@@ -41,8 +41,8 @@
 /* Class = "UILabel"; text = "Number of patches:"; ObjectID = "R6v-Ga-j3u"; Note = "title for a nearby button for choosing the number of patches"; */
 "R6v-Ga-j3u.text" = "Number of patches:";
 
-/* Class = "UIViewController"; title = "Patch Details"; ObjectID = "UrJ-qX-o3J"; */
-"UrJ-qX-o3J.title" = "Patch Details";
+/* Class = "UIViewController"; title = "Details"; ObjectID = "UrJ-qX-o3J"; */
+"UrJ-qX-o3J.title" = "Details";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "VxV-0X-CKx"; Note = "this doesn't need to be translated"; */
 "VxV-0X-CKx.normalTitle" = "Button";
@@ -62,8 +62,8 @@
 /* Class = "UIButton"; normalTitle = "                     "; ObjectID = "gkg-w3-hAO"; */
 "gkg-w3-hAO.normalTitle" = "                     ";
 
-/* Class = "UILabel"; text = "Schedule"; ObjectID = "ib6-yR-rGr"; Note = "title that indicated where the Schedule settings starts"; */
-"ib6-yR-rGr.text" = "Schedule";
+/* Class = "UILabel"; text = "Main"; ObjectID = "ib6-yR-rGr"; Note = "title that indicated where the main schedule settings starts"; */
+"ib6-yR-rGr.text" = "Main";
 
 /* Class = "UILabel"; text = "Suggest location:"; ObjectID = "m6I-w4-yag"; Note = "the is the title for a switch that let's the user turn on a special functionality for suggest locations for the user when they change their patches."; */
 "m6I-w4-yag.text" = "Suggest location:";
@@ -98,8 +98,8 @@
 /* Class = "UILabel"; text = "Receive a reminder notification minutes before patch expiration."; ObjectID = "vfC-et-iHq"; Note = "the explanation about why one would enable a switch to receive a reminder before their patch expires"; */
 "vfC-et-iHq.text" = "Receive a reminder notification minutes before patch expiration.";
 
-/* Class = "UILabel"; text = "Patch duration:"; ObjectID = "xZp-Rx-dxb"; Note = "title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire"; */
-"xZp-Rx-dxb.text" = "Patch duration:";
+/* Class = "UILabel"; text = "Expiration:"; ObjectID = "xZp-Rx-dxb"; Note = "title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire"; */
+"xZp-Rx-dxb.text" = "Expiration:";
 
-/* Class = "UIButton"; normalTitle = "Change Patch"; ObjectID = "ynp-FM-Qea"; Note = "Button title for changing a patch"; */
-"ynp-FM-Qea.normalTitle" = "Change Patch";
+/* Class = "UIButton"; normalTitle = "Autofill"; ObjectID = "ynp-FM-Qea"; Note = "Button title for changing a patch"; */
+"ynp-FM-Qea.normalTitle" = "Autofill";
