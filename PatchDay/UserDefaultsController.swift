@@ -108,10 +108,9 @@ public class UserDefaultsController: NSObject {
     *****************************************************************/
     public static func setQuantityWithWarning(to: String, oldCount: Int, countButton: UIButton) {
         print ("old count: " + String(describing: oldCount))
-        if let newCount = Int(to), isAcceptable(count: newCount) {
+        if let newCount = Int(to), self.isAcceptable(count: newCount) {
             // startAndNewCount : represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new count
             if let startAndNewCount = Int(to) {
-                ScheduleController.oldDeliveryCount = oldCount
                 // DECREASING COUNT
                 if startAndNewCount < oldCount {
                     ScheduleController.decreasedCount = true        // animate schedule

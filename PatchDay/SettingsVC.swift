@@ -139,6 +139,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.loadSuggestLocationFunctionality()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        // Set animation related Var
+        ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+    }
+    
     internal func setCountWhenEnteredScene() {
         self.countWhenEnteredScene = UserDefaultsController.getQuantityInt()
     }

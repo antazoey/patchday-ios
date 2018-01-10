@@ -88,7 +88,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         ScheduleController.animateScheduleFromChangeDelivery = true
         // lower badge number if necessary
         if let mo = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
-            if mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval()) && UIApplication.shared.applicationIconBadgeNumber > 0 {
+            if mo .isExpired(timeInterval: UserDefaultsController.getTimeInterval()) && UIApplication.shared.applicationIconBadgeNumber > 0 {
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         }

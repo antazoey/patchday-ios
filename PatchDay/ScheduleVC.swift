@@ -138,30 +138,24 @@ class ScheduleVC: UIViewController {
     
     // called by self.viewDidLoad()
     private func displayScheduleButtons() {
+        let buttons: [UIButton] = [self.deliveryOneButton, self.deliveryTwoButton, self.deliveryThreeButton, self.deliveryFourButton]
+        let views: [UIView] = [self.deliveryViewOne, self.deliveryViewTwo, self.deliveryViewThree, self.deliveryViewFour]
+        let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
         // give data and images to patches in schedule
         if self.getCount() > 0 {
             for i in 0...(self.getCount()-1) {
-                self.displayScheduleButton(index: i)
+                if let isB = colorDict[i], i < buttons.count {
+                    self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], isBlue: isB, scheduleIndex: i)
+                }
             }
             // disables unused button
-            self.disableUnusedScheduleButtons(shouldAnimate: ScheduleController.decreasedCount)
+            self.disableUnusedScheduleButtons(shouldAnimate: true)
         }
         // reset animation bools
         ScheduleController.increasedCount = false
         ScheduleController.decreasedCount = false
         ScheduleController.animateScheduleFromChangeDelivery = false
         ScheduleController.onlyLocationChanged = false
-    }
-    
-    // called by self.displayScheduleButtons()
-    private func displayScheduleButton(index: Int) {
-        let buttonDict: [Int: UIButton] = [0: self.deliveryOneButton, 1: self.deliveryTwoButton, 2: self.deliveryThreeButton, 3: self.deliveryFourButton]
-        let viewDict: [Int: UIView] = [0: self.deliveryViewOne, 1: self.deliveryViewTwo, 2: self.deliveryViewThree, 3: self.deliveryViewFour]
-        let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
-        if let sButton = buttonDict[index], let colorBool = colorDict[index], let sView = viewDict[index] {
-            self.makeScheduleButton(scheduleButton: sButton, onView: sView, isBlue: colorBool, scheduleIndex: index)
-        }
-
     }
     
     // makeScheduleButton(scheduleButton, isBlue, scheduleIndex) : called by self. displayScheduleButton(), generated a schedule button with the appropriate properties, including its animation in the cases when loaded from other view controller that change applicable schedule properties.
