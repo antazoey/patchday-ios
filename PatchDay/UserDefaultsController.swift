@@ -116,7 +116,7 @@ public class UserDefaultsController: NSObject {
                 if startAndNewCount < oldCount {
                     ScheduleController.decreasedCount = true        // animate schedule
                     // alert
-                    if !ScheduleController.schedule().scheduleIsEmpty(fromThisIndexOnward:
+                    if !ScheduleController.schedule().isEmpty(fromThisIndexOnward:
                         startAndNewCount) {
                         PDAlertController.alertForChangingCount(startIndexForReset: startAndNewCount, endIndexForReset: oldCount, newCount: to, countButton: countButton)
                         return

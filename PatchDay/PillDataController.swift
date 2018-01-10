@@ -225,13 +225,14 @@ public class PillDataController: NSObject {
         self.synchonize()
     }
     
-    // format(time) : input pill time, output its string
+    // format(time) : Input pill time, output time string
     static public func format(time: Time) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: time)
     }
     
+    // format(date) : Input pill time, output date string
     static public func format(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, h:mm a"

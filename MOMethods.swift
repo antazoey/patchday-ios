@@ -82,15 +82,18 @@ extension MOEstrogenDelivery {
     
     // MARK: - booleans
     
+    public func hasNoDate() -> Bool {
+        return self.datePlaced == nil
+    }
+    
     public func isEmpty() -> Bool {
-        if self.location == "Unplaced" {
-            self.location = "unplaced"
-        }
-        return self.datePlaced == nil && self.location == "unplaced"
+        let loc = self.location?.lowercased()
+        return self.datePlaced == nil && loc == "unplaced"
     }
     
     public func isNotCustomLocated() -> Bool {
-        return PDStrings.patchLocationNames.contains(self.getLocation()) || getLocation() == "unplaced"
+        let loc = self.getLocation().lowercased()
+        return PDStrings.patchLocationNames.contains(self.getLocation()) || loc == "unplaced"
     }
     
     public func isCustomLocated() -> Bool {

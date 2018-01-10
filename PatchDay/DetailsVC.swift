@@ -80,7 +80,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     // Save Button
     @IBAction private func saveButtonTapped(_ sender: Any) {
-        ScheduleController.indexOfChangedDelivery = self.reference - 1         // for schedule animation
+        let moCount = ScheduleController.schedule().datePlacedCount()
+        ScheduleController.indexOfChangedDelivery = (moCount != UserDefaultsController.getQuantityInt() && self.dateTextHasChanged) ? moCount : (self.reference - 1)
+        print("Index for animated schedule button: " + String(describing: ScheduleController.indexOfChangedDelivery))
         self.saveAttributes()
         self.requestNotifications()
         ScheduleController.animateScheduleFromChangeDelivery = true

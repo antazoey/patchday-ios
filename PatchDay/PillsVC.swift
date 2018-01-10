@@ -101,13 +101,15 @@ class PillsVC: UIViewController {
     // appear(including, stamps, timesaday, first_t, second_t, mode) : This function appears all the details of pill related UI features for either TB or PG, depending on if mode = 0 for TB or 1 for PG.  This function will indicate whether the pill is due for taking or has been fully taken for the day.
     private func appear(including: Bool, stamps: [Date?]?, timesaday: Int, first_t: Time, second_t: Time, mode: Int) {
         let timeButtons = [self.tb_time, self.pg_time]
-        if including, let tbb = timeButtons[mode] {
+        let timeArrows = [self.tb_button, self.pg_button]
+        if including, let tb = timeButtons[mode], let ta = timeArrows[mode] {
             let isDue = PillDataController.isDue(timesaday: timesaday, stamps: stamps, time1: first_t, time2: second_t)
             if let laterStamp = PillDataController.getLaterStamp(stamps: stamps) {
                 // If isDue, make it red say " - due"
                 if isDue {
-                    tbb.setTitle(PillDataController.format(date: laterStamp) + " - " + PDStrings.due, for: .normal)
-                    tbb.setTitleColor(UIColor.red, for: .normal)
+                    tb.setTitle(PillDataController.format(time: laterStamp) + " - " + PDStrings.due, for: .normal)
+                    tb.setTitleColor(UIColor.red, for: .normal)
+                    ta.setTitleColor(UIColor.red, for: .normal)
                     return
                 }
                 // Both pills taken today, disable it
@@ -118,14 +120,15 @@ class PillsVC: UIViewController {
                 }
                 // Otherwise, leave it regular (blue and enabled and displaying last stamp)
                 else {
-                    tbb.setTitle(PillDataController.format(date: laterStamp), for: .normal)
+                    tb.setTitle(PillDataController.format(date: laterStamp), for: .normal)
                     return
                 }
             }
             // Never taken
             else if isDue {
-                tbb.setTitle(PDStrings.nothing_yet_placeholder + " - " + PDStrings.due, for: .normal)
-                tbb.setTitleColor(UIColor.red, for: .normal)
+                tb.setTitle(PDStrings.nothing_yet_placeholder + " - " + PDStrings.due, for: .normal)
+                tb.setTitleColor(UIColor.red, for: .normal)
+                ta.setTitleColor(UIColor.red, for: .normal)
                 return
             }
         }

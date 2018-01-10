@@ -36,6 +36,19 @@ public class EstrogenSchedule {
         return locationArray
     }
     
+    // MARK: - Counters
+    
+    // count() : Returns the number of non-nil datePlaced MOs in the schedule
+    internal func datePlacedCount() -> Int {
+        var c: Int = 0
+        for mo in supply {
+            if !mo.hasNoDate() {
+                c += 1
+            }
+        }
+        return c
+    }
+    
     // MARK: - Oldest MO Related Methods
     
     public func oldestMO() -> MOEstrogenDelivery? {
@@ -82,7 +95,7 @@ public class EstrogenSchedule {
     
     // MARK: - Query Bools
     
-    public func scheduleHasNoDates() -> Bool {
+    public func hasNoDates() -> Bool {
         var allEmptyDates: Bool = true
         for i in 0...(self.supply.count - 1) {
             let mo = self.supply[i]
@@ -95,11 +108,12 @@ public class EstrogenSchedule {
         
     }
     
-    public func scheduleHasNoLocations() -> Bool {
+    public func hasNoLocations() -> Bool {
         var allEmptyLocations: Bool = true
         for i in 0...(self.supply.count - 1){
             let mo = self.supply[i]
-            if mo.getLocation() != "unplaced" {
+            let loc = mo.getLocation().lowercased()
+            if loc != "unplaced" {
                 allEmptyLocations = false
                 break
             }
@@ -107,11 +121,22 @@ public class EstrogenSchedule {
         return allEmptyLocations
     }
     
-    public func scheduleIsEmpty() -> Bool {
-        return scheduleHasNoDates() && scheduleHasNoLocations()
+    // noEmptyDates() : Returns true if all the located MOs have dates also
+    public func locatedMOsHaveNoEmptyDates() -> Bool {
+        for mo in self.supply {
+            let loc = mo.location?.lowercased()
+            if mo.hasNoDate() && loc != "unplaced" {
+                return false
+            }
+        }
+        return true
     }
     
-    public func scheduleIsEmpty(fromThisIndexOnward: Int) -> Bool {
+    public func isEmpty() -> Bool {
+        return hasNoDates() && hasNoLocations()
+    }
+    
+    public func isEmpty(fromThisIndexOnward: Int) -> Bool {
         // returns true if each MO fromThisIndexOnward is empty
         let lastIndex = UserDefaultsController.getQuantityInt() - 1
         if fromThisIndexOnward <= lastIndex {
@@ -127,7 +152,7 @@ public class EstrogenSchedule {
         return true
     }
     
-    public func oldestMOInScheduleHasNoDateAndIsCustomLocated() -> Bool {
+    public func oldestMOHasNoDateAndIsCustomLocated() -> Bool {
         if let oldestMO = oldestMO() {
             return oldestMO.getdate() == nil && oldestMO.isCustomLocated()
         }

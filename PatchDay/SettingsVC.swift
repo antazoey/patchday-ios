@@ -497,12 +497,14 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             break
         case "u":   // TBLOCK TIME 2 PICKER
             self.tb2_time_picker = timePicker
+            self.tb2_time_picker.minimumDate = PillDataController.getTB1Time()
             break
         case "p":   // PG TIME 1 PICKER
             self.pg1_time_picker = timePicker
             break
         case "q":   // PG TIME 2 PICKER
             self.pg2_time_picker = timePicker
+            self.pg2_time_picker.minimumDate = PillDataController.getPG1Time()
             break
         default:
             print("ERROR: Improper mode for choosing time picker.")
