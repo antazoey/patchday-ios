@@ -124,7 +124,7 @@ public class PillDataController: NSObject {
         self.synchonize()
     }
     
-    public static func setTB2time(to: Time) {
+    public static func setTB2Time(to: Time) {
         self.tb2_time = to
         self.defaults.set(to, forKey: PDStrings.tb2Time_key())
         self.synchonize()
@@ -156,7 +156,7 @@ public class PillDataController: NSObject {
         self.synchonize()
     }
     
-    public static func setPG2time(to: Time) {
+    public static func setPG2Time(to: Time) {
         self.pg2_time = to
         self.defaults.set(to, forKey: PDStrings.pg2Time_key())
         self.synchonize()

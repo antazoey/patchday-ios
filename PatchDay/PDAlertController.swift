@@ -136,10 +136,6 @@ internal class PDAlertController {
         }
     }
     
-    // MARK: - testosteron blocker reminder
-   // static internal func alertForTBlockerReminder
-    
-    
     // MARK: - private, getting current view
     
     // get keywindow

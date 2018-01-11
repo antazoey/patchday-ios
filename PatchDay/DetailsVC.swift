@@ -43,7 +43,13 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     @IBOutlet private weak var lineUnderdate: UIView!
     
     // reference to which patch it is (index in patches = reference - 1)
+    // references: 1,2,3,4
+    // note: not indices
     internal var reference = 0
+    
+    // temp save
+    internal var location: String = ""
+    internal var datePlaced: Date = Date()
     
     // date picker vars
     private var dateInputView = UIView()
@@ -75,7 +81,6 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         // location picker set up
         self.locationPicker.delegate = self
         self.locationPicker.dataSource = self
-        self.locationPicker.selectRow(self.findLocationStartRow(), inComponent: 0, animated: false)
     }
     
     // Save Button
@@ -180,8 +185,11 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         return PDStrings.patchLocationNames[row]
     }
     
+    // Done
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.locationTextEdit.text = PDStrings.patchLocationNames[row]
+        let newLoc = PDStrings.patchLocationNames[row]
+        self.locationTextEdit.text = newLoc
+        self.location = newLoc
         // other view changes
         self.save.isEnabled = true
         self.save.isHidden = false
@@ -213,7 +221,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     @objc internal func datePickerDone(sender: UIButton) {
         self.dateInputView.isHidden = true
         // disp date and time applied
-        self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: self.datePicker.date), for: UIControlState.normal)
+        let d = self.datePicker.date
+        self.datePlaced = d             // set temp
+        self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: d), for: UIControlState.normal)
         if let expDate = MOEstrogenDelivery.expiredDate(fromDate: self.datePicker.date) {            // disp exp date
             self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate)
         }
@@ -234,21 +244,24 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        if let patch = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
+        if let mo = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
             // location placed
-            if patch.getLocation() != PDStrings.unplaced_string {
+            if mo.getLocation() != PDStrings.unplaced_string {
                 // set location label text to patch's location
-                self.locationTextEdit.text = patch.getLocation()
+                let loc = mo.getLocation()              // set temp
+                self.locationTextEdit.text = loc
+                self.location = loc
             }
             // location not placed
             else {
                 self.locationTextEdit.text = PDStrings.emptyLocationInstruction
             }
             // date placed
-            if let date = patch.getdate() {
+            if let date = mo.getdate() {
                 // set date choose button's text to patch's date palced data
+                self.datePlaced = date                  // set temp
                 self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: date) , for: .normal)
-                self.expirationDateLabel.text = patch.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval())
+                self.expirationDateLabel.text = mo.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval())
             }
             // date unplaced
             else {
@@ -324,16 +337,13 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     private func findLocationStartRow() -> Int {
         var selected = 0
         let len = PDStrings.patchLocationNames.count
-        if let currentPatch = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
-            let currentLocation = currentPatch.getLocation()
-            for i in 0...(len-1){
-               // print(currentLocation)
-                if PDStrings.patchLocationNames[i] == currentLocation {
+        for i in 0...(len-1){
+            // print(currentLocation)
+            if PDStrings.patchLocationNames[i] == self.location {
                     selected = i
                     break
                 }
             }
-        }
         return selected
     }
     
@@ -389,6 +399,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         let datePickerRect = CGRect(origin: datePickerPoint, size: datePickerSize)
         let datePickerView: UIDatePicker = UIDatePicker(frame: datePickerRect)
         datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
+        datePickerView.date = self.datePlaced
         return datePickerView
         
     }

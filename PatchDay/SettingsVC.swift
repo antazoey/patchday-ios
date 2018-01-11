@@ -118,16 +118,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.loadInterval()
         self.loadIncludeTB()
         self.loadTBDaily()
-        self.loadTBTime1()
-        self.loadTBTime2()
+        self.loadTB1Time()
+        self.loadTB2Time()
         self.loadTBRemind()
         if PillDataController.getTBDailyInt() == 1 {
             self.disableTBTime2()
         }
         self.loadIncludePG()
         self.loadPGDaily()
-        self.loadPGTime1()
-        self.loadPGTime2()
+        self.loadPG1Time()
+        self.loadPG2Time()
         self.loadPGRemind()
         if PillDataController.getPGDailyInt() == 1 {
             self.disablePGTime2()
@@ -160,7 +160,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.tb_daily_big.setTitle(String(PillDataController.getTBDailyString()), for: .normal)
     }
     
-    private func loadTBTime1() {
+    private func loadTB1Time() {
         if PillDataController.includingTB() {
             self.tb1_time_big.setTitle(PillDataController.format(time: PillDataController.getTB1Time()), for: .normal)
         }
@@ -176,9 +176,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func loadTBTime2() {
+    // loads safely - doesn't load improper tb2
+    private func loadTB2Time() {
         if PillDataController.includingTB() {
-            self.tb2_time_big.setTitle(PillDataController.format(time: PillDataController.getTB2Time()), for: .normal)
+            // if TB2 is improperly smaller than TB1, set it as TB1
+            let tb1 = PillDataController.getTB1Time()
+            let tb2 = PillDataController.getTB2Time()
+            if tb2 < tb1 {
+                PillDataController.setTB2Time(to: tb1)
+            }
+            self.tb2_time_big.setTitle(PillDataController.format(time: tb2), for: .normal)
         }
     }
     
@@ -194,7 +201,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.pg_daily_big.setTitle(String(PillDataController.getPGDailyString()), for: .normal)
     }
     
-    private func loadPGTime1() {
+    private func loadPG1Time() {
         if PillDataController.includingPG() {
             self.pg1_time_big.setTitle(PillDataController.format(time: PillDataController.getPG1Time()), for: .normal)
         }
@@ -210,9 +217,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func loadPGTime2() {
+    // load safely - doesn't load improper pg2
+    private func loadPG2Time() {
         if PillDataController.includingPG() {
-            self.pg2_time_big.setTitle(PillDataController.format(time: PillDataController.getPG2Time()), for: .normal)
+            // if PG2 is improperly smaller than PG1, set it as PG1
+            let pg1 = PillDataController.getPG1Time()
+            let pg2 = PillDataController.getPG2Time()
+            if pg2 < pg1 {
+                PillDataController.setPG2Time(to: pg1)
+            }
+            self.pg2_time_big.setTitle(PillDataController.format(time: pg2), for: .normal)
         }
     }
     
@@ -360,34 +374,49 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // openOrClose(picker, buttonTapped, selections) : Refers to pickers that are NOT UITimePickers.
     private func openOrClose(picker: UIPickerView, buttonTapped: UIButton, selections: [String], key: String) {
         
-        // WHEN PICKER IS ALREADY OPEN...
+        // ******************************
+        // WHEN PICKER IS OPEN, CLOSE IT.
+        // ******************************
+        // In this case, select the button,
+        // And for count, set global variable necessary for animation,
+        // And close the picker,
+        // Then, save newly set User Defaults
         
         if picker.isHidden == false {
             buttonTapped.isSelected = false
             UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = true
             }) {
                 (void) in
+                // Global var necessary for animation (only when using count picker):
+                if key == PDStrings.count_key() {
+                    ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+                }
                 self.saveFromPicker(key: key)
             }
             return
         }
         
-        // WHEN PICKER IS NOT OPEN
+        // ******************************
+        // WHEN PICKER IS CLOSED, OPEN IT.
+        // ******************************
+        // In this case, open the picker with the correct info,
+        // And try to select current row.
         
         buttonTapped.isSelected = true  // select
         // set starting row to current button title label's text
         if let title = buttonTapped.titleLabel, let readText = title.text {
-            if key == PDStrings.count_key() {
-                ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
-            }
+
             guard let selectedRowIndex = selections.index(of: readText) else {
+                // Selected Row Index = 0
                 picker.selectRow(0, inComponent: 0, animated: false)
                 UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
                 }, completion: nil)
                 return
             }
+            // Selected Row Index = current value
             picker.selectRow(selectedRowIndex, inComponent: 0, animated: true)
         }
+        // Always animates
         UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
         }, completion: nil)
     }
@@ -399,6 +428,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
          *****************************************/
         if let row = self.selectedRow {
             switch key {
+                
+                // COUNT
             case PDStrings.count_key():
                 let oldCount = ScheduleController.oldDeliveryCount
                 if row < PDStrings.counts.count && row >= 0 {
@@ -411,6 +442,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 }
                 self.resendScheduleNotifications()
                 break
+                
+                // INTERVAL
             case PDStrings.interval_key():
                 if row < PDStrings.expirationIntervals.count && row >= 0 {
                     let choice = PDStrings.expirationIntervals[row]
@@ -423,15 +456,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 }
                 self.resendScheduleNotifications()
                 break
+                
+                // TB DAILY
             case PDStrings.tb_daily_key():
                 if row < PDStrings.dailyCounts.count && row >= 0, let c = Int(PDStrings.dailyCounts[row]) {
                     PillDataController.setTBDaily(to: c)
-                    if c == 1 {
-                        self.disableTBTime2()
-                    }
-                    else if c == 2 {
-                        self.enableTBTime2()
-                    }
+                    (c == 1) ? self.disableTBTime2() : self.enableTBTime2()
                     // configure button title
                     self.tb_daily_big.setTitle(String(c), for: .normal)
                     self.disableExtraTB()
@@ -440,15 +470,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     print("Error saving TB timesday for row " + String(row))
                 }
                 break
+                
+                // PG DAILY
             case PDStrings.pg_daily_key():
                 if row < PDStrings.dailyCounts.count && row >= 0, let c = Int(PDStrings.dailyCounts[row]) {
                     PillDataController.setPGDaily(to: c)
-                    if c == 1 {
-                        self.disablePGTime2()
-                    }
-                    else if c == 2 {
-                        self.enablePGTime2()
-                    }
+                    (c == 1) ? self.disablePGTime2() : self.enablePGTime2()
                     // configure button title
                     self.pg_daily_big.setTitle(String(c), for: .normal)
                     self.disableExtraPG()
@@ -457,6 +484,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     print("Error saving PG timesday for row " + String(row))
                 }
                 break
+                
+                // NOTIFICATION TIME
             case PDStrings.notif_key():
                 if row < PDStrings.notificationSettings.count && row >= 0 {
                     let choice = PDStrings.notificationSettings[row]
@@ -478,7 +507,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - Date Picker funcs
     
-    // chooseTime(mode, timeButton, timePickerView) : Creates the correct time picker, deselects other pickers, and opens the selected picker.
+    // chooseTime(mode, timeButton, timePickerView) :
+    // 1.) Creates the correct time picker
+    // 2.) deselects other pickers
+    // 3.) opens the selected picker.
     func chooseTime(mode: String, timeButton: UIButton, timePickerView: UIView) {
         // create picker view
         let timePickerPoint = CGPoint(x: 0, y: 40)
@@ -493,16 +525,22 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         switch mode {
         case "t":   // TBLOCK TIME 1 PICKER
             self.tb1_time_picker = timePicker
+            self.tb1_time_picker.date = PillDataController.getTB1Time()
+            self.tb1_time_picker.maximumDate = PillDataController.getTB2Time()
             break
         case "u":   // TBLOCK TIME 2 PICKER
             self.tb2_time_picker = timePicker
+            self.tb2_time_picker.date = PillDataController.getTB2Time()
             self.tb2_time_picker.minimumDate = PillDataController.getTB1Time()
             break
         case "p":   // PG TIME 1 PICKER
             self.pg1_time_picker = timePicker
+            self.pg1_time_picker.date = PillDataController.getPG1Time()
+            self.pg2_time_picker.maximumDate = PillDataController.getPG2Time()
             break
         case "q":   // PG TIME 2 PICKER
             self.pg2_time_picker = timePicker
+            self.pg2_time_picker.date = PillDataController.getPG2Time()
             self.pg2_time_picker.minimumDate = PillDataController.getPG1Time()
             break
         default:
@@ -513,11 +551,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }, completion: nil)
     }
     
-    /* datePickerDone(sender) : Function that 1.) saves the newly assigned times.
-    2.) deselects the button, 3.) sets the time button title
-     and 4.) resends the notification for the correct time
+    /* datePickerDone(sender) : Function that
+     1.) sets button title
+     2.) saves the newly assigned times.
+     3.) resends the notification for the correct time
     */
-    internal func datePickerDone(id: String, time: Time) {
+    internal func datePickerDone(id: String, time: Time, timeButton: UIButton) {
+        
+        // ** THIS IS WHERE THE TIME BUTTON TITLE IS SET **
+        timeButton.setTitle(PillDataController.format(time: time), for: .normal)
+        
         switch id {
             // TB1 TIME
         case "bigT":
@@ -526,7 +569,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             break
             // TB2 TIME
         case "bigT2":
-            PillDataController.setTB2time(to: time)
+            PillDataController.setTB2Time(to: time)
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
             break
             // PG1 TIME
@@ -536,7 +579,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             break
             // PG2 TIME
         case "bigP2":
-            PillDataController.setPG2time(to: time)
+            PillDataController.setPG2Time(to: time)
             (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
             break
         default:
@@ -747,6 +790,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func enableTBTime2() {
+        // Start TB2 Time = TB1 Time
+        PillDataController.setTB2Time(to: PillDataController.getTB1Time())
+        self.tb2_time_big.setTitle(PillDataController.format(time: PillDataController.getTB1Time()), for: .normal)
+        
         self.tb1_time_label.text = PDStrings.first_time
         self.tb2_time_stack.isHidden = false
         self.tb2_time_big.isEnabled = true
@@ -761,6 +808,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func enablePGTime2() {
+        // Reset PG2 Time = PG1 Time
+        PillDataController.setPG2Time(to: PillDataController.getPG1Time())
+        self.pg2_time_big.setTitle(PillDataController.format(time: PillDataController.getPG1Time()), for: .normal)
+        
         self.pg1_time_label.text = PDStrings.first_time
         self.pg2_time_stack.isHidden = false
         self.pg2_time_big.isEnabled = true
@@ -789,15 +840,17 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.pg_daily_big.isSelected = false
     }
     
+    // closeTimePicker(timePicker, timePickerView, timeButton) : Will close the picker.
     private func closeTimePicker(timePicker: UITimePicker, timePickerView: UIView, timeButton: UIButton) {
         let time: Time = timePicker.date
         timePicker.isHidden = true
-        timeButton.setTitle(PillDataController.format(time: time), for: .normal)
+        
         timeButton.isSelected = false
         UIView.transition(with: timePickerView, duration: 0.4, options: .transitionCrossDissolve, animations: { timePickerView.isHidden = true
         }) { (void) in
             if let id = timeButton.accessibilityIdentifier {
-                self.datePickerDone(id: id, time: time)
+                // Call datePickerDone - the function the sets the pill data with warning.
+                self.datePickerDone(id: id, time: time, timeButton: timeButton)
             }
         }
     }
