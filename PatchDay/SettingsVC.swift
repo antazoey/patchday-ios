@@ -31,7 +31,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // trackers
     private var whichTapped: String?
     private var selectedRow: Int?
-    private var countWhenEnteredScene: Int?
     
     // Schedule outlets (in order of appearance
     @IBOutlet private weak var settingsView: UIView!
@@ -110,7 +109,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.pg_daily_big.setTitleColor(UIColor.lightGray, for: .disabled)
 
         // other
-        self.setCountWhenEnteredScene()
         self.countButton.tag = 10
         self.settingsView.backgroundColor = UIColor.white
         self.delegatePickers()
@@ -142,10 +140,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     override func viewWillAppear(_ animated: Bool) {
         // Set animation related Var
         ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
-    }
-    
-    internal func setCountWhenEnteredScene() {
-        self.countWhenEnteredScene = UserDefaultsController.getQuantityInt()
     }
       
     // MARK: - Data loaders
@@ -383,6 +377,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         buttonTapped.isSelected = true  // select
         // set starting row to current button title label's text
         if let title = buttonTapped.titleLabel, let readText = title.text {
+            if key == PDStrings.count_key() {
+                ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+            }
             guard let selectedRowIndex = selections.index(of: readText) else {
                 picker.selectRow(0, inComponent: 0, animated: false)
                 UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
@@ -403,10 +400,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let row = self.selectedRow {
             switch key {
             case PDStrings.count_key():
-                guard let oldCount = self.countWhenEnteredScene else {
-                    print("Error saving count for index for oldCount " + String(row))
-                    return
-                }
+                let oldCount = ScheduleController.oldDeliveryCount
                 if row < PDStrings.counts.count && row >= 0 {
                     let choice = PDStrings.counts[row]
                     UserDefaultsController.setQuantityWithWarning(to: choice, oldCount: oldCount, countButton: self.countButton)        // save

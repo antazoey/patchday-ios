@@ -20,7 +20,7 @@ public class PillDataController: NSObject {
     static private var tb_daily: Int = 1            // taken (1 or 2)
     static private var tb1_time: Time = Time()      // 1st time should take
     static private var tb2_time: Time = Time()      // 2nd time should take
-    static private var remindTB: Bool = false       // notification?
+    static private var remindTB: Bool = true        // notification?
     
     static public var tb_stamps: [Date?]?           // last time taken
     
@@ -29,7 +29,7 @@ public class PillDataController: NSObject {
     static private var pg_daily: Int = 1            // taken (1 or 2)
     static private var pg1_time: Time = Time()      // 1st time should take
     static private var pg2_time: Time = Time()      // 2nd time should take
-    static private var remindPG: Bool = false       // notification?
+    static private var remindPG: Bool = true        // notification?
     
     static public var pg_stamps: [Date?]?           // last time taken
     

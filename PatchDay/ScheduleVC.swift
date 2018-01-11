@@ -149,7 +149,7 @@ class ScheduleVC: UIViewController {
                 }
             }
             // disables unused button
-            self.disableUnusedScheduleButtons(shouldAnimate: true)
+            self.disableUnusedScheduleButtons()
         }
         // reset animation bools
         ScheduleController.increasedCount = false
@@ -216,19 +216,19 @@ class ScheduleVC: UIViewController {
     }
     
     // called by self.displayScheduleButtons()
-    private func disableUnusedScheduleButtons(shouldAnimate: Bool) {
+    private func disableUnusedScheduleButtons() {
         // this hides all the patches that are not in the schedule
         if self.getCount() <= 3 {
             print("Disabling schedule button " + "4")
-            self.disable(unusedButton: self.deliveryFourButton, unusedView: self.deliveryViewFour, shouldAnimate: shouldAnimate)
+            self.disable(unusedButton: self.deliveryFourButton, unusedView: self.deliveryViewFour, shouldAnimate: true)
         }
         if self.getCount() <= 2 {
             print("Disabling schedule button " + "3")
-            self.disable(unusedButton: self.deliveryThreeButton, unusedView: self.deliveryViewThree, shouldAnimate: shouldAnimate)
+            self.disable(unusedButton: self.deliveryThreeButton, unusedView: self.deliveryViewThree, shouldAnimate: true)
         }
         if self.getCount() == 1 {
             print("Disabling schedule button " + "2")
-            self.disable(unusedButton: self.deliveryTwoButton, unusedView: self.deliveryViewTwo, shouldAnimate: shouldAnimate)
+            self.disable(unusedButton: self.deliveryTwoButton, unusedView: self.deliveryViewTwo, shouldAnimate: true)
         }
         
     }

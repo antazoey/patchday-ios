@@ -55,7 +55,8 @@ public class ScheduleController: NSObject {
         print("animate bool 2: " + String(isChangedLocationFromDetails))
         
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
-        let indexLessThanOldCountFromSettings: Bool = increasedCount && scheduleIndex >= oldDeliveryCount
+        let indexLessThanOldCountFromSettings: Bool = (increasedCount && scheduleIndex >= oldDeliveryCount)
+        
         print("animate bool 3: " + String(indexLessThanOldCountFromSettings))
 
         return (moreThanLocationChangedFromDetails || isChangedLocationFromDetails || indexLessThanOldCountFromSettings)
