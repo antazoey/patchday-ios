@@ -30,7 +30,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
 
     // save, change patch
     @IBOutlet private weak var save: UIButton!
-    @IBOutlet private weak var changeButton: UIButton!
+    @IBOutlet private weak var autofillButton: UIButton!
     
     // MOEstrogenDeliveryre location related
     @IBOutlet private weak var locationPicker: UIPickerView!
@@ -68,7 +68,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.save.isHidden = true
         self.setExpirationAndHeading()
         self.locationPicker.isHidden = true
-        self.changeButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
+        self.autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         self.bigGap.backgroundColor = PDColors.pdPink
         self.bigGap2.backgroundColor = PDColors.pdPink
         
@@ -105,7 +105,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
  
     }
     
-    @IBAction private func changeTapped(_ sender: Any) {
+    @IBAction private func autofillTapped(_ sender: Any) {
         // Location is a suggested by SLP's alg.,
         // Date is now.
         self.autoPickLocation()
@@ -138,7 +138,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.chooseDateTextButton.isEnabled = false
         self.addLocationTextButton.isEnabled = false
         self.save.isHidden = true
-        self.changeButton.isHidden = true
+        self.autofillButton.isHidden = true
         textField.restorationIdentifier = "pick"
  
     }
@@ -150,7 +150,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.save.isHidden = false
         self.locationTextEdit.isEnabled = true
         self.chooseDateTextButton.isEnabled = true
-        self.changeButton.isHidden = false
+        self.autofillButton.isHidden = false
         self.locationTextHasChanged = true
         self.locationTextEdit.isHidden = false
         self.addLocationTextButton.isEnabled = true
@@ -164,8 +164,8 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.locationPicker.isHidden = false
         self.locationPicker.selectRow(self.findLocationStartRow(), inComponent: 0, animated: false)
         // other View changes
-        self.changeButton.isHidden = true
-        self.changeButton.isEnabled = false
+        self.autofillButton.isHidden = true
+        self.autofillButton.isEnabled = false
         self.addLocationTextButton.isEnabled = false
         self.locationTextEdit.isEnabled = false
         self.chooseDateTextButton.isEnabled = false
@@ -194,12 +194,12 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.save.isEnabled = true
         self.save.isHidden = false
         self.locationPicker.isHidden = true
-        self.changeButton.isEnabled = true
+        self.autofillButton.isEnabled = true
         self.chooseDateTextButton.isEnabled = true
         self.addLocationTextButton.isEnabled = true
         self.locationTextEdit.isEnabled = true
         self.locationTextEdit.isHidden = false
-        self.changeButton.isHidden = false
+        self.autofillButton.isHidden = false
         self.locationTextHasChanged = true
         
     }
@@ -210,7 +210,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         
         self.createDateAddSubview()
         // disable \ hide stuff
-        self.changeButton.isHidden = true
+        self.autofillButton.isHidden = true
         self.chooseDateTextButton.isEnabled = false
         self.addLocationTextButton.isEnabled = false
         self.save.isHidden = true
@@ -231,7 +231,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.save.isEnabled = true
         self.chooseDateTextButton.isEnabled = true
         self.addLocationTextButton.isEnabled = true
-        self.changeButton.isHidden = false
+        self.autofillButton.isHidden = false
         self.save.isEnabled = true
         self.save.isHidden = false
         self.locationStackView.isHidden = false
@@ -400,6 +400,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         let datePickerView: UIDatePicker = UIDatePicker(frame: datePickerRect)
         datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
         datePickerView.date = self.datePlaced
+        datePickerView.maximumDate = Date()
         return datePickerView
         
     }

@@ -214,7 +214,7 @@
                                     </fragment>
                                 </attributedString>
                                 <connections>
-                                    <action selector="changeTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="DPf-hx-rk0"/>
+                                    <action selector="autofillTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="cmc-sZ-O02"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="add" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejS-YQ-rca">
@@ -265,9 +265,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addLocationTextButton" destination="suw-Ai-Pxz" id="7ja-7P-Z5r"/>
+                        <outlet property="autofillButton" destination="ynp-FM-Qea" id="p6a-DJ-tSw"/>
                         <outlet property="bigGap" destination="nz8-r5-Kzo" id="O6R-1C-jce"/>
                         <outlet property="bigGap2" destination="KTZ-2V-ijz" id="cMI-Vd-uZi"/>
-                        <outlet property="changeButton" destination="ynp-FM-Qea" id="T0Z-zx-qdt"/>
                         <outlet property="chooseDateTextButton" destination="tNJ-il-X3d" id="xiX-wL-sVr"/>
                         <outlet property="dateAndTimePlaced" destination="1DI-qg-8qA" id="2mZ-zd-DM7"/>
                         <outlet property="expirationDateLabel" destination="vei-Lg-bch" id="15R-Br-99D"/>
