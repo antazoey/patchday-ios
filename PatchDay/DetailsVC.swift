@@ -84,21 +84,41 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     // Save Button
+    // 1.) Side effects related to schedule animation
+    // 2.) Save data
+    // 3.) Request notifications
+    // 4.) Notification badge number config
+    // 5.) Segue back to the ScheduleVC
     @IBAction private func saveButtonTapped(_ sender: Any) {
         let moCount = ScheduleController.schedule().datePlacedCount()
+        
+        // Schedule animation side-effects
         ScheduleController.indexOfChangedDelivery = (moCount != UserDefaultsController.getQuantityInt() && self.dateTextHasChanged) ? moCount : (self.reference - 1)
-        print("Index for animated schedule button: " + String(describing: ScheduleController.indexOfChangedDelivery))
-        self.saveAttributes()
-        self.requestNotifications()
         ScheduleController.animateScheduleFromChangeDelivery = true
-        // lower badge number if necessary
+        print("Index for animated schedule button: " + String(describing: ScheduleController.indexOfChangedDelivery))
+        
+        // ***** CONFIG BADGE ICON *****
         if let mo = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
-            if mo .isExpired(timeInterval: UserDefaultsController.getTimeInterval()) && UIApplication.shared.applicationIconBadgeNumber > 0 {
-                UIApplication.shared.applicationIconBadgeNumber -= 1
+        
+            let wasExpiredBeforeSave: Bool = mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
+            self.saveAttributes()
+            let isExpiredAfterSave = mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
+            
+            // New MO is fresh
+            if !isExpiredAfterSave && UIApplication.shared.applicationIconBadgeNumber > 0 {
+                    UIApplication.shared.applicationIconBadgeNumber -= 1
             }
+                
+            // New MO is not fresh
+            else if !wasExpiredBeforeSave && isExpiredAfterSave {
+                UIApplication.shared.applicationIconBadgeNumber += 1
+            }
+        
         }
         
-        // transition
+        self.requestNotifications()
+        
+        // Transition
         if let navCon = self.navigationController {
             navCon.popViewController(animated: true)
         }
@@ -106,14 +126,11 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     @IBAction private func autofillTapped(_ sender: Any) {
-        // Location is a suggested by SLP's alg.,
-        // Date is now.
-        self.autoPickLocation()
-        self.autoPickDate()
-        // Enable save button
+        self.autoPickLocation()                                // Loc from SLF
+        self.autoPickDate()                                    // Date is now.
         self.save.isEnabled = true
         self.save.isHidden = false
-        // Bools
+        // ** Bools for saving **
         self.dateTextHasChanged = true
         self.locationTextHasChanged = true
         
