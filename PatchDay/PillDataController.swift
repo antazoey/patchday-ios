@@ -243,7 +243,7 @@ public class PillDataController: NSObject {
     
     // containsDue() : Returns true if any pill in the schedule needs to be taken (isDue()).
     static public func containsDue() -> Bool {
-        return isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time) || (self.includePG && isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time))
+        return (self.includeTB && isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time)) || (self.includePG && isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time))
     }
     
     // isDue(timesday, stamp, time1, time2) : Returns true if it is time to take a TB or a PG, determined by if the current time is after the time it is due.

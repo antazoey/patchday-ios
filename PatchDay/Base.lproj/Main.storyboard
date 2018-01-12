@@ -787,32 +787,21 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="MWd-0N-S80">
                                         <rect key="frame" x="10" y="10" width="355" height="745"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yL0-xU-md0">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ib6-yR-rGr">
                                                 <rect key="frame" x="0.0" y="0.0" width="355" height="50"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ib6-yR-rGr">
-                                                        <rect key="frame" x="0.0" y="2" width="335" height="50"/>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="title that indicated where the Schedule settings starts">
-                                                                <attributes>
-                                                                    <font key="NSFont" metaFont="smallSystem"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <constraints>
-                                                    <constraint firstItem="ib6-yR-rGr" firstAttribute="leading" secondItem="yL0-xU-md0" secondAttribute="leading" id="6ps-tb-qRl"/>
-                                                    <constraint firstAttribute="trailing" secondItem="ib6-yR-rGr" secondAttribute="trailing" constant="20" id="F7K-bG-gKO"/>
-                                                    <constraint firstAttribute="height" constant="50" id="jOi-QR-7Wh"/>
-                                                    <constraint firstItem="ib6-yR-rGr" firstAttribute="top" secondItem="yL0-xU-md0" secondAttribute="top" constant="2" id="ox2-7k-Nzr"/>
-                                                </constraints>
-                                            </view>
+                                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <attributedString key="userComments">
+                                                    <fragment content="title that indicated where the Schedule settings starts">
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="smallSystem"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t4w-Be-afn">
                                                 <rect key="frame" x="0.0" y="50" width="355" height="1"/>
                                                 <color key="backgroundColor" white="0.62330005787037035" alpha="1" colorSpace="calibratedWhite"/>
@@ -1049,35 +1038,24 @@
                                                     <constraint firstAttribute="height" constant="35" id="YgO-ir-baR"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tfV-j8-8To">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pills" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfZ-Dh-ehU">
                                                 <rect key="frame" x="0.0" y="276" width="355" height="50"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pills" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lfZ-Dh-ehU">
-                                                        <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="ZzQ-DK-o25"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="title indicating that the below settings are related to Notifications">
-                                                                <attributes>
-                                                                    <font key="NSFont" metaFont="smallSystem"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                    </label>
-                                                </subviews>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="lfZ-Dh-ehU" secondAttribute="trailing" constant="20" id="5vf-KD-gxx"/>
-                                                    <constraint firstItem="lfZ-Dh-ehU" firstAttribute="centerY" secondItem="tfV-j8-8To" secondAttribute="centerY" id="5ye-IO-3uU"/>
-                                                    <constraint firstAttribute="height" constant="50" id="VdX-Tl-P2c"/>
-                                                    <constraint firstItem="lfZ-Dh-ehU" firstAttribute="leading" secondItem="tfV-j8-8To" secondAttribute="leading" id="q3R-Pg-Tik"/>
+                                                    <constraint firstAttribute="height" constant="50" id="ZzQ-DK-o25"/>
                                                 </constraints>
-                                            </view>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                                <attributedString key="userComments">
+                                                    <fragment content="title indicating that the below settings are related to Notifications">
+                                                        <attributes>
+                                                            <font key="NSFont" metaFont="smallSystem"/>
+                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                        </attributes>
+                                                    </fragment>
+                                                </attributedString>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xCP-Hy-JKJ">
                                                 <rect key="frame" x="0.0" y="326" width="355" height="1"/>
                                                 <color key="backgroundColor" white="0.62330005789999998" alpha="1" colorSpace="calibratedWhite"/>
@@ -1602,12 +1580,12 @@
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="g6o-ew-bjB" firstAttribute="height" secondItem="Bnj-1J-6Z3" secondAttribute="height" id="1He-3B-9Br"/>
-                                            <constraint firstItem="lfZ-Dh-ehU" firstAttribute="height" secondItem="ib6-yR-rGr" secondAttribute="height" id="3xv-Uh-YBu"/>
                                             <constraint firstItem="ODK-bV-5od" firstAttribute="width" secondItem="cDC-Ia-0Rx" secondAttribute="width" id="7kJ-Zs-cYS"/>
                                             <constraint firstItem="QgS-fj-cQQ" firstAttribute="width" secondItem="iog-9V-eQV" secondAttribute="width" id="NJH-ne-R78"/>
                                             <constraint firstItem="Bjj-xz-mKu" firstAttribute="height" secondItem="R6v-Ga-j3u" secondAttribute="height" id="QWa-RB-bYu"/>
                                             <constraint firstItem="fkI-tR-fp7" firstAttribute="height" secondItem="ykV-Cl-zPa" secondAttribute="height" id="Tfh-c6-mWr"/>
                                             <constraint firstItem="5Rj-eq-ScY" firstAttribute="height" secondItem="MfG-pA-nid" secondAttribute="height" id="s0r-wF-dci"/>
+                                            <constraint firstItem="lfZ-Dh-ehU" firstAttribute="height" secondItem="ib6-yR-rGr" secondAttribute="height" id="tFd-Ig-iiF"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>

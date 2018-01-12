@@ -120,7 +120,7 @@ class PDStrings {
     
     internal static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the SLF bool from the Settings")
     
-    internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Suggest location' is turned on, the 'Autofill' button from the Details view chooses the optimal general location based on the current general locations in the schedule.  It also enables updating the new details from an expiration notification.", comment: "a descriptive alert message that appears when enabling or disabling the Suggest Location Functionality bool from the Settings")
+    internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Suggest location' is turned on, the 'Autofill' button from the Details view will give you an optimal location!", comment: "a descriptive alert message that appears when enabling or disabling the Suggest Location Functionality bool from the Settings")
     
     // MARK: - disclaimer
     
