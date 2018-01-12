@@ -113,15 +113,6 @@ class ScheduleVC: UIViewController {
     @objc internal func appWillEnterForeground() {
         self.displayScheduleButtons()
     }
-    
-    // MARK: - Segues
-    
-    @objc private func showChangePatchView() {
-        if let sb = storyboard, let navCon = self.navigationController {
-            let changeVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id")
-            navCon.pushViewController(changeVC, animated: true)
-        }
-    }
  
     // MARK: private display funcs
     

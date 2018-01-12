@@ -9,6 +9,8 @@
 import Foundation
 
 public typealias Time = Date
+public typealias Stamp = Date
+public typealias Stamps = [Stamp?]?
 
 public class PillDataController: NSObject {
     
@@ -22,7 +24,7 @@ public class PillDataController: NSObject {
     static private var tb2_time: Time = Time()      // 2nd time should take
     static private var remindTB: Bool = true        // notification?
     
-    static public var tb_stamps: [Date?]?           // last time taken
+    static public var tb_stamps: Stamps             // last time taken
     
     // PG data
     static private var includePG: Bool = false      // include progesterone
@@ -31,7 +33,7 @@ public class PillDataController: NSObject {
     static private var pg2_time: Time = Time()      // 2nd time should take
     static private var remindPG: Bool = true        // notification?
     
-    static public var pg_stamps: [Date?]?           // last time taken
+    static public var pg_stamps: Stamps             // last time taken
     
     public static func setUp() {
         
@@ -174,14 +176,14 @@ public class PillDataController: NSObject {
         defaults.synchronize()
     }
     
-    public static func getLaterStamp(stamps: [Date?]?) -> Date? {
+    public static func getLaterStamp(stamps: Stamps) -> Stamp? {
         if let stamps = stamps {
             return stamps[stamps.count-1]
         }
         return nil
     }
     
-    public static func getOlderStamp(stamps: [Date?]?) -> Date? {
+    public static func getOlderStamp(stamps: Stamps) -> Stamp? {
         if let stamps = stamps {
             return stamps[0]
         }
@@ -189,7 +191,7 @@ public class PillDataController: NSObject {
     }
     
     // take(this, at) : Translates to takePG(at) or takeTB(at) (legacy)
-    public static func take(this: inout [Date?]?, at: Date, timesaday: Int, key: String) {
+    public static func take(this: inout Stamps, at: Date, timesaday: Int, key: String) {
         /*----------------------------------------
          if...
             1.) taken pills at some point OR
@@ -241,16 +243,16 @@ public class PillDataController: NSObject {
     
     // containsDue() : Returns true if any pill in the schedule needs to be taken (isDue()).
     static public func containsDue() -> Bool {
-        return isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time) || isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time)
+        return isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time) || (self.includePG && isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time))
     }
     
     // isDue(timesday, stamp, time1, time2) : Returns true if it is time to take a TB or a PG, determined by if the current time is after the time it is due.
-    static public func isDue(timesaday: Int, stamps: [Date?]?, time1: Time, time2: Time) -> Bool {
+    static public func isDue(timesaday: Int, stamps: Stamps, time1: Time, time2: Time) -> Bool {
         
         // **** 1st due time is valid ****
         if let due_t1: Date = self.getTodayDate(at: time1) {
-            // *** User took pill at least once ***
-            if let stamps: [Date?] = stamps, stamps.count >= 1, let s1: Date = stamps[0] {
+            // *** User took pill at least once historically ***
+            if let stamps: [Stamp?] = stamps, stamps.count >= 1, let s1: Stamp = stamps[0] {
                 // ** one-a-day **
                 if timesaday < 2 {
                     return self.notTakenAndPastDue(correspondingStamp: s1, dueDate: due_t1)
@@ -259,8 +261,8 @@ public class PillDataController: NSObject {
                 // ** two-a-day **
                 else if let due_t2: Date = self.getTodayDate(at: time2) {
                     // * Have taken pill at least twice *
-                    if stamps.count > 1, let s2: Date = stamps[1] {
-                        let s1Stamped = self.wasStampedToday(stamp: s1)
+                    if stamps.count > 1, let s2: Stamp = stamps[1] {
+                        let s1Stamped = Calendar.current.isDate(s1, inSameDayAs: Date())
                         // true if...
                         // 1.) pill 1 was taken and pill 2 has yet to be taken and is past due OR
                         // 2.) pill 1 has yet to be taken and is past due
@@ -269,7 +271,7 @@ public class PillDataController: NSObject {
                     // * Have yet to taken second pill ever *
                     else {
                         // The first was stamp was today, so it makes sense to look at second
-                        if self.wasStampedToday(stamp: s1) {
+                        if Calendar.current.isDate(s1, inSameDayAs: Date()) {
                             // true if...
                             // 1.) pill time 2 is past due AND
                             // 2.) the second pill
@@ -304,18 +306,13 @@ public class PillDataController: NSObject {
         self.defaults.set(nil, forKey: PDStrings.pgStamp_key())
         self.synchonize()
     }
-    
-    static public func wasStampedToday(stamp: Date) -> Bool {
-        if Date().timeIntervalSince(stamp) < 86400 {
-            return true
-        }
-        return false
-    }
-    
+
     // allStampedToday(stamps) : Returns true of all the stamps were stamped today.
-    static public func allStampedToday(stamps: [Date?]?, timesaday: Int) -> Bool {
+    static public func allStampedToday(stamps: Stamps, timesaday: Int) -> Bool {
+        let calendar = Calendar.current
+        let now = Date()
         if let stamps = stamps, timesaday == stamps.count {
-            return (timesaday == 1) ? wasStampedToday(stamp: stamps[0]!) : (self.wasStampedToday(stamp: stamps[0]!) && self.wasStampedToday(stamp: stamps[1]!))
+            return (timesaday == 1) ? calendar.isDate(stamps[0]!, inSameDayAs: now) : calendar.isDate(stamps[0]!, inSameDayAs: now) && calendar.isDate(stamps[1]!, inSameDayAs: now)
         }
         // Gets here if...
         // 1.) not stamps on record
@@ -323,11 +320,13 @@ public class PillDataController: NSObject {
         return false
     }
     
-    
-    static public func useSecondTime(timesaday: Int, stamp: Date?) -> Bool {
+    // useSecondTime(timesaday, stamp) : Returns true if...
+    // 1.) timesaday == 2
+    // 2.) was already stamped at least once today
+    static public func useSecondTime(timesaday: Int, stamp: Stamp?) -> Bool {
         if timesaday == 1 { return false }
-        if let s = stamp {
-            return self.wasStampedToday(stamp: s)
+        if let s: Stamp = stamp {
+            return Calendar.current.isDate(s, inSameDayAs: Date())
         }
         return false
     }
@@ -383,19 +382,19 @@ public class PillDataController: NSObject {
     }
     
     static private func loadTB1Time() {
-        if let tb_t = self.defaults.object(forKey: PDStrings.tbTime_key()) as? Date {
+        if let tb_t = self.defaults.object(forKey: PDStrings.tbTime_key()) as? Time {
             self.tb1_time = tb_t
         }
     }
     
     static private func loadTB2time() {
-        if let tb_t2 = self.defaults.object(forKey: PDStrings.tb2Time_key()) as? Date {
+        if let tb_t2 = self.defaults.object(forKey: PDStrings.tb2Time_key()) as? Time {
             self.tb2_time = tb_t2
         }
     }
     
     static private func loadTBTaken() {
-        if let stamp = self.defaults.object(forKey: PDStrings.tbStamp_key()) as? [Date] {
+        if let stamp = self.defaults.object(forKey: PDStrings.tbStamp_key()) as? [Stamp] {
             self.tb_stamps = stamp
         }
     }
@@ -421,19 +420,19 @@ public class PillDataController: NSObject {
     }
     
     static private func loadPG1Time() {
-        if let pg_t = self.defaults.object(forKey: PDStrings.pgTime_key()) as? Date {
+        if let pg_t = self.defaults.object(forKey: PDStrings.pgTime_key()) as? Time {
             self.pg1_time = pg_t
         }
     }
     
     static private func loadPG2time() {
-        if let pg_t2 = self.defaults.object(forKey: PDStrings.pg2Time_key()) as? Date {
+        if let pg_t2 = self.defaults.object(forKey: PDStrings.pg2Time_key()) as? Time {
             self.pg2_time = pg_t2
         }
     }
     
     static private func loadPGTaken() {
-        if let stamp = self.defaults.object(forKey: PDStrings.pgStamp_key()) as? [Date] {
+        if let stamp = self.defaults.object(forKey: PDStrings.pgStamp_key()) as? [Stamp] {
             self.pg_stamps = stamp
         }
     }
@@ -451,10 +450,12 @@ public class PillDataController: NSObject {
     }
     
     /******************************************************************************
-     notTakenAndPastDue(stamp, dueDate) : Returns true if the pill was not taken yet today AND
-     it's past due.  Is called by isDue(...).
+     notTakenAndPastDue(stamp, dueDate) : Returns true if...
+     1.) the pill was not taken yet today AND
+     2.) it's past due.
+     Is called by isDue(...).
      ******************************************************************************/
-    static private func notTakenAndPastDue(correspondingStamp: Date, dueDate: Date) -> Bool {
-        return !self.wasStampedToday(stamp: correspondingStamp) && self.isInPast(this: dueDate)
+    static private func notTakenAndPastDue(correspondingStamp: Stamp, dueDate: Date) -> Bool {
+        return !Calendar.current.isDate(correspondingStamp, inSameDayAs: Date()) && self.isInPast(this: dueDate)
     }
 }

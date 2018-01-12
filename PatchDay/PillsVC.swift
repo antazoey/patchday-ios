@@ -69,14 +69,14 @@ class PillsVC: UIViewController {
     // MARK: - IBActions
     
     @IBAction func tb_tapped(_ sender: Any) {
-        let stamp = Date()
+        let stamp = Stamp()
         PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.tbStamp_key())
         self.disableTB(stamp: stamp)
         (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
     }
     
     @IBAction func pg_tapped(_ sender: Any) {
-        let stamp = Date()
+        let stamp = Stamp()
         PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.pgStamp_key())
         self.disablePG(stamp: stamp)
         (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
@@ -84,14 +84,14 @@ class PillsVC: UIViewController {
     
     // MARK: - Private / Helpers
     
-    private func disableTB(stamp: Date) {
+    private func disableTB(stamp: Stamp) {
         self.tb_time.setTitle(PillDataController.format(date: stamp), for: .normal)
         self.tb_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
         self.tb_time.isEnabled = false
         self.tb_button.isEnabled = false
     }
     
-    private func disablePG(stamp: Date) {
+    private func disablePG(stamp: Stamp) {
         self.pg_time.setTitle(PillDataController.format(date: stamp), for: .normal)
         self.pg_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
         self.pg_time.isEnabled = false
@@ -99,26 +99,34 @@ class PillsVC: UIViewController {
     }
     
     // appear(including, stamps, timesaday, first_t, second_t, mode) : This function appears all the details of pill related UI features for either TB or PG, depending on if mode = 0 for TB or 1 for PG.  This function will indicate whether the pill is due for taking or has been fully taken for the day.
-    private func appear(including: Bool, stamps: [Date?]?, timesaday: Int, first_t: Time, second_t: Time, mode: Int) {
+    private func appear(including: Bool, stamps: Stamps, timesaday: Int, first_t: Time, second_t: Time, mode: Int) {
         let timeButtons = [self.tb_time, self.pg_time]
         let timeArrows = [self.tb_button, self.pg_button]
         if including, let tb = timeButtons[mode], let ta = timeArrows[mode] {
             let isDue = PillDataController.isDue(timesaday: timesaday, stamps: stamps, time1: first_t, time2: second_t)
-            if let laterStamp = PillDataController.getLaterStamp(stamps: stamps) {
-                // If isDue, make it red say " - due"
+            if let laterStamp: Stamp = PillDataController.getLaterStamp(stamps: stamps) {
+                
+                //**********************************
+                // RED w/ " - due"
+                // Uses a "time" instead of a "stamp" when due
                 if isDue {
-                    tb.setTitle(PillDataController.format(time: laterStamp) + " - " + PDStrings.due, for: .normal)
+                    let time: Time = (PillDataController.useSecondTime(timesaday: timesaday, stamp: laterStamp)) ? second_t : first_t
+                    tb.setTitle(PillDataController.format(time: time) + " - " + PDStrings.due, for: .normal)
                     tb.setTitleColor(UIColor.red, for: .normal)
                     ta.setTitleColor(UIColor.red, for: .normal)
                     return
                 }
-                // Both pills taken today, disable it
-                else if let earlierStamp = PillDataController.getOlderStamp(stamps: stamps), PillDataController.allStampedToday(stamps: stamps, timesaday: timesaday)  {
+                    
+                //**********************************
+                // GRAY w/ disabled: Both pills taken today
+                else if let earlierStamp: Stamp = PillDataController.getOlderStamp(stamps: stamps), PillDataController.allStampedToday(stamps: stamps, timesaday: timesaday)  {
                     mode == 0 ? self.disableTB(stamp: earlierStamp) : self.disablePG(stamp: earlierStamp)
                     print("Both pills taken")
                     return
                 }
-                // Otherwise, leave it regular (blue and enabled and displaying last stamp)
+                    
+                //**********************************
+                // BLUE: w/ enabled
                 else {
                     tb.setTitle(PillDataController.format(date: laterStamp), for: .normal)
                     return

@@ -125,7 +125,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         else {
             if let firstTime = firstTimes[mode] {
                 
-                if stamps[mode] == nil || (!PillDataController.wasStampedToday(stamp: stamps[mode]!)) {
+                if stamps[mode] == nil || !Calendar.current.isDate(stamps[mode]!, inSameDayAs: Date()) {
                     if let todayDate = PillDataController.getTodayDate(at: firstTime) {
                         print("Today Date, First time")
                         choiceDate = todayDate
