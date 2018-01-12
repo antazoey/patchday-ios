@@ -18,18 +18,23 @@ class ScheduleVC: UIViewController {
 
     // ONE
     @IBOutlet weak var deliveryViewOne: UIView!
+    @IBOutlet weak var deliveryImageViewOne: UIImageView!
     @IBOutlet private var deliveryOneButton: UIButton!
     
     // TWO
     @IBOutlet weak var deliveryViewTwo: UIView!
+    
+    @IBOutlet weak var deliveryImageViewTwo: UIImageView!
     @IBOutlet private var deliveryTwoButton: UIButton!
     
     // THREE
     @IBOutlet weak var deliveryViewThree: UIView!
+    @IBOutlet weak var deliveryImageViewThree: UIImageView!
     @IBOutlet private var deliveryThreeButton: UIButton!
     
     // FOUR
     @IBOutlet weak var deliveryViewFour: UIView!
+    @IBOutlet weak var deliveryImageViewFour: UIImageView!
     @IBOutlet private var deliveryFourButton: UIButton!
     
     private var scheduleButtonTapped = 0            // for navigation
@@ -140,12 +145,13 @@ class ScheduleVC: UIViewController {
     private func displayScheduleButtons() {
         let buttons: [UIButton] = [self.deliveryOneButton, self.deliveryTwoButton, self.deliveryThreeButton, self.deliveryFourButton]
         let views: [UIView] = [self.deliveryViewOne, self.deliveryViewTwo, self.deliveryViewThree, self.deliveryViewFour]
+        let img_views: [UIImageView] = [self.deliveryImageViewOne, self.deliveryImageViewTwo, self.deliveryImageViewThree, self.deliveryImageViewFour]
         let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
         // give data and images to patches in schedule
         if self.getCount() > 0 {
             for i in 0...(self.getCount()-1) {
                 if let isB = colorDict[i], i < buttons.count {
-                    self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], isBlue: isB, scheduleIndex: i)
+                    self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], imageView: img_views[i], isBlue: isB, scheduleIndex: i)
                 }
             }
             // disables unused button
@@ -159,11 +165,15 @@ class ScheduleVC: UIViewController {
     }
     
     // makeScheduleButton(scheduleButton, isBlue, scheduleIndex) : called by self. displayScheduleButton(), generated a schedule button with the appropriate properties, including its animation in the cases when loaded from other view controller that change applicable schedule properties.
-    private func makeScheduleButton(scheduleButton: UIButton, onView: UIView, isBlue: Bool, scheduleIndex: Int) {
+    private func makeScheduleButton(scheduleButton: UIButton, onView: UIView, imageView: UIImageView, isBlue: Bool, scheduleIndex: Int) {
         
         scheduleButton.isHidden = false
         let new_bg_img = self.determineScheduleButtonImage(index: scheduleIndex)
         let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex)
+        var expFont: UIFont = UIFont.systemFont(ofSize: 13)
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            expFont = UIFont.systemFont(ofSize: 20)
+        }
         scheduleButton.setTitleColor(PDColors.darkLines, for: .normal)
         
         // Blue views
@@ -176,12 +186,13 @@ class ScheduleVC: UIViewController {
  
         /* -- Animation Process -- */
         if ScheduleController.shouldAnimateFromCurrentConditions(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
-            UIView.transition(with: scheduleButton as UIView, duration: 0.75, options: .transitionFlipFromTop, animations: {
-                scheduleButton.setBackgroundImage(new_bg_img, for: .normal);
-                scheduleButton.setTitle(new_title, for: .normal);
+            UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
+                imageView.image = new_bg_img;
             }) {
                 (void) in
                 print("Making schedule button " + String(scheduleIndex))
+                scheduleButton.setTitle(new_title, for: .normal);
+                scheduleButton.titleLabel!.font = expFont
                 // enable
                 scheduleButton.isEnabled = true
             }
@@ -189,8 +200,9 @@ class ScheduleVC: UIViewController {
         /* -- Default -- */
         /* (happens on startup) */
         else {
-            scheduleButton.setBackgroundImage(new_bg_img, for: .normal)
+            imageView.image = new_bg_img
             scheduleButton.setTitle(new_title, for: .normal)
+            scheduleButton.titleLabel!.font = expFont
             print("Making schedule button " + String(scheduleIndex))
             // enable
             scheduleButton.isEnabled = true
@@ -220,22 +232,22 @@ class ScheduleVC: UIViewController {
         // this hides all the patches that are not in the schedule
         if self.getCount() <= 3 {
             print("Disabling schedule button " + "4")
-            self.disable(unusedButton: self.deliveryFourButton, unusedView: self.deliveryViewFour, shouldAnimate: true)
+            self.disable(unusedButton: self.deliveryFourButton, unusedImgView: self.deliveryImageViewFour, unusedView: self.deliveryViewFour, shouldAnimate: true)
         }
         if self.getCount() <= 2 {
             print("Disabling schedule button " + "3")
-            self.disable(unusedButton: self.deliveryThreeButton, unusedView: self.deliveryViewThree, shouldAnimate: true)
+            self.disable(unusedButton: self.deliveryThreeButton, unusedImgView: self.deliveryImageViewThree, unusedView: self.deliveryViewThree, shouldAnimate: true)
         }
         if self.getCount() == 1 {
             print("Disabling schedule button " + "2")
-            self.disable(unusedButton: self.deliveryTwoButton, unusedView: self.deliveryViewTwo, shouldAnimate: true)
+            self.disable(unusedButton: self.deliveryTwoButton, unusedImgView: self.deliveryImageViewTwo, unusedView: self.deliveryViewTwo, shouldAnimate: true)
         }
-        
     }
     
-    private func disable(unusedButton: UIButton, unusedView: UIView, shouldAnimate: Bool) {
+    private func disable(unusedButton: UIButton, unusedImgView: UIImageView, unusedView: UIView, shouldAnimate: Bool) {
         if shouldAnimate {
-            UIView.transition(with: unusedButton as UIView, duration: 0.75, options: .transitionFlipFromRight, animations: { unusedButton.isHidden = true; unusedView.backgroundColor = self.view.backgroundColor
+            UIView.transition(with: unusedImgView as UIView, duration: 0.75, options: .transitionFlipFromRight, animations: { unusedButton.isHidden = true; unusedView.backgroundColor = self.view.backgroundColor;
+                unusedImgView.image = nil
             }, completion: nil)
         }
         else {
