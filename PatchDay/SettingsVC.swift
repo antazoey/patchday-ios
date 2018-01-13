@@ -505,7 +505,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // 1.) Creates the correct time picker
     // 2.) deselects other pickers
     // 3.) opens the selected picker.
-    func chooseTime(mode: String, timeButton: UIButton, timePickerView: UIView, timesaday: Int) {
+    func chooseTime(mode: String, timeButton: UIButton, timePickerView: UIView, timesaday: Int, startTime: Time, maxOrMin: Time) {
         // create picker view
         let timePickerPoint = CGPoint(x: 0, y: 40)
         let timePickerSize = CGSize(width: 0, height: 0)
@@ -519,23 +519,23 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         switch mode {
         case "t":   // TBLOCK TIME 1 PICKER
             self.tb1_time_picker = timePicker
-            self.tb1_time_picker.date = PillDataController.getTB1Time()
-            self.tb1_time_picker.maximumDate = (timesaday == 2) ? PillDataController.getTB2Time() : nil
+            self.tb1_time_picker.date = startTime
+            self.tb1_time_picker.maximumDate = (timesaday == 2) ? maxOrMin : nil
             break
         case "u":   // TBLOCK TIME 2 PICKER
             self.tb2_time_picker = timePicker
-            self.tb2_time_picker.date = PillDataController.getTB2Time()
-            self.tb2_time_picker.minimumDate = PillDataController.getTB1Time()
+            self.tb2_time_picker.date = startTime
+            self.tb2_time_picker.minimumDate = maxOrMin
             break
         case "p":   // PG TIME 1 PICKER
             self.pg1_time_picker = timePicker
-            self.pg1_time_picker.date = PillDataController.getPG1Time()
-            self.pg2_time_picker.maximumDate = (timesaday == 2) ? PillDataController.getPG2Time() : nil
+            self.pg1_time_picker.date = startTime
+            self.pg1_time_picker.maximumDate = (timesaday == 2) ? maxOrMin : nil
             break
         case "q":   // PG TIME 2 PICKER
             self.pg2_time_picker = timePicker
-            self.pg2_time_picker.date = PillDataController.getPG2Time()
-            self.pg2_time_picker.minimumDate = PillDataController.getPG1Time()
+            self.pg2_time_picker.date = startTime
+            self.pg2_time_picker.minimumDate = maxOrMin
             break
         default:
             print("ERROR: Improper mode for choosing time picker.")
@@ -625,11 +625,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func tb1_tapped(_ sender: Any) {
-        (self.tb1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb1_time_picker, timePickerView: self.tb1_time_picker_view, timeButton: self.tb1_time_big) :  self.chooseTime(mode: "t", timeButton: self.tb1_time_big, timePickerView: self.tb1_time_picker_view, timesaday: PillDataController.getTBDailyInt())
+        (self.tb1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb1_time_picker, timePickerView: self.tb1_time_picker_view, timeButton: self.tb1_time_big) :  self.chooseTime(mode: "t", timeButton: self.tb1_time_big, timePickerView: self.tb1_time_picker_view, timesaday: PillDataController.getTBDailyInt(), startTime: PillDataController.getTB1Time(), maxOrMin: PillDataController.getTB2Time())
     }
     
     @IBAction func tb2_tapped(_ sender: Any) {
-        (self.tb2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb2_time_picker, timePickerView: self.tb2_time_picker_view, timeButton: self.tb2_time_big) :  self.chooseTime(mode: "u", timeButton: self.tb2_time_big, timePickerView: self.tb2_time_picker_view, timesaday: PillDataController.getTBDailyInt())
+        (self.tb2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb2_time_picker, timePickerView: self.tb2_time_picker_view, timeButton: self.tb2_time_big) :  self.chooseTime(mode: "u", timeButton: self.tb2_time_big, timePickerView: self.tb2_time_picker_view, timesaday: PillDataController.getTBDailyInt(), startTime: PillDataController.getTB2Time(), maxOrMin: PillDataController.getTB1Time())
     }
     
     @IBAction func tb_remind_switched(_ sender: Any) {
@@ -676,11 +676,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func pg1_tapped(_ sender: Any) {
-        (self.pg1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg1_time_picker, timePickerView: self.pg1_time_picker_view, timeButton: self.pg1_time_big) :  self.chooseTime(mode: "p", timeButton: self.pg1_time_big, timePickerView: self.pg1_time_picker_view, timesaday: PillDataController.getPGDailyInt())
+        (self.pg1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg1_time_picker, timePickerView: self.pg1_time_picker_view, timeButton: self.pg1_time_big) :  self.chooseTime(mode: "p", timeButton: self.pg1_time_big, timePickerView: self.pg1_time_picker_view, timesaday: PillDataController.getPGDailyInt(), startTime: PillDataController.getPG1Time(), maxOrMin: PillDataController.getPG2Time())
     }
     
     @IBAction func pg2_tapped(_ sender: Any) {
-        (self.pg2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg2_time_picker, timePickerView: self.pg2_time_picker_view, timeButton: self.pg2_time_big) :  self.chooseTime(mode: "q", timeButton: self.pg2_time_big, timePickerView: self.pg2_time_picker_view, timesaday: PillDataController.getPGDailyInt())
+        (self.pg2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg2_time_picker, timePickerView: self.pg2_time_picker_view, timeButton: self.pg2_time_big) :  self.chooseTime(mode: "q", timeButton: self.pg2_time_big, timePickerView: self.pg2_time_picker_view, timesaday: PillDataController.getPGDailyInt(), startTime: PillDataController.getPG2Time(), maxOrMin: PillDataController.getPG1Time())
     }
     
     @IBAction func pg_remind_switched(_ sender: Any) {
