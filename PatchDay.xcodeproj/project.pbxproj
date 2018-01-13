@@ -46,7 +46,6 @@
 		1399391A1FF5DF5200B0041E /* PillDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139939191FF5DF5200B0041E /* PillDataController.swift */; };
 		13C746D11ED781DD00067A67 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* UserDefaultsController.swift */; };
 		13D2E1601FF33573003319DC /* PDNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2E15F1FF33573003319DC /* PDNavigationController.swift */; };
-		13D2E1621FF43F9D003319DC /* SegueFromLeft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13D2E1611FF43F9D003319DC /* SegueFromLeft.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
 		13E0BB5F1EFC23D900939D37 /* PDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5E1EFC23D900939D37 /* PDTests.swift */; };
 		13E980D81EDFA54B0062B144 /* ScheduleVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* ScheduleVC.swift */; };
@@ -129,7 +128,6 @@
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* UserDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		13D2E15F1FF33573003319DC /* PDNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNavigationController.swift; sourceTree = "<group>"; };
-		13D2E1611FF43F9D003319DC /* SegueFromLeft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueFromLeft.swift; sourceTree = "<group>"; };
 		13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertController.swift; sourceTree = "<group>"; };
 		13E0BB5E1EFC23D900939D37 /* PDTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDTests.swift; sourceTree = "<group>"; };
 		13E980D71EDFA54B0062B144 /* ScheduleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleVC.swift; sourceTree = "<group>"; };
@@ -277,7 +275,6 @@
 				1301011F1FE5936E00AEFF7C /* PillsVC.swift */,
 				139754BD1EDA8C4D006C82B8 /* DetailsVC.swift */,
 				13E980D71EDFA54B0062B144 /* ScheduleVC.swift */,
-				13D2E1611FF43F9D003319DC /* SegueFromLeft.swift */,
 				13D2E15F1FF33573003319DC /* PDNavigationController.swift */,
 			);
 			name = ViewControllers;
@@ -505,7 +502,6 @@
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				1340A9E81EE4D4220003EFFA /* PDStrings.swift in Sources */,
 				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,
-				13D2E1621FF43F9D003319DC /* SegueFromLeft.swift in Sources */,
 				13C746D11ED781DD00067A67 /* UserDefaultsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -133,7 +133,6 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         // ** Bools for saving **
         self.dateTextHasChanged = true
         self.locationTextHasChanged = true
-        
     }
     
     // MARK: - Text Edit Functions
@@ -145,9 +144,13 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     internal func textFieldDidBeginEditing(_ textField: UITextField) {
         self.locationTextEdit.isUserInteractionEnabled = true
+        
+        // Use location picker
         if textField.restorationIdentifier == "pick" {
             self.openLocationPicker(textField)
         }
+        
+        // Use keyboard
         else if textField.restorationIdentifier == "type" {
             self.locationTextEdit.text = ""
             self.locationTextEdit.becomeFirstResponder()
@@ -160,7 +163,6 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
  
     }
  
-    
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.locationTextEdit.endEditing(true)
         self.save.isEnabled = true
@@ -232,7 +234,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.addLocationTextButton.isEnabled = false
         self.save.isHidden = true
         self.locationTextEdit.isEnabled = false
-
+        
     }
     
     @objc internal func datePickerDone(sender: UIButton) {
