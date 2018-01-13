@@ -501,10 +501,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - Date Picker funcs
     
-    // chooseTime(mode, timeButton, timePickerView, timesaday) :
+    // chooseTime(mode, timeButton, timePickerView, timesaday, startTime, maxOrMin) :
     // 1.) Creates the correct time picker
     // 2.) deselects other pickers
     // 3.) opens the selected picker.
+    // 4.) Sets max or min (based on other Time) and start time.
     func chooseTime(mode: String, timeButton: UIButton, timePickerView: UIView, timesaday: Int, startTime: Time, maxOrMin: Time) {
         // create picker view
         let timePickerPoint = CGPoint(x: 0, y: 40)
