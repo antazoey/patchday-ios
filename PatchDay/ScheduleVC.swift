@@ -303,7 +303,7 @@ class ScheduleVC: UIViewController {
     }
     
     private func updateBadge() {
-        UIApplication.shared.applicationIconBadgeNumber = expiredPatchCount
+        UIApplication.shared.applicationIconBadgeNumber = expiredPatchCount + PillDataController.totalDue()
     }
     
 }
