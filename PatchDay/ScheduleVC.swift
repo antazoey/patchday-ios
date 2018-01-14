@@ -39,14 +39,13 @@ class ScheduleVC: UIViewController {
     
     private var scheduleButtonTapped = 0            // for navigation
     private var deliveryCount: Int = 1              // for schedule button setup
-    private var expiredPatchCount: Int = 0          // for expired estrogen deliveries
     private var setUpFromViewDidLoad: Bool = true   // for button animation from change patch
+    private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateFromBackground()
         self.view.backgroundColor = PDColors.lighterCuteGray
-        self.updateBadge()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -257,9 +256,6 @@ class ScheduleVC: UIViewController {
             else if mo.isCustomLocated() {
                 let customDict = [true: PDImages.custom_notified, false: PDImages.custom]
                 if let image = customDict[mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())] {
-                    if mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval()) {
-                        expiredPatchCount += 1
-                    }
                     return image
                 }
                 // failed to load custom patch (should never happen, but just in case)
@@ -269,15 +265,9 @@ class ScheduleVC: UIViewController {
             }
             // general located patch
             else {
-                // not expired, normal images
-                if !mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval()) {
-                    return PDImages.stringToImage(imageString: mo.getLocation())
-                }
-                // expired...
-                else {
-                    expiredPatchCount += 1
-                    return PDImages.stringToNotifiedImage(imageString: mo.getLocation())
-                }
+                // not expired, normal images, else, notified image
+                let img = (!mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())) ? PDImages.stringToImage(imageString: mo.getLocation()) : PDImages.stringToNotifiedImage(imageString: mo.getLocation())
+                return img
             }
         }
         // nil patch
@@ -301,9 +291,5 @@ class ScheduleVC: UIViewController {
         }
         return ref
     }
-    
-    private func updateBadge() {
-        UIApplication.shared.applicationIconBadgeNumber = expiredPatchCount + PillDataController.totalDue()
-    }
-    
+
 }

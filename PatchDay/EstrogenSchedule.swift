@@ -152,6 +152,16 @@ public class EstrogenSchedule {
         return true
     }
     
+    public func expiredCount(timeInterval: String) -> Int {
+        var count = 0
+        for mo in supply {
+            if mo.isExpired(timeInterval: timeInterval) {
+                count += 1
+            }
+        }
+        return count
+    }
+    
     public func oldestMOHasNoDateAndIsCustomLocated() -> Bool {
         if let oldestMO = oldestMO() {
             return oldestMO.getdate() == nil && oldestMO.isCustomLocated()

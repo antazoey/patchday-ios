@@ -32,5 +32,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        // Badge correction
+        UIApplication.shared.applicationIconBadgeNumber = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
+    }
+    
+    func applicationWillResignActive(_ application: UIApplication) {
+        // Badge correction
+        UIApplication.shared.applicationIconBadgeNumber = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
+    }
 
 }
