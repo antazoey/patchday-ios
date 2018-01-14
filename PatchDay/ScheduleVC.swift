@@ -160,7 +160,7 @@ class ScheduleVC: UIViewController {
         scheduleButton.isHidden = false
         let new_bg_img = self.determineScheduleButtonImage(index: scheduleIndex)
         let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
-        var expFont: UIFont = UIFont.systemFont(ofSize: 13)
+        var expFont: UIFont = UIFont.systemFont(ofSize: 11)
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
             expFont = UIFont.systemFont(ofSize: 20)
         }
