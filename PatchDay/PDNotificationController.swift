@@ -132,9 +132,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                     }
                 }
                 
-                else if let tomDate = PillDataController.getTomorrowDate(at: firstTime) {
+                else if let tomorrow = PillDataController.getDate(at: firstTime, daysToAdd: 1) {
                     print("Tomorrow Date, First time")
-                    choiceDate = tomDate
+                    choiceDate = tomorrow
                 }
             }
         }

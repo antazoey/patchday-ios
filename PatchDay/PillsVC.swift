@@ -85,15 +85,15 @@ class PillsVC: UIViewController {
     // MARK: - Private / Helpers
     
     private func disableTB(stamp: Stamp) {
-        self.tb_time.setTitle(PillDataController.format(date: stamp), for: .normal)
-        self.tb_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
+        self.tb_time.setTitle(PillDataController.format(date: stamp, useWords: true), for: .normal)
+        self.tb_time.setTitle(PillDataController.format(date: stamp, useWords: true), for: .disabled)
         self.tb_time.isEnabled = false
         self.tb_button.isEnabled = false
     }
     
     private func disablePG(stamp: Stamp) {
-        self.pg_time.setTitle(PillDataController.format(date: stamp), for: .normal)
-        self.pg_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
+        self.pg_time.setTitle(PillDataController.format(date: stamp, useWords: true), for: .normal)
+        self.pg_time.setTitle(PillDataController.format(date: stamp, useWords: true), for: .disabled)
         self.pg_time.isEnabled = false
         self.pg_button.isEnabled = false
     }
@@ -128,7 +128,7 @@ class PillsVC: UIViewController {
                 //**********************************
                 // BLUE: w/ enabled
                 else {
-                    tb.setTitle(PillDataController.format(date: laterStamp), for: .normal)
+                    tb.setTitle(PillDataController.format(date: laterStamp, useWords: true), for: .normal)
                     return
                 }
             }

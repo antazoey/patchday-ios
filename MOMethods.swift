@@ -174,6 +174,10 @@ extension MOEstrogenDelivery {
     
     static public func makeDateString(from: Date) -> String {
         let dateFormatter = DateFormatter()
+        if let word = MOEstrogenDelivery.dateWord(from: from) {
+            dateFormatter.dateFormat = "h:mm a"
+            return word + ", " + dateFormatter.string(from: from)
+        }
         dateFormatter.dateFormat = "EEEE, MMM d, yyyy, h:mm a"
         return dateFormatter.string(from: from)
     }
@@ -190,8 +194,28 @@ extension MOEstrogenDelivery {
     
     public static func dayOfWeekString(date: Date) -> String {
         let dateFormatter = DateFormatter()
+        if let word = MOEstrogenDelivery.dateWord(from: date) {
+            dateFormatter.dateFormat = "h:mm a"
+            return word + ", " + dateFormatter.string(from: date)
+        }
         dateFormatter.dateFormat = "EEEE, h:mm a"
         return dateFormatter.string(from: date)
+    }
+    
+    // MARK: - helpers
+    
+    private static func dateWord(from: Date) -> String? {
+        let calendar = Calendar.current
+        if calendar.isDateInToday(from) {
+            return PDStrings.today_title
+        }
+        else if let yesterday = PillDataController.getDate(at: Date(), daysToAdd: -1), calendar.isDate(from, inSameDayAs: yesterday) {
+            return PDStrings.yesterday_title
+        }
+        else if let tomorrow = PillDataController.getDate(at: Date(), daysToAdd: 1), calendar.isDate(from, inSameDayAs: tomorrow) {
+            return PDStrings.tomorrow_title
+        }
+        return nil
     }
 
 }

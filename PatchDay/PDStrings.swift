@@ -14,6 +14,12 @@ class PDStrings {
     
     // MARK: - Localizable
     
+    internal static var today_title: String = NSLocalizedString("Today", comment: "The word 'today' displayed on a button, don't worry about room.")
+    
+    internal static var yesterday_title: String = NSLocalizedString("Yesterday", comment: "The word 'yesterday' displayed on a button, don't worry about room.")
+    
+    internal static var tomorrow_title: String = NSLocalizedString("Tomorrow", comment: "The word 'tomorrow' displayed on a button, don't worry about room.")
+    
     internal static var count_label: String = NSLocalizedString("Count:", comment: "displaying on label, for choosing number of estrogen deliveries")
     
     internal static var beforeExpiration_label: String = NSLocalizedString("Before expiration:", comment: "for indicating whether the user wants to recieve a notification before an expiration")

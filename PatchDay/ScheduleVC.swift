@@ -159,7 +159,7 @@ class ScheduleVC: UIViewController {
         
         scheduleButton.isHidden = false
         let new_bg_img = self.determineScheduleButtonImage(index: scheduleIndex)
-        let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex)
+        let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
         var expFont: UIFont = UIFont.systemFont(ofSize: 13)
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
             expFont = UIFont.systemFont(ofSize: 20)
@@ -200,16 +200,11 @@ class ScheduleVC: UIViewController {
     }
     
     // called by self.makeScheduleButton()
-    private func determineScheduleButtonTitle(scheduleIndex: Int) -> String {
+    private func determineScheduleButtonTitle(scheduleIndex: Int, timeInterval: String) -> String {
         var title: String = ""
         if let mo = ScheduleController.coreData.getMO(forIndex: scheduleIndex) {
             if mo.getdate() != nil {
-                if mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval()) {
-                    title += PDStrings.patchExpired_string
-                }
-                else {
-                    title += PDStrings.patchExpires_string
-                }
+                title += (mo.isExpired(timeInterval: timeInterval)) ? PDStrings.patchExpired_string : PDStrings.patchExpires_string
                 title += MOEstrogenDelivery.dayOfWeekString(date: mo.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
             }
             return title

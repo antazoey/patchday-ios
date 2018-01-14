@@ -235,8 +235,20 @@ public class PillDataController: NSObject {
     }
     
     // format(date) : Input pill time, output date string
-    static public func format(date: Date) -> String {
+    static public func format(date: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
+        let calendar = Calendar.current
+        
+        if useWords {
+            if calendar.isDateInToday(date) {
+                dateFormatter.dateFormat = "h:mm a"
+                return PDStrings.today_title + ", " + dateFormatter.string(from: date)
+            }
+            else if let yesterday: Date = PillDataController.getDate(at: Date(), daysToAdd: -1), calendar.isDate(date, inSameDayAs: yesterday) {
+                dateFormatter.dateFormat = "h:mm a"
+                return PDStrings.yesterday_title + ", " + dateFormatter.string(from: date)
+            }
+        }
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: date)
     }
@@ -343,9 +355,8 @@ public class PillDataController: NSObject {
         return false
     }
     
-    static public func getTomorrowDate(at: Time) -> Date? {
+    static public func getDate(at: Time, daysToAdd: Int) -> Date? {
         let calendar = Calendar.current
-        let daysToAdd = 1
         var addComponents = DateComponents()
         addComponents.day = daysToAdd
         if let tom = calendar.date(byAdding: addComponents, to: Date()) {
