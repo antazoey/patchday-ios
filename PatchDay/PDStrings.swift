@@ -26,7 +26,7 @@ class PDStrings {
     
     internal static var nothing_yet_placeholder: String = NSLocalizedString("Nothing yet", comment: "A placeholder where a date will go")
     
-    internal static var emptyDate_placeholder: String = NSLocalizedString("choose date", comment: "placeholder in date text field")
+    internal static var emptyDate_placeholder: String = NSLocalizedString("Choose date.", comment: "placeholder in date text field")
     
     internal static var pills: String = NSLocalizedString("Pills", comment: "title of a nav bar button item for navigating to a pill schedule view")
     
@@ -55,7 +55,7 @@ class PDStrings {
     
     internal static var auto_string: String = NSLocalizedString("Autofill", comment: "Label for autofilling properties")
     
-    internal static var emptyLocationInstruction: String = NSLocalizedString("type or choose location", comment: "placeholder in location text field when")
+    internal static var emptyLocationInstruction: String = NSLocalizedString("Type or choose location.", comment: "placeholder in location text field when")
     
     internal static var expirationIntervals: [String] = [NSLocalizedString("One half-week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("One week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("Two weeks", comment: "Displayed in a picker.")]
     
