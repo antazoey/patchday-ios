@@ -385,6 +385,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 if key == PDStrings.count_key() {
                     ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
                 }
+                else if key == PDStrings.tb_daily_key() {
+                    self.tb2_time_big.setTitle(PillDataController.format(time: PillDataController.getTB2Time()), for: .normal)
+                }
+                else if key == PDStrings.pg_daily_key() {
+                    self.pg2_time_big.setTitle(PillDataController.format(time: PillDataController.getPG2Time()), for: .normal)
+                }
                 self.saveFromPicker(key: key)
             }
             return
@@ -597,6 +603,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.disableExtraTB()
         // USER JUST TURNED IT ON
         if self.tb_switch.isOn {
+            self.tb1_time_big.setTitle(PillDataController.format(time: PillDataController.getTB1Time()), for: .normal)
+            self.tb2_time_big.setTitle(PillDataController.format(time: PillDataController.getTB2Time()), for: .normal)
             self.tb1_time_big.isEnabled = true
             self.tb1_time_small.isEnabled = true
             self.tb_daily_big.isEnabled = true
@@ -617,6 +625,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             self.tb_daily_big.isEnabled = false
             self.tb_daily_small.isEnabled = false
             self.tb_remind_switch.isEnabled = false
+            PillDataController.setTBDaily(to: 1)
+            self.loadTBDaily()
+            self.disableTBTime2()
             PillDataController.resetTB()
         }
     }
@@ -646,6 +657,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.disableExtraPG()
         // USER JUST TURNED IT ON
         if self.pg_switch.isOn {
+            self.pg1_time_big.setTitle(PillDataController.format(time: PillDataController.getPG1Time()), for: .normal)
+            self.pg2_time_big.setTitle(PillDataController.format(time: PillDataController.getPG2Time()), for: .normal)
             self.pg1_time_big.isEnabled = true
             self.pg1_time_small.isEnabled = true
             self.pg_daily_big.isEnabled = true
@@ -667,6 +680,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             self.pg_daily_big.isEnabled = false
             self.pg_daily_small.isEnabled = false
             self.pg_remind_switch.isEnabled = false
+            self.disablePGTime2()
+            PillDataController.setPGDaily(to: 1)
+            self.loadPGDaily()
             PillDataController.resetPG()
             
         }
