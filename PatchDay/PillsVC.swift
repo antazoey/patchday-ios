@@ -25,6 +25,8 @@ class PillsVC: UIViewController {
     @IBOutlet weak var pg_time: UIButton!
     @IBOutlet weak var pg_button: UIButton!
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateFromBackground()
@@ -77,14 +79,14 @@ class PillsVC: UIViewController {
         let stamp = Stamp()
         PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.tbStamp_key())
         self.disableTB(stamp: stamp)
-        (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
+        appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
     }
     
     @IBAction func pg_tapped(_ sender: Any) {
         let stamp = Stamp()
         PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.pgStamp_key())
         self.disablePG(stamp: stamp)
-        (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
+        appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
     }
     
     // MARK: - Private / Helpers
