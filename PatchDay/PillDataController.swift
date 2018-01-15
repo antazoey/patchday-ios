@@ -39,7 +39,7 @@ public class PillDataController: NSObject {
         
         // Load TB Data
         self.loadIncludeTB()
-        self.loadTBTimesaday()
+        self.loadTBDaily()
         self.loadTB1Time()
         self.loadTB2time()
         self.loadTBTaken()
@@ -394,11 +394,17 @@ public class PillDataController: NSObject {
         if let i_tb = self.defaults.object(forKey: PDStrings.includeTB_key()) as? Bool {
             self.includeTB = i_tb
         }
+        else {
+            self.setIncludeTB(to: true)
+        }
     }
     
-    static private func loadTBTimesaday() {
+    static private func loadTBDaily() {
         if let tb_x = self.defaults.object(forKey: PDStrings.tb_daily_key()) as? Int {
             self.tb_daily = tb_x
+        }
+        else {
+            self.setTBDaily(to: 1)
         }
     }
     
@@ -406,11 +412,17 @@ public class PillDataController: NSObject {
         if let tb_t = self.defaults.object(forKey: PDStrings.tbTime_key()) as? Time {
             self.tb1_time = tb_t
         }
+        else {
+            self.setTB1Time(to: Date())
+        }
     }
     
     static private func loadTB2time() {
         if let tb_t2 = self.defaults.object(forKey: PDStrings.tb2Time_key()) as? Time {
             self.tb2_time = tb_t2
+        }
+        else {
+            self.setTB2Time(to: Date())
         }
     }
     
@@ -424,6 +436,9 @@ public class PillDataController: NSObject {
         if let r = self.defaults.object(forKey: PDStrings.rTB_key()) as? Bool {
             self.remindTB = r
         }
+        else {
+            self.setRemindTB(to: false)
+        }
     }
     
     // MARK: - PG Loaders
@@ -432,11 +447,17 @@ public class PillDataController: NSObject {
         if let i_pg = self.defaults.object(forKey: PDStrings.includePG_key()) as? Bool {
             self.includePG = i_pg
         }
+        else {
+            self.setIncludePG(to: true)
+        }
     }
     
     static private func loadPGTimesaday() {
         if let pg_x = self.defaults.object(forKey: PDStrings.pg_daily_key()) as? Int {
             self.pg_daily = pg_x
+        }
+        else {
+            self.setPGDaily(to: 1)
         }
     }
     
@@ -444,11 +465,17 @@ public class PillDataController: NSObject {
         if let pg_t = self.defaults.object(forKey: PDStrings.pgTime_key()) as? Time {
             self.pg1_time = pg_t
         }
+        else {
+            self.setPG1Time(to: Date())
+        }
     }
     
     static private func loadPG2time() {
         if let pg_t2 = self.defaults.object(forKey: PDStrings.pg2Time_key()) as? Time {
             self.pg2_time = pg_t2
+        }
+        else {
+            self.setPG2Time(to: Date())
         }
     }
     
@@ -461,6 +488,9 @@ public class PillDataController: NSObject {
     static private func loadRemindPG() {
         if let r = self.defaults.object(forKey: PDStrings.rPG_key()) as? Bool {
             self.remindPG = r
+        }
+        else {
+            self.setRemindPG(to: false)
         }
     }
     
