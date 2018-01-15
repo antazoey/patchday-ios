@@ -196,9 +196,12 @@ public class UserDefaultsController: NSObject {
             if let countInt = Int(countStr), (countInt >= 1 || countInt <= 4) {
                 self.quantity = countStr
             }
+            else {
+                self.setQuantityWithoutWarning(to: PDStrings.counts[2])
+            }
         }
         else {
-            self.setTimeInterval(to: PDStrings.counts[0])
+            self.setQuantityWithoutWarning(to: PDStrings.counts[2])
         }
     }
     
