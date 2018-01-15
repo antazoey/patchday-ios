@@ -21,6 +21,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     internal var sendingNotifications = true
     
+    internal var pillMode: Int = -1
+    
     override init() {
         super.init()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
@@ -38,9 +40,30 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 // Suggested date and time is the current date and time.
                 let suggestDate = Date()
                 ScheduleController.coreData.setMO(scheduleIndex: currentScheduleIndex, date: suggestDate, location: suggestedLocation)
-                // badge count --
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
+        }
+        if response.actionIdentifier == "takeActionID" {
+            let keys = [PDStrings.tbStamp_key(), PDStrings.pgStamp_key()]
+            let dailies = [PillDataController.getTBDailyInt(), PillDataController.getPGDailyInt()]
+            var stamps: Stamps = []
+            // Temp stamps gets member stamps
+            if self.pillMode == 0, let tb_s = PillDataController.tb_stamps{
+                stamps = tb_s
+            }
+            else if self.pillMode == 1 , let pg_s = PillDataController.pg_stamps {
+                stamps = pg_s
+            }
+            // Take, use temp stamps
+            PillDataController.take(this: &stamps, at: Date(), timesaday: dailies[self.pillMode], key: keys[self.pillMode])
+            // Member stamps get temp stamps
+            if self.pillMode == 0 {
+                PillDataController.tb_stamps = stamps
+            }
+            else if self.pillMode == 1 {
+                PillDataController.pg_stamps = stamps
+            }
+            UIApplication.shared.applicationIconBadgeNumber -= 1
         }
     }
 
@@ -58,12 +81,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.title = PDStrings.patchExpired_title
             content.body = mo.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
-            content.badge = 1
+            content.badge = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
             let allowsSLF = UserDefaultsController.getSLF()
             if allowsSLF {
                 // changeAction is an action for changing the patch from a notification using the Suggest Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
                 let changeAction = UNNotificationAction(identifier: "changeActionID",
-                    title: PDStrings.auto_string, options: [])
+                    title: PDStrings.autoChange_string, options: [])
                 
                 // add the action int the category
                 let changeCategory = UNNotificationCategory(identifier: "changeCategoryID", actions: [changeAction], intentIdentifiers: [], options: [])
@@ -80,6 +103,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
+                print("TRIGGER")
+                print(trigger)
                 if let id = PDStrings.changeSoonIDs[scheduleIndex] {
                     let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
@@ -97,6 +122,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                                    mode = 1 means PG.
     ****************************************************/
     internal func requestNotifyTakePill(mode: Int) {
+        self.pillMode = mode
+        if !sendingNotifications {
+            return
+        }
         // Each array is 1x2, mode picks the correct values corresponding to TB or PG.
         let titles: [String] = [PDStrings.takeTBNotificationTitle, PDStrings.takePGNotificationTitle]
         let messages: [String] = [PDStrings.takeTBNotificationMessage, PDStrings.takePGNotificationMessage]
@@ -110,11 +139,17 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         content.title = titles[mode]
         content.body = messages[mode]
         content.sound = UNNotificationSound.default()
-        content.badge = 1
+        content.badge = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
+        
+        // Take Action
+        let takeAction = UNNotificationAction(identifier: "takeActionID",
+                                                title: PDStrings.take, options: [])
+        let takeCategory = UNNotificationCategory(identifier: "takeCategoryID", actions: [takeAction], intentIdentifiers: [], options: [])
+        self.center.setNotificationCategories([takeCategory])
+        content.categoryIdentifier = "takeCategoryID"
         
         // Interval determination - TB1 or TB2? (or PG1 or PG2)
         let usingSecondTime = PillDataController.useSecondTime(timesaday: timesadays[mode], stamp: stamps[mode])
-        print("Pill Notification using second time: " + String(describing: usingSecondTime))
         var choiceDate = Date()
         let now = Date()
         // Using Second Time
@@ -124,16 +159,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         // Using First Time
         else {
             if let firstTime = firstTimes[mode] {
-                
                 if stamps[mode] == nil || !Calendar.current.isDate(stamps[mode]!, inSameDayAs: Date()) {
                     if let todayDate = PillDataController.getTodayDate(at: firstTime) {
-                        print("Today Date, First time")
                         choiceDate = todayDate
                     }
                 }
-                
                 else if let tomorrow = PillDataController.getDate(at: firstTime, daysToAdd: 1) {
-                    print("Tomorrow Date, First time")
                     choiceDate = tomorrow
                 }
             }
@@ -153,6 +184,16 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 }
             }
         }
+    }
+    
+    internal func cancelSchedule(index: Int) {
+        if let id = PDStrings.changeSoonIDs[index] {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
+        }
+    }
+    
+    internal func cancelPills(identifiers: [String]) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
     }
     
 }

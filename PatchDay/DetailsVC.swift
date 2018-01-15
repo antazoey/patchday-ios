@@ -62,6 +62,8 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     @IBOutlet private weak var lineUnderExpirationDate: UIView!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = PDColors.pdPink
@@ -116,7 +118,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         
         }
         
-        self.requestNotifications()
+        self.requestNotification()
         
         // Transition
         if let navCon = self.navigationController {
@@ -343,12 +345,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         }
     }
     
-    private func requestNotifications() {
+    private func requestNotification() {
         // request notification iff exists Patch.date
-        if let _ = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(scheduleIndex: self.reference - 1)
-        }
-        
+        appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: self.reference - 1)
     }
     
     // MARK: - Private view creators / MOEstrogenDeliverydifiers

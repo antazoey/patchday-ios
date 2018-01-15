@@ -14,6 +14,8 @@ class PDStrings {
     
     // MARK: - Localizable
     
+    internal static var take: String = NSLocalizedString("Take", comment: "Displayed in a notification action for taking a pill")
+    
     internal static var today_title: String = NSLocalizedString("Today", comment: "The word 'today' displayed on a button, don't worry about room.")
     
     internal static var yesterday_title: String = NSLocalizedString("Yesterday", comment: "The word 'yesterday' displayed on a button, don't worry about room.")
@@ -54,6 +56,8 @@ class PDStrings {
     internal static var patchExpiresSoon_title: String = NSLocalizedString("Patch expires soon", comment: "title of notification about an upcoming expired patch")
     
     internal static var auto_string: String = NSLocalizedString("Autofill", comment: "Label for autofilling properties")
+    
+    internal static var autoChange_string: String = NSLocalizedString("Change to suggested location?", comment: "Label for auto-changing properties in a notification")
     
     internal static var emptyLocationInstruction: String = NSLocalizedString("Type or choose location.", comment: "placeholder in location text field when")
     

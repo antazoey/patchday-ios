@@ -72,7 +72,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet private weak var reminderTimeButton: UIButton!
     @IBOutlet private weak var reminderTimeArrow: UIButton!
     
-    @IBOutlet weak var toScheduleButton: UIButton!
+    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     override func viewDidLoad() {
         
@@ -465,6 +465,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     // configure button title
                     self.tb_daily_big.setTitle(String(c), for: .normal)
                     self.disableExtraTB()
+                    if PillDataController.getRemindTB() {
+                        appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+                    }
                 }
                 else {
                     print("Error saving TB timesday for row " + String(row))
@@ -479,6 +482,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     // configure button title
                     self.pg_daily_big.setTitle(String(c), for: .normal)
                     self.disableExtraPG()
+                    if PillDataController.getRemindPG() {
+                        appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+                    }
                 }
                 else {
                     print("Error saving PG timesday for row " + String(row))
@@ -557,7 +563,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      2.) saves the newly assigned times.
      3.) resends the notification for the correct time
     */
-    internal func datePickerDone(id: String, time: Time, timeButton: UIButton) {
+    internal func datePickerDone(id: String, time: Time, timeButton: UIButton, remind: Bool) {
         
         // ** THIS IS WHERE THE TIME BUTTON TITLE IS SET **
         timeButton.setTitle(PillDataController.format(time: time), for: .normal)
@@ -566,22 +572,30 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             // TB1 TIME
         case "bigT":
             PillDataController.setTB1Time(to: time)
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
+            if remind {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+            }
             break
             // TB2 TIME
         case "bigT2":
             PillDataController.setTB2Time(to: time)
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
+            if remind {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+            }
             break
             // PG1 TIME
         case "bigP":
             PillDataController.setPG1Time(to: time)
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
+            if remind {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+            }
             break
             // PG2 TIME
         case "bigP2":
             PillDataController.setPG2Time(to: time)
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
+            if remind {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+            }
             break
         default:
             print("ERROR: Improper buttonID when closing and saving date picker")
@@ -614,7 +628,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 self.tb2_time_big.isEnabled = true
                 self.tb2_time_small.isEnabled = true
             }
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
+            if PillDataController.getRemindTB() {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+            }
         }
         // USER JUST TURNED IT OFF
         else {
@@ -629,6 +645,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             self.loadTBDaily()
             self.disableTBTime2()
             PillDataController.resetTB()
+            appDelegate.notificationsController.cancelPills(identifiers: [PDStrings.pillIDs[0]])
         }
     }
     
@@ -637,17 +654,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func tb1_tapped(_ sender: Any) {
-        (self.tb1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb1_time_picker, timePickerView: self.tb1_time_picker_view, timeButton: self.tb1_time_big) :  self.chooseTime(mode: "t", timeButton: self.tb1_time_big, timePickerView: self.tb1_time_picker_view, timesaday: PillDataController.getTBDailyInt(), startTime: PillDataController.getTB1Time(), maxOrMin: PillDataController.getTB2Time())
+        (self.tb1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb1_time_picker, timePickerView: self.tb1_time_picker_view, timeButton: self.tb1_time_big, remind: PillDataController.getRemindTB()) :  self.chooseTime(mode: "t", timeButton: self.tb1_time_big, timePickerView: self.tb1_time_picker_view, timesaday: PillDataController.getTBDailyInt(), startTime: PillDataController.getTB1Time(), maxOrMin: PillDataController.getTB2Time())
     }
     
     @IBAction func tb2_tapped(_ sender: Any) {
-        (self.tb2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb2_time_picker, timePickerView: self.tb2_time_picker_view, timeButton: self.tb2_time_big) :  self.chooseTime(mode: "u", timeButton: self.tb2_time_big, timePickerView: self.tb2_time_picker_view, timesaday: PillDataController.getTBDailyInt(), startTime: PillDataController.getTB2Time(), maxOrMin: PillDataController.getTB1Time())
+        (self.tb2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.tb2_time_picker, timePickerView: self.tb2_time_picker_view, timeButton: self.tb2_time_big, remind: PillDataController.getRemindTB()) :  self.chooseTime(mode: "u", timeButton: self.tb2_time_big, timePickerView: self.tb2_time_picker_view, timesaday: PillDataController.getTBDailyInt(), startTime: PillDataController.getTB2Time(), maxOrMin: PillDataController.getTB1Time())
     }
     
     @IBAction func tb_remind_switched(_ sender: Any) {
         let isOn = self.tb_switch.isOn
         if isOn {
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 0)
+            appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+        }
+        else {
+            appDelegate.notificationsController.cancelPills(identifiers: [PDStrings.pillIDs[0]])
         }
         PillDataController.setRemindTB(to: isOn)
     }
@@ -669,7 +689,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 self.pg2_time_big.isEnabled = true
                 self.pg2_time_small.isEnabled = true
             }
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
+            if PillDataController.getRemindPG() {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+            }
         }
         // USER JUST TURNED IT OFF
         else {
@@ -684,6 +706,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             PillDataController.setPGDaily(to: 1)
             self.loadPGDaily()
             PillDataController.resetPG()
+            (UIApplication.shared.delegate as! AppDelegate).notificationsController.cancelPills(identifiers: [PDStrings.pillIDs[1]])
             
         }
     }
@@ -693,17 +716,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func pg1_tapped(_ sender: Any) {
-        (self.pg1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg1_time_picker, timePickerView: self.pg1_time_picker_view, timeButton: self.pg1_time_big) :  self.chooseTime(mode: "p", timeButton: self.pg1_time_big, timePickerView: self.pg1_time_picker_view, timesaday: PillDataController.getPGDailyInt(), startTime: PillDataController.getPG1Time(), maxOrMin: PillDataController.getPG2Time())
+        (self.pg1_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg1_time_picker, timePickerView: self.pg1_time_picker_view, timeButton: self.pg1_time_big, remind: PillDataController.getRemindPG()) :  self.chooseTime(mode: "p", timeButton: self.pg1_time_big, timePickerView: self.pg1_time_picker_view, timesaday: PillDataController.getPGDailyInt(), startTime: PillDataController.getPG1Time(), maxOrMin: PillDataController.getPG2Time())
     }
     
     @IBAction func pg2_tapped(_ sender: Any) {
-        (self.pg2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg2_time_picker, timePickerView: self.pg2_time_picker_view, timeButton: self.pg2_time_big) :  self.chooseTime(mode: "q", timeButton: self.pg2_time_big, timePickerView: self.pg2_time_picker_view, timesaday: PillDataController.getPGDailyInt(), startTime: PillDataController.getPG2Time(), maxOrMin: PillDataController.getPG1Time())
+        (self.pg2_time_picker_view.isHidden == false) ? self.closeTimePicker(timePicker: self.pg2_time_picker, timePickerView: self.pg2_time_picker_view, timeButton: self.pg2_time_big, remind: PillDataController.getRemindPG()) :  self.chooseTime(mode: "q", timeButton: self.pg2_time_big, timePickerView: self.pg2_time_picker_view, timesaday: PillDataController.getPGDailyInt(), startTime: PillDataController.getPG2Time(), maxOrMin: PillDataController.getPG1Time())
     }
     
     @IBAction func pg_remind_switched(_ sender: Any) {
         let isOn = self.pg_switch.isOn
         if isOn {
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyTakePill(mode: 1)
+            appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+        }
+        else {
+            appDelegate.notificationsController.cancelPills(identifiers: [PDStrings.pillIDs[1]])
         }
         PillDataController.setRemindPG(to: isOn)
     }
@@ -764,7 +790,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     internal func requestScheduleNotifications(forIndex: Int) {
         // request notification iff exists Patch.date
         if let _ = ScheduleController.coreData.getMO(forIndex: forIndex) {
-            (UIApplication.shared.delegate as! AppDelegate).notificationsController.requestNotifyExpired(scheduleIndex: forIndex)
+            appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: forIndex)
         }
     }
     
@@ -774,6 +800,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let last_i = UserDefaultsController.getQuantityInt() - 1
         for i in 0...last_i {
             self.requestScheduleNotifications(forIndex: i)
+        }
+        var dead_i = last_i + 1
+        while dead_i < 3 {
+            appDelegate.notificationsController.cancelSchedule(index: last_i)
+            dead_i += 1
         }
     }
     
@@ -852,7 +883,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // closeTimePicker(timePicker, timePickerView, timeButton) : Will close the picker.
-    private func closeTimePicker(timePicker: UITimePicker, timePickerView: UIView, timeButton: UIButton) {
+    private func closeTimePicker(timePicker: UITimePicker, timePickerView: UIView, timeButton: UIButton, remind: Bool) {
         let time: Time = timePicker.date
         timePicker.isHidden = true
         
@@ -861,7 +892,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }) { (void) in
             if let id = timeButton.accessibilityIdentifier {
                 // Call datePickerDone - the function the sets the pill data with warning.
-                self.datePickerDone(id: id, time: time, timeButton: timeButton)
+                self.datePickerDone(id: id, time: time, timeButton: timeButton, remind: remind)
             }
         }
     }

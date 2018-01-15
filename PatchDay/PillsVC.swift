@@ -27,7 +27,8 @@ class PillsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.updateFromBackground()
+        print("PillVC ViewDidLoad")
         // set time buttons disabled properties
         self.tb_time.setTitleColor(UIColor.lightGray, for: .disabled)
         self.tb_button.setTitle("✓", for: .disabled)
@@ -38,22 +39,26 @@ class PillsVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // *** Load pill views ***
+        appearViews()
         
-        // *** Load pill times ***
-        //************************************************
+    }
+    
+    private func appearViews() {
+        print("PillVC Appearing")
         // TBLOCK
-            // including tb
+        // including tb
         if PillDataController.includingTB() {
-        appear(including: PillDataController.includingTB(), stamps: PillDataController.tb_stamps, timesaday: PillDataController.getTBDailyInt(), first_t: PillDataController.getTB1Time(), second_t: PillDataController.getTB2Time(), mode: 0)
+            appear(including: PillDataController.includingTB(), stamps: PillDataController.tb_stamps, timesaday: PillDataController.getTBDailyInt(), first_t: PillDataController.getTB1Time(), second_t: PillDataController.getTB2Time(), mode: 0)
         }
             // not-including tb
         else {
             self.tbStack.isHidden = true
         }
         // PG
-            // including pg
+        // including pg
         if PillDataController.includingPG() {
-        appear(including: PillDataController.includingPG(), stamps: PillDataController.pg_stamps, timesaday: PillDataController.getPGDailyInt(), first_t: PillDataController.getPG1Time(), second_t: PillDataController.getPG2Time(), mode: 1)
+            appear(including: PillDataController.includingPG(), stamps: PillDataController.pg_stamps, timesaday: PillDataController.getPGDailyInt(), first_t: PillDataController.getPG1Time(), second_t: PillDataController.getPG2Time(), mode: 1)
         }
             // not including pg
         else {
@@ -142,6 +147,16 @@ class PillsVC: UIViewController {
         }
         // problem loading view.
         mode == 0 ? self.tb_time.setTitle(PDStrings.nothing_yet_placeholder, for: .normal) : self.pg_time.setTitle(PDStrings.nothing_yet_placeholder, for: .normal)
+    }
+    
+    internal func updateFromBackground() {
+        // this part is for updating the pill views when VC is reloaded from a notification
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+    }
+    
+    @objc internal func appWillEnterForeground() {
+        print("App entering foreground")
+        self.appearViews()
     }
 
 }
