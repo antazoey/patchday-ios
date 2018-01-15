@@ -185,14 +185,20 @@ public class UserDefaultsController: NSObject {
         if let interval = self.defaults.object(forKey: PDStrings.interval_key()) as? String {
             self.timeInterval = interval
         }
+        else {
+            self.setTimeInterval(to: PDStrings.expirationIntervals[0])
+        }
     }
     
     static private func loadQuantity() {
         if let countStr = self.defaults.object(forKey: PDStrings.count_key()) as? String {
             // contrain patch count
             if let countInt = Int(countStr), (countInt >= 1 || countInt <= 4) {
-                    self.quantity = countStr
+                self.quantity = countStr
             }
+        }
+        else {
+            self.setTimeInterval(to: PDStrings.counts[0])
         }
     }
     
@@ -200,17 +206,26 @@ public class UserDefaultsController: NSObject {
         if let notifyTime = defaults.object(forKey: PDStrings.notif_key()) as? String {
             self.reminderTime = notifyTime
         }
+        else {
+            self.setNotificationOption(to: PDStrings.notificationSettings[0])
+        }
     }
     
     static private func loadSLF() {
         if let suggest = defaults.object(forKey: PDStrings.slf_key()) as? Bool {
             self.slf = suggest
         }
+        else {
+            self.setSLF(to: true)
+        }
     }
     
     static private func loadRemindUpon() {
         if let notifyMe = defaults.object(forKey: PDStrings.rMeUpon_key()) as? Bool {
             self.remindMeUpon = notifyMe
+        }
+        else {
+            self.setRemindMeUpon(to: true)
         }
     }
 
