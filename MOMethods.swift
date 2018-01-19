@@ -69,15 +69,15 @@ extension MOEstrogenDelivery {
         guard let dateAdded = self.datePlaced else {
             return PDStrings.unplaced_string
         }
-        return MOEstrogenDelivery.makeDateString(from: dateAdded)
+        return MOEstrogenDelivery.makeDateString(from: dateAdded, useWords: true)
     }
     
-    public func expirationDateAsString(timeInterval: String) -> String {
+    public func expirationDateAsString(timeInterval: String, useWords: Bool) -> String {
         if self.getdate() == nil {
             return PDStrings.hasNoDate
         }
         let expires = self.expirationDate(timeInterval: timeInterval)
-        return MOEstrogenDelivery.makeDateString(from: expires)
+        return MOEstrogenDelivery.makeDateString(from: expires, useWords: useWords)
     }
     
     // MARK: - booleans
@@ -111,15 +111,15 @@ extension MOEstrogenDelivery {
     public func notificationMessage(timeInterval: String) -> String {
         if self.isNotCustomLocated() {
             guard let locationNotificationPart = PDStrings.expiredPatchNotificationIntros[getLocation()] else {
-                return PDStrings.notificationExpiredPatchWithoutLocation + self.expirationDateAsString(timeInterval: timeInterval)
+                return PDStrings.notificationExpiredPatchWithoutLocation + self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
             }
-            return locationNotificationPart + self.expirationDateAsString(timeInterval: timeInterval)
+            return locationNotificationPart + self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
         }
             
             // for custom locations
         else {
             let locationNotificationPart = PDStrings.expiredPatchNotificationIntroForCustom + self.getLocation() + " " + PDStrings.expiredPatchNotificationIntroForCustom_at
-            return locationNotificationPart + self.expirationDateAsString(timeInterval: timeInterval)
+            return locationNotificationPart + self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
         }
     }
     
@@ -172,9 +172,9 @@ extension MOEstrogenDelivery {
         
     // MARK: - static
     
-    static public func makeDateString(from: Date) -> String {
+    static public func makeDateString(from: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
-        if let word = MOEstrogenDelivery.dateWord(from: from) {
+        if useWords, let word = MOEstrogenDelivery.dateWord(from: from) {
             dateFormatter.dateFormat = "h:mm a"
             return word + ", " + dateFormatter.string(from: from)
         }

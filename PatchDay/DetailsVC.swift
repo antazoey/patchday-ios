@@ -116,9 +116,12 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
                 UIApplication.shared.applicationIconBadgeNumber += 1
             }
         
-        }
+            if !wasExpiredBeforeSave {
+                self.cancelNotification()
+            }
+            self.requestNotification()
         
-        self.requestNotification()
+        }
         
         // Transition
         if let navCon = self.navigationController {
@@ -244,9 +247,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         // disp date and time applied
         let d = self.datePicker.date
         self.datePlaced = d             // set temp
-        self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: d), for: UIControlState.normal)
+        self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: d, useWords: true), for: UIControlState.normal)
         if let expDate = MOEstrogenDelivery.expiredDate(fromDate: self.datePicker.date) {            // disp exp date
-            self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate)
+            self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate, useWords: true)
         }
         // outer view changes
         self.save.isEnabled = true
@@ -281,8 +284,8 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
             if let date = mo.getdate() {
                 // set date choose button's text to patch's date palced data
                 self.datePlaced = date                  // set temp
-                self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: date) , for: .normal)
-                self.expirationDateLabel.text = mo.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval())
+                self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: date, useWords: true) , for: .normal)
+                self.expirationDateLabel.text = mo.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval(), useWords: true)
             }
             // date unplaced
             else {
@@ -339,15 +342,19 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     private func autoPickDate() {
         let now = Date()
-        self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: now), for: .normal)
+        self.chooseDateTextButton.setTitle(MOEstrogenDelivery.makeDateString(from: now, useWords: true), for: .normal)
         if let expDate = MOEstrogenDelivery.expiredDate(fromDate: now) {
-            self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate)
+            self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate, useWords: true)
         }
     }
     
     private func requestNotification() {
         // request notification iff exists Patch.date
         appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: self.reference - 1)
+    }
+    
+    private func cancelNotification() {
+        appDelegate.notificationsController.cancelSchedule(index: self.reference - 1)
     }
     
     // MARK: - Private view creators / MOEstrogenDeliverydifiers
@@ -379,7 +386,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
                 else {
                     self.expiresOrExpiredLabel.text = PDStrings.patchExpires_string
                 }
-                exp = patch.expirationDateAsString(timeInterval: interval)
+                exp = patch.expirationDateAsString(timeInterval: interval, useWords: true)
             }
             self.expirationDateLabel.text = exp
         }
