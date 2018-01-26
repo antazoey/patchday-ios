@@ -227,7 +227,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func loadPGRemind() {
         self.pg_remind_switch.setOn(PillDataController.getRemindPG(), animated: false)
     }
-    
+
     private func loadReminder_bool() {
         self.receiveReminder_switch.setOn(UserDefaultsController.getRemindMeUpon(), animated: false)
     }
@@ -427,6 +427,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
          -- SAVING USER DEFAULTS --
          *****************************************/
         if let row = self.selectedRow {
+            
+            let oldHighest = UserDefaultsController.getQuantityInt() - 1
+            var shouldResend = true
+            
             switch key {
                 
                 // COUNT
@@ -440,7 +444,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 else {
                     print("Error saving count for index for row " + String(row))
                 }
-                self.resendScheduleNotifications()
                 break
                 
                 // INTERVAL
@@ -454,7 +457,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 else {
                     print("Error saving expiration interval for row " + String(row))
                 }
-                self.resendScheduleNotifications()
                 break
                 
                 // TB DAILY
@@ -472,6 +474,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 else {
                     print("Error saving TB timesday for row " + String(row))
                 }
+                shouldResend = false
                 break
                 
                 // PG DAILY
@@ -489,6 +492,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 else {
                     print("Error saving PG timesday for row " + String(row))
                 }
+                shouldResend = false
                 break
                 
                 // NOTIFICATION TIME
@@ -503,10 +507,15 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 else {
                     print("Error saving notification time for row " + String(row))
                 }
-                self.resendScheduleNotifications()
                 break
             default:
                 print("ERROR: Improper context when saving details from picker")
+            }
+            
+            // if should resend notifications...
+            if shouldResend {
+                let newHighest = UserDefaultsController.getQuantityInt() - 1
+                self.resendScheduleNotifications(upToRemove: oldHighest, upToAdd: newHighest)
             }
         }
     }
@@ -787,24 +796,23 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return UIColor.white
     }
     
-    internal func requestScheduleNotifications(forIndex: Int) {
-        // request notification iff exists Patch.date
-        if let _ = ScheduleController.coreData.getMO(forIndex: forIndex) {
-            appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: forIndex)
+    // MARK: - private
+    
+    /* resendScheduleNotifications(upToRemove, upToAdd) :
+       1.) upToRemove is highest old index, ones to delete.
+       2.) upToAdd is the highest new index */
+    private func resendScheduleNotifications(upToRemove: Int, upToAdd: Int) {
+        for i in 0...upToRemove {
+            appDelegate.notificationsController.cancelSchedule(index: i)
+        }
+        for j in 0...upToAdd {
+            appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: j)
         }
     }
     
-    // MARK: - private
-    
-    private func resendScheduleNotifications() {
-        let last_i = UserDefaultsController.getQuantityInt() - 1
+    private func removeAllNotifications(last_i: Int) {
         for i in 0...last_i {
-            self.requestScheduleNotifications(forIndex: i)
-        }
-        var dead_i = last_i + 1
-        while dead_i < 3 {
-            appDelegate.notificationsController.cancelSchedule(index: last_i)
-            dead_i += 1
+            appDelegate.notificationsController.cancelSchedule(index: i)
         }
     }
     

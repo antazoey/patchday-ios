@@ -73,12 +73,13 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
      requestNotifiyExpired(mode) : For expired patches or injection.
      ****************************************************/
     internal func requestNotifyExpired(scheduleIndex: Int) {
+        let notifyTime = UserDefaultsController.getNotificationTimeDouble()
         if let mo = ScheduleController.coreData.getMO(forIndex: scheduleIndex), sendingNotifications,
             UserDefaultsController.getRemindMeUpon(), var timeIntervalUntilExpire = mo.determineIntervalToExpire(timeInterval: UserDefaultsController.getTimeInterval()) {
             self.currentScheduleIndex = scheduleIndex
             // notification's attributes
             let content = UNMutableNotificationContent()
-            content.title = PDStrings.patchExpired_title
+            content.title = (notifyTime == 0) ? PDStrings.patchExpired_title : PDStrings.patchExpires_string
             content.body = mo.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
             content.badge = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
@@ -99,7 +100,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 content.categoryIdentifier = "changeCategoryID"
             }
             // Trigger
-            timeIntervalUntilExpire = timeIntervalUntilExpire - (UserDefaultsController.getNotificationTimeDouble() * 60.0)
+            timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
@@ -173,7 +174,6 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         // Only request if the choiceDate is after now
         if now < choiceDate {
             let interval = choiceDate.timeIntervalSince(now)
-            print(interval)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
             // Request
             let id = PDStrings.pillIDs[mode]

@@ -111,6 +111,7 @@ class ScheduleVC: UIViewController {
     
     @objc internal func appWillEnterForeground() {
         self.displayScheduleButtons()
+        self.pillNavSetUp()
     }
  
     // MARK: private display funcs
