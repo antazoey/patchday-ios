@@ -91,13 +91,9 @@ extension MOEstrogenDelivery {
         return self.datePlaced == nil && loc == "unplaced"
     }
     
-    public func isNotCustomLocated() -> Bool {
-        let loc = self.getLocation().lowercased()
-        return PDStrings.patchLocationNames.contains(self.getLocation()) || loc == "unplaced"
-    }
-    
     public func isCustomLocated() -> Bool {
-        return !isNotCustomLocated()
+        let loc = self.getLocation().lowercased()
+        return !PDStrings.patchLocationNames.contains(self.getLocation()) && loc != "unplaced"
     }
     
     public func isExpired(timeInterval: String) -> Bool {
@@ -109,7 +105,7 @@ extension MOEstrogenDelivery {
     
     // notificationMessage(timeInterval) : determined the proper message for related notifications.  This depends on the location property.
     public func notificationMessage(timeInterval: String) -> String {
-        if self.isNotCustomLocated() {
+        if !self.isCustomLocated() {
             guard let locationNotificationPart = PDStrings.expiredPatchNotificationIntros[getLocation()] else {
                 return PDStrings.notificationExpiredPatchWithoutLocation + self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
             }
