@@ -82,23 +82,15 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         // set button selected states
         self.intervalButton.setTitle(PDStrings.save, for: .selected)
-        self.intervalButton.setTitleColor(UIColor.blue, for: .selected)
+        self.intervalButton.setImage(nil, for: .selected)
         self.countButton.setTitle(PDStrings.save, for: .selected)
-        self.countButton.setTitleColor(UIColor.blue, for: .selected)
         self.tb_daily_big.setTitle(PDStrings.save, for: .selected)
-        self.tb_daily_big.setTitleColor(UIColor.blue, for: .selected)
         self.tb1_time_big.setTitle(PDStrings.save, for: .selected)
-        self.tb1_time_big.setTitleColor(UIColor.blue, for: .selected)
         self.tb2_time_big.setTitle(PDStrings.save, for: .selected)
-        self.tb2_time_big.setTitleColor(UIColor.blue, for: .selected)
         self.pg_daily_big.setTitle(PDStrings.save, for: .selected)
-        self.pg_daily_big.setTitleColor(UIColor.blue, for: .selected)
         self.pg1_time_big.setTitle(PDStrings.save, for: .selected)
-        self.pg1_time_big.setTitleColor(UIColor.blue, for: .selected)
         self.pg2_time_big.setTitle(PDStrings.save, for: .selected)
-        self.pg2_time_big.setTitleColor(UIColor.blue, for: .selected)
         self.reminderTimeButton.setTitle(PDStrings.save, for: .selected)
-        self.reminderTimeButton.setTitleColor(UIColor.blue, for: .selected)
         
         // set disabled states
         self.tb1_time_big.setTitleColor(UIColor.lightGray, for: .disabled)
@@ -107,7 +99,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.pg1_time_big.setTitleColor(UIColor.lightGray, for: .disabled)
         self.pg2_time_big.setTitleColor(UIColor.lightGray, for: .disabled)
         self.pg_daily_big.setTitleColor(UIColor.lightGray, for: .disabled)
-
+ 
         // other
         self.countButton.tag = 10
         self.settingsView.backgroundColor = UIColor.white
@@ -135,7 +127,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.loadCount()
         self.loadNotificationOption()
         self.loadSuggestLocationFunctionality()
-    }
+
+ }
     
     override func viewWillAppear(_ animated: Bool) {
         // Set animation related Var
@@ -403,6 +396,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // And try to select current row.
         
         buttonTapped.isSelected = true  // select
+        
         // set starting row to current button title label's text
         if let title = buttonTapped.titleLabel, let readText = title.text {
 
@@ -416,6 +410,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             // Selected Row Index = current value
             picker.selectRow(selectedRowIndex, inComponent: 0, animated: true)
         }
+        
         // Always animates
         UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
         }, completion: nil)
@@ -613,10 +608,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
     // MARK: - IBActions Picker loads
 
-    @IBAction private func reminderTimeArrowTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.notif_key())
-    }
-    
     @IBAction private func reminderTimeTapped(_ sender: Any) {
        self.openOrClosePicker(key: PDStrings.notif_key())
     }
@@ -741,14 +732,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             appDelegate.notificationsController.cancelPills(identifiers: [PDStrings.pillIDs[1]])
         }
         PillDataController.setRemindPG(to: isOn)
-    }
-    
-    @IBAction private func intervalButtonArrowButtonTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.interval_key())
-    }
-    
-    @IBAction private func numberOfPatchesArrowButtonTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.count_key())
     }
     
     @IBAction private func intervalButtonTapped(_ sender: Any) {

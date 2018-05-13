@@ -18,8 +18,6 @@ internal class PDAlertController {
     
     static internal func alertForChangingCount(startIndexForReset: Int, endIndexForReset: Int, newCount: String, countButton: UIButton) {
         if let currentVC = self.getRootVC() {
-            print(PDStrings.changeCountAlertTitle)
-            print(PDStrings.changeCountAlertMessage)
             var alertStyle: UIAlertControllerStyle
             // ipad -> .alert
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
@@ -48,8 +46,6 @@ internal class PDAlertController {
     
     static internal func alertForDisclaimerAndTutorial() {
         if let currentVC = self.getRootVC() {
-            print(PDStrings.disclaimerAlertTitle)
-            print(PDStrings.disclaimerAlertMessage)
             // ipad -> .alert
             var alertStyle: UIAlertControllerStyle
             if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
@@ -81,8 +77,6 @@ internal class PDAlertController {
     
     static internal func alertForCoreDataSaveError() {
         if let currentVC = self.getRootVC() {
-            print(PDStrings.coreDataSaveAlertTitle)
-            print(PDStrings.coreDataSaveAlertMessage)
             currentAlert = UIAlertController(title: PDStrings.coreDataSaveAlertTitle, message:  PDStrings.coreDataSaveAlertMessage, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style:     UIAlertActionStyle.cancel, handler: nil)
             currentAlert.addAction(closeAction)
@@ -92,8 +86,6 @@ internal class PDAlertController {
     
     static internal func alertForCoreDataError() {
         if let currentVC = self.getRootVC() {
-            print(PDStrings.coreDataSaveAlertTitle)
-            print(PDStrings.coreDataAlertMessage)
             currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: PDStrings.coreDataAlertMessage, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
             currentAlert.addAction(closeAction)
@@ -106,8 +98,6 @@ internal class PDAlertController {
     // alertSLF(changingTo) : an alert displaying the description of the SLF: Suggestion Location Functionality.
     static internal func alertSLF(changingTo: Bool) {
         if let currentVC = self.getRootVC() {
-            print(PDStrings.suggestLocationAlertTitle)
-            print(PDStrings.suggestLocationAlertMessage)
             currentAlert = UIAlertController(title: PDStrings.suggestLocationAlertTitle,
             message: PDStrings.suggestLocationAlertMessage, preferredStyle: .alert)
             let continueAction = UIAlertAction(title: PDStrings.continue_string, style: UIAlertActionStyle.default) {
@@ -124,8 +114,6 @@ internal class PDAlertController {
     
     static internal func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = self.getRootVC() {
-            print(PDStrings.coreDataAlertTitle)
-            print(String(describing: error))
             currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: "(\(String(describing: error))", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: PDStrings.accept_string, style: .destructive) {
             (void) in

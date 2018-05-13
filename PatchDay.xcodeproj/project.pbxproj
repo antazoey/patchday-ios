@@ -52,6 +52,7 @@
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		13F82DF31EE1F36C006C8041 /* MOEstrogenDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF11EE1F36C006C8041 /* MOEstrogenDelivery.swift */; };
 		13F82DF41EE1F36C006C8041 /* MOMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F82DF21EE1F36C006C8041 /* MOMethods.swift */; };
+		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,7 @@
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
 		13F82DF11EE1F36C006C8041 /* MOEstrogenDelivery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MOEstrogenDelivery.swift; path = ../MOEstrogenDelivery.swift; sourceTree = "<group>"; };
 		13F82DF21EE1F36C006C8041 /* MOMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MOMethods.swift; path = ../MOMethods.swift; sourceTree = "<group>"; };
+		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +210,7 @@
 				1386206F1F159AB2007161CA /* AppDelegate */,
 				139754BC1ED8F7CA006C82B8 /* ViewControllers */,
 				137330F01E22BA3E0048F91E /* Main.storyboard */,
+				B42D16D120A74B4700F21AF4 /* Settings.storyboard */,
 				131F0B6B1EE3BB3000576200 /* Assets */,
 				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
@@ -435,6 +438,7 @@
 				137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */,
 				137330F41E22BA3E0048F91E /* Assets.xcassets in Resources */,
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
+				B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

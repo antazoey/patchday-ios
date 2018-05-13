@@ -23,7 +23,6 @@ class ScheduleVC: UIViewController {
     
     // TWO
     @IBOutlet weak var deliveryViewTwo: UIView!
-    
     @IBOutlet weak var deliveryImageViewTwo: UIImageView!
     @IBOutlet private var deliveryTwoButton: UIButton!
     
@@ -39,7 +38,7 @@ class ScheduleVC: UIViewController {
     
     private var scheduleButtonTapped = 0            // for navigation
     private var deliveryCount: Int = 1              // for schedule button setup
-    private var setUpFromViewDidLoad: Bool = true   // for button animation from change patch
+    private var setUpFromViewDidLoad: Bool = true   // from change patch
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
@@ -75,13 +74,6 @@ class ScheduleVC: UIViewController {
         if let sb = storyboard, let navCon = self.navigationController, let sButton: UIButton = sender as? UIButton, let ref = Int(sButton.restorationIdentifier!), let detailsVC: DetailsVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id") as? DetailsVC {
             detailsVC.setReference(to: ref)
             navCon.pushViewController(detailsVC, animated: true)
-        }
-    }
-    
-    @IBAction func settingsTapped(_ sender: Any) {
-        if let sb = storyboard, let navCon = self.navigationController {
-            let settingsVC = sb.instantiateViewController(withIdentifier: "SettingsVC_id")
-            navCon.pushViewController(settingsVC, animated: true)
         }
     }
     
@@ -181,7 +173,6 @@ class ScheduleVC: UIViewController {
                 imageView.image = new_bg_img;
             }) {
                 (void) in
-                print("Making schedule button " + String(scheduleIndex))
                 scheduleButton.setTitle(new_title, for: .normal);
                 scheduleButton.titleLabel!.font = expFont
                 // enable
@@ -194,7 +185,6 @@ class ScheduleVC: UIViewController {
             imageView.image = new_bg_img
             scheduleButton.setTitle(new_title, for: .normal)
             scheduleButton.titleLabel!.font = expFont
-            print("Making schedule button " + String(scheduleIndex))
             // enable
             scheduleButton.isEnabled = true
         }
@@ -217,15 +207,12 @@ class ScheduleVC: UIViewController {
     private func disableUnusedScheduleButtons() {
         // this hides all the patches that are not in the schedule
         if self.getCount() <= 3 {
-            print("Disabling schedule button " + "4")
             self.disable(unusedButton: self.deliveryFourButton, unusedImgView: self.deliveryImageViewFour, unusedView: self.deliveryViewFour, shouldAnimate: true)
         }
         if self.getCount() <= 2 {
-            print("Disabling schedule button " + "3")
             self.disable(unusedButton: self.deliveryThreeButton, unusedImgView: self.deliveryImageViewThree, unusedView: self.deliveryViewThree, shouldAnimate: true)
         }
         if self.getCount() == 1 {
-            print("Disabling schedule button " + "2")
             self.disable(unusedButton: self.deliveryTwoButton, unusedImgView: self.deliveryImageViewTwo, unusedView: self.deliveryViewTwo, shouldAnimate: true)
         }
     }

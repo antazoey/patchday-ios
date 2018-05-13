@@ -48,16 +48,12 @@ public class ScheduleController: NSObject {
         
         // 1.) from DETAILS: animate affected non-empty MO dates from changing
         let moreThanLocationChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlyLocationChanged && indexOfChangedDelivery <= scheduleIndex && hasDateAndItMatters
-        print("animate bool 1: " + String(moreThanLocationChangedFromDetails))
         
         // 2.) from DETAILS: animate the newly changed location and none else (date didn't change)
         let isChangedLocationFromDetails: Bool = onlyLocationChanged && scheduleIndex == indexOfChangedDelivery
-        print("animate bool 2: " + String(isChangedLocationFromDetails))
         
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
         let indexLessThanOldCountFromSettings: Bool = (increasedCount && scheduleIndex >= oldDeliveryCount)
-        
-        print("animate bool 3: " + String(indexLessThanOldCountFromSettings))
 
         return (moreThanLocationChangedFromDetails || isChangedLocationFromDetails || indexLessThanOldCountFromSettings)
         
