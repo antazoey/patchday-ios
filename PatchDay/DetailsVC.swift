@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/27/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import UIKit
@@ -58,6 +58,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // bools
     private var locationTextHasChanged = false
     private var dateTextHasChanged = false
+    private var usingPatches = UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]
     
     @IBOutlet private weak var lineUnderExpirationDate: UIView!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
@@ -202,16 +203,24 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PDStrings.patchLocationNames.count
+        if usingPatches {
+            return PDStrings.patchLocationNames.count
+        }
+        else {
+            return PDStrings.injectionLocationNames.count
+        }
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return PDStrings.patchLocationNames[row]
+        if usingPatches {
+            return PDStrings.patchLocationNames[row]
+        }
+        return PDStrings.injectionLocationNames[row]
     }
     
     // Done
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let newLoc = PDStrings.patchLocationNames[row]
+        let newLoc = (usingPatches) ? PDStrings.patchLocationNames[row] : PDStrings.injectionLocationNames[row]
         self.locationTextEdit.text = newLoc
         self.location = newLoc
         // other view changes
@@ -361,10 +370,11 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     private func findLocationStartRow() -> Int {
         var selected = 0
-        let len = PDStrings.patchLocationNames.count
+        let len = (usingPatches) ? PDStrings.patchLocationNames.count : PDStrings.injectionLocationNames.count
         for i in 0...(len-1){
             // print(currentLocation)
-            if PDStrings.patchLocationNames[i] == self.location {
+            let testLoc = (usingPatches) ? PDStrings.patchLocationNames[i] : PDStrings.injectionLocationNames[i]
+            if testLoc == self.location {
                     selected = i
                     break
                 }

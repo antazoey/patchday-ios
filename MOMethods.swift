@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/2/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import Foundation
@@ -93,7 +93,7 @@ extension MOEstrogenDelivery {
     
     public func isCustomLocated() -> Bool {
         let loc = self.getLocation().lowercased()
-        return !PDStrings.patchLocationNames.contains(self.getLocation()) && loc != "unplaced"
+        return !PDStrings.patchLocationNames.contains(self.getLocation()) && !PDStrings.injectionLocationNames.contains(self.getLocation()) && loc != "unplaced"
     }
     
     public func isExpired(timeInterval: String) -> Bool {

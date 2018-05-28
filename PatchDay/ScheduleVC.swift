@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 1/8/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import UIKit
@@ -15,7 +15,8 @@ class ScheduleVC: UIViewController {
     // MARK: - Main
     
     @IBOutlet weak var pillNav: UIBarButtonItem!
-
+    @IBOutlet weak var scheduleStack: UIStackView!
+    
     // ONE
     @IBOutlet weak var deliveryViewOne: UIView!
     @IBOutlet weak var deliveryImageViewOne: UIImageView!
@@ -132,9 +133,33 @@ class ScheduleVC: UIViewController {
         let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
         // give data and images to patches in schedule
         if self.getCount() > 0 {
-            for i in 0...(self.getCount()-1) {
-                if let isB = colorDict[i], i < buttons.count {
-                    self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], imageView: img_views[i], isBlue: isB, scheduleIndex: i)
+            
+            // injection
+            if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[1] {
+                self.scheduleStack.removeArrangedSubview(views[1])
+                self.scheduleStack.removeArrangedSubview(views[2])
+                self.scheduleStack.removeArrangedSubview(views[3])
+                
+                let frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[0].frame.width, height: views[0].frame.height * 4)
+                views[0].frame = frame
+                img_views[0].frame = frame
+                buttons[0].frame = frame
+                self.makeScheduleButton(scheduleButton: buttons[0], onView: views[0], imageView: img_views[0], isBlue: true, scheduleIndex: 0)
+            }
+                
+            // patches
+            else {
+                self.scheduleStack.addArrangedSubview(views[1])
+                self.scheduleStack.addArrangedSubview(views[2])
+                self.scheduleStack.addArrangedSubview(views[3])
+                let frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[1].frame.width, height: views[1].frame.height)
+                views[0].frame = frame
+                img_views[0].frame = frame
+                buttons[0].frame = frame
+                for i in 0...(self.getCount()-1) {
+                    if let isB = colorDict[i], i < buttons.count {
+                        self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], imageView: img_views[i], isBlue: isB, scheduleIndex: i)
+                    }
                 }
             }
             // disables unused button
@@ -143,6 +168,7 @@ class ScheduleVC: UIViewController {
         // reset animation bools
         ScheduleController.increasedCount = false
         ScheduleController.decreasedCount = false
+        ScheduleController.deliveryMethodChanged = false
         ScheduleController.animateScheduleFromChangeDelivery = false
         ScheduleController.onlyLocationChanged = false
     }
@@ -155,6 +181,9 @@ class ScheduleVC: UIViewController {
         let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
         var expFont: UIFont = UIFont.systemFont(ofSize: 11)
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+            expFont = UIFont.systemFont(ofSize: 26)
+        }
+        else if (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[1]) {
             expFont = UIFont.systemFont(ofSize: 20)
         }
         scheduleButton.setTitleColor(PDColors.darkLines, for: .normal)
@@ -230,22 +259,25 @@ class ScheduleVC: UIViewController {
     }
     
     private func determineScheduleButtonImage(index: Int) -> UIImage {
+        let usingPatches = UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]
+        let default_img = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
+        
         if let mo = ScheduleController.coreData.getMO(forIndex: index) {
-            // empty patch
+            
+            // empty
             if mo.isEmpty() {
-                return PDImages.addPatch
+                return default_img
             }
             // custom patch
             else if mo.isCustomLocated() {
-                let customDict = [true: PDImages.custom_notified, false: PDImages.custom]
-                if let image = customDict[mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())] {
-                    return image
-                }
-                // failed to load custom patch (should never happen, but just in case)
+                let customDict = (usingPatches) ? [true: PDImages.custom_patch_notified, false: PDImages.custom_patch] : [true: PDImages.custom_injection_notified, false : PDImages.custom_injection]
+                if let image = customDict[mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())]     { return image }
+                    // failed to load custom patch (should never happen, but just in case)
                 else {
-                    return PDImages.addPatch
+                    return default_img
                 }
             }
+                
             // general located patch
             else {
                 // not expired, normal images, else, notified image
@@ -255,7 +287,7 @@ class ScheduleVC: UIViewController {
         }
         // nil patch
         else {
-            return PDImages.addPatch
+            return default_img
         }
     }
     

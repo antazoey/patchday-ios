@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/4/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import Foundation
@@ -61,9 +61,13 @@ class PDStrings {
     
     internal static var emptyLocationInstruction: String = NSLocalizedString("Type or choose location.", comment: "placeholder in location text field when")
     
+    internal static var deliveryMethods: [String] = [NSLocalizedString("Patches", tableName: nil, comment: "Medical patches, displayed on a button."), NSLocalizedString("Injection", tableName: nil, comment: "Medical injection, displayed on a button")]
+    
     internal static var expirationIntervals: [String] = [NSLocalizedString("One half-week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("One week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("Two weeks", comment: "Displayed in a picker.")]
     
     internal static var patchLocationNames: [String] = [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")]
+    
+    internal static var injectionLocationNames: [String] = [NSLocalizedString("Right Thigh", comment: "Part of the body (leg)"), NSLocalizedString("Left Thigh", comment: "Part of the body (leg)")]
     
     internal static var patchDetailsInstruction: String = NSLocalizedString("...", tableName: nil, comment: "instruction for empty patch")
     
@@ -114,7 +118,7 @@ class PDStrings {
     
     internal static var changeCountAlertTitle: String = NSLocalizedString("Warning", comment: "title for alert for changing number of patches (could result in loss of data)")
     
-    internal static var changeCountAlertMessage: String = NSLocalizedString("Decreasing the count will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
+    internal static var changeCountAlertMessage: String = NSLocalizedString("This action will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
     
     internal static var continue_string: String = NSLocalizedString("Continue", comment: "a button for proceeding during an alert")
     
@@ -164,7 +168,7 @@ class PDStrings {
     
     // MARK: - UserDefaultsController
     
-    internal static var defaultKeys: [String] = { return ["patchChangeInterval", "numberOfPatches", "autoChooseLocation", "notification", "remindMe", "mentioned", "i_tb", "i_pg", "tb_time", "pg_time", "tb_daily", "pg_daily", "tb_time2", "pg_time2", "remindMeUpon", "tb_stamp", "pg_stamp", "tb_next", "pg_next", "rTB", "rPG"] }()
+    internal static var defaultKeys: [String] = { return ["patchChangeInterval", "numberOfPatches", "autoChooseLocation", "notification", "remindMe", "mentioned", "i_tb", "i_pg", "tb_time", "pg_time", "tb_daily", "pg_daily", "tb_time2", "pg_time2", "remindMeUpon", "tb_stamp", "pg_stamp", "tb_next", "pg_next", "rTB", "rPG", "delivMethod"] }()
     
     internal static func interval_key() -> String {
         return defaultKeys[0]
@@ -250,6 +254,10 @@ class PDStrings {
         return defaultKeys[20]
     }
     
+    internal static func deliveryMethod_key() -> String {
+        return defaultKeys[21]
+    }
+    
     // MARK: - Colors
     
     internal static var colorKeys: [String] = { return ["offWhite","lightBlue","cuteGray","lighterCuteGray"] }()
@@ -286,6 +294,14 @@ class PDStrings {
     
     internal static func leftStom() -> String {
         return patchLocationNames[3]
+    }
+    
+    internal static func rightThigh() -> String {
+        return injectionLocationNames[0]
+    }
+    
+    internal static func leftThigh() -> String {
+        return injectionLocationNames[1]
     }
     
     // MARK: - notification related

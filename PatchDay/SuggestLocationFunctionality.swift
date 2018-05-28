@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/5/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import Foundation
@@ -14,7 +14,8 @@ internal class SLF {
     
     // MARK: - Public
     
-    internal static var generalLocations = PDStrings.patchLocationNames
+    internal static var usingPatches = UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]
+    internal static var generalLocations = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
     internal static var currentLocations: [String] = []
     internal static func suggest(scheduleIndex: Int, generalLocations: [String]) -> String {
         

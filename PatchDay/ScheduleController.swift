@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/13/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import Foundation
@@ -25,6 +25,7 @@ public class ScheduleController: NSObject {
     static internal var increasedCount: Bool = false
     static internal var decreasedCount: Bool = false
     static internal var onlyLocationChanged: Bool = false
+    static internal var deliveryMethodChanged: Bool = false
     static internal var oldDeliveryCount: Int = 1
     static internal var indexOfChangedDelivery: Int = -1
     
@@ -55,7 +56,7 @@ public class ScheduleController: NSObject {
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
         let indexLessThanOldCountFromSettings: Bool = (increasedCount && scheduleIndex >= oldDeliveryCount)
 
-        return (moreThanLocationChangedFromDetails || isChangedLocationFromDetails || indexLessThanOldCountFromSettings)
+        return (moreThanLocationChangedFromDetails || isChangedLocationFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
         
     }
 

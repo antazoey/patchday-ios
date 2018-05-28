@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/25/17.
-//  Copyright © 2017 Juliya Smith. All rights reserved.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
 import UIKit
@@ -16,13 +16,14 @@ public class UserDefaultsController: NSObject {
     static private var defaults = UserDefaults.standard
     
     // Schedule defaults:
-    static private var timeInterval: String = "Half-Week"
-    static internal var quantity: String =  "4"
+    static private var deliveryMethod: String = PDStrings.deliveryMethods[0]
+    static private var timeInterval: String = PDStrings.expirationIntervals[0]
+    static internal var quantity: String =  PDStrings.counts[3]
     static private var slf: Bool = true
     
     // Notification defaults:
     static private var remindMeUpon: Bool = false
-    static private var reminderTime: String = "0 minutes"
+    static private var reminderTime: String = PDStrings.notificationSettings[0]
     
     // Rememberance
     static private var mentionedDisclaimer: Bool = false
@@ -30,6 +31,7 @@ public class UserDefaultsController: NSObject {
     // MARK: - a static initializer
     
     public static func setUp() {
+        self.loadDeliveryMethod()
         self.loadTimeInterval()
         self.loadQuantity()
         self.loadNotificationOption()
@@ -39,6 +41,10 @@ public class UserDefaultsController: NSObject {
     }
     
     // MARK: - Getters
+    
+    public static func getDeliveryMethod() -> String {
+        return self.deliveryMethod
+    }
     
     public static func getTimeInterval() -> String {
         return self.timeInterval
@@ -97,10 +103,21 @@ public class UserDefaultsController: NSObject {
     
     // MARK: - Setters
     
+    public static func setDeliveryMethod(to: String, countButton: UIButton?) {
+        let oldCount = self.getQuantityInt()
+        self.deliveryMethod = to
+        self.defaults.set(to, forKey: PDStrings.deliveryMethod_key())
+        defaults.synchronize()
+        if let cb = countButton {
+            UserDefaultsController.setQuantityWithWarning(to: PDStrings.counts[0], oldCount: oldCount, countButton: cb)
+            ScheduleController.coreData.resetData(start_i: 0, end_i: oldCount)
+        }
+    }
+    
     public static func setTimeInterval(to: String) {
         self.timeInterval = to
         self.defaults.set(to, forKey: PDStrings.interval_key())
-        self.synchonize()
+        defaults.synchronize()
     }
     
     /******************************************************************
@@ -139,39 +156,35 @@ public class UserDefaultsController: NSObject {
         if let newCount = Int(to), self.isAcceptable(count: newCount) {
             self.quantity = to
             self.defaults.set(to, forKey: PDStrings.count_key())
-            self.synchonize()
+            defaults.synchronize()
         }
     }
     
     public static func setNotificationOption(to: String) {
         self.reminderTime = to
         self.defaults.set(to, forKey: PDStrings.notif_key())
-        self.synchonize()
+        defaults.synchronize()
     }
     
     public static func setSLF(to: Bool) {
         self.slf = to
         self.defaults.set(to, forKey: PDStrings.slf_key())
-        self.synchonize()
+        defaults.synchronize()
     }
     
     static func setRemindMeUpon(to: Bool) {
         self.remindMeUpon = to
         self.defaults.set(to, forKey: PDStrings.rMeUpon_key())
-        self.synchonize()
+        defaults.synchronize()
     }
 
     public static func setMentionedDisclaimer(to: Bool) {
         self.mentionedDisclaimer = to
         self.defaults.set(to, forKey: PDStrings.mentionedDisc_key())
-        self.synchonize()
+        defaults.synchronize()
     }
     
     //MARK: - Other public
-    
-    public static func synchonize() {
-        defaults.synchronize()
-    }
     
     static public func format(date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -180,6 +193,15 @@ public class UserDefaultsController: NSObject {
     }
     
     // MARK: - loaders
+    
+    static private func loadDeliveryMethod() {
+        if let dm = self.defaults.object(forKey: PDStrings.deliveryMethod_key()) as? String {
+            self.deliveryMethod = dm
+        }
+        else {
+            self.setDeliveryMethod(to: PDStrings.deliveryMethods[0], countButton: nil)
+        }
+    }
     
     static private func loadTimeInterval() {
         if let interval = self.defaults.object(forKey: PDStrings.interval_key()) as? String {
