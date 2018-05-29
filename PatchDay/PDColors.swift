@@ -16,8 +16,12 @@ class PDColors {
     static internal var lighterCuteGray = UIColor(red: 0.98,green: 0.98, blue: 0.98, alpha: 1.0)
     static internal var pdPink = UIColor(red: 0.9923, green: 0.980036, blue: 1.0, alpha: 1.0)
     
+    static internal var darkLines = UIColor(hue: 0.5194, saturation: 0, brightness: 0.54, alpha: 1.0) 
     // for settings
+    
+    /*
     static internal var darkLines = UIColor(white: 0.682134, alpha: 1.0)
+ */
     static internal var lightLines = UIColor(red: 0.964251, green: 0.969299, blue: 0.969299, alpha: 1.0)
     
     // pills

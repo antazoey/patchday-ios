@@ -58,7 +58,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // bools
     private var locationTextHasChanged = false
     private var dateTextHasChanged = false
-    private var usingPatches = UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]
+    private var usingPatches = { return UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]}()
     
     @IBOutlet private weak var lineUnderExpirationDate: UIView!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
