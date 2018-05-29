@@ -13,13 +13,15 @@ internal class SLF {
     // Description: The "Suggest Patch Location" algorithm is an optional functionality that gives the user a location to place their next patch.  There are three main parts to it:  1.)  An array of general locations.  2.)  An array of current locations in the schedule. 3.) a suggest(scheduleIndex: Int, generalLocations: [String]) method for returning the correct suggested location.
     
     // MARK: - Public
-    
-    internal static var usingPatches = UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]
-    internal static var generalLocations = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
+
+    internal static var generalLocations: [String] = []
+ 
     internal static var currentLocations: [String] = []
+    
     internal static func suggest(scheduleIndex: Int, generalLocations: [String]) -> String {
         
         currentLocations = generalLocations
+        self.generalLocations = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
         
         if scheduleIndex >= UserDefaultsController.getQuantityInt() || scheduleIndex < 0 {
             return ""

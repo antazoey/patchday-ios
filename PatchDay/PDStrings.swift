@@ -99,11 +99,11 @@ class PDStrings {
     
     // MARK: - core data alert
     
-    internal static var coreDataSaveAlertTitle: String = NSLocalizedString("Save Error", comment: "this is a title to an alert displayed if patch data is not saved for some reason.")
+    internal static var coreDataSaveAlertTitle: String = NSLocalizedString("Save ERROR", comment: "this is a title to an alert displayed if patch data is not saved for some reason.")
     
     internal static var coreDataSaveAlertMessage: String = NSLocalizedString("There was a problem saving your patch data!", comment: "this is a message to an alert displayed if patch data is not saved for some reason.")
     
-    internal static var coreDataAlertTitle: String = NSLocalizedString("Core Data Error", comment: "this is a title to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
+    internal static var coreDataAlertTitle: String = NSLocalizedString("Core Data ERROR", comment: "this is a title to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
     
     internal static var coreDataAlertMessage: String = NSLocalizedString("There is a problem with managed object in the persistent store", comment: "this is a message to an alert displayed if if a generic patch managed object cannot not created in the persistent store")
     internal static var dismiss_string: String = NSLocalizedString("Dismiss", comment: "The word displayed on a button for dismissing an error message")
@@ -116,9 +116,9 @@ class PDStrings {
     
     // MARK: - change number of MOs
     
-    internal static var changeCountAlertTitle: String = NSLocalizedString("Warning", comment: "title for alert for changing number of patches (could result in loss of data)")
+    internal static var warning: String = NSLocalizedString("Warning", comment: "title for alert")
     
-    internal static var changeCountAlertMessage: String = NSLocalizedString("This action will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
+    internal static var losingDataMsg: String = NSLocalizedString("This action will result in a loss of data.", comment: "title for alert for changing number of patches (could result in loss of data)")
     
     internal static var continue_string: String = NSLocalizedString("Continue", comment: "a button for proceeding during an alert")
     

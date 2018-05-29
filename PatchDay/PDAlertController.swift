@@ -16,7 +16,42 @@ internal class PDAlertController {
     
     // MARK: - disclaimer / tutorial alert
     
-    static internal func alertForChangingCount(startIndexForReset: Int, endIndexForReset: Int, newCount: String, countButton: UIButton) {
+    // This will only be called when the user decreases the delivery count and the patches being removed had data.
+    static internal func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton) {
+        if let newC = Int(newCount) {
+            if (newC > oldCount) {
+                UserDefaultsController.setQuantityWithoutWarning(to: newCount)
+                return
+            }
+            if let currentVC = self.getRootVC() {
+                var alertStyle: UIAlertControllerStyle
+                // ipad -> .alert
+                if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
+                    alertStyle = .alert
+                }
+                    // iphone -> .actionSheet
+                else {
+                    alertStyle = .actionSheet
+                }
+                currentAlert = UIAlertController(title: PDStrings.warning, message: PDStrings.losingDataMsg, preferredStyle: alertStyle)
+                let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
+                    (void) in
+                    // Note: newCount is start_i because reset only occurs when decreasing count
+                    ScheduleController.coreData.resetData(start_i: newC, end_i: 3)
+                    UserDefaultsController.setQuantityWithoutWarning(to: newCount)
+                }
+                let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel) {
+                    (void) in
+                    countButton.setTitle(String(oldCount), for: .normal)
+                }
+                currentAlert.addAction(continueAction)
+                currentAlert.addAction(cancelAction)
+                currentVC.present(currentAlert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    static internal func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton){
         if let currentVC = self.getRootVC() {
             var alertStyle: UIAlertControllerStyle
             // ipad -> .alert
@@ -27,16 +62,30 @@ internal class PDAlertController {
             else {
                 alertStyle = .actionSheet
             }
-            currentAlert = UIAlertController(title: PDStrings.changeCountAlertTitle, message: PDStrings.changeCountAlertMessage, preferredStyle: alertStyle)
+            currentAlert = UIAlertController(title: PDStrings.warning, message: PDStrings.losingDataMsg, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
                 (void) in
-                ScheduleController.coreData.resetData(start_i: startIndexForReset, end_i: endIndexForReset)
-                UserDefaultsController.setQuantityWithoutWarning(to: newCount)
-                print("New count: " + newCount)
+                ScheduleController.coreData.resetData(start_i: 0, end_i: 3)
+                let c = (newMethod == PDStrings.deliveryMethods[0]) ? "3" : "1"
+                UserDefaultsController.setQuantityWithoutWarning(to: c)
+                UserDefaultsController.setDeliveryMethodWithoutWarning(to: newMethod)
+                ScheduleController.deliveryMethodChanged = true
             }
             let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel) {
                 (void) in
-                countButton.setTitle(String(endIndexForReset), for: .normal)
+                if oldMethod == PDStrings.deliveryMethods[0] {
+                    countButton.isEnabled = true
+                    countButton.setTitle(String(oldCount), for: .disabled)
+                    countButton.setTitle(String(oldCount), for: .normal)
+                }
+                else {
+                    countButton.isEnabled = false
+                    countButton.setTitle("1", for: .disabled)
+                    countButton.setTitle("1", for: .normal)
+                    UserDefaultsController.setQuantityWithoutWarning(to: "1")
+                }
+                deliveryButton.setTitle(oldMethod, for: .normal)
+                
             }
             currentAlert.addAction(continueAction)
             currentAlert.addAction(cancelAction)

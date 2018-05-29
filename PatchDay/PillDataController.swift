@@ -200,13 +200,11 @@ public class PillDataController: NSObject {
         if this != nil, timesaday > 1 {             // two-a-day
             if (this?.count)! < 2 {                 // Only one on record so far
                 this?.append(at)                    // append (places at index 1)
-                print("taking second pill ever")
             }
             else {
                 let movedVal = this?[1]
                 this?[0] = movedVal                 // move the old Late stamp down
                 this?[1] = at                       // append new Late stamp
-                print("taking pill")
             }
         }
         /*----------------------------------------
@@ -217,7 +215,6 @@ public class PillDataController: NSObject {
         
         else {
             this = [at]                         // one-a-day or never before
-            print("taking one and only pill")
         }
         
         //**********************************
@@ -368,7 +365,7 @@ public class PillDataController: NSObject {
                 return d
             }
         }
-        print("Error: Undetermined time.")
+        print("ERROR: Undetermined time.")
         return nil
     }
     
@@ -384,7 +381,7 @@ public class PillDataController: NSObject {
         if let d = calendar.date(from: components) {
             return d
         }
-        print("Error: Undetermined time.")
+        print("ERROR: Undetermined time.")
         return nil
     }
     

@@ -45,11 +45,31 @@ class PDImages {
     
     static internal func stringToImage(imageString: String) -> UIImage {
         let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt, PDStrings.leftButt(): lButt, PDStrings.rightStom(): rStom, PDStrings.leftStom(): lStom,  PDStrings.leftThigh(): lThigh, PDStrings.rightThigh(): rThigh]
-        return stringToImageDict[imageString]!
+        let locs = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
+        if (locs.contains(imageString)) {
+            return stringToImageDict[imageString]!
+        }
+        else {
+            if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0] {
+                print("TEST")
+                print(imageString)
+                return self.custom_patch
+            }
+            return self.custom_injection
+        }
     }
     
     static internal func stringToNotifiedImage(imageString: String) -> UIImage {
         let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt_notified, PDStrings.leftButt(): lButt_notified, PDStrings.rightStom(): rStom_notified, PDStrings.leftStom(): lStom_notified, PDStrings.rightThigh(): rThigh_notified, PDStrings.leftThigh(): lThigh_notified]
-        return stringToImageDict[imageString]!
+        let locs = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
+        if (locs.contains(imageString)) {
+            return stringToImageDict[imageString]!
+        }
+        else {
+            if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0] {
+                return self.custom_patch_notified
+            }
+            return self.custom_injection_notified
+        }
     }
 }

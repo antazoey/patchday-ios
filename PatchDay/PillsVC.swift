@@ -30,7 +30,6 @@ class PillsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateFromBackground()
-        print("PillVC ViewDidLoad")
         // set time buttons disabled properties
         self.tb_time.setTitleColor(UIColor.lightGray, for: .disabled)
         self.tb_button.setTitle("✓", for: .disabled)
@@ -47,7 +46,6 @@ class PillsVC: UIViewController {
     }
     
     private func appearViews() {
-        print("PillVC Appearing")
         // TBLOCK
         // including tb
         if PillDataController.includingTB() {
@@ -128,7 +126,6 @@ class PillsVC: UIViewController {
                 // GRAY w/ disabled: Both pills taken today
                 else if let earlierStamp: Stamp = PillDataController.getOlderStamp(stamps: stamps), PillDataController.allStampedToday(stamps: stamps, timesaday: timesaday)  {
                     mode == 0 ? self.disableTB(stamp: earlierStamp) : self.disablePG(stamp: earlierStamp)
-                    print("Both pills taken")
                     return
                 }
                     
@@ -157,7 +154,6 @@ class PillsVC: UIViewController {
     }
     
     @objc internal func appWillEnterForeground() {
-        print("App entering foreground")
         self.appearViews()
     }
 

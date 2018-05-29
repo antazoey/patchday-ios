@@ -104,8 +104,6 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
-                print("TRIGGER")
-                print(timeIntervalUntilExpire)
                 if let id = PDStrings.changeSoonIDs[scheduleIndex] {
                     let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in

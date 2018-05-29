@@ -58,7 +58,6 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // bools
     private var locationTextHasChanged = false
     private var dateTextHasChanged = false
-    private var usingPatches = { return UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]}()
     
     @IBOutlet private weak var lineUnderExpirationDate: UIView!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
@@ -84,6 +83,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         // location picker set up
         self.locationPicker.delegate = self
         self.locationPicker.dataSource = self
+
     }
     
     // Save Button
@@ -98,7 +98,6 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         // Schedule animation side-effects
         ScheduleController.indexOfChangedDelivery = (moCount != UserDefaultsController.getQuantityInt() && self.dateTextHasChanged) ? moCount : (self.reference - 1)
         ScheduleController.animateScheduleFromChangeDelivery = true
-        print("Index for animated schedule button: " + String(describing: ScheduleController.indexOfChangedDelivery))
         
         // ***** CONFIG BADGE ICON *****
         if let mo = ScheduleController.coreData.getMO(forIndex: self.reference - 1) {
@@ -203,7 +202,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if usingPatches {
+        if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0] {
             return PDStrings.patchLocationNames.count
         }
         else {
@@ -212,7 +211,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if usingPatches {
+        if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0] {
             return PDStrings.patchLocationNames[row]
         }
         return PDStrings.injectionLocationNames[row]
@@ -220,7 +219,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     // Done
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let newLoc = (usingPatches) ? PDStrings.patchLocationNames[row] : PDStrings.injectionLocationNames[row]
+        let newLoc = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames[row] : PDStrings.injectionLocationNames[row]
         self.locationTextEdit.text = newLoc
         self.location = newLoc
         // other view changes
@@ -370,10 +369,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     private func findLocationStartRow() -> Int {
         var selected = 0
-        let len = (usingPatches) ? PDStrings.patchLocationNames.count : PDStrings.injectionLocationNames.count
+        let len = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames.count : PDStrings.injectionLocationNames.count
         for i in 0...(len-1){
-            // print(currentLocation)
-            let testLoc = (usingPatches) ? PDStrings.patchLocationNames[i] : PDStrings.injectionLocationNames[i]
+            let testLoc = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames[i] : PDStrings.injectionLocationNames[i]
             if testLoc == self.location {
                     selected = i
                     break

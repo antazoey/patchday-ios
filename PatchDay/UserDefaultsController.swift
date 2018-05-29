@@ -103,15 +103,12 @@ public class UserDefaultsController: NSObject {
     
     // MARK: - Setters
     
-    public static func setDeliveryMethod(to: String, countButton: UIButton?) {
-        let oldCount = self.getQuantityInt()
+    public static func setDeliveryMethodWithoutWarning(to: String) {
         self.deliveryMethod = to
         self.defaults.set(to, forKey: PDStrings.deliveryMethod_key())
         defaults.synchronize()
-        if let cb = countButton {
-            UserDefaultsController.setQuantityWithWarning(to: PDStrings.counts[0], oldCount: oldCount, countButton: cb)
-            ScheduleController.coreData.resetData(start_i: 0, end_i: oldCount)
-        }
+        let c = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.counts[2] : PDStrings.counts[0]
+        UserDefaultsController.setQuantityWithoutWarning(to: c)
     }
     
     public static func setTimeInterval(to: String) {
@@ -125,7 +122,6 @@ public class UserDefaultsController: NSObject {
     *****************************************************************/
     public static func setQuantityWithWarning(to: String, oldCount: Int, countButton: UIButton) {
         ScheduleController.oldDeliveryCount = oldCount
-        print("old count: " + String(describing: oldCount))
         if let newCount = Int(to), self.isAcceptable(count: newCount) {
             // startAndNewCount : represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new count
             if let startAndNewCount = Int(to) {
@@ -135,7 +131,7 @@ public class UserDefaultsController: NSObject {
                     // alert
                     if !ScheduleController.schedule().isEmpty(fromThisIndexOnward:
                         startAndNewCount) {
-                        PDAlertController.alertForChangingCount(startIndexForReset: startAndNewCount, endIndexForReset: oldCount, newCount: to, countButton: countButton)
+                        PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: to, countButton: countButton)
                         return
                     }
                     else {
@@ -199,7 +195,7 @@ public class UserDefaultsController: NSObject {
             self.deliveryMethod = dm
         }
         else {
-            self.setDeliveryMethod(to: PDStrings.deliveryMethods[0], countButton: nil)
+            self.setDeliveryMethodWithoutWarning(to: PDStrings.deliveryMethods[0])
         }
     }
     

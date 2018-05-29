@@ -292,7 +292,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 numberOfRows = PDStrings.notificationSettings.count
                 break
             default:
-                print("Error:  Improper context when selecting picker selections count")
+                print("ERROR:  Improper context when selecting picker selections count")
             }
         }
         return numberOfRows
@@ -329,7 +329,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 }
                 break
             default:
-                print("Error:  Improper context for loading PickerView")
+                print("ERROR:  Improper context for loading PickerView")
             }
         }
         return title
@@ -469,15 +469,22 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     }
                     // patches
                     else {
+                        self.countButton.setTitle(PDStrings.counts[2], for: .disabled)
+                        self.countButton.setTitle(PDStrings.counts[2], for: .normal)
                         self.countButton.isEnabled = true
                         self.countButtonArrow.isEnabled = true
                     }
-                    UserDefaultsController.setDeliveryMethod(to: choice, countButton: self.countButton)
                     self.deliveryMethodButton.setTitle(choice, for: .normal)
-                    ScheduleController.deliveryMethodChanged = true
+                    if ScheduleController.schedule().isEmpty() {
+                        UserDefaultsController.setDeliveryMethodWithoutWarning(to: choice)
+                    }
+                    // Alert if there is some data that should be erased
+                    else {
+                        PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: self.deliveryMethodButton, countButton: self.countButton)
+                    }
                 }
                 else {
-                    print("Error saving delivery method for index for row " + String(row))
+                    print("ERROR saving delivery method for index for row " + String(row))
                 }
                 break
                 
@@ -490,7 +497,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     self.countButton.setTitle(choice, for: .normal)
                 }
                 else {
-                    print("Error saving count for index for row " + String(row))
+                    print("ERROR saving count for index for row " + String(row))
                 }
                 break
                 
@@ -502,7 +509,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     self.intervalButton.setTitle(choice, for: .normal)
                 }
                 else {
-                    print("Error saving expiration interval for row " + String(row))
+                    print("ERROR saving expiration interval for row " + String(row))
                 }
                 break
                 
@@ -518,7 +525,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     }
                 }
                 else {
-                    print("Error saving TB timesday for row " + String(row))
+                    print("ERROR saving TB timesday for row " + String(row))
                 }
                 shouldResend = false
                 break
