@@ -44,32 +44,38 @@ class PDImages {
     static internal var custom_injection_notified: UIImage = { return #imageLiteral(resourceName: "Custom Injection Notified")}()
     
     static internal func stringToImage(imageString: String) -> UIImage {
+        var r: UIImage = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? self.addPatch : self.addInjection
         let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt, PDStrings.leftButt(): lButt, PDStrings.rightStom(): rStom, PDStrings.leftStom(): lStom,  PDStrings.leftThigh(): lThigh, PDStrings.rightThigh(): rThigh]
         let locs = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
         if (locs.contains(imageString)) {
-            return stringToImageDict[imageString]!
+            r = stringToImageDict[imageString]!
         }
         else {
-            if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0] {
-                print("TEST")
-                print(imageString)
-                return self.custom_patch
+            if (imageString != "unplaced") {
+                if r == self.addPatch {
+                    return self.custom_patch
+                }
+                return self.custom_injection
             }
-            return self.custom_injection
         }
+        return r
     }
     
     static internal func stringToNotifiedImage(imageString: String) -> UIImage {
+        var r: UIImage = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? self.addPatch : self.addInjection
         let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt_notified, PDStrings.leftButt(): lButt_notified, PDStrings.rightStom(): rStom_notified, PDStrings.leftStom(): lStom_notified, PDStrings.rightThigh(): rThigh_notified, PDStrings.leftThigh(): lThigh_notified]
         let locs = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
         if (locs.contains(imageString)) {
-            return stringToImageDict[imageString]!
+            r = stringToImageDict[imageString]!
         }
         else {
-            if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0] {
-                return self.custom_patch_notified
+            if (imageString != "unplaced") {
+                if r == self.addPatch {
+                    return self.custom_patch
+                }
+                return self.custom_injection
             }
-            return self.custom_injection_notified
         }
+        return r
     }
 }

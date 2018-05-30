@@ -109,6 +109,7 @@ public class UserDefaultsController: NSObject {
         defaults.synchronize()
         let c = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.counts[2] : PDStrings.counts[0]
         UserDefaultsController.setQuantityWithoutWarning(to: c)
+        ScheduleController.deliveryMethodChanged = true
     }
     
     public static func setTimeInterval(to: String) {

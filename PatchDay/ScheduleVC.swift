@@ -140,22 +140,22 @@ class ScheduleVC: UIViewController {
                 self.scheduleStack.removeArrangedSubview(views[2])
                 self.scheduleStack.removeArrangedSubview(views[3])
                 
-                let frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[0].frame.width, height: views[0].frame.height * 4)
-                views[0].frame = frame
-                img_views[0].frame = frame
-                buttons[0].frame = frame
+                views[0].frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[0].frame.width, height: views[0].frame.height * 4)
+                img_views[0].frame = CGRect(x: img_views[0].frame.origin.x, y: img_views[0].frame.origin.y, width: img_views[0].frame.width, height: img_views[0].frame.height * 4)
+                buttons[0].frame = CGRect(x: buttons[0].frame.origin.x, y: buttons[0].frame.origin.y, width: buttons[0].frame.width, height: buttons[0].frame.height * 4)
                 self.makeScheduleButton(scheduleButton: buttons[0], onView: views[0], imageView: img_views[0], isBlue: true, scheduleIndex: 0)
             }
                 
             // patches
             else {
+                
                 self.scheduleStack.addArrangedSubview(views[1])
                 self.scheduleStack.addArrangedSubview(views[2])
                 self.scheduleStack.addArrangedSubview(views[3])
-                let frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[1].frame.width, height: views[1].frame.height)
-                views[0].frame = frame
-                img_views[0].frame = frame
-                buttons[0].frame = frame
+                views[0].frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[1].frame.width, height: views[1].frame.height)
+                img_views[0].frame = CGRect(x: img_views[0].frame.origin.x, y: img_views[0].frame.origin.y, width: img_views[1].frame.width, height: img_views[1].frame.height)
+                buttons[0].frame = CGRect(x:buttons[0].frame.origin.x, y: buttons[0].frame.origin.y, width: buttons[1].frame.width, height: buttons[1].frame.height)
+ 
                 for i in 0...(self.getCount()-1) {
                     if let isB = colorDict[i], i < buttons.count {
                         self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], imageView: img_views[i], isBlue: isB, scheduleIndex: i)
@@ -197,7 +197,7 @@ class ScheduleVC: UIViewController {
         }
  
         /* -- Animation Process -- */
-        if ScheduleController.shouldAnimateFromCurrentConditions(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
+        if ScheduleController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
             UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 imageView.image = new_bg_img;
             }) {
@@ -263,7 +263,6 @@ class ScheduleVC: UIViewController {
         let default_img = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         
         if let mo = ScheduleController.coreData.getMO(forIndex: index) {
-            
             // empty
             if mo.isEmpty() {
                 return default_img

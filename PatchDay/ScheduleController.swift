@@ -38,7 +38,7 @@ public class ScheduleController: NSObject {
     /*************************************************************
      ANIMATION ALGORITHM
      *************************************************************/
-    public static func shouldAnimateFromCurrentConditions(scheduleIndex: Int, newBG: UIImage) -> Bool {
+    public static func shouldAnimate(scheduleIndex: Int, newBG: UIImage) -> Bool {
         
         /* -- Reasons to Animate -- */
         

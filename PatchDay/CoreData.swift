@@ -58,6 +58,7 @@ internal class CoreData {
         if forIndex < 0 || forIndex > 4 {
             return nil
         }
+        
             // no MO in mo_array forIndex (such as the Count changed), and it is still less than the count... then make a new MO and append and return it.
         else if forIndex < UserDefaultsController.getQuantityInt() {
             if forIndex >= mo_array.count {
@@ -173,6 +174,9 @@ internal class CoreData {
                 // no alert needed here (calling function will automatically create a generic MO if we can't load one from core data)
                 print("Data Fetch Request Failed")
             }
+        }
+        if let mo = userMO {
+            mo.setLocation(with: "unplaced")
         }
         return userMO
     }
