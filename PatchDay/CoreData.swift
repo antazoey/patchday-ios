@@ -175,9 +175,7 @@ internal class CoreData {
                 print("Data Fetch Request Failed")
             }
         }
-        if let mo = userMO {
-            mo.setLocation(with: "unplaced")
-        }
+
         return userMO
     }
     
