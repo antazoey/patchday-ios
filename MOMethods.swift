@@ -54,7 +54,7 @@ extension MOEstrogenDelivery {
             return "Right Abdomen"
         case "Left Buttock":
             return "Left Glute"
-        case "Right Buttock":
+         case "Right Buttock":
             return "Right Glute"
         case "Left Thigh":
             return "Left Quad"
