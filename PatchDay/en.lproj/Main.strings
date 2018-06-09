@@ -65,8 +65,8 @@
 /* Class = "UILabel"; text = "Main"; ObjectID = "ib6-yR-rGr"; */
 "ib6-yR-rGr.text" = "Main";
 
-/* Class = "UILabel"; text = "Suggest location:"; ObjectID = "m6I-w4-yag"; */
-"m6I-w4-yag.text" = "Suggest location:";
+/* Class = "UILabel"; text = "Autofill location:"; ObjectID = "m6I-w4-yag"; */
+"m6I-w4-yag.text" = "Autofill location:";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "n18-9f-ThC"; */
 "n18-9f-ThC.normalTitle" = "Button";

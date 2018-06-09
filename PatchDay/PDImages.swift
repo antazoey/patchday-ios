@@ -16,28 +16,28 @@ class PDImages {
     static internal var addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
     
     // patch location images
-    static internal var rButt: UIImage = { return #imageLiteral(resourceName: "Right Buttock") }()
-    static internal var lButt: UIImage = { return #imageLiteral(resourceName: "Left Buttock") }()
-    static internal var rStom: UIImage = { return #imageLiteral(resourceName: "Right Stomach") }()
-    static internal var lStom: UIImage = { return #imageLiteral(resourceName: "Left Stomach") }()
+    static internal var rButt: UIImage = { return #imageLiteral(resourceName: "Right Glute") }()
+    static internal var lButt: UIImage = { return #imageLiteral(resourceName: "Left Glute") }()
+    static internal var rStom: UIImage = { return #imageLiteral(resourceName: "Right Abdomen") }()
+    static internal var lStom: UIImage = { return #imageLiteral(resourceName: "Left Abdomen") }()
     
     // patch locations with notification
-    static internal var rButt_notified: UIImage = { return #imageLiteral(resourceName: "Right Buttock Notified") }()
-    static internal var lButt_notified: UIImage = { return #imageLiteral(resourceName: "Left Buttock Notified") }()
-    static internal var rStom_notified: UIImage = { return #imageLiteral(resourceName: "Right Stomach Notified") }()
-    static internal var lStom_notified: UIImage = { return #imageLiteral(resourceName: "Left Stomach Notified") }()
+    static internal var rButt_notified: UIImage = { return #imageLiteral(resourceName: "Right Glute Notified") }()
+    static internal var lButt_notified: UIImage = { return #imageLiteral(resourceName: "Left Glute Notified") }()
+    static internal var rStom_notified: UIImage = { return #imageLiteral(resourceName: "Right Abdomen Notified") }()
+    static internal var lStom_notified: UIImage = { return #imageLiteral(resourceName: "Left Abdomen Notified") }()
     
     // custom patch
     static internal var custom_patch: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
     static internal var custom_patch_notified: UIImage = { return #imageLiteral(resourceName: "Custom Patch Notified") }()
     
     // injection location images
-    static internal var lThigh: UIImage = { return #imageLiteral(resourceName: "Left Thigh")}()
-    static internal var rThigh: UIImage = { return #imageLiteral(resourceName: "Right Thigh")}()
+    static internal var lQuad: UIImage = { return #imageLiteral(resourceName: "Left Quad")}()
+    static internal var rQuad: UIImage = { return #imageLiteral(resourceName: "Right Quad")}()
     
     // injection locations with notification
-    static internal var rThigh_notified: UIImage = { return #imageLiteral(resourceName: "Right Thigh Notified")}()
-    static internal var lThigh_notified: UIImage = { return #imageLiteral(resourceName: "Left Thigh Notified")}()
+    static internal var rQuad_notified: UIImage = { return #imageLiteral(resourceName: "Right Quad Notified")}()
+    static internal var lQuad_notified: UIImage = { return #imageLiteral(resourceName: "Left Quad Notified")}()
     
     // custom injection
     static internal var custom_injection: UIImage = { return #imageLiteral(resourceName: "Custom Injection")}()
@@ -45,7 +45,7 @@ class PDImages {
     
     static internal func stringToImage(imageString: String) -> UIImage {
         var r: UIImage = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? self.addPatch : self.addInjection
-        let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt, PDStrings.leftButt(): lButt, PDStrings.rightStom(): rStom, PDStrings.leftStom(): lStom,  PDStrings.leftThigh(): lThigh, PDStrings.rightThigh(): rThigh]
+        let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt, PDStrings.leftButt(): lButt, PDStrings.rightStom(): rStom, PDStrings.leftStom(): lStom,  PDStrings.leftQuad(): lQuad, PDStrings.rightQuad(): rQuad]
         let locs = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
         if (locs.contains(imageString)) {
             r = stringToImageDict[imageString]!
@@ -63,7 +63,7 @@ class PDImages {
     
     static internal func stringToNotifiedImage(imageString: String) -> UIImage {
         var r: UIImage = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? self.addPatch : self.addInjection
-        let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt_notified, PDStrings.leftButt(): lButt_notified, PDStrings.rightStom(): rStom_notified, PDStrings.leftStom(): lStom_notified, PDStrings.rightThigh(): rThigh_notified, PDStrings.leftThigh(): lThigh_notified]
+        let stringToImageDict = [PDStrings.unplaced_string: addPatch, PDStrings.rightButt(): rButt_notified, PDStrings.leftButt(): lButt_notified, PDStrings.rightStom(): rStom_notified, PDStrings.leftStom(): lStom_notified, PDStrings.rightQuad(): rQuad_notified, PDStrings.leftQuad(): lQuad_notified]
         let locs = (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) ? PDStrings.patchLocationNames : PDStrings.injectionLocationNames
         if (locs.contains(imageString)) {
             r = stringToImageDict[imageString]!

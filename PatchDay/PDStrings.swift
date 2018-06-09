@@ -50,10 +50,13 @@ class PDStrings {
     
     internal static var hasNoDate: String = NSLocalizedString("Patch has no date!", comment: "for when there is no date associated with the patch")
     
+    internal static var patchExpired_title: String = NSLocalizedString("Time for your next patch", comment: "title of notification about the need to take a medicaiton")
     
-    internal static var patchExpired_title: String = NSLocalizedString("Patch expired", comment: "title of notification about an expired patch")
+    internal static var patchExpiresSoon_title: String = NSLocalizedString("Almost time for your next patch", comment: "title of notification about an need to take a medication")
     
-    internal static var patchExpiresSoon_title: String = NSLocalizedString("Patch expires soon", comment: "title of notification about an upcoming expired patch")
+    internal static var injectionExpired_title: String = NSLocalizedString("Time for your next injection", comment: "title of notification about the need to take a medication")
+    
+    internal static var injectionExpiresSoon_title: String = NSLocalizedString("Almost time for your next injection", comment: "title of notification about an need to take a medication")
     
     internal static var auto_string: String = NSLocalizedString("Autofill", comment: "Label for autofilling properties")
     
@@ -65,9 +68,9 @@ class PDStrings {
     
     internal static var expirationIntervals: [String] = [NSLocalizedString("One half-week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("One week", tableName: nil, comment: "Displayed in a picker."), NSLocalizedString("Two weeks", comment: "Displayed in a picker.")]
     
-    internal static var patchLocationNames: [String] = [NSLocalizedString("Right Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Buttock", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Stomach", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Stomach", tableName: nil, comment: "location on body for where to place patch")]
+    internal static var patchLocationNames: [String] = [NSLocalizedString("Right Glute", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Glute", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Right Abdomen", tableName: nil, comment: "location on body for where to place patch"), NSLocalizedString("Left Abdomen", tableName: nil, comment: "location on body for where to place patch")]
     
-    internal static var injectionLocationNames: [String] = [NSLocalizedString("Right Thigh", comment: "Part of the body (leg)"), NSLocalizedString("Left Thigh", comment: "Part of the body (leg)")]
+    internal static var injectionLocationNames: [String] = [NSLocalizedString("Right Quad", comment: "Part of the body (leg)"), NSLocalizedString("Left Quad", comment: "Part of the body (leg)")]
     
     internal static var patchDetailsInstruction: String = NSLocalizedString("...", tableName: nil, comment: "instruction for empty patch")
     
@@ -79,7 +82,7 @@ class PDStrings {
     
     // notifications
     
-    internal static var expiredPatchNotificationIntros: [String : String] = ["Right Stomach" : NSLocalizedString("Change patch on your 'Right Stomach' ", comment: "notification telling you where and when to change your patch."),"Left Stomach" : NSLocalizedString("Change patch on your 'Left Stomach' ", comment: "notification telling you where and when to change your patch."),"Right Buttock" : NSLocalizedString("Change patch on your 'Right Buttock' ", comment: "notification telling you where and when to change your patch."),"Left Buttock" : NSLocalizedString("Change patch on your 'Left Buttock' ", comment: "notification telling you where and when to change your patch.")]
+    internal static var expiredPatchNotificationIntros: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "notification telling you where and when to change your patch."),"Left Glute" : NSLocalizedString("Change patch on your 'Left Glute' ", comment: "notification telling you where and when to change your patch.")]
     
     internal static var expiredPatchNotificationIntroForCustom: String = NSLocalizedString("Change patch ", comment: "notification tite for a custom located patch")
     
@@ -134,13 +137,13 @@ class PDStrings {
     
     internal static var suggestLocationAlertTitle: String = NSLocalizedString("Suggested Locations", comment: "a descriptive alert title that appears when enabling or disabling the SLF bool from the Settings")
     
-    internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Suggest location' is turned on, the 'Autofill' button from the Details view will give you an optimal location!", comment: "a descriptive alert message that appears when enabling or disabling the Suggest Location Functionality bool from the Settings")
+    internal static var suggestLocationAlertMessage: String = NSLocalizedString("When 'Autofill location' is turned on, the 'Autofill' button from the Details view will give you an optimal location!", comment: "a descriptive alert message that appears when enabling or disabling the Autofill Location Functionality bool from the Settings")
     
     // MARK: - disclaimer
     
-    internal static var disclaimerAlertTitle: String = NSLocalizedString("Disclaimer", comment: "Title for an alert that shows up the first time the app launches.")
+    internal static var disclaimerAlertTitle: String = NSLocalizedString("Setup / Disclaimer", comment: "Title for an alert that shows up the first time the app launches.")
     
-    internal static var disclaimerAlertMessage: String = NSLocalizedString("Use PatchDay responsibly, and please follow prescription or drug instructions!  Go to tryum.ph/patch_day.html to learn more about how to use PatchDay.", comment: "Message for an alert that shows up the first time the app launches.")
+    internal static var disclaimerAlertMessage: String = NSLocalizedString("To use PatchDay, go to the settings and set your delivery method (injections or patches), the time interval between doses, and the number of patches if applicable.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.juliyasmith.com/patchday.html to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for an alert that shows up the first time the app launches.")
     
     internal static var goToSupport: String = NSLocalizedString("Support page", comment: "")
     
@@ -296,11 +299,11 @@ class PDStrings {
         return patchLocationNames[3]
     }
     
-    internal static func rightThigh() -> String {
+    internal static func rightQuad() -> String {
         return injectionLocationNames[0]
     }
     
-    internal static func leftThigh() -> String {
+    internal static func leftQuad() -> String {
         return injectionLocationNames[1]
     }
     

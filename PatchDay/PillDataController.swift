@@ -176,21 +176,24 @@ public class PillDataController: NSObject {
         defaults.synchronize()
     }
     
+    // The newer stamp is always the last element.
     public static func getLaterStamp(stamps: Stamps) -> Stamp? {
-        if let stamps = stamps {
+        if let stamps = stamps, stamps.count > 0 {
             return stamps[stamps.count-1]
         }
         return nil
     }
     
+    // The older stamp is always at the 0 index.
     public static func getOlderStamp(stamps: Stamps) -> Stamp? {
-        if let stamps = stamps {
+        if let stamps = stamps, stamps.count > 0 {
             return stamps[0]
         }
         return nil
     }
     
     // take(this, at) : Translates to takePG(at) or takeTB(at) (legacy)
+    // Stamps is a stack - the older stamp is always at the index 0.
     public static func take(this: inout Stamps, at: Date, timesaday: Int, key: String) {
         /*----------------------------------------
          if...
@@ -325,6 +328,44 @@ public class PillDataController: NSObject {
         self.defaults.set(nil, forKey: PDStrings.pgStamp_key())
         self.synchonize()
     }
+    
+    static public func resetLaterTB() {
+        if var stamps = self.tb_stamps {
+            if self.tb_daily == 1 || stamps[stamps.count-1] == nil {
+                self.resetTB()
+            }
+            else {
+                if stamps.count == 2 {
+                    stamps = [stamps[0]]
+                    self.tb_stamps = stamps
+                    self.defaults.set(stamps as Stamps, forKey: PDStrings.tbStamp_key())
+                }
+                else {
+                    self.resetTB()
+                }
+                self.synchonize()
+            }
+        }
+    }
+    
+    static public func resetLaterPG() {
+        if var stamps = self.pg_stamps {
+            if self.pg_daily == 1 || stamps[stamps.count-1] == nil {
+                self.resetPG()
+            }
+            else {
+                if stamps.count == 2 {
+                    stamps = [stamps[0]]
+                    self.pg_stamps = stamps
+                    self.defaults.set(stamps as Stamps, forKey: PDStrings.pgStamp_key())
+                }
+                else {
+                    self.resetPG()
+                }
+                self.synchonize()
+            }
+        }
+    }
 
     // allStampedToday(stamps) : Returns true of all the stamps were stamped today.
     static public func allStampedToday(stamps: Stamps, timesaday: Int) -> Bool {
@@ -337,6 +378,53 @@ public class PillDataController: NSObject {
         // 1.) not stamps on record
         // 2.) times-a-day scheduled is different than what's in the schedule
         return false
+    }
+    
+    static public func tbIsDone() -> Bool {
+        return allStampedToday(stamps: tb_stamps, timesaday: tb_daily)
+    }
+    
+    static public func pgIsDone() -> Bool {
+        return allStampedToday(stamps: pg_stamps, timesaday: pg_daily)
+    }
+    
+    static public func tbTakenToday() -> Bool {
+        if let s = self.getLaterStamp(stamps: self.tb_stamps) {
+            return Calendar.current.isDateInToday(s)
+        }
+        return false
+    }
+    
+    static public func pgTakenToday() -> Bool {
+        if let s = self.getLaterStamp(stamps: self.pg_stamps) {
+            return Calendar.current.isDateInToday(s)
+        }
+        return false
+    }
+    
+    static public func takenToday(stamps: Stamps) -> Bool {
+        if let s = self.getLaterStamp(stamps: stamps) {
+            return Calendar.current.isDateInToday(s)
+        }
+        return false
+    }
+    
+    public static func noRecords(stamps: Stamps) -> Bool {
+        if let stamps = stamps {
+            if stamps.count == 0 || stamps[0] == nil {
+                return true
+            }
+            return false
+        }
+        return true
+    }
+    
+    static public func tbIsDue() -> Bool {
+        return self.isDue(timesaday: self.tb_daily, stamps: self.tb_stamps, time1: self.tb1_time, time2: self.tb2_time)
+    }
+    
+    static public func pgIsDue() -> Bool {
+        return self.isDue(timesaday: self.pg_daily, stamps: self.pg_stamps, time1: self.pg1_time, time2: self.pg2_time)
     }
     
     // useSecondTime(timesaday, stamp) : Returns true if...

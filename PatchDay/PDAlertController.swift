@@ -108,7 +108,7 @@ internal class PDAlertController {
             let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style:     UIAlertActionStyle.cancel, handler: nil)
             let goToAction = UIAlertAction(title: PDStrings.goToSupport, style: .default) {
                 (void) in
-                if let url = URL(string: "http://tryum.ph/patch_day.html") {
+                if let url = URL(string: "http://www.juliyasmith.com/patchday.html") {
                     if #available(iOS 10.0, *) {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
                     } else {
@@ -142,7 +142,7 @@ internal class PDAlertController {
         }
     }
     
-    // MARK: - enabling or disabling "Suggest location functionality"
+    // MARK: - enabling or disabling "Autofill location functionality"
     
     // alertSLF(changingTo) : an alert displaying the description of the SLF: Suggestion Location Functionality.
     static internal func alertSLF(changingTo: Bool) {

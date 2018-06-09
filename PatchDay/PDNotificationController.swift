@@ -35,7 +35,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         // ACTION:  Autofill pressed
         if response.actionIdentifier == "changeActionID" {
             if ScheduleController.coreData.getMO(forIndex: currentScheduleIndex) != nil {
-                // Change the patch using a Suggested Location from the Suggest Location functionality.
+                // Change the patch using a Suggested Location from the Autofill Location functionality.
                 let suggestedLocation = SLF.suggest(scheduleIndex: currentScheduleIndex, generalLocations: ScheduleController.schedule().makeArrayOfLocations())
                 // Suggested date and time is the current date and time.
                 let suggestDate = Date()
@@ -79,13 +79,18 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             self.currentScheduleIndex = scheduleIndex
             // notification's attributes
             let content = UNMutableNotificationContent()
-            content.title = (notifyTime == 0) ? PDStrings.patchExpired_title : PDStrings.patchExpires_string
+            if (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) {
+                content.title = (notifyTime == 0) ? PDStrings.patchExpired_title : PDStrings.patchExpiresSoon_title
+            }
+            else {
+                content.title = (notifyTime == 0) ? PDStrings.injectionExpired_title : PDStrings.injectionExpiresSoon_title
+            }
             content.body = mo.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
             content.badge = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
             let allowsSLF = UserDefaultsController.getSLF()
             if allowsSLF {
-                // changeAction is an action for changing the patch from a notification using the Suggest Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
+                // changeAction is an action for changing the patch from a notification using the Autofill Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
                 let changeAction = UNNotificationAction(identifier: "changeActionID",
                     title: PDStrings.autoChange_string, options: [])
                 

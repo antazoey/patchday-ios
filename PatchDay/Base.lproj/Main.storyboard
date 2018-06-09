@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5SZ-er-8qY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5SZ-er-8qY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -371,6 +371,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h4R-l2-VW0">
                                                         <rect key="frame" x="275" y="0.0" width="73" height="42"/>
+                                                        <accessibility key="accessibilityConfiguration" identifier="tbcheck"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="73" id="99d-pc-Rpf"/>
                                                         </constraints>
@@ -481,6 +482,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4x3-AM-NN8">
                                                         <rect key="frame" x="275" y="0.0" width="73" height="42"/>
+                                                        <accessibility key="accessibilityConfiguration" identifier="pgcheck"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="73" id="1nI-8F-ALh"/>
                                                         </constraints>

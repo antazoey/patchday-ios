@@ -10,7 +10,7 @@ import Foundation
 
 public class EstrogenSchedule {
     
-    // Description: EstrogenSchedule is a class for querying the user's managed object array ([MOEstrogenDelivery]).  All of the self.supply in the user's current schedule form the EstrogenSchedule.  The EstrogenSchedule is used to suggest a location, as part of the "Suggest Location Functionality" mentioned on the SettingsVC.  It also finds the oldest MO in the schedule, which is important when changing an MO in the ScheduleController.
+    // Description: EstrogenSchedule is a class for querying the user's managed object array ([MOEstrogenDelivery]).  All of the self.supply in the user's current schedule form the EstrogenSchedule.  The EstrogenSchedule is used to suggest a location, as part of the "Autofill Location Functionality" mentioned on the SettingsVC.  It also finds the oldest MO in the schedule, which is important when changing an MO in the ScheduleController.
     
     private var supply: [MOEstrogenDelivery]
     
@@ -18,9 +18,9 @@ public class EstrogenSchedule {
         self.supply = estrogens
     }
     
-    // MARK: - Suggest Location Functionality
+    // MARK: - Autofill Location Functionality
     
-    // how to access the Suggest Location Algorithm
+    // how to access the Autofill Location Algorithm
     internal func suggestLocation(scheduleIndex: Int) -> String {
         return SLF.suggest(scheduleIndex: scheduleIndex, generalLocations: makeArrayOfLocations())
     }

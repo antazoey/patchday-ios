@@ -10,6 +10,8 @@ import UIKit
 
 class PillsVC: UIViewController {
     
+    private var check: String = "✓"
+    
     // UI elements
     @IBOutlet weak var pillStack: UIStackView!
     @IBOutlet weak var tbStack: UIStackView!
@@ -74,33 +76,125 @@ class PillsVC: UIViewController {
     // MARK: - IBActions
     
     @IBAction func tb_tapped(_ sender: Any) {
-        let stamp = Stamp()
-        PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.tbStamp_key())
-        self.disableTB(stamp: stamp)
-        appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+        
+        // undo tapped
+        if let b = sender as? UIButton, b.accessibilityIdentifier == "tbcheck", b.titleLabel?.text == PDStrings.undo {
+            PillDataController.resetLaterTB()
+            if (PillDataController.tbIsDue()) {
+                self.tb_button.setTitleColor(UIColor.red, for: .normal)
+                self.tb_time.setTitleColor(UIColor.red, for: .normal)
+                if let oldstamp = PillDataController.getOlderStamp(stamps: PillDataController.tb_stamps) {
+                    self.tb_time.setTitle(PillDataController.format(date: oldstamp) + " - " + PDStrings.due, for: .normal)
+                }
+                else {
+                    self.tb_time.setTitle(PDStrings.nothing_yet_placeholder + " - " + PDStrings.due, for: .normal)
+                }
+                self.tb_time.isEnabled = true
+            }
+            else {
+                self.tb_button.setTitleColor(UIColor.blue, for: .normal)
+                if let oldstamp = PillDataController.getOlderStamp(stamps: PillDataController.tb_stamps) {
+                    self.tb_time.setTitle(PillDataController.format(date: oldstamp), for: .normal)
+                }
+                else {
+                    self.tb_time.setTitle(PDStrings.nothing_yet_placeholder, for: .normal)
+                }
+                self.tb_time.isEnabled = true
+            }
+            
+            // Reset to question mark if there are not more records to undo
+            if PillDataController.noRecords(stamps: PillDataController.tb_stamps) {
+                UIView.transition(with: self.tb_button, duration: 0.75, options: .transitionCrossDissolve, animations: {                self.tb_button.setTitle(self.check, for: .normal) }) {
+                    (void) in
+                    if (PillDataController.tbIsDue()) {
+                        self.tb_button.setTitleColor(UIColor.red, for: .normal)
+                    }
+                    else {
+                        self.tb_button.setTitleColor(UIColor.blue, for: .normal)
+                    }
+                    self.tb_button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+                }
+            }
+        }
+        else {
+            let stamp = Stamp()
+            PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.tbStamp_key())
+            self.disableTB(stamp: stamp)
+            appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+            
+            self.makeUndoButton(button: self.tb_button)
+        }
     }
     
     @IBAction func pg_tapped(_ sender: Any) {
-        let stamp = Stamp()
-        PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.pgStamp_key())
-        self.disablePG(stamp: stamp)
-        appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+        
+        // undo tapped
+        if let b = sender as? UIButton, b.accessibilityIdentifier == "pgcheck", b.titleLabel?.text == PDStrings.undo {
+            PillDataController.resetLaterPG()
+            if (PillDataController.pgIsDue()) {
+                self.pg_button.setTitleColor(UIColor.red, for: .normal)
+                self.pg_time.setTitleColor(UIColor.red, for: .normal)
+                if let oldstamp = PillDataController.getOlderStamp(stamps: PillDataController.pg_stamps) {
+                    self.pg_time.setTitle(PillDataController.format(time: oldstamp) + " - " + PDStrings.due, for: .normal)
+                }
+                else {
+                    self.pg_time.setTitle(PDStrings.nothing_yet_placeholder + " - " + PDStrings.due, for: .normal)
+                }
+                self.pg_time.isEnabled = true
+            }
+            else {
+                self.pg_button.setTitleColor(UIColor.blue, for: .normal)
+                if let oldstamp = PillDataController.getOlderStamp(stamps: PillDataController.pg_stamps) {
+                    self.pg_time.setTitle(PillDataController.format(time: oldstamp), for: .normal)
+                }
+                else {
+                    self.pg_time.setTitle(PDStrings.nothing_yet_placeholder, for: .normal)
+                }
+                self.pg_time.isEnabled = true
+            }
+            
+            // Reset to question mark if there are not more records to undo
+            if PillDataController.noRecords(stamps: PillDataController.pg_stamps) {
+                UIView.transition(with: self.pg_button, duration: 0.75, options: .transitionCrossDissolve, animations: {                self.pg_button.setTitle(self.check, for: .normal) }) {
+                        (void) in
+                    if (PillDataController.pgIsDue()) {
+                        self.pg_button.setTitleColor(UIColor.red, for: .normal)
+                    }
+                    else {
+                        self.pg_button.setTitleColor(UIColor.blue, for: .normal)
+                    }
+                    self.pg_button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
+                }
+            }
+        }
+        else {
+            let stamp = Stamp()
+            PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.pgStamp_key())
+            self.disablePG(stamp: stamp)
+            appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+            
+            self.makeUndoButton(button: self.pg_button)
+        }
     }
     
     // MARK: - Private / Helpers
+    
+    private func makeUndoButton(button: UIButton) {
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitle(PDStrings.undo, for: .normal)
+        button.setTitleColor(UIColor.blue, for: .normal)
+    }
     
     private func disableTB(stamp: Stamp) {
         self.tb_time.setTitle(PillDataController.format(date: stamp), for: .normal)
         self.tb_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
         self.tb_time.isEnabled = false
-        self.tb_button.isEnabled = false
     }
     
     private func disablePG(stamp: Stamp) {
         self.pg_time.setTitle(PillDataController.format(date: stamp), for: .normal)
         self.pg_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
         self.pg_time.isEnabled = false
-        self.pg_button.isEnabled = false
     }
     
     // appear(including, stamps, timesaday, first_t, second_t, mode) : This function appears all the details of pill related UI features for either TB or PG, depending on if mode = 0 for TB or 1 for PG.  This function will indicate whether the pill is due for taking or has been fully taken for the day.
@@ -111,6 +205,11 @@ class PillsVC: UIViewController {
             let isDue = PillDataController.isDue(timesaday: timesaday, stamps: stamps, time1: first_t, time2: second_t)
             if let laterStamp: Stamp = PillDataController.getLaterStamp(stamps: stamps) {
                 
+                let takenToday = PillDataController.takenToday(stamps: stamps)
+                if takenToday {
+                    self.makeUndoButton(button: ta)
+                }
+                
                 //**********************************
                 // RED w/ " - due"
                 // Uses a "time" instead of a "stamp" when due
@@ -118,14 +217,23 @@ class PillsVC: UIViewController {
                     let time: Time = (PillDataController.useSecondTime(timesaday: timesaday, stamp: laterStamp)) ? second_t : first_t
                     tb.setTitle(PillDataController.format(time: time) + " - " + PDStrings.due, for: .normal)
                     tb.setTitleColor(UIColor.red, for: .normal)
-                    ta.setTitleColor(UIColor.red, for: .normal)
+                    if !takenToday {
+                        ta.setTitleColor(UIColor.red, for: .normal)
+                    }
                     return
                 }
                     
                 //**********************************
                 // GRAY w/ disabled: Both pills taken today
                 else if let earlierStamp: Stamp = PillDataController.getOlderStamp(stamps: stamps), PillDataController.allStampedToday(stamps: stamps, timesaday: timesaday)  {
-                    mode == 0 ? self.disableTB(stamp: earlierStamp) : self.disablePG(stamp: earlierStamp)
+                    if mode == 0 {
+                        self.disableTB(stamp: earlierStamp)
+                        self.makeUndoButton(button: self.tb_button)
+                    }
+                    else {
+                        self.disablePG(stamp: earlierStamp)
+                        self.makeUndoButton(button: self.pg_button)
+                    }
                     return
                 }
                     

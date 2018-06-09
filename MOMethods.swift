@@ -45,7 +45,24 @@ extension MOEstrogenDelivery {
         guard let location = self.location else {
             return PDStrings.unplaced_string
         }
-        return location
+        
+        // For switching over from legacy location names
+        switch location {
+        case "Left Stomach":
+            return "Left Abdomen"
+        case "Right Stomach":
+            return "Right Abdomen"
+        case "Left Buttock":
+            return "Left Glute"
+        case "Right Buttock":
+            return "Right Glute"
+        case "Left Thigh":
+            return "Left Quad"
+        case "Right Thigh":
+            return "Right Quad"
+        default:
+            return location
+        }
     }
     
     // MARK: - mutators
