@@ -16,12 +16,14 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     // MARK: - Essential
     
     internal var center = UNUserNotificationCenter.current()
-    
     internal var currentScheduleIndex = 0
-    
     internal var sendingNotifications = true
-    
     internal var pillMode: Int = -1
+    
+    private var chgActionID = { return "changeActionID" }()
+    private var tkActionID = { return "takeActionID" }()
+    private var chgCategoryID = { return "changeCategoryID" }()
+    private var tkCategoryID = { return "takeCategoryID"}()
     
     override init() {
         super.init()
@@ -33,18 +35,18 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // ACTION:  Autofill pressed
-        if response.actionIdentifier == "changeActionID" {
-            if ScheduleController.coreData.getMO(forIndex: currentScheduleIndex) != nil {
-                // Change the patch using a Suggested Location from the Autofill Location functionality.
-                let suggestedLocation = SLF.suggest(scheduleIndex: currentScheduleIndex, generalLocations: ScheduleController.schedule().makeArrayOfLocations())
+        if response.actionIdentifier == chgActionID {
+            if CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: currentScheduleIndex) != nil {
+                // Change the patch using a Suggested Site from the Autofill Site functionality.
+                let suggestedSite = SLF.suggest(scheduleIndex: currentScheduleIndex, generalSites: CoreDataController.schedule().makeArrayOfSites())
                 // Suggested date and time is the current date and time.
                 let suggestDate = Date()
-                ScheduleController.coreData.setMO(scheduleIndex: currentScheduleIndex, date: suggestDate, location: suggestedLocation)
+                CoreDataController.coreData.setEstrogenDeliveryMO(scheduleIndex: currentScheduleIndex, date: suggestDate, location: suggestedSite)
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         }
-        if response.actionIdentifier == "takeActionID" {
-            let keys = [PDStrings.tbStamp_key(), PDStrings.pgStamp_key()]
+        if response.actionIdentifier == tkActionID {
+            let keys = [PDStrings.userDefaultKeys.tbStamp, PDStrings.userDefaultKeys.pgStamp]
             let dailies = [PillDataController.getTBDailyInt(), PillDataController.getPGDailyInt()]
             var stamps: Stamps = []
             // Temp stamps gets member stamps
@@ -74,42 +76,42 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
      ****************************************************/
     internal func requestNotifyExpired(scheduleIndex: Int) {
         let notifyTime = UserDefaultsController.getNotificationTimeDouble()
-        if let mo = ScheduleController.coreData.getMO(forIndex: scheduleIndex), sendingNotifications,
+        if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: scheduleIndex), sendingNotifications,
             UserDefaultsController.getRemindMeUpon(), var timeIntervalUntilExpire = mo.determineIntervalToExpire(timeInterval: UserDefaultsController.getTimeInterval()) {
             self.currentScheduleIndex = scheduleIndex
-            // notification's attributes
+            // Notification's attributes
             let content = UNMutableNotificationContent()
-            if (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]) {
-                content.title = (notifyTime == 0) ? PDStrings.patchExpired_title : PDStrings.patchExpiresSoon_title
+            if (UserDefaultsController.usingPatches()) {
+                content.title = (notifyTime == 0) ? PDStrings.notificationStrings.titles.patchExpired : PDStrings.notificationStrings.titles.patchExpires
             }
             else {
-                content.title = (notifyTime == 0) ? PDStrings.injectionExpired_title : PDStrings.injectionExpiresSoon_title
+                content.title = (notifyTime == 0) ? PDStrings.notificationStrings.titles.injectionExpired : PDStrings.notificationStrings.titles.injectionExpires
             }
             content.body = mo.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
-            content.badge = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
-            let allowsSLF = UserDefaultsController.getSLF()
-            if allowsSLF {
-                // changeAction is an action for changing the patch from a notification using the Autofill Location Functionality (the SLF Bool from the Settings must be True) and the current date and time.
-                let changeAction = UNNotificationAction(identifier: "changeActionID",
-                    title: PDStrings.autoChange_string, options: [])
+            content.badge = CoreDataController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
+
+            // ChangeAction is an action for changing the patch from a notification using the Autofill Site Functionality (the SLF Bool from the Settings must be True) and the current date and time.
+            let changeAction = UNNotificationAction(identifier: chgActionID, title: PDStrings.notificationStrings.actionMessages.autofill, options: [])
                 
-                // add the action int the category
-                let changeCategory = UNNotificationCategory(identifier: "changeCategoryID", actions: [changeAction], intentIdentifiers: [], options: [])
-                self.center.setNotificationCategories([changeCategory])
+            // Add the action int the category
+            let changeCategory = UNNotificationCategory(identifier: chgCategoryID, actions: [changeAction], intentIdentifiers: [], options: [])
+            self.center.setNotificationCategories([changeCategory])
                 
-                // suggest location in the notification body text
-                content.body += "\n\n" + PDStrings.notificationSuggestedLocation + ScheduleController.schedule().suggestLocation(scheduleIndex: scheduleIndex)
+            // Suggest site in the notification body text
+            let msg = (UserDefaultsController.usingPatches()) ? PDStrings.notificationStrings.messages.siteForNextPatch : PDStrings.notificationStrings.messages.siteForNextInjection
+            content.body += "\n\n" + msg + CoreDataController.schedule().suggestSite(scheduleIndex: scheduleIndex)
                 
-                // adopt category
-                content.categoryIdentifier = "changeCategoryID"
-            }
+            // Adopt category
+            content.categoryIdentifier = "changeCategoryID"
+            
             // Trigger
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 // Request
-                if let id = PDStrings.changeSoonIDs[scheduleIndex] {
+                if scheduleIndex >= 0 && scheduleIndex < PDStrings.notificationIDs.expiredIDs.count {
+                    let id = PDStrings.notificationIDs.expiredIDs[scheduleIndex]
                     let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
                     self.center.add(request) { (error : Error?) in
                         if error != nil {
@@ -131,8 +133,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             return
         }
         // Each array is 1x2, mode picks the correct values corresponding to TB or PG.
-        let titles: [String] = [PDStrings.takeTBNotificationTitle, PDStrings.takePGNotificationTitle]
-        let messages: [String] = [PDStrings.takeTBNotificationMessage, PDStrings.takePGNotificationMessage]
+        let titles: [String] = [PDStrings.notificationStrings.titles.takeTB, PDStrings.notificationStrings.titles.takePG]
+        let messages: [String] = [PDStrings.notificationStrings.messages.takeTB, PDStrings.notificationStrings.messages.takePG]
         let timesadays: [Int] = [PillDataController.getTBDailyInt(), PillDataController.getPGDailyInt()]
         let stamps: [Date?] = [PillDataController.getLaterStamp(stamps: PillDataController.tb_stamps), PillDataController.getLaterStamp(stamps: PillDataController.pg_stamps)]
         let firstTimes: [Date?] = [PillDataController.getTB1Time(), PillDataController.getPG1Time()]
@@ -143,14 +145,14 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         content.title = titles[mode]
         content.body = messages[mode]
         content.sound = UNNotificationSound.default()
-        content.badge = ScheduleController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
+        content.badge = CoreDataController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
         
         // Take Action
-        let takeAction = UNNotificationAction(identifier: "takeActionID",
-                                                title: PDStrings.take, options: [])
-        let takeCategory = UNNotificationCategory(identifier: "takeCategoryID", actions: [takeAction], intentIdentifiers: [], options: [])
+        let takeAction = UNNotificationAction(identifier: tkActionID,
+                                                title: PDStrings.actionStrings.take, options: [])
+        let takeCategory = UNNotificationCategory(identifier: tkCategoryID, actions: [takeAction], intentIdentifiers: [], options: [])
         self.center.setNotificationCategories([takeCategory])
-        content.categoryIdentifier = "takeCategoryID"
+        content.categoryIdentifier = tkCategoryID
         
         // Interval determination - TB1 or TB2? (or PG1 or PG2)
         let usingSecondTime = PillDataController.useSecondTime(timesaday: timesadays[mode], stamp: stamps[mode])
@@ -179,18 +181,21 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             let interval = choiceDate.timeIntervalSince(now)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
             // Request
-            let id = PDStrings.pillIDs[mode]
-            let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
-            self.center.add(request) { (error : Error?) in
-                if error != nil {
-                    print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+            if mode >= 0 && mode < PDStrings.notificationIDs.pillIDs.count {
+                let id = PDStrings.notificationIDs.pillIDs[mode]
+                let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger) // Schedule the notification.
+                self.center.add(request) { (error : Error?) in
+                    if error != nil {
+                        print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+                    }
                 }
             }
         }
     }
     
     internal func cancelSchedule(index: Int) {
-        if let id = PDStrings.changeSoonIDs[index] {
+        if index >= 0 && index < PDStrings.notificationIDs.expiredIDs.count {
+            let id = PDStrings.notificationIDs.expiredIDs[index]
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id])
         }
     }

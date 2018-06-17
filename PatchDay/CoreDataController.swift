@@ -1,5 +1,5 @@
 //
-//  ScheduleController.swift
+//  CoreDataController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/13/17.
@@ -12,9 +12,9 @@ import UIKit
 
 // MARK: Strings
 
-public class ScheduleController: NSObject {
+public class CoreDataController: NSObject {
     
-    // ScheduleController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch" or an "Injection", an abstraction of a patch on the physical body or an injection into the physical body.  The ScheduleController is how the user changes any of their patches or re-injects.  The user may also use the ScheduleController to edit a MOEstrogenDelivery object's attributes.  This static class uses a "Schedule" object to work with all of the MOEstrogenDeliverys together in an array.  Schedule objects are for querying an array of MOEstrogenDeliverys.
+    // CoreDataController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch" or an "Injection", an abstraction of a patch on the physical body or an injection into the physical body.  The CoreDataController is how the user changes any of their patches or re-injects.  The user may also use the CoreDataController to edit a MOEstrogenDelivery object's attributes.  This static class uses a "Schedule" object to work with all of the MOEstrogenDeliverys together in an array.  Schedule objects are for querying an array of MOEstrogenDeliverys.
     
     static internal var coreData: CoreData = CoreData()
     
@@ -24,7 +24,7 @@ public class ScheduleController: NSObject {
     static internal var animateScheduleFromChangeDelivery: Bool = false
     static internal var increasedCount: Bool = false
     static internal var decreasedCount: Bool = false
-    static internal var onlyLocationChanged: Bool = false
+    static internal var onlySiteChanged: Bool = false
     static internal var deliveryMethodChanged: Bool = false
     static internal var oldDeliveryCount: Int = 1
     static internal var indexOfChangedDelivery: Int = -1
@@ -32,7 +32,11 @@ public class ScheduleController: NSObject {
     // MARK: - Public
     
     public static func schedule() -> EstrogenSchedule {
-        return EstrogenSchedule(estrogens: coreData.mo_array)
+        return EstrogenSchedule(estrogens: coreData.estro_array)
+    }
+    
+    public static func sites() -> SiteSchedule {
+        return SiteSchedule(siteScheduleArray: coreData.loc_array)
     }
     
     /*************************************************************
@@ -43,20 +47,20 @@ public class ScheduleController: NSObject {
         /* -- Reasons to Animate -- */
         
         var hasDateAndItMatters: Bool = true
-        if let mo = coreData.getMO(forIndex: scheduleIndex), mo.hasNoDate() {
+        if let mo = coreData.getEstrogenDeliveryMO(forIndex: scheduleIndex), mo.hasNoDate() {
             hasDateAndItMatters = false
         }
         
         // 1.) from DETAILS: animate affected non-empty MO dates from changing
-        let moreThanLocationChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlyLocationChanged && indexOfChangedDelivery <= scheduleIndex && hasDateAndItMatters
+        let moreThanSiteChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlySiteChanged && indexOfChangedDelivery <= scheduleIndex && hasDateAndItMatters
         
-        // 2.) from DETAILS: animate the newly changed location and none else (date didn't change)
-        let isChangedLocationFromDetails: Bool = onlyLocationChanged && scheduleIndex == indexOfChangedDelivery
+        // 2.) from DETAILS: animate the newly changed site and none else (date didn't change)
+        let isChangedSiteFromDetails: Bool = onlySiteChanged && scheduleIndex == indexOfChangedDelivery
         
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
         let indexLessThanOldCountFromSettings: Bool = (increasedCount && scheduleIndex >= oldDeliveryCount)
 
-        return (moreThanLocationChangedFromDetails || isChangedLocationFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
+        return (moreThanSiteChangedFromDetails || isChangedSiteFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
         
     }
 

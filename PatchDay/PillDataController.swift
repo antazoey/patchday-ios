@@ -110,31 +110,31 @@ public class PillDataController: NSObject {
     
     public static func setIncludeTB(to: Bool) {
         self.includeTB = to
-        self.defaults.set(to, forKey: PDStrings.includeTB_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.includeTB)
         self.synchonize()
     }
     
     public static func setTBDaily(to: Int) {
         self.tb_daily = to
-        self.defaults.set(to, forKey: PDStrings.tb_daily_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.tbDaily)
         self.synchonize()
     }
     
     public static func setTB1Time(to: Time) {
         self.tb1_time = to
-        self.defaults.set(to, forKey: PDStrings.tbTime_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.tbTime1)
         self.synchonize()
     }
     
     public static func setTB2Time(to: Time) {
         self.tb2_time = to
-        self.defaults.set(to, forKey: PDStrings.tb2Time_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.tbTime2)
         self.synchonize()
     }
     
     static func setRemindTB(to: Bool) {
         self.remindTB = to
-        self.defaults.set(to, forKey: PDStrings.rTB_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.remindTB)
         self.synchonize()
     }
 
@@ -142,31 +142,31 @@ public class PillDataController: NSObject {
     
     public static func setIncludePG(to: Bool) {
         self.includePG = to
-        self.defaults.set(to, forKey: PDStrings.includePG_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.includePG)
         self.synchonize()
     }
     
     public static func setPGDaily(to: Int) {
         self.pg_daily = to
-        self.defaults.set(to, forKey: PDStrings.pg_daily_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.pgDaily)
         self.synchonize()
     }
     
     public static func setPG1Time(to: Time) {
         self.pg1_time = to
-        self.defaults.set(to, forKey: PDStrings.pgTime_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.pgTime1)
         self.synchonize()
     }
     
     public static func setPG2Time(to: Time) {
         self.pg2_time = to
-        self.defaults.set(to, forKey: PDStrings.pg2Time_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.pgTime2)
         self.synchonize()
     }
     
     public static func setRemindPG(to: Bool) {
         self.remindPG = to
-        self.defaults.set(to, forKey: PDStrings.rPG_key())
+        self.defaults.set(to, forKey: PDStrings.userDefaultKeys.remindPG)
         self.synchonize()
     }
     
@@ -190,6 +190,48 @@ public class PillDataController: NSObject {
             return stamps[0]
         }
         return nil
+    }
+    
+    // Returns number of stamps in stamps that were taken today.
+    public static func takenTodayCount(stamps: Stamps) -> Int {
+        var takenToday: Int = 0
+        if let stamps = stamps {
+            for i in 0...(stamps.count-1) {
+                if let stamp = stamps[i], Calendar.current.isDateInToday(stamp) {
+                    takenToday += 1
+                }
+            }
+        }
+        return takenToday
+    }
+    
+    public static func getFrac(mode: String) -> String? {
+        let including = (mode == "TB") ? PillDataController.includingTB() : PillDataController.includingPG()
+        if !including { return nil }
+        else {
+            let stamps = (mode == "TB") ? PillDataController.tb_stamps : PillDataController.pg_stamps
+            let count = (mode == "TB") ? PillDataController.getTBDailyInt() : PillDataController.getPGDailyInt()
+            let takenToday = PillDataController.takenTodayCount(stamps: stamps)
+            let done = count == takenToday
+            let twoPills = count == 2
+            var frac = ""
+            if done && twoPills {
+                frac = PDStrings.fractionStrings.twoOutOfTwo
+            }
+            else if done && !twoPills {
+                frac = PDStrings.fractionStrings.oneOutOfOne
+            }
+            else if !done && twoPills && takenToday == 1 {
+                frac = PDStrings.fractionStrings.oneOutOfTwo
+            }
+            else if !done && twoPills && takenToday == 0 {
+                frac = PDStrings.fractionStrings.zeroOutOfTwo
+            }
+            else {
+                frac = PDStrings.fractionStrings.zeroOutOfOne
+            }
+            return frac
+        }
     }
     
     // take(this, at) : Translates to takePG(at) or takeTB(at) (legacy)
@@ -241,11 +283,11 @@ public class PillDataController: NSObject {
         
         if calendar.isDateInToday(date) {
             dateFormatter.dateFormat = "h:mm a"
-            return PDStrings.today_title + ", " + dateFormatter.string(from: date)
+            return PDStrings.dayStrings.today + ", " + dateFormatter.string(from: date)
         }
         else if let yesterday: Date = PillDataController.getDate(at: Date(), daysToAdd: -1), calendar.isDate(date, inSameDayAs: yesterday) {
             dateFormatter.dateFormat = "h:mm a"
-            return PDStrings.yesterday_title + ", " + dateFormatter.string(from: date)
+            return PDStrings.dayStrings.yesterday + ", " + dateFormatter.string(from: date)
         }
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: date)
@@ -319,13 +361,13 @@ public class PillDataController: NSObject {
     
     static public func resetTB() {
         self.tb_stamps = nil
-        self.defaults.set(nil, forKey: PDStrings.tbStamp_key())
+        self.defaults.set(nil, forKey: PDStrings.userDefaultKeys.tbStamp)
         self.synchonize()
     }
     
     static public func resetPG() {
         self.pg_stamps = nil
-        self.defaults.set(nil, forKey: PDStrings.pgStamp_key())
+        self.defaults.set(nil, forKey: PDStrings.userDefaultKeys.pgStamp)
         self.synchonize()
     }
     
@@ -338,7 +380,7 @@ public class PillDataController: NSObject {
                 if stamps.count == 2 {
                     stamps = [stamps[0]]
                     self.tb_stamps = stamps
-                    self.defaults.set(stamps as Stamps, forKey: PDStrings.tbStamp_key())
+                    self.defaults.set(stamps as Stamps, forKey: PDStrings.userDefaultKeys.tbStamp)
                 }
                 else {
                     self.resetTB()
@@ -357,7 +399,7 @@ public class PillDataController: NSObject {
                 if stamps.count == 2 {
                     stamps = [stamps[0]]
                     self.pg_stamps = stamps
-                    self.defaults.set(stamps as Stamps, forKey: PDStrings.pgStamp_key())
+                    self.defaults.set(stamps as Stamps, forKey: PDStrings.userDefaultKeys.pgStamp)
                 }
                 else {
                     self.resetPG()
@@ -476,7 +518,7 @@ public class PillDataController: NSObject {
     // MARK: - TB Loaders
     
     static private func loadIncludeTB() {
-        if let i_tb = self.defaults.object(forKey: PDStrings.includeTB_key()) as? Bool {
+        if let i_tb = self.defaults.object(forKey: PDStrings.userDefaultKeys.includeTB) as? Bool {
             self.includeTB = i_tb
         }
         else {
@@ -485,7 +527,7 @@ public class PillDataController: NSObject {
     }
     
     static private func loadTBDaily() {
-        if let tb_x = self.defaults.object(forKey: PDStrings.tb_daily_key()) as? Int {
+        if let tb_x = self.defaults.object(forKey: PDStrings.userDefaultKeys.tbDaily) as? Int {
             self.tb_daily = tb_x
         }
         else {
@@ -494,7 +536,7 @@ public class PillDataController: NSObject {
     }
     
     static private func loadTB1Time() {
-        if let tb_t = self.defaults.object(forKey: PDStrings.tbTime_key()) as? Time {
+        if let tb_t = self.defaults.object(forKey: PDStrings.userDefaultKeys.tbTime1) as? Time {
             self.tb1_time = tb_t
         }
         else {
@@ -503,7 +545,7 @@ public class PillDataController: NSObject {
     }
     
     static private func loadTB2time() {
-        if let tb_t2 = self.defaults.object(forKey: PDStrings.tb2Time_key()) as? Time {
+        if let tb_t2 = self.defaults.object(forKey: PDStrings.userDefaultKeys.tbTime2) as? Time {
             self.tb2_time = tb_t2
         }
         else {
@@ -512,13 +554,13 @@ public class PillDataController: NSObject {
     }
     
     static private func loadTBTaken() {
-        if let stamp = self.defaults.object(forKey: PDStrings.tbStamp_key()) as? [Stamp] {
+        if let stamp = self.defaults.object(forKey: PDStrings.userDefaultKeys.tbStamp) as? [Stamp] {
             self.tb_stamps = stamp
         }
     }
     
     static private func loadRemindTB() {
-        if let r = self.defaults.object(forKey: PDStrings.rTB_key()) as? Bool {
+        if let r = self.defaults.object(forKey: PDStrings.userDefaultKeys.remindTB) as? Bool {
             self.remindTB = r
         }
         else {
@@ -529,7 +571,7 @@ public class PillDataController: NSObject {
     // MARK: - PG Loaders
     
     static private func loadIncludePG() {
-        if let i_pg = self.defaults.object(forKey: PDStrings.includePG_key()) as? Bool {
+        if let i_pg = self.defaults.object(forKey: PDStrings.userDefaultKeys.includePG) as? Bool {
             self.includePG = i_pg
         }
         else {
@@ -538,7 +580,7 @@ public class PillDataController: NSObject {
     }
     
     static private func loadPGTimesaday() {
-        if let pg_x = self.defaults.object(forKey: PDStrings.pg_daily_key()) as? Int {
+        if let pg_x = self.defaults.object(forKey: PDStrings.userDefaultKeys.pgDaily) as? Int {
             self.pg_daily = pg_x
         }
         else {
@@ -547,7 +589,7 @@ public class PillDataController: NSObject {
     }
     
     static private func loadPG1Time() {
-        if let pg_t = self.defaults.object(forKey: PDStrings.pgTime_key()) as? Time {
+        if let pg_t = self.defaults.object(forKey: PDStrings.userDefaultKeys.pgTime1) as? Time {
             self.pg1_time = pg_t
         }
         else {
@@ -556,7 +598,7 @@ public class PillDataController: NSObject {
     }
     
     static private func loadPG2time() {
-        if let pg_t2 = self.defaults.object(forKey: PDStrings.pg2Time_key()) as? Time {
+        if let pg_t2 = self.defaults.object(forKey: PDStrings.userDefaultKeys.pgTime2) as? Time {
             self.pg2_time = pg_t2
         }
         else {
@@ -565,13 +607,13 @@ public class PillDataController: NSObject {
     }
     
     static private func loadPGTaken() {
-        if let stamp = self.defaults.object(forKey: PDStrings.pgStamp_key()) as? [Stamp] {
+        if let stamp = self.defaults.object(forKey: PDStrings.userDefaultKeys.pgStamp) as? [Stamp] {
             self.pg_stamps = stamp
         }
     }
     
     static private func loadRemindPG() {
-        if let r = self.defaults.object(forKey: PDStrings.rPG_key()) as? Bool {
+        if let r = self.defaults.object(forKey: PDStrings.userDefaultKeys.remindPG) as? Bool {
             self.remindPG = r
         }
         else {

@@ -8,8 +8,8 @@
 /* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "2qc-jj-Sae"; */
 "2qc-jj-Sae.normalTitle" = "   〉";
 
-/* Class = "UILabel"; text = "Location:"; ObjectID = "2sx-PL-C2B"; */
-"2sx-PL-C2B.text" = "Location:";
+/* Class = "UILabel"; text = "Site:"; ObjectID = "2sx-PL-C2B"; */
+"2sx-PL-C2B.text" = "Site:";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3tV-Xz-Eqt"; */
 "3tV-Xz-Eqt.normalTitle" = "Button";
@@ -35,8 +35,8 @@
 /* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "EEv-5c-Ivy"; */
 "EEv-5c-Ivy.normalTitle" = "   〉";
 
-/* Class = "UILabel"; text = "Enables \"Suggest Patch Location\" functionality:"; ObjectID = "GV5-S9-7Km"; */
-"GV5-S9-7Km.text" = "Enables \"Suggest Patch Location\" functionality:";
+/* Class = "UILabel"; text = "Enables \"Suggest Patch Site\" functionality:"; ObjectID = "GV5-S9-7Km"; */
+"GV5-S9-7Km.text" = "Enables \"Suggest Patch Site\" functionality:";
 
 /* Class = "UILabel"; text = "Number of patches:"; ObjectID = "R6v-Ga-j3u"; */
 "R6v-Ga-j3u.text" = "Number of patches:";
@@ -65,8 +65,8 @@
 /* Class = "UILabel"; text = "Main"; ObjectID = "ib6-yR-rGr"; */
 "ib6-yR-rGr.text" = "Main";
 
-/* Class = "UILabel"; text = "Autofill location:"; ObjectID = "m6I-w4-yag"; */
-"m6I-w4-yag.text" = "Autofill location:";
+/* Class = "UILabel"; text = "Autofill site:"; ObjectID = "m6I-w4-yag"; */
+"m6I-w4-yag.text" = "Autofill site:";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "n18-9f-ThC"; */
 "n18-9f-ThC.normalTitle" = "Button";
@@ -98,8 +98,8 @@
 /* Class = "UILabel"; text = "Receive a reminder notification minutes before patch expiration."; ObjectID = "vfC-et-iHq"; */
 "vfC-et-iHq.text" = "Receive a reminder notification minutes before patch expiration.";
 
-/* Class = "UILabel"; text = "Expiration:"; ObjectID = "xZp-Rx-dxb"; */
-"xZp-Rx-dxb.text" = "Expiration:";
+/* Class = "UILabel"; text = "Schedule:"; ObjectID = "xZp-Rx-dxb"; */
+"xZp-Rx-dxb.text" = "Schedule:";
 
 /* Class = "UIButton"; normalTitle = "Autofill"; ObjectID = "ynp-FM-Qea"; */
 "ynp-FM-Qea.normalTitle" = "Autofill";

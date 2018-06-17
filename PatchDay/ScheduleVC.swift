@@ -44,8 +44,9 @@ class ScheduleVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.tintColor = UIColor.blue
         self.updateFromBackground()
-        self.view.backgroundColor = PDColors.lighterCuteGray
+        self.view.backgroundColor = PDColors.pdLighterCuteGray
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -118,10 +119,10 @@ class ScheduleVC: UIViewController {
         else {
             self.pillNav.isEnabled = true
             if PillDataController.containsDue() {
-                self.pillNav.title = PDStrings.pills + "❗️"
+                self.pillNav.title = PDStrings.titleStrings.pills + "❗️"
                 return
             }
-            self.pillNav.title = PDStrings.pills
+            self.pillNav.title = PDStrings.titleStrings.pills
         }
     }
     
@@ -135,7 +136,7 @@ class ScheduleVC: UIViewController {
         if self.getCount() > 0 {
             
             // injection
-            if UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[1] {
+            if UserDefaultsController.getDeliveryMethod() == PDStrings.pickerData.deliveryMethods[1] {
                 self.scheduleStack.removeArrangedSubview(views[1])
                 self.scheduleStack.removeArrangedSubview(views[2])
                 self.scheduleStack.removeArrangedSubview(views[3])
@@ -166,11 +167,11 @@ class ScheduleVC: UIViewController {
             self.disableUnusedScheduleButtons()
         }
         // reset animation bools
-        ScheduleController.increasedCount = false
-        ScheduleController.decreasedCount = false
-        ScheduleController.deliveryMethodChanged = false
-        ScheduleController.animateScheduleFromChangeDelivery = false
-        ScheduleController.onlyLocationChanged = false
+        CoreDataController.increasedCount = false
+        CoreDataController.decreasedCount = false
+        CoreDataController.deliveryMethodChanged = false
+        CoreDataController.animateScheduleFromChangeDelivery = false
+        CoreDataController.onlySiteChanged = false
     }
     
     // makeScheduleButton(scheduleButton, isBlue, scheduleIndex) : called by self. displayScheduleButton(), generated a schedule button with the appropriate properties, including its animation in the cases when loaded from other view controller that change applicable schedule properties.
@@ -179,25 +180,25 @@ class ScheduleVC: UIViewController {
         scheduleButton.isHidden = false
         let new_bg_img = self.determineScheduleButtonImage(index: scheduleIndex)
         let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
-        var expFont: UIFont = UIFont.systemFont(ofSize: 11)
+        var expFont: UIFont = UIFont.systemFont(ofSize: 14)
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
             expFont = UIFont.systemFont(ofSize: 26)
         }
-        else if (UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[1]) {
+        else if (UserDefaultsController.getDeliveryMethod() == PDStrings.pickerData.deliveryMethods[1]) {
             expFont = UIFont.systemFont(ofSize: 20)
         }
-        scheduleButton.setTitleColor(PDColors.darkLines, for: .normal)
+        scheduleButton.setTitleColor(PDColors.pdDarkLines, for: .normal)
         
         // Blue views
          if isBlue {
-            onView.backgroundColor = PDColors.lightBlue
+            onView.backgroundColor = PDColors.pdLightBlue
          }
          else {
             onView.backgroundColor = self.view.backgroundColor
         }
  
         /* -- Animation Process -- */
-        if ScheduleController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
+        if CoreDataController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
             UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 imageView.image = new_bg_img;
             }) {
@@ -222,9 +223,9 @@ class ScheduleVC: UIViewController {
     // called by self.makeScheduleButton()
     private func determineScheduleButtonTitle(scheduleIndex: Int, timeInterval: String) -> String {
         var title: String = ""
-        if let mo = ScheduleController.coreData.getMO(forIndex: scheduleIndex) {
-            if mo.getdate() != nil {
-                title += (mo.isExpired(timeInterval: timeInterval)) ? PDStrings.patchExpired_string : PDStrings.patchExpires_string
+        if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: scheduleIndex) {
+            if mo.getDate() != nil {
+                title += (mo.isExpired(timeInterval: timeInterval)) ? PDStrings.colonedStrings.expired : PDStrings.colonedStrings.expires
                 title += MOEstrogenDelivery.dayOfWeekString(date: mo.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
             }
             return title
@@ -259,18 +260,18 @@ class ScheduleVC: UIViewController {
     }
     
     private func determineScheduleButtonImage(index: Int) -> UIImage {
-        let usingPatches = UserDefaultsController.getDeliveryMethod() == PDStrings.deliveryMethods[0]
+        let usingPatches = UserDefaultsController.usingPatches()
         let default_img = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         
-        if let mo = ScheduleController.coreData.getMO(forIndex: index) {
+        if let estro = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: index) {
             // empty
-            if mo.isEmpty() {
+            if estro.isEmpty() {
                 return default_img
             }
             // custom patch
-            else if mo.isCustomLocated() {
-                let customDict = (usingPatches) ? [true: PDImages.custom_patch_notified, false: PDImages.custom_patch] : [true: PDImages.custom_injection_notified, false : PDImages.custom_injection]
-                if let image = customDict[mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())]     { return image }
+            else if estro.isCustomLocated() {
+                let customDict = (usingPatches) ? [true: PDImages.custom_notified_p, false: PDImages.custom_p] : [true: PDImages.custom_notified_i, false : PDImages.custom_i]
+                if let image = customDict[estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())]     { return image }
                     // failed to load custom patch (should never happen, but just in case)
                 else {
                     return default_img
@@ -279,9 +280,14 @@ class ScheduleVC: UIViewController {
                 
             // general located patch
             else {
-                // not expired, normal images, else, notified image
-                let img = (!mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())) ? PDImages.stringToImage(imageString: mo.getLocation()) : PDImages.stringToNotifiedImage(imageString: mo.getLocation())
-                return img
+                if usingPatches {
+                    let img = (!estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())) ? PDImages.stringToPatchImage(imageString: estro.getLocation()) : PDImages.stringToNotifiedPatchImage(imageString: estro.getLocation())
+                    return img
+                }
+                else {
+                    let img = (!estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())) ? PDImages.stringToInjectionImage(imageString: estro.getLocation()) : PDImages.stringToNotifiedInjectionImage(imageString: estro.getLocation())
+                    return img
+                }
             }
         }
         // nil patch
@@ -295,7 +301,7 @@ class ScheduleVC: UIViewController {
         var ref = 0
         var count = 0
         if let givenButtonID: String = (fromButton as! UIButton).restorationIdentifier {
-            for buttonID in PDStrings.scheduleButtonIDs {
+            for buttonID in PDStrings.ui_ids.scheduleButtonIDs {
                 count += 1
                 if givenButtonID == buttonID {
                     ref = count

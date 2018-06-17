@@ -8,8 +8,8 @@
 /* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "2qc-jj-Sae"; */
 "2qc-jj-Sae.normalTitle" = "   〉";
 
-/* Class = "UILabel"; text = "Location:"; ObjectID = "2sx-PL-C2B"; Note = "title for area that states the location the patch was placed at"; */
-"2sx-PL-C2B.text" = "Location:";
+/* Class = "UILabel"; text = "Site:"; ObjectID = "2sx-PL-C2B"; Note = "title for area that states the site the patch was placed at"; */
+"2sx-PL-C2B.text" = "Site:";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3tV-Xz-Eqt"; Note = "this doesn't need to be translated"; */
 "3tV-Xz-Eqt.normalTitle" = "Button";
@@ -35,8 +35,8 @@
 /* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "EEv-5c-Ivy"; */
 "EEv-5c-Ivy.normalTitle" = "   〉";
 
-/* Class = "UILabel"; text = "Enables \"Suggest Patch Location\" functionality:"; ObjectID = "GV5-S9-7Km"; Note = "A title, whole row to itself, regular font size.  Talking about a functionality in the app that autofills a bodily location such as "Right Glute" in a text field."; */
-"GV5-S9-7Km.text" = "Enables \"Suggest Patch Location\" functionality:";
+/* Class = "UILabel"; text = "Enables \"Suggest Patch Site\" functionality:"; ObjectID = "GV5-S9-7Km"; Note = "A title, whole row to itself, regular font size.  Talking about a functionality in the app that autofills a bodily site such as "Right Glute" in a text field."; */
+"GV5-S9-7Km.text" = "Enables \"Suggest Patch Site\" functionality:";
 
 /* Class = "UILabel"; text = "Number of patches:"; ObjectID = "R6v-Ga-j3u"; Note = "title for a nearby button for choosing the number of patches"; */
 "R6v-Ga-j3u.text" = "Number of patches:";
@@ -65,8 +65,8 @@
 /* Class = "UILabel"; text = "Main"; ObjectID = "ib6-yR-rGr"; Note = "title that indicated where the main schedule settings starts"; */
 "ib6-yR-rGr.text" = "Main";
 
-/* Class = "UILabel"; text = "Autofill location:"; ObjectID = "m6I-w4-yag"; Note = "the is the title for a switch that let's the user turn on a special functionality for suggest locations for the user when they change their patches."; */
-"m6I-w4-yag.text" = "Autofill location:";
+/* Class = "UILabel"; text = "Autofill site:"; ObjectID = "m6I-w4-yag"; Note = "the is the title for a switch that let's the user turn on a special functionality for suggest sites for the user when they change their patches."; */
+"m6I-w4-yag.text" = "Autofill site:";
 
 /* Class = "UIButton"; normalTitle = "Button"; ObjectID = "n18-9f-ThC"; Note = "this doesn't need to be translated"; */
 "n18-9f-ThC.normalTitle" = "Button";
@@ -98,8 +98,8 @@
 /* Class = "UILabel"; text = "Receive a reminder notification minutes before patch expiration."; ObjectID = "vfC-et-iHq"; Note = "the explanation about why one would enable a switch to receive a reminder before their patch expires"; */
 "vfC-et-iHq.text" = "Receive a reminder notification minutes before patch expiration.";
 
-/* Class = "UILabel"; text = "Expiration:"; ObjectID = "xZp-Rx-dxb"; Note = "title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire"; */
-"xZp-Rx-dxb.text" = "Expiration:";
+/* Class = "UILabel"; text = "Schedule:"; ObjectID = "xZp-Rx-dxb"; Note = "title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire"; */
+"xZp-Rx-dxb.text" = "Schedule:";
 
 /* Class = "UIButton"; normalTitle = "Autofill"; ObjectID = "ynp-FM-Qea"; Note = "Button title for changing a patch"; */
 "ynp-FM-Qea.normalTitle" = "Autofill";

@@ -33,14 +33,14 @@ internal class PDAlertController {
                 else {
                     alertStyle = .actionSheet
                 }
-                currentAlert = UIAlertController(title: PDStrings.warning, message: PDStrings.losingDataMsg, preferredStyle: alertStyle)
-                let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
+                currentAlert = UIAlertController(title: PDStrings.alertStrings.loseDataAlert.title, message: PDStrings.alertStrings.loseDataAlert.message, preferredStyle: alertStyle)
+                let continueAction = UIAlertAction(title: PDStrings.actionStrings.continue_, style: .destructive) {
                     (void) in
                     // Note: newCount is start_i because reset only occurs when decreasing count
-                    ScheduleController.coreData.resetData(start_i: newC, end_i: 3)
+                    CoreDataController.coreData.resetEstrogenData(start_i: newC, end_i: 3)
                     UserDefaultsController.setQuantityWithoutWarning(to: newCount)
                 }
-                let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel) {
+                let cancelAction = UIAlertAction(title: PDStrings.actionStrings.decline, style: .cancel) {
                     (void) in
                     countButton.setTitle(String(oldCount), for: .normal)
                 }
@@ -62,18 +62,18 @@ internal class PDAlertController {
             else {
                 alertStyle = .actionSheet
             }
-            currentAlert = UIAlertController(title: PDStrings.warning, message: PDStrings.losingDataMsg, preferredStyle: alertStyle)
-            let continueAction = UIAlertAction(title: PDStrings.continue_string, style: .destructive) {
+            currentAlert = UIAlertController(title: PDStrings.alertStrings.loseDataAlert.title, message: PDStrings.alertStrings.loseDataAlert.message, preferredStyle: alertStyle)
+            let continueAction = UIAlertAction(title: PDStrings.actionStrings.continue_, style: .destructive) {
                 (void) in
-                ScheduleController.coreData.resetData(start_i: 0, end_i: 3)
-                let c = (newMethod == PDStrings.deliveryMethods[0]) ? "3" : "1"
+                CoreDataController.coreData.resetEstrogenData(start_i: 0, end_i: 3)
+                let c = (newMethod == PDStrings.pickerData.deliveryMethods[0]) ? "3" : "1"
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
-                UserDefaultsController.setDeliveryMethodWithoutWarning(to: newMethod)
-                ScheduleController.deliveryMethodChanged = true
+                UserDefaultsController.setDeliveryMethod(to: newMethod)
+                CoreDataController.deliveryMethodChanged = true
             }
-            let cancelAction = UIAlertAction(title: PDStrings.cancel_string, style: .cancel) {
+            let cancelAction = UIAlertAction(title: PDStrings.actionStrings.decline, style: .cancel) {
                 (void) in
-                if oldMethod == PDStrings.deliveryMethods[0] {
+                if oldMethod == PDStrings.pickerData.deliveryMethods[0] {
                     countButton.isEnabled = true
                     countButton.setTitle(String(oldCount), for: .disabled)
                     countButton.setTitle(String(oldCount), for: .normal)
@@ -104,9 +104,9 @@ internal class PDAlertController {
             else {
                 alertStyle = .actionSheet
             }
-            currentAlert = UIAlertController(title: PDStrings.disclaimerAlertTitle, message: PDStrings.disclaimerAlertMessage, preferredStyle: alertStyle)
-            let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style:     UIAlertActionStyle.cancel, handler: nil)
-            let goToAction = UIAlertAction(title: PDStrings.goToSupport, style: .default) {
+            currentAlert = UIAlertController(title: PDStrings.alertStrings.startUp.title, message: PDStrings.alertStrings.startUp.message, preferredStyle: alertStyle)
+            let closeAction = UIAlertAction(title: PDStrings.actionStrings.dismiss, style:     UIAlertActionStyle.cancel, handler: nil)
+            let goToAction = UIAlertAction(title: PDStrings.alertStrings.startUp.support, style: .default) {
                 (void) in
                 if let url = URL(string: "http://www.juliyasmith.com/patchday.html") {
                     if #available(iOS 10.0, *) {
@@ -124,47 +124,21 @@ internal class PDAlertController {
     
     //MARK: - core data save error
     
-    static internal func alertForCoreDataSaveError() {
-        if let currentVC = self.getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.coreDataSaveAlertTitle, message:  PDStrings.coreDataSaveAlertMessage, preferredStyle: .alert)
-            let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style:     UIAlertActionStyle.cancel, handler: nil)
-            currentAlert.addAction(closeAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
-        }
-    }
-    
     static internal func alertForCoreDataError() {
         if let currentVC = self.getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: PDStrings.coreDataAlertMessage, preferredStyle: .alert)
-            let closeAction = UIAlertAction(title: PDStrings.dismiss_string, style: UIAlertActionStyle.cancel, handler: nil)
+            currentAlert = UIAlertController(title: PDStrings.alertStrings.coreDataAlert.title, message: PDStrings.alertStrings.coreDataAlert.message, preferredStyle: .alert)
+            let closeAction = UIAlertAction(title: PDStrings.actionStrings.dismiss, style: UIAlertActionStyle.cancel, handler: nil)
             currentAlert.addAction(closeAction)
             currentVC.present(currentAlert, animated: true, completion: nil)
         }
-    }
-    
-    // MARK: - enabling or disabling "Autofill location functionality"
-    
-    // alertSLF(changingTo) : an alert displaying the description of the SLF: Suggestion Location Functionality.
-    static internal func alertSLF(changingTo: Bool) {
-        if let currentVC = self.getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.suggestLocationAlertTitle,
-            message: PDStrings.suggestLocationAlertMessage, preferredStyle: .alert)
-            let continueAction = UIAlertAction(title: PDStrings.continue_string, style: UIAlertActionStyle.default) {
-                (void) in
-                UserDefaultsController.setSLF(to: changingTo)
-            }
-            currentAlert.addAction(continueAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
-        }
-        
     }
     
     // MARK: - persistent store load error
     
     static internal func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = self.getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.coreDataAlertTitle, message: "(\(String(describing: error))", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: PDStrings.accept_string, style: .destructive) {
+            currentAlert = UIAlertController(title: PDStrings.alertStrings.coreDataAlert.title, message: "(\(String(describing: error))", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: PDStrings.actionStrings.accept, style: .destructive) {
             (void) in
             fatalError()
             }

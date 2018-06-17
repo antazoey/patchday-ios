@@ -10,7 +10,7 @@ import Foundation
 
 public class EstrogenSchedule {
     
-    // Description: EstrogenSchedule is a class for querying the user's managed object array ([MOEstrogenDelivery]).  All of the self.supply in the user's current schedule form the EstrogenSchedule.  The EstrogenSchedule is used to suggest a location, as part of the "Autofill Location Functionality" mentioned on the SettingsVC.  It also finds the oldest MO in the schedule, which is important when changing an MO in the ScheduleController.
+    // Description: EstrogenSchedule is a class for querying the user's managed object array ([MOEstrogenDelivery]).  All of the self.supply in the user's current schedule form the EstrogenSchedule.  The EstrogenSchedule is used to suggest a site, as part of the "Autofill Site Functionality" mentioned on the SettingsVC.  It also finds the oldest MO in the schedule, which is important when changing an MO in the CoreDataController.
     
     private var supply: [MOEstrogenDelivery]
     
@@ -18,22 +18,22 @@ public class EstrogenSchedule {
         self.supply = estrogens
     }
     
-    // MARK: - Autofill Location Functionality
+    // MARK: - Autofill Site Functionality
     
-    // how to access the Autofill Location Algorithm
-    internal func suggestLocation(scheduleIndex: Int) -> String {
-        return SLF.suggest(scheduleIndex: scheduleIndex, generalLocations: makeArrayOfLocations())
+    // how to access the Autofill Site Algorithm
+    internal func suggestSite(scheduleIndex: Int) -> String {
+        return SLF.suggest(scheduleIndex: scheduleIndex, generalSites: makeArrayOfSites())
     }
     
-    internal func makeArrayOfLocations() -> [String] {
-        var locationArray: [String] = []
+    internal func makeArrayOfSites() -> [String] {
+        var siteArray: [String] = []
         for i in 0...(UserDefaultsController.getQuantityInt() - 1) {
             if i < self.supply.count {
                 let mo = self.supply[i]
-                locationArray.append(mo.getLocation())
+                siteArray.append(mo.getLocation())
             }
         }
-        return locationArray
+        return siteArray
     }
     
     // MARK: - Counters
@@ -58,7 +58,7 @@ public class EstrogenSchedule {
             if self.supply.count > 1 {
                 for i in 1...(self.supply.count - 1) {
                     let mo = self.supply[i]
-                    if let date = mo.getdate(), let oldDate = oldest.getdate() {
+                    if let date = mo.getDate(), let oldDate = oldest.getDate() {
                         if date < oldDate {
                             oldest = self.supply[i]
                         }
@@ -73,7 +73,7 @@ public class EstrogenSchedule {
     }
     
     public func oldestdate() -> Date? {
-        if let oldestMO = oldestMO(), let oldestdate = oldestMO.getdate() {
+        if let oldestMO = oldestMO(), let oldestdate = oldestMO.getDate() {
             return oldestdate
         }
         return nil
@@ -99,7 +99,7 @@ public class EstrogenSchedule {
         var allEmptyDates: Bool = true
         for i in 0...(self.supply.count - 1) {
             let mo = self.supply[i]
-            if mo.getdate() != nil {
+            if mo.getDate() != nil {
                 allEmptyDates = false
                 break
             }
@@ -141,7 +141,7 @@ public class EstrogenSchedule {
         let lastIndex = UserDefaultsController.getQuantityInt() - 1
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
-                if let mo = ScheduleController.coreData.getMO(forIndex: i) {
+                if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: i) {
                     // as soon as a MO is not empty, it will end the search, returning false.2te
                     if !mo.isEmpty() {
                         return false
@@ -164,7 +164,7 @@ public class EstrogenSchedule {
     
     public func oldestMOHasNoDateAndIsCustomLocated() -> Bool {
         if let oldestMO = oldestMO() {
-            return oldestMO.getdate() == nil && oldestMO.isCustomLocated()
+            return oldestMO.getDate() == nil && oldestMO.isCustomLocated()
         }
         return false
     }
