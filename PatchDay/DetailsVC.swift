@@ -31,7 +31,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // Autofill
     @IBOutlet private weak var autofillButton: UIButton!
     
-    // MOEstrogenDeliveryre site related
+    // MOEstrogenre site related
     @IBOutlet private weak var sitePicker: UIPickerView!
     
     // cosmetics
@@ -44,11 +44,8 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     // Non-IB
     private weak var saveButton: UIBarButtonItem!
-    
-    // reference to which patch it is (index in patches = reference - 1)
-    // references: 1,2,3,4
-    // note: not indices
-    internal var reference = 0
+    internal var estrogenScheduleIndex = -1
+    internal var sites = ScheduleController.siteSchedule().siteNamesArray
     
     // temp save
     internal var site: String = ""
@@ -61,6 +58,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // bools
     private var siteTextHasChanged = false
     private var dateTextHasChanged = false
+    private var shouldSaveSelectedSiteIndex = false
+    private var shouldSaveIncrementedSiteIndex = false
+    private var siteIndexSelected = -1
     
     @IBOutlet private weak var lineUnderScheduleDate: UIView!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
@@ -69,6 +69,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.chooseSiteButton.autocapitalizationType = .words
         view.backgroundColor = PDColors.pdPink
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.actionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
         self.saveButton = self.navigationItem.rightBarButtonItem
@@ -84,7 +85,6 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         
         // Text editing delegate as self
         self.chooseSiteButton.delegate = self
-
  
         // Site picker set up
         self.sitePicker.delegate = self
@@ -101,50 +101,35 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // Save Button
     // 1.) Side effects related to schedule animation
     // 2.) Save data
-    // 3.) Request notifications
-    // 4.) Notification badge number config
-    // 5.) Segue back to the ScheduleVC
+    // 3.) Notification badge number config
+    // 4.) Segue back to the ScheduleVC
+    // 5.) Set site index
     @objc private func saveButtonTapped(_ sender: Any) {
-        let moCount = CoreDataController.schedule().datePlacedCount()
+        self.configureBadgeIcon()
+        let estroCount = ScheduleController.estrogenSchedule().datePlacedCount()
         
         // Schedule animation side-effects
-        CoreDataController.indexOfChangedDelivery = (moCount != UserDefaultsController.getQuantityInt() && self.dateTextHasChanged) ? moCount : (self.reference - 1)
-        CoreDataController.animateScheduleFromChangeDelivery = true
-        
-        // ***** CONFIG BADGE ICON *****
-        if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: self.reference - 1) {
-        
-            let wasExpiredBeforeSave: Bool = mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
-            self.saveAttributes()
-            let isExpiredAfterSave = mo.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
-            
-            // New MO is fresh
-            if !isExpiredAfterSave && UIApplication.shared.applicationIconBadgeNumber > 0 {
-                    UIApplication.shared.applicationIconBadgeNumber -= 1
-            }
-                
-            // New MO is not fresh
-            else if !wasExpiredBeforeSave && isExpiredAfterSave {
-                UIApplication.shared.applicationIconBadgeNumber += 1
-            }
-        
-            if !wasExpiredBeforeSave {
-                self.cancelNotification()
-            }
-            self.requestNotification()
-        
-        }
+        ScheduleController.indexOfChangedDelivery = (estroCount != UserDefaultsController.getQuantityInt() && self.dateTextHasChanged) ? estroCount : (self.estrogenScheduleIndex)
+        ScheduleController.animateScheduleFromChangeDelivery = true
         
         // Transition
         if let navCon = self.navigationController {
             navCon.popViewController(animated: true)
+        }
+        
+        if self.shouldSaveIncrementedSiteIndex {
+            UserDefaultsController.incrementSiteIndex()
+        }
+        else if self.shouldSaveSelectedSiteIndex {
+            UserDefaultsController.setSiteIndex(to: self.siteIndexSelected)
         }
  
     }
     
     @IBAction private func autofillTapped(_ sender: Any) {
         self.autoPickSite()                                // Loc from SLF
-        self.autoPickDate()                                    // Date is now.
+        self.autoPickDate()
+        // Date is now.
         // ** Bools for saving **
         self.dateTextHasChanged = true
         self.siteTextHasChanged = true
@@ -185,6 +170,10 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.siteTextHasChanged = true
         self.chooseSiteButton.isHidden = false
         self.typeSiteButton.isEnabled = true
+        if let newSiteName = self.chooseSiteButton.text {
+              PDAlertController.alertForAddingNewSite(newSiteName: newSiteName)
+        }
+        self.saveButton.isEnabled = true
         return true
         
     }
@@ -193,7 +182,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     @IBAction internal func openSitePicker(_ sender: Any) {
         self.sitePicker.isHidden = false
-        self.sitePicker.selectRow(self.findSiteStartRow(), inComponent: 0, animated: false)
+        self.sitePicker.selectRow(self.findSiteStartRow(self.site), inComponent: 0, animated: false)
         // other View changes
         self.autofillButton.isHidden = true
         self.autofillButton.isEnabled = false
@@ -208,24 +197,16 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if UserDefaultsController.usingPatches() {
-            return PDStrings.siteNames.patchSiteNames.count
-        }
-        else {
-            return PDStrings.siteNames.injectionSiteNames.count
-        }
+        return self.sites.count
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if UserDefaultsController.usingPatches() {
-            return PDStrings.siteNames.patchSiteNames[row]
-        }
-        return PDStrings.siteNames.injectionSiteNames[row]
+        return sites[row]
     }
     
     // Done
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let newLoc = (UserDefaultsController.usingPatches()) ? PDStrings.siteNames.patchSiteNames[row] : PDStrings.siteNames.injectionSiteNames[row]
+        let newLoc = sites[row]
         self.chooseSiteButton.text = newLoc
         self.site = newLoc
         // other view changes
@@ -238,7 +219,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         self.autofillButton.isHidden = false
         self.siteTextHasChanged = true
         self.saveButton.isEnabled = true
-        
+        self.shouldSaveSelectedSiteIndex = true
+        self.shouldSaveIncrementedSiteIndex = false
+        self.siteIndexSelected = row
     }
 
     // MARK: - Date Picker funcs
@@ -259,9 +242,9 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         // disp date and time applied
         let d = self.datePicker.date
         self.datePlaced = d             // set temp
-        self.chooseDateButton.setTitle(MOEstrogenDelivery.makeDateString(from: d, useWords: true), for: UIControlState.normal)
-        if let expDate = MOEstrogenDelivery.expiredDate(fromDate: self.datePicker.date) {            // disp exp date
-            self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate, useWords: true)
+        self.chooseDateButton.setTitle(MOEstrogen.makeDateString(from: d, useWords: true), for: UIControlState.normal)
+        if let expDate = MOEstrogen.expiredDate(fromDate: self.datePicker.date) {            // disp exp date
+            self.expirationDateLabel.text = MOEstrogen.makeDateString(from: expDate, useWords: true)
         }
         // outer view changes
         self.saveButton.isEnabled = true
@@ -278,11 +261,11 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: self.reference - 1) {
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: self.estrogenScheduleIndex) {
             // site placed
-            if mo.getLocation() != PDStrings.placeholderStrings.unplaced {
+            if estro.getLocation() != PDStrings.placeholderStrings.unplaced {
                 // set site label text to patch's site
-                let loc = mo.getLocation()              // set temp
+                let loc = estro.getLocation()              // set temp
                 self.chooseSiteButton.text = loc
                 self.site = loc
             }
@@ -291,11 +274,11 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
                 self.chooseSiteButton.text = PDStrings.actionStrings.select
             }
             // date placed
-            if let date = mo.getDate() {
+            if let date = estro.getDate() {
                 // set date choose button's text to patch's date palced data
                 self.datePlaced = date                  // set temp
-                self.chooseDateButton.setTitle(MOEstrogenDelivery.makeDateString(from: date, useWords: true) , for: .normal)
-                self.expirationDateLabel.text = mo.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval(), useWords: true)
+                self.chooseDateButton.setTitle(MOEstrogen.makeDateString(from: date, useWords: true) , for: .normal)
+                self.expirationDateLabel.text = estro.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval(), useWords: true)
             }
             // date unplaced
             else {
@@ -309,8 +292,8 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         }
     }
     
-    internal func setReference(to: Int) {
-        self.reference = to
+    internal func setEstrogenScheduleIndex(to: Int) {
+        self.estrogenScheduleIndex = to
     }
     
     private func saveAttributes() {
@@ -320,46 +303,50 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
             guard let newSite = self.chooseSiteButton.text, newSite != "" else {
                 return
             }
-            CoreDataController.coreData.setEstrogenDeliveryLocation(scheduleIndex: self.reference - 1, with: newSite)
+            ScheduleController.coreDataController.setEstrogenDeliveryLocation(scheduleIndex: self.estrogenScheduleIndex, with: newSite)
             // set values for ScheduleVC animation algorithm
             if !self.dateTextHasChanged {
-                CoreDataController.onlySiteChanged = true
+                ScheduleController.onlySiteChanged = true
             }
         }
         if self.dateTextHasChanged {
-            CoreDataController.coreData.setEstrogenDeliveryDate(scheduleIndex: self.reference - 1, with: datePicker.date)
+            ScheduleController.coreDataController.setEstrogenDeliveryDate(scheduleIndex: self.estrogenScheduleIndex, with: datePicker.date)
         }
         
     }
     
     private func autoPickSite() {
-        // "Suggest Patch Site" functionality is enabled...
-        let suggestedSite = SLF.suggest(scheduleIndex: self.reference - 1, generalSites: CoreDataController.schedule().makeArrayOfSites())
-        self.chooseSiteButton.text = suggestedSite
+        let scheduleSites: [String] = ScheduleController.siteSchedule().siteNamesArray
+        let currentSites: [String] = ScheduleController.estrogenSchedule().currentSiteNames
+        let suggestedSiteIndex = SiteSuggester.suggest(estrogenScheduleIndex: self.estrogenScheduleIndex, currentSites: currentSites)
+        if suggestedSiteIndex >= 0 && suggestedSiteIndex < scheduleSites.count {
+            self.shouldSaveIncrementedSiteIndex = true
+            self.shouldSaveSelectedSiteIndex = false
+            self.chooseSiteButton.text = scheduleSites[suggestedSiteIndex]
+        }
     }
     
     private func autoPickDate() {
         let now = Date()
-        self.chooseDateButton.setTitle(MOEstrogenDelivery.makeDateString(from: now, useWords: true), for: .normal)
-        if let expDate = MOEstrogenDelivery.expiredDate(fromDate: now) {
-            self.expirationDateLabel.text = MOEstrogenDelivery.makeDateString(from: expDate, useWords: true)
+        self.chooseDateButton.setTitle(MOEstrogen.makeDateString(from: now, useWords: true), for: .normal)
+        if let expDate = MOEstrogen.expiredDate(fromDate: now) {
+            self.expirationDateLabel.text = MOEstrogen.makeDateString(from: expDate, useWords: true)
         }
     }
     
     private func requestNotification() {
         // request notification iff exists Patch.date
-        appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: self.reference - 1)
+        appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: self.estrogenScheduleIndex)
     }
     
     private func cancelNotification() {
-        appDelegate.notificationsController.cancelSchedule(index: self.reference - 1)
+        appDelegate.notificationsController.cancelSchedule(index: self.estrogenScheduleIndex)
     }
     
-    // MARK: - Private view creators / MOEstrogenDeliverydifiers
+    // MARK: - Private view creators / MOEstrogendifiers
     
-    private func findSiteStartRow() -> Int {
-        let locs = CoreDataController.sites().siteSet
-        if let i = locs.index(of: self.site) {
+    private func findSiteStartRow(_ site: String) -> Int {
+        if let i = self.sites.index(of: site) {
             return i
         }
         return 0
@@ -368,7 +355,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     private func setScheduleAndHeading() {
         let interval = UserDefaultsController.getTimeInterval()
         var exp = ""
-        if let estro = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: self.reference - 1) {            // unplaced patch instruction
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: self.estrogenScheduleIndex) {            // unplaced patch instruction
             if estro.getLocation() == PDStrings.placeholderStrings.unplaced {
                 exp = PDStrings.placeholderStrings.dotdotdot
             }
@@ -446,6 +433,31 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
             // iPad
         else {
             return 0
+        }
+    }
+    
+    private func configureBadgeIcon() {
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: self.estrogenScheduleIndex) {
+            
+            let wasExpiredBeforeSave: Bool = estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
+            self.saveAttributes()
+            let isExpiredAfterSave = estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
+            
+            // New estro is fresh
+            if !isExpiredAfterSave && UIApplication.shared.applicationIconBadgeNumber > 0 {
+                UIApplication.shared.applicationIconBadgeNumber -= 1
+            }
+                
+                // New estro is not fresh
+            else if !wasExpiredBeforeSave && isExpiredAfterSave {
+                UIApplication.shared.applicationIconBadgeNumber += 1
+            }
+            
+            if !wasExpiredBeforeSave {
+                self.cancelNotification()
+            }
+            self.requestNotification()
+            
         }
     }
     

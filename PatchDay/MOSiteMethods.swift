@@ -1,5 +1,5 @@
 //
-//  MOSite+CoreDataProperties.swift
+//  MOSite.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/14/18.
@@ -37,6 +37,11 @@ extension MOSite {
         if self.order > 0 {
             self.order -= 1
         }
+    }
+    
+    public func reset() {
+        self.order = Int16(-1)
+        self.name = ""
     }
     
     

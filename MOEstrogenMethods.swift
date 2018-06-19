@@ -1,5 +1,5 @@
 //
-//  MOEstrogenDeliveryMethods.swift
+//  MOEstrogenMethods.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/2/17.
@@ -9,14 +9,14 @@
 import Foundation
 import CoreData
 
-    //Description: MOEstrogenDelivery is a managed object class that represents either a Patch or an Injection.  MOEstrogenDelivery objects are abstractions of patches on the physical body or injections into the body.  They have two attributes: 1.) the date/time placed or injected, and 2.), the site placed or injected.  MOEstrogenDelivery.expirationDate() or MOEstrogenDelivery.expirationDateAsString() are useful in the Schedule.
+    //Description: MOEstrogen is a managed object class that represents either a Patch or an Injection.  MOEstrogen objects are abstractions of patches on the physical body or injections into the body.  They have two attributes: 1.) the date/time placed or injected, and 2.), the site placed or injected.  MOEstrogen.expirationDate() or MOEstrogen.expirationDateAsString() are useful in the Schedule.
 
     // This file is an extension of the Patch object to include useful methods.
 
-extension MOEstrogenDelivery {
+extension MOEstrogen {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<MOEstrogenDelivery> {
-        return NSFetchRequest<MOEstrogenDelivery>(entityName: PDStrings.coreDataKeys.estroEntityName)
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<MOEstrogen> {
+        return NSFetchRequest<MOEstrogen>(entityName: PDStrings.coreDataKeys.estroEntityName)
     }
 
     //MARK: - Setters
@@ -86,7 +86,7 @@ extension MOEstrogenDelivery {
         guard let dateAdded = self.datePlaced else {
             return PDStrings.placeholderStrings.unplaced
         }
-        return MOEstrogenDelivery.makeDateString(from: dateAdded, useWords: true)
+        return MOEstrogen.makeDateString(from: dateAdded, useWords: true)
     }
     
     public func expirationDateAsString(timeInterval: String, useWords: Bool) -> String {
@@ -94,7 +94,7 @@ extension MOEstrogenDelivery {
             return "..."
         }
         let expires = self.expirationDate(timeInterval: timeInterval)
-        return MOEstrogenDelivery.makeDateString(from: expires, useWords: useWords)
+        return MOEstrogen.makeDateString(from: expires, useWords: useWords)
     }
     
     // MARK: - Booleans
@@ -141,7 +141,7 @@ extension MOEstrogenDelivery {
     // MARK: - Date and time
     
     public func expirationDate(timeInterval: String) -> Date {
-        let hoursLasts = MOEstrogenDelivery.calculateHours(of: timeInterval)
+        let hoursLasts = MOEstrogen.calculateHours(of: timeInterval)
         let calendar = Calendar.current
         guard let dateAdded = self.getDate() else {
             return Date()
@@ -189,7 +189,7 @@ extension MOEstrogenDelivery {
     
     static public func makeDateString(from: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
-        if useWords, let word = MOEstrogenDelivery.dateWord(from: from) {
+        if useWords, let word = MOEstrogen.dateWord(from: from) {
             dateFormatter.dateFormat = "h:mm a"
             return word + ", " + dateFormatter.string(from: from)
         }
@@ -209,7 +209,7 @@ extension MOEstrogenDelivery {
     
     public static func dayOfWeekString(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        if let word = MOEstrogenDelivery.dateWord(from: date) {
+        if let word = MOEstrogen.dateWord(from: date) {
             dateFormatter.dateFormat = "h:mm a"
             return word + ", " + dateFormatter.string(from: date)
         }

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="PatchA" representedClassName="MOEstrogenDelivery" syncable="YES">
+    <entity name="PatchA" representedClassName="MOEstrogen" syncable="YES">
         <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="PatchB" representedClassName="MOEstrogenDelivery" syncable="YES">
+    <entity name="PatchB" representedClassName="MOEstrogen" syncable="YES">
         <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="PatchC" representedClassName="MOEstrogenDelivery" syncable="YES">
+    <entity name="PatchC" representedClassName="MOEstrogen" syncable="YES">
         <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
-    <entity name="PatchD" representedClassName="MOEstrogenDelivery" syncable="YES">
+    <entity name="PatchD" representedClassName="MOEstrogen" syncable="YES">
         <attribute name="datePlaced" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
@@ -21,10 +21,10 @@
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Site" positionX="-27" positionY="63" width="128" height="75"/>
         <element name="PatchA" positionX="-63" positionY="9" width="128" height="75"/>
         <element name="PatchB" positionX="-54" positionY="36" width="128" height="75"/>
         <element name="PatchC" positionX="-36" positionY="45" width="128" height="75"/>
         <element name="PatchD" positionX="-18" positionY="54" width="128" height="75"/>
+        <element name="Site" positionX="-27" positionY="63" width="128" height="75"/>
     </elements>
 </model>

@@ -9,10 +9,11 @@
 import UIKit
 
 typealias UITimePicker = UIDatePicker
+typealias SettingsKey = PDStrings.SettingsKey
 
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can alMOEstrogenDeliveryst be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Autofill Site Functionality". UserDefaultsController is the object responsible saving and loading the settings that the user chooses here.
+    // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can alMOEstrogenst be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Autofill Site Functionality". UserDefaultsController is the object responsible saving and loading the settings that the user chooses here.
     
     // Pickers
     @IBOutlet weak var deliveryMethodPicker: UIPickerView!
@@ -30,7 +31,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet var pg2_time_picker: UIDatePicker!
 
     // trackers
-    private var whichTapped: String?
+    private var whichTapped: SettingsKey?
     private var selectedRow: Int?
     
     // Schedule outlets (in order of appearance
@@ -139,7 +140,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         // Set animation related Var
-        CoreDataController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+        ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
     }
       
     // MARK: - Data loaders
@@ -272,25 +273,25 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // NUM OF ROWS...
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         var numberOfRows = 0;
-        if let context = self.getWhichTapped() {
-            switch context {
-            case PDStrings.userDefaultKeys.deliv:                            // DELIVERY METHOD
+        if let key = self.getWhichTapped() {
+            switch key {
+            case PDStrings.SettingsKey.deliv:                            // DELIVERY METHOD
                 numberOfRows = PDStrings.pickerData.deliveryMethods.count
                 break
-            case PDStrings.userDefaultKeys.count:                                     // COUNT
+            case PDStrings.SettingsKey.count:                                     // COUNT
                 numberOfRows = PDStrings.pickerData.counts.count
                 break
-            case PDStrings.userDefaultKeys.interval:                                  // INTERVAL
+            case PDStrings.SettingsKey.interval:                                  // INTERVAL
                 numberOfRows = PDStrings.pickerData.expirationIntervals.count
                 break
-            case PDStrings.userDefaultKeys.tbDaily, PDStrings.userDefaultKeys.pgDaily:        // TIMESADAY
+            case PDStrings.SettingsKey.tbDaily, PDStrings.SettingsKey.pgDaily:        // TIMESADAY
                 numberOfRows = PDStrings.pickerData.pillCounts.count
                 break
-            case PDStrings.userDefaultKeys.notif:                                     // NOTIF
+            case PDStrings.SettingsKey.notif:                                     // NOTIF
                 numberOfRows = PDStrings.pickerData.notificationTimes.count
                 break
             default:
-                print("ERROR:  Improper context when selecting picker selections count")
+                print("Error:  Improper context when selecting picker selections count")
             }
         }
         return numberOfRows
@@ -300,34 +301,34 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // ROW TITLES...
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title = " "
-        if let context = self.getWhichTapped() {
-            switch context {
-            case PDStrings.userDefaultKeys.deliv:                            // DELIVERY METHOD
+        if let key = self.getWhichTapped(){
+            switch key {
+            case PDStrings.SettingsKey.deliv:                            // DELIVERY METHOD
                 if row < PDStrings.pickerData.deliveryMethods.count && row >= 0 {
                     title = PDStrings.pickerData.deliveryMethods[row]
                 }
-            case PDStrings.userDefaultKeys.interval:                                  // INTERVAL
+            case PDStrings.SettingsKey.interval:                                  // INTERVAL
                 if row < PDStrings.pickerData.expirationIntervals.count && row >= 0 {
                     title = PDStrings.pickerData.expirationIntervals[row]
                 }
                 break
-            case PDStrings.userDefaultKeys.count:                                     // COUNT
+            case PDStrings.SettingsKey.count:                                     // COUNT
                 if row < PDStrings.pickerData.counts.count && row >= 0 {
                     title = PDStrings.pickerData.counts[row]
                 }
                 break
-            case PDStrings.userDefaultKeys.tbDaily, PDStrings.userDefaultKeys.pgDaily:        // TIMESADAY
+            case PDStrings.SettingsKey.tbDaily, PDStrings.SettingsKey.pgDaily:        // TIMESADAY
                 if row < PDStrings.pickerData.pillCounts.count && row >= 0 {
                     title = PDStrings.pickerData.pillCounts[row]
                 }
                 break
-            case PDStrings.userDefaultKeys.notif:                                     // NOTIF
+            case PDStrings.SettingsKey.notif:                                     // NOTIF
                 if row < PDStrings.pickerData.notificationTimes.count && row >= 0 {
                     title = PDStrings.pickerData.notificationTimes[row]
                 }
                 break
             default:
-                print("ERROR:  Improper context for loading PickerView")
+                print("Error:  Improper context for loading PickerView")
             }
         }
         return title
@@ -338,7 +339,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.selectedRow = row
     }
     
-    private func openOrClosePicker(key: String) {
+    private func openOrClosePicker(key: SettingsKey) {
         
         // Selector method for openOrClose(picker, buttonTapped, selections)
         // -- loads proper UI elements specific to each picker
@@ -349,220 +350,224 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // change member variable for determining correct picker
         self.setWhichTapped(to: key)
         switch key {
-        case PDStrings.userDefaultKeys.deliv:                // DELIVERY METHOD
+        case PDStrings.SettingsKey.deliv:                // DELIVERY METHOD
             self.deliveryMethodPicker.reloadAllComponents()
             self.deselectEverything(except: "dm")
             self.openOrClose(picker: self.deliveryMethodPicker, buttonTapped: self.deliveryMethodButton, selections: PDStrings.pickerData.deliveryMethods, key: key)
-        case PDStrings.userDefaultKeys.interval:                      // INTERVAL
+        case PDStrings.SettingsKey.interval:                      // INTERVAL
             self.expirationIntervalPicker.reloadAllComponents()
             self.deselectEverything(except: "i")
             self.openOrClose(picker: self.expirationIntervalPicker, buttonTapped: self.intervalButton, selections: PDStrings.pickerData.expirationIntervals, key: key)
             break
-        case PDStrings.userDefaultKeys.count:                         // COUNT
+        case PDStrings.SettingsKey.count:                         // COUNT
             self.countPicker.reloadAllComponents()
             self.deselectEverything(except: "c")
             self.openOrClose(picker: self.countPicker, buttonTapped: self.countButton, selections: PDStrings.pickerData.counts, key: key)
             break
-        case PDStrings.userDefaultKeys.tbDaily:                      // TB TIMESADAY
+        case PDStrings.SettingsKey.tbDaily:                      // TB TIMESADAY
             self.tb_daily_picker.reloadAllComponents()
             self.deselectEverything(except: "tb")
             self.openOrClose(picker: self.tb_daily_picker, buttonTapped: self.tb_daily_big, selections: PDStrings.pickerData.pillCounts, key: key)
             break
-        case PDStrings.userDefaultKeys.pgDaily:                      // PG TIMESADAY
+        case PDStrings.SettingsKey.pgDaily:                      // PG TIMESADAY
             self.pg_daily_picker.reloadAllComponents()
             self.deselectEverything(except: "pg")
             self.openOrClose(picker: self.pg_daily_picker, buttonTapped: self.pg_daily_big, selections: PDStrings.pickerData.pillCounts, key: key)
             break
-        case PDStrings.userDefaultKeys.notif:                         // NOTIFICATION TIME BEFORE
+        case PDStrings.SettingsKey.notif:                         // NOTIFICATION TIME BEFORE
             self.reminderTimePicker.reloadAllComponents()
             // close other pickers / deselect
             self.deselectEverything(except: "r")
             self.openOrClose(picker: self.reminderTimePicker, buttonTapped: self.reminderTimeButton, selections: PDStrings.pickerData.notificationTimes, key: key)
             break
         default:
-            print("ERROR: Improper context for loading UIPicker.")
+            print("Error: Improper context for loading UIPicker.")
         }
     }
     
-    // openOrClose(picker, buttonTapped, selections) : Refers to pickers that are NOT UITimePickers.
-    private func openOrClose(picker: UIPickerView, buttonTapped: UIButton, selections: [String], key: String) {
-        
-        // ******************************
-        // WHEN PICKER IS OPEN, CLOSE IT.
-        // ******************************
-        // In this case, select the button,
-        // And for count, set global variable necessary for animation,
-        // And close the picker,
-        // Then, save newly set User Defaults
-        
-        if picker.isHidden == false {
-            buttonTapped.isSelected = false
-            UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = true
-            }) {
-                (void) in
-                // Global var necessary for animation:
-                if key == PDStrings.userDefaultKeys.count {
-                    CoreDataController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
-                }
-                else if key == PDStrings.userDefaultKeys.tbDaily {
-                    self.tb2_time_big.setTitle(PillDataController.format(time: PillDataController.getTB2Time()), for: .normal)
-                }
-                else if key == PDStrings.userDefaultKeys.pgDaily {
-                    self.pg2_time_big.setTitle(PillDataController.format(time: PillDataController.getPG2Time()), for: .normal)
-                }
-                self.saveFromPicker(key: key)
+    // Select the button,
+    // And for count, set global variable necessary for animation,
+    // And close the picker,
+    // Then, save newly set User Defaults
+    private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView,_ key: SettingsKey) {
+        buttonTapped.isSelected = false
+        UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = true
+        }) {
+            (void) in
+            // Global var necessary for animation:
+            switch key {
+            case PDStrings.SettingsKey.count :
+                ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+                break
+            case PDStrings.SettingsKey.tbDaily :
+                self.tb2_time_big.setTitle(PillDataController.format(time: PillDataController.getTB2Time()), for: .normal)
+            case PDStrings.SettingsKey.pgDaily :
+                self.pg2_time_big.setTitle(PillDataController.format(time: PillDataController.getPG2Time()), for: .normal)
+            default :
+                break
             }
-            return
+            self.saveFromPicker(key)
         }
-        
-        // ******************************
-        // WHEN PICKER IS CLOSED, OPEN IT.
-        // ******************************
-        // In this case, open the picker with the correct info,
-        // And try to select current row.
-        
-        buttonTapped.isSelected = true  // select
-        
-        // set starting row to current button title label's text
+    }
+    
+    private func openPicker(_ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView) {
+        // Picker starting row
         if let title = buttonTapped.titleLabel, let readText = title.text {
-
             guard let selectedRowIndex = selections.index(of: readText) else {
-                // Selected Row Index = 0
                 picker.selectRow(0, inComponent: 0, animated: false)
                 UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
                 }, completion: nil)
                 return
             }
-            // Selected Row Index = current value
             picker.selectRow(selectedRowIndex, inComponent: 0, animated: true)
         }
         
-        // Always animates
         UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
         }, completion: nil)
     }
     
-    // saveFromPicker() : Saves values from pickers (NOT a function for TimePickers though).
-    private func saveFromPicker(key: String) {
-        /*****************************************
-         -- SAVING USER DEFAULTS --
-         *****************************************/
+    // For regular pickers
+    private func openOrClose(picker: UIPickerView, buttonTapped: UIButton, selections: [String], key: SettingsKey) {
+        if picker.isHidden == false {
+            self.closePicker(buttonTapped, picker, key)
+        }
+        else {
+            buttonTapped.isSelected = true
+            self.openPicker(buttonTapped, selections, picker)
+        }
+    }
+    
+    // MARK: - Saving
+    
+    private func saveDeliveryMethodChange(_ row: Int) {
+        if row < PDStrings.pickerData.deliveryMethods.count && row >= 0 {
+            let choice = PDStrings.pickerData.deliveryMethods[row]
+            // Injections
+            if choice == PDStrings.pickerData.deliveryMethods[1] {
+                self.countButton.setTitle(PDStrings.pickerData.counts[0], for: .disabled)
+                self.countButton.setTitle(PDStrings.pickerData.counts[0], for: .normal)
+                self.countButton.isEnabled = false
+                self.countButtonArrow.isEnabled = false
+            }
+                // Patches
+            else {
+                self.countButton.setTitle(PDStrings.pickerData.counts[2], for: .disabled)
+                self.countButton.setTitle(PDStrings.pickerData.counts[2], for: .normal)
+                self.countButton.isEnabled = true
+                self.countButtonArrow.isEnabled = true
+            }
+            self.deliveryMethodButton.setTitle(choice, for: .normal)
+            
+            // No Warning
+            if ScheduleController.estrogenSchedule().isEmpty() && ScheduleController.siteSchedule().isDefault() {
+                UserDefaultsController.setDeliveryMethod(to: choice)
+            }
+                // Alert if there is some data that should be erased
+            else {
+                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: self.deliveryMethodButton, countButton: self.countButton)
+            }
+        }
+        else {
+            print("Error: saving delivery method for index for row " + String(row))
+        }
+    }
+    
+    private func saveCountChange(_ row: Int) {
+        let oldCount = ScheduleController.oldDeliveryCount
+        if row < PDStrings.pickerData.counts.count && row >= 0 {
+            let choice = PDStrings.pickerData.counts[row]
+            UserDefaultsController.setQuantityWithWarning(to: choice, oldCount: oldCount, countButton: self.countButton)
+            self.countButton.setTitle(choice, for: .normal)
+        }
+        else {
+            print("Error: saving count for index for row " + String(row))
+        }
+    }
+    
+    private func saveIntervalChange(_ row: Int) {
+        if row < PDStrings.pickerData.expirationIntervals.count && row >= 0 {
+            let choice = PDStrings.pickerData.expirationIntervals[row]
+            UserDefaultsController.setTimeInterval(to: choice)
+            self.intervalButton.setTitle(choice, for: .normal)
+        }
+        else {
+            print("Error: saving expiration interval for row " + String(row))
+        }
+    }
+    
+    private func saveTBDaily(_ row: Int) {
+        if row < PDStrings.pickerData.pillCounts.count && row >= 0, let c = Int(PDStrings.pickerData.pillCounts[row]) {
+            PillDataController.setTBDaily(to: c)
+            (c == 1) ? self.disableTBTime2() : self.enableTBTime2()
+            self.tb_daily_big.setTitle(String(c), for: .normal)
+            self.disableExtraTB()
+            if PillDataController.getRemindTB() {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
+            }
+        }
+        else {
+            print("Error: saving TB timesday for row " + String(row))
+        }
+    }
+    
+    private func savePGDaily(_ row: Int) {
+        if row < PDStrings.pickerData.pillCounts.count && row >= 0, let c = Int(PDStrings.pickerData.pillCounts[row]) {
+            PillDataController.setPGDaily(to: c)
+            (c == 1) ? self.disablePGTime2() : self.enablePGTime2()
+            self.pg_daily_big.setTitle(String(c), for: .normal)
+            self.disableExtraPG()
+            if PillDataController.getRemindPG() {
+                appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
+            }
+        }
+        else {
+            print("Error: saving PG timesday for row " + String(row))
+        }
+    }
+    
+    private func saveNotificationChange(_ row: Int) {
+        if row < PDStrings.pickerData.notificationTimes.count && row >= 0 {
+            let choice = PDStrings.pickerData.notificationTimes[row]
+            UserDefaultsController.setNotificationOption(to: choice)
+            let title = choice
+            self.reminderTimeButton.setTitle(title, for: .normal)
+        }
+        else {
+            print("Error: saving notification time for row " + String(row))
+        }
+    }
+ 
+    // Saves values from pickers (NOT a function for TimePickers though).
+    private func saveFromPicker(_ key: SettingsKey) {
         if let row = self.selectedRow {
             
             let oldHighest = UserDefaultsController.getQuantityInt() - 1
             var shouldResend = true
             
             switch key {
-                
-                // DELIVERY METHOD
-            case PDStrings.userDefaultKeys.deliv:
-                if row < PDStrings.pickerData.deliveryMethods.count && row >= 0 {
-                    let choice = PDStrings.pickerData.deliveryMethods[row]
-                    // injections (limits count setting)
-                    if choice == PDStrings.pickerData.deliveryMethods[1] {
-                        self.countButton.setTitle(PDStrings.pickerData.counts[0], for: .disabled)
-                        self.countButton.setTitle(PDStrings.pickerData.counts[0], for: .normal)
-                        self.countButton.isEnabled = false
-                        self.countButtonArrow.isEnabled = false
-                    }
-                    // patches
-                    else {
-                        self.countButton.setTitle(PDStrings.pickerData.counts[2], for: .disabled)
-                        self.countButton.setTitle(PDStrings.pickerData.counts[2], for: .normal)
-                        self.countButton.isEnabled = true
-                        self.countButtonArrow.isEnabled = true
-                    }
-                    self.deliveryMethodButton.setTitle(choice, for: .normal)
-                    
-                    // No Warning
-                    if CoreDataController.schedule().isEmpty() && CoreDataController.sites().isDefault() {
-                        UserDefaultsController.setDeliveryMethod(to: choice)
-                    }
-                    // Alert if there is some data that should be erased
-                    else {
-                        PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: self.deliveryMethodButton, countButton: self.countButton)
-                    }
-                }
-                else {
-                    print("ERROR saving delivery method for index for row " + String(row))
-                }
+            case PDStrings.SettingsKey.deliv:
+                self.saveDeliveryMethodChange(row)
                 break
-                
-                // COUNT
-            case PDStrings.userDefaultKeys.count:
-                let oldCount = CoreDataController.oldDeliveryCount
-                if row < PDStrings.pickerData.counts.count && row >= 0 {
-                    let choice = PDStrings.pickerData.counts[row]
-                    UserDefaultsController.setQuantityWithWarning(to: choice, oldCount: oldCount, countButton: self.countButton)
-                    self.countButton.setTitle(choice, for: .normal)
-                }
-                else {
-                    print("ERROR saving count for index for row " + String(row))
-                }
+            case PDStrings.SettingsKey.count:
+                self.saveCountChange(row)
                 break
-                
-                // INTERVAL
-            case PDStrings.userDefaultKeys.interval:
-                if row < PDStrings.pickerData.expirationIntervals.count && row >= 0 {
-                    let choice = PDStrings.pickerData.expirationIntervals[row]
-                    UserDefaultsController.setTimeInterval(to: choice)
-                    self.intervalButton.setTitle(choice, for: .normal)
-                }
-                else {
-                    print("ERROR saving expiration interval for row " + String(row))
-                }
+            case PDStrings.SettingsKey.interval:
+                self.saveIntervalChange(row)
                 break
-                
-                // TB DAILY
-            case PDStrings.userDefaultKeys.tbDaily:
-                if row < PDStrings.pickerData.pillCounts.count && row >= 0, let c = Int(PDStrings.pickerData.pillCounts[row]) {
-                    PillDataController.setTBDaily(to: c)
-                    (c == 1) ? self.disableTBTime2() : self.enableTBTime2()
-                    self.tb_daily_big.setTitle(String(c), for: .normal)
-                    self.disableExtraTB()
-                    if PillDataController.getRemindTB() {
-                        appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
-                    }
-                }
-                else {
-                    print("ERROR saving TB timesday for row " + String(row))
-                }
+            case PDStrings.SettingsKey.tbDaily:
+                self.saveTBDaily(row)
                 shouldResend = false
                 break
-                
-                // PG DAILY
-            case PDStrings.userDefaultKeys.pgDaily:
-                if row < PDStrings.pickerData.pillCounts.count && row >= 0, let c = Int(PDStrings.pickerData.pillCounts[row]) {
-                    PillDataController.setPGDaily(to: c)
-                    (c == 1) ? self.disablePGTime2() : self.enablePGTime2()
-                    self.pg_daily_big.setTitle(String(c), for: .normal)
-                    self.disableExtraPG()
-                    if PillDataController.getRemindPG() {
-                        appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
-                    }
-                }
-                else {
-                    print("ERROR: saving PG timesday for row " + String(row))
-                }
+            case PDStrings.SettingsKey.pgDaily:
+                self.savePGDaily(row)
                 shouldResend = false
                 break
-                
-                // NOTIFICATION TIME
-            case PDStrings.userDefaultKeys.notif:
-                if row < PDStrings.pickerData.notificationTimes.count && row >= 0 {
-                    let choice = PDStrings.pickerData.notificationTimes[row]
-                    UserDefaultsController.setNotificationOption(to: choice)
-                    let title = choice
-                    self.reminderTimeButton.setTitle(title, for: .normal)
-                }
-                else {
-                    print("ERROR: saving notification time for row " + String(row))
-                }
+            case PDStrings.SettingsKey.notif:
+                self.saveNotificationChange(row)
                 break
             default:
-                print("ERROR: Improper context when saving details from picker")
+                print("Error: Improper context when saving details from picker")
             }
-            
             // if should resend notifications...
             if shouldResend {
                 let newHighest = UserDefaultsController.getQuantityInt() - 1
@@ -611,7 +616,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             self.pg2_time_picker.minimumDate = maxOrMin
             break
         default:
-            print("ERROR: Improper mode for choosing time picker.")
+            print("Error: Improper mode for choosing time picker.")
         }
         timePickerView.addSubview(timePicker)
         UIView.transition(with: timePickerView as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { timePickerView.isHidden = false
@@ -658,7 +663,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
             break
         default:
-            print("ERROR: Improper buttonID when closing and saving date picker")
+            print("Error: Improper buttonID when closing and saving date picker")
         }
     }
     
@@ -672,7 +677,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - IBActions Picker loads
 
     @IBAction private func reminderTimeTapped(_ sender: Any) {
-       self.openOrClosePicker(key: PDStrings.userDefaultKeys.notif)
+       self.openOrClosePicker(key: PDStrings.SettingsKey.notif)
     }
     
     @IBAction func tb_switched(_ sender: Any) {
@@ -713,7 +718,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func tb_daily_tapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.userDefaultKeys.tbDaily)
+        self.openOrClosePicker(key: PDStrings.SettingsKey.tbDaily)
     }
     
     @IBAction func tb1_tapped(_ sender: Any) {
@@ -775,7 +780,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func pg_daily_tapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.userDefaultKeys.pgDaily)
+        self.openOrClosePicker(key: PDStrings.SettingsKey.pgDaily)
     }
     
     @IBAction func pg1_tapped(_ sender: Any) {
@@ -798,16 +803,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func deliveryMethodButtonTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.userDefaultKeys.deliv)
+        self.openOrClosePicker(key: PDStrings.SettingsKey.deliv)
     }
     
     @IBAction private func intervalButtonTapped(_ sender: Any) {
-        self.openOrClosePicker(key: PDStrings.userDefaultKeys.interval)
+        self.openOrClosePicker(key: PDStrings.SettingsKey.interval)
     }
     
     @IBAction private func countButtonTapped(_ sender: Any) {
         // change member variable for determining correct picker
-        self.openOrClosePicker(key: PDStrings.userDefaultKeys.count)
+        self.openOrClosePicker(key: PDStrings.SettingsKey.count)
     }
     
     // MARK: - IBActions switches
@@ -826,11 +831,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - set-and-getters
     
-    private func setWhichTapped(to: String?) {
+    private func setWhichTapped(to: SettingsKey?) {
         self.whichTapped = to
     }
     
-    private func getWhichTapped() -> String? {
+    private func getWhichTapped() -> SettingsKey? {
         return self.whichTapped
     }
     

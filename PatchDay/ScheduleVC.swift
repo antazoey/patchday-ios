@@ -73,8 +73,8 @@ class ScheduleVC: UIViewController {
     // MARK: - IBAction
 
     @IBAction private func scheduleButtonTapped(_ sender: Any) {
-        if let sb = storyboard, let navCon = self.navigationController, let sButton: UIButton = sender as? UIButton, let ref = Int(sButton.restorationIdentifier!), let detailsVC: DetailsVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id") as? DetailsVC {
-            detailsVC.setReference(to: ref)
+        if let sb = storyboard, let navCon = self.navigationController, let sButton: UIButton = sender as? UIButton, let buttonID = sButton.restorationIdentifier, let estro_index = Int(buttonID), let detailsVC: DetailsVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id") as? DetailsVC {
+            detailsVC.setEstrogenScheduleIndex(to: estro_index)
             navCon.pushViewController(detailsVC, animated: true)
         }
     }
@@ -167,11 +167,11 @@ class ScheduleVC: UIViewController {
             self.disableUnusedScheduleButtons()
         }
         // reset animation bools
-        CoreDataController.increasedCount = false
-        CoreDataController.decreasedCount = false
-        CoreDataController.deliveryMethodChanged = false
-        CoreDataController.animateScheduleFromChangeDelivery = false
-        CoreDataController.onlySiteChanged = false
+        ScheduleController.increasedCount = false
+        ScheduleController.decreasedCount = false
+        ScheduleController.deliveryMethodChanged = false
+        ScheduleController.animateScheduleFromChangeDelivery = false
+        ScheduleController.onlySiteChanged = false
     }
     
     // makeScheduleButton(scheduleButton, isBlue, scheduleIndex) : called by self. displayScheduleButton(), generated a schedule button with the appropriate properties, including its animation in the cases when loaded from other view controller that change applicable schedule properties.
@@ -198,7 +198,7 @@ class ScheduleVC: UIViewController {
         }
  
         /* -- Animation Process -- */
-        if CoreDataController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
+        if ScheduleController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
             UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 imageView.image = new_bg_img;
             }) {
@@ -223,10 +223,10 @@ class ScheduleVC: UIViewController {
     // called by self.makeScheduleButton()
     private func determineScheduleButtonTitle(scheduleIndex: Int, timeInterval: String) -> String {
         var title: String = ""
-        if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: scheduleIndex) {
+        if let mo = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: scheduleIndex) {
             if mo.getDate() != nil {
                 title += (mo.isExpired(timeInterval: timeInterval)) ? PDStrings.colonedStrings.expired : PDStrings.colonedStrings.expires
-                title += MOEstrogenDelivery.dayOfWeekString(date: mo.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
+                title += MOEstrogen.dayOfWeekString(date: mo.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
             }
             return title
         }
@@ -263,7 +263,7 @@ class ScheduleVC: UIViewController {
         let usingPatches = UserDefaultsController.usingPatches()
         let default_img = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         
-        if let estro = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: index) {
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: index) {
             // empty
             if estro.isEmpty() {
                 return default_img
@@ -294,22 +294,6 @@ class ScheduleVC: UIViewController {
         else {
             return default_img
         }
-    }
-    
-    // called by patchButtonTapped()idScheduleToSettingsSegue"
-    private func getReference(fromButton: Any) -> Int {
-        var ref = 0
-        var count = 0
-        if let givenButtonID: String = (fromButton as! UIButton).restorationIdentifier {
-            for buttonID in PDStrings.ui_ids.scheduleButtonIDs {
-                count += 1
-                if givenButtonID == buttonID {
-                    ref = count
-                    break
-                }
-            }
-        }
-        return ref
     }
 
 }

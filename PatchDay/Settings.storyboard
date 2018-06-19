@@ -1058,7 +1058,6 @@
                                         <rect key="frame" x="0.0" y="60" width="343" height="246"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="246" id="CLa-3J-bNB"/>
-                                            <constraint firstAttribute="width" constant="262" id="yPe-4d-ti6"/>
                                         </constraints>
                                     </pickerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="79C-q0-jpo">

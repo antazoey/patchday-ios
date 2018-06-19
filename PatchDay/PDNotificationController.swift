@@ -36,17 +36,19 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         // ACTION:  Autofill pressed
         if response.actionIdentifier == chgActionID {
-            if CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: currentScheduleIndex) != nil {
-                // Change the patch using a Suggested Site from the Autofill Site functionality.
-                let suggestedSite = SLF.suggest(scheduleIndex: currentScheduleIndex, generalSites: CoreDataController.schedule().makeArrayOfSites())
+            if ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: currentScheduleIndex) != nil {
+                let scheduleSites: [String] = ScheduleController.siteSchedule().siteNamesArray
+                let currentSites: [String] = ScheduleController.estrogenSchedule().currentSiteNames
+                // Change the patch using a Suggested Site
+                let suggestedSiteIndex = SiteSuggester.suggest(estrogenScheduleIndex: currentScheduleIndex, currentSites: currentSites)
                 // Suggested date and time is the current date and time.
                 let suggestDate = Date()
-                CoreDataController.coreData.setEstrogenDeliveryMO(scheduleIndex: currentScheduleIndex, date: suggestDate, location: suggestedSite)
+                ScheduleController.coreDataController.setEstrogenDeliveryMO(scheduleIndex: currentScheduleIndex, date: suggestDate, location: scheduleSites[suggestedSiteIndex])
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         }
         if response.actionIdentifier == tkActionID {
-            let keys = [PDStrings.userDefaultKeys.tbStamp, PDStrings.userDefaultKeys.pgStamp]
+            let keys = [PDStrings.SettingsKey.tbStamp.rawValue, PDStrings.SettingsKey.pgStamp.rawValue]
             let dailies = [PillDataController.getTBDailyInt(), PillDataController.getPGDailyInt()]
             var stamps: Stamps = []
             // Temp stamps gets member stamps
@@ -76,8 +78,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
      ****************************************************/
     internal func requestNotifyExpired(scheduleIndex: Int) {
         let notifyTime = UserDefaultsController.getNotificationTimeDouble()
-        if let mo = CoreDataController.coreData.getEstrogenDeliveryMO(forIndex: scheduleIndex), sendingNotifications,
-            UserDefaultsController.getRemindMeUpon(), var timeIntervalUntilExpire = mo.determineIntervalToExpire(timeInterval: UserDefaultsController.getTimeInterval()) {
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: scheduleIndex), sendingNotifications,
+            UserDefaultsController.getRemindMeUpon(), var timeIntervalUntilExpire = estro.determineIntervalToExpire(timeInterval: UserDefaultsController.getTimeInterval()) {
             self.currentScheduleIndex = scheduleIndex
             // Notification's attributes
             let content = UNMutableNotificationContent()
@@ -87,9 +89,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             else {
                 content.title = (notifyTime == 0) ? PDStrings.notificationStrings.titles.injectionExpired : PDStrings.notificationStrings.titles.injectionExpires
             }
-            content.body = mo.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
+            content.body = estro.notificationMessage(timeInterval: UserDefaultsController.getTimeInterval())
             content.sound = UNNotificationSound.default()
-            content.badge = CoreDataController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
+            content.badge = ScheduleController.estrogenSchedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
 
             // ChangeAction is an action for changing the patch from a notification using the Autofill Site Functionality (the SLF Bool from the Settings must be True) and the current date and time.
             let changeAction = UNNotificationAction(identifier: chgActionID, title: PDStrings.notificationStrings.actionMessages.autofill, options: [])
@@ -100,7 +102,13 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 
             // Suggest site in the notification body text
             let msg = (UserDefaultsController.usingPatches()) ? PDStrings.notificationStrings.messages.siteForNextPatch : PDStrings.notificationStrings.messages.siteForNextInjection
-            content.body += "\n\n" + msg + CoreDataController.schedule().suggestSite(scheduleIndex: scheduleIndex)
+            
+            let currentSites: [String] = ScheduleController.estrogenSchedule().currentSiteNames
+            let scheduleSites: [String] = ScheduleController.siteSchedule().siteNamesArray
+            let suggestSiteIndex = SiteSuggester.suggest(estrogenScheduleIndex: currentScheduleIndex, currentSites: currentSites)
+            if suggestSiteIndex >= 0 && suggestSiteIndex < scheduleSites.count {
+                content.body += "\n\n" + msg + scheduleSites[suggestSiteIndex]
+            }
                 
             // Adopt category
             content.categoryIdentifier = "changeCategoryID"
@@ -145,7 +153,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         content.title = titles[mode]
         content.body = messages[mode]
         content.sound = UNNotificationSound.default()
-        content.badge = CoreDataController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
+        content.badge = ScheduleController.estrogenSchedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue() + 1 as NSNumber
         
         // Take Action
         let takeAction = UNNotificationAction(identifier: tkActionID,

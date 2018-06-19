@@ -1,5 +1,5 @@
 //
-//  MOSite+CoreDataClass.swift
+//  MOSite.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/14/18.

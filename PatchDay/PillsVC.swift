@@ -75,7 +75,7 @@ class PillsVC: UIViewController {
         
         // Perform "take" action - timestamp persists in storage
         let stamp = Stamp()
-        PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.userDefaultKeys.tbStamp)
+        PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.SettingsKey.tbStamp.rawValue)
         
         // Button stuff
         self.tbUndoButton.isEnabled = true
@@ -120,7 +120,7 @@ class PillsVC: UIViewController {
         
         // Perform "take" action - timestamp persists in storage
         let stamp = Stamp()
-        PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.userDefaultKeys.pgStamp)
+        PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.SettingsKey.pgStamp.rawValue)
  
         // Button stuff
         self.pgUndoButton.isEnabled = true

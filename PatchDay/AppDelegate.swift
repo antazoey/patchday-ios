@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PillDataController.setUp()
         
         // unhide for resetting (for testing):
-        //CoreDataController.resetPatchData()
+        //ScheduleController.resetPatchData()
         
         // Navigation bar appearance
         let navigationBarAppearace = UINavigationBar.appearance()
@@ -35,13 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Badge correction
-        UIApplication.shared.applicationIconBadgeNumber = CoreDataController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
+        UIApplication.shared.applicationIconBadgeNumber = ScheduleController.estrogenSchedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
         
         // Badge correction
-        UIApplication.shared.applicationIconBadgeNumber = CoreDataController.schedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
+        UIApplication.shared.applicationIconBadgeNumber = ScheduleController.estrogenSchedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
     }
 
 }
