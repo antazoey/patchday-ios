@@ -7,23 +7,24 @@
 //
 
 import UIKit
+import PDKit
 
 internal class PDAlertController {
     
     // Description:  class for controlling PatchDay's alerts.
     
-    static internal var currentAlert = UIAlertController()
+    internal static var currentAlert = UIAlertController()
     
     // MARK: - Changing count
     
     // This will only be called when the user decreases the delivery count and the patches being removed had data.
-    static internal func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton) {
+    internal static func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton) {
         if let newC = Int(newCount) {
             if (newC > oldCount) {
                 UserDefaultsController.setQuantityWithoutWarning(to: newCount)
                 return
             }
-            if let currentVC = self.getRootVC() {
+            if let currentVC = getRootVC() {
                 let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
                 currentAlert = UIAlertController(title: PDStrings.alertStrings.loseDataAlert.title, message: PDStrings.alertStrings.loseDataAlert.message, preferredStyle: alertStyle)
                 let continueAction = UIAlertAction(title: PDStrings.actionStrings.cont, style: .destructive) {
@@ -45,8 +46,8 @@ internal class PDAlertController {
     
     // MARK: - Changing delivery method
     
-    static internal func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton){
-        if let currentVC = self.getRootVC() {
+    internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton){
+        if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.alertStrings.loseDataAlert.title, message: PDStrings.alertStrings.loseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.actionStrings.cont, style: .destructive) {
@@ -81,8 +82,8 @@ internal class PDAlertController {
     
     // MARK: - Disclaimer + tutorial
     
-    static internal func alertForDisclaimerAndTutorial() {
-        if let currentVC = self.getRootVC() {
+    internal static func alertForDisclaimerAndTutorial() {
+        if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.alertStrings.startUp.title, message: PDStrings.alertStrings.startUp.message, preferredStyle: alertStyle)
             let closeAction = UIAlertAction(title: PDStrings.actionStrings.dismiss, style:     UIAlertActionStyle.cancel, handler: nil)
@@ -104,8 +105,8 @@ internal class PDAlertController {
     
     // MARK: - Add new site alert
     
-    static internal func alertForAddingNewSite(newSiteName: String) {
-        if let currentVC = self.getRootVC() {
+    internal static func alertForAddingNewSite(newSiteName: String) {
+        if let currentVC = getRootVC() {
             currentAlert = UIAlertController(title: PDStrings.alertStrings.addSite.title, message: nil, preferredStyle: .actionSheet)
             let yesAction = UIAlertAction(title: PDStrings.actionStrings.yes, style: .default) {
                 (void) in
@@ -120,8 +121,8 @@ internal class PDAlertController {
     
     //MARK: - Core data errors
     
-    static internal func alertForCoreDataError() {
-        if let currentVC = self.getRootVC() {
+    internal static func alertForCoreDataError() {
+        if let currentVC = getRootVC() {
             currentAlert = UIAlertController(title: PDStrings.alertStrings.coreDataAlert.title, message: PDStrings.alertStrings.coreDataAlert.message, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: PDStrings.actionStrings.dismiss, style: UIAlertActionStyle.cancel, handler: nil)
             currentAlert.addAction(closeAction)
@@ -131,8 +132,8 @@ internal class PDAlertController {
     
     // MARK: - Persistent store load error
     
-    static internal func alertForPersistentStoreLoadError(error: NSError) {
-        if let currentVC = self.getRootVC() {
+    internal static func alertForPersistentStoreLoadError(error: NSError) {
+        if let currentVC = getRootVC() {
             currentAlert = UIAlertController(title: PDStrings.alertStrings.coreDataAlert.title, message: "(\(String(describing: error))", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: PDStrings.actionStrings.accept, style: .destructive) {
             (void) in
@@ -148,7 +149,7 @@ internal class PDAlertController {
     // MARK: - private, getting current view
     
     // get keywindow
-    static private func getKeyWindow() -> UIWindow {
+    private static func getKeyWindow() -> UIWindow {
         if let window = UIApplication.shared.keyWindow {
             return window
         }
@@ -156,7 +157,7 @@ internal class PDAlertController {
     }
     
     // get rootvc
-    static private func getRootVC() -> UIViewController? {
+    private static func getRootVC() -> UIViewController? {
         let window = getKeyWindow()
         return window.rootViewController
     }

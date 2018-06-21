@@ -18,7 +18,7 @@ extension MOSite {
     }
 
     public func setOrder(to: Int16) {
-        self.order = to
+        order = to
     }
     
     public func getOrder() -> Int16 {
@@ -26,22 +26,22 @@ extension MOSite {
     }
     
     public func setName(to: String) {
-        self.name = to
+        name = to
     }
     
     public func getName() -> String? {
-        return self.name
+        return name
     }
     
     public func decrement() {
-        if self.order > 0 {
-            self.order -= 1
+        if order > 0 {
+            order -= 1
         }
     }
     
     public func reset() {
-        self.order = Int16(-1)
-        self.name = ""
+        order = Int16(-1)
+        name = ""
     }
     
     

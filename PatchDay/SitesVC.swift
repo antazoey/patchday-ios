@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PDKit
 
 class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -23,20 +24,20 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.siteTable.delegate = self
-        self.siteTable.dataSource = self
+        siteTable.delegate = self
+        siteTable.dataSource = self
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
         insertButton.tintColor = PDColors.pdGreen
         let editButton = UIBarButtonItem(title: PDStrings.actionStrings.edit, style: .plain, target: self, action: #selector(editTapped))
-        self.navigationItem.rightBarButtonItems = [insertButton, editButton]
-        self.siteTable.allowsSelectionDuringEditing = true
+        navigationItem.rightBarButtonItems = [insertButton, editButton]
+        siteTable.allowsSelectionDuringEditing = true
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.siteNames = ScheduleController.siteSchedule().siteNamesArray
-        self.siteTable.reloadData()
-        self.swapVisibilityOfCellFeatures(shouldHide: false)
+        siteNames = ScheduleController.siteSchedule().siteNamesArray
+        siteTable.reloadData()
+        swapVisibilityOfCellFeatures(shouldHide: false)
     }
     
     // MARK: - Table and cell characteristics.
@@ -54,9 +55,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Row selection, like action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = self.siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
+        let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
         if let text = cell.nameLabel.text, let i = siteNames.index(of: text) {
-            self.selected = i
+            selected = i
             segueToSiteVC(i)
         }
     }
@@ -64,7 +65,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Movable
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         tableView.cellForRow(at: indexPath)
-        let movable = (indexPath.row < self.siteNames.count) ? true : false
+        let movable = (indexPath.row < siteNames.count) ? true : false
         return movable
     }
     
@@ -81,14 +82,14 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Defines table rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.siteNames.count
+        return siteNames.count
     }
     
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = self.siteTable.dequeueReusableCell(withIdentifier: "cellReuseIdentifier") as! SiteTableViewCell
+        let cell = siteTable.dequeueReusableCell(withIdentifier: "cellReuseIdentifier") as! SiteTableViewCell
         let i = indexPath.row
-        if i >= 0 && i < self.siteNames.count {
+        if i >= 0 && i < siteNames.count {
             cell.orderLabel.text = String(i + 1) + "."
             cell.nameLabel.text = siteNames[i]
             if i % 2 == 0 {
@@ -107,7 +108,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Permits editing on filled cells
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let editable = (indexPath.row < self.siteNames.count) ? true : false
+        let editable = (indexPath.row < siteNames.count) ? true : false
         return editable
     }
     
@@ -125,21 +126,21 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Delete cell (deletes MOSite)
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            self.deleteCell(indexPath: indexPath)
+            deleteCell(indexPath: indexPath)
         }
     }
     
     // Reorder cell (reorders MOSite order attributes)
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObject = self.siteNames[sourceIndexPath.row]
+        let movedObject = siteNames[sourceIndexPath.row]
         let begin_i: Int = sourceIndexPath.row
         let end_i: Int = destinationIndexPath.row
-        self.siteNames.remove(at: begin_i)
-        self.siteNames.insert(movedObject, at: end_i)
+        siteNames.remove(at: begin_i)
+        siteNames.insert(movedObject, at: end_i)
         for i in 0...(siteNames.count-1) {
             ScheduleController.coreDataController.setSiteName(index: i, to: siteNames[i])
         }
-        self.siteTable.reloadData()
+        siteTable.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -149,23 +150,23 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Actions
     
     @objc func insertTapped() {
-        segueToSiteVC(self.siteNames.count)
+        segueToSiteVC(siteNames.count)
     }
 
     @objc func editTapped() {
-        if var items = self.navigationItem.rightBarButtonItems {
+        if var items = navigationItem.rightBarButtonItems {
             switch items[1].title {
             case PDStrings.actionStrings.edit :
-                self.swapVisibilityOfCellFeatures(shouldHide: true)
-                self.switchBarItemFunctionality(items: &items)
-                self.navigationItem.rightBarButtonItems = items
-                self.siteTable.isEditing = true
+                swapVisibilityOfCellFeatures(shouldHide: true)
+                switchBarItemFunctionality(items: &items)
+                navigationItem.rightBarButtonItems = items
+                siteTable.isEditing = true
                 break
             case PDStrings.actionStrings.done :
-                self.swapVisibilityOfCellFeatures(shouldHide: false)
-                self.switchBarItemFunctionality(items: &items)
-                self.navigationItem.rightBarButtonItems = items
-                self.siteTable.isEditing = false
+                swapVisibilityOfCellFeatures(shouldHide: false)
+                switchBarItemFunctionality(items: &items)
+                navigationItem.rightBarButtonItems = items
+                siteTable.isEditing = false
             default : break
             }
         }
@@ -173,26 +174,26 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         ScheduleController.coreDataController.resetSiteData()
-        self.siteNames = ScheduleController.siteSchedule().siteNamesArray
-        self.siteTable.isEditing = false
-        let range = 0..<self.siteNames.count
+        siteNames = ScheduleController.siteSchedule().siteNamesArray
+        siteTable.isEditing = false
+        let range = 0..<siteNames.count
         let indexPathsToReload: [IndexPath] = range.map({
             (value: Int) -> IndexPath in
             return IndexPath(row: value, section: 0)
         })
-        self.siteTable.reloadData()
-        self.siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
-        self.swapVisibilityOfCellFeatures(shouldHide: false)
-        if var items = self.navigationItem.rightBarButtonItems {
-            self.switchBarItemFunctionality(items: &items)
-            self.navigationItem.rightBarButtonItems = items
+        siteTable.reloadData()
+        siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
+        swapVisibilityOfCellFeatures(shouldHide: false)
+        if var items = navigationItem.rightBarButtonItems {
+            switchBarItemFunctionality(items: &items)
+            navigationItem.rightBarButtonItems = items
         }
     }
     
     // MARK: - Private
     
     private func segueToSiteVC(_ siteIndex: Int) {
-        if let sb = storyboard, let navCon = self.navigationController, let siteVC: SiteVC = sb.instantiateViewController(withIdentifier: "SiteVC_id") as? SiteVC {
+        if let sb = storyboard, let navCon = navigationController, let siteVC: SiteVC = sb.instantiateViewController(withIdentifier: "SiteVC_id") as? SiteVC {
             siteVC.setSiteScheduleIndex(to: siteIndex)
             navCon.pushViewController(siteVC, animated: true)
         }
@@ -200,9 +201,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Hides labels in the table cells for edit mode.
     private func swapVisibilityOfCellFeatures(shouldHide: Bool) {
-        for i in 0...(self.siteNames.count-1) {
+        for i in 0...(siteNames.count-1) {
             let indexPath = IndexPath(row: i, section: 0)
-            let cell = self.siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
+            let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
             cell.orderLabel.isHidden = shouldHide
             cell.arrowLabel.isHidden = shouldHide
         }
@@ -225,15 +226,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func deleteCell(indexPath: IndexPath) {
         ScheduleController.coreDataController.deleteSite(index: indexPath.row)
-        self.siteNames.remove(at: indexPath.row)
-        self.siteTable.deleteRows(at: [indexPath], with: .fade)
-        self.siteTable.reloadData()
-        if indexPath.row < (self.siteNames.count-1) {
+        siteNames.remove(at: indexPath.row)
+        siteTable.deleteRows(at: [indexPath], with: .fade)
+        siteTable.reloadData()
+        if indexPath.row < (siteNames.count-1) {
             
             // Reset cell colors
-            for i in indexPath.row...(self.siteNames.count-1) {
+            for i in indexPath.row...(siteNames.count-1) {
                 let nextIndexPath = IndexPath(row: i, section: 0)
-                self.siteTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : self.view.backgroundColor
+                siteTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
     }

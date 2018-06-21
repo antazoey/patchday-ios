@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PDKit
 
 class PillsVC: UIViewController {
     
@@ -31,18 +32,18 @@ class PillsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.updateFromBackground()
+        updateFromBackground()
         // set time buttons disabled properties
-        self.tbUndoButton.setTitleColor(UIColor.blue, for: .normal)
-        self.tb_time.setTitleColor(UIColor.lightGray, for: .disabled)
-        self.tbUndoButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        self.pgUndoButton.setTitleColor(UIColor.blue, for: .normal)
-        self.pg_time.setTitleColor(UIColor.lightGray, for: .disabled)
-        self.pgUndoButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        self.tbFracLabel.textColor = self.tb_title.textColor
-        self.pgFracLabel.textColor = self.pg_title.textColor
-        self.tbFracLabel.text = PillDataController.getFrac(mode: "TB")
-        self.pgFracLabel.text = PillDataController.getFrac(mode: "PG")
+        tbUndoButton.setTitleColor(UIColor.blue, for: .normal)
+        tb_time.setTitleColor(UIColor.lightGray, for: .disabled)
+        tbUndoButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        pgUndoButton.setTitleColor(UIColor.blue, for: .normal)
+        pg_time.setTitleColor(UIColor.lightGray, for: .disabled)
+        pgUndoButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        tbFracLabel.textColor = tb_title.textColor
+        pgFracLabel.textColor = pg_title.textColor
+        tbFracLabel.text = PillDataController.getFrac(mode: "TB")
+        pgFracLabel.text = PillDataController.getFrac(mode: "PG")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,7 +58,7 @@ class PillsVC: UIViewController {
         }
             // not-including tb
         else {
-            self.tbStack.isHidden = true
+            tbStack.isHidden = true
         }
         // including pg
         if PillDataController.includingPG() {
@@ -65,7 +66,7 @@ class PillsVC: UIViewController {
         }
             // not including pg
         else {
-            self.pgStack.isHidden = true
+            pgStack.isHidden = true
         }
     }
 
@@ -78,41 +79,41 @@ class PillsVC: UIViewController {
         PillDataController.take(this: &PillDataController.tb_stamps, at: stamp, timesaday: PillDataController.getTBDailyInt(), key: PDStrings.SettingsKey.tbStamp.rawValue)
         
         // Button stuff
-        self.tbUndoButton.isEnabled = true
-        self.tb_time.setTitle(PillDataController.format(date: stamp), for: .normal)
+        tbUndoButton.isEnabled = true
+        tb_time.setTitle(PDDateHelper.format(date: stamp), for: .normal)
         if (PillDataController.tbIsDone()) {
-            self.disableTB(stamp: stamp)
+            disableTB(stamp: stamp)
         }
         let color = (PillDataController.tbIsDue()) ? UIColor.red : UIColor.blue
-        self.tb_time.setTitleColor(color, for: .normal)
-        self.makeUndoButton(button: self.tbUndoButton)
+        tb_time.setTitleColor(color, for: .normal)
+        makeUndoButton(button: tbUndoButton)
         
-        self.tbFracLabel.text = PillDataController.getFrac(mode: "TB")
+        tbFracLabel.text = PillDataController.getFrac(mode: "TB")
         appDelegate.notificationsController.requestNotifyTakePill(mode: 0)
     }
     
     
     @IBAction func tbUndoTapped(_ sender: Any) {
         PillDataController.resetLaterTB()
-        self.tb_time.isEnabled = true
-        self.tbFracLabel.text = PillDataController.getFrac(mode: "TB")
+        tb_time.isEnabled = true
+        tbFracLabel.text = PillDataController.getFrac(mode: "TB")
         
         // Color red if due
         if (PillDataController.tbIsDue()) {
-            self.tb_time.setTitleColor(UIColor.red, for: .normal)
+            tb_time.setTitleColor(UIColor.red, for: .normal)
         }
         
         // Revert to the "old stamp" date if it exists
-        if let oldstamp = PillDataController.getOlderStamp(stamps: PillDataController.tb_stamps) {
-            self.tb_time.setTitle(PillDataController.format(date: oldstamp), for: .normal)
+        if let oldstamp = PDPillsHelper.getOlderStamp(stamps: PillDataController.tb_stamps) {
+            tb_time.setTitle(PDDateHelper.format(date: oldstamp), for: .normal)
         }
         else {
-            self.tb_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal)
+            tb_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal)
         }
         
         // Disable "undo" if no stamps
-        if PillDataController.noRecords(stamps: PillDataController.tb_stamps) {
-            self.tbUndoButton.isEnabled = false
+        if PDPillsHelper.noRecords(stamps: PillDataController.tb_stamps) {
+            tbUndoButton.isEnabled = false
         }
     }
     
@@ -123,42 +124,42 @@ class PillsVC: UIViewController {
         PillDataController.take(this: &PillDataController.pg_stamps, at: stamp, timesaday: PillDataController.getPGDailyInt(), key: PDStrings.SettingsKey.pgStamp.rawValue)
  
         // Button stuff
-        self.pgUndoButton.isEnabled = true
-        self.pg_time.setTitle(PillDataController.format(date: stamp), for: .normal)
-        self.pgUndoButton.isEnabled = true
+        pgUndoButton.isEnabled = true
+        pg_time.setTitle(PDDateHelper.format(date: stamp), for: .normal)
+        pgUndoButton.isEnabled = true
         if PillDataController.pgIsDone() {
-            self.disablePG(stamp: stamp)
+            disablePG(stamp: stamp)
         }
         let color = PillDataController.pgIsDue() ? UIColor.red : UIColor.blue
-        self.pg_time.setTitleColor(color, for: .normal)
-        self.makeUndoButton(button: self.pgUndoButton)
+        pg_time.setTitleColor(color, for: .normal)
+        makeUndoButton(button: pgUndoButton)
         
-        self.pgFracLabel.text = PillDataController.getFrac(mode: "PG")
+        pgFracLabel.text = PillDataController.getFrac(mode: "PG")
         appDelegate.notificationsController.requestNotifyTakePill(mode: 1)
         
     }
     
     @IBAction func pgUndoTapped(_ sender: Any) {
-        self.pg_time.isEnabled = true
+        pg_time.isEnabled = true
         PillDataController.resetLaterPG()
-        self.pgFracLabel.text = PillDataController.getFrac(mode: "PG")
+        pgFracLabel.text = PillDataController.getFrac(mode: "PG")
         
         // Color red if due
         if (PillDataController.pgIsDue()) {
-            self.pg_time.setTitleColor(UIColor.red, for: .normal)
+            pg_time.setTitleColor(UIColor.red, for: .normal)
         }
         
         // Revert to the "old stamp" date if it exists
-        if let oldstamp = PillDataController.getOlderStamp(stamps: PillDataController.pg_stamps) {
-            self.pg_time.setTitle(PillDataController.format(date: oldstamp), for: .normal)
+        if let oldstamp = PDPillsHelper.getOlderStamp(stamps: PillDataController.pg_stamps) {
+            pg_time.setTitle(PDDateHelper.format(date: oldstamp), for: .normal)
         }
         else {
-            self.pg_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal)
+            pg_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal)
         }
         
         // Disable "undo" if no stamps
-        if PillDataController.noRecords(stamps: PillDataController.pg_stamps) {
-            self.pgUndoButton.isEnabled = false
+        if PDPillsHelper.noRecords(stamps: PillDataController.pg_stamps) {
+            pgUndoButton.isEnabled = false
         }
     }
     
@@ -170,44 +171,44 @@ class PillsVC: UIViewController {
     }
     
     private func disableTB(stamp: Stamp) {
-        self.tb_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
-        self.tb_time.isEnabled = false
+        tb_time.setTitle(PDDateHelper.format(date: stamp), for: .disabled)
+        tb_time.isEnabled = false
     }
     
     private func disablePG(stamp: Stamp) {
-        self.pg_time.setTitle(PillDataController.format(date: stamp), for: .disabled)
-        self.pg_time.isEnabled = false
+        pg_time.setTitle(PDDateHelper.format(date: stamp), for: .disabled)
+        pg_time.isEnabled = false
     }
     
     // appear(including, stamps, timesaday, first_t, second_t, mode) : This function appears all the details of pill related UI features for either TB or PG, depending on if mode = 0 for TB or 1 for PG.  This function will indicate whether the pill is due for taking or has been fully taken for the day.
     private func appear(including: Bool, stamps: Stamps, timesaday: Int, first_t: Time, second_t: Time, mode: Int) {
-        let timeButtons = [self.tb_time, self.pg_time]
-        let undos = [self.tbUndoButton, self.pgUndoButton]
+        let timeButtons = [tb_time, pg_time]
+        let undos = [tbUndoButton, pgUndoButton]
         if including, let tb = timeButtons[mode], let undo = undos[mode] {
-            let isDue = PillDataController.isDue(timesaday: timesaday, stamps: stamps, time1: first_t, time2: second_t)
+            let isDue = PDPillsHelper.isDue(timesaday: timesaday, stamps: stamps, time1: first_t, time2: second_t)
             let color = isDue ? UIColor.red : UIColor.blue
             tb.setTitleColor(color, for: .normal)
-            if let laterStamp: Stamp = PillDataController.getLaterStamp(stamps: stamps) {
+            if let laterStamp: Stamp = PDPillsHelper.getLaterStamp(stamps: stamps) {
                 
                 // Undo button
-                let takenToday = PillDataController.takenToday(stamps: stamps)
+                let takenToday = PDPillsHelper.wasTakenToday(stamps: stamps)
                 if takenToday {
-                    self.makeUndoButton(button: undo)
+                    makeUndoButton(button: undo)
                 }
                 else {
                     undo.isEnabled = false
                 }
                 
                 // Title
-                tb.setTitle(PillDataController.format(date: laterStamp), for: .normal)
-                if let earlierStamp: Stamp = PillDataController.getOlderStamp(stamps: stamps), PillDataController.allStampedToday(stamps: stamps, timesaday: timesaday)  {
+                tb.setTitle(PDDateHelper.format(date: laterStamp), for: .normal)
+                if let earlierStamp: Stamp = PDPillsHelper.getOlderStamp(stamps: stamps), PDPillsHelper.allStampedToday(stamps: stamps, timesaday: timesaday)  {
                     if mode == 0 {
-                        self.disableTB(stamp: earlierStamp)
-                        self.makeUndoButton(button: self.tbUndoButton)
+                        disableTB(stamp: earlierStamp)
+                        makeUndoButton(button: tbUndoButton)
                     }
                     else {
-                        self.disablePG(stamp: earlierStamp)
-                        self.makeUndoButton(button: self.pgUndoButton)
+                        disablePG(stamp: earlierStamp)
+                        makeUndoButton(button: pgUndoButton)
                     }
                 }
                 return
@@ -221,7 +222,7 @@ class PillsVC: UIViewController {
         }
         
         // problem loading view.
-        mode == 0 ? self.tb_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal) : self.pg_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal)
+        mode == 0 ? tb_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal) : pg_time.setTitle(PDStrings.placeholderStrings.nothing_yet, for: .normal)
     }
     
     internal func updateFromBackground() {
@@ -230,7 +231,7 @@ class PillsVC: UIViewController {
     }
     
     @objc internal func appWillEnterForeground() {
-        self.appearViews()
+        appearViews()
     }
 
 }

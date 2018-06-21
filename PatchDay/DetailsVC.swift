@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PDKit
 
 class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
@@ -69,32 +70,32 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.chooseSiteButton.autocapitalizationType = .words
+        chooseSiteButton.autocapitalizationType = .words
         view.backgroundColor = PDColors.pdPink
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.actionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
-        self.saveButton = self.navigationItem.rightBarButtonItem
-        self.saveButton.isEnabled = false
-        self.setScheduleAndHeading()
-        self.sitePicker.isHidden = true
-        self.autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
-        self.bigGap.backgroundColor = PDColors.pdPink
-        self.bigGap2.backgroundColor = PDColors.pdPink
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.actionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
+        saveButton = navigationItem.rightBarButtonItem
+        saveButton.isEnabled = false
+        setScheduleAndHeading()
+        sitePicker.isHidden = true
+        autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
+        bigGap.backgroundColor = PDColors.pdPink
+        bigGap2.backgroundColor = PDColors.pdPink
         
         // Default texts
-        self.displayAttributeTexts()
+        displayAttributeTexts()
         
         // Text editing delegate as self
-        self.chooseSiteButton.delegate = self
+        chooseSiteButton.delegate = self
  
         // Site picker set up
-        self.sitePicker.delegate = self
-        self.sitePicker.dataSource = self
+        sitePicker.delegate = self
+        sitePicker.dataSource = self
         
         // Site Type setup
-        self.verticalLineInSiteStack.backgroundColor = self.lineUnderDate.backgroundColor
-        self.typeSiteButton.setTitle(PDStrings.actionStrings.type, for: .normal)
-        if let lab = self.typeSiteButton.titleLabel, let t = lab.text, t.count > 4 {
-            self.typeSiteButton.setTitle("⌨️", for: .normal)
+        verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
+        typeSiteButton.setTitle(PDStrings.actionStrings.type, for: .normal)
+        if let lab = typeSiteButton.titleLabel, let t = lab.text, t.count > 4 {
+            typeSiteButton.setTitle("⌨️", for: .normal)
         }
     }
     
@@ -105,75 +106,82 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // 4.) Segue back to the ScheduleVC
     // 5.) Set site index
     @objc private func saveButtonTapped(_ sender: Any) {
-        self.configureBadgeIcon()
+        
+        // Save + badge icon
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: estrogenScheduleIndex) {
+            let wasExpiredBeforeSave: Bool = estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
+            saveAttributes()
+            let isExpiredAfterSave = estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
+            configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
+        }
         let estroCount = ScheduleController.estrogenSchedule().datePlacedCount()
         
         // Schedule animation side-effects
-        ScheduleController.indexOfChangedDelivery = (estroCount != UserDefaultsController.getQuantityInt() && self.dateTextHasChanged) ? estroCount : (self.estrogenScheduleIndex)
+        ScheduleController.indexOfChangedDelivery = (estroCount != UserDefaultsController.getQuantityInt() && dateTextHasChanged) ? estroCount : (estrogenScheduleIndex)
         ScheduleController.animateScheduleFromChangeDelivery = true
-        
-        // Transition
-        if let navCon = self.navigationController {
-            navCon.popViewController(animated: true)
-        }
-        
-        if self.shouldSaveIncrementedSiteIndex {
+
+        // Only increments if the site changed
+        if shouldSaveIncrementedSiteIndex {
             UserDefaultsController.incrementSiteIndex()
         }
-        else if self.shouldSaveSelectedSiteIndex {
-            UserDefaultsController.setSiteIndex(to: self.siteIndexSelected)
+        else if shouldSaveSelectedSiteIndex {
+            UserDefaultsController.setSiteIndex(to: siteIndexSelected)
         }
- 
+        
+        // Transition
+        if let navCon = navigationController {
+            navCon.popViewController(animated: true)
+        }
     }
     
     @IBAction private func autofillTapped(_ sender: Any) {
-        self.autoPickSite()                                // Loc from SLF
-        self.autoPickDate()
+        autoPickSite()                                // Loc from SLF
+        autoPickDate()
         // Date is now.
         // ** Bools for saving **
-        self.dateTextHasChanged = true
-        self.siteTextHasChanged = true
-        self.saveButton.isEnabled = true
+        dateTextHasChanged = true
+        siteTextHasChanged = true
+        saveButton.isEnabled = true
     }
     
     // MARK: - Text Edit Functions
     
     @IBAction private func keyboardTapped(_ sender: Any) {
-        self.chooseSiteButton.restorationIdentifier = "type"
-        self.chooseSiteButton.becomeFirstResponder()
+        chooseSiteButton.restorationIdentifier = "type"
+        chooseSiteButton.becomeFirstResponder()
     }
     
     internal func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.chooseSiteButton.isUserInteractionEnabled = true
+        chooseSiteButton.isUserInteractionEnabled = true
         
         // Use site picker
         if textField.restorationIdentifier == "pick" {
-            self.openSitePicker(textField)
+            openSitePicker(textField)
         }
         
         // Use keyboard
         else if textField.restorationIdentifier == "type" {
-            self.chooseSiteButton.text = ""
+            chooseSiteButton.text = ""
         }
-        self.chooseDateButton.isEnabled = false
-        self.typeSiteButton.isEnabled = false
-        self.autofillButton.isHidden = true
+        chooseDateButton.isEnabled = false
+        typeSiteButton.isEnabled = false
+        autofillButton.isHidden = true
         textField.restorationIdentifier = "pick"
  
     }
  
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.chooseSiteButton.endEditing(true)
-        self.chooseSiteButton.isEnabled = true
-        self.chooseDateButton.isEnabled = true
-        self.autofillButton.isHidden = false
-        self.siteTextHasChanged = true
-        self.chooseSiteButton.isHidden = false
-        self.typeSiteButton.isEnabled = true
-        if let newSiteName = self.chooseSiteButton.text {
+        chooseSiteButton.endEditing(true)
+        chooseSiteButton.isEnabled = true
+        chooseDateButton.isEnabled = true
+        autofillButton.isHidden = false
+        siteTextHasChanged = true
+        chooseSiteButton.isHidden = false
+        typeSiteButton.isEnabled = true
+        if let newSiteName = chooseSiteButton.text {
               PDAlertController.alertForAddingNewSite(newSiteName: newSiteName)
         }
-        self.saveButton.isEnabled = true
+        saveButton.isEnabled = true
         return true
         
     }
@@ -181,14 +189,14 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // MARK: - Picker Functions
     
     @IBAction internal func openSitePicker(_ sender: Any) {
-        self.sitePicker.isHidden = false
-        self.sitePicker.selectRow(self.findSiteStartRow(self.site), inComponent: 0, animated: false)
+        sitePicker.isHidden = false
+        sitePicker.selectRow(findSiteStartRow(site), inComponent: 0, animated: false)
         // other View changes
-        self.autofillButton.isHidden = true
-        self.autofillButton.isEnabled = false
-        self.typeSiteButton.isEnabled = false
-        self.chooseSiteButton.isEnabled = false
-        self.chooseDateButton.isEnabled = false
+        autofillButton.isHidden = true
+        autofillButton.isEnabled = false
+        typeSiteButton.isEnabled = false
+        chooseSiteButton.isEnabled = false
+        chooseDateButton.isEnabled = false
 
     }
 
@@ -197,7 +205,7 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     }
     
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.sites.count
+        return sites.count
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -207,146 +215,148 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     // Done
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let newLoc = sites[row]
-        self.chooseSiteButton.text = newLoc
-        self.site = newLoc
+        chooseSiteButton.text = newLoc
+        site = newLoc
         // other view changes
-        self.sitePicker.isHidden = true
-        self.autofillButton.isEnabled = true
-        self.chooseDateButton.isEnabled = true
-        self.typeSiteButton.isEnabled = true
-        self.chooseSiteButton.isEnabled = true
-        self.chooseSiteButton.isHidden = false
-        self.autofillButton.isHidden = false
-        self.siteTextHasChanged = true
-        self.saveButton.isEnabled = true
-        self.shouldSaveSelectedSiteIndex = true
-        self.shouldSaveIncrementedSiteIndex = false
-        self.siteIndexSelected = row
+        sitePicker.isHidden = true
+        autofillButton.isEnabled = true
+        chooseDateButton.isEnabled = true
+        typeSiteButton.isEnabled = true
+        chooseSiteButton.isEnabled = true
+        chooseSiteButton.isHidden = false
+        autofillButton.isHidden = false
+        siteTextHasChanged = true
+        saveButton.isEnabled = true
+        shouldSaveSelectedSiteIndex = true
+        shouldSaveIncrementedSiteIndex = false
+        siteIndexSelected = row
     }
 
     // MARK: - Date Picker funcs
     
     @IBAction internal func chooseDateTextTapped(_ sender: Any) {
         
-        self.createDateAddSubview()
+        createDateAddSubview()
         // disable \ hide stuff
-        self.autofillButton.isHidden = true
-        self.chooseDateButton.isEnabled = false
-        self.typeSiteButton.isEnabled = false
-        self.chooseSiteButton.isEnabled = false
+        autofillButton.isHidden = true
+        chooseDateButton.isEnabled = false
+        typeSiteButton.isEnabled = false
+        chooseSiteButton.isEnabled = false
         
     }
     
     @objc internal func datePickerDone(sender: UIButton) {
-        self.dateInputView.isHidden = true
+        dateInputView.isHidden = true
         // disp date and time applied
-        let d = self.datePicker.date
-        self.datePlaced = d             // set temp
-        self.chooseDateButton.setTitle(MOEstrogen.makeDateString(from: d, useWords: true), for: UIControlState.normal)
-        if let expDate = MOEstrogen.expiredDate(fromDate: self.datePicker.date) {            // disp exp date
-            self.expirationDateLabel.text = MOEstrogen.makeDateString(from: expDate, useWords: true)
+        let d = datePicker.date
+        datePlaced = d             // set temp
+        chooseDateButton.setTitle(MOEstrogen.makeDateString(from: d, useWords: true), for: UIControlState.normal)
+        if let expDate = MOEstrogen.expiredDate(fromDate: datePicker.date) {            // disp exp date
+            expirationDateLabel.text = MOEstrogen.makeDateString(from: expDate, useWords: true)
         }
         // outer view changes
-        self.saveButton.isEnabled = true
-        self.chooseDateButton.isEnabled = true
-        self.typeSiteButton.isEnabled = true
-        self.autofillButton.isHidden = false
-        self.siteStackView.isHidden = false
-        self.siteLabel.isHidden = false
-        self.dateTextHasChanged = true
-        self.chooseSiteButton.isEnabled = true
+        saveButton.isEnabled = true
+        chooseDateButton.isEnabled = true
+        typeSiteButton.isEnabled = true
+        autofillButton.isHidden = false
+        siteStackView.isHidden = false
+        siteLabel.isHidden = false
+        dateTextHasChanged = true
+        chooseSiteButton.isEnabled = true
 
     }
     
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: self.estrogenScheduleIndex) {
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: estrogenScheduleIndex) {
             // site placed
             if estro.getLocation() != PDStrings.placeholderStrings.unplaced {
                 // set site label text to patch's site
                 let loc = estro.getLocation()              // set temp
-                self.chooseSiteButton.text = loc
-                self.site = loc
+                chooseSiteButton.text = loc
+                site = loc
             }
             // site not placed
             else {
-                self.chooseSiteButton.text = PDStrings.actionStrings.select
+                chooseSiteButton.text = PDStrings.actionStrings.select
             }
             // date placed
             if let date = estro.getDate() {
                 // set date choose button's text to patch's date palced data
-                self.datePlaced = date                  // set temp
-                self.chooseDateButton.setTitle(MOEstrogen.makeDateString(from: date, useWords: true) , for: .normal)
-                self.expirationDateLabel.text = estro.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval(), useWords: true)
+                datePlaced = date                  // set temp
+                chooseDateButton.setTitle(MOEstrogen.makeDateString(from: date, useWords: true) , for: .normal)
+                expirationDateLabel.text = estro.expirationDateAsString(timeInterval: UserDefaultsController.getTimeInterval(), useWords: true)
             }
             // date unplaced
             else {
-                self.chooseDateButton.setTitle(PDStrings.actionStrings.select, for: .normal)
+                chooseDateButton.setTitle(PDStrings.actionStrings.select, for: .normal)
             }
         }
         // nil patch
         else {
-            self.chooseSiteButton.text = PDStrings.actionStrings.select
-            self.chooseDateButton.setTitle(PDStrings.actionStrings.select, for: .normal)
+            chooseSiteButton.text = PDStrings.actionStrings.select
+            chooseDateButton.setTitle(PDStrings.actionStrings.select, for: .normal)
         }
     }
     
     internal func setEstrogenScheduleIndex(to: Int) {
-        self.estrogenScheduleIndex = to
+        estrogenScheduleIndex = to
     }
     
     private func saveAttributes() {
         // save only if there are changes.
-        if self.siteTextHasChanged {
+        if siteTextHasChanged {
             // current patch must exist since we are editing it
-            guard let newSite = self.chooseSiteButton.text, newSite != "" else {
+            guard let newSite = chooseSiteButton.text, newSite != "" else {
                 return
             }
-            ScheduleController.coreDataController.setEstrogenDeliveryLocation(scheduleIndex: self.estrogenScheduleIndex, with: newSite)
+            ScheduleController.coreDataController.setEstrogenDeliveryLocation(scheduleIndex: estrogenScheduleIndex, with: newSite)
             // set values for ScheduleVC animation algorithm
-            if !self.dateTextHasChanged {
+            if !dateTextHasChanged {
                 ScheduleController.onlySiteChanged = true
             }
         }
-        if self.dateTextHasChanged {
-            ScheduleController.coreDataController.setEstrogenDeliveryDate(scheduleIndex: self.estrogenScheduleIndex, with: datePicker.date)
+        if dateTextHasChanged {
+            ScheduleController.coreDataController.setEstrogenDeliveryDate(scheduleIndex: estrogenScheduleIndex, with: datePicker.date)
         }
         
     }
     
     private func autoPickSite() {
-        let scheduleSites: [String] = ScheduleController.siteSchedule().siteNamesArray
-        let currentSites: [String] = ScheduleController.estrogenSchedule().currentSiteNames
-        let suggestedSiteIndex = SiteSuggester.suggest(estrogenScheduleIndex: self.estrogenScheduleIndex, currentSites: currentSites)
-        if suggestedSiteIndex >= 0 && suggestedSiteIndex < scheduleSites.count {
-            self.shouldSaveIncrementedSiteIndex = true
-            self.shouldSaveSelectedSiteIndex = false
-            self.chooseSiteButton.text = scheduleSites[suggestedSiteIndex]
+        if let currentSiteName = chooseSiteButton.text {
+            let scheduleSites: [String] = ScheduleController.siteSchedule().siteNamesArray
+            let currentSites: [String] = ScheduleController.estrogenSchedule().currentSiteNames
+            let estrogenCount: Int = UserDefaultsController.getQuantityInt()
+            if let suggestedSiteIndex = SiteSuggester.suggest(currentEstrogenSiteSuggestingFrom: currentSiteName, currentSites: currentSites, estrogenQuantity: estrogenCount, scheduleSites: scheduleSites), suggestedSiteIndex >= 0 && suggestedSiteIndex < scheduleSites.count {
+                shouldSaveIncrementedSiteIndex = true
+                shouldSaveSelectedSiteIndex = false
+                chooseSiteButton.text = scheduleSites[suggestedSiteIndex]
+            }
         }
     }
     
     private func autoPickDate() {
         let now = Date()
-        self.chooseDateButton.setTitle(MOEstrogen.makeDateString(from: now, useWords: true), for: .normal)
+        chooseDateButton.setTitle(MOEstrogen.makeDateString(from: now, useWords: true), for: .normal)
         if let expDate = MOEstrogen.expiredDate(fromDate: now) {
-            self.expirationDateLabel.text = MOEstrogen.makeDateString(from: expDate, useWords: true)
+            expirationDateLabel.text = MOEstrogen.makeDateString(from: expDate, useWords: true)
         }
     }
     
     private func requestNotification() {
         // request notification iff exists Patch.date
-        appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: self.estrogenScheduleIndex)
+        appDelegate.notificationsController.requestNotifyExpired(scheduleIndex: estrogenScheduleIndex)
     }
     
     private func cancelNotification() {
-        appDelegate.notificationsController.cancelSchedule(index: self.estrogenScheduleIndex)
+        appDelegate.notificationsController.cancelSchedule(index: estrogenScheduleIndex)
     }
     
     // MARK: - Private view creators / MOEstrogendifiers
     
     private func findSiteStartRow(_ site: String) -> Int {
-        if let i = self.sites.index(of: site) {
+        if let i = sites.index(of: site) {
             return i
         }
         return 0
@@ -355,36 +365,36 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
     private func setScheduleAndHeading() {
         let interval = UserDefaultsController.getTimeInterval()
         var exp = ""
-        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: self.estrogenScheduleIndex) {            // unplaced patch instruction
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: estrogenScheduleIndex) {            // unplaced patch instruction
             if estro.getLocation() == PDStrings.placeholderStrings.unplaced {
                 exp = PDStrings.placeholderStrings.dotdotdot
             }
             else {
                 if estro.isExpired(timeInterval: interval) {
-                    self.expiresOrExpiredLabel.text = PDStrings.colonedStrings.expired
+                    expiresOrExpiredLabel.text = PDStrings.colonedStrings.expired
                 }
                 else {
-                    self.expiresOrExpiredLabel.text = PDStrings.colonedStrings.expires
+                    expiresOrExpiredLabel.text = PDStrings.colonedStrings.expires
                 }
                 exp = estro.expirationDateAsString(timeInterval: interval, useWords: true)
             }
-            self.expirationDateLabel.text = exp
+            expirationDateLabel.text = exp
         }
         else {
             exp = PDStrings.placeholderStrings.dotdotdot
         }
     }
     
-    // for self.createDateAddSubview() self.dateAddTapped()
+    // for createDateAddSubview() dateAddTapped()
     private func makeInputViewForDatePicker() -> UIView {
-        let viewPoint = CGPoint(x: configureDatePickerStartX(), y: self.view.frame.height/2)
-        let viewSize = CGSize(width: self.view.frame.width, height: 240)
+        let viewPoint = CGPoint(x: configureDatePickerStartX(), y: view.frame.height/2)
+        let viewSize = CGSize(width: view.frame.width, height: 240)
         let viewRect = CGRect(origin: viewPoint, size: viewSize)
         return UIView(frame: viewRect)
         
     }
     
-    // for self.makeInputViewForDatePicker
+    // for makeInputViewForDatePicker
     // two different x values based on on whether iphone or ipad
     private func configureDatePickerStartX() -> CGFloat {
         // iPhone
@@ -393,24 +403,24 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         }
         // iPad
         else {
-            return self.view.frame.width/2.8
+            return view.frame.width/2.8
         }
     }
     
-    // for self.createDateAddSubview() self.dateAddTapped()
+    // for createDateAddSubview() dateAddTapped()
     private func makeDatePickerView() -> UIDatePicker {
         let datePickerPoint = CGPoint(x: 0, y: 40)
         let datePickerSize = CGSize(width: 0, height: 0)
         let datePickerRect = CGRect(origin: datePickerPoint, size: datePickerSize)
         let datePickerView: UIDatePicker = UIDatePicker(frame: datePickerRect)
         datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
-        datePickerView.date = self.datePlaced
+        datePickerView.date = datePlaced
         datePickerView.maximumDate = Date()
         return datePickerView
         
     }
     
-    // for self.createDateAddSubview() from self.dateAddTapped()
+    // for createDateAddSubview() from dateAddTapped()
     private func makeDoneButton() -> UIButton {
         let donePoint = CGPoint(x: configureDoneButtonStartX(), y: 0)
         let doneSize = CGSize(width: 100, height: 50)
@@ -424,11 +434,11 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         
     }
     
-    // for self.makedoneButton()
+    // for makedoneButton()
     private func configureDoneButtonStartX() -> CGFloat {
         // iPhone
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
-            return (self.view.frame.size.width/2) - 50
+            return (view.frame.size.width/2) - 50
         }
             // iPad
         else {
@@ -436,67 +446,61 @@ class DetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource,
         }
     }
     
-    private func configureBadgeIcon() {
-        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: self.estrogenScheduleIndex) {
+    // Save a
+    private func configureBadgeIcon(_ wasExpiredBeforeSave: Bool,_ isExpiredAfterSave: Bool) {
             
-            let wasExpiredBeforeSave: Bool = estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
-            self.saveAttributes()
-            let isExpiredAfterSave = estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())
-            
-            // New estro is fresh
-            if !isExpiredAfterSave && UIApplication.shared.applicationIconBadgeNumber > 0 {
-                UIApplication.shared.applicationIconBadgeNumber -= 1
-            }
-                
-                // New estro is not fresh
-            else if !wasExpiredBeforeSave && isExpiredAfterSave {
-                UIApplication.shared.applicationIconBadgeNumber += 1
-            }
-            
-            if !wasExpiredBeforeSave {
-                self.cancelNotification()
-            }
-            self.requestNotification()
-            
+        // New estro is fresh
+        if !isExpiredAfterSave && UIApplication.shared.applicationIconBadgeNumber > 0 {
+            UIApplication.shared.applicationIconBadgeNumber -= 1
         }
+            
+            // New estro is not fresh
+        else if !wasExpiredBeforeSave && isExpiredAfterSave {
+            UIApplication.shared.applicationIconBadgeNumber += 1
+        }
+        
+        if !wasExpiredBeforeSave {
+            cancelNotification()
+        }
+        requestNotification()
     }
     
-    // for self.dateAddTapped()
+    // for dateAddTapped()
     private func createDateAddSubview() {
-        let inputView = self.makeInputViewForDatePicker()
-        let datePickerView: UIDatePicker = self.makeDatePickerView()
+        let inputView = makeInputViewForDatePicker()
+        let datePickerView: UIDatePicker = makeDatePickerView()
         inputView.addSubview(datePickerView)
-        let doneButton = self.makeDoneButton()
+        let doneButton = makeDoneButton()
         inputView.addSubview(doneButton)
         doneButton.addTarget(self, action: #selector(datePickerDone), for: .touchUpInside)
-        self.view.addSubview(inputView)
+        view.addSubview(inputView)
         
         // update members vars
-        self.datePicker = datePickerView
-        self.dateInputView = inputView
+        datePicker = datePickerView
+        dateInputView = inputView
         
     }
 
     // lines
     private func hideLines() {
-        self.lineUnderScheduleDate.isHidden = true
-        self.lineUnderDateAndTimePlaced.isHidden = true
-        self.lineUnderExpires.isHidden = true
-        self.horizontalLineAboveSite.isHidden = true
-        self.horizontalLineBelowSite.isHidden = true
-        self.lineUnderDate.isHidden = true
-        self.verticalLineInSiteStack.isHidden = true
+        lineUnderScheduleDate.isHidden = true
+        lineUnderDateAndTimePlaced.isHidden = true
+        lineUnderExpires.isHidden = true
+        horizontalLineAboveSite.isHidden = true
+        horizontalLineBelowSite.isHidden = true
+        lineUnderDate.isHidden = true
+        verticalLineInSiteStack.isHidden = true
     }
     
     // lines
     private func unhideLines() {
-        self.lineUnderScheduleDate.isHidden = false
-        self.lineUnderDateAndTimePlaced.isHidden = false
-        self.lineUnderExpires.isHidden = false
-        self.horizontalLineAboveSite.isHidden = false
-        self.horizontalLineBelowSite.isHidden = false
-        self.lineUnderDate.isHidden = false
-        self.verticalLineInSiteStack.isHidden = false
+        lineUnderScheduleDate.isHidden = false
+        lineUnderDateAndTimePlaced.isHidden = false
+        lineUnderExpires.isHidden = false
+        horizontalLineAboveSite.isHidden = false
+        horizontalLineBelowSite.isHidden = false
+        lineUnderDate.isHidden = false
+        verticalLineInSiteStack.isHidden = false
     }
 
 }

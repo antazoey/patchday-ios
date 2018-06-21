@@ -8,7 +8,8 @@
 
 import Foundation
 import CoreData
-
+import PDKit
+ 
 internal class CoreDataController {
     
     // Description: CoreDataController is where the Core Data Stack is initialized. It is the internal class for interacting with core data to load and save MO attributes.  The core data model expresses MOs with the attributes: date, serving as a Date object created on the day and time it was placed, and the site, a String representing the site of the MO.  CoreDataController is the class the ScheduleController, the UI class for the MO data, uses to load and save the MO data.
@@ -40,8 +41,8 @@ internal class CoreDataController {
         // sort during init()
         estromos.sort(by: <)
         sitemos.sort(by: <)
-        self.estro_array = estromos
-        self.loc_array = sitemos
+        estro_array = estromos
+        loc_array = sitemos
     }
     
     // MARK: - Core Data stack
@@ -59,7 +60,7 @@ internal class CoreDataController {
     // MARK: - Public estrogen functions
     
     internal func sortEstrogenSchedule() {
-        self.estro_array.sort(by: <)
+        estro_array.sort(by: <)
     }
     
     internal func getEstrogenDeliveryMO(forIndex: Int) -> MOEstrogen? {
@@ -94,7 +95,7 @@ internal class CoreDataController {
         if let estro = getEstrogenDeliveryMO(forIndex: scheduleIndex) {
             estro.setLocation(with: with)
         }
-        self.sortEstrogenSchedule()
+        sortEstrogenSchedule()
         CoreDataController.saveContext()
     }
     
@@ -103,10 +104,10 @@ internal class CoreDataController {
             return
         }
         // attempt to set MO's date at given index
-        if let mo = getEstrogenDeliveryMO(forIndex: scheduleIndex) {
-            mo.setDatePlaced(withDate: with)
+        if let estro = getEstrogenDeliveryMO(forIndex: scheduleIndex) {
+            estro.setDatePlaced(withDate: with)
         }
-        self.sortEstrogenSchedule()
+        sortEstrogenSchedule()
         CoreDataController.saveContext()
     }
     
@@ -115,7 +116,7 @@ internal class CoreDataController {
             estro.setLocation(with: location)
             estro.setDatePlaced(withDate: date)
         }
-        self.sortEstrogenSchedule()
+        sortEstrogenSchedule()
         CoreDataController.saveContext()
     }
     
@@ -123,14 +124,14 @@ internal class CoreDataController {
         if scheduleIndex < estro_array.count && scheduleIndex >= 0 {
             estro_array[scheduleIndex] = with
         }
-        self.sortEstrogenSchedule()
+        sortEstrogenSchedule()
         CoreDataController.saveContext()
     }
     
     internal func resetEstrogenData(start_i: Int, end_i: Int) {
         for i in start_i...end_i {
-            if let mo = self.getEstrogenDeliveryMO(forIndex: i) {
-                mo.reset()
+            if let estro = getEstrogenDeliveryMO(forIndex: i) {
+                estro.reset()
             }
         }
         CoreDataController.saveContext()
@@ -166,7 +167,7 @@ internal class CoreDataController {
     }
     
     internal func resetSiteData() {
-        self.loc_array = CoreDataController.createSiteMOs()
+        loc_array = CoreDataController.createSiteMOs()
         let resetSiteNames: [String] = (UserDefaultsController.usingPatches()) ? PDStrings.siteNames.patchSiteNames : PDStrings.siteNames.injectionSiteNames
         for i in 0...(resetSiteNames.count-1) {
             if i < loc_array.count {
@@ -179,13 +180,13 @@ internal class CoreDataController {
                 loc_array.append(newSiteMO)
             }
         }
-        if self.loc_array.count-1 > resetSiteNames.count {
-            for i in resetSiteNames.count...(self.loc_array.count-1) {
-                self.loc_array[i].reset()
+        if loc_array.count-1 > resetSiteNames.count {
+            for i in resetSiteNames.count...(loc_array.count-1) {
+                loc_array[i].reset()
             }
         }
-        self.loc_array = CoreDataController.filterEmptySites(from: loc_array)
-        self.loc_array.sort(by: <)
+        loc_array = CoreDataController.filterEmptySites(from: loc_array)
+        loc_array.sort(by: <)
         CoreDataController.saveContext()
         
     }
@@ -193,7 +194,7 @@ internal class CoreDataController {
     internal func printSites() {
         print("PRINTING SITES")
         print("--------------")
-        for site in self.loc_array {
+        for site in loc_array {
             print("Order: " + String(site.getOrder()))
             if let n = site.getName() {
                 print("Name: " + n)
@@ -292,7 +293,7 @@ internal class CoreDataController {
     // For bringing persisted MOEstrogenDeliveries into memory when starting the app.
     private static func createEstrogenDeliveryMO(entityIndex: Int) -> MOEstrogen? {
         var userMO: MOEstrogen?
-        if let fetchRequest = self.createEstrogenDeliveryFetch(entityIndex: entityIndex) {
+        if let fetchRequest = createEstrogenDeliveryFetch(entityIndex: entityIndex) {
             fetchRequest.propertiesToFetch = PDStrings.coreDataKeys.estroPropertyNames
             do {
                 // load user data if it exists
@@ -312,7 +313,7 @@ internal class CoreDataController {
     
     // For bringing persisted MOSites into memory when starting the app.
     private static func createSiteMOs() -> [MOSite] {
-        let fetchRequest = self.createSiteFetch()
+        let fetchRequest = createSiteFetch()
         fetchRequest.propertiesToFetch = PDStrings.coreDataKeys.locPropertyNames
         do {
             return try persistentContainer.viewContext.fetch(fetchRequest)

@@ -7,211 +7,166 @@
 //
 
 import Foundation
-
-public typealias Time = Date
-public typealias Stamp = Date
-public typealias Stamps = [Stamp?]?
+import PDKit
 
 public class PillDataController: NSObject {
     
     // App
-    static private var defaults = UserDefaults.standard
+    private static var defaults = UserDefaults.standard
+    private static var shareDefaults = UserDefaults.init(suiteName: "group.com.patchday.todaydata")
     
     // TB data
-    static private var includeTB: Bool = true       // include t-blocker
-    static private var tb_daily: Int = 1            // taken (1 or 2)
-    static private var tb1_time: Time = Time()      // 1st time should take
-    static private var tb2_time: Time = Time()      // 2nd time should take
-    static private var remindTB: Bool = true        // notification?
+    private static var includeTB: Bool = true       // include t-blocker
+    private static var tb_daily: Int = 1            // taken (1 or 2)
+    private static var tb1_time: Time = Time()      // 1st time should take
+    private static var tb2_time: Time = Time()      // 2nd time should take
+    private static var remindTB: Bool = true        // notification?
     
-    static public var tb_stamps: Stamps             // last time taken
+    public static var tb_stamps: Stamps             // last time taken
     
     // PG data
-    static private var includePG: Bool = false      // include progesterone
-    static private var pg_daily: Int = 1            // taken (1 or 2)
-    static private var pg1_time: Time = Time()      // 1st time should take
-    static private var pg2_time: Time = Time()      // 2nd time should take
-    static private var remindPG: Bool = true        // notification?
+    private static var includePG: Bool = false      // include progesterone
+    private static var pg_daily: Int = 1            // taken (1 or 2)
+    private static var pg1_time: Time = Time()      // 1st time should take
+    private static var pg2_time: Time = Time()      // 2nd time should take
+    private static var remindPG: Bool = true        // notification?
     
-    static public var pg_stamps: Stamps             // last time taken
+    public static var pg_stamps: Stamps             // last time taken
     
     public static func setUp() {
         
         // Load TB Data
-        self.loadIncludeTB()
-        self.loadTBDaily()
-        self.loadTB1Time()
-        self.loadTB2time()
-        self.loadTBTaken()
-        self.loadRemindTB()
+        loadIncludeTB()
+        loadTBDaily()
+        loadTB1Time()
+        loadTB2time()
+        loadTBTaken()
+        loadRemindTB()
         
         // Load PGData
-        self.loadIncludePG()
-        self.loadPGTimesaday()
-        self.loadPG1Time()
-        self.loadPG2time()
-        self.loadPGTaken()
-        self.loadRemindPG()
+        loadIncludePG()
+        loadPGTimesaday()
+        loadPG1Time()
+        loadPG2time()
+        loadPGTaken()
+        loadRemindPG()
     }
     
     // MARK: - Getters TB
     
     public static func includingTB() -> Bool {
-        return self.includeTB
+        return includeTB
     }
     
     public static func getTBDailyInt() -> Int {
-        return self.tb_daily
+        return tb_daily
     }
     
     public static func getTBDailyString() -> String {
-        return String(self.tb_daily)
+        return String(tb_daily)
     }
     
     public static func getTB1Time() -> Time {
-        return self.tb1_time
+        return tb1_time
     }
     
     public static func getTB2Time() -> Time {
-        return self.tb2_time
+        return tb2_time
     }
 
     public static func getRemindTB() -> Bool {
-        return self.remindTB
+        return remindTB
     }
 
     // MARK: - Getters PG
     
     public static func includingPG() -> Bool {
-        return self.includePG
+        return includePG
     }
     
     public static func getPGDailyInt() -> Int {
-        return self.pg_daily
+        return pg_daily
     }
     
     public static func getPGDailyString() -> String {
-        return String(self.pg_daily)
+        return String(pg_daily)
     }
 
     public static func getPG1Time() -> Time {
-        return self.pg1_time
+        return pg1_time
     }
     
     public static func getPG2Time() -> Time {
-        return self.pg2_time
+        return pg2_time
     }
     
     public static func getRemindPG() -> Bool {
-        return self.remindPG
+        return remindPG
     }
     
     // MARK: - TB Setters
     
     public static func setIncludeTB(to: Bool) {
-        self.includeTB = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.includeTB.rawValue)
-        self.synchonize()
+        includeTB = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.includeTB.rawValue)
     }
     
     public static func setTBDaily(to: Int) {
-        self.tb_daily = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.tbDaily.rawValue)
-        self.synchonize()
+        tb_daily = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.tbDaily.rawValue)
     }
     
     public static func setTB1Time(to: Time) {
-        self.tb1_time = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.tbTime1.rawValue)
-        self.synchonize()
+        tb1_time = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.tbTime1.rawValue)
     }
     
     public static func setTB2Time(to: Time) {
-        self.tb2_time = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.tbTime2.rawValue)
-        self.synchonize()
+        tb2_time = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.tbTime2.rawValue)
     }
     
     static func setRemindTB(to: Bool) {
-        self.remindTB = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.remindTB.rawValue)
-        self.synchonize()
+        remindTB = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.remindTB.rawValue)
     }
 
     // MARK: - PG Setters
     
     public static func setIncludePG(to: Bool) {
-        self.includePG = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.includePG.rawValue)
-        self.synchonize()
+        includePG = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.includePG.rawValue)
     }
     
     public static func setPGDaily(to: Int) {
-        self.pg_daily = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.pgDaily.rawValue)
-        self.synchonize()
+        pg_daily = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.pgDaily.rawValue)
     }
     
     public static func setPG1Time(to: Time) {
-        self.pg1_time = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.pgTime1.rawValue)
-        self.synchonize()
+        pg1_time = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.pgTime1.rawValue)
     }
     
     public static func setPG2Time(to: Time) {
-        self.pg2_time = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.pgTime2.rawValue)
-        self.synchonize()
+        pg2_time = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.pgTime2.rawValue)
     }
     
     public static func setRemindPG(to: Bool) {
-        self.remindPG = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.remindPG.rawValue)
-        self.synchonize()
+        remindPG = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.remindPG.rawValue)
     }
     
     // MARK: - Other public
-    
-    public static func synchonize() {
-        self.defaults.synchronize()
-    }
-    
-    // The newer stamp is always the last element.
-    public static func getLaterStamp(stamps: Stamps) -> Stamp? {
-        if let stamps = stamps, stamps.count > 0 {
-            return stamps[stamps.count-1]
-        }
-        return nil
-    }
-    
-    // The older stamp is always at the 0 index.
-    public static func getOlderStamp(stamps: Stamps) -> Stamp? {
-        if let stamps = stamps, stamps.count > 0 {
-            return stamps[0]
-        }
-        return nil
-    }
-    
-    // Returns number of stamps in stamps that were taken today.
-    public static func takenTodayCount(stamps: Stamps) -> Int {
-        var takenToday: Int = 0
-        if let stamps = stamps {
-            for i in 0...(stamps.count-1) {
-                if let stamp = stamps[i], Calendar.current.isDateInToday(stamp) {
-                    takenToday += 1
-                }
-            }
-        }
-        return takenToday
-    }
-    
+
     public static func getFrac(mode: String) -> String? {
-        let including = (mode == "TB") ? PillDataController.includingTB() : PillDataController.includingPG()
+        let including = (mode == "TB") ? includingTB() : includingPG()
         if !including { return nil }
         else {
-            let stamps = (mode == "TB") ? PillDataController.tb_stamps : PillDataController.pg_stamps
-            let count = (mode == "TB") ? PillDataController.getTBDailyInt() : PillDataController.getPGDailyInt()
-            let takenToday = PillDataController.takenTodayCount(stamps: stamps)
+            let stamps = (mode == "TB") ? tb_stamps : pg_stamps
+            let count = (mode == "TB") ? getTBDailyInt() : getPGDailyInt()
+            let takenToday = PDPillsHelper.takenTodayCount(stamps: stamps)
             let done = count == takenToday
             let twoPills = count == 2
             var frac = ""
@@ -237,11 +192,7 @@ public class PillDataController: NSObject {
     // take(this, at) : Translates to takePG(at) or takeTB(at) (legacy)
     // Stamps is a stack - the older stamp is always at the index 0.
     public static func take(this: inout Stamps, at: Date, timesaday: Int, key: String) {
-        /*----------------------------------------
-         if...
-            1.) taken pills at some point OR
-            2.) scheduled two pills a day
-        ----------------------------------------*/
+
         if this != nil, timesaday > 1 {             // two-a-day
             if (this?.count)! < 2 {                 // Only one on record so far
                 this?.append(at)                    // append (places at index 1)
@@ -252,388 +203,219 @@ public class PillDataController: NSObject {
                 this?[1] = at                       // append new Late stamp
             }
         }
-        /*----------------------------------------
-         if...
-            1.) have yet to take any pills
-            2.) scheduled one pill a day
-        ----------------------------------------*/
-        
         else {
             this = [at]                         // one-a-day or never before
         }
         
-        //**********************************
-        // ** Saving should always happen **
-        //**********************************
-        self.defaults.set(this, forKey: key)
-        self.synchonize()
-    }
-    
-    // format(time) : Input pill time, output time string
-    static public func format(time: Time) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
-        return dateFormatter.string(from: time)
-    }
-    
-    // format(date) : Input pill time, output date string
-    static public func format(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        let calendar = Calendar.current
+        // Saving should always happen
+        defaults.set(this, forKey: key)
         
-        if calendar.isDateInToday(date) {
-            dateFormatter.dateFormat = "h:mm a"
-            return PDStrings.dayStrings.today + ", " + dateFormatter.string(from: date)
+        if key == PDStrings.SettingsKey.tbStamp.rawValue {
+            let tbTakenToday = PDPillsHelper.wasTakenToday(stamps: this)
+            if let shared = shareDefaults {
+                
+                shared.set(tbTakenToday, forKey: PDStrings.TodayKeys.tbTaken)
+            }
         }
-        else if let yesterday: Date = PillDataController.getDate(at: Date(), daysToAdd: -1), calendar.isDate(date, inSameDayAs: yesterday) {
-            dateFormatter.dateFormat = "h:mm a"
-            return PDStrings.dayStrings.yesterday + ", " + dateFormatter.string(from: date)
-        }
-        dateFormatter.dateFormat = "MMM d, h:mm a"
-        return dateFormatter.string(from: date)
     }
     
     // containsDue() : Returns true if any pill in the schedule needs to be taken (isDue()).
-    static public func containsDue() -> Bool {
-        return (self.includeTB && isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time)) || (self.includePG && isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time))
+    public static func containsDue() -> Bool {
+        return (includeTB && PDPillsHelper.isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time)) || (includePG && PDPillsHelper.isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time))
     }
     
     // totalDue() : Returns total number of due pills.
-    static public func totalDue() -> Int {
+    public static func totalDue() -> Int {
         var total = 0
-        if self.includeTB && isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time) {
+        if includeTB && PDPillsHelper.isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time) {
             total += 1
         }
-        if self.includePG && isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time) {
+        if includePG && PDPillsHelper.isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time) {
             total += 1
         }
         return total
     }
     
-    // isDue(timesday, stamp, time1, time2) : Returns true if it is time to take a TB or a PG, determined by if the current time is after the time it is due.
-    static public func isDue(timesaday: Int, stamps: Stamps, time1: Time, time2: Time) -> Bool {
-        
-        // **** 1st due time is valid ****
-        if let due_t1: Date = self.getTodayDate(at: time1) {
-            // *** User took pill at least once historically ***
-            if let stamps: [Stamp?] = stamps, stamps.count >= 1, let s1: Stamp = stamps[0] {
-                // ** one-a-day **
-                if timesaday < 2 {
-                    return self.notTakenAndPastDue(correspondingStamp: s1, dueDate: due_t1)
-                }
-                // **** 2nd due time is valid ****
-                // ** two-a-day **
-                else if let due_t2: Date = self.getTodayDate(at: time2) {
-                    // * Have taken pill at least twice *
-                    if stamps.count > 1, let s2: Stamp = stamps[1] {
-                        let s1Stamped = Calendar.current.isDate(s1, inSameDayAs: Date())
-                        // true if...
-                        // 1.) pill 1 was taken and pill 2 has yet to be taken and is past due OR
-                        // 2.) pill 1 has yet to be taken and is past due
-                        return (s1Stamped && self.notTakenAndPastDue(correspondingStamp: s2, dueDate: due_t2)) || (!s1Stamped && isInPast(this: due_t1))
-                    }
-                    // * Have yet to taken second pill ever *
-                    else {
-                        // The first was stamp was today, so it makes sense to look at second
-                        if Calendar.current.isDate(s1, inSameDayAs: Date()) {
-                            // true if...
-                            // 1.) pill time 2 is past due AND
-                            // 2.) the second pill
-                            return self.isInPast(this: due_t2)
-                        }
-                        // It's a new day... no second stamp... look at first again.
-                        // true if due time 1 is in the past (already know the stamp is invalid)
-                        return self.isInPast(this: due_t1)
-                    }
-                }
-                return false            // shouldn't get here
-            }
-            // *** User has yet to use the pill feature ***
-            else {
-                // true if it is past the user-set due time 1
-                return self.isInPast(this: due_t1)
-            }
-        }
-        // **** Invalid first due time (should never get here) ****
-        return false
-
+    public static func resetTB() {
+        tb_stamps = nil
+        defaults.set(nil, forKey: PDStrings.SettingsKey.tbStamp.rawValue)
     }
     
-    static public func resetTB() {
-        self.tb_stamps = nil
-        self.defaults.set(nil, forKey: PDStrings.SettingsKey.tbStamp.rawValue)
-        self.synchonize()
+    public static func resetPG() {
+        pg_stamps = nil
+        defaults.set(nil, forKey: PDStrings.SettingsKey.pgStamp.rawValue)
     }
     
-    static public func resetPG() {
-        self.pg_stamps = nil
-        self.defaults.set(nil, forKey: PDStrings.SettingsKey.pgStamp.rawValue)
-        self.synchonize()
-    }
-    
-    static public func resetLaterTB() {
-        if var stamps = self.tb_stamps {
-            if self.tb_daily == 1 || stamps[stamps.count-1] == nil {
-                self.resetTB()
+    public static func resetLaterTB() {
+        if var stamps = tb_stamps {
+            if tb_daily == 1 || stamps[stamps.count-1] == nil {
+                resetTB()
             }
             else {
                 if stamps.count == 2 {
                     stamps = [stamps[0]]
-                    self.tb_stamps = stamps
-                    self.defaults.set(stamps as Stamps, forKey: PDStrings.SettingsKey.tbStamp.rawValue)
+                    tb_stamps = stamps
+                    defaults.set(stamps as Stamps, forKey: PDStrings.SettingsKey.tbStamp.rawValue)
                 }
                 else {
-                    self.resetTB()
+                    resetTB()
                 }
-                self.synchonize()
             }
         }
     }
     
-    static public func resetLaterPG() {
-        if var stamps = self.pg_stamps {
-            if self.pg_daily == 1 || stamps[stamps.count-1] == nil {
-                self.resetPG()
+    public static func resetLaterPG() {
+        if var stamps = pg_stamps {
+            if pg_daily == 1 || stamps[stamps.count-1] == nil {
+                resetPG()
             }
             else {
                 if stamps.count == 2 {
                     stamps = [stamps[0]]
-                    self.pg_stamps = stamps
-                    self.defaults.set(stamps as Stamps, forKey: PDStrings.SettingsKey.pgStamp.rawValue)
+                    pg_stamps = stamps
+                    defaults.set(stamps as Stamps, forKey: PDStrings.SettingsKey.pgStamp.rawValue)
                 }
                 else {
-                    self.resetPG()
+                    resetPG()
                 }
-                self.synchonize()
             }
         }
     }
 
-    // allStampedToday(stamps) : Returns true of all the stamps were stamped today.
-    static public func allStampedToday(stamps: Stamps, timesaday: Int) -> Bool {
-        let calendar = Calendar.current
-        let now = Date()
-        if let stamps = stamps, timesaday == stamps.count {
-            return (timesaday == 1) ? calendar.isDate(stamps[0]!, inSameDayAs: now) : calendar.isDate(stamps[0]!, inSameDayAs: now) && calendar.isDate(stamps[1]!, inSameDayAs: now)
-        }
-        // Gets here if...
-        // 1.) not stamps on record
-        // 2.) times-a-day scheduled is different than what's in the schedule
-        return false
+    public static func tbIsDone() -> Bool {
+        return PDPillsHelper.allStampedToday(stamps: tb_stamps, timesaday: tb_daily)
     }
     
-    static public func tbIsDone() -> Bool {
-        return allStampedToday(stamps: tb_stamps, timesaday: tb_daily)
+    public static func pgIsDone() -> Bool {
+        return PDPillsHelper.allStampedToday(stamps: pg_stamps, timesaday: pg_daily)
     }
     
-    static public func pgIsDone() -> Bool {
-        return allStampedToday(stamps: pg_stamps, timesaday: pg_daily)
-    }
-    
-    static public func tbTakenToday() -> Bool {
-        if let s = self.getLaterStamp(stamps: self.tb_stamps) {
+    public static func tbTakenToday() -> Bool {
+        if let s = PDPillsHelper.getLaterStamp(stamps: tb_stamps) {
             return Calendar.current.isDateInToday(s)
         }
         return false
     }
     
-    static public func pgTakenToday() -> Bool {
-        if let s = self.getLaterStamp(stamps: self.pg_stamps) {
+    public static func pgTakenToday() -> Bool {
+        if let s = PDPillsHelper.getLaterStamp(stamps: pg_stamps) {
             return Calendar.current.isDateInToday(s)
         }
         return false
     }
-    
-    static public func takenToday(stamps: Stamps) -> Bool {
-        if let s = self.getLaterStamp(stamps: stamps) {
-            return Calendar.current.isDateInToday(s)
-        }
-        return false
+
+    public static func tbIsDue() -> Bool {
+        return PDPillsHelper.isDue(timesaday: tb_daily, stamps: tb_stamps, time1: tb1_time, time2: tb2_time)
     }
     
-    public static func noRecords(stamps: Stamps) -> Bool {
-        if let stamps = stamps {
-            if stamps.count == 0 || stamps[0] == nil {
-                return true
-            }
-            return false
-        }
-        return true
-    }
-    
-    static public func tbIsDue() -> Bool {
-        return self.isDue(timesaday: self.tb_daily, stamps: self.tb_stamps, time1: self.tb1_time, time2: self.tb2_time)
-    }
-    
-    static public func pgIsDue() -> Bool {
-        return self.isDue(timesaday: self.pg_daily, stamps: self.pg_stamps, time1: self.pg1_time, time2: self.pg2_time)
-    }
-    
-    // useSecondTime(timesaday, stamp) : Returns true if...
-    // 1.) timesaday == 2
-    // 2.) was already stamped at least once today
-    static public func useSecondTime(timesaday: Int, stamp: Stamp?) -> Bool {
-        if timesaday == 1 { return false }
-        if let s: Stamp = stamp {
-            return Calendar.current.isDate(s, inSameDayAs: Date())
-        }
-        return false
-    }
-    
-    static public func getDate(at: Time, daysToAdd: Int) -> Date? {
-        let calendar = Calendar.current
-        var addComponents = DateComponents()
-        addComponents.day = daysToAdd
-        if let tom = calendar.date(byAdding: addComponents, to: Date()) {
-            let year = calendar.component(.year, from: tom)
-            let month = calendar.component(.month, from: tom)
-            let day = calendar.component(.day, from: tom)
-            let hour = calendar.component(.hour, from: at)
-            let min = calendar.component(.minute, from: at)
-            let components = DateComponents(calendar: calendar, timeZone: calendar.timeZone, year: year, month: month, day: day, hour: hour, minute: min)
-            if let d = calendar.date(from: components) {
-                return d
-            }
-        }
-        print("Error: Undetermined time.")
-        return nil
-    }
-    
-    static public func getTodayDate(at: Time) -> Date? {
-        let calendar = Calendar.current
-        let now = Date()
-        let year = calendar.component(.year, from: now)
-        let month = calendar.component(.month, from: now)
-        let day = calendar.component(.day, from: now)
-        let hour = calendar.component(.hour, from: at)
-        let min = calendar.component(.minute, from: at)
-        let components = DateComponents(calendar: calendar, timeZone: calendar.timeZone, year: year, month: month, day: day, hour: hour, minute: min)
-        if let d = calendar.date(from: components) {
-            return d
-        }
-        print("Error: Undetermined time.")
-        return nil
+    public static func pgIsDue() -> Bool {
+        return PDPillsHelper.isDue(timesaday: pg_daily, stamps: pg_stamps, time1: pg1_time, time2: pg2_time)
     }
     
     // MARK: - TB Loaders
     
-    static private func loadIncludeTB() {
-        if let i_tb = self.defaults.object(forKey: PDStrings.SettingsKey.includeTB.rawValue) as? Bool {
-            self.includeTB = i_tb
+    private static func loadIncludeTB() {
+        if let i_tb = defaults.object(forKey: PDStrings.SettingsKey.includeTB.rawValue) as? Bool {
+            includeTB = i_tb
         }
         else {
-            self.setIncludeTB(to: true)
+            setIncludeTB(to: true)
         }
     }
     
-    static private func loadTBDaily() {
-        if let tb_x = self.defaults.object(forKey: PDStrings.SettingsKey.tbDaily.rawValue) as? Int {
-            self.tb_daily = tb_x
+    private static func loadTBDaily() {
+        if let tb_x = defaults.object(forKey: PDStrings.SettingsKey.tbDaily.rawValue) as? Int {
+            tb_daily = tb_x
         }
         else {
-            self.setTBDaily(to: 1)
+            setTBDaily(to: 1)
         }
     }
     
-    static private func loadTB1Time() {
-        if let tb_t = self.defaults.object(forKey: PDStrings.SettingsKey.tbTime1.rawValue) as? Time {
-            self.tb1_time = tb_t
+    private static func loadTB1Time() {
+        if let tb_t = defaults.object(forKey: PDStrings.SettingsKey.tbTime1.rawValue) as? Time {
+            tb1_time = tb_t
         }
         else {
-            self.setTB1Time(to: Date())
+            setTB1Time(to: Date())
         }
     }
     
-    static private func loadTB2time() {
-        if let tb_t2 = self.defaults.object(forKey: PDStrings.SettingsKey.tbTime2.rawValue) as? Time {
-            self.tb2_time = tb_t2
+    private static func loadTB2time() {
+        if let tb_t2 = defaults.object(forKey: PDStrings.SettingsKey.tbTime2.rawValue) as? Time {
+            tb2_time = tb_t2
         }
         else {
-            self.setTB2Time(to: Date())
+            setTB2Time(to: Date())
         }
     }
     
-    static private func loadTBTaken() {
-        if let stamp = self.defaults.object(forKey: PDStrings.SettingsKey.tbStamp.rawValue) as? [Stamp] {
-            self.tb_stamps = stamp
+    private static func loadTBTaken() {
+        if let stamp = defaults.object(forKey: PDStrings.SettingsKey.tbStamp.rawValue) as? [Stamp] {
+            tb_stamps = stamp
         }
     }
     
-    static private func loadRemindTB() {
-        if let r = self.defaults.object(forKey: PDStrings.SettingsKey.remindTB.rawValue) as? Bool {
-            self.remindTB = r
+    private static func loadRemindTB() {
+        if let r = defaults.object(forKey: PDStrings.SettingsKey.remindTB.rawValue) as? Bool {
+            remindTB = r
         }
         else {
-            self.setRemindTB(to: false)
+            setRemindTB(to: false)
         }
     }
     
     // MARK: - PG Loaders
     
-    static private func loadIncludePG() {
-        if let i_pg = self.defaults.object(forKey: PDStrings.SettingsKey.includePG.rawValue) as? Bool {
-            self.includePG = i_pg
+    private static func loadIncludePG() {
+        if let i_pg = defaults.object(forKey: PDStrings.SettingsKey.includePG.rawValue) as? Bool {
+            includePG = i_pg
         }
         else {
-            self.setIncludePG(to: true)
+            setIncludePG(to: true)
         }
     }
     
-    static private func loadPGTimesaday() {
-        if let pg_x = self.defaults.object(forKey: PDStrings.SettingsKey.pgDaily.rawValue) as? Int {
-            self.pg_daily = pg_x
+    private static func loadPGTimesaday() {
+        if let pg_x = defaults.object(forKey: PDStrings.SettingsKey.pgDaily.rawValue) as? Int {
+            pg_daily = pg_x
         }
         else {
-            self.setPGDaily(to: 1)
+            setPGDaily(to: 1)
         }
     }
     
-    static private func loadPG1Time() {
-        if let pg_t = self.defaults.object(forKey: PDStrings.SettingsKey.pgTime1.rawValue) as? Time {
-            self.pg1_time = pg_t
+    private static func loadPG1Time() {
+        if let pg_t = defaults.object(forKey: PDStrings.SettingsKey.pgTime1.rawValue) as? Time {
+            pg1_time = pg_t
         }
         else {
-            self.setPG1Time(to: Date())
+            setPG1Time(to: Date())
         }
     }
     
-    static private func loadPG2time() {
-        if let pg_t2 = self.defaults.object(forKey: PDStrings.SettingsKey.pgTime2.rawValue) as? Time {
-            self.pg2_time = pg_t2
-        }
-        else {
-            self.setPG2Time(to: Date())
-        }
-    }
-    
-    static private func loadPGTaken() {
-        if let stamp = self.defaults.object(forKey: PDStrings.SettingsKey.pgStamp.rawValue) as? [Stamp] {
-            self.pg_stamps = stamp
-        }
-    }
-    
-    static private func loadRemindPG() {
-        if let r = self.defaults.object(forKey: PDStrings.SettingsKey.remindPG.rawValue) as? Bool {
-            self.remindPG = r
+    private static func loadPG2time() {
+        if let pg_t2 = defaults.object(forKey: PDStrings.SettingsKey.pgTime2.rawValue) as? Time {
+            pg2_time = pg_t2
         }
         else {
-            self.setRemindPG(to: false)
+            setPG2Time(to: Date())
         }
     }
     
-    // MARK: - Private / Helpers
-    
-    static private func isInPast(this: Date) -> Bool {
-        return this < Date()
+    private static func loadPGTaken() {
+        if let stamp = defaults.object(forKey: PDStrings.SettingsKey.pgStamp.rawValue) as? [Stamp] {
+            pg_stamps = stamp
+        }
     }
     
-    /******************************************************************************
-     notTakenAndPastDue(stamp, dueDate) : Returns true if...
-     1.) the pill was not taken yet today AND
-     2.) it's past due.
-     Is called by isDue(...).
-     ******************************************************************************/
-    static private func notTakenAndPastDue(correspondingStamp: Stamp, dueDate: Date) -> Bool {
-        return !Calendar.current.isDate(correspondingStamp, inSameDayAs: Date()) && self.isInPast(this: dueDate)
+    private static func loadRemindPG() {
+        if let r = defaults.object(forKey: PDStrings.SettingsKey.remindPG.rawValue) as? Bool {
+            remindPG = r
+        }
+        else {
+            setRemindPG(to: false)
+        }
     }
+
 }

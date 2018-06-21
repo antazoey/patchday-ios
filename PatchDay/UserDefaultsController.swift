@@ -7,55 +7,56 @@
 //
 
 import UIKit
+import PDKit
 
 public class UserDefaultsController: NSObject {
     
     // Description: The UserDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.  It also includes a bool for the Autofill Site Functionality.
     
     // App
-    static private var defaults = UserDefaults.standard
+    private static var defaults = UserDefaults.standard
     
     // Schedule defaults:
-    static private var deliveryMethod: String = PDStrings.pickerData.deliveryMethods[0]
-    static private var timeInterval: String = PDStrings.pickerData.expirationIntervals[0]
-    static internal var quantity: String =  PDStrings.pickerData.counts[3]
+    private static var deliveryMethod: String = PDStrings.pickerData.deliveryMethods[0]
+    private static var timeInterval: String = PDStrings.pickerData.expirationIntervals[0]
+    internal static var quantity: String =  PDStrings.pickerData.counts[3]
     
     // Notification defaults:
-    static private var remindMeUpon = false
-    static private var reminderTime: String = PDStrings.pickerData.notificationTimes[0]
+    private static var remindMeUpon = false
+    private static var reminderTime: String = PDStrings.pickerData.notificationTimes[0]
     
     // Rememberance
-    static private var mentionedDisclaimer = false
-    static private var siteIndex = 0
+    private static var mentionedDisclaimer = false
+    private static var siteIndex = 0
 
     // MARK: - a static initializer
     
     public static func setUp() {
-        self.loadDeliveryMethod()
-        self.loadTimeInterval()
-        self.loadQuantity()
-        self.loadNotificationOption()
-        self.loadRemindUpon()
-        self.loadMentionedDisclaimer()
-        self.loadSiteIndex()
+        loadDeliveryMethod()
+        loadTimeInterval()
+        loadQuantity()
+        loadNotificationOption()
+        loadRemindUpon()
+        loadMentionedDisclaimer()
+        loadSiteIndex()
     }
     
     // MARK: - Getters
     
     public static func getDeliveryMethod() -> String {
-        return self.deliveryMethod
+        return deliveryMethod
     }
     
     public static func getTimeInterval() -> String {
-        return self.timeInterval
+        return timeInterval
     }
     
     public static func getQuantityString() -> String {
-        return self.quantity
+        return quantity
     }
     
     public static func getQuantityInt() -> Int {
-        if let int = Int(self.quantity) {
+        if let int = Int(quantity) {
             return int
         }
         else {
@@ -64,12 +65,12 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func getNotificationTimeString() -> String {
-        return self.reminderTime
+        return reminderTime
     }
     
     public static func getNotificationTimeInt() -> Int {
         // remove word "minutes"
-        let min: String = self.cutNotificationMinutes(of: self.reminderTime)
+        let min: String = cutNotificationMinutes(of: reminderTime)
         if let int = Int(min) {
             return int
         }
@@ -80,7 +81,7 @@ public class UserDefaultsController: NSObject {
     
     public static func getNotificationTimeDouble() -> Double {
         // remove word "minutes"
-        let min: String = self.cutNotificationMinutes(of: self.reminderTime)
+        let min: String = cutNotificationMinutes(of: reminderTime)
         if let double = Double(min) {
             return double
         }
@@ -90,24 +91,23 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func getRemindMeUpon() -> Bool {
-        return self.remindMeUpon
+        return remindMeUpon
     }
 
     public static func getMentionedDisclaimer() -> Bool {
-        return self.mentionedDisclaimer
+        return mentionedDisclaimer
     }
     
     public static func getSiteIndex() -> Int {
-        return self.siteIndex
+        return siteIndex
     }
     
     // MARK: - Setters
     
     public static func setDeliveryMethod(to: String) {
-        if to != self.getDeliveryMethod() {
-            self.deliveryMethod = to
-            self.defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
-            self.defaults.synchronize()
+        if to != getDeliveryMethod() {
+            deliveryMethod = to
+            defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
             let c = (UserDefaultsController.usingPatches()) ? PDStrings.pickerData.counts[2] : PDStrings.pickerData.counts[0]
             UserDefaultsController.setQuantityWithoutWarning(to: c)
             ScheduleController.deliveryMethodChanged = true
@@ -117,9 +117,8 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func setTimeInterval(to: String) {
-        self.timeInterval = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.interval.rawValue)
-        self.defaults.synchronize()
+        timeInterval = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.interval.rawValue)
     }
     
     /******************************************************************
@@ -127,25 +126,26 @@ public class UserDefaultsController: NSObject {
     *****************************************************************/
     public static func setQuantityWithWarning(to: String, oldCount: Int, countButton: UIButton) {
         ScheduleController.oldDeliveryCount = oldCount
-        if let newCount = Int(to), self.isAcceptable(count: newCount) {
+        if let newCount = Int(to), isAcceptable(count: newCount) {
             // startAndNewCount : represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new count
             if let startAndNewCount = Int(to) {
                 // DECREASING COUNT
                 if startAndNewCount < oldCount {
                     ScheduleController.decreasedCount = true        // animate schedule
                     // alert
+                    let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
                     if !ScheduleController.estrogenSchedule().isEmpty(fromThisIndexOnward:
-                        startAndNewCount) {
+                        startAndNewCount, lastIndex: lastIndexToCheck) {
                         PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: to, countButton: countButton)
                         return
                     }
                     else {
-                        self.setQuantityWithoutWarning(to: to)  // don't alert
+                        setQuantityWithoutWarning(to: to)  // don't alert
                     }
                 }
                 // INCREASING COUNT
                 else {                                          // don't alert
-                    self.setQuantityWithoutWarning(to: to)
+                    setQuantityWithoutWarning(to: to)
                     ScheduleController.increasedCount = true        // animate schedule
                 }
             }
@@ -154,41 +154,35 @@ public class UserDefaultsController: NSObject {
     
     public static func setQuantityWithoutWarning(to: String) {
         // sets if greater than 0 and less than 5 first.
-        if let newCount = Int(to), self.isAcceptable(count: newCount) {
-            self.quantity = to
-            self.defaults.set(to, forKey: PDStrings.SettingsKey.count.rawValue)
-            self.defaults.synchronize()
+        if let newCount = Int(to), isAcceptable(count: newCount) {
+            quantity = to
+            defaults.set(to, forKey: PDStrings.SettingsKey.count.rawValue)
         }
     }
     
     public static func setNotificationOption(to: String) {
-        self.reminderTime = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.notif.rawValue)
-        self.defaults.synchronize()
+        reminderTime = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.notif.rawValue)
     }
     
     public static func setRemindMeUpon(to: Bool) {
-        self.remindMeUpon = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.remind.rawValue)
-        self.defaults.synchronize()
+        remindMeUpon = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.remind.rawValue)
     }
 
     public static func setMentionedDisclaimer(to: Bool) {
-        self.mentionedDisclaimer = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.setup.rawValue)
-        self.defaults.synchronize()
+        mentionedDisclaimer = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.setup.rawValue)
     }
     
     public static func setSiteIndex(to: Int) {
-        self.siteIndex = to
-        self.defaults.set(to, forKey: PDStrings.SettingsKey.site_index.rawValue)
-        self.defaults.synchronize()
+        siteIndex = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
     
     public static func incrementSiteIndex() {
-        self.siteIndex = (self.siteIndex + 1) % ScheduleController.estrogenSchedule().count
-        self.defaults.set(self.siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
-        self.defaults.synchronize()
+        siteIndex = (siteIndex + 1) % ScheduleController.estrogenSchedule().count
+        defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
 
     //MARK: - Other public
@@ -206,76 +200,76 @@ public class UserDefaultsController: NSObject {
     // MARK: - loaders
     
     private static func loadDeliveryMethod() {
-        if let dm = self.defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
-            self.deliveryMethod = dm
+        if let dm = defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
+            deliveryMethod = dm
         }
         else {
-            self.setDeliveryMethod(to: PDStrings.pickerData.deliveryMethods[0])
+            setDeliveryMethod(to: PDStrings.pickerData.deliveryMethods[0])
         }
     }
     
     private static func loadTimeInterval() {
-        if let interval = self.defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
+        if let interval = defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
             switch interval {
-            case "One half-week": self.timeInterval = PDStrings.pickerData.expirationIntervals[0]
+            case "One half-week": timeInterval = PDStrings.pickerData.expirationIntervals[0]
                 break
-            case "One week": self.timeInterval = PDStrings.pickerData.expirationIntervals[1]
+            case "One week": timeInterval = PDStrings.pickerData.expirationIntervals[1]
                 break
-            case "Two weeks": self.timeInterval = PDStrings.pickerData.expirationIntervals[2]
+            case "Two weeks": timeInterval = PDStrings.pickerData.expirationIntervals[2]
                 break
-            default: self.timeInterval = interval
+            default: timeInterval = interval
             }
         }
         else {
-            self.setTimeInterval(to: PDStrings.pickerData.expirationIntervals[0])
+            setTimeInterval(to: PDStrings.pickerData.expirationIntervals[0])
         }
     }
     
     private static func loadQuantity() {
-        if let countStr = self.defaults.object(forKey: PDStrings.SettingsKey.count.rawValue) as? String {
+        if let countStr = defaults.object(forKey: PDStrings.SettingsKey.count.rawValue) as? String {
             // contrain patch count
             if let countInt = Int(countStr), (countInt >= 1 || countInt <= 4) {
-                self.quantity = countStr
+                quantity = countStr
             }
             else {
-                self.setQuantityWithoutWarning(to: PDStrings.pickerData.counts[2])
+                setQuantityWithoutWarning(to: PDStrings.pickerData.counts[2])
             }
         }
         else {
-            self.setQuantityWithoutWarning(to: PDStrings.pickerData.counts[2])
+            setQuantityWithoutWarning(to: PDStrings.pickerData.counts[2])
         }
     }
     
     private static func loadNotificationOption() {
         if let notifyTime = defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? String {
-            self.reminderTime = notifyTime
+            reminderTime = notifyTime
         }
         else {
-            self.setNotificationOption(to: PDStrings.pickerData.notificationTimes[0])
+            setNotificationOption(to: PDStrings.pickerData.notificationTimes[0])
         }
     }
     
     private static func loadRemindUpon() {
         if let notifyMe = defaults.object(forKey: PDStrings.SettingsKey.remind.rawValue) as? Bool {
-            self.remindMeUpon = notifyMe
+            remindMeUpon = notifyMe
         }
         else {
-            self.setRemindMeUpon(to: true)
+            setRemindMeUpon(to: true)
         }
     }
 
     private static func loadMentionedDisclaimer() {
         if let mentioned = defaults.object(forKey: PDStrings.SettingsKey.setup.rawValue) as? Bool {
-            self.mentionedDisclaimer = mentioned
+            mentionedDisclaimer = mentioned
         }
     }
     
     private static func loadSiteIndex() {
         if let site_i = defaults.object(forKey: PDStrings.SettingsKey.site_index.rawValue) as? Int {
-            self.siteIndex = site_i
+            siteIndex = site_i
         }
         else {
-            self.setSiteIndex(to: 0)
+            setSiteIndex(to: 0)
         }
     }
     

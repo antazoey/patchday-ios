@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import PDKit
 
     //Description: MOEstrogen is a managed object class that represents either a Patch or an Injection.  MOEstrogen objects are abstractions of patches on the physical body or injections into the body.  They have two attributes: 1.) the date/time placed or injected, and 2.), the site placed or injected.  MOEstrogen.expirationDate() or MOEstrogen.expirationDateAsString() are useful in the Schedule.
 
@@ -22,27 +23,27 @@ extension MOEstrogen {
     //MARK: - Setters
     
    public func setDatePlaced(withDate: Date) {
-        self.datePlaced = withDate
+        datePlaced = withDate
     }
     
     public func setDatePlaced(withString: String) {
         let dateFormatter = DateFormatter()
-        self.datePlaced = dateFormatter.date(from: withString)
+        datePlaced = dateFormatter.date(from: withString)
     }
     
     public func setLocation(with: String) {
-        self.location = with
+        location = with
     }
     
     // MARK: - Getters
     
     public func getDate() -> Date? {
-        return self.datePlaced
+        return datePlaced
     }
     
     // Return a string indicating non-located instead of nil
     public func getLocation() -> String {
-        guard let location = self.location else {
+        guard let location = location else {
             return PDStrings.placeholderStrings.unplaced
         }
         
@@ -68,73 +69,73 @@ extension MOEstrogen {
     // MARK: - Mutators
     
     public func progressToNow() {
-        self.datePlaced = Date()
+        datePlaced = Date()
     }
     
     public func reset() {
-        self.datePlaced = nil
-        self.location = PDStrings.placeholderStrings.unplaced
+        datePlaced = nil
+        location = PDStrings.placeholderStrings.unplaced
     }
     
     // MARK: - Strings
     
     public func string() -> String {
-        return self.getDatePlacedAsString() + "," + self.getLocation()
+        return getDatePlacedAsString() + "," + getLocation()
     }
     
     public func getDatePlacedAsString() -> String {
-        guard let dateAdded = self.datePlaced else {
+        guard let dateAdded = datePlaced else {
             return PDStrings.placeholderStrings.unplaced
         }
         return MOEstrogen.makeDateString(from: dateAdded, useWords: true)
     }
     
     public func expirationDateAsString(timeInterval: String, useWords: Bool) -> String {
-        if self.getDate() == nil {
+        if getDate() == nil {
             return "..."
         }
-        let expires = self.expirationDate(timeInterval: timeInterval)
+        let expires = expirationDate(timeInterval: timeInterval)
         return MOEstrogen.makeDateString(from: expires, useWords: useWords)
     }
     
     // MARK: - Booleans
     
     public func hasNoDate() -> Bool {
-        return self.datePlaced == nil
+        return datePlaced == nil
     }
     
     public func isEmpty() -> Bool {
-        let loc = self.location?.lowercased()
-        return self.datePlaced == nil && loc == "unplaced"
+        let loc = location?.lowercased()
+        return datePlaced == nil && loc == "unplaced"
     }
     
     public func isCustomLocated() -> Bool {
-        let loc = self.getLocation().lowercased()
-        return !PDStrings.siteNames.patchSiteNames.contains(self.getLocation()) && !PDStrings.siteNames.injectionSiteNames.contains(self.getLocation()) && loc != "unplaced"
+        let loc = getLocation().lowercased()
+        return !PDStrings.siteNames.patchSiteNames.contains(getLocation()) && !PDStrings.siteNames.injectionSiteNames.contains(getLocation()) && loc != "unplaced"
     }
     
     public func isExpired(timeInterval: String) -> Bool {
-        if let intervalUntilExpiration = self.determineIntervalToExpire(timeInterval: timeInterval) {
-            return self.getDate() != nil && intervalUntilExpiration <= 0
+        if let intervalUntilExpiration = determineIntervalToExpire(timeInterval: timeInterval) {
+            return getDate() != nil && intervalUntilExpiration <= 0
         }
         return false
     }
     
     // notificationMessage(timeInterval) : determined the proper message for related notifications.  This depends on the location property.
     public func notificationMessage(timeInterval: String) -> String {
-        if !self.isCustomLocated() {
+        if !isCustomLocated() {
             guard let siteNotificationPart = PDStrings.notificationStrings.messages.siteToExpiredMessage[getLocation()] else {
                 
                 // Shouldn't get here
-                return self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
+                return expirationDateAsString(timeInterval: timeInterval, useWords: false)
             }
-            return siteNotificationPart + self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
+            return siteNotificationPart + expirationDateAsString(timeInterval: timeInterval, useWords: false)
         }
             
             // For custom sites
         else {
-            let siteNotificationPart = self.getLocation() + "\n"
-            return siteNotificationPart + self.expirationDateAsString(timeInterval: timeInterval, useWords: false)
+            let siteNotificationPart = getLocation() + "\n"
+            return siteNotificationPart + expirationDateAsString(timeInterval: timeInterval, useWords: false)
         }
     }
     
@@ -143,7 +144,7 @@ extension MOEstrogen {
     public func expirationDate(timeInterval: String) -> Date {
         let hoursLasts = MOEstrogen.calculateHours(of: timeInterval)
         let calendar = Calendar.current
-        guard let dateAdded = self.getDate() else {
+        guard let dateAdded = getDate() else {
             return Date()
         }
         guard let expDate = calendar.date(byAdding: .hour, value: hoursLasts, to: dateAdded) else {
@@ -153,16 +154,16 @@ extension MOEstrogen {
     }
     
     public func determineIntervalToExpire(timeInterval: String) -> TimeInterval? {
-        if self.getDate() != nil {
-            let expirationDate = self.expirationDate(timeInterval: timeInterval)
+        if getDate() != nil {
+            let expDate = expirationDate(timeInterval: timeInterval)
             let now = Date()
             // For non-expired times, pos exp time
-            if expirationDate >= now {
-                return DateInterval(start: now, end: expirationDate).duration
+            if expDate >= now {
+                return DateInterval(start: now, end: expDate).duration
             }
             // For expired, neg exp time
             else {
-                return -DateInterval(start: expirationDate, end: now).duration
+                return -DateInterval(start: expDate, end: now).duration
             }
         }
         return nil
@@ -170,7 +171,7 @@ extension MOEstrogen {
     }
     
     // calculateHours(of) : returns a the integer of number of hours of the inputted expiration interval
-    static public func calculateHours(of: String) -> Int {
+    public static func calculateHours(of: String) -> Int {
         var numberOfHours: Int
         switch of {
         case PDStrings.pickerData.expirationIntervals[1]:
@@ -187,9 +188,9 @@ extension MOEstrogen {
         
     // MARK: - static
     
-    static public func makeDateString(from: Date, useWords: Bool) -> String {
+    public static func makeDateString(from: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
-        if useWords, let word = MOEstrogen.dateWord(from: from) {
+        if useWords, let word = PDDateHelper.dateWord(from: from) {
             dateFormatter.dateFormat = "h:mm a"
             return word + ", " + dateFormatter.string(from: from)
         }
@@ -197,40 +198,14 @@ extension MOEstrogen {
         return dateFormatter.string(from: from)
     }
     
-    static public func expiredDate(fromDate: Date) -> Date? {
-        let hours: Int = self.calculateHours(of: UserDefaultsController.getTimeInterval())
+    public static func expiredDate(fromDate: Date) -> Date? {
+        let hours: Int = calculateHours(of: UserDefaultsController.getTimeInterval())
         let calendar = Calendar.current
         guard let expDate = calendar.date(byAdding: .hour, value: hours, to: fromDate) else {
             return nil
         }
         return expDate
         
-    }
-    
-    public static func dayOfWeekString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        if let word = MOEstrogen.dateWord(from: date) {
-            dateFormatter.dateFormat = "h:mm a"
-            return word + ", " + dateFormatter.string(from: date)
-        }
-        dateFormatter.dateFormat = "EEEE, h:mm a"
-        return dateFormatter.string(from: date)
-    }
-    
-    // MARK: - helpers
-    
-    private static func dateWord(from: Date) -> String? {
-        let calendar = Calendar.current
-        if calendar.isDateInToday(from) {
-            return PDStrings.dayStrings.today
-        }
-        else if let yesterday = PillDataController.getDate(at: Date(), daysToAdd: -1), calendar.isDate(from, inSameDayAs: yesterday) {
-            return PDStrings.dayStrings.yesterday
-        }
-        else if let tomorrow = PillDataController.getDate(at: Date(), daysToAdd: 1), calendar.isDate(from, inSameDayAs: tomorrow) {
-            return PDStrings.dayStrings.tomorrow
-        }
-        return nil
     }
 
 }

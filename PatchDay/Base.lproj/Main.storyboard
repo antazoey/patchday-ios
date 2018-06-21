@@ -595,7 +595,7 @@
                                                     </fragment>
                                                 </attributedString>
                                                 <connections>
-                                                    <action selector="scheduleButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Lp-bU-htW"/>
+                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Lp-bU-htW"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -631,7 +631,7 @@
                                                     </fragment>
                                                 </attributedString>
                                                 <connections>
-                                                    <action selector="scheduleButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Jt-q1-y89"/>
+                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Jt-q1-y89"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -667,7 +667,7 @@
                                                     </fragment>
                                                 </attributedString>
                                                 <connections>
-                                                    <action selector="scheduleButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R3C-Ao-orZ"/>
+                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R3C-Ao-orZ"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -703,7 +703,7 @@
                                                     </fragment>
                                                 </attributedString>
                                                 <connections>
-                                                    <action selector="scheduleButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PLd-yA-22k"/>
+                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PLd-yA-22k"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -738,23 +738,23 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="gdn-Tq-SY7">
                             <connections>
-                                <segue destination="Ocf-C4-jZN" kind="show" identifier="ShowSettings" id="HDw-Zn-onX"/>
+                                <action selector="settingsTapped:" destination="BYZ-38-t0r" id="LjU-oS-pfE"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="deliveryFourButton" destination="3tV-Xz-Eqt" id="tcK-Kh-za5"/>
-                        <outlet property="deliveryImageViewFour" destination="9rP-8A-UaO" id="u57-aF-3zG"/>
-                        <outlet property="deliveryImageViewOne" destination="avK-ec-blw" id="ZKC-xy-kTR"/>
-                        <outlet property="deliveryImageViewThree" destination="V2C-jY-Tcd" id="sWQ-Iy-9GX"/>
-                        <outlet property="deliveryImageViewTwo" destination="12r-Fy-ggA" id="UIO-py-PdQ"/>
-                        <outlet property="deliveryOneButton" destination="n18-9f-ThC" id="lXB-bp-agG"/>
-                        <outlet property="deliveryThreeButton" destination="VxV-0X-CKx" id="0T5-NY-7xY"/>
-                        <outlet property="deliveryTwoButton" destination="0vU-op-qLy" id="mvl-bD-KAi"/>
-                        <outlet property="deliveryViewFour" destination="1QQ-BK-9MS" id="9QA-Bv-FJp"/>
-                        <outlet property="deliveryViewOne" destination="3No-yP-2X4" id="7PT-ec-Qy8"/>
-                        <outlet property="deliveryViewThree" destination="40y-BT-uGk" id="h1V-Mp-t4O"/>
-                        <outlet property="deliveryViewTwo" destination="4C9-at-IsA" id="fkJ-q6-6Gs"/>
+                        <outlet property="estrogenFourButton" destination="3tV-Xz-Eqt" id="tcK-Kh-za5"/>
+                        <outlet property="estrogenImageViewFour" destination="9rP-8A-UaO" id="u57-aF-3zG"/>
+                        <outlet property="estrogenImageViewOne" destination="avK-ec-blw" id="ZKC-xy-kTR"/>
+                        <outlet property="estrogenImageViewThree" destination="V2C-jY-Tcd" id="sWQ-Iy-9GX"/>
+                        <outlet property="estrogenImageViewTwo" destination="12r-Fy-ggA" id="UIO-py-PdQ"/>
+                        <outlet property="estrogenOneButton" destination="n18-9f-ThC" id="lXB-bp-agG"/>
+                        <outlet property="estrogenThreeButton" destination="VxV-0X-CKx" id="0T5-NY-7xY"/>
+                        <outlet property="estrogenTwoButton" destination="0vU-op-qLy" id="mvl-bD-KAi"/>
+                        <outlet property="estrogenViewFour" destination="1QQ-BK-9MS" id="9QA-Bv-FJp"/>
+                        <outlet property="estrogenViewOne" destination="3No-yP-2X4" id="7PT-ec-Qy8"/>
+                        <outlet property="estrogenViewThree" destination="40y-BT-uGk" id="h1V-Mp-t4O"/>
+                        <outlet property="estrogenViewTwo" destination="4C9-at-IsA" id="fkJ-q6-6Gs"/>
                         <outlet property="pillNav" destination="cD8-4g-3p3" id="YF5-7M-ifx"/>
                         <outlet property="scheduleStack" destination="toK-9k-zgd" id="5EU-RI-6M4"/>
                         <segue destination="55H-Ew-68p" kind="show" identifier="ShowPills" id="mpM-BR-8sz"/>
@@ -764,14 +764,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1961" y="349"/>
-        </scene>
-        <!--SettingsVC_id-->
-        <scene sceneID="y37-Ja-D7y">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsVC_id" id="Ocf-C4-jZN" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cra-pQ-nzz" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-759" y="61"/>
         </scene>
         <!--Navigation-->
         <scene sceneID="r7S-9Z-ZKB">

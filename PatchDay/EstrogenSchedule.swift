@@ -10,7 +10,7 @@ import Foundation
 
 public class EstrogenSchedule {
     
-    // Description: EstrogenSchedule is a class for querying the user's managed object array ([MOEstrogen]).  All of the self.supply in the user's current schedule form the EstrogenSchedule.
+    // Description: EstrogenSchedule is a class for querying the user's managed object array ([MOEstrogen]).  All of the supply in the user's current schedule form the EstrogenSchedule.
     
     private var supply: [MOEstrogen]
     public var currentSiteNames: [String]
@@ -18,7 +18,7 @@ public class EstrogenSchedule {
     
     init(estrogens: [MOEstrogen]) {
         self.supply = estrogens
-        count = estrogens.count
+        self.count = estrogens.count
         self.currentSiteNames = supply.map({
             (value: MOEstrogen) -> String in
             return value.getLocation()
@@ -27,56 +27,48 @@ public class EstrogenSchedule {
     
     // MARK: - Counters
     
-    // count() : Returns the number of non-nil datePlaced MOs in the schedule
-    internal func datePlacedCount() -> Int {
-        var c: Int = 0
-        for estro in supply {
-            if !estro.hasNoDate() {
-                c += 1
-            }
-        }
-        return c
+    // Returns the number of non-nil dates in given estrogens.
+    internal func datePlacedCount(estrogens: [MOEstrogen]) -> Int {
+        return estrogens.reduce(0, {
+            count, estro in
+            let c = (!estro.hasNoDate()) ? 1 : 0
+            return c
+        })
     }
     
     // MARK: - Oldest MO Related Methods
     
-    public func oldestEstro() -> MOEstrogen? {
-        // finds oldest MO without using self.supply.sorted(by: <)[0]
-        if self.supply.count > 0 {
-            var oldest: MOEstrogen = self.supply[0]
-            if self.supply.count > 1 {
-                for i in 1...(self.supply.count - 1) {
-                    let mo = self.supply[i]
-                    if let date = mo.getDate(), let oldDate = oldest.getDate() {
-                        if date < oldDate {
-                            oldest = self.supply[i]
-                        }
+    public func oldestEstro(estrogens: [MOEstrogen]) -> MOEstrogen? {
+        if estrogens.count > 0 {
+            return estrogens.reduce(estrogens[0], {
+                oldest, estro in
+                if let date = estro.getDate(), let oldDate = oldest.getDate() {
+                    if date < oldDate {
+                        return estro
                     }
                 }
-            }
-            return oldest
+                return oldest
+            })
         }
-        else {
-            return nil
-        }
+        return nil
     }
     
-    public func oldestDate() -> Date? {
-        if let oldestEstro = oldestEstro(), let oldestDate = oldestEstro.getDate() {
+    public func oldestDate(estrogens: [MOEstrogen]) -> Date? {
+        if let oldestEstro = oldestEstro(estrogens: estrogens), let oldestDate = oldestEstro.getDate() {
             return oldestDate
         }
         return nil
     }
     
-    public func getOldestDateAsString() -> String? {
-        if let oldestEstro = oldestEstro() {
+    public func getOldestDateAsString(estrogens: [MOEstrogen]) -> String? {
+        if let oldestEstro = oldestEstro(estrogens: estrogens) {
             return oldestEstro.getDatePlacedAsString()
         }
         return nil
     }
     
     public func printSchedule() {
-        for estro in self.supply {
+        for estro in supply {
             print(estro.getLocation() + ", " + estro.getDatePlacedAsString())
         }
     }
@@ -84,43 +76,27 @@ public class EstrogenSchedule {
     
     // MARK: - Query Bools
     
-    public func hasNoDates() -> Bool {
-        var allEmptyDates: Bool = true
-        for i in 0...(self.supply.count - 1) {
-            let estro = self.supply[i]
-            if estro.getDate() != nil {
-                allEmptyDates = false
-                break
-            }
-        }
-        return allEmptyDates
-        
+    public func hasNoDates(estrogens: [MOEstrogen]) -> Bool {
+        return (estrogens.filter() {
+            $0.getDate() != nil
+        }).count == 0
     }
     
-    public func hasNoLocations() -> Bool {
-        var allEmptyLocations: Bool = true
-        for i in 0...(self.supply.count - 1){
-            let estro = self.supply[i]
-            let loc = estro.getLocation().lowercased()
-            if loc != "unplaced" {
-                allEmptyLocations = false
-                break
-            }
-        }
-        return allEmptyLocations
+    public func hasNoLocations(estrogens: [MOEstrogen]) -> Bool {
+        return (estrogens.filter() {
+            $0.getLocation() != "unplaced"
+        }).count == 0
     }
     
-    public func isEmpty() -> Bool {
-        return hasNoDates() && hasNoLocations()
+    public func isEmpty(estrogens: [MOEstrogen]) -> Bool {
+        return hasNoDates(estrogens: estrogens) && hasNoLocations(estrogens: estrogens)
     }
     
-    public func isEmpty(fromThisIndexOnward: Int) -> Bool {
-        // returns true if each MO fromThisIndexOnward is empty
-        let lastIndex = UserDefaultsController.getQuantityInt() - 1
+    public func isEmpty(inside estrogens: [MOEstrogen], fromThisIndexOnward: Int, lastIndex: Int) -> Bool {
+        // returns true if each MOEstrogen fromThisIndexOnward is empty
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
                 if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: i) {
-                    // as soon as a MO is not empty, it will end the search, returning false.2te
                     if !estro.isEmpty() {
                         return false
                     }
@@ -130,18 +106,17 @@ public class EstrogenSchedule {
         return true
     }
     
-    public func expiredCount(timeInterval: String) -> Int {
-        var count = 0
-        for estro in supply {
-            if estro.isExpired(timeInterval: timeInterval) {
-                count += 1
-            }
-        }
-        return count
+    // Returns how many expired estrogens there are in the given estrogens.
+    public func expiredCount(estrogens: [MOEstrogen], timeInterval: String) -> Int {
+        return estrogens.reduce(0, {
+            count, estro in
+            let c = (estro.isExpired(timeInterval: timeInterval)) ? 1 : 0
+            return c
+        })
     }
     
-    public func oldestEstroHasNoDateAndIsCustomLocated() -> Bool {
-        if let oldestEstro = oldestEstro() {
+    public func oldestEstroHasNoDateAndIsCustomLocated(estrogens: [MOEstrogen]) -> Bool {
+        if let oldestEstro = oldestEstro(estrogens: estrogens) {
             return oldestEstro.getDate() == nil && oldestEstro.isCustomLocated()
         }
         return false

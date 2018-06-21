@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import CoreData
+import PDKit
 
 class ScheduleVC: UIViewController {
     
@@ -18,42 +19,42 @@ class ScheduleVC: UIViewController {
     @IBOutlet weak var scheduleStack: UIStackView!
     
     // ONE
-    @IBOutlet weak var deliveryViewOne: UIView!
-    @IBOutlet weak var deliveryImageViewOne: UIImageView!
-    @IBOutlet private var deliveryOneButton: UIButton!
+    @IBOutlet weak var estrogenViewOne: UIView!
+    @IBOutlet weak var estrogenImageViewOne: UIImageView!
+    @IBOutlet private var estrogenOneButton: UIButton!
     
     // TWO
-    @IBOutlet weak var deliveryViewTwo: UIView!
-    @IBOutlet weak var deliveryImageViewTwo: UIImageView!
-    @IBOutlet private var deliveryTwoButton: UIButton!
+    @IBOutlet weak var estrogenViewTwo: UIView!
+    @IBOutlet weak var estrogenImageViewTwo: UIImageView!
+    @IBOutlet private var estrogenTwoButton: UIButton!
     
     // THREE
-    @IBOutlet weak var deliveryViewThree: UIView!
-    @IBOutlet weak var deliveryImageViewThree: UIImageView!
-    @IBOutlet private var deliveryThreeButton: UIButton!
+    @IBOutlet weak var estrogenViewThree: UIView!
+    @IBOutlet weak var estrogenImageViewThree: UIImageView!
+    @IBOutlet private var estrogenThreeButton: UIButton!
     
     // FOUR
-    @IBOutlet weak var deliveryViewFour: UIView!
-    @IBOutlet weak var deliveryImageViewFour: UIImageView!
-    @IBOutlet private var deliveryFourButton: UIButton!
+    @IBOutlet weak var estrogenViewFour: UIView!
+    @IBOutlet weak var estrogenImageViewFour: UIImageView!
+    @IBOutlet private var estrogenFourButton: UIButton!
     
-    private var scheduleButtonTapped = 0            // for navigation
-    private var deliveryCount: Int = 1              // for schedule button setup
+    private var estrogenButtonTapped = 0            // for navigation
+    private var estrogenCount: Int = 1              // for schedule button setup
     private var setUpFromViewDidLoad: Bool = true   // from change patch
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.navigationBar.tintColor = UIColor.blue
-        self.updateFromBackground()
-        self.view.backgroundColor = PDColors.pdLighterCuteGray
+        navigationController?.navigationBar.tintColor = UIColor.blue
+        updateFromBackground()
+        view.backgroundColor = PDColors.pdLighterCuteGray
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        // set count, display Schedule Buttons
-        self.setCount(to: UserDefaultsController.getQuantityInt())
-        self.displayScheduleButtons()
+        // set count, display Estrogen Buttons
+        estrogenCount = UserDefaultsController.getQuantityInt()
+        displayEstrogenButtons()
         // alert for disclaimer and tutorial on first start up
         if !UserDefaultsController.getMentionedDisclaimer() {
             PDAlertController.alertForDisclaimerAndTutorial()
@@ -63,39 +64,40 @@ class ScheduleVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
-        self.deliveryOneButton.setTitle("", for: .normal)
-        self.deliveryTwoButton.setTitle("", for: .normal)
-        self.deliveryThreeButton.setTitle("", for: .normal)
-        self.deliveryFourButton.setTitle("", for: .normal)
-        self.pillNavSetUp()
+        estrogenOneButton.setTitle("", for: .normal)
+        estrogenTwoButton.setTitle("", for: .normal)
+        estrogenThreeButton.setTitle("", for: .normal)
+        estrogenFourButton.setTitle("", for: .normal)
+        pillNavSetUp()
     }
     
     // MARK: - IBAction
 
-    @IBAction private func scheduleButtonTapped(_ sender: Any) {
-        if let sb = storyboard, let navCon = self.navigationController, let sButton: UIButton = sender as? UIButton, let buttonID = sButton.restorationIdentifier, let estro_index = Int(buttonID), let detailsVC: DetailsVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id") as? DetailsVC {
+    @IBAction private func estrogenButtonTapped(_ sender: Any) {
+        if let sb = storyboard, let navCon = navigationController, let sButton: UIButton = sender as? UIButton, let buttonID = sButton.restorationIdentifier, let estro_index = Int(buttonID), let detailsVC: DetailsVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id") as? DetailsVC {
             detailsVC.setEstrogenScheduleIndex(to: estro_index)
             navCon.pushViewController(detailsVC, animated: true)
         }
     }
     
     @IBAction func pillsTapped(_ sender: Any) {
-        if let sb = storyboard, let navCon = self.navigationController {
+        if let sb = storyboard, let navCon = navigationController {
             let pillsVC = sb.instantiateViewController(withIdentifier: "PillsVC_id")
             navCon.pushViewController(pillsVC, animated: true)
         }
     }
     
-    //MARK: - Public Setters
-    
-    internal func setCount(to: Int) {
-        self.deliveryCount = to
+    @IBAction func settingsTapped(_ sender: Any) {
+        let sb = UIStoryboard(name: "Settings", bundle: nil)
+        if let navCon = navigationController {
+            let settingsVC = sb.instantiateViewController(withIdentifier: "SettingsVC_id")
+            DispatchQueue.main.async {
+                navCon.pushViewController(settingsVC, animated: true)
+            }
+        }
+        
     }
-    
-    internal func getCount() -> Int {
-        return self.deliveryCount
-    }
-    
+
     // MARK: - updating from background
     
     internal func updateFromBackground() {
@@ -104,8 +106,8 @@ class ScheduleVC: UIViewController {
     }
     
     @objc internal func appWillEnterForeground() {
-        self.displayScheduleButtons()
-        self.pillNavSetUp()
+        displayEstrogenButtons()
+        pillNavSetUp()
     }
  
     // MARK: private display funcs
@@ -113,58 +115,58 @@ class ScheduleVC: UIViewController {
     private func pillNavSetUp() {
         // set up pill button
         if !PillDataController.includingPG() && !PillDataController.includingTB() {
-            self.pillNav.isEnabled = false
-            self.pillNav.title = ""
+            pillNav.isEnabled = false
+            pillNav.title = ""
         }
         else {
-            self.pillNav.isEnabled = true
+            pillNav.isEnabled = true
             if PillDataController.containsDue() {
-                self.pillNav.title = PDStrings.titleStrings.pills + "❗️"
+                pillNav.title = PDStrings.titleStrings.pills + "❗️"
                 return
             }
-            self.pillNav.title = PDStrings.titleStrings.pills
+            pillNav.title = PDStrings.titleStrings.pills
         }
     }
     
-    // called by self.viewDidLoad()
-    private func displayScheduleButtons() {
-        let buttons: [UIButton] = [self.deliveryOneButton, self.deliveryTwoButton, self.deliveryThreeButton, self.deliveryFourButton]
-        let views: [UIView] = [self.deliveryViewOne, self.deliveryViewTwo, self.deliveryViewThree, self.deliveryViewFour]
-        let img_views: [UIImageView] = [self.deliveryImageViewOne, self.deliveryImageViewTwo, self.deliveryImageViewThree, self.deliveryImageViewFour]
+    // called by viewDidLoad()
+    private func displayEstrogenButtons() {
+        let buttons: [UIButton] = [estrogenOneButton, estrogenTwoButton, estrogenThreeButton, estrogenFourButton]
+        let views: [UIView] = [estrogenViewOne, estrogenViewTwo, estrogenViewThree, estrogenViewFour]
+        let img_views: [UIImageView] = [estrogenImageViewOne, estrogenImageViewTwo, estrogenImageViewThree, estrogenImageViewFour]
         let colorDict: [Int: Bool] = [0: true, 1: false, 2: true, 3: false]
         // give data and images to patches in schedule
-        if self.getCount() > 0 {
+        if estrogenCount > 0 {
             
             // injection
             if UserDefaultsController.getDeliveryMethod() == PDStrings.pickerData.deliveryMethods[1] {
-                self.scheduleStack.removeArrangedSubview(views[1])
-                self.scheduleStack.removeArrangedSubview(views[2])
-                self.scheduleStack.removeArrangedSubview(views[3])
+                scheduleStack.removeArrangedSubview(views[1])
+                scheduleStack.removeArrangedSubview(views[2])
+                scheduleStack.removeArrangedSubview(views[3])
                 
                 views[0].frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[0].frame.width, height: views[0].frame.height * 4)
                 img_views[0].frame = CGRect(x: img_views[0].frame.origin.x, y: img_views[0].frame.origin.y, width: img_views[0].frame.width, height: img_views[0].frame.height * 4)
                 buttons[0].frame = CGRect(x: buttons[0].frame.origin.x, y: buttons[0].frame.origin.y, width: buttons[0].frame.width, height: buttons[0].frame.height * 4)
-                self.makeScheduleButton(scheduleButton: buttons[0], onView: views[0], imageView: img_views[0], isBlue: true, scheduleIndex: 0)
+                makeEstrogenButton(estrogenButton: buttons[0], onView: views[0], imageView: img_views[0], isBlue: true, scheduleIndex: 0)
             }
                 
             // patches
             else {
                 
-                self.scheduleStack.addArrangedSubview(views[1])
-                self.scheduleStack.addArrangedSubview(views[2])
-                self.scheduleStack.addArrangedSubview(views[3])
+                scheduleStack.addArrangedSubview(views[1])
+                scheduleStack.addArrangedSubview(views[2])
+                scheduleStack.addArrangedSubview(views[3])
                 views[0].frame = CGRect(x: views[0].frame.origin.x, y: views[0].frame.origin.y, width: views[1].frame.width, height: views[1].frame.height)
                 img_views[0].frame = CGRect(x: img_views[0].frame.origin.x, y: img_views[0].frame.origin.y, width: img_views[1].frame.width, height: img_views[1].frame.height)
                 buttons[0].frame = CGRect(x:buttons[0].frame.origin.x, y: buttons[0].frame.origin.y, width: buttons[1].frame.width, height: buttons[1].frame.height)
  
-                for i in 0...(self.getCount()-1) {
+                for i in 0...(estrogenCount-1) {
                     if let isB = colorDict[i], i < buttons.count {
-                        self.makeScheduleButton(scheduleButton: buttons[i], onView: views[i], imageView: img_views[i], isBlue: isB, scheduleIndex: i)
+                        makeEstrogenButton(estrogenButton: buttons[i], onView: views[i], imageView: img_views[i], isBlue: isB, scheduleIndex: i)
                     }
                 }
             }
             // disables unused button
-            self.disableUnusedScheduleButtons()
+            disableUnusedEstrogenButtons(count: estrogenCount)
         }
         // reset animation bools
         ScheduleController.increasedCount = false
@@ -174,76 +176,70 @@ class ScheduleVC: UIViewController {
         ScheduleController.onlySiteChanged = false
     }
     
-    // makeScheduleButton(scheduleButton, isBlue, scheduleIndex) : called by self. displayScheduleButton(), generated a schedule button with the appropriate properties, including its animation in the cases when loaded from other view controller that change applicable schedule properties.
-    private func makeScheduleButton(scheduleButton: UIButton, onView: UIView, imageView: UIImageView, isBlue: Bool, scheduleIndex: Int) {
+    // Generates an estrogen button reflecting the user's schedule.
+    // -- includes expiration title, site image, and animation.
+    private func makeEstrogenButton(estrogenButton: UIButton, onView: UIView, imageView: UIImageView, isBlue: Bool, scheduleIndex: Int) {
         
-        scheduleButton.isHidden = false
-        let new_bg_img = self.determineScheduleButtonImage(index: scheduleIndex)
-        let new_title = self.determineScheduleButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
+        estrogenButton.isHidden = false
+        let new_bg_img = determineEstrogenButtonImage(index: scheduleIndex)
+        let new_title = determineEstrogenButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
         var expFont: UIFont = UIFont.systemFont(ofSize: 14)
+        // iPad
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
             expFont = UIFont.systemFont(ofSize: 26)
         }
-        else if (UserDefaultsController.getDeliveryMethod() == PDStrings.pickerData.deliveryMethods[1]) {
+        else if (!UserDefaultsController.usingPatches()) {
             expFont = UIFont.systemFont(ofSize: 20)
         }
-        scheduleButton.setTitleColor(PDColors.pdDarkLines, for: .normal)
+        estrogenButton.setTitleColor(PDColors.pdDarkLines, for: .normal)
         
-        // Blue views
-         if isBlue {
-            onView.backgroundColor = PDColors.pdLightBlue
-         }
-         else {
-            onView.backgroundColor = self.view.backgroundColor
-        }
+        onView.backgroundColor = (isBlue) ? PDColors.pdLightBlue : view.backgroundColor
  
-        /* -- Animation Process -- */
+        /* -- Animation -- */
         if ScheduleController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
             UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 imageView.image = new_bg_img;
             }) {
                 (void) in
-                scheduleButton.setTitle(new_title, for: .normal);
-                scheduleButton.titleLabel!.font = expFont
-                // enable
-                scheduleButton.isEnabled = true
+                estrogenButton.setTitle(new_title, for: .normal);
+                estrogenButton.titleLabel!.font = expFont
+                estrogenButton.isEnabled = true
             }
         }
-        /* -- Default -- */
-        /* (happens on startup) */
+        /* -- Default, startup -- */
         else {
             imageView.image = new_bg_img
-            scheduleButton.setTitle(new_title, for: .normal)
-            scheduleButton.titleLabel!.font = expFont
+            estrogenButton.setTitle(new_title, for: .normal)
+            estrogenButton.titleLabel!.font = expFont
             // enable
-            scheduleButton.isEnabled = true
+            estrogenButton.isEnabled = true
         }
     }
     
-    // called by self.makeScheduleButton()
-    private func determineScheduleButtonTitle(scheduleIndex: Int, timeInterval: String) -> String {
+    // Determine the start of the week title for a schedule button.
+    private func determineEstrogenButtonTitle(scheduleIndex: Int, timeInterval: String) -> String {
         var title: String = ""
-        if let mo = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: scheduleIndex) {
-            if mo.getDate() != nil {
-                title += (mo.isExpired(timeInterval: timeInterval)) ? PDStrings.colonedStrings.expired : PDStrings.colonedStrings.expires
-                title += MOEstrogen.dayOfWeekString(date: mo.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
+        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: scheduleIndex) {
+            if estro.getDate() != nil {
+                title += (estro.isExpired(timeInterval: timeInterval)) ? PDStrings.colonedStrings.expired : PDStrings.colonedStrings.expires
+                title += PDDateHelper.dayOfWeekString(date: estro.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
             }
             return title
         }
         return ""
     }
     
-    // called by self.displayScheduleButtons()
-    private func disableUnusedScheduleButtons() {
+    // Disables and hides the unused esrtogen button stacks.
+    private func disableUnusedEstrogenButtons(count: Int) {
         // this hides all the patches that are not in the schedule
-        if self.getCount() <= 3 {
-            self.disable(unusedButton: self.deliveryFourButton, unusedImgView: self.deliveryImageViewFour, unusedView: self.deliveryViewFour, shouldAnimate: true)
+        if count <= 3 {
+            disable(unusedButton: estrogenFourButton, unusedImgView: estrogenImageViewFour, unusedView: estrogenViewFour, shouldAnimate: true)
         }
-        if self.getCount() <= 2 {
-            self.disable(unusedButton: self.deliveryThreeButton, unusedImgView: self.deliveryImageViewThree, unusedView: self.deliveryViewThree, shouldAnimate: true)
+        if count <= 2 {
+            disable(unusedButton: estrogenThreeButton, unusedImgView: estrogenImageViewThree, unusedView: estrogenViewThree, shouldAnimate: true)
         }
-        if self.getCount() == 1 {
-            self.disable(unusedButton: self.deliveryTwoButton, unusedImgView: self.deliveryImageViewTwo, unusedView: self.deliveryViewTwo, shouldAnimate: true)
+        if count == 1 {
+            disable(unusedButton: estrogenTwoButton, unusedImgView: estrogenImageViewTwo, unusedView: estrogenViewTwo, shouldAnimate: true)
         }
     }
     
@@ -255,11 +251,11 @@ class ScheduleVC: UIViewController {
         }
         else {
             unusedButton.isHidden = true
-            unusedView.backgroundColor = self.view.backgroundColor
+            unusedView.backgroundColor = view.backgroundColor
         }
     }
     
-    private func determineScheduleButtonImage(index: Int) -> UIImage {
+    private func determineEstrogenButtonImage(index: Int) -> UIImage {
         let usingPatches = UserDefaultsController.usingPatches()
         let default_img = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         

@@ -7,44 +7,32 @@
 //
 import Foundation
 
+typealias SiteName = String
+
 internal class SiteSuggester {
     
     // Description: The "Suggest Patch Site" algorithm is an optional functionality that gives the user a site to place their next patch.  There are three main parts to it:  1.)  An array of general sites.  2.)  An array of current sites in the schedule. 3.) a suggest(scheduleIndex: Int, scheduleSites: [String]) method for returning the correct suggested site.
     
-    // MARK: - Public
-    internal static var scheduleSites: [String] = []
-    internal static var currentSites: [String] = []
-    
     // MARK: - Primary function
     
-    internal static func suggest(estrogenScheduleIndex: Int, currentSites: [String]) -> Int {
+    internal static func suggest(currentEstrogenSiteSuggestingFrom estrogenSite: SiteName, currentSites: [SiteName], estrogenQuantity: Int, scheduleSites: [SiteName]) -> Int? {
         
-        if estrogenScheduleIndex >= UserDefaultsController.getQuantityInt() || estrogenScheduleIndex < 0 {
-            return 0
-        }
-        
-        self.currentSites = currentSites
-        self.scheduleSites = ScheduleController.siteSchedule().siteNamesArray
-        let currentSite = getCurrentSiteName(estrogenScheduleIndex)
         let suggestedSiteIndex = UserDefaultsController.getSiteIndex()
         
-        if siteIsAvailable(siteName: self.scheduleSites[suggestedSiteIndex]) {
+        let indexIsInBounds = suggestedSiteIndex >= 0 && suggestedSiteIndex < scheduleSites.count
+        if indexIsInBounds && siteIsAvailable(siteName: scheduleSites[suggestedSiteIndex], scheduleSites: scheduleSites, currentSites: currentSites) {
             return suggestedSiteIndex
         }
-        else if let suggestedSiteIndex = getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: currentSite) {
-            return suggestedSiteIndex
+        else if let availableSiteIndex = getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: estrogenSite, scheduleSites: scheduleSites, currentSites: currentSites) {
+            return availableSiteIndex
         }
-        return 0
-    }
-    
-    // MARK: - Helper functions
-    
-    // Returns the schedule site from the CoreDataController with the given scheduleIndex
-    internal static func getCurrentSiteName(_ index: Int) -> String {
-        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: index) {
-            return estro.getLocation()
+        
+        if let unchangedScheduleIndex = scheduleSites.index(of: estrogenSite) {
+            return unchangedScheduleIndex
         }
-        return PDStrings.placeholderStrings.unplaced
+        
+        return nil
+        
     }
     
     // MARK: - private
@@ -58,17 +46,16 @@ internal class SiteSuggester {
         })
     }
     
-    private static func siteIsAvailable(siteName: String) -> Bool {
-        let timesSiteAppearsInSchedule = howManyTimesSiteAppears(siteName: siteName, siteList: self.scheduleSites)
-        let timesSiteAppearsInCurrent = howManyTimesSiteAppears(siteName: siteName, siteList: self.currentSites)
-        
+    private static func siteIsAvailable(siteName: String, scheduleSites: [SiteName], currentSites: [SiteName]) -> Bool {
+        let timesSiteAppearsInSchedule = howManyTimesSiteAppears(siteName: siteName, siteList: scheduleSites)
+        let timesSiteAppearsInCurrent = howManyTimesSiteAppears(siteName: siteName, siteList: currentSites)
         return timesSiteAppearsInCurrent < timesSiteAppearsInSchedule
     }
 
     // Picks the next available open general site starting at the index of current site.
-    private static func getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: String) -> Int? {
+    private static func getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: String, scheduleSites: [SiteName], currentSites: [SiteName]) -> Int? {
         let availableSites = scheduleSites.filter() {
-            siteIsAvailable(siteName: $0)
+            siteIsAvailable(siteName: $0, scheduleSites: scheduleSites, currentSites: currentSites)
         }
         if availableSites.count > 0 {
             return scheduleSites.index(of: availableSites[0])
