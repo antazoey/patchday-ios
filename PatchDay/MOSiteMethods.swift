@@ -12,6 +12,9 @@ import CoreData
 
 
 extension MOSite {
+    
+    @NSManaged private var name: String?
+    @NSManaged public var order: Int16
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MOSite> {
         return NSFetchRequest<MOSite>(entityName: "Site")
@@ -43,9 +46,5 @@ extension MOSite {
         order = Int16(-1)
         name = ""
     }
-    
-    
-    @NSManaged public var name: String?
-    @NSManaged public var order: Int16
 
 }

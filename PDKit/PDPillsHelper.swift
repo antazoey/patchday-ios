@@ -6,140 +6,99 @@
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
-public typealias Time = Date
 public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
 
+public struct PillAttributes {
+    public var name: String?
+    public var timesaday: Int?
+    public var time1: Time?
+    public var time2: Time?
+    public var notify: Bool?
+    public var timesTakenToday: Int?
+    public var lastTaken: Date?
+    public init(name: String?, timesaday: Int?,
+                time1: Time?, time2: Time?,
+                notify: Bool?, timesTakenToday: Int?,
+                lastTaken: Date?) {
+        self.name = name
+        self.timesaday = timesaday
+        self.time1 = time1
+        self.time2 = time2
+        self.notify = notify
+        self.timesTakenToday = timesTakenToday
+        self.lastTaken = lastTaken
+    }
+    // Default
+    public init() {
+        self.name = PDStrings.PlaceholderStrings.new_pill
+        self.timesaday = 1
+        self.time1 = Time()
+        self.time2 = Time()
+        self.notify = true
+        self.timesTakenToday = 0
+        self.lastTaken = Date()
+    }
+}
+
 public class PDPillsHelper: NSObject {
     
-    // Returns the latest stamp in stamps.
-    public static func getLaterStamp(stamps: Stamps) -> Stamp? {
-        if let stamps = stamps, stamps.count > 0 {
-            return stamps[stamps.count-1]
+    // Returns the total count of due.  Is due means:
+    // 1.) Past the due time today and
+    // 2.) Taken before today.
+    public static func totalDue(timesTakensToday: [Int], nextDueDates: [Date]) -> Int {
+        var total = 0
+        let min_count = min(timesTakensToday.count, nextDueDates.count)
+        if min_count > 0 {
+            for i in 0...(min_count - 1) {
+                let now = Date()
+                if now > nextDueDates[i] {
+                    total += 1
+                }
+            }
+        }
+        return total
+    }
+    
+    // Return the next time the pill is due.
+    public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [NSDate?]) -> Date? {
+        if times.count > 0, let nstime1 = times[0] {
+            let time1 = nstime1 as Time
+            if timesaday == 1 {
+                if timesTakenToday == 0 {
+                    return PDDateHelper.getTodayDate(at: time1 as Time)
+                }
+                else if let todayTime = PDDateHelper.getTodayDate(at: time1 as Time) {
+                    return PDDateHelper.getDate(at: todayTime, daysToAdd: 1)
+                }
+            }
+            else if times.count >= 1, let nstime2 = times[1] {
+                let time2 = nstime2 as Time
+                if timesTakenToday == 0 {
+                    let minTime = min(time1, time2)
+                    return PDDateHelper.getTodayDate(at: minTime)
+                }
+                else if timesTakenToday == 1 {
+                    let maxTime = max(time1, time2)
+                    return PDDateHelper.getTodayDate(at: maxTime)
+                }
+                else {
+                    let minTime = min(time1, time2)
+                    if let todayTime = PDDateHelper.getTodayDate(at: minTime) {
+                        return PDDateHelper.getDate(at: todayTime, daysToAdd: 1)
+                    }
+                }
+            }
         }
         return nil
     }
     
-    // The older stamp is always at the 0 index.
-    public static func getOlderStamp(stamps: Stamps) -> Stamp? {
-        if let stamps = stamps, stamps.count > 0 {
-            return stamps[0]
-        }
-        return nil
+    public static func isDue(_ dueDate: Date) -> Bool {
+        return Date() > dueDate
     }
     
-    // Returns number of stamps in stamps that were taken today.
-    public static func takenTodayCount(stamps: Stamps) -> Int {
-        var takenToday: Int = 0
-        if let stamps = stamps {
-            for i in 0...(stamps.count-1) {
-                if let stamp = stamps[i], Calendar.current.isDateInToday(stamp) {
-                    takenToday += 1
-                }
-            }
-        }
-        return takenToday
-    }
-    
-    // Returns if the pill was taken today.
-    public static func wasTakenToday(stamps: Stamps) -> Bool {
-        if let s = getLaterStamp(stamps: stamps) {
-            return Calendar.current.isDateInToday(s)
-        }
-        return false
-    }
-    
-    // Returns if the stamps are nil
-    public static func noRecords(stamps: Stamps) -> Bool {
-        if let stamps = stamps {
-            if stamps.count == 0 || stamps[0] == nil {
-                return true
-            }
-            return false
-        }
-        return true
-    }
-    
-    
-    // Returns true if it is time to take a TB or a PG, determined by if the current time is after the time it is due.
-    public static func isDue(timesaday: Int, stamps: Stamps, time1: Time, time2: Time) -> Bool {
-        
-        // **** 1st due time is valid ****
-        if let due_t1: Date = PDDateHelper.getTodayDate(at: time1) {
-            // *** User took pill at least once historically ***
-            if let stamps: [Stamp?] = stamps, stamps.count >= 1, let s1: Stamp = stamps[0] {
-                // ** one-a-day **
-                if timesaday < 2 {
-                    return notTakenAndPastDue(correspondingStamp: s1, dueDate: due_t1)
-                }
-                    // **** 2nd due time is valid ****
-                    // ** two-a-day **
-                else if let due_t2: Date = PDDateHelper.getTodayDate(at: time2) {
-                    // * Have taken pill at least twice *
-                    if stamps.count > 1, let s2: Stamp = stamps[1] {
-                        let s1Stamped = Calendar.current.isDate(s1, inSameDayAs: Date())
-                        // true if...
-                        // 1.) pill 1 was taken and pill 2 has yet to be taken and is past due OR
-                        // 2.) pill 1 has yet to be taken and is past due
-                        return (s1Stamped && notTakenAndPastDue(correspondingStamp: s2, dueDate: due_t2)) || (!s1Stamped && PDDateHelper.isInPast(this: due_t1))
-                    }
-                        // * Have yet to taken second pill ever *
-                    else {
-                        // The first was stamp was today, so it makes sense to look at second
-                        if Calendar.current.isDate(s1, inSameDayAs: Date()) {
-                            // true if...
-                            // 1.) pill time 2 is past due AND
-                            // 2.) the second pill
-                            return PDDateHelper.isInPast(this: due_t2)
-                        }
-                        // It's a new day... no second stamp... look at first again.
-                        // true if due time 1 is in the past (already know the stamp is invalid)
-                        return PDDateHelper.isInPast(this: due_t1)
-                    }
-                }
-                return false            // shouldn't get here
-            }
-                // *** User has yet to use the pill feature ***
-            else {
-                // true if it is past the user-set due time 1
-                return PDDateHelper.isInPast(this: due_t1)
-            }
-        }
-        // **** Invalid first due time (should never get here) ****
-        return false
-        
-    }
-    
-    // Returns true if...
-    // 1.) timesaday == 2
-    // 2.) was already stamped at least once today
-    public static func useSecondTime(timesaday: Int, stamp: Stamp?) -> Bool {
-        if timesaday == 1 { return false }
-        if let s: Stamp = stamp {
-            return Calendar.current.isDate(s, inSameDayAs: Date())
-        }
-        return false
-    }
-    
-    // allStampedToday(stamps) : Returns true of all the stamps were stamped today.
-    public static func allStampedToday(stamps: Stamps, timesaday: Int) -> Bool {
-        let calendar = Calendar.current
-        let now = Date()
-        if let stamps = stamps, timesaday == stamps.count {
-            return (timesaday == 1) ? calendar.isDate(stamps[0]!, inSameDayAs: now) : calendar.isDate(stamps[0]!, inSameDayAs: now) && calendar.isDate(stamps[1]!, inSameDayAs: now)
-        }
-        // Gets here if...
-        // 1.) not stamps on record
-        // 2.) times-a-day scheduled is different than what's in the schedule
-        return false
+    public static func isDone(timesTakenToday: Int, timesaday: Int) -> Bool {
+        return timesTakenToday >= timesaday
     }
 
-     /* Returns true if...
-     1.) the pill was not taken yet today AND
-     2.) it's past due.
-     Is called by isDue(...). */
-    private static func notTakenAndPastDue(correspondingStamp: Stamp, dueDate: Date) -> Bool {
-        return !Calendar.current.isDate(correspondingStamp, inSameDayAs: Date()) && PDDateHelper.isInPast(this: dueDate)
-    }
-    
 }

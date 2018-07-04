@@ -13,7 +13,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var pickerSet = ScheduleController.siteSchedule().siteSetUnionGeneralSites()
+    private var pickerSet = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteSetUnionGeneralSites()
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var gapAboveImage: UIView!
@@ -27,14 +27,14 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         nameText.autocapitalizationType = .words
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.actionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
         navigationItem.rightBarButtonItem?.isEnabled = false
         nameText.borderStyle = .none
         nameText.delegate = self
         sitePicker.delegate = self
         sitePicker.isHidden = true
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        loadNameLabel()
+        loadTitle()
         loadImage()
     }
     
@@ -54,17 +54,17 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     @objc func saveButtonTapped(_ sender: Any) {
-        let sites = ScheduleController.siteSchedule().siteArray
+        let sites = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteArray
         if let name = nameText.text {
             
             // Updating existing MOSite
             if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
-                ScheduleController.coreDataController.setSiteName(index: siteScheduleIndex, to: name)
+                ScheduleController.siteController.setSiteName(index: siteScheduleIndex, to: name)
             }
                 
             // Adding a new MOSite
             else if siteScheduleIndex == sites.count {
-                CoreDataController.appendSite(name: name, order: siteScheduleIndex, sites: &ScheduleController.coreDataController.loc_array)
+                let _ = SiteDataController.appendSite(name: name, order: siteScheduleIndex, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.persistentContainer.viewContext)
             }
         }
         segueToSitesVC()
@@ -79,6 +79,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             typeNameButton.isEnabled = false
             textField.restorationIdentifier = "select"
         }
+            
+        // Select site from picker rather than type
         else {
             view.endEditing(true)
             nameText.isEnabled = false
@@ -89,11 +91,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         if nameText.text == "" {
-            nameText.text = PDStrings.placeholderStrings.new_site
+            nameText.text = PDStrings.PlaceholderStrings.new_site
         }
         typeNameButton.isEnabled = true
         if let name = nameText.text {
-            ScheduleController.coreDataController.setSiteName(index: siteScheduleIndex, to: name)
+            ScheduleController.siteController.setSiteName(index: siteScheduleIndex, to: name)
         }
         navigationItem.rightBarButtonItem?.isEnabled = true
         loadImage()
@@ -127,7 +129,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let name = pickerSet[row]
-        ScheduleController.coreDataController.setSiteName(index: siteScheduleIndex, to: name)
+        ScheduleController.siteController.setSiteName(index: siteScheduleIndex, to: name)
         UIView.transition(with: sitePicker as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { self.sitePicker.isHidden = true; self.bottomLine.isHidden = false; self.siteImage.isHidden = false
         }) {
             (void) in
@@ -143,20 +145,20 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = ScheduleController.siteSchedule().siteNamesArray
+            sitesVC.siteNames = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
             navCon.popViewController(animated: true)
         }
     }
     
-    private func loadNameLabel() {
-        let locs = ScheduleController.coreDataController.loc_array
+    private func loadTitle() {
+        let locs = ScheduleController.siteController.siteArray
         if siteScheduleIndex >= 0 && siteScheduleIndex < locs.count {
             let site = locs[siteScheduleIndex]
-            title = PDStrings.titleStrings.site + " " + String(siteScheduleIndex+1)
+            title = PDStrings.TitleStrings.site + " " + String(siteScheduleIndex+1)
             nameText.text = site.getName()
         }
         else {
-            title = PDStrings.titleStrings.site + " " + String(locs.count+1)
+            title = PDStrings.TitleStrings.site + " " + String(locs.count+1)
         }
         if let title = typeNameButton.titleLabel, let text = title.text, text.count > 4 {
             typeNameButton.setTitle("⌨️", for: .normal)
@@ -165,7 +167,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func loadImage() {
         let usingPatches: Bool = UserDefaultsController.usingPatches()
-        let sitesWithImages = UserDefaultsController.usingPatches() ? PDStrings.siteNames.patchSiteNames : PDStrings.siteNames.injectionSiteNames
+        let sitesWithImages = UserDefaultsController.usingPatches() ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
         if let name = nameText.text {
             var image: UIImage
             siteImage.contentMode = (usingPatches) ? .top : .scaleAspectFit

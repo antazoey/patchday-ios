@@ -6,50 +6,54 @@
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import PDKit
 
-class PDImages {
+public class PDImages {
     
-    // blank
-    internal static var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
-    internal static var addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
+    // Blank
+    public static var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
+    public static var addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
     
-    // patch site images
-    internal static var rGlute_p: UIImage = { return #imageLiteral(resourceName: "Right Glute") }()
-    internal static var lGlute_p: UIImage = { return #imageLiteral(resourceName: "Left Glute") }()
-    internal static var rAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen") }()
-    internal static var lAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen") }()
+    // Patch site images
+    public static var rGlute_p: UIImage = { return #imageLiteral(resourceName: "Right Glute") }()
+    public static var lGlute_p: UIImage = { return #imageLiteral(resourceName: "Left Glute") }()
+    public static var rAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen") }()
+    public static var lAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen") }()
     
-    // patch sites with notification
-    internal static var rGlute_notified_p: UIImage = { return #imageLiteral(resourceName: "Right Glute Notified") }()
-    internal static var lGlute_notified_p: UIImage = { return #imageLiteral(resourceName: "Left Glute Notified") }()
-    internal static var rAbdomen_notified_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen Notified") }()
-    internal static var lAbdomen_notified_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen Notified") }()
+    // Patch sites with notification
+    public static var rGlute_notified_p: UIImage = { return #imageLiteral(resourceName: "Right Glute Notified") }()
+    public static var lGlute_notified_p: UIImage = { return #imageLiteral(resourceName: "Left Glute Notified") }()
+    public static var rAbdomen_notified_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen Notified") }()
+    public static var lAbdomen_notified_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen Notified") }()
     
-    // custom patch
-    internal static var custom_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
-    internal static var custom_notified_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch Notified") }()
+    // Custom patch
+    public static var custom_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
+    public static var custom_notified_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch Notified") }()
     
-    // injection site images
-    internal static var lQuad_i: UIImage = { return #imageLiteral(resourceName: "Left Quad")}()
-    internal static var rQuad_i: UIImage = { return #imageLiteral(resourceName: "Right Quad")}()
-    internal static var lGlute_i: UIImage = { return #imageLiteral(resourceName: "Left Injection Glute")}()
-    internal static var rGlute_i: UIImage = { return #imageLiteral(resourceName: "Right Injection Glute") }()
+    // Injection site images
+    public static var lQuad_i: UIImage = { return #imageLiteral(resourceName: "Left Quad")}()
+    public static var rQuad_i: UIImage = { return #imageLiteral(resourceName: "Right Quad")}()
+    public static var lGlute_i: UIImage = { return #imageLiteral(resourceName: "Left Injection Glute")}()
+    public static var rGlute_i: UIImage = { return #imageLiteral(resourceName: "Right Injection Glute") }()
     
-    // injection sites with notification
-    internal static var rQuad_notified_i: UIImage = { return #imageLiteral(resourceName: "Right Quad Notified")}()
-    internal static var lQuad_notified_i: UIImage = { return #imageLiteral(resourceName: "Left Quad Notified")}()
+    // Injection sites with notification
+    public static var rQuad_notified_i: UIImage = { return #imageLiteral(resourceName: "Right Quad Notified")}()
+    public static var lQuad_notified_i: UIImage = { return #imageLiteral(resourceName: "Left Quad Notified")}()
     
-    // custom injection
-    internal static var custom_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection")}()
-    internal static var custom_notified_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection Notified")}()
+    // Custom injection
+    public static var custom_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection")}()
+    public static var custom_notified_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection Notified")}()
     
-    internal static func stringToPatchImage(imageString: String) -> UIImage {
+    // Pills
+    public static var pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
+    public static var pillDone: UIImage = { return #imageLiteral(resourceName: "Pill Done") }()
+    public static var pillExpired: UIImage = { return #imageLiteral(resourceName: "Pill Expired") }()
+    
+    public static func stringToPatchImage(imageString: String) -> UIImage {
         var r: UIImage = addPatch
-        let stringToImageDict = [PDStrings.placeholderStrings.unplaced: addPatch, PDStrings.siteNames.rightGlute: rGlute_p, PDStrings.siteNames.leftGlute: lGlute_p, PDStrings.siteNames.rightAbdomen: rAbdomen_p, PDStrings.siteNames.leftAbdomen: lAbdomen_p]
-        let locs = PDStrings.siteNames.patchSiteNames
+        let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced: addPatch, PDStrings.SiteNames.rightGlute: rGlute_p, PDStrings.SiteNames.leftGlute: lGlute_p, PDStrings.SiteNames.rightAbdomen: rAbdomen_p, PDStrings.SiteNames.leftAbdomen: lAbdomen_p]
+        let locs = PDStrings.SiteNames.patchSiteNames
         if (locs.contains(imageString)) {
             r = stringToImageDict[imageString]!
         }
@@ -59,10 +63,10 @@ class PDImages {
         return r
     }
     
-    internal static func stringToNotifiedPatchImage(imageString: String) -> UIImage {
+    public static func stringToNotifiedPatchImage(imageString: String) -> UIImage {
         var r: UIImage = addPatch
-        let stringToImageDict = [PDStrings.placeholderStrings.unplaced: addPatch, PDStrings.siteNames.rightGlute: rGlute_notified_p, PDStrings.siteNames.leftGlute: lGlute_notified_p, PDStrings.siteNames.rightAbdomen: rAbdomen_notified_p, PDStrings.siteNames.leftAbdomen: lAbdomen_notified_p]
-        let locs = PDStrings.siteNames.patchSiteNames
+        let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced: addPatch, PDStrings.SiteNames.rightGlute: rGlute_notified_p, PDStrings.SiteNames.leftGlute: lGlute_notified_p, PDStrings.SiteNames.rightAbdomen: rAbdomen_notified_p, PDStrings.SiteNames.leftAbdomen: lAbdomen_notified_p]
+        let locs = PDStrings.SiteNames.patchSiteNames
         if (locs.contains(imageString)) {
             r = stringToImageDict[imageString]!
         }
@@ -72,10 +76,10 @@ class PDImages {
         return r
     }
     
-    internal static func stringToInjectionImage(imageString: String) -> UIImage {
+    public static func stringToInjectionImage(imageString: String) -> UIImage {
         var r: UIImage = addInjection
-        let stringToImageDict = [PDStrings.placeholderStrings.unplaced: addInjection, PDStrings.siteNames.rightQuad: rQuad_i, PDStrings.siteNames.leftQuad: lQuad_i, PDStrings.siteNames.rightGlute: rGlute_i, PDStrings.siteNames.leftGlute: lGlute_i]
-        let locs = PDStrings.siteNames.injectionSiteNames
+        let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced: addInjection, PDStrings.SiteNames.rightQuad: rQuad_i, PDStrings.SiteNames.leftQuad: lQuad_i, PDStrings.SiteNames.rightGlute: rGlute_i, PDStrings.SiteNames.leftGlute: lGlute_i]
+        let locs = PDStrings.SiteNames.injectionSiteNames
         if (locs.contains(imageString)) {
             r = stringToImageDict[imageString]!
         }
@@ -85,10 +89,10 @@ class PDImages {
         return r
     }
     
-    internal static func stringToNotifiedInjectionImage(imageString: String) -> UIImage {
+    public static func stringToNotifiedInjectionImage(imageString: String) -> UIImage {
         var r: UIImage = addInjection
-        let stringToImageDict = [PDStrings.placeholderStrings.unplaced: addInjection, PDStrings.siteNames.rightQuad: rQuad_notified_i, PDStrings.siteNames.leftQuad: lQuad_notified_i]
-        let locs = PDStrings.siteNames.injectionSiteNames
+        let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced: addInjection, PDStrings.SiteNames.rightQuad: rQuad_notified_i, PDStrings.SiteNames.leftQuad: lQuad_notified_i]
+        let locs = PDStrings.SiteNames.injectionSiteNames
         if (locs.contains(imageString)) {
             r = stringToImageDict[imageString]!
         }

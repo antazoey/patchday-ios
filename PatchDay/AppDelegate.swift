@@ -18,20 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     internal var window: UIWindow?
     internal var notificationsController = PDNotificationController()
-    internal var datePicker = UIDatePicker()
-    internal var sharedDefaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UserDefaultsController.setUp()
-        PillDataController.setUp()
-        
-        // Set TB status for PatchDay Today
-        if PillDataController.includingTB() {
-            let tbTakenToday = PDPillsHelper.takenTodayCount(stamps: PillDataController.tb_stamps)
-            if let defaults = sharedDefaults {
-                defaults.set(tbTakenToday, forKey: PDStrings.TodayKeys.tbTaken)
-            }
-        }
         
         // unhide for resetting (for testing):
         //ScheduleController.resetPatchData()
@@ -44,14 +33,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        // Badge correction
-        UIApplication.shared.applicationIconBadgeNumber = ScheduleController.estrogenSchedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
+        setBadge(with: ScheduleController.totalEstrogenAndPillsDue())
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        
-        // Badge correction
-        UIApplication.shared.applicationIconBadgeNumber = ScheduleController.estrogenSchedule().expiredCount(timeInterval: UserDefaultsController.getTimeInterval()) + PillDataController.totalDue()
+        setBadge(with: ScheduleController.totalEstrogenAndPillsDue())
     }
+    
+    // Sets the App badge number to the expired estrogen count + the total pills due for taking.
+    private func setBadge(with newBadgeNumber: Int) {
+        UIApplication.shared.applicationIconBadgeNumber = newBadgeNumber
+    }
+    
 
 }

@@ -11,11 +11,10 @@ import Foundation
 import CoreData
 import PDKit
 
-class ScheduleVC: UIViewController {
+class EstrogensVC: UIViewController {
     
     // MARK: - Main
     
-    @IBOutlet weak var pillNav: UIBarButtonItem!
     @IBOutlet weak var scheduleStack: UIStackView!
     
     // ONE
@@ -42,9 +41,11 @@ class ScheduleVC: UIViewController {
     private var estrogenCount: Int = 1              // for schedule button setup
     private var setUpFromViewDidLoad: Bool = true   // from change patch
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private var estrogenController = ScheduleController.estrogenController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadTitle()
         navigationController?.navigationBar.tintColor = UIColor.blue
         updateFromBackground()
         view.backgroundColor = PDColors.pdLighterCuteGray
@@ -68,34 +69,15 @@ class ScheduleVC: UIViewController {
         estrogenTwoButton.setTitle("", for: .normal)
         estrogenThreeButton.setTitle("", for: .normal)
         estrogenFourButton.setTitle("", for: .normal)
-        pillNavSetUp()
     }
     
     // MARK: - IBAction
 
     @IBAction private func estrogenButtonTapped(_ sender: Any) {
-        if let sb = storyboard, let navCon = navigationController, let sButton: UIButton = sender as? UIButton, let buttonID = sButton.restorationIdentifier, let estro_index = Int(buttonID), let detailsVC: DetailsVC = sb.instantiateViewController(withIdentifier: "DetailsVC_id") as? DetailsVC {
+        if let sb = storyboard, let navCon = navigationController, let sButton: UIButton = sender as? UIButton, let buttonID = sButton.restorationIdentifier, let estro_index = Int(buttonID), let detailsVC = sb.instantiateViewController(withIdentifier: "EstrogenVC_id") as? EstrogenVC {
             detailsVC.setEstrogenScheduleIndex(to: estro_index)
             navCon.pushViewController(detailsVC, animated: true)
         }
-    }
-    
-    @IBAction func pillsTapped(_ sender: Any) {
-        if let sb = storyboard, let navCon = navigationController {
-            let pillsVC = sb.instantiateViewController(withIdentifier: "PillsVC_id")
-            navCon.pushViewController(pillsVC, animated: true)
-        }
-    }
-    
-    @IBAction func settingsTapped(_ sender: Any) {
-        let sb = UIStoryboard(name: "Settings", bundle: nil)
-        if let navCon = navigationController {
-            let settingsVC = sb.instantiateViewController(withIdentifier: "SettingsVC_id")
-            DispatchQueue.main.async {
-                navCon.pushViewController(settingsVC, animated: true)
-            }
-        }
-        
     }
 
     // MARK: - updating from background
@@ -107,28 +89,20 @@ class ScheduleVC: UIViewController {
     
     @objc internal func appWillEnterForeground() {
         displayEstrogenButtons()
-        pillNavSetUp()
     }
  
     // MARK: private display funcs
     
-    private func pillNavSetUp() {
-        // set up pill button
-        if !PillDataController.includingPG() && !PillDataController.includingTB() {
-            pillNav.isEnabled = false
-            pillNav.title = ""
-        }
-        else {
-            pillNav.isEnabled = true
-            if PillDataController.containsDue() {
-                pillNav.title = PDStrings.titleStrings.pills + "❗️"
-                return
-            }
-            pillNav.title = PDStrings.titleStrings.pills
+    // Configured title of view controller
+    private func loadTitle() {
+        if PDStrings.PickerData.deliveryMethods.count >= 2 {
+            let patch = PDStrings.DeliveryMethods.patches
+            let injection = PDStrings.DeliveryMethods.injection
+            title = (UserDefaultsController.usingPatches()) ? patch : injection
         }
     }
     
-    // called by viewDidLoad()
+    // Displays the buttons representing the estrogens.
     private func displayEstrogenButtons() {
         let buttons: [UIButton] = [estrogenOneButton, estrogenTwoButton, estrogenThreeButton, estrogenFourButton]
         let views: [UIView] = [estrogenViewOne, estrogenViewTwo, estrogenViewThree, estrogenViewFour]
@@ -138,7 +112,7 @@ class ScheduleVC: UIViewController {
         if estrogenCount > 0 {
             
             // injection
-            if UserDefaultsController.getDeliveryMethod() == PDStrings.pickerData.deliveryMethods[1] {
+            if UserDefaultsController.getDeliveryMethod() == PDStrings.PickerData.deliveryMethods[1] {
                 scheduleStack.removeArrangedSubview(views[1])
                 scheduleStack.removeArrangedSubview(views[2])
                 scheduleStack.removeArrangedSubview(views[3])
@@ -182,7 +156,7 @@ class ScheduleVC: UIViewController {
         
         estrogenButton.isHidden = false
         let new_bg_img = determineEstrogenButtonImage(index: scheduleIndex)
-        let new_title = determineEstrogenButtonTitle(scheduleIndex: scheduleIndex, timeInterval: UserDefaultsController.getTimeInterval())
+        let new_title = determineEstrogenButtonTitle(scheduleIndex: scheduleIndex, UserDefaultsController.getTimeIntervalString())
         var expFont: UIFont = UIFont.systemFont(ofSize: 14)
         // iPad
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
@@ -196,7 +170,7 @@ class ScheduleVC: UIViewController {
         onView.backgroundColor = (isBlue) ? PDColors.pdLightBlue : view.backgroundColor
  
         /* -- Animation -- */
-        if ScheduleController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img) {
+        if ScheduleController.shouldAnimate(scheduleIndex: scheduleIndex, newBG: new_bg_img, estrogenController: ScheduleController.estrogenController) {
             UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 imageView.image = new_bg_img;
             }) {
@@ -217,12 +191,12 @@ class ScheduleVC: UIViewController {
     }
     
     // Determine the start of the week title for a schedule button.
-    private func determineEstrogenButtonTitle(scheduleIndex: Int, timeInterval: String) -> String {
+    private func determineEstrogenButtonTitle(scheduleIndex: Int, _ intervalStr: String) -> String {
         var title: String = ""
-        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: scheduleIndex) {
-            if estro.getDate() != nil {
-                title += (estro.isExpired(timeInterval: timeInterval)) ? PDStrings.colonedStrings.expired : PDStrings.colonedStrings.expires
-                title += PDDateHelper.dayOfWeekString(date: estro.expirationDate(timeInterval: UserDefaultsController.getTimeInterval()))
+        if let estro = estrogenController.getEstrogenMO(at: scheduleIndex) {
+            if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+                title += (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
+                title += PDDateHelper.dayOfWeekString(date: expDate)
             }
             return title
         }
@@ -255,41 +229,38 @@ class ScheduleVC: UIViewController {
         }
     }
     
+    private func loadCustomEstrogenImage(estrogen: MOEstrogen, usingPatches: Bool, _ intervalStr: String) -> UIImage? {
+        let customDict = (usingPatches) ? [true: PDImages.custom_notified_p, false: PDImages.custom_p] : [true: PDImages.custom_notified_i, false : PDImages.custom_i]
+        if let image = customDict[estrogen.isExpired(intervalStr)] {
+            return image
+        }
+        return nil
+    }
+    
     private func determineEstrogenButtonImage(index: Int) -> UIImage {
-        let usingPatches = UserDefaultsController.usingPatches()
-        let default_img = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
+        let usingPatches: Bool = UserDefaultsController.usingPatches()
+        let default_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
+        let intervalStr: String = UserDefaultsController.getTimeIntervalString()
         
-        if let estro = ScheduleController.coreDataController.getEstrogenDeliveryMO(forIndex: index) {
-            // empty
+        if let estro = estrogenController.getEstrogenMO(at: index) {
             if estro.isEmpty() {
                 return default_img
             }
-            // custom patch
-            else if estro.isCustomLocated() {
-                let customDict = (usingPatches) ? [true: PDImages.custom_notified_p, false: PDImages.custom_p] : [true: PDImages.custom_notified_i, false : PDImages.custom_i]
-                if let image = customDict[estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())]     { return image }
-                    // failed to load custom patch (should never happen, but just in case)
-                else {
-                    return default_img
-                }
+            else if estro.isCustomLocated(), let customImage = loadCustomEstrogenImage(estrogen: estro, usingPatches: usingPatches, intervalStr) {
+                return customImage
             }
-                
-            // general located patch
-            else {
+            else if let site = estro.getSite(), let siteName = site.getName() {
                 if usingPatches {
-                    let img = (!estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())) ? PDImages.stringToPatchImage(imageString: estro.getLocation()) : PDImages.stringToNotifiedPatchImage(imageString: estro.getLocation())
+                    let img = (!estro.isExpired(UserDefaultsController.getTimeIntervalString())) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToNotifiedPatchImage(imageString: siteName)
                     return img
                 }
                 else {
-                    let img = (!estro.isExpired(timeInterval: UserDefaultsController.getTimeInterval())) ? PDImages.stringToInjectionImage(imageString: estro.getLocation()) : PDImages.stringToNotifiedInjectionImage(imageString: estro.getLocation())
+                    let img = (!estro.isExpired(UserDefaultsController.getTimeIntervalString())) ? PDImages.stringToInjectionImage(imageString: siteName) : PDImages.stringToNotifiedInjectionImage(imageString: siteName)
                     return img
                 }
             }
         }
-        // nil patch
-        else {
-            return default_img
-        }
+        return default_img
     }
 
 }

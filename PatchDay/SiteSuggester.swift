@@ -58,6 +58,7 @@ internal class SiteSuggester {
             siteIsAvailable(siteName: $0, scheduleSites: scheduleSites, currentSites: currentSites)
         }
         if availableSites.count > 0 {
+            
             return scheduleSites.index(of: availableSites[0])
         }
         return nil

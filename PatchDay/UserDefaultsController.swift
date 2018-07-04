@@ -11,19 +11,19 @@ import PDKit
 
 public class UserDefaultsController: NSObject {
     
-    // Description: The UserDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.  It also includes a bool for the Autofill Site Functionality.
+    // Description: The UserDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.
     
     // App
     private static var defaults = UserDefaults.standard
     
     // Schedule defaults:
-    private static var deliveryMethod: String = PDStrings.pickerData.deliveryMethods[0]
-    private static var timeInterval: String = PDStrings.pickerData.expirationIntervals[0]
-    internal static var quantity: String =  PDStrings.pickerData.counts[3]
+    private static var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
+    private static var timeInterval: String = PDStrings.PickerData.expirationIntervals[0]
+    internal static var quantity: String =  PDStrings.PickerData.counts[3]
     
     // Notification defaults:
     private static var remindMeUpon = false
-    private static var reminderTime: String = PDStrings.pickerData.notificationTimes[0]
+    private static var reminderTime: String = PDStrings.PickerData.notificationTimes[0]
     
     // Rememberance
     private static var mentionedDisclaimer = false
@@ -47,7 +47,7 @@ public class UserDefaultsController: NSObject {
         return deliveryMethod
     }
     
-    public static func getTimeInterval() -> String {
+    public static func getTimeIntervalString() -> String {
         return timeInterval
     }
     
@@ -108,10 +108,10 @@ public class UserDefaultsController: NSObject {
         if to != getDeliveryMethod() {
             deliveryMethod = to
             defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
-            let c = (UserDefaultsController.usingPatches()) ? PDStrings.pickerData.counts[2] : PDStrings.pickerData.counts[0]
+            let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
             UserDefaultsController.setQuantityWithoutWarning(to: c)
             ScheduleController.deliveryMethodChanged = true
-            CoreDataController.switchDefaultSites(deliveryMethod: to, sites: &ScheduleController.coreDataController.loc_array)
+            SiteDataController.switchDefaultSites(deliveryMethod: to, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.persistentContainer.viewContext)
             
         }
     }
@@ -124,31 +124,33 @@ public class UserDefaultsController: NSObject {
     /******************************************************************
     setQuantityWithWarning(to, oldCount, countButton) : Will warn the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user has is decreasing the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     *****************************************************************/
-    public static func setQuantityWithWarning(to: String, oldCount: Int, countButton: UIButton) {
+    public static func setQuantityWithWarning(to newQuantity: String, oldCount: Int, countButton: UIButton) {
         ScheduleController.oldDeliveryCount = oldCount
-        if let newCount = Int(to), isAcceptable(count: newCount) {
-            // startAndNewCount : represents two things.  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and 2.), it is the Int form of the new count
-            if let startAndNewCount = Int(to) {
+        if let newCount = Int(newQuantity), isAcceptable(count: newCount) {
+            // startAndNewCount : represents two things.
+            //  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and
+            //  2.), it is the Int form of the new count
                 // DECREASING COUNT
-                if startAndNewCount < oldCount {
-                    ScheduleController.decreasedCount = true        // animate schedule
-                    // alert
-                    let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
-                    if !ScheduleController.estrogenSchedule().isEmpty(fromThisIndexOnward:
-                        startAndNewCount, lastIndex: lastIndexToCheck) {
-                        PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: to, countButton: countButton)
-                        return
-                    }
-                    else {
-                        setQuantityWithoutWarning(to: to)  // don't alert
-                    }
+            if newCount < oldCount {
+                ScheduleController.decreasedCount = true
+                // alert
+                let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
+                let estrogens = ScheduleController.estrogenController.estrogenArray
+                if !ScheduleController.estrogenSchedule(estrogens: estrogens).isEmpty(fromThisIndexOnward:
+                    newCount, lastIndex: lastIndexToCheck) {
+                    PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: newQuantity, countButton: countButton)
+                    return
                 }
-                // INCREASING COUNT
-                else {                                          // don't alert
-                    setQuantityWithoutWarning(to: to)
-                    ScheduleController.increasedCount = true        // animate schedule
+                else {
+                    setQuantityWithoutWarning(to: newQuantity)
                 }
             }
+            // INCREASING COUNT
+            else {
+                setQuantityWithoutWarning(to: newQuantity)
+                ScheduleController.increasedCount = true
+            }
+        
         }
     }
     
@@ -181,20 +183,14 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func incrementSiteIndex() {
-        siteIndex = (siteIndex + 1) % ScheduleController.estrogenSchedule().count
+        siteIndex = (siteIndex + 1) % ScheduleController.estrogenSchedule(estrogens: ScheduleController.estrogenController.estrogenArray).count
         defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
 
     //MARK: - Other public
     
-    public static func format(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE, MMM d, yyyy, h:mm a"
-        return dateFormatter.string(from: date)
-    }
-    
     public static func usingPatches() -> Bool {
-        return UserDefaultsController.getDeliveryMethod() == PDStrings.pickerData.deliveryMethods[0]
+        return UserDefaultsController.getDeliveryMethod() == PDStrings.PickerData.deliveryMethods[0]
     }
     
     // MARK: - loaders
@@ -204,24 +200,21 @@ public class UserDefaultsController: NSObject {
             deliveryMethod = dm
         }
         else {
-            setDeliveryMethod(to: PDStrings.pickerData.deliveryMethods[0])
+            setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
         }
     }
     
     private static func loadTimeInterval() {
         if let interval = defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
             switch interval {
-            case "One half-week": timeInterval = PDStrings.pickerData.expirationIntervals[0]
-                break
-            case "One week": timeInterval = PDStrings.pickerData.expirationIntervals[1]
-                break
-            case "Two weeks": timeInterval = PDStrings.pickerData.expirationIntervals[2]
-                break
+            case "One half-week": timeInterval = PDStrings.PickerData.expirationIntervals[0]
+            case "One week": timeInterval = PDStrings.PickerData.expirationIntervals[1]
+            case "Two weeks": timeInterval = PDStrings.PickerData.expirationIntervals[2]
             default: timeInterval = interval
             }
         }
         else {
-            setTimeInterval(to: PDStrings.pickerData.expirationIntervals[0])
+            setTimeInterval(to: PDStrings.PickerData.expirationIntervals[0])
         }
     }
     
@@ -232,11 +225,11 @@ public class UserDefaultsController: NSObject {
                 quantity = countStr
             }
             else {
-                setQuantityWithoutWarning(to: PDStrings.pickerData.counts[2])
+                setQuantityWithoutWarning(to: PDStrings.PickerData.counts[2])
             }
         }
         else {
-            setQuantityWithoutWarning(to: PDStrings.pickerData.counts[2])
+            setQuantityWithoutWarning(to: PDStrings.PickerData.counts[2])
         }
     }
     
@@ -245,7 +238,7 @@ public class UserDefaultsController: NSObject {
             reminderTime = notifyTime
         }
         else {
-            setNotificationOption(to: PDStrings.pickerData.notificationTimes[0])
+            setNotificationOption(to: PDStrings.PickerData.notificationTimes[0])
         }
     }
     

@@ -6,6 +6,8 @@
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
+public typealias Time = Date
+
 public class PDDateHelper: NSObject {
     
     // Returns the day of the week, such as "Tuesday"
@@ -23,13 +25,13 @@ public class PDDateHelper: NSObject {
     public static func dateWord(from: Date) -> String? {
         let calendar = Calendar.current
         if calendar.isDateInToday(from) {
-            return PDStrings.dayStrings.today
+            return PDStrings.DayStrings.today
         }
         else if let yesterday = getDate(at: Date(), daysToAdd: -1), calendar.isDate(from, inSameDayAs: yesterday) {
-            return PDStrings.dayStrings.yesterday
+            return PDStrings.DayStrings.yesterday
         }
         else if let tomorrow = getDate(at: Date(), daysToAdd: 1), calendar.isDate(from, inSameDayAs: tomorrow) {
-            return PDStrings.dayStrings.tomorrow
+            return PDStrings.DayStrings.tomorrow
         }
         return nil
     }
@@ -59,6 +61,11 @@ public class PDDateHelper: NSObject {
         return this < Date()
     }
     
+    // Returns whether the date is in today.
+    public static func dateIsInToday(_ date: Date) -> Bool {
+        return Calendar.current.isDate(date, inSameDayAs: Date())
+    }
+    
     // Returns today's date with the given time.
     public static func getTodayDate(at: Time) -> Date? {
         let calendar = Calendar.current
@@ -76,6 +83,46 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
+    // Converts an interval string into the number of hours, defaults to 3.5 days.
+    public static func calculateHours(of intervalStr: String) -> Int {
+        var numberOfHours: Int
+        switch intervalStr {
+        case PDStrings.PickerData.expirationIntervals[1]:
+            numberOfHours = 168
+        case PDStrings.PickerData.expirationIntervals[2]:
+            numberOfHours = 336
+        default:
+            numberOfHours = 84
+        }
+        return numberOfHours
+    }
+    
+    // Gives the future date from the given one based on the given interval string.
+    public static func expirationDate(from date: Date, _ intervalStr: String) -> Date? {
+        let hours: Int = calculateHours(of: intervalStr)
+        let calendar = Calendar.current
+        guard let expDate = calendar.date(byAdding: .hour, value: hours, to: date) else {
+            return nil
+        }
+        return expDate
+    }
+    
+    // Returns the TimeInterval until expiration based on given
+    public static func expirationInterval(_ intervalStr: String, date: Date) -> TimeInterval? {
+        if let expDate = expirationDate(from: date, intervalStr) {
+            let now = Date()
+            // +
+            if expDate >= now {
+                return DateInterval(start: now, end: expDate).duration
+            }
+            // -
+            else {
+                return -DateInterval(start: expDate, end: now).duration
+            }
+        }
+        return nil
+    }
+    
     // Input time, output time string
     public static func format(time: Time) -> String {
         let dateFormatter = DateFormatter()
@@ -84,17 +131,11 @@ public class PDDateHelper: NSObject {
     }
     
     // Input time, output date string
-    public static func format(date: Date) -> String {
+    public static func format(date: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
-        let calendar = Calendar.current
-        
-        if calendar.isDateInToday(date) {
+        if useWords, let word = dateWord(from: date) {
             dateFormatter.dateFormat = "h:mm a"
-            return PDStrings.dayStrings.today + ", " + dateFormatter.string(from: date)
-        }
-        else if let yesterday: Date = getDate(at: Date(), daysToAdd: -1), calendar.isDate(date, inSameDayAs: yesterday) {
-            dateFormatter.dateFormat = "h:mm a"
-            return PDStrings.dayStrings.yesterday + ", " + dateFormatter.string(from: date)
+            return word + ", " + dateFormatter.string(from: date)
         }
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: date)

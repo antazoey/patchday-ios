@@ -9,17 +9,30 @@
 import Foundation
 import CoreData
 import UIKit
+import PDKit
 
-// MARK: Strings
+// ScheduleController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch" or an "Injection", an abstraction of a patch on the physical body or an injection into the physical body.  The ScheduleController is how the user changes any of their patches or re-injects.  The user may also use the ScheduleController to edit a MOEstrogen object's attributes.  This static class uses a "Schedule" object to work with all of the MOEstrogens together in an array.  Schedule objects are for querying an array of MOEstrogens.
 
 public class ScheduleController: NSObject {
     
-    // ScheduleController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch" or an "Injection", an abstraction of a patch on the physical body or an injection into the physical body.  The ScheduleController is how the user changes any of their patches or re-injects.  The user may also use the ScheduleController to edit a MOEstrogen object's attributes.  This static class uses a "Schedule" object to work with all of the MOEstrogens together in an array.  Schedule objects are for querying an array of MOEstrogens.
+    public static var estrogenController = EstrogenDataController(context: ScheduleController.persistentContainer.viewContext)
+    public static var pillController = PillDataController(context: ScheduleController.persistentContainer.viewContext)
+    public static var siteController = SiteDataController(context: ScheduleController.persistentContainer.viewContext)
     
-    internal static var coreDataController: CoreDataController = CoreDataController()
+    // MARK: - Core Data stack
+    
+    internal static var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: PDStrings.CoreDataKeys.persistantContainer_key)
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                PDAlertController.alertForPersistentStoreLoadError(error: error)
+            }
+        })
+        return container
+    }()
     
     /***********************************************************
-    for button animation algorithm : knowing which buttons to animate when loading ScheduleVC
+    for button animation algorithm : knowing which buttons to animate when loading EstrogensVC
     ***********************************************************/
     internal static var animateScheduleFromChangeDelivery: Bool = false
     internal static var increasedCount: Bool = false
@@ -31,12 +44,27 @@ public class ScheduleController: NSObject {
     
     // MARK: - Public
     
-    public static func estrogenSchedule() -> EstrogenSchedule {
-        return EstrogenSchedule(estrogens: coreDataController.estro_array)
+    public static func estrogenSchedule(estrogens: [MOEstrogen]) -> EstrogenSchedule {
+        return EstrogenSchedule(estrogens: estrogens)
     }
     
-    public static func siteSchedule() -> SiteSchedule {
-        return SiteSchedule(siteScheduleArray: coreDataController.loc_array)
+    public static func siteSchedule(sites: [MOSite]) -> SiteSchedule {
+        return SiteSchedule(siteScheduleArray: sites)
+    }
+    
+    public static func totalEstrogenAndPillsDue() -> Int {
+        // Estrogens expired
+        let estrogens = estrogenController.estrogenArray
+        let estrogenSchedule = ScheduleController.estrogenSchedule(estrogens: estrogens)
+        let intervalStr = UserDefaultsController.getTimeIntervalString()
+        let expiredCount = estrogenSchedule.expiredCount(intervalStr)
+        
+        // Pills due
+        let pillsTakenTodays = ScheduleController.pillController.getPillTimesTakens()
+        let nextPillDueDates = ScheduleController.pillController.getNextPillDueDates()
+        let totalPillsDue = PDPillsHelper.totalDue(timesTakensToday: pillsTakenTodays, nextDueDates: nextPillDueDates)
+        
+        return expiredCount + totalPillsDue
     }
  
     /* 1.) Loop throug the Estrogen Delivery MOs
@@ -50,12 +78,12 @@ public class ScheduleController: NSObject {
     /*************************************************************
      ANIMATION ALGORITHM
      *************************************************************/
-    public static func shouldAnimate(scheduleIndex: Int, newBG: UIImage) -> Bool {
+    public static func shouldAnimate(scheduleIndex: Int, newBG: UIImage, estrogenController: EstrogenDataController) -> Bool {
         
         /* -- Reasons to Animate -- */
         
         var hasDateAndItMatters: Bool = true
-        if let estro = coreDataController.getEstrogenDeliveryMO(forIndex: scheduleIndex), estro.hasNoDate() {
+        if let estro = estrogenController.getEstrogenMO(at: scheduleIndex), estro.hasNoDate() {
             hasDateAndItMatters = false
         }
         

@@ -14,7 +14,7 @@ public class PDStrings {
     
     // MARK: - Actions (Localizable)
     
-    public struct actionStrings {
+    public struct ActionStrings {
         public static var done = { return NSLocalizedString("Done", comment: "Button title.  Could you keep it short?")
         }()
         public static var delete = { return NSLocalizedString("Delete", comment: "Button title.  Could you keep it short?")
@@ -49,7 +49,7 @@ public class PDStrings {
     
     // MARK: - Days (Localizable)
     
-    public struct dayStrings {
+    public struct DayStrings {
         public static var today = { return NSLocalizedString("Today", comment: "The word 'today' displayed on a button, don't worry about room.")
         }()
         public static var yesterday = { return NSLocalizedString("Yesterday", comment: "The word 'yesterday' displayed on a button, don't worry about room.")
@@ -60,7 +60,7 @@ public class PDStrings {
     
     // MARK: - Titles (Localizable)
     
-    public struct titleStrings {
+    public struct TitleStrings {
         public static var pills = { return NSLocalizedString("Pills", comment: "Nav bar item left title.")
         }()
         public static var site = { return NSLocalizedString("Site", comment: "Title for view controller.")
@@ -71,7 +71,7 @@ public class PDStrings {
     
     // MARK: - Placeholders (Localizable)
     
-    public struct placeholderStrings {
+    public struct PlaceholderStrings {
         public static var nothing_yet = { return NSLocalizedString("Nothing yet", comment: "On buttons with plenty of room")
         }()
         public static var dotdotdot = { return NSLocalizedString("...", tableName: nil, comment: "Instruction for empty patch")
@@ -80,55 +80,53 @@ public class PDStrings {
         }()
         public static var new_site = { return NSLocalizedString("New Site", tableName: nil, comment: "Probably won't be seen by users, so don't worry too much.")
         }()
+        public static var new_pill = { return NSLocalizedString("New Pill", tableName: nil, comment: "Displayed under a button.  Medium room.")
+        }()
+    }
+    
+    // MARK: - VC Titles
+    public struct VCTitles {
+        public static var estrogens = { return NSLocalizedString("Estrogens", comment: "Title of a view controller. Keep it brief.") }()
+        public static var settings = { return NSLocalizedString("Settings", comment: "Title of a view controller. Keep it brief.") }()
+        public static var pills = { return NSLocalizedString("Pills", comment: "Title of a view controller. Keep it brief.") }()
+        public static var pill_edit = { return NSLocalizedString("Edit Pill", comment: "Title of a view controller. Keep it brief.") }()
+        public static var pill_new = { return NSLocalizedString("New Pill", comment: "Title of a view controller. Keep it brief.") }()
+        public static var sites = { return NSLocalizedString("Sites", comment: "Title of a view controller. Keep it brief.") }()
+        public static var site_edit = { return NSLocalizedString("Edit Site", comment: "Title of a view controller. Keep it brief.") }()
+        public static var site_new = { return NSLocalizedString("New Site", comment: "Title of a view controller. Keep it brief.") }()
+        public static var estrogen = { return NSLocalizedString("Estrogen", comment: "Title of a view controller. Keep it brief.") }()
     }
     
     // MARK: - Coloned strings (Localizable)
     
-    public struct colonedStrings {
-        public static var count = NSLocalizedString("Count:", comment: "Displayed on a label, plenty of room.")
-        public static var time = NSLocalizedString("Time:", comment: "Displayed on a label, plenty of room.")
-        public static var first_time = NSLocalizedString("First time:", comment: "for letting know the time when medication is taken")
-        public static var expires = NSLocalizedString("Expires: ", tableName: nil, comment: "label next to date.")
-        public static var expired = NSLocalizedString("Expired: ", tableName: nil, comment: "label next to dat.")
-    }
-    
-    // MARK: - Fractions (Localizable)
-    
-    public struct fractionStrings {
-        private static var fractionArray = [NSLocalizedString("0/1", comment: "Fration, displayed in a button that takes half the screen width"), NSLocalizedString("0/2", comment: "Fration, displayed in a button that takes half the screen width"), NSLocalizedString("1/1", comment: "Fration, displayed in a button that takes half the screen width"), NSLocalizedString("1/2", comment: "Fration, displayed in a button that takes half the screen width"), NSLocalizedString("2/2", comment: "Fration, displayed in a button that takes half the screen width")]
-        public static var zeroOutOfOne = fractionArray[0]
-        public static var zeroOutOfTwo = fractionArray[1]
-        public static var oneOutOfOne = fractionArray[2]
-        public static var oneOutOfTwo = fractionArray[3]
-        public static var twoOutOfTwo = fractionArray[4]
+    public struct ColonedStrings {
+        public static var count = { return NSLocalizedString("Count:", comment: "Displayed on a label, plenty of room.") }()
+        public static var time = { return NSLocalizedString("Time:", comment: "Displayed on a label, plenty of room.") }()
+        public static var first_time = { return NSLocalizedString("First time:", comment: "Displayed on a label, plenty of room.") }()
+        public static var expires = { return NSLocalizedString("Expires: ", tableName: nil, comment: "Label next to date. Easy on room.") }()
+        public static var expired = { return NSLocalizedString("Expired: ", tableName: nil, comment: "Label next to dat. Easy on room.") }()
+        public static var last_taken = { return NSLocalizedString("Last taken: ", tableName: nil, comment: "Label next to dat. Easy on room.") }()
     }
     
     // MARK: - Notification strings (Localizable)
     
-    public struct notificationStrings {
+    public struct NotificationStrings {
 
-        public struct titles {
-            public static var patchExpired = NSLocalizedString("Time for your next patch", comment: "Title of notification.")
-            public static var patchExpires = NSLocalizedString("Almost time for your next patch", comment: "Title of notification.")
-            public static var injectionExpired = NSLocalizedString("Time for your next injection", comment: "Title of notification.")
-            public static var injectionExpires = NSLocalizedString("Almost time for your next injection", comment: "Title of notification.")
-            public static var takeTB = NSLocalizedString("T-Block Time", comment: "A title for a notifiction.")
-            public static var takePG = NSLocalizedString("Take Progesterone", comment: "Title for a notification")
+        public struct Titles {
+            public static var patchExpired = { return NSLocalizedString("Time for your next patch", comment: "Title of notification.") }()
+            public static var patchExpires = { return NSLocalizedString("Almost time for your next patch", comment: "Title of notification.") }()
+            public static var injectionExpired = { return NSLocalizedString("Time for your next injection", comment: "Title of notification.") }()
+            public static var injectionExpires = { return NSLocalizedString("Almost time for your next injection", comment: "Title of notification.") }()
+            public static var takePill = { return NSLocalizedString("Time to take pill: ", comment: "Title of notification.") }()
         }
         
-        public struct messages {
+        public struct Bodies {
             public static var siteToExpiredMessage: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "notification telling you where and when to change your patch."), "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute'", comment: "notification telling you where and when to change your patch.")]
             
             public static var siteForNextPatch = { return NSLocalizedString("Site for next patch: ", comment: "The name of a site on the body follows this message in a notification. Don't worry about room.")
             }()
             
             public static var siteForNextInjection = { return NSLocalizedString("Site for next injection: ", comment: "The name of a site on the body follows this message in a notification. Don't worry about room.")
-            }()
-            
-            public static var takeTB = { return NSLocalizedString("It is time to take your testosterone blocker.", comment: "A message of a notification.")
-            }()
-            
-            public static var takePG = { return NSLocalizedString("It is take time to take your progesterone.", comment: "A message of a notificaiton")
             }()
         }
         
@@ -141,7 +139,7 @@ public class PDStrings {
     
     // MARK: - Arrays (Localizable)
     
-    public struct pickerData {
+    public struct PickerData {
         
         public static var deliveryMethods: [String] = { return  [NSLocalizedString("Patches", tableName: nil, comment: "Displayed on a button and in a picker."), NSLocalizedString("Injection", tableName: nil, comment: "Displayed on a button and in a picker.")]
         }()
@@ -161,7 +159,7 @@ public class PDStrings {
     
     // MARK: - Site names (Localizable)
     
-    public struct siteNames {
+    public struct SiteNames {
         
         public static var patchSiteNames: [String] = { return [NSLocalizedString("Right Glute", tableName: nil, comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Glute", tableName: nil, comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Right Abdomen", tableName: nil, comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Abdomen", tableName: nil, comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?")]
             
@@ -180,9 +178,17 @@ public class PDStrings {
         
     }
     
+    // MARK: - Delivery methods
+    
+    public struct DeliveryMethods {
+        public static var patch = { return NSLocalizedString("Patch", comment: "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches.") }()
+        public static var patches = { return NSLocalizedString("Patches", comment: "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches.") }()
+        public static var injection = { return NSLocalizedString("Injection", comment: "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches.") }()
+    }
+    
     // MARK: - Alerts (Localizable)
     
-    public struct alertStrings {
+    public struct AlertStrings {
         
         public struct coreDataAlert {
             public static var title = { return NSLocalizedString("Data Error", comment: "Title for alert.") }()
@@ -213,13 +219,14 @@ public class PDStrings {
     
     // MARK: - Core data keys
     
-    public struct coreDataKeys {
+    public struct CoreDataKeys {
         public static var persistantContainer_key = { return "patchData" }()
-        public static var estroEntityName = { return "Patch" }()
-        public static var estroEntityNames = { return ["PatchA", "PatchB", "PatchC", "PatchD"] }()
-        public static var locEntityName = { return "Site" }()
-        public static var estroPropertyNames = { return ["datePlaced","location"] }()
-        public static var locPropertyNames = { return ["order", "name"] }()
+        public static var estroEntityName = { return "Estrogen" }()
+        public static var siteEntityName = { return "Site" }()
+        public static var estroPropertyNames = { return ["date", "id"] }
+        public static var sitePropertyNames = { return ["order", "name"] }()
+        public static var pillEntityName = { return "Pill" }()
+        public static var pillPropertyNames = { return ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"] }()
     }
     
     // MARK: - User default keys
@@ -231,22 +238,15 @@ public class PDStrings {
         case remind = "remindMeUpon"
         case setup = "mentioned"
         case site_index = "site_i"
-        case includeTB = "i_tb"
-        case includePG = "i_pg"
-        case tbTime1 = "tb_time"
-        case pgTime1 = "pg_time"
-        case tbTime2 = "tb_time2"
-        case pgTime2 = "pg_time2"
-        case tbDaily = "tb_daily"
-        case pgDaily = "pg_daily"
-        case tbStamp = "tb_stamp"
-        case pgStamp = "pg_stamp"
-        case remindTB = "rTB"
-        case remindPG = "rPG"
     }
     
     public struct TodayKeys {
         public static var tbTaken = { return "tb_taken" }()
+    }
+    
+    public struct PillTypes {
+        public static var defaultPills = { return ["T-Blocker", "Progesterone"] }()
+        public static var extraPills = { return ["Estrogen", "Prolactin"] }()
     }
     
     // MARK: - Color keys
@@ -256,19 +256,6 @@ public class PDStrings {
         case lightBlue = "lightBlue"
         case gray = "cuteGray"
         case lightGray = "pdLighterCuteGray"
-    }
-    
-    // MARK: - Notification keys
-    
-    public struct notificationIDs {
-        public static var expiredIDs = {return ["CHANGEPATCH1", "CHANGEPATCH2", "CHANGEPATCH3", "CHANGEPATCH4"] }()
-        public static var pillIDs = {return ["TBPILL","PGPILL"] }()
-    }
-    
-    // MARK: - UI keys
-    
-    public struct ui_ids {
-        public static var estrogenButtonIDs = { return ["patch1", "patch2", "patch3", "patch4"] }()
     }
     
 }
