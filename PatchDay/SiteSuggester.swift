@@ -7,11 +7,9 @@
 //
 import Foundation
 
-typealias SiteName = String
-
 internal class SiteSuggester {
     
-    // Description: The "Suggest Patch Site" algorithm is an optional functionality that gives the user a site to place their next patch.  There are three main parts to it:  1.)  An array of general sites.  2.)  An array of current sites in the schedule. 3.) a suggest(scheduleIndex: Int, scheduleSites: [String]) method for returning the correct suggested site.
+    // Description: The "Suggest Patch Site" algorithm is an optional functionality that gives the user a site to place their next patch.  There are three main parts to it:  1.)  An array of default sites.  2.)  An array of current sites in the schedule. 3.) a suggest(estrogenIndex: Index, scheduleSites: [String]) method for returning the correct suggested site.
     
     // MARK: - Primary function
     
@@ -52,7 +50,7 @@ internal class SiteSuggester {
         return timesSiteAppearsInCurrent < timesSiteAppearsInSchedule
     }
 
-    // Picks the next available open general site starting at the index of current site.
+    // Picks the next available open default site starting at the index of current site.
     private static func getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: String, scheduleSites: [SiteName], currentSites: [SiteName]) -> Int? {
         let availableSites = scheduleSites.filter() {
             siteIsAvailable(siteName: $0, scheduleSites: scheduleSites, currentSites: currentSites)

@@ -22,7 +22,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var takeButton: UIButton!
     
-    private var pillIndex: Int?
+    private var pillIndex: Index?
     private var pill: MOPill?
     private var names = PDStrings.PillTypes.defaultPills + PDStrings.PillTypes.extraPills
     
@@ -67,7 +67,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         self.pill = pill
     }
     
-    public func setPillIndex(_ index: Int) {
+    public func setPillIndex(_ index: Index) {
         pillIndex = index
     }
     
@@ -334,14 +334,15 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // Creates a PillAttributes that reflects the current
     //   state of the interactive UI elements.
     private func makePillAttributes() -> PillAttributes {
-        let attributes = PillAttributes(name: nameSelected,
+        return PillAttributes(name: nameSelected,
                                         timesaday: timesadaySelected,
                                         time1: time1Selected,
                                         time2: time2Selected,
                                         notify: notifySelected,
                                         timesTakenToday: nil,
-                                        lastTaken: nil)
-        return attributes
+                                        lastTaken: nil,
+                                        id: nil)
+        
     }
     
     private func segueToPillsVC() {

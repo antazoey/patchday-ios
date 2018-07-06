@@ -86,7 +86,8 @@ public class PDStrings {
     
     // MARK: - VC Titles
     public struct VCTitles {
-        public static var estrogens = { return NSLocalizedString("Estrogens", comment: "Title of a view controller. Keep it brief.") }()
+        public static var patches = { return NSLocalizedString("Patches", comment: "Title of a view controller. Keep it brief.") }()
+        public static var injections = { return NSLocalizedString("Injections", comment: "Title of a view controller. Keep it brief.") }()
         public static var settings = { return NSLocalizedString("Settings", comment: "Title of a view controller. Keep it brief.") }()
         public static var pills = { return NSLocalizedString("Pills", comment: "Title of a view controller. Keep it brief.") }()
         public static var pill_edit = { return NSLocalizedString("Edit Pill", comment: "Title of a view controller. Keep it brief.") }()
@@ -121,7 +122,7 @@ public class PDStrings {
         }
         
         public struct Bodies {
-            public static var siteToExpiredMessage: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "notification telling you where and when to change your patch."), "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute'", comment: "notification telling you where and when to change your patch.")]
+            public static var siteToExpiredPatchMessage: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "notification telling you where and when to change your patch."), "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute'", comment: "notification telling you where and when to change your patch.")]
             
             public static var siteForNextPatch = { return NSLocalizedString("Site for next patch: ", comment: "The name of a site on the body follows this message in a notification. Don't worry about room.")
             }()
@@ -170,11 +171,13 @@ public class PDStrings {
         public static var rightGlute = { return patchSiteNames[0] }()
         public static var leftGlute = { return patchSiteNames[1] }()
 
-        public static var injectionSiteNames: [String] =  { return [NSLocalizedString("Right Quad", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Quad", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Right Glute", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Glute", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?")]
+        public static var injectionSiteNames: [String] =  { return [NSLocalizedString("Right Quad", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Quad", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Right Glute", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Glute", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Right Delt", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?"), NSLocalizedString("Left Delt", comment: "Displayed all over the app.  Could you abbreviate if it is more than 2x as long?")]
         }()
         
         public static var rightQuad = { return injectionSiteNames[0] }()
         public static var leftQuad = { return injectionSiteNames[1] }()
+        public static var rightDelt = { return injectionSiteNames[4] }()
+        public static var leftDelt = { return injectionSiteNames[5] }()
         
     }
     

@@ -13,7 +13,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var pickerSet = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteSetUnionGeneralSites()
+    private var pickerSet = Array(ScheduleController.siteController.siteNameSetUnionDefaultSites())
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var gapAboveImage: UIView!
@@ -54,7 +54,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     @objc func saveButtonTapped(_ sender: Any) {
-        let sites = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteArray
+        let sites = ScheduleController.siteController.siteArray
         if let name = nameText.text {
             
             // Updating existing MOSite
@@ -145,7 +145,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
+            sitesVC.siteNames = ScheduleController.siteController.getSiteNames()
             navCon.popViewController(animated: true)
         }
     }

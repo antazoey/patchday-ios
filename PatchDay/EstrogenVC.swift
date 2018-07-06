@@ -18,6 +18,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
     @IBOutlet private weak var chooseSiteButton: UITextField!
     @IBOutlet private weak var chooseDateButton: UIButton!
+    @IBOutlet private weak var datePickerInputView: UIView!
+    @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet private weak var lineUnderScheduleDate: UIView!
     @IBOutlet private weak var lineUnderDate: UIView!
     @IBOutlet private weak var lineUnderDateAndTimePlaced: UIView!
@@ -40,31 +42,31 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     let estrogenController = ScheduleController.estrogenController
     internal var estrogenScheduleIndex = -1
     internal var estrogen: MOEstrogen?
-    internal var sites = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
+    internal var sites = ScheduleController.siteController.getSiteNames()
     internal var site: String = ""
     internal var datePlaced: Date = Date()
-    private var dateInputView = UIView()
-    private var datePicker = UIDatePicker()
+    internal var dateSelected: Date?
     private var siteTextHasChanged = false
     private var dateTextHasChanged = false
     private var shouldSaveSelectedSiteIndex = false
     private var shouldSaveIncrementedSiteIndex = false
     private var siteIndexSelected = -1
     
+    override func viewDidAppear(_ animated: Bool) {
+        sites = ScheduleController.siteController.getSiteNames()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         estrogen = estrogenController.getEstrogenMO(at: estrogenScheduleIndex)
         loadTitle()
         chooseSiteButton.autocapitalizationType = .words
-        view.backgroundColor = PDColors.pdPink
+        view.backgroundColor = UIColor.white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
         saveButton = navigationItem.rightBarButtonItem
         saveButton.isEnabled = false
-        setScheduleAndHeading()
-        sitePicker.isHidden = true
+        reflectEstrogenExpirationDateInUI()
         autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
-        bigGap.backgroundColor = PDColors.pdPink
-        bigGap2.backgroundColor = PDColors.pdPink
         
         // Load data
         displayAttributeTexts()
@@ -99,7 +101,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
         }
         
-        let estroCount = ScheduleController.estrogenSchedule(estrogens: estrogenController.estrogenArray).datePlacedCount()
+        let estroCount = ScheduleController.estrogenController.estrogenArray.count
         
         // Schedule animation side-effects
         ScheduleController.indexOfChangedDelivery = (estroCount != UserDefaultsController.getQuantityInt() && dateTextHasChanged) ? estroCount : (estrogenScheduleIndex)
@@ -112,6 +114,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         else if shouldSaveSelectedSiteIndex {
             UserDefaultsController.setSiteIndex(to: siteIndexSelected)
         }
+        
+        let estrosDue = ScheduleController.totalEstrogenDue()
+        self.navigationController?.tabBarItem.badgeValue = (estrosDue <= 0) ? nil : String(estrosDue)
         
         // Transition
         if let navCon = navigationController {
@@ -174,7 +179,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Picker Functions
     
     @IBAction internal func openSitePicker(_ sender: Any) {
-        sitePicker.isHidden = false
+        UIView.transition(with: sitePicker as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { self.sitePicker.isHidden = false
+        }, completion: nil)
         sitePicker.selectRow(findSiteStartRow(site), inComponent: 0, animated: false)
         // other View changes
         autofillButton.isHidden = true
@@ -221,7 +227,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     @IBAction internal func chooseDateTextTapped(_ sender: Any) {
         
-        createDateAddSubview()
+        UIView.transition(with: datePickerInputView as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { self.datePickerInputView.isHidden = false
+        }, completion: nil)
+        createDatePickerSubview()
         // disable \ hide stuff
         autofillButton.isHidden = true
         chooseDateButton.isEnabled = false
@@ -231,7 +239,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @objc internal func datePickerDone(sender: UIButton) {
-        dateInputView.isHidden = true
+        datePickerInputView.isHidden = true
+        dateSelected = datePicker.date
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControlState.normal)
@@ -285,6 +294,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
         // Save site
         if siteTextHasChanged, let newSiteName = chooseSiteButton.text, newSiteName != "", let newSite = ScheduleController.siteController.getSite(for: newSiteName) {
+            
+            
                 estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: newSite)
         }
         
@@ -301,8 +312,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func autoPickSite() {
         if let currentSiteName = chooseSiteButton.text {
-            let scheduleSites: [String] = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
-            let currentSites: [String] = ScheduleController.estrogenSchedule(estrogens: estrogenController.estrogenArray).currentSiteNames
+            let scheduleSites: [String] = ScheduleController.siteController.getSiteNames()
+            let currentSites: [String] = ScheduleController.getCurrentSiteNamesInEstrogenSchedule()
             let estrogenCount: Int = UserDefaultsController.getQuantityInt()
             if let suggestedSiteIndex = SiteSuggester.suggest(currentEstrogenSiteSuggestingFrom: currentSiteName, currentSites: currentSites, estrogenQuantity: estrogenCount, scheduleSites: scheduleSites), suggestedSiteIndex >= 0 && suggestedSiteIndex < scheduleSites.count {
                 shouldSaveIncrementedSiteIndex = true
@@ -340,11 +351,12 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return 0
     }
     
-    private func setScheduleAndHeading() {
+    // Sets titles related to the estrogen's expiration date.
+    private func reflectEstrogenExpirationDateInUI() {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         var exp = ""
         if let estro = estrogenController.getEstrogenMO(at: estrogenScheduleIndex) {
-            if let _ = estro.getSite() {
+            if estro.getDate() != nil {
                 expiresOrExpiredLabel.text = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
                 exp = estro.expirationDateAsString(intervalStr, useWords: true)
             }
@@ -358,32 +370,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    // for createDateAddSubview() dateAddTapped()
-    private func makeInputViewForDatePicker() -> UIView {
-        let viewPoint = CGPoint(x: configureDatePickerStartX(), y: view.frame.height/2)
-        let viewSize = CGSize(width: view.frame.width, height: 240)
-        let viewRect = CGRect(origin: viewPoint, size: viewSize)
-        return UIView(frame: viewRect)
-        
-    }
-    
-    // Selects UIDatePicker start-x value based on on whether iphone or ipad.
+    // Returns UIDatePicker start-x value based on on whether iphone or ipad.
     private func configureDatePickerStartX() -> CGFloat {
         let dim = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 0 : view.frame.width/2.8
         return dim
-    }
-    
-    // Makes picker view for editing state.
-    private func makeDatePickerView() -> UIDatePicker {
-        let datePickerPoint = CGPoint(x: 0, y: 40)
-        let datePickerSize = CGSize(width: 0, height: 0)
-        let datePickerRect = CGRect(origin: datePickerPoint, size: datePickerSize)
-        let datePickerView: UIDatePicker = UIDatePicker(frame: datePickerRect)
-        datePickerView.datePickerMode = UIDatePickerMode.dateAndTime
-        datePickerView.date = datePlaced
-        datePickerView.maximumDate = Date()
-        return datePickerView
-        
     }
     
     // Makes done button for editing state.
@@ -392,8 +382,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let doneSize = CGSize(width: 100, height: 50)
         let doneRect = CGRect(origin: donePoint, size: doneSize)
         let doneButton = UIButton(frame: doneRect)
-        doneButton.setTitle("Done", for: UIControlState.normal)
-        doneButton.setTitle("Done", for: UIControlState.highlighted)
+        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControlState.normal)
+        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControlState.highlighted)
         doneButton.setTitleColor(UIColor.blue, for: UIControlState.normal)
         doneButton.setTitleColor(UIColor.black, for: UIControlState.highlighted)
         return doneButton
@@ -409,15 +399,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
+    // Gives start x for date picker Done button depending on iPad vs iPhone.
     private func configureDoneButtonStartX() -> CGFloat {
-        // iPhone
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) {
-            return (view.frame.size.width/2) - 50
-        }
-            // iPad
-        else {
-            return 0
-        }
+        let x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? (view.frame.size.width/2) - 50 : 0
+        return x
     }
     
     private func configureBadgeIcon(_ wasExpiredBeforeSave: Bool,_ isExpiredAfterSave: Bool) {
@@ -427,7 +412,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             UIApplication.shared.applicationIconBadgeNumber -= 1
         }
             
-            // New estro is not fresh
+        // New estro is not fresh
         else if !wasExpiredBeforeSave && isExpiredAfterSave {
             UIApplication.shared.applicationIconBadgeNumber += 1
         }
@@ -438,23 +423,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         requestNotification()
     }
     
-    // for dateAddTapped()
-    private func createDateAddSubview() {
-        let inputView = makeInputViewForDatePicker()
-        let datePickerView: UIDatePicker = makeDatePickerView()
-        inputView.addSubview(datePickerView)
+    private func createDatePickerSubview() {
         let doneButton = makeDoneButton()
-        inputView.addSubview(doneButton)
+        datePickerInputView.addSubview(doneButton)
         doneButton.addTarget(self, action: #selector(datePickerDone), for: .touchUpInside)
-        view.addSubview(inputView)
-        
-        // Update members vars
-        datePicker = datePickerView
-        dateInputView = inputView
         
     }
 
-    // lines
     private func hideLines() {
         lineUnderScheduleDate.isHidden = true
         lineUnderDateAndTimePlaced.isHidden = true
@@ -465,7 +440,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         verticalLineInSiteStack.isHidden = true
     }
     
-    // lines
     private func unhideLines() {
         lineUnderScheduleDate.isHidden = false
         lineUnderDateAndTimePlaced.isHidden = false

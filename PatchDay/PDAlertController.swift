@@ -18,7 +18,7 @@ internal class PDAlertController {
     // MARK: - Changing count
     
     // This will only be called when the user decreases the delivery count and the patches being removed had data.
-    internal static func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton) {
+    internal static func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton, navController: UINavigationController?) {
         if let newC = Int(newCount) {
             if (newC > oldCount) {
                 UserDefaultsController.setQuantityWithoutWarning(to: newCount)
@@ -32,6 +32,11 @@ internal class PDAlertController {
                     // Note: newCount is start_i because reset only occurs when decreasing count
                     ScheduleController.estrogenController.resetEstrogenData(start_i: newC, end_i: 3)
                     UserDefaultsController.setQuantityWithoutWarning(to: newCount)
+                    
+                    // Tab bar image / badgeValue
+                    if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
+                        vcs[0].tabBarItem.badgeValue = String(ScheduleController.totalEstrogenDue())
+                    }
                 }
                 let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
                     (void) in
@@ -46,7 +51,7 @@ internal class PDAlertController {
     
     // MARK: - Changing delivery method
     
-    internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton){
+    internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton, newImage: UIImage?, newTitle: String?, navController: UINavigationController?){
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.loseDataAlert.title, message: PDStrings.AlertStrings.loseDataAlert.message, preferredStyle: alertStyle)
@@ -57,8 +62,15 @@ internal class PDAlertController {
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
                 UserDefaultsController.setDeliveryMethod(to: newMethod)
                 ScheduleController.deliveryMethodChanged = true
+
+                // Tab bar image / badgeValue
+                if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
+                    vcs[0].tabBarItem.image = newImage
+                    vcs[0].tabBarItem.title = newTitle
+                    vcs[0].tabBarItem.badgeValue = nil
+                }
             }
-            let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
+            let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
                 (void) in
                 if oldMethod == PDStrings.PickerData.deliveryMethods[0] {
                     countButton.isEnabled = true
@@ -75,7 +87,7 @@ internal class PDAlertController {
                 
             }
             currentAlert.addAction(continueAction)
-            currentAlert.addAction(cancelAction)
+            currentAlert.addAction(declineAction)
             currentVC.present(currentAlert, animated: true, completion: nil)
         }
     }
@@ -110,7 +122,8 @@ internal class PDAlertController {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.addSite.title, message: nil, preferredStyle: .actionSheet)
             let yesAction = UIAlertAction(title: PDStrings.ActionStrings.yes, style: .default) {
                 (void) in
-                let _ = SiteDataController.appendSite(name: newSiteName, order: ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteArray.count, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.persistentContainer.viewContext)
+                let order = ScheduleController.siteController.siteArray.count
+                let _ = SiteDataController.appendSite(name: newSiteName, order: order, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.persistentContainer.viewContext)
             }
             let noAction = UIAlertAction(title: PDStrings.ActionStrings.no, style: .default, handler: nil)
             currentAlert.addAction(yesAction)

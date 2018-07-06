@@ -13,7 +13,7 @@ class PillTableViewCell: UITableViewCell {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var stateImage: UIImageView!
-    @IBOutlet weak var stateImageButton: UIButton!
+    @IBOutlet weak var stateImageButton: MFBadgeButton!
     @IBOutlet weak var takeButton: UIButton!
     @IBOutlet weak var lastTakenLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!

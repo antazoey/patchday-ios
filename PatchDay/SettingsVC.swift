@@ -264,6 +264,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func saveDeliveryMethodChange(_ row: Int) {
         if row < PDStrings.PickerData.deliveryMethods.count && row >= 0 {
+            var newImage: UIImage?
+            var newTitle: String?
             let choice = PDStrings.PickerData.deliveryMethods[row]
             // Injections
             if choice == PDStrings.PickerData.deliveryMethods[1] {
@@ -271,23 +273,27 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 countButton.setTitle(PDStrings.PickerData.counts[0], for: .normal)
                 countButton.isEnabled = false
                 countButtonArrow.isEnabled = false
+                newImage = #imageLiteral(resourceName: "Injection Icon")
+                newTitle = PDStrings.VCTitles.injections
             }
-                // Patches
+            // Patches
             else {
                 countButton.setTitle(PDStrings.PickerData.counts[2], for: .disabled)
                 countButton.setTitle(PDStrings.PickerData.counts[2], for: .normal)
                 countButton.isEnabled = true
                 countButtonArrow.isEnabled = true
+                newImage = #imageLiteral(resourceName: "Patch Icon")
+                newTitle = PDStrings.VCTitles.patches
             }
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // No Warning
-            if ScheduleController.estrogenSchedule(estrogens: estroController.estrogenArray).isEmpty() && ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).isDefault() {
+            if ScheduleController.estrogenController.isEmpty() && ScheduleController.siteController.isDefault() {
                 UserDefaultsController.setDeliveryMethod(to: choice)
             }
                 // Alert if there is some data that should be erased
             else {
-                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: deliveryMethodButton, countButton: countButton)
+                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: deliveryMethodButton, countButton: countButton, newImage: newImage, newTitle: newTitle, navController: self.navigationController)
             }
         }
         else {
@@ -299,7 +305,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let oldCount = ScheduleController.oldDeliveryCount
         if row < PDStrings.PickerData.counts.count && row >= 0 {
             let choice = PDStrings.PickerData.counts[row]
-            UserDefaultsController.setQuantityWithWarning(to: choice, oldCount: oldCount, countButton: countButton)
+            UserDefaultsController.setQuantityWithWarning(to: choice, oldCount: oldCount, countButton: countButton, navController: self.navigationController)
             countButton.setTitle(choice, for: .normal)
         }
         else {

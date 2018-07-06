@@ -19,7 +19,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = { return UIFont.systemFont(ofSize: 39)}()
     
     // Variables
-    public var siteNames: [String] = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
+    public var siteNames: [String] = ScheduleController.siteController.getSiteNames()
     private var selected: Int = -1
     
     override func viewDidLoad() {
@@ -36,7 +36,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        siteNames = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
+        siteNames = ScheduleController.siteController.getSiteNames()
         siteTable.reloadData()
         swapVisibilityOfCellFeatures(shouldHide: false)
     }
@@ -138,7 +138,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let end_i: Int = destinationIndexPath.row
         siteNames.remove(at: begin_i)
         siteNames.insert(movedObject, at: end_i)
-        for i in 0...(siteNames.count-1) {
+        for i in 0..<siteNames.count-1 {
             ScheduleController.siteController.setSiteName(index: i, to: siteNames[i])
         }
         siteTable.reloadData()
@@ -174,7 +174,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         ScheduleController.siteController.resetSiteData()
-        siteNames = ScheduleController.siteSchedule(sites: ScheduleController.siteController.siteArray).siteNamesArray
+        siteNames = ScheduleController.siteController.getSiteNames()
         siteTable.isEditing = false
         let range = 0..<siteNames.count
         let indexPathsToReload: [IndexPath] = range.map({
@@ -201,7 +201,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Hides labels in the table cells for edit mode.
     private func swapVisibilityOfCellFeatures(shouldHide: Bool) {
-        for i in 0...(siteNames.count-1) {
+        for i in 0..<siteNames.count-1 {
             let indexPath = IndexPath(row: i, section: 0)
             let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
             cell.orderLabel.isHidden = shouldHide
@@ -232,7 +232,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if indexPath.row < (siteNames.count-1) {
             
             // Reset cell colors
-            for i in indexPath.row...(siteNames.count-1) {
+            for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
                 siteTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }

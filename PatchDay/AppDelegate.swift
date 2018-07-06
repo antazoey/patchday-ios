@@ -21,23 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UserDefaultsController.setUp()
-        
-        // unhide for resetting (for testing):
-        //ScheduleController.resetPatchData()
-        
+
         // Navigation bar appearance
         let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor.darkGray
-
+        navigationBarAppearace.tintColor = UIColor.blue
         return true
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge(with: ScheduleController.totalEstrogenAndPillsDue())
+        setBadge(with: ScheduleController.totalDue())
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge(with: ScheduleController.totalEstrogenAndPillsDue())
+        setBadge(with: ScheduleController.totalDue())
     }
     
     // Sets the App badge number to the expired estrogen count + the total pills due for taking.

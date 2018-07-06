@@ -10,6 +10,8 @@
 import Foundation
 import CoreData
 
+public typealias SiteName = String
+
 @objc(MOSite)
 public class MOSite: NSManagedObject {
     

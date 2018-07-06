@@ -10,7 +10,8 @@ import Foundation
 import CoreData
 import PDKit
 
-typealias Index = Int
+public typealias Index = Int
+public typealias SiteNameSet = Set<SiteName>
 
 public class SiteDataController {
     
@@ -43,9 +44,23 @@ public class SiteDataController {
         }
     }
     
+    internal func getSiteNames() -> [SiteName] {
+        return siteArray.map({
+            (site: MOSite) -> SiteName? in
+            return site.getName()
+        }).filter() { $0 != nil } as! [SiteName]
+    }
+    
+    // This function returns the set of sites on record union with the set of default sites
+    public func siteNameSetUnionDefaultSites() -> SiteNameSet {
+        let defaultSitesSet = (UserDefaultsController.usingPatches()) ? Set(PDStrings.SiteNames.patchSiteNames) : Set(PDStrings.SiteNames.injectionSiteNames)
+        let siteSet = Set(getSiteNames())
+        return siteSet.union(defaultSitesSet)
+    }
+    
     // Returns the MOSite for the given name.
     internal func getSite(for name: String) -> MOSite? {
-        if let index = ScheduleController.siteSchedule(sites: siteArray).siteNamesArray.index(of: name) {
+        if let index = ScheduleController.siteController.getSiteNames().index(of: name) {
             return siteArray[index]
         }
         // Append new site
@@ -57,7 +72,7 @@ public class SiteDataController {
             siteArray[index].reset()
         }
         if (index+1) < (siteArray.count-1) {
-            for i in (index+1)...(siteArray.count-1) {
+            for i in (index+1)..<siteArray.count {
                 siteArray[i].decrement()
             }
         }
@@ -66,9 +81,10 @@ public class SiteDataController {
     }
     
     internal func resetSiteData() {
-        siteArray = SiteDataController.loadSiteMOs(into: context)
         let resetSiteNames: [String] = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
-        for i in 0...(resetSiteNames.count-1) {
+        let oldCount = siteArray.count
+        let newcount = resetSiteNames.count
+        for i in 0..<newcount {
             if i < siteArray.count {
                 siteArray[i].setOrder(to: Int16(i))
                 siteArray[i].setName(to: resetSiteNames[i])
@@ -79,8 +95,8 @@ public class SiteDataController {
                 siteArray.append(newSiteMO)
             }
         }
-        if siteArray.count-1 > resetSiteNames.count {
-            for i in resetSiteNames.count...(siteArray.count-1) {
+        if oldCount > resetSiteNames.count {
+            for i in resetSiteNames.count..<oldCount {
                 siteArray[i].reset()
             }
         }
@@ -88,6 +104,26 @@ public class SiteDataController {
         siteArray.sort(by: <)
         SiteDataController.saveContext(context)
         
+    }
+    
+    // Returns if the sites in the site schedule are the same as the default sites.
+    public func isDefault() -> Bool {
+        let defaultSites = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+        let c = defaultSites.count
+        if siteArray.count != c {
+            return false
+        }
+        for i in 0..<c {
+            if let n = siteArray[i].getName() {
+                if n != defaultSites[i] {
+                    return false
+                }
+            }
+            else {
+                return false
+            }
+        }
+        return true
     }
     
     internal func printSites() {
@@ -98,7 +134,10 @@ public class SiteDataController {
             if let n = site.getName() {
                 print("Name: " + n)
             }
-            print("Unnamed")
+            else {
+                print("Unnamed")
+            }
+            print("---------")
         }
         print("*************")
     }
@@ -113,7 +152,7 @@ public class SiteDataController {
     internal static func switchDefaultSites(deliveryMethod: String, sites: inout [MOSite], into context: NSManagedObjectContext) {
         // Default orderings found in PDStrings...
         let names = (deliveryMethod == PDStrings.PickerData.deliveryMethods[0]) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
-        for i in 0...(names.count-1) {
+        for i in 0..<names.count {
             // Reset existing siteMO to default site
             if i < sites.count {
                 sites[i].setName(to: names[i])
@@ -126,7 +165,7 @@ public class SiteDataController {
         }
         // Mark unneeded siteMOs
         if (names.count < sites.count) {
-            for i in names.count...(sites.count-1) {
+            for i in names.count..<sites.count {
                 sites[i].reset()
             }
         }
@@ -152,7 +191,7 @@ public class SiteDataController {
     private static func newSiteMOs(into context: NSManagedObjectContext) -> [MOSite] {
         var generatedSiteMOs: [MOSite] = []
         var names = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
-        for i in 0...(names.count-1) {
+        for i in 0..<names.count {
             if let sitemo = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: context) as? MOSite {
                 sitemo.setOrder(to: Int16(i))
                 sitemo.setName(to: names[i])

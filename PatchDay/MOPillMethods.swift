@@ -1,8 +1,8 @@
 //
-//  Pill+CoreDataProperties.swift
+//  MOPill+CoreDataProperties.swift
 //  PatchDay
 //
-//  Created by Juliya Smith on 6/27/18.
+//  Created by Juliya Smith on 7/4/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 //
@@ -12,18 +12,29 @@ import CoreData
 import PDKit
 
 extension MOPill {
-    
+
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MOPill> {
         return NSFetchRequest<MOPill>(entityName: "Pill")
     }
+
+    @NSManaged public var lastTaken: NSDate?
+    @NSManaged public var name: String?
+    @NSManaged public var notify: Bool
+    @NSManaged public var time1: NSDate?
+    @NSManaged public var time2: NSDate?
+    @NSManaged public var timesaday: Int16
+    @NSManaged public var timesTakenToday: Int16
+    @NSManaged public var id: UUID?
     
-    @NSManaged private var name: String?
-    @NSManaged private var timesaday: Int16
-    @NSManaged private var time1: NSDate?
-    @NSManaged private var time2: NSDate?
-    @NSManaged private var notify: Bool
-    @NSManaged private var lastTaken: NSDate?
-    @NSManaged private var timesTakenToday: Int16
+    public func initAttributes(name: String) {
+        self.name = name
+        self.timesaday = 1
+        self.time1 = Time() as NSDate
+        self.time2 = Time() as NSDate
+        self.notify = true
+        self.timesTakenToday = 0
+        self.id = UUID()
+    }
     
     // MARK: - Getters and setters
     
@@ -45,6 +56,9 @@ extension MOPill {
     
     public func setNotify(with newNotify: Bool) {
         notify = newNotify
+    }
+    public func setID(with newID: UUID) {
+        id = newID
     }
     
     public func setLastTaken(with newTime: NSDate) {
@@ -81,6 +95,10 @@ extension MOPill {
     
     public func getTimesTakenToday() -> Int16? {
         return timesTakenToday
+    }
+    
+    public func getID() -> UUID? {
+        return id
     }
     
     public func take() {
@@ -126,4 +144,5 @@ extension MOPill {
         timesTakenToday = -1
         lastTaken = nil
     }
+
 }

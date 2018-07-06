@@ -99,8 +99,11 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 self.loadTakeButton(for: cell)
                 pills = pillController.pillArray
                 pillTable.reloadData()
+                self.navigationController?.tabBarItem.badgeValue = String(ScheduleController.totalPillsDue())
                 reloadInputViews()
             }
+            let pillsDue = ScheduleController.totalPillsDue()
+            self.navigationController?.tabBarItem.badgeValue = (pillsDue <= 0) ? nil : String(pillsDue)
         }
     }
     
@@ -124,9 +127,6 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if pill.isDone() {
             return PDImages.pillDone
         }
-        else if pill.isExpired() {
-            return PDImages.pillExpired
-        }
         return PDImages.pill
     }
     
@@ -142,9 +142,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             cell.takeButton.isEnabled = false
             cell.stateImageButton.isEnabled = false
         }
+        else {
+            cell.takeButton.isEnabled = true
+            cell.stateImageButton.isEnabled = true
+        }
     }
     
-    private func pillCellForRowAt(_ index: Int) -> PillTableViewCell {
+    private func pillCellForRowAt(_ index: Index) -> PillTableViewCell {
         let indexPath = IndexPath(row: index, section: 0)
         return pillTable.cellForRow(at: indexPath) as! PillTableViewCell
     }
@@ -162,7 +166,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if indexPath.row < (pills.count-1) {
             
             // Reset cell colors
-            for i in indexPath.row...(pills.count-1) {
+            for i in indexPath.row..<pills.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }

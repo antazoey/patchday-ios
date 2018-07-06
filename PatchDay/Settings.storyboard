@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kgF-Vl-aPW">
-                                        <rect key="frame" x="8" y="70" width="359" height="195"/>
+                                        <rect key="frame" x="8" y="53" width="359" height="195"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lwe-nF-qqW">
                                                 <rect key="frame" x="0.0" y="0.0" width="359" height="38"/>
@@ -300,7 +300,7 @@
                                     <constraint firstItem="kgF-Vl-aPW" firstAttribute="centerX" secondItem="Q1X-on-Iny" secondAttribute="centerX" id="7v7-nl-gr4"/>
                                     <constraint firstItem="kgF-Vl-aPW" firstAttribute="leading" secondItem="Q1X-on-Iny" secondAttribute="leading" constant="8" id="IPn-lG-ULR"/>
                                     <constraint firstAttribute="trailing" secondItem="kgF-Vl-aPW" secondAttribute="trailing" constant="8" id="hsm-jp-dFT"/>
-                                    <constraint firstItem="kgF-Vl-aPW" firstAttribute="top" secondItem="Q1X-on-Iny" secondAttribute="top" constant="70" id="tV9-FL-T3e"/>
+                                    <constraint firstItem="kgF-Vl-aPW" firstAttribute="top" secondItem="Q1X-on-Iny" secondAttribute="top" constant="53" id="tV9-FL-T3e"/>
                                 </constraints>
                             </scrollView>
                         </subviews>

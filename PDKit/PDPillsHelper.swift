@@ -17,10 +17,11 @@ public struct PillAttributes {
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
+    public var id: UUID?
     public init(name: String?, timesaday: Int?,
                 time1: Time?, time2: Time?,
                 notify: Bool?, timesTakenToday: Int?,
-                lastTaken: Date?) {
+                lastTaken: Date?, id: UUID?) {
         self.name = name
         self.timesaday = timesaday
         self.time1 = time1
@@ -28,6 +29,7 @@ public struct PillAttributes {
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
+        self.id = id
     }
     // Default
     public init() {
@@ -38,6 +40,7 @@ public struct PillAttributes {
         self.notify = true
         self.timesTakenToday = 0
         self.lastTaken = Date()
+        self.id = UUID()
     }
 }
 
@@ -50,7 +53,7 @@ public class PDPillsHelper: NSObject {
         var total = 0
         let min_count = min(timesTakensToday.count, nextDueDates.count)
         if min_count > 0 {
-            for i in 0...(min_count - 1) {
+            for i in 0..<min_count {
                 let now = Date()
                 if now > nextDueDates[i] {
                     total += 1

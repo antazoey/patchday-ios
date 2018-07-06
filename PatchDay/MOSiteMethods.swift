@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension MOSite {
     
     @NSManaged private var name: String?
@@ -28,12 +27,12 @@ extension MOSite {
         return order
     }
     
-    public func setName(to: String) {
-        name = to
+    public func setName(to: SiteName) {
+        name = to as String
     }
     
-    public func getName() -> String? {
-        return name
+    public func getName() -> SiteName? {
+        return name as SiteName?
     }
     
     public func decrement() {

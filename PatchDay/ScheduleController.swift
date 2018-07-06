@@ -11,6 +11,8 @@ import CoreData
 import UIKit
 import PDKit
 
+public typealias SiteSet = [String]
+
 // ScheduleController is the public accessor class for controlling the app's managed objects.  A PatchDay Managed Object is known as a "Patch" or an "Injection", an abstraction of a patch on the physical body or an injection into the physical body.  The ScheduleController is how the user changes any of their patches or re-injects.  The user may also use the ScheduleController to edit a MOEstrogen object's attributes.  This static class uses a "Schedule" object to work with all of the MOEstrogens together in an array.  Schedule objects are for querying an array of MOEstrogens.
 
 public class ScheduleController: NSObject {
@@ -44,27 +46,34 @@ public class ScheduleController: NSObject {
     
     // MARK: - Public
     
-    public static func estrogenSchedule(estrogens: [MOEstrogen]) -> EstrogenSchedule {
-        return EstrogenSchedule(estrogens: estrogens)
+    public static func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
+        return estrogenController.estrogenArray.map({
+            (estro: MOEstrogen) -> SiteName in
+            if let site = estro.getSite(), let name = site.getName() {
+                return name
+            }
+            else {
+                return ""
+            }
+        }).filter() {
+            $0 != ""
+        }
     }
     
-    public static func siteSchedule(sites: [MOSite]) -> SiteSchedule {
-        return SiteSchedule(siteScheduleArray: sites)
-    }
-    
-    public static func totalEstrogenAndPillsDue() -> Int {
-        // Estrogens expired
-        let estrogens = estrogenController.estrogenArray
-        let estrogenSchedule = ScheduleController.estrogenSchedule(estrogens: estrogens)
+    public static func totalEstrogenDue() -> Int {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
-        let expiredCount = estrogenSchedule.expiredCount(intervalStr)
-        
-        // Pills due
+        return ScheduleController.estrogenController.expiredCount(intervalStr)
+    }
+    
+    public static func totalPillsDue() -> Int {
         let pillsTakenTodays = ScheduleController.pillController.getPillTimesTakens()
         let nextPillDueDates = ScheduleController.pillController.getNextPillDueDates()
-        let totalPillsDue = PDPillsHelper.totalDue(timesTakensToday: pillsTakenTodays, nextDueDates: nextPillDueDates)
+        return PDPillsHelper.totalDue(timesTakensToday: pillsTakenTodays, nextDueDates: nextPillDueDates)
         
-        return expiredCount + totalPillsDue
+    }
+    
+    public static func totalDue() -> Int {
+        return totalEstrogenDue() + totalPillsDue()
     }
  
     /* 1.) Loop throug the Estrogen Delivery MOs
@@ -78,23 +87,23 @@ public class ScheduleController: NSObject {
     /*************************************************************
      ANIMATION ALGORITHM
      *************************************************************/
-    public static func shouldAnimate(scheduleIndex: Int, newBG: UIImage, estrogenController: EstrogenDataController) -> Bool {
+    public static func shouldAnimate(estrogenIndex: Index, newBG: UIImage, estrogenController: EstrogenDataController) -> Bool {
         
         /* -- Reasons to Animate -- */
         
         var hasDateAndItMatters: Bool = true
-        if let estro = estrogenController.getEstrogenMO(at: scheduleIndex), estro.hasNoDate() {
+        if let estro = estrogenController.getEstrogenMO(at: estrogenIndex), estro.hasNoDate() {
             hasDateAndItMatters = false
         }
         
         // 1.) from DETAILS: animate affected non-empty MO dates from changing
-        let moreThanSiteChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlySiteChanged && indexOfChangedDelivery <= scheduleIndex && hasDateAndItMatters
+        let moreThanSiteChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
         
         // 2.) from DETAILS: animate the newly changed site and none else (date didn't change)
-        let isChangedSiteFromDetails: Bool = onlySiteChanged && scheduleIndex == indexOfChangedDelivery
+        let isChangedSiteFromDetails: Bool = onlySiteChanged && estrogenIndex == indexOfChangedDelivery
         
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
-        let indexLessThanOldCountFromSettings: Bool = (increasedCount && scheduleIndex >= oldDeliveryCount)
+        let indexLessThanOldCountFromSettings: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount)
 
         return (moreThanSiteChangedFromDetails || isChangedSiteFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
         

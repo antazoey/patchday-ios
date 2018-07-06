@@ -124,7 +124,7 @@ public class UserDefaultsController: NSObject {
     /******************************************************************
     setQuantityWithWarning(to, oldCount, countButton) : Will warn the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user has is decreasing the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     *****************************************************************/
-    public static func setQuantityWithWarning(to newQuantity: String, oldCount: Int, countButton: UIButton) {
+    public static func setQuantityWithWarning(to newQuantity: String, oldCount: Int, countButton: UIButton, navController: UINavigationController?) {
         ScheduleController.oldDeliveryCount = oldCount
         if let newCount = Int(newQuantity), isAcceptable(count: newCount) {
             // startAndNewCount : represents two things.
@@ -135,10 +135,8 @@ public class UserDefaultsController: NSObject {
                 ScheduleController.decreasedCount = true
                 // alert
                 let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
-                let estrogens = ScheduleController.estrogenController.estrogenArray
-                if !ScheduleController.estrogenSchedule(estrogens: estrogens).isEmpty(fromThisIndexOnward:
-                    newCount, lastIndex: lastIndexToCheck) {
-                    PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: newQuantity, countButton: countButton)
+                if !ScheduleController.estrogenController.isEmpty(fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
+                    PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: newQuantity, countButton: countButton, navController: navController)
                     return
                 }
                 else {
@@ -183,7 +181,7 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func incrementSiteIndex() {
-        siteIndex = (siteIndex + 1) % ScheduleController.estrogenSchedule(estrogens: ScheduleController.estrogenController.estrogenArray).count
+        siteIndex = (siteIndex + 1) % ScheduleController.siteController.siteArray.count
         defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
 
