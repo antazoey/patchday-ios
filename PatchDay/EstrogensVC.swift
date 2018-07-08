@@ -198,13 +198,22 @@ class EstrogensVC: UIViewController {
         let new_title = determineEstrogenButtonTitle(estrogenIndex: estrogenIndex, UserDefaultsController.getTimeIntervalString())
         let expFont: UIFont = determineExpirationDateFont()
         estrogenButton.setTitleColor(PDColors.pdDarkLines, for: .normal)
+        if UserDefaultsController.usingPatches() {
+            estrogenButton.contentVerticalAlignment = .bottom
+            estrogenButton.type = .patches
+        }
+        else {
+            estrogenButton.contentVerticalAlignment = .top
+            estrogenButton.titleEdgeInsets = UIEdgeInsetsMake(22, 0, 0, 0)
+            estrogenButton.type = .injections
+        }
         
         view.backgroundColor = (isBlue) ? PDColors.pdLightBlue : view.backgroundColor
         if !animateEstrogenButtonChanges(imageView, button: estrogenButton, newImage: new_img, newTitle: new_title, expirationDateFont: expFont, at: estrogenIndex) {
             /* -- Default, startup -- */
             imageView.image = new_img
             estrogenButton.setTitle(new_title, for: .normal)
-            estrogenButton.titleLabel!.font = expFont
+            estrogenButton.titleLabel?.font = expFont
             estrogenButton.isEnabled = true
         }
     }
@@ -214,8 +223,13 @@ class EstrogensVC: UIViewController {
         var title: String = ""
         if let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex) {
             if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
-                title += (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
-                title += PDDateHelper.dayOfWeekString(date: expDate)
+                if UserDefaultsController.usingPatches() {
+                    let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
+                    title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
+                }
+                else {
+                    title += PDStrings.ColonedStrings.last_taken + PDDateHelper.dayOfWeekString(date: date as Date)
+                }
             }
             return title
         }

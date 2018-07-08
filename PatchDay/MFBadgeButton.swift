@@ -7,7 +7,15 @@
 
 import UIKit
 
+enum PDBadgeButtonType {
+    case patches
+    case injections
+    case pills
+}
+
 class MFBadgeButton : UIButton {
+    
+    public var type: PDBadgeButtonType = PDBadgeButtonType.patches
     
     var badgeValue : String! = "" {
         didSet {
@@ -80,8 +88,11 @@ class MFBadgeButton : UIButton {
         
         shapeLayer.insertSublayer(labelText, at: 0)
 
-        shapeLayer.frame = (UserDefaultsController.usingPatches()) ? shapeLayer.frame.offsetBy(dx: w*0.66, dy: 20) :
-        shapeLayer.frame.offsetBy(dx: w*0.77, dy: 77)
+        switch type {
+        case .patches : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.66, dy: 20)
+        case .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.77, dy: 77)
+        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.66, dy: 41)
+        }
         
         self.layer.insertSublayer(shapeLayer, at: 999)
         self.layer.masksToBounds = false

@@ -106,26 +106,5 @@ extension MOEstrogen {
         return false
     }
     
-    // Determines the proper message for expired notifications.
-    public func notificationMessage(intervalStr: String) -> String {
-        if let site = getSite(), let siteName = site.getName() {
-            if !isCustomLocated(), UserDefaultsController.usingPatches() {
-                guard let siteNotificationPart = PDStrings.NotificationStrings.Bodies.siteToExpiredPatchMessage[siteName] else {
-                    // Shouldn't get here
-                    return expirationDateAsString(intervalStr, useWords: false)
-                }
-                return siteNotificationPart + expirationDateAsString(intervalStr, useWords: false)
-            }
-                
-                // For custom sites or injections.
-            else {
-                let siteNotificationPart = siteName + "\n"
-                return siteNotificationPart + expirationDateAsString(intervalStr, useWords: false)
-            }
-        }
-        return ""
-    }
-    
 
-    
 }

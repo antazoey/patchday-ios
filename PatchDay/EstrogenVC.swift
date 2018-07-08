@@ -24,7 +24,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet private weak var lineUnderDate: UIView!
     @IBOutlet private weak var lineUnderDateAndTimePlaced: UIView!
     @IBOutlet private weak var bigGap: UIView!
-    @IBOutlet private weak var expiresOrExpiredLabel: UILabel!
+    @IBOutlet private weak var expLabel: UILabel!
     @IBOutlet private weak var expirationDateLabel: UILabel!
     @IBOutlet private weak var lineUnderExpires: UIView!
     @IBOutlet private weak var bigGap2: UIView!
@@ -65,7 +65,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
         saveButton = navigationItem.rightBarButtonItem
         saveButton.isEnabled = false
-        reflectEstrogenExpirationDateInUI()
+        setUpLabelsInUI()
         autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         
         // Load data
@@ -99,13 +99,18 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             saveAttributes()
             let isExpiredAfterSave = estro.isExpired(intervalStr)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
+            requestNotification()
         }
         
-        let estroCount = ScheduleController.estrogenController.estrogenArray.count
-        
         // Schedule animation side-effects
-        ScheduleController.indexOfChangedDelivery = (estroCount != UserDefaultsController.getQuantityInt() && dateTextHasChanged) ? estroCount : (estrogenScheduleIndex)
         ScheduleController.animateScheduleFromChangeDelivery = true
+        if let indexUndated = ScheduleController.estrogenController.getLowestUndatedIndex(),
+            indexUndated <  estrogenScheduleIndex {
+            ScheduleController.indexOfChangedDelivery = indexUndated
+        }
+        else {
+            ScheduleController.indexOfChangedDelivery = estrogenScheduleIndex
+        }
 
         // Only increments if the site changed
         if shouldSaveIncrementedSiteIndex {
@@ -227,10 +232,16 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     @IBAction internal func chooseDateTextTapped(_ sender: Any) {
         
+        // Unhide date picker
         UIView.transition(with: datePickerInputView as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { self.datePickerInputView.isHidden = false
         }, completion: nil)
+        if let date = dateSelected {
+            datePicker.date = date
+        }
+        else if let date = estrogen?.getDate() {
+            datePicker.date = date as Date
+        }
         createDatePickerSubview()
-        // disable \ hide stuff
         autofillButton.isHidden = true
         chooseDateButton.isEnabled = false
         typeSiteButton.isEnabled = false
@@ -294,9 +305,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
         // Save site
         if siteTextHasChanged, let newSiteName = chooseSiteButton.text, newSiteName != "", let newSite = ScheduleController.siteController.getSite(for: newSiteName) {
-            
-            
                 estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: newSite)
+            ScheduleController.siteChanged = true
         }
         
         // Save date
@@ -352,12 +362,21 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // Sets titles related to the estrogen's expiration date.
-    private func reflectEstrogenExpirationDateInUI() {
+    private func setUpLabelsInUI() {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         var exp = ""
         if let estro = estrogenController.getEstrogenMO(at: estrogenScheduleIndex) {
             if estro.getDate() != nil {
-                expiresOrExpiredLabel.text = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
+                if UserDefaultsController.usingPatches() {
+                    expLabel.text = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
+                    dateAndTimePlaced.text = PDStrings.ColonedStrings.date_and_time_applied
+                    siteLabel.text = PDStrings.ColonedStrings.site
+                }
+                else {
+                    expLabel.text = PDStrings.ColonedStrings.next_due
+                    dateAndTimePlaced.text = PDStrings.ColonedStrings.date_and_time_injected
+                    siteLabel.text = PDStrings.ColonedStrings.last_site_injected
+                }
                 exp = estro.expirationDateAsString(intervalStr, useWords: true)
             }
             else {
@@ -420,14 +439,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if !wasExpiredBeforeSave {
             cancelNotification()
         }
-        requestNotification()
     }
     
     private func createDatePickerSubview() {
         let doneButton = makeDoneButton()
         datePickerInputView.addSubview(doneButton)
+        doneButton.removeTarget(nil, action: nil, for: .allEvents)
         doneButton.addTarget(self, action: #selector(datePickerDone), for: .touchUpInside)
-        
     }
 
     private func hideLines() {

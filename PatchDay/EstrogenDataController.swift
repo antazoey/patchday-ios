@@ -102,11 +102,21 @@ public class EstrogenDataController {
         }
     }
     
+    internal func getLowestUndatedIndex() -> Index? {
+        let dpc = datePlacedCount()
+        
+        if dpc != estrogenArray.count {
+            return dpc-1
+        }
+        // All estrogens are dated.
+        return nil
+    }
+    
     // Returns the number of non-nil dates in given estrogens.
     internal func datePlacedCount() -> Int {
         return estrogenArray.reduce(0, {
             count, estro in
-            let c = !(estro.date == nil) ? 1 : 0
+            let c = (estro.date != nil) ? 1 : 0
             return c + count
         })
     }

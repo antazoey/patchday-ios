@@ -357,7 +357,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
             // Resend notifications
             let newHighest = UserDefaultsController.getQuantityInt() - 1
-            resendScheduleNotifications(upToRemove: oldHighest, upToAdd: newHighest)
+            appDelegate.notificationsController.resendEstrogenNotifications(upToRemove: oldHighest, upToAdd: newHighest)
         }
     }
  
@@ -412,20 +412,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // MARK: - Private
-    
-    /* resendScheduleNotifications(upToRemove, upToAdd) :
-       1.) upToRemove is highest old index, ones to delete.
-       2.) upToAdd is the highest new index */
-    private func resendScheduleNotifications(upToRemove: Int, upToAdd: Int) {
-        for i in 0...upToRemove {
-            appDelegate.notificationsController.cancelEstrogenNotification(at: i)
-        }
-        for j in 0...upToAdd {
-            if let estro = estroController.getEstrogenMO(at: j) {
-            appDelegate.notificationsController.requestEstrogenExpiredNotification(for: estro)
-            }
-        }
-    }
     
     private func removeAllNotifications(last_i: Int) {
         for i in 0...last_i {

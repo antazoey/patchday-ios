@@ -52,6 +52,22 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             UIApplication.shared.applicationIconBadgeNumber -= 1
         }
     }
+    
+    public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
+        for i in 0...upToRemove {
+            cancelEstrogenNotification(at: i)
+        }
+        for j in 0...upToAdd {
+            if let estro = ScheduleController.estrogenController.getEstrogenMO(at: j) {
+                requestEstrogenExpiredNotification(for: estro)
+            }
+        }
+    }
+    
+    public func resendPillNotification(for pill: MOPill) {
+        cancelPill(pill)
+        requestNotifyTakePill(pill)
+    }
 
     // MARK: - notifications
     
@@ -66,9 +82,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     private func determineEstrogenNotificationBody(for estro: MOEstrogen, intervalStr: String) -> String {
-        var body = estro.notificationMessage(intervalStr: intervalStr)
+        var body = notificationBody(for: estro, intervalStr: intervalStr)
         let msg = (UserDefaultsController.usingPatches()) ? PDStrings.NotificationStrings.Bodies.siteForNextPatch : PDStrings.NotificationStrings.Bodies.siteForNextInjection
-        if let additionalMessage = suggestSiteMessage(msg: msg) {
+        if let additionalMessage = suggestSiteMessage(introMsg: msg) {
             body += additionalMessage
         }
         return body
@@ -78,11 +94,13 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         let usingPatches = UserDefaultsController.usingPatches()
         let notifyTime = UserDefaultsController.getNotificationTimeDouble()
+        
         if sendingNotifications,
             UserDefaultsController.getRemindMeUpon(),
             let date = estro.getDate(),
-            var timeIntervalUntilExpire = PDDateHelper.expirationInterval(intervalStr, date: date as Date) {
+            var timeIntervalUntilExpire = PDDateHelper.expirationInterval(intervalStr, date: date as Date), let id = estro.getID() {
             let content = UNMutableNotificationContent()
+            
             content.title = determineEstrogenNotificationTitle(usingPatches: usingPatches, notifyTime: notifyTime)
             content.body = determineEstrogenNotificationBody(for: estro, intervalStr: intervalStr)
             content.sound = UNNotificationSound.default()
@@ -90,7 +108,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.categoryIdentifier = estroCategoryID
             
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
-            if timeIntervalUntilExpire > 0, let id = estro.getID() {
+            if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
                 let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)
                 center.add(request) {
@@ -104,17 +122,15 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
  
     }
     
-    /****************************************************
-    requestNotifiyTakePill(mode) : Where mode = 0 means TB,
-                                   mode = 1 means PG.
-    ****************************************************/
-    
     internal func requestNotifyTakePill(_ pill: MOPill) {
         let now = Date()
+        
         if let id = pill.getID(), let dueDate = pill.getDueDate(), now < dueDate {
             let content = UNMutableNotificationContent()
             content.title = PDStrings.NotificationStrings.Titles.takePill
-            content.body = PDDateHelper.format(time: dueDate)
+            if let name = pill.getName() {
+                content.title += name
+            }
             content.sound = UNNotificationSound.default()
             content.badge = ScheduleController.totalDue() + 1 as NSNumber
             let interval = dueDate.timeIntervalSince(now)
@@ -134,8 +150,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         }
     }
     
-    internal func cancelPills(identifiers: [String]) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: identifiers)
+    internal func cancelPill(_ pill: MOPill) {
+        if let id = pill.getID() {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
+        }
     }
     
     // MARK: - Private helpers
@@ -168,7 +186,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     private func suggestSite() -> String? {
-        let scheduleSites: [String] = ScheduleController.getCurrentSiteNamesInEstrogenSchedule()
+        let scheduleSites: [String] = ScheduleController.siteController.getSiteNames()
         let currentSites: [String] = ScheduleController.getCurrentSiteNamesInEstrogenSchedule()
         let estroSiteName = (currentEstrogenIndex >= 0 && currentEstrogenIndex < currentSites.count) ? currentSites[currentEstrogenIndex] : PDStrings.PlaceholderStrings.new_site
         let estroCount: Int = UserDefaultsController.getQuantityInt()
@@ -178,11 +196,30 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         return nil
     }
     
-    private func suggestSiteMessage(msg: String) -> String? {
+    private func suggestSiteMessage(introMsg: String) -> String? {
         if let suggestedSiteName = suggestSite() {
-            return "\n\n" + msg + suggestedSiteName
+            return "\n\n" + introMsg + suggestedSiteName
         }
         return nil
+    }
+    
+    // Determines the proper message for expired notifications.
+    public func notificationBody(for estro: MOEstrogen, intervalStr: String) -> String {
+        var body = ""
+        let usingPatches: Bool = UserDefaultsController.usingPatches()
+        if let site = estro.getSite(), let siteName = site.getName() {
+            if !estro.isCustomLocated(), usingPatches {
+                if let msg = PDStrings.NotificationStrings.Bodies.siteToExpiredPatchMessage[siteName] {
+                    body = msg + "\n"
+                }
+            }
+                
+                // For custom sites or injections.
+            else if usingPatches {
+                body = PDStrings.NotificationStrings.Bodies.changePatchLocated + siteName + "\n"
+            }
+        }
+        return body
     }
     
 }

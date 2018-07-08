@@ -39,6 +39,7 @@ public class ScheduleController: NSObject {
     internal static var animateScheduleFromChangeDelivery: Bool = false
     internal static var increasedCount: Bool = false
     internal static var decreasedCount: Bool = false
+    internal static var siteChanged: Bool = false
     internal static var onlySiteChanged: Bool = false
     internal static var deliveryMethodChanged: Bool = false
     internal static var oldDeliveryCount: Int = 1
@@ -96,11 +97,11 @@ public class ScheduleController: NSObject {
             hasDateAndItMatters = false
         }
         
-        // 1.) from DETAILS: animate affected non-empty MO dates from changing
+        // 1.) from ESTROGEN: animate affected non-empty MO dates from changing
         let moreThanSiteChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
         
-        // 2.) from DETAILS: animate the newly changed site and none else (date didn't change)
-        let isChangedSiteFromDetails: Bool = onlySiteChanged && estrogenIndex == indexOfChangedDelivery
+        // 2.) from ESTROGEN: animate the newly changed site and none else (date didn't change)
+        let isChangedSiteFromDetails: Bool = siteChanged && estrogenIndex == indexOfChangedDelivery
         
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
         let indexLessThanOldCountFromSettings: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount)

@@ -106,7 +106,12 @@ public class PDStrings {
         public static var first_time = { return NSLocalizedString("First time:", comment: "Displayed on a label, plenty of room.") }()
         public static var expires = { return NSLocalizedString("Expires: ", tableName: nil, comment: "Label next to date. Easy on room.") }()
         public static var expired = { return NSLocalizedString("Expired: ", tableName: nil, comment: "Label next to dat. Easy on room.") }()
-        public static var last_taken = { return NSLocalizedString("Last taken: ", tableName: nil, comment: "Label next to dat. Easy on room.") }()
+        public static var last_taken = { return NSLocalizedString("Last taken: ", tableName: nil, comment: "Label next to dat. A little room to grow.") }()
+        public static var next_due = { return NSLocalizedString("Next due: ", comment: "Label next to dat. A little room to grow.") }()
+        public static var date_and_time_applied = { return NSLocalizedString("Date and time applied: ", comment: "Label next to dat. A little room to grow.") }()
+        public static var date_and_time_injected = { return NSLocalizedString("Date and time injected: ", comment: "Label next to dat. A little room to grow.") }()
+        public static var site = { return NSLocalizedString("Site: ", comment: "Label next to dat. Easy on room.") }()
+        public static var last_site_injected = { return NSLocalizedString("Last site injected: ", comment: "Label next to dat. A little room to grow") }()
     }
     
     // MARK: - Notification strings (Localizable)
@@ -122,7 +127,10 @@ public class PDStrings {
         }
         
         public struct Bodies {
-            public static var siteToExpiredPatchMessage: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "notification telling you where and when to change your patch."), "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute'", comment: "notification telling you where and when to change your patch.")]
+            public static var changePatchLocated = { return NSLocalizedString("Expired patch located: ", comment: "Notification telling you where and when to change your patch.") }()
+            public static var injectionBody = { return NSLocalizedString("Your last injection site: ", comment: "Notification telling you where and when to inject next medication.") }()
+            
+            public static var siteToExpiredPatchMessage: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "Notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "Notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "Notification telling you where and when to change your patch."), "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute' ", comment: "Notification telling you where and when to change a transdermal patch.")]
             
             public static var siteForNextPatch = { return NSLocalizedString("Site for next patch: ", comment: "The name of a site on the body follows this message in a notification. Don't worry about room.")
             }()

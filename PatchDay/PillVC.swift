@@ -11,6 +11,8 @@ import PDKit
 
 class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
+    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var selectNameButton: UIButton!
@@ -76,12 +78,14 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @objc func selectNameTapped() {
         openOrCloseNamePicker(closing: false)
         selectNameButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        selectNameButton.removeTarget(nil, action: nil, for: .allEvents)
         selectNameButton.addTarget(self, action: #selector(doneWithSelectNameTapped), for: .touchUpInside)
     }
     
     @objc func doneWithSelectNameTapped() {
         openOrCloseNamePicker(closing: true)
         selectNameButton.setTitle(PDStrings.ActionStrings.select, for: .normal)
+        selectNameButton.removeTarget(nil, action: nil, for: .allEvents)
         selectNameButton.addTarget(self, action: #selector(selectNameTapped), for: .touchUpInside)
         if name != nameSelected {
             nameChanged = true
@@ -92,6 +96,11 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBAction func saveButtonTapped() {
         if let pill = pill {
             PillDataController.setPillAttributes(for: pill, with: makePillAttributes())
+            appDelegate.notificationsController.resendPillNotification(for: pill)
+            if let vcs = navigationController?.tabBarController?.viewControllers {
+                let newValue = ScheduleController.totalPillsDue()
+                vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil
+            }
             segueToPillsVC()
         }
     }
@@ -113,6 +122,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         else {
             disableTime2()
             timesadaySelected = 1
+
         }
         enableSaveButton()
     }
@@ -126,32 +136,58 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
 
     @objc func time1ButtonTapped(_ sender: Any) {
-        timePicker.isHidden = false
-        transformIntoDoneButton(time1Button)
-        disableNonTimeInteractions()
-        if time2Button.isEnabled, let pill = pill, let time1 = pill.getTime1() {
-            timePicker.date = time1 as Date
-            timePicker.maximumDate = time2Selected
+        if let pill = pill {
+            timePicker.isHidden = false
             timePicker.minimumDate = nil
+            transformIntoDoneButton(time1Button)
+            disableNonTimeInteractions()
+            if let time1 = time1Selected {
+                timePicker.date = time1
+            }
+            else if let time1 = pill.getTime1() {
+                timePicker.date = time1 as Date
+            }
+            if time2Button.isEnabled {
+                if let time2 = time2Selected {
+                    timePicker.maximumDate = time2
+                }
+                else if let time2 = pill.getTime2() {
+                    timePicker.maximumDate = time2 as Date
+                }
+            }
+            else {
+                timePicker.maximumDate = nil
+            }
+            time2Button.isEnabled = false
         }
-        time2Button.isEnabled = false
     }
     
     @objc func time2ButtonTapped(_ sender: Any) {
-        timePicker.isHidden = false
-        transformIntoDoneButton(time2Button)
-        disableNonTimeInteractions()
-        time1Button.isEnabled = false
-        if let pill = pill, let time2 = pill.getTime2() {
-            timePicker.date = time2 as Date
-            timePicker.minimumDate = time1Selected
+        if let pill = pill {
+            timePicker.isHidden = false
             timePicker.maximumDate = nil
+            time1Button.isEnabled = false
+            transformIntoDoneButton(time2Button)
+            disableNonTimeInteractions()
+            time1Button.isEnabled = false
+            if let time2 = time2Selected {
+                timePicker.date = time2
+            }
+            else if let time2 = pill.getTime2() {
+                timePicker.date = time2 as Date
+            }
+            if let time1 = time1Selected {
+                timePicker.minimumDate = time1
+            }
+            else if let time1 = pill.getTime1() {
+                timePicker.minimumDate = time1 as Date
+            }
         }
-        time1Button.isEnabled = false
     }
     
     private func transformIntoDoneButton(_ button: UIButton) {
         button.isSelected = true
+        button.removeTarget(nil, action: nil, for: .allEvents)
         button.addTarget(self, action: #selector(timePickerDone(sender:)), for: .touchUpInside)
     }
     
@@ -160,6 +196,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         timeButton.isSelected = false
         timePicker.isHidden = true
         let selectedTime = timePicker.date
+        
         timeButton.setTitle(PDDateHelper.format(time: selectedTime), for: .normal)
         timesadaySlider.isEnabled = true
         selectNameButton.isEnabled = true
@@ -169,6 +206,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if isTime1 {
             time1Changed = true
             time1Selected = selectedTime
+            time1Button.removeTarget(nil, action: nil, for: .allEvents)
             time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
             if sliderSaysTwoPills() {
                 time2Button.isEnabled = true
@@ -177,6 +215,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         else {
             time2Changed = true
             time2Selected = selectedTime
+            time2Button.removeTarget(nil, action: nil, for: .allEvents)
             time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
             time1Button.isEnabled = true
         }
@@ -334,12 +373,16 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // Creates a PillAttributes that reflects the current
     //   state of the interactive UI elements.
     private func makePillAttributes() -> PillAttributes {
+        var timesTakenToday: Int?
+        if timesadaySelected == 1 {
+            timesTakenToday = 1
+        }
         return PillAttributes(name: nameSelected,
                                         timesaday: timesadaySelected,
                                         time1: time1Selected,
                                         time2: time2Selected,
                                         notify: notifySelected,
-                                        timesTakenToday: nil,
+                                        timesTakenToday: timesTakenToday,
                                         lastTaken: nil,
                                         id: nil)
         

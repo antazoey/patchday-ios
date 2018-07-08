@@ -279,8 +279,8 @@
                         <outlet property="dateAndTimePlaced" destination="1DI-qg-8qA" id="2mZ-zd-DM7"/>
                         <outlet property="datePicker" destination="QuF-JW-mey" id="YOK-wC-9vj"/>
                         <outlet property="datePickerInputView" destination="9JP-Ip-SdW" id="SaG-mL-9WA"/>
+                        <outlet property="expLabel" destination="5x3-eZ-12Y" id="Tlb-rv-oep"/>
                         <outlet property="expirationDateLabel" destination="vei-Lg-bch" id="15R-Br-99D"/>
-                        <outlet property="expiresOrExpiredLabel" destination="5x3-eZ-12Y" id="Tlb-rv-oep"/>
                         <outlet property="horizontalLineAboveSite" destination="krO-wL-XDy" id="0gG-cP-Uoa"/>
                         <outlet property="horizontalLineBelowSite" destination="G2g-Q7-iMQ" id="hsD-WZ-9DI"/>
                         <outlet property="lineUnderDate" destination="dHr-Tu-bAI" id="ujE-y3-p58"/>
@@ -406,7 +406,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="〉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cKy-SE-Iqe">
-                                                    <rect key="frame" x="357" y="17" width="17.5" height="24"/>
+                                                    <rect key="frame" x="357.5" y="17" width="17.5" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -729,7 +729,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="...">
-                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <attributedString key="userComments">
                                                     <fragment content="this doesn't need to be translated">
@@ -765,7 +765,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="145.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="...">
-                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <attributedString key="userComments">
                                                     <fragment content="this doesn't need to be translated">
@@ -801,7 +801,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="...">
-                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <attributedString key="userComments">
                                                     <fragment content="this doesn't need to be translated">
@@ -837,7 +837,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="145.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <state key="normal" title="...">
-                                                    <color key="titleColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <attributedString key="userComments">
                                                     <fragment content="this doesn't need to be translated">

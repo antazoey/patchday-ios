@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UserDefaultsController.setUp()
+        
+        setBadge(with: ScheduleController.totalDue())
 
         // Navigation bar appearance
         let navigationBarAppearace = UINavigationBar.appearance()

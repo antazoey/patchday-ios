@@ -43,18 +43,27 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = pillTable.dequeueReusableCell(withIdentifier: "pillCellReuseID") as! PillTableViewCell
         if indexPath.row >= 0 && indexPath.row < pills.count {
+            let indexStr = String(indexPath.row)
             let pill = pills[indexPath.row]
+            enableOrDisableTake(for: cell)
             cell.nameLabel.text = pill.getName()
             cell.stateImage.image = loadPillImage(for: pill)
+            cell.stateImageButton.type = .pills
             cell.lastTakenLabel.text = loadLastTimeTaken(for: pill)
             cell.setDueDateText(for: pill)
             cell.takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
-            loadTakeButton(for: cell)
-            let indexStr = String(indexPath.row)
             cell.stateImage.restorationIdentifier = "i" + indexStr
             cell.takeButton.restorationIdentifier = "t" + indexStr
+            cell.takeButton.isEnabled = (pill.isDone()) ? false : true
+            
             if indexPath.row % 2 == 0 {
                 cell.backgroundColor = PDColors.pdLightBlue
+            }
+            if pill.isExpired() {
+                cell.stateImageButton.badgeValue = "  "
+            }
+            else {
+                cell.stateImageButton.badgeValue = nil
             }
         }
         
@@ -96,7 +105,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     cell.setDueDateText(for: pill)
                     animatePillImageChange(pillImageView: cell.stateImage, pill: pill)
                 }
-                self.loadTakeButton(for: cell)
+                self.enableOrDisableTake(for: cell)
                 pills = pillController.pillArray
                 pillTable.reloadData()
                 self.navigationController?.tabBarItem.badgeValue = String(ScheduleController.totalPillsDue())
@@ -137,7 +146,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return PDStrings.PlaceholderStrings.new_pill
     }
     
-    private func loadTakeButton(for cell: PillTableViewCell) {
+    private func enableOrDisableTake(for cell: PillTableViewCell) {
         if cell.stateImage.image == PDImages.pillDone {
             cell.takeButton.isEnabled = false
             cell.stateImageButton.isEnabled = false

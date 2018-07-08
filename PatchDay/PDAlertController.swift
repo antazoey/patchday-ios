@@ -35,7 +35,8 @@ internal class PDAlertController {
                     
                     // Tab bar image / badgeValue
                     if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
-                        vcs[0].tabBarItem.badgeValue = String(ScheduleController.totalEstrogenDue())
+                        let c = ScheduleController.totalEstrogenDue()
+                        vcs[0].navigationController?.tabBarItem.badgeValue = (c > 0) ? String(c) : nil
                     }
                 }
                 let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {

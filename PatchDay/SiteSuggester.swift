@@ -19,14 +19,12 @@ internal class SiteSuggester {
         
         let indexIsInBounds = suggestedSiteIndex >= 0 && suggestedSiteIndex < scheduleSites.count
         if indexIsInBounds && siteIsAvailable(siteName: scheduleSites[suggestedSiteIndex], scheduleSites: scheduleSites, currentSites: currentSites) {
+            
             return suggestedSiteIndex
         }
+            
         else if let availableSiteIndex = getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: estrogenSite, scheduleSites: scheduleSites, currentSites: currentSites) {
             return availableSiteIndex
-        }
-        
-        if let unchangedScheduleIndex = scheduleSites.index(of: estrogenSite) {
-            return unchangedScheduleIndex
         }
         
         return nil
@@ -47,6 +45,7 @@ internal class SiteSuggester {
     private static func siteIsAvailable(siteName: String, scheduleSites: [SiteName], currentSites: [SiteName]) -> Bool {
         let timesSiteAppearsInSchedule = howManyTimesSiteAppears(siteName: siteName, siteList: scheduleSites)
         let timesSiteAppearsInCurrent = howManyTimesSiteAppears(siteName: siteName, siteList: currentSites)
+        
         return timesSiteAppearsInCurrent < timesSiteAppearsInSchedule
     }
 
