@@ -17,7 +17,7 @@ internal class PDAlertController {
     
     // MARK: - Changing count
     
-    // This will only be called when the user decreases the delivery count and the patches being removed had data.
+    /// Safety alert for changing the count of estrogens causing a loss of data.
     internal static func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton, navController: UINavigationController?) {
         if let newC = Int(newCount) {
             if (newC > oldCount) {
@@ -116,23 +116,6 @@ internal class PDAlertController {
         }
     }
     
-    // MARK: - Add new site alert
-    
-    internal static func alertForAddingNewSite(newSiteName: String) {
-        if let currentVC = getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.addSite.title, message: nil, preferredStyle: .actionSheet)
-            let yesAction = UIAlertAction(title: PDStrings.ActionStrings.yes, style: .default) {
-                (void) in
-                let order = ScheduleController.siteController.siteArray.count
-                let _ = SiteDataController.appendSite(name: newSiteName, order: order, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.persistentContainer.viewContext)
-            }
-            let noAction = UIAlertAction(title: PDStrings.ActionStrings.no, style: .default, handler: nil)
-            currentAlert.addAction(yesAction)
-            currentAlert.addAction(noAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
-        }
-    }
-    
     //MARK: - Core data errors
     
     internal static func alertForCoreDataError() {
@@ -160,7 +143,7 @@ internal class PDAlertController {
     
     // MARK: - private, getting current view
     
-    // get keywindow
+    /// Gets keywindow.
     private static func getKeyWindow() -> UIWindow {
         if let window = UIApplication.shared.keyWindow {
             return window
@@ -168,7 +151,7 @@ internal class PDAlertController {
         return UIWindow()
     }
     
-    // get rootvc
+    /// Gets root VC.
     private static func getRootVC() -> UIViewController? {
         let window = getKeyWindow()
         return window.rootViewController

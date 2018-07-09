@@ -84,12 +84,12 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    // Save Button
-    // 1.) Side effects related to schedule animation
-    // 2.) Save data
-    // 3.) Notification badge number config
-    // 4.) Segue back to the EstrogensVC
-    // 5.) Set site index
+    /** Save Button
+       1.) Side effects related to schedule animation
+       2.) Save data
+       3.) Notification badge number config
+       4.) Segue back to the EstrogensVC
+       5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
         
         // Save + badge icon
@@ -173,9 +173,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         siteTextHasChanged = true
         chooseSiteButton.isHidden = false
         typeSiteButton.isEnabled = true
-        if let newSiteName = chooseSiteButton.text {
-              PDAlertController.alertForAddingNewSite(newSiteName: newSiteName)
-        }
         saveButton.isEnabled = true
         return true
         
@@ -300,7 +297,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         estrogenScheduleIndex = to
     }
     
-    // Saves any changed attributes.
+    /// Saves any changed attributes.
     private func saveAttributes() {
 
         // Save site
@@ -361,7 +358,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return 0
     }
     
-    // Sets titles related to the estrogen's expiration date.
+    /// Sets titles related to the estrogen's expiration date.
     private func setUpLabelsInUI() {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         var exp = ""
@@ -389,13 +386,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    // Returns UIDatePicker start-x value based on on whether iphone or ipad.
+    /// Returns UIDatePicker start-x value based on on whether iphone or ipad.
     private func configureDatePickerStartX() -> CGFloat {
         let dim = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 0 : view.frame.width/2.8
         return dim
     }
     
-    // Makes done button for editing state.
+    /// Makes done button for editing state.
     private func makeDoneButton() -> UIButton {
         let donePoint = CGPoint(x: configureDoneButtonStartX(), y: 0)
         let doneSize = CGSize(width: 100, height: 50)
@@ -409,7 +406,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
     }
     
-    // Configured title of view controller
+    /// Configured title of view controller
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
             let patch = PDStrings.DeliveryMethods.patch
@@ -418,7 +415,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    // Gives start x for date picker Done button depending on iPad vs iPhone.
+    /// Gives start x for date picker Done button depending on iPad vs iPhone.
     private func configureDoneButtonStartX() -> CGFloat {
         let x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? (view.frame.size.width/2) - 50 : 0
         return x

@@ -46,9 +46,9 @@ public struct PillAttributes {
 
 public class PDPillsHelper: NSObject {
     
-    // Returns the total count of due.  Is due means:
-    // 1.) Past the due time today and
-    // 2.) Taken before today.
+    /** Returns the total count of due.  Is due means:
+       1.) Past the due time today and
+       2.) Taken before today. */
     public static func totalDue(timesTakensToday: [Int], nextDueDates: [Date]) -> Int {
         var total = 0
         let min_count = min(timesTakensToday.count, nextDueDates.count)
@@ -63,7 +63,7 @@ public class PDPillsHelper: NSObject {
         return total
     }
     
-    // Return the next time the pill is due.
+    /// Return the next time the pill is due.
     public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [NSDate?]) -> Date? {
         if times.count > 0, let nstime1 = times[0] {
             let time1 = nstime1 as Time

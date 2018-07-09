@@ -51,14 +51,14 @@ public class SiteDataController {
         }).filter() { $0 != nil } as! [SiteName]
     }
     
-    // This function returns the set of sites on record union with the set of default sites
+    /// Returns the set of sites on record union with the set of default sites
     public func siteNameSetUnionDefaultSites() -> SiteNameSet {
         let defaultSitesSet = (UserDefaultsController.usingPatches()) ? Set(PDStrings.SiteNames.patchSiteNames) : Set(PDStrings.SiteNames.injectionSiteNames)
         let siteSet = Set(getSiteNames())
         return siteSet.union(defaultSitesSet)
     }
     
-    // Returns the MOSite for the given name.
+    /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
     internal func getSite(for name: String) -> MOSite? {
         if let index = ScheduleController.siteController.getSiteNames().index(of: name) {
             return siteArray[index]
@@ -106,7 +106,7 @@ public class SiteDataController {
         
     }
     
-    // Returns if the sites in the site schedule are the same as the default sites.
+    /// Returns if the sites in the site schedule are the same as the default sites.
     public func isDefault() -> Bool {
         let defaultSites = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
         let c = defaultSites.count
@@ -146,7 +146,7 @@ public class SiteDataController {
         return from.filter() { $0.getName() != "" && $0.getName() != nil && $0.getOrder() != -1 }
     }
     
-    /* For when the user switches delivery methods:
+    /** For when the user switches delivery methods:
      Resets SiteMOs to the default orders based on
      the new delivery method. */
     internal static func switchDefaultSites(deliveryMethod: String, sites: inout [MOSite], into context: NSManagedObjectContext) {
@@ -174,7 +174,7 @@ public class SiteDataController {
         saveContext(context)
     }
     
-    // Appends the the new site to the siteArray and returns it.
+    /// Appends the the new site to the siteArray and returns it.
     internal static func appendSite(name: String, order: Int, sites: inout [MOSite], into context: NSManagedObjectContext) -> MOSite? {
         if let sitemo = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: context) as? MOSite {
             sitemo.setName(to: name)
@@ -187,7 +187,7 @@ public class SiteDataController {
     
     // MARK: Private
     
-    // Generates a generic list of MOSites when there are none in store.
+    /// Generates a generic list of MOSites when there are none in store.
     private static func newSiteMOs(into context: NSManagedObjectContext) -> [MOSite] {
         var generatedSiteMOs: [MOSite] = []
         var names = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
@@ -203,7 +203,7 @@ public class SiteDataController {
     }
     
     
-    // For bringing persisted MOSites into memory when starting the app.
+    /// For bringing persisted MOSites into memory when starting the app.
     private static func loadSiteMOs(into context: NSManagedObjectContext) -> [MOSite] {
         let fetchRequest = NSFetchRequest<MOSite>(entityName: PDStrings.CoreDataKeys.siteEntityName)
         fetchRequest.propertiesToFetch = PDStrings.CoreDataKeys.sitePropertyNames

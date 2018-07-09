@@ -27,11 +27,18 @@ public class EstrogenDataController {
             estrogenArray = EstrogenDataController.newEstrogenMOs(from: context)
         }
         estrogenArray.sort(by: <)
+        
+        
+        if UserDefaultsController.needsMigration() {
+            let migrater = PDDataMigrater(container: ScheduleController.persistentContainer)
+            migrater.migrate(newEstros: &estrogenArray, into: context)
+        }
+        
     }
     
     // MARK: - Public
     
-    // Returns the MOEstrogen for the given index or creates one where one should be.
+    /// Returns the MOEstrogen for the given index or creates one where one should be.
     internal func getEstrogenMO(at index: Index) -> MOEstrogen? {
         if index < 0 || index > 4 {
             return nil
@@ -112,7 +119,7 @@ public class EstrogenDataController {
         return nil
     }
     
-    // Returns the number of non-nil dates in given estrogens.
+    /// Returns the total non-nil dates in given estrogens.
     internal func datePlacedCount() -> Int {
         return estrogenArray.reduce(0, {
             count, estro in
@@ -146,8 +153,8 @@ public class EstrogenDataController {
         return hasNoDates() && hasNoLocations()
     }
     
+    /// Returns if each MOEstrogen fromThisIndexOnward is empty.
     public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
-        // returns true if each MOEstrogen fromThisIndexOnward is empty
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
                 if i >= 0 && i < estrogenArray.count {
@@ -161,7 +168,7 @@ public class EstrogenDataController {
         return true
     }
     
-    // Returns how many expired estrogens there are in the given estrogens.
+    /// Returns how many expired estrogens there are in the given estrogens.
     public func expiredCount(_ intervalStr: String) -> Int {
         return estrogenArray.reduce(0, {
             count, estro in
@@ -172,7 +179,7 @@ public class EstrogenDataController {
     
     // MARK: - Private
     
-    // Brings persisted MOEstrogenDeliveries into memory when starting the app.
+    /// Brings persisted MOEstrogenDeliveries into memory when starting the app.
     private static func loadEstrogenMOs(from context: NSManagedObjectContext) -> [MOEstrogen]? {
         let fetchRequest = NSFetchRequest<MOEstrogen>(entityName: PDStrings.CoreDataKeys.estroEntityName)
         fetchRequest.propertiesToFetch = PDStrings.CoreDataKeys.estroPropertyNames()
@@ -190,7 +197,7 @@ public class EstrogenDataController {
         return nil
     }
     
-    // Initializes a generic MOEstrogen when there is none in store.
+    /// Initializes a generic MOEstrogen when there is none in store.
     private static func newEstrogenMOs(from context: NSManagedObjectContext) -> [MOEstrogen] {
         let entityName = PDStrings.CoreDataKeys.estroEntityName
         var estros: [MOEstrogen] = []
@@ -207,7 +214,7 @@ public class EstrogenDataController {
         return estros
     }
     
-    // Statically create a new MOEstrogen.
+    /// Statically create a new MOEstrogen.
     private static func newEstrogenMO(in context: NSManagedObjectContext) -> MOEstrogen {
         let entityName = PDStrings.CoreDataKeys.estroEntityName
         if let estro = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context) as? MOEstrogen {
@@ -221,7 +228,7 @@ public class EstrogenDataController {
         }
     }
     
-    // Creates a new MOEstrogen and appends it to the estrogenArray.
+    /// Creates a new MOEstrogen and appends it to the estrogenArray.
     private func createNewEstrogenMO(in context: NSManagedObjectContext) -> MOEstrogen {
         let newEstro = EstrogenDataController.newEstrogenMO(in: context)
         estrogenArray.append(newEstro)
@@ -230,14 +237,14 @@ public class EstrogenDataController {
         return newEstro
     }
     
-    // Set UUId for estro if there is none
+    /// Set UUId for estro if there is none.
     private static func initID(for estro: MOEstrogen) {
         if estro.getID() == nil {
             estro.setID(with: UUID())
         }
     }
     
-    // Sets UUID for estros if there is none
+    /// Sets UUID for estros if there is none.
     private static func initIDs(for estros: [MOEstrogen]) {
         for estro in estros {
             initID(for: estro)

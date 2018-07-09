@@ -33,7 +33,7 @@ internal class SiteSuggester {
     
     // MARK: - private
 
-    // Returns the number of times a given site appears in the current sites.
+    /// Returns the number of times a given site appears in the current sites.
     private static func howManyTimesSiteAppears(siteName: String, siteList: [String]) -> Int {
         return siteList.reduce(0, {
             count, word in
@@ -49,7 +49,7 @@ internal class SiteSuggester {
         return timesSiteAppearsInCurrent < timesSiteAppearsInSchedule
     }
 
-    // Picks the next available open default site starting at the index of current site.
+    /// Picks the next available open default site starting at the index of current site.
     private static func getNextSiteIndexInScheduleThatIsAvailable(afterCurrentSite: String, scheduleSites: [SiteName], currentSites: [SiteName]) -> Int? {
         let availableSites = scheduleSites.filter() {
             siteIsAvailable(siteName: $0, scheduleSites: scheduleSites, currentSites: currentSites)

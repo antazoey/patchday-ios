@@ -33,9 +33,9 @@ public class ScheduleController: NSObject {
         return container
     }()
     
-    /***********************************************************
-    for button animation algorithm : knowing which buttons to animate when loading EstrogensVC
-    ***********************************************************/
+    /**
+    For knowing which estrogen buttons to animate when loading EstrogensVC.
+    */
     internal static var animateScheduleFromChangeDelivery: Bool = false
     internal static var increasedCount: Bool = false
     internal static var decreasedCount: Bool = false
@@ -76,18 +76,10 @@ public class ScheduleController: NSObject {
     public static func totalDue() -> Int {
         return totalEstrogenDue() + totalPillsDue()
     }
- 
-    /* 1.) Loop throug the Estrogen Delivery MOs
-       2.) Get the site index for each Estrogen Delivery getLocation()
-       3.) Make sure i is a valid index for the Site Schedule Array
-       4.) If site index from step 2 is not equal to i, that means
-              we should readjust.
-    
-    */
-    
-    /*************************************************************
+
+    /**
      ANIMATION ALGORITHM
-     *************************************************************/
+     */
     public static func shouldAnimate(estrogenIndex: Index, newBG: UIImage, estrogenController: EstrogenDataController) -> Bool {
         
         /* -- Reasons to Animate -- */

@@ -54,10 +54,6 @@ public class EstrogenSchedule {
         return nil
     }
 
-    
-    // M
-
-    
     public func oldestEstroHasNoDateAndIsCustomLocated() -> Bool {
         if let oldestEstro = oldestEstro() {
             return oldestEstro.getDate() == nil && oldestEstro.isCustomLocated()

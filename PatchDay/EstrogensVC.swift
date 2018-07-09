@@ -64,7 +64,7 @@ class EstrogensVC: UIViewController {
         estrogenCount = UserDefaultsController.getQuantityInt()
         displayEstrogenButtons()
         // alert for disclaimer and tutorial on first start up
-        if !UserDefaultsController.getMentionedDisclaimer() {
+        if !UserDefaultsController.mentionedDisclaimer() {
             PDAlertController.alertForDisclaimerAndTutorial()
             UserDefaultsController.setMentionedDisclaimer(to: true)
         }
@@ -89,8 +89,8 @@ class EstrogensVC: UIViewController {
 
     // MARK: - updating from background
     
+    /// Updates the estrogen buttons when VC is reloaded from a notification.
     internal func updateFromBackground() {
-        // this part is for updating the patch buttons when VC is reloaded from a notification
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     
@@ -100,14 +100,14 @@ class EstrogensVC: UIViewController {
  
     // MARK: private display funcs
     
-    // Configured title of view controller
+    /// Configures title of view controller.
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
             title = (UserDefaultsController.usingPatches()) ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
         }
     }
     
-    // Displays injection button with appropriate image and data.
+    /// Displays injection button with appropriate image and data.
     private func displayInjection(views: [UIView], firstImg: UIImageView, firstButton: MFBadgeButton) {
         scheduleStack.removeArrangedSubview(views[1])
         scheduleStack.removeArrangedSubview(views[2])
@@ -119,7 +119,7 @@ class EstrogensVC: UIViewController {
         makeEstrogenButton(estrogenButton: firstButton, on: views[0], imageView: firstImg, isBlue: true, estrogenIndex: 0)
     }
     
-    // Displays patch button with approrpiate image and data.
+    /// Displays patch button with approrpiate image and data.
     private func displayPatches(views: [UIView], buttons: [MFBadgeButton], imageViews: [UIImageView], isBlueDict: Dictionary<Int, Bool>) {
         scheduleStack.addArrangedSubview(views[1])
         scheduleStack.addArrangedSubview(views[2])
@@ -135,7 +135,7 @@ class EstrogensVC: UIViewController {
         }
     }
     
-    // Displays the buttons representing the estrogens.
+    /// Displays the buttons representing the estrogens.
     private func displayEstrogenButtons() {
         let buttons: [MFBadgeButton] = [estrogenOneButton, estrogenTwoButton, estrogenThreeButton, estrogenFourButton]
         let views: [UIView] = [estrogenViewOne, estrogenViewTwo, estrogenViewThree, estrogenViewFour]
@@ -158,7 +158,7 @@ class EstrogensVC: UIViewController {
         ScheduleController.onlySiteChanged = false
     }
     
-    // Returns the font with appropriate size for estrogen button expiration date titles.
+    /// Returns the font with appropriate size for estrogen button expiration date titles.
     private func determineExpirationDateFont() -> UIFont {
         // iPad
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) {
@@ -171,7 +171,7 @@ class EstrogensVC: UIViewController {
         return UIFont.systemFont(ofSize: 12)
     }
     
-    // Animates the making of an estrogen button if there were estrogen data changes.
+    /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(_ imageView: UIImageView, button: MFBadgeButton, newImage: UIImage, newTitle: String, expirationDateFont: UIFont, at index: Index) -> Bool {
         if ScheduleController.shouldAnimate(estrogenIndex: index, newBG: newImage, estrogenController: ScheduleController.estrogenController) {
             
@@ -190,7 +190,7 @@ class EstrogensVC: UIViewController {
         return false
     }
     
-    // Generates an estrogen button reflecting the user's schedule.
+    /// Generates an estrogen button reflecting the user's schedule.
     private func makeEstrogenButton(estrogenButton: MFBadgeButton, on view: UIView, imageView: UIImageView, isBlue: Bool, estrogenIndex: Int) {
         
         estrogenButton.isHidden = false
@@ -218,7 +218,7 @@ class EstrogensVC: UIViewController {
         }
     }
     
-    // Determine the start of the week title for a schedule button.
+    /// Determines the start of the week title for a schedule button.
     private func determineEstrogenButtonTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
         var title: String = ""
         if let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex) {
@@ -236,7 +236,7 @@ class EstrogensVC: UIViewController {
         return ""
     }
     
-    // Disables and hides the unused esrtogen button stacks.
+    /// Disables and hides the unused esrtogen button stacks.
     private func disableUnusedEstrogenButtons(count: Int) {
         
         let buttons = [estrogenFourButton, estrogenThreeButton, estrogenTwoButton]
@@ -271,7 +271,7 @@ class EstrogensVC: UIViewController {
         }
     }
     
-    // Returns the site-reflecting estrogen button image to the corresponding index.
+    /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineEstrogenButtonImage(index: Index, button: MFBadgeButton) -> UIImage {
         let usingPatches: Bool = UserDefaultsController.usingPatches()
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection

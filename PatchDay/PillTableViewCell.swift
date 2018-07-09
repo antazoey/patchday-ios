@@ -18,7 +18,7 @@ class PillTableViewCell: UITableViewCell {
     @IBOutlet weak var lastTakenLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!
     
-    // Set the "last taken" label to the curent date as a string.
+    /// Set the "last taken" label to the curent date as a string.
     public func stamp() {
         lastTakenLabel.text = PDDateHelper.format(date: Date(), useWords: true)
     }

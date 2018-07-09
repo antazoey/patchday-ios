@@ -63,7 +63,7 @@ public class PillDataController {
         return newPill
     }
     
-    // Set's a given MOPill with the given PillAttributes.
+    /// Sets a given MOPill with the given PillAttributes.
     internal static func setPillAttributes(for pill: MOPill, with attributes: PillAttributes) {
         
         if let name = attributes.name {
@@ -108,7 +108,7 @@ public class PillDataController {
         PillDataController.saveContext(ScheduleController.persistentContainer.viewContext)
     }
     
-    // Maps MOPills to their last time takens.
+    /// Maps MOPills to their last time takens.
     internal func getPillTimesTakens() -> [Int] {
         return pillArray.map({
             (pill: MOPill) -> Int16? in
@@ -121,7 +121,7 @@ public class PillDataController {
             })
     }
     
-    // Maps MOPills to their next relevant due times.
+    /// Maps MOPills to their next relevant due times.
     internal func getNextPillDueDates() -> [Date] {
         return pillArray.map({
             (pill: MOPill) -> Time? in
@@ -150,7 +150,7 @@ public class PillDataController {
     
     // MARK: - Private
     
-    // For bringing persisted MOPills into memory when starting the app.
+    /// For bringing persisted MOPills into memory when starting the app.
     private static func loadPillMOs(into context: NSManagedObjectContext) -> [MOPill] {
         let fetchRequest = NSFetchRequest<MOPill>(entityName: PDStrings.CoreDataKeys.pillEntityName)
         fetchRequest.propertiesToFetch = PDStrings.CoreDataKeys.pillPropertyNames
@@ -165,7 +165,7 @@ public class PillDataController {
         return []
     }
     
-    // Generates a generic list of MOSites when there are none in store.
+    /// Generates a generic list of MOSites when there are none in store.
     private static func newPillMOs(into context: NSManagedObjectContext) -> [MOPill] {
         var generatedPillMOs: [MOPill] = []
         var names = PDStrings.PillTypes.defaultPills
@@ -195,7 +195,7 @@ public class PillDataController {
         saveContext(context)
     }
     
-    // Creates a new Pill with the given attributes and appends it to the schedule.
+    /// Creates a new Pill with the given attributes and appends it to the schedule.
     private static func appendNewPill(to pills: inout [MOPill], using attributes: PillAttributes, into context: NSManagedObjectContext) -> MOPill? {
         if let pill = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.pillEntityName, into: context) as? MOPill {
             setPillAttributes(for: pill, with: attributes)

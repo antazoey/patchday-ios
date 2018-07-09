@@ -76,7 +76,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
  }
     
     override func viewWillAppear(_ animated: Bool) {
-        // Set animation related Var
         ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
     }
       
@@ -129,7 +128,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return 1
     }
     
-    // NUM OF ROWS...
+    /// Row count.
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         var numberOfRows = 0;
         
@@ -151,7 +150,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
     }
     
-    // ROW TITLES...
+    /// Row titles.
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title = " "
         if let key = getWhichTapped(){
@@ -184,13 +183,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         selectedRow = row
     }
     
+    /** Selector method for openOrClose(picker, buttonTapped, selections)
+     // -- loads proper UI elements specific to each picker
+     // -- hides everything that is not that picker
+     
+     // key is either "interval" , "count" , "notifications" */
     private func openOrClosePicker(key: SettingsKey) {
-        
-        // Selector method for openOrClose(picker, buttonTapped, selections)
-        // -- loads proper UI elements specific to each picker
-        // -- hides everything that is not that picker
-        
-        // key is either "interval" , "count" , "notifications"
         
         // change member variable for determining correct picker
         setWhichTapped(to: key)
@@ -217,10 +215,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    // Select the button,
-    // And for count, set global variable necessary for animation,
-    // And close the picker,
-    // Then, save newly set User Defaults
+    /** Select the button,
+       And for count, set global variable necessary for animation,
+       And close the picker,
+       Then, save newly set User Defaults */
     private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView,_ key: SettingsKey) {
         buttonTapped.isSelected = false
         picker.isHidden = true
@@ -336,7 +334,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
  
-    // Saves values from pickers (NOT a function for TimePickers though).
+    /// Saves values from pickers (NOT a function for TimePickers though).
     private func saveFromPicker(_ key: SettingsKey) {
         if let row = selectedRow {
             
@@ -376,7 +374,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction private func countButtonTapped(_ sender: Any) {
-        // change member variable for determining correct picker
         openOrClosePicker(key: PDStrings.SettingsKey.count)
     }
     
@@ -391,7 +388,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         else {
             disableNotificationButtons()
         }
-        UserDefaultsController.setRemindMeUpon(to: shouldReceive)       // save
+        UserDefaultsController.setNotify(to: shouldReceive)       // save
     }
     
     // MARK: - Setters and getters

@@ -10,7 +10,7 @@ public typealias Time = Date
 
 public class PDDateHelper: NSObject {
     
-    // Returns the day of the week, such as "Tuesday"
+    /// Returns the day of the week, such as "Tuesday"
     public static func dayOfWeekString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         if let word = dateWord(from: date) {
@@ -21,7 +21,7 @@ public class PDDateHelper: NSObject {
         return dateFormatter.string(from: date)
     }
     
-    // Returns word of date, such as "Tomorrow"
+    /// Returns word of date, such as "Tomorrow"
     public static func dateWord(from: Date) -> String? {
         let calendar = Calendar.current
         if calendar.isDateInToday(from) {
@@ -36,7 +36,7 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
-    // Returns date calculated by adding days.
+    /// Returns date calculated by adding days.
     public static func getDate(at: Time, daysToAdd: Int) -> Date? {
         let calendar = Calendar.current
         var addComponents = DateComponents()
@@ -56,17 +56,17 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
-    // Returns if the given date is behind us.
+    /// Returns if the given date is behind us.
     public static func isInPast(this: Date) -> Bool {
         return this < Date()
     }
     
-    // Returns whether the date is in today.
+    /// Returns whether the date is in today.
     public static func dateIsInToday(_ date: Date) -> Bool {
         return Calendar.current.isDate(date, inSameDayAs: Date())
     }
     
-    // Returns today's date with the given time.
+    /// Returns today's date with the given time.
     public static func getTodayDate(at: Time) -> Date? {
         let calendar = Calendar.current
         let now = Date()
@@ -83,7 +83,7 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
-    // Converts an interval string into the number of hours, defaults to 3.5 days.
+    /// Converts an interval string into the number of hours, defaults to 3.5 days.
     public static func calculateHours(of intervalStr: String) -> Int {
         var numberOfHours: Int
         switch intervalStr {
@@ -97,7 +97,7 @@ public class PDDateHelper: NSObject {
         return numberOfHours
     }
     
-    // Gives the future date from the given one based on the given interval string.
+    /// Gives the future date from the given one based on the given interval string.
     public static func expirationDate(from date: Date, _ intervalStr: String) -> Date? {
         let hours: Int = calculateHours(of: intervalStr)
         let calendar = Calendar.current
@@ -107,7 +107,7 @@ public class PDDateHelper: NSObject {
         return expDate
     }
     
-    // Returns the TimeInterval until expiration based on given
+    /// Returns the TimeInterval until expiration based on given
     public static func expirationInterval(_ intervalStr: String, date: Date) -> TimeInterval? {
         if let expDate = expirationDate(from: date, intervalStr) {
             let now = Date()
@@ -123,14 +123,14 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
-    // Input time, output time string
+    /// Gives String for the given Time.
     public static func format(time: Time) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         return dateFormatter.string(from: time)
     }
     
-    // Input time, output date string
+    // Gives String for the given Date.
     public static func format(date: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
         if useWords, let word = dateWord(from: date) {
@@ -140,6 +140,5 @@ public class PDDateHelper: NSObject {
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: date)
     }
-    
     
 }

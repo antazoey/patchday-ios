@@ -22,11 +22,12 @@ public class UserDefaultsController: NSObject {
     internal static var quantity: String =  PDStrings.PickerData.counts[3]
     
     // Notification defaults:
-    private static var remindMeUpon = false
+    private static var notifications = false
     private static var reminderTime: String = PDStrings.PickerData.notificationTimes[0]
     
     // Rememberance
-    private static var mentionedDisclaimer = false
+    private static var mentionedAppDisclaimer = false
+    private static var needsDataMigration = true
     private static var siteIndex = 0
 
     // MARK: - a static initializer
@@ -39,6 +40,7 @@ public class UserDefaultsController: NSObject {
         loadRemindUpon()
         loadMentionedDisclaimer()
         loadSiteIndex()
+        loadNeedsMigration()
     }
     
     // MARK: - Getters
@@ -69,7 +71,7 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func getNotificationTimeInt() -> Int {
-        // remove word "minutes"
+        // Remove word "minutes"
         let min: String = cutNotificationMinutes(of: reminderTime)
         if let int = Int(min) {
             return int
@@ -80,7 +82,7 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func getNotificationTimeDouble() -> Double {
-        // remove word "minutes"
+        // Remove word "minutes"
         let min: String = cutNotificationMinutes(of: reminderTime)
         if let double = Double(min) {
             return double
@@ -91,15 +93,19 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func getRemindMeUpon() -> Bool {
-        return remindMeUpon
+        return notifications
     }
 
-    public static func getMentionedDisclaimer() -> Bool {
-        return mentionedDisclaimer
+    public static func mentionedDisclaimer() -> Bool {
+        return mentionedAppDisclaimer
     }
     
     public static func getSiteIndex() -> Int {
         return siteIndex
+    }
+    
+    public static func needsMigration() -> Bool {
+        return needsDataMigration
     }
     
     // MARK: - Setters
@@ -121,9 +127,9 @@ public class UserDefaultsController: NSObject {
         defaults.set(to, forKey: PDStrings.SettingsKey.interval.rawValue)
     }
     
-    /******************************************************************
-    setQuantityWithWarning(to, oldCount, countButton) : Will warn the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user has is decreasing the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
-    *****************************************************************/
+    /**
+    Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user has is decreasing the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
+    */
     public static func setQuantityWithWarning(to newQuantity: String, oldCount: Int, countButton: UIButton, navController: UINavigationController?) {
         ScheduleController.oldDeliveryCount = oldCount
         if let newCount = Int(newQuantity), isAcceptable(count: newCount) {
@@ -152,32 +158,37 @@ public class UserDefaultsController: NSObject {
         }
     }
     
-    public static func setQuantityWithoutWarning(to: String) {
+    public static func setQuantityWithoutWarning(to quantityStr: String) {
         // sets if greater than 0 and less than 5 first.
-        if let newCount = Int(to), isAcceptable(count: newCount) {
-            quantity = to
-            defaults.set(to, forKey: PDStrings.SettingsKey.count.rawValue)
+        if let newCount = Int(quantityStr), isAcceptable(count: newCount) {
+            quantity = quantityStr
+            defaults.set(quantityStr, forKey: PDStrings.SettingsKey.count.rawValue)
         }
     }
     
-    public static func setNotificationOption(to: String) {
-        reminderTime = to
-        defaults.set(to, forKey: PDStrings.SettingsKey.notif.rawValue)
+    public static func setNotificationOption(to option: String) {
+        reminderTime = option
+        defaults.set(option, forKey: PDStrings.SettingsKey.notif.rawValue)
     }
     
-    public static func setRemindMeUpon(to: Bool) {
-        remindMeUpon = to
-        defaults.set(to, forKey: PDStrings.SettingsKey.remind.rawValue)
+    public static func setNotify(to notify: Bool) {
+        notifications = notify
+        defaults.set(notify, forKey: PDStrings.SettingsKey.remind.rawValue)
     }
 
-    public static func setMentionedDisclaimer(to: Bool) {
-        mentionedDisclaimer = to
-        defaults.set(to, forKey: PDStrings.SettingsKey.setup.rawValue)
+    public static func setMentionedDisclaimer(to disclaimer: Bool) {
+        mentionedAppDisclaimer = disclaimer
+        defaults.set(disclaimer, forKey: PDStrings.SettingsKey.setup.rawValue)
     }
     
     public static func setSiteIndex(to: Int) {
         siteIndex = to
         defaults.set(to, forKey: PDStrings.SettingsKey.site_index.rawValue)
+    }
+    
+    public static func migrated() {
+        needsDataMigration = false
+        defaults.set(false, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
     }
     
     public static func incrementSiteIndex() {
@@ -242,16 +253,16 @@ public class UserDefaultsController: NSObject {
     
     private static func loadRemindUpon() {
         if let notifyMe = defaults.object(forKey: PDStrings.SettingsKey.remind.rawValue) as? Bool {
-            remindMeUpon = notifyMe
+            notifications = notifyMe
         }
         else {
-            setRemindMeUpon(to: true)
+            setNotify(to: true)
         }
     }
 
     private static func loadMentionedDisclaimer() {
         if let mentioned = defaults.object(forKey: PDStrings.SettingsKey.setup.rawValue) as? Bool {
-            mentionedDisclaimer = mentioned
+            mentionedAppDisclaimer = mentioned
         }
     }
     
@@ -264,14 +275,20 @@ public class UserDefaultsController: NSObject {
         }
     }
     
+    private static func loadNeedsMigration() {
+        if let needs = defaults.object(forKey: PDStrings.SettingsKey.needs_migrate.rawValue) as? Bool {
+            needsDataMigration = needs
+        }
+    }
+    
     // MARK: - helpers
     
+    /// Checks to see if count is reasonable for PatchDay
     private static func isAcceptable(count: Int) -> Bool {
-        // checks to see if count is reasonable for PatchDay
         return (count > 0) && (count <= 4)
     }
     
-    // cutNotificationMinutes(of) : remove the word "minutes" from the notification option
+    /// Removes the word "minutes" from the notification option
     private static func cutNotificationMinutes(of: String) -> String {
         var builder = ""
         for c in of {

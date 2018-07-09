@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setBadge(with: ScheduleController.totalDue())
     }
     
-    // Sets the App badge number to the expired estrogen count + the total pills due for taking.
+    /// Sets the App badge number to the expired estrogen count + the total pills due for taking.
     private func setBadge(with newBadgeNumber: Int) {
         UIApplication.shared.applicationIconBadgeNumber = newBadgeNumber
     }

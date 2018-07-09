@@ -182,8 +182,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    /// Updates the pill views when VC is reloaded from a notification.
     internal func updateFromBackground() {
-        // this part is for updating the pill views when VC is reloaded from a notification
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
     }
     

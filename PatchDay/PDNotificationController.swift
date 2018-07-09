@@ -71,10 +71,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
 
     // MARK: - notifications
     
-    /****************************************************
-     requestNotifiyExpired(mode) : For expired patches or injection.
-     ****************************************************/
-    
+    /**
+     Notification for expired patches or injection.
+     */
     private func determineEstrogenNotificationTitle(usingPatches: Bool, notifyTime: Double) -> String {
         let options = (usingPatches) ? [PDStrings.NotificationStrings.Titles.patchExpired, PDStrings.NotificationStrings.Titles.patchExpires] :
             [PDStrings.NotificationStrings.Titles.injectionExpired, PDStrings.NotificationStrings.Titles.injectionExpires]
@@ -133,6 +132,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             }
             content.sound = UNNotificationSound.default()
             content.badge = ScheduleController.totalDue() + 1 as NSNumber
+            content.categoryIdentifier = pillCategoryID
             let interval = dueDate.timeIntervalSince(now)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
             let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)

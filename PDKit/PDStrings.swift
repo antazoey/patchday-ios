@@ -224,9 +224,7 @@ public class PDStrings {
         }
     }
     
-    /**********************************
-        NON-LOCALIZABLE
-     **********************************/
+    // Non-Localizable
     
     // MARK: - Core data keys
     
@@ -249,6 +247,7 @@ public class PDStrings {
         case remind = "remindMeUpon"
         case setup = "mentioned"
         case site_index = "site_i"
+        case needs_migrate = "nmig"
     }
     
     public struct TodayKeys {

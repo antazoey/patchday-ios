@@ -128,7 +128,7 @@ extension MOPill {
     
     // MARK: - Maintenance
     
-    // Fixes issue when timesTakenToday is lying (start of next day).
+    /// Fixes issue when timesTakenToday is lying (start of next day).
     public func fixTakenToday() {
         if timesTakenToday > 0, let lastDate = getLastTaken(), !PDDateHelper.dateIsInToday(lastDate as Date) {
             timesTakenToday = 0
