@@ -51,8 +51,6 @@ class EstrogensVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogenOneButton.badgeValue = "1"
-        estrogenOneButton.drawBadgeLayer()
         loadTitle()
         updateFromBackground()
         view.backgroundColor = PDColors.pdLighterCuteGray
@@ -261,16 +259,6 @@ class EstrogensVC: UIViewController {
         }
     }
     
-    private func drawBadge(on button: MFBadgeButton, using estrogen: MOEstrogen, intervalStr: String) {
-        button.badgeValue = "  "
-        if estrogen.isExpired(intervalStr) {
-            button.drawBadgeLayer()
-        }
-        else {
-            button.badgeValue = nil
-        }
-    }
-    
     /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineEstrogenButtonImage(index: Index, button: MFBadgeButton) -> UIImage {
         let usingPatches: Bool = UserDefaultsController.usingPatches()
@@ -287,7 +275,7 @@ class EstrogensVC: UIViewController {
             else if !estro.isEmpty(), let site = estro.getSite(), let siteName = site.getName() {
                 image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
             }
-            drawBadge(on: button, using: estro, intervalStr: intervalStr)
+            button.badgeValue = (estro.isExpired(intervalStr)) ? "!" : nil
         }
         return image
     }

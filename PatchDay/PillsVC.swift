@@ -60,7 +60,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 cell.backgroundColor = PDColors.pdLightBlue
             }
             if pill.isExpired() {
-                cell.stateImageButton.badgeValue = "  "
+                cell.stateImageButton.badgeValue = "!"
             }
             else {
                 cell.stateImageButton.badgeValue = nil

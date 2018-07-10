@@ -101,6 +101,15 @@ public class ScheduleController: NSObject {
         return (moreThanSiteChangedFromDetails || isChangedSiteFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
         
     }
-
+    
+    internal static func saveContext(_ context: NSManagedObjectContext) {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                PDAlertController.alertForCoreDataError()
+            }
+        }
+    }
 
 }

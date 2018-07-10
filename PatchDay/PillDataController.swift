@@ -90,13 +90,13 @@ public class PillDataController {
         if let id = attributes.id {
             pill.setID(with: id)
         }
-        PillDataController.saveContext(ScheduleController.persistentContainer.viewContext)
+        ScheduleController.saveContext(ScheduleController.persistentContainer.viewContext)
     }
     
     internal func setPillTime2(at index: Index, to newTime: Time) {
         if let pill = getPill(at: index) {
             pill.setTime2(with: newTime as NSDate)
-            PillDataController.saveContext(ScheduleController.persistentContainer.viewContext)
+            ScheduleController.saveContext(ScheduleController.persistentContainer.viewContext)
         }
     }
     
@@ -105,7 +105,7 @@ public class PillDataController {
             pillArray[index].reset()
         }
         pillArray = pillArray.filter() { $0.getName() != nil}
-        PillDataController.saveContext(ScheduleController.persistentContainer.viewContext)
+        ScheduleController.saveContext(ScheduleController.persistentContainer.viewContext)
     }
     
     /// Maps MOPills to their last time takens.
@@ -137,14 +137,14 @@ public class PillDataController {
     internal func takePill(at index: Index) {
         if let pill = getPill(at: index) {
             pill.take()
-            PillDataController.saveContext(context)
+            ScheduleController.saveContext(context)
             appDelegate.notificationsController.requestNotifyTakePill(pill)
         }
     }
     
     internal func take(_ pill: MOPill) {
         pill.take()
-        PillDataController.saveContext(context)
+        ScheduleController.saveContext(context)
         appDelegate.notificationsController.requestNotifyTakePill(pill)
     }
     

@@ -71,7 +71,7 @@ public class EstrogenDataController {
         
         if let estro = getEstrogenMO(at: index) {
             estro.setSite(with: site)
-            EstrogenDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
@@ -79,7 +79,7 @@ public class EstrogenDataController {
         if let estro = getEstrogenMO(at: index) {
             estro.setDate(with: date as NSDate)
             estrogenArray.sort(by: <)
-            EstrogenDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
@@ -88,7 +88,7 @@ public class EstrogenDataController {
             estro.setSite(with: site)
             estro.setDate(with: date)
             estrogenArray.sort(by: <)
-            EstrogenDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
@@ -97,7 +97,7 @@ public class EstrogenDataController {
             estro.setSite(with: site)
             estro.setDate(with: date)
             estrogenArray.sort(by: <)
-            EstrogenDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
@@ -105,7 +105,7 @@ public class EstrogenDataController {
         if index < estrogenArray.count && index >= 0 {
             estrogenArray[index] = estrogen
             estrogenArray.sort(by: <)
-            EstrogenDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
@@ -134,7 +134,7 @@ public class EstrogenDataController {
                 estro.reset()
             }
         }
-        EstrogenDataController.saveContext(context)
+        ScheduleController.saveContext(context)
     }
     
     public func hasNoDates() -> Bool {
@@ -251,13 +251,4 @@ public class EstrogenDataController {
         }
     }
     
-    internal static func saveContext(_ context: NSManagedObjectContext) {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                PDAlertController.alertForCoreDataError()
-            }
-        }
-    }
 }

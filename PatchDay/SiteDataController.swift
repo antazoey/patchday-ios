@@ -33,14 +33,14 @@ public class SiteDataController {
     internal func setSiteName(index: Index, to: String) {
         if index >= 0 && index < siteArray.count {
             siteArray[index].setName(to: to)
-            SiteDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
     internal func setSiteOrder(index: Index, to: Int16) {
         if index >= 0 && index < siteArray.count {
             siteArray[index].setOrder(to: to)
-            SiteDataController.saveContext(context)
+            ScheduleController.saveContext(context)
         }
     }
     
@@ -77,7 +77,7 @@ public class SiteDataController {
             }
         }
         siteArray = siteArray.filter() { $0.getOrder() != -1 && $0.getName() != ""}
-        SiteDataController.saveContext(context)
+        ScheduleController.saveContext(context)
     }
     
     internal func resetSiteData() {
@@ -102,7 +102,7 @@ public class SiteDataController {
         }
         siteArray = SiteDataController.filterEmptySites(from: siteArray)
         siteArray.sort(by: <)
-        SiteDataController.saveContext(context)
+        ScheduleController.saveContext(context)
         
     }
     

@@ -15,7 +15,7 @@ enum PDBadgeButtonType {
 
 class MFBadgeButton : UIButton {
     
-    public var type: PDBadgeButtonType = PDBadgeButtonType.patches
+    public var type: PDBadgeButtonType = .patches
     
     var badgeValue : String! = "" {
         didSet {
@@ -84,14 +84,16 @@ class MFBadgeButton : UIButton {
         shapeLayer.path = aPath.cgPath
         shapeLayer.fillColor = UIColor.red.cgColor
         shapeLayer.strokeColor = UIColor.red.cgColor
-        shapeLayer.lineWidth = 0.5
-        
+
         shapeLayer.insertSublayer(labelText, at: 0)
 
         switch type {
-        case .patches : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.66, dy: 20)
-        case .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.77, dy: 77)
-        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.66, dy: 41)
+        case .patches : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.67, dy: 23)
+            shapeLayer.lineWidth = 4
+        case .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.77, dy: 94)
+            shapeLayer.lineWidth = 10
+        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.71, dy: 41)
+            shapeLayer.lineWidth = 0.5
         }
         
         self.layer.insertSublayer(shapeLayer, at: 999)
