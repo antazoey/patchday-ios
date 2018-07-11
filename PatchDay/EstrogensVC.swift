@@ -56,8 +56,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let h = (UserDefaultsController.usingPatches()) ? 175 : view.frame.height * 0.8
-        return h
+        let h = view.frame.height
+        let cell_h = (UserDefaultsController.usingPatches()) ? h * 0.24 : h * 0.95
+        return cell_h
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

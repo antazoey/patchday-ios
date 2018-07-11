@@ -14,7 +14,8 @@ public class UserDefaultsController: NSObject {
     // Description: The UserDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.
     
     // App
-    private static var defaults = UserDefaults.standard
+    private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
+    private static var std_defaults = UserDefaults.standard
     
     // Schedule defaults:
     private static var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
@@ -208,34 +209,50 @@ public class UserDefaultsController: NSObject {
         if let dm = defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
             deliveryMethod = dm
         }
+        else if let dm = std_defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
+            deliveryMethod = dm
+        }
         else {
             setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
         }
     }
     
+    private static func loadTimeIntervalHelper(to interval: String) {
+        switch interval {
+        case "One half-week": timeInterval = PDStrings.PickerData.expirationIntervals[0]
+        case "One week": timeInterval = PDStrings.PickerData.expirationIntervals[1]
+        case "Two weeks": timeInterval = PDStrings.PickerData.expirationIntervals[2]
+        default: timeInterval = interval
+        }
+    }
+    
     private static func loadTimeInterval() {
         if let interval = defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
-            switch interval {
-            case "One half-week": timeInterval = PDStrings.PickerData.expirationIntervals[0]
-            case "One week": timeInterval = PDStrings.PickerData.expirationIntervals[1]
-            case "Two weeks": timeInterval = PDStrings.PickerData.expirationIntervals[2]
-            default: timeInterval = interval
-            }
+            loadTimeIntervalHelper(to: interval)
+        }
+        else if let interval = std_defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
+            loadTimeIntervalHelper(to: interval)
         }
         else {
             setTimeInterval(to: PDStrings.PickerData.expirationIntervals[0])
         }
     }
     
+    private static func loadQuantityHelper(countStr: String) {
+        if let countInt = Int(countStr), (countInt >= 1 || countInt <= 4) {
+            quantity = countStr
+        }
+        else {
+            setQuantityWithoutWarning(to: PDStrings.PickerData.counts[2])
+        }
+    }
+    
     private static func loadQuantity() {
         if let countStr = defaults.object(forKey: PDStrings.SettingsKey.count.rawValue) as? String {
-            // contrain patch count
-            if let countInt = Int(countStr), (countInt >= 1 || countInt <= 4) {
-                quantity = countStr
-            }
-            else {
-                setQuantityWithoutWarning(to: PDStrings.PickerData.counts[2])
-            }
+            loadQuantityHelper(countStr: countStr)
+        }
+        else if let countStr = std_defaults.object(forKey: PDStrings.SettingsKey.count.rawValue) as? String {
+            loadQuantityHelper(countStr: countStr)
         }
         else {
             setQuantityWithoutWarning(to: PDStrings.PickerData.counts[2])
@@ -244,6 +261,9 @@ public class UserDefaultsController: NSObject {
     
     private static func loadNotificationOption() {
         if let notifyTime = defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? String {
+            reminderTime = notifyTime
+        }
+        else if let notifyTime = std_defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? String {
             reminderTime = notifyTime
         }
         else {
@@ -255,13 +275,17 @@ public class UserDefaultsController: NSObject {
         if let notifyMe = defaults.object(forKey: PDStrings.SettingsKey.remind.rawValue) as? Bool {
             notifications = notifyMe
         }
+        else if let notifyMe = std_defaults.object(forKey: PDStrings.SettingsKey.remind.rawValue) as? Bool {
+            notifications = notifyMe
+        }
         else {
             setNotify(to: true)
         }
     }
 
+    // Note:  non-shared.
     private static func loadMentionedDisclaimer() {
-        if let mentioned = defaults.object(forKey: PDStrings.SettingsKey.setup.rawValue) as? Bool {
+        if let mentioned = std_defaults.object(forKey: PDStrings.SettingsKey.setup.rawValue) as? Bool {
             mentionedAppDisclaimer = mentioned
         }
     }
@@ -270,13 +294,17 @@ public class UserDefaultsController: NSObject {
         if let site_i = defaults.object(forKey: PDStrings.SettingsKey.site_index.rawValue) as? Int {
             siteIndex = site_i
         }
+        else if let site_i = std_defaults.object(forKey: PDStrings.SettingsKey.site_index.rawValue) as? Int {
+            siteIndex = site_i
+        }
         else {
             setSiteIndex(to: 0)
         }
     }
     
+    // Note: non-shared.
     private static func loadNeedsMigration() {
-        if let needs = defaults.object(forKey: PDStrings.SettingsKey.needs_migrate.rawValue) as? Bool {
+        if let needs = std_defaults.object(forKey: PDStrings.SettingsKey.needs_migrate.rawValue) as? Bool {
             needsDataMigration = needs
         }
     }
@@ -299,5 +327,5 @@ public class UserDefaultsController: NSObject {
         }
         return builder
     }
-
+    
 }
