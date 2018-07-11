@@ -9,7 +9,6 @@
 
 import Foundation
 import CoreData
-import PDKit
 
 extension MOEstrogen {
 
@@ -94,14 +93,11 @@ extension MOEstrogen {
         return date == nil && siteRelationship == nil
     }
     
-    public func isCustomLocated() -> Bool {
+    public func isCustomLocated(usingPatches: Bool) -> Bool {
         if let site = getSite(), let siteName = site.getName() {
-            if UserDefaultsController.usingPatches() {
-                return !PDStrings.SiteNames.patchSiteNames.contains(siteName)
-            }
-            else {
-                return !PDStrings.SiteNames.injectionSiteNames.contains(siteName)
-            }
+            let contains: Bool = (usingPatches) ? PDStrings.SiteNames.patchSiteNames.contains(siteName) :
+            PDStrings.SiteNames.injectionSiteNames.contains(siteName)
+            return !contains
         }
         return false
     }

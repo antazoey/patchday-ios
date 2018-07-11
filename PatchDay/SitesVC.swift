@@ -19,12 +19,11 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = { return UIFont.systemFont(ofSize: 39)}()
     
     // Variables
-    public var siteNames: [String] = ScheduleController.siteController.getSiteNames()
+    public var siteNames: [String] = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
     private var selected: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = PDStrings.VCTitles.sites
         siteTable.delegate = self
         siteTable.dataSource = self
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
@@ -36,8 +35,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        siteNames = ScheduleController.siteController.getSiteNames()
+        siteNames = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
         siteTable.reloadData()
+        setTitle()
         swapVisibilityOfCellFeatures(shouldHide: false)
     }
     
@@ -174,7 +174,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         ScheduleController.siteController.resetSiteData()
-        siteNames = ScheduleController.siteController.getSiteNames()
+        siteNames = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
         siteTable.isEditing = false
         let range = 0..<siteNames.count
         let indexPathsToReload: [IndexPath] = range.map({
@@ -237,6 +237,11 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 siteTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
+    }
+    
+    private func setTitle() {
+        title = (UserDefaultsController.usingPatches()) ? PDStrings.VCTitles.patch_sites : PDStrings.VCTitles.injection_sites
+        self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
     }
 
 }

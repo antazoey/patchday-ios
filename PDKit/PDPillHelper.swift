@@ -44,7 +44,7 @@ public struct PillAttributes {
     }
 }
 
-public class PDPillsHelper: NSObject {
+public class PDPillHelper: NSObject {
     
     /** Returns the total count of due.  Is due means:
        1.) Past the due time today and
@@ -102,6 +102,29 @@ public class PDPillsHelper: NSObject {
     
     public static func isDone(timesTakenToday: Int, timesaday: Int) -> Bool {
         return timesTakenToday >= timesaday
+    }
+    
+    public static func getPill(in pillArray: [MOPill], for id: UUID) -> MOPill? {
+        if let i = pillArray.map({
+            (pill: MOPill) -> UUID? in
+            return pill.getID()
+        }).index(of: id) {
+            return pillArray[i]
+        }
+        return nil
+    }
+    
+    /// Maps MOPills to their next relevant due times.
+    public static func getNextPillDueDates(from pills: [MOPill]) -> [Date] {
+        return pills.map({
+            (pill: MOPill) -> Time? in
+            return pill.getDueDate()
+        }).filter() {
+            $0 != nil
+            }.map({
+                (time: Time?) -> Time in
+                return time!
+            })
     }
 
 }

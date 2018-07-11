@@ -286,7 +286,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // No Warning
-            if ScheduleController.estrogenController.isEmpty() && ScheduleController.siteController.isDefault() {
+            if PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.estrogenArray) && ScheduleController.siteController.isDefault() {
                 UserDefaultsController.setDeliveryMethod(to: choice)
             }
                 // Alert if there is some data that should be erased

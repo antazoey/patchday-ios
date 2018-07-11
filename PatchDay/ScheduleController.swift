@@ -61,31 +61,31 @@ public class ScheduleController: NSObject {
         }
     }
     
-    public static func totalEstrogenDue() -> Int {
-        let intervalStr = UserDefaultsController.getTimeIntervalString()
-        return ScheduleController.estrogenController.expiredCount(intervalStr)
+    public static func totalEstrogenDue(intervalStr: String) -> Int {
+        return PDEstrogenHelper.expiredCount(ScheduleController.estrogenController.estrogenArray, intervalStr: intervalStr)
     }
     
     public static func totalPillsDue() -> Int {
         let pillsTakenTodays = ScheduleController.pillController.getPillTimesTakens()
-        let nextPillDueDates = ScheduleController.pillController.getNextPillDueDates()
-        return PDPillsHelper.totalDue(timesTakensToday: pillsTakenTodays, nextDueDates: nextPillDueDates)
+        let nextPillDueDates = PDPillHelper.getNextPillDueDates(from: ScheduleController.pillController.pillArray)
+        return PDPillHelper.totalDue(timesTakensToday: pillsTakenTodays, nextDueDates: nextPillDueDates)
         
     }
     
-    public static func totalDue() -> Int {
-        return totalEstrogenDue() + totalPillsDue()
+    public static func totalDue(intervalStr: String) -> Int {
+        return totalEstrogenDue(intervalStr: intervalStr) + totalPillsDue()
     }
 
     /**
      ANIMATION ALGORITHM
      */
-    public static func shouldAnimate(estrogenIndex: Index, newBG: UIImage, estrogenController: EstrogenDataController) -> Bool {
+    public static func shouldAnimate(estrogenIndex: Index, newBG: UIImage, estrogenController: EstrogenDataController, estrogenCount: Int) -> Bool {
         
         /* -- Reasons to Animate -- */
         
         var hasDateAndItMatters: Bool = true
-        if let estro = estrogenController.getEstrogenMO(at: estrogenIndex), estro.hasNoDate() {
+        let estro = estrogenController.getEstrogenMO(at: estrogenIndex, estrogenCount: estrogenCount)
+        if estro.hasNoDate() {
             hasDateAndItMatters = false
         }
         

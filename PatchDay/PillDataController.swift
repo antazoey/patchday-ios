@@ -47,16 +47,6 @@ public class PillDataController {
         return nil
     }
     
-    internal func getPill(for id: UUID) -> MOPill? {
-        if let i = pillArray.map({
-            (pill: MOPill) -> UUID? in
-            return pill.getID()
-        }).index(of: id) {
-            return pillArray[i]
-        }
-        return nil
-    }
-    
     public func insertNewPill() -> MOPill? {
         let newPillAttributes = PillAttributes()
         let newPill = PillDataController.appendNewPill(to: &pillArray, using: newPillAttributes, into: context)
@@ -118,19 +108,6 @@ public class PillDataController {
             }.map({
                 (takenCount: Int16?) -> Int in
                 return Int(takenCount!)
-            })
-    }
-    
-    /// Maps MOPills to their next relevant due times.
-    internal func getNextPillDueDates() -> [Date] {
-        return pillArray.map({
-            (pill: MOPill) -> Time? in
-            return pill.getDueDate()
-        }).filter() {
-            $0 != nil
-            }.map({
-                (time: Time?) -> Time in
-                return time!
             })
     }
     

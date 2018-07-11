@@ -10,9 +10,6 @@ import Foundation
 import CoreData
 import PDKit
 
-public typealias Index = Int
-public typealias SiteNameSet = Set<SiteName>
-
 public class SiteDataController {
     
     internal var siteArray: [MOSite]
@@ -44,23 +41,9 @@ public class SiteDataController {
         }
     }
     
-    internal func getSiteNames() -> [SiteName] {
-        return siteArray.map({
-            (site: MOSite) -> SiteName? in
-            return site.getName()
-        }).filter() { $0 != nil } as! [SiteName]
-    }
-    
-    /// Returns the set of sites on record union with the set of default sites
-    public func siteNameSetUnionDefaultSites() -> SiteNameSet {
-        let defaultSitesSet = (UserDefaultsController.usingPatches()) ? Set(PDStrings.SiteNames.patchSiteNames) : Set(PDStrings.SiteNames.injectionSiteNames)
-        let siteSet = Set(getSiteNames())
-        return siteSet.union(defaultSitesSet)
-    }
-    
     /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
     internal func getSite(for name: String) -> MOSite? {
-        if let index = ScheduleController.siteController.getSiteNames().index(of: name) {
+        if let index = PDSiteHelper.getSiteNames(siteArray).index(of: name) {
             return siteArray[index]
         }
         // Append new site

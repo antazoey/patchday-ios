@@ -35,7 +35,7 @@ internal class PDAlertController {
                     
                     // Tab bar image / badgeValue
                     if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
-                        let c = ScheduleController.totalEstrogenDue()
+                        let c = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
                         vcs[0].navigationController?.tabBarItem.badgeValue = (c > 0) ? String(c) : nil
                     }
                 }

@@ -13,7 +13,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var pickerSet = Array(ScheduleController.siteController.siteNameSetUnionDefaultSites())
+    private var pickerSet = Array(PDSiteHelper.siteNameSetUnionDefaultSites(ScheduleController.siteController.siteArray, usingPatches: UserDefaultsController.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var gapAboveImage: UIView!
@@ -145,7 +145,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = ScheduleController.siteController.getSiteNames()
+            sitesVC.siteNames = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
             navCon.popViewController(animated: true)
         }
     }

@@ -141,7 +141,7 @@ public class UserDefaultsController: NSObject {
                 ScheduleController.decreasedCount = true
                 // alert
                 let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
-                if !ScheduleController.estrogenController.isEmpty(fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
+                if !PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.estrogenArray, fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
                     PDAlertController.alertForChangingCount(oldCount: oldCount, newCount: newQuantity, countButton: countButton, navController: navController)
                     return
                 }

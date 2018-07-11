@@ -9,7 +9,6 @@
 
 import Foundation
 import CoreData
-import PDKit
 
 extension MOPill {
 
@@ -107,7 +106,7 @@ extension MOPill {
     }
     
     public func getDueDate() -> Date? {
-        return PDPillsHelper.nextDueDate(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday), times: [time1, time2])
+        return PDPillHelper.nextDueDate(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday), times: [time1, time2])
     }
     
     // MARK: - State bools
@@ -121,7 +120,7 @@ extension MOPill {
     
     public func isDone() -> Bool {
         if let timesaday = getTimesday() {
-            return PDPillsHelper.isDone(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday))
+            return PDPillHelper.isDone(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday))
         }
         return false
     }

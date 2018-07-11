@@ -13,7 +13,16 @@ import PDKit
 
 let estrogenButtonTotal = PDStrings.PickerData.counts.count
 
-class EstrogensVC: UIViewController {
+class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        <#code#>
+    }
+    
     
     // MARK: - Main
     
@@ -171,7 +180,7 @@ class EstrogensVC: UIViewController {
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(_ imageView: UIImageView, button: MFBadgeButton, newImage: UIImage, newTitle: String, expirationDateFont: UIFont, at index: Index) -> Bool {
-        if ScheduleController.shouldAnimate(estrogenIndex: index, newBG: newImage, estrogenController: ScheduleController.estrogenController) {
+        if ScheduleController.shouldAnimate(estrogenIndex: index, newBG: newImage, estrogenController: ScheduleController.estrogenController, estrogenCount: estrogenCount) {
             
             
             UIView.transition(with: imageView as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
@@ -219,19 +228,17 @@ class EstrogensVC: UIViewController {
     /// Determines the start of the week title for a schedule button.
     private func determineEstrogenButtonTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
         var title: String = ""
-        if let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex) {
-            if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
-                if UserDefaultsController.usingPatches() {
-                    let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
-                    title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
-                }
-                else {
-                    title += PDStrings.ColonedStrings.last_taken + PDDateHelper.dayOfWeekString(date: date as Date)
-                }
+        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex, estrogenCount: estrogenCount)
+        if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+            if UserDefaultsController.usingPatches() {
+                let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
+                title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
             }
-            return title
+            else {
+                title += PDStrings.ColonedStrings.last_taken + PDDateHelper.dayOfWeekString(date: date as Date)
+            }
         }
-        return ""
+        return title
     }
     
     /// Disables and hides the unused esrtogen button stacks.
@@ -266,17 +273,16 @@ class EstrogensVC: UIViewController {
         let intervalStr: String = UserDefaultsController.getTimeIntervalString()
         
         var image: UIImage = insert_img
-        if let estro = estrogenController.getEstrogenMO(at: index) {
-
-            // Custom
-            if !estro.isEmpty(), estro.isCustomLocated() {
-                image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
-            }
-            else if !estro.isEmpty(), let site = estro.getSite(), let siteName = site.getName() {
-                image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
-            }
-            button.badgeValue = (estro.isExpired(intervalStr)) ? "!" : nil
+        let estro = estrogenController.getEstrogenMO(at: index, estrogenCount: estrogenCount)
+        // Custom
+        if !estro.isEmpty(), estro.isCustomLocated(usingPatches: usingPatches) {
+            image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
         }
+        else if !estro.isEmpty(), let site = estro.getSite(), let siteName = site.getName() {
+            image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
+        }
+        button.badgeValue = (estro.isExpired(intervalStr)) ? "!" : nil
+    
         return image
     }
 
@@ -294,7 +300,7 @@ class EstrogensVC: UIViewController {
         }
         
         // Expired estrogens
-        let estroDueCount = ScheduleController.totalEstrogenDue()
+        let estroDueCount = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
         
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
