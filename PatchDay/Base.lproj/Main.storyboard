@@ -716,181 +716,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="toK-9k-zgd">
-                                <rect key="frame" x="16" y="74" width="343" height="583"/>
-                                <subviews>
-                                    <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="3No-yP-2X4">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
-                                        <subviews>
-                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="avK-ec-blw">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleAspectFill" semanticContentAttribute="spatial" restorationIdentifier="0" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n18-9f-ThC" customClass="MFBadgeButton" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="...">
-                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <attributedString key="userComments">
-                                                    <fragment content="this doesn't need to be translated">
-                                                        <attributes>
-                                                            <font key="NSFont" metaFont="smallSystem"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <connections>
-                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Lp-bU-htW"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="n18-9f-ThC" firstAttribute="trailing" secondItem="avK-ec-blw" secondAttribute="trailing" id="6HM-Z2-sV3"/>
-                                            <constraint firstItem="n18-9f-ThC" firstAttribute="top" secondItem="3No-yP-2X4" secondAttribute="top" id="I5f-iE-AbC"/>
-                                            <constraint firstAttribute="trailing" secondItem="n18-9f-ThC" secondAttribute="trailing" id="NEZ-M8-EbR"/>
-                                            <constraint firstItem="n18-9f-ThC" firstAttribute="top" secondItem="avK-ec-blw" secondAttribute="top" id="UrM-Ru-bR2"/>
-                                            <constraint firstItem="n18-9f-ThC" firstAttribute="leading" secondItem="3No-yP-2X4" secondAttribute="leading" id="V3E-8U-3Vd"/>
-                                            <constraint firstAttribute="bottom" secondItem="n18-9f-ThC" secondAttribute="bottom" id="eFa-89-uJK"/>
-                                            <constraint firstItem="avK-ec-blw" firstAttribute="bottom" secondItem="n18-9f-ThC" secondAttribute="bottom" id="mPO-Oi-ar4"/>
-                                            <constraint firstItem="n18-9f-ThC" firstAttribute="leading" secondItem="avK-ec-blw" secondAttribute="leading" id="xqr-ie-XBj"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="4C9-at-IsA">
-                                        <rect key="frame" x="0.0" y="146" width="343" height="145.5"/>
-                                        <subviews>
-                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="12r-Fy-ggA">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="145.5"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleAspectFill" semanticContentAttribute="spatial" restorationIdentifier="1" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0vU-op-qLy" customClass="MFBadgeButton" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="145.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="...">
-                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <attributedString key="userComments">
-                                                    <fragment content="this doesn't need to be translated">
-                                                        <attributes>
-                                                            <font key="NSFont" size="11" name="HelveticaNeue"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <connections>
-                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5Jt-q1-y89"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="0vU-op-qLy" firstAttribute="leading" secondItem="12r-Fy-ggA" secondAttribute="leading" id="2uE-JX-VH4"/>
-                                            <constraint firstItem="0vU-op-qLy" firstAttribute="leading" secondItem="4C9-at-IsA" secondAttribute="leading" id="4mY-KF-pIl"/>
-                                            <constraint firstItem="12r-Fy-ggA" firstAttribute="bottom" secondItem="0vU-op-qLy" secondAttribute="bottom" id="7JV-mT-n8j"/>
-                                            <constraint firstItem="12r-Fy-ggA" firstAttribute="top" secondItem="0vU-op-qLy" secondAttribute="top" id="7bQ-Ld-Mc4"/>
-                                            <constraint firstItem="12r-Fy-ggA" firstAttribute="top" secondItem="4C9-at-IsA" secondAttribute="top" id="Rlq-ln-uqg"/>
-                                            <constraint firstAttribute="trailing" secondItem="0vU-op-qLy" secondAttribute="trailing" id="YXR-mZ-c7X"/>
-                                            <constraint firstAttribute="bottom" secondItem="12r-Fy-ggA" secondAttribute="bottom" id="g1b-VP-gNi"/>
-                                            <constraint firstItem="12r-Fy-ggA" firstAttribute="trailing" secondItem="0vU-op-qLy" secondAttribute="trailing" id="xmS-ri-Vss"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="40y-BT-uGk">
-                                        <rect key="frame" x="0.0" y="291.5" width="343" height="146"/>
-                                        <subviews>
-                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="V2C-jY-Tcd">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleAspectFill" semanticContentAttribute="spatial" restorationIdentifier="2" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VxV-0X-CKx" customClass="MFBadgeButton" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="146"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="...">
-                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <attributedString key="userComments">
-                                                    <fragment content="this doesn't need to be translated">
-                                                        <attributes>
-                                                            <font key="NSFont" size="11" name="HelveticaNeue"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <connections>
-                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R3C-Ao-orZ"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="VxV-0X-CKx" firstAttribute="top" secondItem="V2C-jY-Tcd" secondAttribute="top" id="838-SB-TtH"/>
-                                            <constraint firstItem="V2C-jY-Tcd" firstAttribute="leading" secondItem="40y-BT-uGk" secondAttribute="leading" id="OMU-k9-Bg0"/>
-                                            <constraint firstAttribute="bottom" secondItem="V2C-jY-Tcd" secondAttribute="bottom" id="bQk-aZ-qTg"/>
-                                            <constraint firstItem="VxV-0X-CKx" firstAttribute="top" secondItem="40y-BT-uGk" secondAttribute="top" id="gHq-wJ-8I7"/>
-                                            <constraint firstAttribute="trailing" secondItem="V2C-jY-Tcd" secondAttribute="trailing" id="hRc-x5-aaK"/>
-                                            <constraint firstItem="VxV-0X-CKx" firstAttribute="trailing" secondItem="V2C-jY-Tcd" secondAttribute="trailing" id="jhH-ON-opT"/>
-                                            <constraint firstItem="VxV-0X-CKx" firstAttribute="leading" secondItem="V2C-jY-Tcd" secondAttribute="leading" id="oy4-9n-azD"/>
-                                            <constraint firstItem="V2C-jY-Tcd" firstAttribute="bottom" secondItem="VxV-0X-CKx" secondAttribute="bottom" id="t13-lY-mtv"/>
-                                        </constraints>
-                                    </view>
-                                    <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="1QQ-BK-9MS">
-                                        <rect key="frame" x="0.0" y="437.5" width="343" height="145.5"/>
-                                        <subviews>
-                                            <imageView opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9rP-8A-UaO">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="145.5"/>
-                                            </imageView>
-                                            <button opaque="NO" contentMode="scaleAspectFill" semanticContentAttribute="spatial" restorationIdentifier="3" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="headTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3tV-Xz-Eqt" customClass="MFBadgeButton" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="343" height="145.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <state key="normal" title="...">
-                                                    <color key="titleColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <attributedString key="userComments">
-                                                    <fragment content="this doesn't need to be translated">
-                                                        <attributes>
-                                                            <font key="NSFont" size="11" name="HelveticaNeue"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <connections>
-                                                    <action selector="estrogenButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PLd-yA-22k"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstItem="3tV-Xz-Eqt" firstAttribute="top" secondItem="1QQ-BK-9MS" secondAttribute="top" id="Byt-hA-Sp7"/>
-                                            <constraint firstItem="3tV-Xz-Eqt" firstAttribute="trailing" secondItem="9rP-8A-UaO" secondAttribute="trailing" id="GPm-Ru-Hbx"/>
-                                            <constraint firstItem="3tV-Xz-Eqt" firstAttribute="bottom" secondItem="9rP-8A-UaO" secondAttribute="bottom" id="UIv-s1-HNO"/>
-                                            <constraint firstAttribute="trailing" secondItem="3tV-Xz-Eqt" secondAttribute="trailing" id="VvK-oG-aTi"/>
-                                            <constraint firstItem="9rP-8A-UaO" firstAttribute="leading" secondItem="1QQ-BK-9MS" secondAttribute="leading" id="dpf-pN-WPA"/>
-                                            <constraint firstItem="3tV-Xz-Eqt" firstAttribute="leading" secondItem="9rP-8A-UaO" secondAttribute="leading" id="fCG-iK-qTA"/>
-                                            <constraint firstAttribute="bottom" secondItem="3tV-Xz-Eqt" secondAttribute="bottom" id="hop-rD-NWE"/>
-                                            <constraint firstItem="9rP-8A-UaO" firstAttribute="top" secondItem="3tV-Xz-Eqt" secondAttribute="top" id="zrK-9u-9CZ"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                            </stackView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UET-BI-a1o">
+                                <rect key="frame" x="16" y="42" width="343" height="583"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="esrtogenCellReuseID" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="estrogenCellReuseID" rowHeight="160" id="oaP-a3-SJ3" customClass="EstrogenTableViewCell" customModule="PatchDay" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="160"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oaP-a3-SJ3" id="JA4-OY-wJV">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="159.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-va-RXc">
+                                                    <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3T-o3-i1R">
+                                                    <rect key="frame" x="35" y="128" width="273" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="Fjm-va-RXc" secondAttribute="trailing" id="0tT-65-0cj"/>
+                                                <constraint firstItem="B3T-o3-i1R" firstAttribute="leading" secondItem="JA4-OY-wJV" secondAttribute="leadingMargin" constant="20" id="Drx-fR-2z7"/>
+                                                <constraint firstItem="Fjm-va-RXc" firstAttribute="top" secondItem="JA4-OY-wJV" secondAttribute="top" id="V17-gz-baz"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="B3T-o3-i1R" secondAttribute="trailing" constant="20" id="Yow-tV-tbg"/>
+                                                <constraint firstItem="B3T-o3-i1R" firstAttribute="bottom" secondItem="JA4-OY-wJV" secondAttribute="bottomMargin" id="h1A-B1-3Ir"/>
+                                                <constraint firstAttribute="bottom" secondItem="Fjm-va-RXc" secondAttribute="bottom" id="kiM-sq-xiA"/>
+                                                <constraint firstItem="Fjm-va-RXc" firstAttribute="leading" secondItem="JA4-OY-wJV" secondAttribute="leading" id="oDn-up-wic"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="B3T-o3-i1R" id="u9y-ZX-HqG"/>
+                                            <outlet property="stateImage" destination="Fjm-va-RXc" id="RJp-GL-lcV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
-                        <constraints>
-                            <constraint firstItem="toK-9k-zgd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="37m-zt-Dn8"/>
-                            <constraint firstItem="toK-9k-zgd" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="emY-nA-eCw"/>
-                            <constraint firstItem="toK-9k-zgd" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="eqI-kr-Sqm"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="toK-9k-zgd" secondAttribute="bottom" constant="10" id="pgu-6i-8vW"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Estrogens" id="sdl-A0-hNe"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="estrogenFourButton" destination="3tV-Xz-Eqt" id="tcK-Kh-za5"/>
-                        <outlet property="estrogenImageViewFour" destination="9rP-8A-UaO" id="u57-aF-3zG"/>
-                        <outlet property="estrogenImageViewOne" destination="avK-ec-blw" id="ZKC-xy-kTR"/>
-                        <outlet property="estrogenImageViewThree" destination="V2C-jY-Tcd" id="sWQ-Iy-9GX"/>
-                        <outlet property="estrogenImageViewTwo" destination="12r-Fy-ggA" id="UIO-py-PdQ"/>
-                        <outlet property="estrogenOneButton" destination="n18-9f-ThC" id="lXB-bp-agG"/>
-                        <outlet property="estrogenThreeButton" destination="VxV-0X-CKx" id="0T5-NY-7xY"/>
-                        <outlet property="estrogenTwoButton" destination="0vU-op-qLy" id="mvl-bD-KAi"/>
-                        <outlet property="estrogenViewFour" destination="1QQ-BK-9MS" id="9QA-Bv-FJp"/>
-                        <outlet property="estrogenViewOne" destination="3No-yP-2X4" id="7PT-ec-Qy8"/>
-                        <outlet property="estrogenViewThree" destination="40y-BT-uGk" id="h1V-Mp-t4O"/>
-                        <outlet property="estrogenViewTwo" destination="4C9-at-IsA" id="fkJ-q6-6Gs"/>
-                        <outlet property="scheduleStack" destination="toK-9k-zgd" id="5EU-RI-6M4"/>
+                        <outlet property="estrogenTable" destination="UET-BI-a1o" id="dCL-8P-pUo"/>
                         <segue destination="rQo-Wb-Mbl" kind="show" identifier="ShowPills" id="mpM-BR-8sz"/>
                         <segue destination="PWr-WB-ijl" kind="show" identifier="ShowDetails" id="Byc-0i-cgQ"/>
                     </connections>
@@ -914,7 +786,6 @@
                         <segue destination="cg3-1t-cWr" kind="relationship" relationship="viewControllers" id="5NI-AL-p6D"/>
                         <segue destination="rQo-Wb-Mbl" kind="relationship" relationship="viewControllers" id="uH0-Pp-56s"/>
                         <segue destination="VYS-mT-oFt" kind="relationship" relationship="viewControllers" id="QUR-aZ-m6q"/>
-                        <segue destination="WOZ-NT-hN2" kind="relationship" relationship="viewControllers" id="scP-lq-uqQ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C1e-TV-q7F" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -929,7 +800,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UV2-kM-Zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3826" y="800"/>
+            <point key="canvasLocation" x="648" y="35"/>
         </scene>
         <!--SitesVC_id-->
         <scene sceneID="Jxv-0m-fWP">
@@ -998,25 +869,6 @@
             </objects>
             <point key="canvasLocation" x="-2687.1999999999998" y="1102.3988005997003"/>
         </scene>
-        <!--Settings-->
-        <scene sceneID="ZyL-8O-Sfg">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WOZ-NT-hN2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="Settings Icon" id="hPK-sW-avi"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Qlg-iG-gAq">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Udc-XB-QRY" kind="relationship" relationship="rootViewController" id="3sj-uA-rj1"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2Lb-jE-S9B" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-4385" y="801"/>
-        </scene>
         <!--Sites-->
         <scene sceneID="ire-kS-8zj">
             <objects>
@@ -1058,7 +910,6 @@
     <resources>
         <image name="Estrogen" width="34" height="34"/>
         <image name="Pill Icon" width="50" height="50"/>
-        <image name="Settings Icon" width="50" height="50"/>
         <image name="Site Icon" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>

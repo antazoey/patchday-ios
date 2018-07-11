@@ -26,10 +26,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         super.viewDidLoad()
         siteTable.delegate = self
         siteTable.dataSource = self
-        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
-        insertButton.tintColor = PDColors.pdGreen
-        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit, style: .plain, target: self, action: #selector(editTapped))
-        navigationItem.rightBarButtonItems = [insertButton, editButton]
+        loadBarButtons()
         siteTable.allowsSelectionDuringEditing = true
         
     }
@@ -237,6 +234,13 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 siteTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
+    }
+    
+    private func loadBarButtons() {
+        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
+        insertButton.tintColor = PDColors.pdGreen
+        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit, style: .plain, target: self, action: #selector(editTapped))
+        navigationItem.rightBarButtonItems = [insertButton, editButton]
     }
     
     private func setTitle() {
