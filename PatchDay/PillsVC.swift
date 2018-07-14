@@ -108,11 +108,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 self.enableOrDisableTake(for: cell)
                 pills = pillController.pillArray
                 pillTable.reloadData()
-                self.navigationController?.tabBarItem.badgeValue = String(ScheduleController.totalPillsDue())
                 reloadInputViews()
             }
-            let pillsDue = ScheduleController.totalPillsDue()
-            self.navigationController?.tabBarItem.badgeValue = (pillsDue <= 0) ? nil : String(pillsDue)
+            setBadge()
         }
     }
     
@@ -180,6 +178,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
+        ScheduleController.setPillDataForToday()
+        setBadge()
     }
     
     /// Updates the pill views when VC is reloaded from a notification.
@@ -189,6 +189,11 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc internal func appWillEnterForeground() {
         pillTable.reloadData()
+    }
+    
+    private func setBadge() {
+        let newBadgeValue = ScheduleController.totalPillsDue()
+        navigationController?.tabBarItem.badgeValue = (newBadgeValue > 0) ? String(newBadgeValue) : nil
     }
 
 }

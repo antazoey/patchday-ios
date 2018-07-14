@@ -88,10 +88,8 @@ class MFBadgeButton : UIButton {
         shapeLayer.insertSublayer(labelText, at: 0)
 
         switch type {
-        case .patches : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.67, dy: 23)
+        case .patches, .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.90, dy: 20)
             shapeLayer.lineWidth = 4
-        case .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.77, dy: 94)
-            shapeLayer.lineWidth = 10
         case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.71, dy: 41)
             shapeLayer.lineWidth = 0.5
         }

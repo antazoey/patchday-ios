@@ -37,11 +37,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     // Handles responses received from interacting with notifications.
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        if response.actionIdentifier == estroActionID,
-            let uuid = UUID(uuidString: response.notification.request.identifier),
-            let suggestedSiteStr = suggestSite(),
-            let suggestedSite = ScheduleController.siteController.getSite(for: suggestedSiteStr) {
-            ScheduleController.estrogenController.setEstrogenMO(for: uuid, date: Date() as NSDate, site: suggestedSite)
+        if response.actionIdentifier == estroActionID, let uuid = UUID(uuidString: response.notification.request.identifier) {
+            ScheduleController.estrogenController.setEstrogenMO(for: uuid, date: Date() as NSDate, site: SiteSuggester.getSuggestedSite())
             UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         
@@ -119,7 +116,28 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 }
             }
         }
- 
+    }
+    
+    internal func requestOvernightNotification(_ estro: MOEstrogen, expDate: Date) {
+        let usingPatches = UserDefaultsController.usingPatches()
+        let intervalStr = UserDefaultsController.getTimeIntervalString()
+        let content = UNMutableNotificationContent()
+        if let id = estro.getID(), let triggerDate = PDDateHelper.dateBeforeOvernight(overnightDate: expDate) {
+            content.title = usingPatches ? PDStrings.NotificationStrings.Titles.overnight_patch : PDStrings.NotificationStrings.Titles.overnight_injection
+            content.sound = UNNotificationSound.default()
+            content.badge = ScheduleController.totalDue(intervalStr: intervalStr) + 1 as NSNumber
+            content.categoryIdentifier = estroCategoryID
+            let interval = triggerDate.timeIntervalSinceNow
+            if interval > 0 {
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
+                let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)
+                center.add(request) { (error: Error?) in
+                    if error != nil {
+                        print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
+                    }
+                }
+            }
+        }
     }
     
     internal func requestNotifyTakePill(_ pill: MOPill) {
@@ -187,20 +205,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         return [makeTakePillCategory(), makeEstrogenCategory()]
     }
     
-    private func suggestSite() -> String? {
-        let scheduleSites: [String] = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
-        let currentSites: [String] = ScheduleController.getCurrentSiteNamesInEstrogenSchedule()
-        let estroSiteName = (currentEstrogenIndex >= 0 && currentEstrogenIndex < currentSites.count) ? currentSites[currentEstrogenIndex] : PDStrings.PlaceholderStrings.new_site
-        let estrogenCount: Int = UserDefaultsController.getQuantityInt()
-        if let suggestSiteIndex = SiteSuggester.suggest(currentEstrogenSiteSuggestingFrom: estroSiteName, currentSites: currentSites, estrogenQuantity: estrogenCount, scheduleSites: scheduleSites), suggestSiteIndex >= 0 && suggestSiteIndex < scheduleSites.count {
-            return scheduleSites[suggestSiteIndex]
-        }
-        return nil
-    }
-    
     private func suggestSiteMessage(introMsg: String) -> String? {
-        if let suggestedSiteName = suggestSite() {
-            return "\n\n" + introMsg + suggestedSiteName
+        if let suggestedSite = SiteSuggester.getSuggestedSite(), let siteName = suggestedSite.getName() {
+            return "\n\n" + introMsg + siteName
         }
         return nil
     }

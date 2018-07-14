@@ -57,7 +57,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let h = view.frame.height
-        let cell_h = (UserDefaultsController.usingPatches()) ? h * 0.24 : h * 0.95
+        let cell_h = (UserDefaultsController.usingPatches()) ? h * 0.24 : h * 0.75
         return cell_h
     }
     
@@ -69,23 +69,29 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         
         let estrogenIndex = indexPath.row
         let intervalStr = UserDefaultsController.getTimeIntervalString()
+        let usingPatches = UserDefaultsController.usingPatches()
+        let estroCount = UserDefaultsController.getQuantityInt()
+        let estro = ScheduleController.estrogenController.getEstrogenMO(at: indexPath.row, estrogenCount: estroCount)
+        let isExpired = estro.isExpired(intervalStr)
         let bg = UIView()
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: "estrogenCellReuseID") as! EstrogenTableViewCell
         bg.backgroundColor = PDColors.pdPink
         let img = determineEstrogenCellImage(index: estrogenIndex)
         let title = determineEstrogenCellTitle(estrogenIndex: estrogenIndex, intervalStr)
+        
         animateEstrogenButtonChanges(cell: estroCell, newImage: img, newTitle: title, at: estrogenIndex)
         estroCell.selectedBackgroundView = bg
         estroCell.backgroundColor = (indexPath.row % 2 == 0) ? PDColors.pdLightBlue : UIColor.white
+        estroCell.dateLabel.textColor = isExpired ? UIColor.red : PDColors.pdDarkLines
+        estroCell.badgeButton.restorationIdentifier = String(indexPath.row)
+        estroCell.badgeButton.type = (usingPatches) ? .patches : .injections
+        estroCell.badgeButton.badgeValue = isExpired ? "!" : nil
         
         return estroCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let sb = storyboard, let navCon = navigationController, let detailsVC = sb.instantiateViewController(withIdentifier: "EstrogenVC_id") as? EstrogenVC {
-            detailsVC.setEstrogenScheduleIndex(to: indexPath.row)
-            navCon.pushViewController(detailsVC, animated: true)
-        }
+        segueToEstrogenVC(index: indexPath.row)
     }
     
     // MARK: - Actions
@@ -103,18 +109,25 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     private func determineEstrogenCellImage(index: Index) -> UIImage {
         let usingPatches: Bool = UserDefaultsController.usingPatches()
         let estrogenCount: Int = UserDefaultsController.getQuantityInt()
+        // Default:  new / add image
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
-        
         var image: UIImage = insert_img
         let estro = estrogenController.getEstrogenMO(at: index, estrogenCount: estrogenCount)
-        // Custom
-        if !estro.isEmpty(), estro.isCustomLocated(usingPatches: usingPatches) {
-            image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
+
+        if !estro.isEmpty() {
+            // Check if Site relationship siteName is a general site.
+            if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
+                image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
+            }
+            // Check of the siteNameBackUp is a general site.
+            else if let siteName = estro.getSiteNameBackUp() {
+                image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
+            }
+            // Custom
+            else {
+                image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
+            }
         }
-        else if !estro.isEmpty(), let site = estro.getSite(), let siteName = site.getName() {
-            image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
-        }
-        
         return image
     }
     
@@ -129,7 +142,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
                 title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
             }
             else {
-                title += PDStrings.ColonedStrings.last_taken + PDDateHelper.dayOfWeekString(date: date as Date)
+                title += PDStrings.ColonedStrings.last_injected + PDDateHelper.dayOfWeekString(date: date as Date)
             }
         }
         return title
@@ -193,6 +206,13 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         let pillDueCount = ScheduleController.totalPillsDue()
         if pillDueCount > 0, let vcs = self.navigationController?.tabBarController?.viewControllers, vcs.count > 1 {
             vcs[1].tabBarItem.badgeValue = String(pillDueCount)
+        }
+    }
+    
+    private func segueToEstrogenVC(index: Int) {
+        if let sb = storyboard, let navCon = navigationController, let detailsVC = sb.instantiateViewController(withIdentifier: "EstrogenVC_id") as? EstrogenVC {
+            detailsVC.setEstrogenScheduleIndex(to: index)
+            navCon.pushViewController(detailsVC, animated: true)
         }
     }
     

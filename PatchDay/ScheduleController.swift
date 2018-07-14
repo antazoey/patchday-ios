@@ -17,9 +17,9 @@ public typealias SiteSet = [String]
 
 public class ScheduleController: NSObject {
     
-    public static var estrogenController = EstrogenDataController(context: ScheduleController.persistentContainer.viewContext)
-    public static var pillController = PillDataController(context: ScheduleController.persistentContainer.viewContext)
-    public static var siteController = SiteDataController(context: ScheduleController.persistentContainer.viewContext)
+    public static var estrogenController = EstrogenDataController()
+    public static var pillController = PillDataController()
+    public static var siteController = SiteDataController()
     
     // MARK: - Core Data stack
     
@@ -32,6 +32,10 @@ public class ScheduleController: NSObject {
         })
         return container
     }()
+    
+    internal static func getContext() -> NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
     
     /**
     For knowing which estrogen buttons to animate when loading EstrogensVC.
@@ -46,6 +50,18 @@ public class ScheduleController: NSObject {
     internal static var indexOfChangedDelivery: Int = -1
     
     // MARK: - Public
+    
+    public static func estroCount() -> Int {
+        return ScheduleController.estrogenController.estrogenArray.count
+    }
+    
+    public static func pillCount() -> Int {
+        return ScheduleController.pillController.pillArray.count
+    }
+    
+    public static func siteCount() -> Int {
+        return ScheduleController.siteController.siteArray.count
+    }
     
     public static func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
         return estrogenController.estrogenArray.map({
@@ -75,6 +91,88 @@ public class ScheduleController: NSObject {
     public static func totalDue(intervalStr: String) -> Int {
         return totalEstrogenDue(intervalStr: intervalStr) + totalPillsDue()
     }
+    
+    public static func setEstrogenDataForToday() {
+        let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
+        let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
+        let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
+        let estro = getEstroForToday()
+        if let siteName = getSiteNameToSaveForToday(using: estro) {
+            defaults.set(siteName, forKey: siteKey)
+        }
+        else {
+            defaults.set(nil, forKey: siteKey)
+        }
+        if let date = estro.expirationDate(intervalStr: UserDefaultsController.getTimeIntervalString()) {
+            defaults.set(date, forKey: dateKey)
+        }
+        else {
+            defaults.set(nil, forKey: dateKey)
+        }
+    }
+    
+    private static func getEstroForToday() -> MOEstrogen {
+        if UserDefaultsController.usingPatches(), let nextEstro = estrogenController.nextEstroDue() {
+            return nextEstro
+        }
+        else {
+            return ScheduleController.estrogenController.getEstrogenMO(at: 0, estrogenCount: UserDefaultsController.getQuantityInt())
+        }
+    }
+    
+    private static func getSiteNameToSaveForToday(using estro: MOEstrogen) -> SiteName? {
+        if UserDefaultsController.usingPatches() {
+            if let name = estro.getSite()?.getName() {
+                return name
+            }
+            else if let name = estro.getSiteNameBackUp() {
+                return name
+            }
+        }
+        if let suggestedSite = SiteSuggester.getSuggestedSite(), let name = suggestedSite.getName() {
+            return name
+        }
+        return nil
+    }
+    
+    public static func getSiteIndices() -> [Index] {
+        var indices: [Index] = []
+        for estro in ScheduleController.estrogenController.estrogenArray {
+            if let site = estro.getSite(),
+                let index = ScheduleController.siteController.siteArray.index(of: site) {
+                indices.append(index)
+            }
+            else {
+                indices.append(-1)
+            }
+        }
+        return indices
+    }
+    
+    public static func setPillDataForToday() {
+        let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
+        let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
+        let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
+        if let nextPill = pillController.nextPillDue() {
+            if let pillName = nextPill.getName() {
+                defaults.set(pillName, forKey: pillNameKey)
+            }
+            else {
+                defaults.set(nil, forKey: pillNameKey)
+            }
+            if let pillDate = nextPill.getDueDate() {
+                defaults.set(pillDate, forKey: pillDateKey)
+            }
+            else {
+                defaults.set(nil, forKey: pillDateKey)
+            }
+        }
+    }
+    
+    public static func setDataForTodayApp() {
+        setEstrogenDataForToday()
+        setPillDataForToday()
+    }
 
     /**
      ANIMATION ALGORITHM
@@ -102,10 +200,10 @@ public class ScheduleController: NSObject {
         
     }
     
-    internal static func saveContext(_ context: NSManagedObjectContext) {
-        if context.hasChanges {
+    internal static func save() {
+        if persistentContainer.viewContext.hasChanges {
             do {
-                try context.save()
+                try persistentContainer.viewContext.save()
             } catch {
                 PDAlertController.alertForCoreDataError()
             }

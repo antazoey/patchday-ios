@@ -12,16 +12,46 @@ import PDKit
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
-    @IBOutlet weak var tbTodayLabel: UILabel!
-    @IBOutlet weak var tbImageView: UIImageView!
+    @IBOutlet weak var nextEstrogenLabel: UILabel!
+    
+    @IBOutlet weak var estrogenSiteLabel: UILabel!
+    @IBOutlet weak var estrogenDateLabel: UILabel!
+    
+    @IBOutlet weak var nextPillNameLabel: UILabel!
+    @IBOutlet weak var nextPillTakeDateLabel: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        PDTodayDataController.loadData()
-        self.tbTodayLabel.text = PDTodayDataController.getTBTodayMessage()
-        self.tbTodayLabel.textColor = UIColor.purple
- */
+        let nextEstro = PDTodayDataController.getNextEstrogen()
+        let nextPill = PDTodayDataController.getNextPill()
+        
+        nextEstrogenLabel.text = PDTodayDataController.usingPatches() ? NSLocalizedString("Change:", comment: "Short label on Today App") : NSLocalizedString("Inject:", comment: "Short label on Today App")
+        if let n = nextEstro.siteName {
+            estrogenSiteLabel.text = n
+        }
+        else {
+            estrogenSiteLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+        }
+        if let d = nextEstro.date {
+            estrogenDateLabel.text = PDDateHelper.format(date: d, useWords: true)
+        }
+        else {
+            estrogenDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+        }
+        if let n = nextPill.name {
+            nextPillNameLabel.text = n
+        }
+        else {
+            nextPillNameLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+        }
+        if let d = nextPill.nextTakeDate {
+            nextPillTakeDateLabel.text = PDDateHelper.format(date: d, useWords: true)
+        }
+        else {
+            nextPillTakeDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+        }
+     
     }
 
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {

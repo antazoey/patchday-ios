@@ -12,6 +12,7 @@ class EstrogenTableViewCell: UITableViewCell {
     
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var badgeButton: MFBadgeButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

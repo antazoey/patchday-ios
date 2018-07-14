@@ -1,0 +1,90 @@
+//
+//  MOSite+CoreDataProperties.swift
+//  PatchDay
+//
+//  Created by Juliya Smith on 7/13/18.
+//  Copyright © 2018 Juliya Smith. All rights reserved.
+//
+//
+
+import Foundation
+import CoreData
+
+
+extension MOSite {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<MOSite> {
+        return NSFetchRequest<MOSite>(entityName: "Site")
+    }
+
+    @NSManaged public var imageIdentifier: String?
+    @NSManaged public var name: String?
+    @NSManaged public var order: Int16
+    @NSManaged public var estrogenRelationship: NSSet?
+
+}
+
+// MARK: Generated accessors for estrogenRelationship
+extension MOSite {
+
+    @objc(addEstrogenRelationshipObject:)
+    @NSManaged public func addToEstrogenRelationship(_ value: MOEstrogen)
+
+    @objc(removeEstrogenRelationshipObject:)
+    @NSManaged public func removeFromEstrogenRelationship(_ value: MOEstrogen)
+
+    @objc(addEstrogenRelationship:)
+    @NSManaged public func addToEstrogenRelationship(_ values: NSSet)
+
+    @objc(removeEstrogenRelationship:)
+    @NSManaged public func removeFromEstrogenRelationship(_ values: NSSet)
+
+    public func isOccupied() -> Bool {
+        if let r = estrogenRelationship {
+            return r.count > 0
+        }
+        return false
+    }
+
+    public func setOrder(to order: Int16) {
+        self.order = order
+    }
+
+    public func setImageIdentifier(to imgID: String) {
+        self.imageIdentifier = imgID
+    }
+
+    public func setName(to name: SiteName) {
+        self.name = name as String
+    }
+
+    public func getOrder() -> Int16 {
+        return order
+    }
+
+    public func getName() -> SiteName? {
+        return name as SiteName?
+    }
+
+    public func getImageIdentifer() -> SiteName? {
+        return imageIdentifier as SiteName?
+    }
+
+    public func toString() -> String {
+        let n = (name != nil) ? name! : PDStrings.PlaceholderStrings.new_site
+        return String(order + 1) + ". " + n
+    }
+
+    public func decrement() {
+        if order > 0 {
+            order -= 1
+        }
+    }
+
+    public func reset() {
+        order = Int16(-1)
+        name = ""
+        imageIdentifier = ""
+    }
+    
+}

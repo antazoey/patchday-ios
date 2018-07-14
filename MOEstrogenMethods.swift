@@ -2,13 +2,14 @@
 //  MOEstrogen+CoreDataProperties.swift
 //  PatchDay
 //
-//  Created by Juliya Smith on 7/4/18.
+//  Created by Juliya Smith on 7/13/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension MOEstrogen {
 
@@ -18,20 +19,28 @@ extension MOEstrogen {
 
     @NSManaged public var date: NSDate?
     @NSManaged public var id: UUID?
+    @NSManaged public var siteNameBackUp: String?
     @NSManaged public var siteRelationship: MOSite?
-
+    
+    
     // MARK: - Getters and setters
     
-    public func setSite(with site: MOSite) {
+    public func setSite(with site: MOSite?) {
         self.siteRelationship = site
+        self.siteNameBackUp = nil
     }
     
     public func setDate(with date: NSDate) {
         self.date = date
     }
-
+    
     public func setID(with newID: UUID) {
         self.id = newID
+    }
+    
+    public func setSiteBackup(to str: String) {
+        self.siteNameBackUp = str
+        self.siteRelationship = nil
     }
     
     public func getSite() -> MOSite? {
@@ -46,9 +55,17 @@ extension MOEstrogen {
         return self.id
     }
     
+    public func getSiteNameBackUp() -> String? {
+        if siteRelationship == nil {
+            return self.siteNameBackUp
+        }
+        return nil
+    }
+    
     public func reset() {
         date = nil
         siteRelationship = nil
+        siteNameBackUp = nil
     }
     
     // MARK: - Strings
@@ -66,6 +83,13 @@ extension MOEstrogen {
             return PDStrings.PlaceholderStrings.unplaced
         }
         return PDDateHelper.format(date: dateAdded as Date, useWords: true)
+    }
+    
+    public func expirationDate(intervalStr: String) -> Date? {
+        if let date = getDate(), let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+            return expires
+        }
+        return nil
     }
     
     public func expirationDateAsString(_ intervalStr: String, useWords: Bool) -> String {
@@ -90,17 +114,24 @@ extension MOEstrogen {
     }
     
     public func isEmpty() -> Bool {
-        return date == nil && siteRelationship == nil
+        return date == nil && siteRelationship == nil && siteNameBackUp == nil
+    }
+    
+    private func isContainedInDefaults(name: SiteName, usingPatches: Bool) -> Bool {
+        let contains: Bool = (usingPatches) ?
+            PDStrings.SiteNames.patchSiteNames.contains(name) :
+            PDStrings.SiteNames.injectionSiteNames.contains(name)
+        return contains
     }
     
     public func isCustomLocated(usingPatches: Bool) -> Bool {
-        if let site = getSite(), let siteName = site.getName() {
-            let contains: Bool = (usingPatches) ? PDStrings.SiteNames.patchSiteNames.contains(siteName) :
-            PDStrings.SiteNames.injectionSiteNames.contains(siteName)
-            return !contains
+        if let site = getSite(), let siteName = site.getImageIdentifer() {
+            return !isContainedInDefaults(name: siteName, usingPatches: usingPatches)
+        }
+        else if let siteName = getSiteNameBackUp() {
+            return !isContainedInDefaults(name: siteName, usingPatches: usingPatches)
         }
         return false
     }
     
-
 }

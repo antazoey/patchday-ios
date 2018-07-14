@@ -101,6 +101,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                 let newValue = ScheduleController.totalPillsDue()
                 vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil
             }
+            ScheduleController.setPillDataForToday()
             segueToPillsVC()
         }
     }

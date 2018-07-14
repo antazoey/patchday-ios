@@ -13,18 +13,13 @@ import PDKit
 public class PillDataController {
     
     internal var pillArray: [MOPill]
-    internal let context: NSManagedObjectContext
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
-        pillArray = PillDataController.loadPillMOs(into: context)
-        PillDataController.loadTakenTodays(for: pillArray, into: context)
+    init() {
+        pillArray = PillDataController.loadPillMOs(into: ScheduleController.getContext())
+        PillDataController.loadTakenTodays(for: pillArray, into: ScheduleController.getContext())
         pillArray = pillArray.filter() {
             $0.getName() != nil
-        }
-        if pillArray.count == 0 {
-            pillArray = PillDataController.newPillMOs(into: context)
         }
     }
     
@@ -49,7 +44,8 @@ public class PillDataController {
     
     public func insertNewPill() -> MOPill? {
         let newPillAttributes = PillAttributes()
-        let newPill = PillDataController.appendNewPill(to: &pillArray, using: newPillAttributes, into: context)
+        let newPill = PillDataController.appendNewPill(to: &pillArray, using: newPillAttributes, into: ScheduleController.getContext())
+        ScheduleController.setPillDataForToday()
         return newPill
     }
     
@@ -80,13 +76,13 @@ public class PillDataController {
         if let id = attributes.id {
             pill.setID(with: id)
         }
-        ScheduleController.saveContext(ScheduleController.persistentContainer.viewContext)
+        ScheduleController.save()
     }
     
     internal func setPillTime2(at index: Index, to newTime: Time) {
         if let pill = getPill(at: index) {
             pill.setTime2(with: newTime as NSDate)
-            ScheduleController.saveContext(ScheduleController.persistentContainer.viewContext)
+            ScheduleController.save()
         }
     }
     
@@ -95,7 +91,7 @@ public class PillDataController {
             pillArray[index].reset()
         }
         pillArray = pillArray.filter() { $0.getName() != nil}
-        ScheduleController.saveContext(ScheduleController.persistentContainer.viewContext)
+        ScheduleController.save()
     }
     
     /// Maps MOPills to their last time takens.
@@ -114,15 +110,21 @@ public class PillDataController {
     internal func takePill(at index: Index) {
         if let pill = getPill(at: index) {
             pill.take()
-            ScheduleController.saveContext(context)
+            ScheduleController.save()
             appDelegate.notificationsController.requestNotifyTakePill(pill)
+            ScheduleController.setPillDataForToday()
         }
     }
     
     internal func take(_ pill: MOPill) {
         pill.take()
-        ScheduleController.saveContext(context)
+        ScheduleController.save()
         appDelegate.notificationsController.requestNotifyTakePill(pill)
+        ScheduleController.setPillDataForToday()
+    }
+    
+    internal func nextPillDue() -> MOPill? {
+        return pillArray.min(by: <)
     }
     
     // MARK: - Private
@@ -143,7 +145,7 @@ public class PillDataController {
     }
     
     /// Generates a generic list of MOSites when there are none in store.
-    private static func newPillMOs(into context: NSManagedObjectContext) -> [MOPill] {
+    public static func newPillMOs(into context: NSManagedObjectContext) -> [MOPill] {
         var generatedPillMOs: [MOPill] = []
         var names = PDStrings.PillTypes.defaultPills
         for i in 0..<names.count {
@@ -152,7 +154,7 @@ public class PillDataController {
                 generatedPillMOs.append(pill)
             }
         }
-        saveContext(context)
+        ScheduleController.save()
         return generatedPillMOs
     }
     
@@ -162,14 +164,14 @@ public class PillDataController {
                 pill.setID(with: UUID())
             }
         }
-        saveContext(context)
+        ScheduleController.save()
     }
     
     private static func loadTakenTodays(for pills: [MOPill], into context: NSManagedObjectContext) {
         for pill in pills {
             pill.fixTakenToday()
         }
-        saveContext(context)
+        ScheduleController.save()
     }
     
     /// Creates a new Pill with the given attributes and appends it to the schedule.
@@ -181,15 +183,4 @@ public class PillDataController {
         }
         return nil
     }
-    
-    internal static func saveContext(_ context: NSManagedObjectContext) {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                PDAlertController.alertForCoreDataError()
-            }
-        }
-    }
-    
 }

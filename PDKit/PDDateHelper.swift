@@ -123,6 +123,21 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
+    public static func isOvernight(_ date: Date) -> Bool {
+        if let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: date),
+            let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: date) {
+            return date < sixAM && date > midnight
+        }
+        return false
+    }
+    
+    public static func dateBeforeOvernight(overnightDate: Date) -> Date? {
+        if let eightPM_of = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: overnightDate), let eightPM_before = Calendar.current.date(byAdding: .day, value: -1, to: eightPM_of) {
+            return eightPM_before
+        }
+        return nil
+    }
+    
     /// Gives String for the given Time.
     public static func format(time: Time) -> String {
         let dateFormatter = DateFormatter()

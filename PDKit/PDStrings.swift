@@ -108,7 +108,7 @@ public class PDStrings {
         public static var first_time = { return NSLocalizedString("First time:", comment: "Displayed on a label, plenty of room.") }()
         public static var expires = { return NSLocalizedString("Expires: ", tableName: nil, comment: "Label next to date. Easy on room.") }()
         public static var expired = { return NSLocalizedString("Expired: ", tableName: nil, comment: "Label next to dat. Easy on room.") }()
-        public static var last_taken = { return NSLocalizedString("Last taken: ", tableName: nil, comment: "Label next to dat. A little room to grow.") }()
+        public static var last_injected = { return NSLocalizedString("Last injected: ", tableName: nil, comment: "Label next to dat. A little room to grow.") }()
         public static var next_due = { return NSLocalizedString("Next due: ", comment: "Label next to dat. A little room to grow.") }()
         public static var date_and_time_applied = { return NSLocalizedString("Date and time applied: ", comment: "Label next to dat. A little room to grow.") }()
         public static var date_and_time_injected = { return NSLocalizedString("Date and time injected: ", comment: "Label next to dat. A little room to grow.") }()
@@ -126,6 +126,8 @@ public class PDStrings {
             public static var injectionExpired = { return NSLocalizedString("Time for your next injection", comment: "Title of notification.") }()
             public static var injectionExpires = { return NSLocalizedString("Almost time for your next injection", comment: "Title of notification.") }()
             public static var takePill = { return NSLocalizedString("Time to take pill: ", comment: "Title of notification.") }()
+            public static var overnight_patch = { return NSLocalizedString("Patch expired overnight.", comment: "Title of notification.") }()
+            public static var overnight_injection = { return NSLocalizedString("Injection due overnight", comment: "Title of notification.") }()
         }
         
         public struct Bodies {
@@ -203,17 +205,17 @@ public class PDStrings {
     
     public struct AlertStrings {
         
-        public struct coreDataAlert {
+        public struct CoreDataAlert {
             public static var title = { return NSLocalizedString("Data Error", comment: "Title for alert.") }()
             public static var message = { return NSLocalizedString("PatchDay's storage is not working. You may report the problem to patchday@juliyasmith.com if you'd like.", comment: "Message for alert.") }()
         }
         
-        public struct loseDataAlert {
+        public struct LoseDataAlert {
             public static var title = { return NSLocalizedString("Warning", comment: "Title for alert.") }()
             public static var message = { return NSLocalizedString("This action will result in a loss of data.", comment: "Message for alert.") }()
         }
         
-        public struct startUp  {
+        public struct StartUp  {
             public static var title = { return NSLocalizedString("Setup / Disclaimer", comment: "Title for an alert.  Don't worry about room.") }()
             
             public static var message = { return NSLocalizedString("To use PatchDay, go to the settings and set your delivery method (injections or patches), the time interval between doses, and the number of patches if applicable.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.juliyasmith.com/patchday.html to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for alert.") }()
@@ -221,9 +223,15 @@ public class PDStrings {
             public static var support = { return NSLocalizedString("Support page", comment: "Title for action in alert. don't worry about room.") }()
         }
         
-        public struct addSite {
+        public struct AddSite {
             public static var title = { return NSLocalizedString("Add new site name to sites list?", comment: "Title for an alert. Don't worry about room. It means to add a new name of a site on the body into a list.") }()
+            
+            public static var addActionTitle = { return NSLocalizedString("Yes, add it!", comment: "Title for action in an alert.  Able to grow.") }()
+            
+            public static var declineActionTitle = {return NSLocalizedString("No, that's okay.", comment: "Title for action in an alert.  Able to grow.") }()
+        
         }
+    
     }
     
     // Non-Localizable
@@ -252,8 +260,11 @@ public class PDStrings {
         case needs_migrate = "nmig"
     }
     
-    public struct TodayKeys {
-        public static var tbTaken = { return "tb_taken" }()
+    public enum TodayKey: String {
+        case nextEstroSiteName = "nextEstroSiteName"
+        case nextEstroDate = "nextEstroDate"
+        case nextPillToTake = "nextPillToTake"
+        case nextPillTakeTime = "nextPillTakeTime"
     }
     
     public struct PillTypes {

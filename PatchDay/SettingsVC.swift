@@ -297,6 +297,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         else {
             print("Error: saving delivery method for index for row " + String(row))
         }
+        ScheduleController.setEstrogenDataForToday()
     }
     
     private func saveCountChange(_ row: Int) {

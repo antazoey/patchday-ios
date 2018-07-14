@@ -19,8 +19,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = { return UIFont.systemFont(ofSize: 39)}()
     
     // Variables
-    public var siteNames: [String] = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
-    private var selected: Int = -1
+    public var siteNames: [String] = ScheduleController.siteController.getScheduleSiteNames()
+    public var siteImgIDs: [String] = PDSiteHelper.getSiteImageIDs(ScheduleController.siteController.siteArray)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        siteNames = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
+        reloadSiteNames()
         siteTable.reloadData()
         setTitle()
         swapVisibilityOfCellFeatures(shouldHide: false)
@@ -44,7 +44,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
     {
         let delete = UITableViewRowAction(style: .normal, title: PDStrings.ActionStrings.delete)
-        { action, index in
+        { _, _ in
             self.deleteCell(indexPath: indexPath)
         }
         delete.backgroundColor = UIColor.red
@@ -53,11 +53,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Row selection, like action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
-        if let text = cell.nameLabel.text, let i = siteNames.index(of: text) {
-            selected = i
-            segueToSiteVC(i)
-        }
+        segueToSiteVC(indexPath.row)
     }
     
     // Movable
@@ -130,14 +126,13 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Reorder cell (reorders MOSite order attributes)
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObject = siteNames[sourceIndexPath.row]
-        let begin_i: Int = sourceIndexPath.row
-        let end_i: Int = destinationIndexPath.row
-        siteNames.remove(at: begin_i)
-        siteNames.insert(movedObject, at: end_i)
-        for i in 0..<siteNames.count-1 {
-            ScheduleController.siteController.setSiteName(index: i, to: siteNames[i])
+        let siteToMove = ScheduleController.siteController.siteArray[sourceIndexPath.row]
+        ScheduleController.siteController.siteArray.remove(at: sourceIndexPath.row)
+        ScheduleController.siteController.siteArray.insert(siteToMove, at: destinationIndexPath.row)
+        for i in 0..<ScheduleController.siteCount() {
+            ScheduleController.siteController.setSiteOrder(index: i, to: Int16(i))
         }
+        reloadSiteNames()
         siteTable.reloadData()
     }
     
@@ -155,11 +150,14 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if var items = navigationItem.rightBarButtonItems {
             switch items[1].title {
             case PDStrings.ActionStrings.edit :
+                self.title = ""
+                self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
                 swapVisibilityOfCellFeatures(shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
                 siteTable.isEditing = true
             case PDStrings.ActionStrings.done :
+                setTitle()
                 swapVisibilityOfCellFeatures(shouldHide: false)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
@@ -170,8 +168,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func resetTapped() {
+        setTitle()
         ScheduleController.siteController.resetSiteData()
-        siteNames = PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)
+        reloadSiteNames()
         siteTable.isEditing = false
         let range = 0..<siteNames.count
         let indexPathsToReload: [IndexPath] = range.map({
@@ -181,15 +180,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         siteTable.reloadData()
         siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
         swapVisibilityOfCellFeatures(shouldHide: false)
-        if var items = navigationItem.rightBarButtonItems {
-            switchBarItemFunctionality(items: &items)
-            navigationItem.rightBarButtonItems = items
-        }
+        switchNavItems()    // Close editing
     }
     
     // MARK: - Private
     
     private func segueToSiteVC(_ siteIndex: Int) {
+        let backItem = UIBarButtonItem()
+        backItem.title = PDStrings.VCTitles.sites
+        navigationItem.backBarButtonItem = backItem
         if let sb = storyboard, let navCon = navigationController, let siteVC = sb.instantiateViewController(withIdentifier: "SiteVC_id") as? SiteVC {
             siteVC.setSiteScheduleIndex(to: siteIndex)
             navCon.pushViewController(siteVC, animated: true)
@@ -198,7 +197,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Hides labels in the table cells for edit mode.
     private func swapVisibilityOfCellFeatures(shouldHide: Bool) {
-        for i in 0..<siteNames.count-1 {
+        for i in 0..<siteNames.count {
             let indexPath = IndexPath(row: i, section: 0)
             let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
             cell.orderLabel.isHidden = shouldHide
@@ -218,6 +217,13 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
             items[0].tintColor = PDColors.pdGreen
         default : break
+        }
+    }
+    
+    private func switchNavItems() {
+        if var items = navigationItem.rightBarButtonItems {
+            switchBarItemFunctionality(items: &items)
+            navigationItem.rightBarButtonItems = items
         }
     }
     
@@ -246,6 +252,10 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func setTitle() {
         title = (UserDefaultsController.usingPatches()) ? PDStrings.VCTitles.patch_sites : PDStrings.VCTitles.injection_sites
         self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
+    }
+    
+    private func reloadSiteNames() {
+        siteNames = ScheduleController.siteController.getScheduleSiteNames()
     }
 
 }

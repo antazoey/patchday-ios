@@ -112,15 +112,12 @@ public class UserDefaultsController: NSObject {
     // MARK: - Setters
     
     public static func setDeliveryMethod(to: String) {
-        if to != getDeliveryMethod() {
-            deliveryMethod = to
-            defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
-            let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
-            UserDefaultsController.setQuantityWithoutWarning(to: c)
-            ScheduleController.deliveryMethodChanged = true
-            SiteDataController.switchDefaultSites(deliveryMethod: to, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.persistentContainer.viewContext)
-            
-        }
+        deliveryMethod = to
+        defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
+        let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
+        UserDefaultsController.setQuantityWithoutWarning(to: c)
+        ScheduleController.deliveryMethodChanged = true
+        SiteDataController.switchDefaultSites(deliveryMethod: to, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.getContext())
     }
     
     public static func setTimeInterval(to: String) {
@@ -193,7 +190,7 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func incrementSiteIndex() {
-        siteIndex = (siteIndex + 1) % ScheduleController.siteController.siteArray.count
+        siteIndex = (siteIndex + 1) % ScheduleController.siteCount()
         defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
 
@@ -210,7 +207,7 @@ public class UserDefaultsController: NSObject {
             deliveryMethod = dm
         }
         else if let dm = std_defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
-            deliveryMethod = dm
+            setDeliveryMethod(to: dm)
         }
         else {
             setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
@@ -231,7 +228,7 @@ public class UserDefaultsController: NSObject {
             loadTimeIntervalHelper(to: interval)
         }
         else if let interval = std_defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
-            loadTimeIntervalHelper(to: interval)
+            setTimeInterval(to: interval)
         }
         else {
             setTimeInterval(to: PDStrings.PickerData.expirationIntervals[0])
@@ -253,6 +250,7 @@ public class UserDefaultsController: NSObject {
         }
         else if let countStr = std_defaults.object(forKey: PDStrings.SettingsKey.count.rawValue) as? String {
             loadQuantityHelper(countStr: countStr)
+            setQuantityWithoutWarning(to: countStr)
         }
         else {
             setQuantityWithoutWarning(to: PDStrings.PickerData.counts[2])
@@ -264,7 +262,7 @@ public class UserDefaultsController: NSObject {
             reminderTime = notifyTime
         }
         else if let notifyTime = std_defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? String {
-            reminderTime = notifyTime
+            setNotificationOption(to: notifyTime)
         }
         else {
             setNotificationOption(to: PDStrings.PickerData.notificationTimes[0])
@@ -276,7 +274,7 @@ public class UserDefaultsController: NSObject {
             notifications = notifyMe
         }
         else if let notifyMe = std_defaults.object(forKey: PDStrings.SettingsKey.remind.rawValue) as? Bool {
-            notifications = notifyMe
+            setNotify(to: notifyMe)
         }
         else {
             setNotify(to: true)
@@ -295,7 +293,7 @@ public class UserDefaultsController: NSObject {
             siteIndex = site_i
         }
         else if let site_i = std_defaults.object(forKey: PDStrings.SettingsKey.site_index.rawValue) as? Int {
-            siteIndex = site_i
+            setSiteIndex(to: site_i)
         }
         else {
             setSiteIndex(to: 0)

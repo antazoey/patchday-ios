@@ -22,7 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UserDefaultsController.setUp()
+        if !UserDefaultsController.mentionedDisclaimer() {
+            ScheduleController.pillController.pillArray = PillDataController.newPillMOs(into: ScheduleController.getContext())
+        }
         ScheduleController.estrogenController.migrate(needs: UserDefaultsController.needsMigration())
+        ScheduleController.setDataForTodayApp()
         
         setBadge(with: ScheduleController.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
 

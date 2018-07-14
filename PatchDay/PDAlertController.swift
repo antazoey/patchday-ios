@@ -25,8 +25,8 @@ internal class PDAlertController {
                 return
             }
             if let currentVC = getRootVC() {
-                let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-                currentAlert = UIAlertController(title: PDStrings.AlertStrings.loseDataAlert.title, message: PDStrings.AlertStrings.loseDataAlert.message, preferredStyle: alertStyle)
+                let alertStyle: UIAlertControllerStyle  = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
+                currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
                 let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                     (void) in
                     // Note: newCount is start_i because reset only occurs when decreasing count
@@ -55,7 +55,7 @@ internal class PDAlertController {
     internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton, newImage: UIImage?, newTitle: String?, navController: UINavigationController?){
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.loseDataAlert.title, message: PDStrings.AlertStrings.loseDataAlert.message, preferredStyle: alertStyle)
+            currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
                 ScheduleController.estrogenController.resetEstrogenData(start_i: 0, end_i: 3)
@@ -98,9 +98,9 @@ internal class PDAlertController {
     internal static func alertForDisclaimerAndTutorial() {
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.startUp.title, message: PDStrings.AlertStrings.startUp.message, preferredStyle: alertStyle)
+            currentAlert = UIAlertController(title: PDStrings.AlertStrings.StartUp.title, message: PDStrings.AlertStrings.StartUp.message, preferredStyle: alertStyle)
             let closeAction = UIAlertAction(title: PDStrings.ActionStrings.dismiss, style:     UIAlertActionStyle.cancel, handler: nil)
-            let goToAction = UIAlertAction(title: PDStrings.AlertStrings.startUp.support, style: .default) {
+            let goToAction = UIAlertAction(title: PDStrings.AlertStrings.StartUp.support, style: .default) {
                 (void) in
                 if let url = URL(string: "http://www.juliyasmith.com/patchday.html") {
                     if #available(iOS 10.0, *) {
@@ -116,11 +116,28 @@ internal class PDAlertController {
         }
     }
     
+    // MARK: - Add site
+    
+    internal static func alertForAddSite(with name: SiteName, at index: Index) {
+        if let currentVC = getRootVC() {
+            let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
+            currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
+            let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
+                (void) in
+                let _ = SiteDataController.appendSite(name: name, order: index, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.getContext())
+            }
+            let declineAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.declineActionTitle, style: .default)
+            currentAlert.addAction(addAction)
+            currentAlert.addAction(declineAction)
+            currentVC.present(currentAlert, animated: true, completion: nil)
+        }
+    }
+    
     //MARK: - Core data errors
     
     internal static func alertForCoreDataError() {
         if let currentVC = getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.coreDataAlert.title, message: PDStrings.AlertStrings.coreDataAlert.message, preferredStyle: .alert)
+            currentAlert = UIAlertController(title: PDStrings.AlertStrings.CoreDataAlert.title, message: PDStrings.AlertStrings.CoreDataAlert.message, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: PDStrings.ActionStrings.dismiss, style: UIAlertActionStyle.cancel, handler: nil)
             currentAlert.addAction(closeAction)
             currentVC.present(currentAlert, animated: true, completion: nil)
@@ -131,7 +148,7 @@ internal class PDAlertController {
     
     internal static func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.coreDataAlert.title, message: "(\(String(describing: error))", preferredStyle: .alert)
+            currentAlert = UIAlertController(title: PDStrings.AlertStrings.CoreDataAlert.title, message: "(\(String(describing: error))", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.accept, style: .destructive) {
             (void) in
             fatalError()

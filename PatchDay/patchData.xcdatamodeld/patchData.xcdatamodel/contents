@@ -3,6 +3,7 @@
     <entity name="Estrogen" representedClassName="MOEstrogen" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="siteNameBackUp" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="siteRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="estrogenRelationship" inverseEntity="Site" syncable="YES"/>
     </entity>
     <entity name="PatchA" representedClassName="MOOldEstro" syncable="YES">
@@ -32,17 +33,18 @@
         <attribute name="timesTakenToday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
     <entity name="Site" representedClassName="MOSite" syncable="YES">
+        <attribute name="imageIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="estrogenRelationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Estrogen" inverseName="siteRelationship" inverseEntity="Estrogen" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Estrogen" positionX="-36" positionY="54" width="128" height="90"/>
-        <element name="Pill" positionX="-27" positionY="63" width="128" height="165"/>
-        <element name="Site" positionX="-27" positionY="63" width="128" height="90"/>
+        <element name="Estrogen" positionX="-36" positionY="54" width="128" height="105"/>
         <element name="PatchA" positionX="-36" positionY="117" width="128" height="75"/>
         <element name="PatchB" positionX="-27" positionY="126" width="128" height="75"/>
         <element name="PatchC" positionX="-18" positionY="135" width="128" height="75"/>
         <element name="PatchD" positionX="-9" positionY="144" width="128" height="75"/>
+        <element name="Pill" positionX="-27" positionY="63" width="128" height="165"/>
+        <element name="Site" positionX="-27" positionY="63" width="128" height="105"/>
     </elements>
 </model>
