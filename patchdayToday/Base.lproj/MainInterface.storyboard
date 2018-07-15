@@ -127,10 +127,18 @@
                                     <constraint firstItem="W6F-jV-7bu" firstAttribute="leading" secondItem="O1U-OB-eRq" secondAttribute="leading" id="Oh5-bk-Vpn"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Typ-Hi-cVX">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+                                <connections>
+                                    <action selector="widgetTapped:" destination="M4Y-Lb-cyx" eventType="touchUpInside" id="tot-qB-YE5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="55s-gu-8WI" secondAttribute="bottom" constant="1" id="00r-k3-GaZ"/>
                             <constraint firstItem="55s-gu-8WI" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="10" id="3VE-rU-5Qh"/>
+                            <constraint firstItem="Typ-Hi-cVX" firstAttribute="bottom" secondItem="ssy-KU-ocm" secondAttribute="bottom" id="4wV-p1-RHL"/>
+                            <constraint firstItem="Typ-Hi-cVX" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" id="InJ-ZH-rwp"/>
                             <constraint firstItem="ssy-KU-ocm" firstAttribute="trailing" secondItem="55s-gu-8WI" secondAttribute="trailing" constant="10" id="PSY-RD-gaw"/>
                             <constraint firstItem="gRS-YN-vKK" firstAttribute="leading" secondItem="W6F-jV-7bu" secondAttribute="leading" id="dZe-zo-X0v"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="centerX" secondItem="55s-gu-8WI" secondAttribute="centerX" id="hQd-lz-gpn"/>
@@ -138,6 +146,8 @@
                             <constraint firstItem="zEm-KT-owu" firstAttribute="leading" secondItem="ssy-KU-ocm" secondAttribute="leading" constant="10" id="m3G-42-r5b"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leading" id="qaK-5A-Tk5"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="centerY" secondItem="S3S-Oj-5AN" secondAttribute="centerY" id="rfV-Fq-htR"/>
+                            <constraint firstItem="Typ-Hi-cVX" firstAttribute="trailing" secondItem="ssy-KU-ocm" secondAttribute="trailing" id="u5Q-p5-740"/>
+                            <constraint firstItem="Typ-Hi-cVX" firstAttribute="top" secondItem="ssy-KU-ocm" secondAttribute="top" id="wFB-tk-NJp"/>
                             <constraint firstItem="zEm-KT-owu" firstAttribute="bottom" secondItem="ssy-KU-ocm" secondAttribute="bottom" constant="-20" id="zpW-V4-vex"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ssy-KU-ocm"/>

@@ -59,10 +59,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
         saveButton = navigationItem.rightBarButtonItem
         saveButton.isEnabled = false
-        setUpLabelsInUI()
         autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
         
         // Load data
+        setUpLabelsInUI()
         displayAttributeTexts()
         
         // Delegation
@@ -299,7 +299,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
             else if let name = chooseSiteButton.text {
                 ScheduleController.estrogenController.setEstrogenBackUpSiteName(of: estrogenScheduleIndex, with: name, estrogenCount: estroCount)
-                ScheduleController.estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: nil, estrogenCount: estroCount)
             }
         }
         

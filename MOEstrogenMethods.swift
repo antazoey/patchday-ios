@@ -39,7 +39,7 @@ extension MOEstrogen {
     }
     
     public func setSiteBackup(to str: String) {
-        self.siteNameBackUp = str
+        self.siteNameBackUp = str        
         self.siteRelationship = nil
     }
     

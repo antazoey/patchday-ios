@@ -54,6 +54,16 @@ class TodayViewController: UIViewController, NCWidgetProviding {
      
     }
 
+    @IBAction func widgetTapped(_ sender: Any) {
+        
+        let myAppUrl = NSURL(string: "PatchDay://")!
+        extensionContext?.open(myAppUrl as URL, completionHandler: { (success) in
+            if (!success) {
+                print("Failure to open PatchDay")
+            }
+        })
+    }
+    
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         
     }
