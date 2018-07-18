@@ -31,6 +31,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadTitle()
         loadBarButtons()
         updateFromBackground()
+        loadTabBarItems()
         
         // Reset animation bools
         ScheduleController.increasedCount = false
@@ -38,20 +39,21 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         ScheduleController.deliveryMethodChanged = false
         ScheduleController.animateScheduleFromChangeDelivery = false
         ScheduleController.onlySiteChanged = false
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        // alert for disclaimer and tutorial on first start up
-        if !UserDefaultsController.mentionedDisclaimer() {
+        // Alert for disclaimer and tutorial on first start up
+        if appDelegate.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
             UserDefaultsController.setMentionedDisclaimer(to: true)
         }
-        
         estrogenTable.reloadData()
     }
-    
+
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         setTabBarBadges()
     }
     
@@ -60,36 +62,51 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return UserDefaultsController.getQuantityInt()
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let estrogenIndex = indexPath.row
-        let intervalStr = UserDefaultsController.getTimeIntervalString()
-        let usingPatches = UserDefaultsController.usingPatches()
-        let estroCount = UserDefaultsController.getQuantityInt()
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: indexPath.row, estrogenCount: estroCount)
-        let isExpired = estro.isExpired(intervalStr)
-        let bg = UIView()
-        let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: "estrogenCellReuseID") as! EstrogenTableViewCell
-        bg.backgroundColor = PDColors.pdPink
-        let img = determineEstrogenCellImage(index: estrogenIndex)
-        let title = determineEstrogenCellTitle(estrogenIndex: estrogenIndex, intervalStr)
+        let cell = estrogenTable.dequeueReusableCell(withIdentifier: "estrogenCellReuseID") as! EstrogenTableViewCell
         
-        animateEstrogenButtonChanges(cell: estroCell, newImage: img, newTitle: title, at: estrogenIndex)
-        estroCell.selectedBackgroundView = bg
-        estroCell.backgroundColor = (indexPath.row % 2 == 0) ? PDColors.pdLightBlue : UIColor.white
-        estroCell.dateLabel.textColor = isExpired ? UIColor.red : PDColors.pdDarkLines
-        estroCell.badgeButton.restorationIdentifier = String(indexPath.row)
-        estroCell.badgeButton.type = (usingPatches) ? .patches : .injections
-        estroCell.badgeButton.badgeValue = isExpired ? "!" : nil
+        // Estrogen cell
+        if estrogenIndex < UserDefaultsController.getQuantityInt() {
+            let intervalStr = UserDefaultsController.getTimeIntervalString()
+            let usingPatches = UserDefaultsController.usingPatches()
+            let estro = ScheduleController.estrogenController.getEstrogenMO(at: indexPath.row)
+            let isExpired = estro.isExpired(intervalStr)
+            let img = determineEstrogenCellImage(index: estrogenIndex)
+            let title = determineEstrogenCellTitle(estrogenIndex: estrogenIndex, intervalStr)
+            cell.selectedBackgroundView = UIView()
+            cell.selectedBackgroundView?.backgroundColor = PDColors.pdPink
+            cell.backgroundColor = (indexPath.row % 2 == 0) ? PDColors.pdLightBlue : UIColor.white
+            cell.dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
+            cell.dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? UIFont.systemFont(ofSize: 15) : UIFont.systemFont(ofSize: 38)
+            cell.badgeButton.restorationIdentifier = String(indexPath.row)
+            cell.badgeButton.type = usingPatches ? .patches : .injections
+            cell.badgeButton.badgeValue = isExpired ? "!" : nil
+            animateEstrogenButtonChanges(cell: cell, newImage: img, newTitle: title, at: estrogenIndex)
+            cell.selectionStyle = .default
+        }
         
-        return estroCell
+        // Reset cell
+        else {
+            cell.selectedBackgroundView = nil
+            cell.dateLabel.text = nil
+            cell.badgeButton.titleLabel?.text = nil
+            cell.stateImage.image = nil
+            cell.backgroundColor = UIColor.white
+            cell.selectionStyle = .none
+        }
+        return cell
+            
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        segueToEstrogenVC(index: indexPath.row)
+        if indexPath.row < UserDefaultsController.getQuantityInt() {
+            segueToEstrogenVC(index: indexPath.row)
+        }
     }
     
     // MARK: - Actions
@@ -106,11 +123,10 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineEstrogenCellImage(index: Index) -> UIImage {
         let usingPatches: Bool = UserDefaultsController.usingPatches()
-        let estrogenCount: Int = UserDefaultsController.getQuantityInt()
         // Default:  new / add image
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         var image: UIImage = insert_img
-        let estro = estrogenController.getEstrogenMO(at: index, estrogenCount: estrogenCount)
+        let estro = estrogenController.getEstrogenMO(at: index)
 
         if !estro.isEmpty() {
             // Check if Site relationship siteName is a general site.
@@ -132,8 +148,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     /// Determines the start of the week title for a schedule button.
     private func determineEstrogenCellTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
         var title: String = ""
-        let estrogenCount = UserDefaultsController.getQuantityInt()
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex, estrogenCount: estrogenCount)
+        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex)
         if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
             if UserDefaultsController.usingPatches() {
                 let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
@@ -172,15 +187,18 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     @objc internal func appWillEnterForeground() {
-        //displayEstrogenButtons()
+        estrogenTable.reloadData()
     }
     
     private func loadBarButtons() {
-        let settingsButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editTapped))
+        let settingsButton = UIBarButtonItem()
+        settingsButton.image = #imageLiteral(resourceName: "Settings Icon")
+        settingsButton.target = self
+        settingsButton.action = #selector(editTapped)
         navigationItem.rightBarButtonItems = [settingsButton]
     }
     
-    private func setTabBarBadges() {
+    public func setTabBarBadges() {
         
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
@@ -208,9 +226,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func segueToEstrogenVC(index: Int) {
-        if let sb = storyboard, let navCon = navigationController, let detailsVC = sb.instantiateViewController(withIdentifier: "EstrogenVC_id") as? EstrogenVC {
-            detailsVC.setEstrogenScheduleIndex(to: index)
-            navCon.pushViewController(detailsVC, animated: true)
+        if let sb = storyboard, let navCon = navigationController, let estroVC = sb.instantiateViewController(withIdentifier: "EstrogenVC_id") as? EstrogenVC {
+            estroVC.setEstrogenScheduleIndex(to: index)
+            navCon.pushViewController(estroVC, animated: true)
         }
     }
     
@@ -220,4 +238,16 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             title = (UserDefaultsController.usingPatches()) ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
         }
     }
+    
+    private func loadTabBarItems() {
+        navigationController?.tabBarController?.tabBar.unselectedItemTintColor = UIColor.black
+        navigationController?.tabBarController?.tabBar.tintColor = UIColor.purple
+        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
+        if let vcs = navigationController?.tabBarController?.viewControllers {
+            for i in 0..<vcs.count {
+                vcs[i].tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
+            }
+        }
+    }
+    
 }

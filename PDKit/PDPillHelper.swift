@@ -46,48 +46,31 @@ public struct PillAttributes {
 
 public class PDPillHelper: NSObject {
     
-    /** Returns the total count of due.  Is due means:
-       1.) Past the due time today and
-       2.) Taken before today. */
-    public static func totalDue(timesTakensToday: [Int], nextDueDates: [Date]) -> Int {
-        var total = 0
-        let min_count = min(timesTakensToday.count, nextDueDates.count)
-        if min_count > 0 {
-            for i in 0..<min_count {
-                let now = Date()
-                if now > nextDueDates[i] {
-                    total += 1
-                }
-            }
-        }
-        return total
-    }
-    
     /// Return the next time the pill is due.
     public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [NSDate?]) -> Date? {
-        if times.count > 0, let nstime1 = times[0] {
-            let time1 = nstime1 as Time
+        if times.count > 0, let time1 = times[0] as Time? {
             if timesaday == 1 {
                 if timesTakenToday == 0 {
-                    return PDDateHelper.getTodayDate(at: time1 as Time)
+                    return PDDateHelper.getDate(on: Date(), at: time1)
                 }
-                else if let todayTime = PDDateHelper.getTodayDate(at: time1 as Time) {
+                // Take tomorrow
+                else if let todayTime = PDDateHelper.getDate(on: Date(), at: time1) {
                     return PDDateHelper.getDate(at: todayTime, daysToAdd: 1)
                 }
             }
-            else if times.count >= 1, let nstime2 = times[1] {
-                let time2 = nstime2 as Time
+            // When timesaday == 2
+            else if times.count >= 1, let time2 = times[1] as Time? {
                 if timesTakenToday == 0 {
                     let minTime = min(time1, time2)
-                    return PDDateHelper.getTodayDate(at: minTime)
+                    return PDDateHelper.getDate(on: Date(), at: minTime)
                 }
                 else if timesTakenToday == 1 {
                     let maxTime = max(time1, time2)
-                    return PDDateHelper.getTodayDate(at: maxTime)
+                    return PDDateHelper.getDate(on: Date(), at: maxTime)
                 }
                 else {
                     let minTime = min(time1, time2)
-                    if let todayTime = PDDateHelper.getTodayDate(at: minTime) {
+                    if let todayTime = PDDateHelper.getDate(on: Date(), at: minTime) {
                         return PDDateHelper.getDate(at: todayTime, daysToAdd: 1)
                     }
                 }

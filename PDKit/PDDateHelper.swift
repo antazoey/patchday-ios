@@ -36,21 +36,27 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
+    public static func getDate(on date: Date, at time: Time) -> Date? {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        let day = calendar.component(.day, from: date)
+        let hour = calendar.component(.hour, from: time)
+        let min = calendar.component(.minute, from: time)
+        let components = DateComponents(calendar: calendar, timeZone: calendar.timeZone, year: year, month: month, day: day, hour: hour, minute: min)
+        if let d = calendar.date(from: components) {
+            return d
+        }
+        return nil
+    }
+    
     /// Returns date calculated by adding days.
-    public static func getDate(at: Time, daysToAdd: Int) -> Date? {
+    public static func getDate(at time: Time, daysToAdd: Int) -> Date? {
         let calendar = Calendar.current
         var addComponents = DateComponents()
         addComponents.day = daysToAdd
-        if let tom = calendar.date(byAdding: addComponents, to: Date()) {
-            let year = calendar.component(.year, from: tom)
-            let month = calendar.component(.month, from: tom)
-            let day = calendar.component(.day, from: tom)
-            let hour = calendar.component(.hour, from: at)
-            let min = calendar.component(.minute, from: at)
-            let components = DateComponents(calendar: calendar, timeZone: calendar.timeZone, year: year, month: month, day: day, hour: hour, minute: min)
-            if let d = calendar.date(from: components) {
-                return d
-            }
+        if let futureDate = calendar.date(byAdding: addComponents, to: Date()) {
+            return getDate(on: futureDate, at: time)
         }
         print("Error: Undetermined time.")
         return nil
@@ -64,23 +70,6 @@ public class PDDateHelper: NSObject {
     /// Returns whether the date is in today.
     public static func dateIsInToday(_ date: Date) -> Bool {
         return Calendar.current.isDate(date, inSameDayAs: Date())
-    }
-    
-    /// Returns today's date with the given time.
-    public static func getTodayDate(at: Time) -> Date? {
-        let calendar = Calendar.current
-        let now = Date()
-        let year = calendar.component(.year, from: now)
-        let month = calendar.component(.month, from: now)
-        let day = calendar.component(.day, from: now)
-        let hour = calendar.component(.hour, from: at)
-        let min = calendar.component(.minute, from: at)
-        let components = DateComponents(calendar: calendar, timeZone: calendar.timeZone, year: year, month: month, day: day, hour: hour, minute: min)
-        if let d = calendar.date(from: components) {
-            return d
-        }
-        print("Error: Undetermined time.")
-        return nil
     }
     
     /// Converts an interval string into the number of hours, defaults to 3.5 days.

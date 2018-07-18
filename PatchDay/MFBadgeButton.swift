@@ -90,7 +90,7 @@ class MFBadgeButton : UIButton {
         switch type {
         case .patches, .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.90, dy: 20)
             shapeLayer.lineWidth = 4
-        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.71, dy: 41)
+        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.71, dy: 0)
             shapeLayer.lineWidth = 0.5
         }
         

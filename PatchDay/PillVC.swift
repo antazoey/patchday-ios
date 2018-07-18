@@ -13,6 +13,9 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var selectNameButton: UIButton!
@@ -45,6 +48,10 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         namePicker.delegate = self
         namePicker.delegate = self
         nameTextField.delegate = self
+        
+        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+            topConstraint.constant = 100
+        }
         
         // UI States
         selectNameButton.setTitleColor(UIColor.lightGray, for: .disabled)

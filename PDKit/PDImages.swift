@@ -35,7 +35,6 @@ public class PDImages {
     
     // Pills
     public static var pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
-    public static var pillDone: UIImage = { return #imageLiteral(resourceName: "Pill Done") }()
     
     public static var patchImages: [UIImage] = { return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p] }()
     public static var injectionImages: [UIImage] =  { return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i] }()
@@ -102,6 +101,14 @@ public class PDImages {
         else {
             return PDStrings.PlaceholderStrings.new_site
         }
+    }
+    
+    public static func getSiteIcon(at index: Index) -> UIImage {
+        let icons = [#imageLiteral(resourceName: "ES Icon 1"), #imageLiteral(resourceName: "ES Icon 2"), #imageLiteral(resourceName: "ES Icon 3"), #imageLiteral(resourceName: "ES Icon 4")]
+        if index >= 0 && index < icons.count {
+            return icons[index]
+        }
+        else { return #imageLiteral(resourceName: "Calendar Icon") }
     }
     
     public static func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {

@@ -19,7 +19,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = { return UIFont.systemFont(ofSize: 39)}()
     
     // Variables
-    public var siteNames: [String] = ScheduleController.siteController.getScheduleSiteNames()
+    public var siteNames: [String] = ScheduleController.siteController.getSiteNames()
     public var siteImgIDs: [String] = PDSiteHelper.getSiteImageIDs(ScheduleController.siteController.siteArray)
     
     override func viewDidLoad() {
@@ -28,14 +28,17 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         siteTable.dataSource = self
         loadBarButtons()
         siteTable.allowsSelectionDuringEditing = true
+        loadTabBarItemSize()
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         reloadSiteNames()
         siteTable.reloadData()
         setTitle()
-        swapVisibilityOfCellFeatures(shouldHide: false)
+        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0), shouldHide: false)
+
     }
     
     // MARK: - Table and cell characteristics.
@@ -51,7 +54,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return [delete]
     }
     
-    // Row selection, like action
+    // Row action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         segueToSiteVC(indexPath.row)
     }
@@ -79,16 +82,39 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return siteNames.count
     }
     
+    private func loadCellEstrogenImages(for site: MOSite) -> UIImage? {
+        if site.isOccupiedByMany() || (!UserDefaultsController.usingPatches() && site.isOccupied()) {
+            return  #imageLiteral(resourceName: "ES Icon")
+        }
+        else if site.isOccupied() {
+            let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen
+            if let i = ScheduleController.estrogenController.getEstrogenIndex(for: estro) {
+                return PDImages.getSiteIcon(at: i)
+            }
+        }
+        return nil
+    }
+    
+    private func cellNextTitleShouldHide(cellIndex: Index) -> Bool {
+        if let next_i = ScheduleController.siteController.getNextSiteIndex(),
+            next_i == cellIndex && !siteTable.isEditing {
+            return false
+        }
+        return true
+    }
+    
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseID") as! SiteTableViewCell
         let i = indexPath.row
-        if i >= 0 && i < siteNames.count {
+        if i >= 0 && i < siteNames.count, let site = ScheduleController.siteController.getSite(at: i) {
             cell.orderLabel.text = String(i + 1) + "."
             cell.nameLabel.text = siteNames[i]
-            if i % 2 == 0 {
-                cell.backgroundColor = PDColors.pdLightBlue
-            }
+            cell.estrogenScheduleImage.tintColor = UIColor.red
+            cell.nextLabel.textColor = PDColors.pdGreen
+            cell.estrogenScheduleImage.image = loadCellEstrogenImages(for: site)
+            cell.nextLabel.isHidden = cellNextTitleShouldHide(cellIndex: i)
+            cell.backgroundColor = (i % 2 != 0) ? UIColor.white : PDColors.pdLightBlue
         }
         
         // Cell background view when selected
@@ -129,6 +155,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let siteToMove = ScheduleController.siteController.siteArray[sourceIndexPath.row]
         ScheduleController.siteController.siteArray.remove(at: sourceIndexPath.row)
         ScheduleController.siteController.siteArray.insert(siteToMove, at: destinationIndexPath.row)
+        if sourceIndexPath.row == UserDefaultsController.getSiteIndex() {
+            UserDefaultsController.setSiteIndex(to: destinationIndexPath.row)
+        }
         for i in 0..<ScheduleController.siteCount() {
             ScheduleController.siteController.setSiteOrder(index: i, to: Int16(i))
         }
@@ -147,18 +176,19 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc func editTapped() {
+        let c = siteTable.numberOfRows(inSection: 0)
         if var items = navigationItem.rightBarButtonItems {
             switch items[1].title {
             case PDStrings.ActionStrings.edit :
                 self.title = ""
                 self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
-                swapVisibilityOfCellFeatures(shouldHide: true)
+                swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
                 siteTable.isEditing = true
             case PDStrings.ActionStrings.done :
                 setTitle()
-                swapVisibilityOfCellFeatures(shouldHide: false)
+                swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
                 siteTable.isEditing = false
@@ -179,7 +209,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         })
         siteTable.reloadData()
         siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
-        swapVisibilityOfCellFeatures(shouldHide: false)
+        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0), shouldHide: false)
         switchNavItems()    // Close editing
     }
     
@@ -192,16 +222,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if let sb = storyboard, let navCon = navigationController, let siteVC = sb.instantiateViewController(withIdentifier: "SiteVC_id") as? SiteVC {
             siteVC.setSiteScheduleIndex(to: siteIndex)
             navCon.pushViewController(siteVC, animated: true)
+            
         }
     }
     
     // Hides labels in the table cells for edit mode.
-    private func swapVisibilityOfCellFeatures(shouldHide: Bool) {
-        for i in 0..<siteNames.count {
+    private func swapVisibilityOfCellFeatures(cellCount: Int, shouldHide: Bool) {
+        for i in 0..<cellCount {
             let indexPath = IndexPath(row: i, section: 0)
             let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
-            cell.orderLabel.isHidden = shouldHide
-            cell.arrowLabel.isHidden = shouldHide
+            cell.swapVisibilityOfCellFeatures(cellIndex: i, shouldHide: shouldHide)
         }
     }
     
@@ -255,7 +285,12 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func reloadSiteNames() {
-        siteNames = ScheduleController.siteController.getScheduleSiteNames()
+        siteNames = ScheduleController.siteController.getSiteNames()
+    }
+    
+    private func loadTabBarItemSize() {
+        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
+        self.navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
     }
 
 }

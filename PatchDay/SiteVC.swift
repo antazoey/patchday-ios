@@ -21,6 +21,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var namePicker: UIPickerView!
     @IBOutlet weak var gapAboveImage: UIView!
     
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var imagePickerDoneButton: UIButton!
     @IBOutlet weak var imageButton: UIButton!
@@ -33,6 +34,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+            topConstraint.constant = 100
+        }
         nameText.autocapitalizationType = .words
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
         disableSave()
@@ -167,7 +171,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = ScheduleController.siteController.getScheduleSiteNames()
+            sitesVC.siteNames = ScheduleController.siteController.getSiteNames()
             navCon.popViewController(animated: true)
         }
     }
@@ -189,7 +193,6 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         let sitesWithImages = usingPatches ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
         if let name = nameText.text {
             var image: UIImage
-            siteImage.contentMode = (usingPatches) ? .top : .scaleAspectFit
             // New image
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection

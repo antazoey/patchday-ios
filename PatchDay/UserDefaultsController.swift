@@ -24,7 +24,7 @@ public class UserDefaultsController: NSObject {
     
     // Notification defaults:
     private static var notifications = false
-    private static var reminderTime: String = PDStrings.PickerData.notificationTimes[0]
+    private static var reminderTime: Int = 0
     
     // Rememberance
     private static var mentionedAppDisclaimer = false
@@ -37,7 +37,7 @@ public class UserDefaultsController: NSObject {
         loadDeliveryMethod()
         loadTimeInterval()
         loadQuantity()
-        loadNotificationOption()
+        loadNotificationMinutesBefore()
         loadRemindUpon()
         loadMentionedDisclaimer()
         loadSiteIndex()
@@ -59,38 +59,14 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func getQuantityInt() -> Int {
-        if let int = Int(quantity) {
-            return int
-        }
-        else {
+        guard let int = Int(quantity) else {
             return -1
         }
+        return int
     }
     
-    public static func getNotificationTimeString() -> String {
+    public static func getNotificationMinutesBefore() -> Int {
         return reminderTime
-    }
-    
-    public static func getNotificationTimeInt() -> Int {
-        // Remove word "minutes"
-        let min: String = cutNotificationMinutes(of: reminderTime)
-        if let int = Int(min) {
-            return int
-        }
-        else {
-            return -1
-        }
-    }
-    
-    public static func getNotificationTimeDouble() -> Double {
-        // Remove word "minutes"
-        let min: String = cutNotificationMinutes(of: reminderTime)
-        if let double = Double(min) {
-            return double
-        }
-        else {
-            return -1
-        }
     }
     
     public static func getRemindMeUpon() -> Bool {
@@ -164,9 +140,9 @@ public class UserDefaultsController: NSObject {
         }
     }
     
-    public static func setNotificationOption(to option: String) {
-        reminderTime = option
-        defaults.set(option, forKey: PDStrings.SettingsKey.notif.rawValue)
+    public static func setNotificationMinutesBefore(to minutes: Int) {
+        reminderTime = minutes
+        defaults.set(minutes, forKey: PDStrings.SettingsKey.notif.rawValue)
     }
     
     public static func setNotify(to notify: Bool) {
@@ -176,7 +152,7 @@ public class UserDefaultsController: NSObject {
 
     public static func setMentionedDisclaimer(to disclaimer: Bool) {
         mentionedAppDisclaimer = disclaimer
-        defaults.set(disclaimer, forKey: PDStrings.SettingsKey.setup.rawValue)
+        std_defaults.set(disclaimer, forKey: PDStrings.SettingsKey.setup.rawValue)
     }
     
     public static func setSiteIndex(to: Int) {
@@ -186,7 +162,7 @@ public class UserDefaultsController: NSObject {
     
     public static func migrated() {
         needsDataMigration = false
-        defaults.set(false, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
+        std_defaults.set(false, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
     }
     
     public static func incrementSiteIndex() {
@@ -257,15 +233,15 @@ public class UserDefaultsController: NSObject {
         }
     }
     
-    private static func loadNotificationOption() {
-        if let notifyTime = defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? String {
+    private static func loadNotificationMinutesBefore() {
+        if let notifyTime = defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? Int {
             reminderTime = notifyTime
         }
-        else if let notifyTime = std_defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? String {
-            setNotificationOption(to: notifyTime)
+        else if let notifyTime = std_defaults.object(forKey: PDStrings.SettingsKey.notif.rawValue) as? Int {
+            setNotificationMinutesBefore(to: notifyTime)
         }
         else {
-            setNotificationOption(to: PDStrings.PickerData.notificationTimes[0])
+            setNotificationMinutesBefore(to: 0)
         }
     }
     
@@ -304,6 +280,9 @@ public class UserDefaultsController: NSObject {
     private static func loadNeedsMigration() {
         if let needs = std_defaults.object(forKey: PDStrings.SettingsKey.needs_migrate.rawValue) as? Bool {
             needsDataMigration = needs
+        }
+        else {
+            std_defaults.set(true, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
         }
     }
     

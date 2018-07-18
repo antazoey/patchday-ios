@@ -45,6 +45,14 @@ extension MOSite {
         }
         return false
     }
+    
+    /// Returns if the the MOSite is occupied by more than one MOEstrogen.
+    public func isOccupiedByMany() -> Bool {
+        if let r = estrogenRelationship {
+            return r.count > 1
+        }
+        return false
+    }
 
     public func setOrder(to order: Int16) {
         self.order = order
@@ -83,8 +91,9 @@ extension MOSite {
 
     public func reset() {
         order = Int16(-1)
-        name = ""
-        imageIdentifier = ""
+        name = nil
+        imageIdentifier = nil
+        estrogenRelationship = nil
     }
     
 }

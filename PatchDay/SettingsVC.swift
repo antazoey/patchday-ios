@@ -16,11 +16,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can alMOEstrogenst be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Autofill Site Functionality". UserDefaultsController is the object responsible saving and loading the settings that the user chooses here.
     
+    
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    
     // Pickers
     @IBOutlet weak var deliveryMethodPicker: UIPickerView!
     @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
     @IBOutlet private weak var countPicker: UIPickerView!
-    @IBOutlet private weak var reminderTimePicker: UIPickerView!
     @IBOutlet fileprivate weak var settingsStack: UIStackView!
 
     // trackers
@@ -40,8 +42,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // Notification outlets (in order of appearance)
     @IBOutlet private weak var receiveReminder_switch: UISwitch!
     @IBOutlet private weak var reminderTimeLabel: UILabel!
-    @IBOutlet private weak var reminderTimeButton: UIButton!
-    @IBOutlet private weak var reminderTimeArrow: UIButton!
+    @IBOutlet weak var reminderTimeSettingsLabel: UILabel!
+    @IBOutlet weak var reminderTimeSlider: UISlider!
     
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     let estroController = ScheduleController.estrogenController
@@ -50,32 +52,35 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         super.viewDidLoad()
         title = PDStrings.VCTitles.settings
-
         countLabel.text = PDStrings.ColonedStrings.count
         
-        // set button selected states
+        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+            topConstraint.constant = 100
+        }
+        
+        // Button selected states
         deliveryMethodButton.setTitle(PDStrings.ActionStrings.save, for: .selected)
         intervalButton.setTitle(PDStrings.ActionStrings.save, for: .selected)
         countButton.setTitle(PDStrings.ActionStrings.save, for: .selected)
         
-        // set disabled states
+        // Disabled states
         countButton.setTitleColor(UIColor.lightGray, for: .disabled)
-
-        // other
+        
         countButton.tag = 10
         settingsView.backgroundColor = UIColor.white
         delegatePickers()
         
-        // load titles
+        // Load data into titles
         loadDeliveryMethod()
         loadReminder_bool()
         loadInterval()
         loadCount()
-        loadNotificationOption()
-
+        loadRemindMinutes()
+        
  }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
     }
       
@@ -104,15 +109,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         receiveReminder_switch.setOn(UserDefaultsController.getRemindMeUpon(), animated: false)
     }
     
-    private func loadNotificationOption() {
+    private func loadRemindMinutes() {
         if receiveReminder_switch.isOn {
-            enableNotificationButtons()
+            let v = UserDefaultsController.getNotificationMinutesBefore()
+            reminderTimeSlider.value = Float(v)
+            reminderTimeSettingsLabel.text = String(v)
+            reminderTimeSettingsLabel.textColor = UIColor.black
         }
         else {
-            disableNotificationButtons()
+            reminderTimeSettingsLabel.textColor = UIColor.lightGray
         }
-        let title = UserDefaultsController.getNotificationTimeString()
-        reminderTimeButton.setTitle(title, for: .normal)
     }
 
     // MARK: - Picker Functions
@@ -121,7 +127,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         deliveryMethodPicker.delegate = self
         expirationIntervalPicker.delegate = self
         countPicker.delegate = self
-        reminderTimePicker.delegate = self
     }
     
     internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -140,8 +145,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 numberOfRows = PDStrings.PickerData.counts.count
             case PDStrings.SettingsKey.interval:                                  // INTERVAL
                 numberOfRows = PDStrings.PickerData.expirationIntervals.count
-            case PDStrings.SettingsKey.notif:                                     // NOTIF
-                numberOfRows = PDStrings.PickerData.notificationTimes.count
             default:
                 print("Error:  Improper context when selecting picker selections count")
             }
@@ -167,10 +170,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 if row < PDStrings.PickerData.counts.count && row >= 0 {
                     title = PDStrings.PickerData.counts[row]
                 }
-            case PDStrings.SettingsKey.notif:
-                if row < PDStrings.PickerData.notificationTimes.count && row >= 0 {
-                    title = PDStrings.PickerData.notificationTimes[row]
-                }
             default:
                 print("Error:  Improper context for loading PickerView")
             }
@@ -190,7 +189,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      // key is either "interval" , "count" , "notifications" */
     private func openOrClosePicker(key: SettingsKey) {
         
-        // change member variable for determining correct picker
+        // Change member variable for determining correct picker
         setWhichTapped(to: key)
         switch key {
         case PDStrings.SettingsKey.deliv:                // DELIVERY METHOD
@@ -205,11 +204,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             countPicker.reloadAllComponents()
             deselectEverything(except: "c")
             openOrClose(picker: countPicker, buttonTapped: countButton, selections: PDStrings.PickerData.counts, key: key)
-        case PDStrings.SettingsKey.notif:                         // NOTIFICATION TIME BEFORE
-            reminderTimePicker.reloadAllComponents()
-            // close other pickers / deselect
-            deselectEverything(except: "r")
-            openOrClose(picker: reminderTimePicker, buttonTapped: reminderTimeButton, selections: PDStrings.PickerData.notificationTimes, key: key)
         default:
             print("Error: Improper context for loading UIPicker.")
         }
@@ -262,8 +256,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func saveDeliveryMethodChange(_ row: Int) {
         if row < PDStrings.PickerData.deliveryMethods.count && row >= 0 {
-            var newImage: UIImage?
-            var newTitle: String?
             let choice = PDStrings.PickerData.deliveryMethods[row]
             // Injections
             if choice == PDStrings.PickerData.deliveryMethods[1] {
@@ -271,8 +263,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 countButton.setTitle(PDStrings.PickerData.counts[0], for: .normal)
                 countButton.isEnabled = false
                 countButtonArrow.isEnabled = false
-                newImage = #imageLiteral(resourceName: "Injection Icon")
-                newTitle = PDStrings.VCTitles.injections
             }
             // Patches
             else {
@@ -280,24 +270,24 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 countButton.setTitle(PDStrings.PickerData.counts[2], for: .normal)
                 countButton.isEnabled = true
                 countButtonArrow.isEnabled = true
-                newImage = #imageLiteral(resourceName: "Patch Icon")
-                newTitle = PDStrings.VCTitles.patches
             }
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // No Warning
             if PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.estrogenArray) && ScheduleController.siteController.isDefault() {
                 UserDefaultsController.setDeliveryMethod(to: choice)
+                UserDefaultsController.setSiteIndex(to: 0)
+                resetEstrogensVCTabBarItem()
+                ScheduleController.setEstrogenDataForToday()
             }
                 // Alert if there is some data that should be erased
             else {
-                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: deliveryMethodButton, countButton: countButton, newImage: newImage, newTitle: newTitle, navController: self.navigationController)
+                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: deliveryMethodButton, countButton: countButton, settingsVC: self)
             }
         }
         else {
             print("Error: saving delivery method for index for row " + String(row))
         }
-        ScheduleController.setEstrogenDataForToday()
     }
     
     private func saveCountChange(_ row: Int) {
@@ -323,15 +313,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func saveNotificationChange(_ row: Int) {
-        if row < PDStrings.PickerData.notificationTimes.count && row >= 0 {
-            let choice = PDStrings.PickerData.notificationTimes[row]
-            UserDefaultsController.setNotificationOption(to: choice)
-            let title = choice
-            reminderTimeButton.setTitle(title, for: .normal)
-        }
-        else {
-            print("Error: saving notification time for row " + String(row))
+    private func saveNotificationChange(_ value: Float) {
+        if value >= 0 {
+            
         }
     }
  
@@ -348,8 +332,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 saveCountChange(row)
             case PDStrings.SettingsKey.interval:
                 saveIntervalChange(row)
-            case PDStrings.SettingsKey.notif:
-                saveNotificationChange(row)
             default:
                 print("Error: Improper context when saving details from picker")
             }
@@ -360,8 +342,14 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
  
-    // MARK: - Actions Picker loads
-
+    // MARK: - Actions
+    
+    @IBAction func reminderTimeValueChanged(_ sender: Any) {
+        let v = Int(reminderTimeSlider.value.rounded())
+        reminderTimeSettingsLabel.text = String(v)
+        UserDefaultsController.setNotificationMinutesBefore(to: v)
+    }
+    
     @IBAction private func reminderTimeTapped(_ sender: Any) {
        openOrClosePicker(key: PDStrings.SettingsKey.notif)
     }
@@ -420,17 +408,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - View loading and altering
     
     private func enableNotificationButtons() {
-        reminderTimeButton.setTitleColor(UIColor.blue, for: .normal)
-        reminderTimeLabel.textColor = UIColor.black
-        reminderTimeButton.isEnabled = true
-        reminderTimeArrow.isEnabled = true
+        reminderTimeSlider.isEnabled = true
+        reminderTimeSettingsLabel.textColor = UIColor.black
     }
     
     private func disableNotificationButtons() {
-        reminderTimeLabel.textColor = UIColor.gray
-        reminderTimeButton.setTitleColor(UIColor.gray, for: .normal)
-        reminderTimeButton.isEnabled = false
-        reminderTimeArrow.isEnabled = false
+        reminderTimeSlider.isEnabled = false
+        reminderTimeSettingsLabel.textColor = UIColor.lightGray
+        reminderTimeSettingsLabel.text = "0"
+        UserDefaultsController.setNotificationMinutesBefore(to: 0)
+        reminderTimeSlider.value = 0
     }
     
     private func deselectEverything(except: String) {
@@ -446,9 +433,24 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             countPicker.isHidden = true
             countButton.isSelected = false
         }
-        if except != "r" {
-            reminderTimePicker.isHidden = true
-            reminderTimeButton.isSelected = false
+    }
+    
+    public func resetEstrogensVCTabBarItem() {
+        let v = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
+        // Estrogen icon
+        if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
+            vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil
+            if UserDefaultsController.usingPatches() {
+                vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Patch Icon")
+                vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Patch Icon")
+                vcs[0].tabBarItem.title = PDStrings.VCTitles.patches
+            }
+            else {
+                vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Injection Icon")
+                vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Injection Icon")
+                vcs[0].tabBarItem.title = PDStrings.VCTitles.injections
+            }
+            vcs[0].awakeFromNib()
         }
     }
     

@@ -52,24 +52,20 @@ internal class PDAlertController {
     
     // MARK: - Changing delivery method
     
-    internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton, newImage: UIImage?, newTitle: String?, navController: UINavigationController?){
+    internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton, settingsVC: SettingsVC?){
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
-                ScheduleController.estrogenController.resetEstrogenData(start_i: 0, end_i: 3)
+                ScheduleController.estrogenController.resetEstrogens()
                 let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? "3" : "1"
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
                 UserDefaultsController.setDeliveryMethod(to: newMethod)
+                UserDefaultsController.setSiteIndex(to: 0)
                 ScheduleController.deliveryMethodChanged = true
-
-                // Tab bar image / badgeValue
-                if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
-                    vcs[0].tabBarItem.image = newImage
-                    vcs[0].tabBarItem.title = newTitle
-                    vcs[0].tabBarItem.badgeValue = nil
-                }
+                settingsVC?.resetEstrogensVCTabBarItem()
+                ScheduleController.setEstrogenDataForToday()
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
                 (void) in
@@ -118,13 +114,16 @@ internal class PDAlertController {
     
     // MARK: - Add site
     
-    internal static func alertForAddSite(with name: SiteName, at index: Index) {
+    internal static func alertForAddSite(with name: SiteName, at index: Index, estroVC: EstrogenVC) {
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
             let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
                 (void) in
-                let _ = SiteDataController.appendSite(name: name, order: index, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.getContext())
+                if let _ = SiteDataController.appendSite(name: name, order: index, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.getContext()) {
+                    estroVC.sitePicker.reloadAllComponents()
+                }
+                
             }
             let declineAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.declineActionTitle, style: .default)
             currentAlert.addAction(addAction)

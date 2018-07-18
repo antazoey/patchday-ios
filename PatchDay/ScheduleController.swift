@@ -37,18 +37,6 @@ public class ScheduleController: NSObject {
         return persistentContainer.viewContext
     }
     
-    /**
-    For knowing which estrogen buttons to animate when loading EstrogensVC.
-    */
-    internal static var animateScheduleFromChangeDelivery: Bool = false
-    internal static var increasedCount: Bool = false
-    internal static var decreasedCount: Bool = false
-    internal static var siteChanged: Bool = false
-    internal static var onlySiteChanged: Bool = false
-    internal static var deliveryMethodChanged: Bool = false
-    internal static var oldDeliveryCount: Int = 1
-    internal static var indexOfChangedDelivery: Int = -1
-    
     // MARK: - Public
     
     public static func estroCount() -> Int {
@@ -82,10 +70,12 @@ public class ScheduleController: NSObject {
     }
     
     public static func totalPillsDue() -> Int {
-        let pillsTakenTodays = ScheduleController.pillController.getPillTimesTakens()
-        let nextPillDueDates = PDPillHelper.getNextPillDueDates(from: ScheduleController.pillController.pillArray)
-        return PDPillHelper.totalDue(timesTakensToday: pillsTakenTodays, nextDueDates: nextPillDueDates)
         
+        return pillController.pillArray.reduce(0, {
+            (count: Int, pill: MOPill) -> Int in
+            let r = pill.isExpired() ? 1 + count : count
+            return r
+        })
     }
     
     public static func totalDue(intervalStr: String) -> Int {
@@ -116,18 +106,13 @@ public class ScheduleController: NSObject {
             return nextEstro
         }
         else {
-            return ScheduleController.estrogenController.getEstrogenMO(at: 0, estrogenCount: UserDefaultsController.getQuantityInt())
+            return ScheduleController.estrogenController.getEstrogenMO(at: 0)
         }
     }
     
     private static func getSiteNameToSaveForToday(using estro: MOEstrogen) -> SiteName? {
         if UserDefaultsController.usingPatches() {
-            if let name = estro.getSite()?.getName() {
-                return name
-            }
-            else if let name = estro.getSiteNameBackUp() {
-                return name
-            }
+            return estro.getSiteName()
         }
         if let suggestedSite = SiteSuggester.getSuggestedSite(), let name = suggestedSite.getName() {
             return name
@@ -173,6 +158,18 @@ public class ScheduleController: NSObject {
         setEstrogenDataForToday()
         setPillDataForToday()
     }
+    
+    /**
+     For knowing which estrogen buttons to animate when loading EstrogensVC.
+     */
+    internal static var animateScheduleFromChangeDelivery: Bool = false
+    internal static var increasedCount: Bool = false
+    internal static var decreasedCount: Bool = false
+    internal static var siteChanged: Bool = false
+    internal static var onlySiteChanged: Bool = false
+    internal static var deliveryMethodChanged: Bool = false
+    internal static var oldDeliveryCount: Int = 1
+    internal static var indexOfChangedDelivery: Int = -1
 
     /**
      ANIMATION ALGORITHM
@@ -182,7 +179,7 @@ public class ScheduleController: NSObject {
         /* -- Reasons to Animate -- */
         
         var hasDateAndItMatters: Bool = true
-        let estro = estrogenController.getEstrogenMO(at: estrogenIndex, estrogenCount: estrogenCount)
+        let estro = estrogenController.getEstrogenMO(at: estrogenIndex)
         if estro.hasNoDate() {
             hasDateAndItMatters = false
         }
@@ -194,8 +191,9 @@ public class ScheduleController: NSObject {
         let isChangedSiteFromDetails: Bool = siteChanged && estrogenIndex == indexOfChangedDelivery
         
         // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
-        let indexLessThanOldCountFromSettings: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount)
+        let indexLessThanOldCountFromSettings: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount) || (decreasedCount && estrogenIndex >= oldDeliveryCount)
 
+        
         return (moreThanSiteChangedFromDetails || isChangedSiteFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
         
     }
@@ -209,5 +207,15 @@ public class ScheduleController: NSObject {
             }
         }
     }
+    
+    public static func migrate(needs: Bool) {
+        if needs {
+            
+            let migrater = PDDataMigrater(container: ScheduleController.persistentContainer)
+            migrater.migrate(newEstros: &ScheduleController.estrogenController.estrogenArray, into: ScheduleController.getContext())
+            UserDefaultsController.migrated()
+        }
+    }
+
 
 }

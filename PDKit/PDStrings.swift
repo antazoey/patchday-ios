@@ -108,12 +108,12 @@ public class PDStrings {
         public static var first_time = { return NSLocalizedString("First time:", comment: "Displayed on a label, plenty of room.") }()
         public static var expires = { return NSLocalizedString("Expires: ", tableName: nil, comment: "Label next to date. Easy on room.") }()
         public static var expired = { return NSLocalizedString("Expired: ", tableName: nil, comment: "Label next to dat. Easy on room.") }()
-        public static var last_injected = { return NSLocalizedString("Last injected: ", tableName: nil, comment: "Label next to dat. A little room to grow.") }()
+        public static var last_injected = { return NSLocalizedString("Injected: ", tableName: nil, comment: "Label next to dat. A little room to grow.") }()
         public static var next_due = { return NSLocalizedString("Next due: ", comment: "Label next to dat. A little room to grow.") }()
         public static var date_and_time_applied = { return NSLocalizedString("Date and time applied: ", comment: "Label next to dat. A little room to grow.") }()
         public static var date_and_time_injected = { return NSLocalizedString("Date and time injected: ", comment: "Label next to dat. A little room to grow.") }()
         public static var site = { return NSLocalizedString("Site: ", comment: "Label next to dat. Easy on room.") }()
-        public static var last_site_injected = { return NSLocalizedString("Last site injected: ", comment: "Label next to dat. A little room to grow") }()
+        public static var last_site_injected = { return NSLocalizedString("Site injected: ", comment: "Label next to dat. A little room to grow") }()
     }
     
     // MARK: - Notification strings (Localizable)
@@ -165,9 +165,6 @@ public class PDStrings {
         
         public static var pillCounts: [String] = { return [counts[0], counts[1]] }()
         
-        public static var notificationTimes: [String] = { return [NSLocalizedString("0 minutes", comment: "Displayed in a picker."), NSLocalizedString("30 minutes", comment: "Displayed in a picker."), NSLocalizedString("60 minutes", comment: "Displayed in a picker."), NSLocalizedString("120 minutes", comment: "Displayed in a picker.")]
-        }()
-        
     }
     
     // MARK: - Site names (Localizable)
@@ -218,7 +215,7 @@ public class PDStrings {
         public struct StartUp  {
             public static var title = { return NSLocalizedString("Setup / Disclaimer", comment: "Title for an alert.  Don't worry about room.") }()
             
-            public static var message = { return NSLocalizedString("To use PatchDay, go to the settings and set your delivery method (injections or patches), the time interval between doses, and the number of patches if applicable.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.juliyasmith.com/patchday.html to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for alert.") }()
+            public static var message = { return NSLocalizedString("To begin using PatchDay, tap the Edit button in the top right and setup your schedule.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.juliyasmith.com/patchday.html to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for alert.") }()
             
             public static var support = { return NSLocalizedString("Support page", comment: "Title for action in alert. don't worry about room.") }()
         }

@@ -51,14 +51,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
-        let c = max(upToRemove, upToAdd) + 1
         for i in 0...upToRemove {
             cancelEstrogenNotification(at: i)
         }
         for j in 0...upToAdd {
-            let estro = ScheduleController.estrogenController.getEstrogenMO(at: j, estrogenCount: c)
+            let estro = ScheduleController.estrogenController.getEstrogenMO(at: j)
             requestEstrogenExpiredNotification(for: estro)
-            
         }
     }
     
@@ -87,10 +85,37 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         return body
     }
     
+    /// Determines the proper message for expired notifications.
+    public func notificationBody(for estro: MOEstrogen, intervalStr: String) -> String {
+        var body = ""
+        let usingPatches: Bool = UserDefaultsController.usingPatches()
+        let siteName = estro.getSiteName()
+        if !estro.isCustomLocated(usingPatches: usingPatches) && usingPatches {
+            if let msg = PDStrings.NotificationStrings.Bodies.siteToExpiredPatchMessage[siteName] {
+                body = msg
+            }
+        }
+            
+            // For custom sites or injections.
+        else if usingPatches {
+            body = PDStrings.NotificationStrings.Bodies.changePatchLocated + siteName
+        }
+        
+        return body
+    }
+    
+    private func suggestSiteMessage(introMsg: String) -> String? {
+        if let suggestedSite = SiteSuggester.getSuggestedSite(), let siteName = suggestedSite.getName() {
+            return "\n" + introMsg + siteName
+        }
+        return nil
+    }
+    
+    
     internal func requestEstrogenExpiredNotification(for estro: MOEstrogen) {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         let usingPatches = UserDefaultsController.usingPatches()
-        let notifyTime = UserDefaultsController.getNotificationTimeDouble()
+        let notifyTime = Double(UserDefaultsController.getNotificationMinutesBefore())
         
         if sendingNotifications,
             UserDefaultsController.getRemindMeUpon(),
@@ -164,7 +189,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     internal func cancelEstrogenNotification(at index: Index) {
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: index, estrogenCount: UserDefaultsController.getQuantityInt())
+        let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
         if let id = estro.getID() {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
         }
@@ -205,30 +230,5 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         return [makeTakePillCategory(), makeEstrogenCategory()]
     }
     
-    private func suggestSiteMessage(introMsg: String) -> String? {
-        if let suggestedSite = SiteSuggester.getSuggestedSite(), let siteName = suggestedSite.getName() {
-            return "\n\n" + introMsg + siteName
-        }
-        return nil
-    }
-    
-    // Determines the proper message for expired notifications.
-    public func notificationBody(for estro: MOEstrogen, intervalStr: String) -> String {
-        var body = ""
-        let usingPatches: Bool = UserDefaultsController.usingPatches()
-        if let site = estro.getSite(), let siteName = site.getName() {
-            if !estro.isCustomLocated(usingPatches: usingPatches), usingPatches {
-                if let msg = PDStrings.NotificationStrings.Bodies.siteToExpiredPatchMessage[siteName] {
-                    body = msg + "\n"
-                }
-            }
-                
-                // For custom sites or injections.
-            else if usingPatches {
-                body = PDStrings.NotificationStrings.Bodies.changePatchLocated + siteName + "\n"
-            }
-        }
-        return body
-    }
     
 }

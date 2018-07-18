@@ -24,14 +24,17 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         title = PDStrings.VCTitles.pills
         pillTable.delegate = self
         pillTable.dataSource = self
+        loadTabBarItemSize()
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
         insertButton.tintColor = PDColors.pdGreen
         navigationItem.rightBarButtonItems = [insertButton]
         pillTable.allowsSelectionDuringEditing = true
         updateFromBackground()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         pills = pillController.pillArray
         pillTable.reloadData()
     }
@@ -47,24 +50,28 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let pill = pills[indexPath.row]
             enableOrDisableTake(for: cell)
             cell.nameLabel.text = pill.getName()
-            cell.stateImage.image = loadPillImage(for: pill)
+            cell.loadStateImage(from: pill)
             cell.stateImageButton.type = .pills
-            cell.lastTakenLabel.text = loadLastTimeTaken(for: pill)
-            cell.setDueDateText(for: pill)
+            cell.loadLastTakenText(from: pill)
+            cell.loadDueDateText(from: pill)
             cell.takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
-            cell.stateImage.restorationIdentifier = "i" + indexStr
+            cell.stateImageButton.restorationIdentifier = "i" + indexStr
             cell.takeButton.restorationIdentifier = "t" + indexStr
             cell.takeButton.isEnabled = (pill.isDone()) ? false : true
             
             if indexPath.row % 2 == 0 {
                 cell.backgroundColor = PDColors.pdLightBlue
+                cell.imageViewView.backgroundColor = nil
+                cell.stateImageButton.backgroundColor = nil
             }
+            
             if pill.isExpired() {
                 cell.stateImageButton.badgeValue = "!"
             }
             else {
                 cell.stateImageButton.badgeValue = nil
             }
+ 
         }
         
         // Cell background view when selected
@@ -80,7 +87,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 200.0
+        return 170.0
     }
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
@@ -102,8 +109,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 let cell = pillCellForRowAt(pillIndex)
                 cell.stamp()
                 if let pill = pillController.getPill(at: pillIndex) {
-                    cell.setDueDateText(for: pill)
-                    animatePillImageChange(pillImageView: cell.stateImage, pill: pill)
+                    cell.loadDueDateText(from: pill)
+                    cell.loadStateImage(from: pill)
+                    cell.loadLastTakenText(from: pill)
                 }
                 self.enableOrDisableTake(for: cell)
                 pills = pillController.pillArray
@@ -130,22 +138,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    private func loadPillImage(for pill: MOPill) -> UIImage {
-        if pill.isDone() {
-            return PDImages.pillDone
-        }
-        return PDImages.pill
-    }
-    
-    private func loadLastTimeTaken(for pill: MOPill) -> String {
-        if let lastTaken = pill.getLastTaken() {
-            return PDDateHelper.format(date: lastTaken as Date, useWords: true)
-        }
-        return PDStrings.PlaceholderStrings.new_pill
-    }
-    
     private func enableOrDisableTake(for cell: PillTableViewCell) {
-        if cell.stateImage.image == PDImages.pillDone {
+        if cell.stateImage.tintColor == UIColor.lightGray {
             cell.takeButton.isEnabled = false
             cell.stateImageButton.isEnabled = false
         }
@@ -158,11 +152,6 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func pillCellForRowAt(_ index: Index) -> PillTableViewCell {
         let indexPath = IndexPath(row: index, section: 0)
         return pillTable.cellForRow(at: indexPath) as! PillTableViewCell
-    }
-    
-    private func animatePillImageChange(pillImageView: UIImageView, pill: MOPill) {
-        UIView.transition(with: pillImageView as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { pillImageView.image = self.loadPillImage(for: pill)
-        }, completion: nil)
     }
     
     private func deleteCell(at indexPath: IndexPath) {
@@ -194,6 +183,11 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func setBadge() {
         let newBadgeValue = ScheduleController.totalPillsDue()
         navigationController?.tabBarItem.badgeValue = (newBadgeValue > 0) ? String(newBadgeValue) : nil
+    }
+    
+    private func loadTabBarItemSize() {
+        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
+        self.navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
     }
 
 }

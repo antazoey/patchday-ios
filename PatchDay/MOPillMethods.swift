@@ -112,12 +112,18 @@ extension MOPill {
     // MARK: - State bools
     
     public func isExpired() -> Bool {
-        if let dueDate = getDueDate() {
+        if lastTaken != nil, let dueDate = getDueDate() {
             return Date() > dueDate
         }
         return false
     }
     
+    /// Returns if the Pill was never taken.
+    public func isNew() -> Bool {
+        return getLastTaken() == nil
+    }
+    
+    /// Returns if the pill has been taken all of its times today.
     public func isDone() -> Bool {
         if let timesaday = getTimesday() {
             return PDPillHelper.isDone(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday))

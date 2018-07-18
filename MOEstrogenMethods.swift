@@ -62,6 +62,18 @@ extension MOEstrogen {
         return nil
     }
     
+    public func getSiteName() -> String {
+        if let site = getSite(), let name = site.getName() {
+            return name
+        }
+        else if let name = getSiteNameBackUp() {
+            return name
+        }
+        else {
+            return PDStrings.PlaceholderStrings.new_site
+        }
+    }
+    
     public func reset() {
         date = nil
         siteRelationship = nil
@@ -125,13 +137,8 @@ extension MOEstrogen {
     }
     
     public func isCustomLocated(usingPatches: Bool) -> Bool {
-        if let site = getSite(), let siteName = site.getImageIdentifer() {
-            return !isContainedInDefaults(name: siteName, usingPatches: usingPatches)
-        }
-        else if let siteName = getSiteNameBackUp() {
-            return !isContainedInDefaults(name: siteName, usingPatches: usingPatches)
-        }
-        return false
+        let siteName = getSiteName()
+        return !isContainedInDefaults(name: siteName, usingPatches: usingPatches)
     }
     
 }

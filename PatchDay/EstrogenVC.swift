@@ -13,6 +13,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     //MARK: - Main
     
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    
+    
     // Interface
     private weak var saveButton: UIBarButtonItem!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
@@ -33,7 +36,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet private weak var siteLabel: UILabel!
     @IBOutlet private weak var verticalLineInSiteStack: UIView!
     @IBOutlet private var typeSiteButton: UIButton!
-    @IBOutlet private weak var sitePicker: UIPickerView!
+    @IBOutlet public weak var sitePicker: UIPickerView!
     @IBOutlet private var horizontalLineBelowSite: UIView!
     @IBOutlet private weak var autofillButton: UIButton!
     
@@ -52,7 +55,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex, estrogenCount: UserDefaultsController.getQuantityInt())
+        estrogen = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex)
         loadTitle()
         chooseSiteButton.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -60,6 +63,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         saveButton = navigationItem.rightBarButtonItem
         saveButton.isEnabled = false
         autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
+        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+            topConstraint.constant = 100
+            autofillButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        }
         
         // Load data
         setUpLabelsInUI()
@@ -103,14 +110,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
         else {
             ScheduleController.indexOfChangedDelivery = estrogenScheduleIndex
-        }
-
-        // Only increments if the site changed
-        if shouldSaveIncrementedSiteIndex {
-            UserDefaultsController.incrementSiteIndex()
-        }
-        else if shouldSaveSelectedSiteIndex {
-            UserDefaultsController.setSiteIndex(to: siteIndexSelected)
         }
         
         let estrosDue = ScheduleController.totalEstrogenDue(intervalStr: intervalStr)
@@ -165,7 +164,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         saveButton.isEnabled = true
         siteIndexSelected = ScheduleController.siteCount()
         if let n = textField.text {
-            PDAlertController.alertForAddSite(with: n, at: siteIndexSelected)
+            PDAlertController.alertForAddSite(with: n, at: siteIndexSelected, estroVC: self)
         }
         return true
         
@@ -200,7 +199,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // Done
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let newSiteName = ScheduleController.siteController.getScheduleSiteNames()[row]
+        let newSiteName = ScheduleController.siteController.getSiteNames()[row]
         chooseSiteButton.text = newSiteName
         // other view changes
         sitePicker.isHidden = true
@@ -290,21 +289,20 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Saves any changed attributes.
     private func saveAttributes() {
-        let estroCount = UserDefaultsController.getQuantityInt()
         // Save site
         if siteTextHasChanged {
             if let site = ScheduleController.siteController.getSite(at: siteIndexSelected) {
-                ScheduleController.estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: site, estrogenCount: estroCount)
+                ScheduleController.estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: site)
                 ScheduleController.siteChanged = true
             }
             else if let name = chooseSiteButton.text {
-                ScheduleController.estrogenController.setEstrogenBackUpSiteName(of: estrogenScheduleIndex, with: name, estrogenCount: estroCount)
+                ScheduleController.estrogenController.setEstrogenBackUpSiteName(of: estrogenScheduleIndex, with: name)
             }
         }
         
         // Save date
         if dateTextHasChanged {
-            ScheduleController.estrogenController.setEstrogenDate(of: estrogenScheduleIndex, with: datePicker.date, estrogenCount: estroCount)
+            ScheduleController.estrogenController.setEstrogenDate(of: estrogenScheduleIndex, with: datePicker.date)
         }
         
         // For EstrogensVC animation.
@@ -371,7 +369,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func setUpLabelsInUI() {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         var exp = ""
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex, estrogenCount: UserDefaultsController.getQuantityInt())
+        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex)
         if estro.getDate() != nil {
             if UserDefaultsController.usingPatches() {
                 expLabel.text = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires

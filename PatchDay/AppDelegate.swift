@@ -19,13 +19,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var window: UIWindow?
     internal var notificationsController = PDNotificationController()
     
+    public func isFirstLaunch() -> Bool {
+        return !UserDefaultsController.mentionedDisclaimer()
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UserDefaultsController.setUp()
-        if !UserDefaultsController.mentionedDisclaimer() {
+        if isFirstLaunch() {
             ScheduleController.pillController.pillArray = PillDataController.newPillMOs(into: ScheduleController.getContext())
         }
-        ScheduleController.estrogenController.migrate(needs: UserDefaultsController.needsMigration())
+        ScheduleController.migrate(needs: UserDefaultsController.needsMigration())
         ScheduleController.setDataForTodayApp()
         
         setBadge(with: ScheduleController.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
