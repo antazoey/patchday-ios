@@ -1,6 +1,6 @@
 //
 //  PDImages.swift
-//  PatchDay
+//  PDKit
 //
 //  Created by Juliya Smith on 6/3/17.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -9,7 +9,11 @@
 import UIKit
 import PDKit
 
-public class PDImages {
+public class PDImages: NSObject {
+    
+    override public var description: String {
+        return "Read-only PatchDay image class."
+    }
     
     // Blank
     public static var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
@@ -36,40 +40,50 @@ public class PDImages {
     // Pills
     public static var pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
     
-    public static var patchImages: [UIImage] = { return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p] }()
-    public static var injectionImages: [UIImage] =  { return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i] }()
+    // Estrogen arrays
+    public static var patchImages: [UIImage] =
+        { return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p] }()
+    public static var injectionImages: [UIImage] =
+        { return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i] }()
     
-    public static func stringToPatchImage(imageString: String) -> UIImage {
+    // -------------------------------------------------------------------------------
+    
+    // MARK: - Functions
+    
+    /// Coverts SiteName a.k.a String to corresponding patch image.
+    public static func siteNameToPatchImage(_ siteName: SiteName) -> UIImage {
         var r: UIImage = addPatch
         let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced : addPatch,
                                  PDStrings.SiteNames.rightGlute : rGlute_p,
                                  PDStrings.SiteNames.leftGlute : lGlute_p,
                                  PDStrings.SiteNames.rightAbdomen : rAbdomen_p,
                                  PDStrings.SiteNames.leftAbdomen : lAbdomen_p]
-        let locs = PDStrings.SiteNames.patchSiteNames
-        if (locs.contains(imageString)) {
-            r = stringToImageDict[imageString]!
+        let siteNames = PDStrings.SiteNames.patchSiteNames
+        if (siteNames.contains(siteName)) {
+            r = stringToImageDict[siteName]!
         }
-        else if imageString != PDStrings.PlaceholderStrings.unplaced {
+        else if siteName != PDStrings.PlaceholderStrings.unplaced {
             r = custom_p
         }
         return r
     }
     
-    public static func patchImageToString(image: UIImage) -> String {
+    /// Converts patch image to SiteName a.k.a String
+    public static func patchImageToSiteName(_ image: UIImage) -> String {
         let imageToStringDict = [rGlute_p : PDStrings.SiteNames.rightGlute,
                                  lGlute_p : PDStrings.SiteNames.leftGlute,
                                  rAbdomen_p : PDStrings.SiteNames.rightAbdomen,
                                  lAbdomen_p : PDStrings.SiteNames.leftAbdomen]
-        if let str = imageToStringDict[image] {
-            return str
+        if let name = imageToStringDict[image] {
+            return name
         }
         else {
             return PDStrings.PlaceholderStrings.new_site
         }
     }
     
-    public static func stringToInjectionImage(imageString: String) -> UIImage {
+    /// Converts SiteName a.k.a String to injection image.
+    public static func siteNameToInjectionImage(_ siteName: String) -> UIImage {
         var r: UIImage = addInjection
         let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced : addInjection,
                                  PDStrings.SiteNames.rightQuad : rQuad_i,
@@ -78,31 +92,33 @@ public class PDImages {
                                  PDStrings.SiteNames.leftGlute : lGlute_i,
                                  PDStrings.SiteNames.rightDelt : rDelt_i,
                                  PDStrings.SiteNames.leftDelt : lDelt_i]
-        let locs = PDStrings.SiteNames.injectionSiteNames
-        if (locs.contains(imageString)) {
-            r = stringToImageDict[imageString]!
+        let siteNames = PDStrings.SiteNames.injectionSiteNames
+        if (siteNames.contains(siteName)) {
+            r = stringToImageDict[siteName]!
         }
-        else if imageString !=  PDStrings.PlaceholderStrings.unplaced {
+        else if siteName !=  PDStrings.PlaceholderStrings.unplaced {
             r = custom_i
         }
         return r
     }
     
-    public static func injectionImageToString(image: UIImage) -> String {
+    /// Convert injection image to SiteName a.k. String.
+    public static func injectionImageToSiteName(_ image: UIImage) -> String {
         let imageToStringDict = [rQuad_i : PDStrings.SiteNames.rightQuad,
                                  lQuad_i : PDStrings.SiteNames.leftQuad,
                                  rGlute_i : PDStrings.SiteNames.rightGlute,
                                  lGlute_i : PDStrings.SiteNames.leftGlute,
                                  rDelt_i : PDStrings.SiteNames.rightDelt,
                                  lDelt_i : PDStrings.SiteNames.leftDelt]
-        if let str = imageToStringDict[image] {
-            return str
+        if let name = imageToStringDict[image] {
+            return name
         }
         else {
             return PDStrings.PlaceholderStrings.new_site
         }
     }
     
+    /// Returns icons for SitesVC based on site index.
     public static func getSiteIcon(at index: Index) -> UIImage {
         let icons = [#imageLiteral(resourceName: "ES Icon 1"), #imageLiteral(resourceName: "ES Icon 2"), #imageLiteral(resourceName: "ES Icon 3"), #imageLiteral(resourceName: "ES Icon 4")]
         if index >= 0 && index < icons.count {
@@ -111,7 +127,10 @@ public class PDImages {
         else { return #imageLiteral(resourceName: "Calendar Icon") }
     }
     
-    public static func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    // Original code by Kirit Modi
+    // https://stackoverflow.com/questions/31314412/how-to-resize-image-in-swift
+    /// Resizes an image to the target size.
+    public static func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
         let widthRatio  = targetSize.width  / size.width
@@ -129,7 +148,7 @@ public class PDImages {
         let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
         
         // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
         image.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

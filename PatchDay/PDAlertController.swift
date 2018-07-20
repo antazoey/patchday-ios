@@ -98,7 +98,7 @@ internal class PDAlertController {
             let closeAction = UIAlertAction(title: PDStrings.ActionStrings.dismiss, style:     UIAlertActionStyle.cancel, handler: nil)
             let goToAction = UIAlertAction(title: PDStrings.AlertStrings.StartUp.support, style: .default) {
                 (void) in
-                if let url = URL(string: "http://www.juliyasmith.com/patchday.html") {
+                if let url = URL(string: "http://www.patchdayhrt.com") {
                     if #available(iOS 10.0, *) {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
                     } else {

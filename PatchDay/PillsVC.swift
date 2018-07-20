@@ -37,6 +37,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         super.viewWillAppear(animated)
         pills = pillController.pillArray
         pillTable.reloadData()
+        reloadInputViews()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,7 +49,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if indexPath.row >= 0 && indexPath.row < pills.count {
             let indexStr = String(indexPath.row)
             let pill = pills[indexPath.row]
-            enableOrDisableTake(for: cell)
+
             cell.nameLabel.text = pill.getName()
             cell.loadStateImage(from: pill)
             cell.stateImageButton.type = .pills
@@ -58,6 +59,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             cell.stateImageButton.restorationIdentifier = "i" + indexStr
             cell.takeButton.restorationIdentifier = "t" + indexStr
             cell.takeButton.isEnabled = (pill.isDone()) ? false : true
+            
+            enableOrDisableTake(for: cell)
             
             if indexPath.row % 2 == 0 {
                 cell.backgroundColor = PDColors.pdLightBlue
@@ -102,6 +105,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBAction func takeButtonTapped(_ sender: Any) {
         let takeButton = sender as! UIButton
+        // Acquire Pill ID from cell's takeButton.
         if let restoreID = takeButton.restorationIdentifier {
             let pillIndexStr = String(restoreID.suffix(1))
             if let pillIndex = Int(pillIndexStr) {
@@ -139,11 +143,15 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func enableOrDisableTake(for cell: PillTableViewCell) {
+        // Disable take
         if cell.stateImage.tintColor == UIColor.lightGray {
+            cell.takeButton.setTitle(PDStrings.ActionStrings.taken, for: .normal)
             cell.takeButton.isEnabled = false
             cell.stateImageButton.isEnabled = false
         }
+        // Enable
         else {
+            cell.takeButton.setTitle(PDStrings.ActionStrings.take, for: .normal)
             cell.takeButton.isEnabled = true
             cell.stateImageButton.isEnabled = true
         }

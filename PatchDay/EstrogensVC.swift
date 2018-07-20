@@ -131,11 +131,11 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         if !estro.isEmpty() {
             // Check if Site relationship siteName is a general site.
             if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
-                image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
+                image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
             }
             // Check of the siteNameBackUp is a general site.
             else if let siteName = estro.getSiteNameBackUp() {
-                image = (usingPatches) ? PDImages.stringToPatchImage(imageString: siteName) : PDImages.stringToInjectionImage(imageString: siteName)
+                image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
             }
             // Custom
             else {
@@ -240,7 +240,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func loadTabBarItems() {
-        navigationController?.tabBarController?.tabBar.unselectedItemTintColor = UIColor.black
+        navigationController?.tabBarController?.tabBar.unselectedItemTintColor = UIColor.darkGray
         navigationController?.tabBarController?.tabBar.tintColor = UIColor.purple
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
         if let vcs = navigationController?.tabBarController?.viewControllers {

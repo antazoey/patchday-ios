@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var notificationsController = PDNotificationController()
     
     public func isFirstLaunch() -> Bool {
-        return !UserDefaultsController.mentionedDisclaimer()
+        return UserDefaultsController.needsMigration()
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -28,7 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if isFirstLaunch() {
             ScheduleController.pillController.pillArray = PillDataController.newPillMOs(into: ScheduleController.getContext())
         }
+        
+        // Migrate data model from 1.0 to 2.0
         ScheduleController.migrate(needs: UserDefaultsController.needsMigration())
+        
         ScheduleController.setDataForTodayApp()
         
         setBadge(with: ScheduleController.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))

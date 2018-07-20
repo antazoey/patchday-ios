@@ -10,12 +10,16 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PillDataController {
+public class PillDataController: NSObject {
+    
+    override public var description: String {
+        return "PillDataController is a sub-controller for the ScheduleController used to manage the array of MOPills."
+    }
     
     internal var pillArray: [MOPill]
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
-    init() {
+    override init() {
         pillArray = PillDataController.loadPillMOs(into: ScheduleController.getContext())
         PillDataController.loadTakenTodays(for: pillArray, into: ScheduleController.getContext())
         pillArray = pillArray.filter() {

@@ -10,8 +10,13 @@ import Foundation
 
 public typealias Index = Int
 
-public class PDEstrogenHelper {
+public class PDEstrogenHelper: NSObject {
     
+    override public var description: String {
+        return "Class for doing calculations on Dates."
+    }
+    
+    /// Returns MOEstrogen matching id.
     public static func getEstrogenMO(for id: UUID, estrogenArray: [MOEstrogen]) -> MOEstrogen? {
         if let estroIndex = estrogenArray.map({
             (estro: MOEstrogen) -> UUID? in
@@ -31,7 +36,7 @@ public class PDEstrogenHelper {
         })
     }
     
-    /// Returns the smallest index in the estrogen schedule
+    /// Returns the smallest index in the estrogen schedule.
     public static func getLowestUndatedIndex(in estrogenArray: [MOEstrogen], estrogenCount: Int) -> Index? {
         let dpc = datePlacedCount(for: estrogenArray)
         if dpc != estrogenCount {
@@ -41,20 +46,23 @@ public class PDEstrogenHelper {
         return nil
     }
     
+    /// Returns if every MOEstrogen's date is nil.
     public static func hasNoDates(_ estrogenArray: [MOEstrogen]) -> Bool {
         return (estrogenArray.filter() {
             $0.getDate() != nil
         }).count == 0
     }
     
-    public static func hasNoLocations(_ estrogenArray: [MOEstrogen]) -> Bool {
+    /// Returns if every MOEstrogen's site is nil.
+    public static func hasNoSites(_ estrogenArray: [MOEstrogen]) -> Bool {
         return (estrogenArray.filter() {
             $0.getSite() != nil
         }).count == 0
     }
     
+    /// Returns if every MOEstrogen's site and date are nil.
     public static func isEmpty(_ estrogenArray: [MOEstrogen]) -> Bool {
-        return hasNoDates(estrogenArray) && hasNoLocations(estrogenArray)
+        return hasNoDates(estrogenArray) && hasNoSites(estrogenArray)
     }
     
     /// Returns if each MOEstrogen fromThisIndexOnward is empty.
@@ -80,6 +88,5 @@ public class PDEstrogenHelper {
             return c + count
         })
     }
-    
     
 }

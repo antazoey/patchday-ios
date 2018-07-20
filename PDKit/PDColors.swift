@@ -6,7 +6,11 @@
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
-public class PDColors {
+public class PDColors: NSObject {
+    
+    override public var description: String {
+        return "Read-only PatchDay Color class."
+    }
     
     public static var pdOffWhite = { return UIColor(red: 1.0, green: 0.99, blue: 0.99, alpha: 1.0) }()
     public static var pdLightBlue = { return UIColor(red: 0.86, green: 0.97, blue: 1.0, alpha: 0.25) }()
@@ -18,9 +22,10 @@ public class PDColors {
     public static var pdLightLines = { return UIColor(red: 0.964251, green: 0.969299, blue: 0.969299, alpha: 1.0) }()
     public static var pdGreen = { return UIColor(hue: 0.3306, saturation: 1, brightness: 0.81, alpha: 1.0) }()
     
-    public static func getColor(from: String) -> UIColor {
+    /// Returns UIColor based on key from PDStrings.
+    public static func getColor(from key: String) -> UIColor {
         let colorDict: [String: UIColor] = [PDStrings.ColorKeys.offWhite.rawValue: pdOffWhite, PDStrings.ColorKeys.lightBlue.rawValue: pdLightBlue, PDStrings.ColorKeys.gray.rawValue: pdCuteGray, PDStrings.ColorKeys.lightGray.rawValue: pdLighterCuteGray]
-        return colorDict[from]!
+        return colorDict[key]!
     }
     
 }

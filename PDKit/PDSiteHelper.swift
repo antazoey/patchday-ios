@@ -13,6 +13,7 @@ public typealias SiteNameSet = Set<SiteName>
 
 public class PDSiteHelper {
     
+    /// Returns array of SiteNamesy from array of MOSites.
     public static func getSiteNames(_ siteArray: [MOSite]) -> [SiteName] {
         return siteArray.map({
             (site: MOSite) -> SiteName? in
@@ -20,6 +21,7 @@ public class PDSiteHelper {
         }).filter() { $0 != nil } as! [SiteName]
     }
     
+    /// Returns array of image IDs from array of MOSites.
     public static func getSiteImageIDs(_ siteArray: [MOSite]) -> [String] {
         return siteArray.map({
             (site: MOSite) -> String? in
@@ -36,11 +38,12 @@ public class PDSiteHelper {
         return siteSet.union(defaultSitesSet)
     }
     
-    public static func getSiteStrings(from sites: [MOSite]) -> [String] {
-        return sites.map({
-            (site: MOSite) -> String in
-            return site.toString()
-        })
+    /// Returns if the given SiteName is from one of the default PatchDay sites.
+    public static func isContainedInDefaults(_ name: SiteName, usingPatches: Bool) -> Bool {
+        let contains: Bool = (usingPatches) ?
+            PDStrings.SiteNames.patchSiteNames.contains(name) :
+            PDStrings.SiteNames.injectionSiteNames.contains(name)
+        return contains
     }
     
 }

@@ -10,6 +10,10 @@ public typealias Time = Date
 
 public class PDDateHelper: NSObject {
     
+    override public var description: String {
+        return "Class for doing calculations on Dates."
+    }
+    
     /// Returns the day of the week, such as "Tuesday"
     public static func dayOfWeekString(date: Date) -> String {
         let dateFormatter = DateFormatter()
@@ -36,6 +40,7 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
+    /// Returns new date from date argument at the given time arguement.
     public static func getDate(on date: Date, at time: Time) -> Date? {
         let calendar = Calendar.current
         let year = calendar.component(.year, from: date)
@@ -112,6 +117,7 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
+    /// Returns if the date is between the hours of midnight and 6 am.
     public static func isOvernight(_ date: Date) -> Bool {
         if let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: date),
             let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: date) {
@@ -120,6 +126,7 @@ public class PDDateHelper: NSObject {
         return false
     }
     
+    /// Gets 8 pm before an overnight date.
     public static func dateBeforeOvernight(overnightDate: Date) -> Date? {
         if let eightPM_of = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: overnightDate), let eightPM_before = Calendar.current.date(byAdding: .day, value: -1, to: eightPM_of) {
             return eightPM_before
@@ -134,7 +141,7 @@ public class PDDateHelper: NSObject {
         return dateFormatter.string(from: time)
     }
     
-    // Gives String for the given Date.
+    /// Gives String for the given Date.
     public static func format(date: Date, useWords: Bool) -> String {
         let dateFormatter = DateFormatter()
         if useWords, let word = dateWord(from: date) {

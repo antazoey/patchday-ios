@@ -1,6 +1,6 @@
 //
-//  MOEstrogen+CoreDataProperties.swift
-//  PatchDay
+//  MOEstrogenMethods.swift
+//  PDKit
 //
 //  Created by Juliya Smith on 7/13/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -74,6 +74,7 @@ extension MOEstrogen {
         }
     }
     
+    /// Sets all attributes to nil.
     public func reset() {
         date = nil
         siteRelationship = nil
@@ -129,16 +130,10 @@ extension MOEstrogen {
         return date == nil && siteRelationship == nil && siteNameBackUp == nil
     }
     
-    private func isContainedInDefaults(name: SiteName, usingPatches: Bool) -> Bool {
-        let contains: Bool = (usingPatches) ?
-            PDStrings.SiteNames.patchSiteNames.contains(name) :
-            PDStrings.SiteNames.injectionSiteNames.contains(name)
-        return contains
-    }
-    
+    /// Returns if the Estrogen is located somewhere not in the default PatchDay sites.
     public func isCustomLocated(usingPatches: Bool) -> Bool {
         let siteName = getSiteName()
-        return !isContainedInDefaults(name: siteName, usingPatches: usingPatches)
+        return !PDSiteHelper.isContainedInDefaults(siteName, usingPatches: usingPatches)
     }
     
 }

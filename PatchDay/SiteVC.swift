@@ -62,7 +62,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         let usingPatches = UserDefaultsController.usingPatches()
         let images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
         let image = images[imagePicker.selectedRow(inComponent: 0)]
-        let imageKey = usingPatches ? PDImages.patchImageToString(image: image) : PDImages.injectionImageToString(image: image)
+        let imageKey = usingPatches ? PDImages.patchImageToSiteName(image) : PDImages.injectionImageToSiteName(image)
         imagePicker.isHidden = true
         siteImage.image = image
         siteImage.isHidden = false
@@ -199,7 +199,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             }
             // Default image find
             else if let site = ScheduleController.siteController.getSite(at: siteScheduleIndex), let imgID = site.getImageIdentifer(), let i = sitesWithImages.index(of: imgID) {
-                image = (usingPatches) ? PDImages.stringToPatchImage(imageString: sitesWithImages[i]) : PDImages.stringToInjectionImage(imageString: sitesWithImages[i])
+                image = (usingPatches) ? PDImages.siteNameToPatchImage(sitesWithImages[i]) : PDImages.siteNameToInjectionImage(sitesWithImages[i])
             }
             // Custom
             else {

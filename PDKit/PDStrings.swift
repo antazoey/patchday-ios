@@ -6,7 +6,11 @@
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
-public class PDStrings {
+public class PDStrings: NSObject {
+    
+    override public var description: String {
+        return "Read-only class for PatchDay Strings."
+    }
     
     /**********************************
         LOCALIZABLE
@@ -19,8 +23,9 @@ public class PDStrings {
         }()
         public static var delete = { return NSLocalizedString("Delete", comment: "Button title.  Could you keep it short?")
         }()
-        public static var take = { return NSLocalizedString("Take", comment: "Notification action. Plenty of room.")
+        public static var take = { return NSLocalizedString("Take", comment: "Notification action. Used all over app, so please keep it short.")
         }()
+        public static var taken = { return NSLocalizedString("Taken", comment: "Title for button, not too much room left for a really long word.") }()
         public static var save = { return NSLocalizedString("Save", comment: "Button title.  Room is fair.")
         }()
         public static var undo = { return NSLocalizedString("undo", comment: "Button title.  Could you keep it short?")
@@ -85,6 +90,7 @@ public class PDStrings {
     }
     
     // MARK: - VC Titles
+    
     public struct VCTitles {
         public static var patches = { return NSLocalizedString("Patches", comment: "Title of a view controller. Keep it brief.") }()
         public static var injections = { return NSLocalizedString("Injections", comment: "Title of a view controller. Keep it brief.") }()
@@ -215,7 +221,7 @@ public class PDStrings {
         public struct StartUp  {
             public static var title = { return NSLocalizedString("Setup / Disclaimer", comment: "Title for an alert.  Don't worry about room.") }()
             
-            public static var message = { return NSLocalizedString("To begin using PatchDay, tap the Edit button in the top right and setup your schedule.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.juliyasmith.com/patchday.html to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for alert.") }()
+            public static var message = { return NSLocalizedString("To begin using PatchDay, tap the Edit button in the top right and setup your schedule.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.PatchDayHRT.com to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for alert.") }()
             
             public static var support = { return NSLocalizedString("Support page", comment: "Title for action in alert. don't worry about room.") }()
         }

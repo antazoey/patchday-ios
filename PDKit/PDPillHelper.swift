@@ -1,5 +1,5 @@
 //
-//  PillsDelegate.swift
+//  PDPillsHelper.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 6/20/18.
@@ -10,6 +10,11 @@ public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
 
 public struct PillAttributes {
+    
+    public var description: String {
+        return "For setting MOPill attributes."
+    }
+    
     public var name: String?
     public var timesaday: Int?
     public var time1: Time?
@@ -39,12 +44,16 @@ public struct PillAttributes {
         self.time2 = Time()
         self.notify = true
         self.timesTakenToday = 0
-        self.lastTaken = Date()
+        self.lastTaken = nil
         self.id = UUID()
     }
 }
 
 public class PDPillHelper: NSObject {
+
+    override public var description: String {
+        return "Class for doing calculations on MOPill attributes."
+    }
     
     /// Return the next time the pill is due.
     public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [NSDate?]) -> Date? {
@@ -79,14 +88,12 @@ public class PDPillHelper: NSObject {
         return nil
     }
     
-    public static func isDue(_ dueDate: Date) -> Bool {
-        return Date() > dueDate
-    }
-    
+    /// Return if the pill has been taken all of its times today.
     public static func isDone(timesTakenToday: Int, timesaday: Int) -> Bool {
         return timesTakenToday >= timesaday
     }
     
+    /// Get pill matching ID.
     public static func getPill(in pillArray: [MOPill], for id: UUID) -> MOPill? {
         if let i = pillArray.map({
             (pill: MOPill) -> UUID? in
@@ -95,19 +102,6 @@ public class PDPillHelper: NSObject {
             return pillArray[i]
         }
         return nil
-    }
-    
-    /// Maps MOPills to their next relevant due times.
-    public static func getNextPillDueDates(from pills: [MOPill]) -> [Date] {
-        return pills.map({
-            (pill: MOPill) -> Time? in
-            return pill.getDueDate()
-        }).filter() {
-            $0 != nil
-            }.map({
-                (time: Time?) -> Time in
-                return time!
-            })
     }
 
 }

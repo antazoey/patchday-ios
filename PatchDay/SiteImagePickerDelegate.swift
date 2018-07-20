@@ -51,13 +51,13 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-        let size = CGSize(width: 171.5, height: 240.0)
-        let img = PDImages.resizeImage(image: images[row], targetSize: size)
+        let size = CGSize(width: 330.1375, height: 462.0)
+        //let img = images[row]
+        let img = PDImages.resizeImage(images[row], targetSize: size)
         let imgView = (row < images.count) ? UIImageView(image: img) : UIView()
         return imgView
     }
 
-    
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if row < images.count && row >= 0 {
             selectedImage = images[row]

@@ -194,7 +194,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return PDSiteHelper.getSiteStrings(from: ScheduleController.siteController.siteArray)[row]
+        return PDSiteHelper.getSiteNames(ScheduleController.siteController.siteArray)[row]
     }
     
     // Done

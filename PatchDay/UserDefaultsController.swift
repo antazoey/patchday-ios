@@ -160,9 +160,9 @@ public class UserDefaultsController: NSObject {
         defaults.set(to, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
     
-    public static func migrated() {
-        needsDataMigration = false
-        std_defaults.set(false, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
+    public static func setNeedsMigrated(to needmig: Bool) {
+        needsDataMigration = needmig
+        std_defaults.set(needmig, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
     }
     
     public static func incrementSiteIndex() {

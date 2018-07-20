@@ -21,7 +21,6 @@
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
-		B430BB2920F2C61B00891D40 /* PDDataMigrater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430BB2820F2C61B00891D40 /* PDDataMigrater.swift */; };
 		B430BB2C20F2C83200891D40 /* MOOldEstro.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430BB2A20F2C83200891D40 /* MOOldEstro.swift */; };
 		B430BB2D20F2C83200891D40 /* MOOldEstroExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
@@ -61,6 +60,7 @@
 		B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
+		B4F2615A21023F2B00D3B2B1 /* PDDataMigrater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,7 +143,6 @@
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
 		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteTableViewCell.swift; sourceTree = "<group>"; };
-		B430BB2820F2C61B00891D40 /* PDDataMigrater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDDataMigrater.swift; path = ../../../Desktop/PDDataMigrater.swift; sourceTree = "<group>"; };
 		B430BB2A20F2C83200891D40 /* MOOldEstro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOOldEstro.swift; sourceTree = "<group>"; };
 		B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOOldEstroExtra.swift; sourceTree = "<group>"; };
 		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarExtension.swift; sourceTree = "<group>"; };
@@ -181,6 +180,7 @@
 		B49A4A4D20DB2D4C00F24FC0 /* PDKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDKitTests.swift; sourceTree = "<group>"; };
 		B49A4A4F20DB2D4C00F24FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4AED52220E5659C00559165 /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillVC.swift; sourceTree = "<group>"; };
+		B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDataMigrater.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -278,7 +278,7 @@
 				B46554DC20D776A000F66962 /* SiteSuggester.swift */,
 				B430BB2A20F2C83200891D40 /* MOOldEstro.swift */,
 				B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */,
-				B430BB2820F2C61B00891D40 /* PDDataMigrater.swift */,
+				B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */,
 			);
 			name = Schedule;
 			sourceTree = "<group>";
@@ -580,6 +580,7 @@
 				B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */,
 				B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */,
 				B430BB2D20F2C83200891D40 /* MOOldEstroExtra.swift in Sources */,
+				B4F2615A21023F2B00D3B2B1 /* PDDataMigrater.swift in Sources */,
 				B4355D9220ED2E6A0048D466 /* SiteDataController.swift in Sources */,
 				1335B9BB1EC7500D00DD7088 /* ScheduleController.swift in Sources */,
 				133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */,
@@ -591,7 +592,6 @@
 				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				B46554DD20D776A000F66962 /* SiteSuggester.swift in Sources */,
-				B430BB2920F2C61B00891D40 /* PDDataMigrater.swift in Sources */,
 				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,
 				B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */,
 				B4355D8E20ED24CF0048D466 /* EstrogenDataController.swift in Sources */,

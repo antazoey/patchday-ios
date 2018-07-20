@@ -1,6 +1,6 @@
 //
-//  MOPill+CoreDataProperties.swift
-//  PatchDay
+//  MOPillMethods.swift
+//  PDKit
 //
 //  Created by Juliya Smith on 7/4/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -100,6 +100,7 @@ extension MOPill {
         return id
     }
     
+    /// Increments timesTakenToday and sets lastTaken to now.
     public func take() {
         timesTakenToday += 1
         lastTaken = Date() as NSDate
@@ -140,6 +141,7 @@ extension MOPill {
         }
     }
     
+    /// Sets all attributes to either nil or -1.
     public func reset() {
         name = nil
         timesaday = -1

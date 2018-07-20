@@ -1,6 +1,6 @@
 //
-//  MOSite+CoreDataProperties.swift
-//  PatchDay
+//  MOSiteMethods.swift
+//  PDKit
 //
 //  Created by Juliya Smith on 7/13/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
