@@ -137,7 +137,7 @@ public class PDStrings: NSObject {
         }
         
         public struct Bodies {
-            public static var changePatchLocated = { return NSLocalizedString("Expired patch located: ", comment: "Notification telling you where and when to change your patch.") }()
+            public static var changePatchLocated = { return NSLocalizedString("Expired patch site: ", comment: "Notification telling you where and when to change your patch.") }()
             public static var injectionBody = { return NSLocalizedString("Your last injection site: ", comment: "Notification telling you where and when to inject next medication.") }()
             
             public static var siteToExpiredPatchMessage: [String : String] = ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: "Notification telling you where and when to change your patch."),"Left Abdomen" : NSLocalizedString("Change patch on your 'Left Abdomen' ", comment: "Notification telling you where and when to change your patch."),"Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: "Notification telling you where and when to change your patch."), "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute' ", comment: "Notification telling you where and when to change a transdermal patch.")]
@@ -210,7 +210,7 @@ public class PDStrings: NSObject {
         
         public struct CoreDataAlert {
             public static var title = { return NSLocalizedString("Data Error", comment: "Title for alert.") }()
-            public static var message = { return NSLocalizedString("PatchDay's storage is not working. You may report the problem to patchday@juliyasmith.com if you'd like.", comment: "Message for alert.") }()
+            public static var message = { return NSLocalizedString("PatchDay's storage is not working. You may report the problem to support@patchdayhrt.com if you'd like.", comment: "Message for alert.") }()
         }
         
         public struct LoseDataAlert {
@@ -221,7 +221,7 @@ public class PDStrings: NSObject {
         public struct StartUp  {
             public static var title = { return NSLocalizedString("Setup / Disclaimer", comment: "Title for an alert.  Don't worry about room.") }()
             
-            public static var message = { return NSLocalizedString("To begin using PatchDay, tap the Edit button in the top right and setup your schedule.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.PatchDayHRT.com to learn more about how to use PatchDay as your HRT schedule app.", comment: "Message for alert.") }()
+            public static var message = { return NSLocalizedString("To begin using PatchDay, tap the Edit button in the top right and setup your schedule.\n\nUse this tool responsibly, and please follow medication instructions!\n\nGo to www.PatchDayHRT.com to learn more.", comment: "Message for alert.") }()
             
             public static var support = { return NSLocalizedString("Support page", comment: "Title for action in alert. don't worry about room.") }()
         }

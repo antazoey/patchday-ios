@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             ScheduleController.pillController.pillArray = PillDataController.newPillMOs(into: ScheduleController.getContext())
         }
         
+        //UserDefaultsController.setNeedsMigrated(to: true)
         // Migrate data model from 1.0 to 2.0
         ScheduleController.migrate(needs: UserDefaultsController.needsMigration())
         

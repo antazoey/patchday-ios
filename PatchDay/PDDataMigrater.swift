@@ -78,6 +78,7 @@ class PDDataMigrater: NSObject {
         }
         
         // TB
+        var tb_was_removed: Bool = false
         if let inc_tb = defaults.object(forKey: includes[0]) as? Bool {
             if inc_tb {
                 let new_tb = newPills[0]
@@ -96,28 +97,30 @@ class PDDataMigrater: NSObject {
             }
             else {
                 newPills.remove(at: 0)
+                tb_was_removed = true
             }
         }
 
         // PG
         if let inc_pg = defaults.object(forKey: includes[1]) as? Bool {
+            let i = tb_was_removed ? 0 : 1
             if inc_pg {
-            let new_pg = newPills[1]
-                if let t1 = defaults.object(forKey: pgts[0]) as? NSDate {
-                    new_pg.setTime1(with: t1)
-                }
-                if let d = defaults.object(forKey: dailies[1]) as? Int16 {
-                    new_pg.setTimesaday(with: d)
-                    if d >= 2, let t2 = defaults.object(forKey: pgts[1]) as? NSDate {
-                        new_pg.setTime2(with: t2)
+                let new_pg = newPills[i]
+                    if let t1 = defaults.object(forKey: pgts[0]) as? NSDate {
+                        new_pg.setTime1(with: t1)
                     }
-                }
-                if let r = defaults.object(forKey: rs[1]) as? Bool {
-                    new_pg.setNotify(with: r)
-                }
+                    if let d = defaults.object(forKey: dailies[1]) as? Int16 {
+                        new_pg.setTimesaday(with: d)
+                        if d >= 2, let t2 = defaults.object(forKey: pgts[1]) as? NSDate {
+                            new_pg.setTime2(with: t2)
+                        }
+                    }
+                    if let r = defaults.object(forKey: rs[1]) as? Bool {
+                        new_pg.setNotify(with: r)
+                    }
             }
             else {
-                newPills.remove(at: 1)
+                newPills.remove(at: i)
             }
         }
         
