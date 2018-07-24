@@ -20,7 +20,36 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add Patch" translatesAutoresizingMaskIntoConstraints="NO" id="XdS-gs-GPH">
+                                <rect key="frame" x="16" y="62" width="343" height="182"/>
+                                <color key="backgroundColor" red="0.96470588235294119" green="0.99215686274509807" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="182" id="RS3-Qy-UuO"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add Patch" translatesAutoresizingMaskIntoConstraints="NO" id="gPH-VJ-rqI">
+                                <rect key="frame" x="16" y="244" width="343" height="182"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add Patch" translatesAutoresizingMaskIntoConstraints="NO" id="Nde-4k-dcJ">
+                                <rect key="frame" x="16" y="426" width="343" height="182"/>
+                                <color key="backgroundColor" red="0.96470588239999999" green="0.99215686270000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Nde-4k-dcJ" firstAttribute="top" secondItem="gPH-VJ-rqI" secondAttribute="bottom" id="05S-rd-5sp"/>
+                            <constraint firstItem="Nde-4k-dcJ" firstAttribute="height" secondItem="gPH-VJ-rqI" secondAttribute="height" id="3LL-yu-5XS"/>
+                            <constraint firstItem="XdS-gs-GPH" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="16" id="B1S-Dh-pSM"/>
+                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="top" secondItem="XdS-gs-GPH" secondAttribute="bottom" id="a8g-Gh-BNr"/>
+                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="trailing" secondItem="XdS-gs-GPH" secondAttribute="trailing" id="b6m-qB-YIg"/>
+                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="height" secondItem="XdS-gs-GPH" secondAttribute="height" id="bkI-u6-AZJ"/>
+                            <constraint firstAttribute="trailing" secondItem="Nde-4k-dcJ" secondAttribute="trailing" constant="16" id="d6v-gL-zpV"/>
+                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="leading" secondItem="XdS-gs-GPH" secondAttribute="leading" id="gVM-et-aYf"/>
+                            <constraint firstAttribute="trailing" secondItem="XdS-gs-GPH" secondAttribute="trailing" constant="16" id="ieV-CX-1ZB"/>
+                            <constraint firstItem="Nde-4k-dcJ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="16" id="sDD-Ib-qkT"/>
+                            <constraint firstItem="XdS-gs-GPH" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="42" id="zdL-oc-e2Z"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Schedule" id="4uO-Z4-kCf">
                         <barButtonItem key="leftBarButtonItem" title="Pills" id="HDJ-F7-EXK"/>
@@ -29,7 +58,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Add Patch" width="750" height="383"/>
+    </resources>
 </document>

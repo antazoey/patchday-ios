@@ -53,6 +53,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private var shouldSaveIncrementedSiteIndex = false
     private var siteIndexSelected = -1
     
+    @objc func test() {
+        print("Test")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         estrogen = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex)
@@ -285,6 +289,11 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     internal func setEstrogenScheduleIndex(to: Int) {
         estrogenScheduleIndex = to
+    }
+    
+    /// Returns if there have been changes.
+    private func needsToSave() -> Bool {
+        return siteTextHasChanged || dateTextHasChanged
     }
     
     /// Saves any changed attributes.

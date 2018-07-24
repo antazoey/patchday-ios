@@ -128,7 +128,7 @@ public class PDDateHelper: NSObject {
     
     /// Gets 8 pm before an overnight date.
     public static func dateBeforeOvernight(overnightDate: Date) -> Date? {
-        if let eightPM_of = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: overnightDate), let eightPM_before = Calendar.current.date(byAdding: .day, value: -1, to: eightPM_of) {
+        if let eightPM_of = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: overnightDate), let eightPM_before = Calendar.current.date(byAdding: .day, value: -1, to: eightPM_of) {
             return eightPM_before
         }
         return nil

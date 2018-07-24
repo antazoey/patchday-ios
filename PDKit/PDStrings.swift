@@ -132,7 +132,7 @@ public class PDStrings: NSObject {
             public static var injectionExpired = { return NSLocalizedString("Time for your next injection", comment: "Title of notification.") }()
             public static var injectionExpires = { return NSLocalizedString("Almost time for your next injection", comment: "Title of notification.") }()
             public static var takePill = { return NSLocalizedString("Time to take pill: ", comment: "Title of notification.") }()
-            public static var overnight_patch = { return NSLocalizedString("Patch expired overnight.", comment: "Title of notification.") }()
+            public static var overnight_patch = { return NSLocalizedString("Patch expires overnight.", comment: "Title of notification.") }()
             public static var overnight_injection = { return NSLocalizedString("Injection due overnight", comment: "Title of notification.") }()
         }
         

@@ -262,7 +262,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         siteNames.remove(at: indexPath.row)
         siteTable.deleteRows(at: [indexPath], with: .fade)
         siteTable.reloadData()
-        if indexPath.row < (siteNames.count-1) {
+        if indexPath.row <= (siteNames.count-1) {
             
             // Reset cell colors
             for i in indexPath.row..<siteNames.count {

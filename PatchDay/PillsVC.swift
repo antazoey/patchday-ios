@@ -167,7 +167,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         pills.remove(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()
-        if indexPath.row < (pills.count-1) {
+        
+        
+        if indexPath.row <= (pills.count-1) {
             
             // Reset cell colors
             for i in indexPath.row..<pills.count {
@@ -175,6 +177,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
+ 
         ScheduleController.setPillDataForToday()
         setBadge()
     }
