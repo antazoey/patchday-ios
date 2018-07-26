@@ -121,7 +121,6 @@
 
 /* Begin PBXFileReference section */
 		1301011F1FE5936E00AEFF7C /* PillsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsVC.swift; sourceTree = "<group>"; };
-		130859F31F2560BD007BC43D /* PatchDay copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PatchDay copy2-Info.plist"; path = "/Users/Yingthi/Documents/PatchDay/PatchDay copy2-Info.plist"; sourceTree = "<absolute>"; };
 		131F0B681EE3AAD700576200 /* PDImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDImages.swift; sourceTree = "<group>"; };
 		1335B9BA1EC7500D00DD7088 /* ScheduleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleController.swift; sourceTree = "<group>"; };
 		133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
@@ -228,7 +227,6 @@
 				B49A4A4C20DB2D4C00F24FC0 /* PDKitTests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
-				130859F31F2560BD007BC43D /* PatchDay copy2-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
