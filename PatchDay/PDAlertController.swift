@@ -38,6 +38,14 @@ internal class PDAlertController {
                         let c = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
                         vcs[0].navigationController?.tabBarItem.badgeValue = (c > 0) ? String(c) : nil
                     }
+                    
+                    // Cancel notifications
+                    if let new_c = Int(newCount) {
+                        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+                        for i in (new_c-1)..<oldCount {
+                            appDelegate.notificationsController.cancelEstrogenNotification(at: i)
+                        }
+                    }
                 }
                 let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
                     (void) in
@@ -66,6 +74,7 @@ internal class PDAlertController {
                 ScheduleController.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
                 ScheduleController.setEstrogenDataForToday()
+                
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
                 (void) in

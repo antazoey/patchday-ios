@@ -293,9 +293,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveCountChange(_ row: Int) {
         let oldCount = ScheduleController.oldDeliveryCount
         if row < PDStrings.PickerData.counts.count && row >= 0 {
-            let choice = PDStrings.PickerData.counts[row]
-            UserDefaultsController.setQuantityWithWarning(to: choice, oldCount: oldCount, countButton: countButton, navController: self.navigationController)
-            countButton.setTitle(choice, for: .normal)
+            let newCountStr = PDStrings.PickerData.counts[row]
+            UserDefaultsController.setQuantityWithWarning(to: newCountStr, oldCount: oldCount, countButton: countButton, navController: self.navigationController)
+            countButton.setTitle(newCountStr, for: .normal)
+            
         }
         else {
             print("Error: saving count for index for row " + String(row))
@@ -307,6 +308,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let choice = PDStrings.PickerData.expirationIntervals[row]
             UserDefaultsController.setTimeInterval(to: choice)
             intervalButton.setTitle(choice, for: .normal)
+            appDelegate.notificationsController.resendAllEstrogenNotifications()
         }
         else {
             print("Error: saving expiration interval for row " + String(row))
@@ -348,6 +350,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let v = Int(reminderTimeSlider.value.rounded())
         reminderTimeSettingsLabel.text = String(v)
         UserDefaultsController.setNotificationMinutesBefore(to: v)
+        self.appDelegate.notificationsController.resendAllEstrogenNotifications()
+       
     }
     
     @IBAction private func reminderTimeTapped(_ sender: Any) {
@@ -395,14 +399,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             return color
         }
         return UIColor.white
-    }
-    
-    // MARK: - Private
-    
-    private func removeAllNotifications(last_i: Int) {
-        for i in 0...last_i {
-            appDelegate.notificationsController.cancelEstrogenNotification(at: i)
-        }
     }
     
     // MARK: - View loading and altering

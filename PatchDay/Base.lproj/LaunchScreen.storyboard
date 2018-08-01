@@ -21,34 +21,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add Patch" translatesAutoresizingMaskIntoConstraints="NO" id="XdS-gs-GPH">
-                                <rect key="frame" x="16" y="62" width="343" height="182"/>
-                                <color key="backgroundColor" red="0.96470588235294119" green="0.99215686274509807" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="182" id="RS3-Qy-UuO"/>
-                                </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add Patch" translatesAutoresizingMaskIntoConstraints="NO" id="gPH-VJ-rqI">
-                                <rect key="frame" x="16" y="244" width="343" height="182"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Add Patch" translatesAutoresizingMaskIntoConstraints="NO" id="Nde-4k-dcJ">
-                                <rect key="frame" x="16" y="426" width="343" height="182"/>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.99215686270000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="sE1-2D-SXz">
+                                <rect key="frame" x="0.0" y="65" width="375" height="502"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nYr-jb-doP">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="167.5"/>
+                                        <color key="backgroundColor" red="0.96470588239999999" green="0.99215686270000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u8W-TC-4E9">
+                                        <rect key="frame" x="0.0" y="167.5" width="375" height="167"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qff-nV-Xan">
+                                        <rect key="frame" x="0.0" y="334.5" width="375" height="167.5"/>
+                                        <color key="backgroundColor" red="0.96470588239999999" green="0.99215686270000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Nde-4k-dcJ" firstAttribute="top" secondItem="gPH-VJ-rqI" secondAttribute="bottom" id="05S-rd-5sp"/>
-                            <constraint firstItem="Nde-4k-dcJ" firstAttribute="height" secondItem="gPH-VJ-rqI" secondAttribute="height" id="3LL-yu-5XS"/>
-                            <constraint firstItem="XdS-gs-GPH" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="16" id="B1S-Dh-pSM"/>
-                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="top" secondItem="XdS-gs-GPH" secondAttribute="bottom" id="a8g-Gh-BNr"/>
-                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="trailing" secondItem="XdS-gs-GPH" secondAttribute="trailing" id="b6m-qB-YIg"/>
-                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="height" secondItem="XdS-gs-GPH" secondAttribute="height" id="bkI-u6-AZJ"/>
-                            <constraint firstAttribute="trailing" secondItem="Nde-4k-dcJ" secondAttribute="trailing" constant="16" id="d6v-gL-zpV"/>
-                            <constraint firstItem="gPH-VJ-rqI" firstAttribute="leading" secondItem="XdS-gs-GPH" secondAttribute="leading" id="gVM-et-aYf"/>
-                            <constraint firstAttribute="trailing" secondItem="XdS-gs-GPH" secondAttribute="trailing" constant="16" id="ieV-CX-1ZB"/>
-                            <constraint firstItem="Nde-4k-dcJ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="16" id="sDD-Ib-qkT"/>
-                            <constraint firstItem="XdS-gs-GPH" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="42" id="zdL-oc-e2Z"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="sE1-2D-SXz" secondAttribute="bottom" constant="100" id="KZE-QU-mIU"/>
+                            <constraint firstItem="sE1-2D-SXz" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="45" id="TJw-K9-JxN"/>
+                            <constraint firstAttribute="trailing" secondItem="sE1-2D-SXz" secondAttribute="trailing" id="Uro-Qu-goq"/>
+                            <constraint firstItem="sE1-2D-SXz" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="l04-ji-h9l"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Schedule" id="4uO-Z4-kCf">
@@ -61,7 +57,4 @@
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Add Patch" width="750" height="383"/>
-    </resources>
 </document>

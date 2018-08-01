@@ -53,18 +53,52 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
-        for i in 0...upToRemove {
-            cancelEstrogenNotification(at: i)
-        }
+        cancelEstrogenNotifications(from: 0, to: upToRemove)
         for j in 0...upToAdd {
             let estro = ScheduleController.estrogenController.getEstrogenMO(at: j)
             requestEstrogenExpiredNotification(for: estro)
         }
     }
     
+    public func resendAllEstrogenNotifications() {
+        let i = UserDefaultsController.getQuantityInt()
+        resendEstrogenNotifications(upToRemove: i, upToAdd: i)
+    }
+    
     public func resendPillNotification(for pill: MOPill) {
         cancelPill(pill)
         requestNotifyTakePill(pill)
+    }
+    
+    internal func cancelEstrogenNotification(at index: Index) {
+        let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
+        if let id = estro.getID() {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
+        }
+    }
+    
+    internal func cancelEstrogenNotifications(from startIndex: Index, to endIndex: Index) {
+        var ids: [String] = []
+        for i in startIndex...endIndex {
+            let estro = ScheduleController.estrogenController.getEstrogenMO(at: i)
+            
+            if let id = estro.getID() {
+                ids.append(id.uuidString)
+            }
+        }
+        if ids.count > 0 {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
+        }
+    }
+    
+    internal func cancelAllEstrogenNotifications() {
+        cancelEstrogenNotifications(from: 0, to: UserDefaultsController.getQuantityInt()-1)
+    }
+    
+    internal func cancelPill(_ pill: MOPill) {
+        if let id = pill.getID() {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
+        }
     }
 
     // MARK: - notifications
@@ -187,19 +221,6 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                     print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
                 }
             }
-        }
-    }
-    
-    internal func cancelEstrogenNotification(at index: Index) {
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
-        if let id = estro.getID() {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
-        }
-    }
-    
-    internal func cancelPill(_ pill: MOPill) {
-        if let id = pill.getID() {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
         }
     }
     

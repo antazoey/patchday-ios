@@ -121,6 +121,13 @@ public class UserDefaultsController: NSObject {
                 }
                 else {
                     setQuantityWithoutWarning(to: newQuantity)
+                    // Cancel notifications
+                    if let newCount = Int(newQuantity) {
+                        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+                        for i in (newCount-1)..<oldCount {
+                            appDelegate.notificationsController.cancelEstrogenNotification(at: i)
+                        }
+                    }
                 }
             }
             // INCREASING COUNT

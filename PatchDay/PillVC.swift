@@ -244,25 +244,30 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        nameTextField.text = names[row]
         nameSelected = names[row]
+        nameTextField.text = nameSelected
+        nameChanged = true
     }
     
     private func openOrCloseNamePicker(closing: Bool) {
+        
+        // Select row
+        let n = (nameSelected == nil) ? name : nameSelected
+        
+        if let selectedName = n, let i = names.index(of: selectedName) {
+            self.namePicker.selectRow(i, inComponent: 0, animated: false)
+        }
+        
         if !closing {
             UIView.transition(with: namePicker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { self.namePicker.isHidden = closing
             }, completion: {
                 (void) in
-                if self.nameTextField.text == PDStrings.PlaceholderStrings.new_pill {
-                    self.nameChanged = true
-                    self.nameSelected = self.names[self.namePicker.selectedRow(inComponent: 0)]
-                    self.nameTextField.text = self.nameSelected
-                }
             })
             
         }
         else {
-            self.namePicker.isHidden = closing
+            self.namePicker.isHidden = true
+
         }
         nameTextField.isEnabled = closing
     }
