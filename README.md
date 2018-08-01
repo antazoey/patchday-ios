@@ -48,10 +48,6 @@ whether the user is not using that feature or there are equal number of patches 
 the site will not change. Also, the user could edit the estrogen attributes individually. T
 his is useful if there was a mistake.
 
---------------
-
-# Settings
-
   Delivery Method: Either patches or injections. Refers to how estrogen enters your body.
 
   Schedule: How long until next dose.
