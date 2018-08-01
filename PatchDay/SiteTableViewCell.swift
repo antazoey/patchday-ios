@@ -22,7 +22,7 @@ class SiteTableViewCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        if cellIndex == UserDefaultsController.getSiteIndex() {
+        if cellIndex == ScheduleController.siteController.getNextSiteIndex() {
             nextLabel.isHidden = shouldHide
         }
     }

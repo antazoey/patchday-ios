@@ -58,7 +58,7 @@ internal class PDAlertController {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
-                ScheduleController.estrogenController.resetEstrogens()
+                ScheduleController.estrogenController.resetEstrogenData()
                 let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? "3" : "1"
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
                 UserDefaultsController.setDeliveryMethod(to: newMethod)
@@ -120,7 +120,7 @@ internal class PDAlertController {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
             let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
                 (void) in
-                if let _ = SiteDataController.appendSite(name: name, order: index, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.getContext()) {
+                if let _ = SiteDataController.appendSite(name: name, order: index, sites: &ScheduleController.siteController.siteArray) {
                     estroVC.sitePicker.reloadAllComponents()
                 }
                 

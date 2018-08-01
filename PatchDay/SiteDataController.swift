@@ -13,10 +13,9 @@ import PDKit
 public class SiteDataController {
     
     internal var siteArray: [MOSite]
-    internal let context: NSManagedObjectContext
     
-    init(context: NSManagedObjectContext) {
-        self.context = context
+    init() {
+        let context = ScheduleController.getContext()
         siteArray = SiteDataController.loadSiteMOs(into: context)
         siteArray = SiteDataController.filterEmptySites(from: siteArray)
         if siteArray.count == 0 {
@@ -27,17 +26,24 @@ public class SiteDataController {
     
     // MARK: - Public
     
-    internal func setSiteName(index: Index, to: String) {
+    internal func setSiteName(at index: Index, to newName: String) {
         if index >= 0 && index < siteArray.count {
-            siteArray[index].setName(to: to)
-            ScheduleController.saveContext(context)
+            siteArray[index].setName(to: newName)
+            ScheduleController.save()
         }
     }
     
-    internal func setSiteOrder(index: Index, to: Int16) {
+    internal func setSiteOrder(at index: Index, to newOrder: Int16) {
         if index >= 0 && index < siteArray.count {
-            siteArray[index].setOrder(to: to)
-            ScheduleController.saveContext(context)
+            siteArray[index].setOrder(to: newOrder)
+            ScheduleController.save()
+        }
+    }
+    
+    internal func setSiteImageID(at index: Index, to newID: String) {
+        if index >= 0 && index < siteArray.count {
+            siteArray[index].setImageIdentifier(to: newID)
+            ScheduleController.save()
         }
     }
     
@@ -47,7 +53,28 @@ public class SiteDataController {
             return siteArray[index]
         }
         // Append new site
-        return SiteDataController.appendSite(name: name, order: siteArray.count, sites: &siteArray, into: context)
+        return SiteDataController.appendSite(name: name, order: siteArray.count, sites: &siteArray)
+    }
+    
+    internal func getSite(at index: Index) -> MOSite? {
+        if index >= 0 && index < siteArray.count {
+            return siteArray[index]
+        }
+        return nil
+    }
+    
+    internal func getNextSiteIndex() -> Index? {
+        var r: Index = UserDefaultsController.getSiteIndex()
+        for _ in 0..<siteArray.count {
+            if siteArray[r].estrogenRelationship?.count == 0 {
+                return r
+            }
+            else {
+                UserDefaultsController.incrementSiteIndex()
+                r = UserDefaultsController.getSiteIndex()
+            }
+        }
+        return nil
     }
     
     internal func deleteSite(at index: Index) {
@@ -60,7 +87,11 @@ public class SiteDataController {
             }
         }
         siteArray = siteArray.filter() { $0.getOrder() != -1 && $0.getName() != ""}
-        ScheduleController.saveContext(context)
+        ScheduleController.save()
+    }
+    
+    internal func getSiteNames() -> [SiteName] {
+        return PDSiteHelper.getSiteNames(siteArray)
     }
     
     internal func resetSiteData() {
@@ -72,7 +103,7 @@ public class SiteDataController {
                 siteArray[i].setOrder(to: Int16(i))
                 siteArray[i].setName(to: resetSiteNames[i])
             }
-            else if let newSiteMO = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: context) as? MOSite {
+            else if let newSiteMO = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: ScheduleController.getContext()) as? MOSite {
                 newSiteMO.setOrder(to: Int16(i))
                 newSiteMO.setName(to: resetSiteNames[i])
                 siteArray.append(newSiteMO)
@@ -85,7 +116,7 @@ public class SiteDataController {
         }
         siteArray = SiteDataController.filterEmptySites(from: siteArray)
         siteArray.sort(by: <)
-        ScheduleController.saveContext(context)
+        ScheduleController.save()
         
     }
     
@@ -158,7 +189,8 @@ public class SiteDataController {
     }
     
     /// Appends the the new site to the siteArray and returns it.
-    internal static func appendSite(name: String, order: Int, sites: inout [MOSite], into context: NSManagedObjectContext) -> MOSite? {
+    internal static func appendSite(name: String, order: Int, sites: inout [MOSite]) -> MOSite? {
+        let context = ScheduleController.getContext()
         if let sitemo = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: context) as? MOSite {
             sitemo.setName(to: name)
             sites.append(sitemo)

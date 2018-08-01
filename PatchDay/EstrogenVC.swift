@@ -321,13 +321,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func autoPickSite() {
-        if let suggestStruct = SiteSuggester.getSuggestedSiteStruct() {
+        if let suggestedSite = SiteSuggester.getSuggestedSite() {
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
-            if let site = suggestStruct.site, let suggestedSiteName = site.getName() {
+            if let suggestedSiteName = suggestedSite.getName() {
                 chooseSiteButton.text = suggestedSiteName
                 siteTextHasChanged = true
-                siteIndexSelected = suggestStruct.index
+                siteIndexSelected = Int(suggestedSite.getOrder())
             }
         }
     }

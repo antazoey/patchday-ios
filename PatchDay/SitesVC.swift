@@ -96,8 +96,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func cellNextTitleShouldHide(cellIndex: Index) -> Bool {
-        if let next_i = ScheduleController.siteController.getNextSiteIndex(),
-            next_i == cellIndex && !siteTable.isEditing {
+        if ScheduleController.siteController.getNextSiteIndex() == cellIndex && !siteTable.isEditing {
             return false
         }
         return true
@@ -155,11 +154,11 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let siteToMove = ScheduleController.siteController.siteArray[sourceIndexPath.row]
         ScheduleController.siteController.siteArray.remove(at: sourceIndexPath.row)
         ScheduleController.siteController.siteArray.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == UserDefaultsController.getSiteIndex() {
+        if sourceIndexPath.row == ScheduleController.siteController.getNextSiteIndex() {
             UserDefaultsController.setSiteIndex(to: destinationIndexPath.row)
         }
         for i in 0..<ScheduleController.siteCount() {
-            ScheduleController.siteController.setSiteOrder(index: i, to: Int16(i))
+            ScheduleController.siteController.setSiteOrder(at: i, to: Int16(i))
         }
         reloadSiteNames()
         siteTable.reloadData()

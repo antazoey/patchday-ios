@@ -37,8 +37,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     // Handles responses received from interacting with notifications.
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        if response.actionIdentifier == estroActionID, let uuid = UUID(uuidString: response.notification.request.identifier) {
-            ScheduleController.estrogenController.setEstrogenMO(for: uuid, date: Date() as NSDate, site: SiteSuggester.getSuggestedSite())
+        if response.actionIdentifier == estroActionID,
+            let uuid = UUID(uuidString: response.notification.request.identifier),
+            let suggestedsite = SiteSuggester.getSuggestedSite() {
+            ScheduleController.estrogenController.setEstrogenMO(for: uuid, date: Date() as NSDate, site: suggestedsite)
             UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         
