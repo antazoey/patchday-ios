@@ -36,13 +36,13 @@ public class PDEstrogenHelper: NSObject {
         })
     }
     
-    /// Returns the smallest index in the estrogen schedule.
+    /// Returns the index of the first MOEstrogen in the estrogenArray that has no date.
     public static func getLowestUndatedIndex(in estrogenArray: [MOEstrogen], estrogenCount: Int) -> Index? {
-        let dpc = datePlacedCount(for: estrogenArray)
-        if dpc != estrogenCount {
-            return dpc-1
+        for i in 0..<estrogenArray.count {
+            if estrogenArray[i].date == nil {
+                return i
+            }
         }
-        // All estrogens are dated.
         return nil
     }
     

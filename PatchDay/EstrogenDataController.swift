@@ -10,11 +10,15 @@ import Foundation
 import CoreData
 import PDKit
 
-public class EstrogenDataController {
+public class EstrogenDataController: NSObject {
+    
+    override public var description: String {
+        return "Singleton for reading, writing, and querying the MOEstrogen array."
+    }
     
     internal var estrogenArray: [MOEstrogen]
     
-    init() {
+    override init() {
         let context = ScheduleController.getContext()
         estrogenArray = []
         // Load previously saved MOEstrogens
@@ -43,6 +47,7 @@ public class EstrogenDataController {
         return newEstro
     }
     
+    /// Returns the MOEstrogen for the given id.
     internal func getEstrogenMO(for id: UUID) -> MOEstrogen? {
         if let estroIndex = estrogenArray.map({
             (estro: MOEstrogen) -> UUID? in
@@ -53,12 +58,14 @@ public class EstrogenDataController {
         return nil
     }
     
+    /// Sets the site of the MOEstrogen for the given index.
     internal func setEstrogenSite(of index: Index, with site: MOSite) {
         let estro = getEstrogenMO(at: index)
         estro.setSite(with: site)
         ScheduleController.save()
     }
     
+    /// Sets the date of the MOEstrogen for the given index.
     internal func setEstrogenDate(of index: Index, with date: Date) {
         let estro = getEstrogenMO(at: index)
         estro.setDate(with: date as NSDate)
@@ -66,6 +73,7 @@ public class EstrogenDataController {
         ScheduleController.save()
     }
     
+    /// Sets the date and the site of the MOEstrogen for the given index.
     internal func setEstrogenMO(of index: Index, date: NSDate, site: MOSite) {
         let estro = getEstrogenMO(at: index)
         estro.setSite(with: site)
@@ -74,6 +82,7 @@ public class EstrogenDataController {
         ScheduleController.save()
     }
     
+    /// Sets the date and the site of the MOEstrogen for the given id.
     internal func setEstrogenMO(for id: UUID, date: NSDate, site: MOSite) {
         if let estro = getEstrogenMO(for: id) {
             estro.setSite(with: site)
@@ -83,6 +92,14 @@ public class EstrogenDataController {
         }
     }
     
+    /// Sets the backup-site-name of the MOEstrogen for the given index.
+    internal func setEstrogenBackUpSiteName(of index: Index, with name: String) {
+        if index < estrogenArray.count && index >= 0 {
+            estrogenArray[index].setSiteBackup(to: name)
+        }
+    }
+    
+    /// Sets the MOEstrogen for the given index.
     internal func setEstrogenMO(of index: Index, with estrogen: MOEstrogen) {
         if index < estrogenArray.count && index >= 0 {
             estrogenArray[index] = estrogen
@@ -90,24 +107,9 @@ public class EstrogenDataController {
         }
     }
     
-    internal func setEstrogenBackUpSiteName(of index: Index, with name: String) {
-        if index < estrogenArray.count && index >= 0 {
-            estrogenArray[index].setSiteBackup(to: name)
-        }
-    }
-    
+    /// Returns the index of the given estrogen.
     internal func getEstrogenIndex(for estrogen: MOEstrogen) -> Index? {
         return estrogenArray.index(of: estrogen)
-    }
-    
-    internal func getLowestUndatedIndex() -> Index? {
-        let dpc = datePlacedCount()
-        
-        if dpc != estrogenArray.count {
-            return dpc-1
-        }
-        // All estrogens are dated.
-        return nil
     }
     
     internal func nextEstroDue() -> MOEstrogen? {

@@ -86,8 +86,12 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             cell.badgeButton.restorationIdentifier = String(indexPath.row)
             cell.badgeButton.type = usingPatches ? .patches : .injections
             cell.badgeButton.badgeValue = isExpired ? "!" : nil
-            animateEstrogenButtonChanges(cell: cell, newImage: img, newTitle: title, at: estrogenIndex)
+            animateEstrogenButtonChanges(cell: cell, at: estrogenIndex, newImage: img, newTitle: title)
             cell.selectionStyle = .default
+            cell.stateImage.isHidden = false
+        }
+        else if estrogenIndex < 4 {
+            animateEstrogenButtonChanges(cell: cell, at: estrogenIndex)
         }
         
         // Reset cell
@@ -162,11 +166,12 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
-    private func animateEstrogenButtonChanges(cell: EstrogenTableViewCell, newImage: UIImage, newTitle: String, at index: Index){
-        if ScheduleController.shouldAnimate(estrogenIndex: index, newBG: newImage, estrogenController: ScheduleController.estrogenController, estrogenCount: UserDefaultsController.getQuantityInt()) {
+    private func animateEstrogenButtonChanges(cell: EstrogenTableViewCell, at index: Index, newImage: UIImage?=nil, newTitle: String?=nil){
+        if ScheduleController.shouldAnimate(estrogenIndex: index, isOld: (newImage != PDImages.addPatch), estrogenController: ScheduleController.estrogenController, estrogenCount: UserDefaultsController.getQuantityInt()) {
             
             UIView.transition(with: cell.stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 cell.stateImage.image = newImage
+                cell.stateImage.isHidden = true
                 
             }) {
                 (void) in

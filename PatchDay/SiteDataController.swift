@@ -10,11 +10,15 @@ import Foundation
 import CoreData
 import PDKit
 
-public class SiteDataController {
+public class SiteDataController: NSObject {
+    
+    override public var description: String {
+        return "Singleton for reading, writing, and querying the MOSite array."
+    }
     
     internal var siteArray: [MOSite]
     
-    init() {
+    override init() {
         let context = ScheduleController.getContext()
         siteArray = SiteDataController.loadSiteMOs(into: context)
         siteArray = SiteDataController.filterEmptySites(from: siteArray)

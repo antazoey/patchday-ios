@@ -16,7 +16,7 @@ public typealias SiteSet = [String]
 public class ScheduleController: NSObject {
     
     override public var description: String {
-        return "ScheduleController is the public accessor class for controlling the app's managed objects through three sub-controllers: estrogenController, pillController, and siteController.  The ScheduleController maintains access to the persistentContainer as well as helps out with calculations involving the managed objects."
+        return "Singleton for reading, writing, and querying Core Data objects."
     }
     
     // Sub-controllers
@@ -197,7 +197,6 @@ public class ScheduleController: NSObject {
         }
     }
     
-    
     // MARK: - For EstrogensVC animation.
     
     /// Animation variables.
@@ -213,7 +212,7 @@ public class ScheduleController: NSObject {
     /**
      Animation algorithm for EstrogensVC.
      */
-    public static func shouldAnimate(estrogenIndex: Index, newBG: UIImage, estrogenController: EstrogenDataController, estrogenCount: Int) -> Bool {
+    public static func shouldAnimate(estrogenIndex: Index, isOld: Bool=false, estrogenController: EstrogenDataController, estrogenCount: Int) -> Bool {
         
         /* -- Reasons to Animate -- */
         
@@ -223,17 +222,19 @@ public class ScheduleController: NSObject {
             hasDateAndItMatters = false
         }
         
-        // 1.) from ESTROGEN: animate affected non-empty MO dates from changing
-        let moreThanSiteChangedFromDetails: Bool = animateScheduleFromChangeDelivery && newBG != PDImages.addPatch  && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
+        // 1.) -> EstrogenVC: animate affected non-empty estrogens from change.
+        let isAffectedFromChange: Bool = animateScheduleFromChangeDelivery && isOld && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
         
-        // 2.) from ESTROGEN: animate the newly changed site and none else (date didn't change)
-        let isChangedSiteFromDetails: Bool = siteChanged && estrogenIndex == indexOfChangedDelivery
+        // 2.) -> EstrogenVC: animate the newly changed site and none else (date didn't change).
+        let isSiteChange: Bool = siteChanged && estrogenIndex == indexOfChangedDelivery
         
-        // 3.) from SETTINGS: animate new empty MOs when loading from the changing count
-        let indexLessThanOldCountFromSettings: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount) || (decreasedCount && estrogenIndex >= oldDeliveryCount)
-
+        // 3.) -> SettingsVC: animate new estrogens coming in.
+        let isNew: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount) || deliveryMethodChanged
         
-        return (moreThanSiteChangedFromDetails || isChangedSiteFromDetails || indexLessThanOldCountFromSettings || deliveryMethodChanged)
+        // 4.) -> SettingsVC: animate estrogens leaving
+        let isGone: Bool = decreasedCount && estrogenIndex >= UserDefaultsController.getQuantityInt()
+        
+        return (isAffectedFromChange || isSiteChange || isNew || isGone)
         
     }
 

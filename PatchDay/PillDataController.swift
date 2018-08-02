@@ -13,7 +13,7 @@ import PDKit
 public class PillDataController: NSObject {
     
     override public var description: String {
-        return "PillDataController is a sub-controller for the ScheduleController used to manage the array of MOPills."
+        return "Singleton for reading, writing, and querying the MOPill array."
     }
     
     internal var pillArray: [MOPill]
