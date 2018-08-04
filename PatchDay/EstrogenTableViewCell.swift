@@ -100,7 +100,7 @@ class EstrogenTableViewCell: UITableViewCell {
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil) {
         let estrogenOptional = ScheduleController.estrogenController.getEstrogenOptional(at: index)
-        ScheduleController.estrogenController.effectManager.isNew = newImage == PDImages.addPatch
+        ScheduleController.estrogenController.effectManager.isNew = newImage == PDImages.addPatch || newImage == PDImages.addInjection
         if shouldAnimate(estrogenOptional, at: index, changes: ScheduleController.estrogenController.effectManager) {
             
             UIView.transition(with: stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
