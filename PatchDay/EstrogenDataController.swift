@@ -45,7 +45,6 @@ public class EstrogenDataController: NSObject {
                 return estrogenArray[index]
             }
         let newEstro = newEstrogenMOForSchedule(in: ScheduleController.getContext())
-        loadMap()
         return newEstro
     }
     
@@ -245,6 +244,7 @@ public class EstrogenDataController: NSObject {
     private func newEstrogenMOForSchedule(in context: NSManagedObjectContext) -> MOEstrogen {
         let newEstro = EstrogenDataController.newEstrogenMO(in: context)
         estrogenArray.append(newEstro)
+        estrogenMap[newEstro.getID()] = newEstro
         estrogenArray.sort(by: <)
         EstrogenDataController.initID(for: newEstro)
         return newEstro
@@ -263,7 +263,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Load estrogen ID map after changes occur to the schedule.
-    private static func loadMap(estroMap: inout [UUID: MOEstrogen], estroArray: [MOEstrogen]) {
+    public static func loadMap(estroMap: inout [UUID: MOEstrogen], estroArray: [MOEstrogen]) {
         estroMap = estroArray.reduce([UUID: MOEstrogen]()) {
             (estroDict, estro) -> [UUID: MOEstrogen] in
             var dict = estroDict

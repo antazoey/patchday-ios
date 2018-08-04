@@ -39,6 +39,13 @@ class EstrogenTableViewCell: UITableViewCell {
             // In the case there were changes from Settings
         else if index < 4 {
             animateEstrogenButtonChanges(at: index)
+            
+            backgroundColor = UIColor.white
+             /*
+            selectedBackgroundView = UIView()
+            selectedBackgroundView?.backgroundColor = UIColor.white
+ */
+            selectionStyle = .none
         }
         else {
             reset()

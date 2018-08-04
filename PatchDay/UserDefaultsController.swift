@@ -93,7 +93,7 @@ public class UserDefaultsController: NSObject {
         let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
         UserDefaultsController.setQuantityWithoutWarning(to: c)
         ScheduleController.deliveryMethodChanged = true
-        SiteDataController.switchDefaultSites(deliveryMethod: to, sites: &ScheduleController.siteController.siteArray, into: ScheduleController.getContext())
+        ScheduleController.siteController.resetSiteData()
     }
     
     public static func setTimeInterval(to: String) {

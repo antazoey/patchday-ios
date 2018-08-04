@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         UserDefaultsController.setUp()
         if isFirstLaunch() {
-            ScheduleController.pillController.pillArray = PillDataController.newPillMOs(into: ScheduleController.getContext())
+            ScheduleController.pillController.makeNewDefaultPillMOs()
         }
         
         //UserDefaultsController.setNeedsMigrated(to: true)

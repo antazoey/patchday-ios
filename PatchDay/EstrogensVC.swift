@@ -49,6 +49,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             PDAlertController.alertForDisclaimerAndTutorial()
             UserDefaultsController.setMentionedDisclaimer(to: true)
         }
+        title = UserDefaultsController.usingPatches() ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
         estrogenTable.reloadData()
     }
 
