@@ -9,15 +9,17 @@
 import UIKit
 import PDKit
 
-internal class PDAlertController {
+internal class PDAlertController: NSObject {
     
-    // Description:  class for controlling PatchDay's alerts.
+    override var description: String {
+        return "Singleton for controllnig PatchDay's alerts."
+    }
     
     internal static var currentAlert = UIAlertController()
     
     // MARK: - Changing count
     
-    /// Safety alert for changing the count of estrogens causing a loss of data.
+    /// Alert for changing the count of estrogens causing a loss of data.
     internal static func alertForChangingCount(oldCount: Int, newCount: String, countButton: UIButton, navController: UINavigationController?) {
         if let newC = Int(newCount) {
             if (newC > oldCount) {
@@ -60,6 +62,7 @@ internal class PDAlertController {
     
     // MARK: - Changing delivery method
     
+    /// Alert that occurs when the delivery method has changed because data could now be lost.
     internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton, settingsVC: SettingsVC?){
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
@@ -100,6 +103,7 @@ internal class PDAlertController {
     
     // MARK: - Disclaimer + tutorial
     
+    /// Alert that displays a quick tutorial and disclaimer on installation.
     internal static func alertForDisclaimerAndTutorial() {
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
@@ -123,6 +127,7 @@ internal class PDAlertController {
     
     // MARK: - Add site
     
+    /// Alert that gives the user the option to add a new site they typed out in the UI.
     internal static func alertForAddSite(with name: SiteName, at index: Index, estroVC: EstrogenVC) {
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
@@ -143,6 +148,7 @@ internal class PDAlertController {
     
     //MARK: - Core data errors
     
+    /// Alert for when Core Data has an error.
     internal static func alertForCoreDataError() {
         if let currentVC = getRootVC() {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.CoreDataAlert.title, message: PDStrings.AlertStrings.CoreDataAlert.message, preferredStyle: .alert)
@@ -154,6 +160,7 @@ internal class PDAlertController {
     
     // MARK: - Persistent store load error
     
+    /// Alert for when the persistentStore has an error.
     internal static func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = getRootVC() {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.CoreDataAlert.title, message: "(\(String(describing: error))", preferredStyle: .alert)

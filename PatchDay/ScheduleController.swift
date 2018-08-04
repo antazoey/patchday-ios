@@ -82,6 +82,15 @@ public class ScheduleController: NSObject {
         }
     }
     
+    /// Returns the next site in the site schedule as a suggestion of where to relocate.
+    internal static func getSuggestedSite() -> MOSite? {
+        let sites = ScheduleController.siteController.siteArray
+        if let i = ScheduleController.siteController.getNextSiteIndex() {
+            return sites[i]
+        }
+        return nil
+    }
+    
     /// Returns total number of MOEstrogens that are expired.
     public static func totalEstrogenDue(intervalStr: String) -> Int {
         return PDEstrogenHelper.expiredCount(ScheduleController.estrogenController.estrogenArray, intervalStr: intervalStr)
@@ -132,7 +141,7 @@ public class ScheduleController: NSObject {
         if UserDefaultsController.usingPatches() {
             return estro.getSiteName()
         }
-        if let suggestedSite = SiteSuggester.getSuggestedSite(), let name = suggestedSite.getName() {
+        if let suggestedSite = ScheduleController.getSuggestedSite(), let name = suggestedSite.getName() {
             return name
         }
         return nil

@@ -24,20 +24,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        // Load user defaults.
         UserDefaultsController.setUp()
+        
+        // Set default Pills only on the first launch.
         if isFirstLaunch() {
             ScheduleController.pillController.makeNewDefaultPillMOs()
         }
         
-        //UserDefaultsController.setNeedsMigrated(to: true)
-        // Migrate data model from 1.0 to 2.0
+        // Migrate data model from 1.0 to 2.0.
         ScheduleController.migrate(needs: UserDefaultsController.needsMigration())
         
+        // Load data for the Today widget.
         ScheduleController.setDataForTodayApp()
         
+        // Set the correct app badge value.
         setBadge(with: ScheduleController.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
 
-        // Navigation bar appearance
+        // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()
         navigationBarAppearace.tintColor = UIColor.blue
         return true

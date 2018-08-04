@@ -42,7 +42,6 @@
 		B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993C20F8822700D36B06 /* MOSiteMethods.swift */; };
 		B458994520F886FB00D36B06 /* MOEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOEstrogen.swift */; };
 		B458994620F886FE00D36B06 /* MOEstrogenMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */; };
-		B46554DD20D776A000F66962 /* SiteSuggester.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46554DC20D776A000F66962 /* SiteSuggester.swift */; };
 		B468F4A120D9BDBA007FC689 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
 		B468F4A420D9BDBA007FC689 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468F4A320D9BDBA007FC689 /* TodayViewController.swift */; };
 		B468F4A720D9BDBA007FC689 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B468F4A520D9BDBA007FC689 /* MainInterface.storyboard */; };
@@ -160,7 +159,6 @@
 		B458993C20F8822700D36B06 /* MOSiteMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOSiteMethods.swift; path = ../MOSiteMethods.swift; sourceTree = "<group>"; };
 		B458994120F8865C00D36B06 /* MOEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOEstrogen.swift; path = ../MOEstrogen.swift; sourceTree = "<group>"; };
 		B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOEstrogenMethods.swift; path = ../MOEstrogenMethods.swift; sourceTree = "<group>"; };
-		B46554DC20D776A000F66962 /* SiteSuggester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSuggester.swift; sourceTree = "<group>"; };
 		B468F49E20D9BDBA007FC689 /* patchdayToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = patchdayToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B468F4A320D9BDBA007FC689 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -273,7 +271,6 @@
 				B4355D8D20ED24CF0048D466 /* EstrogenDataController.swift */,
 				B4355D8F20ED2C1A0048D466 /* PillDataController.swift */,
 				B4355D9120ED2E6A0048D466 /* SiteDataController.swift */,
-				B46554DC20D776A000F66962 /* SiteSuggester.swift */,
 				B430BB2A20F2C83200891D40 /* MOOldEstro.swift */,
 				B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */,
 				B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */,
@@ -589,7 +586,6 @@
 				B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
-				B46554DD20D776A000F66962 /* SiteSuggester.swift in Sources */,
 				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,
 				B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */,
 				B4355D8E20ED24CF0048D466 /* EstrogenDataController.swift in Sources */,
