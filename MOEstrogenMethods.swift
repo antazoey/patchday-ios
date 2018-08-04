@@ -79,6 +79,7 @@ extension MOEstrogen {
     
     /// Sets all attributes to nil.
     public func reset() {
+        id = nil
         date = nil
         siteRelationship = nil
         siteNameBackUp = nil

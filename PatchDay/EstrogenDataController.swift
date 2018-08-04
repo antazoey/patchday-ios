@@ -43,9 +43,11 @@ public class EstrogenDataController: NSObject {
         
         if c > q {
             for i in q..<c {
-                ScheduleController.getContext().delete(estrogenArray[i])
-                estrogenArray.remove(at: i)
+                if i < estrogenArray.count {
+                    ScheduleController.getContext().delete(estrogenArray[i])
+                }
             }
+            
         }
         ScheduleController.save()
     }
@@ -159,8 +161,10 @@ public class EstrogenDataController: NSObject {
     internal func resetEstrogenData(start_i: Index, end_i: Index) {
         let context = ScheduleController.getContext()
         for i in start_i...end_i {
-            estrogenArray[i].reset()
-            context.delete(estrogenArray[i])
+            if i < estrogenArray.count {
+                estrogenArray[i].reset()
+                context.delete(estrogenArray[i])
+            }
         }
         estrogenArray = Array(estrogenArray.prefix(start_i))
         ScheduleController.save()
@@ -295,6 +299,23 @@ public class EstrogenDataController: NSObject {
     private func loadMap() {
         EstrogenDataController.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
         
+    }
+    
+    public func printEstrogens() {
+        print("\n")
+        for estro in estrogenArray {
+            print("Estrogen")
+            if let d = estro.getDate() {
+                print(PDDateHelper.format(date: d as Date, useWords: true))
+            }
+            if let s = estro.getSite(), let n = s.getName() {
+                print(n)
+            }
+            else if let n = estro.getSiteNameBackUp() {
+                print(n)
+            }
+            print("---")
+        }
     }
     
 }
