@@ -297,10 +297,4 @@ public class EstrogenDataController: NSObject {
         
     }
     
-    public func printIDs() {
-        for estro in estrogenArray {
-            print("id \(estro.id)")
-        }
-    }
-    
 }
