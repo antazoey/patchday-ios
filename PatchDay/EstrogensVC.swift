@@ -68,42 +68,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let estrogenIndex = indexPath.row
-        let cell = estrogenTable.dequeueReusableCell(withIdentifier: "estrogenCellReuseID") as! EstrogenTableViewCell
-        
-        // Estrogen cell
-        if estrogenIndex < UserDefaultsController.getQuantityInt() {
-            let intervalStr = UserDefaultsController.getTimeIntervalString()
-            let usingPatches = UserDefaultsController.usingPatches()
-            let estro = ScheduleController.estrogenController.getEstrogenMO(at: indexPath.row)
-            let isExpired = estro.isExpired(intervalStr)
-            let img = determineEstrogenCellImage(index: estrogenIndex)
-            let title = determineEstrogenCellTitle(estrogenIndex: estrogenIndex, intervalStr)
-            cell.selectedBackgroundView = UIView()
-            cell.selectedBackgroundView?.backgroundColor = PDColors.pdPink
-            cell.backgroundColor = (indexPath.row % 2 == 0) ? PDColors.pdLightBlue : UIColor.white
-            cell.dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
-            cell.dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? UIFont.systemFont(ofSize: 15) : UIFont.systemFont(ofSize: 38)
-            cell.badgeButton.restorationIdentifier = String(indexPath.row)
-            cell.badgeButton.type = usingPatches ? .patches : .injections
-            cell.badgeButton.badgeValue = isExpired ? "!" : nil
-            animateEstrogenButtonChanges(cell: cell, at: estrogenIndex, newImage: img, newTitle: title)
-            cell.selectionStyle = .default
-            cell.stateImage.isHidden = false
-        }
-        else if estrogenIndex < 4 {
-            animateEstrogenButtonChanges(cell: cell, at: estrogenIndex)
-        }
-        
-        // Reset cell
-        else {
-            cell.selectedBackgroundView = nil
-            cell.dateLabel.text = nil
-            cell.badgeButton.titleLabel?.text = nil
-            cell.stateImage.image = nil
-            cell.backgroundColor = UIColor.white
-            cell.selectionStyle = .none
-        }
-        return cell
+        let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: "estrogenCellReuseID") as! EstrogenTableViewCell
+        estroCell.configure(at: estrogenIndex)
+        return estroCell
             
     }
     
@@ -123,66 +90,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     // MARK: - Private
-    
-    /// Returns the site-reflecting estrogen button image to the corresponding index.
-    private func determineEstrogenCellImage(index: Index) -> UIImage {
-        let usingPatches: Bool = UserDefaultsController.usingPatches()
-        // Default:  new / add image
-        let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
-        var image: UIImage = insert_img
-        let estro = estrogenController.getEstrogenMO(at: index)
-
-        if !estro.isEmpty() {
-            // Check if Site relationship siteName is a general site.
-            if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
-                image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
-            }
-            // Check of the siteNameBackUp is a general site.
-            else if let siteName = estro.getSiteNameBackUp() {
-                image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
-            }
-            // Custom
-            else {
-                image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
-            }
-        }
-        return image
-    }
-    
-    /// Determines the start of the week title for a schedule button.
-    private func determineEstrogenCellTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
-        var title: String = ""
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex)
-        if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
-            if UserDefaultsController.usingPatches() {
-                let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
-                title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
-            }
-            else {
-                title += PDStrings.ColonedStrings.last_injected + PDDateHelper.dayOfWeekString(date: date as Date)
-            }
-        }
-        return title
-    }
-    
-    /// Animates the making of an estrogen button if there were estrogen data changes.
-    private func animateEstrogenButtonChanges(cell: EstrogenTableViewCell, at index: Index, newImage: UIImage?=nil, newTitle: String?=nil){
-        if ScheduleController.shouldAnimate(estrogenIndex: index, isOld: (newImage != PDImages.addPatch), estrogenController: ScheduleController.estrogenController, estrogenCount: UserDefaultsController.getQuantityInt()) {
-            
-            UIView.transition(with: cell.stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
-                cell.stateImage.image = newImage
-                cell.stateImage.isHidden = true
-                
-            }) {
-                (void) in
-                cell.dateLabel.text = newTitle
-            }
-        }
-        else {
-            cell.stateImage.image = newImage
-            cell.dateLabel.text = newTitle
-        }
-    }
 
     // MARK: - updating from background
     

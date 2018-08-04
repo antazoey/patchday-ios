@@ -45,43 +45,11 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = pillTable.dequeueReusableCell(withIdentifier: "pillCellReuseID") as! PillTableViewCell
+        let pillCell = pillTable.dequeueReusableCell(withIdentifier: "pillCellReuseID") as! PillTableViewCell
         if indexPath.row >= 0 && indexPath.row < pills.count {
-            let indexStr = String(indexPath.row)
-            let pill = pills[indexPath.row]
-
-            cell.nameLabel.text = pill.getName()
-            cell.loadStateImage(from: pill)
-            cell.stateImageButton.type = .pills
-            cell.loadLastTakenText(from: pill)
-            cell.loadDueDateText(from: pill)
-            cell.takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
-            cell.stateImageButton.restorationIdentifier = "i" + indexStr
-            cell.takeButton.restorationIdentifier = "t" + indexStr
-            cell.takeButton.isEnabled = (pill.isDone()) ? false : true
-            
-            enableOrDisableTake(for: cell)
-            
-            if indexPath.row % 2 == 0 {
-                cell.backgroundColor = PDColors.pdLightBlue
-                cell.imageViewView.backgroundColor = nil
-                cell.stateImageButton.backgroundColor = nil
-            }
-            
-            if pill.isExpired() {
-                cell.stateImageButton.badgeValue = "!"
-            }
-            else {
-                cell.stateImageButton.badgeValue = nil
-            }
- 
+            pillCell.configure(using: pills[indexPath.row], at: indexPath.row)
         }
-        
-        // Cell background view when selected
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.pdPink
-        cell.selectedBackgroundView = backgroundView
-        return cell
+        return pillCell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -117,7 +85,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     cell.loadStateImage(from: pill)
                     cell.loadLastTakenText(from: pill)
                 }
-                self.enableOrDisableTake(for: cell)
+                cell.enableOrDisableTake()
                 pills = pillController.pillArray
                 pillTable.reloadData()
                 reloadInputViews()
@@ -139,21 +107,6 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if let sb = storyboard, let navCon = navigationController, let pillVC = sb.instantiateViewController(withIdentifier: "PillVC_id") as? PillVC {
             pillVC.setPillIndex(index)
             navCon.pushViewController(pillVC, animated: true)
-        }
-    }
-    
-    private func enableOrDisableTake(for cell: PillTableViewCell) {
-        // Disable take
-        if cell.stateImage.tintColor == UIColor.lightGray {
-            cell.takeButton.setTitle(PDStrings.ActionStrings.taken, for: .normal)
-            cell.takeButton.isEnabled = false
-            cell.stateImageButton.isEnabled = false
-        }
-        // Enable
-        else {
-            cell.takeButton.setTitle(PDStrings.ActionStrings.take, for: .normal)
-            cell.takeButton.isEnabled = true
-            cell.stateImageButton.isEnabled = true
         }
     }
     

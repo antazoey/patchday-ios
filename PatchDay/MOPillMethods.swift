@@ -56,8 +56,10 @@ extension MOPill {
     public func setNotify(with newNotify: Bool) {
         notify = newNotify
     }
-    public func setID(with newID: UUID) {
-        id = newID
+    public func setID() {
+        if id == nil {
+            id = UUID()
+        }
     }
     
     public func setLastTaken(with newTime: NSDate) {
@@ -96,8 +98,11 @@ extension MOPill {
         return timesTakenToday
     }
     
-    public func getID() -> UUID? {
-        return id
+    public func getID() -> UUID {
+        if id == nil {
+            self.setID()
+        }
+        return id!
     }
     
     /// Increments timesTakenToday and sets lastTaken to now.

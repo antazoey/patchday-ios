@@ -81,46 +81,14 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return siteNames.count
     }
-    
-    private func loadCellEstrogenImages(for site: MOSite) -> UIImage? {
-        if site.isOccupiedByMany() || (!UserDefaultsController.usingPatches() && site.isOccupied()) {
-            return  #imageLiteral(resourceName: "ES Icon")
-        }
-        else if site.isOccupied() {
-            let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen
-            if let i = ScheduleController.estrogenController.getEstrogenIndex(for: estro) {
-                return PDImages.getSiteIcon(at: i)
-            }
-        }
-        return nil
-    }
-    
-    private func cellNextTitleShouldHide(cellIndex: Index) -> Bool {
-        if ScheduleController.siteController.getNextSiteIndex() == cellIndex && !siteTable.isEditing {
-            return false
-        }
-        return true
-    }
+
+
     
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseID") as! SiteTableViewCell
-        let i = indexPath.row
-        if i >= 0 && i < siteNames.count, let site = ScheduleController.siteController.getSite(at: i) {
-            cell.orderLabel.text = String(i + 1) + "."
-            cell.nameLabel.text = siteNames[i]
-            cell.estrogenScheduleImage.tintColor = UIColor.red
-            cell.nextLabel.textColor = PDColors.pdGreen
-            cell.estrogenScheduleImage.image = loadCellEstrogenImages(for: site)
-            cell.nextLabel.isHidden = cellNextTitleShouldHide(cellIndex: i)
-            cell.backgroundColor = (i % 2 != 0) ? UIColor.white : PDColors.pdLightBlue
-        }
-        
-        // Cell background view when selected
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.pdPink
-        cell.selectedBackgroundView = backgroundView
-        return cell
+        let siteCell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseID") as! SiteTableViewCell
+        siteCell.configure(at: indexPath.row, name: siteNames[indexPath.row], siteCount: siteNames.count, isEditing: siteTable.isEditing)
+        return siteCell
     }
     
     // MARK: - Editing cells in the table

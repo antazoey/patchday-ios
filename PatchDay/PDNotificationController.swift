@@ -12,9 +12,9 @@ import PDKit
 
 internal class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     
-    // Description:  class for controlling PatchDay's notifications.
-    
-    // MARK: - Essential
+    override var description: String {
+        return "Singleton for reading, writing, and querying the MOEstrogen array."
+    }
     
     internal var center = UNUserNotificationCenter.current()
     internal var currentEstrogenIndex = 0
@@ -46,7 +46,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         
         else if response.actionIdentifier == takeActionID,
             let uuid = UUID(uuidString: response.notification.request.identifier),
-            let pill = PDPillHelper.getPill(in: ScheduleController.pillController.pillArray, for: uuid) {
+            let pill = ScheduleController.pillController.getPill(for: uuid) {
             ScheduleController.pillController.take(pill)
             UIApplication.shared.applicationIconBadgeNumber -= 1
         }
@@ -72,19 +72,15 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     internal func cancelEstrogenNotification(at index: Index) {
         let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
-        if let id = estro.getID() {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
-        }
+        let id = estro.getID()
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
     }
     
     internal func cancelEstrogenNotifications(from startIndex: Index, to endIndex: Index) {
         var ids: [String] = []
         for i in startIndex...endIndex {
             let estro = ScheduleController.estrogenController.getEstrogenMO(at: i)
-            
-            if let id = estro.getID() {
-                ids.append(id.uuidString)
-            }
+            ids.append(estro.getID().uuidString)
         }
         if ids.count > 0 {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
@@ -96,9 +92,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     internal func cancelPill(_ pill: MOPill) {
-        if let id = pill.getID() {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
-        }
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [pill.getID().uuidString])
     }
 
     // MARK: - notifications
@@ -156,7 +150,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         if sendingNotifications,
             UserDefaultsController.getRemindMeUpon(),
             let date = estro.getDate(),
-            var timeIntervalUntilExpire = PDDateHelper.expirationInterval(intervalStr, date: date as Date), let id = estro.getID() {
+            var timeIntervalUntilExpire = PDDateHelper.expirationInterval(intervalStr, date: date as Date) {
             let content = UNMutableNotificationContent()
             
             content.title = determineEstrogenNotificationTitle(usingPatches: usingPatches, notifyTime: notifyTime)
@@ -168,7 +162,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
-                let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: estro.getID().uuidString, content: content, trigger: trigger)
                 center.add(request) {
                     (error : Error?) in
                     if error != nil {
@@ -183,7 +177,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         let usingPatches = UserDefaultsController.usingPatches()
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         let content = UNMutableNotificationContent()
-        if let id = estro.getID(), let triggerDate = PDDateHelper.dateBeforeOvernight(overnightDate: expDate) {
+        if let triggerDate = PDDateHelper.dateBeforeOvernight(overnightDate: expDate) {
             content.title = usingPatches ? PDStrings.NotificationStrings.Titles.overnight_patch : PDStrings.NotificationStrings.Titles.overnight_injection
             content.sound = UNNotificationSound.default()
             content.badge = ScheduleController.totalDue(intervalStr: intervalStr) + 1 as NSNumber
@@ -191,7 +185,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             let interval = triggerDate.timeIntervalSinceNow
             if interval > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-                let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: estro.getID().uuidString, content: content, trigger: trigger)
                 center.add(request) { (error: Error?) in
                     if error != nil {
                         print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
@@ -204,7 +198,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     internal func requestNotifyTakePill(_ pill: MOPill) {
         let now = Date()
         
-        if let id = pill.getID(), let dueDate = pill.getDueDate(), now < dueDate {
+        if let dueDate = pill.getDueDate(), now < dueDate {
             let content = UNMutableNotificationContent()
             content.title = PDStrings.NotificationStrings.Titles.takePill
             if let name = pill.getName() {
@@ -215,7 +209,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.categoryIdentifier = pillCategoryID
             let interval = dueDate.timeIntervalSince(now)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-            let request = UNNotificationRequest(identifier: id.uuidString, content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: pill.getID().uuidString, content: content, trigger: trigger)
             center.add(request) { (error : Error?) in
                 if error != nil {
                     print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")

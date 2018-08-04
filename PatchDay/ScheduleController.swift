@@ -215,24 +215,24 @@ public class ScheduleController: NSObject {
     public static func shouldAnimate(estrogenIndex: Index, isOld: Bool=false, estrogenController: EstrogenDataController, estrogenCount: Int) -> Bool {
         
         /* -- Reasons to Animate -- */
+        var hasDateAndItMatters: Bool = false
+        var isAffectedFromChange: Bool = false
+        var isSiteChange: Bool = false
+        var isNew: Bool = false
+        var isGone: Bool = false
         
-        var hasDateAndItMatters: Bool = true
-        let estro = estrogenController.getEstrogenMO(at: estrogenIndex)
-        if estro.hasNoDate() {
-            hasDateAndItMatters = false
+        if estrogenIndex < UserDefaultsController.getQuantityInt() {
+            let estro = estrogenController.getEstrogenMO(at: estrogenIndex)
+            hasDateAndItMatters = estro.hasDate()
+            // Animate affected non-empty estrogens from change.
+            isAffectedFromChange = animateScheduleFromChangeDelivery && isOld && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
+            // Animate the newly changed site and none else (date didn't change).
+            isSiteChange = siteChanged && estrogenIndex == indexOfChangedDelivery
         }
-        
-        // 1.) -> EstrogenVC: animate affected non-empty estrogens from change.
-        let isAffectedFromChange: Bool = animateScheduleFromChangeDelivery && isOld && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
-        
-        // 2.) -> EstrogenVC: animate the newly changed site and none else (date didn't change).
-        let isSiteChange: Bool = siteChanged && estrogenIndex == indexOfChangedDelivery
-        
-        // 3.) -> SettingsVC: animate new estrogens coming in.
-        let isNew: Bool = (increasedCount && estrogenIndex >= oldDeliveryCount) || deliveryMethodChanged
-        
-        // 4.) -> SettingsVC: animate estrogens leaving
-        let isGone: Bool = decreasedCount && estrogenIndex >= UserDefaultsController.getQuantityInt()
+        // Animate new estrogens coming in.
+        isNew = (increasedCount && estrogenIndex >= oldDeliveryCount) || deliveryMethodChanged
+        // Animate estrogens leaving
+        isGone = decreasedCount && estrogenIndex >= UserDefaultsController.getQuantityInt()
         
         return (isAffectedFromChange || isSiteChange || isNew || isGone)
         

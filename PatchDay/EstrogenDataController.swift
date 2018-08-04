@@ -17,6 +17,7 @@ public class EstrogenDataController: NSObject {
     }
     
     internal var estrogenArray: [MOEstrogen]
+    internal var estrogenMap = [UUID: MOEstrogen]()
     
     override init() {
         let context = ScheduleController.getContext()
@@ -30,8 +31,8 @@ public class EstrogenDataController: NSObject {
             estrogenArray = EstrogenDataController.newEstrogenMOs(from: context)
         }
         estrogenArray.sort(by: <)
+        EstrogenDataController.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
 
-        
     }
     
     // MARK: - Public
@@ -43,19 +44,14 @@ public class EstrogenDataController: NSObject {
             index < estrogenArray.count {
                 return estrogenArray[index]
             }
-        let newEstro = createNewEstrogenMO(in: ScheduleController.getContext())
+        let newEstro = newEstrogenMOForSchedule(in: ScheduleController.getContext())
+        loadMap()
         return newEstro
     }
     
     /// Returns the MOEstrogen for the given id.
     internal func getEstrogenMO(for id: UUID) -> MOEstrogen? {
-        if let estroIndex = estrogenArray.map({
-            (estro: MOEstrogen) -> UUID? in
-            return estro.getID()
-        }).index(of: id) {
-            return estrogenArray[estroIndex]
-        }
-        return nil
+        return estrogenMap[id]
     }
     
     /// Sets the site of the MOEstrogen for the given index.
@@ -112,6 +108,7 @@ public class EstrogenDataController: NSObject {
         return estrogenArray.index(of: estrogen)
     }
     
+    /// Returns the next MOEstrogen that needs to be taken.
     internal func nextEstroDue() -> MOEstrogen? {
         estrogenArray.sort(by: <)
         if estrogenArray.count > 0 {
@@ -129,12 +126,14 @@ public class EstrogenDataController: NSObject {
         })
     }
     
+    /// Sets all MOEstrogen data to nil.
     internal func resetEstrogenData() {
         for estro in estrogenArray {
             estro.reset()
         }
     }
     
+    /// Sets all MOEstrogen data between given indices to nil.
     internal func resetEstrogenData(start_i: Index, end_i: Index) {
         for i in start_i...end_i {
             estrogenArray[i].reset()
@@ -142,20 +141,23 @@ public class EstrogenDataController: NSObject {
         ScheduleController.save()
     }
     
+    /// Returns if there are no dates in the estrogen schedule.
     public func hasNoDates() -> Bool {
         return (estrogenArray.filter() {
             $0.getDate() != nil
         }).count == 0
     }
     
-    public func hasNoLocations() -> Bool {
+    /// Returns if there are no sites in the estrogen schedule.
+    public func hasNoSites() -> Bool {
         return (estrogenArray.filter() {
             $0.getSite() != nil
         }).count == 0
     }
     
+    /// Returns if there are no dates or sites in the estrogen schedule.
     public func isEmpty() -> Bool {
-        return hasNoDates() && hasNoLocations()
+        return hasNoDates() && hasNoSites()
     }
     
     /// Returns if each MOEstrogen fromThisIndexOnward is empty.
@@ -184,7 +186,7 @@ public class EstrogenDataController: NSObject {
     
     // MARK: - Private
     
-    /// Brings persisted MOEstrogenDeliveries into memory when starting the app.
+    /// Brings persisted MOEstrogens into memory when starting the app.
     private static func loadEstrogenMOs(from context: NSManagedObjectContext) -> [MOEstrogen]? {
         let fetchRequest = NSFetchRequest<MOEstrogen>(entityName: PDStrings.CoreDataKeys.estroEntityName)
         fetchRequest.propertiesToFetch = PDStrings.CoreDataKeys.estroPropertyNames()
@@ -202,7 +204,7 @@ public class EstrogenDataController: NSObject {
         return nil
     }
     
-    /// Initializes a generic MOEstrogen when there is none in store.
+    /// Initializes generic MOEstrogens.
     private static func newEstrogenMOs(from context: NSManagedObjectContext) -> [MOEstrogen] {
         let entityName = PDStrings.CoreDataKeys.estroEntityName
         var estros: [MOEstrogen] = []
@@ -219,7 +221,7 @@ public class EstrogenDataController: NSObject {
         return estros
     }
     
-    /// Statically create a new MOEstrogen.
+    /// Statically create a new MOEstrogen. Does not append to estrogenArray.
     private static func newEstrogenMO(in context: NSManagedObjectContext) -> MOEstrogen {
         let entityName = PDStrings.CoreDataKeys.estroEntityName
         if let estro = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context) as? MOEstrogen {
@@ -234,7 +236,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Creates a new MOEstrogen and appends it to the estrogenArray.
-    private func createNewEstrogenMO(in context: NSManagedObjectContext) -> MOEstrogen {
+    private func newEstrogenMOForSchedule(in context: NSManagedObjectContext) -> MOEstrogen {
         let newEstro = EstrogenDataController.newEstrogenMO(in: context)
         estrogenArray.append(newEstro)
         estrogenArray.sort(by: <)
@@ -242,18 +244,30 @@ public class EstrogenDataController: NSObject {
         return newEstro
     }
     
-    /// Set UUId for estro if there is none.
+    /// Set UUId for estro.
     private static func initID(for estro: MOEstrogen) {
-        if estro.getID() == nil {
-            estro.setID(with: UUID())
-        }
+        estro.setID()
     }
     
     /// Sets UUID for estros if there is none.
     private static func initIDs(for estros: [MOEstrogen]) {
         for estro in estros {
-            initID(for: estro)
+            estro.setID()
         }
+    }
+    
+    /// Load estrogen ID map after changes occur to the schedule.
+    private static func loadMap(estroMap: inout [UUID: MOEstrogen], estroArray: [MOEstrogen]) {
+        estroMap = estroArray.reduce([UUID: MOEstrogen]()) {
+            (estroDict, estro) -> [UUID: MOEstrogen] in
+            var dict = estroDict
+            dict[estro.getID()] = estro
+            return dict
+        }
+    }
+    
+    private func loadMap() {
+        EstrogenDataController.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
     }
     
 }

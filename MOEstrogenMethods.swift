@@ -16,9 +16,9 @@ extension MOEstrogen {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MOEstrogen> {
         return NSFetchRequest<MOEstrogen>(entityName: "Estrogen")
     }
-
-    @NSManaged public var date: NSDate?
+    
     @NSManaged public var id: UUID?
+    @NSManaged public var date: NSDate?
     @NSManaged public var siteNameBackUp: String?
     @NSManaged public var siteRelationship: MOSite?
     
@@ -34,8 +34,8 @@ extension MOEstrogen {
         self.date = date
     }
     
-    public func setID(with newID: UUID) {
-        self.id = newID
+    public func setID() {
+        self.id = UUID()
     }
     
     public func setSiteBackup(to str: String) {
@@ -51,8 +51,11 @@ extension MOEstrogen {
         return self.date
     }
     
-    public func getID() -> UUID? {
-        return self.id
+    public func getID() -> UUID {
+        if self.id == nil {
+            setID()
+        }
+        return self.id!
     }
     
     public func getSiteNameBackUp() -> String? {
@@ -122,8 +125,8 @@ extension MOEstrogen {
         return false
     }
     
-    public func hasNoDate() -> Bool {
-        return date == nil
+    public func hasDate() -> Bool {
+        return date != nil
     }
     
     public func isEmpty() -> Bool {

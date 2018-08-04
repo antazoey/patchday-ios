@@ -22,7 +22,6 @@ public struct PillAttributes {
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
-    public var id: UUID?
     public init(name: String?, timesaday: Int?,
                 time1: Time?, time2: Time?,
                 notify: Bool?, timesTakenToday: Int?,
@@ -34,7 +33,6 @@ public struct PillAttributes {
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
-        self.id = id
     }
     // Default
     public init() {
@@ -45,7 +43,6 @@ public struct PillAttributes {
         self.notify = true
         self.timesTakenToday = 0
         self.lastTaken = nil
-        self.id = UUID()
     }
 }
 
@@ -91,17 +88,6 @@ public class PDPillHelper: NSObject {
     /// Return if the pill has been taken all of its times today.
     public static func isDone(timesTakenToday: Int, timesaday: Int) -> Bool {
         return timesTakenToday >= timesaday
-    }
-    
-    /// Get pill matching ID.
-    public static func getPill(in pillArray: [MOPill], for id: UUID) -> MOPill? {
-        if let i = pillArray.map({
-            (pill: MOPill) -> UUID? in
-            return pill.getID()
-        }).index(of: id) {
-            return pillArray[i]
-        }
-        return nil
     }
 
 }
