@@ -91,6 +91,7 @@ public class UserDefaultsController: NSObject {
         deliveryMethod = to
         defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
         let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
+        
         UserDefaultsController.setQuantityWithoutWarning(to: c)
         ScheduleController.deliveryMethodChanged = true
         ScheduleController.siteController.resetSiteData()
@@ -107,10 +108,6 @@ public class UserDefaultsController: NSObject {
     public static func setQuantityWithWarning(to newQuantity: String, oldCount: Int, countButton: UIButton, navController: UINavigationController?) {
         ScheduleController.oldDeliveryCount = oldCount
         if let newCount = Int(newQuantity), isAcceptable(count: newCount) {
-            // startAndNewCount : represents two things.
-            //  1.) It is the start index for reseting patches that need to be reset from decreasing a full schedule, and
-            //  2.), it is the Int form of the new count
-                // DECREASING COUNT
             if newCount < oldCount {
                 ScheduleController.decreasedCount = true
                 // alert
@@ -130,7 +127,7 @@ public class UserDefaultsController: NSObject {
                     }
                 }
             }
-            // INCREASING COUNT
+            // Incr. count
             else {
                 setQuantityWithoutWarning(to: newQuantity)
                 ScheduleController.increasedCount = true
@@ -144,6 +141,7 @@ public class UserDefaultsController: NSObject {
         if let newCount = Int(quantityStr), isAcceptable(count: newCount) {
             quantity = quantityStr
             defaults.set(quantityStr, forKey: PDStrings.SettingsKey.count.rawValue)
+            ScheduleController.estrogenController.deleteExtra()
         }
     }
     
@@ -307,7 +305,7 @@ public class UserDefaultsController: NSObject {
             if c == " " {
                 return builder
             }
-            builder += String(c)
+            builder += "\(c)"
         }
         return builder
     }

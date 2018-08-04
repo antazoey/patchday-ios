@@ -286,7 +286,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
         }
         else {
-            print("Error: saving delivery method for index for row " + String(row))
+            print("Error: saving delivery method for index for row  + \(row)")
         }
     }
     
@@ -299,7 +299,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             
         }
         else {
-            print("Error: saving count for index for row " + String(row))
+            print("Error: saving count for index for row \(row)")
         }
     }
     
@@ -311,7 +311,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             appDelegate.notificationsController.resendAllEstrogenNotifications()
         }
         else {
-            print("Error: saving expiration interval for row " + String(row))
+            print("Error: saving expiration interval for row \(row)")
         }
     }
     

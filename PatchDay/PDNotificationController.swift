@@ -40,7 +40,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         if response.actionIdentifier == estroActionID,
             let uuid = UUID(uuidString: response.notification.request.identifier),
             let suggestedsite = ScheduleController.getSuggestedSite() {
-            ScheduleController.estrogenController.setEstrogenMO(for: uuid, date: Date() as NSDate, site: suggestedsite)
+            ScheduleController.estrogenController.setEstrogen(for: uuid, date: Date() as NSDate, site: suggestedsite)
             UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         
@@ -56,7 +56,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
         cancelEstrogenNotifications(from: 0, to: upToRemove)
         for j in 0...upToAdd {
-            let estro = ScheduleController.estrogenController.getEstrogenMO(at: j)
+            let estro = ScheduleController.estrogenController.getEstrogen(at: j)
             requestEstrogenExpiredNotification(for: estro)
         }
     }
@@ -75,7 +75,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels the notification at the given index.
     internal func cancelEstrogenNotification(at index: Index) {
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
+        let estro = ScheduleController.estrogenController.getEstrogen(at: index)
         let id = estro.getID()
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
     }
@@ -84,7 +84,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     internal func cancelEstrogenNotifications(from startIndex: Index, to endIndex: Index) {
         var ids: [String] = []
         for i in startIndex...endIndex {
-            let estro = ScheduleController.estrogenController.getEstrogenMO(at: i)
+            let estro = ScheduleController.estrogenController.getEstrogen(at: i)
             ids.append(estro.getID().uuidString)
         }
         if ids.count > 0 {

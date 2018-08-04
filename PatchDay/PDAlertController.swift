@@ -35,6 +35,7 @@ internal class PDAlertController: NSObject {
                     ScheduleController.estrogenController.resetEstrogenData(start_i: newC, end_i: 3)
                     UserDefaultsController.setQuantityWithoutWarning(to: newCount)
                     
+                    
                     // Tab bar image / badgeValue
                     if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
                         let c = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())

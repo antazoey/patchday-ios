@@ -73,7 +73,12 @@ public class SiteDataController: NSObject {
     
     /// Returns the next site for scheduling in the site schedule.
     internal func getNextSiteIndex() -> Index? {
-        var r: Index = UserDefaultsController.getSiteIndex()
+        
+        if siteArray.count <= 0 {
+            return nil
+        }
+        
+        var r: Index = (UserDefaultsController.getSiteIndex() < siteArray.count) ? UserDefaultsController.getSiteIndex() : 0
         for _ in 0..<siteArray.count {
             if siteArray[r].estrogenRelationship?.count == 0 {
                 return r
@@ -89,6 +94,7 @@ public class SiteDataController: NSObject {
     /// Deletes the site at the given index.
     internal func deleteSite(at index: Index) {
         if index >= 0 && index < siteArray.count {
+            loadEstrogenBackupSiteNameFromSite(site: siteArray[index])
             siteArray[index].reset()
         }
         if (index+1) < (siteArray.count-1) {
@@ -98,6 +104,19 @@ public class SiteDataController: NSObject {
         }
         siteArray = siteArray.filter() { $0.getOrder() != -1 && $0.getName() != ""}
         ScheduleController.save()
+    }
+    
+    /// Set the siteBackUp string in the site's MOEstsrogens to the siteName.
+    public func loadEstrogenBackupSiteNameFromSite(site: MOSite) {
+        if site.isOccupied(),
+            let estroSet = site.estrogenRelationship {
+            for estro in Array(estroSet) {
+                let e = estro as! MOEstrogen
+                if let n = site.getName() {
+                    e.setSiteBackup(to: n)
+                }
+            }
+        }
     }
     
     /// Returns an array of a siteNames for each site in the schedule.

@@ -59,7 +59,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex)
+        estrogen = ScheduleController.estrogenController.getEstrogen(at: estrogenScheduleIndex)
         loadTitle()
         chooseSiteButton.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -378,7 +378,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func setUpLabelsInUI() {
         let intervalStr = UserDefaultsController.getTimeIntervalString()
         var exp = ""
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenScheduleIndex)
+        let estro = ScheduleController.estrogenController.getEstrogen(at: estrogenScheduleIndex)
         if estro.getDate() != nil {
             if UserDefaultsController.usingPatches() {
                 expLabel.text = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires

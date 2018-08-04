@@ -19,7 +19,7 @@ class EstrogenTableViewCell: UITableViewCell {
         if index < UserDefaultsController.getQuantityInt() {
             let intervalStr = UserDefaultsController.getTimeIntervalString()
             let usingPatches = UserDefaultsController.usingPatches()
-            let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
+            let estro = ScheduleController.estrogenController.getEstrogen(at: index)
             let isExpired = estro.isExpired(intervalStr)
             let img = determineImage(index: index)
             let title = determineTitle(estrogenIndex: index, intervalStr)
@@ -66,7 +66,7 @@ class EstrogenTableViewCell: UITableViewCell {
         // Default:  new / add image
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         var image: UIImage = insert_img
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: index)
+        let estro = ScheduleController.estrogenController.getEstrogen(at: index)
         
         if !estro.isEmpty() {
             // Check if Site relationship siteName is a general site.
@@ -88,7 +88,7 @@ class EstrogenTableViewCell: UITableViewCell {
     /// Determines the start of the week title for a schedule button.
     private func determineTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
         var title: String = ""
-        let estro = ScheduleController.estrogenController.getEstrogenMO(at: estrogenIndex)
+        let estro = ScheduleController.estrogenController.getEstrogen(at: estrogenIndex)
         if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
             if UserDefaultsController.usingPatches() {
                 let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires

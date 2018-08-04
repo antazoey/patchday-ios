@@ -17,7 +17,7 @@ public class PDEstrogenHelper: NSObject {
     }
     
     /// Returns MOEstrogen matching id.
-    public static func getEstrogenMO(for id: UUID, estrogenArray: [MOEstrogen]) -> MOEstrogen? {
+    public static func getEstrogen(for id: UUID, estrogenArray: [MOEstrogen]) -> MOEstrogen? {
         if let estroIndex = estrogenArray.map({
             (estro: MOEstrogen) -> UUID? in
             return estro.getID()

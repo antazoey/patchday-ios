@@ -180,11 +180,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         let sites = ScheduleController.siteController.siteArray
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
-            title = PDStrings.TitleStrings.site + " " + String(siteScheduleIndex+1)
+            title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"
             nameText.text = site.getName()
         }
         else {
-            title = PDStrings.TitleStrings.site + " " + String(sites.count+1)
+            title = "\(PDStrings.TitleStrings.site) \(sites.count+1)"
         }
     }
     

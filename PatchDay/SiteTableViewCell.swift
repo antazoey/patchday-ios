@@ -20,7 +20,7 @@ class SiteTableViewCell: UITableViewCell {
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
         if index >= 0 && index < siteCount,
             let site = ScheduleController.siteController.getSite(at: index) {
-            orderLabel.text = String(index + 1) + "."
+            orderLabel.text = "\(index + 1)."
             nameLabel.text = name
             estrogenScheduleImage.tintColor = UIColor.red
             nextLabel.textColor = PDColors.pdGreen

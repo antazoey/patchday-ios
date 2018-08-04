@@ -80,7 +80,7 @@ extension MOSite {
 
     public func toString() -> String {
         let n = (name != nil) ? name! : PDStrings.PlaceholderStrings.new_site
-        return String(order + 1) + ". " + n
+        return "\(order + 1). \(n)"
     }
 
     public func decrement() {

@@ -116,7 +116,7 @@ public class ScheduleController: NSObject {
             return nextEstro
         }
         else {
-            return ScheduleController.estrogenController.getEstrogenMO(at: 0)
+            return ScheduleController.estrogenController.getEstrogen(at: 0)
         }
     }
     
@@ -231,7 +231,7 @@ public class ScheduleController: NSObject {
         var isGone: Bool = false
         
         if estrogenIndex < UserDefaultsController.getQuantityInt() {
-            let estro = estrogenController.getEstrogenMO(at: estrogenIndex)
+            let estro = estrogenController.getEstrogen(at: estrogenIndex)
             hasDateAndItMatters = estro.hasDate()
             // Animate affected non-empty estrogens from change.
             isAffectedFromChange = animateScheduleFromChangeDelivery && isOld && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters

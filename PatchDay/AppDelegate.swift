@@ -41,6 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set the correct app badge value.
         setBadge(with: ScheduleController.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
+        
+        ScheduleController.estrogenController.deleteExtra()
 
         // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()
