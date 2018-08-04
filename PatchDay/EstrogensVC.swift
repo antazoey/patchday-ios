@@ -32,13 +32,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        
-        // Reset animation bools
-        ScheduleController.increasedCount = false
-        ScheduleController.decreasedCount = false
-        ScheduleController.deliveryMethodChanged = false
-        ScheduleController.animateScheduleFromChangeDelivery = false
-        ScheduleController.onlySiteChanged = false
+        ScheduleController.estrogenController.effectManager.reset()
         
     }
     

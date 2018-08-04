@@ -75,7 +75,7 @@ internal class PDAlertController: NSObject {
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
                 UserDefaultsController.setDeliveryMethod(to: newMethod)
                 UserDefaultsController.setSiteIndex(to: 0)
-                ScheduleController.deliveryMethodChanged = true
+                ScheduleController.estrogenController.effectManager.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
                 ScheduleController.setEstrogenDataForToday()
                 

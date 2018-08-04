@@ -18,6 +18,7 @@ public class EstrogenDataController: NSObject {
     
     internal var estrogenArray: [MOEstrogen]
     internal var estrogenMap = [UUID: MOEstrogen]()
+    public var effectManager = ScheduleChangeManager()
     
     override init() {
         let context = ScheduleController.getContext()
@@ -61,6 +62,16 @@ public class EstrogenDataController: NSObject {
             }
         let newEstro = newEstrogenMOForSchedule(in: ScheduleController.getContext())
         return newEstro
+    }
+    
+    /// Returns the MOEstrogen for the given index if it exists.
+    internal func getEstrogenOptional(at index: Index) -> MOEstrogen? {
+        if index >= 0,
+            index < UserDefaultsController.getQuantityInt(),
+            index < estrogenArray.count {
+            return estrogenArray[index]
+        }
+        return nil
     }
     
     /// Returns the MOEstrogen for the given id.

@@ -81,7 +81,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+        ScheduleController.estrogenController.effectManager.oldDeliveryCount = UserDefaultsController.getQuantityInt()
     }
       
     // MARK: - Data loaders
@@ -218,7 +218,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         picker.isHidden = true
         switch key {
         case PDStrings.SettingsKey.count :
-            ScheduleController.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+            ScheduleController.estrogenController.effectManager.oldDeliveryCount = UserDefaultsController.getQuantityInt()
         default :
             break
         }
@@ -291,7 +291,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveCountChange(_ row: Int) {
-        let oldCount = ScheduleController.oldDeliveryCount
+        let oldCount = ScheduleController.estrogenController.effectManager.oldDeliveryCount
         if row < PDStrings.PickerData.counts.count && row >= 0 {
             let newCountStr = PDStrings.PickerData.counts[row]
             UserDefaultsController.setQuantityWithWarning(to: newCountStr, oldCount: oldCount, countButton: countButton, navController: self.navigationController)

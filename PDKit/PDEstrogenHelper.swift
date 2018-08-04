@@ -36,16 +36,6 @@ public class PDEstrogenHelper: NSObject {
         })
     }
     
-    /// Returns the index of the first MOEstrogen in the estrogenArray that has no date.
-    public static func getLowestUndatedIndex(in estrogenArray: [MOEstrogen], estrogenCount: Int) -> Index? {
-        for i in 0..<estrogenArray.count {
-            if estrogenArray[i].date == nil {
-                return i
-            }
-        }
-        return nil
-    }
-    
     /// Returns if every MOEstrogen's date is nil.
     public static func hasNoDates(_ estrogenArray: [MOEstrogen]) -> Bool {
         return (estrogenArray.filter() {

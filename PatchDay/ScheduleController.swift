@@ -205,46 +205,5 @@ public class ScheduleController: NSObject {
             UserDefaultsController.setNeedsMigrated(to: false)
         }
     }
-    
-    // MARK: - For EstrogensVC animation.
-    
-    /// Animation variables.
-    internal static var animateScheduleFromChangeDelivery: Bool = false
-    internal static var increasedCount: Bool = false
-    internal static var decreasedCount: Bool = false
-    internal static var siteChanged: Bool = false
-    internal static var onlySiteChanged: Bool = false
-    internal static var deliveryMethodChanged: Bool = false
-    internal static var oldDeliveryCount: Int = 1
-    internal static var indexOfChangedDelivery: Int = -1
-
-    /**
-     Animation algorithm for EstrogensVC.
-     */
-    public static func shouldAnimate(estrogenIndex: Index, isOld: Bool=false, estrogenController: EstrogenDataController, estrogenCount: Int) -> Bool {
-        
-        /* -- Reasons to Animate -- */
-        var hasDateAndItMatters: Bool = false
-        var isAffectedFromChange: Bool = false
-        var isSiteChange: Bool = false
-        var isNew: Bool = false
-        var isGone: Bool = false
-        
-        if estrogenIndex < UserDefaultsController.getQuantityInt() {
-            let estro = estrogenController.getEstrogen(at: estrogenIndex)
-            hasDateAndItMatters = estro.hasDate()
-            // Animate affected non-empty estrogens from change.
-            isAffectedFromChange = animateScheduleFromChangeDelivery && isOld && !onlySiteChanged && indexOfChangedDelivery <= estrogenIndex && hasDateAndItMatters
-            // Animate the newly changed site and none else (date didn't change).
-            isSiteChange = siteChanged && estrogenIndex == indexOfChangedDelivery
-        }
-        // Animate new estrogens coming in.
-        isNew = (increasedCount && estrogenIndex >= oldDeliveryCount) || deliveryMethodChanged
-        // Animate estrogens leaving
-        isGone = decreasedCount && estrogenIndex >= UserDefaultsController.getQuantityInt()
-        
-        return (isAffectedFromChange || isSiteChange || isNew || isGone)
-        
-    }
 
 }

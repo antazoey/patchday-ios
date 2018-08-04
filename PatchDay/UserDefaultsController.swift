@@ -93,7 +93,7 @@ public class UserDefaultsController: NSObject {
         let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
         
         UserDefaultsController.setQuantityWithoutWarning(to: c)
-        ScheduleController.deliveryMethodChanged = true
+        ScheduleController.estrogenController.effectManager.deliveryMethodChanged = true
         ScheduleController.siteController.resetSiteData()
     }
     
@@ -106,10 +106,10 @@ public class UserDefaultsController: NSObject {
     Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user has is decreasing the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
     public static func setQuantityWithWarning(to newQuantity: String, oldCount: Int, countButton: UIButton, navController: UINavigationController?) {
-        ScheduleController.oldDeliveryCount = oldCount
+        ScheduleController.estrogenController.effectManager.oldDeliveryCount = oldCount
         if let newCount = Int(newQuantity), isAcceptable(count: newCount) {
             if newCount < oldCount {
-                ScheduleController.decreasedCount = true
+                ScheduleController.estrogenController.effectManager.decreasedCount = true
                 // alert
                 let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
                 if !PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.estrogenArray, fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
@@ -130,7 +130,7 @@ public class UserDefaultsController: NSObject {
             // Incr. count
             else {
                 setQuantityWithoutWarning(to: newQuantity)
-                ScheduleController.increasedCount = true
+                ScheduleController.estrogenController.effectManager.increasedCount = true
             }
         
         }

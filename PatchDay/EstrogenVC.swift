@@ -104,16 +104,12 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let isExpiredAfterSave = estro.isExpired(intervalStr)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-        }
-        
-        // Schedule animation side-effects
-        ScheduleController.animateScheduleFromChangeDelivery = true
-        if let indexUndated = PDEstrogenHelper.getLowestUndatedIndex(in: ScheduleController.estrogenController.estrogenArray, estrogenCount: UserDefaultsController.getQuantityInt()),
-            indexUndated <  estrogenScheduleIndex {
-            ScheduleController.indexOfChangedDelivery = indexUndated
-        }
-        else {
-            ScheduleController.indexOfChangedDelivery = estrogenScheduleIndex
+            ScheduleController.estrogenController.estrogenArray.sort(by: <)
+            // Save effects
+            ScheduleController.estrogenController.effectManager.wereChanges = true
+            if let i = ScheduleController.estrogenController.getEstrogenIndex(for: estro) {
+                ScheduleController.estrogenController.effectManager.indexOfChangedDelivery = i
+            }
         }
         
         let estrosDue = ScheduleController.totalEstrogenDue(intervalStr: intervalStr)
@@ -302,7 +298,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if siteTextHasChanged {
             if let site = ScheduleController.siteController.getSite(at: siteIndexSelected) {
                 ScheduleController.estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: site)
-                ScheduleController.siteChanged = true
+                ScheduleController.estrogenController.effectManager.siteChanged = true
             }
             else if let name = chooseSiteButton.text {
                 ScheduleController.estrogenController.setEstrogenBackUpSiteName(of: estrogenScheduleIndex, with: name)
@@ -316,7 +312,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         // For EstrogensVC animation.
         if !dateTextHasChanged {
-            ScheduleController.onlySiteChanged = true
+            ScheduleController.estrogenController.effectManager.onlySiteChanged = true
         }
     }
     

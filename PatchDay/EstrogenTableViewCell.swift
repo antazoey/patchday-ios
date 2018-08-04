@@ -41,10 +41,6 @@ class EstrogenTableViewCell: UITableViewCell {
             animateEstrogenButtonChanges(at: index)
             
             backgroundColor = UIColor.white
-             /*
-            selectedBackgroundView = UIView()
-            selectedBackgroundView?.backgroundColor = UIColor.white
- */
             selectionStyle = .none
         }
         else {
@@ -102,8 +98,10 @@ class EstrogenTableViewCell: UITableViewCell {
     }
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
-    private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil){
-        if ScheduleController.shouldAnimate(estrogenIndex: index, isOld: (newImage != PDImages.addPatch), estrogenController: ScheduleController.estrogenController, estrogenCount: UserDefaultsController.getQuantityInt()) {
+    private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil) {
+        let estrogenOptional = ScheduleController.estrogenController.getEstrogenOptional(at: index)
+        ScheduleController.estrogenController.effectManager.isNew = newImage == PDImages.addPatch
+        if shouldAnimate(estrogenOptional, at: index, changes: ScheduleController.estrogenController.effectManager) {
             
             UIView.transition(with: stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 self.stateImage.image = newImage
@@ -118,6 +116,27 @@ class EstrogenTableViewCell: UITableViewCell {
             stateImage.image = newImage
             dateLabel.text = newTitle
         }
+    }
+    
+    private func shouldAnimate(_ estro: MOEstrogen?, at index: Index, changes: ScheduleChangeManager) -> Bool {
+        
+        var isAffectedFromChange: Bool = false
+        var isSiteChange: Bool = false
+        var isGone: Bool = false
+        
+        if index < UserDefaultsController.getQuantityInt() {
+            if let hasDateAndItMatters = estro?.hasDate() {
+                
+                // Was affected non-empty estrogens from change.
+                isAffectedFromChange = changes.wereChanges && !changes.isNew && !changes.onlySiteChanged && index <= changes.indexOfChangedDelivery && hasDateAndItMatters
+            }
+            // Newly changed site and none else (date didn't change).
+            isSiteChange = changes.siteChanged && index == changes.indexOfChangedDelivery
+        }
+        // Is exiting the schedule.
+        isGone = changes.decreasedCount && index >= UserDefaultsController.getQuantityInt()
+        
+        return (isAffectedFromChange || isSiteChange || changes.isNew || isGone)
     }
         
     private func reset() {
