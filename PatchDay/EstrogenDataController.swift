@@ -58,6 +58,7 @@ public class EstrogenDataController: NSObject {
     internal func setEstrogenSite(of index: Index, with site: MOSite) {
         let estro = getEstrogenMO(at: index)
         estro.setSite(with: site)
+        ScheduleController.setEstrogenDataForToday()
         ScheduleController.save()
     }
     
@@ -66,6 +67,7 @@ public class EstrogenDataController: NSObject {
         let estro = getEstrogenMO(at: index)
         estro.setDate(with: date as NSDate)
         estrogenArray.sort(by: <)
+        ScheduleController.setEstrogenDataForToday()
         ScheduleController.save()
     }
     
@@ -75,6 +77,7 @@ public class EstrogenDataController: NSObject {
         estro.setSite(with: site)
         estro.setDate(with: date)
         estrogenArray.sort(by: <)
+        ScheduleController.setEstrogenDataForToday()
         ScheduleController.save()
     }
     
@@ -84,14 +87,8 @@ public class EstrogenDataController: NSObject {
             estro.setSite(with: site)
             estro.setDate(with: date)
             estrogenArray.sort(by: <)
+            ScheduleController.setEstrogenDataForToday()
             ScheduleController.save()
-        }
-    }
-    
-    /// Sets the backup-site-name of the MOEstrogen for the given index.
-    internal func setEstrogenBackUpSiteName(of index: Index, with name: String) {
-        if index < estrogenArray.count && index >= 0 {
-            estrogenArray[index].setSiteBackup(to: name)
         }
     }
     
@@ -100,6 +97,15 @@ public class EstrogenDataController: NSObject {
         if index < estrogenArray.count && index >= 0 {
             estrogenArray[index] = estrogen
             estrogenArray.sort(by: <)
+            ScheduleController.setEstrogenDataForToday()
+            ScheduleController.save()
+        }
+    }
+    
+    /// Sets the backup-site-name of the MOEstrogen for the given index.
+    internal func setEstrogenBackUpSiteName(of index: Index, with name: String) {
+        if index < estrogenArray.count && index >= 0 {
+            estrogenArray[index].setSiteBackup(to: name)
         }
     }
     
