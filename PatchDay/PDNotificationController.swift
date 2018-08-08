@@ -182,17 +182,14 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Request an Estrogen notification that occurs when it's due overnight.
     internal func requestOvernightNotification(_ estro: MOEstrogen, expDate: Date) {
         let usingPatches = UserDefaultsController.usingPatches()
-        let intervalStr = UserDefaultsController.getTimeIntervalString()
         let content = UNMutableNotificationContent()
         if let triggerDate = PDDateHelper.dateBeforeOvernight(overnightDate: expDate) {
             content.title = usingPatches ? PDStrings.NotificationStrings.Titles.overnight_patch : PDStrings.NotificationStrings.Titles.overnight_injection
             content.sound = UNNotificationSound.default()
-            content.badge = ScheduleController.totalDue(intervalStr: intervalStr) + 1 as NSNumber
-            content.categoryIdentifier = estroCategoryID
             let interval = triggerDate.timeIntervalSinceNow
             if interval > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-                let request = UNNotificationRequest(identifier: estro.getID().uuidString, content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: "overnight", content: content, trigger: trigger)
                 center.add(request) { (error: Error?) in
                     if error != nil {
                         print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
