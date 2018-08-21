@@ -1,31 +1,12 @@
 # PatchDay
-This is a transdermal patch medication monitoring app.
 
-PatchDay is a schedule app for hormone replacement therapy. 
-Originally purposed to solve problems with patch staggering, PatchDay became a full H.R.T. companion.
+PatchDay is scheduling software designed for hormone replacement therapy (HRT). Originally, we sought to mitigate problems with patch staggering but later evolved into making an all-encompassing H.R.T. companion.
 
-Patch staggering means placing multiple transdermal patches on the body at different times. 
-All of those sites and dates require a method to schedule them, and PatchDay is our proposition.
+Patch staggering means placing multiple transdermal patches on the body at different times. All of the sites and dates require a method to keep track them, and this is our proposition to do not only that but also calculate the site where to place the next patch (or inject the next injection). You can be at ease with your schedule. Recording the changing of a patch or the injecting of an injection is as easy as the tapping of a single button.
 
-PatchDay is best suited for medications with transdermal or injection delivery methods because here twice-a-week means lasting 168 hours post the user placing the patch. 
-Injections are similar - the medicine is absorbed into the body at a rate until a re-dose is needed. 
-Twice-a-week is not just "every Tuesday and Friday". 
-If a patch's date is 4pm on Tuesday, it technically expires at 4am on Friday, 
-and that is early in the morning and something we think should be easy to consider.
+PatchDay is best suited for medications of transdermal or injection delivery methods because twice-a-week means every 84 hours post the user placing the patch or injecting the injection. Twice-a-week is not just "every Tuesday and Friday". If a patch's date is 4pm on Tuesday, it expires at 4am on Friday, and that is early in the morning and something we think should be easy to consider.
 
-PatchDay exists as an application for patch staggering as well the optimization of site scheduling. 
-That is why we made it so that "changing a patch" or "injecting an injection" 
-(recording the site, date, and time and scheduling a notification) 
-is as easy as the tapping of a single button.
-
-Even though there is only one injection at a time, user research shows that after two weeks of time, 
-many people have difficulties remembering which bodily site was injected last. 
-We at PatchDay saw this an oppurtunity to become a full H.R.T. app. For the same reason, 
-we included a daily timestamp-based pill schedule as well.
-
-PatchDay is a scheduling app optimized for H.R.T., and it was made by a transgender woman. 
-However, it is universally a medication schedule app for anyone to use. 
-Also, we want to be better! Tell us what you think.
+PatchDay is a scheduling app optimized for H.R.T., and it was made by a transgender woman. However, it is merely a medication scheduling app for anyone to use. Also, we want to be better! Tell us how.
 
 --------------
 
