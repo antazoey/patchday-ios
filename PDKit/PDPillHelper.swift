@@ -55,6 +55,7 @@ public class PDPillHelper: NSObject {
     /// Return the next time the pill is due.
     public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [NSDate?]) -> Date? {
         if times.count > 0, let time1 = times[0] as Time? {
+            // One-a-day
             if timesaday == 1 {
                 if timesTakenToday == 0 {
                     return PDDateHelper.getDate(on: Date(), at: time1)
@@ -64,7 +65,7 @@ public class PDPillHelper: NSObject {
                     return PDDateHelper.getDate(at: todayTime, daysToAdd: 1)
                 }
             }
-            // When timesaday == 2
+            // Two-a-day
             else if times.count >= 1, let time2 = times[1] as Time? {
                 if timesTakenToday == 0 {
                     let minTime = min(time1, time2)
