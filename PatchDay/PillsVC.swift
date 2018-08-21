@@ -127,6 +127,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             // Reset cell colors
             for i in indexPath.row..<pills.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
+                // Cell bg
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
