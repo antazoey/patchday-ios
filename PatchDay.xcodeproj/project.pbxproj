@@ -260,8 +260,6 @@
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B480EE0821CC72DB002C2238 /* PatchDayToday */,
 				B480EE1D21CC7553002C2238 /* PatchData */,
-				B480EE2A21CC7554002C2238 /* PatchDataTests */,
-				B40CC9B021CCE614002364BB /* PDKitTests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -360,6 +358,7 @@
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
+				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B480EE4C21CC7E34002C2238 /* Shared */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
 				138A65611F198B4D0068A972 /* Controllers */,
@@ -458,6 +457,7 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
+				B40CC9B021CCE614002364BB /* PDKitTests */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				B40CC9A721CCE4AE002364BB /* Resources */,
 				B40CC9A821CCE4BE002364BB /* Helpers */,
