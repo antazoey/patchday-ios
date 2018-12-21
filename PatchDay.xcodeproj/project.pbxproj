@@ -266,7 +266,7 @@
 				137330EB1E22BA3E0048F91E /* PatchDay */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B49A4A4C20DB2D4C00F24FC0 /* PDKitTests */,
-				B480EE0821CC72DB002C2238 /* PatchDayTodayy */,
+				B480EE0821CC72DB002C2238 /* PatchDayToday */,
 				B480EE1D21CC7553002C2238 /* PatchData */,
 				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
@@ -323,7 +323,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B480EE0821CC72DB002C2238 /* PatchDayTodayy */ = {
+		B480EE0821CC72DB002C2238 /* PatchDayToday */ = {
 			isa = PBXGroup;
 			children = (
 				B480EE0921CC72DB002C2238 /* TodayViewController.swift */,
@@ -331,7 +331,7 @@
 				B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */,
 				B480EE0E21CC72DB002C2238 /* Info.plist */,
 			);
-			path = PatchDayTodayy;
+			path = PatchDayToday;
 			sourceTree = "<group>";
 		};
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
