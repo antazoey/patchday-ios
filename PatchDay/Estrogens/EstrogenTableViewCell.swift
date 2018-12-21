@@ -20,7 +20,7 @@ class EstrogenTableViewCell: UITableViewCell {
         if index < UserDefaultsController.getQuantityInt() {
             let intervalStr = UserDefaultsController.getTimeIntervalString()
             let usingPatches = UserDefaultsController.usingPatches()
-            let estro = ScheduleController.estrogenController.getEstrogen(at: index)
+            let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index)
             let isExpired = estro.isExpired(intervalStr)
             let img = determineImage(index: index)
             let title = determineTitle(estrogenIndex: index, intervalStr)
@@ -63,7 +63,7 @@ class EstrogenTableViewCell: UITableViewCell {
         // Default:  new / add image
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         var image: UIImage = insert_img
-        let estro = ScheduleController.estrogenController.getEstrogen(at: index)
+        let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index)
         
         if !estro.isEmpty() {
             // Check if Site relationship siteName is a general site.
@@ -85,7 +85,7 @@ class EstrogenTableViewCell: UITableViewCell {
     /// Determines the start of the week title for a schedule button.
     private func determineTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
         var title: String = ""
-        let estro = ScheduleController.estrogenController.getEstrogen(at: estrogenIndex)
+        let estro = PDSchedule.estrogenSchedule.getEstrogen(at: estrogenIndex)
         if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
             if UserDefaultsController.usingPatches() {
                 let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
@@ -100,9 +100,9 @@ class EstrogenTableViewCell: UITableViewCell {
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil) {
-        let estrogenOptional = ScheduleController.estrogenController.getEstrogenOptional(at: index)
-        ScheduleController.estrogenController.getEffectManager().isNew = newImage == PDImages.addPatch || newImage == PDImages.addInjection
-        if shouldAnimate(estrogenOptional, at: index, changes: ScheduleController.estrogenController.getEffectManager()) {
+        let estrogenOptional = PDSchedule.estrogenSchedule.getEstrogenOptional(at: index)
+        PDSchedule.estrogenSchedule.getEffectManager().isNew = newImage == PDImages.addPatch || newImage == PDImages.addInjection
+        if shouldAnimate(estrogenOptional, at: index, changes: PDSchedule.estrogenSchedule.getEffectManager()) {
             
             UIView.transition(with: stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 self.stateImage.image = newImage

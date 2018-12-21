@@ -1,5 +1,5 @@
 //
-//  EstrogenDataController.swift
+//  EstrogenSchedule.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 7/4/18.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
-public class EstrogenDataController: NSObject {
+public class EstrogenSchedule: NSObject {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOEstrogen array."
@@ -24,15 +24,15 @@ public class EstrogenDataController: NSObject {
         let context = PatchData.getContext()
         estrogenArray = []
         // Load previously saved MOEstrogens
-        if let estros = EstrogenDataController.loadEstrogenMOs(from: context) {
+        if let estros = EstrogenSchedule.loadEstrogenMOs(from: context) {
             estrogenArray = estros
         }
             // New MOEstrogens if all else fails
         else {
-            estrogenArray = EstrogenDataController.newEstrogenMOs(from: context)
+            estrogenArray = EstrogenSchedule.newEstrogenMOs(from: context)
         }
         estrogenArray.sort(by: <)
-        EstrogenDataController.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
+        EstrogenSchedule.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
 
     }
     
@@ -278,11 +278,11 @@ public class EstrogenDataController: NSObject {
     
     /// Creates a new MOEstrogen and appends it to the estrogenArray.
     private func newEstrogenMOForSchedule(in context: NSManagedObjectContext) -> MOEstrogen {
-        let newEstro = EstrogenDataController.newEstrogenMO(in: context)
+        let newEstro = EstrogenSchedule.newEstrogenMO(in: context)
         estrogenArray.append(newEstro)
         estrogenMap[newEstro.getID()] = newEstro
         estrogenArray.sort(by: <)
-        EstrogenDataController.initID(for: newEstro)
+        EstrogenSchedule.initID(for: newEstro)
         return newEstro
     }
     
@@ -309,7 +309,7 @@ public class EstrogenDataController: NSObject {
     }
     
     private func loadMap() {
-        EstrogenDataController.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
+        EstrogenSchedule.loadMap(estroMap: &estrogenMap, estroArray: estrogenArray)
         
     }
     

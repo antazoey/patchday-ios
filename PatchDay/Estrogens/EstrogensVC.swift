@@ -22,7 +22,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     private var estrogenButtonTapped = 0            // for navigation
     private var setUpFromViewDidLoad: Bool = true   // from change patch
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var estrogenController = ScheduleController.estrogenController
+    private var estrogenSchedule = PDSchedule.estrogenSchedule
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        ScheduleController.estrogenController.getEffectManager().reset()
+        PDSchedule.estrogenSchedule.getEffectManager().reset()
         
     }
     
@@ -119,14 +119,14 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
         
         // Expired estrogens
-        let estroDueCount = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
+        let estroDueCount = PDSchedule.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
         
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
         
         // Expired pills
-        let pillDueCount = ScheduleController.totalPillsDue()
+        let pillDueCount = PDSchedule.totalPillsDue()
         if pillDueCount > 0, let vcs = self.navigationController?.tabBarController?.viewControllers, vcs.count > 1 {
             vcs[1].tabBarItem.badgeValue = String(pillDueCount)
         }

@@ -1,5 +1,5 @@
 //
-//  SiteDataController.swift
+//  SiteSchedule.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 7/4/18.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
-public class SiteDataController: NSObject {
+public class SiteSchedule: NSObject {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOSite array."
@@ -20,10 +20,10 @@ public class SiteDataController: NSObject {
     
     override init() {
         let context = PatchData.getContext()
-        siteArray = SiteDataController.loadSiteMOs(into: context)
-        siteArray = SiteDataController.filterEmptySites(from: siteArray)
+        siteArray = SiteSchedule.loadSiteMOs(into: context)
+        siteArray = SiteSchedule.filterEmptySites(from: siteArray)
         if siteArray.count == 0 {
-            siteArray = SiteDataController.newSiteMOs(into: context)
+            siteArray = SiteSchedule.newSiteMOs(into: context)
         }
         siteArray.sort(by: <)
     }
@@ -64,7 +64,7 @@ public class SiteDataController: NSObject {
             return siteArray[index]
         }
         // Append new site
-        return SiteDataController.appendSite(name: name, order: siteArray.count, sites: &siteArray)
+        return SiteSchedule.appendSite(name: name, order: siteArray.count, sites: &siteArray)
     }
     
     /// Returns the site at the given index.
@@ -187,7 +187,7 @@ public class SiteDataController: NSObject {
                 siteArray[i].reset()
             }
         }
-        siteArray = SiteDataController.filterEmptySites(from: siteArray)
+        siteArray = SiteSchedule.filterEmptySites(from: siteArray)
         siteArray.sort(by: <)
         PatchData.save()
         

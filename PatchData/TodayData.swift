@@ -16,7 +16,7 @@ public class TodayData: NSObject {
         let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
-        let estro = ScheduleController.getEstroForToday()
+        let estro = PDSchedule.getEstroForToday()
         if let siteName = getSiteNameToSaveForToday(using: estro) {
             defaults.set(siteName, forKey: siteKey)
         } else {
@@ -34,7 +34,7 @@ public class TodayData: NSObject {
         let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
         let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
         let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
-        if let nextPill = ScheduleController.pillController.nextPillDue() {
+        if let nextPill = PDSchedule.pillSchedule.nextPillDue() {
             if let pillName = nextPill.getName() {
                 defaults.set(pillName, forKey: pillNameKey)
             } else {
@@ -58,7 +58,7 @@ public class TodayData: NSObject {
     private static func getSiteNameToSaveForToday(using estro: MOEstrogen) -> SiteName? {
         if UserDefaultsController.usingPatches() {
             return estro.getSiteName()
-        } else if let suggestedSite = ScheduleController.getSuggestedSite(), let name = suggestedSite.getName() {
+        } else if let suggestedSite = PDSchedule.getSuggestedSite(), let name = suggestedSite.getName() {
             return name
         }
         return nil

@@ -47,7 +47,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var reminderTimeSlider: UISlider!
     
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    let estroController = ScheduleController.estrogenController
+    let estroController = PDSchedule.estrogenSchedule
     
     override func viewDidLoad() {
         
@@ -82,7 +82,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        ScheduleController.estrogenController.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
+        PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
     }
       
     // MARK: - Data loaders
@@ -219,7 +219,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         picker.isHidden = true
         switch key {
         case PDStrings.SettingsKey.count :
-            ScheduleController.estrogenController.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
+            PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
         default :
             break
         }
@@ -275,7 +275,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // Check to see if there are changes to the site schedule
-            if PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.estrogenArray) && ScheduleController.siteController.isDefault() {
+            if PDEstrogenHelper.isEmpty(PDSchedule.estrogenSchedule.estrogenArray) && PDSchedule.siteSchedule.isDefault() {
                 UserDefaultsController.setDeliveryMethod(to: choice)
                 UserDefaultsController.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()
@@ -291,7 +291,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveCountChange(_ row: Int) {
-        let oldCount = ScheduleController.estrogenController.getEffectManager().oldDeliveryCount
+        let oldCount = PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount
         if row < PDStrings.PickerData.counts.count && row >= 0, let newCount = Int(PDStrings.PickerData.counts[row]) {
             UserDefaultsController.setQuantityWithWarning(to: newCount, oldCount: oldCount, countButton: countButton, navController: self.navigationController) {
                 newCount in
@@ -436,7 +436,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Resets the title of the Estrogens tab bar item to either "Patches" or "Injections".
     public func resetEstrogensVCTabBarItem() {
-        let v = ScheduleController.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
+        let v = PDSchedule.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
         // Estrogen icon
         if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
             vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil

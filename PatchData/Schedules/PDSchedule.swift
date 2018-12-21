@@ -1,5 +1,5 @@
 //
-//  ScheduleController.swift
+//  PDSchedule.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/13/17.
@@ -12,37 +12,37 @@ import PDKit
 
 public typealias SiteSet = [String]
 
-public class ScheduleController: NSObject {
+public class PDSchedule: NSObject {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying Core Data objects."
     }
     
     // Sub-controllers
-    public static var estrogenController = EstrogenDataController()
-    public static var pillController = PillDataController()
-    public static var siteController = SiteDataController()
+    public static var estrogenSchedule = EstrogenSchedule()
+    public static var pillSchedule = PillSchedule()
+    public static var siteSchedule = SiteSchedule()
 
     // MARK: - Public
     
     /// Returns total number of MOEstrogens in the schedule.
     public static func estroCount() -> Int {
-        return ScheduleController.estrogenController.getEstrogens().count
+        return PDSchedule.estrogenSchedule.getEstrogens().count
     }
     
     /// Returns total number of MOPills in the schedule.
     public static func pillCount() -> Int {
-        return ScheduleController.pillController.getPills().count
+        return PDSchedule.pillSchedule.getPills().count
     }
     
     /// Returns total number of MOSites in the schedule.
     public static func siteCount() -> Int {
-        return ScheduleController.siteController.getSites().count
+        return PDSchedule.siteSchedule.getSites().count
     }
     
     /// Returns array of current occupied SiteNames
     public static func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
-        return estrogenController.getEstrogens().map({
+        return estrogenSchedule.getEstrogens().map({
             (estro: MOEstrogen) -> SiteName in
             if let site = estro.getSite(), let name = site.getName() {
                 return name
@@ -57,8 +57,8 @@ public class ScheduleController: NSObject {
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
     public static func getSuggestedSite() -> MOSite? {
-        let sites = ScheduleController.siteController.getSites()
-        if let i = ScheduleController.siteController.getNextSiteIndex() {
+        let sites = PDSchedule.siteSchedule.getSites()
+        if let i = PDSchedule.siteSchedule.getNextSiteIndex() {
             return sites[i]
         }
         return nil
@@ -66,13 +66,13 @@ public class ScheduleController: NSObject {
     
     /// Returns total number of MOEstrogens that are expired.
     public static func totalEstrogenDue(intervalStr: String) -> Int {
-        return PDEstrogenHelper.expiredCount(ScheduleController.estrogenController.getEstrogens(), intervalStr: intervalStr)
+        return PDEstrogenHelper.expiredCount(PDSchedule.estrogenSchedule.getEstrogens(), intervalStr: intervalStr)
     }
     
     /// Returns total number of MOPills that need to be taken.
     public static func totalPillsDue() -> Int {
         
-        return pillController.getPills().reduce(0, {
+        return pillSchedule.getPills().reduce(0, {
             (count: Int, pill: MOPill) -> Int in
             let r = pill.isExpired() ? 1 + count : count
             return r
@@ -85,10 +85,10 @@ public class ScheduleController: NSObject {
     }
     
     public static func getEstroForToday() -> MOEstrogen {
-        if UserDefaultsController.usingPatches(), let nextEstro = estrogenController.nextEstroDue() {
+        if UserDefaultsController.usingPatches(), let nextEstro = estrogenSchedule.nextEstroDue() {
             return nextEstro
         } else {
-            return ScheduleController.estrogenController.getEstrogen(at: 0)
+            return PDSchedule.estrogenSchedule.getEstrogen(at: 0)
         }
     }
     
@@ -96,9 +96,9 @@ public class ScheduleController: NSObject {
     /// Returns array of occupied site indices.
     public static func getOccupiedSiteIndices() -> [Index] {
         var indices: [Index] = []
-        for estro in ScheduleController.estrogenController.getEstrogens() {
+        for estro in PDSchedule.estrogenSchedule.getEstrogens() {
             if let site = estro.getSite(),
-                let index = ScheduleController.siteController.getSites().index(of: site) {
+                let index = PDSchedule.siteSchedule.getSites().index(of: site) {
                 indices.append(index)
             } else {
                 indices.append(-1)

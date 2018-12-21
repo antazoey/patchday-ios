@@ -17,8 +17,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var pillTable: UITableView!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var pillController = ScheduleController.pillController
-    private var pills = ScheduleController.pillController.pillArray
+    private var pillSchedule = PDSchedule.pillSchedule
+    private var pills = PDSchedule.pillSchedule.pillArray
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +36,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        pills = pillController.pillArray
+        pills = pillSchedule.pillArray
         pillTable.reloadData()
         reloadInputViews()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pillController.pillArray.count
+        return pillSchedule.pillArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,17 +78,17 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if let restoreID = takeButton.restorationIdentifier {
             let pillIndexStr = String(restoreID.suffix(1))
             if let pillIndex = Int(pillIndexStr) {
-                pillController.takePill(at: pillIndex)
+                pillSchedule.takePill(at: pillIndex)
                 appDelegate.notificationsController.requestNotifyTakePill(at: pillIndex)
                 let cell = pillCellForRowAt(pillIndex)
                 cell.stamp()
-                if let pill = pillController.getPill(at: pillIndex) {
+                if let pill = pillSchedule.getPill(at: pillIndex) {
                     cell.loadDueDateText(from: pill)
                     cell.loadStateImage(from: pill)
                     cell.loadLastTakenText(from: pill)
                 }
                 cell.enableOrDisableTake()
-                pills = pillController.pillArray
+                pills = pillSchedule.pillArray
                 pillTable.reloadData()
                 reloadInputViews()
             }
@@ -97,8 +97,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        if let newPill = pillController.insertNewPill(),
-            let newPillIndex = pillController.pillArray.index(of: newPill) {
+        if let newPill = pillSchedule.insertNewPill(),
+            let newPillIndex = pillSchedule.pillArray.index(of: newPill) {
             segueToPillView(for: newPill, at: newPillIndex)
         }
     }
@@ -118,7 +118,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(at indexPath: IndexPath) {
-        pillController.deletePill(at: indexPath.row)
+        pillSchedule.deletePill(at: indexPath.row)
         pills.remove(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()
@@ -145,7 +145,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setBadge() {
-        let newBadgeValue = ScheduleController.totalPillsDue()
+        let newBadgeValue = PDSchedule.totalPillsDue()
         navigationController?.tabBarItem.badgeValue = (newBadgeValue > 0) ? String(newBadgeValue) : nil
     }
     

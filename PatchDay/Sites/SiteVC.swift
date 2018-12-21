@@ -14,7 +14,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(PDSiteHelper.siteNameSetUnionDefaultSites(ScheduleController.siteController.getSites(), usingPatches: UserDefaultsController.usingPatches()))
+    private var namePickerSet = Array(PDSiteHelper.siteNameSetUnionDefaultSites(PDSchedule.siteSchedule.getSites(), usingPatches: UserDefaultsController.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!
@@ -73,7 +73,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        ScheduleController.siteController.setSiteImageID(at: siteScheduleIndex, to: imageKey)
+        PDSchedule.siteSchedule.setSiteImageID(at: siteScheduleIndex, to: imageKey)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -90,12 +90,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @objc func saveButtonTapped(_ sender: Any) {
         if let name = nameText.text {
             // Updating existing MOSite
-            if siteScheduleIndex >= 0 && siteScheduleIndex < ScheduleController.siteCount() {
-                ScheduleController.siteController.setSiteName(at: siteScheduleIndex, to: name)
+            if siteScheduleIndex >= 0 && siteScheduleIndex < PDSchedule.siteCount() {
+                PDSchedule.siteSchedule.setSiteName(at: siteScheduleIndex, to: name)
             }
             // Adding a new MOSite
-            else if siteScheduleIndex == ScheduleController.siteCount() {
-                let _ = SiteDataController.appendSite(name: name, order: siteScheduleIndex, sites: &ScheduleController.siteController.siteArray)
+            else if siteScheduleIndex == PDSchedule.siteCount() {
+                let _ = SiteSchedule.appendSite(name: name, order: siteScheduleIndex, sites: &PDSchedule.siteSchedule.siteArray)
             }
         }
         segueToSitesVC()
@@ -126,7 +126,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
         typeNameButton.isEnabled = true
         if let name = nameText.text {
-            ScheduleController.siteController.setSiteName(at: siteScheduleIndex, to: name)
+            PDSchedule.siteSchedule.setSiteName(at: siteScheduleIndex, to: name)
         }
         loadImage()
         return true
@@ -172,13 +172,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = ScheduleController.siteController.getSiteNames()
+            sitesVC.siteNames = PDSchedule.siteSchedule.getSiteNames()
             navCon.popViewController(animated: true)
         }
     }
     
     private func loadTitle() {
-        let sites = ScheduleController.siteController.getSites()
+        let sites = PDSchedule.siteSchedule.getSites()
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"
@@ -199,7 +199,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                 image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
             }
             // Default image find
-            else if let site = ScheduleController.siteController.getSite(at: siteScheduleIndex), let imgID = site.getImageIdentifer(), let i = sitesWithImages.index(of: imgID) {
+            else if let site = PDSchedule.siteSchedule.getSite(at: siteScheduleIndex), let imgID = site.getImageIdentifer(), let i = sitesWithImages.index(of: imgID) {
                 image = (usingPatches) ? PDImages.siteNameToPatchImage(sitesWithImages[i]) : PDImages.siteNameToInjectionImage(sitesWithImages[i])
             }
             // Custom

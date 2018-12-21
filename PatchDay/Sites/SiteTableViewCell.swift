@@ -20,7 +20,7 @@ class SiteTableViewCell: UITableViewCell {
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
         if index >= 0 && index < siteCount,
-            let site = ScheduleController.siteController.getSite(at: index) {
+            let site = PDSchedule.siteSchedule.getSite(at: index) {
             orderLabel.text = "\(index + 1)."
             nameLabel.text = name
             estrogenScheduleImage.tintColor = UIColor.red
@@ -37,7 +37,7 @@ class SiteTableViewCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        if cellIndex == ScheduleController.siteController.getNextSiteIndex() {
+        if cellIndex == PDSchedule.siteSchedule.getNextSiteIndex() {
             nextLabel.isHidden = shouldHide
         }
     }
@@ -48,7 +48,7 @@ class SiteTableViewCell: UITableViewCell {
         }
         else if site.isOccupied() {
             let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen
-            if let i = ScheduleController.estrogenController.getEstrogenIndex(for: estro) {
+            if let i = PDSchedule.estrogenSchedule.getEstrogenIndex(for: estro) {
                 return PDImages.getSiteIcon(at: i)
             }
         }
@@ -56,7 +56,7 @@ class SiteTableViewCell: UITableViewCell {
     }
     
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        if ScheduleController.siteController.getNextSiteIndex() == index && !isEditing {
+        if PDSchedule.siteSchedule.getNextSiteIndex() == index && !isEditing {
             return false
         }
         return true

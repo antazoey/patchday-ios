@@ -93,8 +93,8 @@ public class UserDefaultsController: NSObject {
         let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
         
         UserDefaultsController.setQuantityWithoutWarning(to: c)
-        ScheduleController.estrogenController.getEffectManager().deliveryMethodChanged = true
-        ScheduleController.siteController.resetSiteData()
+        PDSchedule.estrogenSchedule.getEffectManager().deliveryMethodChanged = true
+        PDSchedule.siteSchedule.resetSiteData()
     }
     
     public static func setTimeInterval(to: String) {
@@ -106,13 +106,13 @@ public class UserDefaultsController: NSObject {
     Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user decreases the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
     public static func setQuantityWithWarning(to newCount: Int, oldCount: Int, countButton: UIButton, navController: UINavigationController?, reset: @escaping (_ newQuantity: Int) -> ()) {
-        ScheduleController.estrogenController.getEffectManager().oldDeliveryCount = oldCount
+        PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount = oldCount
         if isAcceptable(count: newCount) {
             if newCount < oldCount {
-                ScheduleController.estrogenController.getEffectManager().decreasedCount = true
+                PDSchedule.estrogenSchedule.getEffectManager().decreasedCount = true
                 // Erases data
                 let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
-                if !PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.getEstrogens(), fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
+                if !PDEstrogenHelper.isEmpty(PDSchedule.estrogenSchedule.getEstrogens(), fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
                     PatchDataAlert.alertForChangingCount(oldCount: oldCount, newCount: newCount, countButton: countButton, navController: navController) {
                         newCount in reset(newCount)
                     }
@@ -125,7 +125,7 @@ public class UserDefaultsController: NSObject {
             // Incr. count
             else {
                 setQuantityWithoutWarning(to: "\(newCount)")
-                ScheduleController.estrogenController.getEffectManager().increasedCount = true
+                PDSchedule.estrogenSchedule.getEffectManager().increasedCount = true
             }
         
         }
@@ -136,7 +136,7 @@ public class UserDefaultsController: NSObject {
         if let newCount = Int(quantityStr), isAcceptable(count: newCount) {
             quantity = quantityStr
             defaults.set(quantityStr, forKey: PDStrings.SettingsKey.count.rawValue)
-            ScheduleController.estrogenController.deleteExtra(after: newCount)
+            PDSchedule.estrogenSchedule.deleteExtra(after: newCount)
         }
     }
     
@@ -166,7 +166,7 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func incrementSiteIndex() {
-        siteIndex = (siteIndex + 1) % ScheduleController.siteCount()
+        siteIndex = (siteIndex + 1) % PDSchedule.siteCount()
         defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
     }
 

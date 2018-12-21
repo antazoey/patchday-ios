@@ -27,12 +27,12 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
-                ScheduleController.estrogenController.resetEstrogenData()
+                PDSchedule.estrogenSchedule.resetEstrogenData()
                 let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? "3" : "1"
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
                 UserDefaultsController.setDeliveryMethod(to: newMethod)
                 UserDefaultsController.setSiteIndex(to: 0)
-                ScheduleController.estrogenController.getEffectManager().deliveryMethodChanged = true
+                PDSchedule.estrogenSchedule.getEffectManager().deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
                 TodayData.setEstrogenDataForToday()
                 
@@ -92,7 +92,7 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
             let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
                 (void) in
-                if let _ = SiteDataController.appendSite(name: name, order: index, sites: &ScheduleController.siteController.siteArray) {
+                if let _ = SiteSchedule.appendSite(name: name, order: index, sites: &PDSchedule.siteSchedule.siteArray) {
                     estroVC.sitePicker.reloadAllComponents()
                 }
                 

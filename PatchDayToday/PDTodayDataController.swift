@@ -1,5 +1,5 @@
 //
-//  EstrogenDataController.swift
+//  EstrogenSchedule.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/19/18.

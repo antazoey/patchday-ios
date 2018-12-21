@@ -1,5 +1,5 @@
 //
-//  PillDataController.swift
+//  PillSchedule.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 7/4/18.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PillDataController: NSObject {
+public class PillSchedule: NSObject {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOPill array."
@@ -20,12 +20,12 @@ public class PillDataController: NSObject {
     private var pillMap = [UUID: MOPill]()
 
     override init() {
-        pillArray = PillDataController.loadPillMOs(into: PatchData.getContext())
-        PillDataController.loadTakenTodays(for: pillArray, into: PatchData.getContext())
+        pillArray = PillSchedule.loadPillMOs(into: PatchData.getContext())
+        PillSchedule.loadTakenTodays(for: pillArray, into: PatchData.getContext())
         pillArray = pillArray.filter() {
             $0.getName() != nil
         }
-        PillDataController.loadMap(pillMap: &pillMap, pillArray: pillArray)
+        PillSchedule.loadMap(pillMap: &pillMap, pillArray: pillArray)
     }
     
     // MARK: - Public
@@ -50,7 +50,7 @@ public class PillDataController: NSObject {
     /// Creates a new MOPill and inserts it in to the pillArray.
     public func insertNewPill() -> MOPill? {
         let newPillAttributes = PillAttributes()
-        let newPill = PillDataController.appendNewPill(to: &pillArray, andTo: &pillMap, using: newPillAttributes, into: PatchData.getContext())
+        let newPill = PillSchedule.appendNewPill(to: &pillArray, andTo: &pillMap, using: newPillAttributes, into: PatchData.getContext())
         TodayData.setPillDataForToday()
         return newPill
     }
@@ -169,8 +169,8 @@ public class PillDataController: NSObject {
     
     /// Sets the pillArray and map to a generic list of MOPills.
     public func makeNewDefaultPillMOs() {
-        pillArray = PillDataController.newPillMOs(into: PatchData.getContext())
-        ScheduleController.pillController.loadMap()
+        pillArray = PillSchedule.newPillMOs(into: PatchData.getContext())
+        PDSchedule.pillSchedule.loadMap()
     }
     
     /// Initializes IDs for the given pills.
@@ -211,6 +211,6 @@ public class PillDataController: NSObject {
     }
     
     public func loadMap() {
-        PillDataController.loadMap(pillMap: &pillMap, pillArray: pillArray)
+        PillSchedule.loadMap(pillMap: &pillMap, pillArray: pillArray)
     }
 }
