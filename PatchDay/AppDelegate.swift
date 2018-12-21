@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // Load data for the Today widget.
-        ScheduleController.setDataForTodayApp()
+        TodayData.setDataForTodayApp()
         
         // Set the correct app badge value.
         setBadge(with: ScheduleController.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))

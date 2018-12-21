@@ -19,7 +19,7 @@ public class SiteDataController: NSObject {
     public var siteArray: [MOSite]
     
     override init() {
-        let context = ScheduleController.getContext()
+        let context = PatchData.getContext()
         siteArray = SiteDataController.loadSiteMOs(into: context)
         siteArray = SiteDataController.filterEmptySites(from: siteArray)
         if siteArray.count == 0 {
@@ -38,7 +38,7 @@ public class SiteDataController: NSObject {
     public func setSiteName(at index: Index, to newName: String) {
         if index >= 0 && index < siteArray.count {
             siteArray[index].setName(to: newName)
-            ScheduleController.save()
+            PatchData.save()
         }
     }
     
@@ -46,7 +46,7 @@ public class SiteDataController: NSObject {
     public func setSiteOrder(at index: Index, to newOrder: Int16) {
         if index >= 0 && index < siteArray.count {
             siteArray[index].setOrder(to: newOrder)
-            ScheduleController.save()
+            PatchData.save()
         }
     }
     
@@ -54,7 +54,7 @@ public class SiteDataController: NSObject {
     public func setSiteImageID(at index: Index, to newID: String) {
         if index >= 0 && index < siteArray.count {
             siteArray[index].setImageIdentifier(to: newID)
-            ScheduleController.save()
+            PatchData.save()
         }
     }
     
@@ -104,7 +104,7 @@ public class SiteDataController: NSObject {
             }
         }
         siteArray = siteArray.filter() { $0.getOrder() != -1 && $0.getName() != ""}
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Set the siteBackUp string in the site's MOEstsrogens to the siteName.
@@ -175,7 +175,7 @@ public class SiteDataController: NSObject {
                 siteArray[i].setOrder(to: Int16(i))
                 siteArray[i].setName(to: resetSiteNames[i])
                 siteArray[i].setImageIdentifier(to: resetSiteNames[i])
-            } else if let newSiteMO = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: ScheduleController.getContext()) as? MOSite {
+            } else if let newSiteMO = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: PatchData.getContext()) as? MOSite {
                 newSiteMO.setOrder(to: Int16(i))
                 newSiteMO.setName(to: resetSiteNames[i])
                 newSiteMO.setImageIdentifier(to: resetSiteNames[i])
@@ -189,18 +189,18 @@ public class SiteDataController: NSObject {
         }
         siteArray = SiteDataController.filterEmptySites(from: siteArray)
         siteArray.sort(by: <)
-        ScheduleController.save()
+        PatchData.save()
         
     }
     
     /// Appends the the new site to the siteArray and returns it.
     public static func appendSite(name: String, order: Int, sites: inout [MOSite]) -> MOSite? {
-        let context = ScheduleController.getContext()
+        let context = PatchData.getContext()
         if let site = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: context) as? MOSite {
             site.setName(to: name)
             site.setImageIdentifier(to: name)
             sites.append(site)
-            ScheduleController.save()
+            PatchData.save()
             return site
         }
         return nil
@@ -220,7 +220,7 @@ public class SiteDataController: NSObject {
                 generatedSiteMOs.append(site)
             }
         }
-        ScheduleController.save()
+        PatchData.save()
         return generatedSiteMOs
     }
     

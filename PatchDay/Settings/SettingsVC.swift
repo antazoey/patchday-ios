@@ -279,7 +279,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 UserDefaultsController.setDeliveryMethod(to: choice)
                 UserDefaultsController.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()
-                ScheduleController.setEstrogenDataForToday()
+                TodayData.setEstrogenDataForToday()
             }
                 // Alert the user their current site schedule will be erased
             else {

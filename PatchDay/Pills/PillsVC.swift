@@ -131,7 +131,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
-        ScheduleController.setPillDataForToday()
+        TodayData.setPillDataForToday()
         setBadge()
     }
     

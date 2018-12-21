@@ -19,6 +19,9 @@
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */; };
 		B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
+		B40CC9BE21CD77CF002364BB /* PDEstrogenHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9BD21CD77CF002364BB /* PDEstrogenHelperTests.swift */; };
+		B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9BF21CD7DA9002364BB /* PatchData.swift */; };
+		B40CC9C221CD802D002364BB /* TodayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9C121CD802D002364BB /* TodayData.swift */; };
 		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
@@ -167,6 +170,9 @@
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDateHelperTests.swift; sourceTree = "<group>"; };
 		B40CC9B321CCE614002364BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B40CC9BD21CD77CF002364BB /* PDEstrogenHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDEstrogenHelperTests.swift; sourceTree = "<group>"; };
+		B40CC9BF21CD7DA9002364BB /* PatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchData.swift; sourceTree = "<group>"; };
+		B40CC9C121CD802D002364BB /* TodayData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayData.swift; sourceTree = "<group>"; };
 		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = Settings/Settings.storyboard; sourceTree = "<group>"; };
 		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = Sites/SiteTableViewCell.swift; sourceTree = "<group>"; };
 		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarExtension.swift; path = ../Shared/TabBarExtension.swift; sourceTree = "<group>"; };
@@ -349,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */,
+				B40CC9BD21CD77CF002364BB /* PDEstrogenHelperTests.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -377,6 +384,8 @@
 			children = (
 				B480EE4C21CC7E34002C2238 /* Shared */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
+				B40CC9BF21CD7DA9002364BB /* PatchData.swift */,
+				B40CC9C121CD802D002364BB /* TodayData.swift */,
 				138A65611F198B4D0068A972 /* Controllers */,
 				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
 				B480EE1E21CC7553002C2238 /* PatchData.h */,
@@ -774,6 +783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B40CC9BE21CD77CF002364BB /* PDEstrogenHelperTests.swift in Sources */,
 				B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -795,6 +805,8 @@
 				B480EE3E21CC75FE002C2238 /* EstrogenDataController.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* ScheduleController.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* UserDefaultsController.swift in Sources */,
+				B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */,
+				B40CC9C221CD802D002364BB /* TodayData.swift in Sources */,
 				B480EE4921CC7CC4002C2238 /* PatchDataAlert.swift in Sources */,
 				B480EE4A21CC7D76002C2238 /* PillDataController.swift in Sources */,
 				B480EE4021CC7602002C2238 /* SiteDataController.swift in Sources */,

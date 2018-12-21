@@ -68,11 +68,9 @@ extension MOEstrogen {
     public func getSiteName() -> String {
         if let site = getSite(), let name = site.getName() {
             return name
-        }
-        else if let name = getSiteNameBackUp() {
+        } else if let name = getSiteNameBackUp() {
             return name
-        }
-        else {
+        } else {
             return PDStrings.PlaceholderStrings.new_site
         }
     }
@@ -103,24 +101,26 @@ extension MOEstrogen {
     }
     
     public func expirationDate(intervalStr: String) -> Date? {
-        if let date = getDate(), let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+        if let date = getDate(),
+            let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
             return expires
         }
         return nil
     }
     
     public func expirationDateAsString(_ intervalStr: String, useWords: Bool) -> String {
-        if let date = getDate(), let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+        if let date = getDate(),
+            let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
             return PDDateHelper.format(date: expires, useWords: useWords)
         }
-        
         return PDStrings.PlaceholderStrings.dotdotdot
     }
     
     // MARK: - Booleans
     
     public func isExpired(_ intervalStr: String) -> Bool {
-        if let date = getDate(), let intervalUntilExpiration = PDDateHelper.expirationInterval(intervalStr, date: date as Date) {
+        if let date = getDate(),
+            let intervalUntilExpiration = PDDateHelper.expirationInterval(intervalStr, date: date as Date) {
             return intervalUntilExpiration <= 0
         }
         return false

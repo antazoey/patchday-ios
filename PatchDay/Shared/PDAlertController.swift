@@ -34,7 +34,7 @@ internal class PDAlertController: NSObject {
                 UserDefaultsController.setSiteIndex(to: 0)
                 ScheduleController.estrogenController.getEffectManager().deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
-                ScheduleController.setEstrogenDataForToday()
+                TodayData.setEstrogenDataForToday()
                 
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {

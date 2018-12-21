@@ -20,8 +20,8 @@ public class PillDataController: NSObject {
     private var pillMap = [UUID: MOPill]()
 
     override init() {
-        pillArray = PillDataController.loadPillMOs(into: ScheduleController.getContext())
-        PillDataController.loadTakenTodays(for: pillArray, into: ScheduleController.getContext())
+        pillArray = PillDataController.loadPillMOs(into: PatchData.getContext())
+        PillDataController.loadTakenTodays(for: pillArray, into: PatchData.getContext())
         pillArray = pillArray.filter() {
             $0.getName() != nil
         }
@@ -50,8 +50,8 @@ public class PillDataController: NSObject {
     /// Creates a new MOPill and inserts it in to the pillArray.
     public func insertNewPill() -> MOPill? {
         let newPillAttributes = PillAttributes()
-        let newPill = PillDataController.appendNewPill(to: &pillArray, andTo: &pillMap, using: newPillAttributes, into: ScheduleController.getContext())
-        ScheduleController.setPillDataForToday()
+        let newPill = PillDataController.appendNewPill(to: &pillArray, andTo: &pillMap, using: newPillAttributes, into: PatchData.getContext())
+        TodayData.setPillDataForToday()
         return newPill
     }
     
@@ -80,15 +80,14 @@ public class PillDataController: NSObject {
             pill.setLastTaken(with: lastTaken as NSDate)
         }
         pill.setID()
-
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Sets the second time for the pill at the given index.
     public func setPillTime2(at index: Index, to newTime: Time) {
         if let pill = getPill(at: index) {
             pill.setTime2(with: newTime as NSDate)
-            ScheduleController.save()
+            PatchData.save()
         }
     }
     
@@ -98,7 +97,7 @@ public class PillDataController: NSObject {
             pillArray[index].reset()
         }
         pillArray = pillArray.filter() { $0.getName() != nil}
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Maps MOPills to their last time takens.
@@ -118,18 +117,18 @@ public class PillDataController: NSObject {
     public func takePill(at index: Index) {
         if let pill = getPill(at: index) {
             pill.take()
-            ScheduleController.save()
+            PatchData.save()
             // Reflect in Today widget
-            ScheduleController.setPillDataForToday()
+            TodayData.setPillDataForToday()
         }
     }
     
     /// Sets the given pill's last date taken to now, and increments how many times it was taken today.
     public func take(_ pill: MOPill) {
         pill.take()
-        ScheduleController.save()
+        PatchData.save()
         // Reflect in the Today widget
-        ScheduleController.setPillDataForToday()
+        TodayData.setPillDataForToday()
     }
     
     /// Returns the next pill that needs to be taken.
@@ -164,13 +163,13 @@ public class PillDataController: NSObject {
                 generatedPillMOs.append(pill)
             }
         }
-        ScheduleController.save()
+        PatchData.save()
         return generatedPillMOs
     }
     
     /// Sets the pillArray and map to a generic list of MOPills.
     public func makeNewDefaultPillMOs() {
-        pillArray = PillDataController.newPillMOs(into: ScheduleController.getContext())
+        pillArray = PillDataController.newPillMOs(into: PatchData.getContext())
         ScheduleController.pillController.loadMap()
     }
     
@@ -179,7 +178,7 @@ public class PillDataController: NSObject {
         for pill in pills {
             pill.setID()
         }
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Resets "taken today" if it is a new day. Else, does nothing.
@@ -187,7 +186,7 @@ public class PillDataController: NSObject {
         for pill in pills {
             pill.fixTakenToday()
         }
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Creates a new Pill with the given attributes and appends it to the schedule.

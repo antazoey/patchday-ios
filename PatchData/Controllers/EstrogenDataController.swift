@@ -21,7 +21,7 @@ public class EstrogenDataController: NSObject {
     private var effectManager = ScheduleChangeManager()
     
     override init() {
-        let context = ScheduleController.getContext()
+        let context = PatchData.getContext()
         estrogenArray = []
         // Load previously saved MOEstrogens
         if let estros = EstrogenDataController.loadEstrogenMOs(from: context) {
@@ -51,11 +51,11 @@ public class EstrogenDataController: NSObject {
         if c > count {
             for i in count..<c {
                 if i < estrogenArray.count {
-                    ScheduleController.getContext().delete(estrogenArray[i])
+                    PatchData.getContext().delete(estrogenArray[i])
                 }
             }
         }
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Returns the MOEstrogen for the given index or creates one where one should be.
@@ -63,7 +63,7 @@ public class EstrogenDataController: NSObject {
         if index >= 0, index < estrogenArray.count {
             return estrogenArray[index]
         }
-        let newEstro = newEstrogenMOForSchedule(in: ScheduleController.getContext())
+        let newEstro = newEstrogenMOForSchedule(in: PatchData.getContext())
         return newEstro
     }
     
@@ -84,8 +84,8 @@ public class EstrogenDataController: NSObject {
     public func setEstrogenSite(of index: Index, with site: MOSite) {
         let estro = getEstrogen(at: index)
         estro.setSite(with: site)
-        ScheduleController.setEstrogenDataForToday()
-        ScheduleController.save()
+        TodayData.setEstrogenDataForToday()
+        PatchData.save()
     }
     
     /// Sets the date of the MOEstrogen for the given index.
@@ -93,8 +93,8 @@ public class EstrogenDataController: NSObject {
         let estro = getEstrogen(at: index)
         estro.setDate(with: date as NSDate)
         estrogenArray.sort(by: <)
-        ScheduleController.setEstrogenDataForToday()
-        ScheduleController.save()
+        TodayData.setEstrogenDataForToday()
+        PatchData.save()
     }
     
     /// Sets the date and the site of the MOEstrogen for the given index.
@@ -103,8 +103,8 @@ public class EstrogenDataController: NSObject {
         estro.setSite(with: site)
         estro.setDate(with: date)
         estrogenArray.sort(by: <)
-        ScheduleController.setEstrogenDataForToday()
-        ScheduleController.save()
+        TodayData.setEstrogenDataForToday()
+        PatchData.save()
     }
     
     /// Sets the date and the site of the MOEstrogen for the given id.
@@ -113,8 +113,8 @@ public class EstrogenDataController: NSObject {
             estro.setSite(with: site)
             estro.setDate(with: date)
             estrogenArray.sort(by: <)
-            ScheduleController.setEstrogenDataForToday()
-            ScheduleController.save()
+            TodayData.setEstrogenDataForToday()
+            PatchData.save()
         }
     }
     
@@ -123,8 +123,8 @@ public class EstrogenDataController: NSObject {
         if index < estrogenArray.count && index >= 0 {
             estrogenArray[index] = estrogen
             estrogenArray.sort(by: <)
-            ScheduleController.setEstrogenDataForToday()
-            ScheduleController.save()
+            TodayData.setEstrogenDataForToday()
+            PatchData.save()
         }
     }
     
@@ -160,18 +160,18 @@ public class EstrogenDataController: NSObject {
     
     /// Sets all MOEstrogen data to nil.
     public func resetEstrogenData() {
-        let context = ScheduleController.getContext()
+        let context = PatchData.getContext()
         for estro in estrogenArray {
             estro.reset()
             context.delete(estro)
         }
         estrogenArray = []
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Sets all MOEstrogen data between given indices to nil.
     public func resetEstrogenData(start_i: Index, end_i: Index) {
-        let context = ScheduleController.getContext()
+        let context = PatchData.getContext()
         for i in start_i...end_i {
             if i < estrogenArray.count {
                 estrogenArray[i].reset()
@@ -179,7 +179,7 @@ public class EstrogenDataController: NSObject {
             }
         }
         estrogenArray = Array(estrogenArray.prefix(start_i))
-        ScheduleController.save()
+        PatchData.save()
     }
     
     /// Returns if there are no dates in the estrogen schedule.
