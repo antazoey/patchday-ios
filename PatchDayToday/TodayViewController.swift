@@ -28,26 +28,22 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         nextEstrogenLabel.text = PDTodayDataController.usingPatches() ? NSLocalizedString("Change:", comment: "Short label on Today App") : NSLocalizedString("Inject:", comment: "Short label on Today App")
         if let n = nextEstro.siteName {
             estrogenSiteLabel.text = n
-        }
-        else {
+        } else {
             estrogenSiteLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
         if let d = nextEstro.date {
             estrogenDateLabel.text = PDDateHelper.format(date: d, useWords: true)
-        }
-        else {
+        } else {
             estrogenDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
         if let n = nextPill.name {
             nextPillNameLabel.text = n
-        }
-        else {
+        } else {
             nextPillNameLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
         if let d = nextPill.nextTakeDate {
             nextPillTakeDateLabel.text = PDDateHelper.format(date: d, useWords: true)
-        }
-        else {
+        } else {
             nextPillTakeDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
         
@@ -63,8 +59,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         })
     }
     
+/*
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
         
     }
+*/
     
 }

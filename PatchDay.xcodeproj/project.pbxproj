@@ -292,6 +292,7 @@
 			children = (
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
+				131F0B681EE3AAD700576200 /* PDImages.swift */,
 				B480EE4221CC79DD002C2238 /* Shared */,
 				B480EE4321CC79FA002C2238 /* Settings */,
 				B480EE4521CC7A09002C2238 /* Estrogens */,
@@ -313,6 +314,26 @@
 				B4355D9120ED2E6A0048D466 /* SiteDataController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B40CC9A721CCE4AE002364BB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				139754B41ED8EE27006C82B8 /* PDColors.swift */,
+				1340A9E71EE4D4220003EFFA /* PDStrings.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B40CC9A821CCE4BE002364BB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */,
+				B435182220F5146D00BD268C /* PDEstrogenHelper.swift */,
+				B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */,
+				B435182820F520DD00BD268C /* PDSiteHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		B468F49F20D9BDBA007FC689 /* Frameworks */ = {
@@ -435,14 +456,9 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
-				131F0B681EE3AAD700576200 /* PDImages.swift */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
-				139754B41ED8EE27006C82B8 /* PDColors.swift */,
-				1340A9E71EE4D4220003EFFA /* PDStrings.swift */,
-				B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */,
-				B435182220F5146D00BD268C /* PDEstrogenHelper.swift */,
-				B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */,
-				B435182820F520DD00BD268C /* PDSiteHelper.swift */,
+				B40CC9A721CCE4AE002364BB /* Resources */,
+				B40CC9A821CCE4BE002364BB /* Helpers */,
 				B49A4A4020DB2D4C00F24FC0 /* PDKit.h */,
 				B49A4A4120DB2D4C00F24FC0 /* Info.plist */,
 			);
