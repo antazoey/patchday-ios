@@ -13,7 +13,7 @@ public typealias Index = Int
 public class PDEstrogenHelper: NSObject {
     
     override public var description: String {
-        return "Class for doing calculations on Dates."
+        return "Class for doing calculations on Estrogens."
     }
     
     /// Returns MOEstrogen matching id.
