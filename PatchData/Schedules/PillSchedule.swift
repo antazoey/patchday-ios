@@ -57,7 +57,6 @@ public class PillSchedule: NSObject {
     
     /// Sets a given MOPill with the given PillAttributes.
     public static func setPillAttributes(for pill: MOPill, with attributes: PillAttributes) {
-        
         if let name = attributes.name {
             pill.setName(with: name)
         }
