@@ -17,7 +17,7 @@
 		13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
 		13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* EstrogenVC.swift */; };
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
-		B40CC9B221CCE614002364BB /* PDKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9B121CCE614002364BB /* PDKitTests.swift */; };
+		B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */; };
 		B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
@@ -72,6 +72,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = B49A4A3D20DB2D4C00F24FC0;
 			remoteInfo = PDKit;
+		};
+		B40CC9BA21CCEA73002364BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 137330E81E22BA3E0048F91E;
+			remoteInfo = PatchDay;
 		};
 		B480EE0F21CC72DB002C2238 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -158,7 +165,7 @@
 		13E980D71EDFA54B0062B144 /* EstrogenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EstrogenVC.swift; path = ../Estrogens/EstrogenVC.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B40CC9B121CCE614002364BB /* PDKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDKitTests.swift; sourceTree = "<group>"; };
+		B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDateHelperTests.swift; sourceTree = "<group>"; };
 		B40CC9B321CCE614002364BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = Settings/Settings.storyboard; sourceTree = "<group>"; };
 		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = Sites/SiteTableViewCell.swift; sourceTree = "<group>"; };
@@ -257,8 +264,10 @@
 			isa = PBXGroup;
 			children = (
 				137330EB1E22BA3E0048F91E /* PatchDay */,
+				B40CC9B021CCE614002364BB /* PDKitTests */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B480EE0821CC72DB002C2238 /* PatchDayToday */,
+				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B480EE1D21CC7553002C2238 /* PatchData */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
@@ -330,7 +339,7 @@
 		B40CC9B021CCE614002364BB /* PDKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				B40CC9B121CCE614002364BB /* PDKitTests.swift */,
+				B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 			);
 			path = PDKitTests;
@@ -358,7 +367,6 @@
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
-				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B480EE4C21CC7E34002C2238 /* Shared */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
 				138A65611F198B4D0068A972 /* Controllers */,
@@ -457,7 +465,6 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
-				B40CC9B021CCE614002364BB /* PDKitTests */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				B40CC9A721CCE4AE002364BB /* Resources */,
 				B40CC9A821CCE4BE002364BB /* Helpers */,
@@ -523,6 +530,7 @@
 			);
 			dependencies = (
 				B40CC9B621CCE614002364BB /* PBXTargetDependency */,
+				B40CC9BB21CCEA73002364BB /* PBXTargetDependency */,
 			);
 			name = PDKitTests;
 			productName = PDKitTests;
@@ -758,7 +766,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B40CC9B221CCE614002364BB /* PDKitTests.swift in Sources */,
+				B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -819,6 +827,11 @@
 			isa = PBXTargetDependency;
 			target = B49A4A3D20DB2D4C00F24FC0 /* PDKit */;
 			targetProxy = B40CC9B521CCE614002364BB /* PBXContainerItemProxy */;
+		};
+		B40CC9BB21CCEA73002364BB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 137330E81E22BA3E0048F91E /* PatchDay */;
+			targetProxy = B40CC9BA21CCEA73002364BB /* PBXContainerItemProxy */;
 		};
 		B480EE1021CC72DB002C2238 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
