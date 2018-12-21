@@ -1,3 +1,4 @@
 *.cer
 *.swp
 .DS_Store
+*.p12
