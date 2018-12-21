@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
@@ -106,9 +107,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             requestNotification()
             ScheduleController.estrogenController.estrogenArray.sort(by: <)
             // Save effects
-            ScheduleController.estrogenController.effectManager.wereChanges = true
+            ScheduleController.estrogenController.getEffectManager().wereChanges = true
             if let i = ScheduleController.estrogenController.getEstrogenIndex(for: estro) {
-                ScheduleController.estrogenController.effectManager.indexOfChangedDelivery = i
+                ScheduleController.estrogenController.getEffectManager().indexOfChangedDelivery = i
             }
         }
         
@@ -298,7 +299,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if siteTextHasChanged {
             if let site = ScheduleController.siteController.getSite(at: siteIndexSelected) {
                 ScheduleController.estrogenController.setEstrogenSite(of: estrogenScheduleIndex, with: site)
-                ScheduleController.estrogenController.effectManager.siteChanged = true
+                ScheduleController.estrogenController.getEffectManager().siteChanged = true
             }
             else if let name = chooseSiteButton.text {
                 ScheduleController.estrogenController.setEstrogenBackUpSiteName(of: estrogenScheduleIndex, with: name)
@@ -312,7 +313,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         // For EstrogensVC animation.
         if !dateTextHasChanged {
-            ScheduleController.estrogenController.effectManager.onlySiteChanged = true
+            ScheduleController.estrogenController.getEffectManager().onlySiteChanged = true
         }
     }
     

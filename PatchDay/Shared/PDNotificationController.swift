@@ -9,6 +9,7 @@
 import UIKit
 import UserNotifications
 import PDKit
+import PatchData
 
 internal class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
     
@@ -48,6 +49,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             let uuid = UUID(uuidString: response.notification.request.identifier),
             let pill = ScheduleController.pillController.getPill(for: uuid) {
             ScheduleController.pillController.take(pill)
+            requestNotifyTakePill(pill)
             UIApplication.shared.applicationIconBadgeNumber -= 1
         }
     }
@@ -199,10 +201,16 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         }
     }
     
+    /// Request a pill notification from index.
+    internal func requestNotifyTakePill(at index: Index) {
+        if let pill = ScheduleController.pillController.getPill(at: index) {
+            requestNotifyTakePill(pill)
+        }
+    }
+    
     /// Request a pill notification.
     internal func requestNotifyTakePill(_ pill: MOPill) {
         let now = Date()
-        
         if let dueDate = pill.getDueDate(), now < dueDate {
             let content = UNMutableNotificationContent()
             content.title = PDStrings.NotificationStrings.Titles.takePill
@@ -256,6 +264,4 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     private func getNotificationCategories() -> [UNNotificationCategory] {
         return [makeTakePillCategory(), makeEstrogenCategory()]
     }
-    
-    
 }

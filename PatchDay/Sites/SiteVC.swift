@@ -8,12 +8,13 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(PDSiteHelper.siteNameSetUnionDefaultSites(ScheduleController.siteController.siteArray, usingPatches: UserDefaultsController.usingPatches()))
+    private var namePickerSet = Array(PDSiteHelper.siteNameSetUnionDefaultSites(ScheduleController.siteController.getSites(), usingPatches: UserDefaultsController.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!
@@ -177,7 +178,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadTitle() {
-        let sites = ScheduleController.siteController.siteArray
+        let sites = ScheduleController.siteController.getSites()
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"

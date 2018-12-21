@@ -14,15 +14,15 @@ public class ScheduleChangeManager: NSObject {
         return "An object that manages changes in a schedule."
     }
     
-    var wereChanges: Bool = false
-    var increasedCount: Bool = false
-    var decreasedCount: Bool = false
-    var siteChanged: Bool = false
-    var onlySiteChanged: Bool = false
-    var deliveryMethodChanged: Bool = false
-    var isNew: Bool = false
-    var oldDeliveryCount: Int = 1
-    var indexOfChangedDelivery: Int = -1
+    public var wereChanges: Bool = false
+    public var increasedCount: Bool = false
+    public var decreasedCount: Bool = false
+    public var siteChanged: Bool = false
+    public var onlySiteChanged: Bool = false
+    public var deliveryMethodChanged: Bool = false
+    public var isNew: Bool = false
+    public var oldDeliveryCount: Int = 1
+    public var indexOfChangedDelivery: Int = -1
     
     public func reset() {
         wereChanges = false

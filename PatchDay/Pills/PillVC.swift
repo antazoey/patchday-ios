@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
@@ -297,7 +298,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // Set VC pill as well as reflected attributes in the interactive UI
     private func reflectPillAttributes() {
-        let pills = ScheduleController.pillController.pillArray
+        let pills = ScheduleController.pillController.getPills()
         if let index = pillIndex, index >= 0 && index < pills.count {
             self.pill = pills[index]
             loadName(from: pills[index])

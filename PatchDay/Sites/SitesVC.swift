@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -20,7 +21,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Variables
     public var siteNames: [String] = ScheduleController.siteController.getSiteNames()
-    public var siteImgIDs: [String] = PDSiteHelper.getSiteImageIDs(ScheduleController.siteController.siteArray)
+    public var siteImgIDs: [String] = PDSiteHelper.getSiteImageIDs(ScheduleController.siteController.getSites())
     
     override func viewDidLoad() {
         super.viewDidLoad()

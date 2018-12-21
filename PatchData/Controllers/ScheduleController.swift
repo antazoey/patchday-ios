@@ -29,24 +29,24 @@ public class ScheduleController: NSObject {
         let container = NSPersistentContainer(name: PDStrings.CoreDataKeys.persistantContainer_key)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                PDAlertController.alertForPersistentStoreLoadError(error: error)
+                PatchDataAlert.alertForPersistentStoreLoadError(error: error)
             }
         })
         return container
     }()
     
     /// Saves the all changed data in the persistentContainer.
-    internal static func save() {
+    public static func save() {
         if persistentContainer.viewContext.hasChanges {
             do {
                 try persistentContainer.viewContext.save()
             } catch {
-                PDAlertController.alertForCoreDataError()
+                PatchDataAlert.alertForCoreDataError()
             }
         }
     }
     
-    internal static func getContext() -> NSManagedObjectContext {
+    public static func getContext() -> NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
@@ -54,22 +54,22 @@ public class ScheduleController: NSObject {
     
     /// Returns total number of MOEstrogens in the schedule.
     public static func estroCount() -> Int {
-        return ScheduleController.estrogenController.estrogenArray.count
+        return ScheduleController.estrogenController.getEstrogens().count
     }
     
     /// Returns total number of MOPills in the schedule.
     public static func pillCount() -> Int {
-        return ScheduleController.pillController.pillArray.count
+        return ScheduleController.pillController.getPills().count
     }
     
     /// Returns total number of MOSites in the schedule.
     public static func siteCount() -> Int {
-        return ScheduleController.siteController.siteArray.count
+        return ScheduleController.siteController.getSites().count
     }
     
     /// Returns array of current occupied SiteNames
     public static func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
-        return estrogenController.estrogenArray.map({
+        return estrogenController.getEstrogens().map({
             (estro: MOEstrogen) -> SiteName in
             if let site = estro.getSite(), let name = site.getName() {
                 return name
@@ -83,8 +83,8 @@ public class ScheduleController: NSObject {
     }
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
-    internal static func getSuggestedSite() -> MOSite? {
-        let sites = ScheduleController.siteController.siteArray
+    public static func getSuggestedSite() -> MOSite? {
+        let sites = ScheduleController.siteController.getSites()
         if let i = ScheduleController.siteController.getNextSiteIndex() {
             return sites[i]
         }
@@ -93,13 +93,13 @@ public class ScheduleController: NSObject {
     
     /// Returns total number of MOEstrogens that are expired.
     public static func totalEstrogenDue(intervalStr: String) -> Int {
-        return PDEstrogenHelper.expiredCount(ScheduleController.estrogenController.estrogenArray, intervalStr: intervalStr)
+        return PDEstrogenHelper.expiredCount(ScheduleController.estrogenController.getEstrogens(), intervalStr: intervalStr)
     }
     
     /// Returns total number of MOPills that need to be taken.
     public static func totalPillsDue() -> Int {
         
-        return pillController.pillArray.reduce(0, {
+        return pillController.getPills().reduce(0, {
             (count: Int, pill: MOPill) -> Int in
             let r = pill.isExpired() ? 1 + count : count
             return r
@@ -111,11 +111,10 @@ public class ScheduleController: NSObject {
         return totalEstrogenDue(intervalStr: intervalStr) + totalPillsDue()
     }
     
-    private static func getEstroForToday() -> MOEstrogen {
+    public static func getEstroForToday() -> MOEstrogen {
         if UserDefaultsController.usingPatches(), let nextEstro = estrogenController.nextEstroDue() {
             return nextEstro
-        }
-        else {
+        } else {
             return ScheduleController.estrogenController.getEstrogen(at: 0)
         }
     }
@@ -124,12 +123,11 @@ public class ScheduleController: NSObject {
     /// Returns array of occupied site indices.
     public static func getOccupiedSiteIndices() -> [Index] {
         var indices: [Index] = []
-        for estro in ScheduleController.estrogenController.estrogenArray {
+        for estro in ScheduleController.estrogenController.getEstrogens() {
             if let site = estro.getSite(),
-                let index = ScheduleController.siteController.siteArray.index(of: site) {
+                let index = ScheduleController.siteController.getSites().index(of: site) {
                 indices.append(index)
-            }
-            else {
+            } else {
                 indices.append(-1)
             }
         }
@@ -140,8 +138,7 @@ public class ScheduleController: NSObject {
     private static func getSiteNameToSaveForToday(using estro: MOEstrogen) -> SiteName? {
         if UserDefaultsController.usingPatches() {
             return estro.getSiteName()
-        }
-        if let suggestedSite = ScheduleController.getSuggestedSite(), let name = suggestedSite.getName() {
+        } else if let suggestedSite = ScheduleController.getSuggestedSite(), let name = suggestedSite.getName() {
             return name
         }
         return nil
@@ -156,14 +153,12 @@ public class ScheduleController: NSObject {
         let estro = getEstroForToday()
         if let siteName = getSiteNameToSaveForToday(using: estro) {
             defaults.set(siteName, forKey: siteKey)
-        }
-        else {
+        } else {
             defaults.set(nil, forKey: siteKey)
         }
         if let date = estro.expirationDate(intervalStr: UserDefaultsController.getTimeIntervalString()) {
             defaults.set(date, forKey: dateKey)
-        }
-        else {
+        } else {
             defaults.set(nil, forKey: dateKey)
         }
     }
@@ -176,14 +171,12 @@ public class ScheduleController: NSObject {
         if let nextPill = pillController.nextPillDue() {
             if let pillName = nextPill.getName() {
                 defaults.set(pillName, forKey: pillNameKey)
-            }
-            else {
+            } else {
                 defaults.set(nil, forKey: pillNameKey)
             }
             if let pillDate = nextPill.getDueDate() {
                 defaults.set(pillDate, forKey: pillDateKey)
-            }
-            else {
+            } else {
                 defaults.set(nil, forKey: pillDateKey)
             }
         }
@@ -194,16 +187,4 @@ public class ScheduleController: NSObject {
         setEstrogenDataForToday()
         setPillDataForToday()
     }
-    
-    
-    /// Migrates data from 1.0 model to 2.0.
-    public static func migrate(needs: Bool) {
-        if needs {
-            PDDataMigrater.migrateEstros(newEstros: &ScheduleController.estrogenController.estrogenArray)
-            PDDataMigrater.migratePills(newPills: &ScheduleController.pillController.pillArray)
-            ScheduleController.save()
-            UserDefaultsController.setNeedsMigrated(to: false)
-        }
-    }
-
 }

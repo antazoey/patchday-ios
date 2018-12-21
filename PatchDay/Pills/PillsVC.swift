@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 typealias PillName = String
 
@@ -78,6 +79,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let pillIndexStr = String(restoreID.suffix(1))
             if let pillIndex = Int(pillIndexStr) {
                 pillController.takePill(at: pillIndex)
+                appDelegate.notificationsController.requestNotifyTakePill(at: pillIndex)
                 let cell = pillCellForRowAt(pillIndex)
                 cell.stamp()
                 if let pill = pillController.getPill(at: pillIndex) {
@@ -121,9 +123,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()
         
-        
         if indexPath.row <= (pills.count-1) {
-            
             // Reset cell colors
             for i in indexPath.row..<pills.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
@@ -131,7 +131,6 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
- 
         ScheduleController.setPillDataForToday()
         setBadge()
     }

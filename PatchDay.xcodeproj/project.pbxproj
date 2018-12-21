@@ -8,32 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1301011F1FE5936E00AEFF7C /* PillsVC.swift */; };
-		1335B9BB1EC7500D00DD7088 /* ScheduleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* ScheduleController.swift */; };
 		133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */; };
 		1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */; };
 		137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
 		137330F21E22BA3E0048F91E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
-		139754BE1EDA8C4D006C82B8 /* EstrogenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* EstrogenVC.swift */; };
-		13C746D11ED781DD00067A67 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* UserDefaultsController.swift */; };
+		139754BE1EDA8C4D006C82B8 /* EstrogensVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */; };
-		13E980D81EDFA54B0062B144 /* EstrogensVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* EstrogensVC.swift */; };
+		13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* EstrogenVC.swift */; };
 		13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
-		B430BB2C20F2C83200891D40 /* MOOldEstro.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430BB2A20F2C83200891D40 /* MOOldEstro.swift */; };
-		B430BB2D20F2C83200891D40 /* MOOldEstroExtra.swift in Sources */ = {isa = PBXBuildFile; fileRef = B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
 		B435181E20F5075100BD268C /* MOPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9320ED6F250048D466 /* MOPill.swift */; };
 		B435181F20F5075500BD268C /* MOPillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9420ED6F250048D466 /* MOPillMethods.swift */; };
 		B435182420F519CB00BD268C /* PDEstrogenHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182220F5146D00BD268C /* PDEstrogenHelper.swift */; };
 		B435182920F520DD00BD268C /* PDSiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182820F520DD00BD268C /* PDSiteHelper.swift */; };
 		B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */; };
-		B4355D8E20ED24CF0048D466 /* EstrogenDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8D20ED24CF0048D466 /* EstrogenDataController.swift */; };
-		B4355D9020ED2C1A0048D466 /* PillDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8F20ED2C1A0048D466 /* PillDataController.swift */; };
-		B4355D9220ED2E6A0048D466 /* SiteDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9120ED2E6A0048D466 /* SiteDataController.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
-		B4454B0020DB6B23005CD2E3 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		B4454B0520DC56BE005CD2E3 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */; };
@@ -42,14 +34,25 @@
 		B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993C20F8822700D36B06 /* MOSiteMethods.swift */; };
 		B458994520F886FB00D36B06 /* MOEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOEstrogen.swift */; };
 		B458994620F886FE00D36B06 /* MOEstrogenMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */; };
-		B463E1AB211640E90099DE36 /* ScheduleChangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* ScheduleChangeManager.swift */; };
-		B468F4A120D9BDBA007FC689 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
-		B468F4A420D9BDBA007FC689 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468F4A320D9BDBA007FC689 /* TodayViewController.swift */; };
-		B468F4A720D9BDBA007FC689 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B468F4A520D9BDBA007FC689 /* MainInterface.storyboard */; };
-		B468F4AB20D9BDBA007FC689 /* patchdayToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B468F49E20D9BDBA007FC689 /* patchdayToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63320CDA48400CF7B54 /* SitesVC.swift */; };
 		B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63520CF1D6000CF7B54 /* SiteVC.swift */; };
-		B49A4A0920DA1DCC00F24FC0 /* PDTodayDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49A4A0720DA0E2900F24FC0 /* PDTodayDataController.swift */; };
+		B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
+		B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE0921CC72DB002C2238 /* TodayViewController.swift */; };
+		B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */; };
+		B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B480EE0621CC72DB002C2238 /* PatchDayToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B480EE1621CC7328002C2238 /* PDTodayDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE1521CC7328002C2238 /* PDTodayDataController.swift */; };
+		B480EE2521CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
+		B480EE2C21CC7554002C2238 /* PatchDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE2B21CC7554002C2238 /* PatchDataTests.swift */; };
+		B480EE2E21CC7554002C2238 /* PatchData.h in Headers */ = {isa = PBXBuildFile; fileRef = B480EE1E21CC7553002C2238 /* PatchData.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B480EE3121CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
+		B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B480EE3C21CC75FB002C2238 /* ScheduleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* ScheduleController.swift */; };
+		B480EE3E21CC75FE002C2238 /* EstrogenDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8D20ED24CF0048D466 /* EstrogenDataController.swift */; };
+		B480EE4021CC7602002C2238 /* SiteDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9120ED2E6A0048D466 /* SiteDataController.swift */; };
+		B480EE4721CC7B5E002C2238 /* ScheduleChangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* ScheduleChangeManager.swift */; };
+		B480EE4921CC7CC4002C2238 /* PatchDataAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE4821CC7CC4002C2238 /* PatchDataAlert.swift */; };
+		B480EE4A21CC7D76002C2238 /* PillDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8F20ED2C1A0048D466 /* PillDataController.swift */; };
+		B480EE4B21CC7E20002C2238 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* UserDefaultsController.swift */; };
 		B49A4A4720DB2D4C00F24FC0 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B49A4A4E20DB2D4C00F24FC0 /* PDKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49A4A4D20DB2D4C00F24FC0 /* PDKitTests.swift */; };
 		B49A4A5020DB2D4C00F24FC0 /* PDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B49A4A4020DB2D4C00F24FC0 /* PDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -60,16 +63,36 @@
 		B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
-		B4F2615A21023F2B00D3B2B1 /* PDDataMigrater.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B468F4A920D9BDBA007FC689 /* PBXContainerItemProxy */ = {
+		B480EE0F21CC72DB002C2238 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = B468F49D20D9BDBA007FC689;
-			remoteInfo = patchdayToday;
+			remoteGlobalIDString = B480EE0521CC72DB002C2238;
+			remoteInfo = PatchDayToday;
+		};
+		B480EE2621CC7554002C2238 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B480EE1B21CC7553002C2238;
+			remoteInfo = PatchData;
+		};
+		B480EE2821CC7554002C2238 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 137330E81E22BA3E0048F91E;
+			remoteInfo = PatchDay;
+		};
+		B480EE2F21CC7554002C2238 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B480EE1B21CC7553002C2238;
+			remoteInfo = PatchData;
 		};
 		B49A4A4820DB2D4C00F24FC0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -102,6 +125,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B49A4A5420DB2D4C00F24FC0 /* PDKit.framework in Embed Frameworks */,
+				B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,7 +136,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				B468F4AB20D9BDBA007FC689 /* patchdayToday.appex in Embed App Extensions */,
+				B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,12 +144,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1301011F1FE5936E00AEFF7C /* PillsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsVC.swift; sourceTree = "<group>"; };
+		1301011F1FE5936E00AEFF7C /* PillsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillsVC.swift; path = Pills/PillsVC.swift; sourceTree = "<group>"; };
 		131F0B681EE3AAD700576200 /* PDImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDImages.swift; sourceTree = "<group>"; };
 		1335B9BA1EC7500D00DD7088 /* ScheduleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleController.swift; sourceTree = "<group>"; };
-		133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsVC.swift; path = Settings/SettingsVC.swift; sourceTree = "<group>"; };
 		1340A9E71EE4D4220003EFFA /* PDStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDStrings.swift; sourceTree = "<group>"; };
-		1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDNotificationController.swift; sourceTree = "<group>"; };
+		1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDNotificationController.swift; path = ../Shared/PDNotificationController.swift; sourceTree = "<group>"; };
 		137330E91E22BA3E0048F91E /* PatchDay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PatchDay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		137330EC1E22BA3E0048F91E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		137330F11E22BA3E0048F91E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -134,42 +158,46 @@
 		137330F81E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		138426D31F4DDB31008C6E6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
-		139754BD1EDA8C4D006C82B8 /* EstrogenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EstrogenVC.swift; sourceTree = "<group>"; };
+		139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EstrogensVC.swift; path = ../Estrogens/EstrogensVC.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* UserDefaultsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
-		13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertController.swift; sourceTree = "<group>"; };
-		13E980D71EDFA54B0062B144 /* EstrogensVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EstrogensVC.swift; sourceTree = "<group>"; };
+		13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDAlertController.swift; path = ../Shared/PDAlertController.swift; sourceTree = "<group>"; };
+		13E980D71EDFA54B0062B144 /* EstrogenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EstrogenVC.swift; path = ../Estrogens/EstrogenVC.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
-		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
-		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteTableViewCell.swift; sourceTree = "<group>"; };
-		B430BB2A20F2C83200891D40 /* MOOldEstro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOOldEstro.swift; sourceTree = "<group>"; };
-		B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOOldEstroExtra.swift; sourceTree = "<group>"; };
-		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarExtension.swift; sourceTree = "<group>"; };
+		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = Settings/Settings.storyboard; sourceTree = "<group>"; };
+		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = Sites/SiteTableViewCell.swift; sourceTree = "<group>"; };
+		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarExtension.swift; path = ../Shared/TabBarExtension.swift; sourceTree = "<group>"; };
 		B435182220F5146D00BD268C /* PDEstrogenHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDEstrogenHelper.swift; sourceTree = "<group>"; };
 		B435182820F520DD00BD268C /* PDSiteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSiteHelper.swift; sourceTree = "<group>"; };
-		B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenTableViewCell.swift; sourceTree = "<group>"; };
+		B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EstrogenTableViewCell.swift; path = ../Estrogens/EstrogenTableViewCell.swift; sourceTree = "<group>"; };
 		B4355D8D20ED24CF0048D466 /* EstrogenDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenDataController.swift; sourceTree = "<group>"; };
 		B4355D8F20ED2C1A0048D466 /* PillDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDataController.swift; sourceTree = "<group>"; };
 		B4355D9120ED2E6A0048D466 /* SiteDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDataController.swift; sourceTree = "<group>"; };
-		B4355D9320ED6F250048D466 /* MOPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOPill.swift; path = ../PatchDay/MOPill.swift; sourceTree = "<group>"; };
-		B4355D9420ED6F250048D466 /* MOPillMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOPillMethods.swift; path = ../PatchDay/MOPillMethods.swift; sourceTree = "<group>"; };
-		B4355D9920EE968B0048D466 /* MFBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFBadgeButton.swift; sourceTree = "<group>"; };
-		B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTableViewCell.swift; sourceTree = "<group>"; };
-		B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
-		B458993B20F8822700D36B06 /* MOSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOSite.swift; path = ../MOSite.swift; sourceTree = "<group>"; };
-		B458993C20F8822700D36B06 /* MOSiteMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOSiteMethods.swift; path = ../MOSiteMethods.swift; sourceTree = "<group>"; };
-		B458994120F8865C00D36B06 /* MOEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOEstrogen.swift; path = ../MOEstrogen.swift; sourceTree = "<group>"; };
-		B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MOEstrogenMethods.swift; path = ../MOEstrogenMethods.swift; sourceTree = "<group>"; };
+		B4355D9320ED6F250048D466 /* MOPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPill.swift; sourceTree = "<group>"; };
+		B4355D9420ED6F250048D466 /* MOPillMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPillMethods.swift; sourceTree = "<group>"; };
+		B4355D9920EE968B0048D466 /* MFBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MFBadgeButton.swift; path = ../Shared/MFBadgeButton.swift; sourceTree = "<group>"; };
+		B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillTableViewCell.swift; path = Pills/PillTableViewCell.swift; sourceTree = "<group>"; };
+		B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteImagePickerDelegate.swift; path = Sites/SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
+		B458993B20F8822700D36B06 /* MOSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSite.swift; sourceTree = "<group>"; };
+		B458993C20F8822700D36B06 /* MOSiteMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSiteMethods.swift; sourceTree = "<group>"; };
+		B458994120F8865C00D36B06 /* MOEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogen.swift; sourceTree = "<group>"; };
+		B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogenMethods.swift; sourceTree = "<group>"; };
 		B463E1AA211640E90099DE36 /* ScheduleChangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleChangeManager.swift; sourceTree = "<group>"; };
-		B468F49E20D9BDBA007FC689 /* patchdayToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = patchdayToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		B468F4A320D9BDBA007FC689 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		B468F4A620D9BDBA007FC689 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		B468F4A820D9BDBA007FC689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B46AC63320CDA48400CF7B54 /* SitesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitesVC.swift; sourceTree = "<group>"; };
-		B46AC63520CF1D6000CF7B54 /* SiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteVC.swift; sourceTree = "<group>"; };
-		B49A4A0720DA0E2900F24FC0 /* PDTodayDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTodayDataController.swift; sourceTree = "<group>"; };
-		B49A4A0A20DA432A00F24FC0 /* patchdayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = patchdayToday.entitlements; sourceTree = "<group>"; };
+		B46AC63320CDA48400CF7B54 /* SitesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SitesVC.swift; path = Sites/SitesVC.swift; sourceTree = "<group>"; };
+		B46AC63520CF1D6000CF7B54 /* SiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteVC.swift; path = Sites/SiteVC.swift; sourceTree = "<group>"; };
+		B480EE0621CC72DB002C2238 /* PatchDayToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B480EE0921CC72DB002C2238 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		B480EE0C21CC72DB002C2238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		B480EE0E21CC72DB002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B480EE1521CC7328002C2238 /* PDTodayDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTodayDataController.swift; sourceTree = "<group>"; };
+		B480EE1C21CC7553002C2238 /* PatchData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PatchData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B480EE1E21CC7553002C2238 /* PatchData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PatchData.h; sourceTree = "<group>"; };
+		B480EE1F21CC7553002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B480EE2421CC7554002C2238 /* PatchDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B480EE2B21CC7554002C2238 /* PatchDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataTests.swift; sourceTree = "<group>"; };
+		B480EE2D21CC7554002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B480EE4821CC7CC4002C2238 /* PatchDataAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataAlert.swift; sourceTree = "<group>"; };
 		B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelper.swift; sourceTree = "<group>"; };
 		B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDateHelper.swift; sourceTree = "<group>"; };
 		B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,8 +206,7 @@
 		B49A4A4620DB2D4C00F24FC0 /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B49A4A4D20DB2D4C00F24FC0 /* PDKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDKitTests.swift; sourceTree = "<group>"; };
 		B49A4A4F20DB2D4C00F24FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B4AED52220E5659C00559165 /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillVC.swift; sourceTree = "<group>"; };
-		B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDataMigrater.swift; sourceTree = "<group>"; };
+		B4AED52220E5659C00559165 /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillVC.swift; path = Pills/PillVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,15 +215,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				B49A4A5320DB2D4C00F24FC0 /* PDKit.framework in Frameworks */,
+				B480EE3121CC7554002C2238 /* PatchData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B468F49B20D9BDBA007FC689 /* Frameworks */ = {
+		B480EE0321CC72DB002C2238 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4454B0020DB6B23005CD2E3 /* PDKit.framework in Frameworks */,
-				B468F4A120D9BDBA007FC689 /* NotificationCenter.framework in Frameworks */,
+				B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B480EE1921CC7553002C2238 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B480EE2121CC7554002C2238 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B480EE2521CC7554002C2238 /* PatchData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,9 +264,11 @@
 			isa = PBXGroup;
 			children = (
 				137330EB1E22BA3E0048F91E /* PatchDay */,
-				B468F4A220D9BDBA007FC689 /* patchdayToday */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B49A4A4C20DB2D4C00F24FC0 /* PDKitTests */,
+				B480EE0821CC72DB002C2238 /* PatchDayToday */,
+				B480EE1D21CC7553002C2238 /* PatchData */,
+				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -234,9 +278,11 @@
 			isa = PBXGroup;
 			children = (
 				137330E91E22BA3E0048F91E /* PatchDay.app */,
-				B468F49E20D9BDBA007FC689 /* patchdayToday.appex */,
 				B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */,
 				B49A4A4620DB2D4C00F24FC0 /* PDKitTests.xctest */,
+				B480EE0621CC72DB002C2238 /* PatchDayToday.appex */,
+				B480EE1C21CC7553002C2238 /* PatchData.framework */,
+				B480EE2421CC7554002C2238 /* PatchDataTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,68 +291,28 @@
 			isa = PBXGroup;
 			children = (
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
-				B4454B1120E41642005CD2E3 /* ManagedObjects */,
-				138A65611F198B4D0068A972 /* Schedule */,
-				1386206F1F159AB2007161CA /* AppDelegate */,
-				139754BC1ED8F7CA006C82B8 /* UI */,
-				B468F4C020D9D584007FC689 /* Storyboards */,
+				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
+				B480EE4221CC79DD002C2238 /* Shared */,
+				B480EE4321CC79FA002C2238 /* Settings */,
+				B480EE4521CC7A09002C2238 /* Estrogens */,
+				B480EE4421CC7A04002C2238 /* Pills */,
+				B480EE4621CC7A15002C2238 /* Sites */,
+				137330F01E22BA3E0048F91E /* Main.storyboard */,
+				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
 			);
 			path = PatchDay;
 			sourceTree = "<group>";
 		};
-		1386206F1F159AB2007161CA /* AppDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
-				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
-				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
-				13C746D01ED781DD00067A67 /* UserDefaultsController.swift */,
-			);
-			name = AppDelegate;
-			sourceTree = "<group>";
-		};
-		138A65611F198B4D0068A972 /* Schedule */ = {
+		138A65611F198B4D0068A972 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				1335B9BA1EC7500D00DD7088 /* ScheduleController.swift */,
-				B463E1AA211640E90099DE36 /* ScheduleChangeManager.swift */,
 				B4355D8D20ED24CF0048D466 /* EstrogenDataController.swift */,
 				B4355D8F20ED2C1A0048D466 /* PillDataController.swift */,
 				B4355D9120ED2E6A0048D466 /* SiteDataController.swift */,
-				B430BB2A20F2C83200891D40 /* MOOldEstro.swift */,
-				B430BB2B20F2C83200891D40 /* MOOldEstroExtra.swift */,
-				B4F2615921023F2B00D3B2B1 /* PDDataMigrater.swift */,
 			);
-			name = Schedule;
-			sourceTree = "<group>";
-		};
-		139754BC1ED8F7CA006C82B8 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				B4355D9920EE968B0048D466 /* MFBadgeButton.swift */,
-				133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */,
-				1301011F1FE5936E00AEFF7C /* PillsVC.swift */,
-				B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */,
-				B4AED52220E5659C00559165 /* PillVC.swift */,
-				13E980D71EDFA54B0062B144 /* EstrogensVC.swift */,
-				B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */,
-				139754BD1EDA8C4D006C82B8 /* EstrogenVC.swift */,
-				B46AC63320CDA48400CF7B54 /* SitesVC.swift */,
-				B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */,
-				B46AC63520CF1D6000CF7B54 /* SiteVC.swift */,
-				B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */,
-				B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */,
-			);
-			name = UI;
-			sourceTree = "<group>";
-		};
-		B4454B1120E41642005CD2E3 /* ManagedObjects */ = {
-			isa = PBXGroup;
-			children = (
-				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
-			);
-			name = ManagedObjects;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		B468F49F20D9BDBA007FC689 /* Frameworks */ = {
@@ -317,26 +323,113 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B468F4A220D9BDBA007FC689 /* patchdayToday */ = {
+		B480EE0821CC72DB002C2238 /* PatchDayToday */ = {
 			isa = PBXGroup;
 			children = (
-				B49A4A0A20DA432A00F24FC0 /* patchdayToday.entitlements */,
-				B468F4A320D9BDBA007FC689 /* TodayViewController.swift */,
-				B49A4A0720DA0E2900F24FC0 /* PDTodayDataController.swift */,
-				B468F4A520D9BDBA007FC689 /* MainInterface.storyboard */,
-				B468F4A820D9BDBA007FC689 /* Info.plist */,
+				B480EE0921CC72DB002C2238 /* TodayViewController.swift */,
+				B480EE1521CC7328002C2238 /* PDTodayDataController.swift */,
+				B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */,
+				B480EE0E21CC72DB002C2238 /* Info.plist */,
 			);
-			path = patchdayToday;
+			path = PatchDayToday;
 			sourceTree = "<group>";
 		};
-		B468F4C020D9D584007FC689 /* Storyboards */ = {
+		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
-				137330F01E22BA3E0048F91E /* Main.storyboard */,
-				B42D16D120A74B4700F21AF4 /* Settings.storyboard */,
-				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
+				B480EE4C21CC7E34002C2238 /* Shared */,
+				B480EE4121CC76FE002C2238 /* ManagedObjects */,
+				138A65611F198B4D0068A972 /* Controllers */,
+				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
+				B480EE1E21CC7553002C2238 /* PatchData.h */,
+				B480EE1F21CC7553002C2238 /* Info.plist */,
 			);
-			name = Storyboards;
+			path = PatchData;
+			sourceTree = "<group>";
+		};
+		B480EE2A21CC7554002C2238 /* PatchDataTests */ = {
+			isa = PBXGroup;
+			children = (
+				B480EE2B21CC7554002C2238 /* PatchDataTests.swift */,
+				B480EE2D21CC7554002C2238 /* Info.plist */,
+			);
+			path = PatchDataTests;
+			sourceTree = "<group>";
+		};
+		B480EE4121CC76FE002C2238 /* ManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				B4355D9420ED6F250048D466 /* MOPillMethods.swift */,
+				B458993B20F8822700D36B06 /* MOSite.swift */,
+				B458993C20F8822700D36B06 /* MOSiteMethods.swift */,
+				B458994120F8865C00D36B06 /* MOEstrogen.swift */,
+				B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */,
+				B4355D9320ED6F250048D466 /* MOPill.swift */,
+			);
+			path = ManagedObjects;
+			sourceTree = "<group>";
+		};
+		B480EE4221CC79DD002C2238 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				B4355D9920EE968B0048D466 /* MFBadgeButton.swift */,
+				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
+				B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */,
+				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
+			);
+			name = Shared;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		B480EE4321CC79FA002C2238 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B42D16D120A74B4700F21AF4 /* Settings.storyboard */,
+				133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		B480EE4421CC7A04002C2238 /* Pills */ = {
+			isa = PBXGroup;
+			children = (
+				1301011F1FE5936E00AEFF7C /* PillsVC.swift */,
+				B4AED52220E5659C00559165 /* PillVC.swift */,
+				B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */,
+			);
+			name = Pills;
+			sourceTree = "<group>";
+		};
+		B480EE4521CC7A09002C2238 /* Estrogens */ = {
+			isa = PBXGroup;
+			children = (
+				139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */,
+				B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */,
+				13E980D71EDFA54B0062B144 /* EstrogenVC.swift */,
+			);
+			name = Estrogens;
+			path = "New Group1";
+			sourceTree = "<group>";
+		};
+		B480EE4621CC7A15002C2238 /* Sites */ = {
+			isa = PBXGroup;
+			children = (
+				B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */,
+				B46AC63520CF1D6000CF7B54 /* SiteVC.swift */,
+				B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */,
+				B46AC63320CDA48400CF7B54 /* SitesVC.swift */,
+			);
+			name = Sites;
+			sourceTree = "<group>";
+		};
+		B480EE4C21CC7E34002C2238 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				13C746D01ED781DD00067A67 /* UserDefaultsController.swift */,
+				B463E1AA211640E90099DE36 /* ScheduleChangeManager.swift */,
+				B480EE4821CC7CC4002C2238 /* PatchDataAlert.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
@@ -344,12 +437,6 @@
 			children = (
 				131F0B681EE3AAD700576200 /* PDImages.swift */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
-				B458994120F8865C00D36B06 /* MOEstrogen.swift */,
-				B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */,
-				B4355D9320ED6F250048D466 /* MOPill.swift */,
-				B4355D9420ED6F250048D466 /* MOPillMethods.swift */,
-				B458993B20F8822700D36B06 /* MOSite.swift */,
-				B458993C20F8822700D36B06 /* MOSiteMethods.swift */,
 				139754B41ED8EE27006C82B8 /* PDColors.swift */,
 				1340A9E71EE4D4220003EFFA /* PDStrings.swift */,
 				B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */,
@@ -374,6 +461,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		B480EE1721CC7553002C2238 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B480EE2E21CC7554002C2238 /* PatchData.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B49A4A3B20DB2D4C00F24FC0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -398,30 +493,68 @@
 			buildRules = (
 			);
 			dependencies = (
-				B468F4AA20D9BDBA007FC689 /* PBXTargetDependency */,
 				B49A4A5220DB2D4C00F24FC0 /* PBXTargetDependency */,
+				B480EE1021CC72DB002C2238 /* PBXTargetDependency */,
+				B480EE3021CC7554002C2238 /* PBXTargetDependency */,
 			);
 			name = PatchDay;
 			productName = PatchDay;
 			productReference = 137330E91E22BA3E0048F91E /* PatchDay.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B468F49D20D9BDBA007FC689 /* patchdayToday */ = {
+		B480EE0521CC72DB002C2238 /* PatchDayToday */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B468F4AE20D9BDBB007FC689 /* Build configuration list for PBXNativeTarget "patchdayToday" */;
+			buildConfigurationList = B480EE1221CC72DB002C2238 /* Build configuration list for PBXNativeTarget "PatchDayToday" */;
 			buildPhases = (
-				B468F49A20D9BDBA007FC689 /* Sources */,
-				B468F49B20D9BDBA007FC689 /* Frameworks */,
-				B468F49C20D9BDBA007FC689 /* Resources */,
+				B480EE0221CC72DB002C2238 /* Sources */,
+				B480EE0321CC72DB002C2238 /* Frameworks */,
+				B480EE0421CC72DB002C2238 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = patchdayToday;
-			productName = patchdayToday;
-			productReference = B468F49E20D9BDBA007FC689 /* patchdayToday.appex */;
+			name = PatchDayToday;
+			productName = PatchDayToday;
+			productReference = B480EE0621CC72DB002C2238 /* PatchDayToday.appex */;
 			productType = "com.apple.product-type.app-extension";
+		};
+		B480EE1B21CC7553002C2238 /* PatchData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B480EE3321CC7554002C2238 /* Build configuration list for PBXNativeTarget "PatchData" */;
+			buildPhases = (
+				B480EE1721CC7553002C2238 /* Headers */,
+				B480EE1821CC7553002C2238 /* Sources */,
+				B480EE1921CC7553002C2238 /* Frameworks */,
+				B480EE1A21CC7553002C2238 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PatchData;
+			productName = PatchData;
+			productReference = B480EE1C21CC7553002C2238 /* PatchData.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B480EE2321CC7554002C2238 /* PatchDataTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B480EE3621CC7554002C2238 /* Build configuration list for PBXNativeTarget "PatchDataTests" */;
+			buildPhases = (
+				B480EE2021CC7554002C2238 /* Sources */,
+				B480EE2121CC7554002C2238 /* Frameworks */,
+				B480EE2221CC7554002C2238 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B480EE2721CC7554002C2238 /* PBXTargetDependency */,
+				B480EE2921CC7554002C2238 /* PBXTargetDependency */,
+			);
+			name = PatchDataTests;
+			productName = PatchDataTests;
+			productReference = B480EE2421CC7554002C2238 /* PatchDataTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		B49A4A3D20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXNativeTarget;
@@ -466,7 +599,7 @@
 		137330E11E22BA3E0048F91E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0940;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Juliya Smith";
 				TargetAttributes = {
@@ -487,15 +620,20 @@
 							};
 						};
 					};
-					B468F49D20D9BDBA007FC689 = {
-						CreatedOnToolsVersion = 9.4.1;
+					B480EE0521CC72DB002C2238 = {
+						CreatedOnToolsVersion = 10.1;
 						DevelopmentTeam = 8U33TMB35U;
 						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
+					};
+					B480EE1B21CC7553002C2238 = {
+						CreatedOnToolsVersion = 10.1;
+						DevelopmentTeam = 8U33TMB35U;
+						ProvisioningStyle = Automatic;
+					};
+					B480EE2321CC7554002C2238 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 137330E81E22BA3E0048F91E;
 					};
 					B49A4A3D20DB2D4C00F24FC0 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -524,9 +662,11 @@
 			projectRoot = "";
 			targets = (
 				137330E81E22BA3E0048F91E /* PatchDay */,
-				B468F49D20D9BDBA007FC689 /* patchdayToday */,
 				B49A4A3D20DB2D4C00F24FC0 /* PDKit */,
 				B49A4A4520DB2D4C00F24FC0 /* PDKitTests */,
+				B480EE0521CC72DB002C2238 /* PatchDayToday */,
+				B480EE1B21CC7553002C2238 /* PatchData */,
+				B480EE2321CC7554002C2238 /* PatchDataTests */,
 			);
 		};
 /* End PBXProject section */
@@ -542,11 +682,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B468F49C20D9BDBA007FC689 /* Resources */ = {
+		B480EE0421CC72DB002C2238 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B468F4A720D9BDBA007FC689 /* MainInterface.storyboard in Resources */,
+				B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B480EE1A21CC7553002C2238 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B480EE2221CC7554002C2238 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,37 +731,50 @@
 				B4AED52320E5659C00559165 /* PillVC.swift in Sources */,
 				B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */,
 				B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */,
-				B430BB2D20F2C83200891D40 /* MOOldEstroExtra.swift in Sources */,
-				B4F2615A21023F2B00D3B2B1 /* PDDataMigrater.swift in Sources */,
-				B4355D9220ED2E6A0048D466 /* SiteDataController.swift in Sources */,
-				1335B9BB1EC7500D00DD7088 /* ScheduleController.swift in Sources */,
 				133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */,
 				13F0CC0C1EC2567A00653CB9 /* patchData.xcdatamodeld in Sources */,
-				13E980D81EDFA54B0062B144 /* EstrogensVC.swift in Sources */,
+				13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */,
-				139754BE1EDA8C4D006C82B8 /* EstrogenVC.swift in Sources */,
+				139754BE1EDA8C4D006C82B8 /* EstrogensVC.swift in Sources */,
 				B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,
 				B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */,
-				B4355D8E20ED24CF0048D466 /* EstrogenDataController.swift in Sources */,
 				B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */,
 				B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */,
-				B463E1AB211640E90099DE36 /* ScheduleChangeManager.swift in Sources */,
 				B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */,
-				13C746D11ED781DD00067A67 /* UserDefaultsController.swift in Sources */,
-				B430BB2C20F2C83200891D40 /* MOOldEstro.swift in Sources */,
-				B4355D9020ED2C1A0048D466 /* PillDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B468F49A20D9BDBA007FC689 /* Sources */ = {
+		B480EE0221CC72DB002C2238 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B49A4A0920DA1DCC00F24FC0 /* PDTodayDataController.swift in Sources */,
-				B468F4A420D9BDBA007FC689 /* TodayViewController.swift in Sources */,
+				B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */,
+				B480EE1621CC7328002C2238 /* PDTodayDataController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B480EE1821CC7553002C2238 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B480EE4721CC7B5E002C2238 /* ScheduleChangeManager.swift in Sources */,
+				B480EE3E21CC75FE002C2238 /* EstrogenDataController.swift in Sources */,
+				B480EE3C21CC75FB002C2238 /* ScheduleController.swift in Sources */,
+				B480EE4B21CC7E20002C2238 /* UserDefaultsController.swift in Sources */,
+				B480EE4921CC7CC4002C2238 /* PatchDataAlert.swift in Sources */,
+				B480EE4A21CC7D76002C2238 /* PillDataController.swift in Sources */,
+				B480EE4021CC7602002C2238 /* SiteDataController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B480EE2021CC7554002C2238 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B480EE2C21CC7554002C2238 /* PatchDataTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,10 +808,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		B468F4AA20D9BDBA007FC689 /* PBXTargetDependency */ = {
+		B480EE1021CC72DB002C2238 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B468F49D20D9BDBA007FC689 /* patchdayToday */;
-			targetProxy = B468F4A920D9BDBA007FC689 /* PBXContainerItemProxy */;
+			target = B480EE0521CC72DB002C2238 /* PatchDayToday */;
+			targetProxy = B480EE0F21CC72DB002C2238 /* PBXContainerItemProxy */;
+		};
+		B480EE2721CC7554002C2238 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B480EE1B21CC7553002C2238 /* PatchData */;
+			targetProxy = B480EE2621CC7554002C2238 /* PBXContainerItemProxy */;
+		};
+		B480EE2921CC7554002C2238 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 137330E81E22BA3E0048F91E /* PatchDay */;
+			targetProxy = B480EE2821CC7554002C2238 /* PBXContainerItemProxy */;
+		};
+		B480EE3021CC7554002C2238 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B480EE1B21CC7553002C2238 /* PatchData */;
+			targetProxy = B480EE2F21CC7554002C2238 /* PBXContainerItemProxy */;
 		};
 		B49A4A4920DB2D4C00F24FC0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -681,10 +863,10 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		B468F4A520D9BDBA007FC689 /* MainInterface.storyboard */ = {
+		B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				B468F4A620D9BDBA007FC689 /* Base */,
+				B480EE0C21CC72DB002C2238 /* Base */,
 			);
 			name = MainInterface.storyboard;
 			sourceTree = "<group>";
@@ -810,7 +992,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -829,7 +1011,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -839,49 +1021,160 @@
 			};
 			name = Release;
 		};
-		B468F4AC20D9BDBB007FC689 /* Debug */ = {
+		B480EE1321CC72DB002C2238 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = patchdayToday/patchdayToday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = patchdayToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				INFOPLIST_FILE = PatchDayToday/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.patchdayToday;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PatchDayToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		B468F4AD20D9BDBB007FC689 /* Release */ = {
+		B480EE1421CC72DB002C2238 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = patchdayToday/patchdayToday.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = patchdayToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				INFOPLIST_FILE = PatchDayToday/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.patchdayToday;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PatchDayToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B480EE3421CC7554002C2238 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = PatchData/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		B480EE3521CC7554002C2238 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = PatchData/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B480EE3721CC7554002C2238 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = PatchDataTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchDataTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PatchDay.app/PatchDay";
+			};
+			name = Debug;
+		};
+		B480EE3821CC7554002C2238 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = PatchDataTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchDataTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PatchDay.app/PatchDay";
 			};
 			name = Release;
 		};
@@ -904,7 +1197,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -935,7 +1228,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1014,11 +1307,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B468F4AE20D9BDBB007FC689 /* Build configuration list for PBXNativeTarget "patchdayToday" */ = {
+		B480EE1221CC72DB002C2238 /* Build configuration list for PBXNativeTarget "PatchDayToday" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B468F4AC20D9BDBB007FC689 /* Debug */,
-				B468F4AD20D9BDBB007FC689 /* Release */,
+				B480EE1321CC72DB002C2238 /* Debug */,
+				B480EE1421CC72DB002C2238 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B480EE3321CC7554002C2238 /* Build configuration list for PBXNativeTarget "PatchData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B480EE3421CC7554002C2238 /* Debug */,
+				B480EE3521CC7554002C2238 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B480EE3621CC7554002C2238 /* Build configuration list for PBXNativeTarget "PatchDataTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B480EE3721CC7554002C2238 /* Debug */,
+				B480EE3821CC7554002C2238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

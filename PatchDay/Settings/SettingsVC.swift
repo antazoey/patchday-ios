@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 typealias UITimePicker = UIDatePicker
 typealias SettingsKey = PDStrings.SettingsKey
@@ -81,7 +82,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        ScheduleController.estrogenController.effectManager.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+        ScheduleController.estrogenController.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
     }
       
     // MARK: - Data loaders
@@ -218,7 +219,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         picker.isHidden = true
         switch key {
         case PDStrings.SettingsKey.count :
-            ScheduleController.estrogenController.effectManager.oldDeliveryCount = UserDefaultsController.getQuantityInt()
+            ScheduleController.estrogenController.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
         default :
             break
         }
@@ -257,14 +258,14 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveDeliveryMethodChange(_ row: Int) {
         if row < PDStrings.PickerData.deliveryMethods.count && row >= 0 {
             let choice = PDStrings.PickerData.deliveryMethods[row]
-            // Injections
+            // Set injection Button
             if choice == PDStrings.PickerData.deliveryMethods[1] {
                 countButton.setTitle(PDStrings.PickerData.counts[0], for: .disabled)
                 countButton.setTitle(PDStrings.PickerData.counts[0], for: .normal)
                 countButton.isEnabled = false
                 countButtonArrow.isEnabled = false
             }
-            // Patches
+            // Set patch Buttons
             else {
                 countButton.setTitle(PDStrings.PickerData.counts[2], for: .disabled)
                 countButton.setTitle(PDStrings.PickerData.counts[2], for: .normal)
@@ -273,32 +274,34 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
             deliveryMethodButton.setTitle(choice, for: .normal)
             
-            // No Warning
+            // Check to see if there are changes to the site schedule
             if PDEstrogenHelper.isEmpty(ScheduleController.estrogenController.estrogenArray) && ScheduleController.siteController.isDefault() {
                 UserDefaultsController.setDeliveryMethod(to: choice)
                 UserDefaultsController.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()
                 ScheduleController.setEstrogenDataForToday()
             }
-                // Alert if there is some data that should be erased
+                // Alert the user their current site schedule will be erased
             else {
                 PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: deliveryMethodButton, countButton: countButton, settingsVC: self)
             }
-        }
-        else {
+        } else {
             print("Error: saving delivery method for index for row  + \(row)")
         }
     }
     
     private func saveCountChange(_ row: Int) {
-        let oldCount = ScheduleController.estrogenController.effectManager.oldDeliveryCount
-        if row < PDStrings.PickerData.counts.count && row >= 0 {
-            let newCountStr = PDStrings.PickerData.counts[row]
-            UserDefaultsController.setQuantityWithWarning(to: newCountStr, oldCount: oldCount, countButton: countButton, navController: self.navigationController)
-            countButton.setTitle(newCountStr, for: .normal)
-            
-        }
-        else {
+        let oldCount = ScheduleController.estrogenController.getEffectManager().oldDeliveryCount
+        if row < PDStrings.PickerData.counts.count && row >= 0, let newCount = Int(PDStrings.PickerData.counts[row]) {
+            UserDefaultsController.setQuantityWithWarning(to: newCount, oldCount: oldCount, countButton: countButton, navController: self.navigationController) {
+                newCount in
+                let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+                for i in (newCount-1)..<oldCount {
+                    appDelegate.notificationsController.cancelEstrogenNotification(at: i)
+                }
+            }
+            countButton.setTitle("\(newCount)", for: .normal)
+        } else {
             print("Error: saving count for index for row \(row)")
         }
     }

@@ -5,7 +5,6 @@
 //  Created by Juliya Smith on 6/19/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
-
 import UIKit
 import NotificationCenter
 import PDKit
@@ -51,9 +50,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         else {
             nextPillTakeDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
-     
+        
     }
-
+    
     @IBAction func widgetTapped(_ sender: Any) {
         
         let myAppUrl = NSURL(string: "PatchDay://")!

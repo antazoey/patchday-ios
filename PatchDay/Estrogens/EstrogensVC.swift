@@ -8,8 +8,8 @@
 
 import UIKit
 import Foundation
-import CoreData
 import PDKit
+import PatchData
 
 let estrogenButtonTotal = PDStrings.PickerData.counts.count
 
@@ -32,7 +32,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        ScheduleController.estrogenController.effectManager.reset()
+        ScheduleController.estrogenController.getEffectManager().reset()
         
     }
     

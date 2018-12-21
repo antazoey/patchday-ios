@@ -16,9 +16,9 @@ public class EstrogenDataController: NSObject {
         return "Singleton for reading, writing, and querying the MOEstrogen array."
     }
     
-    internal var estrogenArray: [MOEstrogen]
-    internal var estrogenMap = [UUID: MOEstrogen]()
-    public var effectManager = ScheduleChangeManager()
+    public var estrogenArray: [MOEstrogen]
+    private var estrogenMap = [UUID: MOEstrogen]()
+    private var effectManager = ScheduleChangeManager()
     
     override init() {
         let context = ScheduleController.getContext()
@@ -38,49 +38,50 @@ public class EstrogenDataController: NSObject {
     
     // MARK: - Public
     
-    internal func deleteExtra() {
-        let q = UserDefaultsController.getQuantityInt()
+    public func getEstrogens() -> [MOEstrogen] {
+        return estrogenArray
+    }
+    
+    public func getEffectManager() -> ScheduleChangeManager {
+        return effectManager
+    }
+    
+    public func deleteExtra(after count: Int) {
         let c = estrogenArray.count
-        
-        if c > q {
-            for i in q..<c {
+        if c > count {
+            for i in count..<c {
                 if i < estrogenArray.count {
                     ScheduleController.getContext().delete(estrogenArray[i])
                 }
             }
-            
         }
         ScheduleController.save()
     }
     
     /// Returns the MOEstrogen for the given index or creates one where one should be.
-    internal func getEstrogen(at index: Index) -> MOEstrogen {
-        if index >= 0,
-            index < UserDefaultsController.getQuantityInt(),
-            index < estrogenArray.count {
-                return estrogenArray[index]
-            }
+    public func getEstrogen(at index: Index) -> MOEstrogen {
+        if index >= 0, index < estrogenArray.count {
+            return estrogenArray[index]
+        }
         let newEstro = newEstrogenMOForSchedule(in: ScheduleController.getContext())
         return newEstro
     }
     
     /// Returns the MOEstrogen for the given index if it exists.
-    internal func getEstrogenOptional(at index: Index) -> MOEstrogen? {
-        if index >= 0,
-            index < UserDefaultsController.getQuantityInt(),
-            index < estrogenArray.count {
+    public func getEstrogenOptional(at index: Index) -> MOEstrogen? {
+        if index >= 0, index < estrogenArray.count {
             return estrogenArray[index]
         }
         return nil
     }
     
     /// Returns the MOEstrogen for the given id.
-    internal func getEstrogen(for id: UUID) -> MOEstrogen? {
+    public func getEstrogen(for id: UUID) -> MOEstrogen? {
         return estrogenMap[id]
     }
     
     /// Sets the site of the MOEstrogen for the given index.
-    internal func setEstrogenSite(of index: Index, with site: MOSite) {
+    public func setEstrogenSite(of index: Index, with site: MOSite) {
         let estro = getEstrogen(at: index)
         estro.setSite(with: site)
         ScheduleController.setEstrogenDataForToday()
@@ -88,7 +89,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    internal func setEstrogenDate(of index: Index, with date: Date) {
+    public func setEstrogenDate(of index: Index, with date: Date) {
         let estro = getEstrogen(at: index)
         estro.setDate(with: date as NSDate)
         estrogenArray.sort(by: <)
@@ -97,7 +98,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets the date and the site of the MOEstrogen for the given index.
-    internal func setEstrogen(of index: Index, date: NSDate, site: MOSite) {
+    public func setEstrogen(of index: Index, date: NSDate, site: MOSite) {
         let estro = getEstrogen(at: index)
         estro.setSite(with: site)
         estro.setDate(with: date)
@@ -107,7 +108,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets the date and the site of the MOEstrogen for the given id.
-    internal func setEstrogen(for id: UUID, date: NSDate, site: MOSite) {
+    public func setEstrogen(for id: UUID, date: NSDate, site: MOSite) {
         if let estro = getEstrogen(for: id) {
             estro.setSite(with: site)
             estro.setDate(with: date)
@@ -118,7 +119,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets the MOEstrogen for the given index.
-    internal func setEstrogen(of index: Index, with estrogen: MOEstrogen) {
+    public func setEstrogen(of index: Index, with estrogen: MOEstrogen) {
         if index < estrogenArray.count && index >= 0 {
             estrogenArray[index] = estrogen
             estrogenArray.sort(by: <)
@@ -128,19 +129,19 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
-    internal func setEstrogenBackUpSiteName(of index: Index, with name: String) {
+    public func setEstrogenBackUpSiteName(of index: Index, with name: String) {
         if index < estrogenArray.count && index >= 0 {
             estrogenArray[index].setSiteBackup(to: name)
         }
     }
     
     /// Returns the index of the given estrogen.
-    internal func getEstrogenIndex(for estrogen: MOEstrogen) -> Index? {
+    public func getEstrogenIndex(for estrogen: MOEstrogen) -> Index? {
         return estrogenArray.index(of: estrogen)
     }
     
     /// Returns the next MOEstrogen that needs to be taken.
-    internal func nextEstroDue() -> MOEstrogen? {
+    public func nextEstroDue() -> MOEstrogen? {
         estrogenArray.sort(by: <)
         if estrogenArray.count > 0 {
             return estrogenArray[0]
@@ -149,7 +150,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Returns the total non-nil dates in given estrogens.
-    internal func datePlacedCount() -> Int {
+    public func datePlacedCount() -> Int {
         return estrogenArray.reduce(0, {
             count, estro in
             let c = (estro.date != nil) ? 1 : 0
@@ -158,7 +159,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets all MOEstrogen data to nil.
-    internal func resetEstrogenData() {
+    public func resetEstrogenData() {
         let context = ScheduleController.getContext()
         for estro in estrogenArray {
             estro.reset()
@@ -169,7 +170,7 @@ public class EstrogenDataController: NSObject {
     }
     
     /// Sets all MOEstrogen data between given indices to nil.
-    internal func resetEstrogenData(start_i: Index, end_i: Index) {
+    public func resetEstrogenData(start_i: Index, end_i: Index) {
         let context = ScheduleController.getContext()
         for i in start_i...end_i {
             if i < estrogenArray.count {
@@ -253,7 +254,7 @@ public class EstrogenDataController: NSObject {
                 estros.append(estro)
             }
             else {
-                PDAlertController.alertForCoreDataError()
+                PatchDataAlert.alertForCoreDataError()
                 estros.append(MOEstrogen())
             }
         }

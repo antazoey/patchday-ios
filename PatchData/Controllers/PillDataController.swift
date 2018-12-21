@@ -16,10 +16,9 @@ public class PillDataController: NSObject {
         return "Singleton for reading, writing, and querying the MOPill array."
     }
     
-    internal var pillArray: [MOPill]
-    internal var pillMap = [UUID: MOPill]()
-    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    
+    public var pillArray: [MOPill]
+    private var pillMap = [UUID: MOPill]()
+
     override init() {
         pillArray = PillDataController.loadPillMOs(into: ScheduleController.getContext())
         PillDataController.loadTakenTodays(for: pillArray, into: ScheduleController.getContext())
@@ -31,8 +30,12 @@ public class PillDataController: NSObject {
     
     // MARK: - Public
     
+    public func getPills() -> [MOPill] {
+        return pillArray
+    }
+
     /// Returns the MOPill for the given index.
-    internal func getPill(at index: Index) -> MOPill? {
+    public func getPill(at index: Index) -> MOPill? {
         if index >= 0 && index < pillArray.count {
             return pillArray[index]
         }
@@ -40,7 +43,7 @@ public class PillDataController: NSObject {
     }
     
     /// Returns the MOPill for the given ID.
-    internal func getPill(for id: UUID) -> MOPill? {
+    public func getPill(for id: UUID) -> MOPill? {
         return pillMap[id]
     }
     
@@ -53,7 +56,7 @@ public class PillDataController: NSObject {
     }
     
     /// Sets a given MOPill with the given PillAttributes.
-    internal static func setPillAttributes(for pill: MOPill, with attributes: PillAttributes) {
+    public static func setPillAttributes(for pill: MOPill, with attributes: PillAttributes) {
         
         if let name = attributes.name {
             pill.setName(with: name)
@@ -82,7 +85,7 @@ public class PillDataController: NSObject {
     }
     
     /// Sets the second time for the pill at the given index.
-    internal func setPillTime2(at index: Index, to newTime: Time) {
+    public func setPillTime2(at index: Index, to newTime: Time) {
         if let pill = getPill(at: index) {
             pill.setTime2(with: newTime as NSDate)
             ScheduleController.save()
@@ -90,7 +93,7 @@ public class PillDataController: NSObject {
     }
     
     /// Deletes the pill at the given index from the schedule.
-    internal func deletePill(at index: Index) {
+    public func deletePill(at index: Index) {
         if index >= 0 && index < pillArray.count {
             pillArray[index].reset()
         }
@@ -99,7 +102,7 @@ public class PillDataController: NSObject {
     }
     
     /// Maps MOPills to their last time takens.
-    internal func getPillTimesTakens() -> [Int] {
+    public func getPillTimesTakens() -> [Int] {
         return pillArray.map({
             (pill: MOPill) -> Int16? in
             return pill.getTimesTakenToday()
@@ -112,27 +115,25 @@ public class PillDataController: NSObject {
     }
     
     /// Sets the pill's last date-taken at the given index to now, and increments how many times it was taken today.
-    internal func takePill(at index: Index) {
+    public func takePill(at index: Index) {
         if let pill = getPill(at: index) {
             pill.take()
             ScheduleController.save()
-            appDelegate.notificationsController.requestNotifyTakePill(pill)
             // Reflect in Today widget
             ScheduleController.setPillDataForToday()
         }
     }
     
     /// Sets the given pill's last date taken to now, and increments how many times it was taken today.
-    internal func take(_ pill: MOPill) {
+    public func take(_ pill: MOPill) {
         pill.take()
         ScheduleController.save()
-        appDelegate.notificationsController.requestNotifyTakePill(pill)
         // Reflect in the Today widget
         ScheduleController.setPillDataForToday()
     }
     
     /// Returns the next pill that needs to be taken.
-    internal func nextPillDue() -> MOPill? {
+    public func nextPillDue() -> MOPill? {
         return pillArray.min(by: <)
     }
     
