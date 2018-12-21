@@ -339,10 +339,18 @@
 		B40CC9B021CCE614002364BB /* PDKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */,
+				B40CC9BC21CD5C53002364BB /* Helpers */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 			);
 			path = PDKitTests;
+			sourceTree = "<group>";
+		};
+		B40CC9BC21CD5C53002364BB /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		B468F49F20D9BDBA007FC689 /* Frameworks */ = {

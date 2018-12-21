@@ -30,11 +30,9 @@ public class PDDateHelper: NSObject {
         let calendar = Calendar.current
         if calendar.isDateInToday(from) {
             return PDStrings.DayStrings.today
-        }
-        else if let yesterday = getDate(at: Date(), daysToAdd: -1), calendar.isDate(from, inSameDayAs: yesterday) {
+        } else if let yesterday = getDate(at: Date(), daysToAdd: -1), calendar.isDate(from, inSameDayAs: yesterday) {
             return PDStrings.DayStrings.yesterday
-        }
-        else if let tomorrow = getDate(at: Date(), daysToAdd: 1), calendar.isDate(from, inSameDayAs: tomorrow) {
+        } else if let tomorrow = getDate(at: Date(), daysToAdd: 1), calendar.isDate(from, inSameDayAs: tomorrow) {
             return PDStrings.DayStrings.tomorrow
         }
         return nil
@@ -58,10 +56,11 @@ public class PDDateHelper: NSObject {
     /// Returns date calculated by adding days.
     public static func getDate(at time: Time, daysToAdd: Int) -> Date? {
         let calendar = Calendar.current
+        let now = Date()
         var addComponents = DateComponents()
         addComponents.day = daysToAdd
-        if let futureDate = calendar.date(byAdding: addComponents, to: Date()) {
-            return getDate(on: futureDate, at: time)
+        if let newDate = calendar.date(byAdding: addComponents, to: now) {
+            return getDate(on: newDate, at: time)
         }
         print("Error: Undetermined time.")
         return nil
@@ -104,15 +103,10 @@ public class PDDateHelper: NSObject {
     /// Returns the TimeInterval until expiration based on given
     public static func expirationInterval(_ intervalStr: String, date: Date) -> TimeInterval? {
         if let expDate = expirationDate(from: date, intervalStr) {
+            // Return the interval to the expiration date.
             let now = Date()
-            // +
-            if expDate >= now {
-                return DateInterval(start: now, end: expDate).duration
-            }
-            // -
-            else {
-                return -DateInterval(start: expDate, end: now).duration
-            }
+            let expInterval = expDate >= now ? DateInterval(start: now, end: expDate).duration : -DateInterval(start: expDate, end: now).duration
+            return expInterval
         }
         return nil
     }
