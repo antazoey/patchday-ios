@@ -219,7 +219,4 @@ class SiteScheduleTests: XCTestCase {
             XCTFail()
         }
     }
-    
-    func test 
-
 }
