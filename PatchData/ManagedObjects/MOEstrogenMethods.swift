@@ -10,7 +10,6 @@
 import Foundation
 import CoreData
 
-
 extension MOEstrogen {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<MOEstrogen> {
@@ -136,8 +135,11 @@ extension MOEstrogen {
     
     /// Returns if the Estrogen is located somewhere not in the default PatchDay sites.
     public func isCustomLocated(usingPatches: Bool) -> Bool {
-        let siteName = getSiteName()
-        return !PDSiteHelper.isContainedInDefaults(siteName, usingPatches: usingPatches)
+        let n = getSiteName()
+        let contains: Bool = (usingPatches) ?
+            PDStrings.SiteNames.patchSiteNames.contains(n) :
+            PDStrings.SiteNames.injectionSiteNames.contains(n)
+        return contains
     }
     
 }

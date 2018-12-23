@@ -27,7 +27,6 @@
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
 		B435181E20F5075100BD268C /* MOPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9320ED6F250048D466 /* MOPill.swift */; };
 		B435181F20F5075500BD268C /* MOPillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9420ED6F250048D466 /* MOPillMethods.swift */; };
-		B435182920F520DD00BD268C /* PDSiteHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182820F520DD00BD268C /* PDSiteHelper.swift */; };
 		B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
@@ -176,7 +175,6 @@
 		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = Settings/Settings.storyboard; sourceTree = "<group>"; };
 		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = Sites/SiteTableViewCell.swift; sourceTree = "<group>"; };
 		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarExtension.swift; path = ../Shared/TabBarExtension.swift; sourceTree = "<group>"; };
-		B435182820F520DD00BD268C /* PDSiteHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSiteHelper.swift; sourceTree = "<group>"; };
 		B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EstrogenTableViewCell.swift; path = ../Estrogens/EstrogenTableViewCell.swift; sourceTree = "<group>"; };
 		B4355D8D20ED24CF0048D466 /* EstrogenSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenSchedule.swift; sourceTree = "<group>"; };
 		B4355D8F20ED2C1A0048D466 /* PillSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillSchedule.swift; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */,
 				B40531BC21CD845800BD64CE /* PillAttributes.swift */,
 				B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */,
-				B435182820F520DD00BD268C /* PDSiteHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -835,7 +832,6 @@
 				B458993F20F882AF00D36B06 /* MOSite.swift in Sources */,
 				B435181E20F5075100BD268C /* MOPill.swift in Sources */,
 				B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */,
-				B435182920F520DD00BD268C /* PDSiteHelper.swift in Sources */,
 				B435181F20F5075500BD268C /* MOPillMethods.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,7 +14,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(PDSiteHelper.siteNameSetUnionDefaultSites(PDSchedule.siteSchedule.getSites(), usingPatches: UserDefaultsController.usingPatches()))
+    private var namePickerSet = Array(PDSchedule.siteSchedule.siteNameSetUnionDefaultSites(usingPatches: UserDefaultsController.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!

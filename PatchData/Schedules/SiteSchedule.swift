@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 import PDKit
 
+public typealias SiteNameSet = Set<SiteName>
+
 public class SiteSchedule: NSObject {
     
     override public var description: String {
@@ -60,7 +62,7 @@ public class SiteSchedule: NSObject {
     
     /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
     public func getSite(for name: String) -> MOSite? {
-        if let index = PDSiteHelper.getSiteNames(siteArray).index(of: name) {
+        if let index = getSiteNames().index(of: name) {
             return siteArray[index]
         }
         // Append new site
@@ -122,7 +124,27 @@ public class SiteSchedule: NSObject {
     
     /// Returns an array of a siteNames for each site in the schedule.
     public func getSiteNames() -> [SiteName] {
-        return PDSiteHelper.getSiteNames(siteArray)
+        return siteArray.map({
+            (site: MOSite) -> SiteName? in
+            return site.getName()
+        }).filter() { $0 != nil } as! [SiteName]
+    }
+    
+    /// Returns array of image IDs from array of MOSites.
+    public func getSiteImageIDs() -> [String] {
+        return siteArray.map({
+            (site: MOSite) -> String? in
+            return site.getImageIdentifer()
+        }).filter() {
+            $0 != nil
+            } as! [String]
+    }
+    
+    /// Returns the set of sites on record union with the set of default sites
+    public func siteNameSetUnionDefaultSites(usingPatches: Bool) -> SiteNameSet {
+        let defaultSitesSet = (usingPatches) ? Set(PDStrings.SiteNames.patchSiteNames) : Set(PDStrings.SiteNames.injectionSiteNames)
+        let siteSet = Set(getSiteNames())
+        return siteSet.union(defaultSitesSet)
     }
     
     /// Returns if the sites in the site schedule are the same as the default sites.

@@ -21,7 +21,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Variables
     public var siteNames: [String] = PDSchedule.siteSchedule.getSiteNames()
-    public var siteImgIDs: [String] = PDSiteHelper.getSiteImageIDs(PDSchedule.siteSchedule.getSites())
+    public var siteImgIDs: [String] = PDSchedule.siteSchedule.getSiteImageIDs()
     
     override func viewDidLoad() {
         super.viewDidLoad()
