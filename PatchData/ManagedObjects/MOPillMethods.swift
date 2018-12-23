@@ -112,7 +112,10 @@ extension MOPill {
     }
     
     public func getDueDate() -> Date? {
-        return PDPillHelper.nextDueDate(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday), times: [time1, time2])
+        if let t1 = time1 as Time?, let t2 = time2 as Time? {
+            return PDPillHelper.nextDueDate(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday), times: [t1, t2])
+        }
+        return nil
     }
     
     // MARK: - State bools

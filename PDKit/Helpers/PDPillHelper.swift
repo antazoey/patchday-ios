@@ -16,7 +16,7 @@ public class PDPillHelper: NSObject {
     }
     
     /// Return the next time the pill is due.
-    public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [NSDate?]) -> Date? {
+    public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [Time?]) -> Date? {
         if times.count > 0, let time1 = times[0] as Time? {
             // One-a-day, either due today or tomorrow
             if timesaday == 1 {

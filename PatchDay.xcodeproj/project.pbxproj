@@ -65,6 +65,7 @@
 		B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
+		B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +212,7 @@
 		B49A4A4020DB2D4C00F24FC0 /* PDKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDKit.h; sourceTree = "<group>"; };
 		B49A4A4120DB2D4C00F24FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4AED52220E5659C00559165 /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillVC.swift; path = Pills/PillVC.swift; sourceTree = "<group>"; };
+		B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */,
+				B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -780,6 +783,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */,
 				B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
