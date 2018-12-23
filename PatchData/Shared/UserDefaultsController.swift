@@ -77,7 +77,7 @@ public class UserDefaultsController: NSObject {
         return mentionedAppDisclaimer
     }
     
-    public static func getSiteIndex() -> Int {
+    public static func getSiteIndex() -> Index {
         return siteIndex
     }
     
@@ -90,11 +90,12 @@ public class UserDefaultsController: NSObject {
     public static func setDeliveryMethod(to: String) {
         deliveryMethod = to
         defaults.set(to, forKey: PDStrings.SettingsKey.deliv.rawValue)
-        let c = (UserDefaultsController.usingPatches()) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
+        let usingPatches = UserDefaultsController.usingPatches()
+        let c = (usingPatches) ? PDStrings.PickerData.counts[2] : PDStrings.PickerData.counts[0]
         
         UserDefaultsController.setQuantityWithoutWarning(to: c)
         PDSchedule.estrogenSchedule.getEffectManager().deliveryMethodChanged = true
-        PDSchedule.siteSchedule.resetSiteData()
+        PDSchedule.siteSchedule.reset(usingPatches: usingPatches)
     }
     
     public static func setTimeInterval(to: String) {
@@ -155,19 +156,15 @@ public class UserDefaultsController: NSObject {
         std_defaults.set(disclaimer, forKey: PDStrings.SettingsKey.setup.rawValue)
     }
     
-    public static func setSiteIndex(to: Int) {
-        siteIndex = to
-        defaults.set(to, forKey: PDStrings.SettingsKey.site_index.rawValue)
-    }
-    
     public static func setNeedsMigrated(to needmig: Bool) {
         needsDataMigration = needmig
         std_defaults.set(needmig, forKey: PDStrings.SettingsKey.needs_migrate.rawValue)
     }
     
-    public static func incrementSiteIndex() {
-        siteIndex = (siteIndex + 1) % PDSchedule.siteCount()
-        defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
+    public static func setSiteIndex(to i: Index) {
+        if i < PDSchedule.siteCount() && i >= 0 {
+            defaults.set(siteIndex, forKey: PDStrings.SettingsKey.site_index.rawValue)
+        }
     }
 
     //MARK: - Other public

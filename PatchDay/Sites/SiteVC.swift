@@ -73,7 +73,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        PDSchedule.siteSchedule.setSiteImageID(at: siteScheduleIndex, to: imageKey)
+        PDSchedule.siteSchedule.setSiteImageID(at: siteScheduleIndex, to: imageKey, usingPatches: usingPatches)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -95,7 +95,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             }
             // Adding a new MOSite
             else if siteScheduleIndex == PDSchedule.siteCount() {
-                let _ = SiteSchedule.appendSite(name: name, order: siteScheduleIndex, sites: &PDSchedule.siteSchedule.siteArray)
+                let _ = SiteSchedule.appendSite(name: name, sites: &PDSchedule.siteSchedule.siteArray)
             }
         }
         segueToSitesVC()

@@ -65,7 +65,6 @@
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
 		B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */; };
-		B4E12EA621D019260068AD2E /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA521D019260068AD2E /* TestData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -212,7 +211,6 @@
 		B49A4A4120DB2D4C00F24FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4AED52220E5659C00559165 /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillVC.swift; path = Pills/PillVC.swift; sourceTree = "<group>"; };
 		B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelperTests.swift; sourceTree = "<group>"; };
-		B4E12EA521D019260068AD2E /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,9 +381,9 @@
 			children = (
 				B480EE4C21CC7E34002C2238 /* Shared */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
+				138A65611F198B4D0068A972 /* Schedules */,
 				B40CC9BF21CD7DA9002364BB /* PatchData.swift */,
 				B40CC9C121CD802D002364BB /* TodayData.swift */,
-				138A65611F198B4D0068A972 /* Schedules */,
 				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
 				B480EE1E21CC7553002C2238 /* PatchData.h */,
 				B480EE1F21CC7553002C2238 /* Info.plist */,
@@ -398,7 +396,6 @@
 			children = (
 				B4E12EA421D018E80068AD2E /* Schedules */,
 				B480EE2D21CC7554002C2238 /* Info.plist */,
-				B4E12EA521D019260068AD2E /* TestData.swift */,
 			);
 			path = PatchDataTests;
 			sourceTree = "<group>";
@@ -826,7 +823,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */,
-				B4E12EA621D019260068AD2E /* TestData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

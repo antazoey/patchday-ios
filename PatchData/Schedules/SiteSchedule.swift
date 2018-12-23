@@ -35,6 +35,41 @@ public class SiteSchedule: NSObject {
     public func getSites() -> [MOSite] {
         return siteArray
     }
+
+    /// Returns the site at the given index.
+    public func getSite(at index: Index) -> MOSite? {
+        if index >= 0 && index < siteArray.count {
+            return siteArray[index]
+        }
+        return nil
+    }
+    
+    /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
+    public func getSite(for name: String) -> MOSite? {
+        if let index = getSiteNames().index(of: name) {
+            return siteArray[index]
+        }
+        // Append new site
+        return SiteSchedule.appendSite(name: name, sites: &siteArray)
+    }
+    
+    /// Returns the next site for scheduling in the site schedule.
+    public func getNextSiteIndex(currentIndex: Index) -> Index? {
+        if siteArray.count <= 0 || currentIndex < 0 {
+            return nil
+        }
+        var r: Index = (currentIndex < siteArray.count) ? currentIndex : 0
+        for _ in 0..<siteArray.count {
+            // Return site that has no estros
+            if siteArray[r].estrogenRelationship?.count == 0 {
+                UserDefaultsController.setSiteIndex(to: r)
+                return r
+            } else {
+                r = UserDefaultsController.getSiteIndex()
+            }
+        }
+        return min(currentIndex, siteArray.count-1)
+    }
     
     /// Sets a the siteName for the site at the given index.
     public func setSiteName(at index: Index, to newName: String) {
@@ -46,52 +81,25 @@ public class SiteSchedule: NSObject {
     
     /// Sets the site order for the site at the given index.
     public func setSiteOrder(at index: Index, to newOrder: Int16) {
-        if index >= 0 && index < siteArray.count {
+        let new_order = Index(newOrder)
+        if index >= 0 && index < siteArray.count && new_order < siteArray.count && new_order >= 0 {
+            siteArray.sort(by: <)
             siteArray[index].setOrder(to: newOrder)
+            siteArray[new_order].setOrder(to: Int16(index))
+            siteArray.sort(by: <)
             PatchData.save()
         }
     }
     
     /// Sets the site image ID for the site at the given index.
-    public func setSiteImageID(at index: Index, to newID: String) {
-        if index >= 0 && index < siteArray.count {
+    public func setSiteImageID(at index: Index, to newID: String, usingPatches: Bool) {
+        let site_set = usingPatches ?
+            PDStrings.SiteNames.patchSiteNames :
+            PDStrings.SiteNames.injectionSiteNames
+        if site_set.contains(newID), index >= 0 && index < siteArray.count {
             siteArray[index].setImageIdentifier(to: newID)
             PatchData.save()
         }
-    }
-    
-    /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
-    public func getSite(for name: String) -> MOSite? {
-        if let index = getSiteNames().index(of: name) {
-            return siteArray[index]
-        }
-        // Append new site
-        return SiteSchedule.appendSite(name: name, order: siteArray.count, sites: &siteArray)
-    }
-    
-    /// Returns the site at the given index.
-    public func getSite(at index: Index) -> MOSite? {
-        if index >= 0 && index < siteArray.count {
-            return siteArray[index]
-        }
-        return nil
-    }
-    
-    /// Returns the next site for scheduling in the site schedule.
-    public func getNextSiteIndex() -> Index? {
-        if siteArray.count <= 0 {
-            return nil
-        }
-        var r: Index = (UserDefaultsController.getSiteIndex() < siteArray.count) ? UserDefaultsController.getSiteIndex() : 0
-        for _ in 0..<siteArray.count {
-            if siteArray[r].estrogenRelationship?.count == 0 {
-                return r
-            } else {
-                UserDefaultsController.incrementSiteIndex()
-                r = UserDefaultsController.getSiteIndex()
-            }
-        }
-        return nil
     }
     
     /// Deletes the site at the given index.
@@ -148,8 +156,8 @@ public class SiteSchedule: NSObject {
     }
     
     /// Returns if the sites in the site schedule are the same as the default sites.
-    public func isDefault() -> Bool {
-        let defaultSites = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+    public func isDefault(usingPatches: Bool) -> Bool {
+        let defaultSites = (usingPatches) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
         let c = defaultSites.count
         if siteArray.count != c {
             return false
@@ -165,31 +173,19 @@ public class SiteSchedule: NSObject {
         }
         return true
     }
-    
-    /// Prints the every site and order (for debugging).
-    public func printSites() {
-        print("PRINTING SITES")
-        print("--------------")
-        for site in siteArray {
-            print("Order: " + String(site.getOrder()))
-            if let n = site.getName() {
-                print("Name: " + n)
-            } else {
-                print("Unnamed")
-            }
-            print("---------")
-        }
-        print("*************")
-    }
-    
+
     /// Removes all sites with empty or nil names from the siteArray.
-    public static func filterEmptySites(from: [MOSite]) -> [MOSite] {
-        return from.filter() { $0.getName() != "" && $0.getName() != nil && $0.getOrder() != -1 }
+    public static func filterEmptySites(from sites: [MOSite]) -> [MOSite] {
+        return sites.filter() { $0.getName() != ""
+            && $0.getName() != nil
+            && $0.getOrder() != -1 }
     }
     
     /// Resets the site array a default list of sites.
-    public func resetSiteData() {
-        let resetSiteNames: [String] = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+    public func reset(usingPatches: Bool) {
+        let resetSiteNames: [String] = (usingPatches) ?
+            PDStrings.SiteNames.patchSiteNames :
+            PDStrings.SiteNames.injectionSiteNames
         let oldCount = siteArray.count
         let newcount = resetSiteNames.count
         for i in 0..<newcount {
@@ -216,17 +212,35 @@ public class SiteSchedule: NSObject {
     }
     
     /// Appends the the new site to the siteArray and returns it.
-    public static func appendSite(name: String, order: Int, sites: inout [MOSite]) -> MOSite? {
+    public static func appendSite(name: String, sites: inout [MOSite]) -> MOSite? {
         let context = PatchData.getContext()
         if let site = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.siteEntityName, into: context) as? MOSite {
             site.setName(to: name)
             site.setImageIdentifier(to: name)
+            site.setOrder(to: Int16(sites.count))
             sites.append(site)
             PatchData.save()
             return site
         }
         return nil
     }
+    
+    /// Prints the every site and order (for debugging).
+    public func printSites() {
+        print("PRINTING SITES")
+        print("--------------")
+        for site in siteArray {
+            print("Order: " + String(site.getOrder()))
+            if let n = site.getName() {
+                print("Name: " + n)
+            } else {
+                print("Unnamed")
+            }
+            print("---------")
+        }
+        print("*************")
+    }
+    
     
     // MARK: Private
     

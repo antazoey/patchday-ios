@@ -161,7 +161,7 @@ public class EstrogenSchedule: NSObject {
     }
     
     /// Sets all MOEstrogen data to nil.
-    public func resetEstrogenData() {
+    public func reset() {
         let context = PatchData.getContext()
         for estro in estrogenArray {
             estro.reset()
@@ -172,7 +172,7 @@ public class EstrogenSchedule: NSObject {
     }
     
     /// Sets all MOEstrogen data between given indices to nil.
-    public func resetEstrogenData(start_i: Index, end_i: Index) {
+    public func reset(start_i: Index, end_i: Index) {
         let context = PatchData.getContext()
         for i in start_i...end_i {
             if i < estrogenArray.count {

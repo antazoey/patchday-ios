@@ -17,7 +17,7 @@ public class TodayData: NSObject {
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
         let estro = PDSchedule.getEstroForToday()
-        if let siteName = getSiteNameToSaveForToday(using: estro) {
+        if let siteName = getSiteNameToSaveForToday(using: estro, currentSiteIndex: UserDefaultsController.getSiteIndex()) {
             defaults.set(siteName, forKey: siteKey)
         } else {
             defaults.set(nil, forKey: siteKey)
@@ -55,10 +55,11 @@ public class TodayData: NSObject {
     }
 
     /// Helper function for retrieving correct SiteName data to be saved in PatchDay Today widget.
-    private static func getSiteNameToSaveForToday(using estro: MOEstrogen) -> SiteName? {
+    private static func getSiteNameToSaveForToday(using estro: MOEstrogen, currentSiteIndex: Index) -> SiteName? {
         if UserDefaultsController.usingPatches() {
             return estro.getSiteName()
-        } else if let suggestedSite = PDSchedule.getSuggestedSite(), let name = suggestedSite.getName() {
+        } else if let suggestedSite = PDSchedule.getSuggestedSite(currentSiteIndex: currentSiteIndex),
+            let name = suggestedSite.getName() {
             return name
         }
         return nil

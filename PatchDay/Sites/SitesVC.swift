@@ -123,7 +123,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let siteToMove = PDSchedule.siteSchedule.siteArray[sourceIndexPath.row]
         PDSchedule.siteSchedule.siteArray.remove(at: sourceIndexPath.row)
         PDSchedule.siteSchedule.siteArray.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == PDSchedule.siteSchedule.getNextSiteIndex() {
+        let currentSiteIndex = UserDefaultsController.getSiteIndex()
+        if sourceIndexPath.row == PDSchedule.siteSchedule.getNextSiteIndex(currentIndex: currentSiteIndex) {
             UserDefaultsController.setSiteIndex(to: destinationIndexPath.row)
         }
         for i in 0..<PDSchedule.siteCount() {
@@ -167,7 +168,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        PDSchedule.siteSchedule.resetSiteData()
+        let usingPatches = UserDefaultsController.usingPatches()
+        PDSchedule.siteSchedule.reset(usingPatches: usingPatches)
         reloadSiteNames()
         siteTable.isEditing = false
         let range = 0..<siteNames.count

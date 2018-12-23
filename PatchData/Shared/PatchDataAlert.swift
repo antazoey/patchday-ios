@@ -31,7 +31,7 @@ internal class PatchDataAlert: NSObject {
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
                 // Note: newCount is start_i because reset only occurs when decreasing count
-                PDSchedule.estrogenSchedule.resetEstrogenData(start_i: newCount, end_i: 3)
+                PDSchedule.estrogenSchedule.reset(start_i: newCount, end_i: 3)
                 UserDefaultsController.setQuantityWithoutWarning(to: "\(newCount)")
                 
                 // Tab bar image / badgeValue

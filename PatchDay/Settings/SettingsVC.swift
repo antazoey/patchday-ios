@@ -256,6 +256,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Saving
     
     private func saveDeliveryMethodChange(_ row: Int) {
+        let usingPatches = UserDefaultsController.usingPatches()
         if row < PDStrings.PickerData.deliveryMethods.count && row >= 0 {
             let choice = PDStrings.PickerData.deliveryMethods[row]
             // Set injection Button
@@ -275,7 +276,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // Check to see if there are changes to the site schedule
-            if PDSchedule.estrogenSchedule.isEmpty() && PDSchedule.siteSchedule.isDefault() {
+            if PDSchedule.estrogenSchedule.isEmpty() && PDSchedule.siteSchedule.isDefault(usingPatches: usingPatches) {
                 UserDefaultsController.setDeliveryMethod(to: choice)
                 UserDefaultsController.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()
