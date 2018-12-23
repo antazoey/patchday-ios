@@ -113,7 +113,14 @@ extension MOPill {
     
     public func getDueDate() -> Date? {
         if let t1 = time1 as Time?, let t2 = time2 as Time? {
-            return PDPillHelper.nextDueDate(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday), times: [t1, t2])
+            do {
+                let d = try PDPillHelper.nextDueDate(timesTakenToday: Int(timesTakenToday),
+                                                     timesaday: Int(timesaday),
+                                                     times: [t1, t2])
+                return d
+            } catch {
+                print("No times are set in the pill times array")
+            }
         }
         return nil
     }
