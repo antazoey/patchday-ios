@@ -275,7 +275,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // Check to see if there are changes to the site schedule
-            if PDEstrogenHelper.isEmpty(PDSchedule.estrogenSchedule.estrogenArray) && PDSchedule.siteSchedule.isDefault() {
+            if PDSchedule.estrogenSchedule.isEmpty() && PDSchedule.siteSchedule.isDefault() {
                 UserDefaultsController.setDeliveryMethod(to: choice)
                 UserDefaultsController.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()

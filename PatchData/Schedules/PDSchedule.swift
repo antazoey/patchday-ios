@@ -18,7 +18,7 @@ public class PDSchedule: NSObject {
         return "Singleton for reading, writing, and querying Core Data objects."
     }
     
-    // Sub-controllers
+    // Sub-schedules
     public static var estrogenSchedule = EstrogenSchedule()
     public static var pillSchedule = PillSchedule()
     public static var siteSchedule = SiteSchedule()
@@ -66,12 +66,11 @@ public class PDSchedule: NSObject {
     
     /// Returns total number of MOEstrogens that are expired.
     public static func totalEstrogenDue(intervalStr: String) -> Int {
-        return PDEstrogenHelper.expiredCount(PDSchedule.estrogenSchedule.getEstrogens(), intervalStr: intervalStr)
+        return PDSchedule.estrogenSchedule.expiredCount(intervalStr)
     }
     
     /// Returns total number of MOPills that need to be taken.
     public static func totalPillsDue() -> Int {
-        
         return pillSchedule.getPills().reduce(0, {
             (count: Int, pill: MOPill) -> Int in
             let r = pill.isExpired() ? 1 + count : count

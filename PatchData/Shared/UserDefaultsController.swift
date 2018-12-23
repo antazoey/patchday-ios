@@ -112,7 +112,7 @@ public class UserDefaultsController: NSObject {
                 PDSchedule.estrogenSchedule.getEffectManager().decreasedCount = true
                 // Erases data
                 let lastIndexToCheck = UserDefaultsController.getQuantityInt() - 1
-                if !PDEstrogenHelper.isEmpty(PDSchedule.estrogenSchedule.getEstrogens(), fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
+                if !PDSchedule.estrogenSchedule.isEmpty(fromThisIndexOnward: newCount, lastIndex: lastIndexToCheck) {
                     PatchDataAlert.alertForChangingCount(oldCount: oldCount, newCount: newCount, countButton: countButton, navController: navController) {
                         newCount in reset(newCount)
                     }

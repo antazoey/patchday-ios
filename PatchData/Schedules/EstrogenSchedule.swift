@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 import PDKit
 
+public typealias Index = Int;
+
 public class EstrogenSchedule: NSObject {
     
     override public var description: String {

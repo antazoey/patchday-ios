@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import PatchData
 
 class PillTableViewCell: UITableViewCell {
 
