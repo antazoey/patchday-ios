@@ -45,7 +45,7 @@
 		B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B480EE0621CC72DB002C2238 /* PatchDayToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B480EE1621CC7328002C2238 /* PDTodayDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE1521CC7328002C2238 /* PDTodayDataController.swift */; };
 		B480EE2521CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
-		B480EE2C21CC7554002C2238 /* PatchDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE2B21CC7554002C2238 /* PatchDataTests.swift */; };
+		B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE2B21CC7554002C2238 /* SiteScheduleTests.swift */; };
 		B480EE2E21CC7554002C2238 /* PatchData.h in Headers */ = {isa = PBXBuildFile; fileRef = B480EE1E21CC7553002C2238 /* PatchData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B480EE3121CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
 		B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -65,6 +65,7 @@
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
 		B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */; };
+		B4E12EA621D019260068AD2E /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA521D019260068AD2E /* TestData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,7 +202,7 @@
 		B480EE1E21CC7553002C2238 /* PatchData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PatchData.h; sourceTree = "<group>"; };
 		B480EE1F21CC7553002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B480EE2421CC7554002C2238 /* PatchDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B480EE2B21CC7554002C2238 /* PatchDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataTests.swift; sourceTree = "<group>"; };
+		B480EE2B21CC7554002C2238 /* SiteScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteScheduleTests.swift; sourceTree = "<group>"; };
 		B480EE2D21CC7554002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B480EE4821CC7CC4002C2238 /* PatchDataAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataAlert.swift; sourceTree = "<group>"; };
 		B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelper.swift; sourceTree = "<group>"; };
@@ -211,6 +212,7 @@
 		B49A4A4120DB2D4C00F24FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B4AED52220E5659C00559165 /* PillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillVC.swift; path = Pills/PillVC.swift; sourceTree = "<group>"; };
 		B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelperTests.swift; sourceTree = "<group>"; };
+		B4E12EA521D019260068AD2E /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,11 +270,11 @@
 			isa = PBXGroup;
 			children = (
 				137330EB1E22BA3E0048F91E /* PatchDay */,
-				B40CC9B021CCE614002364BB /* PDKitTests */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
+				B40CC9B021CCE614002364BB /* PDKitTests */,
 				B480EE0821CC72DB002C2238 /* PatchDayToday */,
-				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B480EE1D21CC7553002C2238 /* PatchData */,
+				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -394,8 +396,9 @@
 		B480EE2A21CC7554002C2238 /* PatchDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				B480EE2B21CC7554002C2238 /* PatchDataTests.swift */,
+				B4E12EA421D018E80068AD2E /* Schedules */,
 				B480EE2D21CC7554002C2238 /* Info.plist */,
+				B4E12EA521D019260068AD2E /* TestData.swift */,
 			);
 			path = PatchDataTests;
 			sourceTree = "<group>";
@@ -486,6 +489,14 @@
 				B49A4A4120DB2D4C00F24FC0 /* Info.plist */,
 			);
 			path = PDKit;
+			sourceTree = "<group>";
+		};
+		B4E12EA421D018E80068AD2E /* Schedules */ = {
+			isa = PBXGroup;
+			children = (
+				B480EE2B21CC7554002C2238 /* SiteScheduleTests.swift */,
+			);
+			path = Schedules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -814,7 +825,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B480EE2C21CC7554002C2238 /* PatchDataTests.swift in Sources */,
+				B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */,
+				B4E12EA621D019260068AD2E /* TestData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -119,7 +119,7 @@ extension MOPill {
                                                      times: [t1, t2])
                 return d
             } catch {
-                print("No times are set in the pill times array")
+                print("Error: Not enough times, timesaday: \(timesaday), times.count: 2")
             }
         }
         return nil

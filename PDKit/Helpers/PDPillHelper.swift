@@ -22,7 +22,7 @@ public class PDPillHelper: NSObject {
     /// Return the next time the pill is due.
     public static func nextDueDate(timesTakenToday: Int, timesaday: Int, times: [Time]) throws -> Date? {
         // Error with times
-        if times.count == 0 || times.count != timesaday {
+        if times.count == 0 || times.count < timesaday {
             throw NextDueDateError.notEnoughTimes
         }
         

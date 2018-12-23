@@ -56,6 +56,16 @@ class PDPillHelperTests: XCTestCase {
             } else {
                 XCTFail()
             }
+            // Should handle times.count > timesaday
+            let t2 = Date(timeInterval: 3600, since: now)
+            times.append(t2)
+            next = try PDPillHelper.nextDueDate(timesTakenToday: 1, timesaday: 1, times: times)
+            if let actual = next,
+                let tmrw = PDDateHelper.getDate(at: t1, daysToAdd: 1) {
+                XCTAssert(dateIsWithinAMinute(actual, tmrw))
+            } else {
+                XCTFail()
+            }
         } catch {
             XCTFail()
         }
