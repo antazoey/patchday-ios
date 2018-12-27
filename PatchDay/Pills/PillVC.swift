@@ -15,8 +15,6 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    
-    
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var selectNameButton: UIButton!
@@ -69,7 +67,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         time2Button.setTitleColor(UIColor.blue, for: .selected)
         disableSavebutton()
         reflectPillAttributes()
-        fixPillTimes(shouldSave: true)
+        fixPillTimes(save: true)
         loadVCTitle()
     }
     
@@ -89,7 +87,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         selectNameButton.removeTarget(nil, action: nil, for: .allEvents)
         selectNameButton.addTarget(self, action: #selector(doneWithSelectNameTapped), for: .touchUpInside)
     }
-    
+
     @objc func doneWithSelectNameTapped() {
         openOrCloseNamePicker(closing: true)
         selectNameButton.setTitle(PDStrings.ActionStrings.select, for: .normal)
@@ -103,7 +101,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBAction func saveButtonTapped() {
         if let pill = pill {
-            PillSchedule.setPillAttributes(for: pill, with: makePillAttributes())
+            PillSchedule.setPill(for: pill, with: makePillAttributes())
             appDelegate.notificationsController.resendPillNotification(for: pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
                 let newValue = PDSchedule.totalPillsDue()
@@ -127,9 +125,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if slider.value >= 2 {
             enableTime2()
             timesadaySelected = 2
-        }
-        else {
-            disableTime2()
+        } else {
+            time2Button.isEnabled = false
             timesadaySelected = 1
 
         }
@@ -152,19 +149,16 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             disableNonTimeInteractions()
             if let time1 = time1Selected {
                 timePicker.date = time1
-            }
-            else if let time1 = pill.getTime1() {
+            } else if let time1 = pill.getTime1() {
                 timePicker.date = time1 as Date
             }
             if time2Button.isEnabled {
                 if let time2 = time2Selected {
                     timePicker.maximumDate = time2
-                }
-                else if let time2 = pill.getTime2() {
+                } else if let time2 = pill.getTime2() {
                     timePicker.maximumDate = time2 as Date
                 }
-            }
-            else {
+            } else {
                 timePicker.maximumDate = nil
             }
             time2Button.isEnabled = false
@@ -181,14 +175,12 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             time1Button.isEnabled = false
             if let time2 = time2Selected {
                 timePicker.date = time2
-            }
-            else if let time2 = pill.getTime2() {
+            } else if let time2 = pill.getTime2() {
                 timePicker.date = time2 as Date
             }
             if let time1 = time1Selected {
                 timePicker.minimumDate = time1
-            }
-            else if let time1 = pill.getTime1() {
+            } else if let time1 = pill.getTime1() {
                 timePicker.minimumDate = time1 as Date
             }
         }
@@ -220,8 +212,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             if sliderSaysTwoPills() {
                 time2Button.isEnabled = true
             }
-        }
-        else {
+        } else {
             time2Changed = true
             time2Selected = selectedTime
             time2Button.removeTarget(nil, action: nil, for: .allEvents)
@@ -261,11 +252,9 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if !closing {
             UIView.transition(with: namePicker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { self.namePicker.isHidden = closing
             }, completion: {
-                (void) in
+                (void) in return
             })
-            
-        }
-        else {
+        } else {
             self.namePicker.isHidden = true
 
         }
@@ -326,9 +315,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let timesaday = pill.getTimesday() {
             let tVal = (timesaday == 1) ? 1.0 : 3.0
             timesadaySlider.setValue(Float(tVal), animated: false)
-            if timesaday < 2 {
-                disableTime2()
-            }
+            time2Button.isEnabled = timesaday == 2
         }
     }
     
@@ -349,28 +336,25 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func enableTime2() {
         time2Button.isEnabled = true
-        fixPillTimes(shouldSave: false)
+        fixPillTimes(save: false)
     }
     
-    private func fixPillTimes(shouldSave: Bool) {
+    // Prevents time2 from going beneath time1
+    private func fixPillTimes(save: Bool) {
         if let time1 = time1Selected,
             let time2 = time2Selected,
-            (time2 as Time) < (time1 as Time) {
-            time2Selected = time1 as Time
+            time2 < time1 {
+            time2Selected = time1
             time2Changed = true
-            time2Button.setTitle(PDDateHelper.format(time: time1 as Time), for: .normal)
-            time2Button.setTitle(PDDateHelper.format(time: time1 as Time), for: .disabled)
+            time2Button.setTitle(PDDateHelper.format(time: time1), for: .normal)
+            time2Button.setTitle(PDDateHelper.format(time: time1), for: .disabled)
             
             // Save if erronous and not the just the user messing around.
-            if shouldSave, let index = pillIndex {
-                time2Changed = false
-                PDSchedule.pillSchedule.setPillTime2(at: index, to: time1 as Time)
+            if save, let index = pillIndex {
+                let attributes = makePillAttributes()
+                PDSchedule.pillSchedule.setPill(at: index, with: attributes);
             }
         }
-    }
-    
-    private func disableTime2() {
-        time2Button.isEnabled = false
     }
     
     private func enableSaveButton() {
@@ -386,18 +370,14 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // Creates a PillAttributes that reflects the current
     //   state of the interactive UI elements.
     private func makePillAttributes() -> PillAttributes {
-        var timesTakenToday: Int?
-        if timesadaySelected == 1 {
-            timesTakenToday = 1
-        }
         return PillAttributes(name: nameSelected,
-                                        timesaday: timesadaySelected,
-                                        time1: time1Selected,
-                                        time2: time2Selected,
-                                        notify: notifySelected,
-                                        timesTakenToday: timesTakenToday,
-                                        lastTaken: nil,
-                                        id: nil)
+                              timesaday: timesadaySelected,
+                              time1: time1Selected,
+                              time2: time2Selected,
+                              notify: notifySelected,
+                              timesTakenToday: nil,
+                              lastTaken: nil,
+                              id: nil)
         
     }
     
@@ -410,5 +390,4 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func sliderSaysTwoPills() -> Bool {
         return timesadaySlider.value >= 2.0
     }
-    
 }

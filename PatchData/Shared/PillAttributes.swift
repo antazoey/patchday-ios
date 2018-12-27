@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PDKit
 
 public struct PillAttributes {
     

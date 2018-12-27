@@ -22,9 +22,7 @@ public class PillSchedule: NSObject {
     override init() {
         pillArray = PillSchedule.loadPillMOs(into: PatchData.getContext())
         PillSchedule.loadTakenTodays(for: pillArray, into: PatchData.getContext())
-        pillArray = pillArray.filter() {
-            $0.getName() != nil
-        }
+        pillArray = pillArray.filter() { $0.getName() != nil }
         PillSchedule.loadMap(pillMap: &pillMap, pillArray: pillArray)
     }
     
@@ -56,7 +54,14 @@ public class PillSchedule: NSObject {
     }
     
     /// Sets a given MOPill with the given PillAttributes.
-    public static func setPillAttributes(for pill: MOPill, with attributes: PillAttributes) {
+    public func setPill(at index: Index, with attributes: PillAttributes) {
+        if let pill = getPill(at: index) {
+            PillSchedule.setPill(for: pill, with: attributes)
+        }
+    }
+    
+    /// Sets a given MOPill with the given PillAttributes.
+    public static func setPill(for pill: MOPill, with attributes: PillAttributes) {
         if let name = attributes.name {
             pill.setName(with: name)
         }
@@ -80,14 +85,6 @@ public class PillSchedule: NSObject {
         }
         pill.setID()
         PatchData.save()
-    }
-    
-    /// Sets the second time for the pill at the given index.
-    public func setPillTime2(at index: Index, to newTime: Time) {
-        if let pill = getPill(at: index) {
-            pill.setTime2(with: newTime as NSDate)
-            PatchData.save()
-        }
     }
     
     /// Deletes the pill at the given index from the schedule.
@@ -145,8 +142,7 @@ public class PillSchedule: NSObject {
             let pills = try context.fetch(fetchRequest)
             initIDs(for: pills, into: context)
             return pills
-        }
-        catch {
+        } catch {
             print("Data Fetch Request Failed")
         }
         return []
@@ -191,7 +187,7 @@ public class PillSchedule: NSObject {
     /// Creates a new Pill with the given attributes and appends it to the schedule.
     private static func appendNewPill(to pills: inout [MOPill], andTo pillMap: inout [UUID: MOPill], using attributes: PillAttributes, into context: NSManagedObjectContext) -> MOPill? {
         if let pill = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.pillEntityName, into: context) as? MOPill {
-            setPillAttributes(for: pill, with: attributes)
+            setPill(for: pill, with: attributes)
             pills.append(pill)
             pillMap[pill.getID()] = pill
             return pill
