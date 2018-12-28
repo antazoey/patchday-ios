@@ -95,7 +95,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             }
             // Adding a new MOSite
             else if siteScheduleIndex == PDSchedule.siteCount() {
-                let _ = SiteSchedule.appendSite(name: name, sites: &PDSchedule.siteSchedule.siteArray)
+                let _ = SiteSchedule.appendSite(name: name, sites: &PDSchedule.siteSchedule.sites)
             }
         }
         segueToSitesVC()
@@ -185,7 +185,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             nameText.text = site.getName()
         }
         else {
-            title = "\(PDStrings.TitleStrings.site) \(sites.count+1)"
+            title = "\(PDStrings.TitleStrings.site) \(sites.count + 1)"
         }
     }
     

@@ -29,7 +29,7 @@ class SiteScheduleTests: XCTestCase {
     
     func testSetSiteName() {
         siteSchedule.setSiteName(at: 0, to: "TEST SITE")
-        if let actual = siteSchedule.siteArray[0].getName() {
+        if let actual = siteSchedule.sites[0].getName() {
             let expected = "TEST SITE"
             XCTAssertEqual(actual, expected)
         } else {
@@ -38,30 +38,30 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testSitesAreSorted() {
-        XCTAssertEqual(siteSchedule.siteArray[0].getOrder(), 0)
-        XCTAssertEqual(siteSchedule.siteArray[1].getOrder(), 1)
-        XCTAssertEqual(siteSchedule.siteArray[2].getOrder(), 2)
-        XCTAssertEqual(siteSchedule.siteArray[3].getOrder(), 3)
+        XCTAssertEqual(siteSchedule.sites[0].getOrder(), 0)
+        XCTAssertEqual(siteSchedule.sites[1].getOrder(), 1)
+        XCTAssertEqual(siteSchedule.sites[2].getOrder(), 2)
+        XCTAssertEqual(siteSchedule.sites[3].getOrder(), 3)
     }
     
     func testGetSiteAtIndex() {
         // Returns nil when site index too high
         XCTAssertNil(siteSchedule.getSite(at: 100))
         if let actual = siteSchedule.getSite(at: 0) {
-            XCTAssertEqual(actual, siteSchedule.siteArray[0])
+            XCTAssertEqual(actual, siteSchedule.sites[0])
         }
     }
     
     func testGetSiteForName() {
         // Should append new site if site not in schedule
         if let new_site = siteSchedule.getSite(for: "NEW SITE NAME") {
-            XCTAssert(siteSchedule.siteArray.contains(new_site))
+            XCTAssert(siteSchedule.sites.contains(new_site))
         } else {
             XCTFail()
         }
-        if let n = siteSchedule.siteArray[0].getName() {
+        if let n = siteSchedule.sites[0].getName() {
             let actual = siteSchedule.getSite(for: n)
-            XCTAssertEqual(actual, siteSchedule.siteArray[0])
+            XCTAssertEqual(actual, siteSchedule.sites[0])
         }
     }
     
@@ -81,7 +81,7 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(actual, 3)
         // Returns max when currentIndex is too large
         actual = siteSchedule.getNextSiteIndex(currentIndex: 100)
-        XCTAssertEqual(actual, siteSchedule.siteArray.count - 1)
+        XCTAssertEqual(actual, siteSchedule.count() - 1)
         // Returns nil when currentIndex is < 0
         actual = siteSchedule.getNextSiteIndex(currentIndex: -1)
         XCTAssertNil(actual)
@@ -89,25 +89,25 @@ class SiteScheduleTests: XCTestCase {
     
     func testSetSiteOrder() {
         // Successfully sets order when within bounds and swaps
-        var oldname_at0 = siteSchedule.siteArray[0].getName()
-        let oldname_at1 = siteSchedule.siteArray[1].getName()
+        var oldname_at0 = siteSchedule.sites[0].getName()
+        let oldname_at1 = siteSchedule.sites[1].getName()
         siteSchedule.setSiteOrder(at: 0, to: 1)
-        var newname_at0 = siteSchedule.siteArray[0].getName()
-        let newname_at1 = siteSchedule.siteArray[1].getName()
+        var newname_at0 = siteSchedule.sites[0].getName()
+        let newname_at1 = siteSchedule.sites[1].getName()
         XCTAssertEqual(newname_at0, oldname_at1)
         XCTAssertEqual(newname_at1, oldname_at0)
-        // Should not set order when order > sites.count
-        oldname_at0 = siteSchedule.siteArray[0].getName()
+        // Should not set order when order > count()
+        oldname_at0 = siteSchedule.sites[0].getName()
         siteSchedule.setSiteOrder(at: 0, to: 10)
-        newname_at0 = siteSchedule.siteArray[0].getName()
+        newname_at0 = siteSchedule.sites[0].getName()
         XCTAssertEqual(oldname_at0, newname_at0)
     }
     
     func testSetSiteImageID() {
         // Fails to set image id when it is not a default Site Name
-        let curr_id = siteSchedule.siteArray[0].getImageIdentifer()
+        let curr_id = siteSchedule.sites[0].getImageIdentifer()
         siteSchedule.setSiteImageID(at: 0, to: "BAD ID", usingPatches: true)
-        if let actual = siteSchedule.siteArray[0].getImageIdentifer() {
+        if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = curr_id
             XCTAssertEqual(actual, expected)
         } else {
@@ -116,7 +116,7 @@ class SiteScheduleTests: XCTestCase {
         // Successfully sets id when it is default patch Site Name
         var good_id = PDStrings.SiteNames.patchSiteNames[0]
         siteSchedule.setSiteImageID(at: 0, to: good_id, usingPatches: true)
-        if let actual = siteSchedule.siteArray[0].getImageIdentifer() {
+        if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = good_id
             XCTAssertEqual(actual, expected)
         } else {
@@ -125,7 +125,7 @@ class SiteScheduleTests: XCTestCase {
         // Successfully sets id when it is default injection Site Name
         good_id = PDStrings.SiteNames.injectionSiteNames[0]
         siteSchedule.setSiteImageID(at: 0, to: good_id, usingPatches: false)
-        if let actual = siteSchedule.siteArray[0].getImageIdentifer() {
+        if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = good_id
             XCTAssertEqual(actual, expected)
         } else {
@@ -134,30 +134,30 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testDeleteSite() {
-        var old_count = siteSchedule.siteArray.count;
-        let old_site = siteSchedule.siteArray[0]
+        var old_count = siteSchedule.count();
+        let old_site = siteSchedule.sites[0]
         if let siteNameDeleted = siteSchedule.getSite(at: 0)?.getName() {
             siteSchedule.deleteSite(at: 0)
             // Assert that the backup site name remains after deleted
-            if let n = estroSchedule.estrogenArray[0].getSiteNameBackUp() {
+            if let n = estroSchedule.estrogens[0].getSiteNameBackUp() {
                 XCTAssertEqual(n, siteNameDeleted)
             }
             // Assert 1 less site in the schedule
-            XCTAssertEqual(siteSchedule.siteArray.count, old_count - 1)
-            XCTAssertFalse(siteSchedule.siteArray.contains(old_site))
+            XCTAssertEqual(siteSchedule.count(), old_count - 1)
+            XCTAssertFalse(siteSchedule.sites.contains(old_site))
         }
         // Assert no deletion for bad index
-        old_count = siteSchedule.siteArray.count
+        old_count = siteSchedule.count()
         siteSchedule.deleteSite(at: 100)
-        XCTAssertEqual(old_count, siteSchedule.siteArray.count)
+        XCTAssertEqual(old_count, siteSchedule.count())
     }
     
     func testLoadEstrogenFromBackUpSite() {
         // Assert begins at nil
         XCTAssertNil(estroSchedule.getEstrogen(at: 0).siteNameBackUp)
-        siteSchedule.loadEstrogenBackupSiteNameFromSite(site: siteSchedule.siteArray[0])
-        if let siteNameFromSite = siteSchedule.siteArray[0].getName(),
-            let siteNameFromEstro = estroSchedule.estrogenArray[0].getSiteNameBackUp() {
+        siteSchedule.loadEstrogenBackupSiteNameFromSite(site: siteSchedule.sites[0])
+        if let siteNameFromSite = siteSchedule.sites[0].getName(),
+            let siteNameFromEstro = estroSchedule.estrogens[0].getSiteNameBackUp() {
             XCTAssertEqual(siteNameFromSite, siteNameFromEstro)
         }
     }
@@ -193,10 +193,11 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testFilterEmptySites() {
-        let c = siteSchedule.siteArray.count
+        let c = siteSchedule.count()
         siteSchedule.setSiteName(at: 0, to: "")
         let filtered_sites = SiteSchedule.filterEmptySites(from: siteSchedule.getSites())
-        XCTAssertEqual(filtered_sites.count, c - 1)
+        let filtered_count = filtered_sites.count
+        XCTAssertEqual(filtered_count(), c - 1)
     }
     
     func testReset() {
@@ -213,8 +214,8 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testAppendSite() {
-        if let new_site = SiteSchedule.appendSite(name: "NEW SITE", sites: &siteSchedule.siteArray) {
-            XCTAssert(siteSchedule.siteArray.contains(new_site))
+        if let new_site = SiteSchedule.appendSite(name: "NEW SITE", sites: &siteSchedule.sites) {
+            XCTAssert(siteSchedule.sites.contains(new_site))
         } else {
             XCTFail()
         }

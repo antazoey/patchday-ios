@@ -12,9 +12,12 @@ import PDKit
 
 class PillScheduleTests: XCTestCase {
     let pillSchedule = PillSchedule()
+    var id: UUID? = nil
     
     override func setUp() {
         super.setUp()
+        pillSchedule.reset()
+        id = UUID()
         let t2 = Time()
         let t1 = Time(timeInterval: -3000, since: t2)
         let lastTaken = Time(timeInterval: -15000, since: t1)
@@ -25,18 +28,19 @@ class PillScheduleTests: XCTestCase {
                                 notify: false,
                                 timesTakenToday: 0,
                                 lastTaken: lastTaken,
-                                id: UUID())
+                                id: id)
         pillSchedule.setPill(at: 0, with: a1)
     }
     
     override func tearDown() {
         super.tearDown()
+        pillSchedule.reset()
     }
     
-    func testGetPill() {
+    func testGetPillAtIndex() {
         let expected = "PILL 1"
-        if let p1 = pillSchedule.getPill(at: 0) {
-            XCTAssertEqual(p1.getName(), expected)
+        if let pill = pillSchedule.getPill(at: 0) {
+            XCTAssertEqual(pill.getName(), expected)
         } else {
             XCTFail()
         }
@@ -46,5 +50,21 @@ class PillScheduleTests: XCTestCase {
         if let _ = pillSchedule.getPill(at: 1000) {
             XCTFail()
         }
+    }
+    
+    func testGetPillForID() {
+        if let id = id, let pill = pillSchedule.getPill(for: id) {
+            XCTAssertEqual(pill.getID(), id)
+        } else {
+            XCTFail()
+        }
+        if let _ = pillSchedule.getPill(for: UUID()) {
+            XCTFail()
+        }
+    }
+    
+    func testLoadMap() {
+        pillSchedule.insertNewPill()
+        XCTAssertEqual(pillSchedule.pi, <#T##expression2: Equatable##Equatable#>)
     }
 }

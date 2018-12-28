@@ -18,7 +18,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private var pillSchedule = PDSchedule.pillSchedule
-    private var pills = PDSchedule.pillSchedule.pillArray
+    private var pills = PDSchedule.pillSchedule.pills
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,13 +36,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        pills = pillSchedule.pillArray
+        pills = pillSchedule.pills
         pillTable.reloadData()
         reloadInputViews()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pillSchedule.pillArray.count
+        return pillSchedule.count()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -88,7 +88,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     cell.loadLastTakenText(from: pill)
                 }
                 cell.enableOrDisableTake()
-                pills = pillSchedule.pillArray
+                pills = pillSchedule.pills
                 pillTable.reloadData()
                 reloadInputViews()
             }
@@ -98,7 +98,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func insertTapped() {
         if let newPill = pillSchedule.insertNewPill(),
-            let newPillIndex = pillSchedule.pillArray.index(of: newPill) {
+            let newPillIndex = pillSchedule.pills.index(of: newPill) {
             segueToPillView(for: newPill, at: newPillIndex)
         }
     }

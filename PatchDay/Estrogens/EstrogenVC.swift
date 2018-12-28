@@ -105,7 +105,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let isExpiredAfterSave = estro.isExpired(intervalStr)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-            PDSchedule.estrogenSchedule.estrogenArray.sort(by: <)
+            PDSchedule.estrogenSchedule.estrogens.sort(by: <)
             // Save effects
             PDSchedule.estrogenSchedule.getEffectManager().wereChanges = true
             if let i = PDSchedule.estrogenSchedule.getEstrogenIndex(for: estro) {

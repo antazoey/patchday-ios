@@ -16,26 +16,34 @@ public class PillSchedule: NSObject {
         return "Singleton for reading, writing, and querying the MOPill array."
     }
     
-    public var pillArray: [MOPill]
-    private var pillMap = [UUID: MOPill]()
-
+    public var pills: [MOPill]
+    public var pillMap = [UUID: MOPill]()
+    
     override init() {
-        pillArray = PillSchedule.loadPillMOs(into: PatchData.getContext())
-        PillSchedule.loadTakenTodays(for: pillArray, into: PatchData.getContext())
-        pillArray = pillArray.filter() { $0.getName() != nil }
-        PillSchedule.loadMap(pillMap: &pillMap, pillArray: pillArray)
+        pills = PillSchedule.loadPillMOs(into: PatchData.getContext())
+        PillSchedule.loadTakenTodays(for: pills, into: PatchData.getContext())
+        pills = pills.filter() { $0.getName() != nil }
+        pillMap = PillSchedule.loadMap(pills: pills)
     }
     
     // MARK: - Public
     
     public func getPills() -> [MOPill] {
-        return pillArray
+        return pills
+    }
+    
+    public func getMap() -> [UUID: MOPill] {
+        return pillMap
+    }
+    
+    public func count() -> Int {
+        return pills.count
     }
 
     /// Returns the MOPill for the given index.
     public func getPill(at index: Index) -> MOPill? {
-        if index >= 0 && index < pillArray.count {
-            return pillArray[index]
+        if index >= 0 && index < pills.count {
+            return pills[index]
         }
         return nil
     }
@@ -45,10 +53,10 @@ public class PillSchedule: NSObject {
         return pillMap[id]
     }
     
-    /// Creates a new MOPill and inserts it in to the pillArray.
+    /// Creates a new MOPill and inserts it in to the pills.
     public func insertNewPill() -> MOPill? {
         let newPillAttributes = PillAttributes()
-        let newPill = PillSchedule.appendNewPill(to: &pillArray, andTo: &pillMap, using: newPillAttributes, into: PatchData.getContext())
+        let newPill = PillSchedule.appendNewPill(to: &pills, andTo: &pillMap, using: newPillAttributes, into: PatchData.getContext())
         TodayData.setPillDataForToday()
         return newPill
     }
@@ -89,16 +97,16 @@ public class PillSchedule: NSObject {
     
     /// Deletes the pill at the given index from the schedule.
     public func deletePill(at index: Index) {
-        if index >= 0 && index < pillArray.count {
-            pillArray[index].reset()
+        if index >= 0 && index < pills.count {
+            pills[index].reset()
         }
-        pillArray = pillArray.filter() { $0.getName() != nil}
+        pills = pills.filter() { $0.getName() != nil}
         PatchData.save()
     }
     
     /// Maps MOPills to their last time takens.
     public func getPillTimesTakens() -> [Int] {
-        return pillArray.map({
+        return pills.map({
             (pill: MOPill) -> Int16? in
             return pill.getTimesTakenToday()
         }).filter() {
@@ -129,7 +137,7 @@ public class PillSchedule: NSObject {
     
     /// Returns the next pill that needs to be taken.
     public func nextPillDue() -> MOPill? {
-        return pillArray.min(by: <)
+        return pills.min(by: <)
     }
     
     // MARK: - Private
@@ -153,7 +161,8 @@ public class PillSchedule: NSObject {
         var generatedPillMOs: [MOPill] = []
         var names = PDStrings.PillTypes.defaultPills
         for i in 0..<names.count {
-            if let pill = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.pillEntityName, into: context) as? MOPill {
+            let entity = PDStrings.CoreDataKeys.pillEntityName
+            if let pill = PatchData.insert(entity) as? MOPill {
                 pill.initAttributes(name: names[i])
                 generatedPillMOs.append(pill)
             }
@@ -162,10 +171,17 @@ public class PillSchedule: NSObject {
         return generatedPillMOs
     }
     
-    /// Sets the pillArray and map to a generic list of MOPills.
-    public func makeNewDefaultPillMOs() {
-        pillArray = PillSchedule.newPillMOs(into: PatchData.getContext())
-        PDSchedule.pillSchedule.loadMap()
+    /// Sets the pills and map to a generic list of MOPills.
+    public func reset() {
+        pills = PillSchedule.newPillMOs(into: PatchData.getContext())
+        pillMap.removeAll()
+        pillMap = loadMap()
+    }
+    
+    public func printPills() {
+        for pill in pills {
+            print(pill)
+        }
     }
     
     /// Initializes IDs for the given pills.
@@ -186,18 +202,19 @@ public class PillSchedule: NSObject {
     
     /// Creates a new Pill with the given attributes and appends it to the schedule.
     private static func appendNewPill(to pills: inout [MOPill], andTo pillMap: inout [UUID: MOPill], using attributes: PillAttributes, into context: NSManagedObjectContext) -> MOPill? {
-        if let pill = NSEntityDescription.insertNewObject(forEntityName: PDStrings.CoreDataKeys.pillEntityName, into: context) as? MOPill {
+        let entity = PDStrings.CoreDataKeys.pillEntityName
+        if let pill = PatchData.insert(entity) as? MOPill {
             setPill(for: pill, with: attributes)
             pills.append(pill)
-            pillMap[pill.getID()] = pill
+            pillMap = PillSchedule.loadMap(pills: pills)
             return pill
         }
         return nil
     }
     
     /// Load estrogen ID map after changes occur to the schedule.
-    public static func loadMap(pillMap: inout [UUID: MOPill], pillArray: [MOPill]) {
-        pillMap = pillArray.reduce([UUID: MOPill]()) {
+    private static func loadMap(pills: [MOPill]) -> [UUID: MOPill] {
+        return pills.reduce([UUID: MOPill]()) {
             (pillDict, pill) -> [UUID: MOPill] in
             var dict = pillDict
             dict[pill.getID()] = pill
@@ -205,7 +222,7 @@ public class PillSchedule: NSObject {
         }
     }
     
-    public func loadMap() {
-        PillSchedule.loadMap(pillMap: &pillMap, pillArray: pillArray)
+    private func loadMap() -> [UUID: MOPill] {
+        return PillSchedule.loadMap(pills: pills)
     }
 }

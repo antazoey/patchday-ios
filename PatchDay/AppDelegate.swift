@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
-            PDSchedule.pillSchedule.makeNewDefaultPillMOs()
+            PDSchedule.pillSchedule.reset()
         }
 
         // Load data for the Today widget.
