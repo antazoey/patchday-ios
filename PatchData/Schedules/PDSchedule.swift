@@ -56,35 +56,21 @@ public class PDSchedule: NSObject {
     }
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
-    public static func getSuggestedSite(currentSiteIndex: Index) -> MOSite? {
+    public static func suggest(current: Index) -> MOSite? {
         let sites = PDSchedule.siteSchedule.getSites()
-        if let i = PDSchedule.siteSchedule.getNextSiteIndex(currentIndex: currentSiteIndex) {
+        if let i = PDSchedule.siteSchedule.nextIndex(current: current) {
             return sites[i]
         }
         return nil
     }
     
-    /// Returns total number of MOEstrogens that are expired.
-    public static func totalEstrogenDue(intervalStr: String) -> Int {
-        return PDSchedule.estrogenSchedule.expiredCount(intervalStr)
-    }
-    
-    /// Returns total number of MOPills that need to be taken.
-    public static func totalPillsDue() -> Int {
-        return pillSchedule.getPills().reduce(0, {
-            (count: Int, pill: MOPill) -> Int in
-            let r = pill.isExpired() ? 1 + count : count
-            return r
-        })
-    }
-    
     /// Returns the total due of MOEstrogens and MOPills in the schedule.
-    public static func totalDue(intervalStr: String) -> Int {
-        return totalEstrogenDue(intervalStr: intervalStr) + totalPillsDue()
+    public static func totalDue(interval: String) -> Int {
+        return estrogenSchedule.totalDue(interval) + pillSchedule.totalDue()
     }
     
     public static func getEstroForToday() -> MOEstrogen {
-        if UserDefaultsController.usingPatches(), let nextEstro = estrogenSchedule.nextEstroDue() {
+        if UserDefaultsController.usingPatches(), let nextEstro = estrogenSchedule.nextDue() {
             return nextEstro
         } else {
             return PDSchedule.estrogenSchedule.getEstrogen(at: 0)

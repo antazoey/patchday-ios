@@ -12,7 +12,7 @@ import PDKit
 
 public typealias Index = Int;
 
-public class EstrogenSchedule: NSObject {
+public class EstrogenSchedule: PDScheduleProtocol {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOEstrogen array."
@@ -23,19 +23,44 @@ public class EstrogenSchedule: NSObject {
     private var effectManager = ScheduleChangeManager()
     
     override init() {
-        let context = PatchData.getContext()
         estrogens = []
         // Load previously saved MOEstrogens
-        if let estros = EstrogenSchedule.loadEstrogenMOs(from: context) {
+        if let estros = PatchData.loadMOs(for: .estrogen) as? [MOEstrogen] {
             estrogens = estros
-        }
-            // New MOEstrogens if all else fails
-        else {
-            estrogens = EstrogenSchedule.newEstrogenMOs(from: context)
+        } else {
+            // Create new estrogens
+            let c = PDStrings.PickerData.counts.count
+            estrogens = EstrogenSchedule.new(count: c)
         }
         estrogens.sort(by: <)
         EstrogenSchedule.loadMap(estroMap: &estrogenMap, estroArray: estrogens)
-
+    }
+    
+    // MARK: - Base class overrides
+    
+    override public func count() -> Int {
+        return estrogens.count
+    }
+    
+    /// Creates a new MOEstrogen and appends it to the estrogens.
+    override public func insert() -> MOEstrogen {
+        let estro = EstrogenSchedule.new(count: 1)[0]
+        estrogens.append(estro)
+        estrogenMap[estro.getID()] = estro
+        estrogens.sort(by: <)
+        EstrogenSchedule.initID(for: estro)
+        return estro
+    }
+    
+    /// Sets all MOEstrogen data to nil.
+    override public func reset() {
+        let context = PatchData.getContext()
+        for estro in estrogens {
+            estro.reset()
+            context.delete(estro)
+        }
+        estrogens = []
+        PatchData.save()
     }
     
     // MARK: - Public
@@ -48,11 +73,7 @@ public class EstrogenSchedule: NSObject {
         return effectManager
     }
     
-    public func count() -> Int {
-        return estrogens.count
-    }
-    
-    public func deleteExtra(after i: Index) {
+    public func delete(after i: Index) {
         let c = count()
         if c > i {
             for j in i..<c {
@@ -67,8 +88,7 @@ public class EstrogenSchedule: NSObject {
         if index >= 0, index < count() {
             return estrogens[index]
         }
-        let newEstro = newEstrogenMOForSchedule(in: PatchData.getContext())
-        return newEstro
+        return insert()
     }
     
     /// Returns the MOEstrogen for the given index if it exists.
@@ -133,19 +153,19 @@ public class EstrogenSchedule: NSObject {
     }
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
-    public func setEstrogenBackUpSiteName(of index: Index, with name: String) {
+    public func setBackUpSiteName(of index: Index, with name: String) {
         if index < count() && index >= 0 {
             estrogens[index].setSiteBackup(to: name)
         }
     }
     
     /// Returns the index of the given estrogen.
-    public func getEstrogenIndex(for estrogen: MOEstrogen) -> Index? {
+    public func getIndex(for estrogen: MOEstrogen) -> Index? {
         return estrogens.index(of: estrogen)
     }
     
     /// Returns the next MOEstrogen that needs to be taken.
-    public func nextEstroDue() -> MOEstrogen? {
+    public func nextDue() -> MOEstrogen? {
         estrogens.sort(by: <)
         if count() > 0 {
             return estrogens[0]
@@ -160,30 +180,6 @@ public class EstrogenSchedule: NSObject {
             let c = (estro.date != nil) ? 1 : 0
             return c + count
         })
-    }
-    
-    /// Sets all MOEstrogen data to nil.
-    public func reset() {
-        let context = PatchData.getContext()
-        for estro in estrogens {
-            estro.reset()
-            context.delete(estro)
-        }
-        estrogens = []
-        PatchData.save()
-    }
-    
-    /// Sets all MOEstrogen data between given indices to nil.
-    public func reset(start_i: Index, end_i: Index) {
-        let context = PatchData.getContext()
-        for i in start_i...end_i {
-            if i < count() {
-                estrogens[i].reset()
-                context.delete(estrogens[i])
-            }
-        }
-        estrogens = Array(estrogens.prefix(start_i))
-        PatchData.save()
     }
     
     /// Returns if there are no dates in the estrogen schedule.
@@ -222,39 +218,34 @@ public class EstrogenSchedule: NSObject {
     }
     
     /// Returns how many expired estrogens there are in the given estrogens.
-    public func expiredCount(_ intervalStr: String) -> Int {
+    public func totalDue(_ interval: String) -> Int {
         return estrogens.reduce(0, {
             count, estro in
-            let c = (estro.isExpired(intervalStr)) ? 1 : 0
+            let c = (estro.isExpired(interval)) ? 1 : 0
             return c + count
         })
     }
     
-    // MARK: - Private
-    
-    /// Brings persisted MOEstrogens into memory when starting the app.
-    private static func loadEstrogenMOs(from context: NSManagedObjectContext) -> [MOEstrogen]? {
-        let fetchRequest = NSFetchRequest<MOEstrogen>(entityName: PDStrings.CoreDataKeys.estroEntityName)
-        fetchRequest.propertiesToFetch = PDStrings.CoreDataKeys.estroPropertyNames()
-        do {
-            // Load user data if it exists
-            let userMOs = try context.fetch(fetchRequest)
-            if userMOs.count > 0 {
-                return userMOs
+    /// Sets all MOEstrogen data between given indices to nil.
+    public func reset(start: Index, end: Index) {
+        let context = PatchData.getContext()
+        for i in start...end {
+            if i < count() {
+                estrogens[i].reset()
+                context.delete(estrogens[i])
             }
         }
-        catch {
-            // Calling function inits new Estro MOs if we get here.
-            print("Data Fetch Request Failed")
-        }
-        return nil
+        estrogens = Array(estrogens.prefix(start))
+        PatchData.save()
     }
     
+    // MARK: - Private
+    
     /// Initializes generic MOEstrogens.
-    private static func newEstrogenMOs(from context: NSManagedObjectContext) -> [MOEstrogen] {
-        let entity = PDStrings.CoreDataKeys.estroEntityName
+    private static func new(count: Int) -> [MOEstrogen] {
+        let entity = PDStrings.CoreDataKeys.estrogenEntityName
         var estros: [MOEstrogen] = []
-        for _ in 0..<PDStrings.PickerData.counts.count {
+        for _ in 0..<count {
             if let estro = PatchData.insert(entity) as? MOEstrogen {
                 estros.append(estro)
             }
@@ -265,30 +256,6 @@ public class EstrogenSchedule: NSObject {
         }
         initIDs(for: estros)
         return estros
-    }
-    
-    /// Statically create a new MOEstrogen. Does not append to estrogens.
-    private static func newEstrogenMO(in context: NSManagedObjectContext) -> MOEstrogen {
-        let entity = PDStrings.CoreDataKeys.estroEntityName
-        if let estro = PatchData.insert(entity) as? MOEstrogen {
-            initID(for: estro)
-            return estro
-        }
-        else {
-            let estro = MOEstrogen()
-            initID(for: estro)
-            return estro
-        }
-    }
-    
-    /// Creates a new MOEstrogen and appends it to the estrogens.
-    private func newEstrogenMOForSchedule(in context: NSManagedObjectContext) -> MOEstrogen {
-        let newEstro = EstrogenSchedule.newEstrogenMO(in: context)
-        estrogens.append(newEstro)
-        estrogenMap[newEstro.getID()] = newEstro
-        estrogens.sort(by: <)
-        EstrogenSchedule.initID(for: newEstro)
-        return newEstro
     }
     
     /// Set UUId for estro.

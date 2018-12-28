@@ -142,7 +142,9 @@ extension MOPill {
     /// Returns if the pill has been taken all of its times today.
     public func isDone() -> Bool {
         if let timesaday = getTimesday() {
-            return PDPillHelper.isDone(timesTakenToday: Int(timesTakenToday), timesaday: Int(timesaday))
+            let taken = Int(timesTakenToday)
+            let times = Int(timesaday)
+            return PDPillHelper.isDone(timesTakenToday: taken, timesaday: times)
         }
         return false
     }
@@ -151,7 +153,8 @@ extension MOPill {
     
     /// Fixes issue when timesTakenToday is lying (start of next day).
     public func fixTakenToday() {
-        if timesTakenToday > 0, let lastDate = getLastTaken(), !PDDateHelper.dateIsInToday(lastDate as Date) {
+        if timesTakenToday > 0, let lastDate = getLastTaken(),
+            !PDDateHelper.dateIsInToday(lastDate as Date) {
             timesTakenToday = 0
         }
     }

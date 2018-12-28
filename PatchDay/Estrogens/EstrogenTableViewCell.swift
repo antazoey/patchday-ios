@@ -18,12 +18,12 @@ class EstrogenTableViewCell: UITableViewCell {
     
     public func configure(at index: Index) {
         if index < UserDefaultsController.getQuantityInt() {
-            let intervalStr = UserDefaultsController.getTimeIntervalString()
+            let interval = UserDefaultsController.getTimeIntervalString()
             let usingPatches = UserDefaultsController.usingPatches()
             let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index)
-            let isExpired = estro.isExpired(intervalStr)
+            let isExpired = estro.isExpired(interval)
             let img = determineImage(index: index)
-            let title = determineTitle(estrogenIndex: index, intervalStr)
+            let title = determineTitle(estrogenIndex: index, interval)
             
             selectedBackgroundView = UIView()
             selectedBackgroundView?.backgroundColor = PDColors.pdPink
@@ -83,12 +83,12 @@ class EstrogenTableViewCell: UITableViewCell {
     }
     
     /// Determines the start of the week title for a schedule button.
-    private func determineTitle(estrogenIndex: Int, _ intervalStr: String) -> String {
+    private func determineTitle(estrogenIndex: Int, _ interval: String) -> String {
         var title: String = ""
         let estro = PDSchedule.estrogenSchedule.getEstrogen(at: estrogenIndex)
-        if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+        if let date =  estro.getDate(), let expDate = PDDateHelper.expirationDate(from: date as Date, interval) {
             if UserDefaultsController.usingPatches() {
-                let titleIntro = (estro.isExpired(intervalStr)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
+                let titleIntro = (estro.isExpired(interval)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
                 title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
             }
             else {

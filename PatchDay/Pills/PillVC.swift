@@ -104,7 +104,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             PillSchedule.setPill(for: pill, with: makePillAttributes())
             appDelegate.notificationsController.resendPillNotification(for: pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
-                let newValue = PDSchedule.totalPillsDue()
+                let newValue = PDSchedule.pillSchedule.totalDue()
                 vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil
             }
             TodayData.setPillDataForToday()

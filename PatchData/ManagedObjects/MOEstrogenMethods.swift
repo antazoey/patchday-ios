@@ -99,17 +99,17 @@ extension MOEstrogen {
         return PDDateHelper.format(date: dateAdded as Date, useWords: true)
     }
     
-    public func expirationDate(intervalStr: String) -> Date? {
+    public func expirationDate(interval: String) -> Date? {
         if let date = getDate(),
-            let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+            let expires = PDDateHelper.expirationDate(from: date as Date, interval) {
             return expires
         }
         return nil
     }
     
-    public func expirationDateAsString(_ intervalStr: String, useWords: Bool) -> String {
+    public func expirationDateAsString(_ interval: String, useWords: Bool) -> String {
         if let date = getDate(),
-            let expires = PDDateHelper.expirationDate(from: date as Date, intervalStr) {
+            let expires = PDDateHelper.expirationDate(from: date as Date, interval) {
             return PDDateHelper.format(date: expires, useWords: useWords)
         }
         return PDStrings.PlaceholderStrings.dotdotdot
@@ -117,9 +117,9 @@ extension MOEstrogen {
     
     // MARK: - Booleans
     
-    public func isExpired(_ intervalStr: String) -> Bool {
+    public func isExpired(_ interval: String) -> Bool {
         if let date = getDate(),
-            let intervalUntilExpiration = PDDateHelper.expirationInterval(intervalStr, date: date as Date) {
+            let intervalUntilExpiration = PDDateHelper.expirationInterval(interval, date: date as Date) {
             return intervalUntilExpiration <= 0
         }
         return false

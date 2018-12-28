@@ -243,12 +243,12 @@ public class PDStrings: NSObject {
     
     public struct CoreDataKeys {
         public static var persistantContainer_key = { return "patchData" }()
-        public static var estroEntityName = { return "Estrogen" }()
+        public static var estrogenEntityName = { return "Estrogen" }()
+        public static var estrogenProps = { return ["date", "id"] }()
         public static var siteEntityName = { return "Site" }()
-        public static var estroPropertyNames = { return ["date", "id"] }
-        public static var sitePropertyNames = { return ["order", "name"] }()
+        public static var siteProps = { return ["order", "name"] }()
         public static var pillEntityName = { return "Pill" }()
-        public static var pillPropertyNames = { return ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"] }()
+        public static var pillProps = { return ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"] }()
     }
     
     // MARK: - User default keys

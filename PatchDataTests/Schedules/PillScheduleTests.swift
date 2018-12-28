@@ -37,6 +37,10 @@ class PillScheduleTests: XCTestCase {
         pillSchedule.reset()
     }
     
+    func testCount() {
+        XCTAssertEqual(pillSchedule.count(), 2)
+    }
+    
     func testGetPillAtIndex() {
         let expected = "PILL 1"
         if let pill = pillSchedule.getPill(at: 0) {
@@ -61,10 +65,5 @@ class PillScheduleTests: XCTestCase {
         if let _ = pillSchedule.getPill(for: UUID()) {
             XCTFail()
         }
-    }
-    
-    func testLoadMap() {
-        pillSchedule.insertNewPill()
-        XCTAssertEqual(pillSchedule.pi, <#T##expression2: Equatable##Equatable#>)
     }
 }

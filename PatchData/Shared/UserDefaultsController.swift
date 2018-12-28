@@ -95,7 +95,7 @@ public class UserDefaultsController: NSObject {
         
         UserDefaultsController.setQuantityWithoutWarning(to: c)
         PDSchedule.estrogenSchedule.getEffectManager().deliveryMethodChanged = true
-        PDSchedule.siteSchedule.reset(usingPatches: usingPatches)
+        PDSchedule.siteSchedule.reset()
     }
     
     public static func setTimeInterval(to: String) {
@@ -137,7 +137,7 @@ public class UserDefaultsController: NSObject {
         if let newCount = Int(quantityStr), isAcceptable(count: newCount) {
             quantity = quantityStr
             defaults.set(quantityStr, forKey: PDStrings.SettingsKey.count.rawValue)
-            PDSchedule.estrogenSchedule.deleteExtra(after: newCount)
+            PDSchedule.estrogenSchedule.delete(after: newCount)
         }
     }
     

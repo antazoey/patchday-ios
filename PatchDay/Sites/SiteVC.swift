@@ -14,7 +14,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(PDSchedule.siteSchedule.siteNameSetUnionDefaultSites(usingPatches: UserDefaultsController.usingPatches()))
+    private var namePickerSet = Array(PDSchedule.siteSchedule.unionDefault(usingPatches: UserDefaultsController.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!
@@ -73,7 +73,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        PDSchedule.siteSchedule.setSiteImageID(at: siteScheduleIndex, to: imageKey, usingPatches: usingPatches)
+        PDSchedule.siteSchedule.setImageID(at: siteScheduleIndex, to: imageKey, usingPatches: usingPatches)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -89,13 +89,14 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @objc func saveButtonTapped(_ sender: Any) {
         if let name = nameText.text {
-            // Updating existing MOSite
+            // Updating existing site
             if siteScheduleIndex >= 0 && siteScheduleIndex < PDSchedule.siteCount() {
-                PDSchedule.siteSchedule.setSiteName(at: siteScheduleIndex, to: name)
+                PDSchedule.siteSchedule.setName(at: siteScheduleIndex, to: name)
             }
-            // Adding a new MOSite
-            else if siteScheduleIndex == PDSchedule.siteCount() {
-                let _ = SiteSchedule.appendSite(name: name, sites: &PDSchedule.siteSchedule.sites)
+            // Adding a new site
+            else if siteScheduleIndex == PDSchedule.siteCount(),
+                let site = PDSchedule.siteSchedule.insert() {
+                site.setName(to: name)
             }
         }
         segueToSitesVC()
@@ -126,7 +127,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
         typeNameButton.isEnabled = true
         if let name = nameText.text {
-            PDSchedule.siteSchedule.setSiteName(at: siteScheduleIndex, to: name)
+            PDSchedule.siteSchedule.setName(at: siteScheduleIndex, to: name)
         }
         loadImage()
         return true
@@ -172,7 +173,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = PDSchedule.siteSchedule.getSiteNames()
+            sitesVC.siteNames = PDSchedule.siteSchedule.getNames()
             navCon.popViewController(animated: true)
         }
     }

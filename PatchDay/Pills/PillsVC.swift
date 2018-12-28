@@ -97,9 +97,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        if let newPill = pillSchedule.insertNewPill(),
-            let newPillIndex = pillSchedule.pills.index(of: newPill) {
-            segueToPillView(for: newPill, at: newPillIndex)
+        if let pill = pillSchedule.insert() as? MOPill,
+            let i = pillSchedule.pills.index(of: pill) {
+            segueToPillView(for: pill, at: i)
         }
     }
     
@@ -145,7 +145,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setBadge() {
-        let newBadgeValue = PDSchedule.totalPillsDue()
+        let newBadgeValue = PDSchedule.pillSchedule.totalDue()
         navigationController?.tabBarItem.badgeValue = (newBadgeValue > 0) ? String(newBadgeValue) : nil
     }
     

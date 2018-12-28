@@ -37,8 +37,8 @@ class SiteTableViewCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        let currentSiteIndex = UserDefaultsController.getSiteIndex()
-        if cellIndex == PDSchedule.siteSchedule.getNextSiteIndex(currentIndex: currentSiteIndex) {
+        let current = UserDefaultsController.getSiteIndex()
+        if cellIndex == PDSchedule.siteSchedule.nextIndex(current: current) {
             nextLabel.isHidden = shouldHide
         }
     }
@@ -49,7 +49,7 @@ class SiteTableViewCell: UITableViewCell {
         }
         else if site.isOccupied() {
             let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen
-            if let i = PDSchedule.estrogenSchedule.getEstrogenIndex(for: estro) {
+            if let i = PDSchedule.estrogenSchedule.getIndex(for: estro) {
                 return PDImages.getSiteIcon(at: i)
             }
         }
@@ -57,8 +57,8 @@ class SiteTableViewCell: UITableViewCell {
     }
     
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        let currentSiteIndex = UserDefaultsController.getSiteIndex()
-        if PDSchedule.siteSchedule.getNextSiteIndex(currentIndex: currentSiteIndex) == index && !isEditing {
+        let current = UserDefaultsController.getSiteIndex()
+        if PDSchedule.siteSchedule.nextIndex(current: current) == index && !isEditing {
             return false
         }
         return true

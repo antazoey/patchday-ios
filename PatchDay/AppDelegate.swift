@@ -37,9 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TodayData.setDataForTodayApp()
         
         // Set the correct app badge value.
-        setBadge(with: PDSchedule.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
+        setBadge(with: PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()))
         
-        PDSchedule.estrogenSchedule.deleteExtra(after: UserDefaultsController.getQuantityInt())
+        PDSchedule.estrogenSchedule.delete(after: UserDefaultsController.getQuantityInt())
 
         // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()
@@ -48,11 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge(with: PDSchedule.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
+        setBadge(with: PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()))
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge(with: PDSchedule.totalDue(intervalStr: UserDefaultsController.getTimeIntervalString()))
+        setBadge(with: PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()))
     }
     
     /// Sets the App badge number to the expired estrogen count + the total pills due for taking.

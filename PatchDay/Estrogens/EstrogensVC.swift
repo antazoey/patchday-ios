@@ -61,7 +61,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let estrogenIndex = indexPath.row
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: "estrogenCellReuseID") as! EstrogenTableViewCell
         estroCell.configure(at: estrogenIndex)
@@ -106,27 +105,24 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     public func setTabBarBadges() {
-        
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
         if UserDefaultsController.usingPatches() {
             item?.image = #imageLiteral(resourceName: "Patch Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
-        }
-        else {
+        } else {
             item?.image = #imageLiteral(resourceName: "Injection Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Injection Icon")
         }
         
         // Expired estrogens
-        let estroDueCount = PDSchedule.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
-        
+        let estroDueCount = PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString())
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
         
         // Expired pills
-        let pillDueCount = PDSchedule.totalPillsDue()
+        let pillDueCount = PDSchedule.pillSchedule.totalDue()
         if pillDueCount > 0, let vcs = self.navigationController?.tabBarController?.viewControllers, vcs.count > 1 {
             vcs[1].tabBarItem.badgeValue = String(pillDueCount)
         }

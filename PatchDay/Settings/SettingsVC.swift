@@ -437,7 +437,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Resets the title of the Estrogens tab bar item to either "Patches" or "Injections".
     public func resetEstrogensVCTabBarItem() {
-        let v = PDSchedule.totalEstrogenDue(intervalStr: UserDefaultsController.getTimeIntervalString())
+        let v = PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString())
         // Estrogen icon
         if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
             vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil
