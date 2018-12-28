@@ -29,7 +29,11 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     override init() {
         super.init()
-        self.center.requestAuthorization(options: [.alert, .sound, .badge]) { (granted, error) in
+        self.center.requestAuthorization(options: [.alert, .sound, .badge]) {
+            (granted, error) in
+            if (error != nil) {
+                print(error as Any)
+            }
         }
         center.setNotificationCategories(Set(getNotificationCategories()))
         UNUserNotificationCenter.current().delegate = self
@@ -42,7 +46,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         if response.actionIdentifier == estroActionID,
             let uuid = UUID(uuidString: response.notification.request.identifier),
             let suggestedsite = PDSchedule.suggest(current: current) {
-            PDSchedule.estrogenSchedule.setEstrogen(for: uuid, date: Date() as NSDate, site: suggestedsite)
+            let now = Date() as NSDate
+            let schedule = PDSchedule.estrogenSchedule
+            schedule.setEstrogen(for: uuid, date: now, site: suggestedsite)
             UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         
@@ -59,8 +65,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
         cancelEstrogenNotifications(from: 0, to: upToRemove)
         for j in 0...upToAdd {
-            let estro = PDSchedule.estrogenSchedule.getEstrogen(at: j)
-            requestEstrogenExpiredNotification(for: estro)
+            if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: j) {
+                requestEstrogenExpiredNotification(for: estro)
+            }
         }
     }
     
@@ -78,17 +85,20 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels the notification at the given index.
     internal func cancelEstrogenNotification(at index: Index) {
-        let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index)
-        let id = estro.getID()
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
+        if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index) {
+            let id = estro.getID().uuidString
+            let center = UNUserNotificationCenter.current()
+            center.removePendingNotificationRequests(withIdentifiers: [id])
+        }
     }
     
     /// Cancels all the estrogen notifications in the given indices.
     internal func cancelEstrogenNotifications(from startIndex: Index, to endIndex: Index) {
         var ids: [String] = []
         for i in startIndex...endIndex {
-            let estro = PDSchedule.estrogenSchedule.getEstrogen(at: i)
-            ids.append(estro.getID().uuidString)
+            if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: i) {
+                ids.append(estro.getID().uuidString)
+            }
         }
         if ids.count > 0 {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
@@ -127,19 +137,17 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Determines the proper message for expired notifications.
     public func notificationBody(for estro: MOEstrogen, interval: String) -> String {
         var body = ""
+        typealias Bodies = PDStrings.NotificationStrings.Bodies
         let usingPatches: Bool = UserDefaultsController.usingPatches()
         let siteName = estro.getSiteName()
         if !estro.isCustomLocated(usingPatches: usingPatches) && usingPatches {
-            if let msg = PDStrings.NotificationStrings.Bodies.siteToExpiredPatchMessage[siteName] {
+            if let msg = Bodies.siteToExpiredPatchMessage[siteName] {
                 body = msg
             }
+        } else {
+            body = (usingPatches) ? Bodies.patchBody : Bodies.injectionBody
+            body = body + siteName
         }
-            
-            // For custom sites or injections.
-        else if usingPatches {
-            body = PDStrings.NotificationStrings.Bodies.changePatchLocated + siteName
-        }
-        
         return body
     }
     

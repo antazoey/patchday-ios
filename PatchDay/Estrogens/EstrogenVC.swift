@@ -105,7 +105,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-            PDSchedule.estrogenSchedule.estrogens.sort(by: <)
+            PDSchedule.estrogenSchedule.sort()
             // Save effects
             PDSchedule.estrogenSchedule.getEffectManager().wereChanges = true
             if let i = PDSchedule.estrogenSchedule.getIndex(for: estro) {
@@ -374,23 +374,25 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Sets titles related to the estrogen's expiration date.
     private func setUpLabelsInUI() {
-        let interval = UserDefaultsController.getTimeIntervalString()
         var exp = ""
-        let estro = PDSchedule.estrogenSchedule.getEstrogen(at: estrogenScheduleIndex)
-        if estro.getDate() != nil {
+        typealias Strings = PDStrings.ColonedStrings
+        let schedule = PDSchedule.estrogenSchedule
+        let interval = UserDefaultsController.getTimeIntervalString()
+        if let estro = schedule.getEstrogen(at: estrogenScheduleIndex),
+            estro.getDate() != nil {
             if UserDefaultsController.usingPatches() {
-                expLabel.text = (estro.isExpired(interval)) ? PDStrings.ColonedStrings.expired : PDStrings.ColonedStrings.expires
-                dateAndTimePlaced.text = PDStrings.ColonedStrings.date_and_time_applied
-                siteLabel.text = PDStrings.ColonedStrings.site
-            }
-            else {
-                expLabel.text = PDStrings.ColonedStrings.next_due
-                dateAndTimePlaced.text = PDStrings.ColonedStrings.date_and_time_injected
-                siteLabel.text = PDStrings.ColonedStrings.last_site_injected
+                expLabel.text = (estro.isExpired(interval)) ?
+                    Strings.expired :
+                    Strings.expires
+                dateAndTimePlaced.text = Strings.date_and_time_applied
+                siteLabel.text = Strings.site
+            } else {
+                expLabel.text = Strings.next_due
+                dateAndTimePlaced.text = Strings.date_and_time_injected
+                siteLabel.text = Strings.last_site_injected
             }
             exp = estro.expirationDateAsString(interval, useWords: true)
-        }
-        else {
+        } else {
             exp = PDStrings.PlaceholderStrings.dotdotdot
         }
         expirationDateLabel.text = exp

@@ -51,6 +51,10 @@ public class PDImages: NSObject {
     
     // MARK: - Functions
     
+    public static func isAdd(_ img: UIImage) -> Bool {
+        return img == addPatch || img == addInjection
+    }
+    
     /// Coverts SiteName a.k.a String to corresponding patch image.
     public static func siteNameToPatchImage(_ siteName: SiteName) -> UIImage {
         var r: UIImage = addPatch

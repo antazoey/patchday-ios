@@ -92,7 +92,7 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
             let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
                 (void) in
-                if let _ = SiteSchedule.insert(name: name, sites: &PDSchedule.siteSchedule.sites) {
+                if let _ = PDSchedule.siteSchedule.insert() {
                     estroVC.sitePicker.reloadAllComponents()
                 }
                 

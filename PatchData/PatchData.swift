@@ -12,10 +12,10 @@ import PDKit
 
 public class PatchData: NSObject {
     
-    internal enum PDEntity {
-        case estrogen
-        case pill
-        case site
+    internal enum PDEntity: String {
+        case estrogen = "Estrogen"
+        case pill = "Pill"
+        case site = "Site"
     }
     
     internal struct EntityKey {
@@ -68,8 +68,7 @@ public class PatchData: NSObject {
             if mos.count > 0 {
                 return mos
             }
-        }
-        catch {
+        } catch {
             print("Data Fetch Request Failed")
         }
         return nil
@@ -91,5 +90,11 @@ public class PatchData: NSObject {
             props = data.siteProps
         }
         return EntityKey(type: entity, name: n, props: props)
+    }
+}
+
+extension NSManagedObject {
+    public func name() -> String? {
+        return objectID.entity.name
     }
 }

@@ -18,15 +18,16 @@ public class SiteSchedule: PDScheduleProtocol {
         return "Singleton for reading, writing, and querying the MOSite array."
     }
     
-    public var sites: [MOSite]
+    public var sites: [MOSite] = []
     
-    override init() {
-        sites = PatchData.loadMOs(for: .site) as? [MOSite] ?? []
-        sites = SiteSchedule.filterEmpty(from: sites)
+    override init(type: PatchData.PDEntity = .site) {
+        super.init(type: .site)
+        sites = self.mos as! [MOSite]
+        filterEmpty()
         if sites.count == 0 {
-            sites = SiteSchedule.new()
+            sites = new()
         }
-        sites.sort(by: <)
+        sort()
     }
     
     // MARK: - Override base class
@@ -35,9 +36,26 @@ public class SiteSchedule: PDScheduleProtocol {
         return sites.count
     }
     
-    override public func insert() -> MOSite? {
-        let n = PDStrings.PlaceholderStrings.new_site
-        return SiteSchedule.insert(name: n, sites: &sites)
+    /// Appends the the new site to the sites and returns it.
+   override public func insert() -> MOSite? {
+        if let site = PatchData.insert(type.rawValue) as? MOSite {
+            site.setOrder(to: Int16(sites.count))
+            sites.append(site)
+            PatchData.save()
+            return site
+        }
+        return nil
+    }
+
+    /// Removes all sites with empty or nil names from the sites.
+    override public func filterEmpty() {
+        sites = sites.filter() { $0.getName() != ""
+            && $0.getName() != nil
+            && $0.getOrder() != -1 }
+    }
+    
+    override public func sort() {
+        sites.sort(by: <)
     }
     
     /// Resets the site array a default list of sites.
@@ -48,13 +66,12 @@ public class SiteSchedule: PDScheduleProtocol {
             PDStrings.SiteNames.injectionSiteNames
         let oldCount = sites.count
         let newcount = resetNames.count
-        let entity = PDStrings.CoreDataKeys.siteEntityName
         for i in 0..<newcount {
             if i < sites.count {
                 sites[i].setOrder(to: Int16(i))
                 sites[i].setName(to: resetNames[i])
                 sites[i].setImageIdentifier(to: resetNames[i])
-            } else if let site = PatchData.insert(entity) as? MOSite {
+            } else if let site = insert() {
                 site.setOrder(to: Int16(i))
                 site.setName(to: resetNames[i])
                 site.setImageIdentifier(to: resetNames[i])
@@ -66,8 +83,8 @@ public class SiteSchedule: PDScheduleProtocol {
                 sites[i].reset()
             }
         }
-        sites = SiteSchedule.filterEmpty(from: sites)
-        sites.sort(by: <)
+        filterEmpty()
+        sort()
         PatchData.save()
     }
 
@@ -91,7 +108,10 @@ public class SiteSchedule: PDScheduleProtocol {
             return sites[index]
         }
         // Append new site
-        return SiteSchedule.insert(name: name, sites: &sites)
+        let site = insert()
+        site?.setName(to: name)
+        site?.setImageIdentifier(to: name)
+        return site
     }
     
     /// Returns the next site for scheduling in the site schedule.
@@ -120,14 +140,15 @@ public class SiteSchedule: PDScheduleProtocol {
         }
     }
     
-    /// Sets the site order for the site at the given index.
+    /// Swaps the indices of two sites by setting the order.
     public func setOrder(at index: Index, to newOrder: Int16) {
         let newIndex = Index(newOrder)
         if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
-            sites.sort(by: <)
+            // Make sure index is correct both before and after swap
+            sort()
             sites[index].setOrder(to: newOrder)
             sites[newIndex].setOrder(to: Int16(index))
-            sites.sort(by: <)
+            sort()
             PatchData.save()
         }
     }
@@ -183,7 +204,9 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Returns if the sites in the site schedule are the same as the default sites.
     public func isDefault(usingPatches: Bool) -> Bool {
-        let defaultSites = (usingPatches) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+        let defaultSites = (usingPatches) ?
+            PDStrings.SiteNames.patchSiteNames :
+            PDStrings.SiteNames.injectionSiteNames
         let c = defaultSites.count
         if sites.count != c {
             return false
@@ -198,27 +221,6 @@ public class SiteSchedule: PDScheduleProtocol {
             }
         }
         return true
-    }
-
-    /// Removes all sites with empty or nil names from the sites.
-    public static func filterEmpty(from sites: [MOSite]) -> [MOSite] {
-        return sites.filter() { $0.getName() != ""
-            && $0.getName() != nil
-            && $0.getOrder() != -1 }
-    }
-    
-    /// Appends the the new site to the sites and returns it.
-    public static func insert(name: String, sites: inout [MOSite]) -> MOSite? {
-        let entity = PDStrings.CoreDataKeys.siteEntityName
-        if let site = PatchData.insert(entity) as? MOSite {
-            site.setName(to: name)
-            site.setImageIdentifier(to: name)
-            site.setOrder(to: Int16(sites.count))
-            sites.append(site)
-            PatchData.save()
-            return site
-        }
-        return nil
     }
     
     /// Deletes the site at the given index.
@@ -239,12 +241,14 @@ public class SiteSchedule: PDScheduleProtocol {
     // MARK: Private
     
     /// Generates a generic list of MOSites when there are none in store.
-    private static func new() -> [MOSite] {
+    private func new() -> [MOSite] {
         var sites: [MOSite] = []
-        var names = (UserDefaultsController.usingPatches()) ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+        typealias SiteNames = PDStrings.SiteNames
+        var names = (UserDefaultsController.usingPatches()) ?
+            SiteNames.patchSiteNames :
+            SiteNames.injectionSiteNames
         for i in 0..<names.count {
-            let entity = PDStrings.CoreDataKeys.siteEntityName
-            if let site = PatchData.insert(entity) as? MOSite {
+            if let site = insert() {
                 site.setOrder(to: Int16(i))
                 site.setName(to: names[i])
                 site.setImageIdentifier(to: names[i])

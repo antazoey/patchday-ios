@@ -100,8 +100,9 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     @IBAction func saveButtonTapped() {
+        let schedule = PDSchedule.pillSchedule
         if let pill = pill {
-            PillSchedule.setPill(for: pill, with: makePillAttributes())
+            schedule.setPill(for: pill, with: makePillAttributes())
             appDelegate.notificationsController.resendPillNotification(for: pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
                 let newValue = PDSchedule.pillSchedule.totalDue()

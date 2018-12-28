@@ -16,14 +16,15 @@ public class PillSchedule: PDScheduleProtocol {
         return "Singleton for reading, writing, and querying the MOPill array."
     }
     
-    public var pills: [MOPill]
+    public var pills: [MOPill] = []
     public var pillMap = [UUID: MOPill]()
     
-    override init() {
-        pills = PatchData.loadMOs(for: .pill) as? [MOPill] ?? []
-        PillSchedule.loadTakenTodays(for: pills)
-        pills = pills.filter() { $0.getName() != nil }
-        pillMap = PillSchedule.loadMap(pills: pills)
+    override init(type: PatchData.PDEntity = .pill) {
+        super.init(type: .pill)
+        pills = self.mos as! [MOPill]
+        loadTakenTodays(for: pills)
+        filterEmpty()
+        loadMap()
     }
     
     // MARK: - Override base class
@@ -32,19 +33,23 @@ public class PillSchedule: PDScheduleProtocol {
         return pills.count
     }
     
+    override public func filterEmpty() {
+        pills = pills.filter() { $0.getName() != nil }
+    }
+
     /// Creates a new MOPill and inserts it in to the pills.
-    override public func insert() -> NSManagedObject? {
+    override public func insert() -> MOPill? {
         let attributes = PillAttributes()
-        let pill = PillSchedule.append(to: &pills, andTo: &pillMap, using: attributes)
+        let pill = append(using: attributes)
         TodayData.setPillDataForToday()
         return pill
     }
     
     /// Sets the pills and map to a generic list of MOPills.
     override public func reset() {
-        pills = PillSchedule.new()
+        new()
         pillMap.removeAll()
-        pillMap = loadMap()
+        loadMap()
     }
     
     // MARK: - Public
@@ -73,12 +78,12 @@ public class PillSchedule: PDScheduleProtocol {
     /// Sets a given MOPill with the given PillAttributes.
     public func setPill(at index: Index, with attributes: PillAttributes) {
         if let pill = getPill(at: index) {
-            PillSchedule.setPill(for: pill, with: attributes)
+            setPill(for: pill, with: attributes)
         }
     }
     
     /// Sets a given MOPill with the given PillAttributes.
-    public static func setPill(for pill: MOPill, with attributes: PillAttributes) {
+    public func setPill(for pill: MOPill, with attributes: PillAttributes) {
         if let name = attributes.name {
             pill.setName(with: name)
         }
@@ -109,7 +114,7 @@ public class PillSchedule: PDScheduleProtocol {
         if index >= 0 && index < pills.count {
             pills[index].reset()
         }
-        pills = pills.filter() { $0.getName() != nil}
+        filterEmpty()
         PatchData.save()
     }
     
@@ -152,18 +157,15 @@ public class PillSchedule: PDScheduleProtocol {
     // MARK: - Private
     
     /// Generates a generic list of MOPills when there are none in store.
-    public static func new() -> [MOPill] {
-        var pills: [MOPill] = []
+    public func new() {
         var names = PDStrings.PillTypes.defaultPills
         for i in 0..<names.count {
-            let entity = PDStrings.CoreDataKeys.pillEntityName
-            if let pill = PatchData.insert(entity) as? MOPill {
+            if let pill = PatchData.insert(type.rawValue) as? MOPill {
                 pill.initAttributes(name: names[i])
                 pills.append(pill)
             }
         }
         PatchData.save()
-        return pills
     }
     
     public func printPills() {
@@ -181,7 +183,7 @@ public class PillSchedule: PDScheduleProtocol {
     }
 
     /// Resets "taken today" if it is a new day. Else, does nothing.
-    private static func loadTakenTodays(for pills: [MOPill]) {
+    private func loadTakenTodays(for pills: [MOPill]) {
         for pill in pills {
             pill.fixTakenToday()
         }
@@ -189,28 +191,23 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     /// Creates a new Pill with the given attributes and appends it to the schedule.
-    private static func append(to pills: inout [MOPill], andTo pillMap: inout [UUID: MOPill], using attributes: PillAttributes) -> MOPill? {
-        let entity = PDStrings.CoreDataKeys.pillEntityName
-        if let pill = PatchData.insert(entity) as? MOPill {
+    private func append(using attributes: PillAttributes) -> MOPill? {
+        if let pill = PatchData.insert(type.rawValue) as? MOPill {
             setPill(for: pill, with: attributes)
             pills.append(pill)
-            pillMap = PillSchedule.loadMap(pills: pills)
+            loadMap()
             return pill
         }
         return nil
     }
     
     /// Load estrogen ID map after changes occur to the schedule.
-    private static func loadMap(pills: [MOPill]) -> [UUID: MOPill] {
-        return pills.reduce([UUID: MOPill]()) {
+    private func loadMap() {
+        pillMap = pills.reduce([UUID: MOPill]()) {
             (pillDict, pill) -> [UUID: MOPill] in
             var dict = pillDict
             dict[pill.getID()] = pill
             return dict
         }
-    }
-    
-    private func loadMap() -> [UUID: MOPill] {
-        return PillSchedule.loadMap(pills: pills)
     }
 }

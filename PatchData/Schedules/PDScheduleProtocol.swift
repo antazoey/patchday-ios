@@ -11,11 +11,20 @@ import CoreData
 
 public class PDScheduleProtocol: NSObject {
     
-    private var mos: [NSManagedObject] = []
+    internal var mos: [NSManagedObject] = []
+    internal var type: PatchData.PDEntity
+    
+    init(type: PatchData.PDEntity) {
+        self.type = type
+        super.init()
+        mos = PatchData.loadMOs(for: type) ?? []
+        filterEmpty()
+        sort()
+    }
 
     /// Return the number of Managed Objects in the schedule
     func count() -> Int {
-        return mos.count
+        fatalError("Must Override")
     }
 
     /// Create + Insert a new Managed Object
@@ -27,4 +36,8 @@ public class PDScheduleProtocol: NSObject {
     func reset() {
         fatalError("Must Override")
     }
+    
+    func sort() {}
+    
+    func filterEmpty() {}
 }

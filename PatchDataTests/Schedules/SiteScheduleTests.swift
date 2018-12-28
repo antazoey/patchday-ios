@@ -35,7 +35,6 @@ class SiteScheduleTests: XCTestCase {
     
     func testInsert() {
         if let site = siteSchedule.insert() {
-            print(siteSchedule.getSites()[0].objectID)
             XCTAssertEqual(siteSchedule.count(), 5)
             XCTAssertTrue(siteSchedule.getSites().contains(site))
         } else {
@@ -183,7 +182,11 @@ class SiteScheduleTests: XCTestCase {
     
     func testLoadEstrogenFromBackUpSite() {
         // Assert begins at nil
-        XCTAssertNil(estroSchedule.getEstrogen(at: 0).siteNameBackUp)
+        if let estro = estroSchedule.getEstrogen(at: 0, insertOnFail: false) {
+            XCTAssertNil(estro.siteNameBackUp)
+        } else {
+            XCTFail()
+        }
         siteSchedule.loadBackupSiteName(from: siteSchedule.sites[0])
         if let siteNameFromSite = siteSchedule.sites[0].getName(),
             let siteNameFromEstro = estroSchedule.estrogens[0].getSiteNameBackUp() {
@@ -222,15 +225,15 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testFilterEmptySites() {
-        let c = siteSchedule.count()
+        let before = siteSchedule.count()
         siteSchedule.setName(at: 0, to: "")
-        let filtered_sites = SiteSchedule.filterEmpty(from: siteSchedule.getSites())
-        let filtered_count = filtered_sites.count
-        XCTAssertEqual(filtered_count, c - 1)
+        siteSchedule.filterEmpty()
+        let after = siteSchedule.count()
+        XCTAssertEqual(after, before - 1)
     }
     
     func testAppendSite() {
-        if let new_site = SiteSchedule.insert(name: "NEW SITE", sites: &siteSchedule.sites) {
+        if let new_site = siteSchedule.insert() {
             XCTAssert(siteSchedule.sites.contains(new_site))
         } else {
             XCTFail()

@@ -16,17 +16,19 @@ public class TodayData: NSObject {
         let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
-        let estro = PDSchedule.getEstroForToday()
         let interval = UserDefaultsController.getTimeIntervalString()
-        if let siteName = getSiteNameToSaveForToday(using: estro, current: UserDefaultsController.getSiteIndex()) {
-            defaults.set(siteName, forKey: siteKey)
-        } else {
-            defaults.set(nil, forKey: siteKey)
-        }
-        if let date = estro.expirationDate(interval: interval) {
-            defaults.set(date, forKey: dateKey)
-        } else {
-            defaults.set(nil, forKey: dateKey)
+        let index = UserDefaultsController.getSiteIndex()
+        if let estro = PDSchedule.getEstrogenForToday() {
+            if let siteName = getSiteNameForToday(using: estro, current: index) {
+                defaults.set(siteName, forKey: siteKey)
+            } else {
+                defaults.set(nil, forKey: siteKey)
+            }
+            if let date = estro.expirationDate(interval: interval) {
+                defaults.set(date, forKey: dateKey)
+            } else {
+                defaults.set(nil, forKey: dateKey)
+            }
         }
     }
     
@@ -56,7 +58,7 @@ public class TodayData: NSObject {
     }
 
     /// Helper function for retrieving correct SiteName data to be saved in PatchDay Today widget.
-    private static func getSiteNameToSaveForToday(using estro: MOEstrogen, current: Index) -> SiteName? {
+    private static func getSiteNameForToday(using estro: MOEstrogen, current: Index) -> SiteName? {
         if UserDefaultsController.usingPatches() {
             return estro.getSiteName()
         } else if let suggestedSite = PDSchedule.suggest(current: current),

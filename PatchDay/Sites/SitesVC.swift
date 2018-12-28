@@ -168,7 +168,6 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        let usingPatches = UserDefaultsController.usingPatches()
         PDSchedule.siteSchedule.reset()
         reloadSiteNames()
         siteTable.isEditing = false

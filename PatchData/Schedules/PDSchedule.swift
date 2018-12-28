@@ -69,9 +69,11 @@ public class PDSchedule: NSObject {
         return estrogenSchedule.totalDue(interval) + pillSchedule.totalDue()
     }
     
-    public static func getEstroForToday() -> MOEstrogen {
-        if UserDefaultsController.usingPatches(), let nextEstro = estrogenSchedule.nextDue() {
-            return nextEstro
+    /// For patches, get the next due. For injections, get the only one.
+    public static func getEstrogenForToday() -> MOEstrogen? {
+        if UserDefaultsController.usingPatches(),
+            let estro = estrogenSchedule.nextDue() {
+            return estro
         } else {
             return PDSchedule.estrogenSchedule.getEstrogen(at: 0)
         }
