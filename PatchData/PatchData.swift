@@ -35,10 +35,12 @@ public class PatchData: NSObject {
         }
     }
     
+    /// Insert a Core Data entity into the view context
     public static func insert(_ entity: String) -> NSManagedObject? {
         return NSEntityDescription.insertNewObject(forEntityName: entity, into: getContext());
     }
     
+    /// Get the current view context
     public static func getContext() -> NSManagedObjectContext {
         return persistentContainer.viewContext
     }
