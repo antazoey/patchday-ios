@@ -14,7 +14,8 @@ public class PatchData: NSObject {
 
     // Core Data stack
     internal static var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: PDStrings.CoreDataKeys.persistantContainer_key)
+        let conkey = PDStrings.CoreDataKeys.persistantContainer_key
+        let container = NSPersistentContainer(name: conkey)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 PatchDataAlert.alertForPersistentStoreLoadError(error: error)
