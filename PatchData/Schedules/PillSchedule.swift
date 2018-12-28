@@ -34,10 +34,10 @@ public class PillSchedule: PDScheduleProtocol {
     
     /// Creates a new MOPill and inserts it in to the pills.
     override public func insert() -> NSManagedObject? {
-        let newPillAttributes = PillAttributes()
-        let newPill = PillSchedule.append(to: &pills, andTo: &pillMap, using: newPillAttributes)
+        let attributes = PillAttributes()
+        let pill = PillSchedule.append(to: &pills, andTo: &pillMap, using: attributes)
         TodayData.setPillDataForToday()
-        return newPill
+        return pill
     }
     
     /// Sets the pills and map to a generic list of MOPills.
@@ -153,17 +153,17 @@ public class PillSchedule: PDScheduleProtocol {
     
     /// Generates a generic list of MOPills when there are none in store.
     public static func new() -> [MOPill] {
-        var generatedPills: [MOPill] = []
+        var pills: [MOPill] = []
         var names = PDStrings.PillTypes.defaultPills
         for i in 0..<names.count {
             let entity = PDStrings.CoreDataKeys.pillEntityName
             if let pill = PatchData.insert(entity) as? MOPill {
                 pill.initAttributes(name: names[i])
-                generatedPills.append(pill)
+                pills.append(pill)
             }
         }
         PatchData.save()
-        return generatedPills
+        return pills
     }
     
     public func printPills() {

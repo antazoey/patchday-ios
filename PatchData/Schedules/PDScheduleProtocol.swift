@@ -10,10 +10,12 @@ import Foundation
 import CoreData
 
 public class PDScheduleProtocol: NSObject {
+    
+    private var mos: [NSManagedObject] = []
 
     /// Return the number of Managed Objects in the schedule
     func count() -> Int {
-        fatalError("Must Override")
+        return mos.count
     }
 
     /// Create + Insert a new Managed Object

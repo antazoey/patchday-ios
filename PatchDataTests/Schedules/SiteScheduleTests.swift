@@ -35,6 +35,7 @@ class SiteScheduleTests: XCTestCase {
     
     func testInsert() {
         if let site = siteSchedule.insert() {
+            print(siteSchedule.getSites()[0].objectID)
             XCTAssertEqual(siteSchedule.count(), 5)
             XCTAssertTrue(siteSchedule.getSites().contains(site))
         } else {
