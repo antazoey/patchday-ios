@@ -39,7 +39,7 @@ class SiteScheduleTests: XCTestCase {
     func testInsert() {
         if let site = siteSchedule.insert() {
             XCTAssertEqual(siteSchedule.count(), 5)
-            XCTAssertTrue(siteSchedule.getSites().contains(site))
+            XCTAssertTrue(siteSchedule.sites.contains(site))
         } else {
             XCTFail()
         }
@@ -185,20 +185,6 @@ class SiteScheduleTests: XCTestCase {
         old_count = siteSchedule.count()
         siteSchedule.delete(at: 100)
         XCTAssertEqual(old_count, siteSchedule.count())
-    }
-    
-    func testLoadEstrogenFromBackUpSite() {
-        // Assert begins at nil
-        if let estro = estroSchedule.getEstrogen(at: 0, insertOnFail: false) {
-            XCTAssertNil(estro.siteNameBackUp)
-        } else {
-            XCTFail()
-        }
-        siteSchedule.loadBackupSiteName(from: siteSchedule.sites[0])
-        if let siteNameFromSite = siteSchedule.sites[0].getName(),
-            let siteNameFromEstro = estroSchedule.estrogens[0].getSiteNameBackUp() {
-            XCTAssertEqual(siteNameFromSite, siteNameFromEstro)
-        }
     }
     
     func testGetSiteName() {

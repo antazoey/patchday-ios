@@ -43,7 +43,7 @@ public class PDSchedule: NSObject {
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
     public static func suggest(current: Index) -> MOSite? {
-        let sites = siteSchedule.getSites()
+        let sites = siteSchedule.sites
         if let i = siteSchedule.nextIndex(current: current) {
             return sites[i]
         }
@@ -70,7 +70,7 @@ public class PDSchedule: NSObject {
         var indices: [Index] = []
         for estro in estrogenSchedule.getEstrogens() {
             if let site = estro.getSite(),
-                let index = siteSchedule.getSites().index(of: site) {
+                let index = siteSchedule.sites.index(of: site) {
                 indices.append(index)
             } else {
                 indices.append(-1)

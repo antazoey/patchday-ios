@@ -15,7 +15,7 @@ public typealias SiteNameSet = Set<SiteName>
 public class SiteSchedule: PDScheduleProtocol {
     
     override public var description: String {
-        return "Singleton for reading, writing, and querying the MOSite array."
+        return "Schedule for maintaining sites for estrogen patches or injections."
     }
     
     public var sites: [MOSite] = []
@@ -30,7 +30,7 @@ public class SiteSchedule: PDScheduleProtocol {
         sort()
     }
     
-    // MARK: - Override base class
+    // MARK: - Overrides
     
     override public func count() -> Int {
         return sites.count
@@ -49,9 +49,11 @@ public class SiteSchedule: PDScheduleProtocol {
 
     /// Removes all sites with empty or nil names from the sites.
     override public func filterEmpty() {
-        sites = sites.filter() { $0.getName() != ""
+        sites = sites.filter() {
+            $0.getName() != ""
             && $0.getName() != nil
-            && $0.getOrder() != -1 }
+            && $0.getOrder() != -1
+        }
     }
     
     override public func sort() {
@@ -90,11 +92,7 @@ public class SiteSchedule: PDScheduleProtocol {
         PatchData.save()
     }
 
-    // MARK: - Public
-    
-    public func getSites() -> [MOSite] {
-        return sites
-    }
+    // MARK: - Other Public
 
     /// Returns the site at the given index.
     public func getSite(at index: Index) -> MOSite? {
@@ -114,24 +112,6 @@ public class SiteSchedule: PDScheduleProtocol {
         site?.setName(to: name)
         site?.setImageIdentifier(to: name)
         return site
-    }
-    
-    /// Returns the next site for scheduling in the site schedule.
-    public func nextIndex(current: Index) -> Index? {
-        if sites.count <= 0 || current < 0 {
-            return nil
-        }
-        var r: Index = (current < sites.count) ? current : 0
-        for _ in 0..<sites.count {
-            // Return site that has no estros
-            if sites[r].estrogenRelationship?.count == 0 {
-                PDDefaults.setSiteIndex(to: r)
-                return r
-            } else {
-                r = PDDefaults.getSiteIndex()
-            }
-        }
-        return min(current, sites.count-1)
     }
     
     /// Sets a the siteName for the site at the given index.
@@ -166,19 +146,24 @@ public class SiteSchedule: PDScheduleProtocol {
         }
     }
     
-    /// Set the siteBackUpName in every estrogen.
-    public func loadBackupSiteName(from site: MOSite) {
-        if site.isOccupied(),
-            let estroSet = site.estrogenRelationship {
-            for estro in Array(estroSet) {
-                let e = estro as! MOEstrogen
-                if let n = site.getName() {
-                    e.setSiteBackup(to: n)
-                }
+    /// Returns the next site for scheduling in the site schedule.
+    public func nextIndex(current: Index) -> Index? {
+        if sites.count <= 0 || current < 0 {
+            return nil
+        }
+        var r: Index = (current < sites.count) ? current : 0
+        for _ in 0..<sites.count {
+            // Return site that has no estros
+            if sites[r].estrogenRelationship?.count == 0 {
+                PDDefaults.setSiteIndex(to: r)
+                return r
+            } else {
+                r = PDDefaults.getSiteIndex()
             }
         }
+        return min(current, sites.count-1)
     }
-    
+
     /// Returns an array of a siteNames for each site in the schedule.
     public func getNames() -> [SiteName] {
         return sites.map({
@@ -241,6 +226,22 @@ public class SiteSchedule: PDScheduleProtocol {
         PatchData.save()
     }
     
+    /// Prints the every site and order (for debugging).
+    public func printSites() {
+        print("PRINTING SITES")
+        print("--------------")
+        for site in sites {
+            print("Order: " + String(site.getOrder()))
+            if let n = site.getName() {
+                print("Name: " + n)
+            } else {
+                print("Unnamed")
+            }
+            print("---------")
+        }
+        print("*************")
+    }
+    
     // MARK: Private
     
     /// Generates a generic list of MOSites when there are none in store.
@@ -262,19 +263,16 @@ public class SiteSchedule: PDScheduleProtocol {
         return sites
     }
     
-    /// Prints the every site and order (for debugging).
-    public func printSites() {
-        print("PRINTING SITES")
-        print("--------------")
-        for site in sites {
-            print("Order: " + String(site.getOrder()))
-            if let n = site.getName() {
-                print("Name: " + n)
-            } else {
-                print("Unnamed")
+    /// Set the siteBackUpName in every estrogen.
+    private func loadBackupSiteName(from site: MOSite) {
+        if site.isOccupied(),
+            let estroSet = site.estrogenRelationship {
+            for estro in Array(estroSet) {
+                let e = estro as! MOEstrogen
+                if let n = site.getName() {
+                    e.setSiteBackup(to: n)
+                }
             }
-            print("---------")
         }
-        print("*************")
     }
 }

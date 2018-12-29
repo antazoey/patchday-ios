@@ -179,7 +179,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadTitle() {
-        let sites = PDSchedule.siteSchedule.getSites()
+        let sites = PDSchedule.siteSchedule.sites
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"
