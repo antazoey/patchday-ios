@@ -97,7 +97,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        if let pill = pillSchedule.insert() as? MOPill,
+        if let pill = pillSchedule.insert(),
             let i = pillSchedule.pills.index(of: pill) {
             segueToPillView(for: pill, at: i)
         }

@@ -20,6 +20,7 @@
 		B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */; };
 		B405322521D4BACE00AF9CAD /* PillAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40531BC21CD845800BD64CE /* PillAttributes.swift */; };
 		B405322721D5F8DA00AF9CAD /* PDScheduleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322621D5F8DA00AF9CAD /* PDScheduleProtocol.swift */; };
+		B405322921D6F05900AF9CAD /* UserDefaultsControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322821D6F05900AF9CAD /* UserDefaultsControllerTests.swift */; };
 		B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */; };
 		B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9BF21CD7DA9002364BB /* PatchData.swift */; };
@@ -171,6 +172,7 @@
 		B40531BC21CD845800BD64CE /* PillAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributes.swift; sourceTree = "<group>"; };
 		B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillScheduleTests.swift; sourceTree = "<group>"; };
 		B405322621D5F8DA00AF9CAD /* PDScheduleProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDScheduleProtocol.swift; sourceTree = "<group>"; };
+		B405322821D6F05900AF9CAD /* UserDefaultsControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsControllerTests.swift; sourceTree = "<group>"; };
 		B40CC9AF21CCE614002364BB /* PDKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PDKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDateHelperTests.swift; sourceTree = "<group>"; };
 		B40CC9B321CCE614002364BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 			children = (
 				B4E12EA421D018E80068AD2E /* Schedules */,
 				B480EE2D21CC7554002C2238 /* Info.plist */,
+				B405322821D6F05900AF9CAD /* UserDefaultsControllerTests.swift */,
 			);
 			path = PatchDataTests;
 			sourceTree = "<group>";
@@ -832,6 +835,7 @@
 			files = (
 				B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */,
 				B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */,
+				B405322921D6F05900AF9CAD /* UserDefaultsControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,9 +23,10 @@ public class PDTodayDataController: NSObject {
     private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
     
     // MARK: - Public
-    
+
     public static func usingPatches() -> Bool {
-        if let delivMethod = defaults?.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
+        let key = PDStrings.SettingsKey.deliv.rawValue
+        if let delivMethod = defaults?.object(forKey: key) as? String {
             return delivMethod == PDStrings.DeliveryMethods.patches
         }
         return false

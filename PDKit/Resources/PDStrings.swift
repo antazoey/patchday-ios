@@ -168,8 +168,11 @@ public class PDStrings: NSObject {
         public static var site_new = {
             return NSLocalizedString("New Site", comment: comment)
         }()
-        public static var estrogen = {
-            return NSLocalizedString("Estrogen", comment: comment)
+        public static var patch = {
+            return NSLocalizedString("Patch", comment: comment)
+        }()
+        public static var injection = {
+            return NSLocalizedString("Injection", comment: comment)
         }()
     }
     
@@ -289,9 +292,9 @@ public class PDStrings: NSObject {
     public struct PickerData {
         
         public static var deliveryMethods: [String] = {
-            let  comment = "Displayed on a button and in a picker."
+            let comment = "Displayed on a button and in a picker."
             return [NSLocalizedString("Patches", tableName: nil, comment: comment),
-                    NSLocalizedString("Injection", tableName: nil, comment: comment)]
+                    NSLocalizedString("Injections", tableName: nil, comment: comment)]
         }()
         
         public static var expirationIntervals: [String] = {
@@ -353,9 +356,8 @@ public class PDStrings: NSObject {
     public struct DeliveryMethods {
         private static let comment =
             "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches."
-        public static var patch = { return NSLocalizedString("Patch", comment: comment) }()
         public static var patches = { return NSLocalizedString("Patches", comment: comment) }()
-        public static var injection = { return NSLocalizedString("Injection", comment: comment) }()
+        public static var injections = { return NSLocalizedString("Injections", comment: comment) }()
     }
     
     // MARK: - Alerts (Localizable)

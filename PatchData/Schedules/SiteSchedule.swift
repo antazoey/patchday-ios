@@ -61,13 +61,16 @@ public class SiteSchedule: PDScheduleProtocol {
     /// Resets the site array a default list of sites.
     override public func reset() {
         let usingPatches = UserDefaultsController.usingPatches()
+        if (isDefault(usingPatches: usingPatches)) {
+            return
+        }
         let resetNames: [String] = (usingPatches) ?
             PDStrings.SiteNames.patchSiteNames :
             PDStrings.SiteNames.injectionSiteNames
         let oldCount = sites.count
         let newcount = resetNames.count
         for i in 0..<newcount {
-            if i < sites.count {
+            if i < oldCount {
                 sites[i].setOrder(to: Int16(i))
                 sites[i].setName(to: resetNames[i])
                 sites[i].setImageIdentifier(to: resetNames[i])
@@ -75,7 +78,6 @@ public class SiteSchedule: PDScheduleProtocol {
                 site.setOrder(to: Int16(i))
                 site.setName(to: resetNames[i])
                 site.setImageIdentifier(to: resetNames[i])
-                sites.append(site)
             }
         }
         if oldCount > resetNames.count {
@@ -207,11 +209,12 @@ public class SiteSchedule: PDScheduleProtocol {
         let defaultSites = (usingPatches) ?
             PDStrings.SiteNames.patchSiteNames :
             PDStrings.SiteNames.injectionSiteNames
-        let c = defaultSites.count
-        if sites.count != c {
+        let def_c = defaultSites.count
+        let sites_c = count()
+        if sites_c != def_c {
             return false
         }
-        for i in 0..<c {
+        for i in 0..<def_c {
             if let n = sites[i].getName() {
                 if n != defaultSites[i] {
                     return false

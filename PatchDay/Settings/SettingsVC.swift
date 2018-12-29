@@ -101,7 +101,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             countButton.isEnabled = false
             countButtonArrow.isEnabled = false
             if UserDefaultsController.getQuantityInt() != 1 {
-                UserDefaultsController.setQuantityWithoutWarning(to: "1")
+                UserDefaultsController.setQuantityWithoutWarning(to: 1)
             }
         }
     }

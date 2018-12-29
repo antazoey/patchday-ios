@@ -43,15 +43,19 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testReset() {
+        UserDefaultsController.setDeliveryMethod(to: "Patches")
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
-        let _ = siteSchedule.getSite(for: "NEW SITE")
+        let _ = siteSchedule.insert()
         siteSchedule.reset()
+        XCTAssertEqual(siteSchedule.count(), 4)
         XCTAssert(siteSchedule.isDefault(usingPatches: true))
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
-        let _ = siteSchedule.getSite(for: "NEW SITE")
+        let _ = siteSchedule.insert()
+        UserDefaultsController.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
+        XCTAssertEqual(siteSchedule.count(), 6)
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
     
@@ -210,13 +214,15 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testIsDefault() {
-        // Begins as patch defaults in test set-up
+        UserDefaultsController.setDeliveryMethod(to: "Patches")
+        siteSchedule.reset()
         XCTAssert(siteSchedule.isDefault(usingPatches: true))
         // Patches fail when tested against injections
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: false))
         // Fails when add a custom site
         siteSchedule.setName(at: 0, to: "SITE NAME")
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
+        UserDefaultsController.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         // Injection defaults pass
         XCTAssert(siteSchedule.isDefault(usingPatches: false))

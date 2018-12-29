@@ -22,7 +22,7 @@ internal class PatchDataAlert: NSObject {
     /// Alert for changing the count of estrogens causing a loss of data.
     internal static func alertForChangingCount(oldCount: Int, newCount: Int, countButton: UIButton, navController: UINavigationController?, reset: @escaping (_ newCount: Int) -> ()) {
         if (newCount > oldCount) {
-            UserDefaultsController.setQuantityWithoutWarning(to: "\(newCount)")
+            UserDefaultsController.setQuantityWithoutWarning(to: newCount)
             return
         }
         if let currentVC = getRootVC() {
@@ -32,7 +32,7 @@ internal class PatchDataAlert: NSObject {
                 (void) in
                 // Note: newCount is start_i because reset only occurs when decreasing count
                 PDSchedule.estrogenSchedule.reset(start: newCount, end: 3)
-                UserDefaultsController.setQuantityWithoutWarning(to: "\(newCount)")
+                UserDefaultsController.setQuantityWithoutWarning(to: newCount)
                 
                 // Tab bar image / badgeValue
                 if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {

@@ -28,7 +28,7 @@ internal class PDAlertController: NSObject {
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
                 PDSchedule.estrogenSchedule.reset()
-                let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? "3" : "1"
+                let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? 3 : 1
                 UserDefaultsController.setQuantityWithoutWarning(to: c)
                 UserDefaultsController.setDeliveryMethod(to: newMethod)
                 UserDefaultsController.setSiteIndex(to: 0)
@@ -48,7 +48,7 @@ internal class PDAlertController: NSObject {
                     countButton.isEnabled = false
                     countButton.setTitle("1", for: .disabled)
                     countButton.setTitle("1", for: .normal)
-                    UserDefaultsController.setQuantityWithoutWarning(to: "1")
+                    UserDefaultsController.setQuantityWithoutWarning(to: 1)
                 }
                 deliveryButton.setTitle(oldMethod, for: .normal)
                 

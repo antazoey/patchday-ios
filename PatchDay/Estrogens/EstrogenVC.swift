@@ -422,9 +422,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     /// Configured title of view controller
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
-            let patch = PDStrings.DeliveryMethods.patch
-            let injection = PDStrings.DeliveryMethods.injection
-            title = (UserDefaultsController.usingPatches()) ? patch : injection
+            typealias Titles = PDStrings.VCTitles
+            title = (UserDefaultsController.usingPatches()) ?
+                Titles.patch : Titles.injection
         }
     }
     
