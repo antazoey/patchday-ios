@@ -20,14 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var notificationsController = PDNotificationController()
     
     public func isFirstLaunch() -> Bool {
-        return UserDefaultsController.needsMigration()
+        return PDDefaults.needsMigration()
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // Load user defaults.
-        UserDefaultsController.setUp()
-
+        PDDefaults.setUp()
+        
+        // Side effects for user defaults controller
+        PDDefaults.setSiteSchedule(PDSchedule.siteSchedule)
+        PDDefaults.setScheduleState(PDSchedule.state)
+        PDDefaults.setEstrogenSchedule(PDSchedule.estrogenSchedule)
+        
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
             PDSchedule.pillSchedule.reset()
@@ -37,9 +42,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TodayData.setDataForTodayApp()
         
         // Set the correct app badge value.
-        setBadge(with: PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()))
+        setBadge(with: PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()))
         
-        PDSchedule.estrogenSchedule.delete(after: UserDefaultsController.getQuantityInt())
+        let count = PDDefaults.getQuantity()
+        PDSchedule.estrogenSchedule.delete(after: count)
 
         // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()
@@ -48,14 +54,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge(with: PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()))
+        setBadge(with: PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()))
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge(with: PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()))
+        setBadge(with: PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()))
     }
     
-    /// Sets the App badge number to the expired estrogen count + the total pills due for taking.
+    /** Sets the App badge number to the expired
+    estrogen count + the total pills due for taking. */
     private func setBadge(with newBadgeNumber: Int) {
         UIApplication.shared.applicationIconBadgeNumber = newBadgeNumber
     }

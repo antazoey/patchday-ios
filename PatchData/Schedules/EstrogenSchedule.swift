@@ -20,7 +20,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     public var estrogens: [MOEstrogen] = []
     private var estrogenMap = [UUID: MOEstrogen]()
-    private var effectManager = ScheduleChangeManager()
+    private var state = PDSchedule.state
     
     override init(type: PatchData.PDEntity = .estrogen) {
         super.init(type: .estrogen)
@@ -73,11 +73,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public func getEstrogens() -> [MOEstrogen] {
         return estrogens
     }
-    
-    public func getEffectManager() -> ScheduleChangeManager {
-        return effectManager
-    }
-    
+
     public func delete(after i: Index) {
         let c = count()
         if c > i {

@@ -123,9 +123,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let siteToMove = PDSchedule.siteSchedule.sites[sourceIndexPath.row]
         PDSchedule.siteSchedule.sites.remove(at: sourceIndexPath.row)
         PDSchedule.siteSchedule.sites.insert(siteToMove, at: destinationIndexPath.row)
-        let current = UserDefaultsController.getSiteIndex()
+        let current = PDDefaults.getSiteIndex()
         if sourceIndexPath.row == PDSchedule.siteSchedule.nextIndex(current: current) {
-            UserDefaultsController.setSiteIndex(to: destinationIndexPath.row)
+            PDDefaults.setSiteIndex(to: destinationIndexPath.row)
         }
         for i in 0..<PDSchedule.siteCount() {
             PDSchedule.siteSchedule.setOrder(at: i, to: Int16(i))
@@ -249,7 +249,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setTitle() {
-        title = (UserDefaultsController.usingPatches()) ? PDStrings.VCTitles.patch_sites : PDStrings.VCTitles.injection_sites
+        title = (PDDefaults.usingPatches()) ? PDStrings.VCTitles.patch_sites : PDStrings.VCTitles.injection_sites
         self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
     }
     

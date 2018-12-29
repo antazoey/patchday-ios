@@ -8,10 +8,10 @@
 
 import Foundation
 
-public class ScheduleChangeManager: NSObject {
+public class ScheduleState: NSObject {
     
     override public var description: String {
-        return "An object that manages changes in a schedule."
+        return "An object that manages the state of a schedule."
     }
     
     public var wereChanges: Bool = false
@@ -33,6 +33,4 @@ public class ScheduleChangeManager: NSObject {
         deliveryMethodChanged = false
         isNew = false
     }
-    
-    
 }

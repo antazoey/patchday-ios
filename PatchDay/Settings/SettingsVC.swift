@@ -15,7 +15,7 @@ typealias SettingsKey = PDStrings.SettingsKey
 
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can alMOEstrogenst be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Autofill Site Functionality". UserDefaultsController is the object responsible saving and loading the settings that the user chooses here.
+    // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can alMOEstrogenst be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Autofill Site Functionality". PDDefaults is the object responsible saving and loading the settings that the user chooses here.
     
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -82,37 +82,38 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
+        PDSchedule.state.oldDeliveryCount = PDDefaults.getQuantity()
     }
       
     // MARK: - Data loaders
     
     private func loadDeliveryMethod() {
-        deliveryMethodButton.setTitle(UserDefaultsController.getDeliveryMethod(), for: .normal)
+        deliveryMethodButton.setTitle(PDDefaults.getDeliveryMethod(), for: .normal)
     }
     
     private func loadInterval() {
-        intervalButton.setTitle(UserDefaultsController.getTimeIntervalString(), for: .normal)
+        intervalButton.setTitle(PDDefaults.getTimeIntervalString(), for: .normal)
     }
     
     private func loadCount() {
-        countButton.setTitle(UserDefaultsController.getQuantityString(), for: .normal)
-        if UserDefaultsController.getDeliveryMethod() == "Injection" {
+        let count = PDDefaults.getQuantity()
+        countButton.setTitle("\(count)", for: .normal)
+        if PDDefaults.getDeliveryMethod() == "Injection" {
             countButton.isEnabled = false
             countButtonArrow.isEnabled = false
-            if UserDefaultsController.getQuantityInt() != 1 {
-                UserDefaultsController.setQuantityWithoutWarning(to: 1)
+            if PDDefaults.getQuantity() != 1 {
+                PDDefaults.setQuantityWithoutWarning(to: 1)
             }
         }
     }
 
     private func loadReminder_bool() {
-        receiveReminder_switch.setOn(UserDefaultsController.getRemindMeUpon(), animated: false)
+        receiveReminder_switch.setOn(PDDefaults.getRemindMeUpon(), animated: false)
     }
     
     private func loadRemindMinutes() {
         if receiveReminder_switch.isOn {
-            let v = UserDefaultsController.getNotificationMinutesBefore()
+            let v = PDDefaults.getNotificationMinutesBefore()
             reminderTimeSlider.value = Float(v)
             reminderTimeSettingsLabel.text = String(v)
             reminderTimeSettingsLabel.textColor = UIColor.black
@@ -219,7 +220,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         picker.isHidden = true
         switch key {
         case PDStrings.SettingsKey.count :
-            PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount = UserDefaultsController.getQuantityInt()
+            PDSchedule.state.oldDeliveryCount = PDDefaults.getQuantity()
         default :
             break
         }
@@ -256,7 +257,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Saving
     
     private func saveDeliveryMethodChange(_ row: Int) {
-        let usingPatches = UserDefaultsController.usingPatches()
+        let usingPatches = PDDefaults.usingPatches()
         if row < PDStrings.PickerData.deliveryMethods.count && row >= 0 {
             let choice = PDStrings.PickerData.deliveryMethods[row]
             // Set injection Button
@@ -277,14 +278,14 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             
             // Check to see if there are changes to the site schedule
             if PDSchedule.estrogenSchedule.isEmpty() && PDSchedule.siteSchedule.isDefault(usingPatches: usingPatches) {
-                UserDefaultsController.setDeliveryMethod(to: choice)
-                UserDefaultsController.setSiteIndex(to: 0)
+                PDDefaults.setDeliveryMethod(to: choice)
+                PDDefaults.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()
                 TodayData.setEstrogenDataForToday()
             }
                 // Alert the user their current site schedule will be erased
             else {
-                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: UserDefaultsController.getDeliveryMethod(), oldCount: UserDefaultsController.getQuantityInt(), deliveryButton: deliveryMethodButton, countButton: countButton, settingsVC: self)
+                PDAlertController.alertForChangingDeliveryMethod(newMethod: choice, oldMethod: PDDefaults.getDeliveryMethod(), oldCount: PDDefaults.getQuantity(), deliveryButton: deliveryMethodButton, countButton: countButton, settingsVC: self)
             }
         } else {
             print("Error: saving delivery method for index for row  + \(row)")
@@ -292,9 +293,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveCountChange(_ row: Int) {
-        let oldCount = PDSchedule.estrogenSchedule.getEffectManager().oldDeliveryCount
+        let oldCount = PDSchedule.state.oldDeliveryCount
         if row < PDStrings.PickerData.counts.count && row >= 0, let newCount = Int(PDStrings.PickerData.counts[row]) {
-            UserDefaultsController.setQuantityWithWarning(to: newCount, oldCount: oldCount, countButton: countButton, navController: self.navigationController) {
+            PDDefaults.setQuantityWithWarning(to: newCount, oldCount: oldCount, countButton: countButton, navController: self.navigationController) {
                 newCount in
                 let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
                 for i in (newCount-1)..<oldCount {
@@ -310,7 +311,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveIntervalChange(_ row: Int) {
         if row < PDStrings.PickerData.expirationIntervals.count && row >= 0 {
             let choice = PDStrings.PickerData.expirationIntervals[row]
-            UserDefaultsController.setTimeInterval(to: choice)
+            PDDefaults.setTimeInterval(to: choice)
             intervalButton.setTitle(choice, for: .normal)
             appDelegate.notificationsController.resendAllEstrogenNotifications()
         }
@@ -329,7 +330,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveFromPicker(_ key: SettingsKey) {
         if let row = selectedRow {
             
-            let oldHighest = UserDefaultsController.getQuantityInt() - 1
+            let oldHighest = PDDefaults.getQuantity() - 1
             
             switch key {
             case PDStrings.SettingsKey.deliv:
@@ -343,7 +344,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
 
             // Resend notifications
-            let newHighest = UserDefaultsController.getQuantityInt() - 1
+            let newHighest = PDDefaults.getQuantity() - 1
             appDelegate.notificationsController.resendEstrogenNotifications(upToRemove: oldHighest, upToAdd: newHighest)
         }
     }
@@ -353,7 +354,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func reminderTimeValueChanged(_ sender: Any) {
         let v = Int(reminderTimeSlider.value.rounded())
         reminderTimeSettingsLabel.text = String(v)
-        UserDefaultsController.setNotificationMinutesBefore(to: v)
+        PDDefaults.setNotificationMinutesBefore(to: v)
         self.appDelegate.notificationsController.resendAllEstrogenNotifications()
        
     }
@@ -385,7 +386,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         else {
             disableNotificationButtons()
         }
-        UserDefaultsController.setNotify(to: shouldReceive)       // save
+        PDDefaults.setNotify(to: shouldReceive)       // save
     }
     
     // MARK: - Setters and getters
@@ -416,7 +417,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         reminderTimeSlider.isEnabled = false
         reminderTimeSettingsLabel.textColor = UIColor.lightGray
         reminderTimeSettingsLabel.text = "0"
-        UserDefaultsController.setNotificationMinutesBefore(to: 0)
+        PDDefaults.setNotificationMinutesBefore(to: 0)
         reminderTimeSlider.value = 0
     }
     
@@ -437,11 +438,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Resets the title of the Estrogens tab bar item to either "Patches" or "Injections".
     public func resetEstrogensVCTabBarItem() {
-        let v = PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString())
+        let v = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString())
         // Estrogen icon
         if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
             vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil
-            if UserDefaultsController.usingPatches() {
+            if PDDefaults.usingPatches() {
                 vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Patch Icon")
                 vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Patch Icon")
                 vcs[0].tabBarItem.title = PDStrings.VCTitles.patches

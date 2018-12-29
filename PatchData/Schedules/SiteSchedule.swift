@@ -60,7 +60,7 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Resets the site array a default list of sites.
     override public func reset() {
-        let usingPatches = UserDefaultsController.usingPatches()
+        let usingPatches = PDDefaults.usingPatches()
         if (isDefault(usingPatches: usingPatches)) {
             return
         }
@@ -125,10 +125,10 @@ public class SiteSchedule: PDScheduleProtocol {
         for _ in 0..<sites.count {
             // Return site that has no estros
             if sites[r].estrogenRelationship?.count == 0 {
-                UserDefaultsController.setSiteIndex(to: r)
+                PDDefaults.setSiteIndex(to: r)
                 return r
             } else {
-                r = UserDefaultsController.getSiteIndex()
+                r = PDDefaults.getSiteIndex()
             }
         }
         return min(current, sites.count-1)
@@ -247,7 +247,7 @@ public class SiteSchedule: PDScheduleProtocol {
     private func new() -> [MOSite] {
         var sites: [MOSite] = []
         typealias SiteNames = PDStrings.SiteNames
-        var names = (UserDefaultsController.usingPatches()) ?
+        var names = (PDDefaults.usingPatches()) ?
             SiteNames.patchSiteNames :
             SiteNames.injectionSiteNames
         for i in 0..<names.count {

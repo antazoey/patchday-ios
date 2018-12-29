@@ -29,10 +29,10 @@ internal class PDAlertController: NSObject {
                 (void) in
                 PDSchedule.estrogenSchedule.reset()
                 let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? 3 : 1
-                UserDefaultsController.setQuantityWithoutWarning(to: c)
-                UserDefaultsController.setDeliveryMethod(to: newMethod)
-                UserDefaultsController.setSiteIndex(to: 0)
-                PDSchedule.estrogenSchedule.getEffectManager().deliveryMethodChanged = true
+                PDDefaults.setQuantityWithoutWarning(to: c)
+                PDDefaults.setDeliveryMethod(to: newMethod)
+                PDDefaults.setSiteIndex(to: 0)
+                PDSchedule.state.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
                 TodayData.setEstrogenDataForToday()
                 
@@ -48,7 +48,7 @@ internal class PDAlertController: NSObject {
                     countButton.isEnabled = false
                     countButton.setTitle("1", for: .disabled)
                     countButton.setTitle("1", for: .normal)
-                    UserDefaultsController.setQuantityWithoutWarning(to: 1)
+                    PDDefaults.setQuantityWithoutWarning(to: 1)
                 }
                 deliveryButton.setTitle(oldMethod, for: .normal)
                 

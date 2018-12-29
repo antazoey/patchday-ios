@@ -41,7 +41,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Handles responses received from interacting with notifications.
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let current = UserDefaultsController.getSiteIndex()
+        let current = PDDefaults.getSiteIndex()
         
         if response.actionIdentifier == estroActionID,
             let uuid = UUID(uuidString: response.notification.request.identifier),
@@ -73,7 +73,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Resends all the estrogen notifications.
     public func resendAllEstrogenNotifications() {
-        let i = UserDefaultsController.getQuantityInt()
+        let i = PDDefaults.getQuantity()
         resendEstrogenNotifications(upToRemove: i, upToAdd: i)
     }
     
@@ -107,7 +107,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels all the estrogen notifications.
     internal func cancelAllEstrogenNotifications() {
-        cancelEstrogenNotifications(from: 0, to: UserDefaultsController.getQuantityInt()-1)
+        cancelEstrogenNotifications(from: 0, to: PDDefaults.getQuantity()-1)
     }
     
     /// Cancels a pill notification.
@@ -127,7 +127,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Returns the body for an estrogen notification.
     private func determineEstrogenNotificationBody(for estro: MOEstrogen, interval: String) -> String {
         var body = notificationBody(for: estro, interval: interval)
-        let msg = (UserDefaultsController.usingPatches()) ? PDStrings.NotificationStrings.Bodies.siteForNextPatch : PDStrings.NotificationStrings.Bodies.siteForNextInjection
+        let msg = (PDDefaults.usingPatches()) ? PDStrings.NotificationStrings.Bodies.siteForNextPatch : PDStrings.NotificationStrings.Bodies.siteForNextInjection
         if let additionalMessage = suggestSiteMessage(introMsg: msg) {
             body += additionalMessage
         }
@@ -138,7 +138,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     public func notificationBody(for estro: MOEstrogen, interval: String) -> String {
         var body = ""
         typealias Bodies = PDStrings.NotificationStrings.Bodies
-        let usingPatches: Bool = UserDefaultsController.usingPatches()
+        let usingPatches: Bool = PDDefaults.usingPatches()
         let siteName = estro.getSiteName()
         if !estro.isCustomLocated(usingPatches: usingPatches) && usingPatches {
             if let msg = Bodies.siteToExpiredPatchMessage[siteName] {
@@ -152,7 +152,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     private func suggestSiteMessage(introMsg: String) -> String? {
-        let current = UserDefaultsController.getSiteIndex()
+        let current = PDDefaults.getSiteIndex()
         if let suggestedSite = PDSchedule.suggest(current: current),
             let siteName = suggestedSite.getName() {
             return "\n" + introMsg + siteName
@@ -162,12 +162,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request an Estrogen notification.
     internal func requestEstrogenExpiredNotification(for estro: MOEstrogen) {
-        let interval = UserDefaultsController.getTimeIntervalString()
-        let usingPatches = UserDefaultsController.usingPatches()
-        let notifyTime = Double(UserDefaultsController.getNotificationMinutesBefore())
+        let interval = PDDefaults.getTimeIntervalString()
+        let usingPatches = PDDefaults.usingPatches()
+        let notifyTime = Double(PDDefaults.getNotificationMinutesBefore())
         
         if sendingNotifications,
-            UserDefaultsController.getRemindMeUpon(),
+            PDDefaults.getRemindMeUpon(),
             let date = estro.getDate(),
             var timeIntervalUntilExpire = PDDateHelper.expirationInterval(interval, date: date as Date) {
             let content = UNMutableNotificationContent()
@@ -194,7 +194,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request an Estrogen notification that occurs when it's due overnight.
     internal func requestOvernightNotification(_ estro: MOEstrogen, expDate: Date) {
-        let usingPatches = UserDefaultsController.usingPatches()
+        let usingPatches = PDDefaults.usingPatches()
         let content = UNMutableNotificationContent()
         if let triggerDate = PDDateHelper.dateBeforeOvernight(overnightDate: expDate) {
             content.title = usingPatches ? PDStrings.NotificationStrings.Titles.overnight_patch : PDStrings.NotificationStrings.Titles.overnight_injection
@@ -229,7 +229,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 content.title += name
             }
             content.sound = UNNotificationSound.default()
-            content.badge = PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString()) + 1 as NSNumber
+            content.badge = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()) + 1 as NSNumber
             content.categoryIdentifier = pillCategoryID
             let interval = dueDate.timeIntervalSince(now)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)

@@ -14,7 +14,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(PDSchedule.siteSchedule.unionDefault(usingPatches: UserDefaultsController.usingPatches()))
+    private var namePickerSet = Array(PDSchedule.siteSchedule.unionDefault(usingPatches: PDDefaults.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!
@@ -60,7 +60,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let usingPatches = UserDefaultsController.usingPatches()
+        let usingPatches = PDDefaults.usingPatches()
         let images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
         let image = images[imagePicker.selectedRow(inComponent: 0)]
         let imageKey = usingPatches ? PDImages.patchImageToSiteName(image) : PDImages.injectionImageToSiteName(image)
@@ -191,7 +191,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImage() {
-        let usingPatches: Bool = UserDefaultsController.usingPatches()
+        let usingPatches: Bool = PDDefaults.usingPatches()
         let sitesWithImages = usingPatches ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
         if let name = nameText.text {
             var image: UIImage

@@ -32,7 +32,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        PDSchedule.estrogenSchedule.getEffectManager().reset()
+        PDSchedule.state.reset()
         
     }
     
@@ -41,9 +41,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         // Alert for disclaimer and tutorial on first start up
         if appDelegate.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
-            UserDefaultsController.setMentionedDisclaimer(to: true)
+            PDDefaults.setMentionedDisclaimer(to: true)
         }
-        title = UserDefaultsController.usingPatches() ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
+        title = PDDefaults.usingPatches() ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
         estrogenTable.reloadData()
     }
 
@@ -69,7 +69,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < UserDefaultsController.getQuantityInt() {
+        if indexPath.row < PDDefaults.getQuantity() {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -107,7 +107,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     public func setTabBarBadges() {
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
-        if UserDefaultsController.usingPatches() {
+        if PDDefaults.usingPatches() {
             item?.image = #imageLiteral(resourceName: "Patch Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
         } else {
@@ -116,7 +116,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
         
         // Expired estrogens
-        let estroDueCount = PDSchedule.totalDue(interval: UserDefaultsController.getTimeIntervalString())
+        let estroDueCount = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString())
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
@@ -138,7 +138,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     /// Configures title of view controller.
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
-            title = (UserDefaultsController.usingPatches()) ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
+            title = (PDDefaults.usingPatches()) ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
         }
     }
     

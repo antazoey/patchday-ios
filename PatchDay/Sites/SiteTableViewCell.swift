@@ -37,14 +37,14 @@ class SiteTableViewCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        let current = UserDefaultsController.getSiteIndex()
+        let current = PDDefaults.getSiteIndex()
         if cellIndex == PDSchedule.siteSchedule.nextIndex(current: current) {
             nextLabel.isHidden = shouldHide
         }
     }
     
     private func loadEstrogenImages(for site: MOSite) -> UIImage? {
-        if site.isOccupiedByMany() || (!UserDefaultsController.usingPatches() && site.isOccupied()) {
+        if site.isOccupiedByMany() || (!PDDefaults.usingPatches() && site.isOccupied()) {
             return  #imageLiteral(resourceName: "ES Icon")
         }
         else if site.isOccupied() {
@@ -57,7 +57,7 @@ class SiteTableViewCell: UITableViewCell {
     }
     
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        let current = UserDefaultsController.getSiteIndex()
+        let current = PDDefaults.getSiteIndex()
         if PDSchedule.siteSchedule.nextIndex(current: current) == index && !isEditing {
             return false
         }

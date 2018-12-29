@@ -12,7 +12,7 @@ import PatchData
 
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    public var images = UserDefaultsController.usingPatches() ? PDImages.patchImages : PDImages.injectionImages
+    public var images = PDDefaults.usingPatches() ? PDImages.patchImages : PDImages.injectionImages
     public var picker: UIPickerView
     public var doneButton: UIButton
     public var imageView: UIImageView

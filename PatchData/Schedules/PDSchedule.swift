@@ -22,6 +22,7 @@ public class PDSchedule: NSObject {
     public static var estrogenSchedule = EstrogenSchedule()
     public static var pillSchedule = PillSchedule()
     public static var siteSchedule = SiteSchedule()
+    public static var state = ScheduleState()
 
     // MARK: - Public
     
@@ -71,14 +72,13 @@ public class PDSchedule: NSObject {
     
     /// For patches, get the next due. For injections, get the only one.
     public static func getEstrogenForToday() -> MOEstrogen? {
-        if UserDefaultsController.usingPatches(),
+        if PDDefaults.usingPatches(),
             let estro = estrogenSchedule.nextDue() {
             return estro
         } else {
             return PDSchedule.estrogenSchedule.getEstrogen(at: 0)
         }
     }
-    
 
     /// Returns array of occupied site indices.
     public static func getOccupiedSiteIndices() -> [Index] {

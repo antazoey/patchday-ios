@@ -17,9 +17,9 @@ class EstrogenTableViewCell: UITableViewCell {
     @IBOutlet weak var badgeButton: MFBadgeButton!
     
     public func configure(at index: Index) {
-        if index < UserDefaultsController.getQuantityInt() {
-            let interval = UserDefaultsController.getTimeIntervalString()
-            let usingPatches = UserDefaultsController.usingPatches()
+        if index < PDDefaults.getQuantity() {
+            let interval = PDDefaults.getTimeIntervalString()
+            let usingPatches = PDDefaults.usingPatches()
             if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index)
@@ -56,7 +56,7 @@ class EstrogenTableViewCell: UITableViewCell {
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineImage(index: Index) -> UIImage {
-        let usingPatches: Bool = UserDefaultsController.usingPatches()
+        let usingPatches: Bool = PDDefaults.usingPatches()
         // Default:  new / add image
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         var image: UIImage = insert_img
@@ -82,7 +82,7 @@ class EstrogenTableViewCell: UITableViewCell {
         if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: estrogenIndex),
             let date =  estro.getDate() as Date?,
             let expDate = PDDateHelper.expirationDate(from: date, interval) {
-            if UserDefaultsController.usingPatches() {
+            if PDDefaults.usingPatches() {
                 let titleIntro = (estro.isExpired(interval)) ?
                     Strings.expired :
                     Strings.expires
@@ -100,12 +100,11 @@ class EstrogenTableViewCell: UITableViewCell {
         var isNew = false
         let schedule = PDSchedule.estrogenSchedule
         let estrogenOptional = schedule.getEstrogen(at: index, insertOnFail: false)
-        let fx = schedule.getEffectManager()
         if let img = newImage, PDImages.isAdd(img) {
             isNew = PDImages.isAdd(img)
         }
-        fx.isNew = isNew
-        if shouldAnimate(estrogenOptional, at: index, changes: fx) {
+        PDSchedule.state.isNew = isNew
+        if shouldAnimate(estrogenOptional, at: index) {
             UIView.transition(with: stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 self.stateImage.image = newImage
                 self.stateImage.isHidden = true
@@ -119,11 +118,12 @@ class EstrogenTableViewCell: UITableViewCell {
         }
     }
     
-    private func shouldAnimate(_ estro: MOEstrogen?, at index: Index, changes: ScheduleChangeManager) -> Bool {
+    private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
         var isAffectedFromChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false
-        if index < UserDefaultsController.getQuantityInt() {
+        let changes = PDSchedule.state
+        if index < PDDefaults.getQuantity() {
             if let hasDateAndItMatters = estro?.hasDate() {
                 // Was affected non-empty estrogens from change.
                 isAffectedFromChange = changes.wereChanges && !changes.isNew && !changes.onlySiteChanged && index <= changes.indexOfChangedDelivery && hasDateAndItMatters
@@ -132,7 +132,7 @@ class EstrogenTableViewCell: UITableViewCell {
             isSiteChange = changes.siteChanged && index == changes.indexOfChangedDelivery
         }
         // Is exiting the schedule.
-        isGone = changes.decreasedCount && index >= UserDefaultsController.getQuantityInt()
+        isGone = changes.decreasedCount && index >= PDDefaults.getQuantity()
         return (isAffectedFromChange || isSiteChange || changes.isNew || isGone)
     }
         

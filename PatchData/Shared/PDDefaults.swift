@@ -1,5 +1,5 @@
 //
-//  UserDefaultsController.swift
+//  PDDefaults.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/25/17.
@@ -9,9 +9,9 @@
 import UIKit
 import PDKit
 
-public class UserDefaultsController: NSObject {
+public class PDDefaults: NSObject {
     
-    // Description: The UserDefaultsController is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.
+    // Description: The PDDefaults is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.
     
     // App
     private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
@@ -30,6 +30,11 @@ public class UserDefaultsController: NSObject {
     private static var mentionedAppDisclaimer = false
     private static var needsDataMigration = true
     private static var siteIndex = 0
+    
+    // Side effects
+    private static var estrogenSchedule: EstrogenSchedule? = nil
+    private static var siteSchedule: SiteSchedule? = nil
+    private static var scheduleState: ScheduleState? = nil
 
     // MARK: - a static initializer
     
@@ -44,6 +49,18 @@ public class UserDefaultsController: NSObject {
         loadNeedsMigration()
     }
     
+    public static func setEstrogenSchedule(_ schedule: EstrogenSchedule) {
+        estrogenSchedule = schedule
+    }
+    
+    public static func setSiteSchedule(_ schedule: SiteSchedule) {
+        siteSchedule = schedule
+    }
+    
+    public static func setScheduleState(_ state: ScheduleState) {
+        scheduleState = state
+    }
+    
     // MARK: - Getters
     
     public static func getDeliveryMethod() -> String {
@@ -53,12 +70,8 @@ public class UserDefaultsController: NSObject {
     public static func getTimeIntervalString() -> String {
         return timeInterval
     }
-    
-    public static func getQuantityString() -> String {
-        return "\(quantity)"
-    }
-    
-    public static func getQuantityInt() -> Int {
+
+    public static func getQuantity() -> Int {
         return quantity
     }
     
@@ -87,19 +100,22 @@ public class UserDefaultsController: NSObject {
     public static func setDeliveryMethod(to method: String) {
         typealias Methods = PDStrings.DeliveryMethods
         let methods = [Methods.injections, Methods.patches]
-        let oldMethod = UserDefaultsController.getDeliveryMethod()
+        let oldMethod = PDDefaults.getDeliveryMethod()
         if method != oldMethod && methods.contains(method) {
             deliveryMethod = method
             defaults.set(method, forKey: PDStrings.SettingsKey.deliv.rawValue)
             let usingPatches = method == Methods.patches
-            let fx = PDSchedule.estrogenSchedule.getEffectManager()
             if let c = (usingPatches) ?
                 Int(PDStrings.PickerData.counts[2]) :
                 Int(PDStrings.PickerData.counts[0]) {
-                UserDefaultsController.setQuantityWithoutWarning(to: c)
+                PDDefaults.setQuantityWithoutWarning(to: c)
             }
-            fx.deliveryMethodChanged = true
-            PDSchedule.siteSchedule.reset()
+            if let state = scheduleState {
+                state.deliveryMethodChanged = true
+            }
+            if let schedule = siteSchedule {
+                schedule.reset()
+            }
         }
     }
     
@@ -126,17 +142,21 @@ public class UserDefaultsController: NSObject {
     Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user decreases the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
     public static func setQuantityWithWarning(to newCount: Int, oldCount: Int, countButton: UIButton, navController: UINavigationController?, reset: @escaping (_ newQuantity: Int) -> ()) {
-        let schedule = PDSchedule.estrogenSchedule
-        let fx = schedule.getEffectManager()
-        let max = PDSchedule.siteSchedule.count()
-        fx.oldDeliveryCount = oldCount
+        let max = maxSites()
+        if let fx = scheduleState {
+            fx.oldDeliveryCount = oldCount
+        }
         if isAcceptable(count: newCount, max: max) {
             if newCount < oldCount {
-                fx.decreasedCount = true
+                if let fx = scheduleState {
+                    fx.decreasedCount = true
+                }
                 // Erases data
-                let q = UserDefaultsController.getQuantityInt()
+                let q = PDDefaults.getQuantity()
                 let last_i = q - 1
-                if !schedule.isEmpty(fromThisIndexOnward: newCount, lastIndex: last_i) {
+                if let estroSchedule = estrogenSchedule,
+                    !estroSchedule.isEmpty(fromThisIndexOnward: newCount,
+                                         lastIndex: last_i) {
                     PatchDataAlert.alertForChangingCount(oldCount: oldCount,
                                                          newCount: newCount,
                                                          countButton: countButton,
@@ -151,18 +171,22 @@ public class UserDefaultsController: NSObject {
             } else {
                 // Incr. count
                 setQuantityWithoutWarning(to: newCount)
-                fx.increasedCount = true
+                if let fx = scheduleState {
+                    fx.increasedCount = true
+                }
             }
         }
     }
     
     public static func setQuantityWithoutWarning(to quantity: Int) {
         // sets if greater than 0 and less than 5 first.
-        let max = PDSchedule.siteSchedule.count()
+        let max = maxSites()
         if isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
             defaults.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
-            PDSchedule.estrogenSchedule.delete(after: quantity)
+            if let estroSchedule = estrogenSchedule {
+                estroSchedule.delete(after: quantity)
+            }
         }
     }
     
@@ -191,16 +215,19 @@ public class UserDefaultsController: NSObject {
     }
     
     public static func setSiteIndex(to i: Index) {
-        if i < PDSchedule.siteCount() && i >= 0 {
-            let key = PDStrings.SettingsKey.site_index.rawValue
-            defaults.set(siteIndex, forKey: key)
+        if let siteSchedule = siteSchedule {
+            let c = siteSchedule.count()
+            if i < c && i >= 0 {
+                let key = PDStrings.SettingsKey.site_index.rawValue
+                defaults.set(siteIndex, forKey: key)
+            }
         }
     }
 
     //MARK: - Other public
     
     public static func usingPatches() -> Bool {
-        let method = UserDefaultsController.getDeliveryMethod()
+        let method = PDDefaults.getDeliveryMethod()
         let patches = PDStrings.PickerData.deliveryMethods[0]
         return method == patches
     }
@@ -213,9 +240,11 @@ public class UserDefaultsController: NSObject {
     // MARK: - loaders
     
     private static func loadDeliveryMethod() {
-        if let dm = defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
+        let key = PDStrings.SettingsKey.deliv.rawValue
+        if let dm = defaults.object(forKey: key) as? String {
             deliveryMethod = dm
-        } else if let dm = std_defaults.object(forKey: PDStrings.SettingsKey.deliv.rawValue) as? String {
+        } else if let dm = std_defaults.object(forKey: key) as? String {
+            // set in the primary defaults
             setDeliveryMethod(to: dm)
         } else {
             setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
@@ -224,21 +253,23 @@ public class UserDefaultsController: NSObject {
     
     private static func loadTimeIntervalHelper(to interval: String) {
         switch interval {
-        case "One half-week": timeInterval = PDStrings.PickerData.expirationIntervals[0]
-        case "One week": timeInterval = PDStrings.PickerData.expirationIntervals[1]
-        case "Two weeks": timeInterval = PDStrings.PickerData.expirationIntervals[2]
-        default: timeInterval = interval
+        case "One half-week":
+            timeInterval = PDStrings.PickerData.expirationIntervals[0]
+        case "One week":
+            timeInterval = PDStrings.PickerData.expirationIntervals[1]
+        case "Two weeks":
+            timeInterval = PDStrings.PickerData.expirationIntervals[2]
+        default:
+            timeInterval = interval
         }
     }
     
     private static func loadTimeInterval() {
         if let interval = defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
             loadTimeIntervalHelper(to: interval)
-        }
-        else if let interval = std_defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
+        } else if let interval = std_defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
             setTimeInterval(to: interval)
-        }
-        else {
+        } else {
             setTimeInterval(to: PDStrings.PickerData.expirationIntervals[0])
         }
     }
@@ -246,8 +277,7 @@ public class UserDefaultsController: NSObject {
     private static func loadQuantityHelper(count: Int) {
         if count >= 1 || count <= 4 {
             quantity = count
-        }
-        else if let c = Int(PDStrings.PickerData.counts[2]) {
+        } else if let c = Int(PDStrings.PickerData.counts[2]) {
             setQuantityWithoutWarning(to: c)
         }
     }
@@ -329,4 +359,10 @@ public class UserDefaultsController: NSObject {
         return builder
     }
     
+    private static func maxSites() -> Int {
+        if let schedule = siteSchedule {
+            return schedule.count()
+        }
+        return 4
+    }
 }

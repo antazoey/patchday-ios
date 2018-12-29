@@ -16,6 +16,7 @@ class SiteScheduleTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        PDDefaults.setDeliveryMethod(to: "Patches")
         siteSchedule.reset()
         estroSchedule.reset()
         
@@ -23,6 +24,8 @@ class SiteScheduleTests: XCTestCase {
         estroSchedule.setEstrogenSite(of: 0, with: siteSchedule.getSite(at: 0)!)
         estroSchedule.setEstrogenSite(of: 1, with: siteSchedule.getSite(at: 1)!)
         estroSchedule.setEstrogenSite(of: 2, with: siteSchedule.getSite(at: 2)!)
+        
+        PDDefaults.setSiteSchedule(siteSchedule)
     }
 
     override func tearDown() {
@@ -43,7 +46,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testReset() {
-        UserDefaultsController.setDeliveryMethod(to: "Patches")
+        PDDefaults.setDeliveryMethod(to: "Patches")
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
@@ -53,7 +56,7 @@ class SiteScheduleTests: XCTestCase {
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
-        UserDefaultsController.setDeliveryMethod(to: "Injections")
+        PDDefaults.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         XCTAssertEqual(siteSchedule.count(), 6)
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
@@ -214,7 +217,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testIsDefault() {
-        UserDefaultsController.setDeliveryMethod(to: "Patches")
+        PDDefaults.setDeliveryMethod(to: "Patches")
         siteSchedule.reset()
         XCTAssert(siteSchedule.isDefault(usingPatches: true))
         // Patches fail when tested against injections
@@ -222,7 +225,7 @@ class SiteScheduleTests: XCTestCase {
         // Fails when add a custom site
         siteSchedule.setName(at: 0, to: "SITE NAME")
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
-        UserDefaultsController.setDeliveryMethod(to: "Injections")
+        PDDefaults.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         // Injection defaults pass
         XCTAssert(siteSchedule.isDefault(usingPatches: false))

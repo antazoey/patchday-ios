@@ -1,5 +1,5 @@
 //
-//  UserDefaultsControllerTests.swift
+//  PDDefaultsTests.swift
 //  PatchDataTests
 //
 //  Created by Juliya Smith on 12/28/18.
@@ -10,9 +10,9 @@ import XCTest
 import PDKit
 @testable import PatchData
 
-class UserDefaultsControllerTests: XCTestCase {
+class PDDefaultsTests: XCTestCase {
     
-    typealias Controller = UserDefaultsController
+    typealias Controller = PDDefaults
     
     override func setUp() {
         super.setUp()
@@ -35,43 +35,43 @@ class UserDefaultsControllerTests: XCTestCase {
     func testSetQuantityWithoutWarning() {
         Controller.setDeliveryMethod(to: "Patches")
         Controller.setQuantityWithoutWarning(to: 1)
-        var actual = Controller.getQuantityInt()
+        var actual = Controller.getQuantity()
         XCTAssertEqual(actual, 1)
 
         Controller.setQuantityWithoutWarning(to: 2)
-        actual = Controller.getQuantityInt()
+        actual = Controller.getQuantity()
         XCTAssertEqual(actual, 2)
 
         Controller.setQuantityWithoutWarning(to: 3)
-        actual = Controller.getQuantityInt()
+        actual = Controller.getQuantity()
         XCTAssertEqual(actual, 3)
 
         Controller.setQuantityWithoutWarning(to: 4)
-        actual = Controller.getQuantityInt()
+        actual = Controller.getQuantity()
         XCTAssertEqual(actual, 4)
         
         Controller.setQuantityWithoutWarning(to: 400)
-        actual = Controller.getQuantityInt()
+        actual = Controller.getQuantity()
         XCTAssertEqual(actual, 4)
         
         // Should not allow to exceed 4 while in Patches modes
         Controller.setQuantityWithoutWarning(to: 6)
-        actual = Controller.getQuantityInt()
+        actual = Controller.getQuantity()
         XCTAssertNotEqual(actual, 6)
         
-        UserDefaultsController.setDeliveryMethod(to: "Injections")
+        PDDefaults.setDeliveryMethod(to: "Injections")
         Controller.setQuantityWithoutWarning(to: 6)
-        actual = Controller.getQuantityInt()
+        actual = Controller.getQuantity()
         XCTAssertEqual(actual, 6)
     }
 
     func testSwitchDeliveryMethods() {
         Controller.setDeliveryMethod(to: "Patches")
-        let countBefore = Controller.getQuantityInt()
+        let countBefore = Controller.getQuantity()
         let methodBefore = Controller.getDeliveryMethod()
         Controller.switchDeliveryMethod()
         let methodAfter = Controller.getDeliveryMethod()
-        let countAfter = Controller.getQuantityInt()
+        let countAfter = Controller.getQuantity()
         XCTAssertNotEqual(methodBefore, methodAfter)
         XCTAssertNotEqual(countBefore, countAfter)
     }
