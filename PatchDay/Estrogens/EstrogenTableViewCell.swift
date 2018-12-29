@@ -18,7 +18,7 @@ class EstrogenTableViewCell: UITableViewCell {
     
     public func configure(at index: Index) {
         if index < PDDefaults.getQuantity() {
-            let interval = PDDefaults.getTimeIntervalString()
+            let interval = PDDefaults.getTimeInterval()
             let usingPatches = PDDefaults.usingPatches()
             if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)

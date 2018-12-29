@@ -162,12 +162,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request an Estrogen notification.
     internal func requestEstrogenExpiredNotification(for estro: MOEstrogen) {
-        let interval = PDDefaults.getTimeIntervalString()
+        let interval = PDDefaults.getTimeInterval()
         let usingPatches = PDDefaults.usingPatches()
         let notifyTime = Double(PDDefaults.getNotificationMinutesBefore())
         
         if sendingNotifications,
-            PDDefaults.getRemindMeUpon(),
+            PDDefaults.notify(),
             let date = estro.getDate(),
             var timeIntervalUntilExpire = PDDateHelper.expirationInterval(interval, date: date as Date) {
             let content = UNMutableNotificationContent()
@@ -229,7 +229,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 content.title += name
             }
             content.sound = UNNotificationSound.default()
-            content.badge = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()) + 1 as NSNumber
+            content.badge = PDSchedule.totalDue(interval: PDDefaults.getTimeInterval()) + 1 as NSNumber
             content.categoryIdentifier = pillCategoryID
             let interval = dueDate.timeIntervalSince(now)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)

@@ -25,22 +25,7 @@ public class PDSchedule: NSObject {
     public static var state = ScheduleState()
 
     // MARK: - Public
-    
-    /// Returns total number of MOEstrogens in the schedule.
-    public static func estroCount() -> Int {
-        return PDSchedule.estrogenSchedule.getEstrogens().count
-    }
-    
-    /// Returns total number of MOPills in the schedule.
-    public static func pillCount() -> Int {
-        return PDSchedule.pillSchedule.getPills().count
-    }
-    
-    /// Returns total number of MOSites in the schedule.
-    public static func siteCount() -> Int {
-        return PDSchedule.siteSchedule.getSites().count
-    }
-    
+
     /// Returns array of current occupied SiteNames
     public static func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
         return estrogenSchedule.getEstrogens().map({
@@ -58,8 +43,8 @@ public class PDSchedule: NSObject {
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
     public static func suggest(current: Index) -> MOSite? {
-        let sites = PDSchedule.siteSchedule.getSites()
-        if let i = PDSchedule.siteSchedule.nextIndex(current: current) {
+        let sites = siteSchedule.getSites()
+        if let i = siteSchedule.nextIndex(current: current) {
             return sites[i]
         }
         return nil
@@ -76,16 +61,16 @@ public class PDSchedule: NSObject {
             let estro = estrogenSchedule.nextDue() {
             return estro
         } else {
-            return PDSchedule.estrogenSchedule.getEstrogen(at: 0)
+            return estrogenSchedule.getEstrogen(at: 0)
         }
     }
 
     /// Returns array of occupied site indices.
     public static func getOccupiedSiteIndices() -> [Index] {
         var indices: [Index] = []
-        for estro in PDSchedule.estrogenSchedule.getEstrogens() {
+        for estro in estrogenSchedule.getEstrogens() {
             if let site = estro.getSite(),
-                let index = PDSchedule.siteSchedule.getSites().index(of: site) {
+                let index = siteSchedule.getSites().index(of: site) {
                 indices.append(index)
             } else {
                 indices.append(-1)

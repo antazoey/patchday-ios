@@ -116,7 +116,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
         
         // Expired estrogens
-        let estroDueCount = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString())
+        let estroDueCount = PDSchedule.totalDue(interval: PDDefaults.getTimeInterval())
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }

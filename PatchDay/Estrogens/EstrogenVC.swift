@@ -98,7 +98,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
     
-        let interval = PDDefaults.getTimeIntervalString()
+        let interval = PDDefaults.getTimeInterval()
         if let estro = estrogen {
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
             saveAttributes()    // Save
@@ -163,7 +163,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         chooseSiteButton.isHidden = false
         typeSiteButton.isEnabled = true
         saveButton.isEnabled = true
-        siteIndexSelected = PDSchedule.siteCount()
+        siteIndexSelected = PDSchedule.siteSchedule.count()
         if let n = textField.text {
             PDAlertController.alertForAddSite(with: n, at: siteIndexSelected, estroVC: self)
         }
@@ -191,7 +191,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PDSchedule.siteCount()
+        return PDSchedule.siteSchedule.count()
     }
     
     internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -244,7 +244,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         doneButton.removeFromSuperview()
         datePickerInputView.isHidden = true
         dateSelected = datePicker.date
-        let interval = PDDefaults.getTimeIntervalString()
+        let interval = PDDefaults.getTimeInterval()
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControlState.normal)
         if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {            // disp exp date
@@ -277,7 +277,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let date = estrogen.getDate() {
             datePlaced = date as Date
             chooseDateButton.setTitle(PDDateHelper.format(date: date as Date, useWords: true) , for: .normal)
-            expirationDateLabel.text = estrogen.expirationDateAsString(PDDefaults.getTimeIntervalString(), useWords: true)
+            expirationDateLabel.text = estrogen.expirationDateAsString(PDDefaults.getTimeInterval(), useWords: true)
         }
         else {
             chooseDateButton.setTitle(PDStrings.ActionStrings.select, for: .normal)
@@ -298,7 +298,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // Save site
         if siteTextHasChanged {
             if let site = PDSchedule.siteSchedule.getSite(at: siteIndexSelected) {
-                PDSchedule.estrogenSchedule.setEstrogenSite(of: estrogenScheduleIndex, with: site)
+                PDSchedule.estrogenSchedule.setSite(of: estrogenScheduleIndex, with: site)
                 PDSchedule.state.siteChanged = true
             }
             else if let name = chooseSiteButton.text {
@@ -308,7 +308,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         // Save date
         if dateTextHasChanged {
-            PDSchedule.estrogenSchedule.setEstrogenDate(of: estrogenScheduleIndex, with: datePicker.date)
+            PDSchedule.estrogenSchedule.setDate(of: estrogenScheduleIndex, with: datePicker.date)
         }
         
         // For EstrogensVC animation.
@@ -332,7 +332,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func autoPickDate() {
         let now = Date()
-        let interval = PDDefaults.getTimeIntervalString()
+        let interval = PDDefaults.getTimeInterval()
         chooseDateButton.setTitle(PDDateHelper.format(date: now, useWords: true), for: .normal)
         if let expDate = PDDateHelper.expirationDate(from: now, interval) {
             expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
@@ -345,7 +345,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let estro = estrogen {
             appDelegate.notificationsController.requestEstrogenExpiredNotification(for: estro)
             // Overnight
-            if let expDate = estro.expirationDate(interval: PDDefaults.getTimeIntervalString()), PDDateHelper.isOvernight(expDate) {
+            if let expDate = estro.expirationDate(interval: PDDefaults.getTimeInterval()), PDDateHelper.isOvernight(expDate) {
                 appDelegate.notificationsController.requestOvernightNotification(estro, expDate: expDate)
             }
         }
@@ -363,7 +363,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
         else if let site = estrogen.getSite() {
             let order = site.getOrder()
-            if order >= 1 && order <= PDSchedule.siteCount() {
+            if order >= 1 && order <= PDSchedule.siteSchedule.count() {
                 let i = Int(order)
                 siteIndexSelected = i
                 return i
@@ -377,7 +377,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         var exp = ""
         typealias Strings = PDStrings.ColonedStrings
         let schedule = PDSchedule.estrogenSchedule
-        let interval = PDDefaults.getTimeIntervalString()
+        let interval = PDDefaults.getTimeInterval()
         if let estro = schedule.getEstrogen(at: estrogenScheduleIndex),
             estro.getDate() != nil {
             if PDDefaults.usingPatches() {

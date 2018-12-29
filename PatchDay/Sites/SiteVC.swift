@@ -90,11 +90,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @objc func saveButtonTapped(_ sender: Any) {
         if let name = nameText.text {
             // Updating existing site
-            if siteScheduleIndex >= 0 && siteScheduleIndex < PDSchedule.siteCount() {
+            if siteScheduleIndex >= 0 && siteScheduleIndex < PDSchedule.siteSchedule.count() {
                 PDSchedule.siteSchedule.setName(at: siteScheduleIndex, to: name)
             }
             // Adding a new site
-            else if siteScheduleIndex == PDSchedule.siteCount(),
+            else if siteScheduleIndex == PDSchedule.siteSchedule.count(),
                 let site = PDSchedule.siteSchedule.insert() {
                 site.setName(to: name)
             }

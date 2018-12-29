@@ -80,6 +80,9 @@ public class EstrogenSchedule: PDScheduleProtocol {
             for j in i..<c {
                 PatchData.getContext().delete(estrogens[j])
             }
+            for _ in i..<c {
+                let _ = estrogens.popLast()
+            }
             PatchData.save()
         }
     }
@@ -101,7 +104,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Sets the site of the MOEstrogen for the given index.
-    public func setEstrogenSite(of index: Index, with site: MOSite) {
+    public func setSite(of index: Index, with site: MOSite) {
         let estro = getEstrogen(at: index)
         estro?.setSite(with: site)
         TodayData.setEstrogenDataForToday()
@@ -109,7 +112,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    public func setEstrogenDate(of index: Index, with date: Date) {
+    public func setDate(of index: Index, with date: Date) {
         let estro = getEstrogen(at: index)
         estro?.setDate(with: date as NSDate)
         sort()

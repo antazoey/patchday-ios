@@ -16,7 +16,7 @@ public class TodayData: NSObject {
         let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
-        let interval = PDDefaults.getTimeIntervalString()
+        let interval = PDDefaults.getTimeInterval()
         let index = PDDefaults.getSiteIndex()
         if let estro = PDSchedule.getEstrogenForToday() {
             if let siteName = getSiteNameForToday(using: estro, current: index) {

@@ -20,28 +20,41 @@ internal class PatchDataAlert: NSObject {
     // MARK: - Changing count
     
     /// Alert for changing the count of estrogens causing a loss of data.
-    internal static func alertForChangingCount(oldCount: Int, newCount: Int, countButton: UIButton, navController: UINavigationController?, reset: @escaping (_ newCount: Int) -> ()) {
+    internal static func alertForChangingCount(oldCount: Int,
+                                               newCount: Int,
+                                               countButton: UIButton,
+                                               navController: UINavigationController?,
+                                               reset: @escaping (_ newCount: Int) -> ()) {
         if (newCount > oldCount) {
             PDDefaults.setQuantityWithoutWarning(to: newCount)
             return
         }
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertController.Style  = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
+            let isPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
+            let alertStyle: UIAlertController.Style = isPad ? .alert : .actionSheet
+            typealias Alert = PDStrings.AlertStrings.LoseDataAlert
+            currentAlert = UIAlertController(title: Alert.title,
+                                             message: Alert.message,
+                                             preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
-                // Note: newCount is start_i because reset only occurs when decreasing count
+                // Note: newCount is start_i because reset only occurs
+                // when decreasing count.
                 PDSchedule.estrogenSchedule.reset(start: newCount, end: 3)
                 PDDefaults.setQuantityWithoutWarning(to: newCount)
                 
                 // Tab bar image / badgeValue
-                if let vcs = navController?.tabBarController?.viewControllers, vcs.count > 0 {
-                    let c = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString())
-                    vcs[0].navigationController?.tabBarItem.badgeValue = (c > 0) ? String(c) : nil
+                let tabController = navController?.tabBarController
+                if let vcs = tabController?.viewControllers, vcs.count > 0 {
+                    let interval = PDDefaults.getTimeInterval()
+                    let c = PDSchedule.totalDue(interval: interval)
+                    let item = vcs[0].navigationController?.tabBarItem
+                    item?.badgeValue = (c > 0) ? String(c) : nil
                 }
                 reset(newCount)
             }
-            let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
+            let title = PDStrings.ActionStrings.decline
+            let cancelAction = UIAlertAction(title: title, style: .cancel) {
                 (void) in
                 countButton.setTitle(String(oldCount), for: .normal)
             }
@@ -55,9 +68,16 @@ internal class PatchDataAlert: NSObject {
     
     /// Alert for when Core Data has an error.
     internal static func alertForCoreDataError() {
+        typealias Alert = PDStrings.AlertStrings.CoreDataAlert
         if let currentVC = getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.CoreDataAlert.title, message: PDStrings.AlertStrings.CoreDataAlert.message, preferredStyle: .alert)
-            let closeAction = UIAlertAction(title: PDStrings.ActionStrings.dismiss, style: UIAlertAction.Style.cancel, handler: nil)
+            currentAlert = UIAlertController(title: Alert.title,
+                                             message: Alert.message,
+                                             preferredStyle: .alert)
+            let title = PDStrings.ActionStrings.dismiss
+            let style = UIAlertAction.Style.cancel
+            let closeAction = UIAlertAction(title: title,
+                                            style: style,
+                                            handler: nil)
             currentAlert.addAction(closeAction)
             currentVC.present(currentAlert, animated: true, completion: nil)
         }
@@ -68,8 +88,14 @@ internal class PatchDataAlert: NSObject {
     /// Alert for when the persistentStore has an error.
     internal static func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = getRootVC() {
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.CoreDataAlert.title, message: "(\(String(describing: error))", preferredStyle: .alert)
-            let cancelAction = UIAlertAction(title: PDStrings.ActionStrings.accept, style: .destructive) {
+            let msg = "(\(String(describing: error))"
+            let alertTitle = PDStrings.AlertStrings.CoreDataAlert.title
+            currentAlert = UIAlertController(title: alertTitle,
+                                             message: msg,
+                                             preferredStyle: .alert)
+            let actionTitle = PDStrings.ActionStrings.accept
+            let cancelAction = UIAlertAction(title: actionTitle,
+                                             style: .destructive) {
                 (void) in
                 fatalError()
             }

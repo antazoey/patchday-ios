@@ -120,15 +120,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Reorder cell (reorders MOSite order attributes)
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let siteToMove = PDSchedule.siteSchedule.sites[sourceIndexPath.row]
-        PDSchedule.siteSchedule.sites.remove(at: sourceIndexPath.row)
-        PDSchedule.siteSchedule.sites.insert(siteToMove, at: destinationIndexPath.row)
+        let schedule = PDSchedule.siteSchedule
+        let siteToMove = schedule.sites[sourceIndexPath.row]
+        schedule.sites.remove(at: sourceIndexPath.row)
+        schedule.sites.insert(siteToMove, at: destinationIndexPath.row)
         let current = PDDefaults.getSiteIndex()
-        if sourceIndexPath.row == PDSchedule.siteSchedule.nextIndex(current: current) {
+        if sourceIndexPath.row == schedule.nextIndex(current: current) {
             PDDefaults.setSiteIndex(to: destinationIndexPath.row)
         }
-        for i in 0..<PDSchedule.siteCount() {
-            PDSchedule.siteSchedule.setOrder(at: i, to: Int16(i))
+        for i in 0..<schedule.count() {
+            schedule.setOrder(at: i, to: Int16(i))
         }
         reloadSiteNames()
         siteTable.reloadData()

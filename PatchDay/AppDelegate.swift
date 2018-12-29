@@ -18,10 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     internal var window: UIWindow?
     internal var notificationsController = PDNotificationController()
-    
-    public func isFirstLaunch() -> Bool {
-        return PDDefaults.needsMigration()
-    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -34,7 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PDDefaults.setEstrogenSchedule(PDSchedule.estrogenSchedule)
         
         // Set default Pills only on the first launch.
-        if isFirstLaunch() {
+        let isFirstLaunch = !PDDefaults.mentionedDisclaimer()
+        if isFirstLaunch {
             PDSchedule.pillSchedule.reset()
         }
 
@@ -42,7 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TodayData.setDataForTodayApp()
         
         // Set the correct app badge value.
-        setBadge(with: PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()))
+        let interval = PDDefaults.getTimeInterval()
+        setBadge(with: PDSchedule.totalDue(interval: interval))
         
         let count = PDDefaults.getQuantity()
         PDSchedule.estrogenSchedule.delete(after: count)
@@ -54,11 +52,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge(with: PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()))
+        let interval = PDDefaults.getTimeInterval()
+        setBadge(with: PDSchedule.totalDue(interval: interval))
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge(with: PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString()))
+        let interval = PDDefaults.getTimeInterval()
+        setBadge(with: PDSchedule.totalDue(interval: interval))
     }
     
     /** Sets the App badge number to the expired

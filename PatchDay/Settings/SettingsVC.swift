@@ -92,7 +92,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadInterval() {
-        intervalButton.setTitle(PDDefaults.getTimeIntervalString(), for: .normal)
+        intervalButton.setTitle(PDDefaults.getTimeInterval(), for: .normal)
     }
     
     private func loadCount() {
@@ -108,7 +108,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     private func loadReminder_bool() {
-        receiveReminder_switch.setOn(PDDefaults.getRemindMeUpon(), animated: false)
+        receiveReminder_switch.setOn(PDDefaults.notify(), animated: false)
     }
     
     private func loadRemindMinutes() {
@@ -438,7 +438,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Resets the title of the Estrogens tab bar item to either "Patches" or "Injections".
     public func resetEstrogensVCTabBarItem() {
-        let v = PDSchedule.totalDue(interval: PDDefaults.getTimeIntervalString())
+        let v = PDSchedule.totalDue(interval: PDDefaults.getTimeInterval())
         // Estrogen icon
         if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
             vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil

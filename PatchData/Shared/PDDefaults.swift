@@ -67,7 +67,7 @@ public class PDDefaults: NSObject {
         return deliveryMethod
     }
     
-    public static func getTimeIntervalString() -> String {
+    public static func getTimeInterval() -> String {
         return timeInterval
     }
 
@@ -79,7 +79,7 @@ public class PDDefaults: NSObject {
         return reminderTime
     }
     
-    public static func getRemindMeUpon() -> Bool {
+    public static func notify() -> Bool {
         return notifications
     }
 
@@ -91,10 +91,6 @@ public class PDDefaults: NSObject {
         return siteIndex
     }
 
-    public static func needsMigration() -> Bool {
-        return needsDataMigration
-    }
-    
     // MARK: - Setters
     
     public static func setDeliveryMethod(to method: String) {
@@ -119,29 +115,19 @@ public class PDDefaults: NSObject {
         }
     }
     
-    public static func switchDeliveryMethod() {
-        typealias Methods = PDStrings.DeliveryMethods
-        let methods = [Methods.injections, Methods.patches]
-        let currentMethod = getDeliveryMethod()
-        if let i = methods.index(of: currentMethod) {
-            let new_i = (i + 1) % methods.count
-            let newMethod = methods[new_i]
-            setDeliveryMethod(to: newMethod)
-        } else {
-            setDeliveryMethod(to: "Patches")
-        }
-    }
-    
     public static func setTimeInterval(to interval: String) {
-        let key = PDStrings.SettingsKey.interval.rawValue
-        timeInterval = interval
-        defaults.set(interval, forKey: key)
+        let intervals = PDStrings.PickerData.expirationIntervals
+        if intervals.contains(interval) {
+            let key = PDStrings.SettingsKey.interval.rawValue
+            timeInterval = interval
+            defaults.set(interval, forKey: key)
+        }
     }
     
     /**
     Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user decreases the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
-    public static func setQuantityWithWarning(to newCount: Int, oldCount: Int, countButton: UIButton, navController: UINavigationController?, reset: @escaping (_ newQuantity: Int) -> ()) {
+    public static func setQuantityWithWarning(to newCount: Int, oldCount: Int, countButton: UIButton, navController: UINavigationController? = nil, reset: @escaping (_ newQuantity: Int) -> ()) {
         let max = maxSites()
         if let fx = scheduleState {
             fx.oldDeliveryCount = oldCount
@@ -206,12 +192,6 @@ public class PDDefaults: NSObject {
         let key = PDStrings.SettingsKey.setup.rawValue
         mentionedAppDisclaimer = disclaimer
         std_defaults.set(disclaimer, forKey: key)
-    }
-    
-    public static func setNeedsMigrated(to needmig: Bool) {
-        let key = PDStrings.SettingsKey.needs_migrate.rawValue
-        needsDataMigration = needmig
-        std_defaults.set(needmig, forKey: key)
     }
     
     public static func setSiteIndex(to i: Index) {
@@ -334,17 +314,7 @@ public class PDDefaults: NSObject {
             setSiteIndex(to: 0)
         }
     }
-    
-    // Note: non-shared.
-    private static func loadNeedsMigration() {
-        let key = PDStrings.SettingsKey.needs_migrate.rawValue
-        if let needs = std_defaults.object(forKey: key) as? Bool {
-            needsDataMigration = needs
-        } else {
-            std_defaults.set(true, forKey: key)
-        }
-    }
-    
+
     // MARK: - helpers
     
     /// Removes the word "minutes" from the notification option

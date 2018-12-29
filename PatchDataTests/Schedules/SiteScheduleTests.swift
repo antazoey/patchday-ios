@@ -21,9 +21,9 @@ class SiteScheduleTests: XCTestCase {
         estroSchedule.reset()
         
         // Load estrogens to occupy the sites
-        estroSchedule.setEstrogenSite(of: 0, with: siteSchedule.getSite(at: 0)!)
-        estroSchedule.setEstrogenSite(of: 1, with: siteSchedule.getSite(at: 1)!)
-        estroSchedule.setEstrogenSite(of: 2, with: siteSchedule.getSite(at: 2)!)
+        estroSchedule.setSite(of: 0, with: siteSchedule.getSite(at: 0)!)
+        estroSchedule.setSite(of: 1, with: siteSchedule.getSite(at: 1)!)
+        estroSchedule.setSite(of: 2, with: siteSchedule.getSite(at: 2)!)
         
         PDDefaults.setSiteSchedule(siteSchedule)
     }
@@ -111,7 +111,7 @@ class SiteScheduleTests: XCTestCase {
         actual = siteSchedule.nextIndex(current: 3)
         XCTAssertEqual(actual, 3)
         // Returns same index when all sites are filled
-        estroSchedule.setEstrogenSite(of: 3, with: siteSchedule.getSite(at: 3)!)
+        estroSchedule.setSite(of: 3, with: siteSchedule.getSite(at: 3)!)
         actual = siteSchedule.nextIndex(current: 3)
         XCTAssertEqual(actual, 3)
         // Returns max when current is too large
