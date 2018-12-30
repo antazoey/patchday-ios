@@ -46,7 +46,6 @@ public class PDDefaults: NSObject {
         loadRemindUpon()
         loadMentionedDisclaimer()
         loadSiteIndex()
-        loadNeedsMigration()
     }
     
     public static func setEstrogenSchedule(_ schedule: EstrogenSchedule) {
