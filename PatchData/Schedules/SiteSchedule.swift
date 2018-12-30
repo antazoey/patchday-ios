@@ -52,7 +52,7 @@ public class SiteSchedule: PDScheduleProtocol {
         sites = sites.filter() {
             $0.getName() != ""
             && $0.getName() != nil
-            && $0.getOrder() != -1
+            && $0.getOrder() > -1
         }
     }
     
