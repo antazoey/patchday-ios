@@ -26,13 +26,12 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     override init(type: PatchData.PDEntity = .estrogen) {
         super.init(type: .estrogen)
-        // Load previously saved estrogens
+        // Create a new schedule if no stored estrogens
         estrogens = mos as! [MOEstrogen]
+        mos = []
         if count() <= 0 {
-            // Create new estrogens
             new()
         }
-        sort()
         loadMap()
     }
 
@@ -59,7 +58,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
         estrogens.sort(by: <)
     }
     
-    /// Sets all MOEstrogen data to nil.
+    /// Reset the schedule to factory default
     override public func reset() {
         let context = PatchData.getContext()
         for estro in estrogens {
@@ -71,19 +70,17 @@ public class EstrogenSchedule: PDScheduleProtocol {
         PatchData.save()
     }
     
-    /// Initializes generic MOEstrogens.
+    /// Resets without changing the quantity
     override public func new() {
-        var estros: [MOEstrogen] = []
+        estrogens = []
         for _ in 0..<quantity {
             if let estro = PatchData.insert(type.rawValue) as? MOEstrogen {
-                estros.append(estro)
+                estro.setID()
+                estrogens.append(estro)
             } else {
                 PatchDataAlert.alertForCoreDataError()
-                estros.append(MOEstrogen())
             }
         }
-        initIDs(for: estros)
-        estrogens = estros
     }
     
     // MARK: - Public
@@ -259,13 +256,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     // MARK: - Private
-    
-    /// Sets UUID for estros if there is none.
-    private func initIDs(for estros: [MOEstrogen]) {
-        for estro in estros {
-            estro.setID()
-        }
-    }
     
     /// Load estrogen ID map after changes occur to the schedule.
     public func loadMap() {

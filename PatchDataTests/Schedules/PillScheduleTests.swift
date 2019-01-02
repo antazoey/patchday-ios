@@ -41,11 +41,24 @@ class PillScheduleTests: XCTestCase {
         XCTAssertEqual(pillSchedule.count(), 2)
     }
     
+    func testInsert() {
+        if let pill = pillSchedule.insert() {
+            XCTAssert(pillSchedule.pills.contains(pill))
+        } else {
+            XCTFail()
+        }
+    }
+    
     func testReset() {
         pillSchedule.reset()
         XCTAssertEqual(pillSchedule.count(), 2)
     }
     
+    func testNew() {
+        pillSchedule.new()
+        XCTAssertEqual(pillSchedule.count(), 2)
+    }
+
     func testGetPillAtIndex() {
         let expected = "PILL 1"
         if let pill = pillSchedule.getPill(at: 0) {

@@ -25,6 +25,7 @@ public class SiteSchedule: PDScheduleProtocol {
     override init(type: PatchData.PDEntity = .site) {
         super.init(type: .site)
         sites = self.mos as! [MOSite]
+        mos = []
         filterEmpty()
         if sites.count == 0 {
             new()

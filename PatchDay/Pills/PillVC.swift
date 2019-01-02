@@ -288,7 +288,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // Set VC pill as well as reflected attributes in the interactive UI
     private func reflectPillAttributes() {
-        let pills = PDSchedule.pillSchedule.getPills()
+        let pills = PDSchedule.pillSchedule.pills
         if let index = pillIndex, index >= 0 && index < pills.count {
             self.pill = pills[index]
             loadName(from: pills[index])

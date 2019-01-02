@@ -21,7 +21,8 @@ public class PillSchedule: PDScheduleProtocol {
     
     override init(type: PatchData.PDEntity = .pill) {
         super.init(type: .pill)
-        pills = self.mos as! [MOPill]
+        pills = mos as! [MOPill]
+        mos = []
         loadTakenTodays(for: pills)
         filterEmpty()
         loadMap()
@@ -31,10 +32,6 @@ public class PillSchedule: PDScheduleProtocol {
     
     override public func count() -> Int {
         return pills.count
-    }
-    
-    override public func filterEmpty() {
-        pills = pills.filter() { $0.getName() != nil }
     }
 
     /// Creates a new MOPill and inserts it in to the pills.
@@ -54,8 +51,8 @@ public class PillSchedule: PDScheduleProtocol {
     
     /// Generates a generic list of MOPills when there are none in store.
     override public func new() {
+        let names = PDStrings.PillTypes.defaultPills
         pills = []
-        var names = PDStrings.PillTypes.defaultPills
         for i in 0..<names.count {
             if let pill = PatchData.insert(type.rawValue) as? MOPill {
                 pill.initAttributes(name: names[i])
@@ -65,15 +62,11 @@ public class PillSchedule: PDScheduleProtocol {
         PatchData.save()
     }
     
+    override public func filterEmpty() {
+        pills = pills.filter() { $0.getName() != nil }
+    }
+    
     // MARK: - Public
-    
-    public func getPills() -> [MOPill] {
-        return pills
-    }
-    
-    public func getMap() -> [UUID: MOPill] {
-        return pillMap
-    }
 
     /// Returns the MOPill for the given index.
     public func getPill(at index: Index) -> MOPill? {
@@ -167,8 +160,6 @@ public class PillSchedule: PDScheduleProtocol {
         return pills.min(by: <)
     }
     
-    // MARK: - Private
-    
     public func printPills() {
         for pill in pills {
             print(pill)
@@ -176,12 +167,14 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     public func totalDue() -> Int {
-        return getPills().reduce(0, {
+        return pills.reduce(0, {
             (count: Int, pill: MOPill) -> Int in
             let r = pill.isExpired() ? 1 + count : count
             return r
         })
     }
+    
+    // MARK: - Private
 
     /// Resets "taken today" if it is a new day. Else, does nothing.
     private func loadTakenTodays(for pills: [MOPill]) {
