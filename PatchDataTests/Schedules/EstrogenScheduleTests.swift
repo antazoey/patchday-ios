@@ -49,6 +49,17 @@ class EstrogenScheduleTests: XCTestCase {
         XCTAssertEqual(estrogenSchedule?.count(), 1)
     }
     
+    func testNew() {
+        let estros_start = estrogenSchedule?.estrogens
+        estrogenSchedule?.new()
+        let _ = estrogenSchedule?.insert()
+        let estros_middle = estrogenSchedule?.estrogens
+        estrogenSchedule?.new()
+        let estros_end = estrogenSchedule?.estrogens
+        XCTAssertNotEqual(estros_start, estros_middle)
+        XCTAssertEqual(estros_start?.count, estros_end?.count)
+    }
+    
     func testDeleteAfterIndex() {
         let _ = estrogenSchedule?.insert()
         XCTAssertEqual(estrogenSchedule?.count(), 4)

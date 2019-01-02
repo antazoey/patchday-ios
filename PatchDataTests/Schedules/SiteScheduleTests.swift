@@ -62,6 +62,12 @@ class SiteScheduleTests: XCTestCase {
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
     
+    func testNew() {
+        PDDefaults.setDeliveryMethod(to: "Injections")
+        siteSchedule.new()
+        XCTAssert(siteSchedule.isDefault(usingPatches: false))
+    }
+    
     func testSetName() {
         siteSchedule.setName(at: 0, to: "TEST SITE")
         if let actual = siteSchedule.sites[0].getName() {
