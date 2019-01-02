@@ -167,13 +167,24 @@ public class PDDefaults: NSObject {
     }
     
     public static func setQuantityWithoutWarning(to quantity: Int) {
-        let max = PDStrings.PickerData.counts.count
-        if isAcceptable(count: quantity, max: max) {
+        let oldQuantity = self.quantity
+        let counts = PDStrings.PickerData.counts
+        if let last = counts.last,
+            let max = Int(last),
+            isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
             estrogenSchedule?.quantityUD = quantity
             defaults.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
             if let estroSchedule = estrogenSchedule {
-                estroSchedule.delete(after: quantity)
+                let increasing = oldQuantity < quantity
+                if increasing {
+                    // Fill in new estros
+                    for _ in oldQuantity..<quantity {
+                        let _ = estroSchedule.insert()
+                    }
+                } else {
+                    estroSchedule.delete(after: quantity - 1)
+                }
             }
         }
     }

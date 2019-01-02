@@ -103,25 +103,35 @@ class PDDefaultsTests: XCTestCase {
     }
     
     func testSetQuantityWithoutWarning() {
+        let estroSched = EstrogenSchedule()
+        PDDefaults.setEstrogenSchedule(estroSched)
         PDDefaults.setDeliveryMethod(to: "Patches")
         PDDefaults.setQuantityWithoutWarning(to: 1)
-        var actual = PDDefaults.getQuantity()
-        XCTAssertEqual(actual, 1)
+        var expected = 1
+        XCTAssertEqual(PDDefaults.getQuantity(), expected)
+        XCTAssertEqual(estroSched.quantityUD, expected)
+        XCTAssertEqual(estroSched.count(), expected)
 
         PDDefaults.setQuantityWithoutWarning(to: 2)
-        actual = PDDefaults.getQuantity()
-        XCTAssertEqual(actual, 2)
+        expected = 2
+        XCTAssertEqual(PDDefaults.getQuantity(), expected)
+        XCTAssertEqual(estroSched.quantityUD, expected)
+        XCTAssertEqual(estroSched.count(), expected)
 
         PDDefaults.setQuantityWithoutWarning(to: 3)
-        actual = PDDefaults.getQuantity()
-        XCTAssertEqual(actual, 3)
+        expected = 3
+        XCTAssertEqual(PDDefaults.getQuantity(), expected)
+        XCTAssertEqual(estroSched.quantityUD, expected)
+        XCTAssertEqual(estroSched.count(), 3)
 
         PDDefaults.setQuantityWithoutWarning(to: 4)
-        actual = PDDefaults.getQuantity()
-        XCTAssertEqual(actual, 4)
+        expected = 4
+        XCTAssertEqual(PDDefaults.getQuantity(), 4)
+        XCTAssertEqual(estroSched.quantityUD, 4)
+        XCTAssertEqual(estroSched.count(), 4)
         
         PDDefaults.setQuantityWithoutWarning(to: 400)
-        actual = PDDefaults.getQuantity()
+        var actual = PDDefaults.getQuantity()
         XCTAssertEqual(actual, 4)
         
         // Should not allow to exceed 4 while in Patches modes
