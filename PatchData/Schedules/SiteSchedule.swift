@@ -19,13 +19,15 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     public var sites: [MOSite] = []
+    private var nextI: Index = -1
+    public var usingPatches: Bool = true
     
     override init(type: PatchData.PDEntity = .site) {
         super.init(type: .site)
         sites = self.mos as! [MOSite]
         filterEmpty()
         if sites.count == 0 {
-            sites = new()
+            new()
         }
         sort()
     }
@@ -47,22 +49,8 @@ public class SiteSchedule: PDScheduleProtocol {
         return nil
     }
 
-    /// Removes all sites with empty or nil names from the sites.
-    override public func filterEmpty() {
-        sites = sites.filter() {
-            $0.getName() != ""
-            && $0.getName() != nil
-            && $0.getOrder() > -1
-        }
-    }
-    
-    override public func sort() {
-        sites.sort(by: <)
-    }
-    
     /// Resets the site array a default list of sites.
     override public func reset() {
-        let usingPatches = PDDefaults.usingPatches()
         if (isDefault(usingPatches: usingPatches)) {
             return
         }
@@ -91,8 +79,45 @@ public class SiteSchedule: PDScheduleProtocol {
         sort()
         PatchData.save()
     }
+    
+    
+    /// Generates a generic list of MOSites when there are none in store.
+    override public func new() {
+        var sites: [MOSite] = []
+        typealias SiteNames = PDStrings.SiteNames
+        var names = (PDDefaults.usingPatches()) ?
+            SiteNames.patchSiteNames :
+            SiteNames.injectionSiteNames
+        for i in 0..<names.count {
+            if let site = insert() {
+                site.setOrder(to: Int16(i))
+                site.setName(to: names[i])
+                site.setImageIdentifier(to: names[i])
+                sites.append(site)
+            }
+        }
+        PatchData.save()
+        self.sites = sites
+    }
+    
+    /// Removes all sites with empty or nil names from the sites.
+    override public func filterEmpty() {
+        sites = sites.filter() {
+            $0.getName() != ""
+                && $0.getName() != nil
+                && $0.getOrder() > -1
+        }
+    }
+    
+    override public func sort() {
+        sites.sort(by: <)
+    }
 
     // MARK: - Other Public
+    
+    public func setNextIndex(_ index: Index) {
+        nextI = index
+    }
 
     /// Returns the site at the given index.
     public func getSite(at index: Index) -> MOSite? {
@@ -147,21 +172,19 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     /// Returns the next site for scheduling in the site schedule.
-    public func nextIndex(current: Index) -> Index? {
-        if sites.count <= 0 || current < 0 {
+    public func nextIndex() -> Index? {
+        if sites.count <= 0 || nextI < 0 {
             return nil
         }
-        var r: Index = (current < sites.count) ? current : 0
-        for _ in 0..<sites.count {
+        for i in 0..<sites.count {
             // Return site that has no estros
-            if sites[r].estrogenRelationship?.count == 0 {
-                PDDefaults.setSiteIndex(to: r)
-                return r
-            } else {
-                r = PDDefaults.getSiteIndex()
+            if sites[i].estrogenRelationship?.count == 0 {
+                PDDefaults.setSiteIndex(to: i)
+                setNextIndex(i)
+                return i
             }
         }
-        return min(current, sites.count-1)
+        return nextI
     }
 
     /// Returns an array of a siteNames for each site in the schedule.
@@ -243,25 +266,6 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     // MARK: Private
-    
-    /// Generates a generic list of MOSites when there are none in store.
-    private func new() -> [MOSite] {
-        var sites: [MOSite] = []
-        typealias SiteNames = PDStrings.SiteNames
-        var names = (PDDefaults.usingPatches()) ?
-            SiteNames.patchSiteNames :
-            SiteNames.injectionSiteNames
-        for i in 0..<names.count {
-            if let site = insert() {
-                site.setOrder(to: Int16(i))
-                site.setName(to: names[i])
-                site.setImageIdentifier(to: names[i])
-                sites.append(site)
-            }
-        }
-        PatchData.save()
-        return sites
-    }
     
     /// Set the siteBackUpName in every estrogen.
     private func loadBackupSiteName(from site: MOSite) {

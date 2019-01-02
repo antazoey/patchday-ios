@@ -21,6 +21,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public var estrogens: [MOEstrogen] = []
     private var estrogenMap = [UUID: MOEstrogen]()
     private var state = PDSchedule.state
+    public var quantityUD = 3
+    public var usingPatches = true
     
     override init(type: PatchData.PDEntity = .estrogen) {
         super.init(type: .estrogen)
@@ -28,8 +30,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
         estrogens = mos as! [MOEstrogen]
         if count() <= 0 {
             // Create new estrogens
-            let c = PDStrings.PickerData.counts.count
-            new(count: c)
+            new()
         }
         sort()
         loadMap()
@@ -64,8 +65,24 @@ public class EstrogenSchedule: PDScheduleProtocol {
             estro.reset()
             context.delete(estro)
         }
-        estrogens = []
+        quantityUD = (usingPatches) ? 3 : 1
+        new()
         PatchData.save()
+    }
+    
+    /// Initializes generic MOEstrogens.
+    override public func new() {
+        var estros: [MOEstrogen] = []
+        for _ in 0..<quantityUD {
+            if let estro = PatchData.insert(type.rawValue) as? MOEstrogen {
+                estros.append(estro)
+            } else {
+                PatchDataAlert.alertForCoreDataError()
+                estros.append(MOEstrogen())
+            }
+        }
+        initIDs(for: estros)
+        estrogens = estros
     }
     
     // MARK: - Public
@@ -75,12 +92,13 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
 
     public func delete(after i: Index) {
-        let c = count()
-        if c > i {
-            for j in i..<c {
+        let end = count()
+        let start = (i >= -1) ? i + 1 : 0
+        if end > start {
+            for j in start..<end {
                 PatchData.getContext().delete(estrogens[j])
             }
-            for _ in i..<c {
+            for _ in start..<end {
                 let _ = estrogens.popLast()
             }
             PatchData.save()
@@ -91,8 +109,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public func getEstrogen(at index: Index, insertOnFail: Bool = true) -> MOEstrogen? {
         if index >= 0, index < count() {
             return estrogens[index]
-        }
-        if insertOnFail {
+        } else if insertOnFail {
             return insert()
         }
         return nil
@@ -226,35 +243,21 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Sets all MOEstrogen data between given indices to nil.
-    public func reset(start: Index, end: Index) {
+    public func reset(from start: Index) {
+        if start >= quantityUD || start < 0 || start >= estrogens.count {
+            return
+        }
         let context = PatchData.getContext()
-        for i in start...end {
-            if i < count() {
-                estrogens[i].reset()
-                context.delete(estrogens[i])
-            }
+        for i in start..<quantityUD {
+            estrogens[i].reset()
+            context.delete(estrogens[i])
         }
         estrogens = Array(estrogens.prefix(start))
+        quantityUD = start
         PatchData.save()
     }
     
     // MARK: - Private
-    
-    /// Initializes generic MOEstrogens.
-    private func new(count: Int) {
-        var estros: [MOEstrogen] = []
-        for _ in 0..<count {
-            if let estro = PatchData.insert(type.rawValue) as? MOEstrogen {
-                estros.append(estro)
-            }
-            else {
-                PatchDataAlert.alertForCoreDataError()
-                estros.append(MOEstrogen())
-            }
-        }
-        initIDs(for: estros)
-        estrogens = estros
-    }
     
     /// Sets UUID for estros if there is none.
     private func initIDs(for estros: [MOEstrogen]) {

@@ -95,21 +95,24 @@ public class PDDefaults: NSObject {
     public static func setDeliveryMethod(to method: String) {
         typealias Methods = PDStrings.DeliveryMethods
         let methods = [Methods.injections, Methods.patches]
-        let oldMethod = PDDefaults.getDeliveryMethod()
-        if method != oldMethod && methods.contains(method) {
-            deliveryMethod = method
-            defaults.set(method, forKey: PDStrings.SettingsKey.deliv.rawValue)
-            let usingPatches = method == Methods.patches
-            if let c = (usingPatches) ?
-                Int(PDStrings.PickerData.counts[2]) :
-                Int(PDStrings.PickerData.counts[0]) {
-                PDDefaults.setQuantityWithoutWarning(to: c)
+        let usingPatches = (method == PDStrings.DeliveryMethods.patches)
+        let key = PDStrings.SettingsKey.deliv.rawValue
+        if methods.contains(method) {
+            if (self.deliveryMethod != method) {
+                self.deliveryMethod = method
+                defaults.set(method, forKey: key)
+            }
+            if let siteSchedule = siteSchedule,
+                let estrogenSchedule = estrogenSchedule {
+                siteSchedule.usingPatches = usingPatches
+                estrogenSchedule.usingPatches = usingPatches
+                siteSchedule.reset()
+                estrogenSchedule.reset()
+                let c = estrogenSchedule.count()
+                setQuantityWithoutWarning(to: c)
             }
             if let state = scheduleState {
                 state.deliveryMethodChanged = true
-            }
-            if let schedule = siteSchedule {
-                schedule.reset()
             }
         }
     }
@@ -164,10 +167,10 @@ public class PDDefaults: NSObject {
     }
     
     public static func setQuantityWithoutWarning(to quantity: Int) {
-        // sets if greater than 0 and less than 5 first.
-        let max = maxSites()
+        let max = PDStrings.PickerData.counts.count
         if isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
+            estrogenSchedule?.quantityUD = quantity
             defaults.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
             if let estroSchedule = estrogenSchedule {
                 estroSchedule.delete(after: quantity)
@@ -198,7 +201,8 @@ public class PDDefaults: NSObject {
             let c = siteSchedule.count()
             if i < c && i >= 0 {
                 let key = PDStrings.SettingsKey.site_index.rawValue
-                defaults.set(siteIndex, forKey: key)
+                siteIndex = i
+                defaults.set(i, forKey: key)
             }
         }
     }

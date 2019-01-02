@@ -37,6 +37,10 @@ public class PDScheduleProtocol: NSObject {
         fatalError("Must Override")
     }
     
+    func new() {
+        fatalError("Must Override")
+    }
+    
     func sort() {}
     
     func filterEmpty() {}

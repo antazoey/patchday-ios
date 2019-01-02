@@ -62,7 +62,7 @@ class SiteScheduleTests: XCTestCase {
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
     
-    func testSetSiteName() {
+    func testSetName() {
         siteSchedule.setName(at: 0, to: "TEST SITE")
         if let actual = siteSchedule.sites[0].getName() {
             let expected = "TEST SITE"
@@ -100,29 +100,26 @@ class SiteScheduleTests: XCTestCase {
         }
     }
     
-    func testGetNextSiteIndex() {
+    func testNextSiteIndex() {
         // Finds next index even if current is incorrect
-        var actual = siteSchedule.nextIndex(current: 0)
+        siteSchedule.setNextIndex(0)
+        var actual = siteSchedule.nextIndex()
         XCTAssertEqual(actual, 3)
         // Finds next index even if current index is way off
-        actual = siteSchedule.nextIndex(current: 100)
-        XCTAssertEqual(actual, 3)
-        // Find next index when current is as it should be
-        actual = siteSchedule.nextIndex(current: 3)
+        siteSchedule.setNextIndex(100)
+        actual = siteSchedule.nextIndex()
         XCTAssertEqual(actual, 3)
         // Returns same index when all sites are filled
         estroSchedule.setSite(of: 3, with: siteSchedule.getSite(at: 3)!)
-        actual = siteSchedule.nextIndex(current: 3)
+        actual = siteSchedule.nextIndex()
         XCTAssertEqual(actual, 3)
-        // Returns max when current is too large
-        actual = siteSchedule.nextIndex(current: 100)
-        XCTAssertEqual(actual, siteSchedule.count() - 1)
+        siteSchedule.setNextIndex(-1)
         // Returns nil when current is < 0
-        actual = siteSchedule.nextIndex(current: -1)
+        actual = siteSchedule.nextIndex()
         XCTAssertNil(actual)
     }
     
-    func testSetSiteOrder() {
+    func testSetOrder() {
         // Successfully sets order when within bounds and swaps
         var oldname_at0 = siteSchedule.sites[0].getName()
         let oldname_at1 = siteSchedule.sites[1].getName()

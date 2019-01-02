@@ -52,6 +52,19 @@ public class PillSchedule: PDScheduleProtocol {
         loadMap()
     }
     
+    /// Generates a generic list of MOPills when there are none in store.
+    override public func new() {
+        pills = []
+        var names = PDStrings.PillTypes.defaultPills
+        for i in 0..<names.count {
+            if let pill = PatchData.insert(type.rawValue) as? MOPill {
+                pill.initAttributes(name: names[i])
+                pills.append(pill)
+            }
+        }
+        PatchData.save()
+    }
+    
     // MARK: - Public
     
     public func getPills() -> [MOPill] {
@@ -155,18 +168,6 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     // MARK: - Private
-    
-    /// Generates a generic list of MOPills when there are none in store.
-    public func new() {
-        var names = PDStrings.PillTypes.defaultPills
-        for i in 0..<names.count {
-            if let pill = PatchData.insert(type.rawValue) as? MOPill {
-                pill.initAttributes(name: names[i])
-                pills.append(pill)
-            }
-        }
-        PatchData.save()
-    }
     
     public func printPills() {
         for pill in pills {

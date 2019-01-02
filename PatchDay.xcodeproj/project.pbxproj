@@ -40,6 +40,7 @@
 		B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993C20F8822700D36B06 /* MOSiteMethods.swift */; };
 		B458994520F886FB00D36B06 /* MOEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOEstrogen.swift */; };
 		B458994620F886FE00D36B06 /* MOEstrogenMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */; };
+		B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */; };
 		B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63320CDA48400CF7B54 /* SitesVC.swift */; };
 		B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63520CF1D6000CF7B54 /* SiteVC.swift */; };
 		B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
@@ -195,6 +196,7 @@
 		B458994120F8865C00D36B06 /* MOEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogen.swift; sourceTree = "<group>"; };
 		B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogenMethods.swift; sourceTree = "<group>"; };
 		B463E1AA211640E90099DE36 /* ScheduleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleState.swift; sourceTree = "<group>"; };
+		B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenScheduleTests.swift; sourceTree = "<group>"; };
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B46AC63320CDA48400CF7B54 /* SitesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SitesVC.swift; path = Sites/SitesVC.swift; sourceTree = "<group>"; };
 		B46AC63520CF1D6000CF7B54 /* SiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteVC.swift; path = Sites/SiteVC.swift; sourceTree = "<group>"; };
@@ -500,6 +502,7 @@
 			isa = PBXGroup;
 			children = (
 				B480EE2B21CC7554002C2238 /* SiteScheduleTests.swift */,
+				B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */,
 				B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */,
 			);
 			path = Schedules;
@@ -834,6 +837,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */,
+				B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */,
 				B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */,
 				B405322921D6F05900AF9CAD /* PDDefaultsTests.swift in Sources */,
 			);

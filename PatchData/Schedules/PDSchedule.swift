@@ -44,7 +44,7 @@ public class PDSchedule: NSObject {
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
     public static func suggest(current: Index) -> MOSite? {
         let sites = siteSchedule.sites
-        if let i = siteSchedule.nextIndex(current: current) {
+        if let i = siteSchedule.nextIndex() {
             return sites[i]
         }
         return nil

@@ -26,15 +26,15 @@ class PDDefaultsTests: XCTestCase {
         // patches after decreasing the Quantity in PDDefaults
         // and that it is the same ref
         PDDefaults.setQuantityWithoutWarning(to: 4)
-        let schedule = EstrogenSchedule()
+        let estrogenSchedule = EstrogenSchedule()
         let date = Date(timeIntervalSince1970: 0)
-        schedule.setDate(of: 0, with: date)
-        schedule.setDate(of: 1, with: date)
-        schedule.setDate(of: 2, with: date)
-        schedule.setDate(of: 3, with: date)
-        PDDefaults.setEstrogenSchedule(schedule)
+        estrogenSchedule.setDate(of: 0, with: date)
+        estrogenSchedule.setDate(of: 1, with: date)
+        estrogenSchedule.setDate(of: 2, with: date)
+        estrogenSchedule.setDate(of: 3, with: date)
+        PDDefaults.setEstrogenSchedule(estrogenSchedule)
         PDDefaults.setQuantityWithoutWarning(to: 3)
-        XCTAssertEqual(schedule.count(), 3)
+        XCTAssertEqual(estrogenSchedule.count(), 3)
     }
     
     func testSetSiteSchedule() {
@@ -60,10 +60,18 @@ class PDDefaultsTests: XCTestCase {
     }
     
     func testDeliveryMethod() {
+        let estroSched = EstrogenSchedule()
+        let siteSched = SiteSchedule()
+        PDDefaults.setEstrogenSchedule(estroSched)
+        PDDefaults.setSiteSchedule(siteSched)
         PDDefaults.setDeliveryMethod(to: "Injections")
+        XCTAssertFalse(estroSched.usingPatches)
+        XCTAssertFalse(siteSched.usingPatches)
         XCTAssertEqual(PDDefaults.getDeliveryMethod(), "Injections")
         PDDefaults.setDeliveryMethod(to: "Patches")
         XCTAssertEqual(PDDefaults.getDeliveryMethod(), "Patches")
+        XCTAssert(estroSched.usingPatches)
+        XCTAssert(siteSched.usingPatches)
         PDDefaults.setDeliveryMethod(to: "BAD")
         XCTAssertNotEqual(PDDefaults.getDeliveryMethod(), "BAD")
     }
@@ -124,7 +132,7 @@ class PDDefaultsTests: XCTestCase {
         PDDefaults.setDeliveryMethod(to: "Injections")
         PDDefaults.setQuantityWithoutWarning(to: 6)
         actual = PDDefaults.getQuantity()
-        XCTAssertEqual(actual, 6)
+        XCTAssertEqual(actual, 1)
     }
     
     func testNotificationMinutes() {
@@ -143,7 +151,16 @@ class PDDefaultsTests: XCTestCase {
         XCTAssert(PDDefaults.mentionedDisclaimer())
     }
     
-    func 
+    func testSiteIndex() {
+        let siteSchedule = SiteSchedule()
+        PDDefaults.setSiteSchedule(siteSchedule)
+        PDDefaults.setSiteIndex(to: 2)
+        XCTAssertEqual(PDDefaults.getSiteIndex(), 2)
+        PDDefaults.setSiteIndex(to: 10)
+        XCTAssertEqual(PDDefaults.getSiteIndex(), 2)
+        PDDefaults.setSiteIndex(to: -1)
+        XCTAssertEqual(PDDefaults.getSiteIndex(), 2)
+    }
 
     // Other public
     

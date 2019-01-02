@@ -37,8 +37,7 @@ class SiteTableViewCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        let current = PDDefaults.getSiteIndex()
-        if cellIndex == PDSchedule.siteSchedule.nextIndex(current: current) {
+        if cellIndex == PDSchedule.siteSchedule.nextIndex() {
             nextLabel.isHidden = shouldHide
         }
     }
@@ -56,12 +55,10 @@ class SiteTableViewCell: UITableViewCell {
         return nil
     }
     
+    /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        let current = PDDefaults.getSiteIndex()
-        if PDSchedule.siteSchedule.nextIndex(current: current) == index && !isEditing {
-            return false
-        }
-        return true
+        let nextIndex = PDSchedule.siteSchedule.nextIndex()
+        return ((nextIndex != index) || isEditing)
     }
     
     private func setBackgroundSelected() {
@@ -69,5 +66,4 @@ class SiteTableViewCell: UITableViewCell {
         backgroundView.backgroundColor = PDColors.pdPink
         selectedBackgroundView = backgroundView
     }
-    
 }

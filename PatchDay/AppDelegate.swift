@@ -30,8 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PDDefaults.setEstrogenSchedule(PDSchedule.estrogenSchedule)
         
         // Set default Pills only on the first launch.
-        let isFirstLaunch = !PDDefaults.mentionedDisclaimer()
-        if isFirstLaunch {
+        if isFirstLaunch() {
             PDSchedule.pillSchedule.reset()
         }
 
@@ -49,6 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navigationBarAppearace = UINavigationBar.appearance()
         navigationBarAppearace.tintColor = UIColor.blue
         return true
+    }
+    
+    func isFirstLaunch() -> Bool {
+        return !PDDefaults.mentionedDisclaimer()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {

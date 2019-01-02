@@ -124,8 +124,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let siteToMove = schedule.sites[sourceIndexPath.row]
         schedule.sites.remove(at: sourceIndexPath.row)
         schedule.sites.insert(siteToMove, at: destinationIndexPath.row)
-        let current = PDDefaults.getSiteIndex()
-        if sourceIndexPath.row == schedule.nextIndex(current: current) {
+        if sourceIndexPath.row == schedule.nextIndex() {
             PDDefaults.setSiteIndex(to: destinationIndexPath.row)
         }
         for i in 0..<schedule.count() {
