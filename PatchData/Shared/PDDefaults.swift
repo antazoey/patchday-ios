@@ -173,7 +173,7 @@ public class PDDefaults: NSObject {
             let max = Int(last),
             isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
-            estrogenSchedule?.quantityUD = quantity
+            estrogenSchedule?.quantity = quantity
             defaults.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
             if let estroSchedule = estrogenSchedule {
                 let increasing = oldQuantity < quantity

@@ -19,8 +19,8 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     public var sites: [MOSite] = []
-    private var nextI: Index = -1
-    public var usingPatches: Bool = true
+    internal var next: Index = -1
+    internal var usingPatches: Bool = true
     
     override init(type: PatchData.PDEntity = .site) {
         super.init(type: .site)
@@ -85,7 +85,7 @@ public class SiteSchedule: PDScheduleProtocol {
     override public func new() {
         var sites: [MOSite] = []
         typealias SiteNames = PDStrings.SiteNames
-        var names = (PDDefaults.usingPatches()) ?
+        var names = (usingPatches) ?
             SiteNames.patchSiteNames :
             SiteNames.injectionSiteNames
         for i in 0..<names.count {
@@ -114,10 +114,6 @@ public class SiteSchedule: PDScheduleProtocol {
     }
 
     // MARK: - Other Public
-    
-    public func setNextIndex(_ index: Index) {
-        nextI = index
-    }
 
     /// Returns the site at the given index.
     public func getSite(at index: Index) -> MOSite? {
@@ -173,18 +169,18 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Returns the next site for scheduling in the site schedule.
     public func nextIndex() -> Index? {
-        if sites.count <= 0 || nextI < 0 {
+        if sites.count <= 0 || next < 0 {
             return nil
         }
         for i in 0..<sites.count {
             // Return site that has no estros
             if sites[i].estrogenRelationship?.count == 0 {
                 PDDefaults.setSiteIndex(to: i)
-                setNextIndex(i)
+                next = i
                 return i
             }
         }
-        return nextI
+        return next
     }
 
     /// Returns an array of a siteNames for each site in the schedule.

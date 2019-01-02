@@ -109,25 +109,25 @@ class PDDefaultsTests: XCTestCase {
         PDDefaults.setQuantityWithoutWarning(to: 1)
         var expected = 1
         XCTAssertEqual(PDDefaults.getQuantity(), expected)
-        XCTAssertEqual(estroSched.quantityUD, expected)
+        XCTAssertEqual(estroSched.quantity, expected)
         XCTAssertEqual(estroSched.count(), expected)
 
         PDDefaults.setQuantityWithoutWarning(to: 2)
         expected = 2
         XCTAssertEqual(PDDefaults.getQuantity(), expected)
-        XCTAssertEqual(estroSched.quantityUD, expected)
+        XCTAssertEqual(estroSched.quantity, expected)
         XCTAssertEqual(estroSched.count(), expected)
 
         PDDefaults.setQuantityWithoutWarning(to: 3)
         expected = 3
         XCTAssertEqual(PDDefaults.getQuantity(), expected)
-        XCTAssertEqual(estroSched.quantityUD, expected)
+        XCTAssertEqual(estroSched.quantity, expected)
         XCTAssertEqual(estroSched.count(), 3)
 
         PDDefaults.setQuantityWithoutWarning(to: 4)
         expected = 4
         XCTAssertEqual(PDDefaults.getQuantity(), 4)
-        XCTAssertEqual(estroSched.quantityUD, 4)
+        XCTAssertEqual(estroSched.quantity, 4)
         XCTAssertEqual(estroSched.count(), 4)
         
         PDDefaults.setQuantityWithoutWarning(to: 400)

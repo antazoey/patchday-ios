@@ -62,7 +62,8 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testGetPillForID() {
-        if let id = id, let pill = pillSchedule.getPill(for: id) {
+        if let id = id,
+            let pill = pillSchedule.getPill(for: id) {
             XCTAssertEqual(pill.getID(), id)
         } else {
             XCTFail()

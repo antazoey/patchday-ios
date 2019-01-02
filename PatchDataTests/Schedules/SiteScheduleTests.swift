@@ -108,18 +108,18 @@ class SiteScheduleTests: XCTestCase {
     
     func testNextSiteIndex() {
         // Finds next index even if current is incorrect
-        siteSchedule.setNextIndex(0)
+        siteSchedule.next = 0
         var actual = siteSchedule.nextIndex()
         XCTAssertEqual(actual, 3)
         // Finds next index even if current index is way off
-        siteSchedule.setNextIndex(100)
+        siteSchedule.next = 100
         actual = siteSchedule.nextIndex()
         XCTAssertEqual(actual, 3)
         // Returns same index when all sites are filled
         estroSchedule.setSite(of: 3, with: siteSchedule.getSite(at: 3)!)
         actual = siteSchedule.nextIndex()
         XCTAssertEqual(actual, 3)
-        siteSchedule.setNextIndex(-1)
+        siteSchedule.next = -1
         // Returns nil when current is < 0
         actual = siteSchedule.nextIndex()
         XCTAssertNil(actual)

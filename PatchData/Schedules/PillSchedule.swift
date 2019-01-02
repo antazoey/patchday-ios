@@ -17,7 +17,7 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     public var pills: [MOPill] = []
-    public var pillMap = [UUID: MOPill]()
+    private var pillMap = [UUID: MOPill]()
     
     override init(type: PatchData.PDEntity = .pill) {
         super.init(type: .pill)

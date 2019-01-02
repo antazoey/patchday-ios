@@ -19,10 +19,10 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     public var estrogens: [MOEstrogen] = []
+    internal var quantity = 3
+    internal var usingPatches = true
     private var estrogenMap = [UUID: MOEstrogen]()
     private var state = PDSchedule.state
-    public var quantityUD = 3
-    public var usingPatches = true
     
     override init(type: PatchData.PDEntity = .estrogen) {
         super.init(type: .estrogen)
@@ -35,16 +35,17 @@ public class EstrogenSchedule: PDScheduleProtocol {
         sort()
         loadMap()
     }
-    
+
     // MARK: - Base class overrides
     
     override public func count() -> Int {
-        return estrogens.count
+        return min(estrogens.count, quantity)
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
     override public func insert() -> MOEstrogen? {
         if let estro = PatchData.insert(type.rawValue) as! MOEstrogen? {
+            quantity += 1
             estrogens.append(estro)
             estrogenMap[estro.getID()] = estro
             sort()
@@ -65,7 +66,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
             estro.reset()
             context.delete(estro)
         }
-        quantityUD = (usingPatches) ? 3 : 1
+        quantity = (usingPatches) ? 3 : 1
         new()
         PatchData.save()
     }
@@ -73,7 +74,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     /// Initializes generic MOEstrogens.
     override public func new() {
         var estros: [MOEstrogen] = []
-        for _ in 0..<quantityUD {
+        for _ in 0..<quantity {
             if let estro = PatchData.insert(type.rawValue) as? MOEstrogen {
                 estros.append(estro)
             } else {
@@ -95,11 +96,11 @@ public class EstrogenSchedule: PDScheduleProtocol {
         let end = count()
         let start = (i >= -1) ? i + 1 : 0
         if end > start {
-            for j in start..<end {
-                PatchData.getContext().delete(estrogens[j])
-            }
             for _ in start..<end {
-                let _ = estrogens.popLast()
+                if let estro = estrogens.popLast() {
+                    quantity -= 1
+                    PatchData.getContext().delete(estro)
+                }
             }
             PatchData.save()
         }
@@ -244,16 +245,16 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     /// Sets all MOEstrogen data between given indices to nil.
     public func reset(from start: Index) {
-        if start >= quantityUD || start < 0 || start >= estrogens.count {
+        if start >= quantity || start < 0 || start >= estrogens.count {
             return
         }
         let context = PatchData.getContext()
-        for i in start..<quantityUD {
+        for i in start..<quantity {
             estrogens[i].reset()
             context.delete(estrogens[i])
         }
         estrogens = Array(estrogens.prefix(start))
-        quantityUD = start
+        quantity = start
         PatchData.save()
     }
     
