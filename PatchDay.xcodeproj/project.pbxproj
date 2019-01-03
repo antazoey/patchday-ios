@@ -32,6 +32,7 @@
 		B435181F20F5075500BD268C /* MOPillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9420ED6F250048D466 /* MOPillMethods.swift */; };
 		B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
+		B440110A21DD6EEC00C94B76 /* PDAppSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110921DD6EEC00C94B76 /* PDAppSchedule.swift */; };
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		B4454B0520DC56BE005CD2E3 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */; };
@@ -189,6 +190,7 @@
 		B4355D9320ED6F250048D466 /* MOPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPill.swift; sourceTree = "<group>"; };
 		B4355D9420ED6F250048D466 /* MOPillMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPillMethods.swift; sourceTree = "<group>"; };
 		B4355D9920EE968B0048D466 /* MFBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MFBadgeButton.swift; path = ../Shared/MFBadgeButton.swift; sourceTree = "<group>"; };
+		B440110921DD6EEC00C94B76 /* PDAppSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDAppSchedule.swift; sourceTree = "<group>"; };
 		B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillTableViewCell.swift; path = Pills/PillTableViewCell.swift; sourceTree = "<group>"; };
 		B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteImagePickerDelegate.swift; path = Sites/SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
 		B458993B20F8822700D36B06 /* MOSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSite.swift; sourceTree = "<group>"; };
@@ -304,6 +306,7 @@
 			children = (
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
+				B440110921DD6EEC00C94B76 /* PDAppSchedule.swift */,
 				131F0B681EE3AAD700576200 /* PDImages.swift */,
 				B480EE4221CC79DD002C2238 /* Shared */,
 				B480EE4321CC79FA002C2238 /* Settings */,
@@ -774,6 +777,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B440110A21DD6EEC00C94B76 /* PDAppSchedule.swift in Sources */,
 				B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */,
 				B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */,
 				B4454B0520DC56BE005CD2E3 /* Assets.xcassets in Sources */,

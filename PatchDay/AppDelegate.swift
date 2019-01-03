@@ -24,11 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Load user defaults.
         PDDefaults.setUp()
         
-        // Side effects for user defaults controller
-        PDDefaults.setSiteSchedule(PDSchedule.siteSchedule)
-        PDDefaults.setScheduleState(PDSchedule.state)
-        PDDefaults.setEstrogenSchedule(PDSchedule.estrogenSchedule)
-        
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
             PDSchedule.pillSchedule.reset()

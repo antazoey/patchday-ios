@@ -19,15 +19,25 @@ public class PDSchedule: NSObject {
     }
     
     // Sub-schedules
-    public static var estrogenSchedule = EstrogenSchedule()
-    public static var pillSchedule = PillSchedule()
-    public static var siteSchedule = SiteSchedule()
-    public static var state = ScheduleState()
+    public var defaults: PDDefaults!
+    public let estrogenSchedule = EstrogenSchedule()
+    public let pillSchedule = PillSchedule()
+    public let siteSchedule = SiteSchedule()
+    public let state = ScheduleState()
+    private let alerter: PatchDataAlert!
+    
+    public override init() {
+        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
+                              siteSchedule: siteSchedule,
+                              scheduleState: state, alerter: alerter)
+        alerter = PatchDataAlert(estrogenSchedule: estrogenSchedule,
+                                 defaults: defaults)
+    }
 
     // MARK: - Public
 
     /// Returns array of current occupied SiteNames
-    public static func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
+    public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
         return estrogenSchedule.getEstrogens().map({
             (estro: MOEstrogen) -> SiteName in
             if let site = estro.getSite(), let name = site.getName() {
@@ -42,7 +52,7 @@ public class PDSchedule: NSObject {
     }
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
-    public static func suggest(current: Index) -> MOSite? {
+    public func suggest(current: Index) -> MOSite? {
         let sites = siteSchedule.sites
         if let i = siteSchedule.nextIndex() {
             return sites[i]
@@ -51,13 +61,13 @@ public class PDSchedule: NSObject {
     }
     
     /// Returns the total due of MOEstrogens and MOPills in the schedule.
-    public static func totalDue(interval: String) -> Int {
+    public func totalDue(interval: String) -> Int {
         return estrogenSchedule.totalDue(interval) + pillSchedule.totalDue()
     }
     
     /// For patches, get the next due. For injections, get the only one.
-    public static func getEstrogenForToday() -> MOEstrogen? {
-        if PDDefaults.usingPatches(),
+    public func getEstrogenForToday() -> MOEstrogen? {
+        if defaults.usingPatches(),
             let estro = estrogenSchedule.nextDue() {
             return estro
         } else {
@@ -66,7 +76,7 @@ public class PDSchedule: NSObject {
     }
 
     /// Returns array of occupied site indices.
-    public static func getOccupiedSiteIndices() -> [Index] {
+    public func getOccupiedSiteIndices() -> [Index] {
         var indices: [Index] = []
         for estro in estrogenSchedule.getEstrogens() {
             if let site = estro.getSite(),

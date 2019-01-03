@@ -14,31 +14,36 @@ public class PDDefaults: NSObject {
     // Description: The PDDefaults is the controller for the User Defaults that are unique to the user and their schedule.  There are schedule defaults and there are notification defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.
     
     // App
-    private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
-    private static var std_defaults = UserDefaults.standard
+    private let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
+    private let std_defaults = UserDefaults.standard
     
     // Schedule defaults:
-    private static var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
-    private static var timeInterval: String = PDStrings.PickerData.expirationIntervals[0]
-    internal static var quantity: Int = 4
+    private var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
+    private var timeInterval: String = PDStrings.PickerData.expirationIntervals[0]
+    internal var quantity: Int = 4
     
     // Notification defaults:
-    private static var notifications = false
-    private static var reminderTime: Int = 0
+    private var notifications = false
+    private var reminderTime: Int = 0
     
     // Rememberance
-    private static var mentionedAppDisclaimer = false
-    private static var needsDataMigration = true
-    private static var siteIndex = 0
+    private var mentionedAppDisclaimer = false
+    private var needsDataMigration = true
+    private var siteIndex = 0
     
     // Side effects
-    private static var estrogenSchedule: EstrogenSchedule? = nil
-    private static var siteSchedule: SiteSchedule? = nil
-    private static var scheduleState: ScheduleState? = nil
+    private var estrogenSchedule: EstrogenSchedule
+    private var siteSchedule: SiteSchedule
+    private var scheduleState: ScheduleState
+    private var alerter: PatchDataAlert
 
-    // MARK: - a static initializer
+    // MARK: - a  initializer
     
-    public static func setUp() {
+    internal init(estrogenSchedule: EstrogenSchedule, siteSchedule: SiteSchedule, scheduleState: ScheduleState, alerter: PatchDataAlert) {
+        self.estrogenSchedule = estrogenSchedule
+        self.siteSchedule = siteSchedule
+        self.scheduleState = scheduleState
+        self.alerter = alerter
         loadDeliveryMethod()
         loadTimeInterval()
         loadQuantity()
@@ -48,51 +53,39 @@ public class PDDefaults: NSObject {
         loadSiteIndex()
     }
     
-    public static func setEstrogenSchedule(_ schedule: EstrogenSchedule) {
-        estrogenSchedule = schedule
-    }
-    
-    public static func setSiteSchedule(_ schedule: SiteSchedule) {
-        siteSchedule = schedule
-    }
-    
-    public static func setScheduleState(_ state: ScheduleState) {
-        scheduleState = state
-    }
-    
     // MARK: - Getters
     
-    public static func getDeliveryMethod() -> String {
+    public func getDeliveryMethod() -> String {
         return deliveryMethod
     }
     
-    public static func getTimeInterval() -> String {
+    public func getTimeInterval() -> String {
         return timeInterval
     }
 
-    public static func getQuantity() -> Int {
+    public func getQuantity() -> Int {
         return quantity
     }
     
-    public static func getNotificationMinutesBefore() -> Int {
+    public func getNotificationMinutesBefore() -> Int {
         return reminderTime
     }
     
-    public static func notify() -> Bool {
+    public func notify() -> Bool {
         return notifications
     }
 
-    public static func mentionedDisclaimer() -> Bool {
+    public func mentionedDisclaimer() -> Bool {
         return mentionedAppDisclaimer
     }
     
-    public static func getSiteIndex() -> Index {
+    public func getSiteIndex() -> Index {
         return siteIndex
     }
 
     // MARK: - Setters
     
-    public static func setDeliveryMethod(to method: String) {
+    public func setDeliveryMethod(to method: String) {
         typealias Methods = PDStrings.DeliveryMethods
         let methods = [Methods.injections, Methods.patches]
         let usingPatches = (method == PDStrings.DeliveryMethods.patches)
@@ -102,22 +95,17 @@ public class PDDefaults: NSObject {
                 self.deliveryMethod = method
                 defaults.set(method, forKey: key)
             }
-            if let siteSchedule = siteSchedule,
-                let estrogenSchedule = estrogenSchedule {
-                siteSchedule.usingPatches = usingPatches
-                estrogenSchedule.usingPatches = usingPatches
-                siteSchedule.reset()
-                estrogenSchedule.reset()
-                let c = estrogenSchedule.count()
-                setQuantityWithoutWarning(to: c)
-            }
-            if let state = scheduleState {
-                state.deliveryMethodChanged = true
-            }
+            siteSchedule.usingPatches = usingPatches
+            estrogenSchedule.usingPatches = usingPatches
+            siteSchedule.reset()
+            estrogenSchedule.reset()
+            let c = estrogenSchedule.count()
+            setQuantityWithoutWarning(to: c)
+            scheduleState.deliveryMethodChanged = true
         }
     }
     
-    public static func setTimeInterval(to interval: String) {
+    public func setTimeInterval(to interval: String) {
         let intervals = PDStrings.PickerData.expirationIntervals
         if intervals.contains(interval) {
             let key = PDStrings.SettingsKey.interval.rawValue
@@ -129,28 +117,26 @@ public class PDDefaults: NSObject {
     /**
     Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user decreases the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
-    public static func setQuantityWithWarning(to newCount: Int, oldCount: Int, countButton: UIButton, navController: UINavigationController? = nil, reset: @escaping (_ newQuantity: Int) -> ()) {
-        let max = maxSites()
-        if let fx = scheduleState {
-            fx.oldDeliveryCount = oldCount
-        }
+    public func setQuantityWithWarning(to newCount: Int, oldCount: Int,
+                                       cont: @escaping () -> (),
+                                       reset: @escaping (_ newQuantity: Int) -> (),
+                                       cancel: @escaping () -> ()) {
+        let max = siteSchedule.count()
+        scheduleState.oldDeliveryCount = oldCount
         if isAcceptable(count: newCount, max: max) {
             if newCount < oldCount {
-                if let fx = scheduleState {
-                    fx.decreasedCount = true
-                }
+                scheduleState.decreasedCount = true
                 // Erases data
-                let q = PDDefaults.getQuantity()
+                let q = getQuantity()
                 let last_i = q - 1
-                if let estroSchedule = estrogenSchedule,
-                    !estroSchedule.isEmpty(fromThisIndexOnward: newCount,
+                if !estrogenSchedule.isEmpty(fromThisIndexOnward: newCount,
                                          lastIndex: last_i) {
-                    PatchDataAlert.alertForChangingCount(oldCount: oldCount,
-                                                         newCount: newCount,
-                                                         countButton: countButton,
-                                                         navController: navController) {
-                        newCount in reset(newCount)
-                    }
+                    let res = { (newCount) in reset(newCount) }
+                    alerter.alertForChangingCount(oldCount: oldCount,
+                                                  newCount: newCount,
+                                                  cont: cont,
+                                                  reset: res,
+                                                  cancel: cancel)
                 } else {
                     // Resets notifications but does not erase any data
                     setQuantityWithoutWarning(to: newCount)
@@ -159,81 +145,75 @@ public class PDDefaults: NSObject {
             } else {
                 // Incr. count
                 setQuantityWithoutWarning(to: newCount)
-                if let fx = scheduleState {
-                    fx.increasedCount = true
-                }
+                scheduleState.increasedCount = true
             }
         }
     }
     
-    public static func setQuantityWithoutWarning(to quantity: Int) {
+    public func setQuantityWithoutWarning(to quantity: Int) {
         let oldQuantity = self.quantity
         let counts = PDStrings.PickerData.counts
         if let last = counts.last,
             let max = Int(last),
             isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
-            estrogenSchedule?.quantity = quantity
+            estrogenSchedule.quantity = quantity
             defaults.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
-            if let estroSchedule = estrogenSchedule {
-                let increasing = oldQuantity < quantity
-                if increasing {
-                    // Fill in new estros
-                    for _ in oldQuantity..<quantity {
-                        let _ = estroSchedule.insert()
-                    }
-                } else {
-                    estroSchedule.delete(after: quantity - 1)
+            let increasing = oldQuantity < quantity
+            if increasing {
+                // Fill in new estros
+                for _ in oldQuantity..<quantity {
+                    let _ = estrogenSchedule.insert()
                 }
+            } else {
+                estrogenSchedule.delete(after: quantity - 1)
             }
         }
     }
     
-    public static func setNotificationMinutesBefore(to minutes: Int) {
+    public func setNotificationMinutesBefore(to minutes: Int) {
         let key = PDStrings.SettingsKey.notif.rawValue
         reminderTime = minutes
         defaults.set(minutes, forKey: key)
     }
     
-    public static func setNotify(to notify: Bool) {
+    public func setNotify(to notify: Bool) {
         let key = PDStrings.SettingsKey.remind.rawValue
         notifications = notify
         defaults.set(notify, forKey: key)
     }
 
-    public static func setMentionedDisclaimer(to disclaimer: Bool) {
+    public func setMentionedDisclaimer(to disclaimer: Bool) {
         let key = PDStrings.SettingsKey.setup.rawValue
         mentionedAppDisclaimer = disclaimer
         std_defaults.set(disclaimer, forKey: key)
     }
     
-    public static func setSiteIndex(to i: Index) {
-        if let siteSchedule = siteSchedule {
-            let c = siteSchedule.count()
-            if i < c && i >= 0 {
-                let key = PDStrings.SettingsKey.site_index.rawValue
-                siteIndex = i
-                defaults.set(i, forKey: key)
-            }
+    public func setSiteIndex(to i: Index) {
+        let c = siteSchedule.count()
+        if i < c && i >= 0 {
+            let key = PDStrings.SettingsKey.site_index.rawValue
+            siteIndex = i
+            defaults.set(i, forKey: key)
         }
     }
 
     //MARK: - Other public
     
-    public static func usingPatches() -> Bool {
-        let method = PDDefaults.getDeliveryMethod()
+    public func usingPatches() -> Bool {
+        let method = getDeliveryMethod()
         let patches = PDStrings.PickerData.deliveryMethods[0]
         return method == patches
     }
 
     /// Checks to see if count is reasonable for PatchDay
-    public static func isAcceptable(count: Int, max: Int) -> Bool {
+    public func isAcceptable(count: Int, max: Int) -> Bool {
         return (count > 0) && (count <= max)
     }
     
     // MARK: - loaders
     
-    private static func loadDeliveryMethod() {
+    private func loadDeliveryMethod() {
         let key = PDStrings.SettingsKey.deliv.rawValue
         if let dm = defaults.object(forKey: key) as? String {
             deliveryMethod = dm
@@ -245,7 +225,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    private static func loadTimeIntervalHelper(to interval: String) {
+    private func loadTimeIntervalHelper(to interval: String) {
         switch interval {
         case "One half-week":
             timeInterval = PDStrings.PickerData.expirationIntervals[0]
@@ -258,7 +238,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    private static func loadTimeInterval() {
+    private func loadTimeInterval() {
         if let interval = defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
             loadTimeIntervalHelper(to: interval)
         } else if let interval = std_defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
@@ -268,7 +248,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    private static func loadQuantityHelper(count: Int) {
+    private func loadQuantityHelper(count: Int) {
         if count >= 1 || count <= 4 {
             quantity = count
         } else if let c = Int(PDStrings.PickerData.counts[2]) {
@@ -276,7 +256,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    private static func loadQuantity() {
+    private func loadQuantity() {
         let key = PDStrings.SettingsKey.count.rawValue
         if let count = defaults.object(forKey: key) as? Int {
             loadQuantityHelper(count: count)
@@ -288,7 +268,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    private static func loadNotificationMinutesBefore() {
+    private func loadNotificationMinutesBefore() {
         let key = PDStrings.SettingsKey.notif.rawValue
         if let notifyTime = defaults.object(forKey: key) as? Int {
             reminderTime = notifyTime
@@ -299,7 +279,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    private static func loadRemindUpon() {
+    private func loadRemindUpon() {
         let key = PDStrings.SettingsKey.remind.rawValue
         if let notifyMe = defaults.object(forKey: key) as? Bool {
             notifications = notifyMe
@@ -311,14 +291,14 @@ public class PDDefaults: NSObject {
     }
 
     // Note:  non-shared.
-    private static func loadMentionedDisclaimer() {
+    private func loadMentionedDisclaimer() {
         let key = PDStrings.SettingsKey.setup.rawValue
         if let mentioned = std_defaults.object(forKey: key) as? Bool {
             mentionedAppDisclaimer = mentioned
         }
     }
     
-    private static func loadSiteIndex() {
+    private func loadSiteIndex() {
         let key = PDStrings.SettingsKey.site_index.rawValue
         if let site_i = defaults.object(forKey: key) as? Int {
             siteIndex = site_i
@@ -332,7 +312,7 @@ public class PDDefaults: NSObject {
     // MARK: - helpers
     
     /// Removes the word "minutes" from the notification option
-    private static func cutNotificationMinutes(of: String) -> String {
+    private func cutNotificationMinutes(of: String) -> String {
         var builder = ""
         for c in of {
             if c == " " {
@@ -341,12 +321,5 @@ public class PDDefaults: NSObject {
             builder += "\(c)"
         }
         return builder
-    }
-    
-    private static func maxSites() -> Int {
-        if let schedule = siteSchedule {
-            return schedule.count()
-        }
-        return 4
     }
 }
