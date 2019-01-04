@@ -33,13 +33,23 @@ public class PDSchedule: NSObject {
                               siteSchedule: siteSchedule,
                               state: state,
                               alerter: alerter)
-        sharedData = PDSharedData(defaults: defaults,
-                              estrogenSchedule: estrogenSchedule,
-                              pillSchedule: pillSchedule,
-                              siteSchedule: siteSchedule)
+        sharedData = PDSharedData(estrogenSchedule: estrogenSchedule,
+                                  pillSchedule: pillSchedule,
+                                  siteSchedule: siteSchedule)
     }
 
     // MARK: - Public
+    
+    public func setEstrogenDataForToday() {
+        let interval = defaults.getTimeInterval()
+        let usingPatches = defaults.usingPatches()
+        let siteIndex = defaults.getSiteIndex()
+        let setSiteIndex = defaults.setSiteIndex
+        self.sharedData.setEstrogenDataForToday(interval: interval,
+                                                usingPatches: usingPatches,
+                                                index: siteIndex,
+                                                setSiteIndex: setSiteIndex)
+    }
 
     /// Returns array of current occupied SiteNames
     public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {

@@ -107,7 +107,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             requestNotification()
             EstrogenSchedule.sort()
             // Save effects
-            State.wereChanges = true
+            State.wereEstrogenChanges = true
             if let i = EstrogenSchedule.getIndex(for: estro) {
                 State.indexOfChangedDelivery = i
             }
@@ -298,8 +298,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // Save site
         if siteTextHasChanged {
             if let site = SiteSchedule.getSite(at: siteIndexSelected) {
+                let setter = Schedule.setEstrogenDataForToday
                 EstrogenSchedule.setSite(of: estrogenScheduleIndex, with: site,
-                                         setSharedData: PDSharedData.setEstrogenDataForToday)
+                                         setSharedData: setter)
                 State.siteChanged = true
             } else if let name = chooseSiteButton.text {
                 EstrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name)
@@ -308,8 +309,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         
         // Save date
         if dateTextHasChanged {
-            EstrogenSchedule.setDate(of: estrogenScheduleIndex, with: datePicker.date,
-                                     setSharedData: PDSharedData.setEstrogenDataForToday)
+            let setter = Schedule.setEstrogenDataForToday
+            EstrogenSchedule.setDate(of: estrogenScheduleIndex,
+                                     with: datePicker.date,
+                                     setSharedData: setter)
         }
         
         // For EstrogensVC animation.

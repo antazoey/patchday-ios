@@ -105,5 +105,4 @@ class MFBadgeButton : UIButton {
         self.drawBadgeLayer()
         self.setNeedsDisplay()
     }
-    
 }

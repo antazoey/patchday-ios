@@ -126,7 +126,7 @@ class EstrogenTableViewCell: UITableViewCell {
         if index < Defaults.getQuantity() {
             if let hasDateAndItMatters = estro?.hasDate() {
                 // Was affected non-empty estrogens from change.
-                isAffectedFromChange = changes.wereChanges && !changes.isNew && !changes.onlySiteChanged && index <= changes.indexOfChangedDelivery && hasDateAndItMatters
+                isAffectedFromChange = changes.wereEstrogenChanges && !changes.isNew && !changes.onlySiteChanged && index <= changes.indexOfChangedDelivery && hasDateAndItMatters
             }
             // Newly changed site and none else (date didn't change).
             isSiteChange = changes.siteChanged && index == changes.indexOfChangedDelivery

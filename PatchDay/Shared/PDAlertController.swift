@@ -36,7 +36,7 @@ internal class PDAlertController: NSObject {
                 Defaults.setSiteIndex(to: 0)
                 State.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
-                PDSharedData.setEstrogenDataForToday()
+                Schedule.setEstrogenDataForToday()
                 
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {

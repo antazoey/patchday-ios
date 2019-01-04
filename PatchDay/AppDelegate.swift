@@ -25,15 +25,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if isFirstLaunch() {
             PillSchedule.reset()
         }
+        let interval = Defaults.getTimeInterval()
+        let count = Defaults.getQuantity()
+        let index = Defaults.getSiteIndex()
+        let usingPatches = Defaults.usingPatches()
+        let setSiteIndex = Defaults.setSiteIndex
 
         // Load data for the Today widget.
-        Schedule.sharedData.setDataForTodayApp()
+        Schedule.sharedData.setDataForTodayApp(interval: interval,
+                                               index: index,
+                                               usingPatches: usingPatches,
+                                               setSiteIndex: setSiteIndex)
         
         // Set the correct app badge value.
-        let interval = Defaults.getTimeInterval()
         setBadge(with: Schedule.totalDue(interval: interval))
         
-        let count = Defaults.getQuantity()
         Schedule.estrogenSchedule.delete(after: count)
 
         // Set the nav bar appearance.

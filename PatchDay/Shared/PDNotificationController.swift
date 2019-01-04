@@ -48,9 +48,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             let suggestedsite = SiteSchedule.suggest(current: current,
                                                      changeIndex: Defaults.setSiteIndex) {
             let now = Date() as NSDate
+            let setter = Schedule.setEstrogenDataForToday
             EstrogenSchedule.setEstrogen(for: id, date: now,
                                          site: suggestedsite,
-                                         setSharedData: PDSharedData.setEstrogenDataForToday)
+                                         setSharedData: setter)
             UIApplication.shared.applicationIconBadgeNumber -= 1
         } else if response.actionIdentifier == takeActionID,
             let uuid = UUID(uuidString: response.notification.request.identifier),
