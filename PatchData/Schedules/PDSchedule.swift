@@ -19,19 +19,24 @@ public class PDSchedule: NSObject {
     }
     
     // Sub-schedules
-    public var defaults: PDDefaults!
+    public var defaults: PDDefaults
+    public let sharedData: PDSharedData
     public let estrogenSchedule = EstrogenSchedule()
     public let pillSchedule = PillSchedule()
     public let siteSchedule = SiteSchedule()
     public let state = ScheduleState()
-    private let alerter: PatchDataAlert!
+    private let alerter: PatchDataAlert
     
     public override init() {
+        alerter = PatchDataAlert(estrogenSchedule: estrogenSchedule)
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
-                              scheduleState: state, alerter: alerter)
-        alerter = PatchDataAlert(estrogenSchedule: estrogenSchedule,
-                                 defaults: defaults)
+                              scheduleState: state,
+                              alerter: alerter)
+        sharedData = PDSharedData(defaults: defaults,
+                              estrogenSchedule: estrogenSchedule,
+                              pillSchedule: pillSchedule,
+                              siteSchedule: siteSchedule)
     }
 
     // MARK: - Public
@@ -51,28 +56,9 @@ public class PDSchedule: NSObject {
         }
     }
     
-    /// Returns the next site in the site schedule as a suggestion of where to relocate.
-    public func suggest(current: Index) -> MOSite? {
-        let sites = siteSchedule.sites
-        if let i = siteSchedule.nextIndex() {
-            return sites[i]
-        }
-        return nil
-    }
-    
     /// Returns the total due of MOEstrogens and MOPills in the schedule.
     public func totalDue(interval: String) -> Int {
         return estrogenSchedule.totalDue(interval) + pillSchedule.totalDue()
-    }
-    
-    /// For patches, get the next due. For injections, get the only one.
-    public func getEstrogenForToday() -> MOEstrogen? {
-        if defaults.usingPatches(),
-            let estro = estrogenSchedule.nextDue() {
-            return estro
-        } else {
-            return estrogenSchedule.getEstrogen(at: 0)
-        }
     }
 
     /// Returns array of occupied site indices.

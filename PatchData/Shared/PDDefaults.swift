@@ -35,15 +35,21 @@ public class PDDefaults: NSObject {
     private var estrogenSchedule: EstrogenSchedule
     private var siteSchedule: SiteSchedule
     private var scheduleState: ScheduleState
-    private var alerter: PatchDataAlert
+    private var alerter: PatchDataAlert?
 
     // MARK: - a  initializer
     
-    internal init(estrogenSchedule: EstrogenSchedule, siteSchedule: SiteSchedule, scheduleState: ScheduleState, alerter: PatchDataAlert) {
+    internal init(estrogenSchedule: EstrogenSchedule,
+                  siteSchedule: SiteSchedule,
+                  scheduleState: ScheduleState,
+                  alerter: PatchDataAlert?) {
         self.estrogenSchedule = estrogenSchedule
         self.siteSchedule = siteSchedule
         self.scheduleState = scheduleState
-        self.alerter = alerter
+        if let alertArg = alerter {
+            self.alerter = alertArg
+        }
+        super.init()
         loadDeliveryMethod()
         loadTimeInterval()
         loadQuantity()
@@ -115,12 +121,15 @@ public class PDDefaults: NSObject {
     }
     
     /**
-    Warns the user if they are about to delete delivery data.  It is necessary to reset MOs that are no longer in the schedule, which happens when the user decreases the count in a full schedule. Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
+    Warns the user if they are about to delete delivery data.
+     It is necessary to reset MOs that are no longer in the schedule,
+     which happens when the user decreases the count in a full schedule.
+     Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
     public func setQuantityWithWarning(to newCount: Int, oldCount: Int,
                                        cont: @escaping () -> (),
                                        reset: @escaping (_ newQuantity: Int) -> (),
-                                       cancel: @escaping () -> ()) {
+                                       cancel: @escaping (_ oldQuantity: Int) -> ()) {
         let max = siteSchedule.count()
         scheduleState.oldDeliveryCount = oldCount
         if isAcceptable(count: newCount, max: max) {
@@ -130,13 +139,16 @@ public class PDDefaults: NSObject {
                 let q = getQuantity()
                 let last_i = q - 1
                 if !estrogenSchedule.isEmpty(fromThisIndexOnward: newCount,
-                                         lastIndex: last_i) {
-                    let res = { (newCount) in reset(newCount) }
-                    alerter.alertForChangingCount(oldCount: oldCount,
-                                                  newCount: newCount,
-                                                  cont: cont,
-                                                  reset: res,
-                                                  cancel: cancel)
+                                             lastIndex: last_i),
+                    let alerter = alerter {
+                        let res = { (newCount) in reset(newCount) }
+                        let setQ = setQuantityWithoutWarning
+                        alerter.alertForChangingCount(oldCount: oldCount,
+                                                      newCount: newCount,
+                                                      simpleSetQuantity: setQ,
+                                                      cont: cont,
+                                                      reset: res,
+                                                      cancel: cancel)
                 } else {
                     // Resets notifications but does not erase any data
                     setQuantityWithoutWarning(to: newCount)
@@ -157,7 +169,6 @@ public class PDDefaults: NSObject {
             let max = Int(last),
             isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
-            estrogenSchedule.quantity = quantity
             defaults.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
             let increasing = oldQuantity < quantity
             if increasing {
@@ -239,9 +250,10 @@ public class PDDefaults: NSObject {
     }
     
     private func loadTimeInterval() {
-        if let interval = defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
+        let key = PDStrings.SettingsKey.interval.rawValue
+        if let interval = defaults.object(forKey: key) as? String {
             loadTimeIntervalHelper(to: interval)
-        } else if let interval = std_defaults.object(forKey: PDStrings.SettingsKey.interval.rawValue) as? String {
+        } else if let interval = std_defaults.object(forKey: key) as? String {
             setTimeInterval(to: interval)
         } else {
             setTimeInterval(to: PDStrings.PickerData.expirationIntervals[0])

@@ -22,10 +22,10 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nextEstro = PDTodayDataController.getNextEstrogen()
-        let nextPill = PDTodayDataController.getNextPill()
+        let nextEstro = PDPDSharedDataController.getNextEstrogen()
+        let nextPill = PDPDSharedDataController.getNextPill()
         
-        nextEstrogenLabel.text = PDTodayDataController.usingPatches() ? NSLocalizedString("Change:", comment: "Short label on Today App") : NSLocalizedString("Inject:", comment: "Short label on Today App")
+        nextEstrogenLabel.text = PDPDSharedDataController.usingPatches() ? NSLocalizedString("Change:", comment: "Short label on Today App") : NSLocalizedString("Inject:", comment: "Short label on Today App")
         if let n = nextEstro.siteName {
             estrogenSiteLabel.text = n
         } else {

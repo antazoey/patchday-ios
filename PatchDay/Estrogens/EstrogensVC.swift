@@ -22,7 +22,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     private var estrogenButtonTapped = 0            // for navigation
     private var setUpFromViewDidLoad: Bool = true   // from change patch
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var estrogenSchedule = PDSchedule.estrogenSchedule
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +31,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        PDSchedule.state.reset()
-        
+        State.reset()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,9 +39,11 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         // Alert for disclaimer and tutorial on first start up
         if appDelegate.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
-            PDDefaults.setMentionedDisclaimer(to: true)
+            Defaults.setMentionedDisclaimer(to: true)
         }
-        title = PDDefaults.usingPatches() ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
+        title = Defaults.usingPatches() ?
+            PDStrings.VCTitles.patches :
+            PDStrings.VCTitles.injections
         estrogenTable.reloadData()
     }
 
@@ -69,7 +69,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < PDDefaults.getQuantity() {
+        if indexPath.row < Defaults.getQuantity() {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -107,7 +107,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     public func setTabBarBadges() {
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
-        if PDDefaults.usingPatches() {
+        if Defaults.usingPatches() {
             item?.image = #imageLiteral(resourceName: "Patch Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
         } else {
@@ -116,13 +116,13 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
         
         // Expired estrogens
-        let estroDueCount = PDSchedule.totalDue(interval: PDDefaults.getTimeInterval())
+        let estroDueCount = Schedule.totalDue(interval: Defaults.getTimeInterval())
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
         
         // Expired pills
-        let pillDueCount = PDSchedule.pillSchedule.totalDue()
+        let pillDueCount = PillSchedule.totalDue()
         if pillDueCount > 0, let vcs = self.navigationController?.tabBarController?.viewControllers, vcs.count > 1 {
             vcs[1].tabBarItem.badgeValue = String(pillDueCount)
         }
@@ -138,7 +138,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     /// Configures title of view controller.
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
-            title = (PDDefaults.usingPatches()) ? PDStrings.VCTitles.patches : PDStrings.VCTitles.injections
+            title = (Defaults.usingPatches()) ?
+                PDStrings.VCTitles.patches :
+                PDStrings.VCTitles.injections
         }
     }
     
@@ -152,5 +154,4 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             }
         }
     }
-    
 }

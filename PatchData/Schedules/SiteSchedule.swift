@@ -22,7 +22,7 @@ public class SiteSchedule: PDScheduleProtocol {
     internal var next: Index = -1
     internal var usingPatches: Bool = true
     
-    override init(type: PatchData.PDEntity = .site) {
+    init() {
         super.init(type: .site)
         sites = self.mos as! [MOSite]
         mos = []
@@ -40,7 +40,7 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     /// Appends the the new site to the sites and returns it.
-   override public func insert() -> MOSite? {
+   override public func insert(completion: (() -> ())? = nil) -> MOSite? {
         if let site = PatchData.insert(type.rawValue) as? MOSite {
             site.setOrder(to: Int16(sites.count))
             sites.append(site)
@@ -169,19 +169,29 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     /// Returns the next site for scheduling in the site schedule.
-    public func nextIndex() -> Index? {
+    public func nextIndex(changeIndex: (Int) -> ()) -> Index? {
         if sites.count <= 0 || next < 0 {
             return nil
         }
         for i in 0..<sites.count {
             // Return site that has no estros
             if sites[i].estrogenRelationship?.count == 0 {
-                PDDefaults.setSiteIndex(to: i)
+                changeIndex(i)
                 next = i
                 return i
             }
         }
         return next
+    }
+    
+    /// Returns the next site in the site schedule as a suggestion of where to relocate.
+    // Suggested changeIndex function: Defaults.setSiteIndex
+    public func suggest(current: Index,
+                        changeIndex: (Int) -> ()) -> MOSite? {
+        if let i = nextIndex(changeIndex: changeIndex) {
+            return sites[i]
+        }
+        return nil
     }
 
     /// Returns an array of a siteNames for each site in the schedule.

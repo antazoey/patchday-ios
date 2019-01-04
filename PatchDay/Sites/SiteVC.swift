@@ -14,7 +14,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(PDSchedule.siteSchedule.unionDefault(usingPatches: PDDefaults.usingPatches()))
+    private var namePickerSet =
+        Array(SiteSchedule.unionDefault(usingPatches: Defaults.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!
@@ -45,7 +46,15 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         nameText.delegate = self
         namePicker.delegate = self
         namePicker.isHidden = true
-        imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker, and: siteImage, imageButton: imageButton, nameButton: typeNameButton, nameTextField: nameText, saveButton: navigationItem.rightBarButtonItem!, selectedSiteIndex: siteScheduleIndex, doneButton: imagePickerDoneButton)
+        imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
+                                                      and: siteImage,
+                                                      imageButton: imageButton,
+                                                      nameButton: typeNameButton,
+                                                      nameTextField: nameText,
+                                                      saveButton: navigationItem.rightBarButtonItem!,
+                                                      selectedSiteIndex: siteScheduleIndex,
+                                                      doneButton: imagePickerDoneButton,
+                                                      usingPatches: Defaults.usingPatches())
         imagePicker.delegate = imagePickerDelegate
         imagePicker.dataSource = imagePickerDelegate
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
@@ -60,7 +69,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let usingPatches = PDDefaults.usingPatches()
+        let usingPatches = Defaults.usingPatches()
         let images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
         let image = images[imagePicker.selectedRow(inComponent: 0)]
         let imageKey = usingPatches ? PDImages.patchImageToSiteName(image) : PDImages.injectionImageToSiteName(image)
@@ -73,7 +82,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        PDSchedule.siteSchedule.setImageID(at: siteScheduleIndex, to: imageKey, usingPatches: usingPatches)
+        SiteSchedule.setImageID(at: siteScheduleIndex,
+                                to: imageKey,
+                                usingPatches: usingPatches)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -90,12 +101,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @objc func saveButtonTapped(_ sender: Any) {
         if let name = nameText.text {
             // Updating existing site
-            if siteScheduleIndex >= 0 && siteScheduleIndex < PDSchedule.siteSchedule.count() {
-                PDSchedule.siteSchedule.setName(at: siteScheduleIndex, to: name)
-            }
-            // Adding a new site
-            else if siteScheduleIndex == PDSchedule.siteSchedule.count(),
-                let site = PDSchedule.siteSchedule.insert() {
+            let i = siteScheduleIndex
+            let count = SiteSchedule.count()
+            if i >= 0 && i < count {
+                SiteSchedule.setName(at: i, to: name)
+            } else if i == count,
+                let site = SiteSchedule.insert() {
                 site.setName(to: name)
             }
         }
@@ -127,7 +138,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
         typeNameButton.isEnabled = true
         if let name = nameText.text {
-            PDSchedule.siteSchedule.setName(at: siteScheduleIndex, to: name)
+            SiteSchedule.setName(at: siteScheduleIndex, to: name)
         }
         loadImage()
         return true
@@ -148,18 +159,26 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
         return namePickerSet.count
     }
     
-    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             titleForRow row: Int,
+                             forComponent component: Int) -> String? {
         return namePickerSet[row]
     }
  
-    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             didSelectRow row: Int,
+                             inComponent component: Int) {
         
         // Close picker
-        UIView.transition(with: namePicker as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { self.namePicker.isHidden = true; self.bottomLine.isHidden = false; self.siteImage.isHidden = false
+        UIView.transition(with: namePicker as UIView,
+                          duration: 0.4,
+                          options: .transitionCrossDissolve,
+                          animations: { self.namePicker.isHidden = true; self.bottomLine.isHidden = false; self.siteImage.isHidden = false
         }) {
             (void) in
             self.nameText.text = self.namePickerSet[row]
@@ -173,41 +192,47 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = PDSchedule.siteSchedule.getNames()
+            sitesVC.siteNames = SiteSchedule.getNames()
             navCon.popViewController(animated: true)
         }
     }
     
     private func loadTitle() {
-        let sites = PDSchedule.siteSchedule.sites
+        let sites = SiteSchedule.sites
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"
             nameText.text = site.getName()
-        }
-        else {
+        } else {
             title = "\(PDStrings.TitleStrings.site) \(sites.count + 1)"
         }
     }
     
     private func loadImage() {
-        let usingPatches: Bool = PDDefaults.usingPatches()
+        let usingPatches: Bool = Defaults.usingPatches()
         let sitesWithImages = usingPatches ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
         if let name = nameText.text {
             var image: UIImage
             // New image
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
+            } else if let site = SiteSchedule.getSite(at: siteScheduleIndex),
+                let imgID = site.getImageIdentifer(),
+                let i = sitesWithImages.index(of: imgID) {
+                // Set as default image
+                image = (usingPatches) ?
+                    PDImages.siteNameToPatchImage(sitesWithImages[i]) :
+                    PDImages.siteNameToInjectionImage(sitesWithImages[i])
+            } else {
+                // Set as custom patch image
+                image = (usingPatches) ?
+                    PDImages.custom_p :
+                    PDImages.custom_i
             }
-            // Default image find
-            else if let site = PDSchedule.siteSchedule.getSite(at: siteScheduleIndex), let imgID = site.getImageIdentifer(), let i = sitesWithImages.index(of: imgID) {
-                image = (usingPatches) ? PDImages.siteNameToPatchImage(sitesWithImages[i]) : PDImages.siteNameToInjectionImage(sitesWithImages[i])
-            }
-            // Custom
-            else {
-                image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
-            }
-            UIView.transition(with: siteImage, duration:0.5, options: .transitionCrossDissolve, animations: { self.siteImage.image = image }, completion: nil)
+            UIView.transition(with: siteImage, duration:0.5,
+                              options: .transitionCrossDissolve,
+                              animations: { self.siteImage.image = image },
+                              completion: nil)
         }
     }
     

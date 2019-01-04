@@ -19,7 +19,7 @@ public class PillSchedule: PDScheduleProtocol {
     public var pills: [MOPill] = []
     private var pillMap = [UUID: MOPill]()
     
-    override init(type: PatchData.PDEntity = .pill) {
+    init() {
         super.init(type: .pill)
         pills = mos as! [MOPill]
         mos = []
@@ -35,10 +35,13 @@ public class PillSchedule: PDScheduleProtocol {
     }
 
     /// Creates a new MOPill and inserts it in to the pills.
-    override public func insert() -> MOPill? {
+    override public func insert(completion: (() -> ())?) -> MOPill? {
         let attributes = PillAttributes()
         let pill = append(using: attributes)
-        TodayData.setPillDataForToday()
+        //PDSharedData.setPillDataForToday()
+        if let comp = completion {
+            comp()
+        }
         return pill
     }
     
@@ -138,21 +141,27 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     /// Sets the pill's last date-taken at the given index to now, and increments how many times it was taken today.
-    public func takePill(at index: Index) {
+    public func takePill(at index: Index, setPDSharedData: (() -> ())?) {
         if let pill = getPill(at: index) {
             pill.take()
             PatchData.save()
             // Reflect in Today widget
-            TodayData.setPillDataForToday()
+            if let setToday = setPDSharedData {
+                setToday()
+            }
+            // TODO
+            //PDSharedData.setPillDataForToday()
         }
     }
     
     /// Sets the given pill's last date taken to now, and increments how many times it was taken today.
-    public func take(_ pill: MOPill) {
+    public func take(_ pill: MOPill, setPDSharedData: (() -> ())?) {
         pill.take()
         PatchData.save()
         // Reflect in the Today widget
-        TodayData.setPillDataForToday()
+        if let setToday = setPDSharedData {
+            setToday()
+        }
     }
     
     /// Returns the next pill that needs to be taken.
@@ -194,7 +203,7 @@ public class PillSchedule: PDScheduleProtocol {
         }
         return nil
     }
-    
+
     /// Load estrogen ID map after changes occur to the schedule.
     private func loadMap() {
         pillMap = pills.reduce([UUID: MOPill]()) {

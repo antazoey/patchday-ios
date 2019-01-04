@@ -66,8 +66,7 @@ public class PDImages: NSObject {
         let siteNames = PDStrings.SiteNames.patchSiteNames
         if (siteNames.contains(siteName)) {
             r = stringToImageDict[siteName]!
-        }
-        else if siteName != PDStrings.PlaceholderStrings.unplaced {
+        } else if siteName != PDStrings.PlaceholderStrings.unplaced {
             r = custom_p
         }
         return r
@@ -81,8 +80,7 @@ public class PDImages: NSObject {
                                  lAbdomen_p : PDStrings.SiteNames.leftAbdomen]
         if let name = imageToStringDict[image] {
             return name
-        }
-        else {
+        } else {
             return PDStrings.PlaceholderStrings.new_site
         }
     }
@@ -90,18 +88,19 @@ public class PDImages: NSObject {
     /// Converts SiteName a.k.a String to injection image.
     public static func siteNameToInjectionImage(_ siteName: String) -> UIImage {
         var r: UIImage = addInjection
-        let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced : addInjection,
-                                 PDStrings.SiteNames.rightQuad : rQuad_i,
-                                 PDStrings.SiteNames.leftQuad : lQuad_i,
-                                 PDStrings.SiteNames.rightGlute : rGlute_i,
-                                 PDStrings.SiteNames.leftGlute : lGlute_i,
-                                 PDStrings.SiteNames.rightDelt : rDelt_i,
-                                 PDStrings.SiteNames.leftDelt : lDelt_i]
-        let siteNames = PDStrings.SiteNames.injectionSiteNames
+        typealias Names = PDStrings.SiteNames
+        let unplaced = PDStrings.PlaceholderStrings.unplaced
+        let stringToImageDict = [unplaced : addInjection,
+                                 Names.rightQuad : rQuad_i,
+                                 Names.leftQuad : lQuad_i,
+                                 Names.rightGlute : rGlute_i,
+                                 Names.leftGlute : lGlute_i,
+                                 Names.rightDelt : rDelt_i,
+                                 Names.leftDelt : lDelt_i]
+        let siteNames = Names.injectionSiteNames
         if (siteNames.contains(siteName)) {
             r = stringToImageDict[siteName]!
-        }
-        else if siteName !=  PDStrings.PlaceholderStrings.unplaced {
+        } else if siteName != unplaced {
             r = custom_i
         }
         return r
@@ -109,16 +108,16 @@ public class PDImages: NSObject {
     
     /// Convert injection image to SiteName a.k. String.
     public static func injectionImageToSiteName(_ image: UIImage) -> String {
-        let imageToStringDict = [rQuad_i : PDStrings.SiteNames.rightQuad,
-                                 lQuad_i : PDStrings.SiteNames.leftQuad,
-                                 rGlute_i : PDStrings.SiteNames.rightGlute,
-                                 lGlute_i : PDStrings.SiteNames.leftGlute,
-                                 rDelt_i : PDStrings.SiteNames.rightDelt,
-                                 lDelt_i : PDStrings.SiteNames.leftDelt]
+        typealias Names = PDStrings.SiteNames
+        let imageToStringDict = [rQuad_i : Names.rightQuad,
+                                 lQuad_i : Names.leftQuad,
+                                 rGlute_i : Names.rightGlute,
+                                 lGlute_i : Names.leftGlute,
+                                 rDelt_i : Names.rightDelt,
+                                 lDelt_i : Names.leftDelt]
         if let name = imageToStringDict[image] {
             return name
-        }
-        else {
+        } else {
             return PDStrings.PlaceholderStrings.new_site
         }
     }
@@ -128,8 +127,9 @@ public class PDImages: NSObject {
         let icons = [#imageLiteral(resourceName: "ES Icon 1"), #imageLiteral(resourceName: "ES Icon 2"), #imageLiteral(resourceName: "ES Icon 3"), #imageLiteral(resourceName: "ES Icon 4")]
         if index >= 0 && index < icons.count {
             return icons[index]
+        } else {
+            return #imageLiteral(resourceName: "Calendar Icon")
         }
-        else { return #imageLiteral(resourceName: "Calendar Icon") }
     }
     
     // Original code by Kirit Modi
@@ -160,6 +160,4 @@ public class PDImages: NSObject {
         
         return newImage!
     }
-    
-
 }

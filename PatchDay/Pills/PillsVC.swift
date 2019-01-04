@@ -17,8 +17,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var pillTable: UITableView!
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private var pillSchedule = PDSchedule.pillSchedule
-    private var pills = PDSchedule.pillSchedule.pills
+    private var pills = PillSchedule.pills
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,36 +35,44 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        pills = pillSchedule.pills
+        pills = PillSchedule.pills
         pillTable.reloadData()
         reloadInputViews()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pillSchedule.count()
+        return PillSchedule.count()
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let pillCell = pillTable.dequeueReusableCell(withIdentifier: "pillCellReuseID") as! PillTableViewCell
-        if indexPath.row >= 0 && indexPath.row < pills.count {
-            pillCell.configure(using: pills[indexPath.row], at: indexPath.row)
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        typealias Cell = PillTableViewCell
+        let id = "pillCellReuseID"
+        let table = pillTable
+        let cell = table?.dequeueReusableCell(withIdentifier: id) as! Cell
+        let i = indexPath.row
+        if i >= 0 && i < pills.count {
+            cell.configure(using: pills[i], at: i)
         }
-        return pillCell
+        return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         let pill = pills[indexPath.row]
         segueToPillView(for: pill, at: indexPath.row)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 170.0
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
-    {
-        let delete = UITableViewRowAction(style: .normal, title: PDStrings.ActionStrings.delete)
-        { action, index in
+    func tableView(_ tableView: UITableView,
+                   editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let title = PDStrings.ActionStrings.delete
+        let delete = UITableViewRowAction(style: .normal, title: title) {
+            (action, index) in
             self.deleteCell(at: indexPath)
         }
         delete.backgroundColor = UIColor.red
@@ -78,17 +85,18 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if let restoreID = takeButton.restorationIdentifier {
             let pillIndexStr = String(restoreID.suffix(1))
             if let pillIndex = Int(pillIndexStr) {
-                pillSchedule.takePill(at: pillIndex)
+                PillSchedule.takePill(at: pillIndex,
+                                      setPDSharedData: PDSharedData.setPillDataForToday)
                 appDelegate.notificationsController.requestNotifyTakePill(at: pillIndex)
                 let cell = pillCellForRowAt(pillIndex)
                 cell.stamp()
-                if let pill = pillSchedule.getPill(at: pillIndex) {
+                if let pill = PillSchedule.getPill(at: pillIndex) {
                     cell.loadDueDateText(from: pill)
                     cell.loadStateImage(from: pill)
                     cell.loadLastTakenText(from: pill)
                 }
                 cell.enableOrDisableTake()
-                pills = pillSchedule.pills
+                pills = PillSchedule.pills
                 pillTable.reloadData()
                 reloadInputViews()
             }
@@ -97,8 +105,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        if let pill = pillSchedule.insert(),
-            let i = pillSchedule.pills.index(of: pill) {
+        if let pill = PillSchedule.insert(completion: PDSharedData.setPillDataForToday),
+            let i = PillSchedule.pills.index(of: pill) {
             segueToPillView(for: pill, at: i)
         }
     }
@@ -118,7 +126,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(at indexPath: IndexPath) {
-        pillSchedule.deletePill(at: indexPath.row)
+        PillSchedule.deletePill(at: indexPath.row)
         pills.remove(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()
@@ -131,13 +139,17 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
-        TodayData.setPillDataForToday()
+        PDSharedData.setPillDataForToday()
         setBadge()
     }
     
     /// Updates the pill views when VC is reloaded from a notification.
     internal func updateFromBackground() {
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        let name = NSNotification.Name.UIApplicationWillEnterForeground
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(appWillEnterForeground),
+                                               name: name,
+                                               object: nil)
     }
     
     @objc internal func appWillEnterForeground() {
@@ -145,13 +157,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setBadge() {
-        let newBadgeValue = PDSchedule.pillSchedule.totalDue()
-        navigationController?.tabBarItem.badgeValue = (newBadgeValue > 0) ? String(newBadgeValue) : nil
+        let v = PillSchedule.totalDue()
+        navigationController?.tabBarItem.badgeValue = (v > 0) ? "\(v)" : nil
     }
     
     private func loadTabBarItemSize() {
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
         self.navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
     }
-
 }

@@ -20,7 +20,7 @@ class SiteTableViewCell: UITableViewCell {
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
         if index >= 0 && index < siteCount,
-            let site = PDSchedule.siteSchedule.getSite(at: index) {
+            let site = Schedule.siteSchedule.getSite(at: index) {
             orderLabel.text = "\(index + 1)."
             nameLabel.text = name
             estrogenScheduleImage.tintColor = UIColor.red
@@ -37,18 +37,17 @@ class SiteTableViewCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        if cellIndex == PDSchedule.siteSchedule.nextIndex() {
+        if cellIndex == Schedule.siteSchedule.nextIndex(changeIndex: Defaults.setSiteIndex) {
             nextLabel.isHidden = shouldHide
         }
     }
     
     private func loadEstrogenImages(for site: MOSite) -> UIImage? {
-        if site.isOccupiedByMany() || (!PDDefaults.usingPatches() && site.isOccupied()) {
+        if site.isOccupiedByMany() || (!Defaults.usingPatches() && site.isOccupied()) {
             return  #imageLiteral(resourceName: "ES Icon")
-        }
-        else if site.isOccupied() {
+        } else if site.isOccupied() {
             let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen
-            if let i = PDSchedule.estrogenSchedule.getIndex(for: estro) {
+            if let i = Schedule.estrogenSchedule.getIndex(for: estro) {
                 return PDImages.getSiteIcon(at: i)
             }
         }
@@ -57,7 +56,7 @@ class SiteTableViewCell: UITableViewCell {
     
     /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        let nextIndex = PDSchedule.siteSchedule.nextIndex()
+        let nextIndex = Schedule.siteSchedule.nextIndex(changeIndex: Defaults.setSiteIndex)
         return ((nextIndex != index) || isEditing)
     }
     

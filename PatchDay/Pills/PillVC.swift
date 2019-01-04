@@ -100,15 +100,14 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     @IBAction func saveButtonTapped() {
-        let schedule = PDSchedule.pillSchedule
         if let pill = pill {
-            schedule.setPill(for: pill, with: makePillAttributes())
+            PillSchedule.setPill(for: pill, with: makePillAttributes())
             appDelegate.notificationsController.resendPillNotification(for: pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
-                let newValue = PDSchedule.pillSchedule.totalDue()
+                let newValue = Schedule.pillSchedule.totalDue()
                 vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil
             }
-            TodayData.setPillDataForToday()
+            PDSharedData.setPillDataForToday()
             segueToPillsVC()
         }
     }
@@ -288,7 +287,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // Set VC pill as well as reflected attributes in the interactive UI
     private func reflectPillAttributes() {
-        let pills = PDSchedule.pillSchedule.pills
+        let pills = PillSchedule.pills
         if let index = pillIndex, index >= 0 && index < pills.count {
             self.pill = pills[index]
             loadName(from: pills[index])
@@ -353,7 +352,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             // Save if erronous and not the just the user messing around.
             if save, let index = pillIndex {
                 let attributes = makePillAttributes()
-                PDSchedule.pillSchedule.setPill(at: index, with: attributes);
+                PillSchedule.setPill(at: index, with: attributes);
             }
         }
     }

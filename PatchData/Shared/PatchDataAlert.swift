@@ -16,22 +16,21 @@ internal class PatchDataAlert: NSObject {
     }
 
     private var estrogenSchedule: EstrogenSchedule
-    private var defaults: PDDefaults
     
-    public init(estrogenSchedule: EstrogenSchedule, defaults: PDDefaults) {
+    public init(estrogenSchedule: EstrogenSchedule) {
         self.estrogenSchedule = estrogenSchedule
-        self.defaults = defaults
     }
     
     // MARK: - Changing count
     
     /// Alert for changing the count of estrogens causing a loss of data.
     internal func alertForChangingCount(oldCount: Int, newCount: Int,
+                                        simpleSetQuantity: @escaping (_ newCount: Int) -> (),
                                         cont: @escaping () -> (),
                                         reset: @escaping (_ newCount: Int) -> (),
-                                        cancel: @escaping () -> ()) {
+                                        cancel: @escaping (_ oldCount: Int) -> ()) {
         if (newCount > oldCount) {
-            defaults.setQuantityWithoutWarning(to: newCount)
+            simpleSetQuantity(newCount)
             return
         }
         if let currentVC = PatchDataAlert.getRootVC() {
@@ -47,29 +46,18 @@ internal class PatchDataAlert: NSObject {
                 // Note: newCount is start_i because reset only occurs
                 // when decreasing count.
                 self.estrogenSchedule.reset(from: newCount)
-                self.defaults.setQuantityWithoutWarning(to: newCount)
+                simpleSetQuantity(newCount)
                 cont()
-                /*
-                // Tab bar image / badgeValue
-                let tabController = navController?.tabBarController
-                if let vcs = tabController?.viewControllers, vcs.count > 0 {
-                    let interval = self.defaults.getTimeInterval()
-                    let c = self.estrogenSchedule.totalDue(interval)
-                    let item = vcs[0].navigationController?.tabBarItem
-                    item?.badgeValue = (c > 0) ? String(c) : nil
-                }
- */
                 reset(newCount)
             }
             let title = PDStrings.ActionStrings.decline
             let cancelAction = UIAlertAction(title: title, style: .cancel) {
                 (void) in
-                //countButton.setTitle(String(oldCount), for: .normal)
-                cancel()
+                cancel(oldCount)
             }
             alert.addAction(continueAction)
             alert.addAction(cancelAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
+            currentVC.present(alert, animated: true, completion: nil)
         }
     }
     

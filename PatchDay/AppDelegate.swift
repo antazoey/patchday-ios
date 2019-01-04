@@ -21,23 +21,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-        // Load user defaults.
-        PDDefaults.setUp()
-        
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
-            PDSchedule.pillSchedule.reset()
+            PillSchedule.reset()
         }
 
         // Load data for the Today widget.
-        TodayData.setDataForTodayApp()
+        Schedule.sharedData.setDataForTodayApp()
         
         // Set the correct app badge value.
-        let interval = PDDefaults.getTimeInterval()
-        setBadge(with: PDSchedule.totalDue(interval: interval))
+        let interval = Defaults.getTimeInterval()
+        setBadge(with: Schedule.totalDue(interval: interval))
         
-        let count = PDDefaults.getQuantity()
-        PDSchedule.estrogenSchedule.delete(after: count)
+        let count = Defaults.getQuantity()
+        Schedule.estrogenSchedule.delete(after: count)
 
         // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()
@@ -46,17 +43,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func isFirstLaunch() -> Bool {
-        return !PDDefaults.mentionedDisclaimer()
+        return !Defaults.mentionedDisclaimer()
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        let interval = PDDefaults.getTimeInterval()
-        setBadge(with: PDSchedule.totalDue(interval: interval))
+        let interval = Defaults.getTimeInterval()
+        setBadge(with: Schedule.totalDue(interval: interval))
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        let interval = PDDefaults.getTimeInterval()
-        setBadge(with: PDSchedule.totalDue(interval: interval))
+        let interval = Defaults.getTimeInterval()
+        setBadge(with: Schedule.totalDue(interval: interval))
     }
     
     /** Sets the App badge number to the expired
@@ -64,6 +61,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func setBadge(with newBadgeNumber: Int) {
         UIApplication.shared.applicationIconBadgeNumber = newBadgeNumber
     }
-    
-
 }
