@@ -33,6 +33,8 @@
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
 		B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110921DD6EEC00C94B76 /* PatchDay.swift */; };
 		B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
+		B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110D21DF3E5D00C94B76 /* DateExtension.swift */; };
+		B440111021DF3F2E00C94B76 /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */; };
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		B4454B0520DC56BE005CD2E3 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */; };
@@ -191,6 +193,8 @@
 		B4355D9420ED6F250048D466 /* MOPillMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPillMethods.swift; sourceTree = "<group>"; };
 		B4355D9920EE968B0048D466 /* MFBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MFBadgeButton.swift; path = ../Shared/MFBadgeButton.swift; sourceTree = "<group>"; };
 		B440110921DD6EEC00C94B76 /* PatchDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDay.swift; sourceTree = "<group>"; };
+		B440110D21DF3E5D00C94B76 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTests.swift; sourceTree = "<group>"; };
 		B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillTableViewCell.swift; path = Pills/PillTableViewCell.swift; sourceTree = "<group>"; };
 		B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteImagePickerDelegate.swift; path = Sites/SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
 		B458993B20F8822700D36B06 /* MOSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSite.swift; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 			isa = PBXGroup;
 			children = (
 				B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */,
+				B440110D21DF3E5D00C94B76 /* DateExtension.swift */,
 				B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */,
 			);
 			path = Helpers;
@@ -363,6 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				B40CC9B121CCE614002364BB /* PDDateHelperTests.swift */,
+				B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */,
 				B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */,
 			);
 			path = Helpers;
@@ -807,6 +813,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */,
+				B440111021DF3F2E00C94B76 /* DateExtensionTests.swift in Sources */,
 				B40CC9B221CCE614002364BB /* PDDateHelperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -859,6 +866,7 @@
 				B49A4A5C20DB2D5A00F24FC0 /* PDPillHelper.swift in Sources */,
 				B49A4A5B20DB2D5A00F24FC0 /* PDDateHelper.swift in Sources */,
 				B458994620F886FE00D36B06 /* MOEstrogenMethods.swift in Sources */,
+				B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */,
 				B458993F20F882AF00D36B06 /* MOSite.swift in Sources */,
 				B435181E20F5075100BD268C /* MOPill.swift in Sources */,
 				B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */,

@@ -19,20 +19,19 @@ class PDDefaultsTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        siteSchedule.reset()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               scheduleState: scheduleState,
                               alerter: nil)
-    }
-    
-    override func tearDown() {
-        super.tearDown()
         defaults.setDeliveryMethod(to: "Patches")
         estrogenSchedule.reset() {
             self.defaults.setQuantityWithoutWarning(to: 3)
         }
-        siteSchedule.reset() {}
-        
+    }
+    
+    override func tearDown() {
+        super.tearDown()
     }
     
     /// Test that the estrogen schedule reflects changes from defaults

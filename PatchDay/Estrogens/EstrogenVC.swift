@@ -345,10 +345,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func requestNotification() {
         if let estro = estrogen {
-            appDelegate.notificationsController.requestEstrogenExpiredNotification(for: estro)
+            let notCon = appDelegate.notificationsController
+            notCon.requestEstrogenExpiredNotification(for: estro)
             // Overnight
-            if let expDate = estro.expirationDate(interval: Defaults.getTimeInterval()), PDDateHelper.isOvernight(expDate) {
-                appDelegate.notificationsController.requestOvernightNotification(estro, expDate: expDate)
+            let interval = Defaults.getTimeInterval()
+            if let expDate = estro.expirationDate(interval: interval),
+                expDate.isOvernight() {
+                notCon.requestOvernightNotification(estro, expDate: expDate)
             }
         }
     }
