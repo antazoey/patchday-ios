@@ -12,57 +12,52 @@ import PDKit
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet weak var nextEstrogenLabel: UILabel!
-    
     @IBOutlet weak var estrogenSiteLabel: UILabel!
     @IBOutlet weak var estrogenDateLabel: UILabel!
-    
     @IBOutlet weak var nextPillNameLabel: UILabel!
     @IBOutlet weak var nextPillTakeDateLabel: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nextEstro = PDPDSharedDataController.getNextEstrogen()
-        let nextPill = PDPDSharedDataController.getNextPill()
+        let nextEstro = PDSharedDataController.getNextEstrogen()
+        let nextPill = PDSharedDataController.getNextPill()
+        let usingPatches = PDSharedDataController.usingPatches()
+        let comment = "Short label on Today App"
+        let title = (usingPatches) ? "Change:" : "Inject:"
+        let dots = PDStrings.PlaceholderStrings.dotdotdot
+        nextEstrogenLabel.text = NSLocalizedString(title, comment: comment)
         
-        nextEstrogenLabel.text = PDPDSharedDataController.usingPatches() ? NSLocalizedString("Change:", comment: "Short label on Today App") : NSLocalizedString("Inject:", comment: "Short label on Today App")
         if let n = nextEstro.siteName {
             estrogenSiteLabel.text = n
         } else {
-            estrogenSiteLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+            estrogenSiteLabel.text = dots
         }
         if let d = nextEstro.date {
-            estrogenDateLabel.text = PDDateHelper.format(date: d, useWords: true)
+            estrogenDateLabel.text = PDDateHelper.format(date: d,
+                                                         useWords: true)
         } else {
-            estrogenDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+            estrogenDateLabel.text = dots
         }
         if let n = nextPill.name {
             nextPillNameLabel.text = n
         } else {
-            nextPillNameLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+            nextPillNameLabel.text = dots
         }
         if let d = nextPill.nextTakeDate {
-            nextPillTakeDateLabel.text = PDDateHelper.format(date: d, useWords: true)
+            nextPillTakeDateLabel.text = PDDateHelper.format(date: d,
+                                                             useWords: true)
         } else {
-            nextPillTakeDateLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+            nextPillTakeDateLabel.text = dots
         }
-        
     }
     
     @IBAction func widgetTapped(_ sender: Any) {
-        
         let myAppUrl = NSURL(string: "PatchDay://")!
-        extensionContext?.open(myAppUrl as URL, completionHandler: { (success) in
+        extensionContext?.open(myAppUrl as URL, completionHandler: {
+            (success) in
             if (!success) {
                 print("Failure to open PatchDay")
             }
         })
     }
-    
-/*
-    func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        
-    }
-*/
-    
 }

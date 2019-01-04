@@ -35,8 +35,8 @@
 		B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110D21DF3E5D00C94B76 /* DateExtension.swift */; };
 		B440111021DF3F2E00C94B76 /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */; };
+		B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
-		B4454B0520DC56BE005CD2E3 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */; };
 		B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */; };
 		B458993F20F882AF00D36B06 /* MOSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993B20F8822700D36B06 /* MOSite.swift */; };
@@ -308,6 +308,7 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
+				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				B440110921DD6EEC00C94B76 /* PatchDay.swift */,
@@ -498,7 +499,6 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
-				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				B40CC9A721CCE4AE002364BB /* Resources */,
 				B40CC9A821CCE4BE002364BB /* Helpers */,
 				B49A4A4020DB2D4C00F24FC0 /* PDKit.h */,
@@ -738,6 +738,7 @@
 			files = (
 				137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */,
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
+				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
 				B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -789,7 +790,6 @@
 				B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */,
 				B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */,
 				B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */,
-				B4454B0520DC56BE005CD2E3 /* Assets.xcassets in Sources */,
 				B4AED52320E5659C00559165 /* PillVC.swift in Sources */,
 				B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */,
 				B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */,
