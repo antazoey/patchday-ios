@@ -12,7 +12,11 @@ import PDKit
 internal class PatchDataAlert: NSObject {
     
     override var description: String {
-        return "Alert for Data issues."
+        return """
+                PatchDataAlert makes calls to UIAlertController
+                for the PatchData module. Each Alert function
+                Alerts are functions in PatchDay.
+                """
     }
 
     private var estrogenSchedule: EstrogenSchedule
@@ -34,13 +38,16 @@ internal class PatchDataAlert: NSObject {
         }
         if let currentVC = PatchDataAlert.getRootVC() {
             let isPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
-            let alertStyle: UIAlertController.Style = isPad ? .alert : .actionSheet
+            let alertStyle: UIAlertController.Style = isPad ?
+                .alert :
+                .actionSheet
             typealias Alert = PDStrings.AlertStrings.LoseDataAlert
             let alert = UIAlertController(title: Alert.title,
                                              message: Alert.message,
                                              preferredStyle: alertStyle)
             let contStr = PDStrings.ActionStrings.cont
-            let continueAction = UIAlertAction(title: contStr, style: .destructive) {
+            let continueAction = UIAlertAction(title: contStr,
+                                               style: .destructive) {
                 (void) in
                 // Note: newCount is start_i because reset only occurs
                 // when decreasing count.
@@ -49,7 +56,7 @@ internal class PatchDataAlert: NSObject {
                 reset(newCount)
             }
             let title = PDStrings.ActionStrings.decline
-            let cancelAction = UIAlertAction(title: title, style: .cancel) {
+            let cancelAction = UIAlertAction(title: title,style: .cancel) {
                 (void) in
                 cancel(oldCount)
             }
@@ -83,8 +90,8 @@ internal class PatchDataAlert: NSObject {
     /// Alert for when the persistentStore has an error.
     internal static func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = getRootVC() {
-            let msg = "(\(String(describing: error))"
             let alertTitle = PDStrings.AlertStrings.CoreDataAlert.title
+            let msg = "(\(String(describing: error))"
             let alert = UIAlertController(title: alertTitle,
                                              message: msg,
                                              preferredStyle: .alert)

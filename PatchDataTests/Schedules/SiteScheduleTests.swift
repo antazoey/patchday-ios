@@ -31,7 +31,7 @@ class SiteScheduleTests: XCTestCase {
                                  setSharedData: nil)
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
-                              scheduleState: ScheduleState(),
+                              state: PDState(),
                               alerter: nil)
     }
 

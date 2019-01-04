@@ -16,6 +16,14 @@ public class PDSharedData: NSObject {
     private let pillSchedule: PillSchedule
     private let siteSchedule: SiteSchedule
     
+    override public var description: String {
+        return """
+               PDSharedData is a class of getters and setters
+               for data that is accessible to other apps,
+               namely: the PatchDay Today Widget."
+               """
+    }
+    
     public init(defaults: PDDefaults, estrogenSchedule: EstrogenSchedule,
                 pillSchedule: PillSchedule, siteSchedule: SiteSchedule) {
         self.pddata = defaults

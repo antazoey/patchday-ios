@@ -19,7 +19,7 @@ class EstrogenScheduleTests: XCTestCase {
         super.setUp()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: SiteSchedule(),
-                              scheduleState: ScheduleState(),
+                              state: PDState(),
                               alerter: nil)
         defaults.setDeliveryMethod(to: "Patches")
     }

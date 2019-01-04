@@ -12,6 +12,16 @@ import PDKit
 
 public class PatchData: NSObject {
     
+    override public var description: String {
+        return  """
+                PatchData is home of the Core Data stack
+                and static methods for Core Data calls.
+                In the PatchData package, the schedules
+                use the PatchData object to create their
+                managed object arrays.
+                """
+    }
+    
     internal enum PDEntity: String {
         case estrogen = "Estrogen"
         case pill = "Pill"
@@ -37,6 +47,11 @@ public class PatchData: NSObject {
         return container
     }()
     
+    /// Get the current view context
+    internal static func getContext() -> NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
     /// Saves the all changed data in the persistentContainer.
     internal static func save() {
         if persistentContainer.viewContext.hasChanges {
@@ -52,11 +67,6 @@ public class PatchData: NSObject {
     internal static func insert(_ entity: String) -> NSManagedObject? {
         return NSEntityDescription.insertNewObject(forEntityName: entity,
                                                    into: getContext());
-    }
-    
-    /// Get the current view context
-    internal static func getContext() -> NSManagedObjectContext {
-        return persistentContainer.viewContext
     }
     
     internal static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {

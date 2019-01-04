@@ -11,7 +11,7 @@ import PatchData
 
 public let Schedule: PDSchedule = PDSchedule()
 public let Defaults: PDDefaults = Schedule.defaults
-public let State: ScheduleState = Schedule.state
+public let State: PDState = Schedule.state
 public let EstrogenSchedule = Schedule.estrogenSchedule
 public let SiteSchedule = Schedule.siteSchedule
 public let PillSchedule = Schedule.pillSchedule

@@ -8,10 +8,13 @@
 
 import Foundation
 
-public class ScheduleState: NSObject {
+public class PDState: NSObject {
     
     override public var description: String {
-        return "An object that manages the state of a schedule."
+        return """
+               An object that manages the state of a schedule.
+               For PatchDay, this only has to do with 
+               """
     }
     
     public var wereChanges: Bool = false

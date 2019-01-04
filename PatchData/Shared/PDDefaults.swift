@@ -34,18 +34,18 @@ public class PDDefaults: NSObject {
     // Side effects
     private var estrogenSchedule: EstrogenSchedule
     private var siteSchedule: SiteSchedule
-    private var scheduleState: ScheduleState
+    private var state: PDState
     private var alerter: PatchDataAlert?
 
     // MARK: - a  initializer
     
     internal init(estrogenSchedule: EstrogenSchedule,
                   siteSchedule: SiteSchedule,
-                  scheduleState: ScheduleState,
+                  state: PDState,
                   alerter: PatchDataAlert?) {
         self.estrogenSchedule = estrogenSchedule
         self.siteSchedule = siteSchedule
-        self.scheduleState = scheduleState
+        self.state = state
         if let alertArg = alerter {
             self.alerter = alertArg
         }
@@ -109,7 +109,7 @@ public class PDDefaults: NSObject {
             }
             siteSchedule.reset(completion: setCount)
             estrogenSchedule.reset(completion: setCount)
-            scheduleState.deliveryMethodChanged = true
+            state.deliveryMethodChanged = true
         }
     }
     
@@ -132,10 +132,10 @@ public class PDDefaults: NSObject {
                                        reset: @escaping (_ newQuantity: Int) -> (),
                                        cancel: @escaping (_ oldQuantity: Int) -> ()) {
         let max = siteSchedule.count()
-        scheduleState.oldDeliveryCount = oldCount
+        state.oldDeliveryCount = oldCount
         if isAcceptable(count: newCount, max: max) {
             if newCount < oldCount {
-                scheduleState.decreasedCount = true
+                state.decreasedCount = true
                 // Erases data
                 let q = getQuantity()
                 let last_i = q - 1
@@ -157,7 +157,7 @@ public class PDDefaults: NSObject {
             } else {
                 // Incr. count
                 setQuantityWithoutWarning(to: newCount)
-                scheduleState.increasedCount = true
+                state.increasedCount = true
             }
         }
     }

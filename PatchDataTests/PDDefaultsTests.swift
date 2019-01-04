@@ -14,7 +14,7 @@ class PDDefaultsTests: XCTestCase {
 
     private let estrogenSchedule = EstrogenSchedule()
     private let siteSchedule = SiteSchedule()
-    private let scheduleState = ScheduleState()
+    private let state = PDState()
     public var defaults: PDDefaults! = nil
     
     override func setUp() {
@@ -22,7 +22,7 @@ class PDDefaultsTests: XCTestCase {
         siteSchedule.reset()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
-                              scheduleState: scheduleState,
+                              state: state,
                               alerter: nil)
         defaults.setDeliveryMethod(to: "Patches")
         estrogenSchedule.reset() {
@@ -56,10 +56,10 @@ class PDDefaultsTests: XCTestCase {
     }
     
     /// Test the schedule state reflects changes from defaults
-    func testScheduleState() {
+    func testPDState() {
         defaults.setDeliveryMethod(to: "Patches")
         defaults.setDeliveryMethod(to: "Injections")
-        XCTAssert(scheduleState.deliveryMethodChanged)
+        XCTAssert(state.deliveryMethodChanged)
     }
     
     func testDeliveryMethod() {
