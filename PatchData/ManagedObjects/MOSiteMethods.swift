@@ -17,11 +17,10 @@ extension MOSite {
         return NSFetchRequest<MOSite>(entityName: "Site")
     }
 
-    @NSManaged public var imageIdentifier: String?
-    @NSManaged public var name: String?
-    @NSManaged public var order: Int16
     @NSManaged public var estrogenRelationship: NSSet?
-
+    @NSManaged internal var imageIdentifier: String?
+    @NSManaged internal var name: String?
+    @NSManaged internal var order: Int16
 }
 
 // MARK: Generated accessors for estrogenRelationship
@@ -95,5 +94,4 @@ extension MOSite {
         imageIdentifier = nil
         estrogenRelationship = nil
     }
-    
 }

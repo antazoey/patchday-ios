@@ -15,11 +15,10 @@ public class PDDefaults: NSObject {
         return """
         The PDDefaults makes calls to User Defaults
         that are unique to the user and their schedule.
-        There are schedule defaults and there are notification
+        The data stored here is simple enough that PatchDay
+        stores it as key-value pairs.
         """
     }
-    
-    // Description:     defaults.  The schedule defaults included the patch expiration interval (timeInterval) and the quantity of estrogen in patches or shorts in the schedule.  The notification defaults includes a bool indicatinng whether the user wants a reminder and the time before expiration that the user would wish to receive the reminder.
     
     // App
     private let std_defaults = UserDefaults.standard

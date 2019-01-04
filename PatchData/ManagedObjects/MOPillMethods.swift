@@ -16,14 +16,14 @@ extension MOPill {
         return NSFetchRequest<MOPill>(entityName: "Pill")
     }
 
-    @NSManaged public var lastTaken: NSDate?
-    @NSManaged public var name: String?
-    @NSManaged public var notify: Bool
-    @NSManaged public var time1: NSDate?
-    @NSManaged public var time2: NSDate?
-    @NSManaged public var timesaday: Int16
-    @NSManaged public var timesTakenToday: Int16
-    @NSManaged public var id: UUID?
+    @NSManaged private var lastTaken: NSDate?
+    @NSManaged private var name: String?
+    @NSManaged private var notify: Bool
+    @NSManaged private var time1: NSDate?
+    @NSManaged private var time2: NSDate?
+    @NSManaged private var timesaday: Int16
+    @NSManaged private var timesTakenToday: Int16
+    @NSManaged private var id: UUID?
     
     public func initAttributes(name: String) {
         self.name = name
@@ -114,12 +114,15 @@ extension MOPill {
     public func getDueDate() -> Date? {
         if let t1 = time1 as Time?, let t2 = time2 as Time? {
             do {
-                let d = try PDPillHelper.nextDueDate(timesTakenToday: Int(timesTakenToday),
-                                                     timesaday: Int(timesaday),
+                let todays = Int(timesTakenToday)
+                let goal = Int(timesaday)
+                let d = try PDPillHelper.nextDueDate(timesTakenToday: todays,
+                                                     timesaday: goal,
                                                      times: [t1, t2])
                 return d
             } catch {
-                print("Error: Not enough times, timesaday: \(timesaday), times.count: 2")
+                print("Error: Not enough times, timesaday: "
+                      + "\(timesaday), times.count: 2")
             }
         }
         return nil
@@ -144,7 +147,8 @@ extension MOPill {
         if let timesaday = getTimesday() {
             let taken = Int(timesTakenToday)
             let times = Int(timesaday)
-            return PDPillHelper.isDone(timesTakenToday: taken, timesaday: times)
+            return PDPillHelper.isDone(timesTakenToday: taken,
+                                       timesaday: times)
         }
         return false
     }
