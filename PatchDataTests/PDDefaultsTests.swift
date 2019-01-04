@@ -86,13 +86,11 @@ class PDDefaultsTests: XCTestCase {
     func testSetQuantityWithWarning() {
         defaults.setQuantityWithoutWarning(to: 1)
         let date = Date(timeIntervalSince1970: 0)
-        let mock1: () -> () = {}
-        let mock2: (Int) -> () = { void in }
+        let mock: (Int) -> () = { void in }
         estrogenSchedule.setDate(of: 0, with: date, setSharedData: nil)
         defaults.setQuantityWithWarning(to: 2, oldCount: 4,
-                                        cont: mock1,
-                                        reset: mock2,
-                                        cancel: mock2)
+                                        reset: mock,
+                                        cancel: mock)
         let actual = defaults.getQuantity()
         XCTAssertEqual(actual, 2)
         

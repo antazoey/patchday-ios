@@ -301,18 +301,16 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let newCount = Int(PDStrings.PickerData.counts[row]) {
             let reset: (Int) -> () = {
                 newCount in
-                let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-                for i in (newCount-1)..<oldCount {
-                    appDelegate.notificationsController.cancelEstrogenNotification(at: i)
-                }
-            }
-            let cont: () -> () = {
                 let tabController = self.navigationController?.tabBarController
                 if let vcs = tabController?.viewControllers, vcs.count > 0 {
                     let interval = Defaults.getTimeInterval()
                     let c = EstrogenSchedule.totalDue(interval)
                     let item = vcs[0].navigationController?.tabBarItem
                     item?.badgeValue = (c > 0) ? "\(c)" : nil
+                }
+                let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+                for i in (newCount-1)..<oldCount {
+                    appDelegate.notificationsController.cancelEstrogenNotification(at: i)
                 }
             }
             let cancel: (Int) -> () = {
@@ -321,7 +319,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
             Defaults.setQuantityWithWarning(to: newCount,
                                             oldCount: oldCount,
-                                            cont: cont,
                                             reset: reset,
                                             cancel: cancel)
             countButton.setTitle("\(newCount)", for: .normal)

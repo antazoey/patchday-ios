@@ -26,7 +26,6 @@ internal class PatchDataAlert: NSObject {
     /// Alert for changing the count of estrogens causing a loss of data.
     internal func alertForChangingCount(oldCount: Int, newCount: Int,
                                         simpleSetQuantity: @escaping (_ newCount: Int) -> (),
-                                        cont: @escaping () -> (),
                                         reset: @escaping (_ newCount: Int) -> (),
                                         cancel: @escaping (_ oldCount: Int) -> ()) {
         if (newCount > oldCount) {
@@ -47,7 +46,6 @@ internal class PatchDataAlert: NSObject {
                 // when decreasing count.
                 self.estrogenSchedule.reset(from: newCount)
                 simpleSetQuantity(newCount)
-                cont()
                 reset(newCount)
             }
             let title = PDStrings.ActionStrings.decline

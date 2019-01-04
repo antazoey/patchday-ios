@@ -129,7 +129,6 @@ public class PDDefaults: NSObject {
      Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
     public func setQuantityWithWarning(to newCount: Int, oldCount: Int,
-                                       cont: @escaping () -> (),
                                        reset: @escaping (_ newQuantity: Int) -> (),
                                        cancel: @escaping (_ oldQuantity: Int) -> ()) {
         let max = siteSchedule.count()
@@ -148,7 +147,6 @@ public class PDDefaults: NSObject {
                         alerter.alertForChangingCount(oldCount: oldCount,
                                                       newCount: newCount,
                                                       simpleSetQuantity: setQ,
-                                                      cont: cont,
                                                       reset: res,
                                                       cancel: cancel)
                 } else {
