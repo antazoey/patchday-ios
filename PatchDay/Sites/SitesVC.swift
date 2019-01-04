@@ -166,7 +166,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        SiteSchedule.reset()
+        SiteSchedule.reset(completion: nil)
         reloadSiteNames()
         siteTable.isEditing = false
         let range = 0..<siteNames.count
@@ -176,7 +176,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         })
         siteTable.reloadData()
         siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
-        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0), shouldHide: false)
+        let c = siteTable.numberOfRows(inSection: 0)
+        swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
         switchNavItems()    // Close editing
     }
     

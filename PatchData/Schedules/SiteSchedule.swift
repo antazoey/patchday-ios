@@ -51,7 +51,7 @@ public class SiteSchedule: PDScheduleProtocol {
     }
 
     /// Resets the site array a default list of sites.
-    override public func reset() {
+    override public func reset(completion: (() -> ())? = nil) {
         if (isDefault(usingPatches: usingPatches)) {
             return
         }
@@ -79,6 +79,9 @@ public class SiteSchedule: PDScheduleProtocol {
         filterEmpty()
         sort()
         PatchData.save()
+        if let comp = completion {
+            comp()
+        }
     }
     
     
@@ -175,7 +178,8 @@ public class SiteSchedule: PDScheduleProtocol {
         }
         for i in 0..<sites.count {
             // Return site that has no estros
-            if sites[i].estrogenRelationship?.count == 0 {
+            if let estros = sites[i].estrogenRelationship,
+                estros.count == 0 {
                 changeIndex(i)
                 next = i
                 return i

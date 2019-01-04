@@ -58,7 +58,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Reset the schedule to factory default
-    override public func reset() {
+    override public func reset(completion: (() -> ())?) {
         let context = PatchData.getContext()
         for estro in estrogens {
             estro.reset()
@@ -67,6 +67,9 @@ public class EstrogenSchedule: PDScheduleProtocol {
         quantity = (usingPatches) ? 3 : 1
         new()
         PatchData.save()
+        if let comp = completion {
+            comp()
+        }
     }
     
     /// Resets without changing the quantity

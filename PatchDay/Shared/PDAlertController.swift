@@ -27,10 +27,12 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
-                EstrogenSchedule.reset()
-                let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? 3 : 1
-                Defaults.setQuantityWithoutWarning(to: c)
-                Defaults.setDeliveryMethod(to: newMethod)
+                EstrogenSchedule.reset() {
+                    let patches = PDStrings.PickerData.deliveryMethods[0]
+                    let c = (newMethod == patches) ? 3 : 1
+                    Defaults.setQuantityWithoutWarning(to: c)
+                    Defaults.setDeliveryMethod(to: newMethod)
+                }
                 Defaults.setSiteIndex(to: 0)
                 State.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()

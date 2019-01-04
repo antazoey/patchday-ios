@@ -103,10 +103,12 @@ public class PDDefaults: NSObject {
             }
             siteSchedule.usingPatches = usingPatches
             estrogenSchedule.usingPatches = usingPatches
-            siteSchedule.reset()
-            estrogenSchedule.reset()
-            let c = estrogenSchedule.count()
-            setQuantityWithoutWarning(to: c)
+            let setCount: () -> () = {
+                let c = self.estrogenSchedule.count()
+                self.setQuantityWithoutWarning(to: c)
+            }
+            siteSchedule.reset(completion: setCount)
+            estrogenSchedule.reset(completion: setCount)
             scheduleState.deliveryMethodChanged = true
         }
     }
@@ -206,6 +208,7 @@ public class PDDefaults: NSObject {
             let key = PDStrings.SettingsKey.site_index.rawValue
             siteIndex = i
             defaults.set(i, forKey: key)
+            siteSchedule.next = i
         }
     }
 

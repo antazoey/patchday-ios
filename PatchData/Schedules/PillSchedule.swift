@@ -46,10 +46,13 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     /// Sets the pills and map to a generic list of MOPills.
-    override public func reset() {
+    override public func reset(completion: (() -> ())? = nil) {
         new()
         pillMap.removeAll()
         loadMap()
+        if let comp = completion {
+            comp()
+        }
     }
     
     /// Generates a generic list of MOPills when there are none in store.

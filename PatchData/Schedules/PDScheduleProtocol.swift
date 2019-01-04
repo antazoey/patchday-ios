@@ -33,7 +33,7 @@ public class PDScheduleProtocol: NSObject {
     }
 
     /// Reset the schedule to a default
-    func reset() {
+    func reset(completion: (() -> ())?) {
         fatalError("Must Override")
     }
     

@@ -27,6 +27,12 @@ class PDDefaultsTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        defaults.setDeliveryMethod(to: "Patches")
+        estrogenSchedule.reset() {
+            self.defaults.setQuantityWithoutWarning(to: 3)
+        }
+        siteSchedule.reset() {}
+        
     }
     
     /// Test that the estrogen schedule reflects changes from defaults

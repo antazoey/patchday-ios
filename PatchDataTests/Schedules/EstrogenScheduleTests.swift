@@ -77,7 +77,10 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testReset() {
-        estrogenSchedule.reset()
+        defaults.setDeliveryMethod(to: "Patches")
+        estrogenSchedule.reset() {
+            self.defaults.setQuantityWithoutWarning(to: 3)
+        }
         XCTAssertEqual(estrogenSchedule.count(), 3)
         defaults.setDeliveryMethod(to: "Injections")
         XCTAssertEqual(estrogenSchedule.count(), 1)

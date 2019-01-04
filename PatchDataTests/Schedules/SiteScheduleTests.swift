@@ -17,20 +17,20 @@ class SiteScheduleTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        siteSchedule.reset()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               scheduleState: ScheduleState(),
                               alerter: nil)
-        defaults.setDeliveryMethod(to: "Patches")
-        siteSchedule.reset()
-        estrogenSchedule.reset()
-        
         // Load estrogens to occupy the sites
-        estrogenSchedule.setSite(of: 0, with: siteSchedule.getSite(at: 0)!,
+        estrogenSchedule.setSite(of: 0,
+                                 with: siteSchedule.getSite(at: 0)!,
                                  setSharedData: nil)
-        estrogenSchedule.setSite(of: 1, with: siteSchedule.getSite(at: 1)!,
+        estrogenSchedule.setSite(of: 1,
+                                 with: siteSchedule.getSite(at: 1)!,
                                  setSharedData: nil)
-        estrogenSchedule.setSite(of: 2, with: siteSchedule.getSite(at: 2)!,
+        estrogenSchedule.setSite(of: 2,
+                                 with: siteSchedule.getSite(at: 2)!,
                                  setSharedData: nil)
     }
 
@@ -113,22 +113,23 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testNextSiteIndex() {
+        let setter = defaults.setSiteIndex
         // Finds next index even if current is incorrect
         siteSchedule.next = 0
-        var actual = siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex)
+        var actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         // Finds next index even if current index is way off
         siteSchedule.next = 100
-        actual = siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex)
+        actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         // Returns same index when all sites are filled
         estrogenSchedule.setSite(of: 3, with: siteSchedule.getSite(at: 3)!,
-                              setSharedData: nil)
-        actual = siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex)
+                                 setSharedData: nil)
+        actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         siteSchedule.next = -1
         // Returns nil when current is < 0
-        actual = siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex)
+        actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertNil(actual)
     }
     
