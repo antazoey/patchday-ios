@@ -12,12 +12,16 @@ public class PDState: NSObject {
     
     override public var description: String {
         return """
-               An object that manages the state of a schedule.
-               For PatchDay, this only has to do with 
+               An object that manages the state of the patch data.
+               Currently, this only has to do with stuff
+               for EstrogenSchedules and PDDefaults.
+               The app PatchDay uses this to manage when to animate
+               UI features, but it also represents the state
+               of the app at the time.
                """
     }
     
-    public var wereChanges: Bool = false
+    public var wereEstrogenChanges: Bool = false
     public var increasedCount: Bool = false
     public var decreasedCount: Bool = false
     public var siteChanged: Bool = false
@@ -28,7 +32,7 @@ public class PDState: NSObject {
     public var indexOfChangedDelivery: Int = -1
     
     public func reset() {
-        wereChanges = false
+        wereEstrogenChanges = false
         increasedCount = false
         decreasedCount = false
         siteChanged = false
