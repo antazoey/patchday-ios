@@ -323,18 +323,4 @@ public class PDDefaults: NSObject {
             setSiteIndex(to: 0)
         }
     }
-
-    // MARK: - helpers
-    
-    /// Removes the word "minutes" from the notification option
-    private func cutNotificationMinutes(of: String) -> String {
-        var builder = ""
-        for c in of {
-            if c == " " {
-                return builder
-            }
-            builder += "\(c)"
-        }
-        return builder
-    }
 }

@@ -17,11 +17,8 @@ class SiteScheduleTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        estrogenSchedule.delete(after: -1)
         siteSchedule.reset()
-        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
-                              siteSchedule: siteSchedule,
-                              scheduleState: ScheduleState(),
-                              alerter: nil)
         // Load estrogens to occupy the sites
         estrogenSchedule.setSite(of: 0,
                                  with: siteSchedule.getSite(at: 0)!,
@@ -32,6 +29,10 @@ class SiteScheduleTests: XCTestCase {
         estrogenSchedule.setSite(of: 2,
                                  with: siteSchedule.getSite(at: 2)!,
                                  setSharedData: nil)
+        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
+                              siteSchedule: siteSchedule,
+                              scheduleState: ScheduleState(),
+                              alerter: nil)
     }
 
     override func tearDown() {
@@ -67,13 +68,13 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(siteSchedule.count(), 6)
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
-    
+
     func testNew() {
         defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.new()
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
-    
+
     func testSetName() {
         siteSchedule.setName(at: 0, to: "TEST SITE")
         if let actual = siteSchedule.sites[0].getName() {
@@ -111,7 +112,7 @@ class SiteScheduleTests: XCTestCase {
             XCTAssertEqual(actual, siteSchedule.sites[0])
         }
     }
-    
+
     func testNextSiteIndex() {
         let setter = defaults.setSiteIndex
         // Finds next index even if current is incorrect
@@ -123,7 +124,8 @@ class SiteScheduleTests: XCTestCase {
         actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         // Returns same index when all sites are filled
-        estrogenSchedule.setSite(of: 3, with: siteSchedule.getSite(at: 3)!,
+        estrogenSchedule.setSite(of: 3,
+                                 with: siteSchedule.getSite(at: 3)!,
                                  setSharedData: nil)
         actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
@@ -199,11 +201,13 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testGetSiteName() {
-        XCTAssertEqual(siteSchedule.getNames(), PDStrings.SiteNames.patchSiteNames)
+        XCTAssertEqual(siteSchedule.getNames(),
+                       PDStrings.SiteNames.patchSiteNames)
     }
     
     func testGetSiteImageIDs() {
-        XCTAssertEqual(siteSchedule.getImageIDs(), PDStrings.SiteNames.patchSiteNames)
+        XCTAssertEqual(siteSchedule.getImageIDs(),
+                       PDStrings.SiteNames.patchSiteNames)
     }
     
     func testSiteNameSetUnionDefaultSites() {
@@ -214,8 +218,6 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testIsDefault() {
-        defaults.setDeliveryMethod(to: "Patches")
-        siteSchedule.reset()
         XCTAssert(siteSchedule.isDefault(usingPatches: true))
         // Patches fail when tested against injections
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: false))
