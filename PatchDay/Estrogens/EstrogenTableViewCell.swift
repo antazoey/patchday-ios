@@ -17,10 +17,10 @@ class EstrogenTableViewCell: UITableViewCell {
     @IBOutlet weak var badgeButton: MFBadgeButton!
     
     public func configure(at index: Index) {
-        if index < PDDefaults.getQuantity() {
-            let interval = PDDefaults.getTimeInterval()
-            let usingPatches = PDDefaults.usingPatches()
-            if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index) {
+        if index < Defaults.getQuantity() {
+            let interval = Defaults.getTimeInterval()
+            let usingPatches = Defaults.usingPatches()
+            if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index)
                 let title = determineTitle(estrogenIndex: index, interval)
@@ -56,11 +56,11 @@ class EstrogenTableViewCell: UITableViewCell {
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineImage(index: Index) -> UIImage {
-        let usingPatches: Bool = PDDefaults.usingPatches()
+        let usingPatches: Bool = Defaults.usingPatches()
         // Default:  new / add image
         let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
         var image: UIImage = insert_img
-        if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: index),
+        if let estro = Schedule.estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
                 // Check if Site relationship siteName is a general site.
@@ -79,10 +79,10 @@ class EstrogenTableViewCell: UITableViewCell {
     private func determineTitle(estrogenIndex: Int, _ interval: String) -> String {
         var title: String = ""
         typealias Strings = PDStrings.ColonedStrings
-        if let estro = PDSchedule.estrogenSchedule.getEstrogen(at: estrogenIndex),
+        if let estro = Schedule.estrogenSchedule.getEstrogen(at: estrogenIndex),
             let date =  estro.getDate() as Date?,
             let expDate = PDDateHelper.expirationDate(from: date, interval) {
-            if PDDefaults.usingPatches() {
+            if Defaults.usingPatches() {
                 let titleIntro = (estro.isExpired(interval)) ?
                     Strings.expired :
                     Strings.expires
@@ -98,12 +98,12 @@ class EstrogenTableViewCell: UITableViewCell {
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil) {
         var isNew = false
-        let schedule = PDSchedule.estrogenSchedule
+        let schedule = Schedule.estrogenSchedule
         let estrogenOptional = schedule.getEstrogen(at: index, insertOnFail: false)
         if let img = newImage, PDImages.isAdd(img) {
             isNew = PDImages.isAdd(img)
         }
-        PDSchedule.state.isNew = isNew
+        Schedule.state.isNew = isNew
         if shouldAnimate(estrogenOptional, at: index) {
             UIView.transition(with: stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
                 self.stateImage.image = newImage
@@ -122,8 +122,8 @@ class EstrogenTableViewCell: UITableViewCell {
         var isAffectedFromChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false
-        let changes = PDSchedule.state
-        if index < PDDefaults.getQuantity() {
+        let changes = Schedule.state
+        if index < Defaults.getQuantity() {
             if let hasDateAndItMatters = estro?.hasDate() {
                 // Was affected non-empty estrogens from change.
                 isAffectedFromChange = changes.wereChanges && !changes.isNew && !changes.onlySiteChanged && index <= changes.indexOfChangedDelivery && hasDateAndItMatters
@@ -132,7 +132,7 @@ class EstrogenTableViewCell: UITableViewCell {
             isSiteChange = changes.siteChanged && index == changes.indexOfChangedDelivery
         }
         // Is exiting the schedule.
-        isGone = changes.decreasedCount && index >= PDDefaults.getQuantity()
+        isGone = changes.decreasedCount && index >= Defaults.getQuantity()
         return (isAffectedFromChange || isSiteChange || changes.isNew || isGone)
     }
         

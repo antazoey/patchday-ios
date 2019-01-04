@@ -53,8 +53,7 @@ class PillTableViewCell: UITableViewCell {
     public func loadLastTakenText(from pill: MOPill) {
         if let lastTaken = pill.getLastTaken() {
             lastTakenLabel.text = PDDateHelper.format(date: lastTaken as Date, useWords: true)
-        }
-        else {
+        } else {
             lastTakenLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
     }
@@ -63,21 +62,19 @@ class PillTableViewCell: UITableViewCell {
         stateImage.image = PDImages.pill.withRenderingMode(.alwaysTemplate)
         if pill.isDone() {
             stateImage.tintColor = UIColor.lightGray
-        }
-        else {
+        } else {
             stateImage.tintColor = UIColor.blue
         }
     }
     
     public func enableOrDisableTake() {
-            // Disable
         if stateImage.tintColor == UIColor.lightGray {
+            // Disable
             takeButton.setTitle(PDStrings.ActionStrings.taken, for: .normal)
             takeButton.isEnabled = false
             stateImageButton.isEnabled = false
-        }
+        } else {
             // Enable
-        else {
             takeButton.setTitle(PDStrings.ActionStrings.take, for: .normal)
             takeButton.isEnabled = true
             stateImageButton.isEnabled = true
@@ -101,12 +98,6 @@ class PillTableViewCell: UITableViewCell {
     }
     
     private func setImageBadge(using pill: MOPill) {
-        if pill.isExpired() {
-            stateImageButton.badgeValue = "!"
-        }
-        else {
-            stateImageButton.badgeValue = nil
-        }
+        stateImageButton.badgeValue = (pill.isExpired()) ? "!" : nil
     }
-
 }

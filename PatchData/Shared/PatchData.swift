@@ -28,7 +28,8 @@ public class PatchData: NSObject {
     internal static var persistentContainer: NSPersistentContainer = {
         let conkey = PDStrings.CoreDataKeys.persistantContainer_key
         let container = NSPersistentContainer(name: conkey)
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: {
+            (storeDescription, error) in
             if let error = error as NSError? {
                 PatchDataAlert.alertForPersistentStoreLoadError(error: error)
             }
@@ -49,7 +50,8 @@ public class PatchData: NSObject {
     
     /// Insert a Core Data entity into the view context
     internal static func insert(_ entity: String) -> NSManagedObject? {
-        return NSEntityDescription.insertNewObject(forEntityName: entity, into: getContext());
+        return NSEntityDescription.insertNewObject(forEntityName: entity,
+                                                   into: getContext());
     }
     
     /// Get the current view context
@@ -59,7 +61,8 @@ public class PatchData: NSObject {
     
     internal static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {
         let keys = PatchData.entityKey(for: entity)
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: keys.name)
+        typealias MOFetch = NSFetchRequest<NSManagedObject>
+        let fetchRequest = MOFetch(entityName: keys.name)
         fetchRequest.propertiesToFetch = keys.props
         do {
             // Load user data if it exists

@@ -84,19 +84,6 @@ class PDDateHelperTests: XCTestCase {
         }
     }
     
-    func testIsInPast() {
-        let now = Date()
-        let past = Date(timeInterval: -5000, since: now)
-        let future = Date(timeInterval: 5000, since: now)
-        XCTAssert(PDDateHelper.isInPast(this: past))
-        XCTAssert(!PDDateHelper.isInPast(this: future))
-    }
-    
-    func testDateIsInToday() {
-        XCTAssertTrue(PDDateHelper.dateIsInToday(Date()))
-        XCTAssertFalse(PDDateHelper.dateIsInToday(d1))
-    }
-    
     func testCalculateHours() {
         let expected1 = 84
         let expected2 = 168
@@ -153,19 +140,7 @@ class PDDateHelperTests: XCTestCase {
             XCTFail()
         }
     }
-    
-    func testIsOvernight() {
-        if let threeAM = Calendar.current.date(bySettingHour: 3, minute: 0, second: 0, of: Date()) {
-            XCTAssert(PDDateHelper.isOvernight(threeAM))
-        } else {
-            XCTFail()
-        }
-        if let threePM = Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date()) {
-            XCTAssert(!PDDateHelper.isOvernight(threePM))
-        } else {
-            XCTFail()
-        }
-    }
+
     
     func testDateBeforeOvernight() {
         let now = Date()

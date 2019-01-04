@@ -12,7 +12,7 @@ import PatchData
 
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    public var images = PDDefaults.usingPatches() ? PDImages.patchImages : PDImages.injectionImages
+    public var images: [UIImage]
     public var picker: UIPickerView
     public var doneButton: UIButton
     public var imageView: UIImageView
@@ -24,7 +24,16 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     
     public var selectedImage: UIImage?
     
-    init(with picker: UIPickerView, and imageView: UIImageView, imageButton: UIButton, nameButton: UIButton, nameTextField: UITextField, saveButton: UIBarButtonItem, selectedSiteIndex: Int, doneButton: UIButton) {
+    init(with picker: UIPickerView,
+         and imageView: UIImageView,
+         imageButton: UIButton,
+         nameButton: UIButton,
+         nameTextField: UITextField,
+         saveButton: UIBarButtonItem,
+         selectedSiteIndex: Int,
+         doneButton: UIButton,
+         usingPatches: Bool) {
+        self.images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
         self.picker = picker
         self.imageView = imageView
         self.imageButton = imageButton

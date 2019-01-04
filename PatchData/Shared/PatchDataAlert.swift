@@ -14,53 +14,50 @@ internal class PatchDataAlert: NSObject {
     override var description: String {
         return "Alert for Data issues."
     }
+
+    private var estrogenSchedule: EstrogenSchedule
     
-    internal static var currentAlert = UIAlertController()
+    public init(estrogenSchedule: EstrogenSchedule) {
+        self.estrogenSchedule = estrogenSchedule
+    }
     
     // MARK: - Changing count
     
     /// Alert for changing the count of estrogens causing a loss of data.
-    internal static func alertForChangingCount(oldCount: Int,
-                                               newCount: Int,
-                                               countButton: UIButton,
-                                               navController: UINavigationController?,
-                                               reset: @escaping (_ newCount: Int) -> ()) {
+    internal func alertForChangingCount(oldCount: Int, newCount: Int,
+                                        simpleSetQuantity: @escaping (_ newCount: Int) -> (),
+                                        cont: @escaping () -> (),
+                                        reset: @escaping (_ newCount: Int) -> (),
+                                        cancel: @escaping (_ oldCount: Int) -> ()) {
         if (newCount > oldCount) {
-            PDDefaults.setQuantityWithoutWarning(to: newCount)
+            simpleSetQuantity(newCount)
             return
         }
-        if let currentVC = getRootVC() {
+        if let currentVC = PatchDataAlert.getRootVC() {
             let isPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
             let alertStyle: UIAlertController.Style = isPad ? .alert : .actionSheet
             typealias Alert = PDStrings.AlertStrings.LoseDataAlert
-            currentAlert = UIAlertController(title: Alert.title,
+            let alert = UIAlertController(title: Alert.title,
                                              message: Alert.message,
                                              preferredStyle: alertStyle)
-            let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
+            let contStr = PDStrings.ActionStrings.cont
+            let continueAction = UIAlertAction(title: contStr, style: .destructive) {
                 (void) in
                 // Note: newCount is start_i because reset only occurs
                 // when decreasing count.
-                PDSchedule.estrogenSchedule.reset(from: newCount)
-                PDDefaults.setQuantityWithoutWarning(to: newCount)
-                
-                // Tab bar image / badgeValue
-                let tabController = navController?.tabBarController
-                if let vcs = tabController?.viewControllers, vcs.count > 0 {
-                    let interval = PDDefaults.getTimeInterval()
-                    let c = PDSchedule.totalDue(interval: interval)
-                    let item = vcs[0].navigationController?.tabBarItem
-                    item?.badgeValue = (c > 0) ? String(c) : nil
-                }
+                self.estrogenSchedule.reset(from: newCount)
+                simpleSetQuantity(newCount)
+                cont()
                 reset(newCount)
             }
             let title = PDStrings.ActionStrings.decline
             let cancelAction = UIAlertAction(title: title, style: .cancel) {
                 (void) in
-                countButton.setTitle(String(oldCount), for: .normal)
+                cancel(oldCount)
             }
-            currentAlert.addAction(continueAction)
-            currentAlert.addAction(cancelAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
+            alert.addAction(continueAction)
+            alert.addAction(cancelAction)
+            currentVC.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -70,7 +67,7 @@ internal class PatchDataAlert: NSObject {
     internal static func alertForCoreDataError() {
         typealias Alert = PDStrings.AlertStrings.CoreDataAlert
         if let currentVC = getRootVC() {
-            currentAlert = UIAlertController(title: Alert.title,
+            let alert = UIAlertController(title: Alert.title,
                                              message: Alert.message,
                                              preferredStyle: .alert)
             let title = PDStrings.ActionStrings.dismiss
@@ -78,8 +75,8 @@ internal class PatchDataAlert: NSObject {
             let closeAction = UIAlertAction(title: title,
                                             style: style,
                                             handler: nil)
-            currentAlert.addAction(closeAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
+            alert.addAction(closeAction)
+            currentVC.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -90,7 +87,7 @@ internal class PatchDataAlert: NSObject {
         if let currentVC = getRootVC() {
             let msg = "(\(String(describing: error))"
             let alertTitle = PDStrings.AlertStrings.CoreDataAlert.title
-            currentAlert = UIAlertController(title: alertTitle,
+            let alert = UIAlertController(title: alertTitle,
                                              message: msg,
                                              preferredStyle: .alert)
             let actionTitle = PDStrings.ActionStrings.accept
@@ -99,8 +96,8 @@ internal class PatchDataAlert: NSObject {
                 (void) in
                 fatalError()
             }
-            currentAlert.addAction(cancelAction)
-            currentVC.present(currentAlert, animated: true, completion: nil)
+            alert.addAction(cancelAction)
+            currentVC.present(alert, animated: true, completion: nil)
         }
     }
     

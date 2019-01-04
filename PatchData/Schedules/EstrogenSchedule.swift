@@ -22,9 +22,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     internal var quantity = 3
     internal var usingPatches = true
     private var estrogenMap = [UUID: MOEstrogen]()
-    private var state = PDSchedule.state
     
-    override init(type: PatchData.PDEntity = .estrogen) {
+    init() {
         super.init(type: .estrogen)
         // Create a new schedule if no stored estrogens
         estrogens = mos as! [MOEstrogen]
@@ -42,7 +41,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
-    override public func insert() -> MOEstrogen? {
+    override public func insert(completion: (() -> ())? = nil) -> MOEstrogen? {
         if let estro = PatchData.insert(type.rawValue) as! MOEstrogen? {
             quantity += 1
             estrogens.append(estro)
@@ -59,7 +58,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Reset the schedule to factory default
-    override public func reset() {
+    override public func reset(completion: (() -> ())?) {
         let context = PatchData.getContext()
         for estro in estrogens {
             estro.reset()
@@ -68,6 +67,9 @@ public class EstrogenSchedule: PDScheduleProtocol {
         quantity = (usingPatches) ? 3 : 1
         new()
         PatchData.save()
+        if let comp = completion {
+            comp()
+        }
     }
     
     /// Resets without changing the quantity
@@ -108,7 +110,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
         if index >= 0, index < count() {
             return estrogens[index]
         } else if insertOnFail {
-            return insert()
+            return insert(completion: nil)
         }
         return nil
     }
@@ -119,49 +121,64 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Sets the site of the MOEstrogen for the given index.
-    public func setSite(of index: Index, with site: MOSite) {
+    public func setSite(of index: Index, with site: MOSite, setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
         estro?.setSite(with: site)
-        TodayData.setEstrogenDataForToday()
+        // TODO
+        //PDSharedData.setEstrogenDataForToday()
+        if let todaySet = setSharedData {
+            todaySet()
+        }
         PatchData.save()
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    public func setDate(of index: Index, with date: Date) {
+    public func setDate(of index: Index, with date: Date, setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
         estro?.setDate(with: date as NSDate)
         sort()
-        TodayData.setEstrogenDataForToday()
+        if let todaySet = setSharedData {
+            todaySet()
+        }
         PatchData.save()
     }
     
     /// Sets the date and the site of the MOEstrogen for the given index.
-    public func setEstrogen(of index: Index, date: NSDate, site: MOSite) {
+    public func setEstrogen(of index: Index, date: NSDate, site: MOSite,
+                            setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
         estro?.setSite(with: site)
         estro?.setDate(with: date)
         sort()
-        TodayData.setEstrogenDataForToday()
+        if let todaySet = setSharedData {
+            todaySet()
+        }
         PatchData.save()
     }
     
     /// Sets the date and the site of the MOEstrogen for the given id.
-    public func setEstrogen(for id: UUID, date: NSDate, site: MOSite) {
+    public func setEstrogen(for id: UUID, date: NSDate, site: MOSite,
+                            setSharedData: (() -> ())?) {
         if let estro = getEstrogen(for: id) {
             estro.setSite(with: site)
             estro.setDate(with: date)
             sort()
-            TodayData.setEstrogenDataForToday()
+            if let todaySet = setSharedData {
+                todaySet()
+            }
             PatchData.save()
         }
     }
     
     /// Sets the MOEstrogen for the given index.
-    public func setEstrogen(of index: Index, with estrogen: MOEstrogen) {
+    public func setEstrogen(of index: Index, with estrogen: MOEstrogen,
+                            setSharedData: (() -> ())?) {
         if index < count() && index >= 0 {
             estrogens[index] = estrogen
             sort()
-            TodayData.setEstrogenDataForToday()
+            if let todaySet = setSharedData {
+                todaySet()
+            }
             PatchData.save()
         }
     }
@@ -254,9 +271,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
         quantity = start
         PatchData.save()
     }
-    
-    // MARK: - Private
-    
+
     /// Load estrogen ID map after changes occur to the schedule.
     public func loadMap() {
         estrogenMap = estrogens.reduce([UUID: MOEstrogen]()) {
@@ -266,7 +281,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
             return dict
         }
     }
-    
+
     public func printEstrogens() {
         print("\n")
         for estro in estrogens {
@@ -283,5 +298,4 @@ public class EstrogenSchedule: PDScheduleProtocol {
             print("---")
         }
     }
-    
 }

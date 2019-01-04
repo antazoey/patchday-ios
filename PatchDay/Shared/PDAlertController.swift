@@ -27,14 +27,16 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
                 (void) in
-                PDSchedule.estrogenSchedule.reset()
-                let c = (newMethod == PDStrings.PickerData.deliveryMethods[0]) ? 3 : 1
-                PDDefaults.setQuantityWithoutWarning(to: c)
-                PDDefaults.setDeliveryMethod(to: newMethod)
-                PDDefaults.setSiteIndex(to: 0)
-                PDSchedule.state.deliveryMethodChanged = true
+                EstrogenSchedule.reset() {
+                    let patches = PDStrings.PickerData.deliveryMethods[0]
+                    let c = (newMethod == patches) ? 3 : 1
+                    Defaults.setQuantityWithoutWarning(to: c)
+                    Defaults.setDeliveryMethod(to: newMethod)
+                }
+                Defaults.setSiteIndex(to: 0)
+                State.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
-                TodayData.setEstrogenDataForToday()
+                PDSharedData.setEstrogenDataForToday()
                 
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
@@ -43,12 +45,11 @@ internal class PDAlertController: NSObject {
                     countButton.isEnabled = true
                     countButton.setTitle(String(oldCount), for: .disabled)
                     countButton.setTitle(String(oldCount), for: .normal)
-                }
-                else {
+                } else {
                     countButton.isEnabled = false
                     countButton.setTitle("1", for: .disabled)
                     countButton.setTitle("1", for: .normal)
-                    PDDefaults.setQuantityWithoutWarning(to: 1)
+                    Defaults.setQuantityWithoutWarning(to: 1)
                 }
                 deliveryButton.setTitle(oldMethod, for: .normal)
                 
@@ -92,10 +93,9 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
             let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
                 (void) in
-                if let _ = PDSchedule.siteSchedule.insert() {
+                if let _ = Schedule.siteSchedule.insert() {
                     estroVC.sitePicker.reloadAllComponents()
                 }
-                
             }
             let declineAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.declineActionTitle, style: .default)
             currentAlert.addAction(addAction)

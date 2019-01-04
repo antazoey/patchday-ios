@@ -42,7 +42,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testInsert() {
-        if let pill = pillSchedule.insert() {
+        if let pill = pillSchedule.insert(completion: nil) {
             XCTAssert(pillSchedule.pills.contains(pill))
         } else {
             XCTFail()

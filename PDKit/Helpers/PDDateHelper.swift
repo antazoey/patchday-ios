@@ -30,9 +30,11 @@ public class PDDateHelper: NSObject {
         let calendar = Calendar.current
         if calendar.isDateInToday(from) {
             return PDStrings.DayStrings.today
-        } else if let yesterday = getDate(at: Date(), daysToAdd: -1), calendar.isDate(from, inSameDayAs: yesterday) {
+        } else if let yesterday = getDate(at: Date(), daysToAdd: -1),
+            calendar.isDate(from, inSameDayAs: yesterday) {
             return PDStrings.DayStrings.yesterday
-        } else if let tomorrow = getDate(at: Date(), daysToAdd: 1), calendar.isDate(from, inSameDayAs: tomorrow) {
+        } else if let tomorrow = getDate(at: Date(), daysToAdd: 1),
+            calendar.isDate(from, inSameDayAs: tomorrow) {
             return PDStrings.DayStrings.tomorrow
         }
         return nil
@@ -46,7 +48,13 @@ public class PDDateHelper: NSObject {
         let day = calendar.component(.day, from: date)
         let hour = calendar.component(.hour, from: time)
         let min = calendar.component(.minute, from: time)
-        let components = DateComponents(calendar: calendar, timeZone: calendar.timeZone, year: year, month: month, day: day, hour: hour, minute: min)
+        let components = DateComponents(calendar: calendar,
+                                        timeZone: calendar.timeZone,
+                                        year: year,
+                                        month: month,
+                                        day: day,
+                                        hour: hour,
+                                        minute: min)
         if let d = calendar.date(from: components) {
             return d
         }
@@ -66,16 +74,6 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
-    /// Returns if the given date is behind us.
-    public static func isInPast(this: Date) -> Bool {
-        return this < Date()
-    }
-    
-    /// Returns whether the date is in today.
-    public static func dateIsInToday(_ date: Date) -> Bool {
-        return Calendar.current.isDate(date, inSameDayAs: Date())
-    }
-    
     /// Converts an interval string into the number of hours, defaults to 3.5 days.
     public static func calculateHours(of interval: String) -> Int {
         var numberOfHours: Int
@@ -91,10 +89,13 @@ public class PDDateHelper: NSObject {
     }
     
     /// Gives the future date from the given one based on the given interval string.
-    public static func expirationDate(from date: Date, _ interval: String) -> Date? {
+    public static func expirationDate(from date: Date,
+                                      _ interval: String) -> Date? {
         let hours: Int = calculateHours(of: interval)
         let calendar = Calendar.current
-        guard let expDate = calendar.date(byAdding: .hour, value: hours, to: date) else {
+        guard let expDate = calendar.date(byAdding: .hour,
+                                          value: hours,
+                                          to: date) else {
             return nil
         }
         return expDate
@@ -105,24 +106,23 @@ public class PDDateHelper: NSObject {
         if let expDate = expirationDate(from: date, interval) {
             // Return the interval to the expiration date.
             let now = Date()
-            let expInterval = expDate >= now ? DateInterval(start: now, end: expDate).duration : -DateInterval(start: expDate, end: now).duration
+            let expInterval = expDate >= now ?
+                DateInterval(start: now, end: expDate).duration :
+                -DateInterval(start: expDate, end: now).duration
             return expInterval
         }
         return nil
     }
     
-    /// Returns if the date is between the hours of midnight and 6 am.
-    public static func isOvernight(_ date: Date) -> Bool {
-        if let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: date),
-            let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: date) {
-            return date < sixAM && date > midnight
-        }
-        return false
-    }
-    
     /// Gets 8 pm before an overnight date.
     public static func dateBeforeOvernight(overnightDate: Date) -> Date? {
-        if let eightPM_of = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: overnightDate), let eightPM_before = Calendar.current.date(byAdding: .day, value: -1, to: eightPM_of) {
+        if let eightPM_of = Calendar.current.date(bySettingHour: 20,
+                                                  minute: 0,
+                                                  second: 0,
+                                                  of: overnightDate),
+            let eightPM_before = Calendar.current.date(byAdding: .day,
+                                                       value: -1,
+                                                       to: eightPM_of) {
             return eightPM_before
         }
         return nil
@@ -145,5 +145,4 @@ public class PDDateHelper: NSObject {
         dateFormatter.dateFormat = "MMM d, h:mm a"
         return dateFormatter.string(from: date)
     }
-    
 }

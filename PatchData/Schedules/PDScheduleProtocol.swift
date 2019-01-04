@@ -28,12 +28,12 @@ public class PDScheduleProtocol: NSObject {
     }
 
     /// Create + Insert a new Managed Object
-    func insert() -> NSManagedObject? {
+    func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
         fatalError("Must Override")
     }
 
     /// Reset the schedule to a default
-    func reset() {
+    func reset(completion: (() -> ())?) {
         fatalError("Must Override")
     }
     

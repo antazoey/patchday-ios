@@ -12,20 +12,27 @@ import PDKit
 
 class SiteScheduleTests: XCTestCase {
     let siteSchedule = SiteSchedule()
-    let estroSchedule = EstrogenSchedule()
+    let estrogenSchedule = EstrogenSchedule()
+    var defaults: PDDefaults! = nil
 
     override func setUp() {
         super.setUp()
-        PDDefaults.setDeliveryMethod(to: "Patches")
+        estrogenSchedule.delete(after: -1)
         siteSchedule.reset()
-        estroSchedule.reset()
-        
         // Load estrogens to occupy the sites
-        estroSchedule.setSite(of: 0, with: siteSchedule.getSite(at: 0)!)
-        estroSchedule.setSite(of: 1, with: siteSchedule.getSite(at: 1)!)
-        estroSchedule.setSite(of: 2, with: siteSchedule.getSite(at: 2)!)
-        
-        PDDefaults.setSiteSchedule(siteSchedule)
+        estrogenSchedule.setSite(of: 0,
+                                 with: siteSchedule.getSite(at: 0)!,
+                                 setSharedData: nil)
+        estrogenSchedule.setSite(of: 1,
+                                 with: siteSchedule.getSite(at: 1)!,
+                                 setSharedData: nil)
+        estrogenSchedule.setSite(of: 2,
+                                 with: siteSchedule.getSite(at: 2)!,
+                                 setSharedData: nil)
+        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
+                              siteSchedule: siteSchedule,
+                              scheduleState: ScheduleState(),
+                              alerter: nil)
     }
 
     override func tearDown() {
@@ -46,7 +53,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testReset() {
-        PDDefaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: "Patches")
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
@@ -56,18 +63,18 @@ class SiteScheduleTests: XCTestCase {
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
-        PDDefaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         XCTAssertEqual(siteSchedule.count(), 6)
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
-    
+
     func testNew() {
-        PDDefaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.new()
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
-    
+
     func testSetName() {
         siteSchedule.setName(at: 0, to: "TEST SITE")
         if let actual = siteSchedule.sites[0].getName() {
@@ -105,23 +112,26 @@ class SiteScheduleTests: XCTestCase {
             XCTAssertEqual(actual, siteSchedule.sites[0])
         }
     }
-    
+
     func testNextSiteIndex() {
+        let setter = defaults.setSiteIndex
         // Finds next index even if current is incorrect
         siteSchedule.next = 0
-        var actual = siteSchedule.nextIndex()
+        var actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         // Finds next index even if current index is way off
         siteSchedule.next = 100
-        actual = siteSchedule.nextIndex()
+        actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         // Returns same index when all sites are filled
-        estroSchedule.setSite(of: 3, with: siteSchedule.getSite(at: 3)!)
-        actual = siteSchedule.nextIndex()
+        estrogenSchedule.setSite(of: 3,
+                                 with: siteSchedule.getSite(at: 3)!,
+                                 setSharedData: nil)
+        actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
         siteSchedule.next = -1
         // Returns nil when current is < 0
-        actual = siteSchedule.nextIndex()
+        actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertNil(actual)
     }
     
@@ -177,7 +187,7 @@ class SiteScheduleTests: XCTestCase {
         if let siteNameDeleted = siteSchedule.getSite(at: 0)?.getName() {
             siteSchedule.delete(at: 0)
             // Assert that the backup site name remains after deleted
-            if let n = estroSchedule.estrogens[0].getSiteNameBackUp() {
+            if let n = estrogenSchedule.estrogens[0].getSiteNameBackUp() {
                 XCTAssertEqual(n, siteNameDeleted)
             }
             // Assert 1 less site in the schedule
@@ -191,11 +201,13 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testGetSiteName() {
-        XCTAssertEqual(siteSchedule.getNames(), PDStrings.SiteNames.patchSiteNames)
+        XCTAssertEqual(siteSchedule.getNames(),
+                       PDStrings.SiteNames.patchSiteNames)
     }
     
     func testGetSiteImageIDs() {
-        XCTAssertEqual(siteSchedule.getImageIDs(), PDStrings.SiteNames.patchSiteNames)
+        XCTAssertEqual(siteSchedule.getImageIDs(),
+                       PDStrings.SiteNames.patchSiteNames)
     }
     
     func testSiteNameSetUnionDefaultSites() {
@@ -206,15 +218,13 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testIsDefault() {
-        PDDefaults.setDeliveryMethod(to: "Patches")
-        siteSchedule.reset()
         XCTAssert(siteSchedule.isDefault(usingPatches: true))
         // Patches fail when tested against injections
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: false))
         // Fails when add a custom site
         siteSchedule.setName(at: 0, to: "SITE NAME")
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
-        PDDefaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         // Injection defaults pass
         XCTAssert(siteSchedule.isDefault(usingPatches: false))

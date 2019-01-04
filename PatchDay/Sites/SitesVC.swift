@@ -14,14 +14,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var siteTable: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
-    
-    // Constants
-    public var buttonFontSize = { return UIFont.systemFont(ofSize: 15) }()
-    public var addFontSize = { return UIFont.systemFont(ofSize: 39)}()
-    
-    // Variables
-    public var siteNames: [String] = PDSchedule.siteSchedule.getNames()
-    public var siteImgIDs: [String] = PDSchedule.siteSchedule.getImageIDs()
+
+    public var buttonFontSize = {
+        return UIFont.systemFont(ofSize: 15)
+    }()
+    public var addFontSize = {
+        return UIFont.systemFont(ofSize: 39)
+    }()
+    public var siteNames: [String] = SiteSchedule.getNames()
+    public var siteImgIDs: [String] = SiteSchedule.getImageIDs()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +40,6 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         siteTable.reloadData()
         setTitle()
         swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0), shouldHide: false)
-
     }
     
     // MARK: - Table and cell characteristics.
@@ -83,8 +83,6 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return siteNames.count
     }
 
-
-    
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let siteCell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseID") as! SiteTableViewCell
@@ -120,12 +118,12 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Reorder cell (reorders MOSite order attributes)
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let schedule = PDSchedule.siteSchedule
+        let schedule = SiteSchedule
         let siteToMove = schedule.sites[sourceIndexPath.row]
         schedule.sites.remove(at: sourceIndexPath.row)
         schedule.sites.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == schedule.nextIndex() {
-            PDDefaults.setSiteIndex(to: destinationIndexPath.row)
+        if sourceIndexPath.row == schedule.nextIndex(changeIndex: Defaults.setSiteIndex) {
+            Defaults.setSiteIndex(to: destinationIndexPath.row)
         }
         for i in 0..<schedule.count() {
             schedule.setOrder(at: i, to: Int16(i))
@@ -168,7 +166,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        PDSchedule.siteSchedule.reset()
+        SiteSchedule.reset(completion: nil)
         reloadSiteNames()
         siteTable.isEditing = false
         let range = 0..<siteNames.count
@@ -178,7 +176,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         })
         siteTable.reloadData()
         siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
-        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0), shouldHide: false)
+        let c = siteTable.numberOfRows(inSection: 0)
+        swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
         switchNavItems()    // Close editing
     }
     
@@ -227,7 +226,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(indexPath: IndexPath) {
-        PDSchedule.siteSchedule.delete(at: indexPath.row)
+        SiteSchedule.delete(at: indexPath.row)
         siteNames.remove(at: indexPath.row)
         siteTable.deleteRows(at: [indexPath], with: .fade)
         siteTable.reloadData()
@@ -249,18 +248,22 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setTitle() {
-        title = (PDDefaults.usingPatches()) ? PDStrings.VCTitles.patch_sites : PDStrings.VCTitles.injection_sites
+        typealias Titles = PDStrings.VCTitles
+        title = (Defaults.usingPatches()) ?
+            Titles.patch_sites :
+            Titles.injection_sites
         self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
     }
     
     private func reloadSiteNames() {
-        siteNames = PDSchedule.siteSchedule.getNames()
+        siteNames = SiteSchedule.getNames()
     }
     
     private func loadTabBarItemSize() {
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
-        self.navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
+        let fontSize = UIFont.systemFont(ofSize: size)
+        let font = [NSAttributedStringKey.font: fontSize]
+        self.navigationController?.tabBarItem.setTitleTextAttributes(font, for: .normal)
     }
-
 }
 
