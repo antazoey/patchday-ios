@@ -18,7 +18,7 @@ public struct PillStruct {
     var nextTakeDate: Date?
 }
 
-public class PDPDSharedDataController: NSObject {
+public class PDSharedDataController: NSObject {
     
     private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
     
