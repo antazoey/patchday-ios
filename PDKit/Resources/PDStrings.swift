@@ -246,8 +246,10 @@ public class PDStrings: NSObject {
         }
         
         public struct Bodies {
-            private static let expComment = "Notification telling you where and when to change your patch."
-            private static let notifyComment = "Notification telling you where and when to change your patch."
+            private static let expComment = "Notification telling you where and " +
+                                            "when to change your patch."
+            private static let notifyComment = "Notification telling you where and when " +
+                                                "to change your patch."
             private static let nextComment =
                 "The name of a site on the body follows this message in a notification. " +
                 "Don't worry about room."
@@ -356,8 +358,12 @@ public class PDStrings: NSObject {
     public struct DeliveryMethods {
         private static let comment =
             "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches."
-        public static var patches = { return NSLocalizedString("Patches", comment: comment) }()
-        public static var injections = { return NSLocalizedString("Injections", comment: comment) }()
+        public static var patches = {
+            return NSLocalizedString("Patches", comment: comment)
+        }()
+        public static var injections = {
+            return NSLocalizedString("Injections", comment: comment)
+        }()
     }
     
     // MARK: - Alerts (Localizable)
@@ -368,13 +374,17 @@ public class PDStrings: NSObject {
         public struct CoreDataAlert {
             private static let msg = "PatchDay's storage is not working. " +
                 "You may report the problem to support@patchdayhrt.com if you'd like."
-            public static var title = { return NSLocalizedString("Data Error", comment: titleComment) }()
-            public static var message = { return NSLocalizedString(msg, comment: messageComment) }()
+            public static var title = {
+                return NSLocalizedString("Data Error", comment: titleComment) }()
+            public static var message = { return NSLocalizedString(msg, comment: messageComment)
+            }()
         }
         
         public struct LoseDataAlert {
             private static let msg = "This action will result in a loss of data."
-            public static var title = { return NSLocalizedString("Warning", comment: titleComment) }()
+            public static var title = {
+                return NSLocalizedString("Warning", comment: titleComment)
+            }()
             public static var message = {
                 return NSLocalizedString(msg, comment: messageComment)
             }()
@@ -384,7 +394,8 @@ public class PDStrings: NSObject {
             private static let msg =
                 "To begin using PatchDay, tap the Edit button in the " +
                 "top right and setup your schedule.\n\nUse this tool responsibly, " +
-                "and please follow medication instructions!\n\nGo to www.PatchDayHRT.com to learn more."
+                "and please follow medication instructions!\n\nGo to www.PatchDayHRT.com " +
+                "to learn more."
             public static var title = {
                 return NSLocalizedString("Setup / Disclaimer", comment: titleComment)
             }()
@@ -398,7 +409,8 @@ public class PDStrings: NSObject {
         
         public struct AddSite {
             public static var title = {
-                return NSLocalizedString("Add new site name to sites list?", comment: titleComment)
+                return NSLocalizedString("Add new site name to sites list?",
+                                         comment: titleComment)
             }()
             public static var addActionTitle = {
                 return NSLocalizedString("Yes, add it!", comment: titleComment)
