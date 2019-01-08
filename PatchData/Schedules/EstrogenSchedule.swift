@@ -79,6 +79,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     /// Resets without changing the quantity
     override public func new() {
         estrogens = []
+        reset(from: 0)
+        quantity = usingPatches ? 3 : 1
         for _ in 0..<quantity {
             let mo = type.rawValue
             if let estro = PatchData.insert(mo) as? MOEstrogen {
@@ -142,38 +144,14 @@ public class EstrogenSchedule: PDScheduleProtocol {
         PatchData.save()
     }
     
-    /// Sets the date and the site of the MOEstrogen for the given index.
-    public func setEstrogen(of index: Index, date: NSDate, site: MOSite,
-                            setSharedData: (() -> ())?) {
-        let estro = getEstrogen(at: index)
-        estro?.setSite(with: site)
-        estro?.setDate(with: date)
-        sort()
-        if let todaySet = setSharedData {
-            todaySet()
-        }
-        PatchData.save()
-    }
-    
     /// Sets the date and the site of the MOEstrogen for the given id.
-    public func setEstrogen(for id: UUID, date: NSDate, site: MOSite,
+    public func setEstrogen(for id: UUID,
+                            date: NSDate,
+                            site: MOSite,
                             setSharedData: (() -> ())?) {
         if let estro = getEstrogen(for: id) {
             estro.setSite(with: site)
             estro.setDate(with: date)
-            sort()
-            if let todaySet = setSharedData {
-                todaySet()
-            }
-            PatchData.save()
-        }
-    }
-    
-    /// Sets the MOEstrogen for the given index.
-    public func setEstrogen(of index: Index, with estrogen: MOEstrogen,
-                            setSharedData: (() -> ())?) {
-        if index < count() && index >= 0 {
-            estrogens[index] = estrogen
             sort()
             if let todaySet = setSharedData {
                 todaySet()
@@ -214,21 +192,21 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     /// Returns if there are no dates in the estrogen schedule.
     public func hasNoDates() -> Bool {
-        return (estrogens.filter() {
+        return (estrogens.count == 0) || (estrogens.filter() {
             $0.getDate() != nil
         }).count == 0
     }
     
     /// Returns if there are no sites in the estrogen schedule.
     public func hasNoSites() -> Bool {
-        return (estrogens.filter() {
-            $0.getSite() != nil
+        return (estrogens.count == 0) || (estrogens.filter() {
+            $0.getSite() != nil || $0.getSiteNameBackUp() != nil
         }).count == 0
     }
     
     /// Returns if there are no dates or sites in the estrogen schedule.
     public func isEmpty() -> Bool {
-        return hasNoDates() && hasNoSites()
+        return estrogens.count == 0 || (hasNoDates() && hasNoSites())
     }
     
     /// Returns if each MOEstrogen fromThisIndexOnward is empty.
@@ -259,8 +237,11 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     /// Sets all MOEstrogen data between given indices to nil.
     public func reset(from start: Index) {
+        if quantity != estrogens.count {
+            quantity = estrogens.count
+        }
         switch(start) {
-        case 0..<min(quantity, estrogens.count) :
+        case 0..<quantity :
             let context = PatchData.getContext()
             for i in start..<quantity {
                 estrogens[i].reset()
@@ -276,7 +257,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
 
     /// Load estrogen Id map after changes occur to the schedule.
-    public func loadMap() {
+    private func loadMap() {
         estrogenMap = estrogens.reduce([UUID: MOEstrogen]()) {
             (estroDict, estro) -> [UUID: MOEstrogen] in
             var dict = estroDict
@@ -286,7 +267,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
                 let id = estro.setId()
                 dict[id] = estro
             }
-            
             return dict
         }
     }
@@ -301,8 +281,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
             }
             if let s = estro.getSite(), let n = s.getName() {
                 print(n)
-            }
-            else if let n = estro.getSiteNameBackUp() {
+            } else if let n = estro.getSiteNameBackUp() {
                 print(n)
             }
             print("---")

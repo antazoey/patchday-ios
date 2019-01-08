@@ -13,12 +13,13 @@ import PDKit
 class EstrogenScheduleTests: XCTestCase {
     
     var estrogenSchedule = EstrogenSchedule()
+    var siteSchedule = SiteSchedule()
     var defaults: PDDefaults!
 
     override func setUp() {
         super.setUp()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
-                              siteSchedule: SiteSchedule(),
+                              siteSchedule: siteSchedule,
                               state: PDState(),
                               alerter: nil)
         defaults.setDeliveryMethod(to: "Patches")
@@ -88,15 +89,13 @@ class EstrogenScheduleTests: XCTestCase {
     
     func testNew() {
         let estros_start = estrogenSchedule.estrogens
-        estrogenSchedule.new()
         let _ = estrogenSchedule.insert()
         // estros_middle has 1 extra
         let estros_middle = estrogenSchedule.estrogens
         XCTAssertNotEqual(estros_start, estros_middle)
-
         estrogenSchedule.new()
         let estros_end = estrogenSchedule.estrogens
-        XCTAssertNotEqual(estros_start.count, estros_end.count)
+        XCTAssertEqual(estros_start.count, estros_end.count)
     }
     
     func testDeleteAfterIndex() {
@@ -134,5 +133,203 @@ class EstrogenScheduleTests: XCTestCase {
         } else {
             XCTFail()
         }
+        let newId = UUID()
+        let actual = estrogenSchedule.getEstrogen(for: newId)
+        XCTAssertNil(actual)
+    }
+    
+    func testSetSite() {
+        var setterWasCalled = false
+        let mock: () -> () = { setterWasCalled = true }
+        if let site = siteSchedule.getSite(at: 3) {
+            estrogenSchedule.setSite(of: 0, with: site, setSharedData: mock)
+            let actual = estrogenSchedule.getEstrogen(at: 0)?.getSite()
+            XCTAssertEqual(actual, site)
+            XCTAssert(setterWasCalled)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testSetDate() {
+        var setterWasCalled = false
+        let mock: () -> () = { setterWasCalled = true }
+        let d = Date(timeIntervalSince1970: 234534624)
+        estrogenSchedule.setDate(of: 0, with: d, setSharedData: mock)
+        let actual = estrogenSchedule.getEstrogen(at: 0)?.getDate()
+        XCTAssertEqual(actual, d as NSDate)
+        XCTAssert(setterWasCalled)
+    }
+    
+    func testSetEstrogen() {
+        var setterWasCalled = false
+        let mock: () -> () = { setterWasCalled = true }
+        let d = Date(timeIntervalSince1970: 234534624) as NSDate
+        if let estro = estrogenSchedule.getEstrogen(at: 0),
+            let site = siteSchedule.getSite(at: 3),
+            let id = estro.getId() {
+            estrogenSchedule.setEstrogen(for: id,
+                                         date: d,
+                                         site: site,
+                                         setSharedData: mock)
+            XCTAssertEqual(estro.getDate(), d)
+            XCTAssertEqual(estro.getSite(), site)
+            XCTAssertEqual(estro.getId(), id)
+            XCTAssert(setterWasCalled)
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testSetBackupSiteName() {
+        if let site = siteSchedule.getSite(at: 0) {
+            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
+            let expected = site.getName()
+            siteSchedule.delete(at: 0)
+            var actual = estrogenSchedule.getEstrogen(at: 0)?.getSiteName()
+            XCTAssertEqual(actual, expected)
+            estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
+            actual = estrogenSchedule.getEstrogen(at: 0)?.getSiteName()
+            XCTAssertEqual(actual, "SITE NAME")
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testGetIndex() {
+        if let estro = estrogenSchedule.getEstrogen(at: 0) {
+            let actual = estrogenSchedule.getIndex(for: estro)
+            XCTAssertEqual(actual, 0)
+        } else {
+            XCTFail()
+        }
+        // TODO: Find a way to test an estrogen in another schedule
+        // Currently, estrogens are loaded from the same context,
+        // So multiple schedule is not really supported yet
+    }
+    
+    func testNextDue() {
+        let oldest = Date(timeIntervalSince1970: 0)
+        let middle = Date(timeIntervalSince1970: 100000)
+        let newest = Date(timeIntervalSince1970: 9999999)
+        estrogenSchedule.setDate(of: 0, with: middle, setSharedData: nil)
+        estrogenSchedule.setDate(of: 1, with: oldest, setSharedData: nil)
+        estrogenSchedule.setDate(of: 2, with: newest, setSharedData: nil)
+        let actual = estrogenSchedule.nextDue()?.getDate()
+        let expected = oldest as NSDate
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testDatePlacedCount() {
+        estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
+        estrogenSchedule.setDate(of: 1, with: Date(), setSharedData: nil)
+        var actual = estrogenSchedule.datePlacedCount()
+        var expected = 2
+        XCTAssertEqual(actual, expected)
+        estrogenSchedule.setDate(of: 2, with: Date(), setSharedData: nil)
+        actual = estrogenSchedule.datePlacedCount()
+        expected = 3
+        XCTAssertEqual(actual, expected)
+    }
+    
+    func testHasNoDates() {
+        XCTAssert(estrogenSchedule.hasNoDates())
+        estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
+        XCTAssertFalse(estrogenSchedule.hasNoDates())
+    }
+    
+    func testHasNoSites() {
+        XCTAssert(estrogenSchedule.hasNoSites())
+        if let site = siteSchedule.getSite(at: 0) {
+            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
+            XCTAssertFalse(estrogenSchedule.hasNoSites())
+        } else {
+            XCTFail()
+        }
+        estrogenSchedule.new()
+        XCTAssert(estrogenSchedule.estrogens.count > 0)
+        XCTAssert(estrogenSchedule.hasNoSites())
+        estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
+        XCTAssertFalse(estrogenSchedule.hasNoSites())
+    }
+    
+    func testIsEmpty() {
+        XCTAssert(estrogenSchedule.isEmpty())
+        estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
+        XCTAssertFalse(estrogenSchedule.isEmpty())
+        estrogenSchedule.new()
+        if let site = siteSchedule.getSite(at: 0) {
+            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
+            XCTAssertFalse(estrogenSchedule.isEmpty())
+        } else {
+            XCTFail()
+        }
+        estrogenSchedule.new()
+        if let site = siteSchedule.getSite(at: 0) {
+            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
+            estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
+            XCTAssertFalse(estrogenSchedule.isEmpty())
+        } else {
+            XCTFail()
+        }
+    }
+    
+    func testIsEmptyFromThisIndexOnward() {
+        XCTAssert(estrogenSchedule.isEmpty(fromThisIndexOnward: 0, lastIndex: 2))
+        estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
+        XCTAssertFalse(estrogenSchedule.isEmpty(fromThisIndexOnward: 0, lastIndex: 2))
+        XCTAssert(estrogenSchedule.isEmpty(fromThisIndexOnward: 1, lastIndex: 2))
+    }
+    
+    func testTotalDue() {
+        let intervals = PDStrings.PickerData.expirationIntervals
+        let oldDate = Date(timeIntervalSince1970: 0)
+        let now = Date()
+        let halfweek: TimeInterval = 302400
+        let week: TimeInterval = 2 * halfweek
+        let twoweeks: TimeInterval = 2 * week
+        estrogenSchedule.setDate(of: 0, with: oldDate, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue("ANY"), 1)
+        estrogenSchedule.setDate(of: 0, with: now, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue("ANY"), 0)
+        // Halfweek just past due
+        var d1 = Date(timeInterval: -halfweek-10, since: now)
+        estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue(intervals[0]), 1)
+        // Halfweek not quite due yet
+        d1 = Date(timeInterval: -halfweek+10, since: now)
+        estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue(intervals[0]), 0)
+        // Week just past due
+        d1 = Date(timeInterval: -week-10, since: now)
+        estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue(intervals[1]), 1)
+        // Week not quite due yet
+        d1 = Date(timeInterval: -week+10, since: now)
+        estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue(intervals[1]), 0)
+        // Two weeks just past due
+        d1 = Date(timeInterval: -twoweeks-10, since: now)
+        estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue(intervals[2]), 1)
+        // Two weeks not quite due yet
+        d1 = Date(timeInterval: -twoweeks+10, since: now)
+        estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
+        XCTAssertEqual(estrogenSchedule.totalDue(intervals[2]), 0)
+    }
+    
+    func testResetFrom() {
+        estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
+        estrogenSchedule.setDate(of: 1, with: Date(), setSharedData: nil)
+        estrogenSchedule.setDate(of: 2, with: Date(), setSharedData: nil)
+        XCTAssertFalse(estrogenSchedule.isEmpty())
+        estrogenSchedule.reset(from: 2)
+        var actual = estrogenSchedule.datePlacedCount()
+        var expected = 2
+        XCTAssertEqual(actual, expected)
+        estrogenSchedule.reset(from: 0)
+        actual = estrogenSchedule.datePlacedCount()
+        expected = 0
+        XCTAssertEqual(actual, expected)
     }
 }
