@@ -28,7 +28,7 @@ class EstrogenScheduleTests: XCTestCase {
         super.tearDown()
         estrogenSchedule.delete(after: -1)
     }
-    
+
     func testCount() {
         defaults.setDeliveryMethod(to: "Patches")
         XCTAssertEqual(estrogenSchedule.count(), 3)
@@ -127,10 +127,13 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testGetEstrogenForId() {
-        let id = estrogenSchedule.estrogens[0].getId()
-        let actual = estrogenSchedule.getEstrogen(for: id)
-        let expected = estrogenSchedule.estrogens[0]
-        print(actual)
-        XCTAssertEqual(actual, expected)
+        print("HERE")
+        if let id = estrogenSchedule.estrogens[0].getId() {
+            let actual = estrogenSchedule.getEstrogen(for: id)
+            let expected = estrogenSchedule.estrogens[0]
+            XCTAssertEqual(actual, expected)
+        } else {
+            XCTFail()
+        }
     }
 }

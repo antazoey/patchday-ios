@@ -33,8 +33,10 @@ extension MOEstrogen {
         self.date = date
     }
     
-    public func setId() {
-        self.id = UUID()
+    public func setId() -> UUID {
+        let id = UUID()
+        self.id = id
+        return id
     }
     
     public func setSiteBackup(to str: String) {
@@ -50,11 +52,8 @@ extension MOEstrogen {
         return self.date
     }
     
-    public func getId() -> UUID {
-        if self.id == nil {
-            setId()
-        }
-        return self.id!
+    public func getId() -> UUID? {
+        return self.id
     }
     
     public func getSiteNameBackUp() -> String? {

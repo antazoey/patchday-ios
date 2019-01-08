@@ -56,7 +56,8 @@ extension MOPill {
     public func setNotify(with newNotify: Bool) {
         notify = newNotify
     }
-    public func setId() {
+    
+    private func setId() {
         if id == nil {
             id = UUID()
         }

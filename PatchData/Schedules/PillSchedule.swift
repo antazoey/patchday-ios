@@ -117,7 +117,6 @@ public class PillSchedule: PDScheduleProtocol {
         if let lastTaken = attributes.lastTaken {
             pill.setLastTaken(with: lastTaken as NSDate)
         }
-        pill.setId()
         PatchData.save()
     }
     

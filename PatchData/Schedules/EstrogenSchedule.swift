@@ -35,7 +35,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
             new()
         }
         loadMap()
-        print(estrogenMap)
     }
 
     // MARK: - Base class overrides
@@ -48,10 +47,10 @@ public class EstrogenSchedule: PDScheduleProtocol {
     override public func insert(completion: (() -> ())? = nil) -> MOEstrogen? {
         if let estro = PatchData.insert(type.rawValue) as! MOEstrogen? {
             quantity += 1
+            let id = estro.setId()
             estrogens.append(estro)
-            estrogenMap[estro.getId()] = estro
+            estrogenMap[id] = estro
             sort()
-            estro.setId()
             return estro
         }
         return nil
@@ -82,7 +81,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
         for _ in 0..<quantity {
             let mo = type.rawValue
             if let estro = PatchData.insert(mo) as? MOEstrogen {
-                estro.setId()
                 estrogens.append(estro)
             } else {
                 PatchDataAlert.alertForCoreDataError()
@@ -268,6 +266,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
                 context.delete(estrogens[i])
             }
             estrogens = Array(estrogens.prefix(start))
+            estrogenMap.removeAll()
+            loadMap()
             quantity = start
             PatchData.save()
         default : return
@@ -279,7 +279,13 @@ public class EstrogenSchedule: PDScheduleProtocol {
         estrogenMap = estrogens.reduce([UUID: MOEstrogen]()) {
             (estroDict, estro) -> [UUID: MOEstrogen] in
             var dict = estroDict
-            dict[estro.getId()] = estro
+            if let id = estro.getId() {
+                dict[id] = estro
+            } else {
+                let id = estro.setId()
+                dict[id] = estro
+            }
+            
             return dict
         }
     }
