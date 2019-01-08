@@ -69,6 +69,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
         }
         quantity = (usingPatches) ? 3 : 1
         new()
+        loadMap()
         PatchData.save()
         if let comp = completion {
             comp()
