@@ -248,7 +248,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
                 context.delete(estrogens[i])
             }
             estrogens = Array(estrogens.prefix(start))
-            estrogenMap.removeAll()
             loadMap()
             quantity = start
             PatchData.save()
@@ -258,6 +257,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
 
     /// Load estrogen Id map after changes occur to the schedule.
     private func loadMap() {
+        estrogenMap.removeAll()
         estrogenMap = estrogens.reduce([UUID: MOEstrogen]()) {
             (estroDict, estro) -> [UUID: MOEstrogen] in
             var dict = estroDict

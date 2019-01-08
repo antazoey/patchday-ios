@@ -9,6 +9,7 @@
 
 import Foundation
 import CoreData
+import PDKit
 
 extension MOPill {
 
@@ -57,10 +58,10 @@ extension MOPill {
         notify = newNotify
     }
     
-    private func setId() {
-        if id == nil {
-            id = UUID()
-        }
+    public func setId() -> UUID {
+        let id = UUID()
+        self.id = id
+        return id
     }
     
     public func setLastTaken(with newTime: NSDate) {
@@ -99,11 +100,8 @@ extension MOPill {
         return timesTakenToday
     }
     
-    public func getId() -> UUID {
-        if id == nil {
-            self.setId()
-        }
-        return id!
+    public func getId() -> UUID? {
+        return id
     }
     
     /// Increments timesTakenToday and sets lastTaken to now.
@@ -175,5 +173,4 @@ extension MOPill {
         timesTakenToday = -1
         lastTaken = nil
     }
-
 }

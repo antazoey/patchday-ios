@@ -206,10 +206,16 @@ public class PillSchedule: PDScheduleProtocol {
 
     /// Load estrogen Id map after changes occur to the schedule.
     private func loadMap() {
+        pillMap.removeAll()
         pillMap = pills.reduce([UUID: MOPill]()) {
             (pillDict, pill) -> [UUID: MOPill] in
             var dict = pillDict
-            dict[pill.getId()] = pill
+            if let id = pill.getId() {
+                dict[id] = pill
+            } else {
+                let id = pill.setId()
+                dict[id] = pill
+            }
             return dict
         }
     }

@@ -27,8 +27,6 @@
 		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
-		B435181E20F5075100BD268C /* MOPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9320ED6F250048D466 /* MOPill.swift */; };
-		B435181F20F5075500BD268C /* MOPillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9420ED6F250048D466 /* MOPillMethods.swift */; };
 		B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
 		B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110921DD6EEC00C94B76 /* PatchDay.swift */; };
@@ -39,10 +37,6 @@
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
 		B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */; };
 		B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */; };
-		B458993F20F882AF00D36B06 /* MOSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993B20F8822700D36B06 /* MOSite.swift */; };
-		B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993C20F8822700D36B06 /* MOSiteMethods.swift */; };
-		B458994520F886FB00D36B06 /* MOEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOEstrogen.swift */; };
-		B458994620F886FE00D36B06 /* MOEstrogenMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */; };
 		B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */; };
 		B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63320CDA48400CF7B54 /* SitesVC.swift */; };
 		B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63520CF1D6000CF7B54 /* SiteVC.swift */; };
@@ -71,6 +65,12 @@
 		B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
+		B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9320ED6F250048D466 /* MOPill.swift */; };
+		B4C69F0B21E56CD7004EABC4 /* MOPillMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9420ED6F250048D466 /* MOPillMethods.swift */; };
+		B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993B20F8822700D36B06 /* MOSite.swift */; };
+		B4C69F0D21E56CD7004EABC4 /* MOSiteMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993C20F8822700D36B06 /* MOSiteMethods.swift */; };
+		B4C69F0E21E56CD7004EABC4 /* MOEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOEstrogen.swift */; };
+		B4C69F0F21E56CD7004EABC4 /* MOEstrogenMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */; };
 		B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -831,16 +831,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */,
 				B480EE4721CC7B5E002C2238 /* ScheduleState.swift in Sources */,
 				B480EE3E21CC75FE002C2238 /* EstrogenSchedule.swift in Sources */,
+				B4C69F0B21E56CD7004EABC4 /* MOPillMethods.swift in Sources */,
+				B4C69F0D21E56CD7004EABC4 /* MOSiteMethods.swift in Sources */,
+				B4C69F0F21E56CD7004EABC4 /* MOEstrogenMethods.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PDSchedule.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* PDDefaults.swift in Sources */,
+				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
 				B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */,
 				B405322521D4BACE00AF9CAD /* PillAttributes.swift in Sources */,
 				B40CC9C221CD802D002364BB /* PDSharedData.swift in Sources */,
 				B480EE4921CC7CC4002C2238 /* PatchDataAlert.swift in Sources */,
 				B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */,
 				B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */,
+				B4C69F0E21E56CD7004EABC4 /* MOEstrogen.swift in Sources */,
 				B405322721D5F8DA00AF9CAD /* PDScheduleProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -860,17 +866,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B458994520F886FB00D36B06 /* MOEstrogen.swift in Sources */,
 				B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				B49A4A5C20DB2D5A00F24FC0 /* PDPillHelper.swift in Sources */,
 				B49A4A5B20DB2D5A00F24FC0 /* PDDateHelper.swift in Sources */,
-				B458994620F886FE00D36B06 /* MOEstrogenMethods.swift in Sources */,
 				B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */,
-				B458993F20F882AF00D36B06 /* MOSite.swift in Sources */,
-				B435181E20F5075100BD268C /* MOPill.swift in Sources */,
-				B458994020F882B400D36B06 /* MOSiteMethods.swift in Sources */,
-				B435181F20F5075500BD268C /* MOPillMethods.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
