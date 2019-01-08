@@ -86,7 +86,8 @@ extension MOEstrogen {
     
     public func string() -> String {
         var estroString = getDatePlacedAsString()
-        if let site = getSite(), let siteName = site.getName() {
+        if let site = getSite(),
+            let siteName = site.getName() {
             estroString += ", " + siteName
         }
         return estroString
@@ -96,20 +97,22 @@ extension MOEstrogen {
         guard let dateAdded = date else {
             return PDStrings.PlaceholderStrings.unplaced
         }
-        return PDDateHelper.format(date: dateAdded as Date, useWords: true)
+        return PDDateHelper.format(date: dateAdded as Date,
+                                   useWords: true)
     }
     
     public func expirationDate(interval: String) -> Date? {
-        if let date = getDate(),
-            let expires = PDDateHelper.expirationDate(from: date as Date, interval) {
+        if let date = getDate() as Date?,
+            let expires = PDDateHelper.expirationDate(from: date, interval) {
             return expires
         }
         return nil
     }
     
-    public func expirationDateAsString(_ interval: String, useWords: Bool) -> String {
-        if let date = getDate(),
-            let expires = PDDateHelper.expirationDate(from: date as Date, interval) {
+    public func expirationDateAsString(_ interval: String,
+                                       useWords: Bool) -> String {
+        if let date = getDate() as Date?,
+            let expires = PDDateHelper.expirationDate(from: date, interval) {
             return PDDateHelper.format(date: expires, useWords: useWords)
         }
         return PDStrings.PlaceholderStrings.dotdotdot
@@ -118,9 +121,10 @@ extension MOEstrogen {
     // MARK: - Booleans
     
     public func isExpired(_ interval: String) -> Bool {
-        if let date = getDate(),
-            let intervalUntilExpiration = PDDateHelper.expirationInterval(interval, date: date as Date) {
-            return intervalUntilExpiration <= 0
+        if let date = getDate() as Date?,
+            let untilExp = PDDateHelper.expirationInterval(interval,
+                                                           date: date) {
+            return untilExp <= 0
         }
         return false
     }
@@ -130,7 +134,9 @@ extension MOEstrogen {
     }
     
     public func isEmpty() -> Bool {
-        return date == nil && siteRelationship == nil && siteNameBackUp == nil
+        return date == nil &&
+            siteRelationship == nil &&
+            siteNameBackUp == nil
     }
     
     /// Returns if the Estrogen is located somewhere not in the default PatchDay sites.
@@ -141,5 +147,4 @@ extension MOEstrogen {
             PDStrings.SiteNames.injectionSiteNames.contains(n)
         return contains
     }
-    
 }

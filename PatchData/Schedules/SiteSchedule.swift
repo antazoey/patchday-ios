@@ -15,11 +15,14 @@ public typealias SiteNameSet = Set<SiteName>
 public class SiteSchedule: PDScheduleProtocol {
     
     override public var description: String {
-        return "Schedule for maintaining sites for estrogen patches or injections."
+        return """
+               Schedule for maintaining sites
+               for estrogen patches or injections.
+               """
     }
     
     public var sites: [MOSite] = []
-    internal var next: Index = -1
+    internal var next: Index = 0
     internal var usingPatches: Bool = true
     
     init() {
@@ -83,7 +86,6 @@ public class SiteSchedule: PDScheduleProtocol {
             comp()
         }
     }
-    
     
     /// Generates a generic list of MOSites when there are none in store.
     override public func new() {
@@ -173,7 +175,11 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Returns the next site for scheduling in the site schedule.
     public func nextIndex(changeIndex: (Int) -> ()) -> Index? {
-        if sites.count <= 0 || next < 0 {
+        if (next < 0) {
+            changeIndex(0)
+            next = 0
+        }
+        if sites.count <= 0 {
             return nil
         }
         for i in 0..<sites.count {
@@ -190,8 +196,7 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
     // Suggested changeIndex function: Defaults.setSiteIndex
-    public func suggest(current: Index,
-                        changeIndex: (Int) -> ()) -> MOSite? {
+    public func suggest(changeIndex: (Int) -> ()) -> MOSite? {
         if let i = nextIndex(changeIndex: changeIndex) {
             return sites[i]
         }

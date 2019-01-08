@@ -88,8 +88,7 @@ public class PDSharedData: NSObject {
         let sched = siteSchedule
         if usingPatches {
             return estro.getSiteName()
-        } else if let suggestedSite = sched.suggest(current: current,
-                                                    changeIndex: chg),
+        } else if let suggestedSite = sched.suggest(changeIndex: chg),
             let name = suggestedSite.getName() {
             return name
         }

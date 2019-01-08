@@ -322,9 +322,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func autoPickSite() {
-        let current = Defaults.getSiteIndex()
-        if let suggestedSite = SiteSchedule.suggest(current: current,
-                                                    changeIndex: Defaults.setSiteIndex) {
+        let set = Defaults.setSiteIndex
+        if let suggestedSite = SiteSchedule.suggest(changeIndex: set) {
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
             if let suggestedSiteName = suggestedSite.getName() {

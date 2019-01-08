@@ -74,17 +74,15 @@ class SiteScheduleTests: XCTestCase {
         siteSchedule.new()
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
-
-    func testSetName() {
-        siteSchedule.setName(at: 0, to: "TEST SITE")
-        if let actual = siteSchedule.sites[0].getName() {
-            let expected = "TEST SITE"
-            XCTAssertEqual(actual, expected)
-        } else {
-            XCTFail()
-        }
-    }
     
+    func testFilterEmptySites() {
+        let before = siteSchedule.count()
+        siteSchedule.setName(at: 0, to: "")
+        siteSchedule.filterEmpty()
+        let after = siteSchedule.count()
+        XCTAssertEqual(after, before - 1)
+    }
+
     func testSitesAreSorted() {
         XCTAssertEqual(siteSchedule.sites[0].getOrder(), 0)
         XCTAssertEqual(siteSchedule.sites[1].getOrder(), 1)
@@ -113,26 +111,14 @@ class SiteScheduleTests: XCTestCase {
         }
     }
 
-    func testNextSiteIndex() {
-        let setter = defaults.setSiteIndex
-        // Finds next index even if current is incorrect
-        siteSchedule.next = 0
-        var actual = siteSchedule.nextIndex(changeIndex: setter)
-        XCTAssertEqual(actual, 3)
-        // Finds next index even if current index is way off
-        siteSchedule.next = 100
-        actual = siteSchedule.nextIndex(changeIndex: setter)
-        XCTAssertEqual(actual, 3)
-        // Returns same index when all sites are filled
-        estrogenSchedule.setSite(of: 3,
-                                 with: siteSchedule.getSite(at: 3)!,
-                                 setSharedData: nil)
-        actual = siteSchedule.nextIndex(changeIndex: setter)
-        XCTAssertEqual(actual, 3)
-        siteSchedule.next = -1
-        // Returns nil when current is < 0
-        actual = siteSchedule.nextIndex(changeIndex: setter)
-        XCTAssertNil(actual)
+    func testSetName() {
+        siteSchedule.setName(at: 0, to: "TEST SITE")
+        if let actual = siteSchedule.sites[0].getName() {
+            let expected = "TEST SITE"
+            XCTAssertEqual(actual, expected)
+        } else {
+            XCTFail()
+        }
     }
     
     func testSetOrder() {
@@ -151,7 +137,7 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(oldname_at0, newname_at0)
     }
     
-    func testSetSiteImageID() {
+    func testSetImageID() {
         // Fails to set image id when it is not a default Site Name
         let curr_id = siteSchedule.sites[0].getImageIdentifer()
         siteSchedule.setImageID(at: 0, to: "BAD ID", usingPatches: true)
@@ -179,6 +165,46 @@ class SiteScheduleTests: XCTestCase {
         } else {
             XCTFail()
         }
+    }
+
+    func testNextIndex() {
+        let setter = defaults.setSiteIndex
+        // Finds next index even if current is incorrect
+        siteSchedule.next = 0
+        var actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertEqual(actual, 3)
+        // Finds next index even if current index is way off
+        siteSchedule.next = 100
+        actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertEqual(actual, 3)
+        // Returns same index when all sites are filled
+        estrogenSchedule.setSite(of: 3,
+                                 with: siteSchedule.getSite(at: 3)!,
+                                 setSharedData: nil)
+        actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertEqual(actual, 3)
+        siteSchedule.next = -1
+        actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertEqual(actual, 0)
+        estrogenSchedule.reset(completion: nil)
+        estrogenSchedule.setSite(of: 0,
+                                 with: siteSchedule.getSite(at: 0)!,
+                                 setSharedData: nil)
+        actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertEqual(actual, 1)
+        // returns nil when there are no sites
+        for _ in 0..<siteSchedule.count() {
+            siteSchedule.delete(at: 0)
+        }
+        actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertNil(actual)
+    }
+    
+    func testSuggest() {
+        let set = defaults.setSiteIndex
+        let actual = siteSchedule.suggest(changeIndex: set)
+        let expected = siteSchedule.getSite(at: 3)!
+        XCTAssertEqual(actual, expected)
     }
     
     func testDeleteSite() {
@@ -230,14 +256,6 @@ class SiteScheduleTests: XCTestCase {
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
         // Injections fail when tested against patches
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
-    }
-    
-    func testFilterEmptySites() {
-        let before = siteSchedule.count()
-        siteSchedule.setName(at: 0, to: "")
-        siteSchedule.filterEmpty()
-        let after = siteSchedule.count()
-        XCTAssertEqual(after, before - 1)
     }
     
     func testAppendSite() {

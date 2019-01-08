@@ -15,7 +15,10 @@ public typealias Index = Int;
 public class EstrogenSchedule: PDScheduleProtocol {
     
     override public var description: String {
-        return "Singleton for reading, writing, and querying the MOEstrogen array."
+        return """
+               Schedule for reading, writing,
+               and querying the MOEstrogen array.
+               """
     }
     
     public var estrogens: [MOEstrogen] = []
@@ -76,7 +79,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     override public func new() {
         estrogens = []
         for _ in 0..<quantity {
-            if let estro = PatchData.insert(type.rawValue) as? MOEstrogen {
+            let mo = type.rawValue
+            if let estro = PatchData.insert(mo) as? MOEstrogen {
                 estro.setID()
                 estrogens.append(estro)
             } else {
@@ -105,7 +109,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
         }
     }
     
-    /// Returns the MOEstrogen for the given index or creates one where one should be.
+    /// Returns the MOEstrogen for the given index
+    // or creates one where one should be.
     public func getEstrogen(at index: Index, insertOnFail: Bool = true) -> MOEstrogen? {
         if index >= 0, index < count() {
             return estrogens[index]
@@ -121,7 +126,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Sets the site of the MOEstrogen for the given index.
-    public func setSite(of index: Index, with site: MOSite, setSharedData: (() -> ())?) {
+    public func setSite(of index: Index, with site: MOSite,
+                        setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
         estro?.setSite(with: site)
         // TODO
@@ -133,7 +139,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    public func setDate(of index: Index, with date: Date, setSharedData: (() -> ())?) {
+    public func setDate(of index: Index, with date: Date,
+                        setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
         estro?.setDate(with: date as NSDate)
         sort()
@@ -208,7 +215,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public func datePlacedCount() -> Int {
         return estrogens.reduce(0, {
             count, estro in
-            let c = (estro.date != nil) ? 1 : 0
+            let c = (estro.getDate() != nil) ? 1 : 0
             return c + count
         })
     }
@@ -233,7 +240,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Returns if each MOEstrogen fromThisIndexOnward is empty.
-    public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
+    public func isEmpty(fromThisIndexOnward: Index,
+                        lastIndex: Index) -> Bool {
         let c = count()
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
@@ -259,17 +267,18 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     /// Sets all MOEstrogen data between given indices to nil.
     public func reset(from start: Index) {
-        if start >= quantity || start < 0 || start >= estrogens.count {
-            return
+        switch(start) {
+        case 0..<min(quantity, estrogens.count) :
+            let context = PatchData.getContext()
+            for i in start..<quantity {
+                estrogens[i].reset()
+                context.delete(estrogens[i])
+            }
+            estrogens = Array(estrogens.prefix(start))
+            quantity = start
+            PatchData.save()
+        default : return
         }
-        let context = PatchData.getContext()
-        for i in start..<quantity {
-            estrogens[i].reset()
-            context.delete(estrogens[i])
-        }
-        estrogens = Array(estrogens.prefix(start))
-        quantity = start
-        PatchData.save()
     }
 
     /// Load estrogen ID map after changes occur to the schedule.
@@ -287,7 +296,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
         for estro in estrogens {
             print("Estrogen")
             if let d = estro.getDate() {
-                print(PDDateHelper.format(date: d as Date, useWords: true))
+                print(PDDateHelper.format(date: d as Date,
+                                          useWords: true))
             }
             if let s = estro.getSite(), let n = s.getName() {
                 print(n)

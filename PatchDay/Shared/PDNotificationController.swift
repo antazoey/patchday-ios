@@ -41,12 +41,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Handles responses received from interacting with notifications.
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let current = Defaults.getSiteIndex()
-        
+        let set = Defaults.setSiteIndex
         if response.actionIdentifier == estroActionID,
             let id = UUID(uuidString: response.notification.request.identifier),
-            let suggestedsite = SiteSchedule.suggest(current: current,
-                                                     changeIndex: Defaults.setSiteIndex) {
+            let suggestedsite = SiteSchedule.suggest(changeIndex: set) {
             let now = Date() as NSDate
             let setter = Schedule.setEstrogenDataForToday
             EstrogenSchedule.setEstrogen(for: id, date: now,
@@ -158,9 +156,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     private func suggestSiteMessage(introMsg: String) -> String? {
-        let current = Defaults.getSiteIndex()
-        if let suggestedSite = SiteSchedule.suggest(current: current,
-                                                    changeIndex: Defaults.setSiteIndex),
+        let set = Defaults.setSiteIndex
+        if let suggestedSite = SiteSchedule.suggest(changeIndex: set),
             let siteName = suggestedSite.getName() {
             return "\n" + introMsg + siteName
         }

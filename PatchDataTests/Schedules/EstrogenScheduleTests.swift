@@ -46,7 +46,7 @@ class EstrogenScheduleTests: XCTestCase {
     
     func testSort() {
         if let newEstro = estrogenSchedule.getEstrogen(at: 0) {
-            XCTAssertNil(newEstro.date)
+            XCTAssertNil(newEstro.getDate())
         }
         estrogenSchedule.delete(after: -1)
         let youngestDate = Date(timeIntervalSince1970: 7000000) as NSDate
@@ -67,7 +67,7 @@ class EstrogenScheduleTests: XCTestCase {
             estro1.setDate(with: youngestDate)
             estrogenSchedule.sort()
             if let estro4 = estrogenSchedule.getEstrogen(at: 0) {
-                XCTAssertEqual(estro4.date, middleDate)
+                XCTAssertEqual(estro4.getDate(), middleDate)
             } else {
                 XCTFail()
             }
