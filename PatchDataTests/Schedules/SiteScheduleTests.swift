@@ -211,6 +211,39 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(actual, expected)
     }
     
+    func testGetNames() {
+        XCTAssertEqual(siteSchedule.getNames(),
+                       PDStrings.SiteNames.patchSiteNames)
+    }
+    
+    func testGetImageIDs() {
+        XCTAssertEqual(siteSchedule.getImageIDs(),
+                       PDStrings.SiteNames.patchSiteNames)
+    }
+    
+    func testNameSetUnionDefaultSites() {
+        siteSchedule.setName(at: 0, to: "SITE NAME")
+        var sites = PDStrings.SiteNames.patchSiteNames
+        sites.append("SITE NAME")
+        XCTAssertEqual(siteSchedule.unionDefault(usingPatches: true),
+                       Set(sites))
+    }
+    
+    func testIsDefault() {
+        XCTAssert(siteSchedule.isDefault(usingPatches: true))
+        // Patches fail when tested against injections
+        XCTAssertFalse(siteSchedule.isDefault(usingPatches: false))
+        // Fails when add a custom site
+        siteSchedule.setName(at: 0, to: "SITE NAME")
+        XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
+        defaults.setDeliveryMethod(to: "Injections")
+        siteSchedule.reset()
+        // Injection defaults pass
+        XCTAssert(siteSchedule.isDefault(usingPatches: false))
+        // Injections fail when tested against patches
+        XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
+    }
+    
     func testDeleteSite() {
         var old_count = siteSchedule.count();
         let old_site = siteSchedule.sites[0]
@@ -228,38 +261,6 @@ class SiteScheduleTests: XCTestCase {
         old_count = siteSchedule.count()
         siteSchedule.delete(at: 100)
         XCTAssertEqual(old_count, siteSchedule.count())
-    }
-    
-    func testGetSiteName() {
-        XCTAssertEqual(siteSchedule.getNames(),
-                       PDStrings.SiteNames.patchSiteNames)
-    }
-    
-    func testGetSiteImageIDs() {
-        XCTAssertEqual(siteSchedule.getImageIDs(),
-                       PDStrings.SiteNames.patchSiteNames)
-    }
-    
-    func testSiteNameSetUnionDefaultSites() {
-        siteSchedule.setName(at: 0, to: "SITE NAME")
-        var sites = PDStrings.SiteNames.patchSiteNames
-        sites.append("SITE NAME")
-        XCTAssertEqual(siteSchedule.unionDefault(usingPatches: true), Set(sites))
-    }
-    
-    func testIsDefault() {
-        XCTAssert(siteSchedule.isDefault(usingPatches: true))
-        // Patches fail when tested against injections
-        XCTAssertFalse(siteSchedule.isDefault(usingPatches: false))
-        // Fails when add a custom site
-        siteSchedule.setName(at: 0, to: "SITE NAME")
-        XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
-        defaults.setDeliveryMethod(to: "Injections")
-        siteSchedule.reset()
-        // Injection defaults pass
-        XCTAssert(siteSchedule.isDefault(usingPatches: false))
-        // Injections fail when tested against patches
-        XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
     }
     
     func testAppendSite() {
