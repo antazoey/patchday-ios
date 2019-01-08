@@ -90,10 +90,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     // MARK: - Public
-    
-    public func getEstrogens() -> [MOEstrogen] {
-        return estrogens
-    }
 
     public func delete(after i: Index) {
         let end = count()

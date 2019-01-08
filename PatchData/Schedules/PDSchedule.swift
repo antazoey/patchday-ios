@@ -53,7 +53,7 @@ public class PDSchedule: NSObject {
 
     /// Returns array of current occupied SiteNames
     public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
-        return estrogenSchedule.getEstrogens().map({
+        return estrogenSchedule.estrogens.map({
             (estro: MOEstrogen) -> SiteName in
             if let site = estro.getSite(), let name = site.getName() {
                 return name
@@ -74,7 +74,7 @@ public class PDSchedule: NSObject {
     /// Returns array of occupied site indices.
     public func getOccupiedSiteIndices() -> [Index] {
         var indices: [Index] = []
-        for estro in estrogenSchedule.getEstrogens() {
+        for estro in estrogenSchedule.estrogens {
             if let site = estro.getSite(),
                 let index = siteSchedule.sites.index(of: site) {
                 indices.append(index)
