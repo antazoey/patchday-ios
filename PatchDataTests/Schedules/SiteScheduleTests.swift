@@ -202,8 +202,12 @@ class SiteScheduleTests: XCTestCase {
     
     func testSuggest() {
         let set = defaults.setSiteIndex
-        let actual = siteSchedule.suggest(changeIndex: set)
-        let expected = siteSchedule.getSite(at: 3)!
+        var actual = siteSchedule.suggest(changeIndex: set)
+        var expected = siteSchedule.getSite(at: 3)!
+        XCTAssertEqual(actual, expected)
+        estrogenSchedule.setSite(of: 0, with: expected, setSharedData: nil)
+        actual = siteSchedule.suggest(changeIndex: set)
+        expected = siteSchedule.getSite(at: 0)!
         XCTAssertEqual(actual, expected)
     }
     
