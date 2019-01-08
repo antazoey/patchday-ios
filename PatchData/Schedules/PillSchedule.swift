@@ -152,8 +152,6 @@ public class PillSchedule: PDScheduleProtocol {
             if let setToday = setPDSharedData {
                 setToday()
             }
-            // TODO
-            //PDSharedData.setPillDataForToday()
         }
     }
     

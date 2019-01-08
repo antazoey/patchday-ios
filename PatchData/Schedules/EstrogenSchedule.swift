@@ -106,14 +106,12 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Returns the MOEstrogen for the given index
-    // or creates one where one should be.
-    public func getEstrogen(at index: Index, insertOnFail: Bool = true) -> MOEstrogen? {
-        if index >= 0, index < count() {
-            return estrogens[index]
-        } else if insertOnFail {
-            return insert(completion: nil)
+    public func getEstrogen(at index: Index) -> MOEstrogen? {
+        switch (index) {
+            case 0..<count() :
+                return estrogens[index]
+        default : return nil
         }
-        return nil
     }
 
     /// Returns the MOEstrogen for the given id.
@@ -126,8 +124,6 @@ public class EstrogenSchedule: PDScheduleProtocol {
                         setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
         estro?.setSite(with: site)
-        // TODO
-        //PDSharedData.setEstrogenDataForToday()
         if let todaySet = setSharedData {
             todaySet()
         }

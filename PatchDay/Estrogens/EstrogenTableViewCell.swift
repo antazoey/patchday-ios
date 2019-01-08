@@ -99,7 +99,7 @@ class EstrogenTableViewCell: UITableViewCell {
     private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil) {
         var isNew = false
         let schedule = Schedule.estrogenSchedule
-        let estrogenOptional = schedule.getEstrogen(at: index, insertOnFail: false)
+        let estrogenOptional = schedule.getEstrogen(at: index)
         if let img = newImage, PDImages.isAdd(img) {
             isNew = PDImages.isAdd(img)
         }

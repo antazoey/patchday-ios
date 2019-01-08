@@ -117,4 +117,19 @@ class EstrogenScheduleTests: XCTestCase {
         estrogenSchedule.delete(after: -1)
         XCTAssertEqual(estrogenSchedule.count(), 0)
     }
+    
+    func testGetEstrogenAtIndex() {
+        var actual = estrogenSchedule.getEstrogen(at: 0)
+        let expected = estrogenSchedule.estrogens[0]
+        XCTAssertEqual(actual, expected)
+        actual = estrogenSchedule.getEstrogen(at: -1)
+        XCTAssertNil(actual)
+    }
+    
+    func testGetEstrogenForId() {
+        let id = estrogenSchedule.estrogens[0].getID()
+        let actual = estrogenSchedule.getEstrogen(for: id)
+        let expected = estrogenSchedule.estrogens[0]
+        XCTAssertEqual(actual, expected)
+    }
 }
