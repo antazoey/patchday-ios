@@ -137,10 +137,10 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(oldname_at0, newname_at0)
     }
     
-    func testSetImageID() {
+    func testSetImageId() {
         // Fails to set image id when it is not a default Site Name
         let curr_id = siteSchedule.sites[0].getImageIdentifer()
-        siteSchedule.setImageID(at: 0, to: "BAD ID", usingPatches: true)
+        siteSchedule.setImageId(at: 0, to: "BAD Id", usingPatches: true)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = curr_id
             XCTAssertEqual(actual, expected)
@@ -149,7 +149,7 @@ class SiteScheduleTests: XCTestCase {
         }
         // Successfully sets id when it is default patch Site Name
         var good_id = PDStrings.SiteNames.patchSiteNames[0]
-        siteSchedule.setImageID(at: 0, to: good_id, usingPatches: true)
+        siteSchedule.setImageId(at: 0, to: good_id, usingPatches: true)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = good_id
             XCTAssertEqual(actual, expected)
@@ -158,7 +158,7 @@ class SiteScheduleTests: XCTestCase {
         }
         // Successfully sets id when it is default injection Site Name
         good_id = PDStrings.SiteNames.injectionSiteNames[0]
-        siteSchedule.setImageID(at: 0, to: good_id, usingPatches: false)
+        siteSchedule.setImageId(at: 0, to: good_id, usingPatches: false)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = good_id
             XCTAssertEqual(actual, expected)
@@ -216,8 +216,8 @@ class SiteScheduleTests: XCTestCase {
                        PDStrings.SiteNames.patchSiteNames)
     }
     
-    func testGetImageIDs() {
-        XCTAssertEqual(siteSchedule.getImageIDs(),
+    func testGetImageIds() {
+        XCTAssertEqual(siteSchedule.getImageIds(),
                        PDStrings.SiteNames.patchSiteNames)
     }
     

@@ -33,7 +33,7 @@ extension MOEstrogen {
         self.date = date
     }
     
-    public func setID() {
+    public func setId() {
         self.id = UUID()
     }
     
@@ -50,9 +50,9 @@ extension MOEstrogen {
         return self.date
     }
     
-    public func getID() -> UUID {
+    public func getId() -> UUID {
         if self.id == nil {
-            setID()
+            setId()
         }
         return self.id!
     }

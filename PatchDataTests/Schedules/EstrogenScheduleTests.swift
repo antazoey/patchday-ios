@@ -127,9 +127,10 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testGetEstrogenForId() {
-        let id = estrogenSchedule.estrogens[0].getID()
+        let id = estrogenSchedule.estrogens[0].getId()
         let actual = estrogenSchedule.getEstrogen(for: id)
         let expected = estrogenSchedule.estrogens[0]
+        print(actual)
         XCTAssertEqual(actual, expected)
     }
 }

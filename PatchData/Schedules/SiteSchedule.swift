@@ -162,13 +162,13 @@ public class SiteSchedule: PDScheduleProtocol {
         }
     }
     
-    /// Sets the site image ID for the site at the given index.
-    public func setImageID(at index: Index, to newID: String, usingPatches: Bool) {
+    /// Sets the site image Id for the site at the given index.
+    public func setImageId(at index: Index, to newId: String, usingPatches: Bool) {
         let site_set = usingPatches ?
             PDStrings.SiteNames.patchSiteNames :
             PDStrings.SiteNames.injectionSiteNames
-        if site_set.contains(newID), index >= 0 && index < sites.count {
-            sites[index].setImageIdentifier(to: newID)
+        if site_set.contains(newId), index >= 0 && index < sites.count {
+            sites[index].setImageIdentifier(to: newId)
             PatchData.save()
         }
     }
@@ -211,8 +211,8 @@ public class SiteSchedule: PDScheduleProtocol {
         }).filter() { $0 != nil } as! [SiteName]
     }
     
-    /// Returns array of image IDs from array of MOSites.
-    public func getImageIDs() -> [String] {
+    /// Returns array of image Ids from array of MOSites.
+    public func getImageIds() -> [String] {
         return sites.map({
             (site: MOSite) -> String? in
             return site.getImageIdentifer()

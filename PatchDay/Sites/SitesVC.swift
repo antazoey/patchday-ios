@@ -22,7 +22,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return UIFont.systemFont(ofSize: 39)
     }()
     public var siteNames: [String] = SiteSchedule.getNames()
-    public var siteImgIDs: [String] = SiteSchedule.getImageIDs()
+    public var siteImgIds: [String] = SiteSchedule.getImageIds()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +85,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let siteCell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseID") as! SiteTableViewCell
+        let siteCell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseId") as! SiteTableViewCell
         siteCell.configure(at: indexPath.row, name: siteNames[indexPath.row], siteCount: siteNames.count, isEditing: siteTable.isEditing)
         return siteCell
     }

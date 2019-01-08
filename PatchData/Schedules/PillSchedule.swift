@@ -82,7 +82,7 @@ public class PillSchedule: PDScheduleProtocol {
         return nil
     }
     
-    /// Returns the MOPill for the given ID.
+    /// Returns the MOPill for the given Id.
     public func getPill(for id: UUID) -> MOPill? {
         return pillMap[id]
     }
@@ -117,7 +117,7 @@ public class PillSchedule: PDScheduleProtocol {
         if let lastTaken = attributes.lastTaken {
             pill.setLastTaken(with: lastTaken as NSDate)
         }
-        pill.setID()
+        pill.setId()
         PatchData.save()
     }
     
@@ -205,12 +205,12 @@ public class PillSchedule: PDScheduleProtocol {
         return nil
     }
 
-    /// Load estrogen ID map after changes occur to the schedule.
+    /// Load estrogen Id map after changes occur to the schedule.
     private func loadMap() {
         pillMap = pills.reduce([UUID: MOPill]()) {
             (pillDict, pill) -> [UUID: MOPill] in
             var dict = pillDict
-            dict[pill.getID()] = pill
+            dict[pill.getId()] = pill
             return dict
         }
     }

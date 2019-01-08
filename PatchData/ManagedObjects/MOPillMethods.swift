@@ -56,7 +56,7 @@ extension MOPill {
     public func setNotify(with newNotify: Bool) {
         notify = newNotify
     }
-    public func setID() {
+    public func setId() {
         if id == nil {
             id = UUID()
         }
@@ -98,9 +98,9 @@ extension MOPill {
         return timesTakenToday
     }
     
-    public func getID() -> UUID {
+    public func getId() -> UUID {
         if id == nil {
-            self.setID()
+            self.setId()
         }
         return id!
     }

@@ -22,10 +22,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     internal var currentPillIndex = 0
     internal var sendingNotifications = true
     
-    private var estroActionID = { return "estroActionID" }()
-    private var takeActionID = { return "takeActionID" }()
-    private var estroCategoryID = { return "estroCategoryID" }()
-    private var pillCategoryID = { return "pillCategoryID" }()
+    private var estroActionId = { return "estroActionId" }()
+    private var takeActionId = { return "takeActionId" }()
+    private var estroCategoryId = { return "estroCategoryId" }()
+    private var pillCategoryId = { return "pillCategoryId" }()
     
     override init() {
         super.init()
@@ -42,7 +42,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Handles responses received from interacting with notifications.
     internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         let set = Defaults.setSiteIndex
-        if response.actionIdentifier == estroActionID,
+        if response.actionIdentifier == estroActionId,
             let id = UUID(uuidString: response.notification.request.identifier),
             let suggestedsite = SiteSchedule.suggest(changeIndex: set) {
             let now = Date() as NSDate
@@ -51,7 +51,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                                          site: suggestedsite,
                                          setSharedData: setter)
             UIApplication.shared.applicationIconBadgeNumber -= 1
-        } else if response.actionIdentifier == takeActionID,
+        } else if response.actionIdentifier == takeActionId,
             let uuid = UUID(uuidString: response.notification.request.identifier),
             let pill = PillSchedule.getPill(for: uuid) {
             PillSchedule.take(pill, setPDSharedData: PDSharedData.setPillDataForToday)
@@ -85,7 +85,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Cancels the notification at the given index.
     internal func cancelEstrogenNotification(at index: Index) {
         if let estro = EstrogenSchedule.getEstrogen(at: index) {
-            let id = estro.getID().uuidString
+            let id = estro.getId().uuidString
             let center = UNUserNotificationCenter.current()
             center.removePendingNotificationRequests(withIdentifiers: [id])
         }
@@ -96,7 +96,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         var ids: [String] = []
         for i in startIndex...endIndex {
             if let estro = EstrogenSchedule.getEstrogen(at: i) {
-                ids.append(estro.getID().uuidString)
+                ids.append(estro.getId().uuidString)
             }
         }
         if ids.count > 0 {
@@ -113,7 +113,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels a pill notification.
     internal func cancelPill(_ pill: MOPill) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [pill.getID().uuidString])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [pill.getId().uuidString])
     }
 
     // MARK: - notifications
@@ -180,12 +180,12 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.body = determineEstrogenNotificationBody(for: estro, interval: interval)
             content.sound = UNNotificationSound.default()
             content.badge = Schedule.totalDue(interval: interval) + 1 as NSNumber
-            content.categoryIdentifier = estroCategoryID
+            content.categoryIdentifier = estroCategoryId
             
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
             if timeIntervalUntilExpire > 0 {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire, repeats: false)
-                let request = UNNotificationRequest(identifier: estro.getID().uuidString, content: content, trigger: trigger)
+                let request = UNNotificationRequest(identifier: estro.getId().uuidString, content: content, trigger: trigger)
                 center.add(request) {
                     (error : Error?) in
                     if error != nil {
@@ -235,10 +235,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             }
             content.sound = UNNotificationSound.default()
             content.badge = totalDue + 1 as NSNumber
-            content.categoryIdentifier = pillCategoryID
+            content.categoryIdentifier = pillCategoryId
             let interval = dueDate.timeIntervalSince(now)
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-            let request = UNNotificationRequest(identifier: pill.getID().uuidString, content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: pill.getId().uuidString, content: content, trigger: trigger)
             center.add(request) { (error : Error?) in
                 if error != nil {
                     print("Unable to Add Notification Request (\(String(describing: error)), \(String(describing: error?.localizedDescription)))")
@@ -251,18 +251,18 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Create action for changing Estrogen from the notification.
     private func makeChangeAction() -> UNNotificationAction {
-        return UNNotificationAction(identifier: estroActionID, title: PDStrings.NotificationStrings.actionMessages.autofill, options: [])
+        return UNNotificationAction(identifier: estroActionId, title: PDStrings.NotificationStrings.actionMessages.autofill, options: [])
     }
     
     /// Create the category for Estrogen notifications.
     private func makeEstrogenCategory() -> UNNotificationCategory {
         let changeAction = makeChangeAction()
-        return UNNotificationCategory(identifier: estroCategoryID, actions: [changeAction], intentIdentifiers: [], options: [])
+        return UNNotificationCategory(identifier: estroCategoryId, actions: [changeAction], intentIdentifiers: [], options: [])
     }
     
     /// Create the action for taking a pill from the notification.
     private func makeTakeAction() -> UNNotificationAction {
-        return UNNotificationAction(identifier: takeActionID,
+        return UNNotificationAction(identifier: takeActionId,
                                     title: PDStrings.ActionStrings.take,
                                     options: [])
     }
@@ -270,7 +270,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Create the category for Pill notifications.
     private func makeTakePillCategory() -> UNNotificationCategory {
         let takeAction = makeTakeAction()
-        return UNNotificationCategory(identifier: pillCategoryID,
+        return UNNotificationCategory(identifier: pillCategoryId,
                                       actions: [takeAction],
                                       intentIdentifiers: [],
                                       options: [])

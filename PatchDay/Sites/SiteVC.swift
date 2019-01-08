@@ -82,7 +82,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        SiteSchedule.setImageID(at: siteScheduleIndex,
+        SiteSchedule.setImageId(at: siteScheduleIndex,
                                 to: imageKey,
                                 usingPatches: usingPatches)
     }
@@ -217,8 +217,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
             } else if let site = SiteSchedule.getSite(at: siteScheduleIndex),
-                let imgID = site.getImageIdentifer(),
-                let i = sitesWithImages.index(of: imgID) {
+                let imgId = site.getImageIdentifer(),
+                let i = sitesWithImages.index(of: imgId) {
                 // Set as default image
                 image = (usingPatches) ?
                     PDImages.siteNameToPatchImage(sitesWithImages[i]) :

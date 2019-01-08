@@ -47,7 +47,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         typealias Cell = PillTableViewCell
-        let id = "pillCellReuseID"
+        let id = "pillCellReuseId"
         let table = pillTable
         let cell = table?.dequeueReusableCell(withIdentifier: id) as! Cell
         let i = indexPath.row
@@ -81,9 +81,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBAction func takeButtonTapped(_ sender: Any) {
         let takeButton = sender as! UIButton
-        // Acquire Pill ID from cell's takeButton.
-        if let restoreID = takeButton.restorationIdentifier {
-            let pillIndexStr = String(restoreID.suffix(1))
+        // Acquire Pill Id from cell's takeButton.
+        if let restoreId = takeButton.restorationIdentifier {
+            let pillIndexStr = String(restoreId.suffix(1))
             if let pillIndex = Int(pillIndexStr) {
                 PillSchedule.takePill(at: pillIndex,
                                       setPDSharedData: PDSharedData.setPillDataForToday)
