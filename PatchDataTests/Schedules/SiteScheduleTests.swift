@@ -221,7 +221,7 @@ class SiteScheduleTests: XCTestCase {
                        PDStrings.SiteNames.patchSiteNames)
     }
     
-    func testNameSetUnionDefaultSites() {
+    func testUnionDefault() {
         siteSchedule.setName(at: 0, to: "SITE NAME")
         var sites = PDStrings.SiteNames.patchSiteNames
         sites.append("SITE NAME")
