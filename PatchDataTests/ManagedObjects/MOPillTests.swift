@@ -21,6 +21,7 @@ class MOPillTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        pillSchedule.reset()
     }
     
     func testLT() {
@@ -72,6 +73,64 @@ class MOPillTests: XCTestCase {
         p2?.setTime1(with: t1)
         p2?.setTimesTakenToday(with: 1)
         XCTAssert(p2! == p1!)
+    }
+    
+    func testSetName() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.setName(with: "NAME")
+        XCTAssertEqual(p?.getName(), "NAME")
+    }
+    
+    func testSetTimesaday() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.setTimesaday(with: -1)
+        XCTAssertEqual(p?.getTimesday(), 1)
+        p?.setTimesaday(with: 2)
+        XCTAssertEqual(p?.getTimesday(), 2)
+    }
+    
+    func testSetTime1() {
+        let p = pillSchedule.insert(completion: nil)
+        let t = Time()
+        p?.setTime1(with: t as NSDate)
+        XCTAssertEqual(p?.getTime1(), t as NSDate)
+    }
+    
+    func testSetTime2() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.reset()
+        let t1 = Time()
+        let t2 = Time()
+        p?.setTime1(with: t1 as NSDate)
+        p?.setTime2(with: t2 as NSDate)
+        XCTAssertEqual(p?.getTime2(), t2 as NSDate)
+        
+        // Sets both t1 and t2 when there is no t1
+        let p2 = pillSchedule.insert(completion: nil)
+        p2?.reset()
+        p2?.setTime2(with: t2 as NSDate)
+        XCTAssertEqual(p2?.getTime1(), t2 as NSDate)
+        XCTAssertEqual(p2?.getTime2(), t2 as NSDate)
+        
+        // Swaps t1 and t2 when t2 < t1
+        let p3 = pillSchedule.insert(completion: nil)
+        p3?.reset()
+        let t3 = Time(timeInterval: -3000, since: t1)
+        p3?.setTime1(with: t1 as NSDate)
+        XCTAssertEqual(p3?.getTime1(), t1 as NSDate)
+        p3?.setTime2(with: t3 as NSDate)
+        XCTAssertEqual(p3?.getTime1(), t3 as NSDate)
+        XCTAssertEqual(p3?.getTime2(), t1 as NSDate)
+    }
+    
+    func testTake() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.setTimesaday(with: 1)
+        p?.take()
+        XCTAssertEqual(p?.getTimesTakenToday(), 1)
+        // Doesn't increase when past timesaday
+        p?.take()
+        XCTAssertEqual(p?.getTimesTakenToday(), 1)
     }
     
     func testGetDueDate() {

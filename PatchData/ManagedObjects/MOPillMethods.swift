@@ -43,7 +43,9 @@ extension MOPill {
     }
     
     public func setTimesaday(with newTimesaday: Int16) {
-        timesaday = newTimesaday
+        if newTimesaday >= 0 {
+            timesaday = newTimesaday
+        }
     }
     
     public func setTime1(with newTime: NSDate) {
@@ -51,7 +53,21 @@ extension MOPill {
     }
     
     public func setTime2(with newTime: NSDate) {
-        time2 = newTime
+        if let t1 = time1 as Time? {
+            let t2 = newTime as Time
+            if t2 >= t1 {
+                time2 = newTime
+            } else {
+                // t1 < t2
+                // swap times if time2 is smaller than time1
+                time2 = time1
+                time1 = newTime
+            }
+        } else {
+            // set both times to new time if time1 is not a time
+            time1 = newTime
+            time2 = newTime
+        }
     }
     
     public func setNotify(with newNotify: Bool) {
@@ -106,8 +122,10 @@ extension MOPill {
     
     /// Increments timesTakenToday and sets lastTaken to now.
     public func take() {
-        timesTakenToday += 1
-        lastTaken = Date() as NSDate
+        if timesTakenToday < timesaday {
+            timesTakenToday += 1
+            lastTaken = Date() as NSDate
+        }
     }
     
     public func due() -> Date? {
