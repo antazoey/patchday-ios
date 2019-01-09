@@ -45,6 +45,7 @@ extension MOPill {
     public func setTimesaday(with newTimesaday: Int16) {
         if newTimesaday >= 0 {
             timesaday = newTimesaday
+            time2 = nil
         }
     }
     
@@ -80,8 +81,8 @@ extension MOPill {
         return id
     }
     
-    public func setLastTaken(with newTime: NSDate) {
-        lastTaken = newTime
+    public func setLastTaken(with last: NSDate) {
+        lastTaken = last
     }
     
     public func setTimesTakenToday(with times: Int16) {
@@ -182,7 +183,7 @@ extension MOPill {
     public func fixTakenToday() {
         if timesTakenToday > 0,
             let lastDate = getLastTaken() as Date?,
-            lastDate.isInToday() {
+            !lastDate.isInToday() {
             timesTakenToday = 0
         }
     }

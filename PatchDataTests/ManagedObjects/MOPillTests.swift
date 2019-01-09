@@ -83,10 +83,16 @@ class MOPillTests: XCTestCase {
     
     func testSetTimesaday() {
         let p = pillSchedule.insert(completion: nil)
+        p?.setTime1(with: Time() as NSDate)
+        p?.setTime2(with: Time() as NSDate)
         p?.setTimesaday(with: -1)
         XCTAssertEqual(p?.getTimesday(), 1)
         p?.setTimesaday(with: 2)
         XCTAssertEqual(p?.getTimesday(), 2)
+        // sets time2 to nil when decreases timesaday
+        p?.setTime2(with: Time() as NSDate)
+        p?.setTimesaday(with: 1)
+        XCTAssertNil(p?.getTime2())
     }
     
     func testSetTime1() {
@@ -166,6 +172,7 @@ class MOPillTests: XCTestCase {
         let p = pillSchedule.insert(completion: nil)
         p?.reset()
         p?.setTimesaday(with: 1)
+        // is nil when pill has no times
         XCTAssertNil(p?.due())
 
         let t = Time()
@@ -197,6 +204,53 @@ class MOPillTests: XCTestCase {
         p?.setTimesTakenToday(with: 2)
         actual = p?.due()
         expected = PDDateHelper.getDate(at: t2 as Time, daysFromNow: 1)
+    }
+    
+    func testIsExpired() {
+        let p = pillSchedule.insert(completion: nil)
+        let t = PDDateHelper.getDate(at: Time(), daysFromNow: 0)
+        p?.setTimesaday(with: 1)
+        p?.setTimesTakenToday(with: 0)
+        p?.setTime1(with: t! as NSDate)
+        // is not expired when never taken before -
+        // have to take once to start the schedule
+        XCTAssertFalse(p?.isExpired() ?? false)
+        // is expired when taken yesterday but not toay
+        let d = PDDateHelper.getDate(at: t!, daysFromNow: -1)! as NSDate
+        let d2 = Date(timeInterval: -1000, since: d as Date)
+        p?.setLastTaken(with: d2 as NSDate)
+        XCTAssertEqual(p?.getLastTaken(), d2 as NSDate)
+        // is not longer expired after taking
+        XCTAssert(Date() > (p?.due())!)
+        XCTAssert(p?.isExpired() ?? false)
+    }
+    
+    func testIsNew() {
+        let p = pillSchedule.insert(completion: nil)
+        XCTAssert(p?.isNew() ?? false)
+        p?.setLastTaken(with: NSDate())
+        XCTAssertFalse(p?.isNew() ?? false)
+    }
+    
+    func testFixTakenToday() {
+        let p = pillSchedule.insert(completion: nil)
+        let d = PDDateHelper.getDate(at: Time(), daysFromNow: -1)! as NSDate
+        p?.setLastTaken(with: d)
+        p?.setTimesTakenToday(with: 1)
+        p?.fixTakenToday()
+        XCTAssertEqual(p?.getTimesTakenToday(), 0)
+    }
+    
+    func testReset() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.reset()
+        XCTAssertNil(p?.getName())
+        XCTAssertEqual(p?.getTimesday(), 1)
+        XCTAssertNil(p?.getTime1())
+        XCTAssertNil(p?.getTime2())
+        XCTAssertFalse(p?.getNotify() ?? false)
+        XCTAssertEqual(p?.getTimesTakenToday(), 0)
+        XCTAssertNil(p?.getLastTaken())
     }
 }
     
