@@ -22,6 +22,7 @@ public class PDDefaults: NSObject {
     
     // App
     private let std_defaults = UserDefaults.standard
+    private var shared: PDSharedData? = nil
     
     // Schedule defaults:
     private var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
@@ -48,12 +49,16 @@ public class PDDefaults: NSObject {
     internal init(estrogenSchedule: EstrogenSchedule,
                   siteSchedule: SiteSchedule,
                   state: PDState,
+                  sharedData: PDSharedData?,
                   alerter: PatchDataAlert?) {
         self.estrogenSchedule = estrogenSchedule
         self.siteSchedule = siteSchedule
         self.state = state
         if let alertArg = alerter {
             self.alerter = alertArg
+        }
+        if let sd = sharedData {
+            shared = sd
         }
         super.init()
         loadDeliveryMethod()
@@ -105,7 +110,7 @@ public class PDDefaults: NSObject {
         if methods.contains(method) {
             if (self.deliveryMethod != method) {
                 self.deliveryMethod = method
-                PDSharedData.defaults?.set(method, forKey: key)
+                shared?.defaults?.set(method, forKey: key)
             }
             siteSchedule.usingPatches = usingPatches
             estrogenSchedule.usingPatches = usingPatches
@@ -124,7 +129,7 @@ public class PDDefaults: NSObject {
         if intervals.contains(interval) {
             let key = PDStrings.SettingsKey.interval.rawValue
             timeInterval = interval
-            PDSharedData.defaults?.set(interval, forKey: key)
+            shared?.defaults?.set(interval, forKey: key)
         }
     }
     
@@ -175,7 +180,7 @@ public class PDDefaults: NSObject {
             let max = Int(last),
             isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
-            PDSharedData.defaults?.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
+            shared?.defaults?.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
             let increasing = oldQuantity < quantity
             if increasing {
                 // Fill in new estros
@@ -191,13 +196,13 @@ public class PDDefaults: NSObject {
     public func setNotificationMinutesBefore(to minutes: Int) {
         let key = PDStrings.SettingsKey.notif.rawValue
         reminderTime = minutes
-        PDSharedData.defaults?.set(minutes, forKey: key)
+        shared?.defaults?.set(minutes, forKey: key)
     }
     
     public func setNotify(to notify: Bool) {
         let key = PDStrings.SettingsKey.remind.rawValue
         notifications = notify
-        PDSharedData.defaults?.set(notify, forKey: key)
+        shared?.defaults?.set(notify, forKey: key)
     }
 
     public func setMentionedDisclaimer(to disclaimer: Bool) {
@@ -211,7 +216,7 @@ public class PDDefaults: NSObject {
         if i < c && i >= 0 {
             let key = PDStrings.SettingsKey.site_index.rawValue
             siteIndex = i
-            PDSharedData.defaults?.set(i, forKey: key)
+            shared?.defaults?.set(i, forKey: key)
             siteSchedule.next = i
         }
     }
@@ -233,7 +238,7 @@ public class PDDefaults: NSObject {
     
     private func loadDeliveryMethod() {
         let key = PDStrings.SettingsKey.deliv.rawValue
-        if let dm = PDSharedData.defaults?.object(forKey: key) as? String {
+        if let dm = shared?.defaults?.object(forKey: key) as? String {
             deliveryMethod = dm
         } else if let dm = std_defaults.object(forKey: key) as? String {
             // set in the primary defaults
@@ -258,7 +263,7 @@ public class PDDefaults: NSObject {
     
     private func loadTimeInterval() {
         let key = PDStrings.SettingsKey.interval.rawValue
-        if let interval = PDSharedData.defaults?.object(forKey: key) as? String {
+        if let interval = shared?.defaults?.object(forKey: key) as? String {
             loadTimeIntervalHelper(to: interval)
         } else if let interval = std_defaults.object(forKey: key) as? String {
             setTimeInterval(to: interval)
@@ -277,7 +282,7 @@ public class PDDefaults: NSObject {
     
     private func loadQuantity() {
         let key = PDStrings.SettingsKey.count.rawValue
-        if let count = PDSharedData.defaults?.object(forKey: key) as? Int {
+        if let count = shared?.defaults?.object(forKey: key) as? Int {
             loadQuantityHelper(count: count)
         } else if let count = std_defaults.object(forKey: key) as? Int {
             loadQuantityHelper(count: count)
@@ -289,7 +294,7 @@ public class PDDefaults: NSObject {
     
     private func loadNotificationMinutesBefore() {
         let key = PDStrings.SettingsKey.notif.rawValue
-        if let notifyTime = PDSharedData.defaults?.object(forKey: key) as? Int {
+        if let notifyTime = shared?.defaults?.object(forKey: key) as? Int {
             reminderTime = notifyTime
         } else if let notifyTime = std_defaults.object(forKey: key) as? Int {
             setNotificationMinutesBefore(to: notifyTime)
@@ -300,7 +305,7 @@ public class PDDefaults: NSObject {
     
     private func loadRemindUpon() {
         let key = PDStrings.SettingsKey.remind.rawValue
-        if let notifyMe = PDSharedData.defaults?.object(forKey: key) as? Bool {
+        if let notifyMe = shared?.defaults?.object(forKey: key) as? Bool {
             notifications = notifyMe
         } else if let notifyMe = std_defaults.object(forKey: key) as? Bool {
             setNotify(to: notifyMe)
@@ -319,7 +324,7 @@ public class PDDefaults: NSObject {
     
     private func loadSiteIndex() {
         let key = PDStrings.SettingsKey.site_index.rawValue
-        if let site_i = PDSharedData.defaults?.object(forKey: key) as? Int {
+        if let site_i = shared?.defaults?.object(forKey: key) as? Int {
             siteIndex = site_i
         } else if let site_i = std_defaults.object(forKey: key) as? Int {
             setSiteIndex(to: site_i)

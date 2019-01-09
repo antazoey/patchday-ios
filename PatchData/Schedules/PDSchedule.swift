@@ -29,13 +29,14 @@ public class PDSchedule: NSObject {
     
     public override init() {
         alerter = PatchDataAlert(estrogenSchedule: estrogenSchedule)
-        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
-                              siteSchedule: siteSchedule,
-                              state: state,
-                              alerter: alerter)
         sharedData = PDSharedData(estrogenSchedule: estrogenSchedule,
                                   pillSchedule: pillSchedule,
                                   siteSchedule: siteSchedule)
+        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
+                              siteSchedule: siteSchedule,
+                              state: state,
+                              sharedData: sharedData,
+                              alerter: alerter)
     }
 
     // MARK: - Public

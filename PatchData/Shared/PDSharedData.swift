@@ -11,10 +11,11 @@ import PDKit
 
 public class PDSharedData: NSObject {
     
-    public static let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
+    public let defaults: UserDefaults?
     private let estrogenSchedule: EstrogenSchedule
     private let pillSchedule: PillSchedule
     private let siteSchedule: SiteSchedule
+    private let address = "group.com.patchday.todaydata"
     
     override public var description: String {
         return """
@@ -25,14 +26,19 @@ public class PDSharedData: NSObject {
     }
     
     public init(estrogenSchedule: EstrogenSchedule,
-                pillSchedule: PillSchedule, siteSchedule: SiteSchedule) {
+                pillSchedule: PillSchedule,
+                siteSchedule: SiteSchedule) {
+        defaults = UserDefaults(suiteName: address)
         self.estrogenSchedule = estrogenSchedule
         self.pillSchedule = pillSchedule
         self.siteSchedule = siteSchedule
     }
 
     /// Sets MOEstrogen data for PatchDay Today widget.
-    public func setEstrogenDataForToday(interval: String, usingPatches: Bool, index: Index, setSiteIndex: @escaping (Int) -> ()) {
+    public func setEstrogenDataForToday(interval: String,
+                                        usingPatches: Bool,
+                                        index: Index,
+                                        setSiteIndex: @escaping (Int) -> ()) {
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
         if let estro = estrogenSchedule.nextDue() {
@@ -40,21 +46,21 @@ public class PDSharedData: NSObject {
                                                   usingPatches: usingPatches,
                                                   current: index,
                                                   setSiteIndex: setSiteIndex) {
-                PDSharedData.defaults?.set(siteName, forKey: siteKey)
+                defaults?.set(siteName, forKey: siteKey)
             } else {
-                PDSharedData.defaults?.set(nil, forKey: siteKey)
+                defaults?.set(nil, forKey: siteKey)
             }
             if let date = estro.expirationDate(interval: interval) {
-                PDSharedData.defaults?.set(date, forKey: dateKey)
+                defaults?.set(date, forKey: dateKey)
             } else {
-                PDSharedData.defaults?.set(nil, forKey: dateKey)
+                defaults?.set(nil, forKey: dateKey)
             }
         }
     }
     
     /// Sets MOPill data for PatchDay Today widget.
     public func setPillDataForToday() {
-        let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
+        let defaults = UserDefaults(suiteName: address)!
         let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
         let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
         if let nextPill = pillSchedule.nextDue() {
@@ -83,7 +89,10 @@ public class PDSharedData: NSObject {
     }
 
     /// Helper function for retrieving correct SiteName data to be saved in PatchDay Today widget.
-    private func getSiteNameForToday(using estro: MOEstrogen, usingPatches: Bool, current: Index, setSiteIndex: @escaping (Int) -> ()) -> SiteName? {
+    private func getSiteNameForToday(using estro: MOEstrogen,
+                                     usingPatches: Bool,
+                                     current: Index,
+                                     setSiteIndex: @escaping (Int) -> ()) -> SiteName? {
         let chg = setSiteIndex
         let sched = siteSchedule
         if usingPatches {

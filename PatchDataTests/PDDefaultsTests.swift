@@ -23,6 +23,7 @@ class PDDefaultsTests: XCTestCase {
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               state: state,
+                              sharedData: nil,
                               alerter: nil)
         defaults.setDeliveryMethod(to: "Patches")
         estrogenSchedule.reset() {
