@@ -123,6 +123,35 @@ class MOPillTests: XCTestCase {
         XCTAssertEqual(p3?.getTime2(), t1 as NSDate)
     }
     
+    func testSetNotify() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.setNotify(with: true)
+        XCTAssert((p?.getNotify())!)
+    }
+    
+    func testSetId() {
+        let p = pillSchedule.insert(completion: nil)
+        let id = p?.setId()
+        XCTAssertEqual(id, p?.getId())
+    }
+    
+    func testSetLastTaken() {
+        let now = Date()
+        let p = pillSchedule.insert(completion: nil)
+        p?.setLastTaken(with: now as NSDate)
+        XCTAssertEqual(p?.getLastTaken(), now as NSDate)
+    }
+    
+    func testSetTimesTaken() {
+        let p = pillSchedule.insert(completion: nil)
+        p?.setTimesaday(with: 2)
+        p?.setTimesTakenToday(with: 2)
+        XCTAssertEqual(p?.getTimesTakenToday(), 2)
+        // Doesn't let you take more than timesaday
+        p?.setTimesTakenToday(with: 3)
+        XCTAssertEqual(p?.getTimesTakenToday(), 2)
+    }
+    
     func testTake() {
         let p = pillSchedule.insert(completion: nil)
         p?.setTimesaday(with: 1)

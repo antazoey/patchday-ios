@@ -85,7 +85,9 @@ extension MOPill {
     }
     
     public func setTimesTakenToday(with times: Int16) {
-        timesTakenToday = times
+        if (times <= timesaday) {
+            timesTakenToday = times
+        }
     }
     
     public func getName() -> String? {
