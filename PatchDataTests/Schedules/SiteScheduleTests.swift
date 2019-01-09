@@ -85,6 +85,25 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(siteSchedule.count(), 6)
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
     }
+    
+    func testDelete() {
+        var old_count = siteSchedule.count();
+        let old_site = siteSchedule.sites[0]
+        if let siteNameDeleted = siteSchedule.getSite(at: 0)?.getName() {
+            siteSchedule.delete(at: 0)
+            // Assert that the backup site name remains after deleted
+            if let n = estrogenSchedule.estrogens[0].getSiteNameBackUp() {
+                XCTAssertEqual(n, siteNameDeleted)
+            }
+            // Assert 1 less site in the schedule
+            XCTAssertEqual(siteSchedule.count(), old_count - 1)
+            XCTAssertFalse(siteSchedule.sites.contains(old_site))
+        }
+        // Assert no deletion for bad index
+        old_count = siteSchedule.count()
+        siteSchedule.delete(at: 100)
+        XCTAssertEqual(old_count, siteSchedule.count())
+    }
 
     func testNew() {
         defaults.setDeliveryMethod(to: "Injections")
@@ -272,25 +291,6 @@ class SiteScheduleTests: XCTestCase {
         XCTAssert(siteSchedule.isDefault(usingPatches: false))
         // Injections fail when tested against patches
         XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
-    }
-    
-    func testDeleteSite() {
-        var old_count = siteSchedule.count();
-        let old_site = siteSchedule.sites[0]
-        if let siteNameDeleted = siteSchedule.getSite(at: 0)?.getName() {
-            siteSchedule.delete(at: 0)
-            // Assert that the backup site name remains after deleted
-            if let n = estrogenSchedule.estrogens[0].getSiteNameBackUp() {
-                XCTAssertEqual(n, siteNameDeleted)
-            }
-            // Assert 1 less site in the schedule
-            XCTAssertEqual(siteSchedule.count(), old_count - 1)
-            XCTAssertFalse(siteSchedule.sites.contains(old_site))
-        }
-        // Assert no deletion for bad index
-        old_count = siteSchedule.count()
-        siteSchedule.delete(at: 100)
-        XCTAssertEqual(old_count, siteSchedule.count())
     }
     
     func testAppendSite() {

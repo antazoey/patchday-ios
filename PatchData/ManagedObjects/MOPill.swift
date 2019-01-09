@@ -14,21 +14,24 @@ import CoreData
 public class MOPill: NSManagedObject {
     
     public static func < (lhs: MOPill, rhs: MOPill) -> Bool {
-        if let l_dueDate = lhs.getDueDate() as Date?, let r_dueDate = rhs.getDueDate() as Date? {
+        if let l_dueDate = lhs.due() as Date?,
+            let r_dueDate = rhs.due() as Date? {
             return l_dueDate < r_dueDate
         }
         return lhs.getLastTaken() != nil
     }
     
     public static func > (lhs: MOPill, rhs: MOPill) -> Bool {
-        if let l_dueDate = lhs.getDueDate() as Date?, let r_dueDate = rhs.getDueDate() as Date? {
+        if let l_dueDate = lhs.due() as Date?,
+            let r_dueDate = rhs.due() as Date? {
             return l_dueDate > r_dueDate
         }
-        return lhs.getDueDate() == nil
+        return lhs.due() == nil
     }
     
     public static func == (lhs: MOPill, rhs: MOPill) -> Bool {
-        if let l_dueDate = lhs.getDueDate() as Date?, let r_dueDate = rhs.getDueDate() as Date? {
+        if let l_dueDate = lhs.due() as Date?,
+            let r_dueDate = rhs.due() as Date? {
             return l_dueDate == r_dueDate
         }
         return false

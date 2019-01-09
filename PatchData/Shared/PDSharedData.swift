@@ -57,13 +57,13 @@ public class PDSharedData: NSObject {
         let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")!
         let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
         let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
-        if let nextPill = pillSchedule.nextPillDue() {
+        if let nextPill = pillSchedule.nextDue() {
             if let pillName = nextPill.getName() {
                 defaults.set(pillName, forKey: pillNameKey)
             } else {
                 defaults.set(nil, forKey: pillNameKey)
             }
-            if let pillDate = nextPill.getDueDate() {
+            if let pillDate = nextPill.due() {
                 defaults.set(pillDate, forKey: pillDateKey)
             } else {
                 defaults.set(nil, forKey: pillDateKey)

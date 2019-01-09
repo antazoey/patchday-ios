@@ -25,7 +25,7 @@ public struct PillAttributes {
     public init(name: String?, timesaday: Int?,
                 time1: Time?, time2: Time?,
                 notify: Bool?, timesTakenToday: Int?,
-                lastTaken: Date?, id: UUID?) {
+                lastTaken: Date?) {
         self.name = name
         self.timesaday = timesaday
         self.time1 = time1

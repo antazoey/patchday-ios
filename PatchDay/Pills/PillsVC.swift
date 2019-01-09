@@ -126,7 +126,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(at indexPath: IndexPath) {
-        PillSchedule.deletePill(at: indexPath.row)
+        PillSchedule.delete(at: indexPath.row)
         pills.remove(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()

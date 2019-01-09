@@ -53,6 +53,17 @@ public class PillSchedule: PDScheduleProtocol {
         }
     }
     
+    /// Deletes the pill at the given index from the schedule.
+    override public func delete(at index: Index) {
+        switch (index) {
+        case 0..<pills.count :
+            pills[index].reset()
+            filterEmpty()
+            PatchData.save()
+        default : return
+        }
+    }
+    
     /// Generates a generic list of MOPills when there are none in store.
     override public func new() {
         let names = PDStrings.PillTypes.defaultPills
@@ -115,62 +126,51 @@ public class PillSchedule: PDScheduleProtocol {
         if let lastTaken = attributes.lastTaken {
             pill.setLastTaken(with: lastTaken as NSDate)
         }
+        let id = pill.setId()
+        pillMap[id] = pill
         PatchData.save()
     }
     
-    /// Deletes the pill at the given index from the schedule.
-    public func deletePill(at index: Index) {
-        if index >= 0 && index < pills.count {
-            pills[index].reset()
-        }
-        filterEmpty()
-        PatchData.save()
-    }
-    
-    /// Maps MOPills to their last time takens.
-    public func getPillTimesTakens() -> [Int] {
-        return pills.map({
-            (pill: MOPill) -> Int16? in
-            return pill.getTimesTakenToday()
-        }).filter() {
-            $0 != nil
-            }.map({
-                (takenCount: Int16?) -> Int in
-                return Int(takenCount!)
-            })
-    }
-    
-    /// Sets the pill's last date-taken at the given index to now, and increments how many times it was taken today.
+    /** Sets the pill's last date-taken at the given index to now,
+    and increments how many times it was taken today. */
     public func takePill(at index: Index, setPDSharedData: (() -> ())?) {
-        if let pill = getPill(at: index) {
-            pill.take()
-            PatchData.save()
-            // Reflect in Today widget
-            if let setToday = setPDSharedData {
-                setToday()
+        if let pill = getPill(at: index),
+            let timesTaken = pill.getTimesTakenToday(),
+            let timesaday = pill.getTimesday() {
+            let t = Int(timesTaken)
+            let max = Int(timesaday)
+            if t < max {
+                pill.take()
+                PatchData.save()
+                // Reflect in Today widget
+                if let setToday = setPDSharedData {
+                    setToday()
+                }
             }
         }
     }
     
-    /// Sets the given pill's last date taken to now, and increments how many times it was taken today.
+    /** Sets the given pill's last date taken to now,
+    and increments how many times it was taken today. */
     public func take(_ pill: MOPill, setPDSharedData: (() -> ())?) {
-        pill.take()
-        PatchData.save()
-        // Reflect in the Today widget
-        if let setToday = setPDSharedData {
-            setToday()
+        if let timesTaken = pill.getTimesTakenToday(),
+            let timesaday = pill.getTimesday() {
+            let t = Int(timesTaken)
+            let max = Int(timesaday)
+            if t < max {
+                pill.take()
+                PatchData.save()
+                // Reflect in the Today widget
+                if let setToday = setPDSharedData {
+                    setToday()
+                }
+            }
         }
     }
     
     /// Returns the next pill that needs to be taken.
-    public func nextPillDue() -> MOPill? {
+    public func nextDue() -> MOPill? {
         return pills.min(by: <)
-    }
-    
-    public func printPills() {
-        for pill in pills {
-            print(pill)
-        }
     }
     
     public func totalDue() -> Int {
@@ -179,6 +179,12 @@ public class PillSchedule: PDScheduleProtocol {
             let r = pill.isExpired() ? 1 + count : count
             return r
         })
+    }
+    
+    public func printPills() {
+        for pill in pills {
+            print(pill)
+        }
     }
     
     // MARK: - Private

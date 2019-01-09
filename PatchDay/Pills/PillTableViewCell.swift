@@ -45,7 +45,7 @@ class PillTableViewCell: UITableViewCell {
     }
     
     public func loadDueDateText(from pill: MOPill) {
-        if let dueDate = pill.getDueDate() {
+        if let dueDate = pill.due() {
             nextDueDate.text = PDDateHelper.format(date: dueDate, useWords: true)
         }
     }

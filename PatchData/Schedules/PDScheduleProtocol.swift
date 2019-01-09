@@ -37,6 +37,10 @@ public class PDScheduleProtocol: NSObject {
         fatalError("Must Override")
     }
     
+    func delete(at index: Index) {
+        fatalError("Must Override")
+    }
+    
     // A soft reset
     func new() {
         fatalError("Must Override")

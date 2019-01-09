@@ -110,8 +110,9 @@ extension MOPill {
         lastTaken = Date() as NSDate
     }
     
-    public func getDueDate() -> Date? {
-        if let t1 = time1 as Time?, let t2 = time2 as Time? {
+    public func due() -> Date? {
+        if let t1 = time1 as Time?,
+            let t2 = time2 as Time? {
             do {
                 let todays = Int(timesTakenToday)
                 let goal = Int(timesaday)
@@ -130,7 +131,7 @@ extension MOPill {
     // MARK: - State bools
     
     public func isExpired() -> Bool {
-        if lastTaken != nil, let dueDate = getDueDate() {
+        if lastTaken != nil, let dueDate = due() {
             return Date() > dueDate
         }
         return false

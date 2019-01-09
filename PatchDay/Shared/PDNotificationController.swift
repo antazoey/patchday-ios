@@ -248,7 +248,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Request a pill notification.
     internal func requestNotifyTakePill(_ pill: MOPill) {
         let now = Date()
-        if let dueDate = pill.getDueDate(), now < dueDate {
+        if let dueDate = pill.due(), now < dueDate {
             let content = UNMutableNotificationContent()
             let totalDue = Schedule.totalDue(interval: Defaults.getTimeInterval())
             content.title = PDStrings.NotificationStrings.Titles.takePill

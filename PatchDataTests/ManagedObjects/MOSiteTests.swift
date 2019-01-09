@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import PDKit
 @testable import PatchData
 
 class MOSiteTests: XCTestCase {
@@ -17,7 +16,6 @@ class MOSiteTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        
     }
     
     override func tearDown() {

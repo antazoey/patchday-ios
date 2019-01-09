@@ -87,6 +87,23 @@ public class SiteSchedule: PDScheduleProtocol {
         }
     }
     
+    /// Deletes the site at the given index.
+    override public func delete(at index: Index) {
+        if index >= 0 && index < sites.count {
+            loadBackupSiteName(from: sites[index])
+            sites[index].reset()
+        }
+        if (index+1) < (sites.count-1) {
+            for i in (index+1)..<sites.count {
+                sites[i].decrement()
+            }
+        }
+        sites = sites.filter() { $0.getOrder() != -1 && $0.getName() != ""}
+        sort()
+        PatchData.save()
+    }
+    
+    
     /// Generates a generic list of MOSites when there are none in store.
     override public func new() {
         var sites: [MOSite] = []
@@ -250,23 +267,7 @@ public class SiteSchedule: PDScheduleProtocol {
         }
         return true
     }
-    
-    /// Deletes the site at the given index.
-    public func delete(at index: Index) {
-        if index >= 0 && index < sites.count {
-            loadBackupSiteName(from: sites[index])
-            sites[index].reset()
-        }
-        if (index+1) < (sites.count-1) {
-            for i in (index+1)..<sites.count {
-                sites[i].decrement()
-            }
-        }
-        sites = sites.filter() { $0.getOrder() != -1 && $0.getName() != ""}
-        sort()
-        PatchData.save()
-    }
-    
+
     /// Prints the every site and order (for debugging).
     public func printSites() {
         print("PRINTING SITES")

@@ -376,8 +376,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                               time2: time2Selected,
                               notify: notifySelected,
                               timesTakenToday: nil,
-                              lastTaken: nil,
-                              id: nil)
+                              lastTaken: nil)
         
     }
     

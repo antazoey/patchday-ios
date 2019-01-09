@@ -30,10 +30,10 @@ public class PDDateHelper: NSObject {
         let calendar = Calendar.current
         if calendar.isDateInToday(from) {
             return PDStrings.DayStrings.today
-        } else if let yesterday = getDate(at: Date(), daysToAdd: -1),
+        } else if let yesterday = getDate(at: Date(), daysFromNow: -1),
             calendar.isDate(from, inSameDayAs: yesterday) {
             return PDStrings.DayStrings.yesterday
-        } else if let tomorrow = getDate(at: Date(), daysToAdd: 1),
+        } else if let tomorrow = getDate(at: Date(), daysFromNow: 1),
             calendar.isDate(from, inSameDayAs: tomorrow) {
             return PDStrings.DayStrings.tomorrow
         }
@@ -61,12 +61,12 @@ public class PDDateHelper: NSObject {
         return nil
     }
     
-    /// Returns date calculated by adding days.
-    public static func getDate(at time: Time, daysToAdd: Int) -> Date? {
+    /// Returns date calculated by adding days from today.
+    public static func getDate(at time: Time, daysFromNow: Int) -> Date? {
         let calendar = Calendar.current
         let now = Date()
         var addComponents = DateComponents()
-        addComponents.day = daysToAdd
+        addComponents.day = daysFromNow
         if let newDate = calendar.date(byAdding: addComponents, to: now) {
             return getDate(on: newDate, at: time)
         }
