@@ -53,7 +53,7 @@ class PDPillHelperTests: XCTestCase {
                                                 timesaday: 1,
                                                 times: times)
             if let actual = next,
-                let tmrw = PDDateHelper.getDate(at: t1, daysToAdd: 1) {
+                let tmrw = PDDateHelper.getDate(at: t1, daysFromNow: 1) {
                 XCTAssert(actual.isWithin(minutes: 1, of: tmrw))
             } else {
                 XCTFail()
@@ -65,7 +65,7 @@ class PDPillHelperTests: XCTestCase {
                                                 timesaday: 1,
                                                 times: times)
             if let actual = next,
-                let tmrw = PDDateHelper.getDate(at: t1, daysToAdd: 1) {
+                let tmrw = PDDateHelper.getDate(at: t1, daysFromNow: 1) {
                 XCTAssert(actual.isWithin(minutes: 1, of: tmrw))
             } else {
                 XCTFail()
@@ -111,7 +111,7 @@ class PDPillHelperTests: XCTestCase {
                                                 times: times)
             if let actual = next {
                 let smaller = min(t1, t2)
-                if let tmrw = PDDateHelper.getDate(at: smaller, daysToAdd: 1) {
+                if let tmrw = PDDateHelper.getDate(at: smaller, daysFromNow: 1) {
                     XCTAssert(actual.isWithin(minutes: 1, of: tmrw))
                 }
             } else {
@@ -123,7 +123,7 @@ class PDPillHelperTests: XCTestCase {
                                                 times: times)
             if let actual = next {
                 let smaller = min(t1, t2)
-                if let tmrw = PDDateHelper.getDate(at: smaller, daysToAdd: 1) {
+                if let tmrw = PDDateHelper.getDate(at: smaller, daysFromNow: 1) {
                     XCTAssert(actual.isWithin(minutes: 1, of: tmrw))
                 }
             } else {

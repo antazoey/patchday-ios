@@ -35,7 +35,7 @@ public class PDPillHelper: NSObject {
         
         // Taken completely today
         if times_today == timesaday {
-            return PDDateHelper.getDate(at: times.sorted()[0], daysToAdd: 1)
+            return PDDateHelper.getDate(at: times.sorted()[0], daysFromNow: 1)
         }
         
         // All other times

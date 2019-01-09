@@ -28,24 +28,83 @@ class MOPillTests: XCTestCase {
         let p2 = pillSchedule.insert(completion: nil)
         let t2 = Time() as NSDate
         let t1 = Time(timeInterval: -3000, since: t2 as Date) as NSDate
+        // p1 : timesaday = 2, timestaken = 0, due should be today at t1
         p1?.setTimesaday(with: 2)
         p1?.setTime1(with: t1)
         p1?.setTime2(with: t2)
+        p1?.setTimesTakenToday(with: 0)
+        // p2: timesaday = 1, timestaken = 1, due should be tom at t2
         p2?.setTimesaday(with: 1)
         p2?.setTime1(with: t2)
-        p1?.take()
-        XCTAssert(p2! < p1!)
+        p2?.setTimesTakenToday(with: 1)
+        XCTAssert(p1! < p2!)
     }
     
     func testGT() {
+        let p1 = pillSchedule.insert(completion: nil)
+        let p2 = pillSchedule.insert(completion: nil)
+        let t2 = Time() as NSDate
+        let t1 = Time(timeInterval: -3000, since: t2 as Date) as NSDate
+        // p1 : timesaday = 2, timestaken = 0, due should be today at t1
+        p1?.setTimesaday(with: 2)
+        p1?.setTime1(with: t1)
+        p1?.setTime2(with: t2)
+        p1?.setTimesTakenToday(with: 0)
+        // p2: timesaday = 1, timestaken = 1, due should be tom at t2
+        p2?.setTimesaday(with: 1)
+        p2?.setTime1(with: t2)
+        p2?.setTimesTakenToday(with: 1)
+        XCTAssert(p2! > p1!)
+    }
+    
+    func testEQ() {
+        let p1 = pillSchedule.insert(completion: nil)
+        let p2 = pillSchedule.insert(completion: nil)
+        let t2 = Time() as NSDate
+        let t1 = Time(timeInterval: -3000, since: t2 as Date) as NSDate
+        // p1 : timesaday = 2, timestaken = 2, due should be tom at t1
+        p1?.setTimesaday(with: 2)
+        p1?.setTime1(with: t1)
+        p1?.setTime2(with: t2)
+        p1?.setTimesTakenToday(with: 2)
+        // p2: timesaday = 1, timestaken = 1, due should be tom at t1
+        p2?.setTimesaday(with: 1)
+        p2?.setTime1(with: t1)
+        p2?.setTimesTakenToday(with: 1)
+        XCTAssert(p2! == p1!)
     }
     
     func testGetDueDate() {
         let p = pillSchedule.insert(completion: nil)
-        let t = Time() as NSDate
-        p?.setTime1(with: t)
-        p?.take()
-        let expected = PDDateHelper.getD
+        let t = Time()
+        p?.setTime1(with: t as NSDate)
+        
+        // Should be today at t1 with timesaday = 1 and timesTaken = 1
+        var actual = p?.due()
+        var expected = PDDateHelper.getDate(at: t, daysFromNow: 0)
+
+        // Should be tomorrow at t1 with timesaday = 1 and timesTaken = 1
+        p?.setTimesTakenToday(with: 1)
+        actual = p?.due()
+        expected = PDDateHelper.getDate(at: t, daysFromNow: 1)
+        XCTAssertEqual(actual, expected)
+
+        // Should be today at time 2 when timesaday = 2 and timesTaken = 1
+        p?.setTimesaday(with: 2)
+        let t2 = Time(timeInterval: 4000, since: t as Date)
+        p?.setTime2(with: t2 as NSDate)
+        actual = p?.due()
+        expected = PDDateHelper.getDate(at: t2 as Time, daysFromNow: 0)
+        
+        // Should be today at time 1 when timesaday = 2 and timesTaken = 0
+        p?.setTimesTakenToday(with: 0)
+        actual = p?.due()
+        expected = PDDateHelper.getDate(at: t as Time, daysFromNow: 0)
+        
+        // Should be tomorrow at time 1 when timesaday = 2 and timesTaken = 2
+        p?.setTimesTakenToday(with: 2)
+        actual = p?.due()
+        expected = PDDateHelper.getDate(at: t2 as Time, daysFromNow: 1)
     }
 }
     

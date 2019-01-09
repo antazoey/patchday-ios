@@ -74,7 +74,7 @@ class PDDateHelperTests: XCTestCase {
     
     func testGetDateAtTimeWithDaysToAdd() {
         let now = Date()
-        if let actualDate = PDDateHelper.getDate(at: now, daysToAdd: 3) {
+        if let actualDate = PDDateHelper.getDate(at: now, daysFromNow: 3) {
             let expectedDate = Date(timeInterval: 3*86400, since: now)
             let actual = PDDateHelper.dayOfWeekString(date: actualDate)
             let expected = PDDateHelper.dayOfWeekString(date: expectedDate)
