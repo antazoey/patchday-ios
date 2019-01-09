@@ -103,6 +103,7 @@ public class SiteSchedule: PDScheduleProtocol {
             }
         }
         PatchData.save()
+        sort()
         self.sites = sites
     }
     
@@ -175,7 +176,7 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Returns the next site for scheduling in the site schedule.
     public func nextIndex(changeIndex: (Int) -> ()) -> Index? {
-        if (next < 0) {
+        if next < 0 {
             changeIndex(0)
             next = 0
         }
@@ -262,6 +263,7 @@ public class SiteSchedule: PDScheduleProtocol {
             }
         }
         sites = sites.filter() { $0.getOrder() != -1 && $0.getName() != ""}
+        sort()
         PatchData.save()
     }
     

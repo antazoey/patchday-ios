@@ -40,6 +40,9 @@
 		B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */; };
 		B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63320CDA48400CF7B54 /* SitesVC.swift */; };
 		B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63520CF1D6000CF7B54 /* SiteVC.swift */; };
+		B4700F1E21E571DF00C8EFB6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
+		B4700F1F21E5732800C8EFB6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
+		B4700F2121E57B5600C8EFB6 /* MOSiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4700F2021E57B5600C8EFB6 /* MOSiteTests.swift */; };
 		B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
 		B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE0921CC72DB002C2238 /* TodayViewController.swift */; };
 		B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */; };
@@ -206,6 +209,7 @@
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B46AC63320CDA48400CF7B54 /* SitesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SitesVC.swift; path = Sites/SitesVC.swift; sourceTree = "<group>"; };
 		B46AC63520CF1D6000CF7B54 /* SiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteVC.swift; path = Sites/SiteVC.swift; sourceTree = "<group>"; };
+		B4700F2021E57B5600C8EFB6 /* MOSiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSiteTests.swift; sourceTree = "<group>"; };
 		B480EE0621CC72DB002C2238 /* PatchDayToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B480EE0921CC72DB002C2238 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		B480EE0C21CC72DB002C2238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -249,6 +253,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4700F1F21E5732800C8EFB6 /* PDKit.framework in Frameworks */,
 				B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,6 +262,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B4700F1E21E571DF00C8EFB6 /* PDKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +389,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B4700F2221E57B5E00C8EFB6 /* ManagedObjects */ = {
+			isa = PBXGroup;
+			children = (
+				B4700F2021E57B5600C8EFB6 /* MOSiteTests.swift */,
+			);
+			path = ManagedObjects;
+			sourceTree = "<group>";
+		};
 		B480EE0821CC72DB002C2238 /* PatchDayToday */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,6 +427,7 @@
 				B4E12EA421D018E80068AD2E /* Schedules */,
 				B480EE2D21CC7554002C2238 /* Info.plist */,
 				B405322821D6F05900AF9CAD /* PDDefaultsTests.swift */,
+				B4700F2221E57B5E00C8EFB6 /* ManagedObjects */,
 			);
 			path = PatchDataTests;
 			sourceTree = "<group>";
@@ -856,6 +871,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */,
+				B4700F2121E57B5600C8EFB6 /* MOSiteTests.swift in Sources */,
 				B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */,
 				B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */,
 				B405322921D6F05900AF9CAD /* PDDefaultsTests.swift in Sources */,

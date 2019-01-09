@@ -117,8 +117,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Cancels a pill notification.
     internal func cancelPill(_ pill: MOPill) {
         let center = UNUserNotificationCenter.current()
-        let id = pill.getId().uuidString
-        center.removePendingNotificationRequests(withIdentifiers: [id])
+        if let id = pill.getId() {
+            let idStr = id.uuidString
+            center.removePendingNotificationRequests(withIdentifiers: [idStr])
+        }
     }
 
     // MARK: - notifications
@@ -257,14 +259,18 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.badge = totalDue + 1 as NSNumber
             content.categoryIdentifier = pillCategoryId
             let interval = dueDate.timeIntervalSince(now)
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
-            let request = UNNotificationRequest(identifier: pill.getId().uuidString,
-                                                content: content,
-                                                trigger: trigger)
-            center.add(request) { (error : Error?) in
-                if error != nil {
-                    print("Unable to Add Notification Request (\(String(describing: error))," +
-                        "\(String(describing: error?.localizedDescription)))")
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval,
+                                                            repeats: false)
+            if let id = pill.getId() {
+                let request = UNNotificationRequest(identifier: id.uuidString,
+                                                    content: content,
+                                                    trigger: trigger)
+                center.add(request) { (error : Error?) in
+                    if let e = error {
+                        let desc = e.localizedDescription
+                        print("Unable to Add Notification Request (\(String(describing: e))," +
+                            "\(String(describing: desc)))")
+                    }
                 }
             }
         }

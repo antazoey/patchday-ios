@@ -47,8 +47,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
     override public func insert(completion: (() -> ())? = nil) -> MOEstrogen? {
         if let estro = PatchData.insert(type.rawValue) as! MOEstrogen? {
             quantity += 1
-            let id = estro.setId()
             estrogens.append(estro)
+            let id = estro.setId()
             estrogenMap[id] = estro
             sort()
             return estro
@@ -78,7 +78,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     /// Resets without changing the quantity
     override public func new() {
-        estrogens = []
+        estrogens.removeAll()
         reset(from: 0)
         quantity = usingPatches ? 3 : 1
         for _ in 0..<quantity {

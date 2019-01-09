@@ -110,7 +110,7 @@ public class PDDefaults: NSObject {
             siteSchedule.usingPatches = usingPatches
             estrogenSchedule.usingPatches = usingPatches
             let setCount: () -> () = {
-                let c = self.estrogenSchedule.count()
+                let c = usingPatches ? 3 : 1
                 self.setQuantityWithoutWarning(to: c)
             }
             siteSchedule.reset(completion: setCount)

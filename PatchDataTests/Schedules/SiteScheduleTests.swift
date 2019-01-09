@@ -11,14 +11,20 @@ import PDKit
 @testable import PatchData
 
 class SiteScheduleTests: XCTestCase {
-    let siteSchedule = SiteSchedule()
-    let estrogenSchedule = EstrogenSchedule()
+    var estrogenSchedule = EstrogenSchedule()
     var defaults: PDDefaults! = nil
+    var siteSchedule = SiteSchedule()
 
     override func setUp() {
         super.setUp()
-        estrogenSchedule.delete(after: -1)
         siteSchedule.reset()
+        estrogenSchedule.reset(completion: nil)
+        estrogenSchedule = EstrogenSchedule()
+        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
+                              siteSchedule: siteSchedule,
+                              state: PDState(),
+                              alerter: nil)
+        defaults.setDeliveryMethod(to: "Patches")
         // Load estrogens to occupy the sites
         estrogenSchedule.setSite(of: 0,
                                  with: siteSchedule.getSite(at: 0)!,
@@ -29,14 +35,25 @@ class SiteScheduleTests: XCTestCase {
         estrogenSchedule.setSite(of: 2,
                                  with: siteSchedule.getSite(at: 2)!,
                                  setSharedData: nil)
-        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
-                              siteSchedule: siteSchedule,
-                              state: PDState(),
-                              alerter: nil)
     }
 
     override func tearDown() {
         super.tearDown()
+    }
+    
+    func testInit() {
+        XCTAssertEqual(estrogenSchedule.count(), 3)
+        XCTAssertEqual(defaults.getDeliveryMethod(), "Patches")
+        var i = 0
+        for estro in estrogenSchedule.estrogens {
+            if let actual = estro.getSite(),
+                let expected = siteSchedule.getSite(at: i) {
+                i += 1
+                XCTAssertEqual(actual, expected)
+            } else {
+                XCTFail()
+            }
+        }
     }
     
     func testCount() {
@@ -169,29 +186,42 @@ class SiteScheduleTests: XCTestCase {
 
     func testNextIndex() {
         let setter = defaults.setSiteIndex
+        
         // Finds next index even if current is incorrect
         siteSchedule.next = 0
         var actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
+        
         // Finds next index even if current index is way off
         siteSchedule.next = 100
         actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 3)
+        
         // Returns same index when all sites are filled
+        let _ = estrogenSchedule.insert()
         estrogenSchedule.setSite(of: 3,
                                  with: siteSchedule.getSite(at: 3)!,
                                  setSharedData: nil)
+        let sitesCount = estrogenSchedule.estrogens.reduce(0) {
+            (count: Int, estro: MOEstrogen) -> Int in
+            if let _ = estro.getSite() {
+                return count + 1
+            }
+            return count
+        }
         actual = siteSchedule.nextIndex(changeIndex: setter)
+        XCTAssertEqual(sitesCount, 4)
         XCTAssertEqual(actual, 3)
+        
+        // Fixes negative next and return index 0 when full
         siteSchedule.next = -1
         actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 0)
-        estrogenSchedule.reset(completion: nil)
         estrogenSchedule.setSite(of: 0,
                                  with: siteSchedule.getSite(at: 0)!,
                                  setSharedData: nil)
         actual = siteSchedule.nextIndex(changeIndex: setter)
-        XCTAssertEqual(actual, 1)
+        XCTAssertEqual(actual, 0)
         // returns nil when there are no sites
         for _ in 0..<siteSchedule.count() {
             siteSchedule.delete(at: 0)

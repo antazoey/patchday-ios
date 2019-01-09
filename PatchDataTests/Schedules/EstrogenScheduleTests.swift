@@ -81,6 +81,9 @@ class EstrogenScheduleTests: XCTestCase {
         defaults.setDeliveryMethod(to: "Patches")
         estrogenSchedule.reset() {
             self.defaults.setQuantityWithoutWarning(to: 3)
+            let sched = EstrogenSchedule()
+            XCTAssertEqual(sched.count(), self.estrogenSchedule.count())
+            XCTAssert(self.estrogenSchedule.isEmpty())
         }
         XCTAssertEqual(estrogenSchedule.count(), 3)
         defaults.setDeliveryMethod(to: "Injections")

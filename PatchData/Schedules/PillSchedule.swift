@@ -38,7 +38,6 @@ public class PillSchedule: PDScheduleProtocol {
     override public func insert(completion: (() -> ())?) -> MOPill? {
         let attributes = PillAttributes()
         let pill = append(using: attributes)
-        //PDSharedData.setPillDataForToday()
         if let comp = completion {
             comp()
         }
@@ -48,7 +47,6 @@ public class PillSchedule: PDScheduleProtocol {
     /// Sets the pills and map to a generic list of MOPills.
     override public func reset(completion: (() -> ())? = nil) {
         new()
-        pillMap.removeAll()
         loadMap()
         if let comp = completion {
             comp()
@@ -198,7 +196,8 @@ public class PillSchedule: PDScheduleProtocol {
         if let pill = PatchData.insert(type.rawValue) as? MOPill {
             setPill(for: pill, with: attributes)
             pills.append(pill)
-            loadMap()
+            let id = pill.setId()
+            pillMap[id] = pill
             return pill
         }
         return nil

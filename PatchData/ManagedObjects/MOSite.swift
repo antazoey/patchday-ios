@@ -30,9 +30,4 @@ public class MOSite: NSManagedObject {
     public static func > (lhs: MOSite, rhs: MOSite) -> Bool {
         return lhs.order > rhs.order
     }
-    
-    public static func == (lhs: MOSite, rhs: MOSite) -> Bool {
-        return lhs.order == rhs.order
-    }
-    
 }
