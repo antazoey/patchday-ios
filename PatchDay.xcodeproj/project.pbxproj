@@ -44,6 +44,7 @@
 		B4700F1F21E5732800C8EFB6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B4700F2121E57B5600C8EFB6 /* MOSiteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4700F2021E57B5600C8EFB6 /* MOSiteTests.swift */; };
 		B4700F2421E5874600C8EFB6 /* MOPillTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4700F2321E5874600C8EFB6 /* MOPillTests.swift */; };
+		B4700F2621E5E97700C8EFB6 /* MOEstrogenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4700F2521E5E97700C8EFB6 /* MOEstrogenTests.swift */; };
 		B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
 		B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE0921CC72DB002C2238 /* TodayViewController.swift */; };
 		B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */; };
@@ -212,6 +213,7 @@
 		B46AC63520CF1D6000CF7B54 /* SiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteVC.swift; path = Sites/SiteVC.swift; sourceTree = "<group>"; };
 		B4700F2021E57B5600C8EFB6 /* MOSiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSiteTests.swift; sourceTree = "<group>"; };
 		B4700F2321E5874600C8EFB6 /* MOPillTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPillTests.swift; sourceTree = "<group>"; };
+		B4700F2521E5E97700C8EFB6 /* MOEstrogenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogenTests.swift; sourceTree = "<group>"; };
 		B480EE0621CC72DB002C2238 /* PatchDayToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B480EE0921CC72DB002C2238 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		B480EE0C21CC72DB002C2238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 			isa = PBXGroup;
 			children = (
 				B4700F2021E57B5600C8EFB6 /* MOSiteTests.swift */,
+				B4700F2521E5E97700C8EFB6 /* MOEstrogenTests.swift */,
 				B4700F2321E5874600C8EFB6 /* MOPillTests.swift */,
 			);
 			path = ManagedObjects;
@@ -879,6 +882,7 @@
 				B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */,
 				B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */,
 				B405322921D6F05900AF9CAD /* PDDefaultsTests.swift in Sources */,
+				B4700F2621E5E97700C8EFB6 /* MOEstrogenTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

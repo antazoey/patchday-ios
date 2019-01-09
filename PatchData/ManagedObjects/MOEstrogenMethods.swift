@@ -85,12 +85,12 @@ extension MOEstrogen {
     // MARK: - Strings
     
     public func string() -> String {
-        var estroString = getDatePlacedAsString()
+        var str = getDatePlacedAsString()
         if let site = getSite(),
-            let siteName = site.getName() {
-            estroString += ", " + siteName
+            let n = site.getName() {
+            str += ", " + n
         }
-        return estroString
+        return str
     }
     
     public func getDatePlacedAsString() -> String {
@@ -112,8 +112,10 @@ extension MOEstrogen {
     public func expirationDateAsString(_ interval: String,
                                        useWords: Bool) -> String {
         if let date = getDate() as Date?,
-            let expires = PDDateHelper.expirationDate(from: date, interval) {
-            return PDDateHelper.format(date: expires, useWords: useWords)
+            let expires = PDDateHelper.expirationDate(from: date,
+                                                      interval) {
+            return PDDateHelper.format(date: expires,
+                                       useWords: useWords)
         }
         return PDStrings.PlaceholderStrings.dotdotdot
     }

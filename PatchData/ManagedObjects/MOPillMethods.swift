@@ -136,7 +136,7 @@ extension MOPill {
             do {
                 let todays = Int(timesTakenToday)
                 let goal = Int(timesaday)
-                var times = [t1]
+                var times: [Time] = [t1]
                 if let t2 = time2 {
                     times.append(t2 as Time)
                 }
@@ -144,9 +144,29 @@ extension MOPill {
                                                      timesaday: goal,
                                                      times: times)
                 return d
+            } catch PDPillHelper.NextDueDateError.notEnoughTimes {
+                let c = [time1, time2].filter() { $0 != nil }.count
+                if c < timesaday {
+                    let goal = Int(timesaday)
+                    for i in c..<goal {
+                        switch (i) {
+                        case 0: self.time1 = Date() as NSDate
+                        case 1:
+                            if let t1 = time1 {
+                                let t2 = Time(timeInterval: 1000,
+                                              since: (t1 as NSDate) as Date)
+                                self.time2 = t2 as NSDate
+                            }
+                        default :
+                            break
+                        }
+                    }
+                    return due()
+                } else {
+                    print("This error was mistakenly thrown.")
+                }
             } catch {
-                print("Error: Not enough times, timesaday: "
-                      + "\(timesaday), times.count: 2")
+                return nil
             }
         }
         return nil

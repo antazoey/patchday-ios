@@ -61,10 +61,10 @@ class MOSiteTests: XCTestCase {
     func testToString() {
         let site = siteSchedule.getSite(at: 0)!
         site.reset()
-        XCTAssertEqual(site.toString(), "0. New Site")
+        XCTAssertEqual(site.string(), "0. New Site")
         site.setOrder(to: 665)
         site.setName(to: "Devil")
-        XCTAssertEqual(site.toString(), "666. Devil")
+        XCTAssertEqual(site.string(), "666. Devil")
     }
     
     func testDecrement() {

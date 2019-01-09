@@ -70,7 +70,7 @@ extension MOSite {
         return imageIdentifier as SiteName?
     }
 
-    public func toString() -> String {
+    public func string() -> String {
         let n = (name != nil) ?
             name! :
             PDStrings.PlaceholderStrings.new_site
