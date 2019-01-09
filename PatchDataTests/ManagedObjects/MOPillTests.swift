@@ -162,8 +162,12 @@ class MOPillTests: XCTestCase {
         XCTAssertEqual(p?.getTimesTakenToday(), 1)
     }
     
-    func testGetDueDate() {
+    func testDue() {
         let p = pillSchedule.insert(completion: nil)
+        p?.reset()
+        p?.setTimesaday(with: 1)
+        XCTAssertNil(p?.due())
+
         let t = Time()
         p?.setTime1(with: t as NSDate)
         

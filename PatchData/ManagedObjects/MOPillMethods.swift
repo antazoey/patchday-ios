@@ -131,14 +131,17 @@ extension MOPill {
     }
     
     public func due() -> Date? {
-        if let t1 = time1 as Time?,
-            let t2 = time2 as Time? {
+        if let t1 = time1 as Time? {
             do {
                 let todays = Int(timesTakenToday)
                 let goal = Int(timesaday)
+                var times = [t1]
+                if let t2 = time2 {
+                    times.append(t2 as Time)
+                }
                 let d = try PDPillHelper.nextDueDate(timesTakenToday: todays,
                                                      timesaday: goal,
-                                                     times: [t1, t2])
+                                                     times: times)
                 return d
             } catch {
                 print("Error: Not enough times, timesaday: "
@@ -187,11 +190,11 @@ extension MOPill {
     /// Sets all attributes to either nil or -1.
     public func reset() {
         name = nil
-        timesaday = -1
+        timesaday = 1
         time1 = nil
         time2 = nil
         notify = false
-        timesTakenToday = -1
+        timesTakenToday = 0
         lastTaken = nil
     }
 }
