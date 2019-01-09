@@ -168,6 +168,13 @@ public class PillSchedule: PDScheduleProtocol {
         }
     }
     
+    /// Takes the pills that is next due.
+    public func take(setPDSharedData: (() -> ())? = nil) {
+        if let next = nextDue() {
+            take(next, setPDSharedData: setPDSharedData)
+        }
+    }
+    
     /// Returns the next pill that needs to be taken.
     public func nextDue() -> MOPill? {
         return pills.min(by: <)

@@ -16,17 +16,17 @@ class PillScheduleTests: XCTestCase {
     override func setUp() {
         super.setUp()
         pillSchedule.reset()
-        let t2 = Time()
-        let t1 = Time(timeInterval: -3000, since: t2)
-        let lastTaken = Time(timeInterval: -15000, since: t1)
-        let a1 = PillAttributes(name: "PILL 1",
+        let t1 = Time()
+        let t2 = Time(timeInterval: 3000, since: t1)
+        let last = Time(timeInterval: -15000, since: t1)
+        let a = PillAttributes(name: "PILL 1",
                                 timesaday: 2,
                                 time1: t1,
                                 time2: t2,
                                 notify: false,
                                 timesTakenToday: 0,
-                                lastTaken: lastTaken)
-        pillSchedule.setPill(at: 0, with: a1)
+                                lastTaken: last)
+        pillSchedule.setPill(at: 0, with: a)
     }
     
     override func tearDown() {
@@ -188,6 +188,50 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testNextDue() {
-        
+        let t = Time(timeInterval: 500,
+                     since: pillSchedule.getPill(at: 0)!.getTime1()! as Date)
+        let last = Time(timeInterval: -15000, since: t)
+        let a = PillAttributes(name: "PILL 2",
+                                timesaday: 1,
+                                time1: t,
+                                time2: nil,
+                                notify: false,
+                                timesTakenToday: 0,
+                                lastTaken: last)
+        pillSchedule.setPill(at: 1, with: a)
+        var nextDue = pillSchedule.nextDue()
+        XCTAssertEqual(pillSchedule.getPill(at: 0)!, nextDue)
+        // After taking, the other pill should be the next.
+        pillSchedule.take(setPDSharedData: nil)
+        nextDue = pillSchedule.nextDue()
+        XCTAssertEqual(pillSchedule.getPill(at: 1)!, nextDue)
+        // Take again and then first one should be the next
+        pillSchedule.take(setPDSharedData: nil)
+        nextDue = pillSchedule.nextDue()
+        XCTAssertEqual(pillSchedule.getPill(at: 0)!, nextDue)
+    }
+    
+    func testTotalDue() {
+        pillSchedule.reset()
+        XCTAssertEqual(pillSchedule.totalDue(), 0)
+        let now = Date()
+        let earlier = Date(timeInterval: -1000, since: now)
+        let yesterday = Date(timeInterval: -86400, since: earlier)
+        pillSchedule.getPill(at: 0)?.setLastTaken(with: yesterday as NSDate)
+        pillSchedule.getPill(at: 0)?.setTime1(with: earlier as NSDate)
+        XCTAssertEqual(pillSchedule.totalDue(), 1)
+        let pill = pillSchedule.insert(completion: nil)
+        pill?.setLastTaken(with: yesterday as NSDate)
+        pill?.setTime1(with: earlier as NSDate)
+        XCTAssertEqual(pillSchedule.totalDue(), 2)
+        pillSchedule.take()
+        XCTAssertEqual(pillSchedule.totalDue(), 1)
+        let next = pillSchedule.nextDue()!
+        pillSchedule.take()
+        XCTAssertEqual(pillSchedule.totalDue(), 0)
+        // should account for a newly added due pill
+        next.setTimesaday(with: 2)
+        next.setTime2(with: Date(timeInterval: -1000, since: Date()) as NSDate)
+        XCTAssertEqual(pillSchedule.totalDue(), 1)
     }
 }
