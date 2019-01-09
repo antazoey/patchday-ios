@@ -13,12 +13,12 @@ class MOSiteTests: XCTestCase {
     
     // Just use these for easy MO generation
     let siteSchedule = SiteSchedule()
-    let estrogenScheudle = EstrogenSchedule()
+    let estrogenSchedule = EstrogenSchedule()
     var defaults: PDDefaults!
     
     override func setUp() {
         super.setUp()
-        defaults = PDDefaults(estrogenSchedule: estrogenScheudle,
+        defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               state: PDState(),
                               sharedData: nil,
@@ -47,10 +47,43 @@ class MOSiteTests: XCTestCase {
     }
     
     func testIsOccupied() {
-        let estro = estrogenScheudle.getEstrogen(at: 0)!
+        let estro = estrogenSchedule.getEstrogen(at: 0)!
         let site = siteSchedule.getSite(at: 0)!
         XCTAssertFalse(site.isOccupied())
         estro.setSite(with: site)
         XCTAssert(site.isOccupied())
+        let anotherEstro = estrogenSchedule.getEstrogen(at: 1)!
+        anotherEstro.setSite(with: site)
+        XCTAssert(site.isOccupied(byAtLeast: 2))
+        XCTAssertFalse(site.isOccupied(byAtLeast: 3))
+    }
+    
+    func testToString() {
+        let site = siteSchedule.getSite(at: 0)!
+        site.reset()
+        XCTAssertEqual(site.toString(), "0. New Site")
+        site.setOrder(to: 665)
+        site.setName(to: "Devil")
+        XCTAssertEqual(site.toString(), "666. Devil")
+    }
+    
+    func testDecrement() {
+        let site = siteSchedule.getSite(at: 0)!
+        XCTAssertEqual(site.getOrder(), 0)
+        // Does not decrement when already 0
+        site.decrement()
+        XCTAssertEqual(site.getOrder(), 0)
+        site.setOrder(to: 666)
+        site.decrement()
+        XCTAssertEqual(site.getOrder(), 666 - 1)
+    }
+    
+    func testReset() {
+        let site = siteSchedule.getSite(at: 0)!
+        site.reset()
+        XCTAssertEqual(site.getOrder(), -1)
+        XCTAssertNil(site.getName())
+        XCTAssertNil(site.getImageIdentifer())
+        XCTAssertEqual(site.estrogenRelationship?.count, 0)
     }
 }

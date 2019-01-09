@@ -43,7 +43,7 @@ class SiteTableViewCell: UITableViewCell {
     }
     
     private func loadEstrogenImages(for site: MOSite) -> UIImage? {
-        if site.isOccupiedByMany() || (!Defaults.usingPatches() && site.isOccupied()) {
+        if site.isOccupied() || (!Defaults.usingPatches() && site.isOccupied()) {
             return  #imageLiteral(resourceName: "ES Icon")
         } else if site.isOccupied() {
             let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen

@@ -38,17 +38,10 @@ extension MOSite {
     @objc(removeEstrogenRelationship:)
     @NSManaged public func removeFromEstrogenRelationship(_ values: NSSet)
 
-    public func isOccupied() -> Bool {
-        if let r = estrogenRelationship {
-            return r.count > 0
-        }
-        return false
-    }
-    
     /// Returns if the the MOSite is occupied by more than one MOEstrogen.
-    public func isOccupiedByMany() -> Bool {
+    public func isOccupied(byAtLeast many: Int = 1) -> Bool {
         if let r = estrogenRelationship {
-            return r.count > 1
+            return r.count >= many
         }
         return false
     }
@@ -78,7 +71,9 @@ extension MOSite {
     }
 
     public func toString() -> String {
-        let n = (name != nil) ? name! : PDStrings.PlaceholderStrings.new_site
+        let n = (name != nil) ?
+            name! :
+            PDStrings.PlaceholderStrings.new_site
         return "\(order + 1). \(n)"
     }
 
