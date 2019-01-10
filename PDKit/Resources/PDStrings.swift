@@ -427,6 +427,7 @@ public class PDStrings: NSObject {
     
     public struct CoreDataKeys {
         public static var persistantContainer_key = { return "patchData" }()
+        public static var testContainer_key = { return "patchDataTest" }()
         public static var estrogenEntityName = { return "Estrogen" }()
         public static var estrogenProps = { return ["date", "id", "siteNameBackUp"] }()
         public static var siteEntityName = { return "Site" }()
