@@ -10,11 +10,14 @@ import XCTest
 @testable import PDKit
 
 class PDDateHelperTests: XCTestCase {
+    
+    private typealias Data = PDStrings.PickerData
+    
     let d1 = Date(timeIntervalSince1970: 0)
     let today = Date()
-    let halfweek_interval = PDStrings.PickerData.expirationIntervals[0]
-    let week_interval = PDStrings.PickerData.expirationIntervals[1]
-    let two_weeks_interval = PDStrings.PickerData.expirationIntervals[2]
+    let halfweek_interval = Data.expirationIntervals[0]
+    let week_interval = Data.expirationIntervals[1]
+    let two_weeks_interval = Data.expirationIntervals[2]
 
     override func setUp() {
         super.setUp()
@@ -100,9 +103,12 @@ class PDDateHelperTests: XCTestCase {
     
     func testExpirationDate() {
         let testDate = Date(timeInterval: 21000, since: d1)
-        let actual_expDate1 = PDDateHelper.expirationDate(from: testDate, halfweek_interval)
-        let actual_expDate2 = PDDateHelper.expirationDate(from: testDate, week_interval)
-        let actual_expDate3 = PDDateHelper.expirationDate(from: testDate, two_weeks_interval)
+        let actual_expDate1 = PDDateHelper.expirationDate(from: testDate,
+                                                          halfweek_interval)
+        let actual_expDate2 = PDDateHelper.expirationDate(from: testDate,
+                                                          week_interval)
+        let actual_expDate3 = PDDateHelper.expirationDate(from: testDate,
+                                                          two_weeks_interval)
         
         let expected_expDate1 = Date(timeInterval: 302400, since: testDate)
         let expected_expDate2 = Date(timeInterval: 604800, since: testDate)
@@ -115,7 +121,8 @@ class PDDateHelperTests: XCTestCase {
     
     func testExpirationInterval() {
         let now = Date()
-        if let actual_interval_1 = PDDateHelper.expirationInterval(halfweek_interval, date: now),
+        if let actual_interval_1 = PDDateHelper.expirationInterval(halfweek_interval,
+                                                                   date: now),
             let expected_interval_1 = TimeInterval(exactly: 302400) {
                 let a1 = Float(actual_interval_1)
                 let e1 = Float(expected_interval_1)
@@ -123,7 +130,8 @@ class PDDateHelperTests: XCTestCase {
         } else {
             XCTFail()
         }
-        if let actual_interval_2 = PDDateHelper.expirationInterval(week_interval, date: now),
+        if let actual_interval_2 = PDDateHelper.expirationInterval(week_interval,
+                                                                   date: now),
             let expected_interval_2 = TimeInterval(exactly: 604800) {
             let a2 = Float(actual_interval_2)
             let e2 = Float(expected_interval_2)
@@ -131,7 +139,8 @@ class PDDateHelperTests: XCTestCase {
         } else {
             XCTFail()
         }
-        if let actual_interval_3 = PDDateHelper.expirationInterval(two_weeks_interval, date: now),
+        if let actual_interval_3 = PDDateHelper.expirationInterval(two_weeks_interval,
+                                                                   date: now),
             let expected_interval_3 = TimeInterval(exactly: 1209600) {
             let a3 = Float(actual_interval_3)
             let e3 = Float(expected_interval_3)
@@ -144,8 +153,13 @@ class PDDateHelperTests: XCTestCase {
     
     func testDateBeforeOvernight() {
         let now = Date()
-        if let eightPM = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: now) {
-            let eightPM_before = Calendar.current.date(byAdding: .day, value: -1, to: eightPM)
+        if let eightPM = Calendar.current.date(bySettingHour: 20,
+                                               minute: 0,
+                                               second: 0,
+                                               of: now) {
+            let eightPM_before = Calendar.current.date(byAdding: .day,
+                                                       value: -1,
+                                                        to: eightPM)
             let actual = PDDateHelper.dateBeforeOvernight(overnightDate: now)
             XCTAssertEqual(actual, eightPM_before)
         } else {

@@ -22,6 +22,17 @@ public class PatchData: NSObject {
                 """
     }
     
+    private static var container: PatchDataContainer = .app
+    
+    internal static func useTestContainer() {
+        container = .test
+    }
+
+    internal enum PatchDataContainer {
+        case app
+        case test
+    }
+    
     internal enum PDEntity: String {
         case estrogen = "Estrogen"
         case pill = "Pill"
@@ -34,10 +45,22 @@ public class PatchData: NSObject {
         public var props: [String] = []
     }
 
-    // Core Data stack
     internal static var persistentContainer: NSPersistentContainer = {
-        let conkey = PDStrings.CoreDataKeys.persistantContainer_key
-        let container = NSPersistentContainer(name: conkey)
+        typealias Keys = PDStrings.CoreDataKeys
+        let isApp = container == .app
+        let key = isApp ?
+            Keys.persistantContainer_key :
+            Keys.testContainer_key
+        return pdContainer(key)
+    }()
+
+    internal static var testContainer: NSPersistentContainer = {
+        let key = PDStrings.CoreDataKeys.testContainer_key
+        return pdContainer(key)
+    }()
+    
+    private static func pdContainer(_ name: String) -> NSPersistentContainer {
+        let container = NSPersistentContainer(name: name)
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
             if let error = error as NSError? {
@@ -45,8 +68,8 @@ public class PatchData: NSObject {
             }
         })
         return container
-    }()
-    
+    }
+
     /// Get the current view context
     internal static func getContext() -> NSManagedObjectContext {
         return persistentContainer.viewContext

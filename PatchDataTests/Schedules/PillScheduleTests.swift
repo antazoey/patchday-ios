@@ -11,10 +11,13 @@ import PDKit
 @testable import PatchData
 
 class PillScheduleTests: XCTestCase {
-    let pillSchedule = PillSchedule()
+
+    private var pillSchedule: PillSchedule!
     
     override func setUp() {
         super.setUp()
+        PatchData.useTestContainer()
+        pillSchedule = PillSchedule()
         pillSchedule.reset()
         let t1 = Time()
         let t2 = Time(timeInterval: 3000, since: t1)
