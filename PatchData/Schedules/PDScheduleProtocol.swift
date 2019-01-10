@@ -12,9 +12,9 @@ import CoreData
 public class PDScheduleProtocol: NSObject {
     
     internal var mos: [NSManagedObject] = []
-    internal var type: PatchData.PDEntity
+    internal var type: PDEntity
     
-    init(type: PatchData.PDEntity) {
+    init(type: PDEntity) {
         self.type = type
         super.init()
         mos = PatchData.loadMOs(for: type) ?? []

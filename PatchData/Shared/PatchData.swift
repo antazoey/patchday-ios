@@ -10,7 +10,21 @@ import Foundation
 import CoreData
 import PDKit
 
+internal enum PDEntity: String {
+    case estrogen = "Estrogen"
+    case pill = "Pill"
+    case site = "Site"
+}
+
+internal struct EntityKey {
+    public var type: PDEntity = .estrogen
+    public var name: String = ""
+    public var props: [String] = []
+}
+
 public class PatchData: NSObject {
+    
+    // MARK: - Public
     
     override public var description: String {
         return  """
@@ -22,7 +36,18 @@ public class PatchData: NSObject {
                 """
     }
     
-    private static var container: PatchDataContainer = .app
+    /// Deletes all the managed objects in the context
+    public static func nuke() {
+        PDEntity.allCases.forEach {e in
+            if let mos = loadMOs(for: e) {
+                for mo: NSManagedObject in mos {
+                    getContext().delete(mo)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Internal
     
     internal static func useTestContainer() {
         container = .test
@@ -31,18 +56,6 @@ public class PatchData: NSObject {
     internal enum PatchDataContainer {
         case app
         case test
-    }
-    
-    internal enum PDEntity: String {
-        case estrogen = "Estrogen"
-        case pill = "Pill"
-        case site = "Site"
-    }
-    
-    internal struct EntityKey {
-        public var type: PDEntity = .estrogen
-        public var name: String = ""
-        public var props: [String] = []
     }
 
     internal static var persistentContainer: NSPersistentContainer = {
@@ -58,17 +71,6 @@ public class PatchData: NSObject {
         let key = PDStrings.CoreDataKeys.testContainer_key
         return pdContainer(key)
     }()
-    
-    private static func pdContainer(_ name: String) -> NSPersistentContainer {
-        let container = NSPersistentContainer(name: name)
-        container.loadPersistentStores(completionHandler: {
-            (storeDescription, error) in
-            if let error = error as NSError? {
-                PatchDataAlert.alertForPersistentStoreLoadError(error: error)
-            }
-        })
-        return container
-    }
 
     /// Get the current view context
     internal static func getContext() -> NSManagedObjectContext {
@@ -110,6 +112,21 @@ public class PatchData: NSObject {
         return nil
     }
     
+    // MARK: - Private
+    
+    private static var container: PatchDataContainer = .app
+    
+    private static func pdContainer(_ name: String) -> NSPersistentContainer {
+        let container = NSPersistentContainer(name: name)
+        container.loadPersistentStores(completionHandler: {
+            (storeDescription, error) in
+            if let error = error as NSError? {
+                PatchDataAlert.alertForPersistentStoreLoadError(error: error)
+            }
+        })
+        return container
+    }
+    
     private static func entityKey(for entity: PDEntity) -> EntityKey {
         typealias data = PDStrings.CoreDataKeys
         var n: String
@@ -134,3 +151,5 @@ extension NSManagedObject {
         return objectID.entity.name
     }
 }
+
+extension PDEntity: CaseIterable {}
