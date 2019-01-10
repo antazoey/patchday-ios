@@ -13,10 +13,12 @@ import PDKit
 class MOPillTests: XCTestCase {
     
     // Just use siteSchedule for easy MO generation
-    let pillSchedule = PillSchedule()
+    private var pillSchedule: PillSchedule!
     
     override func setUp() {
         super.setUp()
+        PatchData.useTestContainer()
+        pillSchedule = PillSchedule()
     }
     
     override func tearDown() {

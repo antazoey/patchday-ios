@@ -22,6 +22,17 @@ public class PatchData: NSObject {
                 """
     }
     
+    private static var container: PatchDataContainer = .app
+    
+    internal static func useTestContainer() {
+        container = .test
+    }
+
+    internal enum PatchDataContainer {
+        case app
+        case test
+    }
+    
     internal enum PDEntity: String {
         case estrogen = "Estrogen"
         case pill = "Pill"
@@ -35,7 +46,11 @@ public class PatchData: NSObject {
     }
 
     internal static var persistentContainer: NSPersistentContainer = {
-        let key = PDStrings.CoreDataKeys.persistantContainer_key
+        typealias Keys = PDStrings.CoreDataKeys
+        let isApp = container == .app
+        let key = isApp ?
+            Keys.persistantContainer_key :
+            Keys.testContainer_key
         return pdContainer(key)
     }()
 

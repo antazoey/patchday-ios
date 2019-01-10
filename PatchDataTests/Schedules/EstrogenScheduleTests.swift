@@ -12,12 +12,15 @@ import PDKit
 
 class EstrogenScheduleTests: XCTestCase {
     
-    var estrogenSchedule = EstrogenSchedule()
-    var siteSchedule = SiteSchedule()
-    var defaults: PDDefaults!
+    private var estrogenSchedule: EstrogenSchedule!
+    private var siteSchedule: SiteSchedule!
+    private var defaults: PDDefaults!
 
     override func setUp() {
         super.setUp()
+        PatchData.useTestContainer()
+        estrogenSchedule = EstrogenSchedule()
+        siteSchedule = SiteSchedule()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               state: PDState(),

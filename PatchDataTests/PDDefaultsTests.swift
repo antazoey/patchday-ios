@@ -12,13 +12,17 @@ import PDKit
 
 class PDDefaultsTests: XCTestCase {
 
-    private let estrogenSchedule = EstrogenSchedule()
-    private let siteSchedule = SiteSchedule()
-    private let state = PDState()
-    public var defaults: PDDefaults! = nil
+    private var estrogenSchedule: EstrogenSchedule!
+    private var siteSchedule: SiteSchedule!
+    private var state: PDState!
+    public var defaults: PDDefaults!
     
     override func setUp() {
         super.setUp()
+        PatchData.useTestContainer()
+        estrogenSchedule = EstrogenSchedule()
+        siteSchedule = SiteSchedule()
+        state = PDState()
         siteSchedule.reset()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,

@@ -11,12 +11,15 @@ import PDKit
 @testable import PatchData
 
 class SiteScheduleTests: XCTestCase {
-    var estrogenSchedule = EstrogenSchedule()
-    var defaults: PDDefaults! = nil
-    var siteSchedule = SiteSchedule()
+    private var estrogenSchedule: EstrogenSchedule!
+    private var defaults: PDDefaults!
+    private var siteSchedule: SiteSchedule!
 
     override func setUp() {
         super.setUp()
+        PatchData.useTestContainer()
+        estrogenSchedule = EstrogenSchedule()
+        siteSchedule = SiteSchedule()
         siteSchedule.reset()
         estrogenSchedule.reset(completion: nil)
         estrogenSchedule = EstrogenSchedule()

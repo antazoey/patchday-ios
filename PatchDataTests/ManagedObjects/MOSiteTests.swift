@@ -12,12 +12,15 @@ import XCTest
 class MOSiteTests: XCTestCase {
     
     // Just use these for easy MO generation
-    let siteSchedule = SiteSchedule()
-    let estrogenSchedule = EstrogenSchedule()
-    var defaults: PDDefaults!
+    private var siteSchedule: SiteSchedule!
+    private var estrogenSchedule: EstrogenSchedule!
+    private var defaults: PDDefaults!
     
     override func setUp() {
         super.setUp()
+        PatchData.useTestContainer()
+        siteSchedule = SiteSchedule()
+        estrogenSchedule = EstrogenSchedule()
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               state: PDState(),
