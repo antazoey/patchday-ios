@@ -13,27 +13,53 @@ import CoreData
 @objc(MOPill)
 public class MOPill: NSManagedObject, Comparable {
     
+    // Note: For pills, the logic favors not nil.
+    // true: due() > nil
+    // true: due () < nil
+    // false: nil > due()
+    // false: nil < due()
+    // this way, nils are always at the end of an array
+    
     public static func < (lhs: MOPill, rhs: MOPill) -> Bool {
-        if let l_dueDate = lhs.due() as Date?,
-            let r_dueDate = rhs.due() as Date? {
-            return l_dueDate < r_dueDate
+        let ld = lhs.due()
+        let rd = rhs.due()
+        switch (ld, rd) {
+        case (nil, nil) : return false
+        case (nil, _) : return false
+        case (_, nil) : return true
+        default : return ld! < rd!
         }
-        return lhs.getLastTaken() != nil
     }
     
     public static func > (lhs: MOPill, rhs: MOPill) -> Bool {
-        if let l_dueDate = lhs.due() as Date?,
-            let r_dueDate = rhs.due() as Date? {
-            return l_dueDate > r_dueDate
+        let ld = lhs.due()
+        let rd = rhs.due()
+        switch (ld, rd) {
+        case (nil, nil) : return false
+        case (nil, _) : return false
+        case (_, nil) : return true
+        default : return ld! > rd!
         }
-        return lhs.due() == nil
     }
     
     public static func == (lhs: MOPill, rhs: MOPill) -> Bool {
-        if let l_dueDate = lhs.due() as Date?,
-            let r_dueDate = rhs.due() as Date? {
-            return l_dueDate == r_dueDate
+        let ld = lhs.due()
+        let rd = rhs.due()
+        switch (ld, rd) {
+        case (nil, nil) : return true
+        case (nil, _) : return false
+        case (_, nil) : return false
+        default : return ld! == rd!
         }
-        return false
+    }
+    public static func != (lhs: MOPill, rhs: MOPill) -> Bool {
+        let ld = lhs.due()
+        let rd = rhs.due()
+        switch (ld, rd) {
+        case (nil, nil) : return false
+        case (nil, _) : return true
+        case (_, nil) : return true
+        default : return ld! != rd!
+        }
     }
 }
