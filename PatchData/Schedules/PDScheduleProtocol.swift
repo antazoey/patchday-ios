@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-public class PDScheduleProtocol: NSObject {
+open class PDScheduleProtocol: NSObject {
     
     internal var mos: [NSManagedObject] = []
     internal var type: PDEntity
