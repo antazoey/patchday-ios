@@ -31,11 +31,11 @@ class MOEstrogenTests: XCTestCase {
         let earlier = Date(timeInterval: -1000, since: later)
         estro_recent.setDate(with: later as NSDate)
         estro_next.setDate(with: earlier as NSDate)
-        // The etrogens that need to be changed next are <
+        // Estrogens that need to be changed next are less than.
         XCTAssert(estro_next < estro_recent)
-        // not nil is < nil
+        // Estrogen with date is less than Estrogen with nil date
         XCTAssert(estro_recent < estro_nilDate && estro_next < estro_nilDate)
-        // two nils are not less than
+        // Estrogens with nil dates are not less than
         XCTAssertFalse(estro_nilDate < estro_nilDate)
     }
     
@@ -47,12 +47,12 @@ class MOEstrogenTests: XCTestCase {
         let earlier = Date(timeInterval: -1000, since: later)
         estro_recent.setDate(with: later as NSDate)
         estro_next.setDate(with: earlier as NSDate)
-        // The etrogens that were changed recently are >
+        // Estrogens that were changed recently are greater than than
         XCTAssert(estro_recent > estro_next)
-        // nil is > not nil
+        // Estrogen with nil date is greater than Estrogen with not nil date
         XCTAssert(estro_nilDate > estro_recent)
         XCTAssert(estro_nilDate > estro_next)
-        // two nils are not greater than
+        // Estrogens with nil dates are not greater than
         XCTAssertFalse(estro_nilDate > estro_nilDate)
     }
     
@@ -70,11 +70,11 @@ class MOEstrogenTests: XCTestCase {
         XCTAssert(estro_recent == estro_sameDateAsRecent)
         // Estrogens with different dates not equal
         XCTAssertFalse(estro_recent == estro_next)
-        // nil is not equal to not nil
+        // Estrogen with nil date is not equal to estrogen with date
         XCTAssertFalse (estro_recent == estro_nilDate)
         XCTAssertFalse(estro_nilDate == estro_recent)
-        // two nils are not greater than
-        XCTAssertFalse(estro_nilDate > estro_nilDate)
+        // Estrogens with two nil dates are equal
+        XCTAssert(estro_nilDate == estro_nilDate)
     }
     
     func testNQ() {
@@ -91,10 +91,10 @@ class MOEstrogenTests: XCTestCase {
         XCTAssert(estro_recent != estro_next)
         // Estrogens with the same date are equal
         XCTAssertFalse(estro_recent != estro_sameDateAsRecent)
-        // nil is not equal to not nil
+        // Estrogen with nil date is not equal to estrogen with date
         XCTAssert (estro_recent != estro_nilDate)
         XCTAssert(estro_nilDate != estro_recent)
-        // two nils are not greater than
-        XCTAssertFalse(estro_nilDate > estro_nilDate)
+        // Estrogens with two nil dates are equal
+        XCTAssertFalse(estro_nilDate != estro_nilDate)
     }
 }
