@@ -11,7 +11,7 @@ import Foundation
 import CoreData
 
 @objc(MOPill)
-public class MOPill: NSManagedObject {
+public class MOPill: NSManagedObject, Comparable {
     
     public static func < (lhs: MOPill, rhs: MOPill) -> Bool {
         if let l_dueDate = lhs.due() as Date?,

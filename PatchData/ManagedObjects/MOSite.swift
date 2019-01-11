@@ -13,15 +13,7 @@ import CoreData
 public typealias SiteName = String
 
 @objc(MOSite)
-public class MOSite: NSManagedObject {
-    
-    public override init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?) {
-        if let context = context {
-            super.init(entity: entity, insertInto: context)
-        } else {
-            fatalError("No Managed Object Context")
-        }
-    }
+public class MOSite: NSManagedObject, Comparable {
     
     public static func < (lhs: MOSite, rhs: MOSite) -> Bool {
         return lhs.order < rhs.order
