@@ -30,6 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let index = Defaults.getSiteIndex()
         let usingPatches = Defaults.usingPatches()
         let setSiteIndex = Defaults.setSiteIndex
+        
+        // Uncomment to nuke the db
+        //Schedule.nuke()
 
         // Load data for the Today widget.
         Schedule.sharedData.setDataForTodayApp(interval: interval,

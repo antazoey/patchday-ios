@@ -57,9 +57,11 @@ public class PillSchedule: PDScheduleProtocol {
     override public func delete(at index: Index) {
         switch (index) {
         case 0..<pills.count :
-            pills[index].reset()
-            filterEmpty()
-            PatchData.save()
+            if let pill = pills.popLast() {
+                pill.reset()
+                PatchData.getContext().delete(pill)
+                PatchData.save()
+            }
         default : return
         }
     }

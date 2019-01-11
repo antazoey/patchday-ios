@@ -35,18 +35,7 @@ public class PatchData: NSObject {
                 managed object arrays.
                 """
     }
-    
-    /// Deletes all the managed objects in the context
-    public static func nuke() {
-        PDEntity.allCases.forEach {e in
-            if let mos = loadMOs(for: e) {
-                for mo: NSManagedObject in mos {
-                    getContext().delete(mo)
-                }
-            }
-        }
-    }
-    
+
     // MARK: - Internal
     
     internal static func useTestContainer() {
@@ -110,6 +99,18 @@ public class PatchData: NSObject {
             print("Data Fetch Request Failed")
         }
         return nil
+    }
+    
+    /// Deletes all the managed objects in the context
+    internal static func nuke() {
+        PDEntity.allCases.forEach {e in
+            if let mos = loadMOs(for: e) {
+                for mo: NSManagedObject in mos {
+                    getContext().delete(mo)
+                }
+            }
+        }
+        save()
     }
     
     // MARK: - Private

@@ -85,4 +85,11 @@ public class PDSchedule: NSObject {
         }
         return indices
     }
+    
+    public func nuke() {
+        PatchData.nuke()
+        estrogenSchedule.reset(from: 0)
+        pillSchedule.reset()
+        siteSchedule.reset()
+    }
 }
