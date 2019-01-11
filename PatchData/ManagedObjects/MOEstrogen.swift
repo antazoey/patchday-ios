@@ -13,67 +13,41 @@ import CoreData
 @objc(MOEstrogen)
 public class MOEstrogen: NSManagedObject, Comparable {
 
+    // Note: nil is greater than all for MOEstrogens
+    
     public static func < (lhs: MOEstrogen, rhs: MOEstrogen) -> Bool {
-        if let l_date = lhs.date as Date? {
-            if let r_date = rhs.date as Date? {
-                return l_date < r_date
-            } else {
-                // lhs date is not nil, rhs date is nil
-                return true
-            }
-        } else if let _ = rhs.date {
-            // lhs date is nil, rhs date is not nil
-            return false
+        switch(lhs.date, rhs.date) {
+        case (nil, nil) : return false
+        case (nil, _) : return false
+        case (_, nil) : return true
+        default : return (lhs.date as Date?)! < (rhs.date as Date?)!
         }
-        // both dates nil
-        return false
     }
     
     public static func > (lhs: MOEstrogen, rhs: MOEstrogen) -> Bool {
-        if let l_date = lhs.date as Date? {
-            if let r_date = rhs.date as Date? {
-                return l_date > r_date
-            } else {
-                // lhs date is not nil, rhs date is nil
-                return false
-            }
-        } else if let _ = rhs.date {
-            // lhs date is nil, rhs date is not nil
-            return true
+        switch(lhs.date, rhs.date) {
+        case (nil, nil) : return false
+        case (nil, _) : return true
+        case (_, nil) : return false
+        default : return (lhs.date as Date?)! > (rhs.date as Date?)!
         }
-        // both dates nil
-        return false
     }
     
     public static func == (lhs: MOEstrogen, rhs: MOEstrogen) -> Bool {
-        if let l_date = lhs.date as Date? {
-            if let r_date = rhs.date as Date? {
-                return l_date == r_date
-            } else {
-                // lhs date is not nil
-                return false
-            }
-        } else if let _ = rhs.date {
-            // lhs date is nil, rhs date is not nil
-            return false
+        switch(lhs.date, rhs.date) {
+        case (nil, nil) : return true
+        case (nil, _) : return false
+        case (_, nil) : return false
+        default : return (lhs.date as Date?)! == (rhs.date as Date?)!
         }
-        // both dates nil
-        return true
     }
     
     public static func != (lhs: MOEstrogen, rhs: MOEstrogen) -> Bool {
-        if let l_date = lhs.date as Date? {
-            if let r_date = rhs.date as Date? {
-                return l_date != r_date
-            } else {
-                // lhs date is not nil
-                return true
-            }
-        } else if let _ = rhs.date {
-            // lhs date is nil, rhs date is not nil
-            return true
+        switch(lhs.date, rhs.date) {
+        case (nil, nil) : return false
+        case (nil, _) : return true
+        case (_, nil) : return true
+        default : return (lhs.date as Date?)! != (rhs.date as Date?)!
         }
-        // both dates nil
-        return false
     }
 }
