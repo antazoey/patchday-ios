@@ -150,43 +150,57 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testTakeAt() {
-        var mockCalled = false
-        let mock: () -> () = {
-            mockCalled = true
+        let e1 = expectation(description: "SetSharedData called")
+        
+        pillSchedule.takePill(at: 0) {
+            e1.fulfill()
         }
-        pillSchedule.takePill(at: 0, setPDSharedData: mock)
-        XCTAssert(mockCalled)
+        wait(for: [e1], timeout: 3)
+        // Taking once increased to 1
         if let pill = pillSchedule.getPill(at: 0) {
             XCTAssertEqual(pill.getTimesTakenToday(), 1)
+        } else {
+            XCTFail()
         }
+        // Taking twice increase to 2
         pillSchedule.takePill(at: 0, setPDSharedData: nil)
         if let pill = pillSchedule.getPill(at: 0) {
             XCTAssertEqual(pill.getTimesTakenToday(), 2)
+        } else {
+            XCTFail()
         }
-        mockCalled = false
-        pillSchedule.takePill(at: 0, setPDSharedData: mock)
-        XCTAssertFalse(mockCalled)
+
+        var called = false
+        pillSchedule.takePill(at: 0) {
+            called = true
+        }
+        // Won't take or callback
+        XCTAssertFalse(called)
+        // But can't take more than the pill's timesday
         if let pill = pillSchedule.getPill(at: 0) {
             XCTAssertEqual(pill.getTimesTakenToday(), 2)
+        } else {
+            XCTFail()
         }
     }
     
     func testTakePill() {
-        var mockCalled = false
-        let mock: () -> () = {
-            mockCalled = true
-        }
         if let pill = pillSchedule.getPill(at: 0) {
-            pillSchedule.take(pill, setPDSharedData: mock)
-            XCTAssert(mockCalled)
+            let e1 = expectation(description: "Shared data set.")
+            pillSchedule.take(pill) {
+                e1.fulfill()
+            }
+            wait(for: [e1], timeout: 3)
             XCTAssertEqual(pill.getTimesTakenToday(), 1)
             pillSchedule.take(pill, setPDSharedData: nil)
             XCTAssertEqual(pill.getTimesTakenToday(), 2)
             // Does not permit taking more than "timesaday"
-            mockCalled = false
-            pillSchedule.take(pill, setPDSharedData: mock)
+            var set = false
+            pillSchedule.take(pill) {
+                set = true
+            }
+            XCTAssertFalse(set)
             XCTAssertEqual(pill.getTimesTakenToday(), 2)
-            XCTAssertFalse(mockCalled)
         }
     }
     

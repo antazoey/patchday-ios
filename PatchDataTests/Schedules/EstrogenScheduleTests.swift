@@ -146,43 +146,43 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testSetSite() {
-        var setterWasCalled = false
-        let mock: () -> () = { setterWasCalled = true }
         if let site = siteSchedule.getSite(at: 3) {
-            estrogenSchedule.setSite(of: 0, with: site, setSharedData: mock)
+            let e = expectation(description: "Setter was called.")
+            estrogenSchedule.setSite(of: 0, with: site) {
+                e.fulfill()
+            }
+            wait(for: [e], timeout: 3)
             let actual = estrogenSchedule.getEstrogen(at: 0)?.getSite()
             XCTAssertEqual(actual, site)
-            XCTAssert(setterWasCalled)
         } else {
             XCTFail()
         }
     }
     
     func testSetDate() {
-        var setterWasCalled = false
-        let mock: () -> () = { setterWasCalled = true }
         let d = Date(timeIntervalSince1970: 234534624)
-        estrogenSchedule.setDate(of: 0, with: d, setSharedData: mock)
+        let e = expectation(description: "Shared data was set.")
+        estrogenSchedule.setDate(of: 0, with: d) {
+            e.fulfill()
+        }
+        wait(for: [e], timeout: 3)
         let actual = estrogenSchedule.getEstrogen(at: 0)?.getDate()
         XCTAssertEqual(actual, d as NSDate)
-        XCTAssert(setterWasCalled)
     }
     
     func testSetEstrogen() {
-        var setterWasCalled = false
-        let mock: () -> () = { setterWasCalled = true }
         let d = Date(timeIntervalSince1970: 234534624) as NSDate
         if let estro = estrogenSchedule.getEstrogen(at: 0),
             let site = siteSchedule.getSite(at: 3),
             let id = estro.getId() {
+            let e = expectation(description: "Shared data was set.")
             estrogenSchedule.setEstrogen(for: id,
                                          date: d,
-                                         site: site,
-                                         setSharedData: mock)
+                                         site: site) { e.fulfill() }
+            wait(for: [e], timeout: 3)
             XCTAssertEqual(estro.getDate(), d)
             XCTAssertEqual(estro.getSite(), site)
             XCTAssertEqual(estro.getId(), id)
-            XCTAssert(setterWasCalled)
         } else {
             XCTFail()
         }
