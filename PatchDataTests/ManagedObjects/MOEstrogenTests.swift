@@ -24,58 +24,77 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testLT() {
-        let e1 = estrogenSchedule.insert()
-        let e2 = estrogenSchedule.insert()
-        let e3 = estrogenSchedule.insert()
-        let d1 = Date();
-        let d2 = Date(timeInterval: -1000, since: d1)
-        e1?.setDate(with: d1 as NSDate)
-        e2?.setDate(with: d2 as NSDate)
-        XCTAssertLessThan(e2!, e1!)
-        // nil is greater than not nil
-        XCTAssert(e2! < e1! && e1! < e3! && e2! < e3!)
+        let estro_recent = estrogenSchedule.insert()!
+        let estro_next = estrogenSchedule.insert()!
+        let estro_nilDate = estrogenSchedule.insert()!
+        let later = Date();
+        let earlier = Date(timeInterval: -1000, since: later)
+        estro_recent.setDate(with: later as NSDate)
+        estro_next.setDate(with: earlier as NSDate)
+        // The etrogens that need to be changed next are <
+        XCTAssert(estro_next < estro_recent)
+        // not nil is < nil
+        XCTAssert(estro_recent < estro_nilDate && estro_next < estro_nilDate)
         // two nils are not less than
-        XCTAssertFalse(e3! < e3!)
+        XCTAssertFalse(estro_nilDate < estro_nilDate)
     }
     
     func testGT() {
-        let e1 = estrogenSchedule.insert()
-        let e2 = estrogenSchedule.insert()
-        let e3 = estrogenSchedule.insert()
-        let d1 = Date();
-        let d2 = Date(timeInterval: -1000, since: d1)
-        e1?.setDate(with: d1 as NSDate)
-        e2?.setDate(with: d2 as NSDate)
-        XCTAssertGreaterThan(e1!, e2!)
-        // nil is greater
-        XCTAssert(e1! > e2! && e3! > e1! && e3! > e2!)
+        let estro_recent = estrogenSchedule.insert()!
+        let estro_next = estrogenSchedule.insert()!
+        let estro_nilDate = estrogenSchedule.insert()!
+        let later = Date();
+        let earlier = Date(timeInterval: -1000, since: later)
+        estro_recent.setDate(with: later as NSDate)
+        estro_next.setDate(with: earlier as NSDate)
+        // The etrogens that were changed recently are >
+        XCTAssert(estro_recent > estro_next)
+        // nil is > not nil
+        XCTAssert(estro_nilDate > estro_recent)
+        XCTAssert(estro_nilDate > estro_next)
         // two nils are not greater than
-        XCTAssertFalse(e3! > e3!)
+        XCTAssertFalse(estro_nilDate > estro_nilDate)
     }
     
     func testEQ() {
-        let e1 = estrogenSchedule.insert()
-        let e2 = estrogenSchedule.insert()
-        let e3 = estrogenSchedule.insert()
-        let e4 = estrogenSchedule.insert()
-        let d = Date();
-        e1?.setDate(with: d as NSDate)
-        e2?.setDate(with: d as NSDate)
-        XCTAssert(e1! == e2!)
-        XCTAssert(e3! == e4!)
-        XCTAssertFalse(e1! == e4!)
+        let estro_recent = estrogenSchedule.insert()!
+        let estro_sameDateAsRecent = estrogenSchedule.insert()!
+        let estro_next = estrogenSchedule.insert()!
+        let estro_nilDate = estrogenSchedule.insert()!
+        let later = Date();
+        let earlier = Date(timeInterval: -1000, since: later)
+        estro_recent.setDate(with: later as NSDate)
+        estro_sameDateAsRecent.setDate(with: later as NSDate)
+        estro_next.setDate(with: earlier as NSDate)
+        // Estrogens with the same date are equal
+        XCTAssert(estro_recent == estro_sameDateAsRecent)
+        // Estrogens with different dates not equal
+        XCTAssertFalse(estro_recent == estro_next)
+        // nil is not equal to not nil
+        XCTAssertFalse (estro_recent == estro_nilDate)
+        XCTAssertFalse(estro_nilDate == estro_recent)
+        // two nils are not greater than
+        XCTAssertFalse(estro_nilDate > estro_nilDate)
     }
     
     func testNQ() {
-        let e1 = estrogenSchedule.insert()
-        let e2 = estrogenSchedule.insert()
-        let e3 = estrogenSchedule.insert()
-        let e4 = estrogenSchedule.insert()
-        let d = Date();
-        e1?.setDate(with: d as NSDate)
-        e2?.setDate(with: d as NSDate)
-        XCTAssertFalse(e1! != e2!)
-        XCTAssertFalse(e3! != e4!)
-        XCTAssert(e1! != e4!)
+        let estro_recent = estrogenSchedule.insert()!
+        let estro_sameDateAsRecent = estrogenSchedule.insert()!
+        let estro_next = estrogenSchedule.insert()!
+        let estro_nilDate = estrogenSchedule.insert()!
+        let later = Date();
+        let earlier = Date(timeInterval: -1000, since: later)
+        estro_recent.setDate(with: later as NSDate)
+        estro_sameDateAsRecent.setDate(with: later as NSDate)
+        estro_next.setDate(with: earlier as NSDate)
+        // Estrogens with different dates are not equal
+        XCTAssert(estro_recent != estro_next)
+        // Estrogens with the same date are equal
+        XCTAssertFalse(estro_recent != estro_sameDateAsRecent)
+        // nil is not equal to not nil
+        XCTAssert (estro_recent != estro_nilDate)
+        XCTAssert(estro_nilDate != estro_recent)
+        // two nils are not greater than
+        XCTAssertFalse(estro_nilDate > estro_nilDate)
     }
 }
