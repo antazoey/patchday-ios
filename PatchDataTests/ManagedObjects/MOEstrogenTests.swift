@@ -32,8 +32,8 @@ class MOEstrogenTests: XCTestCase {
         e1?.setDate(with: d1 as NSDate)
         e2?.setDate(with: d2 as NSDate)
         XCTAssertLessThan(e2!, e1!)
-        // nil is less than not nil
-        XCTAssert(e2! < e1! && e3! < e1! && e3! < e2!)
+        // nil is greater than not nil
+        XCTAssert(e2! < e1! && e1! < e3! && e2! < e3!)
         // two nils are not less than
         XCTAssertFalse(e3! < e3!)
     }
@@ -47,8 +47,8 @@ class MOEstrogenTests: XCTestCase {
         e1?.setDate(with: d1 as NSDate)
         e2?.setDate(with: d2 as NSDate)
         XCTAssertGreaterThan(e1!, e2!)
-        // nil is less
-        XCTAssert(e1! > e2! && e1! > e3! && e2! > e3!)
+        // nil is greater
+        XCTAssert(e1! > e2! && e3! > e1! && e3! > e2!)
         // two nils are not greater than
         XCTAssertFalse(e3! > e3!)
     }

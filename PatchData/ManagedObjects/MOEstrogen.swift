@@ -19,11 +19,11 @@ public class MOEstrogen: NSManagedObject, Comparable {
                 return l_date < r_date
             } else {
                 // lhs date is not nil, rhs date is nil
-                return false
+                return true
             }
         } else if let _ = rhs.date {
             // lhs date is nil, rhs date is not nil
-            return true
+            return false
         }
         // both dates nil
         return false
@@ -35,11 +35,11 @@ public class MOEstrogen: NSManagedObject, Comparable {
                 return l_date > r_date
             } else {
                 // lhs date is not nil, rhs date is nil
-                return true
+                return false
             }
         } else if let _ = rhs.date {
             // lhs date is nil, rhs date is not nil
-            return false
+            return true
         }
         // both dates nil
         return false
