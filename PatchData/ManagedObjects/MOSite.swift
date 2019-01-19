@@ -19,7 +19,7 @@ public class MOSite: NSManagedObject, Comparable {
         to be at the end of a sort, then negative orders are > positive orders
      and I know that sounds weird, but we are kind of backwards here at PatchDay Inc.
  */
-    
+
     public static func < (lhs: MOSite, rhs: MOSite) -> Bool {
         switch(lhs.order, rhs.order) {
         // both not set

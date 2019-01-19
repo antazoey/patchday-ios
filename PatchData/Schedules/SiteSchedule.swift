@@ -91,6 +91,7 @@ public class SiteSchedule: PDScheduleProtocol {
     override public func delete(at index: Index) {
         if index >= 0 && index < sites.count {
             loadBackupSiteName(from: sites[index])
+            PatchData.getContext().delete(sites[index])
             sites[index].reset()
         }
         if (index+1) < (sites.count-1) {
@@ -102,7 +103,6 @@ public class SiteSchedule: PDScheduleProtocol {
         sort()
         PatchData.save()
     }
-    
     
     /// Generates a generic list of MOSites when there are none in store.
     override public func new() {

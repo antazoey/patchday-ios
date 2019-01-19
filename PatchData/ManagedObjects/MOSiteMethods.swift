@@ -13,10 +13,6 @@ import PDKit
 
 extension MOSite {
 
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<MOSite> {
-        return NSFetchRequest<MOSite>(entityName: "Site")
-    }
-
     @NSManaged public var estrogenRelationship: NSSet?
     @NSManaged internal var imageIdentifier: String?
     @NSManaged internal var name: String?
@@ -37,6 +33,19 @@ extension MOSite {
 
     @objc(removeEstrogenRelationship:)
     @NSManaged public func removeFromEstrogenRelationship(_ values: NSSet)
+    
+    /// Set the siteBackUpName in every estrogen.
+    public func loadBackupSiteName() {
+        if isOccupied(),
+            let estroSet = estrogenRelationship {
+            for estro in Array(estroSet) {
+                let e = estro as! MOEstrogen
+                if let n = getName() {
+                    e.setSiteBackup(to: n)
+                }
+            }
+        }
+    }
 
     /// Returns if the the MOSite is occupied by more than one MOEstrogen.
     public func isOccupied(byAtLeast many: Int = 1) -> Bool {
