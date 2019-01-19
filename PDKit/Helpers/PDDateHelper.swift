@@ -102,7 +102,8 @@ public class PDDateHelper: NSObject {
     }
     
     /// Returns the TimeInterval until expiration based on given
-    public static func expirationInterval(_ interval: String, date: Date) -> TimeInterval? {
+    public static func expirationInterval(_ interval: String,
+                                          date: Date) -> TimeInterval? {
         if let expDate = expirationDate(from: date, interval) {
             // Return the interval to the expiration date.
             let now = Date()
