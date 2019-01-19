@@ -28,23 +28,18 @@ public class PDPillHelper: NSObject {
         
         let times_today = min(timesTakenToday, timesaday)
         
-        // Not yet taken today
-        if times_today == 0 {
+        switch(times_today) {
+        case 0:
             return PDDateHelper.getDate(on: Date(), at: times.sorted()[0])
-        }
-        
-        // Taken completely today
-        if times_today == timesaday {
+        case (timesaday):
             return PDDateHelper.getDate(at: times.sorted()[0], daysFromNow: 1)
+        default:
+            return PDDateHelper.getDate(on: Date(), at: times.sorted()[times_today])
         }
-        
-        // All other times
-        return PDDateHelper.getDate(on: Date(), at: times.sorted()[times_today])
     }
     
     /// Return if the pill has been taken all of its times today.
     public static func isDone(timesTakenToday: Int, timesaday: Int) -> Bool {
         return timesTakenToday >= timesaday
     }
-
 }
