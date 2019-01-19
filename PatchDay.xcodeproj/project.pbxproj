@@ -459,8 +459,7 @@
 				B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
 			);
-			name = Shared;
-			path = "New Group";
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		B480EE4321CC79FA002C2238 /* Settings */ = {
@@ -489,8 +488,7 @@
 				B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */,
 				13E980D71EDFA54B0062B144 /* EstrogenVC.swift */,
 			);
-			name = Estrogens;
-			path = "New Group1";
+			path = Estrogens;
 			sourceTree = "<group>";
 		};
 		B480EE4621CC7A15002C2238 /* Sites */ = {
