@@ -42,7 +42,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet private weak var autofillButton: UIButton!
     
     // Non-interface
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     internal var estrogenScheduleIndex = -1
     internal var estrogen: MOEstrogen!
     internal var site: String = ""

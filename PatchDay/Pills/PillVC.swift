@@ -11,9 +11,7 @@ import PDKit
 import PatchData
 
 class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    
-    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-    
+
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var nameTextField: UITextField!

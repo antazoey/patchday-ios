@@ -25,10 +25,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
     @IBOutlet private weak var countPicker: UIPickerView!
     @IBOutlet fileprivate weak var settingsStack: UIStackView!
-
-    // trackers
-    private var whichTapped: SettingsKey?
-    private var selectedRow: Int?
     
     // Schedule outlets (in order of appearance
     @IBOutlet private weak var settingsView: UIView!
@@ -46,7 +42,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var reminderTimeSettingsLabel: UILabel!
     @IBOutlet weak var reminderTimeSlider: UISlider!
     
-    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+    // trackers
+    private var whichTapped: SettingsKey?
+    private var selectedRow: Int?
     
     override func viewDidLoad() {
         
@@ -136,8 +134,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     /// Row count.
-    internal func pickerView(_ pickerView: UIPickerView
-        numberOfRowsInComponent component: Int) -> Int {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             numberOfRowsInComponent component: Int) -> Int {
         var numberOfRows = 0;
         
         if let key = getWhichTapped() {
@@ -319,7 +317,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                     let item = vcs[0].navigationController?.tabBarItem
                     item?.badgeValue = (c > 0) ? "\(c)" : nil
                 }
-                let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
                 for i in (newCount-1)..<oldCount {
                     appDelegate.notificationsController.cancelEstrogenNotification(at: i)
                 }
@@ -376,7 +373,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let v = Int(reminderTimeSlider.value.rounded())
         reminderTimeSettingsLabel.text = String(v)
         Defaults.setNotificationMinutesBefore(to: v)
-        self.appDelegate.notificationsController.resendAllEstrogenNotifications()
+        appDelegate.notificationsController.resendAllEstrogenNotifications()
        
     }
     

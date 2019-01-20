@@ -15,8 +15,6 @@ typealias PillName = String
 class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var pillTable: UITableView!
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private var pills = PillSchedule.pills
     
     override func viewDidLoad() {

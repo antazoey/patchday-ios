@@ -16,3 +16,4 @@ public let EstrogenSchedule = Schedule.estrogenSchedule
 public let SiteSchedule = Schedule.siteSchedule
 public let PillSchedule = Schedule.pillSchedule
 public let PDSharedData = Schedule.sharedData
+internal let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
