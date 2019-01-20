@@ -136,7 +136,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     /// Row count.
-    internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    internal func pickerView(_ pickerView: UIPickerView
+        numberOfRowsInComponent component: Int) -> Int {
         var numberOfRows = 0;
         
         if let key = getWhichTapped() {
@@ -156,7 +157,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     /// Row titles.
-    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             titleForRow row: Int,
+                             forComponent component: Int) -> String? {
         var title = " "
         if let key = getWhichTapped(){
             switch key {
@@ -180,7 +183,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // while picker changes
-    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             didSelectRow row: Int,
+                             inComponent component: Int) {
         selectedRow = row
     }
     
@@ -232,15 +237,21 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let title = buttonTapped.titleLabel, let readText = title.text {
             guard let selectedRowIndex = selections.index(of: readText) else {
                 picker.selectRow(0, inComponent: 0, animated: false)
-                UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { picker.isHidden = false
-                }, completion: nil)
+                UIView.transition(with: picker as UIView,
+                                  duration: 0.4,
+                                  options: .transitionCrossDissolve,
+                                  animations: { picker.isHidden = false },
+                                  completion: nil)
                 return
             }
             picker.selectRow(selectedRowIndex, inComponent: 0, animated: true)
         }
         
-        UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
-        }, completion: nil)
+        UIView.transition(with: picker as UIView,
+                          duration: 0.4,
+                          options: .transitionFlipFromTop,
+                          animations: { picker.isHidden = false },
+                          completion: nil)
     }
     
     // For regular pickers

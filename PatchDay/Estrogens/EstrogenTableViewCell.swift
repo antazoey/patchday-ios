@@ -96,7 +96,9 @@ class EstrogenTableViewCell: UITableViewCell {
     }
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
-    private func animateEstrogenButtonChanges(at index: Index, newImage: UIImage?=nil, newTitle: String?=nil) {
+    private func animateEstrogenButtonChanges(at index: Index,
+                                              newImage: UIImage?=nil,
+                                              newTitle: String?=nil) {
         var isNew = false
         let schedule = Schedule.estrogenSchedule
         let estrogenOptional = schedule.getEstrogen(at: index)
@@ -105,7 +107,9 @@ class EstrogenTableViewCell: UITableViewCell {
         }
         Schedule.state.isNew = isNew
         if shouldAnimate(estrogenOptional, at: index) {
-            UIView.transition(with: stateImage as UIView, duration: 0.75, options: .transitionCrossDissolve, animations: {
+            UIView.transition(with: stateImage as UIView,
+                              duration: 0.75,
+                              options: .transitionCrossDissolve, animations: {
                 self.stateImage.image = newImage
                 self.stateImage.isHidden = true
             }) {
@@ -126,7 +130,9 @@ class EstrogenTableViewCell: UITableViewCell {
         if index < Defaults.getQuantity() {
             if let hasDateAndItMatters = estro?.hasDate() {
                 // Was affected non-empty estrogens from change.
-                isAffectedFromChange = changes.wereEstrogenChanges && !changes.isNew && !changes.onlySiteChanged && index <= changes.indexOfChangedDelivery && hasDateAndItMatters
+                isAffectedFromChange = changes.wereEstrogenChanges && !changes.isNew && !changes.onlySiteChanged
+                    && index <= changes.indexOfChangedDelivery
+                    && hasDateAndItMatters
             }
             // Newly changed site and none else (date didn't change).
             isSiteChange = changes.siteChanged && index == changes.indexOfChangedDelivery

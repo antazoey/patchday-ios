@@ -78,7 +78,7 @@ public class PDSharedData: NSObject {
     }
     
     /// Sets data to be displayed in PatchDay Today widget.
-    public func setDataForTodayApp(interval: String, index: Int,
+    public func setDataForTodayApp(interval: String, index: Index,
                                    usingPatches: Bool,
                                    setSiteIndex: @escaping (Int) -> ()) {
         setEstrogenDataForToday(interval: interval,
