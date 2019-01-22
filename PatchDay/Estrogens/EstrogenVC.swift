@@ -96,11 +96,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
        4.) Segue back to the EstrogensVC
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
-    
         let interval = Defaults.getTimeInterval()
         if let estro = estrogen {
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
-            saveAttributes()    // Save
+            saveData()    // Save
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
@@ -113,7 +112,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
         
         let estrosDue = Schedule.totalDue(interval: interval)
-        self.navigationController?.tabBarItem.badgeValue = (estrosDue <= 0) ? nil : String(estrosDue)
+        self.navigationController?.tabBarItem.badgeValue =
+            (estrosDue <= 0) ? nil : String(estrosDue)
         
         // Transition
         if let navCon = navigationController {
@@ -295,28 +295,39 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return siteTextHasChanged || dateTextHasChanged
     }
     
-    /// Saves any changed attributes.
-    private func saveAttributes() {
-        // Save site
+    private func saveSite() {
         if siteTextHasChanged {
-            if let site = SiteSchedule.getSite(at: siteIndexSelected) {
+            State.siteChanged = true
+            switch (SiteSchedule.getSite(at: siteIndexSelected),
+                    chooseSiteButton.text) {
+            // Attempt saving site via MOSite first
+            case (let site, _) where site != nil :
                 let setter = Schedule.setEstrogenDataForToday
-                EstrogenSchedule.setSite(of: estrogenScheduleIndex, with: site,
+                EstrogenSchedule.setSite(of: estrogenScheduleIndex,
+                                         with: site!,
                                          setSharedData: setter)
-                State.siteChanged = true
-            } else if let name = chooseSiteButton.text {
-                EstrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name)
+            // Else, try with a sitebackup name
+            case (nil, let name) where name != nil :
+                EstrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex,
+                                                   with: name!)
+            default : break
             }
         }
-        
-        // Save date
+    }
+    
+    private func saveDate() {
         if dateTextHasChanged {
             let setter = Schedule.setEstrogenDataForToday
             EstrogenSchedule.setDate(of: estrogenScheduleIndex,
                                      with: datePicker.date,
                                      setSharedData: setter)
         }
-        
+    }
+    
+    /// Saves any changed attributes.
+    private func saveData() {
+        saveSite()
+        saveDate()
         // For EstrogensVC animation.
         if !dateTextHasChanged {
             State.onlySiteChanged = true

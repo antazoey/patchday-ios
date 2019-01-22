@@ -44,7 +44,7 @@ public class PDDefaults: NSObject {
     private var state: PDState
     private var alerter: PatchDataAlert?
 
-    // MARK: - a  initializer
+    // MARK: - initializer
     
     internal init(estrogenSchedule: EstrogenSchedule,
                   siteSchedule: SiteSchedule,
@@ -102,7 +102,7 @@ public class PDDefaults: NSObject {
 
     // MARK: - Setters
     
-    public func setDeliveryMethod(to method: String) {
+    public func setDeliveryMethod(to method: String, shouldReset: Bool = true) {
         typealias Methods = PDStrings.DeliveryMethods
         let methods = [Methods.injections, Methods.patches]
         let usingPatches = (method == PDStrings.DeliveryMethods.patches)
@@ -118,8 +118,10 @@ public class PDDefaults: NSObject {
                 let c = usingPatches ? 3 : 1
                 self.setQuantityWithoutWarning(to: c)
             }
-            siteSchedule.reset(completion: setCount)
-            estrogenSchedule.reset(completion: setCount)
+            if shouldReset {
+                siteSchedule.reset(completion: setCount)
+                estrogenSchedule.reset(completion: setCount)
+            }
             state.deliveryMethodChanged = true
         }
     }
@@ -242,9 +244,9 @@ public class PDDefaults: NSObject {
             deliveryMethod = dm
         } else if let dm = std_defaults.object(forKey: key) as? String {
             // set in the primary defaults
-            setDeliveryMethod(to: dm)
+            setDeliveryMethod(to: dm, shouldReset: false)
         } else {
-            setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
+            setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0], shouldReset: false)
         }
     }
     

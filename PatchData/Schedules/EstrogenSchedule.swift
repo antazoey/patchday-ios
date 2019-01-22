@@ -164,6 +164,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public func setBackUpSiteName(of index: Index, with name: String) {
         if index < count() && index >= 0 {
             estrogens[index].setSiteBackup(to: name)
+            PatchData.save()
         }
     }
     

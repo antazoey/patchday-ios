@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             PillSchedule.reset()
         }
         let interval = Defaults.getTimeInterval()
-        let count = Defaults.getQuantity()
         let index = Defaults.getSiteIndex()
         let usingPatches = Defaults.usingPatches()
         let setSiteIndex = Defaults.setSiteIndex
@@ -42,8 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set the correct app badge value.
         setBadge(with: Schedule.totalDue(interval: interval))
-        
-        Schedule.estrogenSchedule.delete(after: count)
 
         // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()

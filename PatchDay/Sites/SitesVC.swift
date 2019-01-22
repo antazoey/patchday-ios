@@ -39,7 +39,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         reloadSiteNames()
         siteTable.reloadData()
         setTitle()
-        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0), shouldHide: false)
+        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0),
+                                     shouldHide: false)
     }
     
     // MARK: - Table and cell characteristics.
@@ -85,8 +86,12 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let siteCell = siteTable.dequeueReusableCell(withIdentifier: "siteCellReuseId") as! SiteTableViewCell
-        siteCell.configure(at: indexPath.row, name: siteNames[indexPath.row], siteCount: siteNames.count, isEditing: siteTable.isEditing)
+        let id = "siteCellReuseId"
+        let siteCell = siteTable.dequeueReusableCell(withIdentifier: id) as! SiteTableViewCell
+        siteCell.configure(at: indexPath.row,
+                           name: siteNames[indexPath.row],
+                           siteCount: siteNames.count,
+                           isEditing: siteTable.isEditing)
         return siteCell
     }
     
@@ -104,20 +109,25 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     // Indentation for edit mode
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+    func tableView(_ tableView: UITableView,
+                   shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
     
     // Delete cell (deletes MOSite)
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteCell(indexPath: indexPath)
         }
     }
     
     // Reorder cell (reorders MOSite order attributes)
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   moveRowAt sourceIndexPath: IndexPath,
+                   to destinationIndexPath: IndexPath) {
         let schedule = SiteSchedule
         let siteToMove = schedule.sites[sourceIndexPath.row]
         schedule.sites.remove(at: sourceIndexPath.row)
@@ -207,12 +217,17 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         switch items[1].title {
         case PDStrings.ActionStrings.edit :
             items[1].title = PDStrings.ActionStrings.done
-            items[0] = UIBarButtonItem(title: PDStrings.ActionStrings.reset, style: .plain, target: self, action: #selector(resetTapped))
+            items[0] = UIBarButtonItem(title: PDStrings.ActionStrings.reset,
+                                       style: .plain,
+                                       target: self,
+                                       action: #selector(resetTapped))
             items[0].tintColor = UIColor.red
             
         case PDStrings.ActionStrings.done :
             items[1].title = PDStrings.ActionStrings.edit
-            items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
+            items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
+                                       target: self,
+                                       action: #selector(insertTapped))
             items[0].tintColor = PDColors.pdGreen
         default : break
         }
@@ -231,19 +246,23 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         siteTable.deleteRows(at: [indexPath], with: .fade)
         siteTable.reloadData()
         if indexPath.row <= (siteNames.count-1) {
-            
             // Reset cell colors
             for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
-                siteTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
+                siteTable.cellForRow(at: nextIndexPath)?.backgroundColor =
+                    (i % 2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
             }
         }
     }
     
     private func loadBarButtons() {
-        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
+        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
+                                           target: self,
+                                           action: #selector(insertTapped))
         insertButton.tintColor = PDColors.pdGreen
-        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit, style: .plain, target: self, action: #selector(editTapped))
+        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit, style: .plain,
+                                         target: self,
+                                         action: #selector(editTapped))
         navigationItem.rightBarButtonItems = [insertButton, editButton]
     }
     

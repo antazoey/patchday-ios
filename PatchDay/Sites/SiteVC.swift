@@ -40,7 +40,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             topConstraint.constant = 100
         }
         nameText.autocapitalizationType = .words
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
+        navigationItem.rightBarButtonItem =
+            UIBarButtonItem(title: PDStrings.ActionStrings.save,
+                            style: .plain,
+                            target: self,
+                            action: #selector(saveButtonTapped(_:)))
         disableSave()
         nameText.borderStyle = .none
         nameText.delegate = self
@@ -106,8 +110,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             if i >= 0 && i < count {
                 SiteSchedule.setName(at: i, to: name)
             } else if i == count,
-                let site = SiteSchedule.insert() {
-                site.setName(name)
+                let _ = SiteSchedule.insert() {
+                SiteSchedule.setName(at: i, to: name)
             }
         }
         segueToSitesVC()
@@ -121,10 +125,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             nameText.isEnabled = true
             typeNameButton.isEnabled = false
             textField.restorationIdentifier = "select"
-        }
-            
-        // Select site from picker rather than type
-        else {
+        } else {
+            // Select site from picker rather than type
             view.endEditing(true)
             nameText.isEnabled = false
             openPicker(namePicker)
@@ -147,8 +149,10 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Picker functions
     
     private func openPicker(_ picker: UIPickerView) {
-        UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { picker.isHidden = false
-        })
+        UIView.transition(with: picker as UIView,
+                          duration: 0.4,
+                          options: .transitionFlipFromTop,
+                          animations: { picker.isHidden = false })
             self.typeNameButton.isEnabled = false
         if let n = nameText.text, let i = namePickerSet.index(of: n) {
             namePicker.selectRow(i, inComponent: 0, animated: true)
@@ -178,7 +182,10 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         UIView.transition(with: namePicker as UIView,
                           duration: 0.4,
                           options: .transitionCrossDissolve,
-                          animations: { self.namePicker.isHidden = true; self.bottomLine.isHidden = false; self.siteImage.isHidden = false
+                          animations: {
+                            self.namePicker.isHidden = true;
+                            self.bottomLine.isHidden = false;
+                            self.siteImage.isHidden = false
         }) {
             (void) in
             self.nameText.text = self.namePickerSet[row]
@@ -243,5 +250,4 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func disableSave() {
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
-
 }

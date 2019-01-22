@@ -70,7 +70,7 @@ class PDDefaultsTests: XCTestCase {
     func testDeliveryMethod() {
         defaults.setDeliveryMethod(to: "Injections")
         XCTAssertFalse(estrogenSchedule.usingPatches)
-        XCTAssertFalse(estrogenSchedule.usingPatches)
+        XCTAssertFalse(siteSchedule.usingPatches)
         XCTAssertEqual(defaults.getDeliveryMethod(), "Injections")
         XCTAssertEqual(estrogenSchedule.count(), 1)
         XCTAssertEqual(estrogenSchedule.quantity, 1)
@@ -84,6 +84,11 @@ class PDDefaultsTests: XCTestCase {
         XCTAssertEqual(siteSchedule.count(), 4)
         defaults.setDeliveryMethod(to: "BAD")
         XCTAssertNotEqual(defaults.getDeliveryMethod(), "BAD")
+        // ignore resets
+        defaults.setDeliveryMethod(to: "Injections", shouldReset: false)
+        XCTAssertEqual(estrogenSchedule.count(), 3)
+        XCTAssertEqual(estrogenSchedule.quantity, 3)
+        XCTAssertEqual(siteSchedule.count(), 4)
     }
     
     func testTimeInterval() {

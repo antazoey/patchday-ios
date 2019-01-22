@@ -69,7 +69,6 @@ public class SiteSchedule: PDScheduleProtocol {
                 sites[i].setName(resetNames[i])
                 sites[i].setImageIdentifier(resetNames[i])
             } else if let site = insert() {
-                site.setOrder(Int16(i))
                 site.setName(resetNames[i])
                 site.setImageIdentifier(resetNames[i])
             }
@@ -99,7 +98,7 @@ public class SiteSchedule: PDScheduleProtocol {
                 sites[i].decrement()
             }
         }
-        sites = sites.filter() { $0.getOrder() != -1 && $0.getName() != ""}
+        filterEmpty()
         sort()
         PatchData.save()
     }
@@ -113,7 +112,6 @@ public class SiteSchedule: PDScheduleProtocol {
             SiteNames.injectionSiteNames
         for i in 0..<names.count {
             if let site = insert() {
-                site.setOrder(Int16(i))
                 site.setName(names[i])
                 site.setImageIdentifier(names[i])
                 sites.append(site)
@@ -126,11 +124,18 @@ public class SiteSchedule: PDScheduleProtocol {
     
     /// Removes all sites with empty or nil names from the sites.
     override public func filterEmpty() {
-        sites = sites.filter() {
-            $0.getName() != ""
-                && $0.getName() != nil
-                && $0.getOrder() > -1
+        var sites_new: [MOSite] = []
+        sites.forEach() {
+            if $0.getName() == ""
+                || $0.getName() == nil
+                || $0.getOrder() < 0 {
+                PatchData.getContext().delete($0)
+            } else {
+                sites_new.append($0)
+            }
         }
+        sites = sites_new
+        PatchData.save()
     }
     
     override public func sort() {
