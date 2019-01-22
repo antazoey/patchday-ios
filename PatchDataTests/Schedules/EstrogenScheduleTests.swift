@@ -56,20 +56,20 @@ class EstrogenScheduleTests: XCTestCase {
         estrogenSchedule.delete(after: -1)
         let youngestDate = Date(timeIntervalSince1970: 7000000) as NSDate
         let youngest = estrogenSchedule.insert()
-        youngest?.setDate(with: youngestDate)
+        youngest?.setDate(youngestDate)
         let oldestDate = Date(timeIntervalSince1970: 0) as NSDate
         let oldest = estrogenSchedule.insert()
-        oldest?.setDate(with: oldestDate)
+        oldest?.setDate(oldestDate)
         let middleDate = Date(timeIntervalSince1970: 10000) as NSDate
         let middle = estrogenSchedule.insert()
-        middle?.setDate(with: middleDate)
+        middle?.setDate(middleDate)
         estrogenSchedule.sort()
         if let estro1 = estrogenSchedule.getEstrogen(at: 0),
             let estro2 = estrogenSchedule.getEstrogen(at: 1),
             let estro3 = estrogenSchedule.getEstrogen(at: 2) {
             XCTAssert(estro1 < estro2)
             XCTAssert(estro2 < estro3)
-            estro1.setDate(with: youngestDate)
+            estro1.setDate(youngestDate)
             estrogenSchedule.sort()
             if let estro4 = estrogenSchedule.getEstrogen(at: 0) {
                 XCTAssertEqual(estro4.getDate(), middleDate)

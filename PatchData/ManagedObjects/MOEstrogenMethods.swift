@@ -25,12 +25,12 @@ extension MOEstrogen {
     
     // MARK: - Getters and setters
     
-    public func setSite(with site: MOSite?) {
+    public func setSite(_ site: MOSite?) {
         self.siteRelationship = site
         self.siteNameBackUp = nil
     }
     
-    public func setDate(with date: NSDate) {
+    public func setDate(_ date: NSDate = NSDate()) {
         self.date = date
     }
     
@@ -58,19 +58,14 @@ extension MOEstrogen {
     }
     
     public func getSiteNameBackUp() -> String? {
-        if siteRelationship == nil {
-            return self.siteNameBackUp
-        }
-        return nil
+        return (siteRelationship == nil) ? siteNameBackUp : nil
     }
     
     public func getSiteName() -> String {
-        if let site = getSite(), let name = site.getName() {
-            return name
-        } else if let name = getSiteNameBackUp() {
-            return name
-        } else {
-            return PDStrings.PlaceholderStrings.new_site
+        let site = getSite()?.getName() ?? getSiteNameBackUp()
+        switch (site) {
+        case nil : return PDStrings.PlaceholderStrings.new_site
+        case let s : return s!
         }
     }
     
@@ -83,23 +78,6 @@ extension MOEstrogen {
     }
     
     // MARK: - Strings
-    
-    public func string() -> String {
-        var str = getDatePlacedAsString()
-        if let site = getSite(),
-            let n = site.getName() {
-            str += ", " + n
-        }
-        return str
-    }
-    
-    public func getDatePlacedAsString() -> String {
-        guard let dateAdded = date else {
-            return PDStrings.PlaceholderStrings.unplaced
-        }
-        return PDDateHelper.format(date: dateAdded as Date,
-                                   useWords: true)
-    }
     
     public func expirationDate(interval: String) -> Date? {
         if let date = getDate() as Date?,
@@ -144,9 +122,9 @@ extension MOEstrogen {
     /// Returns if the Estrogen is located somewhere not in the default PatchDay sites.
     public func isCustomLocated(usingPatches: Bool) -> Bool {
         let n = getSiteName()
-        let contains: Bool = (usingPatches) ?
-            PDStrings.SiteNames.patchSiteNames.contains(n) :
-            PDStrings.SiteNames.injectionSiteNames.contains(n)
-        return contains
+        let names = usingPatches ?
+            PDStrings.SiteNames.patchSiteNames :
+            PDStrings.SiteNames.injectionSiteNames
+        return !names.contains(n)
     }
 }

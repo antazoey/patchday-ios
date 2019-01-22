@@ -81,7 +81,7 @@ class EstrogenTableViewCell: UITableViewCell {
         typealias Strings = PDStrings.ColonedStrings
         if let estro = Schedule.estrogenSchedule.getEstrogen(at: estrogenIndex),
             let date =  estro.getDate() as Date?,
-            let expDate = PDDateHelper.expirationDate(from: date, interval) {
+            let expDate = estro.expirationDate(interval: interval) {
             if Defaults.usingPatches() {
                 let titleIntro = (estro.isExpired(interval)) ?
                     Strings.expired :

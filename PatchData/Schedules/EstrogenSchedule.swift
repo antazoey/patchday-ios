@@ -125,7 +125,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public func setSite(of index: Index, with site: MOSite,
                         setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
-        estro?.setSite(with: site)
+        estro?.setSite(site)
         if let todaySet = setSharedData {
             todaySet()
         }
@@ -136,7 +136,7 @@ public class EstrogenSchedule: PDScheduleProtocol {
     public func setDate(of index: Index, with date: Date,
                         setSharedData: (() -> ())?) {
         let estro = getEstrogen(at: index)
-        estro?.setDate(with: date as NSDate)
+        estro?.setDate(date as NSDate)
         sort()
         if let todaySet = setSharedData {
             todaySet()
@@ -150,8 +150,8 @@ public class EstrogenSchedule: PDScheduleProtocol {
                             site: MOSite,
                             setSharedData: (() -> ())?) {
         if let estro = getEstrogen(for: id) {
-            estro.setSite(with: site)
-            estro.setDate(with: date)
+            estro.setSite(site)
+            estro.setDate(date)
             sort()
             if let todaySet = setSharedData {
                 todaySet()

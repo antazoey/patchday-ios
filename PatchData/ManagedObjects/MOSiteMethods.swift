@@ -55,15 +55,15 @@ extension MOSite {
         return false
     }
 
-    public func setOrder(to order: Int16) {
+    public func setOrder(_ order: Int16) {
         self.order = order
     }
 
-    public func setImageIdentifier(to imgID: String) {
+    public func setImageIdentifier(_ imgID: String) {
         self.imageIdentifier = imgID
     }
 
-    public func setName(to name: SiteName) {
+    public func setName(_ name: SiteName) {
         self.name = name as String
     }
 

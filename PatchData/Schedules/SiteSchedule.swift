@@ -45,7 +45,7 @@ public class SiteSchedule: PDScheduleProtocol {
     /// Appends the the new site to the sites and returns it.
    override public func insert(completion: (() -> ())? = nil) -> MOSite? {
         if let site = PatchData.insert(type.rawValue) as? MOSite {
-            site.setOrder(to: Int16(sites.count))
+            site.setOrder(Int16(sites.count))
             sites.append(site)
             PatchData.save()
             return site
@@ -65,13 +65,13 @@ public class SiteSchedule: PDScheduleProtocol {
         let newcount = resetNames.count
         for i in 0..<newcount {
             if i < oldCount {
-                sites[i].setOrder(to: Int16(i))
-                sites[i].setName(to: resetNames[i])
-                sites[i].setImageIdentifier(to: resetNames[i])
+                sites[i].setOrder(Int16(i))
+                sites[i].setName(resetNames[i])
+                sites[i].setImageIdentifier(resetNames[i])
             } else if let site = insert() {
-                site.setOrder(to: Int16(i))
-                site.setName(to: resetNames[i])
-                site.setImageIdentifier(to: resetNames[i])
+                site.setOrder(Int16(i))
+                site.setName(resetNames[i])
+                site.setImageIdentifier(resetNames[i])
             }
         }
         if oldCount > resetNames.count {
@@ -113,9 +113,9 @@ public class SiteSchedule: PDScheduleProtocol {
             SiteNames.injectionSiteNames
         for i in 0..<names.count {
             if let site = insert() {
-                site.setOrder(to: Int16(i))
-                site.setName(to: names[i])
-                site.setImageIdentifier(to: names[i])
+                site.setOrder(Int16(i))
+                site.setName(names[i])
+                site.setImageIdentifier(names[i])
                 sites.append(site)
             }
         }
@@ -154,15 +154,15 @@ public class SiteSchedule: PDScheduleProtocol {
         }
         // Append new site
         let site = insert()
-        site?.setName(to: name)
-        site?.setImageIdentifier(to: name)
+        site?.setName(name)
+        site?.setImageIdentifier(name)
         return site
     }
     
     /// Sets a the siteName for the site at the given index.
     public func setName(at index: Index, to name: String) {
         if index >= 0 && index < sites.count {
-            sites[index].setName(to: name)
+            sites[index].setName(name)
             PatchData.save()
         }
     }
@@ -173,8 +173,8 @@ public class SiteSchedule: PDScheduleProtocol {
         if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
             // Make sure index is correct both before and after swap
             sort()
-            sites[index].setOrder(to: newOrder)
-            sites[newIndex].setOrder(to: Int16(index))
+            sites[index].setOrder(newOrder)
+            sites[newIndex].setOrder(Int16(index))
             sort()
             PatchData.save()
         }
@@ -186,7 +186,7 @@ public class SiteSchedule: PDScheduleProtocol {
             PDStrings.SiteNames.patchSiteNames :
             PDStrings.SiteNames.injectionSiteNames
         if site_set.contains(newId), index >= 0 && index < sites.count {
-            sites[index].setImageIdentifier(to: newId)
+            sites[index].setImageIdentifier(newId)
             PatchData.save()
         }
     }

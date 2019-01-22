@@ -188,16 +188,21 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return 1
     }
     
-    internal func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             numberOfRowsInComponent component: Int) -> Int {
         return SiteSchedule.count()
     }
     
-    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             titleForRow row: Int,
+                             forComponent component: Int) -> String? {
         return SiteSchedule.getNames()[row]
     }
     
     // Done
-    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             didSelectRow row: Int,
+                             inComponent component: Int) {
         let newSiteName = SiteSchedule.getNames()[row]
         chooseSiteButton.text = newSiteName
         // other view changes
@@ -220,13 +225,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction internal func chooseDateTextTapped(_ sender: Any) {
         
         // Unhide date picker
-        UIView.transition(with: datePickerInputView as UIView, duration: 0.4, options: .transitionCrossDissolve, animations: { self.datePickerInputView.isHidden = false
+        UIView.transition(with: datePickerInputView as UIView,
+                          duration: 0.4,
+                          options: .transitionCrossDissolve,
+                          animations: { self.datePickerInputView.isHidden = false
         }, completion: nil)
-        if let date = dateSelected {
-            datePicker.date = date
-        }
-        else if let date = estrogen?.getDate() {
-            datePicker.date = date as Date
+        if let date = dateSelected ?? estrogen?.getDate() as Date? {
+             datePicker.date = date
         }
         let doneButton = makeDoneButton()
         datePickerInputView.addSubview(doneButton)
@@ -234,7 +239,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         chooseDateButton.isEnabled = false
         typeSiteButton.isEnabled = false
         chooseSiteButton.isEnabled = false
-        
     }
     
     @objc internal func datePickerDone(_ sender: Any) {
@@ -245,7 +249,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let interval = Defaults.getTimeInterval()
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControlState.normal)
-        if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {            // disp exp date
+        if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {
             expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
         }
         // outer view changes
@@ -257,18 +261,17 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         siteLabel.isHidden = false
         dateTextHasChanged = true
         chooseSiteButton.isEnabled = true
-
     }
     
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        if let site = estrogen.getSite(), let siteName = site.getName() {
-            chooseSiteButton.text = siteName
-        } else if let name = estrogen.getSiteNameBackUp() {
-            chooseSiteButton.text = name
-        } else {
+        let n = estrogen.getSiteName()
+        switch n {
+        case PDStrings.PlaceholderStrings.new_site:
             chooseSiteButton.text = PDStrings.ActionStrings.select
+        default:
+            chooseSiteButton.text = n
         }
         if let date = estrogen.getDate() {
             let interval = Defaults.getTimeInterval()
@@ -358,7 +361,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func cancelNotification() {
-        appDelegate.notificationsController.cancelEstrogenNotification(at: estrogenScheduleIndex)
+        let nc = appDelegate.notificationsController
+        nc.cancelEstrogenNotification(at: estrogenScheduleIndex)
     }
     
     // MARK: - Private view creators / MOEstrogendifiers
@@ -441,7 +445,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func configureBadgeIcon(_ wasExpiredBeforeSave: Bool,_ isExpiredAfterSave: Bool) {
         // New estro is fresh
-        if !isExpiredAfterSave && UIApplication.shared.applicationIconBadgeNumber > 0 {
+        let hasBadge = UIApplication.shared.applicationIconBadgeNumber > 0
+        if !isExpiredAfterSave && hasBadge {
             UIApplication.shared.applicationIconBadgeNumber -= 1
         } else if !wasExpiredBeforeSave && isExpiredAfterSave {
             // New estro is not fresh

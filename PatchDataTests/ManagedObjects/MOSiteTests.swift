@@ -38,9 +38,9 @@ class MOSiteTests: XCTestCase {
         let site_higher = siteSchedule.insert()!
         let site_negOrder = siteSchedule.insert()!
         let site_nilOrder = siteSchedule.insert()!
-        site_lower.setOrder(to: 0)
-        site_higher.setOrder(to: 1)
-        site_negOrder.setOrder(to: -23)
+        site_lower.setOrder(0)
+        site_higher.setOrder(1)
+        site_negOrder.setOrder(-23)
         site_nilOrder.reset()
         // Sites with lower orders are less than
         XCTAssert(site_lower < site_higher)
@@ -61,9 +61,9 @@ class MOSiteTests: XCTestCase {
         let site_higher = siteSchedule.insert()!
         let site_negOrder = siteSchedule.insert()!
         let site_nilOrder = siteSchedule.insert()!
-        site_lower.setOrder(to: 0)
-        site_higher.setOrder(to: 1)
-        site_negOrder.setOrder(to: -23)
+        site_lower.setOrder(0)
+        site_higher.setOrder(1)
+        site_negOrder.setOrder(-23)
         site_nilOrder.reset()
         // Sites with higher orders are greater than
         XCTAssert(site_higher > site_lower)
@@ -86,11 +86,11 @@ class MOSiteTests: XCTestCase {
         let site_negOrder = siteSchedule.insert()!
         let site_diffNegOrder = siteSchedule.insert()!
         let site_nilOrder = siteSchedule.insert()!
-        site_lower.setOrder(to: 0)
-        site_sameAsLower.setOrder(to: 0)
-        site_higher.setOrder(to: 1)
-        site_negOrder.setOrder(to: -23)
-        site_diffNegOrder.setOrder(to: -19)
+        site_lower.setOrder(0)
+        site_sameAsLower.setOrder(0)
+        site_higher.setOrder(1)
+        site_negOrder.setOrder(-23)
+        site_diffNegOrder.setOrder(-19)
         site_nilOrder.reset()
         // Sites with the same order are equal
         XCTAssert(site_lower == site_sameAsLower)
@@ -115,11 +115,11 @@ class MOSiteTests: XCTestCase {
         let site_negOrder = siteSchedule.insert()!
         let site_diffNegOrder = siteSchedule.insert()!
         let site_nilOrder = siteSchedule.insert()!
-        site_lower.setOrder(to: 0)
-        site_sameAsLower.setOrder(to: 0)
-        site_higher.setOrder(to: 1)
-        site_negOrder.setOrder(to: -23)
-        site_diffNegOrder.setOrder(to: -19)
+        site_lower.setOrder(0)
+        site_sameAsLower.setOrder(0)
+        site_higher.setOrder(1)
+        site_negOrder.setOrder(-23)
+        site_diffNegOrder.setOrder(-19)
         site_nilOrder.reset()
         // Sites with the same order are equal
         XCTAssertFalse(site_lower != site_sameAsLower)
@@ -145,10 +145,10 @@ class MOSiteTests: XCTestCase {
         let estro = estrogenSchedule.getEstrogen(at: 0)!
         let site = siteSchedule.getSite(at: 0)!
         XCTAssertFalse(site.isOccupied())
-        estro.setSite(with: site)
+        estro.setSite(site)
         XCTAssert(site.isOccupied())
         let anotherEstro = estrogenSchedule.getEstrogen(at: 1)!
-        anotherEstro.setSite(with: site)
+        anotherEstro.setSite(site)
         XCTAssert(site.isOccupied(byAtLeast: 2))
         XCTAssertFalse(site.isOccupied(byAtLeast: 3))
     }
@@ -157,8 +157,8 @@ class MOSiteTests: XCTestCase {
         let site = siteSchedule.getSite(at: 0)!
         site.reset()
         XCTAssertEqual(site.string(), "0. New Site")
-        site.setOrder(to: 665)
-        site.setName(to: "Devil")
+        site.setOrder(665)
+        site.setName("Devil")
         XCTAssertEqual(site.string(), "666. Devil")
     }
     
@@ -168,7 +168,7 @@ class MOSiteTests: XCTestCase {
         // Does not decrement when already 0
         site.decrement()
         XCTAssertEqual(site.getOrder(), 0)
-        site.setOrder(to: 666)
+        site.setOrder(666)
         site.decrement()
         XCTAssertEqual(site.getOrder(), 666 - 1)
     }

@@ -187,7 +187,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func transformIntoDoneButton(_ button: UIButton) {
         button.isSelected = true
         button.removeTarget(nil, action: nil, for: .allEvents)
-        button.addTarget(self, action: #selector(timePickerDone(sender:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(timePickerDone(sender:)),
+                         for: .touchUpInside)
     }
     
     @objc internal func timePickerDone(sender: Any) {
@@ -206,7 +207,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             time1Changed = true
             time1Selected = selectedTime
             time1Button.removeTarget(nil, action: nil, for: .allEvents)
-            time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
+            time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)),
+                                  for: .touchUpInside)
             if sliderSaysTwoPills() {
                 time2Button.isEnabled = true
             }
@@ -214,7 +216,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             time2Changed = true
             time2Selected = selectedTime
             time2Button.removeTarget(nil, action: nil, for: .allEvents)
-            time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
+            time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)),
+                                  for: .touchUpInside)
             time1Button.isEnabled = true
         }
     }
@@ -226,14 +229,19 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PDStrings.PillTypes.defaultPills.count + PDStrings.PillTypes.extraPills.count
+        typealias PT = PDStrings.PillTypes
+        return PT.defaultPills.count + PT.extraPills.count
     }
     
-    internal func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             titleForRow row: Int,
+                             forComponent component: Int) -> String? {
         return names[row]
     }
     
-    internal func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    internal func pickerView(_ pickerView: UIPickerView,
+                             didSelectRow row: Int,
+                             inComponent component: Int) {
         nameSelected = names[row]
         nameTextField.text = nameSelected
         nameChanged = true
@@ -248,13 +256,13 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
         
         if !closing {
-            UIView.transition(with: namePicker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { self.namePicker.isHidden = closing
-            }, completion: {
-                (void) in return
-            })
+            UIView.transition(with: namePicker as UIView,
+                              duration: 0.4,
+                              options: .transitionFlipFromTop,
+                              animations: { self.namePicker.isHidden = closing },
+                              completion: { (void) in return })
         } else {
             self.namePicker.isHidden = true
-
         }
         nameTextField.isEnabled = closing
     }
@@ -280,7 +288,10 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Private loaders
     
     private func loadVCTitle() {
-        title = (pill?.getName() == PDStrings.PlaceholderStrings.new_pill) ? PDStrings.VCTitles.pill_new : PDStrings.VCTitles.pill_edit
+        title = (pill?.getName() ==
+            PDStrings.PlaceholderStrings.new_pill) ?
+                PDStrings.VCTitles.pill_new :
+                PDStrings.VCTitles.pill_edit
     }
     
     // Set VC pill as well as reflected attributes in the interactive UI

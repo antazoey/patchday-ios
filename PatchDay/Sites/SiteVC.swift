@@ -107,7 +107,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                 SiteSchedule.setName(at: i, to: name)
             } else if i == count,
                 let site = SiteSchedule.insert() {
-                site.setName(to: name)
+                site.setName(name)
             }
         }
         segueToSitesVC()
