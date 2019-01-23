@@ -15,7 +15,7 @@ public class PDDateHelper: NSObject {
     }
     
     /// Returns the day of the week, such as "Tuesday"
-    public static func dayOfWeekString(date: Date) -> String {
+    public class func dayOfWeekString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         if let word = dateWord(from: date) {
             dateFormatter.dateFormat = "h:mm a"
@@ -26,15 +26,15 @@ public class PDDateHelper: NSObject {
     }
     
     /// Returns word of date, such as "Tomorrow"
-    public static func dateWord(from: Date) -> String? {
+    public static func dateWord(from date: Date) -> String? {
         let calendar = Calendar.current
-        if calendar.isDateInToday(from) {
+        if calendar.isDateInToday(date) {
             return PDStrings.DayStrings.today
         } else if let yesterday = getDate(at: Date(), daysFromNow: -1),
-            calendar.isDate(from, inSameDayAs: yesterday) {
+            calendar.isDate(date, inSameDayAs: yesterday) {
             return PDStrings.DayStrings.yesterday
         } else if let tomorrow = getDate(at: Date(), daysFromNow: 1),
-            calendar.isDate(from, inSameDayAs: tomorrow) {
+            calendar.isDate(date, inSameDayAs: tomorrow) {
             return PDStrings.DayStrings.tomorrow
         }
         return nil

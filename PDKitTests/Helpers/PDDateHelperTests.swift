@@ -38,12 +38,12 @@ class PDDateHelperTests: XCTestCase {
         var expected = "Today"
         XCTAssertEqual(dateWord, expected)
         
-        let yesterday = Date(timeInterval: -86400, since: today)
+        let yesterday = Date(timeInterval: -86_400, since: today)
         dateWord = PDDateHelper.dateWord(from: yesterday)
         expected = "Yesterday"
         XCTAssertEqual(dateWord, expected)
         
-        let tomorrow = Date(timeInterval: 86400, since: today)
+        let tomorrow = Date(timeInterval: 86_400, since: today)
         dateWord = PDDateHelper.dateWord(from: tomorrow)
         expected = "Tomorrow"
         XCTAssertEqual(dateWord, expected)
@@ -78,7 +78,7 @@ class PDDateHelperTests: XCTestCase {
     func testGetDateAtTimeWithDaysToAdd() {
         let now = Date()
         if let actualDate = PDDateHelper.getDate(at: now, daysFromNow: 3) {
-            let expectedDate = Date(timeInterval: 3*86400, since: now)
+            let expectedDate = Date(timeInterval: 3 * 86_400, since: now)
             let actual = PDDateHelper.dayOfWeekString(date: actualDate)
             let expected = PDDateHelper.dayOfWeekString(date: expectedDate)
             XCTAssertEqual(actual, expected)
@@ -102,7 +102,7 @@ class PDDateHelperTests: XCTestCase {
     }
     
     func testExpirationDate() {
-        let testDate = Date(timeInterval: 21000, since: d1)
+        let testDate = Date(timeInterval: 21_000, since: d1)
         let actual_expDate1 = PDDateHelper.expirationDate(from: testDate,
                                                           halfweek_interval)
         let actual_expDate2 = PDDateHelper.expirationDate(from: testDate,
@@ -110,9 +110,9 @@ class PDDateHelperTests: XCTestCase {
         let actual_expDate3 = PDDateHelper.expirationDate(from: testDate,
                                                           two_weeks_interval)
         
-        let expected_expDate1 = Date(timeInterval: 302400, since: testDate)
-        let expected_expDate2 = Date(timeInterval: 604800, since: testDate)
-        let expected_expDate3 = Date(timeInterval: 1209600, since: testDate)
+        let expected_expDate1 = Date(timeInterval: 302_400, since: testDate)
+        let expected_expDate2 = Date(timeInterval: 604_800, since: testDate)
+        let expected_expDate3 = Date(timeInterval: 1_209_600, since: testDate)
         
         XCTAssertEqual(actual_expDate1, expected_expDate1)
         XCTAssertEqual(actual_expDate2, expected_expDate2)
@@ -123,7 +123,7 @@ class PDDateHelperTests: XCTestCase {
         let now = Date()
         if let actual_interval_1 = PDDateHelper.expirationInterval(halfweek_interval,
                                                                    date: now),
-            let expected_interval_1 = TimeInterval(exactly: 302400) {
+            let expected_interval_1 = TimeInterval(exactly: 302_400) {
                 let a1 = Float(actual_interval_1)
                 let e1 = Float(expected_interval_1)
                 XCTAssertEqual(a1, e1, accuracy: 0.01)
@@ -132,7 +132,7 @@ class PDDateHelperTests: XCTestCase {
         }
         if let actual_interval_2 = PDDateHelper.expirationInterval(week_interval,
                                                                    date: now),
-            let expected_interval_2 = TimeInterval(exactly: 604800) {
+            let expected_interval_2 = TimeInterval(exactly: 604_800) {
             let a2 = Float(actual_interval_2)
             let e2 = Float(expected_interval_2)
             XCTAssertEqual(a2, e2, accuracy: 0.01)
@@ -141,7 +141,7 @@ class PDDateHelperTests: XCTestCase {
         }
         if let actual_interval_3 = PDDateHelper.expirationInterval(two_weeks_interval,
                                                                    date: now),
-            let expected_interval_3 = TimeInterval(exactly: 1209600) {
+            let expected_interval_3 = TimeInterval(exactly: 1_209_600) {
             let a3 = Float(actual_interval_3)
             let e3 = Float(expected_interval_3)
             XCTAssertEqual(a3, e3, accuracy: 0.01)
