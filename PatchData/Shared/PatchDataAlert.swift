@@ -48,7 +48,7 @@ internal class PatchDataAlert: NSObject {
             let contStr = PDStrings.ActionStrings.cont
             let continueAction = UIAlertAction(title: contStr,
                                                style: .destructive) {
-                (void) in
+                void in
                 // Note: newCount is start_i because reset only occurs
                 // when decreasing count.
                 self.estrogenSchedule.reset(from: newCount)
@@ -57,7 +57,7 @@ internal class PatchDataAlert: NSObject {
             }
             let title = PDStrings.ActionStrings.decline
             let cancelAction = UIAlertAction(title: title,style: .cancel) {
-                (void) in
+                void in
                 cancel(oldCount)
             }
             alert.addAction(continueAction)
@@ -98,7 +98,7 @@ internal class PatchDataAlert: NSObject {
             let actionTitle = PDStrings.ActionStrings.accept
             let cancelAction = UIAlertAction(title: actionTitle,
                                              style: .destructive) {
-                (void) in
+                void in
                 fatalError()
             }
             alert.addAction(cancelAction)

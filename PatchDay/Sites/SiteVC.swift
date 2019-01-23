@@ -187,7 +187,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                             self.bottomLine.isHidden = false;
                             self.siteImage.isHidden = false
         }) {
-            (void) in
+            void in
             self.nameText.text = self.namePickerSet[row]
             self.typeNameButton.isEnabled = true
             self.nameText.isEnabled = true

@@ -26,7 +26,7 @@ internal class PDAlertController: NSObject {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
-                (void) in
+                void in
                 EstrogenSchedule.reset() {
                     let patches = PDStrings.PickerData.deliveryMethods[0]
                     let c = (newMethod == patches) ? 3 : 1
@@ -40,7 +40,7 @@ internal class PDAlertController: NSObject {
                 
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
-                (void) in
+                void in
                 if oldMethod == PDStrings.PickerData.deliveryMethods[0] {
                     countButton.isEnabled = true
                     countButton.setTitle(String(oldCount), for: .disabled)
@@ -69,7 +69,7 @@ internal class PDAlertController: NSObject {
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.StartUp.title, message: PDStrings.AlertStrings.StartUp.message, preferredStyle: alertStyle)
             let closeAction = UIAlertAction(title: PDStrings.ActionStrings.dismiss, style:     UIAlertActionStyle.cancel, handler: nil)
             let goToAction = UIAlertAction(title: PDStrings.AlertStrings.StartUp.support, style: .default) {
-                (void) in
+                void in
                 if let url = URL(string: "http://www.patchdayhrt.com") {
                     if #available(iOS 10.0, *) {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -92,7 +92,7 @@ internal class PDAlertController: NSObject {
             let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
             currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
             let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
-                (void) in
+                void in
                 if let _ = Schedule.siteSchedule.insert() {
                     estroVC.sitePicker.reloadAllComponents()
                 }

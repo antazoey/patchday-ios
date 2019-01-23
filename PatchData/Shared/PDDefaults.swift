@@ -175,7 +175,7 @@ public class PDDefaults: NSObject {
         }
     }
     
-    public func setQuantityWithoutWarning(to quantity: Int) {
+    @objc public func setQuantityWithoutWarning(to quantity: Int) {
         let oldQuantity = self.quantity
         let counts = PDStrings.PickerData.counts
         if let last = counts.last,

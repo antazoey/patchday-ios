@@ -260,7 +260,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                               duration: 0.4,
                               options: .transitionFlipFromTop,
                               animations: { self.namePicker.isHidden = closing },
-                              completion: { (void) in return })
+                              completion: { void in return })
         } else {
             self.namePicker.isHidden = true
         }

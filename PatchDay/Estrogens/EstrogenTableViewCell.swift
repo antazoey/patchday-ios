@@ -112,10 +112,7 @@ class EstrogenTableViewCell: UITableViewCell {
                               options: .transitionCrossDissolve, animations: {
                 self.stateImage.image = newImage
                 self.stateImage.isHidden = true
-            }) {
-                (void) in
-                self.dateLabel.text = newTitle
-            }
+            }) { void in self.dateLabel.text = newTitle }
         } else {
             stateImage.image = newImage
             dateLabel.text = newTitle
