@@ -42,7 +42,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testInsert() {
-        if let pill = pillSchedule.insert(completion: nil) {
+        if let pill = pillSchedule.insert(completion: nil) as? MOPill {
             XCTAssert(pillSchedule.pills.contains(pill))
         } else {
             XCTFail()
@@ -237,7 +237,7 @@ class PillScheduleTests: XCTestCase {
         pillSchedule.getPill(at: 0)?.setLastTaken(with: yesterday as NSDate)
         pillSchedule.getPill(at: 0)?.setTime1(with: earlier as NSDate)
         XCTAssertEqual(pillSchedule.totalDue(), 1)
-        let pill = pillSchedule.insert(completion: nil)
+        let pill = pillSchedule.insert(completion: nil) as? MOPill
         pill?.setLastTaken(with: yesterday as NSDate)
         pill?.setTime1(with: earlier as NSDate)
         XCTAssertEqual(pillSchedule.totalDue(), 2)

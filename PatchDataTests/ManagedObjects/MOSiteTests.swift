@@ -34,10 +34,10 @@ class MOSiteTests: XCTestCase {
     }
     
     func testLT() {
-        let site_lower = siteSchedule.insert()!
-        let site_higher = siteSchedule.insert()!
-        let site_negOrder = siteSchedule.insert()!
-        let site_nilOrder = siteSchedule.insert()!
+        let site_lower = siteSchedule.insert() as! MOSite
+        let site_higher = siteSchedule.insert() as! MOSite
+        let site_negOrder = siteSchedule.insert() as! MOSite
+        let site_nilOrder = siteSchedule.insert() as! MOSite
         site_lower.setOrder(0)
         site_higher.setOrder(1)
         site_negOrder.setOrder(-23)
@@ -57,10 +57,10 @@ class MOSiteTests: XCTestCase {
     }
     
     func testGT() {
-        let site_lower = siteSchedule.insert()!
-        let site_higher = siteSchedule.insert()!
-        let site_negOrder = siteSchedule.insert()!
-        let site_nilOrder = siteSchedule.insert()!
+        let site_lower = siteSchedule.insert() as! MOSite
+        let site_higher = siteSchedule.insert() as! MOSite
+        let site_negOrder = siteSchedule.insert() as! MOSite
+        let site_nilOrder = siteSchedule.insert() as! MOSite
         site_lower.setOrder(0)
         site_higher.setOrder(1)
         site_negOrder.setOrder(-23)
@@ -80,12 +80,12 @@ class MOSiteTests: XCTestCase {
     }
     
     func testEQ() {
-        let site_lower = siteSchedule.insert()!
-        let site_sameAsLower = siteSchedule.insert()!
-        let site_higher = siteSchedule.insert()!
-        let site_negOrder = siteSchedule.insert()!
-        let site_diffNegOrder = siteSchedule.insert()!
-        let site_nilOrder = siteSchedule.insert()!
+        let site_lower = siteSchedule.insert() as! MOSite
+        let site_sameAsLower = siteSchedule.insert() as! MOSite
+        let site_higher = siteSchedule.insert() as! MOSite
+        let site_negOrder = siteSchedule.insert() as! MOSite
+        let site_diffNegOrder = siteSchedule.insert() as! MOSite
+        let site_nilOrder = siteSchedule.insert() as! MOSite
         site_lower.setOrder(0)
         site_sameAsLower.setOrder(0)
         site_higher.setOrder(1)
@@ -109,12 +109,12 @@ class MOSiteTests: XCTestCase {
     }
     
     func testNQ() {
-        let site_lower = siteSchedule.insert()!
-        let site_sameAsLower = siteSchedule.insert()!
-        let site_higher = siteSchedule.insert()!
-        let site_negOrder = siteSchedule.insert()!
-        let site_diffNegOrder = siteSchedule.insert()!
-        let site_nilOrder = siteSchedule.insert()!
+        let site_lower = siteSchedule.insert() as! MOSite
+        let site_sameAsLower = siteSchedule.insert() as! MOSite
+        let site_higher = siteSchedule.insert() as! MOSite
+        let site_negOrder = siteSchedule.insert() as! MOSite
+        let site_diffNegOrder = siteSchedule.insert() as! MOSite
+        let site_nilOrder = siteSchedule.insert() as! MOSite
         site_lower.setOrder(0)
         site_sameAsLower.setOrder(0)
         site_higher.setOrder(1)
@@ -135,10 +135,6 @@ class MOSiteTests: XCTestCase {
         // Sites with negative orders are equal to sites with nil orders
         XCTAssertFalse(site_negOrder != site_nilOrder)
         XCTAssertFalse(site_nilOrder != site_negOrder)
-    }
-    
-    func testLoadBackupSiteName() {
-        
     }
     
     func testIsOccupied() {

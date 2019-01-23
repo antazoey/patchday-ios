@@ -12,7 +12,7 @@ import PDKit
 
 public typealias Index = Int;
 
-public class EstrogenSchedule: PDScheduleProtocol {
+public class EstrogenSchedule: NSObject, PDScheduling {
     
     override public var description: String {
         return """
@@ -26,26 +26,29 @@ public class EstrogenSchedule: PDScheduleProtocol {
     internal var usingPatches = true
     private var estrogenMap = [UUID: MOEstrogen]()
     
-    init() {
-        super.init(type: .estrogen)
-        // Create a new schedule if no stored estrogens
-        estrogens = mos as! [MOEstrogen]
-        mos = []
+    override init() {
+        super.init()
+        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .estrogen)
+        if let mos = mos_opt {
+            estrogens = mos as! [MOEstrogen]
+        }
         if count() <= 0 {
             new()
         }
+        sort()
         loadMap()
     }
 
     // MARK: - Base class overrides
     
-    override public func count() -> Int {
+    public func count() -> Int {
         return min(estrogens.count, quantity)
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
-    override public func insert(completion: (() -> ())? = nil) -> MOEstrogen? {
-        if let estro = PatchData.insert(type.rawValue) as! MOEstrogen? {
+    public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
+        let type = PDEntity.estrogen.rawValue
+        if let estro: MOEstrogen = PatchData.insert(type) as! MOEstrogen? {
             quantity += 1
             estrogens.append(estro)
             let id = estro.setId()
@@ -56,12 +59,12 @@ public class EstrogenSchedule: PDScheduleProtocol {
         return nil
     }
     
-    override public func sort() {
+    public func sort() {
         estrogens.sort(by: <)
     }
     
     /// Reset the schedule to factory default
-    override public func reset(completion: (() -> ())?) {
+    public func reset(completion: (() -> ())?) {
         let context = PatchData.getContext()
         for estro in estrogens {
             estro.reset()
@@ -77,12 +80,13 @@ public class EstrogenSchedule: PDScheduleProtocol {
     }
     
     /// Resets without changing the quantity
-    override public func new() {
+    public func new() {
         estrogens.removeAll()
         reset(from: 0)
         quantity = usingPatches ? 3 : 1
         for _ in 0..<quantity {
-            let mo = type.rawValue
+            let type = PDEntity.estrogen.rawValue
+            let mo = type
             if let estro = PatchData.insert(mo) as? MOEstrogen {
                 estrogens.append(estro)
             } else {
@@ -93,10 +97,10 @@ public class EstrogenSchedule: PDScheduleProtocol {
     
     // MARK: - Public
 
-    public func delete(after i: Index) {
-        let end = count()
+    func delete(after i: Index) {
         let start = (i >= -1) ? i + 1 : 0
-        if end > start {
+        let end = count()
+        if end >= start {
             for _ in start..<end {
                 if let estro = estrogens.popLast() {
                     quantity -= 1

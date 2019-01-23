@@ -12,7 +12,7 @@ import PDKit
 
 public typealias SiteNameSet = Set<SiteName>
 
-public class SiteSchedule: PDScheduleProtocol {
+public class SiteSchedule: NSObject, PDScheduling {
     
     override public var description: String {
         return """
@@ -25,26 +25,29 @@ public class SiteSchedule: PDScheduleProtocol {
     internal var next: Index = 0
     internal var usingPatches: Bool = true
     
-    init() {
-        super.init(type: .site)
-        sites = self.mos as! [MOSite]
-        mos = []
-        filterEmpty()
+    override init() {
+        super.init()
+        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .site)
+        if let mos = mos_opt {
+            sites = mos as! [MOSite]
+        }
         if sites.count == 0 {
             new()
         }
+        filterEmpty()
         sort()
     }
     
     // MARK: - Overrides
     
-    override public func count() -> Int {
+    public func count() -> Int {
         return sites.count
     }
     
     /// Appends the the new site to the sites and returns it.
-   override public func insert(completion: (() -> ())? = nil) -> MOSite? {
-        if let site = PatchData.insert(type.rawValue) as? MOSite {
+   public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
+    let type = PDEntity.site.rawValue
+        if let site = PatchData.insert(type) as? MOSite {
             site.setOrder(Int16(sites.count))
             sites.append(site)
             PatchData.save()
@@ -54,7 +57,7 @@ public class SiteSchedule: PDScheduleProtocol {
     }
 
     /// Resets the site array a default list of sites.
-    override public func reset(completion: (() -> ())? = nil) {
+    public func reset(completion: (() -> ())? = nil) {
         if (isDefault(usingPatches: usingPatches)) {
             return
         }
@@ -68,7 +71,7 @@ public class SiteSchedule: PDScheduleProtocol {
                 sites[i].setOrder(Int16(i))
                 sites[i].setName(resetNames[i])
                 sites[i].setImageIdentifier(resetNames[i])
-            } else if let site = insert() {
+            } else if let site = insert() as? MOSite {
                 site.setName(resetNames[i])
                 site.setImageIdentifier(resetNames[i])
             }
@@ -87,7 +90,7 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     /// Deletes the site at the given index.
-    override public func delete(at index: Index) {
+    public func delete(at index: Index) {
         if index >= 0 && index < sites.count {
             loadBackupSiteName(from: sites[index])
             PatchData.getContext().delete(sites[index])
@@ -104,14 +107,14 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     /// Generates a generic list of MOSites when there are none in store.
-    override public func new() {
+    public func new() {
         var sites: [MOSite] = []
         typealias SiteNames = PDStrings.SiteNames
         var names = (usingPatches) ?
             SiteNames.patchSiteNames :
             SiteNames.injectionSiteNames
         for i in 0..<names.count {
-            if let site = insert() {
+            if let site = insert() as? MOSite {
                 site.setName(names[i])
                 site.setImageIdentifier(names[i])
                 sites.append(site)
@@ -123,7 +126,7 @@ public class SiteSchedule: PDScheduleProtocol {
     }
     
     /// Removes all sites with empty or nil names from the sites.
-    override public func filterEmpty() {
+    public func filterEmpty() {
         var sites_new: [MOSite] = []
         sites.forEach() {
             if $0.getName() == ""
@@ -138,7 +141,7 @@ public class SiteSchedule: PDScheduleProtocol {
         PatchData.save()
     }
     
-    override public func sort() {
+    public func sort() {
         sites.sort(by: <)
     }
 
@@ -158,7 +161,7 @@ public class SiteSchedule: PDScheduleProtocol {
             return sites[index]
         }
         // Append new site
-        let site = insert()
+        let site = insert() as? MOSite
         site?.setName(name)
         site?.setImageIdentifier(name)
         return site

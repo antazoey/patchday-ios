@@ -27,8 +27,8 @@ class MOPillTests: XCTestCase {
     }
     
     func testLT() {
-        let p1 = pillSchedule.insert(completion: nil)
-        let p2 = pillSchedule.insert(completion: nil)
+        let p1 = pillSchedule.insert(completion: nil) as? MOPill
+        let p2 = pillSchedule.insert(completion: nil) as? MOPill
         let t2 = Time() as NSDate
         let t1 = Time(timeInterval: -3000, since: t2 as Date) as NSDate
         // p1 : timesaday = 2, timestaken = 0, due should be today at t1
@@ -44,8 +44,8 @@ class MOPillTests: XCTestCase {
     }
     
     func testGT() {
-        let p1 = pillSchedule.insert(completion: nil)
-        let p2 = pillSchedule.insert(completion: nil)
+        let p1 = pillSchedule.insert(completion: nil) as? MOPill
+        let p2 = pillSchedule.insert(completion: nil) as? MOPill
         let t2 = Time() as NSDate
         let t1 = Time(timeInterval: -3000, since: t2 as Date) as NSDate
         // p1 : timesaday = 2, timestaken = 0, due should be today at t1
@@ -61,8 +61,8 @@ class MOPillTests: XCTestCase {
     }
     
     func testEQ() {
-        let p1 = pillSchedule.insert(completion: nil)
-        let p2 = pillSchedule.insert(completion: nil)
+        let p1 = pillSchedule.insert(completion: nil) as? MOPill
+        let p2 = pillSchedule.insert(completion: nil) as? MOPill
         let t2 = Time() as NSDate
         let t1 = Time(timeInterval: -3000, since: t2 as Date) as NSDate
         // p1 : timesaday = 2, timestaken = 2, due should be tom at t1
@@ -78,13 +78,13 @@ class MOPillTests: XCTestCase {
     }
     
     func testSetName() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.setName(with: "NAME")
         XCTAssertEqual(p?.getName(), "NAME")
     }
     
     func testSetTimesaday() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.setTime1(with: Time() as NSDate)
         p?.setTime2(with: Time() as NSDate)
         p?.setTimesaday(with: -1)
@@ -98,14 +98,14 @@ class MOPillTests: XCTestCase {
     }
     
     func testSetTime1() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         let t = Time()
         p?.setTime1(with: t as NSDate)
         XCTAssertEqual(p?.getTime1(), t as NSDate)
     }
     
     func testSetTime2() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.reset()
         let t1 = Time()
         let t2 = Time()
@@ -114,14 +114,14 @@ class MOPillTests: XCTestCase {
         XCTAssertEqual(p?.getTime2(), t2 as NSDate)
         
         // Sets both t1 and t2 when there is no t1
-        let p2 = pillSchedule.insert(completion: nil)
+        let p2 = pillSchedule.insert(completion: nil) as? MOPill
         p2?.reset()
         p2?.setTime2(with: t2 as NSDate)
         XCTAssertEqual(p2?.getTime1(), t2 as NSDate)
         XCTAssertEqual(p2?.getTime2(), t2 as NSDate)
         
         // Swaps t1 and t2 when t2 < t1
-        let p3 = pillSchedule.insert(completion: nil)
+        let p3 = pillSchedule.insert(completion: nil) as? MOPill
         p3?.reset()
         let t3 = Time(timeInterval: -3000, since: t1)
         p3?.setTime1(with: t1 as NSDate)
@@ -132,26 +132,26 @@ class MOPillTests: XCTestCase {
     }
     
     func testSetNotify() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.setNotify(with: true)
         XCTAssert((p?.getNotify())!)
     }
     
     func testSetId() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         let id = p?.setId()
         XCTAssertEqual(id, p?.getId())
     }
     
     func testSetLastTaken() {
         let now = Date()
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.setLastTaken(with: now as NSDate)
         XCTAssertEqual(p?.getLastTaken(), now as NSDate)
     }
     
     func testSetTimesTaken() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.setTimesaday(with: 2)
         p?.setTimesTakenToday(with: 2)
         XCTAssertEqual(p?.getTimesTakenToday(), 2)
@@ -161,7 +161,7 @@ class MOPillTests: XCTestCase {
     }
     
     func testTake() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.setTimesaday(with: 1)
         p?.take()
         XCTAssertEqual(p?.getTimesTakenToday(), 1)
@@ -171,7 +171,7 @@ class MOPillTests: XCTestCase {
     }
     
     func testDue() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.reset()
         p?.setTimesaday(with: 1)
         // is nil when pill has no times
@@ -209,7 +209,7 @@ class MOPillTests: XCTestCase {
     }
     
     func testIsExpired() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         let t = PDDateHelper.getDate(at: Time(), daysFromNow: 0)
         p?.setTimesaday(with: 1)
         p?.setTimesTakenToday(with: 0)
@@ -228,14 +228,14 @@ class MOPillTests: XCTestCase {
     }
     
     func testIsNew() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         XCTAssert(p?.isNew() ?? false)
         p?.setLastTaken(with: NSDate())
         XCTAssertFalse(p?.isNew() ?? false)
     }
     
     func testFixTakenToday() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         let d = PDDateHelper.getDate(at: Time(), daysFromNow: -1)! as NSDate
         p?.setLastTaken(with: d)
         p?.setTimesTakenToday(with: 1)
@@ -244,7 +244,7 @@ class MOPillTests: XCTestCase {
     }
     
     func testReset() {
-        let p = pillSchedule.insert(completion: nil)
+        let p = pillSchedule.insert(completion: nil) as? MOPill
         p?.reset()
         XCTAssertNil(p?.getName())
         XCTAssertEqual(p?.getTimesday(), 1)

@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PillSchedule: PDScheduleProtocol {
+public class PillSchedule: NSObject, PDScheduling {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOPill array."
@@ -19,10 +19,12 @@ public class PillSchedule: PDScheduleProtocol {
     public var pills: [MOPill] = []
     private var pillMap = [UUID: MOPill]()
     
-    init() {
-        super.init(type: .pill)
-        pills = mos as! [MOPill]
-        mos = []
+    override init() {
+        super.init()
+        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .pill)
+        if let mos = mos_opt {
+            pills = mos as! [MOPill]
+        }
         loadTakenTodays(for: pills)
         filterEmpty()
         loadMap()
@@ -30,12 +32,12 @@ public class PillSchedule: PDScheduleProtocol {
     
     // MARK: - Override base class
     
-    override public func count() -> Int {
+    public func count() -> Int {
         return pills.count
     }
 
     /// Creates a new MOPill and inserts it in to the pills.
-    override public func insert(completion: (() -> ())?) -> MOPill? {
+    public func insert(completion: (() -> ())?) -> NSManagedObject? {
         let attributes = PillAttributes()
         let pill = append(using: attributes)
         if let comp = completion {
@@ -45,7 +47,7 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     /// Sets the pills and map to a generic list of MOPills.
-    override public func reset(completion: (() -> ())? = nil) {
+    public func reset(completion: (() -> ())? = nil) {
         new()
         loadMap()
         if let comp = completion {
@@ -54,7 +56,7 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     /// Deletes the pill at the given index from the schedule.
-    override public func delete(at index: Index) {
+    public func delete(at index: Index) {
         switch (index) {
         case 0..<pills.count :
             if let pill = pills.popLast() {
@@ -67,11 +69,12 @@ public class PillSchedule: PDScheduleProtocol {
     }
     
     /// Generates a generic list of MOPills when there are none in store.
-    override public func new() {
+    public func new() {
         let names = PDStrings.PillTypes.defaultPills
         pills = []
         for i in 0..<names.count {
-            if let pill = PatchData.insert(type.rawValue) as? MOPill {
+            let type = PDEntity.pill.rawValue
+            if let pill = PatchData.insert(type) as? MOPill {
                 pill.initAttributes(name: names[i])
                 pills.append(pill)
             }
@@ -79,7 +82,7 @@ public class PillSchedule: PDScheduleProtocol {
         PatchData.save()
     }
     
-    override public func filterEmpty() {
+    public func filterEmpty() {
         pills = pills.filter() { $0.getName() != nil }
     }
     
@@ -208,7 +211,8 @@ public class PillSchedule: PDScheduleProtocol {
     
     /// Creates a new Pill with the given attributes and appends it to the schedule.
     private func append(using attributes: PillAttributes) -> MOPill? {
-        if let pill = PatchData.insert(type.rawValue) as? MOPill {
+        let type = PDEntity.pill.rawValue
+        if let pill = PatchData.insert(type) as? MOPill {
             setPill(for: pill, with: attributes)
             pills.append(pill)
             let id = pill.setId()

@@ -65,7 +65,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testInsert() {
-        if let site = siteSchedule.insert() {
+        if let site = siteSchedule.insert() as? MOSite {
             XCTAssertEqual(siteSchedule.count(), 5)
             XCTAssertTrue(siteSchedule.sites.contains(site))
         } else {
@@ -298,7 +298,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testAppendSite() {
-        if let new_site = siteSchedule.insert() {
+        if let new_site = siteSchedule.insert() as? MOSite {
             XCTAssert(siteSchedule.sites.contains(new_site))
         } else {
             XCTFail()

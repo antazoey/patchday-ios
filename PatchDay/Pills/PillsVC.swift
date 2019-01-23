@@ -103,7 +103,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        if let pill = PillSchedule.insert(completion: PDSharedData.setPillDataForToday),
+        let setter = PDSharedData.setPillDataForToday
+        if let pill = PillSchedule.insert(completion: setter) as? MOPill,
             let i = PillSchedule.pills.index(of: pill) {
             segueToPillView(for: pill, at: i)
         }
