@@ -26,20 +26,15 @@ class MFBadgeButton : UIButton {
     override init(frame :CGRect)  {
         // Initialize the UIView
         super.init(frame : frame)
-        
         self.awakeFromNib()
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         self.awakeFromNib()
     }
     
-    
-    override func awakeFromNib()
-    {
+    override func awakeFromNib() {
         self.drawBadgeLayer()
     }
     
@@ -79,7 +74,9 @@ class MFBadgeButton : UIButton {
         let frame : CGRect = labelText.frame
         let cornerRadius = CGFloat(5.0)
         let borderInset = CGFloat(-1.0)
-        let aPath = UIBezierPath(roundedRect: frame.insetBy(dx: borderInset, dy: borderInset), cornerRadius: cornerRadius)
+        let innerFrame = frame.insetBy(dx: borderInset, dy: borderInset)
+        let aPath = UIBezierPath(roundedRect: innerFrame,
+                                 cornerRadius: cornerRadius)
         
         shapeLayer.path = aPath.cgPath
         shapeLayer.fillColor = UIColor.red.cgColor
@@ -88,16 +85,16 @@ class MFBadgeButton : UIButton {
         shapeLayer.insertSublayer(labelText, at: 0)
 
         switch type {
-        case .patches, .injections : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.90, dy: 20)
+        case .patches, .injections :
+            shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w * 0.90, dy: 20)
             shapeLayer.lineWidth = 4
-        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w*0.71, dy: 0)
+        case .pills : shapeLayer.frame = shapeLayer.frame.offsetBy(dx: w * 0.71, dy: 0)
             shapeLayer.lineWidth = 0.5
         }
         
         self.layer.insertSublayer(shapeLayer, at: 999)
         self.layer.masksToBounds = false
         self.badgeLayer = shapeLayer
-        
     }
     
     override func layoutSubviews() {
