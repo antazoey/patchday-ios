@@ -57,7 +57,7 @@ public class PillSchedule: NSObject, PDScheduling {
     
     /// Deletes the pill at the given index from the schedule.
     public func delete(at index: Index) {
-        switch (index) {
+        switch index {
         case 0..<pills.count :
             if let pill = pills.popLast() {
                 pill.reset()

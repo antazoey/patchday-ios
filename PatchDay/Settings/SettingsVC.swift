@@ -74,8 +74,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         loadInterval()
         loadCount()
         loadRemindMinutes()
-        
- }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

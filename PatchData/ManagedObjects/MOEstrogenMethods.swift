@@ -63,7 +63,7 @@ extension MOEstrogen {
     
     public func getSiteName() -> String {
         let site = getSite()?.getName() ?? getSiteNameBackUp()
-        switch (site) {
+        switch site {
         case nil : return PDStrings.PlaceholderStrings.new_site
         case let s : return s!
         }

@@ -113,7 +113,7 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     
     /// Returns the MOEstrogen for the given index
     public func getEstrogen(at index: Index) -> MOEstrogen? {
-        switch (index) {
+        switch index {
             case 0..<count() :
                 return estrogens[index]
         default : return nil
