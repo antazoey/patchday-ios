@@ -157,7 +157,7 @@ public class PDImages: NSObject {
         image.draw(in: rect)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
-        return newImage!
+
+        return newImage ?? UIImage()
     }
 }
