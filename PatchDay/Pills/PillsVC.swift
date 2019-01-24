@@ -125,13 +125,14 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         PillSchedule.delete(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()
-        
-        let start_i = indexPath.row + 1
+
+        let start_i = indexPath.row
         let end_i = PillSchedule.count() - 1
         if start_i <= end_i {
             // Reset cell colors
             for i in start_i...end_i {
                 let cell = pillCellForRowAt(i)
+                cell?.setIndex(to: i)
                 cell?.setBackground()
             }
         }

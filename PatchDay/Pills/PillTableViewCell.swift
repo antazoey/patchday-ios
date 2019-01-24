@@ -39,6 +39,10 @@ class PillTableViewCell: UITableViewCell {
         setImageBadge(using: pill)
     }
     
+    public func setIndex(to i: Index) {
+        self.index = i
+    }
+    
     /// Set the "last taken" label to the curent date as a string.
     public func stamp() {
         lastTakenLabel.text = PDDateHelper.format(date: Date(), useWords: true)
@@ -86,6 +90,8 @@ class PillTableViewCell: UITableViewCell {
             backgroundColor = PDColors.pdLightBlue
             imageViewView.backgroundColor = nil
             stateImageButton.backgroundColor = nil
+        } else {
+            backgroundColor = UIColor.white
         }
     }
     
