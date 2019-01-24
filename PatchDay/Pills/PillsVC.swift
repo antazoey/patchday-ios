@@ -158,6 +158,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func loadTabBarItemSize() {
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
-        self.navigationController?.tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
+        let attrs = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)]
+        self.navigationController?.tabBarItem.setTitleTextAttributes(attrs, for: .normal)
     }
 }
