@@ -21,11 +21,23 @@ internal class PDAlertController: NSObject {
     // MARK: - Changing delivery method
     
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    internal static func alertForChangingDeliveryMethod(newMethod: String, oldMethod: String, oldCount: Int, deliveryButton: UIButton, countButton: UIButton, settingsVC: SettingsVC?) {
+    internal static func alertForChangingDeliveryMethod(newMethod: String,
+                                                        oldMethod: String,
+                                                        oldCount: Int,
+                                                        deliveryButton: UIButton,
+                                                        countButton: UIButton,
+                                                        settingsVC: SettingsVC?) {
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.LoseDataAlert.title, message: PDStrings.AlertStrings.LoseDataAlert.message, preferredStyle: alertStyle)
-            let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont, style: .destructive) {
+            let alertStyle: UIAlertControllerStyle =
+                (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
+                    ? .alert : .actionSheet
+            let title = PDStrings.AlertStrings.LoseDataAlert.title
+            let msg = PDStrings.AlertStrings.LoseDataAlert.message
+            currentAlert = UIAlertController(title: title,
+                                             message: msg,
+                                             preferredStyle: alertStyle)
+            let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont,
+                                               style: .destructive) {
                 void in
                 EstrogenSchedule.reset() {
                     let patches = PDStrings.PickerData.deliveryMethods[0]
@@ -39,7 +51,8 @@ internal class PDAlertController: NSObject {
                 Schedule.setEstrogenDataForToday()
                 
             }
-            let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline, style: .cancel) {
+            let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline,
+                                              style: .cancel) {
                 void in
                 if oldMethod == PDStrings.PickerData.deliveryMethods[0] {
                     countButton.isEnabled = true
@@ -65,14 +78,26 @@ internal class PDAlertController: NSObject {
     /// Alert that displays a quick tutorial and disclaimer on installation.
     internal static func alertForDisclaimerAndTutorial() {
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.StartUp.title, message: PDStrings.AlertStrings.StartUp.message, preferredStyle: alertStyle)
-            let closeAction = UIAlertAction(title: PDStrings.ActionStrings.dismiss, style:     UIAlertActionStyle.cancel, handler: nil)
-            let goToAction = UIAlertAction(title: PDStrings.AlertStrings.StartUp.support, style: .default) {
+            let alertStyle: UIAlertControllerStyle =
+                (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ?
+                    .alert : .actionSheet
+            let title = PDStrings.AlertStrings.StartUp.title
+            let msg = PDStrings.AlertStrings.StartUp.message
+            currentAlert = UIAlertController(title: title,
+                                             message: msg,
+                                             preferredStyle: alertStyle)
+            let dismiss = PDStrings.ActionStrings.dismiss
+            let closeAction = UIAlertAction(title: dismiss,
+                                            style: UIAlertActionStyle.cancel,
+                                            handler: nil)
+            let support = PDStrings.AlertStrings.StartUp.support
+            let goToAction = UIAlertAction(title: support,
+                                           style: .default) {
                 void in
                 if let url = URL(string: "http://www.patchdayhrt.com") {
                     if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                        UIApplication.shared.open(url, options: [:],
+                                                  completionHandler: nil)
                     } else {
                         UIApplication.shared.openURL(url)
                     }
