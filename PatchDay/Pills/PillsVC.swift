@@ -100,6 +100,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let setter = PDSharedData.setPillDataForToday
         if let pill = PillSchedule.insert(completion: setter) as? MOPill,
             let i = PillSchedule.pills.index(of: pill) {
+            pillTable.reloadData()
             segueToPillView(for: pill, at: i)
         }
     }
