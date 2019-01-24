@@ -321,6 +321,8 @@ public class PDDefaults: NSObject {
         let key = PDStrings.SettingsKey.setup.rawValue
         if let mentioned = std_defaults.object(forKey: key) as? Bool {
             mentionedAppDisclaimer = mentioned
+        } else if let mentioned = shared?.defaults?.object(forKey: key) as? Bool {
+            mentionedAppDisclaimer = mentioned
         }
     }
     

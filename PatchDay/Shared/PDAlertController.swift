@@ -127,7 +127,6 @@ internal class PDAlertController: NSObject {
                 void in
                 if let site = Schedule.siteSchedule.insert() as? MOSite {
                     site.setName(name)
-                    site.setOrder(Int16(index))
                     estroVC.sitePicker.reloadAllComponents()
                 }
             }
