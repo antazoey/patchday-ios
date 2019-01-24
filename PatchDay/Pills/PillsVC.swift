@@ -15,7 +15,6 @@ typealias PillName = String
 class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var pillTable: UITableView!
-    private var pills = PillSchedule.pills
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +32,6 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        pills = PillSchedule.pills
         pillTable.reloadData()
         reloadInputViews()
     }
@@ -46,18 +44,17 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         typealias Cell = PillTableViewCell
         let id = "pillCellReuseId"
-        let table = pillTable
-        let cell = table?.dequeueReusableCell(withIdentifier: id) as! Cell
+        let cell = pillTable?.dequeueReusableCell(withIdentifier: id) as! Cell
         let i = indexPath.row
-        if i >= 0 && i < pills.count {
-            cell.configure(using: pills[i], at: i)
+        if i >= 0 && i < PillSchedule.pills.count {
+            cell.configure(using: PillSchedule.pills[i], at: i)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        let pill = pills[indexPath.row]
+        let pill = PillSchedule.pills[indexPath.row]
         segueToPillView(for: pill, at: indexPath.row)
     }
     
@@ -81,20 +78,18 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let takeButton = sender as! UIButton
         // Acquire Pill Id from cell's takeButton.
         if let restoreId = takeButton.restorationIdentifier {
-            let pillIndexStr = String(restoreId.suffix(1))
-            if let pillIndex = Int(pillIndexStr) {
-                PillSchedule.takePill(at: pillIndex,
-                                      setPDSharedData: PDSharedData.setPillDataForToday)
-                appDelegate.notificationsController.requestNotifyTakePill(at: pillIndex)
-                let cell = pillCellForRowAt(pillIndex)
+            let setter = PDSharedData.setPillDataForToday
+            if let i = Int("\(restoreId.suffix(1))") {
+                PillSchedule.takePill(at: i, setPDSharedData: setter)
+                appDelegate.notificationsController.requestNotifyTakePill(at: i)
+                let cell = pillCellForRowAt(i)
                 cell.stamp()
-                if let pill = PillSchedule.getPill(at: pillIndex) {
+                if let pill = PillSchedule.getPill(at: i) {
                     cell.loadDueDateText(from: pill)
                     cell.loadStateImage(from: pill)
                     cell.loadLastTakenText(from: pill)
                 }
                 cell.enableOrDisableTake()
-                pills = PillSchedule.pills
                 pillTable.reloadData()
                 reloadInputViews()
             }
@@ -126,16 +121,14 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func deleteCell(at indexPath: IndexPath) {
         PillSchedule.delete(at: indexPath.row)
-        pills.remove(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
-        pillTable.reloadData()
         
-        if indexPath.row <= (pills.count-1) {
+        if indexPath.row <= (PillSchedule.pills.count-1) {
             // Reset cell colors
-            for i in indexPath.row..<pills.count {
-                let nextIndexPath = IndexPath(row: i, section: 0)
-                // Cell bg
-                pillTable.cellForRow(at: nextIndexPath)?.backgroundColor = (i%2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
+            for i in indexPath.row..<PillSchedule.pills.count {
+                let indexPath = IndexPath(row: i, section: 0)
+                let cell = pillTable.cellForRow(at: indexPath) as! PillTableViewCell
+                cell.setBackground(havingIndex: i)
             }
         }
         PDSharedData.setPillDataForToday()

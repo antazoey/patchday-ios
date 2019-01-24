@@ -20,23 +20,20 @@ class PillTableViewCell: UITableViewCell {
     @IBOutlet weak var nextDueDate: UILabel!
     @IBOutlet weak var imageViewView: UIView!
     
-    public func configure(using pill: MOPill, at index: Index) {
-        let indexStr = String(index)
-        
+    public func configure(using pill: MOPill, at i: Index) {
         nameLabel.text = pill.getName()
         loadStateImage(from: pill)
         stateImageButton.type = .pills
         loadLastTakenText(from: pill)
         loadDueDateText(from: pill)
         takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        stateImageButton.restorationIdentifier = "i" + indexStr
-        takeButton.restorationIdentifier = "t" + indexStr
+        stateImageButton.restorationIdentifier = "i \(i)"
+        takeButton.restorationIdentifier = "t \(i)"
         takeButton.isEnabled = (pill.isDone()) ? false : true
         enableOrDisableTake()
-        setBackground(at: index)
+        setBackground(havingIndex: i)
         setBackgroundSelected()
         setImageBadge(using: pill)
-
     }
     
     /// Set the "last taken" label to the curent date as a string.
@@ -81,15 +78,15 @@ class PillTableViewCell: UITableViewCell {
         }
     }
     
-    // MARK: - Private
-    
-    private func setBackground(at index: Index) {
-        if index % 2 == 0 {
+    public func setBackground(havingIndex i: Index) {
+        if i % 2 == 0 {
             backgroundColor = PDColors.pdLightBlue
             imageViewView.backgroundColor = nil
             stateImageButton.backgroundColor = nil
         }
     }
+    
+    // MARK: - Private
     
     private func setBackgroundSelected() {
         let backgroundView = UIView()
