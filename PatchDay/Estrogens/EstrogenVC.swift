@@ -147,7 +147,6 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         typeSiteButton.isEnabled = false
         autofillButton.isHidden = true
         textField.restorationIdentifier = "pick"
- 
     }
  
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -196,28 +195,35 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     internal func pickerView(_ pickerView: UIPickerView,
                              titleForRow row: Int,
                              forComponent component: Int) -> String? {
-        return SiteSchedule.getNames()[row]
+        let names = SiteSchedule.getNames()
+        if row < names.count && row >= 0 {
+            return names[row]
+        }
+        return ""
     }
     
     // Done
     internal func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
-        let newSiteName = SiteSchedule.getNames()[row]
-        chooseSiteButton.text = newSiteName
-        // other view changes
-        sitePicker.isHidden = true
-        autofillButton.isEnabled = true
-        chooseDateButton.isEnabled = true
-        typeSiteButton.isEnabled = true
-        chooseSiteButton.isEnabled = true
-        chooseSiteButton.isHidden = false
-        autofillButton.isHidden = false
-        siteTextHasChanged = true
-        saveButton.isEnabled = true
-        shouldSaveSelectedSiteIndex = true
-        shouldSaveIncrementedSiteIndex = false
-        siteIndexSelected = row
+        let names = SiteSchedule.getNames()
+        if row < names.count && row >= 0 {
+        let name = SiteSchedule.getNames()[row]
+            chooseSiteButton.text = name
+            // other view changes
+            sitePicker.isHidden = true
+            autofillButton.isEnabled = true
+            chooseDateButton.isEnabled = true
+            typeSiteButton.isEnabled = true
+            chooseSiteButton.isEnabled = true
+            chooseSiteButton.isHidden = false
+            autofillButton.isHidden = false
+            siteTextHasChanged = true
+            saveButton.isEnabled = true
+            shouldSaveSelectedSiteIndex = true
+            shouldSaveIncrementedSiteIndex = false
+            siteIndexSelected = row
+        }
     }
 
     // MARK: - Date Picker funcs

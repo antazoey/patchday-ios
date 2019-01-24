@@ -87,17 +87,25 @@ internal class PDAlertController: NSObject {
     // MARK: - Add site
     
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    internal static func alertForAddSite(with name: SiteName, at index: Index, estroVC: EstrogenVC) {
+    internal static func alertForAddSite(with name: SiteName,
+                                         at index: Index,
+                                         estroVC: EstrogenVC) {
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertControllerStyle = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ? .alert : .actionSheet
-            currentAlert = UIAlertController(title: PDStrings.AlertStrings.AddSite.title, message: "", preferredStyle: alertStyle)
-            let addAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.addActionTitle, style: .default) {
+            let alertStyle: UIAlertControllerStyle =
+                (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ?
+                    .alert : .actionSheet
+            let title = PDStrings.AlertStrings.AddSite.title
+            currentAlert = UIAlertController(title: title, message: ""
+                preferredStyle: alertStyle)
+            let add = PDStrings.AlertStrings.AddSite.addActionTitle
+            let addAction = UIAlertAction(title: add, style: .default) {
                 void in
                 if let _ = Schedule.siteSchedule.insert() {
                     estroVC.sitePicker.reloadAllComponents()
                 }
             }
-            let declineAction = UIAlertAction(title: PDStrings.AlertStrings.AddSite.declineActionTitle, style: .default)
+            let decline = PDStrings.AlertStrings.AddSite.declineActionTitle
+            let declineAction = UIAlertAction(title: decline, style: .default)
             currentAlert.addAction(addAction)
             currentAlert.addAction(declineAction)
             currentVC.present(currentAlert, animated: true, completion: nil)
