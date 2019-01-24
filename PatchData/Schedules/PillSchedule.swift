@@ -59,11 +59,9 @@ public class PillSchedule: NSObject, PDScheduling {
     public func delete(at index: Index) {
         switch index {
         case 0..<pills.count :
-            if let pill = pills.popLast() {
-                pill.reset()
-                PatchData.getContext().delete(pill)
-                PatchData.save()
-            }
+            let pill = pills.remove(at: index)
+            PatchData.getContext().delete(pill)
+            PatchData.save()
         default : return
         }
     }

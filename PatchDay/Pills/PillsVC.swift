@@ -120,6 +120,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(at indexPath: IndexPath) {
+        print(indexPath.row)
         PillSchedule.delete(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         

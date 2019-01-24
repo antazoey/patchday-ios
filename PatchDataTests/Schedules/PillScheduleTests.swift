@@ -55,8 +55,16 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testDelete() {
+        pillSchedule.setPill(at: 0, with: PillAttributes(name: "PILLY PIE",
+                                                         timesaday: nil,
+                                                         time1: nil,
+                                                         time2: nil,
+                                                         notify: nil,
+                                                         timesTakenToday: nil,
+                                                         lastTaken: nil))
         pillSchedule.delete(at: 0)
         XCTAssertEqual(pillSchedule.count(), 1)
+        XCTAssertNotEqual(pillSchedule.getPill(at: 0)?.getName(), "PILLY PIE")
         // Doesn't delete when out of range
         pillSchedule.delete(at: -1)
         XCTAssertEqual(pillSchedule.count(), 1)
