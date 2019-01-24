@@ -43,13 +43,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         typealias Cell = PillTableViewCell
-        let id = "pillCellReuseId"
-        let cell = pillTable?.dequeueReusableCell(withIdentifier: id) as! Cell
+        let cell = pillCellForRowAt(indexPath.row)
         let i = indexPath.row
         if i >= 0 && i < PillSchedule.pills.count {
-            cell.configure(using: PillSchedule.pills[i], at: i)
+            cell?.configure(using: PillSchedule.pills[i], at: i)
         }
-        return cell
+        return cell ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView,
@@ -83,13 +82,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 PillSchedule.takePill(at: i, setPDSharedData: setter)
                 appDelegate.notificationsController.requestNotifyTakePill(at: i)
                 let cell = pillCellForRowAt(i)
-                cell.stamp()
+                cell?.stamp()
                 if let pill = PillSchedule.getPill(at: i) {
-                    cell.loadDueDateText(from: pill)
-                    cell.loadStateImage(from: pill)
-                    cell.loadLastTakenText(from: pill)
+                    cell?.loadDueDateText(from: pill)
+                    cell?.loadStateImage(from: pill)
+                    cell?.loadLastTakenText(from: pill)
                 }
-                cell.enableOrDisableTake()
+                cell?.enableOrDisableTake()
                 pillTable.reloadData()
                 reloadInputViews()
             }
@@ -114,22 +113,25 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    private func pillCellForRowAt(_ index: Index) -> PillTableViewCell {
+    private func pillCellForRowAt(_ index: Index) -> PillTableViewCell? {
         let indexPath = IndexPath(row: index, section: 0)
-        return pillTable.cellForRow(at: indexPath) as! PillTableViewCell
+        let id = "pillCellReuseId"
+        return pillTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as? PillTableViewCell
     }
     
     private func deleteCell(at indexPath: IndexPath) {
         print(indexPath.row)
         PillSchedule.delete(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
+        pillTable.reloadData()
         
-        if indexPath.row <= (PillSchedule.pills.count-1) {
+        let start_i = indexPath.row + 1
+        let end_i = PillSchedule.count() - 1
+        if start_i <= end_i {
             // Reset cell colors
-            for i in indexPath.row..<PillSchedule.pills.count {
-                let indexPath = IndexPath(row: i, section: 0)
-                let cell = pillTable.cellForRow(at: indexPath) as! PillTableViewCell
-                cell.setBackground(havingIndex: i)
+            for i in start_i...end_i {
+                let cell = pillCellForRowAt(i)
+                cell?.setBackground()
             }
         }
         PDSharedData.setPillDataForToday()

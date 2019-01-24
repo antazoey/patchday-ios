@@ -31,7 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let setSiteIndex = Defaults.setSiteIndex
         
         // Uncomment to nuke the db
-        //Schedule.nuke()
+        // Schedule.nuke()
+        // Then uncomment, run again, and PatchDay resets to default.
 
         // Load data for the Today widget.
         Schedule.sharedData.setDataForTodayApp(interval: interval,

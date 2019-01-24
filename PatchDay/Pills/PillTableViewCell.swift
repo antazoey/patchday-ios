@@ -11,6 +11,8 @@ import PDKit
 import PatchData
 
 class PillTableViewCell: UITableViewCell {
+    
+    private var index: Index = -1
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var stateImage: UIImageView!
@@ -21,6 +23,7 @@ class PillTableViewCell: UITableViewCell {
     @IBOutlet weak var imageViewView: UIView!
     
     public func configure(using pill: MOPill, at i: Index) {
+        self.index = i
         nameLabel.text = pill.getName()
         loadStateImage(from: pill)
         stateImageButton.type = .pills
@@ -31,7 +34,7 @@ class PillTableViewCell: UITableViewCell {
         takeButton.restorationIdentifier = "t \(i)"
         takeButton.isEnabled = (pill.isDone()) ? false : true
         enableOrDisableTake()
-        setBackground(havingIndex: i)
+        setBackground()
         setBackgroundSelected()
         setImageBadge(using: pill)
     }
@@ -78,8 +81,8 @@ class PillTableViewCell: UITableViewCell {
         }
     }
     
-    public func setBackground(havingIndex i: Index) {
-        if i % 2 == 0 {
+    public func setBackground() {
+        if index % 2 == 0 {
             backgroundColor = PDColors.pdLightBlue
             imageViewView.backgroundColor = nil
             stateImageButton.backgroundColor = nil
