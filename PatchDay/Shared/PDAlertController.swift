@@ -95,7 +95,7 @@ internal class PDAlertController: NSObject {
                 (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ?
                     .alert : .actionSheet
             let title = PDStrings.AlertStrings.AddSite.title
-            currentAlert = UIAlertController(title: title, message: ""
+            currentAlert = UIAlertController(title: title, message: "",
                 preferredStyle: alertStyle)
             let add = PDStrings.AlertStrings.AddSite.addActionTitle
             let addAction = UIAlertAction(title: add, style: .default) {
