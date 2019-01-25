@@ -12,10 +12,11 @@ import PatchData
 
 class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
+    private var suggestedSite: MOSite?
+    
     //MARK: - Main
     
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    
     
     // Interface
     private weak var saveButton: UIBarButtonItem!
@@ -150,6 +151,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
  
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.suggestedSite = nil
         chooseSiteButton.endEditing(true)
         chooseSiteButton.isEnabled = true
         chooseDateButton.isEnabled = true
@@ -304,15 +306,14 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveSite() {
         if siteTextHasChanged {
             State.siteChanged = true
-            switch (SiteSchedule.getSite(at: siteIndexSelected),
-                    chooseSiteButton.text) {
+            switch (suggestedSite, chooseSiteButton.text) {
             // Attempt saving site via MOSite first
             case (let site, _) where site != nil :
                 let setter = Schedule.setEstrogenDataForToday
                 EstrogenSchedule.setSite(of: estrogenScheduleIndex,
                                          with: site!,
                                          setSharedData: setter)
-            // Else, try with a sitebackup name
+            // Use backupsite name when there is no site.
             case (nil, let name) where name != nil :
                 EstrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex,
                                                    with: name!)
@@ -343,6 +344,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func autoPickSite() {
         let set = Defaults.setSiteIndex
         if let suggestedSite = SiteSchedule.suggest(changeIndex: set) {
+            self.suggestedSite = suggestedSite
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
             if let suggestedSiteName = suggestedSite.getName() {
