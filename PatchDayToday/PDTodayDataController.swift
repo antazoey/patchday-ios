@@ -19,14 +19,14 @@ public struct PillStruct {
 }
 
 public class PDSharedDataController: NSObject {
-    
+
     private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
     
     // MARK: - Public
 
     public static func usingPatches() -> Bool {
         let key = PDStrings.SettingsKey.deliv.rawValue
-        if let delivMethod = defaults?.object(forKey: key) as? String {
+        if let delivMethod = defaults?.string(forKey: key) {
             return delivMethod == PDStrings.DeliveryMethods.patches
         }
         return false
@@ -34,10 +34,12 @@ public class PDSharedDataController: NSObject {
     
     public static func getNextEstrogen() -> EstrogenStruct {
         var estro = EstrogenStruct()
-        if let name = defaults?.object(forKey: PDStrings.TodayKey.nextEstroSiteName.rawValue) as? String {
+        let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
+        if let name = defaults?.object(forKey: siteKey) as? String {
             estro.siteName = name
         }
-        if let date = defaults?.object(forKey: PDStrings.TodayKey.nextEstroDate.rawValue) as? Date {
+        let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
+        if let date = defaults?.object(forKey: dateKey) as? Date {
             estro.date = date
         }
         return estro
@@ -45,13 +47,14 @@ public class PDSharedDataController: NSObject {
     
     public static func getNextPill() -> PillStruct {
         var pill = PillStruct()
-        if let name = defaults?.object(forKey: PDStrings.TodayKey.nextPillToTake.rawValue) as? String {
+        let pillKey = PDStrings.TodayKey.nextPillToTake.rawValue
+        if let name = defaults?.object(forKey: pillKey) as? String {
             pill.name = name
         }
-        if let t = defaults?.object(forKey: PDStrings.TodayKey.nextPillTakeTime.rawValue) as? Date {
+        let timeKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
+        if let t = defaults?.object(forKey: timeKey) as? Date {
             pill.nextTakeDate = t
         }
         return pill
     }
-    
 }

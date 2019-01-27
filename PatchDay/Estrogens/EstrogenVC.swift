@@ -10,7 +10,10 @@ import UIKit
 import PDKit
 import PatchData
 
-class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class EstrogenVC: UIViewController,
+                  UIPickerViewDelegate,
+                  UIPickerViewDataSource,
+                  UITextFieldDelegate {
     
     private var suggestedSite: MOSite?
     
@@ -60,7 +63,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = EstrogenSchedule.getEstrogen(at: estrogenScheduleIndex)
+        estrogen = EstrogenScheduleRef.getEstrogen(at: estrogenScheduleIndex)
         loadTitle()
         chooseSiteButton.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -104,10 +107,10 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-            EstrogenSchedule.sort()
+            EstrogenScheduleRef.sort()
             // Save effects
             State.wereEstrogenChanges = true
-            if let i = EstrogenSchedule.getIndex(for: estro) {
+            if let i = EstrogenScheduleRef.getIndex(for: estro) {
                 State.indexOfChangedDelivery = i
             }
         }
@@ -160,9 +163,11 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         chooseSiteButton.isHidden = false
         typeSiteButton.isEnabled = true
         saveButton.isEnabled = true
-        siteIndexSelected = SiteSchedule.count()
+        siteIndexSelected = SiteScheduleRef.count()
         if let n = textField.text {
-            PDAlertController.alertForAddSite(with: n, at: siteIndexSelected, estroVC: self)
+            PDAlertController.alertForAddSite(with: n,
+                                              at: siteIndexSelected,
+                                              estroVC: self)
         }
         return true
     }
@@ -191,13 +196,13 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     internal func pickerView(_ pickerView: UIPickerView,
                              numberOfRowsInComponent component: Int) -> Int {
-        return SiteSchedule.count()
+        return SiteScheduleRef.count()
     }
     
     internal func pickerView(_ pickerView: UIPickerView,
                              titleForRow row: Int,
                              forComponent component: Int) -> String? {
-        let names = SiteSchedule.getNames()
+        let names = SiteScheduleRef.getNames()
         if row < names.count && row >= 0 {
             return names[row]
         }
@@ -208,9 +213,9 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     internal func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
-        let names = SiteSchedule.getNames()
+        let names = SiteScheduleRef.getNames()
         if row < names.count && row >= 0 {
-        let name = SiteSchedule.getNames()[row]
+        let name = SiteScheduleRef.getNames()[row]
             chooseSiteButton.text = name
             // other view changes
             sitePicker.isHidden = true
@@ -310,12 +315,12 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             // Attempt saving site via MOSite first
             case (let site, _) where site != nil :
                 let setter = Schedule.setEstrogenDataForToday
-                EstrogenSchedule.setSite(of: estrogenScheduleIndex,
+                EstrogenScheduleRef.setSite(of: estrogenScheduleIndex,
                                          with: site!,
                                          setSharedData: setter)
             // Use backupsite name when there is no site.
             case (nil, let name) where name != nil :
-                EstrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex,
+                EstrogenScheduleRef.setBackUpSiteName(of: estrogenScheduleIndex,
                                                    with: name!)
             default : break
             }
@@ -325,7 +330,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveDate() {
         if dateTextHasChanged {
             let setter = Schedule.setEstrogenDataForToday
-            EstrogenSchedule.setDate(of: estrogenScheduleIndex,
+            EstrogenScheduleRef.setDate(of: estrogenScheduleIndex,
                                      with: datePicker.date,
                                      setSharedData: setter)
         }
@@ -343,7 +348,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func autoPickSite() {
         let set = Defaults.setSiteIndex
-        if let suggestedSite = SiteSchedule.suggest(changeIndex: set) {
+        if let suggestedSite = SiteScheduleRef.suggest(changeIndex: set) {
             self.suggestedSite = suggestedSite
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
@@ -391,7 +396,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             return siteIndexSelected
         } else if let site = estrogen.getSite() {
             let order = site.getOrder()
-            if order >= 1 && order <= SiteSchedule.count() {
+            if order >= 1 && order <= SiteScheduleRef.count() {
                 let i = Int(order)
                 siteIndexSelected = i
                 return i
@@ -405,7 +410,7 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         var exp = ""
         typealias Strings = PDStrings.ColonedStrings
         let interval = Defaults.getTimeInterval()
-        if let estro = EstrogenSchedule.getEstrogen(at: estrogenScheduleIndex),
+        if let estro = EstrogenScheduleRef.getEstrogen(at: estrogenScheduleIndex),
             estro.getDate() != nil {
             if Defaults.usingPatches() {
                 expLabel.text = (estro.isExpired(interval)) ?
@@ -458,7 +463,8 @@ class EstrogenVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Gives start x for date picker Done button depending on iPad vs iPhone.
     private func configureDoneButtonStartX() -> CGFloat {
-        let x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? (view.frame.size.width/2) - 50 : 0
+        let x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
+            (view.frame.size.width / 2) - 50 : 0
         return x
     }
     

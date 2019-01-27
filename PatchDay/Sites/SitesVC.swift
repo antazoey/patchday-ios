@@ -21,8 +21,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = {
         return UIFont.systemFont(ofSize: 39)
     }()
-    public var siteNames: [String] = SiteSchedule.getNames()
-    public var siteImgIds: [String] = SiteSchedule.getImageIds()
+    public var siteNames: [String] = SiteScheduleRef.getNames()
+    public var siteImgIds: [String] = SiteScheduleRef.getImageIds()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,15 +128,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    moveRowAt sourceIndexPath: IndexPath,
                    to destinationIndexPath: IndexPath) {
-        let schedule = SiteSchedule
-        let siteToMove = schedule.sites[sourceIndexPath.row]
-        schedule.sites.remove(at: sourceIndexPath.row)
-        schedule.sites.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == schedule.nextIndex(changeIndex: Defaults.setSiteIndex) {
+        let siteToMove = SiteScheduleRef.sites[sourceIndexPath.row]
+        SiteScheduleRef.sites.remove(at: sourceIndexPath.row)
+        SiteScheduleRef.sites.insert(siteToMove, at: destinationIndexPath.row)
+        if sourceIndexPath.row == SiteScheduleRef.nextIndex(changeIndex: Defaults.setSiteIndex) {
             Defaults.setSiteIndex(to: destinationIndexPath.row)
         }
-        for i in 0..<schedule.count() {
-            schedule.setOrder(at: i, to: Int16(i))
+        let count = SiteScheduleRef.count()
+        for i in 0..<count {
+            SiteScheduleRef.setOrder(at: i, to: Int16(i))
         }
         reloadSiteNames()
         siteTable.reloadData()
@@ -176,7 +176,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        SiteSchedule.reset(completion: nil)
+        SiteScheduleRef.reset(completion: nil)
         reloadSiteNames()
         siteTable.isEditing = false
         let range = 0..<siteNames.count
@@ -241,7 +241,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(indexPath: IndexPath) {
-        SiteSchedule.delete(at: indexPath.row)
+        SiteScheduleRef.delete(at: indexPath.row)
         siteNames.remove(at: indexPath.row)
         siteTable.deleteRows(at: [indexPath], with: .fade)
         siteTable.reloadData()
@@ -275,7 +275,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func reloadSiteNames() {
-        siteNames = SiteSchedule.getNames()
+        siteNames = SiteScheduleRef.getNames()
     }
     
     private func loadTabBarItemSize() {

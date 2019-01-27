@@ -39,7 +39,7 @@ internal class PDAlertController: NSObject {
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont,
                                                style: .destructive) {
                 void in
-                EstrogenSchedule.reset() {
+                EstrogenScheduleRef.reset() {
                     let patches = PDStrings.PickerData.deliveryMethods[0]
                     let c = (newMethod == patches) ? 3 : 1
                     Defaults.setQuantityWithoutWarning(to: c)

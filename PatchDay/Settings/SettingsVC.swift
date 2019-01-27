@@ -283,8 +283,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             deliveryMethodButton.setTitle(choice, for: .normal)
             
             // Check to see if there are changes to the site schedule
-            if EstrogenSchedule.isEmpty() &&
-                SiteSchedule.isDefault(usingPatches: usingPatches) {
+            if EstrogenScheduleRef.isEmpty() &&
+                SiteScheduleRef.isDefault(usingPatches: usingPatches) {
                 Defaults.setDeliveryMethod(to: choice)
                 Defaults.setSiteIndex(to: 0)
                 resetEstrogensVCTabBarItem()
@@ -312,7 +312,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 let tabController = self.navigationController?.tabBarController
                 if let vcs = tabController?.viewControllers, vcs.count > 0 {
                     let interval = Defaults.getTimeInterval()
-                    let c = EstrogenSchedule.totalDue(interval)
+                    let c = EstrogenScheduleRef.totalDue(interval)
                     let item = vcs[0].navigationController?.tabBarItem
                     item?.badgeValue = (c > 0) ? "\(c)" : nil
                 }

@@ -11,11 +11,10 @@ import PDKit
 
 public class PDSharedData: NSObject {
     
-    public let defaults: UserDefaults?
+    public let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
     private let estrogenSchedule: EstrogenSchedule
     private let pillSchedule: PillSchedule
     private let siteSchedule: SiteSchedule
-    private let address = "group.com.patchday.todaydata"
     
     override public var description: String {
         return """
@@ -28,7 +27,9 @@ public class PDSharedData: NSObject {
     public init(estrogenSchedule: EstrogenSchedule,
                 pillSchedule: PillSchedule,
                 siteSchedule: SiteSchedule) {
-        defaults = UserDefaults(suiteName: address)
+        if defaults == nil {
+            print("Unable to load shared defaults.")
+        }
         self.estrogenSchedule = estrogenSchedule
         self.pillSchedule = pillSchedule
         self.siteSchedule = siteSchedule
@@ -57,22 +58,21 @@ public class PDSharedData: NSObject {
             }
         }
     }
-    
+
     /// Sets MOPill data for PatchDay Today widget.
     public func setPillDataForToday() {
-        let defaults = UserDefaults(suiteName: address)!
         let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
         let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
         if let nextPill = pillSchedule.nextDue() {
             if let pillName = nextPill.getName() {
-                defaults.set(pillName, forKey: pillNameKey)
+                defaults?.set(pillName, forKey: pillNameKey)
             } else {
-                defaults.set(nil, forKey: pillNameKey)
+                defaults?.set(nil, forKey: pillNameKey)
             }
             if let pillDate = nextPill.due() {
-                defaults.set(pillDate, forKey: pillDateKey)
+                defaults?.set(pillDate, forKey: pillDateKey)
             } else {
-                defaults.set(nil, forKey: pillDateKey)
+                defaults?.set(nil, forKey: pillDateKey)
             }
         }
     }

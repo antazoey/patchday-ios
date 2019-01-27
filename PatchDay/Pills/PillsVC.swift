@@ -37,7 +37,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PillSchedule.count()
+        return PillScheduleRef.count()
     }
     
     func tableView(_ tableView: UITableView,
@@ -45,15 +45,15 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         typealias Cell = PillTableViewCell
         let cell = pillCellForRowAt(indexPath.row)
         let i = indexPath.row
-        if i >= 0 && i < PillSchedule.pills.count {
-            cell?.configure(using: PillSchedule.pills[i], at: i)
+        if i >= 0 && i < PillScheduleRef.pills.count {
+            cell?.configure(using: PillScheduleRef.pills[i], at: i)
         }
         return cell ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
-        let pill = PillSchedule.pills[indexPath.row]
+        let pill = PillScheduleRef.pills[indexPath.row]
         segueToPillView(for: pill, at: indexPath.row)
     }
     
@@ -77,13 +77,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let takeButton = sender as! UIButton
         // Acquire Pill Id from cell's takeButton.
         if let restoreId = takeButton.restorationIdentifier {
-            let setter = PDSharedData.setPillDataForToday
+            let setter = PDSharedDataRef.setPillDataForToday
             if let i = Int("\(restoreId.suffix(1))") {
-                PillSchedule.takePill(at: i, setPDSharedData: setter)
+                PillScheduleRef.takePill(at: i, setPDSharedData: setter)
                 appDelegate.notificationsController.requestNotifyTakePill(at: i)
                 let cell = pillCellForRowAt(i)
                 cell?.stamp()
-                if let pill = PillSchedule.getPill(at: i) {
+                if let pill = PillScheduleRef.getPill(at: i) {
                     cell?.loadDueDateText(from: pill)
                     cell?.loadStateImage(from: pill)
                     cell?.loadLastTakenText(from: pill)
@@ -97,9 +97,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        let setter = PDSharedData.setPillDataForToday
-        if let pill = PillSchedule.insert(completion: setter) as? MOPill,
-            let i = PillSchedule.pills.index(of: pill) {
+        let setter = PDSharedDataRef.setPillDataForToday
+        if let pill = PillScheduleRef.insert(completion: setter) as? MOPill,
+            let i = PillScheduleRef.pills.index(of: pill) {
             pillTable.reloadData()
             segueToPillView(for: pill, at: i)
         }
@@ -122,12 +122,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func deleteCell(at indexPath: IndexPath) {
         print(indexPath.row)
-        PillSchedule.delete(at: indexPath.row)
+        PillScheduleRef.delete(at: indexPath.row)
         pillTable.deleteRows(at: [indexPath], with: .fade)
         pillTable.reloadData()
 
         let start_i = indexPath.row
-        let end_i = PillSchedule.count() - 1
+        let end_i = PillScheduleRef.count() - 1
         if start_i <= end_i {
             // Reset cell colors
             for i in start_i...end_i {
@@ -136,7 +136,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 cell?.setBackground()
             }
         }
-        PDSharedData.setPillDataForToday()
+        PDSharedDataRef.setPillDataForToday()
         setBadge()
     }
     
@@ -154,7 +154,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setBadge() {
-        let v = PillSchedule.totalDue()
+        let v = PillScheduleRef.totalDue()
         navigationController?.tabBarItem.badgeValue = (v > 0) ? "\(v)" : nil
     }
     

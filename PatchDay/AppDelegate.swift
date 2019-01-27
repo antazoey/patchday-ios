@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
-            PillSchedule.reset()
+            PillScheduleRef.reset()
         }
         let interval = Defaults.getTimeInterval()
         let index = Defaults.getSiteIndex()

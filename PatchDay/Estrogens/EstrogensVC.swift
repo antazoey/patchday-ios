@@ -123,7 +123,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
         
         // Expired pills
-        let pillDueCount = PillSchedule.totalDue()
+        let pillDueCount = PillScheduleRef.totalDue()
         if pillDueCount > 0, let vcs = self.navigationController?.tabBarController?.viewControllers, vcs.count > 1 {
             vcs[1].tabBarItem.badgeValue = String(pillDueCount)
         }

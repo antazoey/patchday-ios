@@ -108,10 +108,8 @@ public class PDDefaults: NSObject {
         let usingPatches = (method == PDStrings.DeliveryMethods.patches)
         let key = PDStrings.SettingsKey.deliv.rawValue
         if methods.contains(method) {
-            if (self.deliveryMethod != method) {
-                self.deliveryMethod = method
-                shared?.defaults?.set(method, forKey: key)
-            }
+            self.deliveryMethod = method
+            shared?.defaults?.set(method, forKey: key)
             siteSchedule.usingPatches = usingPatches
             estrogenSchedule.usingPatches = usingPatches
             let setCount: () -> () = {
@@ -182,7 +180,8 @@ public class PDDefaults: NSObject {
             let max = Int(last),
             isAcceptable(count: quantity, max: max) {
             self.quantity = quantity
-            shared?.defaults?.set(quantity, forKey: PDStrings.SettingsKey.count.rawValue)
+            let key = PDStrings.SettingsKey.count.rawValue
+            shared?.defaults?.set(quantity, forKey: key)
             let increasing = oldQuantity < quantity
             if increasing {
                 // Fill in new estros
@@ -240,13 +239,14 @@ public class PDDefaults: NSObject {
     
     private func loadDeliveryMethod() {
         let key = PDStrings.SettingsKey.deliv.rawValue
-        if let dm = shared?.defaults?.object(forKey: key) as? String {
+        if let dm = shared?.defaults?.string(forKey: key){
             deliveryMethod = dm
-        } else if let dm = std_defaults.object(forKey: key) as? String {
+        } else if let dm = std_defaults.string(forKey: key){
             // set in the primary defaults
             setDeliveryMethod(to: dm, shouldReset: false)
         } else {
-            setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0], shouldReset: false)
+            let patchMethod = PDStrings.PickerData.deliveryMethods[0]
+            setDeliveryMethod(to: patchMethod, shouldReset: false)
         }
     }
     

@@ -15,7 +15,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
     private var namePickerSet =
-        Array(SiteSchedule.unionDefault(usingPatches: Defaults.usingPatches()))
+        Array(SiteScheduleRef.unionDefault(usingPatches: Defaults.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var typeNameButton: UIButton!
@@ -86,7 +86,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        SiteSchedule.setImageId(at: siteScheduleIndex,
+        SiteScheduleRef.setImageId(at: siteScheduleIndex,
                                 to: imageKey,
                                 usingPatches: usingPatches)
     }
@@ -106,12 +106,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let name = nameText.text {
             // Updating existing site
             let i = siteScheduleIndex
-            let count = SiteSchedule.count()
+            let count = SiteScheduleRef.count()
             if i >= 0 && i < count {
-                SiteSchedule.setName(at: i, to: name)
+                SiteScheduleRef.setName(at: i, to: name)
             } else if i == count,
-                let _ = SiteSchedule.insert() {
-                SiteSchedule.setName(at: i, to: name)
+                let _ = SiteScheduleRef.insert() {
+                SiteScheduleRef.setName(at: i, to: name)
             }
         }
         segueToSitesVC()
@@ -140,7 +140,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
         typeNameButton.isEnabled = true
         if let name = nameText.text {
-            SiteSchedule.setName(at: siteScheduleIndex, to: name)
+            SiteScheduleRef.setName(at: siteScheduleIndex, to: name)
         }
         loadImage()
         return true
@@ -199,13 +199,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = SiteSchedule.getNames()
+            sitesVC.siteNames = SiteScheduleRef.getNames()
             navCon.popViewController(animated: true)
         }
     }
     
     private func loadTitle() {
-        let sites = SiteSchedule.sites
+        let sites = SiteScheduleRef.sites
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"
@@ -223,7 +223,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             // New image
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
-            } else if let site = SiteSchedule.getSite(at: siteScheduleIndex),
+            } else if let site = SiteScheduleRef.getSite(at: siteScheduleIndex),
                 let imgId = site.getImageIdentifer(),
                 let i = sitesWithImages.index(of: imgId) {
                 // Set as default image

@@ -44,17 +44,17 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         let set = Defaults.setSiteIndex
         if response.actionIdentifier == estroActionId,
             let id = UUID(uuidString: response.notification.request.identifier),
-            let suggestedsite = SiteSchedule.suggest(changeIndex: set) {
+            let suggestedsite = SiteScheduleRef.suggest(changeIndex: set) {
             let now = Date() as NSDate
             let setter = Schedule.setEstrogenDataForToday
-            EstrogenSchedule.setEstrogen(for: id, date: now,
+            EstrogenScheduleRef.setEstrogen(for: id, date: now,
                                          site: suggestedsite,
                                          setSharedData: setter)
             UIApplication.shared.applicationIconBadgeNumber -= 1
         } else if response.actionIdentifier == takeActionId,
             let uuid = UUID(uuidString: response.notification.request.identifier),
-            let pill = PillSchedule.getPill(for: uuid) {
-            PillSchedule.take(pill, setPDSharedData: PDSharedData.setPillDataForToday)
+            let pill = PillScheduleRef.getPill(for: uuid) {
+            PillScheduleRef.take(pill, setPDSharedData: PDSharedDataRef.setPillDataForToday)
             requestNotifyTakePill(pill)
             UIApplication.shared.applicationIconBadgeNumber -= 1
         }
@@ -64,7 +64,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
         cancelEstrogenNotifications(from: 0, to: upToRemove)
         for j in 0...upToAdd {
-            if let estro = EstrogenSchedule.getEstrogen(at: j) {
+            if let estro = EstrogenScheduleRef.getEstrogen(at: j) {
                 requestEstrogenExpiredNotification(for: estro)
             }
         }
@@ -84,7 +84,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels the notification at the given index.
     internal func cancelEstrogenNotification(at index: Index) {
-        if let estro = EstrogenSchedule.getEstrogen(at: index),
+        if let estro = EstrogenScheduleRef.getEstrogen(at: index),
             let id = estro.getId() {
             let idStr = id.uuidString
             let center = UNUserNotificationCenter.current()
@@ -97,7 +97,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                                               to endIndex: Index) {
         var ids: [String] = []
         for i in startIndex...endIndex {
-            if let estro = EstrogenSchedule.getEstrogen(at: i),
+            if let estro = EstrogenScheduleRef.getEstrogen(at: i),
                 let id = estro.getId() {
                 ids.append(id.uuidString)
             }
@@ -166,7 +166,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     private func suggestSiteMessage(introMsg: String) -> String? {
         let set = Defaults.setSiteIndex
-        if let suggestedSite = SiteSchedule.suggest(changeIndex: set),
+        if let suggestedSite = SiteScheduleRef.suggest(changeIndex: set),
             let siteName = suggestedSite.getName() {
             return "\n" + introMsg + siteName
         }
@@ -240,7 +240,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request a pill notification from index.
     internal func requestNotifyTakePill(at index: Index) {
-        if let pill = PillSchedule.getPill(at: index) {
+        if let pill = PillScheduleRef.getPill(at: index) {
             requestNotifyTakePill(pill)
         }
     }

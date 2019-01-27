@@ -19,11 +19,11 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nextEstro = PDSharedDataController.getNextEstrogen()
-        let nextPill = PDSharedDataController.getNextPill()
+        let nextEstro: EstrogenStruct = PDSharedDataController.getNextEstrogen()
+        let nextPill: PillStruct = PDSharedDataController.getNextPill()
         let usingPatches = PDSharedDataController.usingPatches()
         let comment = "Short label on Today App"
-        let title = (usingPatches) ? "Change:" : "Inject:"
+        let title = usingPatches ? "Change:" : "Inject:"
         let dots = PDStrings.PlaceholderStrings.dotdotdot
         nextEstrogenLabel.text = NSLocalizedString(title, comment: comment)
         
