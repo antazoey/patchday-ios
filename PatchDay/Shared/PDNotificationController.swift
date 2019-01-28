@@ -18,8 +18,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     typealias Trigger = UNTimeIntervalNotificationTrigger
-    
-    internal var center = UNUserNotificationCenter.current()
+    typealias Center = UNUserNotificationCenter
+
     internal var currentEstrogenIndex = 0
     internal var currentPillIndex = 0
     internal var sendingNotifications = true
@@ -31,18 +31,21 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     override init() {
         super.init()
-        self.center.requestAuthorization(options: [.alert, .sound, .badge]) {
+        let curr = Center.current()
+        curr.requestAuthorization(options: [.alert, .sound, .badge]) {
             (granted, error) in
             if (error != nil) {
                 print(error as Any)
             }
         }
-        center.setNotificationCategories(Set(getNotificationCategories()))
-        UNUserNotificationCenter.current().delegate = self
+        curr.setNotificationCategories(Set(getNotificationCategories()))
+        curr.delegate = self
     }
     
     /// Handles responses received from interacting with notifications.
-    internal func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    internal func userNotificationCenter(_ center: Center,
+                                         didReceive response: UNNotificationResponse,
+                                         withCompletionHandler completionHandler: @escaping () -> Void) {
         let set = Defaults.setSiteIndex
         if response.actionIdentifier == estroActionId,
             let id = UUID(uuidString: response.notification.request.identifier),
@@ -89,7 +92,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         if let estro = EstrogenScheduleRef.getEstrogen(at: index),
             let id = estro.getId() {
             let idStr = id.uuidString
-            let center = UNUserNotificationCenter.current()
+            let center = Center.current()
             center.removePendingNotificationRequests(withIdentifiers: [idStr])
         }
     }
@@ -105,7 +108,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             }
         }
         if ids.count > 0 {
-            let current = UNUserNotificationCenter.current()
+            let current = Center.current()
             current.removePendingNotificationRequests(withIdentifiers: ids)
         }
     }
@@ -118,7 +121,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels a pill notification.
     internal func cancelPill(_ pill: MOPill) {
-        let center = UNUserNotificationCenter.current()
+        let center = Center.current()
         if let id = pill.getId() {
             let idStr = id.uuidString
             center.removePendingNotificationRequests(withIdentifiers: [idStr])
@@ -202,11 +205,14 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 let request = UNNotificationRequest(identifier: id.uuidString,
                                                     content: content,
                                                     trigger: trigger)
-                center.add(request) {
+                let curr = Center.current()
+                curr.add(request) {
                     (error : Error?) in
                     if error != nil {
-                        print("Unable to Add Notification Request (\(String(describing: error))," +
-                            "\(String(describing: error?.localizedDescription)))")
+                        let msg = "Unable to Add Notification Request "
+                        let emsg = "(\(String(describing: error)), "
+                        let desc = "\(String(describing: error?.localizedDescription)))"
+                        print(msg + emsg + desc)
                     }
                 }
             }
@@ -229,7 +235,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 let request = UNNotificationRequest(identifier: "overnight",
                                                     content: content,
                                                     trigger: trigger)
-                center.add(request) { (error: Error?) in
+                let curr = Center.current()
+                curr.add(request) { (error: Error?) in
                     if error != nil {
                         let msg = "Unable to Add Notification Request"
                         let e = "(\(String(describing: error)), "
@@ -267,7 +274,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                 let request = UNNotificationRequest(identifier: id.uuidString,
                                                     content: content,
                                                     trigger: trigger)
-                center.add(request) { (error : Error?) in
+                let curr = Center.current()
+                curr.add(request) { (error : Error?) in
                     if let e = error {
                         let msg = "Unable to Add Notification Request "
                         let emsg = "(\(String(describing: e)), "
