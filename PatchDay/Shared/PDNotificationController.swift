@@ -42,29 +42,6 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         curr.delegate = self
     }
     
-    /// Handles responses received from interacting with notifications.
-    internal func userNotificationCenter(_ center: Center,
-                                         didReceive response: UNNotificationResponse,
-                                         withCompletionHandler completionHandler: @escaping () -> Void) {
-        let set = Defaults.setSiteIndex
-        if response.actionIdentifier == estroActionId,
-            let id = UUID(uuidString: response.notification.request.identifier),
-            let suggestedsite = SiteScheduleRef.suggest(changeIndex: set) {
-            let now = Date() as NSDate
-            let setter = Schedule.setEstrogenDataForToday
-            EstrogenScheduleRef.setEstrogen(for: id, date: now,
-                                         site: suggestedsite,
-                                         setSharedData: setter)
-            UIApplication.shared.applicationIconBadgeNumber -= 1
-        } else if response.actionIdentifier == takeActionId,
-            let uuid = UUID(uuidString: response.notification.request.identifier),
-            let pill = PillScheduleRef.getPill(for: uuid) {
-            PillScheduleRef.take(pill, setPDSharedData: PDSharedDataRef.setPillDataForToday)
-            requestNotifyTakePill(pill)
-            UIApplication.shared.applicationIconBadgeNumber -= 1
-        }
-    }
-    
     /// Resends all the estrogen notifications between the given indices.
     public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
         cancelEstrogenNotifications(from: 0, to: upToRemove)
@@ -87,6 +64,46 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         requestNotifyTakePill(pill)
     }
     
+    /// Determines the proper message for expired notifications.
+    public func notificationBody(for estro: MOEstrogen, interval: String) -> String {
+        var body = ""
+        typealias Bodies = PDStrings.NotificationStrings.Bodies
+        let usingPatches: Bool = Defaults.usingPatches()
+        let siteName = estro.getSiteName()
+        if !estro.isCustomLocated(usingPatches: usingPatches) && usingPatches {
+            if let msg = Bodies.siteToExpiredPatchMessage[siteName] {
+                body = msg
+            }
+        } else {
+            body = (usingPatches) ? Bodies.patchBody : Bodies.injectionBody
+            body = body + siteName
+        }
+        return body
+    }
+    
+    /// Handles responses received from interacting with notifications.
+    internal func userNotificationCenter(_ center: Center,
+                                         didReceive response: UNNotificationResponse,
+                                         withCompletionHandler completionHandler: @escaping () -> Void) {
+        let set = Defaults.setSiteIndex
+        if response.actionIdentifier == estroActionId,
+            let id = UUID(uuidString: response.notification.request.identifier),
+            let suggestedsite = SiteScheduleRef.suggest(changeIndex: set) {
+            let now = Date() as NSDate
+            let setter = Schedule.setEstrogenDataForToday
+            EstrogenScheduleRef.setEstrogen(for: id, date: now,
+                                         site: suggestedsite,
+                                         setSharedData: setter)
+            UIApplication.shared.applicationIconBadgeNumber -= 1
+        } else if response.actionIdentifier == takeActionId,
+            let uuid = UUID(uuidString: response.notification.request.identifier),
+            let pill = PillScheduleRef.getPill(for: uuid) {
+            PillScheduleRef.take(pill, setPDSharedData: PDSharedDataRef.setPillDataForToday)
+            requestNotifyTakePill(pill)
+            UIApplication.shared.applicationIconBadgeNumber -= 1
+        }
+    }
+
     /// Cancels the notification at the given index.
     internal func cancelEstrogenNotification(at index: Index) {
         if let estro = EstrogenScheduleRef.getEstrogen(at: index),
@@ -129,54 +146,6 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
 
     // MARK: - notifications
-    
-    /// Returns the title for an estrogen notification.
-    private func determineEstrogenNotificationTitle(usingPatches: Bool,
-                                                    notifyTime: Double) -> String {
-        let options = (usingPatches) ? [PDStrings.NotificationStrings.Titles.patchExpired, PDStrings.NotificationStrings.Titles.patchExpires] :
-            [PDStrings.NotificationStrings.Titles.injectionExpired, PDStrings.NotificationStrings.Titles.injectionExpires]
-        return (notifyTime == 0) ? options[0] : options[1]
-    }
-    
-    /// Returns the body for an estrogen notification.
-    private func determineEstrogenNotificationBody(for estro: MOEstrogen,
-                                                   interval: String) -> String {
-        var body = notificationBody(for: estro, interval: interval)
-        typealias Bodies = PDStrings.NotificationStrings.Bodies
-        let msg = (Defaults.usingPatches()) ?
-            Bodies.siteForNextPatch :
-            Bodies.siteForNextInjection
-        if let additionalMessage = suggestSiteMessage(introMsg: msg) {
-            body += additionalMessage
-        }
-        return body
-    }
-    
-    /// Determines the proper message for expired notifications.
-    public func notificationBody(for estro: MOEstrogen, interval: String) -> String {
-        var body = ""
-        typealias Bodies = PDStrings.NotificationStrings.Bodies
-        let usingPatches: Bool = Defaults.usingPatches()
-        let siteName = estro.getSiteName()
-        if !estro.isCustomLocated(usingPatches: usingPatches) && usingPatches {
-            if let msg = Bodies.siteToExpiredPatchMessage[siteName] {
-                body = msg
-            }
-        } else {
-            body = (usingPatches) ? Bodies.patchBody : Bodies.injectionBody
-            body = body + siteName
-        }
-        return body
-    }
-    
-    private func suggestSiteMessage(introMsg: String) -> String? {
-        let set = Defaults.setSiteIndex
-        if let suggestedSite = SiteScheduleRef.suggest(changeIndex: set),
-            let siteName = suggestedSite.getName() {
-            return "\n" + introMsg + siteName
-        }
-        return nil
-    }
     
     /// Request an Estrogen notification.
     internal func requestEstrogenExpiredNotification(for estro: MOEstrogen) {
@@ -288,6 +257,37 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     }
     
     // MARK: - Private helpers
+    
+    /// Returns the title for an estrogen notification.
+    private func determineEstrogenNotificationTitle(usingPatches: Bool,
+                                                    notifyTime: Double) -> String {
+        let options = (usingPatches) ? [PDStrings.NotificationStrings.Titles.patchExpired, PDStrings.NotificationStrings.Titles.patchExpires] :
+            [PDStrings.NotificationStrings.Titles.injectionExpired, PDStrings.NotificationStrings.Titles.injectionExpires]
+        return (notifyTime == 0) ? options[0] : options[1]
+    }
+    
+    /// Returns the body for an estrogen notification.
+    private func determineEstrogenNotificationBody(for estro: MOEstrogen,
+                                                   interval: String) -> String {
+        var body = notificationBody(for: estro, interval: interval)
+        typealias Bodies = PDStrings.NotificationStrings.Bodies
+        let msg = (Defaults.usingPatches()) ?
+            Bodies.siteForNextPatch :
+            Bodies.siteForNextInjection
+        if let additionalMessage = suggestSiteMessage(introMsg: msg) {
+            body += additionalMessage
+        }
+        return body
+    }
+    
+    private func suggestSiteMessage(introMsg: String) -> String? {
+        let set = Defaults.setSiteIndex
+        if let suggestedSite = SiteScheduleRef.suggest(changeIndex: set),
+            let siteName = suggestedSite.getName() {
+            return "\n" + introMsg + siteName
+        }
+        return nil
+    }
     
     /// Create action for changing Estrogen from the notification.
     private func makeChangeAction() -> UNNotificationAction {
