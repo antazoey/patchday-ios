@@ -17,6 +17,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         return "Singleton for reading, writing, and querying the MOEstrogen array."
     }
     
+    typealias Trigger = UNTimeIntervalNotificationTrigger
+    
     internal var center = UNUserNotificationCenter.current()
     internal var currentEstrogenIndex = 0
     internal var currentPillIndex = 0
@@ -195,7 +197,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
             if timeIntervalUntilExpire > 0, let id = estro.getId() {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeIntervalUntilExpire,
+                let trigger = Trigger(timeInterval: timeIntervalUntilExpire,
                                                                 repeats: false)
                 let request = UNNotificationRequest(identifier: id.uuidString,
                                                     content: content,
@@ -223,15 +225,16 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.sound = UNNotificationSound.default()
             let interval = triggerDate.timeIntervalSinceNow
             if interval > 0 {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval,
-                                                                repeats: false)
+                let trigger = Trigger(timeInterval: interval, repeats: false)
                 let request = UNNotificationRequest(identifier: "overnight",
                                                     content: content,
                                                     trigger: trigger)
                 center.add(request) { (error: Error?) in
                     if error != nil {
-                        print("Unable to Add Notification Request (\(String(describing: error))," +
-                            "\(String(describing: error?.localizedDescription)))")
+                        let msg = "Unable to Add Notification Request"
+                        let e = "(\(String(describing: error)), "
+                        let desc = "\(String(describing: error?.localizedDescription)))"
+                        print(msg + e + desc)
                     }
                 }
             }
@@ -259,17 +262,17 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.badge = totalDue + 1 as NSNumber
             content.categoryIdentifier = pillCategoryId
             let interval = dueDate.timeIntervalSince(now)
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval,
-                                                            repeats: false)
+            let trigger = Trigger(timeInterval: interval, repeats: false)
             if let id = pill.getId() {
                 let request = UNNotificationRequest(identifier: id.uuidString,
                                                     content: content,
                                                     trigger: trigger)
                 center.add(request) { (error : Error?) in
                     if let e = error {
-                        let desc = e.localizedDescription
-                        print("Unable to Add Notification Request (\(String(describing: e))," +
-                            "\(String(describing: desc)))")
+                        let msg = "Unable to Add Notification Request "
+                        let emsg = "(\(String(describing: e)), "
+                        let desc = "\(String(describing: e.localizedDescription)))"
+                        print(msg + emsg + desc)
                     }
                 }
             }
@@ -286,8 +289,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Create the category for Estrogen notifications.
     private func makeEstrogenCategory() -> UNNotificationCategory {
         let changeAction = makeChangeAction()
-        return UNNotificationCategory(identifier: estroCategoryId, actions: [changeAction],
-                                      intentIdentifiers: [], options: [])
+        return UNNotificationCategory(identifier: estroCategoryId,
+                                      actions: [changeAction],
+                                      intentIdentifiers: [],
+                                      options: [])
     }
     
     /// Create the action for taking a pill from the notification.
