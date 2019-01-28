@@ -152,21 +152,19 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         let interval = Defaults.getTimeInterval()
         let usingPatches = Defaults.usingPatches()
         let notifyTime = Double(Defaults.getNotificationMinutesBefore())
-        
+
         if sendingNotifications,
             Defaults.notify(),
             let date = estro.getDate(),
             var timeIntervalUntilExpire = PDDateHelper.expirationInterval(interval,
                                                                           date: date as Date) {
             let content = UNMutableNotificationContent()
-            
             content.title = determineEstrogenNotificationTitle(usingPatches: usingPatches,
                                                                notifyTime: notifyTime)
             content.body = determineEstrogenNotificationBody(for: estro, interval: interval)
             content.sound = UNNotificationSound.default()
             content.badge = Schedule.totalDue(interval: interval) + 1 as NSNumber
             content.categoryIdentifier = estroCategoryId
-            
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
             if timeIntervalUntilExpire > 0, let id = estro.getId() {
                 let trigger = Trigger(timeInterval: timeIntervalUntilExpire,
