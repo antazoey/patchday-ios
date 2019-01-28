@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Uncomment to nuke the db
         // Schedule.nuke()
-        // Then uncomment, run again, and PatchDay resets to default.
+        // Then re-comment, run again, and PatchDay resets to default.
 
         // Load data for the Today widget.
         Schedule.sharedData.setDataForTodayApp(interval: interval,
