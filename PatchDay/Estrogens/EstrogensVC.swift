@@ -62,7 +62,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let estrogenIndex = indexPath.row
         let id = "estrogenCellReuseId"
-        let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! EstrogenTableViewCell
+        typealias Cell = EstrogenTableViewCell
+        let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
         estroCell.configure(at: estrogenIndex)
         return estroCell
             
@@ -78,8 +79,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     @objc internal func editTapped() {
         let sb = UIStoryboard(name: "Settings", bundle: nil)
+        let key = "SettingsVC_id"
         if let navCon = navigationController,
-            let settingsVC = sb.instantiateViewController(withIdentifier: "SettingsVC_id") as? SettingsVC {
+            let settingsVC = sb.instantiateViewController(withIdentifier: key) as? SettingsVC {
             navCon.pushViewController(settingsVC, animated: true)
         }
     }
@@ -90,7 +92,10 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     /// Updates the estrogen buttons when VC is reloaded from a notification.
     internal func updateFromBackground() {
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(appWillEnterForeground),
+                                               name: .UIApplicationWillEnterForeground,
+                                               object: nil)
     }
     
     @objc internal func appWillEnterForeground() {
@@ -108,10 +113,11 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     public func setTabBarBadges() {
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
-        if Defaults.usingPatches() {
+        switch Defaults.usingPatches() {
+        case true :
             item?.image = #imageLiteral(resourceName: "Patch Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
-        } else {
+        case false :
             item?.image = #imageLiteral(resourceName: "Injection Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Injection Icon")
         }
@@ -148,7 +154,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func loadTabBarItems() {
-        navigationController?.tabBarController?.tabBar.unselectedItemTintColor = UIColor.darkGray
+        let c = UIColor.darkGray
+        navigationController?.tabBarController?.tabBar.unselectedItemTintColor = c
         navigationController?.tabBarController?.tabBar.tintColor = UIColor.purple
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() ==
             UIUserInterfaceIdiom.phone) ? 9 : 25
