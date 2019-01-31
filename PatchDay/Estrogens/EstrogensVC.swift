@@ -79,7 +79,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     @objc internal func editTapped() {
         let sb = UIStoryboard(name: "Settings", bundle: nil)
-        if let navCon = navigationController, let settingsVC = sb.instantiateViewController(withIdentifier: "SettingsVC_id") as? SettingsVC {
+        if let navCon = navigationController,
+            let settingsVC = sb.instantiateViewController(withIdentifier: "SettingsVC_id") as? SettingsVC {
             navCon.pushViewController(settingsVC, animated: true)
         }
     }
@@ -124,7 +125,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         
         // Expired pills
         let pillDueCount = PillScheduleRef.totalDue()
-        if pillDueCount > 0, let vcs = self.navigationController?.tabBarController?.viewControllers, vcs.count > 1 {
+        if pillDueCount > 0,
+            let vcs = self.navigationController?.tabBarController?.viewControllers,
+            vcs.count > 1 {
             vcs[1].tabBarItem.badgeValue = String(pillDueCount)
         }
     }
@@ -148,7 +151,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     private func loadTabBarItems() {
         navigationController?.tabBarController?.tabBar.unselectedItemTintColor = UIColor.darkGray
         navigationController?.tabBarController?.tabBar.tintColor = UIColor.purple
-        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
+        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() ==
+            UIUserInterfaceIdiom.phone) ? 9 : 25
         if let vcs = navigationController?.tabBarController?.viewControllers {
             for i in 0..<vcs.count {
                 vcs[i].tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
