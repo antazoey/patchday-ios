@@ -65,9 +65,6 @@ class EstrogenTableViewCell: UITableViewCell {
             if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
                 // Check if Site relationship siteName is a general site.
                 image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
-            } else if let siteName = estro.getSiteNameBackUp() {
-                // Check of the siteNameBackUp is a general site.
-                image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
             } else {
                 image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
             }
