@@ -86,21 +86,25 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                                          didReceive response: UNNotificationResponse,
                                          withCompletionHandler completionHandler: @escaping () -> Void) {
         let set = Defaults.setSiteIndex
-        if response.actionIdentifier == estroActionId,
-            let id = UUID(uuidString: response.notification.request.identifier),
+        switch response.actionIdentifier {
+        case estroActionId :
+            if let id = UUID(uuidString: response.notification.request.identifier),
             let suggestedsite = SiteScheduleRef.suggest(changeIndex: set) {
-            let now = Date() as NSDate
-            let setter = Schedule.setEstrogenDataForToday
-            EstrogenScheduleRef.setEstrogen(for: id, date: now,
-                                         site: suggestedsite,
-                                         setSharedData: setter)
-            UIApplication.shared.applicationIconBadgeNumber -= 1
-        } else if response.actionIdentifier == takeActionId,
-            let uuid = UUID(uuidString: response.notification.request.identifier),
-            let pill = PillScheduleRef.getPill(for: uuid) {
-            PillScheduleRef.take(pill, setPDSharedData: PDSharedDataRef.setPillDataForToday)
-            requestNotifyTakePill(pill)
-            UIApplication.shared.applicationIconBadgeNumber -= 1
+                let now = Date() as NSDate
+                let setter = Schedule.setEstrogenDataForToday
+                EstrogenScheduleRef.setEstrogen(for: id, date: now,
+                                                site: suggestedsite,
+                                                setSharedData: setter)
+                UIApplication.shared.applicationIconBadgeNumber -= 1
+            }
+        case takeActionId :
+            if let uuid = UUID(uuidString: response.notification.request.identifier),
+                let pill = PillScheduleRef.getPill(for: uuid) {
+                PillScheduleRef.take(pill, setPDSharedData: PDSharedDataRef.setPillDataForToday)
+                requestNotifyTakePill(pill)
+                UIApplication.shared.applicationIconBadgeNumber -= 1
+            }
+        default : return
         }
     }
 

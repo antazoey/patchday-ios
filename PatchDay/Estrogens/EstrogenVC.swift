@@ -15,7 +15,7 @@ class EstrogenVC: UIViewController,
                   UIPickerViewDataSource,
                   UITextFieldDelegate {
     
-    private var suggestedSite: MOSite?
+    private var selectedSite: MOSite?
     
     //MARK: - Main
     
@@ -154,7 +154,7 @@ class EstrogenVC: UIViewController,
     }
  
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.suggestedSite = nil
+        self.selectedSite = nil
         chooseSiteButton.endEditing(true)
         chooseSiteButton.isEnabled = true
         chooseDateButton.isEnabled = true
@@ -215,7 +215,7 @@ class EstrogenVC: UIViewController,
                              inComponent component: Int) {
         let names = SiteScheduleRef.getNames()
         if row < names.count && row >= 0 {
-            suggestedSite = SiteScheduleRef.getSite(at: row)
+            selectedSite = SiteScheduleRef.getSite(at: row)
             let name = SiteScheduleRef.getNames()[row]
             chooseSiteButton.text = name
             // other view changes
@@ -312,7 +312,7 @@ class EstrogenVC: UIViewController,
     private func saveSite() {
         if siteTextHasChanged {
             State.siteChanged = true
-            switch (suggestedSite, chooseSiteButton.text) {
+            switch (selectedSite, chooseSiteButton.text) {
             // Attempt saving site via MOSite first
             case (let site, _) where site != nil :
                 let setter = Schedule.setEstrogenDataForToday
@@ -350,7 +350,7 @@ class EstrogenVC: UIViewController,
     private func autoPickSite() {
         let set = Defaults.setSiteIndex
         if let suggestedSite = SiteScheduleRef.suggest(changeIndex: set) {
-            self.suggestedSite = suggestedSite
+            selectedSite = suggestedSite
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
             if let suggestedSiteName = suggestedSite.getName() {
