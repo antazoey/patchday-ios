@@ -21,7 +21,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     private var estrogenButtonTapped = 0            // for navigation
     private var setUpFromViewDidLoad: Bool = true   // from change patch
-    private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
