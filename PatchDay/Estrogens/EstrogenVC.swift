@@ -215,7 +215,8 @@ class EstrogenVC: UIViewController,
                              inComponent component: Int) {
         let names = SiteScheduleRef.getNames()
         if row < names.count && row >= 0 {
-        let name = SiteScheduleRef.getNames()[row]
+            suggestedSite = SiteScheduleRef.getSite(at: row)
+            let name = SiteScheduleRef.getNames()[row]
             chooseSiteButton.text = name
             // other view changes
             sitePicker.isHidden = true
@@ -412,13 +413,14 @@ class EstrogenVC: UIViewController,
         let interval = Defaults.getTimeInterval()
         if let estro = EstrogenScheduleRef.getEstrogen(at: estrogenScheduleIndex),
             estro.getDate() != nil {
-            if Defaults.usingPatches() {
+            switch Defaults.usingPatches() {
+            case true :
                 expLabel.text = (estro.isExpired(interval)) ?
                     Strings.expired :
                     Strings.expires
                 dateAndTimePlaced.text = Strings.date_and_time_applied
                 siteLabel.text = Strings.site
-            } else {
+            case false :
                 expLabel.text = Strings.next_due
                 dateAndTimePlaced.text = Strings.date_and_time_injected
                 siteLabel.text = Strings.last_site_injected
