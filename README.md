@@ -11,4 +11,4 @@ PatchDay is a scheduling app optimized for H.R.T., and it was made by a transgen
   
   [PatchData](./PatchData/readme.md) - the PatchDay Core Data kit
   
-  [PatchDaySite](../PatchDaySite) - the PatchDay support website
+  [PatchDaySite](../PatchDaySite/readme.md) - the PatchDay support website
