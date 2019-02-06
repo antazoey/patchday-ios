@@ -17,7 +17,9 @@ class EstrogenTableViewCell: UITableViewCell {
     @IBOutlet weak var badgeButton: MFBadgeButton!
     
     public func configure(at index: Index) {
-        if index < Defaults.getQuantity() {
+        let q = Defaults.getQuantity()
+        switch (index) {
+        case 0..<q :
             let interval = Defaults.getTimeInterval()
             let usingPatches = Defaults.usingPatches()
             if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
@@ -36,13 +38,10 @@ class EstrogenTableViewCell: UITableViewCell {
                 selectionStyle = .default
                 stateImage.isHidden = false
             }
-        } else if index < 4 {
-            // Animate changes that occured in Settings
+        case q...3 :
             animateEstrogenButtonChanges(at: index)
-            backgroundColor = UIColor.white
-            selectionStyle = .none
-        } else {
-            reset()
+            fallthrough
+        default : reset()
         }
     }
     
@@ -143,5 +142,6 @@ class EstrogenTableViewCell: UITableViewCell {
         stateImage.image = nil
         backgroundColor = UIColor.white
         selectionStyle = .none
+        badgeButton.badgeValue = nil
     }
 }
