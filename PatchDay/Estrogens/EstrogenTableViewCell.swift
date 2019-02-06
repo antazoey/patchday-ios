@@ -123,11 +123,6 @@ class EstrogenTableViewCell: UITableViewCell {
         if index < Defaults.getQuantity() {
             if let _ = estro?.hasDate() {
                 // Was affected non-empty estrogens from change.
-                print(index)
-                print(changes.wereEstrogenChanges)
-                print(!changes.isNew)
-                print(!changes.onlySiteChanged)
-                print(index <= changes.indexOfChangedDelivery)
                 isAffectedFromChange =
                     changes.wereEstrogenChanges
                     && !changes.isNew
