@@ -1,6 +1,6 @@
 # PatchDay
 
-PatchDay is scheduling software designed for hormone replacement therapy. It was inspired to make patch staggering easier but later evolved into an all-encompassing H.R.T. companion.
+PatchDay is scheduling software designed for hormone replacement therapy. I was inspired to make patch staggering easier but later the app evolved into an all-encompassing H.R.T. companion.
 
 Patch staggering means placing multiple transdermal patches on the body at different times. It is not easy to keep track of what site has what patch, which site was last injected in, and/or if the spironolactone was taken today. "Why don't you use a medication app?", you may ask. Well, PatchDay handles patch staggering like a pro! That is why I needed to make it origianlly.
 
