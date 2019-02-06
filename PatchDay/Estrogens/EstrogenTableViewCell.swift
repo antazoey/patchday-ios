@@ -121,18 +121,34 @@ class EstrogenTableViewCell: UITableViewCell {
         var isGone: Bool = false
         let changes = Schedule.state
         if index < Defaults.getQuantity() {
-            if let hasDateAndItMatters = estro?.hasDate() {
+            if let _ = estro?.hasDate() {
                 // Was affected non-empty estrogens from change.
-                isAffectedFromChange = changes.wereEstrogenChanges && !changes.isNew && !changes.onlySiteChanged
+                print(index)
+                print(changes.wereEstrogenChanges)
+                print(!changes.isNew)
+                print(!changes.onlySiteChanged)
+                print(index <= changes.indexOfChangedDelivery)
+                isAffectedFromChange =
+                    changes.wereEstrogenChanges
+                    && !changes.isNew
+                    && !changes.onlySiteChanged
                     && index <= changes.indexOfChangedDelivery
-                    && hasDateAndItMatters
             }
             // Newly changed site and none else (date didn't change).
-            isSiteChange = changes.siteChanged && index == changes.indexOfChangedDelivery
+            isSiteChange =
+                changes.siteChanged
+                && index == changes.indexOfChangedDelivery
         }
         // Is exiting the schedule.
-        isGone = changes.decreasedCount && index >= Defaults.getQuantity()
-        return (isAffectedFromChange || isSiteChange || changes.isNew || isGone)
+        isGone =
+            changes.decreasedCount
+            && index >= Defaults.getQuantity()
+        return (
+            isAffectedFromChange
+            || isSiteChange
+            || changes.isNew
+            || isGone
+        )
     }
         
     private func reset() {

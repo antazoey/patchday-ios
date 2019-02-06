@@ -102,17 +102,17 @@ class EstrogenVC: UIViewController,
     @objc private func saveButtonTapped(_ sender: Any) {
         let interval = Defaults.getTimeInterval()
         if let estro = estrogen {
+            // Save effects
+            State.wereEstrogenChanges = true
+            if let i = EstrogenScheduleRef.getIndex(for: estro) {
+                State.indexOfChangedDelivery = i
+            }
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
             saveData()    // Save
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
             EstrogenScheduleRef.sort()
-            // Save effects
-            State.wereEstrogenChanges = true
-            if let i = EstrogenScheduleRef.getIndex(for: estro) {
-                State.indexOfChangedDelivery = i
-            }
         }
         
         let estrosDue = Schedule.totalDue(interval: interval)
