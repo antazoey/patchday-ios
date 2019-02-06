@@ -66,7 +66,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
         estroCell.configure(at: estrogenIndex)
         return estroCell
-            
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -123,7 +122,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }
         
         // Expired estrogens
-        let estroDueCount = Schedule.totalDue(interval: Defaults.getTimeInterval())
+        let interval = Defaults.getTimeInterval()
+        let estroDueCount = Schedule.estrogenSchedule.totalDue(interval)
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }

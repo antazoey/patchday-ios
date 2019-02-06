@@ -70,10 +70,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         typealias Bodies = PDStrings.NotificationStrings.Bodies
         let usingPatches: Bool = Defaults.usingPatches()
         let siteName = estro.getSiteName()
-        if !estro.isCustomLocated(usingPatches: usingPatches) && usingPatches {
-            if let msg = Bodies.siteToExpiredPatchMessage[siteName] {
+        if !estro.isCustomLocated(usingPatches: usingPatches), usingPatches,
+            let msg = Bodies.siteToExpiredPatchMessage[siteName] {
                 body = msg
-            }
         } else {
             body = (usingPatches) ? Bodies.patchBody : Bodies.injectionBody
             body = body + siteName
