@@ -88,7 +88,7 @@ class EstrogenVC: UIViewController,
         // Site Type setup
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
         typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
-        if let lab = typeSiteButton.titleLabel, let t = lab.text, t.count > 4 {
+        if let label = typeSiteButton.titleLabel, let t = label.text, t.count > 4 {
             typeSiteButton.setTitle("⌨️", for: .normal)
         }
     }
@@ -187,7 +187,6 @@ class EstrogenVC: UIViewController,
         typeSiteButton.isEnabled = false
         chooseSiteButton.isEnabled = false
         chooseDateButton.isEnabled = false
-
     }
 
     internal func numberOfComponents(in pickerView: UIPickerView) -> Int {

@@ -297,7 +297,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JX4-78-f30" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1748" y="1102.3988005997003"/>
+            <point key="canvasLocation" x="855" y="1097"/>
         </scene>
         <!--Pills-->
         <scene sceneID="O0o-dt-i2G">
@@ -326,36 +326,35 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="235" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Last:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD8-YQ-00g">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="35"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="9T5-qI-9qG"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="56" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday, 10:00 PM" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfQ-wk-dOK">
-                                                                    <rect key="frame" x="50" y="0.0" width="185" height="35"/>
+                                                                    <rect key="frame" x="56" y="0.0" width="179" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="cfQ-wk-dOK" firstAttribute="leading" secondItem="PD8-YQ-00g" secondAttribute="trailing" id="4JV-bV-yQV"/>
+                                                                <constraint firstItem="cfQ-wk-dOK" firstAttribute="centerX" secondItem="mdX-t1-SRb" secondAttribute="centerX" constant="28" id="CU1-dN-WWa"/>
+                                                                <constraint firstItem="PD8-YQ-00g" firstAttribute="leading" secondItem="mdX-t1-SRb" secondAttribute="leading" id="kP1-Bu-gkz"/>
+                                                            </constraints>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTq-fb-mxV">
                                                             <rect key="frame" x="0.0" y="35" width="235" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="35"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="50" id="6eT-R2-IZJ"/>
-                                                                    </constraints>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="56" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.37055522200000002" green="0.37056469920000001" blue="0.37055957319999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today, 10:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J63-bw-Kcr">
-                                                                    <rect key="frame" x="50" y="0.0" width="185" height="35"/>
+                                                                    <rect key="frame" x="56" y="0.0" width="179" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -363,6 +362,9 @@
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="35" id="7JP-sn-2zE"/>
+                                                                <constraint firstItem="J63-bw-Kcr" firstAttribute="leading" secondItem="HfE-Hn-eEY" secondAttribute="trailing" id="7XX-wX-JAS"/>
+                                                                <constraint firstItem="HfE-Hn-eEY" firstAttribute="leading" secondItem="HTq-fb-mxV" secondAttribute="leading" id="mSU-AB-wq7"/>
+                                                                <constraint firstItem="J63-bw-Kcr" firstAttribute="centerX" secondItem="HTq-fb-mxV" secondAttribute="centerX" constant="28" id="sXE-wY-glm"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>
@@ -837,7 +839,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIk-oO-ox1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2968" y="1674.9625187406298"/>
+            <point key="canvasLocation" x="-2480" y="800"/>
         </scene>
         <!--Estrogens Nav-->
         <scene sceneID="XNk-I8-a3y">
@@ -894,7 +896,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WlZ-0b-iOx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2687.1999999999998" y="1102.3988005997003"/>
+            <point key="canvasLocation" x="-84" y="1097"/>
         </scene>
         <!--Sites-->
         <scene sceneID="ire-kS-8zj">
@@ -913,7 +915,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fe3-9O-h1P" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3906.4000000000001" y="1674.5127436281859"/>
+            <point key="canvasLocation" x="-3420" y="798"/>
         </scene>
         <!--Pill Nav-->
         <scene sceneID="R4A-R2-vle">
