@@ -58,19 +58,17 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let site = SiteScheduleRef.getSite(at: siteScheduleIndex) {
             imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
                                                           and: siteImage,
-                                                          imageButton: imageButton,
-                                                          nameButton: typeNameButton,
-                                                          nameTextField: nameText,
                                                           saveButton: navigationItem.rightBarButtonItem!,
                                                           selectedSite: site,
-                                                          doneButton: imagePickerDoneButton,
                                                           usingPatches: Defaults.usingPatches())
-            }
+        }
         imagePicker.delegate = imagePickerDelegate
         imagePicker.dataSource = imagePickerDelegate
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         loadTitle()
         loadImage()
+        typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        nameText.restorationIdentifier = "select"
     }
     
     public func setSiteScheduleIndex(to index: Int) {
@@ -103,7 +101,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBAction func imageButtonTapped(_ sender: Any) {
         siteImage.isHidden = true
         imageButton.isEnabled = false
-        imagePickerDelegate?.openPicker()
+        imagePickerDelegate?.openPicker() {
+            self.typeNameButton.isEnabled = false
+            self.imageButton.isEnabled = false
+            self.nameText.isEnabled = false
+            self.imagePickerDoneButton.isHidden = false
+            self.imagePickerDoneButton.isEnabled = true
+        }
     }
     
     @IBAction func typeTapped(_ sender: Any) {
@@ -116,11 +120,14 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             // Updating existing site
             let i = siteScheduleIndex
             let count = SiteScheduleRef.count()
-            if i >= 0 && i < count {
+            switch i {
+            case 0..<count :
                 SiteScheduleRef.setName(at: i, to: name)
-            } else if i == count,
-                let _ = SiteScheduleRef.insert() {
-                SiteScheduleRef.setName(at: i, to: name)
+            case count :
+                if let _ = SiteScheduleRef.insert() {
+                    SiteScheduleRef.setName(at: i, to: name)
+                }
+            default : break
             }
         }
         segueToSitesVC()
@@ -130,39 +137,58 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     internal func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
-        if textField.restorationIdentifier == "type" {
+        typeNameButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        switch textField.restorationIdentifier {
+        case "type" :
             nameText.isEnabled = true
-            typeNameButton.isEnabled = false
             textField.restorationIdentifier = "select"
-        } else {
-            // Select site from picker rather than type
+            typeNameButton.addTarget(self,
+                                     action: #selector(closeTextField),
+                                     for: .touchUpInside)
+        case "select" :
             view.endEditing(true)
             nameText.isEnabled = false
             openPicker(namePicker)
+            typeNameButton.addTarget(self,
+                                     action: #selector(closePicker),
+                                     for: .touchUpInside)
+        default : break
         }
     }
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        closeTextField()
+        return true
+    }
+    
+    @objc internal func closeTextField() {
         view.endEditing(true)
-        if nameText.text == "" {
+        nameText.restorationIdentifier = "select"
+        switch nameText.text {
+        case "" :
             nameText.text = PDStrings.PlaceholderStrings.new_site
-        }
-        typeNameButton.isEnabled = true
-        if let name = nameText.text {
-            SiteScheduleRef.setName(at: siteScheduleIndex, to: name)
+        case let name :
+            if let n = name {
+                SiteScheduleRef.setName(at: siteScheduleIndex, to: n)
+            }
         }
         loadImage()
-        return true
+        typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        typeNameButton.addTarget(self,
+                                 action: #selector(typeTapped(_:)),
+                                 for: .touchUpInside)
     }
     
     // MARK: - Picker functions
     
-    private func openPicker(_ picker: UIPickerView) {
+    @objc private func openPicker(_ picker: UIPickerView) {
         UIView.transition(with: picker as UIView,
                           duration: 0.4,
                           options: .transitionFlipFromTop,
-                          animations: { picker.isHidden = false })
-            self.typeNameButton.isEnabled = false
+                          animations: {
+                            picker.isHidden = false;
+                            self.bottomLine.isHidden = true;
+                            self.siteImage.isHidden = true })
         if let n = nameText.text, let i = namePickerSet.index(of: n) {
             namePicker.selectRow(i, inComponent: 0, animated: true)
         }
@@ -186,22 +212,21 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     internal func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
-        
-        // Close picker
-        UIView.transition(with: namePicker as UIView,
-                          duration: 0.4,
-                          options: .transitionCrossDissolve,
-                          animations: {
-                            self.namePicker.isHidden = true;
-                            self.bottomLine.isHidden = false;
-                            self.siteImage.isHidden = false
-        }) {
-            void in
-            self.nameText.text = self.namePickerSet[row]
-            self.typeNameButton.isEnabled = true
-            self.nameText.isEnabled = true
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-        }
+        self.nameText.text = self.namePickerSet[row]
+        closePicker()
+    }
+    
+    @objc internal func closePicker() {
+        self.namePicker.isHidden = true;
+        self.bottomLine.isHidden = false;
+        self.siteImage.isHidden = false;
+        nameText.restorationIdentifier = "select"
+        typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        self.typeNameButton.addTarget(self,
+                                      action: #selector(self.typeTapped(_:)),
+                                      for: .touchUpInside)
+        self.nameText.isEnabled = true
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     // MARK: - Private

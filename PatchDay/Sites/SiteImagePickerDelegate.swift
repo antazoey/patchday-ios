@@ -14,33 +14,21 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     
     public var images: [UIImage]
     public var picker: UIPickerView
-    public var doneButton: UIButton
     public var imageView: UIImageView
-    public var imageButton: UIButton
-    public var nameButton: UIButton
-    public var nameTextField: UITextField
     public var saveButton: UIBarButtonItem
     public var selectedSite: MOSite
     public var selectedImage: UIImage?
     
     init(with picker: UIPickerView,
          and imageView: UIImageView,
-         imageButton: UIButton,
-         nameButton: UIButton,
-         nameTextField: UITextField,
          saveButton: UIBarButtonItem,
          selectedSite: MOSite,
-         doneButton: UIButton,
          usingPatches: Bool) {
+        self.imageView = imageView
         self.images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
         self.picker = picker
-        self.imageView = imageView
-        self.imageButton = imageButton
-        self.nameButton = nameButton
-        self.nameTextField = nameTextField
         self.saveButton = saveButton
         self.selectedSite = selectedSite
-        self.doneButton = doneButton
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -72,14 +60,16 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         }
     }
  
-    public func openPicker() {
-        UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: { self.picker.isHidden = false; self.imageView.isHidden = true
-        })
-        nameButton.isEnabled = false
-        imageButton.isEnabled = false
-        nameTextField.isEnabled = false
-        doneButton.isHidden = false
-        doneButton.isEnabled = true
+    public func openPicker(closure: @escaping () -> ()) {
+        UIView.transition(with: picker as UIView,
+                          duration: 0.4,
+                          options: .transitionFlipFromTop,
+                          animations: {
+                            self.picker.isHidden = false;
+                            self.imageView.isHidden = true
+                          }
+                        )
+        closure()
         
         if selectedImage == nil {
             selectedImage = imageView.image
