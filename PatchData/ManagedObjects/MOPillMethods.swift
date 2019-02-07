@@ -145,26 +145,7 @@ extension MOPill {
                                                      times: times)
                 return d
             } catch PDPillHelper.NextDueDateError.notEnoughTimes {
-                let c = [time1, time2].filter() { $0 != nil }.count
-                if c < timesaday {
-                    let goal = Int(timesaday)
-                    for i in c..<goal {
-                        switch (i) {
-                        case 0: self.time1 = Date() as NSDate
-                        case 1:
-                            if let t1 = time1 {
-                                let t2 = Time(timeInterval: 1000,
-                                              since: (t1 as NSDate) as Date)
-                                self.time2 = t2 as NSDate
-                            }
-                        default :
-                            break
-                        }
-                    }
-                    return due()
-                } else {
-                    print("This error was mistakenly thrown.")
-                }
+                return handleNotEnoughTimesError(t1: t1)
             } catch {
                 return nil
             }
@@ -217,5 +198,29 @@ extension MOPill {
         notify = false
         timesTakenToday = 0
         lastTaken = nil
+    }
+    
+    // MARK: - Privates
+    
+    private func handleNotEnoughTimesError(t1: Time) -> Date? {
+        let c = [time1, time2].filter() { $0 != nil }.count
+        if c < timesaday {
+            let goal = Int(timesaday)
+            // Set the dates that are missing
+            for i in c..<goal {
+                switch (i) {
+                case 0: self.time1 = Date() as NSDate
+                case 1:
+                    self.time2 = Time(timeInterval: 1000,
+                                      since: (t1 as NSDate) as Date)
+                        as NSDate
+                default :
+                    break
+                }
+            }
+            // Retry due, this time there should be enough times
+            return due()
+        }
+        return nil
     }
 }
