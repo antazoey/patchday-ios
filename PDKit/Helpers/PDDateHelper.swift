@@ -120,7 +120,7 @@ public class PDDateHelper: NSObject {
         if let eightPM_of = Calendar.current.date(bySettingHour: 20,
                                                   minute: 0,
                                                   second: 0,
-                                                  of: overnightDate),
+                                                  of: overNightDate),
             let eightPM_before = Calendar.current.date(byAdding: .day,
                                                        value: -1,
                                                        to: eightPM_of) {
