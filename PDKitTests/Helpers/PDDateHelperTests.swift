@@ -160,7 +160,7 @@ class PDDateHelperTests: XCTestCase {
             let eightPM_before = Calendar.current.date(byAdding: .day,
                                                        value: -1,
                                                         to: eightPM)
-            let actual = PDDateHelper.dateBeforeOvernight(overnightDate: now)
+            let actual = PDDateHelper.dateBefore(overNightDate: now)
             XCTAssertEqual(actual, eightPM_before)
         } else {
             XCTFail()

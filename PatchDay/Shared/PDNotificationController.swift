@@ -194,7 +194,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         let usingPatches = Defaults.usingPatches()
         let content = UNMutableNotificationContent()
         typealias Strings = PDStrings.NotificationStrings
-        if let triggerDate = PDDateHelper.dateBeforeOvernight(overnightDate: expDate) {
+        if let triggerDate = PDDateHelper.dateBefore(overNightDate: expDate) {
             content.title = usingPatches ?
                 Strings.Titles.overnight_patch :
                 Strings.Titles.overnight_injection
