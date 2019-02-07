@@ -59,7 +59,7 @@
 		B480EE3C21CC75FB002C2238 /* PDSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* PDSchedule.swift */; };
 		B480EE3E21CC75FE002C2238 /* EstrogenSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8D20ED24CF0048D466 /* EstrogenSchedule.swift */; };
 		B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9120ED2E6A0048D466 /* SiteSchedule.swift */; };
-		B480EE4721CC7B5E002C2238 /* ScheduleState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* ScheduleState.swift */; };
+		B480EE4721CC7B5E002C2238 /* PDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* PDState.swift */; };
 		B480EE4921CC7CC4002C2238 /* PatchDataAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE4821CC7CC4002C2238 /* PatchDataAlert.swift */; };
 		B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8F20ED2C1A0048D466 /* PillSchedule.swift */; };
 		B480EE4B21CC7E20002C2238 /* PDDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* PDDefaults.swift */; };
@@ -209,7 +209,7 @@
 		B458993C20F8822700D36B06 /* MOSiteMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSiteMethods.swift; sourceTree = "<group>"; };
 		B458994120F8865C00D36B06 /* MOEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogen.swift; sourceTree = "<group>"; };
 		B458994220F8865C00D36B06 /* MOEstrogenMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogenMethods.swift; sourceTree = "<group>"; };
-		B463E1AA211640E90099DE36 /* ScheduleState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleState.swift; sourceTree = "<group>"; };
+		B463E1AA211640E90099DE36 /* PDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDState.swift; sourceTree = "<group>"; };
 		B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenScheduleTests.swift; sourceTree = "<group>"; };
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B46AC63320CDA48400CF7B54 /* SitesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SitesVC.swift; path = Sites/SitesVC.swift; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 			children = (
 				B40531BC21CD845800BD64CE /* PillAttributes.swift */,
 				13C746D01ED781DD00067A67 /* PDDefaults.swift */,
-				B463E1AA211640E90099DE36 /* ScheduleState.swift */,
+				B463E1AA211640E90099DE36 /* PDState.swift */,
 				B480EE4821CC7CC4002C2238 /* PatchDataAlert.swift */,
 				B40CC9BF21CD7DA9002364BB /* PatchData.swift */,
 				9DC0107121FE311A0024E7CE /* PatchDataApi.swift */,
@@ -861,7 +861,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */,
-				B480EE4721CC7B5E002C2238 /* ScheduleState.swift in Sources */,
+				B480EE4721CC7B5E002C2238 /* PDState.swift in Sources */,
 				B480EE3E21CC75FE002C2238 /* EstrogenSchedule.swift in Sources */,
 				B4C69F0B21E56CD7004EABC4 /* MOPillMethods.swift in Sources */,
 				B4C69F0D21E56CD7004EABC4 /* MOSiteMethods.swift in Sources */,

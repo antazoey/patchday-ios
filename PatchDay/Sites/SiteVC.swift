@@ -50,15 +50,17 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         nameText.delegate = self
         namePicker.delegate = self
         namePicker.isHidden = true
-        imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
-                                                      and: siteImage,
-                                                      imageButton: imageButton,
-                                                      nameButton: typeNameButton,
-                                                      nameTextField: nameText,
-                                                      saveButton: navigationItem.rightBarButtonItem!,
-                                                      selectedSiteIndex: siteScheduleIndex,
-                                                      doneButton: imagePickerDoneButton,
-                                                      usingPatches: Defaults.usingPatches())
+        if let site = SiteScheduleRef.getSite(at: siteScheduleIndex) {
+            imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
+                                                          and: siteImage,
+                                                          imageButton: imageButton,
+                                                          nameButton: typeNameButton,
+                                                          nameTextField: nameText,
+                                                          saveButton: navigationItem.rightBarButtonItem!,
+                                                          selectedSite: site,
+                                                          doneButton: imagePickerDoneButton,
+                                                          usingPatches: Defaults.usingPatches())
+            }
         imagePicker.delegate = imagePickerDelegate
         imagePicker.dataSource = imagePickerDelegate
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
@@ -70,15 +72,28 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         siteScheduleIndex = index
     }
     
+    struct ImageStruct {
+        let image: UIImage
+        let imageKey: SiteName
+    }
+    
+    private func setImage(images: [UIImage], imageNameFunction: ((UIImage) -> SiteName)) -> ImageStruct {
+        let image = images[imagePicker.selectedRow(inComponent: 0)]
+        let imageKey = imageNameFunction(image)
+        return ImageStruct(image: image, imageKey: imageKey)
+    }
+    
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         let usingPatches = Defaults.usingPatches()
-        let images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
-        let image = images[imagePicker.selectedRow(inComponent: 0)]
-        let imageKey = usingPatches ? PDImages.patchImageToSiteName(image) : PDImages.injectionImageToSiteName(image)
+        let imageStruct = usingPatches ?
+            setImage(images: PDImages.patchImages,
+                     imageNameFunction: PDImages.patchImageToSiteName(_:)) :
+            setImage(images: PDImages.injectionImages,
+                     imageNameFunction: PDImages.injectionImageToSiteName(_:))
         imagePicker.isHidden = true
-        siteImage.image = image
+        siteImage.image = imageStruct.image
         siteImage.isHidden = false
         imageButton.isEnabled = true
         typeNameButton.isEnabled = true
@@ -87,7 +102,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isHidden = true
         enableSave()
         SiteScheduleRef.setImageId(at: siteScheduleIndex,
-                                to: imageKey,
+                                to: imageStruct.imageKey,
                                 usingPatches: usingPatches)
     }
     

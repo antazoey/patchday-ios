@@ -101,11 +101,11 @@ public class SiteSchedule: NSObject, PDScheduling {
                     sites[i].decrement()
                 }
             }
-        default : break
+            filterEmpty()
+            sort()
+            PatchData.save()
+        default : return
         }
-        filterEmpty()
-        sort()
-        PatchData.save()
     }
     
     /// Generates a generic list of MOSites when there are none in store.

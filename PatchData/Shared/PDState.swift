@@ -29,7 +29,7 @@ public class PDState: NSObject {
     public var deliveryMethodChanged: Bool = false
     public var isNew: Bool = false
     public var oldDeliveryCount: Int = 1
-    public var indexOfChangedDelivery: Int = -1
+    public var indicesOfChangedDelivery: [Int] = [-1]
     
     public func reset() {
         wereEstrogenChanges = false
@@ -39,5 +39,6 @@ public class PDState: NSObject {
         onlySiteChanged = false
         deliveryMethodChanged = false
         isNew = false
+        indicesOfChangedDelivery = []
     }
 }

@@ -127,12 +127,13 @@ class EstrogenTableViewCell: UITableViewCell {
                     changes.wereEstrogenChanges
                     && !changes.isNew
                     && !changes.onlySiteChanged
-                    && index <= changes.indexOfChangedDelivery
+                    && index <= changes.indicesOfChangedDelivery[0]
             }
             // Newly changed site and none else (date didn't change).
             isSiteChange =
                 changes.siteChanged
-                && index == changes.indexOfChangedDelivery
+                && changes.indicesOfChangedDelivery.contains(index)
+            
         }
         // Is exiting the schedule.
         isGone =

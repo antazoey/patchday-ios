@@ -20,8 +20,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     public var nameButton: UIButton
     public var nameTextField: UITextField
     public var saveButton: UIBarButtonItem
-    public var selectedSiteIndex: Int
-    
+    public var selectedSite: MOSite
     public var selectedImage: UIImage?
     
     init(with picker: UIPickerView,
@@ -30,7 +29,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
          nameButton: UIButton,
          nameTextField: UITextField,
          saveButton: UIBarButtonItem,
-         selectedSiteIndex: Int,
+         selectedSite: MOSite,
          doneButton: UIButton,
          usingPatches: Bool) {
         self.images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
@@ -40,7 +39,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         self.nameButton = nameButton
         self.nameTextField = nameTextField
         self.saveButton = saveButton
-        self.selectedSiteIndex = selectedSiteIndex
+        self.selectedSite = selectedSite
         self.doneButton = doneButton
     }
     
@@ -62,7 +61,6 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     
     func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         let size = CGSize(width: 330.1375, height: 462.0)
-        //let img = images[row]
         let img = PDImages.resizeImage(images[row], targetSize: size)
         let imgView = (row < images.count) ? UIImageView(image: img) : UIView()
         return imgView
@@ -88,7 +86,14 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         }
         if let i = images.index(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
+            State.onlySiteChanged = true
+            if let estros = selectedSite.estrogenRelationship {
+                for estro in estros {
+                    if let estro_i = EstrogenScheduleRef.getIndex(for: estro as! MOEstrogen) {
+                        State.indicesOfChangedDelivery.append(estro_i)
+                    }
+                }
+            }
         }
     }
-    
 }
