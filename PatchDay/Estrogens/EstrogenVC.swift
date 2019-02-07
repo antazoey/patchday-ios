@@ -87,6 +87,7 @@ class EstrogenVC: UIViewController,
         sitePicker.dataSource = self
         
         // Site Type setup
+        selectSiteTextField.restorationIdentifier = "pick"
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
         typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
     }
@@ -141,62 +142,57 @@ class EstrogenVC: UIViewController,
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
         typeSiteButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        typeSiteButton.removeTarget(self,
+                                    action: #selector(keyboardTapped(_:)),
+                                    for: .touchUpInside)
         switch (textField.restorationIdentifier) {
             case "type" :
+                selectSiteTextField.isEnabled = true
                 selectSiteTextField.text = ""
+                textField.restorationIdentifier = "pick"
                 typeSiteButton.addTarget(self,
                                          action: #selector(closeTextField),
                                          for: .touchUpInside)
             case "pick" :
+                view.endEditing(true)
+                selectSiteTextField.isEnabled = false
                 typeSiteButton.addTarget(self,
                                          action: #selector(closeSitePicker),
                                          for: .touchUpInside)
                 fallthrough
             default : openSitePicker(textField)
         }
-        // reset to default to picker over textfield
-        textField.restorationIdentifier = "pick"
     }
     
-    // Cannot represent enumerations in obj-c.
-    // This describes the parameter below
-    /*
-    enum ReasonForClosingTextField: Int {
-        case DoneSelecting = 1
-        case MistakenlyOpened = 2
-    }
-    */
-    
-    @objc internal func closeTextField(reason: Int) {
-        // Avoid claiming site text has changed when mistakenly opened
-        switch (reason) {
-        case 1 :
-            siteTextHasChanged = true
-            fallthrough
-        default :
-            typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
-            selectSiteTextField.endEditing(true)
-            selectSiteTextField.isEnabled = true
-            chooseDateButton.isEnabled = true
-            autofillButton.isHidden = false
-            selectSiteTextField.isHidden = false
-            saveButton.isEnabled = true
-        }
-    }
- 
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    @objc internal func closeTextField() {
         self.selectedSite = nil
-        closeTextField(reason: 1)
+        siteTextHasChanged = true
+        if selectSiteTextField.text == "" {
+            selectSiteTextField.text = PDStrings.PlaceholderStrings.new_site
+        }
+        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        selectSiteTextField.endEditing(true)
+        selectSiteTextField.isEnabled = true
+        chooseDateButton.isEnabled = true
+        autofillButton.isHidden = false
+        selectSiteTextField.isHidden = false
+        saveButton.isEnabled = true
+        typeSiteButton.removeTarget(self,
+                                    action: #selector(closeTextField),
+                                    for: .touchUpInside)
+        typeSiteButton.addTarget(self,
+                                 action: #selector(keyboardTapped(_:)),
+                                 for: .touchUpInside)
         siteIndexSelected = SiteScheduleRef.count()
-        if let n = textField.text {
+        if let n = selectSiteTextField.text {
             PDAlertController.alertForAddSite(with: n,
                                               at: siteIndexSelected,
                                               estroVC: self)
         }
-        // Reset type button to original IBAction
-        typeSiteButton.addTarget(self,
-                                 action: #selector(keyboardTapped(_:)),
-                                 for: .touchUpInside)
+    }
+ 
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        closeTextField()
         return true
     }
     
@@ -216,7 +212,6 @@ class EstrogenVC: UIViewController,
     }
     
     @objc internal func closeSitePicker() {
-        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
         sitePicker.isHidden = true
         autofillButton.isEnabled = true
         chooseDateButton.isEnabled = true
@@ -227,6 +222,13 @@ class EstrogenVC: UIViewController,
         saveButton.isEnabled = true
         shouldSaveSelectedSiteIndex = true
         shouldSaveIncrementedSiteIndex = false
+        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        typeSiteButton.removeTarget(self,
+                                    action: #selector(closeSitePicker),
+                                    for: .touchUpInside)
+        typeSiteButton.addTarget(self,
+                                 action: #selector(keyboardTapped(_:)),
+                                 for: .touchUpInside)
     }
 
     internal func numberOfComponents(in pickerView: UIPickerView) -> Int {

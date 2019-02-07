@@ -138,6 +138,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     internal func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
         typeNameButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        nameText.removeTarget(self,
+                                    action: #selector(typeTapped(_:)),
+                                    for: .touchUpInside)
         switch textField.restorationIdentifier {
         case "type" :
             nameText.isEnabled = true
@@ -174,6 +177,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
         loadImage()
         typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        nameText.removeTarget(self,
+                              action: #selector(closeTextField),
+                              for: .touchUpInside)
         typeNameButton.addTarget(self,
                                  action: #selector(typeTapped(_:)),
                                  for: .touchUpInside)
@@ -222,6 +228,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         self.siteImage.isHidden = false;
         nameText.restorationIdentifier = "select"
         typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        nameText.removeTarget(self,
+                              action: #selector(closePicker),
+                              for: .touchUpInside)
         self.typeNameButton.addTarget(self,
                                       action: #selector(self.typeTapped(_:)),
                                       for: .touchUpInside)
