@@ -1,45 +1,47 @@
+# PatchData
 
-# Estrogens
+PatchData is PatchDay's Core Data interface. The API is composed of what are called Schedules. Each entity has its own schedule. The following are a list of entites:
 
-The estrogen schedule is the main view of the application. 
-To change the delivery method (patches or injections) as well as other settings, tap the gear in the top right.
+## Estrogens
+
+The estrogen schedule is the main schedule of the application. 
+You can use Patches or Injections mode.
 If using patches, the patches are sorted from oldest to newest (top to bottom).
-If using injections, there will only be one estrogen button in the schedule.
+If using injections, there will only be one estrogen entity in the schedule.
 Expiration dates are listed beneath each estrogen button.
 The site images on the buttons reflect the bodily sites where the patches are placed, 
 or in the case of injections, the last place injected. They could also be a blankish image instead.
 
-Tap the images in the schedule to re-dose.
+Use `siteScheduleRef.suggest()` in the SiteSchedule to set 'date and time placed' to the current date and time
+and the 'site' to the next available site.
+If there are no sites available, 
+the site will not change. Also, the user could edit the estrogen attributes individually.
+This is useful if there was a mistake.
 
-Use "Autofill" to set 'date and time placed' to the current date and time. 
-"Auotfill" also sets 'site' to the next available site in the site schedule. 
-If there are no sites available in the site schedule, 
-whether the user is not using that feature or there are equal number of patches to sites, 
-the site will not change. Also, the user could edit the estrogen attributes individually. T
-his is useful if there was a mistake.
+Here are some useful UserDefaults pertaining to estrogens and sites.
 
-  Delivery Method: Either patches or injections. Refers to how estrogen enters your body.
+  `defaultsRef.deliveryMethod`: Either patches or injections. Refers to how estrogen enters your body.
 
-  Schedule: How long until next dose.
+  `defaultsRef.timeInterval`: How long until next dose.
 
-  Count: How many patches are in the schedule. For injections, it's always 1.
+  `defaultsRef.quantity`: How many estrogens are in the schedule. For injections, it's always 1.
 
-  Notifications: Receive a notification to take next dose.
+  `defaultsRef.notifications`: Receive a notification to take next dose.
 
-  Minutes prior: How many minutes before expiration to receive notification.
+  `defaultsRef.siteIndex`: Determined next index for the next site to place an estrogen.
   
 --------------
 
-# Pills
+## Pills
 
 When did you last take each pill?
 When do you need to take the next pill?
 Tap the pill cell to edit the pill attributes, such as the name and the times per day it is taken.
-The 'take' button is how to stamp the pill as taken. If the pill is past due, the 'take' button will have a notification bubble.
+The 'take' function is how to stamp the pill as taken. If the pill is past due, the 'take' button will have a notification bubble.
 
 --------------
 
-# Sites
+## Sites
 
 The site schedule is a user-customizable ordering of bodily sites for patches to be placed or injections injected. 
 This helps keep PatchDay quick and easy to use. 
