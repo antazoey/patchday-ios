@@ -275,7 +275,6 @@
                         <outlet property="bigGap" destination="nz8-r5-Kzo" id="O6R-1C-jce"/>
                         <outlet property="bigGap2" destination="KTZ-2V-ijz" id="cMI-Vd-uZi"/>
                         <outlet property="chooseDateButton" destination="tNJ-il-X3d" id="xiX-wL-sVr"/>
-                        <outlet property="chooseSiteButton" destination="ptS-v2-B6E" id="iwc-cq-wQ1"/>
                         <outlet property="dateAndTimePlaced" destination="1DI-qg-8qA" id="2mZ-zd-DM7"/>
                         <outlet property="datePicker" destination="QuF-JW-mey" id="YOK-wC-9vj"/>
                         <outlet property="datePickerInputView" destination="9JP-Ip-SdW" id="SaG-mL-9WA"/>
@@ -287,6 +286,7 @@
                         <outlet property="lineUnderDateAndTimePlaced" destination="foS-VQ-Nyg" id="RDF-gb-orJ"/>
                         <outlet property="lineUnderExpires" destination="RTx-3W-wfr" id="Uol-Fc-SNB"/>
                         <outlet property="lineUnderScheduleDate" destination="WkF-j9-qHW" id="X3V-fV-bUg"/>
+                        <outlet property="selectSiteTextField" destination="ptS-v2-B6E" id="iwc-cq-wQ1"/>
                         <outlet property="siteLabel" destination="2sx-PL-C2B" id="kPa-cJ-5tU"/>
                         <outlet property="sitePicker" destination="dlM-ae-RCE" id="sqy-XR-KjU"/>
                         <outlet property="siteStackView" destination="aYp-qX-JWk" id="uCi-fB-toA"/>

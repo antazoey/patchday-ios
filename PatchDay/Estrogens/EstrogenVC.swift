@@ -24,7 +24,7 @@ class EstrogenVC: UIViewController,
     // Interface
     private weak var saveButton: UIBarButtonItem!
     @IBOutlet private weak var dateAndTimePlaced: UILabel!
-    @IBOutlet private weak var chooseSiteButton: UITextField!
+    @IBOutlet private weak var selectSiteTextField: UITextField!
     @IBOutlet private weak var chooseDateButton: UIButton!
     @IBOutlet private weak var datePickerInputView: UIView!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -57,17 +57,18 @@ class EstrogenVC: UIViewController,
     private var shouldSaveIncrementedSiteIndex = false
     private var siteIndexSelected = -1
     
-    @objc func test() {
-        print("Test")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         estrogen = EstrogenScheduleRef.getEstrogen(at: estrogenScheduleIndex)
         loadTitle()
-        chooseSiteButton.autocapitalizationType = .words
+        selectSiteTextField.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: PDStrings.ActionStrings.save, style: .plain, target: self, action: #selector(saveButtonTapped(_:)))
+        let save = PDStrings.ActionStrings.save
+        let handleSave = #selector(saveButtonTapped(_:))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: save,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: handleSave)
         saveButton = navigationItem.rightBarButtonItem
         saveButton.isEnabled = false
         autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
@@ -81,16 +82,13 @@ class EstrogenVC: UIViewController,
         displayAttributeTexts()
         
         // Delegation
-        chooseSiteButton.delegate = self
+        selectSiteTextField.delegate = self
         sitePicker.delegate = self
         sitePicker.dataSource = self
         
         // Site Type setup
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
         typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
-        if let label = typeSiteButton.titleLabel, let t = label.text, t.count > 4 {
-            typeSiteButton.setTitle("⌨️", for: .normal)
-        }
     }
     
     /** Save Button
@@ -134,41 +132,71 @@ class EstrogenVC: UIViewController,
     // MARK: - Text Edit Functions
     
     @IBAction private func keyboardTapped(_ sender: Any) {
-        chooseSiteButton.restorationIdentifier = "type"
-        chooseSiteButton.becomeFirstResponder()
+        selectSiteTextField.restorationIdentifier = "type"
+        selectSiteTextField.becomeFirstResponder()
     }
     
     internal func textFieldDidBeginEditing(_ textField: UITextField) {
-        chooseSiteButton.isUserInteractionEnabled = true
-        if textField.restorationIdentifier == "pick" {
-            // Use site picker
-            openSitePicker(textField)
-        } else if textField.restorationIdentifier == "type" {
-            // Use keyboard
-            chooseSiteButton.text = ""
-        }
+        selectSiteTextField.isUserInteractionEnabled = true
         chooseDateButton.isEnabled = false
-        typeSiteButton.isEnabled = false
         autofillButton.isHidden = true
+        typeSiteButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        switch (textField.restorationIdentifier) {
+            case "type" :
+                selectSiteTextField.text = ""
+                typeSiteButton.addTarget(self,
+                                         action: #selector(closeTextField),
+                                         for: .touchUpInside)
+            case "pick" :
+                typeSiteButton.addTarget(self,
+                                         action: #selector(closeSitePicker),
+                                         for: .touchUpInside)
+                fallthrough
+            default : openSitePicker(textField)
+        }
+        // reset to default to picker over textfield
         textField.restorationIdentifier = "pick"
+    }
+    
+    // Cannot represent enumerations in obj-c.
+    // This describes the parameter below
+    /*
+    enum ReasonForClosingTextField: Int {
+        case DoneSelecting = 1
+        case MistakenlyOpened = 2
+    }
+    */
+    
+    @objc internal func closeTextField(reason: Int) {
+        // Avoid claiming site text has changed when mistakenly opened
+        switch (reason) {
+        case 1 :
+            siteTextHasChanged = true
+            fallthrough
+        default :
+            typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+            selectSiteTextField.endEditing(true)
+            selectSiteTextField.isEnabled = true
+            chooseDateButton.isEnabled = true
+            autofillButton.isHidden = false
+            selectSiteTextField.isHidden = false
+            saveButton.isEnabled = true
+        }
     }
  
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.selectedSite = nil
-        chooseSiteButton.endEditing(true)
-        chooseSiteButton.isEnabled = true
-        chooseDateButton.isEnabled = true
-        autofillButton.isHidden = false
-        siteTextHasChanged = true
-        chooseSiteButton.isHidden = false
-        typeSiteButton.isEnabled = true
-        saveButton.isEnabled = true
+        closeTextField(reason: 1)
         siteIndexSelected = SiteScheduleRef.count()
         if let n = textField.text {
             PDAlertController.alertForAddSite(with: n,
                                               at: siteIndexSelected,
                                               estroVC: self)
         }
+        // Reset type button to original IBAction
+        typeSiteButton.addTarget(self,
+                                 action: #selector(keyboardTapped(_:)),
+                                 for: .touchUpInside)
         return true
     }
     
@@ -181,12 +209,24 @@ class EstrogenVC: UIViewController,
                           animations: { self.sitePicker.isHidden = false
         }, completion: nil)
         sitePicker.selectRow(findSiteStartRow(site), inComponent: 0, animated: false)
-        // other View changes
         autofillButton.isHidden = true
         autofillButton.isEnabled = false
-        typeSiteButton.isEnabled = false
-        chooseSiteButton.isEnabled = false
+        selectSiteTextField.isEnabled = false
         chooseDateButton.isEnabled = false
+    }
+    
+    @objc internal func closeSitePicker() {
+        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        sitePicker.isHidden = true
+        autofillButton.isEnabled = true
+        chooseDateButton.isEnabled = true
+        selectSiteTextField.isEnabled = true
+        selectSiteTextField.isHidden = false
+        autofillButton.isHidden = false
+        siteTextHasChanged = true
+        saveButton.isEnabled = true
+        shouldSaveSelectedSiteIndex = true
+        shouldSaveIncrementedSiteIndex = false
     }
 
     internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -216,19 +256,8 @@ class EstrogenVC: UIViewController,
         if row < names.count && row >= 0 {
             selectedSite = SiteScheduleRef.getSite(at: row)
             let name = SiteScheduleRef.getNames()[row]
-            chooseSiteButton.text = name
-            // other view changes
-            sitePicker.isHidden = true
-            autofillButton.isEnabled = true
-            chooseDateButton.isEnabled = true
-            typeSiteButton.isEnabled = true
-            chooseSiteButton.isEnabled = true
-            chooseSiteButton.isHidden = false
-            autofillButton.isHidden = false
-            siteTextHasChanged = true
-            saveButton.isEnabled = true
-            shouldSaveSelectedSiteIndex = true
-            shouldSaveIncrementedSiteIndex = false
+            selectSiteTextField.text = name
+            closeSitePicker()
             siteIndexSelected = row
         }
     }
@@ -236,7 +265,6 @@ class EstrogenVC: UIViewController,
     // MARK: - Date Picker funcs
     
     @IBAction internal func chooseDateTextTapped(_ sender: Any) {
-        
         // Unhide date picker
         UIView.transition(with: datePickerInputView as UIView,
                           duration: 0.4,
@@ -251,7 +279,7 @@ class EstrogenVC: UIViewController,
         autofillButton.isHidden = true
         chooseDateButton.isEnabled = false
         typeSiteButton.isEnabled = false
-        chooseSiteButton.isEnabled = false
+        selectSiteTextField.isEnabled = false
     }
     
     @objc internal func datePickerDone(_ sender: Any) {
@@ -273,7 +301,7 @@ class EstrogenVC: UIViewController,
         siteStackView.isHidden = false
         siteLabel.isHidden = false
         dateTextHasChanged = true
-        chooseSiteButton.isEnabled = true
+        selectSiteTextField.isEnabled = true
     }
     
     // MARK: - private funcs
@@ -282,9 +310,9 @@ class EstrogenVC: UIViewController,
         let n = estrogen.getSiteName()
         switch n {
         case PDStrings.PlaceholderStrings.new_site:
-            chooseSiteButton.text = PDStrings.ActionStrings.select
+            selectSiteTextField.text = PDStrings.ActionStrings.select
         default:
-            chooseSiteButton.text = n
+            selectSiteTextField.text = n
         }
         if let date = estrogen.getDate() {
             let interval = Defaults.getTimeInterval()
@@ -311,7 +339,7 @@ class EstrogenVC: UIViewController,
     private func saveSite() {
         if siteTextHasChanged {
             State.siteChanged = true
-            switch (selectedSite, chooseSiteButton.text) {
+            switch (selectedSite, selectSiteTextField.text) {
             // Attempt saving site via MOSite first
             case (let site, _) where site != nil :
                 let setter = Schedule.setEstrogenDataForToday
@@ -353,7 +381,7 @@ class EstrogenVC: UIViewController,
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
             if let suggestedSiteName = suggestedSite.getName() {
-                chooseSiteButton.text = suggestedSiteName
+                selectSiteTextField.text = suggestedSiteName
                 siteTextHasChanged = true
                 siteIndexSelected = Int(suggestedSite.getOrder())
             }
