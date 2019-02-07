@@ -116,14 +116,14 @@ class EstrogenTableViewCell: UITableViewCell {
     }
     
     private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
-        var isAffectedFromChange: Bool = false
+        var sortFromEstrogenDateChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false
         let changes = Schedule.state
         if index < Defaults.getQuantity() {
             if let _ = estro?.hasDate() {
-                // Was affected non-empty estrogens from change.
-                isAffectedFromChange =
+                // An estrogen date changed and they are flipping
+                sortFromEstrogenDateChange =
                     changes.wereEstrogenChanges
                     && !changes.isNew
                     && !changes.onlySiteChanged
@@ -139,7 +139,7 @@ class EstrogenTableViewCell: UITableViewCell {
             changes.decreasedCount
             && index >= Defaults.getQuantity()
         return (
-            isAffectedFromChange
+            sortFromEstrogenDateChange
             || isSiteChange
             || changes.isNew
             || isGone

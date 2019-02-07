@@ -91,15 +91,17 @@ public class SiteSchedule: NSObject, PDScheduling {
     
     /// Deletes the site at the given index.
     public func delete(at index: Index) {
-        if index >= 0 && index < sites.count {
+        switch (index) {
+        case 0..<sites.count :
             loadBackupSiteName(from: sites[index])
             PatchData.getContext().delete(sites[index])
             sites[index].reset()
-        }
-        if (index+1) < (sites.count-1) {
-            for i in (index+1)..<sites.count {
-                sites[i].decrement()
+            if (index + 1) < (sites.count - 1) {
+                for i in (index+1)..<sites.count {
+                    sites[i].decrement()
+                }
             }
+        default : break
         }
         filterEmpty()
         sort()
