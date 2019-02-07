@@ -133,7 +133,6 @@ class EstrogenTableViewCell: UITableViewCell {
             isSiteChange =
                 changes.siteChanged
                 && changes.indicesOfChangedDelivery.contains(index)
-            
         }
         // Is exiting the schedule.
         isGone =

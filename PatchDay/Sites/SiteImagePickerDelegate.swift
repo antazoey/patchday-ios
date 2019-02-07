@@ -86,7 +86,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         }
         if let i = images.index(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            State.onlySiteChanged = true
+            State.siteChanged = true
             if let estros = selectedSite.estrogenRelationship {
                 for estro in estros {
                     if let estro_i = EstrogenScheduleRef.getIndex(for: estro as! MOEstrogen) {

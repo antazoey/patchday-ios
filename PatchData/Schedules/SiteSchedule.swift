@@ -197,8 +197,10 @@ public class SiteSchedule: NSObject, PDScheduling {
             PDStrings.SiteNames.injectionSiteNames
         if site_set.contains(newId), index >= 0 && index < sites.count {
             sites[index].setImageIdentifier(newId)
-            PatchData.save()
+        } else {
+            sites[index].setImageIdentifier("custom")
         }
+        PatchData.save()
     }
     
     /// Returns the next site for scheduling in the site schedule.

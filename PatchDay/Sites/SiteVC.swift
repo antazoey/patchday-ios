@@ -34,6 +34,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     private var imagePickerDelegate: SiteImagePickerDelegate?
     
+    struct ImageStruct {
+        let image: UIImage
+        let imageKey: SiteName
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
@@ -70,17 +75,6 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     public func setSiteScheduleIndex(to index: Int) {
         siteScheduleIndex = index
-    }
-    
-    struct ImageStruct {
-        let image: UIImage
-        let imageKey: SiteName
-    }
-    
-    private func setImage(images: [UIImage], imageNameFunction: ((UIImage) -> SiteName)) -> ImageStruct {
-        let image = images[imagePicker.selectedRow(inComponent: 0)]
-        let imageKey = imageNameFunction(image)
-        return ImageStruct(image: image, imageKey: imageKey)
     }
     
     // MARK: - Actions
@@ -211,6 +205,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     // MARK: - Private
+    
+    private func setImage(images: [UIImage],
+                          imageNameFunction: ((UIImage) -> SiteName)) -> ImageStruct {
+        let image = images[imagePicker.selectedRow(inComponent: 0)]
+        let imageKey = imageNameFunction(image)
+        return ImageStruct(image: image, imageKey: imageKey)
+    }
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
