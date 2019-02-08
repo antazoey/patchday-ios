@@ -18,6 +18,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         Array(SiteScheduleRef.unionDefault(usingPatches: Defaults.usingPatches()))
     
     @IBOutlet weak var siteStack: UIStackView!
+    
+    @IBOutlet weak var verticalLineByNameTextField: UIView!
     @IBOutlet weak var typeNameButton: UIButton!
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var namePicker: UIPickerView!
@@ -68,6 +70,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         loadTitle()
         loadImage()
         typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
         nameText.restorationIdentifier = "select"
     }
     

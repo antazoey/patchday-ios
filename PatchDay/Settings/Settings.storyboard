@@ -585,11 +585,18 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="45"/>
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="New Site" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="NFs-aY-cCq">
-                                                        <rect key="frame" x="0.0" y="0.0" width="283" height="45"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="282" height="45"/>
                                                         <color key="textColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d2D-XX-9tv">
+                                                        <rect key="frame" x="282" y="0.0" width="1" height="45"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="1" id="J75-nY-eMN"/>
+                                                        </constraints>
+                                                    </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMM-T3-eKU">
                                                         <rect key="frame" x="283" y="0.0" width="60" height="45"/>
                                                         <constraints>
@@ -727,6 +734,7 @@
                         <outlet property="siteStack" destination="c2z-HC-dPi" id="jVW-aB-4oU"/>
                         <outlet property="topConstraint" destination="aTe-G3-tsC" id="0fq-79-et0"/>
                         <outlet property="typeNameButton" destination="ZMM-T3-eKU" id="g98-ww-q6l"/>
+                        <outlet property="verticalLineByNameTextField" destination="d2D-XX-9tv" id="Myv-az-8yZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n50-Fl-AET" userLabel="First Responder" sceneMemberID="firstResponder"/>
