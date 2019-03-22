@@ -87,7 +87,7 @@ class PillTableViewCell: UITableViewCell {
     
     public func setBackground() {
         if index % 2 == 0 {
-            backgroundColor = PDColors.pdLightBlue
+            backgroundColor = PDColors.getOddCellColor(for: Defaults.getTheme())
             imageViewView.backgroundColor = nil
             stateImageButton.backgroundColor = nil
         } else {

@@ -366,6 +366,13 @@ public class PDStrings: NSObject {
         }()
     }
     
+    // MARK: - Themes
+    
+    public struct Themes {
+        public static let light = "light"
+        public static let dark = "dark"
+    }
+    
     // MARK: - Alerts (Localizable)
     
     public struct AlertStrings {
@@ -449,6 +456,7 @@ public class PDStrings: NSObject {
         case setup = "mentioned"
         case site_index = "site_i"
         case needs_migrate = "nmig"
+        case theme = "theme"
     }
     
     public enum TodayKey: String {

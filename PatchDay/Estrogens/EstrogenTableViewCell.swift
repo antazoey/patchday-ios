@@ -26,11 +26,14 @@ class EstrogenTableViewCell: UITableViewCell {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index)
                 let title = determineTitle(estrogenIndex: index, interval)
+                let theme = Defaults.getTheme()
                 selectedBackgroundView = UIView()
                 selectedBackgroundView?.backgroundColor = PDColors.pdPink
-                backgroundColor = (index % 2 == 0) ? PDColors.pdLightBlue : UIColor.white
+                backgroundColor = PDColors.getCellColor(for: theme, index: index)
                 dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
-                dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? UIFont.systemFont(ofSize: 15) : UIFont.systemFont(ofSize: 38)
+                dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
+                    UIFont.systemFont(ofSize: 15) :
+                    UIFont.systemFont(ofSize: 38)
                 badgeButton.restorationIdentifier = String(index)
                 badgeButton.type = usingPatches ? .patches : .injections
                 badgeButton.badgeValue = isExpired ? "!" : nil

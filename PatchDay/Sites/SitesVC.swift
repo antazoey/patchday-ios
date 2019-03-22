@@ -249,8 +249,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             // Reset cell colors
             for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
+                let theme = Defaults.getTheme()
                 siteTable.cellForRow(at: nextIndexPath)?.backgroundColor =
-                    (i % 2 == 0) ? PDColors.pdLightBlue : view.backgroundColor
+                    PDColors.getCellColor(for: theme, index: i)
             }
         }
     }

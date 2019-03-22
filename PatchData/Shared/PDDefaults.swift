@@ -24,12 +24,12 @@ public class PDDefaults: NSObject {
     private let std_defaults = UserDefaults.standard
     private var shared: PDSharedData? = nil
     
-    // Schedule defaults:
+    // Schedule defaults
     private var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
     private var timeInterval: String = PDStrings.PickerData.expirationIntervals[0]
     internal var quantity: Int = 4
     
-    // Notification defaults:
+    // Notification defaults
     private var notifications = false
     private var reminderTime: Int = 0
     
@@ -37,6 +37,9 @@ public class PDDefaults: NSObject {
     private var mentionedAppDisclaimer = false
     private var needsDataMigration = true
     private var siteIndex = 0
+    
+    // Appearance
+    private var theme = PDStrings.Themes.light
     
     // Side effects
     private var estrogenSchedule: EstrogenSchedule
@@ -68,6 +71,7 @@ public class PDDefaults: NSObject {
         loadRemindUpon()
         loadMentionedDisclaimer()
         loadSiteIndex()
+        loadTheme()
     }
     
     // MARK: - Getters
@@ -98,6 +102,10 @@ public class PDDefaults: NSObject {
     
     public func getSiteIndex() -> Index {
         return siteIndex
+    }
+    
+    public func getTheme() -> String {
+        return theme
     }
 
     // MARK: - Setters
@@ -221,6 +229,12 @@ public class PDDefaults: NSObject {
             siteSchedule.next = i
         }
     }
+    
+    public func setTheme(to theme: String) {
+        let key = PDStrings.SettingsKey.theme.rawValue
+        self.theme = theme
+        std_defaults.set(theme, forKey: key)
+    }
 
     //MARK: - Other public
     
@@ -334,6 +348,17 @@ public class PDDefaults: NSObject {
             setSiteIndex(to: site_i)
         } else {
             setSiteIndex(to: 0)
+        }
+    }
+    
+    private func loadTheme() {
+        let key = PDStrings.SettingsKey.theme.rawValue
+        if let theme = std_defaults.string(forKey: key) {
+            self.theme = theme
+        } else if let theme = shared?.defaults?.string(forKey: theme) {
+            self.theme = theme
+        } else {
+            setTheme(to: PDStrings.Themes.light)
         }
     }
 }
