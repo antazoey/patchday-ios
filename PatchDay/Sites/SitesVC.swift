@@ -261,7 +261,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                                            target: self,
                                            action: #selector(insertTapped))
         insertButton.tintColor = PDColors.pdGreen
-        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit, style: .plain,
+        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit,
+                                         style: .plain,
                                          target: self,
                                          action: #selector(editTapped))
         navigationItem.rightBarButtonItems = [insertButton, editButton]
