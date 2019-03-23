@@ -15,7 +15,14 @@ typealias SettingsKey = PDStrings.SettingsKey
 
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    // Description: This is the view controller for the Settings View.  The Settings View is where the user may select their defaults, which are saved and used during future PatchDay use.  The defaults can alMOEstrogenst be broken up into two topics:  the Schedule Outlets and the Notification Outlets.  The Schedule Outlets include the interval that the patches expire, and the number of patches in the schedule.  The Notification Outlets include the Bool for whether the user wants to receive a reminder, and the time before patch expiration when the user wants to receive the reminder.  There is also a Bool for whether the user wishes to use the "Autofill Site Functionality". PDDefaults is the object responsible saving and loading the settings that the user chooses here.
+    override public var description: String {
+        return """
+        The view controller for the Settings View.
+        The Settings View is where the user may select their defaults,
+        which are saved and used for PatchDay scheduling.
+        See PatchData's PDDefaults object for info on the types of defaults.
+        """
+    }
     
     // Top level
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
