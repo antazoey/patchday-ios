@@ -26,52 +26,52 @@ public class PDStrings: NSObject {
         private static let c5 = "Button title.  Could you keep it short?"
         private static let c6 = "Alert action. Room is not an issue."
         private static let c7 = "Nav bar item title.  Could you keep it short?"
-        public static var done = {
+        public static let done = {
             return NSLocalizedString("Done", comment: c1)
         }()
-        public static var delete = {
+        public static let delete = {
             return NSLocalizedString("Delete", comment: c1)
         }()
-        public static var take = {
+        public static let take = {
             return NSLocalizedString("Take", comment: c2)
         }()
-        public static var taken = {
+        public static let taken = {
             return NSLocalizedString("Taken", comment: c3)
         }()
-        public static var save = {
+        public static let save = {
             return NSLocalizedString("Save", comment: c4)
         }()
-        public static var undo = {
+        public static let undo = {
             return NSLocalizedString("undo", comment: c4)
         }()
-        public static var type = {
+        public static let type = {
             return NSLocalizedString("Type", comment: c5)
         }()
-        public static var select = {
+        public static let select = {
             return NSLocalizedString("Select", comment: c5)
         }()
-        public static var dismiss = {
+        public static let dismiss = {
             return NSLocalizedString("Dismiss", comment: c5)
         }()
-        public static var accept = {
+        public static let accept = {
             return NSLocalizedString("Accept", comment: c6)
         }()
-        public static var cont = {
+        public static let cont = {
             return NSLocalizedString("Continue", comment: c6)
         }()
-        public static var decline = {
+        public static let decline = {
             return NSLocalizedString("Decline", comment: c6)
         }()
-        public static var yes = {
+        public static let yes = {
             return NSLocalizedString("Yes", comment: c6)
         }()
-        public static var no = {
+        public static let no = {
             return NSLocalizedString("No", comment: c6)
         }()
-        public static var edit = {
+        public static let edit = {
             return NSLocalizedString("Edit", comment: c7)
         }()
-        public static var reset = {
+        public static let reset = {
             return NSLocalizedString("Reset", comment: c7)
         }()
     }
@@ -80,13 +80,13 @@ public class PDStrings: NSObject {
     
     public struct DayStrings {
         private static let comment = "The word 'today' displayed on a button."
-        public static var today = {
+        public static let today = {
             return NSLocalizedString("Today", comment: comment)
         }()
-        public static var yesterday = {
+        public static let yesterday = {
             return NSLocalizedString("Yesterday", comment: comment)
         }()
-        public static var tomorrow = {
+        public static let tomorrow = {
             return NSLocalizedString("Tomorrow", comment: comment)
         }()
     }
@@ -96,13 +96,13 @@ public class PDStrings: NSObject {
     public struct TitleStrings {
         private static let c1 = "Nav bar item left title."
         private static let c2 = "Title for view controller."
-        public static var pills = {
+        public static let pills = {
             return NSLocalizedString("Pills", comment: c1)
         }()
-        public static var site = {
+        public static let site = {
             return NSLocalizedString("Site", comment: c2)
         }()
-        public static var sites = {
+        public static let sites = {
             return NSLocalizedString("Sites", comment: c2)
         }()
     }
@@ -114,19 +114,19 @@ public class PDStrings: NSObject {
         private static let c2 = "Instruction for empty patch"
         private static let c3 = "Probably won't be seen by users, so don't worry too much."
         private static let c4 = "Displayed under a button with medium room."
-        public static var nothing_yet = {
+        public static let nothing_yet = {
             return NSLocalizedString("Nothing yet", comment: c1)
         }()
-        public static var dotdotdot = {
+        public static let dotdotdot = {
             return NSLocalizedString("...", comment: c2)
         }()
-        public static var unplaced = {
+        public static let unplaced = {
             return NSLocalizedString("unplaced", comment: c3)
         }()
-        public static var new_site = {
+        public static let new_site = {
             return NSLocalizedString("New Site", comment: c3)
         }()
-        public static var new_pill = {
+        public static let new_pill = {
             return NSLocalizedString("New Pill", comment: c4)
         }()
     }
@@ -135,43 +135,43 @@ public class PDStrings: NSObject {
     
     public struct VCTitles {
         private static let comment = "Title of a view controller. Keep it brief."
-        public static var patches = {
+        public static let patches = {
             return NSLocalizedString("Patches", comment: comment)
         }()
-        public static var injections = {
+        public static let injections = {
             return NSLocalizedString("Injections", comment: comment)
         }()
-        public static var settings = {
+        public static let settings = {
             return NSLocalizedString("Settings", comment: comment)
         }()
-        public static var pills = {
+        public static let pills = {
             return NSLocalizedString("Pills", comment: comment)
         }()
-        public static var pill_edit = {
+        public static let pill_edit = {
             return NSLocalizedString("Edit Pill", comment: comment)
         }()
-        public static var pill_new = {
+        public static let pill_new = {
             return NSLocalizedString("New Pill", comment: comment)
         }()
-        public static var sites = {
+        public static let sites = {
             return NSLocalizedString("Sites", comment: comment)
         }()
-        public static var patch_sites = {
+        public static let patch_sites = {
             return NSLocalizedString("Patch Sites", comment: comment)
         }()
-        public static var injection_sites = {
+        public static let injection_sites = {
             return NSLocalizedString("Injection Sites", comment: comment)
         }()
-        public static var site_edit = {
+        public static let site_edit = {
             return NSLocalizedString("Edit Site", comment: comment)
         }()
-        public static var site_new = {
+        public static let site_new = {
             return NSLocalizedString("New Site", comment: comment)
         }()
-        public static var patch = {
+        public static let patch = {
             return NSLocalizedString("Patch", comment: comment)
         }()
-        public static var injection = {
+        public static let injection = {
             return NSLocalizedString("Injection", comment: comment)
         }()
     }
@@ -181,37 +181,37 @@ public class PDStrings: NSObject {
     public struct ColonedStrings {
         private static let comment1 = "Displayed on a label, plenty of room."
         private static let comment2 = "Label next to date. Easy on room."
-        public static var count = {
+        public static let count = {
             return NSLocalizedString("Count:", comment: comment1)
         }()
-        public static var time = {
+        public static let time = {
             return NSLocalizedString("Time:", comment: comment1)
         }()
-        public static var first_time = {
+        public static let first_time = {
             return NSLocalizedString("First time:", comment: comment1)
         }()
-        public static var expires = {
+        public static let expires = {
             return NSLocalizedString("Expires: ", comment: comment2)
         }()
-        public static var expired = {
+        public static let expired = {
             return NSLocalizedString("Expired: ", comment: comment2)
         }()
-        public static var last_injected = {
+        public static let last_injected = {
             return NSLocalizedString("Injected: ", comment: comment2)
         }()
-        public static var next_due = {
+        public static let next_due = {
             return NSLocalizedString("Next due: ", comment: comment2)
         }()
-        public static var date_and_time_applied = {
+        public static let date_and_time_applied = {
             return NSLocalizedString("Date and time applied: ", comment: comment2)
         }()
-        public static var date_and_time_injected = {
+        public static let date_and_time_injected = {
             return NSLocalizedString("Date and time injected: ", comment: comment2)
         }()
-        public static var site = {
+        public static let site = {
             return NSLocalizedString("Site: ", comment: comment2)
         }()
-        public static var last_site_injected = {
+        public static let last_site_injected = {
             return NSLocalizedString("Site injected: ", comment: comment2)
         }()
     }
@@ -222,25 +222,25 @@ public class PDStrings: NSObject {
         private static let comment = "Title of notification."
 
         public struct Titles {
-            public static var patchExpired = {
+            public static let patchExpired = {
                 return NSLocalizedString("Time for your next patch", comment: comment)
             }()
-            public static var patchExpires = {
+            public static let patchExpires = {
                 return NSLocalizedString("Almost time for your next patch", comment: comment)
             }()
-            public static var injectionExpired = {
+            public static let injectionExpired = {
                 return NSLocalizedString("Time for your next injection", comment: comment)
             }()
-            public static var injectionExpires = {
+            public static let injectionExpires = {
                 return NSLocalizedString("Almost time for your next injection", comment: comment)
             }()
-            public static var takePill = {
+            public static let takePill = {
                 return NSLocalizedString("Time to take pill: ", comment: comment)
             }()
-            public static var overnight_patch = {
+            public static let overnight_patch = {
                 return NSLocalizedString("Patch expires overnight.", comment: comment)
             }()
-            public static var overnight_injection = {
+            public static let overnight_injection = {
                 return NSLocalizedString("Injection due overnight", comment: comment)
             }()
         }
@@ -257,24 +257,24 @@ public class PDStrings: NSObject {
             private static let chg2 = "Change patch on your 'Left Abdomen' "
             private static let chg3 = "Change patch on your 'Right Glute' "
             private static let chg4 = "Change patch on your 'Left Glute' "
-            public static var patchBody = {
+            public static let patchBody = {
                 return NSLocalizedString("Expired patch site: ", comment: notifyComment)
             }()
-            public static var injectionBody = {
+            public static let injectionBody = {
                 return NSLocalizedString("Your last injection site: ", comment: notifyComment)
             }()
             
-            public static var siteToExpiredPatchMessage: [String : String] =
+            public static let siteToExpiredPatchMessage: [String : String] =
                 ["Right Abdomen" : NSLocalizedString(chg1, comment: expComment),
                  "Left Abdomen" : NSLocalizedString(chg2, comment: expComment),
                  "Right Glute" : NSLocalizedString(chg3, comment: expComment),
                  "Left Glute" : NSLocalizedString(chg4, comment: expComment)]
             
-            public static var siteForNextPatch = {
+            public static let siteForNextPatch = {
                 return NSLocalizedString("Site for next patch: ", comment: nextComment)
             }()
             
-            public static var siteForNextInjection = {
+            public static let siteForNextInjection = {
                 return NSLocalizedString("Site for next injection: ", comment: nextComment)
             }()
         }
@@ -282,7 +282,7 @@ public class PDStrings: NSObject {
         public struct actionMessages {
             private static let str = "Change to suggested site?"
             private static let comment = "Notification action label."
-            public static var autofill = {
+            public static let autofill = {
                 return NSLocalizedString(str, comment: comment)
             }()
         }
@@ -293,13 +293,13 @@ public class PDStrings: NSObject {
     
     public struct PickerData {
         
-        public static var deliveryMethods: [String] = {
+        public static let deliveryMethods: [String] = {
             let comment = "Displayed on a button and in a picker."
             return [NSLocalizedString("Patches", tableName: nil, comment: comment),
                     NSLocalizedString("Injections", tableName: nil, comment: comment)]
         }()
         
-        public static var expirationIntervals: [String] = {
+        public static let expirationIntervals: [String] = {
             let comment1 = "Displayed on a button and in a picker."
             let comment2 = "Displayed in a picker."
             return [NSLocalizedString("Twice-a-week", tableName: nil, comment: comment1),
@@ -307,7 +307,7 @@ public class PDStrings: NSObject {
                     NSLocalizedString("Every two weeks", comment: comment1)]
         }()
 
-        public static var counts: [String] = {
+        public static let counts: [String] = {
             let comment = "Displayed in a picker."
             return [NSLocalizedString("1", comment: comment),
                     NSLocalizedString("2", comment: comment),
@@ -315,7 +315,16 @@ public class PDStrings: NSObject {
                     NSLocalizedString("4", comment: comment)]
         }()
         
-        public static var pillCounts: [String] = { return [counts[0], counts[1]] }()
+        public static let themes: [String] = {
+            let comment = "Displayed in a picker."
+            return [NSLocalizedString("Light", comment: comment),
+                    NSLocalizedString("Dark", comment: comment)]
+        }()
+        
+        public static let pillCounts: [String] = { return [counts[0], counts[1]] }()
+        
+        private static let comment1 = "Displayed on a button and in a picker."
+        private static let comment2 = "Displayed in a picker."
         
     }
     
@@ -323,7 +332,7 @@ public class PDStrings: NSObject {
     
     public struct SiteNames {
         
-        public static var patchSiteNames: [String] = {
+        public static let patchSiteNames: [String] = {
             let comment = "Displayed all over the app. Abbreviate if it is more than 2x as long."
             return [NSLocalizedString("Right Glute", tableName: nil, comment: comment),
                     NSLocalizedString("Left Glute", tableName: nil, comment: comment),
@@ -331,12 +340,12 @@ public class PDStrings: NSObject {
                     NSLocalizedString("Left Abdomen", tableName: nil, comment: comment)]
         }()
         
-        public static var rightAbdomen = { return patchSiteNames[2] }()
-        public static var leftAbdomen = { return patchSiteNames[3] }()
-        public static var rightGlute = { return patchSiteNames[0] }()
-        public static var leftGlute = { return patchSiteNames[1] }()
+        public static let rightAbdomen = { return patchSiteNames[2] }()
+        public static let leftAbdomen = { return patchSiteNames[3] }()
+        public static let rightGlute = { return patchSiteNames[0] }()
+        public static let leftGlute = { return patchSiteNames[1] }()
 
-        public static var injectionSiteNames: [String] =  {
+        public static let injectionSiteNames: [String] =  {
             let comment = "Displayed all over the app. Abbreviate if it is more than 2x as long."
             return [NSLocalizedString("Right Quad", comment: comment),
                     NSLocalizedString("Left Quad", comment: comment),
@@ -346,10 +355,10 @@ public class PDStrings: NSObject {
                     NSLocalizedString("Left Delt", comment: comment)]
         }()
         
-        public static var rightQuad = { return injectionSiteNames[0] }()
-        public static var leftQuad = { return injectionSiteNames[1] }()
-        public static var rightDelt = { return injectionSiteNames[4] }()
-        public static var leftDelt = { return injectionSiteNames[5] }()
+        public static let rightQuad = { return injectionSiteNames[0] }()
+        public static let leftQuad = { return injectionSiteNames[1] }()
+        public static let rightDelt = { return injectionSiteNames[4] }()
+        public static let leftDelt = { return injectionSiteNames[5] }()
         
     }
     
@@ -358,10 +367,10 @@ public class PDStrings: NSObject {
     public struct DeliveryMethods {
         private static let comment =
             "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches."
-        public static var patches = {
+        public static let patches = {
             return NSLocalizedString("Patches", comment: comment)
         }()
-        public static var injections = {
+        public static let injections = {
             return NSLocalizedString("Injections", comment: comment)
         }()
     }
@@ -381,18 +390,18 @@ public class PDStrings: NSObject {
         public struct CoreDataAlert {
             private static let msg = "PatchDay's storage is not working. " +
                 "You may report the problem to support@patchdayhrt.com if you'd like."
-            public static var title = {
+            public static let title = {
                 return NSLocalizedString("Data Error", comment: titleComment) }()
-            public static var message = { return NSLocalizedString(msg, comment: messageComment)
+            public static let message = { return NSLocalizedString(msg, comment: messageComment)
             }()
         }
         
         public struct LoseDataAlert {
             private static let msg = "This action will result in a loss of data."
-            public static var title = {
+            public static let title = {
                 return NSLocalizedString("Warning", comment: titleComment)
             }()
-            public static var message = {
+            public static let message = {
                 return NSLocalizedString(msg, comment: messageComment)
             }()
         }
@@ -403,26 +412,26 @@ public class PDStrings: NSObject {
                 "top right and setup your schedule.\n\nUse this tool responsibly, " +
                 "and please follow medication instructions!\n\nGo to www.PatchDayHRT.com " +
                 "to learn more."
-            public static var title = {
+            public static let title = {
                 return NSLocalizedString("Setup / Disclaimer", comment: titleComment)
             }()
-            public static var message = {
+            public static let message = {
                 return NSLocalizedString(msg, comment: messageComment)
             }()
-            public static var support = {
+            public static let support = {
                 return NSLocalizedString("Support page", comment: titleComment)
             }()
         }
         
         public struct AddSite {
-            public static var title = {
+            public static let title = {
                 return NSLocalizedString("Add new site name to sites list?",
                                          comment: titleComment)
             }()
-            public static var addActionTitle = {
+            public static let addActionTitle = {
                 return NSLocalizedString("Yes, add it!", comment: titleComment)
             }()
-            public static var declineActionTitle = {
+            public static let declineActionTitle = {
                 return NSLocalizedString("No, that's okay.", comment: titleComment)
             }()
         }
@@ -433,14 +442,14 @@ public class PDStrings: NSObject {
     // MARK: - Core data keys
     
     public struct CoreDataKeys {
-        public static var persistantContainer_key = { return "patchData" }()
-        public static var testContainer_key = { return "patchDataTest" }()
-        public static var estrogenEntityName = { return "Estrogen" }()
-        public static var estrogenProps = { return ["date", "id", "siteNameBackUp"] }()
-        public static var siteEntityName = { return "Site" }()
-        public static var siteProps = { return ["order", "name"] }()
-        public static var pillEntityName = { return "Pill" }()
-        public static var pillProps = {
+        public static let persistantContainer_key = { return "patchData" }()
+        public static let testContainer_key = { return "patchDataTest" }()
+        public static let estrogenEntityName = { return "Estrogen" }()
+        public static let estrogenProps = { return ["date", "id", "siteNameBackUp"] }()
+        public static let siteEntityName = { return "Site" }()
+        public static let siteProps = { return ["order", "name"] }()
+        public static let pillEntityName = { return "Pill" }()
+        public static let pillProps = {
             return ["name", "timesaday", "time1", "time2",
                     "notify", "timesTakenToday", "lastTaken"]
         }()
@@ -467,8 +476,8 @@ public class PDStrings: NSObject {
     }
     
     public struct PillTypes {
-        public static var defaultPills = { return ["T-Blocker", "Progesterone"] }()
-        public static var extraPills = { return ["Estrogen", "Prolactin"] }()
+        public static let defaultPills = { return ["T-Blocker", "Progesterone"] }()
+        public static let extraPills = { return ["Estrogen", "Prolactin"] }()
     }
     
     // MARK: - Color keys

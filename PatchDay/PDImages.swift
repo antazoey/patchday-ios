@@ -17,34 +17,34 @@ public class PDImages: NSObject {
     }
     
     // Blank
-    public static var addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
-    public static var addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
+    public static let addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
+    public static let addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
     
     // Patch site images
-    public static var rGlute_p: UIImage = { return #imageLiteral(resourceName: "Right Glute") }()
-    public static var lGlute_p: UIImage = { return #imageLiteral(resourceName: "Left Glute") }()
-    public static var rAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen") }()
-    public static var lAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen") }()
+    public static let rGlute_p: UIImage = { return #imageLiteral(resourceName: "Right Glute") }()
+    public static let lGlute_p: UIImage = { return #imageLiteral(resourceName: "Left Glute") }()
+    public static let rAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen") }()
+    public static let lAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen") }()
     
     // Custom patch
-    public static var custom_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
-    public static var custom_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection") }()
+    public static let custom_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
+    public static let custom_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection") }()
     
     // Injection site images
-    public static var lQuad_i: UIImage = { return #imageLiteral(resourceName: "Left Quad")}()
-    public static var rQuad_i: UIImage = { return #imageLiteral(resourceName: "Right Quad")}()
-    public static var lGlute_i: UIImage = { return #imageLiteral(resourceName: "Left Injection Glute")}()
-    public static var rGlute_i: UIImage = { return #imageLiteral(resourceName: "Right Injection Glute") }()
-    public static var lDelt_i: UIImage = { return #imageLiteral(resourceName: "Left Delt") }()
-    public static var rDelt_i: UIImage = { return #imageLiteral(resourceName: "Right Delt") }()
+    public static let lQuad_i: UIImage = { return #imageLiteral(resourceName: "Left Quad")}()
+    public static let rQuad_i: UIImage = { return #imageLiteral(resourceName: "Right Quad")}()
+    public static let lGlute_i: UIImage = { return #imageLiteral(resourceName: "Left Injection Glute")}()
+    public static let rGlute_i: UIImage = { return #imageLiteral(resourceName: "Right Injection Glute") }()
+    public static let lDelt_i: UIImage = { return #imageLiteral(resourceName: "Left Delt") }()
+    public static let rDelt_i: UIImage = { return #imageLiteral(resourceName: "Right Delt") }()
     
     // Pills
-    public static var pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
+    public static let pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
     
     // Estrogen arrays
-    public static var patchImages: [UIImage] =
+    public static let patchImages: [UIImage] =
         { return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p] }()
-    public static var injectionImages: [UIImage] =
+    public static let injectionImages: [UIImage] =
         { return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i] }()
     
     // -------------------------------------------------------------------------------
@@ -142,7 +142,7 @@ public class PDImages: NSObject {
         let heightRatio = targetSize.height / size.height
         
         // Figure out what our orientation is, and use that to form the rectangle
-        var newSize: CGSize
+        let newSize: CGSize
         if(widthRatio > heightRatio) {
             newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
         } else {
