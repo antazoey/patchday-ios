@@ -378,8 +378,8 @@ public class PDStrings: NSObject {
     // MARK: - Themes
     
     public struct Themes {
-        public static let light = "light"
-        public static let dark = "dark"
+        public static let light = PickerData.themes[0]
+        public static let dark = PickerData.themes[1]
     }
     
     // MARK: - Alerts (Localizable)
