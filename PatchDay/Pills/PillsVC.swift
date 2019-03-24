@@ -23,7 +23,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         pillTable.dataSource = self
         loadTabBarItemSize()
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
-        insertButton.tintColor = PDColors.pdGreen
+        insertButton.tintColor = PDColors.getColor(.Green)
         navigationItem.rightBarButtonItems = [insertButton]
         pillTable.allowsSelectionDuringEditing = true
         updateFromBackground()

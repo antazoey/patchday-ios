@@ -366,7 +366,10 @@ public class PDStrings: NSObject {
     
     public struct DeliveryMethods {
         private static let comment =
-            "Name of a View Controller. Keep short.  Refers to a transdermal medicinal patches."
+            """
+            Name of a View Controller. Keep short.
+            Refers to a transdermal medicinal patches.
+            """
         public static let patches = {
             return NSLocalizedString("Patches", comment: comment)
         }()
@@ -377,9 +380,13 @@ public class PDStrings: NSObject {
     
     // MARK: - Themes
     
-    public struct Themes {
-        public static let light = PickerData.themes[0]
-        public static let dark = PickerData.themes[1]
+    public static func getKey(for theme: PDColors.Theme) -> String {
+        switch theme {
+        case .Dark :
+            return PDStrings.PickerData.themes[1]
+        default :
+            return PDStrings.PickerData.themes[0]
+        }
     }
     
     // MARK: - Alerts (Localizable)
@@ -482,10 +489,12 @@ public class PDStrings: NSObject {
     
     // MARK: - Color keys
 
-    public enum ColorKeys: String {
-        case offWhite = "offWhite"
-        case lightBlue = "lightBlue"
-        case gray = "cuteGray"
-        case lightGray = "pdLighterCuteGray"
+    public enum ColorKey: String {
+        case OffWhite = "whitish"
+        case LightBlue = "blue"
+        case Gray = "cute_gray"
+        case LightGray = "light_cute_gray"
+        case Green = "green"
+        case Pink = "pink"
     }
 }

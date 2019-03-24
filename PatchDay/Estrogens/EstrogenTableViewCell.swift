@@ -26,23 +26,16 @@ class EstrogenTableViewCell: UITableViewCell {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index)
                 let title = determineTitle(estrogenIndex: index, interval)
-                let theme = Defaults.getTheme()
-                selectedBackgroundView = UIView()
-                selectedBackgroundView?.backgroundColor = PDColors.pdPink
-                backgroundColor = PDColors.getCellColor(for: theme, index: index)
-                dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
-                dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
-                    UIFont.systemFont(ofSize: 15) :
-                    UIFont.systemFont(ofSize: 38)
-                badgeButton.restorationIdentifier = String(index)
-                badgeButton.type = usingPatches ? .patches : .injections
-                badgeButton.badgeValue = isExpired ? "!" : nil
+                setThemeColors(at: index, exclude: false)
+                configureDate(when: isExpired)
+                configureBadge(at: index, when: isExpired, and: usingPatches)
                 animateEstrogenButtonChanges(at: index, newImage: img, newTitle: title)
                 selectionStyle = .default
                 stateImage.isHidden = false
             }
         case q...3 :
             animateEstrogenButtonChanges(at: index)
+            setThemeColors(at: index, exclude: true)
             fallthrough
         default : reset()
         }
@@ -60,15 +53,21 @@ class EstrogenTableViewCell: UITableViewCell {
     private func determineImage(index: Index) -> UIImage {
         let usingPatches: Bool = Defaults.usingPatches()
         // Default:  new / add image
-        let insert_img: UIImage = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
+        let insert_img: UIImage = (usingPatches) ?
+            PDImages.addPatch :
+            PDImages.addInjection
         var image: UIImage = insert_img
         if let estro = Schedule.estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
                 // Check if Site relationship siteName is a general site.
-                image = (usingPatches) ? PDImages.siteNameToPatchImage(siteName) : PDImages.siteNameToInjectionImage(siteName)
+                image = (usingPatches) ?
+                    PDImages.siteNameToPatchImage(siteName) :
+                    PDImages.siteNameToInjectionImage(siteName)
             } else {
-                image = (usingPatches) ? PDImages.custom_p : PDImages.custom_i
+                image = (usingPatches) ?
+                    PDImages.custom_p :
+                    PDImages.custom_i
             }
         }
         return image
@@ -157,5 +156,30 @@ class EstrogenTableViewCell: UITableViewCell {
         backgroundColor = UIColor.white
         selectionStyle = .none
         badgeButton.badgeValue = nil
+    }
+    
+    private func setThemeColors(at index: Int, exclude: Bool) {
+        let themeStr = Defaults.getTheme()
+        let theme = PDColors.getTheme(from: themeStr)
+        if !exclude {
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = PDColors.getColor(.Pink)
+        backgroundColor = PDColors.getCellColor(theme, index: index)
+        } else {
+            backgroundColor = PDColors.getBackgroundColor(theme)
+        }
+    }
+    
+    private func configureDate(when isExpired: Bool) {
+        dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
+        dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
+            UIFont.systemFont(ofSize: 15) :
+            UIFont.systemFont(ofSize: 38)
+    }
+    
+    private func configureBadge(at index: Int, when isExpired: Bool, and usingPatches: Bool) {
+        badgeButton.restorationIdentifier = String(index)
+        badgeButton.type = usingPatches ? .patches : .injections
+        badgeButton.badgeValue = isExpired ? "!" : nil
     }
 }

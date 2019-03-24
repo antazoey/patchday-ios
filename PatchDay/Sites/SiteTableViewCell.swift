@@ -24,12 +24,13 @@ class SiteTableViewCell: UITableViewCell {
             orderLabel.text = "\(index + 1)."
             nameLabel.text = name
             estrogenScheduleImage.tintColor = UIColor.red
-            nextLabel.textColor = PDColors.pdGreen
+            nextLabel.textColor = PDColors.getColor(.Green)
             estrogenScheduleImage.image = loadEstrogenImages(for: site)
             nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
             
-            let theme = Defaults.getTheme()
-            backgroundColor = PDColors.getCellColor(for: theme, index: index)
+            let themeStr = Defaults.getTheme()
+            let theme = PDColors.getTheme(from: themeStr)
+            backgroundColor = PDColors.getCellColor(theme, index: index)
             setBackgroundSelected()
         }
     }
@@ -64,7 +65,7 @@ class SiteTableViewCell: UITableViewCell {
     
     private func setBackgroundSelected() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.pdPink
+        backgroundView.backgroundColor = PDColors.getColor(.Pink)
         selectedBackgroundView = backgroundView
     }
 }

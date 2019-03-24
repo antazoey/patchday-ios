@@ -39,7 +39,7 @@ public class PDDefaults: NSObject {
     private var siteIndex = 0
     
     // Appearance
-    private var theme = PDStrings.Themes.light
+    private var theme = PDStrings.PickerData.themes[0] // light
     
     // Side effects
     private var estrogenSchedule: EstrogenSchedule
@@ -355,10 +355,10 @@ public class PDDefaults: NSObject {
         let key = PDStrings.SettingsKey.theme.rawValue
         if let theme = std_defaults.string(forKey: key) {
             self.theme = theme
-        } else if let theme = shared?.defaults?.string(forKey: theme) {
+        } else if let theme = shared?.defaults?.string(forKey: key) {
             self.theme = theme
         } else {
-            setTheme(to: PDStrings.Themes.light)
+            setTheme(to: theme)
         }
     }
 }

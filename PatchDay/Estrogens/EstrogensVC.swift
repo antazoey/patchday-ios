@@ -15,6 +15,8 @@ let estrogenButtonTotal = PDStrings.PickerData.counts.count
 
 class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    
+    @IBOutlet var estrogensView: UIView!
     @IBOutlet weak var estrogenTable: UITableView!
     
     // MARK: - Main
@@ -24,6 +26,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyTheme()
         estrogenTable.dataSource = self
         estrogenTable.delegate = self
         loadTitle()
@@ -56,7 +59,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return Defaults.getQuantity()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -120,15 +123,19 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             item?.image = #imageLiteral(resourceName: "Injection Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Injection Icon")
         }
-        
-        // Expired estrogens
+        setExpiredEstrogensBadge(item)
+        setExpiredPillsBadge()
+    }
+    
+    private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
         let interval = Defaults.getTimeInterval()
         let estroDueCount = Schedule.estrogenSchedule.totalDue(interval)
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
-        
-        // Expired pills
+    }
+    
+    private func setExpiredPillsBadge() {
         let pillDueCount = PillScheduleRef.totalDue()
         if pillDueCount > 0,
             let vcs = self.navigationController?.tabBarController?.viewControllers,
@@ -138,7 +145,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func segueToEstrogenVC(index: Int) {
-        if let sb = storyboard, let navCon = navigationController, let estroVC = sb.instantiateViewController(withIdentifier: "EstrogenVC_id") as? EstrogenVC {
+        let id = "EstrogenVC_id"
+        if let sb = storyboard, let navCon = navigationController,
+            let estroVC = sb.instantiateViewController(withIdentifier: id) as? EstrogenVC {
             estroVC.setEstrogenScheduleIndex(to: index)
             navCon.pushViewController(estroVC, animated: true)
         }
@@ -161,8 +170,20 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             UIUserInterfaceIdiom.phone) ? 9 : 25
         if let vcs = navigationController?.tabBarController?.viewControllers {
             for i in 0..<vcs.count {
-                vcs[i].tabBarItem.setTitleTextAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)], for: .normal)
+                let font = UIFont.systemFont(ofSize: size)
+                let fontKey = [NSAttributedStringKey.font: font]
+                vcs[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
             }
         }
+    }
+    
+    private func applyTheme() {
+        let themeStr = Defaults.getTheme()
+        let theme = PDColors.getTheme(from: themeStr)
+        let bgColor = PDColors.getBackgroundColor(theme)
+        let borderColor = PDColors.getBorderColor(theme)
+        estrogensView.backgroundColor = bgColor
+        estrogenTable.backgroundColor = bgColor
+        estrogenTable.separatorColor = borderColor
     }
 }

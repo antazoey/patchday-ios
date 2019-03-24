@@ -228,7 +228,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
                                        target: self,
                                        action: #selector(insertTapped))
-            items[0].tintColor = PDColors.pdGreen
+            items[0].tintColor = PDColors.getColor(.Green)
         default : break
         }
     }
@@ -249,9 +249,10 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             // Reset cell colors
             for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
-                let theme = Defaults.getTheme()
+                let themeStr = Defaults.getTheme()
+                let theme = PDColors.getTheme(from: themeStr)
                 siteTable.cellForRow(at: nextIndexPath)?.backgroundColor =
-                    PDColors.getCellColor(for: theme, index: i)
+                    PDColors.getCellColor(theme, index: i)
             }
         }
     }
@@ -260,7 +261,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
                                            target: self,
                                            action: #selector(insertTapped))
-        insertButton.tintColor = PDColors.pdGreen
+        insertButton.tintColor = PDColors.getColor(.Green)
         let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit,
                                          style: .plain,
                                          target: self,

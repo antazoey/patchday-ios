@@ -792,6 +792,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="estrogenTable" destination="UET-BI-a1o" id="dCL-8P-pUo"/>
+                        <outlet property="estrogensView" destination="8bC-Xf-vdC" id="ySw-77-ZI1"/>
                         <segue destination="rQo-Wb-Mbl" kind="show" identifier="ShowPills" id="mpM-BR-8sz"/>
                         <segue destination="PWr-WB-ijl" kind="show" identifier="ShowDetails" id="Byc-0i-cgQ"/>
                     </connections>
