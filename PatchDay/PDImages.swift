@@ -51,7 +51,7 @@ public class PDImages: NSObject {
     
     // MARK: - Functions
     
-    public static func isAdd(_ img: UIImage) -> Bool {
+    public static func isSiteless(_ img: UIImage) -> Bool {
         return img == addPatch || img == addInjection
     }
     
