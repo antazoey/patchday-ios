@@ -137,9 +137,10 @@ class EstrogenTableViewCell: UITableViewCell {
                 && changes.indicesOfChangedDelivery.contains(index)
         }
         // Is exiting the schedule.
-        isGone =
-            changes.decreasedCount
-            && index >= Defaults.getQuantity()
+        let decreased = changes.decreasedCount
+        let count = Defaults.getQuantity()
+        let isGreaterThanNewCount = index >= count
+        isGone = decreased && isGreaterThanNewCount
         return (
             sortFromEstrogenDateChange
             || isSiteChange
