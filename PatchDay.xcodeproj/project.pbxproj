@@ -26,9 +26,9 @@
 		B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9BF21CD7DA9002364BB /* PatchData.swift */; };
 		B40CC9C221CD802D002364BB /* PDSharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9C121CD802D002364BB /* PDSharedData.swift */; };
 		B42D16D220A74B4700F21AF4 /* SettingsAndSites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */; };
-		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
+		B42F5D1020D2D6F90032E39A /* SiteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteCell.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
-		B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */; };
+		B435182B20F5D72C00BD268C /* EstrogenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenCell.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
 		B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110921DD6EEC00C94B76 /* PatchDay.swift */; };
 		B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
@@ -36,7 +36,7 @@
 		B440111021DF3F2E00C94B76 /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */; };
 		B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
-		B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */; };
+		B4454B0820E19A7E005CD2E3 /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4454B0720E19A7E005CD2E3 /* PillCell.swift */; };
 		B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */; };
 		B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */; };
 		B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B46AC63320CDA48400CF7B54 /* SitesVC.swift */; };
@@ -191,9 +191,9 @@
 		B40CC9BF21CD7DA9002364BB /* PatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchData.swift; sourceTree = "<group>"; };
 		B40CC9C121CD802D002364BB /* PDSharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSharedData.swift; sourceTree = "<group>"; };
 		B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = SettingsAndSites.storyboard; path = Settings/SettingsAndSites.storyboard; sourceTree = "<group>"; };
-		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = Sites/SiteTableViewCell.swift; sourceTree = "<group>"; };
+		B42F5D0F20D2D6F90032E39A /* SiteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteCell.swift; path = Sites/SiteCell.swift; sourceTree = "<group>"; };
 		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarExtension.swift; path = ../Shared/TabBarExtension.swift; sourceTree = "<group>"; };
-		B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EstrogenTableViewCell.swift; path = ../Estrogens/EstrogenTableViewCell.swift; sourceTree = "<group>"; };
+		B435182A20F5D72C00BD268C /* EstrogenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenCell.swift; sourceTree = "<group>"; };
 		B4355D8D20ED24CF0048D466 /* EstrogenSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenSchedule.swift; sourceTree = "<group>"; };
 		B4355D8F20ED2C1A0048D466 /* PillSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillSchedule.swift; sourceTree = "<group>"; };
 		B4355D9120ED2E6A0048D466 /* SiteSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSchedule.swift; sourceTree = "<group>"; };
@@ -203,7 +203,7 @@
 		B440110921DD6EEC00C94B76 /* PatchDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDay.swift; sourceTree = "<group>"; };
 		B440110D21DF3E5D00C94B76 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTests.swift; sourceTree = "<group>"; };
-		B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillTableViewCell.swift; path = Pills/PillTableViewCell.swift; sourceTree = "<group>"; };
+		B4454B0720E19A7E005CD2E3 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillCell.swift; path = Pills/PillCell.swift; sourceTree = "<group>"; };
 		B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteImagePickerDelegate.swift; path = Sites/SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
 		B458993B20F8822700D36B06 /* MOSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSite.swift; sourceTree = "<group>"; };
 		B458993C20F8822700D36B06 /* MOSiteMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSiteMethods.swift; sourceTree = "<group>"; };
@@ -488,7 +488,7 @@
 			children = (
 				1301011F1FE5936E00AEFF7C /* PillsVC.swift */,
 				B4AED52220E5659C00559165 /* PillVC.swift */,
-				B4454B0720E19A7E005CD2E3 /* PillTableViewCell.swift */,
+				B4454B0720E19A7E005CD2E3 /* PillCell.swift */,
 			);
 			name = Pills;
 			sourceTree = "<group>";
@@ -497,7 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */,
-				B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */,
+				B435182A20F5D72C00BD268C /* EstrogenCell.swift */,
 				13E980D71EDFA54B0062B144 /* EstrogenVC.swift */,
 			);
 			path = Estrogens;
@@ -508,7 +508,7 @@
 			children = (
 				B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */,
 				B46AC63520CF1D6000CF7B54 /* SiteVC.swift */,
-				B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */,
+				B42F5D0F20D2D6F90032E39A /* SiteCell.swift */,
 				B46AC63320CDA48400CF7B54 /* SitesVC.swift */,
 			);
 			name = Sites;
@@ -830,19 +830,19 @@
 				B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */,
 				B4AED52320E5659C00559165 /* PillVC.swift in Sources */,
 				B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */,
-				B4454B0820E19A7E005CD2E3 /* PillTableViewCell.swift in Sources */,
+				B4454B0820E19A7E005CD2E3 /* PillCell.swift in Sources */,
 				133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */,
 				13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationController.swift in Sources */,
 				139754BE1EDA8C4D006C82B8 /* EstrogensVC.swift in Sources */,
-				B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */,
+				B42F5D1020D2D6F90032E39A /* SiteCell.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,
 				B44611B420F740C300312DCD /* SiteImagePickerDelegate.swift in Sources */,
 				B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */,
 				B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */,
-				B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */,
+				B435182B20F5D72C00BD268C /* EstrogenCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

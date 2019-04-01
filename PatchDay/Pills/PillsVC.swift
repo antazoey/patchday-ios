@@ -41,7 +41,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        typealias Cell = PillTableViewCell
+        typealias Cell = PillCell
         let cell = pillCellForRowAt(indexPath.row)
         let i = indexPath.row
         if i >= 0 && i < PillScheduleRef.pills.count {
@@ -113,10 +113,10 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    private func pillCellForRowAt(_ index: Index) -> PillTableViewCell? {
+    private func pillCellForRowAt(_ index: Index) -> PillCell? {
         let indexPath = IndexPath(row: index, section: 0)
         let id = "pillCellReuseId"
-        return pillsTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as? PillTableViewCell
+        return pillsTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as? PillCell
     }
     
     private func deleteCell(at indexPath: IndexPath) {

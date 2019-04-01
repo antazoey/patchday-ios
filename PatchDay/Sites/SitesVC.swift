@@ -89,7 +89,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let id = "siteCellReuseId"
-        let siteCell = sitesTable.dequeueReusableCell(withIdentifier: id) as! SiteTableViewCell
+        let siteCell = sitesTable.dequeueReusableCell(withIdentifier: id) as! SiteCell
         siteCell.configure(at: indexPath.row,
                            name: siteNames[indexPath.row],
                            siteCount: siteNames.count,
@@ -210,7 +210,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func swapVisibilityOfCellFeatures(cellCount: Int, shouldHide: Bool) {
         for i in 0..<cellCount {
             let indexPath = IndexPath(row: i, section: 0)
-            let cell = sitesTable.cellForRow(at: indexPath) as! SiteTableViewCell
+            let cell = sitesTable.cellForRow(at: indexPath) as! SiteCell
             cell.swapVisibilityOfCellFeatures(cellIndex: i, shouldHide: shouldHide)
         }
     }

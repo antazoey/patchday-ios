@@ -1,5 +1,5 @@
 //
-//  SiteTableViewCell.swift
+//  SiteCell.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/14/18.
@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 import PatchData
 
-class SiteTableViewCell: UITableViewCell {
+class SiteCell: UITableViewCell {
     
     @IBOutlet weak var orderLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!

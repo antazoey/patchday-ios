@@ -1,5 +1,5 @@
 //
-//  PillTableViewCell.swift
+//  PillCell.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/25/18.
@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 import PatchData
 
-class PillTableViewCell: UITableViewCell {
+class PillCell: UITableViewCell {
     
     private var index: Index = -1
 

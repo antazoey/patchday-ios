@@ -67,7 +67,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let estrogenIndex = indexPath.row
         let id = "estrogenCellReuseId"
-        typealias Cell = EstrogenTableViewCell
+        typealias Cell = EstrogenCell
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
         estroCell.configure(at: estrogenIndex)
         return estroCell
