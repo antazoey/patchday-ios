@@ -77,7 +77,7 @@ public class PDSchedule: NSObject {
         var indices: [Index] = []
         for estro in estrogenSchedule.estrogens {
             if let site = estro.getSite(),
-                let index = siteSchedule.sites.index(of: site) {
+                let index = siteSchedule.sites.firstIndex(of: site) {
                 indices.append(index)
             } else {
                 indices.append(-1)

@@ -44,10 +44,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         typealias Cell = PillCell
         let cell = pillCellForRowAt(indexPath.row)
         let i = indexPath.row
-        if i >= 0 && i < PillScheduleRef.pills.count {
-            cell?.configure(using: PillScheduleRef.pills[i], at: i)
-        }
-        return cell ?? UITableViewCell()
+        cell.index = i
+        return cell
     }
     
     func tableView(_ tableView: UITableView,
@@ -81,13 +79,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 PillScheduleRef.takePill(at: i, setPDSharedData: setter)
                 appDelegate.notificationsController.requestNotifyTakePill(at: i)
                 let cell = pillCellForRowAt(i)
-                cell?.stamp()
+                cell.stamp()
                 if let pill = PillScheduleRef.getPill(at: i) {
-                    cell?.loadDueDateText(from: pill)
-                    cell?.loadStateImage(from: pill)
-                    cell?.loadLastTakenText(from: pill)
+                    cell.loadDueDateText(from: pill)
+                    cell.loadStateImage(from: pill)
+                    cell.loadLastTakenText(from: pill)
                 }
-                cell?.enableOrDisableTake()
+                cell.enableOrDisableTake()
                 pillsTable.reloadData()
                 reloadInputViews()
             }
@@ -98,7 +96,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @objc func insertTapped() {
         let setter = PDSharedDataRef.setPillDataForToday
         if let pill = PillScheduleRef.insert(completion: setter) as? MOPill,
-            let i = PillScheduleRef.pills.index(of: pill) {
+            let i = PillScheduleRef.pills.firstIndex(of: pill) {
             pillsTable.reloadData()
             segueToPillView(for: pill, at: i)
         }
@@ -107,16 +105,17 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Private / Helpers
     
     private func segueToPillView(for pill: MOPill, at index: Index) {
-        if let sb = storyboard, let navCon = navigationController, let pillVC = sb.instantiateViewController(withIdentifier: "PillVC_id") as? PillVC {
+        if let sb = storyboard, let navCon = navigationController,
+            let pillVC = sb.instantiateViewController(withIdentifier: "PillVC_id") as? PillVC {
             pillVC.setPillIndex(index)
             navCon.pushViewController(pillVC, animated: true)
         }
     }
     
-    private func pillCellForRowAt(_ index: Index) -> PillCell? {
+    private func pillCellForRowAt(_ index: Index) -> PillCell {
         let indexPath = IndexPath(row: index, section: 0)
         let id = "pillCellReuseId"
-        return pillsTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as? PillCell
+        return pillsTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as! PillCell
     }
     
     private func deleteCell(at indexPath: IndexPath) {
@@ -124,6 +123,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         PillScheduleRef.delete(at: indexPath.row)
         pillsTable.deleteRows(at: [indexPath], with: .fade)
         pillsTable.reloadData()
+        let themeStr = Defaults.getTheme()
+        let theme = PDColors.getTheme(from: themeStr)
 
         let start_i = indexPath.row
         let end_i = PillScheduleRef.count() - 1
@@ -131,8 +132,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             // Reset cell colors
             for i in start_i...end_i {
                 let cell = pillCellForRowAt(i)
-                cell?.setIndex(to: i)
-                cell?.setBackground()
+                cell.index = i
+                cell.setBackground(theme: theme)
             }
         }
         PDSharedDataRef.setPillDataForToday()
@@ -141,7 +142,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     /// Updates the pill views when VC is reloaded from a notification.
     internal func updateFromBackground() {
-        let name = NSNotification.Name.UIApplicationWillEnterForeground
+        let name = UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(appWillEnterForeground),
                                                name: name,
@@ -159,12 +160,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func loadTabBarItemSize() {
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
-        let attrs = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)]
+        let attrs = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: size)]
         self.navigationController?.tabBarItem.setTitleTextAttributes(attrs, for: .normal)
     }
     
     private func insertInsertButton() {
-        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
+        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                            target: self,
                                            action: #selector(insertTapped))
         insertButton.tintColor = PDColors.getColor(.Green)

@@ -56,7 +56,7 @@ class MFBadgeButton : UIButton {
         labelText.string = self.badgeValue.uppercased()
         labelText.fontSize = 9.0
         labelText.font = UIFont.systemFont(ofSize: 9)
-        labelText.alignmentMode = kCAAlignmentCenter
+        labelText.alignmentMode = CATextLayerAlignmentMode.center
         labelText.foregroundColor = UIColor.white.cgColor
         let labelString = self.badgeValue.uppercased() as String?
         let labelFont = UIFont.systemFont(ofSize: 9)
@@ -64,7 +64,7 @@ class MFBadgeButton : UIButton {
         let w = self.frame.size.width
         let h = CGFloat(10.0)  // fixed height
         let labelWidth = min(w * 0.8, 10.0)    // Starting point
-        let rect = labelString!.boundingRect(with: CGSize(width: labelWidth, height: h), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes as [NSAttributedStringKey : Any], context: nil)
+        let rect = labelString!.boundingRect(with: CGSize(width: labelWidth, height: h), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes as [NSAttributedString.Key : Any], context: nil)
         let textWidth = round(rect.width * UIScreen.main.scale)
         labelText.frame = CGRect(x: 0, y: 0, width: textWidth, height: h)
         

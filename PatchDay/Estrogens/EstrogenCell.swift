@@ -16,7 +16,10 @@ class EstrogenCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: MFBadgeButton!
     
-    public func configure(at index: Index) {
+    public var index = -1
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
         let q = Defaults.getQuantity()
         let themeStr = Defaults.getTheme()
         let theme = PDColors.getTheme(from: themeStr)
@@ -41,14 +44,6 @@ class EstrogenCell: UITableViewCell {
         }
         // Set theme colors afterward so that they render properly
         setThemeColors(theme: theme,at: index, exclude: false)
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
     }
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.

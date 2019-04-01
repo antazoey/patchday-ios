@@ -69,7 +69,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         let id = "estrogenCellReuseId"
         typealias Cell = EstrogenCell
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
-        estroCell.configure(at: estrogenIndex)
+        estroCell.index = estrogenIndex
         return estroCell
     }
     
@@ -98,7 +98,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     internal func updateFromBackground() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(appWillEnterForeground),
-                                               name: .UIApplicationWillEnterForeground,
+                                               name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
     }
     
@@ -173,7 +173,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         if let vcs = navigationController?.tabBarController?.viewControllers {
             for i in 0..<vcs.count {
                 let font = UIFont.systemFont(ofSize: size)
-                let fontKey = [NSAttributedStringKey.font: font]
+                let fontKey = [NSAttributedString.Key.font: font]
                 vcs[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
             }
         }

@@ -74,7 +74,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         if selectedImage == nil {
             selectedImage = imageView.image
         }
-        if let i = images.index(of: selectedImage!) {
+        if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
             State.siteChanged = true
             if let estros = selectedSite.estrogenRelationship {

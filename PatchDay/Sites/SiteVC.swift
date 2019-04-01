@@ -198,7 +198,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                             picker.isHidden = false;
                             self.bottomLine.isHidden = true;
                             self.siteImage.isHidden = true })
-        if let n = nameText.text, let i = namePickerSet.index(of: n) {
+        if let n = nameText.text, let i = namePickerSet.firstIndex(of: n) {
             namePicker.selectRow(i, inComponent: 0, animated: true)
         }
     }
@@ -278,7 +278,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                 image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
             } else if let site = SiteScheduleRef.getSite(at: siteScheduleIndex),
                 let imgId = site.getImageIdentifer(),
-                let i = sitesWithImages.index(of: imgId) {
+                let i = sitesWithImages.firstIndex(of: imgId) {
                 // Set as default image
                 image = (usingPatches) ?
                     PDImages.siteNameToPatchImage(sitesWithImages[i]) :

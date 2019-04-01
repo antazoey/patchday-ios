@@ -159,7 +159,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     
     /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
     public func getSite(for name: String) -> MOSite? {
-        if let index = getNames().index(of: name) {
+        if let index = getNames().firstIndex(of: name) {
             return sites[index]
         }
         // Append new site

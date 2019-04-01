@@ -279,7 +279,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // Picker starting row
         if let title = buttonTapped.titleLabel,
             let readText = title.text,
-            let selectedRowIndex = selections.index(of: readText) {
+            let selectedRowIndex = selections.firstIndex(of: readText) {
             picker.selectRow(selectedRowIndex, inComponent: 0, animated: true)
         }
         UIView.transition(with: picker as UIView,

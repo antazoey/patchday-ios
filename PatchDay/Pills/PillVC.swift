@@ -251,7 +251,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         
         // Select row
         let n = (nameSelected == nil) ? name : nameSelected
-        if let selectedName = n, let i = names.index(of: selectedName) {
+        if let selectedName = n, let i = names.firstIndex(of: selectedName) {
             self.namePicker.selectRow(i, inComponent: 0, animated: false)
         }
         

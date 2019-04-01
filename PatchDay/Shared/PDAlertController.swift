@@ -28,7 +28,7 @@ internal class PDAlertController: NSObject {
                                                         countButton: UIButton,
                                                         settingsVC: SettingsVC?) {
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertControllerStyle =
+            let alertStyle: UIAlertController.Style =
                 (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
                     ? .alert : .actionSheet
             let title = PDStrings.AlertStrings.LoseDataAlert.title
@@ -78,7 +78,7 @@ internal class PDAlertController: NSObject {
     /// Alert that displays a quick tutorial and disclaimer on installation.
     internal static func alertForDisclaimerAndTutorial() {
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertControllerStyle =
+            let alertStyle: UIAlertController.Style =
                 (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ?
                     .alert : .actionSheet
             let title = PDStrings.AlertStrings.StartUp.title
@@ -88,7 +88,7 @@ internal class PDAlertController: NSObject {
                                              preferredStyle: alertStyle)
             let dismiss = PDStrings.ActionStrings.dismiss
             let closeAction = UIAlertAction(title: dismiss,
-                                            style: UIAlertActionStyle.cancel,
+                                            style: UIAlertAction.Style.cancel,
                                             handler: nil)
             let support = PDStrings.AlertStrings.StartUp.support
             let goToAction = UIAlertAction(title: support,
@@ -96,7 +96,7 @@ internal class PDAlertController: NSObject {
                 void in
                 if let url = URL(string: "http://www.patchdayhrt.com") {
                     if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url, options: [:],
+                        UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]),
                                                   completionHandler: nil)
                     } else {
                         UIApplication.shared.openURL(url)
@@ -116,7 +116,7 @@ internal class PDAlertController: NSObject {
                                          at index: Index,
                                          estroVC: EstrogenVC) {
         if let currentVC = getRootVC() {
-            let alertStyle: UIAlertControllerStyle =
+            let alertStyle: UIAlertController.Style =
                 (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ?
                     .alert : .actionSheet
             let title = PDStrings.AlertStrings.AddSite.title
@@ -153,4 +153,9 @@ internal class PDAlertController: NSObject {
         let window = getKeyWindow()
         return window.rootViewController
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }

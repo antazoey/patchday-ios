@@ -174,7 +174,7 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     
     /// Returns the index of the given estrogen.
     public func getIndex(for estrogen: MOEstrogen) -> Index? {
-        return estrogens.index(of: estrogen)
+        return estrogens.firstIndex(of: estrogen)
     }
     
     /// Returns the next MOEstrogen that needs to be taken.

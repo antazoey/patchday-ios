@@ -12,7 +12,7 @@ import PatchData
 
 class PillCell: UITableViewCell {
     
-    private var index: Index = -1
+    public var index: Index = -1
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var stateImage: UIImageView!
@@ -22,25 +22,25 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var nextDueDate: UILabel!
     @IBOutlet weak var imageViewView: UIView!
     
-    public func configure(using pill: MOPill, at i: Index) {
-        self.index = i
-        nameLabel.text = pill.getName()
-        loadStateImage(from: pill)
-        stateImageButton.type = .pills
-        loadLastTakenText(from: pill)
-        loadDueDateText(from: pill)
-        takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        stateImageButton.restorationIdentifier = "i \(i)"
-        takeButton.restorationIdentifier = "t \(i)"
-        takeButton.isEnabled = (pill.isDone()) ? false : true
-        enableOrDisableTake()
-        setBackground()
-        setBackgroundSelected()
-        setImageBadge(using: pill)
-    }
-    
-    public func setIndex(to i: Index) {
-        self.index = i
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(true, animated: true)
+        if let pill = PillScheduleRef.getPill(at: index) {
+            let themeStr = Defaults.getTheme()
+            let theme = PDColors.getTheme(from: themeStr)
+            nameLabel.text = pill.getName()
+            loadStateImage(from: pill)
+            stateImageButton.type = .pills
+            loadLastTakenText(from: pill)
+            loadDueDateText(from: pill)
+            takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
+            stateImageButton.restorationIdentifier = "i \(index)"
+            takeButton.restorationIdentifier = "t \(index)"
+            takeButton.isEnabled = (pill.isDone()) ? false : true
+            enableOrDisableTake()
+            setBackground(theme: theme)
+            setBackgroundSelected()
+            setImageBadge(using: pill)
+        }
     }
     
     /// Set the "last taken" label to the curent date as a string.
@@ -85,15 +85,13 @@ class PillCell: UITableViewCell {
         }
     }
     
-    public func setBackground() {
+    public func setBackground(theme: PDColors.Theme) {
+        imageViewView.backgroundColor = nil
+        stateImageButton.backgroundColor = nil
         if index % 2 == 0 {
-            let themeStr = Defaults.getTheme()
-            let theme = PDColors.getTheme(from: themeStr)
             backgroundColor = PDColors.getOddCellColor(theme)
-            imageViewView.backgroundColor = nil
-            stateImageButton.backgroundColor = nil
         } else {
-            backgroundColor = UIColor.white
+            backgroundColor = PDColors.getEvenCellColor(theme)
         }
     }
     

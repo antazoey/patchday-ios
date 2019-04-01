@@ -106,7 +106,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     // Editing style
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
     
@@ -119,7 +119,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Delete cell (deletes MOSite)
     func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCellEditingStyle,
+                   commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteCell(indexPath: indexPath)
@@ -227,7 +227,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             
         case PDStrings.ActionStrings.done :
             items[1].title = PDStrings.ActionStrings.edit
-            items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
+            items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                        target: self,
                                        action: #selector(insertTapped))
             items[0].tintColor = PDColors.getColor(.Green)
@@ -260,7 +260,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func loadBarButtons() {
-        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
+        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                            target: self,
                                            action: #selector(insertTapped))
         insertButton.tintColor = PDColors.getColor(.Green)
@@ -286,7 +286,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func loadTabBarItemSize() {
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
         let fontSize = UIFont.systemFont(ofSize: size)
-        let font = [NSAttributedStringKey.font: fontSize]
+        let font = [NSAttributedString.Key.font: fontSize]
         self.navigationController?.tabBarItem.setTitleTextAttributes(font, for: .normal)
     }
     

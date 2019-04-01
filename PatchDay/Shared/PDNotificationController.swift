@@ -165,7 +165,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.title = determineEstrogenNotificationTitle(usingPatches: usingPatches,
                                                                notifyTime: notifyTime)
             content.body = determineEstrogenNotificationBody(for: estro, interval: interval)
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.badge = Schedule.totalDue(interval: interval) + 1 as NSNumber
             content.categoryIdentifier = estroCategoryId
             timeIntervalUntilExpire = timeIntervalUntilExpire - (notifyTime * 60.0)
@@ -198,7 +198,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             content.title = usingPatches ?
                 Strings.Titles.overnight_patch :
                 Strings.Titles.overnight_injection
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             let interval = triggerDate.timeIntervalSinceNow
             if interval > 0 {
                 let trigger = Trigger(timeInterval: interval, repeats: false)
@@ -235,7 +235,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             if let name = pill.getName() {
                 content.title += name
             }
-            content.sound = UNNotificationSound.default()
+            content.sound = UNNotificationSound.default
             content.badge = totalDue + 1 as NSNumber
             content.categoryIdentifier = pillCategoryId
             let interval = dueDate.timeIntervalSince(now)

@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var window: UIWindow?
     internal var notificationsController = PDNotificationController()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Set default Pills only on the first launch.
         if isFirstLaunch() {

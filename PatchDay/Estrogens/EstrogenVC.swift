@@ -71,7 +71,7 @@ class EstrogenVC: UIViewController,
                                                             action: handleSave)
         saveButton = navigationItem.rightBarButtonItem
         saveButton.isEnabled = false
-        autofillButton.setTitleColor(UIColor.darkGray, for: UIControlState.disabled)
+        autofillButton.setTitleColor(UIColor.darkGray, for: UIControl.State.disabled)
         if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
             topConstraint.constant = 100
             autofillButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
@@ -291,7 +291,7 @@ class EstrogenVC: UIViewController,
         dateSelected = datePicker.date
         let interval = Defaults.getTimeInterval()
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
-        chooseDateButton.setTitle(dateStr, for: UIControlState.normal)
+        chooseDateButton.setTitle(dateStr, for: UIControl.State.normal)
         if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {
             expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
         }
@@ -473,10 +473,10 @@ class EstrogenVC: UIViewController,
         let doneSize = CGSize(width: 100, height: 50)
         let doneRect = CGRect(origin: donePoint, size: doneSize)
         let doneButton = UIButton(frame: doneRect)
-        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControlState.normal)
-        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControlState.highlighted)
-        doneButton.setTitleColor(UIColor.blue, for: UIControlState.normal)
-        doneButton.setTitleColor(UIColor.black, for: UIControlState.highlighted)
+        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControl.State.normal)
+        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControl.State.highlighted)
+        doneButton.setTitleColor(UIColor.blue, for: UIControl.State.normal)
+        doneButton.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
         doneButton.removeTarget(nil, action: nil, for: .allEvents)
         doneButton.addTarget(self, action: #selector(datePickerDone), for: .touchUpInside)
         return doneButton
