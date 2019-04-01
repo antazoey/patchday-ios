@@ -14,25 +14,24 @@ typealias PillName = String
 
 class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var pillTable: UITableView!
+    @IBOutlet var pillsView: UIView!
+    @IBOutlet weak var pillsTable: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        applyTheme()
         title = PDStrings.VCTitles.pills
-        pillTable.delegate = self
-        pillTable.dataSource = self
+        pillsTable.delegate = self
+        pillsTable.dataSource = self
         loadTabBarItemSize()
-        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(insertTapped))
-        insertButton.tintColor = PDColors.getColor(.Green)
-        navigationItem.rightBarButtonItems = [insertButton]
-        pillTable.allowsSelectionDuringEditing = true
+        insertInsertButton()
+        pillsTable.allowsSelectionDuringEditing = true
         updateFromBackground()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        pillTable.reloadData()
+        pillsTable.reloadData()
         reloadInputViews()
     }
     
@@ -89,7 +88,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     cell?.loadLastTakenText(from: pill)
                 }
                 cell?.enableOrDisableTake()
-                pillTable.reloadData()
+                pillsTable.reloadData()
                 reloadInputViews()
             }
             setBadge()
@@ -100,7 +99,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let setter = PDSharedDataRef.setPillDataForToday
         if let pill = PillScheduleRef.insert(completion: setter) as? MOPill,
             let i = PillScheduleRef.pills.index(of: pill) {
-            pillTable.reloadData()
+            pillsTable.reloadData()
             segueToPillView(for: pill, at: i)
         }
     }
@@ -117,14 +116,14 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func pillCellForRowAt(_ index: Index) -> PillTableViewCell? {
         let indexPath = IndexPath(row: index, section: 0)
         let id = "pillCellReuseId"
-        return pillTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as? PillTableViewCell
+        return pillsTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as? PillTableViewCell
     }
     
     private func deleteCell(at indexPath: IndexPath) {
         print(indexPath.row)
         PillScheduleRef.delete(at: indexPath.row)
-        pillTable.deleteRows(at: [indexPath], with: .fade)
-        pillTable.reloadData()
+        pillsTable.deleteRows(at: [indexPath], with: .fade)
+        pillsTable.reloadData()
 
         let start_i = indexPath.row
         let end_i = PillScheduleRef.count() - 1
@@ -150,7 +149,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc internal func appWillEnterForeground() {
-        pillTable.reloadData()
+        pillsTable.reloadData()
     }
     
     private func setBadge() {
@@ -162,5 +161,23 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
         let attrs = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: size)]
         self.navigationController?.tabBarItem.setTitleTextAttributes(attrs, for: .normal)
+    }
+    
+    private func insertInsertButton() {
+        let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,
+                                           target: self,
+                                           action: #selector(insertTapped))
+        insertButton.tintColor = PDColors.getColor(.Green)
+        navigationItem.rightBarButtonItems = [insertButton]
+    }
+    
+    private func applyTheme() {
+        let themeStr = Defaults.getTheme()
+        let theme = PDColors.getTheme(from: themeStr)
+        let bgColor = PDColors.getBackgroundColor(theme)
+        let borderColor = PDColors.getBorderColor(theme)
+        pillsView.backgroundColor = bgColor
+        pillsTable.backgroundColor = bgColor
+        pillsTable.separatorColor = borderColor
     }
 }

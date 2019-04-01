@@ -12,7 +12,8 @@ import PatchData
 
 class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var siteTable: UITableView!
+    @IBOutlet var sitesView: UIView!
+    @IBOutlet weak var sitesTable: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
 
     public var buttonFontSize = {
@@ -26,10 +27,11 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        siteTable.delegate = self
-        siteTable.dataSource = self
+        applyTheme()
+        sitesTable.delegate = self
+        sitesTable.dataSource = self
         loadBarButtons()
-        siteTable.allowsSelectionDuringEditing = true
+        sitesTable.allowsSelectionDuringEditing = true
         loadTabBarItemSize()
         
     }
@@ -37,9 +39,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reloadSiteNames()
-        siteTable.reloadData()
+        sitesTable.reloadData()
         setTitle()
-        swapVisibilityOfCellFeatures(cellCount: siteTable.numberOfRows(inSection: 0),
+        swapVisibilityOfCellFeatures(cellCount: sitesTable.numberOfRows(inSection: 0),
                                      shouldHide: false)
     }
     
@@ -87,11 +89,11 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Defines cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let id = "siteCellReuseId"
-        let siteCell = siteTable.dequeueReusableCell(withIdentifier: id) as! SiteTableViewCell
+        let siteCell = sitesTable.dequeueReusableCell(withIdentifier: id) as! SiteTableViewCell
         siteCell.configure(at: indexPath.row,
                            name: siteNames[indexPath.row],
                            siteCount: siteNames.count,
-                           isEditing: siteTable.isEditing)
+                           isEditing: sitesTable.isEditing)
         return siteCell
     }
     
@@ -139,7 +141,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             SiteScheduleRef.setOrder(at: i, to: Int16(i))
         }
         reloadSiteNames()
-        siteTable.reloadData()
+        sitesTable.reloadData()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -153,7 +155,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     @objc func editTapped() {
-        let c = siteTable.numberOfRows(inSection: 0)
+        let c = sitesTable.numberOfRows(inSection: 0)
         if var items = navigationItem.rightBarButtonItems {
             switch items[1].title {
             case PDStrings.ActionStrings.edit :
@@ -162,13 +164,13 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
-                siteTable.isEditing = true
+                sitesTable.isEditing = true
             case PDStrings.ActionStrings.done :
                 setTitle()
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
-                siteTable.isEditing = false
+                sitesTable.isEditing = false
             default : break
             }
         }
@@ -178,15 +180,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         setTitle()
         SiteScheduleRef.reset(completion: nil)
         reloadSiteNames()
-        siteTable.isEditing = false
+        sitesTable.isEditing = false
         let range = 0..<siteNames.count
         let indexPathsToReload: [IndexPath] = range.map({
             (value: Int) -> IndexPath in
             return IndexPath(row: value, section: 0)
         })
-        siteTable.reloadData()
-        siteTable.reloadRows(at: indexPathsToReload, with: .automatic)
-        let c = siteTable.numberOfRows(inSection: 0)
+        sitesTable.reloadData()
+        sitesTable.reloadRows(at: indexPathsToReload, with: .automatic)
+        let c = sitesTable.numberOfRows(inSection: 0)
         swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
         switchNavItems()    // Close editing
     }
@@ -208,7 +210,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func swapVisibilityOfCellFeatures(cellCount: Int, shouldHide: Bool) {
         for i in 0..<cellCount {
             let indexPath = IndexPath(row: i, section: 0)
-            let cell = siteTable.cellForRow(at: indexPath) as! SiteTableViewCell
+            let cell = sitesTable.cellForRow(at: indexPath) as! SiteTableViewCell
             cell.swapVisibilityOfCellFeatures(cellIndex: i, shouldHide: shouldHide)
         }
     }
@@ -243,15 +245,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func deleteCell(indexPath: IndexPath) {
         SiteScheduleRef.delete(at: indexPath.row)
         siteNames.remove(at: indexPath.row)
-        siteTable.deleteRows(at: [indexPath], with: .fade)
-        siteTable.reloadData()
+        sitesTable.deleteRows(at: [indexPath], with: .fade)
+        sitesTable.reloadData()
         if indexPath.row <= (siteNames.count-1) {
             // Reset cell colors
             for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
                 let themeStr = Defaults.getTheme()
                 let theme = PDColors.getTheme(from: themeStr)
-                siteTable.cellForRow(at: nextIndexPath)?.backgroundColor =
+                sitesTable.cellForRow(at: nextIndexPath)?.backgroundColor =
                     PDColors.getCellColor(theme, index: i)
             }
         }
@@ -286,6 +288,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let fontSize = UIFont.systemFont(ofSize: size)
         let font = [NSAttributedStringKey.font: fontSize]
         self.navigationController?.tabBarItem.setTitleTextAttributes(font, for: .normal)
+    }
+    
+    private func applyTheme() {
+        let themeStr = Defaults.getTheme()
+        let theme = PDColors.getTheme(from: themeStr)
+        let bgColor = PDColors.getBackgroundColor(theme)
+        let borderColor = PDColors.getBorderColor(theme)
+        sitesView.backgroundColor = bgColor
+        sitesTable.backgroundColor = bgColor
+        sitesTable.separatorColor = borderColor
     }
 }
 

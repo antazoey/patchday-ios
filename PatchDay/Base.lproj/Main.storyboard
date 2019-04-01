@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -459,7 +459,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Pills" id="Jvz-nd-goC"/>
                     <connections>
-                        <outlet property="pillTable" destination="Qga-3N-qSw" id="36M-ds-wSN"/>
+                        <outlet property="pillsTable" destination="Qga-3N-qSw" id="lue-X5-E5k"/>
+                        <outlet property="pillsView" destination="5Gp-UE-xbC" id="9ax-di-XtU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bAP-9k-fMs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -825,7 +826,7 @@
         <!--SettingsVC_id-->
         <scene sceneID="Fb7-5q-eMk">
             <objects>
-                <viewControllerPlaceholder storyboardIdentifier="SettingsVC_id" storyboardName="Settings" referencedIdentifier="SettingsVC_id" id="Udc-XB-QRY" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardIdentifier="SettingsVC_id" storyboardName="SettingsAndSites" referencedIdentifier="SettingsVC_id" id="Udc-XB-QRY" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="eB0-CC-AJp"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UV2-kM-Zqi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -835,7 +836,7 @@
         <!--SitesVC_id-->
         <scene sceneID="Jxv-0m-fWP">
             <objects>
-                <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SitesVC_id" id="T10-R6-5Zn" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="SettingsAndSites" referencedIdentifier="SitesVC_id" id="T10-R6-5Zn" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="4rh-xj-HMd"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fIk-oO-ox1" userLabel="First Responder" sceneMemberID="firstResponder"/>

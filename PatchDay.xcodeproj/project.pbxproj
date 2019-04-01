@@ -25,7 +25,7 @@
 		B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9BF21CD7DA9002364BB /* PatchData.swift */; };
 		B40CC9C221CD802D002364BB /* PDSharedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40CC9C121CD802D002364BB /* PDSharedData.swift */; };
-		B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* Settings.storyboard */; };
+		B42D16D220A74B4700F21AF4 /* SettingsAndSites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
 		B435182B20F5D72C00BD268C /* EstrogenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */; };
@@ -190,7 +190,7 @@
 		B40CC9B321CCE614002364BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B40CC9BF21CD7DA9002364BB /* PatchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchData.swift; sourceTree = "<group>"; };
 		B40CC9C121CD802D002364BB /* PDSharedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSharedData.swift; sourceTree = "<group>"; };
-		B42D16D120A74B4700F21AF4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Settings.storyboard; path = Settings/Settings.storyboard; sourceTree = "<group>"; };
+		B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = SettingsAndSites.storyboard; path = Settings/SettingsAndSites.storyboard; sourceTree = "<group>"; };
 		B42F5D0F20D2D6F90032E39A /* SiteTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteTableViewCell.swift; path = Sites/SiteTableViewCell.swift; sourceTree = "<group>"; };
 		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarExtension.swift; path = ../Shared/TabBarExtension.swift; sourceTree = "<group>"; };
 		B435182A20F5D72C00BD268C /* EstrogenTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EstrogenTableViewCell.swift; path = ../Estrogens/EstrogenTableViewCell.swift; sourceTree = "<group>"; };
@@ -321,6 +321,7 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
+				9D0177F92251983C00A24E48 /* Storyboards */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
@@ -331,7 +332,6 @@
 				B480EE4521CC7A09002C2238 /* Estrogens */,
 				B480EE4421CC7A04002C2238 /* Pills */,
 				B480EE4621CC7A15002C2238 /* Sites */,
-				137330F01E22BA3E0048F91E /* Main.storyboard */,
 				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
 			);
@@ -348,6 +348,15 @@
 				B4355D9120ED2E6A0048D466 /* SiteSchedule.swift */,
 			);
 			path = Schedules;
+			sourceTree = "<group>";
+		};
+		9D0177F92251983C00A24E48 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				137330F01E22BA3E0048F91E /* Main.storyboard */,
+				B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		B40CC9A721CCE4AE002364BB /* Resources */ = {
@@ -469,7 +478,6 @@
 		B480EE4321CC79FA002C2238 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				B42D16D120A74B4700F21AF4 /* Settings.storyboard */,
 				133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */,
 			);
 			name = Settings;
@@ -769,7 +777,7 @@
 				137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */,
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
-				B42D16D220A74B4700F21AF4 /* Settings.storyboard in Resources */,
+				B42D16D220A74B4700F21AF4 /* SettingsAndSites.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

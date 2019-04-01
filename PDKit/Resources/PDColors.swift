@@ -70,6 +70,15 @@ public class PDColors: NSObject {
         }
     }
     
+    public static func getSelectedCellColor(_ theme: Theme) -> UIColor {
+        switch theme {
+        case .Dark:
+            return UIColor.gray
+        default:
+            return PDColors.pdPink
+        }
+    }
+    
     /// Returns UIColor based on key from PDStrings.
     public static func getColor(_ key: PDStrings.ColorKey) -> UIColor {
         let colorDict: [PDStrings.ColorKey: UIColor] =  [ PDStrings.ColorKey.OffWhite : pdOffWhite,

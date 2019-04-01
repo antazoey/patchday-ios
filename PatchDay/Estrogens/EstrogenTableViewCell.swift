@@ -18,6 +18,8 @@ class EstrogenTableViewCell: UITableViewCell {
     
     public func configure(at index: Index) {
         let q = Defaults.getQuantity()
+        let themeStr = Defaults.getTheme()
+        let theme = PDColors.getTheme(from: themeStr)
         switch (index) {
         case 0..<q :
             let interval = Defaults.getTimeInterval()
@@ -26,7 +28,6 @@ class EstrogenTableViewCell: UITableViewCell {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index)
                 let title = determineTitle(estrogenIndex: index, interval)
-                setThemeColors(at: index, exclude: false)
                 configureDate(when: isExpired)
                 configureBadge(at: index, when: isExpired, and: usingPatches)
                 animateEstrogenButtonChanges(at: index, newImage: img, newTitle: title)
@@ -35,10 +36,11 @@ class EstrogenTableViewCell: UITableViewCell {
             }
         case q...3 :
             animateEstrogenButtonChanges(at: index)
-            setThemeColors(at: index, exclude: true)
             fallthrough
         default : reset()
         }
+        // Set theme colors afterward so that they render properly
+        setThemeColors(theme: theme,at: index, exclude: false)
     }
     
     override func awakeFromNib() {
@@ -52,11 +54,9 @@ class EstrogenTableViewCell: UITableViewCell {
     /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineImage(index: Index) -> UIImage {
         let usingPatches: Bool = Defaults.usingPatches()
-        // Default:  new / add image
-        let insert_img: UIImage = (usingPatches) ?
+        var image = (usingPatches) ?
             PDImages.addPatch :
             PDImages.addInjection
-        var image: UIImage = insert_img
         if let estro = Schedule.estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
@@ -104,12 +104,12 @@ class EstrogenTableViewCell: UITableViewCell {
             isNew =  PDImages.isSiteless(img)
         }
         Schedule.state.isNew = isNew
-        if shouldAnimate(estrogenOptional, at: index) {
+        let isAnimating = shouldAnimate(estrogenOptional, at: index)
+        if isAnimating {
             UIView.transition(with: stateImage as UIView,
                               duration: 0.75,
                               options: .transitionCrossDissolve, animations: {
-                self.stateImage.image = newImage
-                self.stateImage.isHidden = true
+                self.stateImage.image = newImage?.withRenderingMode(.alwaysTemplate)
             }) { void in self.dateLabel.text = newTitle }
         } else {
             stateImage.image = newImage
@@ -154,21 +154,26 @@ class EstrogenTableViewCell: UITableViewCell {
         dateLabel.text = nil
         badgeButton.titleLabel?.text = nil
         stateImage.image = nil
-        backgroundColor = UIColor.white
         selectionStyle = .none
         badgeButton.badgeValue = nil
     }
     
-    private func setThemeColors(at index: Int, exclude: Bool) {
-        let themeStr = Defaults.getTheme()
-        let theme = PDColors.getTheme(from: themeStr)
+    private func setThemeColors(theme: PDColors.Theme, at index: Int, exclude: Bool) {
+        setImageTint()
         if !exclude {
-        selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = PDColors.getColor(.Pink)
-        backgroundColor = PDColors.getCellColor(theme, index: index)
+            selectedBackgroundView = UIView()
+            // TODO: Find dark theme selected bg color
+            selectedBackgroundView?.backgroundColor = PDColors.getSelectedCellColor(theme)
+            backgroundColor = PDColors.getCellColor(theme, index: index)
         } else {
             backgroundColor = PDColors.getBackgroundColor(theme)
         }
+    }
+    
+    private func setImageTint() {
+        let templateImage = stateImage.image?.withRenderingMode(.alwaysTemplate)
+        stateImage.image = templateImage
+        stateImage.tintColor = UIColor.red.withAlphaComponent(0.05)
     }
     
     private func configureDate(when isExpired: Bool) {
