@@ -26,7 +26,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        applyTheme()
         estrogenTable.dataSource = self
         estrogenTable.delegate = self
         loadTitle()
@@ -37,7 +36,14 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 1.0, delay: 0.0,
+                       options: UIView.AnimationOptions.curveEaseIn,
+                       animations: {
+            self.view.alpha = 1.0
+        }, completion: nil)
+        
         super.viewDidAppear(false)
+        applyTheme()
         // Alert for disclaimer and tutorial on first start up
         if appDelegate.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
@@ -82,7 +88,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     // MARK: - Actions
     
     @objc internal func editTapped() {
-        let sb = UIStoryboard(name: "Settings", bundle: nil)
+        let sb = UIStoryboard(name: "SettingsAndSites", bundle: nil)
         let key = "SettingsVC_id"
         if let navCon = navigationController,
             let settingsVC = sb.instantiateViewController(withIdentifier: key) as? SettingsVC {
@@ -91,9 +97,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     // MARK: - Private
-
-    // MARK: - updating from background
-    
     /// Updates the estrogen buttons when VC is reloaded from a notification.
     internal func updateFromBackground() {
         NotificationCenter.default.addObserver(self,
@@ -180,10 +183,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func applyTheme() {
-        let themeStr = Defaults.getTheme()
-        let theme = PDColors.getTheme(from: themeStr)
-        let bgColor = PDColors.getBackgroundColor(theme)
-        let borderColor = PDColors.getBorderColor(theme)
+        navigationController?.navigationBar.barTintColor = UIColor.black
+        let bgColor = appDelegate.themeManager.bg_c
+        let borderColor = appDelegate.themeManager.border_c
         estrogensView.backgroundColor = bgColor
         estrogenTable.backgroundColor = bgColor
         estrogenTable.separatorColor = borderColor

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     internal var window: UIWindow?
     internal var notificationsController = PDNotificationController()
+    internal var themeManager: ThemeManager = ThemeManager(themeStr: Defaults.getTheme())
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -31,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let setSiteIndex = Defaults.setSiteIndex
         
         // Uncomment to nuke the db
-        // Schedule.nuke()
+        //Schedule.nuke()
         // Then re-comment, run again, and PatchDay resets to default.
 
         // Load data for the Today widget.
@@ -45,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Set the nav bar appearance.
         let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor.blue
+        navigationBarAppearace.tintColor = appDelegate.themeManager.button_c
         return true
     }
     

@@ -25,8 +25,6 @@ class PillCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(true, animated: true)
         if let pill = PillScheduleRef.getPill(at: index) {
-            let themeStr = Defaults.getTheme()
-            let theme = PDColors.getTheme(from: themeStr)
             nameLabel.text = pill.getName()
             loadStateImage(from: pill)
             stateImageButton.type = .pills
@@ -37,7 +35,7 @@ class PillCell: UITableViewCell {
             takeButton.restorationIdentifier = "t \(index)"
             takeButton.isEnabled = (pill.isDone()) ? false : true
             enableOrDisableTake()
-            setBackground(theme: theme)
+            setBackground()
             setBackgroundSelected()
             setImageBadge(using: pill)
         }
@@ -63,7 +61,7 @@ class PillCell: UITableViewCell {
     }
     
     public func loadStateImage(from pill: MOPill) {
-        stateImage.image = PDImages.pill.withRenderingMode(.alwaysTemplate)
+        stateImage.image = PDImages.pill
         if pill.isDone() {
             stateImage.tintColor = UIColor.lightGray
         } else {
@@ -85,13 +83,13 @@ class PillCell: UITableViewCell {
         }
     }
     
-    public func setBackground(theme: PDColors.Theme) {
+    public func setBackground() {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
         if index % 2 == 0 {
-            backgroundColor = PDColors.getOddCellColor(theme)
+            backgroundColor = appDelegate.themeManager.oddCell_c
         } else {
-            backgroundColor = PDColors.getEvenCellColor(theme)
+            backgroundColor = appDelegate.themeManager.evenCell_c
         }
     }
     

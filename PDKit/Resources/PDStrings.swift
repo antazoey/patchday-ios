@@ -380,7 +380,7 @@ public class PDStrings: NSObject {
     
     // MARK: - Themes
     
-    public static func getKey(for theme: PDColors.Theme) -> String {
+    public static func getKey(for theme: PDTheme) -> String {
         switch theme {
         case .Dark :
             return PDStrings.PickerData.themes[1]
@@ -496,5 +496,6 @@ public class PDStrings: NSObject {
         case LightGray = "light_cute_gray"
         case Green = "green"
         case Pink = "pink"
+        case Black = "black"
     }
 }

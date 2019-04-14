@@ -20,47 +20,48 @@ class EstrogenCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        let q = Defaults.getQuantity()
-        let themeStr = Defaults.getTheme()
-        let theme = PDColors.getTheme(from: themeStr)
-        switch (index) {
-        case 0..<q :
-            let interval = Defaults.getTimeInterval()
-            let usingPatches = Defaults.usingPatches()
-            if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
-                let isExpired = estro.isExpired(interval)
-                let img = determineImage(index: index)
-                let title = determineTitle(estrogenIndex: index, interval)
-                configureDate(when: isExpired)
-                configureBadge(at: index, when: isExpired, and: usingPatches)
-                animateEstrogenButtonChanges(at: index, newImage: img, newTitle: title)
-                selectionStyle = .default
-                stateImage.isHidden = false
+        let theme = appDelegate.themeManager.theme
+        backgroundColor = appDelegate.themeManager.bg_c
+        if (!selected) {
+            let q = Defaults.getQuantity()
+            setThemeColors(at: index)
+            switch (index) {
+            case 0..<q :
+                let interval = Defaults.getTimeInterval()
+                let usingPatches = Defaults.usingPatches()
+                if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
+                    let isExpired = estro.isExpired(interval)
+                    let img = determineImage(index: index, theme: theme)
+                    let title = determineTitle(estrogenIndex: index, interval)
+                    configureDate(when: isExpired)
+                    configureBadge(at: index, when: isExpired, and: usingPatches)
+                    self.setDateLabel(title)
+                    animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
+                    selectionStyle = .default
+                    stateImage.isHidden = false
+                }
+            case q...3 :
+                animateEstrogenButtonChanges(at: index, theme: theme)
+                fallthrough
+            default : reset()
             }
-        case q...3 :
-            animateEstrogenButtonChanges(at: index)
-            fallthrough
-        default : reset()
         }
-        // Set theme colors afterward so that they render properly
-        setThemeColors(theme: theme,at: index, exclude: false)
+
     }
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.
-    private func determineImage(index: Index) -> UIImage {
+    private func determineImage(index: Index, theme: PDTheme) -> UIImage {
         let usingPatches: Bool = Defaults.usingPatches()
-        var image = (usingPatches) ?
-            PDImages.addPatch :
-            PDImages.addInjection
+        var image = PDImages.newSiteImage(theme: theme, usingPatches: usingPatches)
         if let estro = Schedule.estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
                 // Check if Site relationship siteName is a general site.
-                image = (usingPatches) ?
-                    PDImages.siteNameToPatchImage(siteName) :
+                image = usingPatches ?
+                    PDImages.siteNameToPatchImage(siteName, theme: theme) :
                     PDImages.siteNameToInjectionImage(siteName)
             } else {
-                image = (usingPatches) ?
+                image = usingPatches ?
                     PDImages.custom_p :
                     PDImages.custom_i
             }
@@ -90,6 +91,7 @@ class EstrogenCell: UITableViewCell {
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(at index: Index,
+                                              theme: PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
         let schedule = Schedule.estrogenSchedule
@@ -104,12 +106,16 @@ class EstrogenCell: UITableViewCell {
             UIView.transition(with: stateImage as UIView,
                               duration: 0.75,
                               options: .transitionCrossDissolve, animations: {
-                self.stateImage.image = newImage?.withRenderingMode(.alwaysTemplate)
-            }) { void in self.dateLabel.text = newTitle }
+                self.stateImage.image = newImage
+            }, completion: nil)
         } else {
             stateImage.image = newImage
-            dateLabel.text = newTitle
         }
+    }
+    
+    private func setDateLabel(_ title: String?) {
+        self.dateLabel.textColor = appDelegate.themeManager.text_c
+        self.dateLabel.text = title
     }
     
     private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
@@ -143,7 +149,7 @@ class EstrogenCell: UITableViewCell {
             || isGone
         )
     }
-        
+
     private func reset() {
         selectedBackgroundView = nil
         dateLabel.text = nil
@@ -152,32 +158,20 @@ class EstrogenCell: UITableViewCell {
         selectionStyle = .none
         badgeButton.badgeValue = nil
     }
-    
-    private func setThemeColors(theme: PDColors.Theme, at index: Int, exclude: Bool) {
-        setImageTint()
-        if !exclude {
-            selectedBackgroundView = UIView()
-            // TODO: Find dark theme selected bg color
-            selectedBackgroundView?.backgroundColor = PDColors.getSelectedCellColor(theme)
-            backgroundColor = PDColors.getCellColor(theme, index: index)
-        } else {
-            backgroundColor = PDColors.getBackgroundColor(theme)
-        }
+
+    private func setThemeColors(at index: Int) {
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = appDelegate.themeManager.selected_c
+        backgroundColor = appDelegate.themeManager.getCellColor(at: index)
     }
-    
-    private func setImageTint() {
-        let templateImage = stateImage.image?.withRenderingMode(.alwaysTemplate)
-        stateImage.image = templateImage
-        stateImage.tintColor = UIColor.red.withAlphaComponent(0.05)
-    }
-    
+
     private func configureDate(when isExpired: Bool) {
         dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
         dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
             UIFont.systemFont(ofSize: 15) :
             UIFont.systemFont(ofSize: 38)
     }
-    
+
     private func configureBadge(at index: Int, when isExpired: Bool, and usingPatches: Bool) {
         badgeButton.restorationIdentifier = String(index)
         badgeButton.type = usingPatches ? .patches : .injections

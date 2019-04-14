@@ -27,10 +27,7 @@ class SiteCell: UITableViewCell {
             nextLabel.textColor = PDColors.getColor(.Green)
             estrogenScheduleImage.image = loadEstrogenImages(for: site)
             nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
-            
-            let themeStr = Defaults.getTheme()
-            let theme = PDColors.getTheme(from: themeStr)
-            backgroundColor = PDColors.getCellColor(theme, index: index)
+            backgroundColor = appDelegate.themeManager.bg_c
             setBackgroundSelected()
         }
     }

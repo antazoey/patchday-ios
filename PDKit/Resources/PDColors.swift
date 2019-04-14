@@ -12,73 +12,6 @@ public class PDColors: NSObject {
         return "Read-only PatchDay Color class."
     }
     
-    public enum Theme {
-        case Light
-        case Dark
-    }
-    
-    public static func getTheme(from key: String) -> Theme {
-        switch key {
-        case PDStrings.PickerData.themes[1] :
-            return .Dark
-        default : // light
-            return .Light
-        }
-    }
-    
-    public static func getCellColor(_ theme: Theme, index: Int) -> UIColor {
-        if (index % 2 != 0) {
-            return getEvenCellColor(theme)
-        } else {
-            return getOddCellColor(theme)
-        }
-    }
-    
-    public static func getOddCellColor(_ theme: Theme) -> UIColor {
-        switch theme {
-        case .Dark :
-            return pdBlack
-        default :
-            return pdLightBlue
-        }
-    }
-    
-    public static func getEvenCellColor(_ theme: Theme) -> UIColor {
-        switch theme {
-        case .Dark :
-            return UIColor.lightGray
-        default :
-            return UIColor.white
-        }
-    }
-    
-    public static func getBackgroundColor(_ theme: Theme) -> UIColor {
-        switch theme {
-        case .Dark :
-            return pdBlack
-        default:
-            return UIColor.white
-        }
-    }
-    
-    public static func getBorderColor(_ theme: Theme) -> UIColor {
-        switch theme {
-        case .Dark:
-            return UIColor.white
-        default:
-            return pdCuteGray
-        }
-    }
-    
-    public static func getSelectedCellColor(_ theme: Theme) -> UIColor {
-        switch theme {
-        case .Dark:
-            return UIColor.gray
-        default:
-            return PDColors.pdPink
-        }
-    }
-    
     /// Returns UIColor based on key from PDStrings.
     public static func getColor(_ key: PDStrings.ColorKey) -> UIColor {
         let colorDict: [PDStrings.ColorKey: UIColor] =  [ PDStrings.ColorKey.OffWhite : pdOffWhite,
@@ -86,7 +19,8 @@ public class PDColors: NSObject {
                                                           PDStrings.ColorKey.Gray : pdCuteGray,
                                                           PDStrings.ColorKey.LightGray : pdLighterCuteGray,
                                                           PDStrings.ColorKey.Green : pdGreen,
-                                                          PDStrings.ColorKey.Pink : pdPink ]
+                                                          PDStrings.ColorKey.Pink : pdPink,
+                                                          PDStrings.ColorKey.Black : pdBlack ]
         return colorDict[key]!
     }
     
@@ -94,7 +28,7 @@ public class PDColors: NSObject {
     // MAR: - Raw colors
     
     private static let pdBlack = {
-        return UIColor(red:0.23, green:0.23, blue:0.23, alpha:1.0)
+        return UIColor(red:0.09, green:0.09, blue:0.10, alpha:1.0)
     }()
     
     private static let pdCuteGray = {

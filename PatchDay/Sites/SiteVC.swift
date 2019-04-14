@@ -270,7 +270,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func loadImage() {
         let usingPatches: Bool = Defaults.usingPatches()
-        let sitesWithImages = usingPatches ? PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+        let sitesWithImages = usingPatches ?
+            PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+        let theme = appDelegate.themeManager.theme
         if let name = nameText.text {
             var image: UIImage
             // New image
@@ -281,7 +283,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                 let i = sitesWithImages.firstIndex(of: imgId) {
                 // Set as default image
                 image = (usingPatches) ?
-                    PDImages.siteNameToPatchImage(sitesWithImages[i]) :
+                    PDImages.siteNameToPatchImage(sitesWithImages[i], theme: theme) :
                     PDImages.siteNameToInjectionImage(sitesWithImages[i])
             } else {
                 // Set as custom patch image

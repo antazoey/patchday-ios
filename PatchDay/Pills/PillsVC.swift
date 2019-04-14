@@ -123,8 +123,6 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         PillScheduleRef.delete(at: indexPath.row)
         pillsTable.deleteRows(at: [indexPath], with: .fade)
         pillsTable.reloadData()
-        let themeStr = Defaults.getTheme()
-        let theme = PDColors.getTheme(from: themeStr)
 
         let start_i = indexPath.row
         let end_i = PillScheduleRef.count() - 1
@@ -133,7 +131,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             for i in start_i...end_i {
                 let cell = pillCellForRowAt(i)
                 cell.index = i
-                cell.setBackground(theme: theme)
+                cell.setBackground()
             }
         }
         PDSharedDataRef.setPillDataForToday()
@@ -173,10 +171,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        let themeStr = Defaults.getTheme()
-        let theme = PDColors.getTheme(from: themeStr)
-        let bgColor = PDColors.getBackgroundColor(theme)
-        let borderColor = PDColors.getBorderColor(theme)
+        let bgColor = appDelegate.themeManager.bg_c
+        let borderColor = appDelegate.themeManager.border_c
         pillsView.backgroundColor = bgColor
         pillsTable.backgroundColor = bgColor
         pillsTable.separatorColor = borderColor

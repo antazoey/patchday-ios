@@ -251,10 +251,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             // Reset cell colors
             for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
-                let themeStr = Defaults.getTheme()
-                let theme = PDColors.getTheme(from: themeStr)
                 sitesTable.cellForRow(at: nextIndexPath)?.backgroundColor =
-                    PDColors.getCellColor(theme, index: i)
+                    appDelegate.themeManager.getCellColor(at: i)
             }
         }
     }
@@ -291,10 +289,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        let themeStr = Defaults.getTheme()
-        let theme = PDColors.getTheme(from: themeStr)
-        let bgColor = PDColors.getBackgroundColor(theme)
-        let borderColor = PDColors.getBorderColor(theme)
+        let bgColor = appDelegate.themeManager.bg_c
+        let borderColor = appDelegate.themeManager.border_c
         sitesView.backgroundColor = bgColor
         sitesTable.backgroundColor = bgColor
         sitesTable.separatorColor = borderColor

@@ -17,14 +17,22 @@ public class PDImages: NSObject {
     }
     
     // Blank
-    public static let addPatch: UIImage = { return #imageLiteral(resourceName: "Add Patch") }()
-    public static let addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
+    public static let addPatch: UIImage = { return UIImage(named: "Add Patch") }()!
+    public static let addPatchDark: UIImage = { return UIImage(named: "Add Patch Dark") }()!
+    public static var addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
     
     // Patch site images
-    public static let rGlute_p: UIImage = { return #imageLiteral(resourceName: "Right Glute") }()
-    public static let lGlute_p: UIImage = { return #imageLiteral(resourceName: "Left Glute") }()
-    public static let rAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Right Abdomen") }()
-    public static let lAbdomen_p: UIImage = { return #imageLiteral(resourceName: "Left Abdomen") }()
+    public static let rGlute_p: UIImage = { return UIImage(named: "Right Glute") }()!
+    public static let rGlute_p_dark: UIImage = { return UIImage(named: "Right Glute Dark")}()!
+    
+    public static let lGlute_p: UIImage = { return UIImage(named: "Left Glute") }()!
+    public static let lGlute_p_dark: UIImage = { return UIImage(named: "Left Glute Dark") }()!
+    
+    public static let rAbdomen_p: UIImage = { return UIImage(named: "Right Abdomen") }()!
+    public static let rAbdomen_p_dark: UIImage = { return UIImage(named: "Right Abdomen Dark") }()!
+    
+    public static let lAbdomen_p: UIImage = { return UIImage(named: "Left Abdomen") }()!
+    public static let lAbdomen_p_dark: UIImage = { return UIImage(named: "Left Abdomen Dark") }()!
     
     // Custom patch
     public static let custom_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
@@ -44,25 +52,35 @@ public class PDImages: NSObject {
     // Estrogen arrays
     public static let patchImages: [UIImage] =
         { return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p] }()
-    public static let injectionImages: [UIImage] =
-        { return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i] }()
+    public static let injectionImages: [UIImage] = {
+        return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i]
+    }()
     
     // -------------------------------------------------------------------------------
     
     // MARK: - Functions
+    
+    public static func newSiteImage(theme: PDTheme, usingPatches: Bool) -> UIImage {
+        switch (theme, usingPatches) {
+        case (.Dark, true):
+            return addPatchDark
+        case(.Light, true):
+            return addPatch
+        case (.Dark, false):
+            return addInjection
+        default:
+            return UIImage();
+        }
+    }
     
     public static func isSiteless(_ img: UIImage) -> Bool {
         return img == addPatch || img == addInjection
     }
     
     /// Coverts SiteName a.k.a String to corresponding patch image.
-    public static func siteNameToPatchImage(_ siteName: SiteName) -> UIImage {
+    public static func siteNameToPatchImage(_ siteName: SiteName, theme: PDTheme) -> UIImage {
         var r: UIImage = addPatch
-        let stringToImageDict = [PDStrings.PlaceholderStrings.unplaced : addPatch,
-                                 PDStrings.SiteNames.rightGlute : rGlute_p,
-                                 PDStrings.SiteNames.leftGlute : lGlute_p,
-                                 PDStrings.SiteNames.rightAbdomen : rAbdomen_p,
-                                 PDStrings.SiteNames.leftAbdomen : lAbdomen_p]
+        let stringToImageDict = getStringToImageDict(theme: theme)
         let siteNames = PDStrings.SiteNames.patchSiteNames
         if (siteNames.contains(siteName)) {
             r = stringToImageDict[siteName]!
@@ -144,9 +162,13 @@ public class PDImages: NSObject {
         // Figure out what our orientation is, and use that to form the rectangle
         let newSize: CGSize
         if(widthRatio > heightRatio) {
-            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+            let w = size.width * heightRatio
+            let h = size.height * heightRatio
+            newSize = CGSize(width: w, height: h)
         } else {
-            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+            let w = size.width * widthRatio
+            let h = size.height * widthRatio
+            newSize = CGSize(width: w,  height: h)
         }
         
         // This is the rect that we've calculated out and this is what is actually used below
@@ -159,5 +181,26 @@ public class PDImages: NSObject {
         UIGraphicsEndImageContext()
 
         return newImage ?? UIImage()
+    }
+    
+
+    // MARK: - Private
+    
+    private static func getStringToImageDict(theme: PDTheme) -> Dictionary<String, UIImage> {
+        let newImg = newSiteImage(theme: theme, usingPatches: true);
+        switch theme {
+        case .Dark:
+            return [PDStrings.PlaceholderStrings.unplaced : newImg,
+                    PDStrings.SiteNames.rightGlute : rGlute_p_dark,
+                    PDStrings.SiteNames.leftGlute : lGlute_p_dark,
+                    PDStrings.SiteNames.rightAbdomen : rAbdomen_p_dark,
+                    PDStrings.SiteNames.leftAbdomen : lAbdomen_p_dark]
+        default:
+            return [PDStrings.PlaceholderStrings.unplaced : newImg,
+                   PDStrings.SiteNames.rightGlute : rGlute_p,
+                   PDStrings.SiteNames.leftGlute : lGlute_p,
+                   PDStrings.SiteNames.rightAbdomen : rAbdomen_p,
+                   PDStrings.SiteNames.leftAbdomen : lAbdomen_p]
+        }
     }
 }
