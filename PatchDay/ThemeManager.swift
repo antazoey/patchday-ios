@@ -21,6 +21,8 @@ internal class ThemeManager: NSObject {
     internal var selected_c: UIColor
     internal var button_c: UIColor
     internal var navbar_c: UIColor
+    internal var green_c: UIColor
+    internal var purple_c: UIColor
         
     public convenience init(themeStr: String) {
         let theme = ThemeManager.getTheme(from: themeStr)
@@ -39,6 +41,8 @@ internal class ThemeManager: NSObject {
             selected_c = PDColors.getColor(.Black)
             button_c = UIColor.white
             navbar_c = PDColors.getColor(.Black)
+            green_c = UIColor.green
+            purple_c = UIColor.magenta
         default:
             oddCell_c = PDColors.getColor(.LightBlue)
             evenCell_c = UIColor.white
@@ -48,6 +52,8 @@ internal class ThemeManager: NSObject {
             selected_c = PDColors.getColor(.Pink)
             button_c = UIColor.blue
             navbar_c = UIColor.white
+            green_c = PDColors.getColor(.Green)
+            purple_c = PDColors.getColor(.Purple)
         }
     }
     

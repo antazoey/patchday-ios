@@ -23,10 +23,12 @@ class SiteCell: UITableViewCell {
             let site = Schedule.siteSchedule.getSite(at: index) {
             orderLabel.text = "\(index + 1)."
             orderLabel.textColor = appDelegate.themeManager.text_c
+            arrowLabel.textColor = appDelegate.themeManager.text_c
             nameLabel.text = name
-            estrogenScheduleImage.tintColor = UIColor.red
-            nextLabel.textColor = PDColors.getColor(.Green)
-            estrogenScheduleImage.image = loadEstrogenImages(for: site)
+            nameLabel.textColor = appDelegate.themeManager.purple_c
+            nextLabel.textColor = appDelegate.themeManager.green_c
+            estrogenScheduleImage.image = loadEstrogenImages(for: site)?.withRenderingMode(.alwaysTemplate)
+            estrogenScheduleImage.tintColor = appDelegate.themeManager.text_c
             nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
             backgroundColor = appDelegate.themeManager.bg_c
             setBackgroundSelected()
@@ -46,11 +48,6 @@ class SiteCell: UITableViewCell {
     private func loadEstrogenImages(for site: MOSite) -> UIImage? {
         if site.isOccupied() {
             return  #imageLiteral(resourceName: "ES Icon")
-        } else if site.isOccupied() {
-            let estro = Array(site.estrogenRelationship!)[0] as! MOEstrogen
-            if let i = Schedule.estrogenSchedule.getIndex(for: estro) {
-                return PDImages.getSiteIcon(at: i)
-            }
         }
         return nil
     }

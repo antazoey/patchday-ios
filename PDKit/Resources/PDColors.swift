@@ -20,7 +20,8 @@ public class PDColors: NSObject {
                                                           PDStrings.ColorKey.LightGray : pdLighterCuteGray,
                                                           PDStrings.ColorKey.Green : pdGreen,
                                                           PDStrings.ColorKey.Pink : pdPink,
-                                                          PDStrings.ColorKey.Black : pdBlack ]
+                                                          PDStrings.ColorKey.Black : pdBlack,
+                                                          PDStrings.ColorKey.Purple : pdPurple]
         return colorDict[key]!
     }
     
@@ -55,7 +56,11 @@ public class PDColors: NSObject {
         return UIColor(red: 0.9923, green: 0.980036, blue: 1.0, alpha: 1.0)
     }()
     
-    private static var pdOffWhite = {
+    private static let pdPurple = {
+        return UIColor(red: 0.579194, green: 0.128014, blue: 0.572686, alpha:1.0)
+    }()
+    
+    private static let pdOffWhite = {
         return UIColor(red: 1.0, green: 0.99, blue: 0.99, alpha: 1.0)
     }()
 }

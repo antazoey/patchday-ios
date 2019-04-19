@@ -496,6 +496,7 @@ public class PDStrings: NSObject {
         case LightGray = "light_cute_gray"
         case Green = "green"
         case Pink = "pink"
+        case Purple = "purple"
         case Black = "black"
     }
 }
