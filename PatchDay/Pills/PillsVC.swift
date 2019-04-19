@@ -42,10 +42,11 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         typealias Cell = PillCell
-        let cell = pillCellForRowAt(indexPath.row)
+        let pillCell = pillCellForRowAt(indexPath.row)
         let i = indexPath.row
-        cell.index = i
-        return cell
+        pillCell.index = i
+        pillCell.load()
+        return pillCell
     }
     
     func tableView(_ tableView: UITableView,

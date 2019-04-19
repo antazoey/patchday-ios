@@ -382,6 +382,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if row < PDStrings.PickerData.themes.count && row >= 0 {
             let choice = PDStrings.PickerData.themes[row]
             Defaults.setTheme(to: choice)
+            appDelegate.resetTheme()
+            navigationController?.navigationBar.barTintColor = appDelegate.themeManager.navbar_c
+            navigationController?.navigationBar.tintColor = appDelegate.themeManager.button_c
+            tabBarController?.tabBar.barTintColor = appDelegate.themeManager.navbar_c
+            tabBarController?.tabBar.tintColor = appDelegate.themeManager.button_c
             themeButton.setTitle(choice, for: .normal)
         } else {
             print("Error: no theme for row \(row)")

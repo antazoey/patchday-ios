@@ -22,8 +22,7 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var nextDueDate: UILabel!
     @IBOutlet weak var imageViewView: UIView!
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(true, animated: true)
+    public func load() {
         if let pill = PillScheduleRef.getPill(at: index) {
             nameLabel.text = pill.getName()
             loadStateImage(from: pill)
@@ -38,6 +37,7 @@ class PillCell: UITableViewCell {
             setBackground()
             setBackgroundSelected()
             setImageBadge(using: pill)
+            applyTheme()
         }
     }
     
@@ -86,11 +86,7 @@ class PillCell: UITableViewCell {
     public func setBackground() {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        if index % 2 == 0 {
-            backgroundColor = appDelegate.themeManager.oddCell_c
-        } else {
-            backgroundColor = appDelegate.themeManager.evenCell_c
-        }
+        backgroundColor = appDelegate.themeManager.getCellColor(at: index)
     }
     
     // MARK: - Private
@@ -103,5 +99,15 @@ class PillCell: UITableViewCell {
     
     private func setImageBadge(using pill: MOPill) {
         stateImageButton.badgeValue = (pill.isExpired()) ? "!" : nil
+    }
+    
+    private func applyTheme() {
+        nameLabel.textColor = appDelegate.themeManager.text_c
+        takeButton.setTitleColor(appDelegate.themeManager.button_c, for: .normal)
+        lastTakenLabel.textColor = appDelegate.themeManager.text_c
+        nextDueDate.textColor = appDelegate.themeManager.text_c
+        let img = stateImage.image?.withRenderingMode(.alwaysTemplate)
+        stateImage.image = img
+        stateImage.tintColor = appDelegate.themeManager.button_c
     }
 }

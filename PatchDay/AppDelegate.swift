@@ -41,12 +41,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                                usingPatches: usingPatches,
                                                setSiteIndex: setSiteIndex)
         
-        // Set the correct app badge value.
         setBadge(with: Schedule.totalDue(interval: interval))
+        setNavigationAppearance()
 
-        // Set the nav bar appearance.
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = appDelegate.themeManager.button_c
         return true
     }
     
@@ -62,6 +59,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         let interval = Defaults.getTimeInterval()
         setBadge(with: Schedule.totalDue(interval: interval))
+    }
+    
+    internal func setNavigationAppearance() {
+        //navigationController?.navigationBar.barTintColor = UIColor.black
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.tintColor = themeManager.button_c
+        navigationBarAppearace.barTintColor = themeManager.navbar_c
+        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor : themeManager.text_c]
+        
+        let tabBarAppearance = UITabBar.appearance()
+        tabBarAppearance.tintColor = themeManager.button_c
+        tabBarAppearance.barTintColor = themeManager.navbar_c
+    }
+    
+    internal func resetTheme() {
+        themeManager = ThemeManager(themeStr: Defaults.getTheme())
+        setNavigationAppearance()
     }
     
     /** Sets the App badge number to the expired

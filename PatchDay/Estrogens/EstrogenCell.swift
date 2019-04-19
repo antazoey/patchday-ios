@@ -18,35 +18,31 @@ class EstrogenCell: UITableViewCell {
     
     public var index = -1
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    public func load() {
         let theme = appDelegate.themeManager.theme
         backgroundColor = appDelegate.themeManager.bg_c
-        if (!selected) {
-            let q = Defaults.getQuantity()
-            setThemeColors(at: index)
-            switch (index) {
-            case 0..<q :
-                let interval = Defaults.getTimeInterval()
-                let usingPatches = Defaults.usingPatches()
-                if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
-                    let isExpired = estro.isExpired(interval)
-                    let img = determineImage(index: index, theme: theme)
-                    let title = determineTitle(estrogenIndex: index, interval)
-                    configureDate(when: isExpired)
-                    configureBadge(at: index, when: isExpired, and: usingPatches)
-                    self.setDateLabel(title)
-                    animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
-                    selectionStyle = .default
-                    stateImage.isHidden = false
-                }
-            case q...3 :
-                animateEstrogenButtonChanges(at: index, theme: theme)
-                fallthrough
-            default : reset()
+        let q = Defaults.getQuantity()
+        setThemeColors(at: index)
+        switch (index) {
+        case 0..<q :
+            let interval = Defaults.getTimeInterval()
+            let usingPatches = Defaults.usingPatches()
+            if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
+                let isExpired = estro.isExpired(interval)
+                let img = determineImage(index: index, theme: theme)
+                let title = determineTitle(estrogenIndex: index, interval)
+                configureDate(when: isExpired)
+                configureBadge(at: index, when: isExpired, and: usingPatches)
+                self.setDateLabel(title)
+                animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
+                selectionStyle = .default
+                stateImage.isHidden = false
             }
+        case q...3 :
+            animateEstrogenButtonChanges(at: index, theme: theme)
+            fallthrough
+        default : reset()
         }
-
     }
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.

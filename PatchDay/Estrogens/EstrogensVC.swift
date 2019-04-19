@@ -76,6 +76,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         typealias Cell = EstrogenCell
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
         estroCell.index = estrogenIndex
+        estroCell.load()
         return estroCell
     }
     
@@ -183,7 +184,6 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func applyTheme() {
-        navigationController?.navigationBar.barTintColor = UIColor.black
         let bgColor = appDelegate.themeManager.bg_c
         let borderColor = appDelegate.themeManager.border_c
         estrogensView.backgroundColor = bgColor
