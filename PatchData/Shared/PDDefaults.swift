@@ -9,43 +9,24 @@
 import UIKit
 import PDKit
 
-public class PDDefaults: NSObject {
-    
-    override public var description: String {
-        return """
-        The PDDefaults makes calls to User Defaults
-        that are unique to the user and their schedule.
-        The data stored here is simple enough that PatchDay
-        stores it as key-value pairs.
-        """
-    }
+open class PDDefaults: PDDefaultsBaseClass {
     
     // App
-    private let std_defaults = UserDefaults.standard
     private var shared: PDSharedData? = nil
-    
-    // Schedule defaults
-    private var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
-    private var timeInterval: String = PDStrings.PickerData.expirationIntervals[0]
-    internal var quantity: Int = 4
-    
-    // Notification defaults
-    private var notifications = false
-    private var reminderTime: Int = 0
-    
-    // Rememberance
-    private var mentionedAppDisclaimer = false
-    private var needsDataMigration = true
-    private var siteIndex = 0
-    
-    // Appearance
-    private var theme = PDStrings.PickerData.themes[0] // light
-    
-    // Side effects
     private var estrogenSchedule: EstrogenSchedule
     private var siteSchedule: SiteSchedule
     private var state: PDState
     private var alerter: PatchDataAlert?
+    
+    // Defaults
+    public var deliveryMethod: String = PDStrings.PickerData.deliveryMethods[0]
+    public var timeInterval: String = PDStrings.PickerData.expirationIntervals[0]
+    public var quantity: Int = 4
+    public var notifications = false
+    public var notificationsMinutesBefore: Int = 0
+    public var mentionedDisclaimer = false
+    public var siteIndex = 0
+    public var theme = PDStrings.PickerData.themes[0]
 
     // MARK: - initializer
     
@@ -64,48 +45,15 @@ public class PDDefaults: NSObject {
             shared = sd
         }
         super.init()
-        loadDeliveryMethod()
-        loadTimeInterval()
-        loadQuantity()
-        loadNotificationMinutesBefore()
-        loadRemindUpon()
-        loadMentionedDisclaimer()
-        loadSiteIndex()
-        loadTheme()
-    }
-    
-    // MARK: - Getters
-    
-    public func getDeliveryMethod() -> String {
-        return deliveryMethod
-    }
-    
-    public func getTimeInterval() -> String {
-        return timeInterval
-    }
-
-    public func getQuantity() -> Int {
-        return quantity
-    }
-    
-    public func getNotificationMinutesBefore() -> Int {
-        return reminderTime
-    }
-    
-    public func notify() -> Bool {
-        return notifications
-    }
-
-    public func mentionedDisclaimer() -> Bool {
-        return mentionedAppDisclaimer
-    }
-    
-    public func getSiteIndex() -> Index {
-        return siteIndex
-    }
-    
-    public func getTheme() -> String {
-        return theme
+        self.load(&deliveryMethod, for: .DeliveryMethod)
+        self.load(&timeInterval, for: .TimeInterval) {
+            (v: String) in self.mapKeyToInterval(intervalKey: v)
+        }
+        self.load(&quantity, for: .Quantity)
+        self.load(&notifications, for: .Notifications)
+        self.load(&notificationsMinutesBefore, for: .NotificationMinutesBefore)
+        self.load(&mentionedDisclaimer, for: .MentionedDisclaimer)
+        self.load(&theme, for: .Theme)
     }
 
     // MARK: - Setters
@@ -114,15 +62,13 @@ public class PDDefaults: NSObject {
         typealias Methods = PDStrings.DeliveryMethods
         let methods = [Methods.injections, Methods.patches]
         let usingPatches = (method == PDStrings.DeliveryMethods.patches)
-        let key = PDStrings.SettingsKey.deliv.rawValue
         if methods.contains(method) {
-            self.deliveryMethod = method
-            shared?.defaults?.set(method, forKey: key)
+            self.set(&self.deliveryMethod, to: method, for: .DeliveryMethod)
             siteSchedule.usingPatches = usingPatches
             estrogenSchedule.usingPatches = usingPatches
             let setCount: () -> () = {
                 let c = usingPatches ? 3 : 1
-                self.setQuantityWithoutWarning(to: c)
+                self.set(&self.quantity, to: c, for: .Quantity, push: true)
             }
             if shouldReset {
                 siteSchedule.reset(completion: setCount)
@@ -132,12 +78,10 @@ public class PDDefaults: NSObject {
         }
     }
     
-    public func setTimeInterval(to interval: String) {
+    public func setTimeInterval(to i: String) {
         let intervals = PDStrings.PickerData.expirationIntervals
-        if intervals.contains(interval) {
-            let key = PDStrings.SettingsKey.interval.rawValue
-            timeInterval = interval
-            shared?.defaults?.set(interval, forKey: key)
+        if intervals.contains(i) {
+            self.set(&self.timeInterval, to: i, for: .TimeInterval, push: true)
         }
     }
     
@@ -156,8 +100,7 @@ public class PDDefaults: NSObject {
             if newCount < oldCount {
                 state.decreasedCount = true
                 // Erases data
-                let q = getQuantity()
-                let last_i = q - 1
+                let last_i = self.quantity - 1
                 if !estrogenSchedule.isEmpty(fromThisIndexOnward: newCount,
                                              lastIndex: last_i),
                     let alerter = alerter {
@@ -181,67 +124,41 @@ public class PDDefaults: NSObject {
         }
     }
     
-    @objc public func setQuantityWithoutWarning(to quantity: Int) {
+    @objc public func setQuantityWithoutWarning(to q: Int) {
         let oldQuantity = self.quantity
         let counts = PDStrings.PickerData.counts
         if let last = counts.last,
             let max = Int(last),
-            isAcceptable(count: quantity, max: max) {
-            self.quantity = quantity
-            let key = PDStrings.SettingsKey.count.rawValue
-            shared?.defaults?.set(quantity, forKey: key)
+            isAcceptable(count: q, max: max) {
+            self.set(&self.quantity, to: q, for: .Quantity)
             let increasing = oldQuantity < quantity
             if increasing {
                 // Fill in new estros
-                for _ in oldQuantity..<quantity {
+                for _ in oldQuantity..<q {
                     let _ = estrogenSchedule.insert()
                 }
             } else {
-                estrogenSchedule.delete(after: quantity - 1)
+                estrogenSchedule.delete(after: q - 1)
             }
         }
-    }
-    
-    public func setNotificationMinutesBefore(to minutes: Int) {
-        let key = PDStrings.SettingsKey.notif.rawValue
-        reminderTime = minutes
-        shared?.defaults?.set(minutes, forKey: key)
-    }
-    
-    public func setNotify(to notify: Bool) {
-        let key = PDStrings.SettingsKey.remind.rawValue
-        notifications = notify
-        shared?.defaults?.set(notify, forKey: key)
-    }
-
-    public func setMentionedDisclaimer(to disclaimer: Bool) {
-        let key = PDStrings.SettingsKey.setup.rawValue
-        mentionedAppDisclaimer = disclaimer
-        std_defaults.set(disclaimer, forKey: key)
     }
     
     public func setSiteIndex(to i: Index) {
         let c = siteSchedule.count()
         if i < c && i >= 0 {
-            let key = PDStrings.SettingsKey.site_index.rawValue
-            siteIndex = i
-            shared?.defaults?.set(i, forKey: key)
-            siteSchedule.next = i
+            self.set(&siteIndex, to: i, for: .SiteIndex)
         }
     }
     
-    public func setTheme(to theme: String) {
-        let key = PDStrings.SettingsKey.theme.rawValue
-        self.theme = theme
-        std_defaults.set(theme, forKey: key)
+    public func setNotificationsMinutesBefore(to v: Int) {
+        set(&notificationsMinutesBefore, to: v, for: .NotificationMinutesBefore, push: true)
     }
 
     //MARK: - Other public
     
     public func usingPatches() -> Bool {
-        let method = getDeliveryMethod()
         let patches = PDStrings.PickerData.deliveryMethods[0]
-        return method == patches
+        return self.deliveryMethod == patches
     }
 
     /// Checks to see if count is reasonable for PatchDay
@@ -249,116 +166,18 @@ public class PDDefaults: NSObject {
         return (count > 0) && (count <= max)
     }
     
-    // MARK: - loaders
+    // MARK: - Private
     
-    private func loadDeliveryMethod() {
-        let key = PDStrings.SettingsKey.deliv.rawValue
-        if let dm = shared?.defaults?.string(forKey: key){
-            deliveryMethod = dm
-        } else if let dm = std_defaults.string(forKey: key){
-            // set in the primary defaults
-            setDeliveryMethod(to: dm, shouldReset: false)
-        } else {
-            let patchMethod = PDStrings.PickerData.deliveryMethods[0]
-            setDeliveryMethod(to: patchMethod, shouldReset: false)
-        }
-    }
-    
-    private func loadTimeIntervalHelper(to interval: String) {
-        switch interval {
+    private func mapKeyToInterval(intervalKey: String) -> String {
+        switch intervalKey {
         case "One half-week":
-            timeInterval = PDStrings.PickerData.expirationIntervals[0]
+            return PDStrings.PickerData.expirationIntervals[0]
         case "One week":
-            timeInterval = PDStrings.PickerData.expirationIntervals[1]
+            return PDStrings.PickerData.expirationIntervals[1]
         case "Two weeks":
-            timeInterval = PDStrings.PickerData.expirationIntervals[2]
+            return PDStrings.PickerData.expirationIntervals[2]
         default:
-            timeInterval = interval
-        }
-    }
-    
-    private func loadTimeInterval() {
-        let key = PDStrings.SettingsKey.interval.rawValue
-        if let interval = shared?.defaults?.object(forKey: key) as? String {
-            loadTimeIntervalHelper(to: interval)
-        } else if let interval = std_defaults.object(forKey: key) as? String {
-            setTimeInterval(to: interval)
-        } else {
-            setTimeInterval(to: PDStrings.PickerData.expirationIntervals[0])
-        }
-    }
-    
-    private func loadQuantityHelper(count: Int) {
-        if count >= 1 || count <= 4 {
-            quantity = count
-        } else if let c = Int(PDStrings.PickerData.counts[2]) {
-            setQuantityWithoutWarning(to: c)
-        }
-    }
-    
-    private func loadQuantity() {
-        let key = PDStrings.SettingsKey.count.rawValue
-        if let count = shared?.defaults?.object(forKey: key) as? Int {
-            loadQuantityHelper(count: count)
-        } else if let count = std_defaults.object(forKey: key) as? Int {
-            loadQuantityHelper(count: count)
-            setQuantityWithoutWarning(to: count)
-        } else if let count = Int(PDStrings.PickerData.counts[2]) {
-            setQuantityWithoutWarning(to: count)
-        }
-    }
-    
-    private func loadNotificationMinutesBefore() {
-        let key = PDStrings.SettingsKey.notif.rawValue
-        if let notifyTime = shared?.defaults?.object(forKey: key) as? Int {
-            reminderTime = notifyTime
-        } else if let notifyTime = std_defaults.object(forKey: key) as? Int {
-            setNotificationMinutesBefore(to: notifyTime)
-        } else {
-            setNotificationMinutesBefore(to: 0)
-        }
-    }
-    
-    private func loadRemindUpon() {
-        let key = PDStrings.SettingsKey.remind.rawValue
-        if let notifyMe = shared?.defaults?.object(forKey: key) as? Bool {
-            notifications = notifyMe
-        } else if let notifyMe = std_defaults.object(forKey: key) as? Bool {
-            setNotify(to: notifyMe)
-        } else {
-            setNotify(to: true)
-        }
-    }
-
-    // Note:  non-shared.
-    private func loadMentionedDisclaimer() {
-        let key = PDStrings.SettingsKey.setup.rawValue
-        if let mentioned = std_defaults.object(forKey: key) as? Bool {
-            mentionedAppDisclaimer = mentioned
-        } else if let mentioned = shared?.defaults?.object(forKey: key) as? Bool {
-            mentionedAppDisclaimer = mentioned
-        }
-    }
-    
-    private func loadSiteIndex() {
-        let key = PDStrings.SettingsKey.site_index.rawValue
-        if let site_i = shared?.defaults?.object(forKey: key) as? Int {
-            siteIndex = site_i
-        } else if let site_i = std_defaults.object(forKey: key) as? Int {
-            setSiteIndex(to: site_i)
-        } else {
-            setSiteIndex(to: 0)
-        }
-    }
-    
-    private func loadTheme() {
-        let key = PDStrings.SettingsKey.theme.rawValue
-        if let theme = std_defaults.string(forKey: key) {
-            self.theme = theme
-        } else if let theme = shared?.defaults?.string(forKey: key) {
-            self.theme = theme
-        } else {
-            setTheme(to: theme)
+            return intervalKey
         }
     }
 }

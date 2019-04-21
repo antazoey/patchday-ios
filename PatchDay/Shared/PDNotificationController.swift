@@ -54,7 +54,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Resends all the estrogen notifications.
     public func resendAllEstrogenNotifications() {
-        let i = Defaults.getQuantity()
+        let i = Defaults.quantity
         resendEstrogenNotifications(upToRemove: i, upToAdd: i)
     }
     
@@ -135,7 +135,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Cancels all the estrogen notifications.
     internal func cancelAllEstrogenNotifications() {
-        let end = Defaults.getQuantity() - 1
+        let end = Defaults.quantity - 1
         cancelEstrogenNotifications(from: 0, to: end)
     }
     
@@ -152,12 +152,13 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request an Estrogen notification.
     internal func requestEstrogenExpiredNotification(for estro: MOEstrogen) {
-        let interval = Defaults.getTimeInterval()
         let usingPatches = Defaults.usingPatches()
-        let notifyTime = Double(Defaults.getNotificationMinutesBefore())
+        let interval = Defaults.timeInterval
+        let notify = Defaults.notifications
+        let notifyTime = Double(Defaults.notificationsMinutesBefore)
 
         if sendingNotifications,
-            Defaults.notify(),
+            notify,
             let date = estro.getDate(),
             var timeIntervalUntilExpire = PDDateHelper.expirationInterval(interval,
                                                                           date: date as Date) {
@@ -230,7 +231,8 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         let now = Date()
         if let dueDate = pill.due(), now < dueDate {
             let content = UNMutableNotificationContent()
-            let totalDue = Schedule.totalDue(interval: Defaults.getTimeInterval())
+            let timeInterval = Defaults.timeInterval
+            let totalDue = Schedule.totalDue(interval: timeInterval)
             content.title = PDStrings.NotificationStrings.Titles.takePill
             if let name = pill.getName() {
                 content.title += name
@@ -262,8 +264,10 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     /// Returns the title for an estrogen notification.
     private func determineEstrogenNotificationTitle(usingPatches: Bool,
                                                     notifyTime: Double) -> String {
-        let options = (usingPatches) ? [PDStrings.NotificationStrings.Titles.patchExpired, PDStrings.NotificationStrings.Titles.patchExpires] :
-            [PDStrings.NotificationStrings.Titles.injectionExpired, PDStrings.NotificationStrings.Titles.injectionExpires]
+        let options = (usingPatches) ? [PDStrings.NotificationStrings.Titles.patchExpired,
+                                        PDStrings.NotificationStrings.Titles.patchExpires] :
+                                        [PDStrings.NotificationStrings.Titles.injectionExpired,
+                                         PDStrings.NotificationStrings.Titles.injectionExpires]
         return (notifyTime == 0) ? options[0] : options[1]
     }
     
@@ -292,7 +296,9 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Create action for changing Estrogen from the notification.
     private func makeChangeAction() -> UNNotificationAction {
-        return UNNotificationAction(identifier: estroActionId, title: PDStrings.NotificationStrings.actionMessages.autofill, options: [])
+        return UNNotificationAction(identifier: estroActionId,
+                                    title: PDStrings.NotificationStrings.actionMessages.autofill,
+                                    options: [])
     }
     
     /// Create the category for Estrogen notifications.

@@ -463,17 +463,6 @@ public class PDStrings: NSObject {
     }
     
     // MARK: - User default keys
-    public enum SettingsKey: String {
-        case deliv = "delivMethod"
-        case interval = "patchChangeInterval"
-        case count = "numberOfPatches"
-        case notif = "notification"
-        case remind = "remindMeUpon"
-        case setup = "mentioned"
-        case site_index = "site_i"
-        case needs_migrate = "nmig"
-        case theme = "theme"
-    }
     
     public enum TodayKey: String {
         case nextEstroSiteName = "nextEstroSiteName"

@@ -99,7 +99,7 @@ class EstrogenVC: UIViewController,
        4.) Segue back to the EstrogensVC
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
-        let interval = Defaults.getTimeInterval()
+        let interval = Defaults.timeInterval
         if let estro = estrogen {
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
             saveData()    // Save
@@ -289,7 +289,7 @@ class EstrogenVC: UIViewController,
         doneButton.removeFromSuperview()
         datePickerInputView.isHidden = true
         dateSelected = datePicker.date
-        let interval = Defaults.getTimeInterval()
+        let interval = Defaults.timeInterval
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControl.State.normal)
         if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {
@@ -317,13 +317,12 @@ class EstrogenVC: UIViewController,
             selectSiteTextField.text = n
         }
         if let date = estrogen.getDate() {
-            let interval = Defaults.getTimeInterval()
+            let interval = Defaults.timeInterval
             datePlaced = date as Date
             let formattedDate = PDDateHelper.format(date: date as Date,
                                                     useWords: true)
             chooseDateButton.setTitle(formattedDate, for: .normal)
-            expirationDateLabel.text = estrogen.expirationDateAsString(interval,
-                                                                       useWords: true)
+            expirationDateLabel.text = estrogen.expirationDateAsString(interval, useWords: true)
         } else {
             chooseDateButton.setTitle(PDStrings.ActionStrings.select, for: .normal)
         }
@@ -350,8 +349,7 @@ class EstrogenVC: UIViewController,
                                          setSharedData: setter)
             // Use backupsite name when there is no site.
             case (nil, let name) where name != nil :
-                EstrogenScheduleRef.setBackUpSiteName(of: estrogenScheduleIndex,
-                                                   with: name!)
+                EstrogenScheduleRef.setBackUpSiteName(of: estrogenScheduleIndex, with: name!)
             default : break
             }
         }
@@ -392,7 +390,7 @@ class EstrogenVC: UIViewController,
     
     private func autoPickDate() {
         let now = Date()
-        let interval = Defaults.getTimeInterval()
+        let interval = Defaults.timeInterval
         chooseDateButton.setTitle(PDDateHelper.format(date: now, useWords: true), for: .normal)
         if let expDate = PDDateHelper.expirationDate(from: now, interval) {
             expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
@@ -406,7 +404,7 @@ class EstrogenVC: UIViewController,
             let notCon = appDelegate.notificationsController
             notCon.requestEstrogenExpiredNotification(for: estro)
             // Overnight
-            let interval = Defaults.getTimeInterval()
+            let interval = Defaults.timeInterval
             if let expDate = estro.expirationDate(interval: interval),
                 expDate.isOvernight() {
                 notCon.requestOvernightNotification(estro, expDate: expDate)
@@ -439,7 +437,7 @@ class EstrogenVC: UIViewController,
     private func setUpLabelsInUI() {
         var exp = ""
         typealias Strings = PDStrings.ColonedStrings
-        let interval = Defaults.getTimeInterval()
+        let interval = Defaults.timeInterval
         if let estro = EstrogenScheduleRef.getEstrogen(at: estrogenScheduleIndex),
             estro.getDate() != nil {
             switch Defaults.usingPatches() {

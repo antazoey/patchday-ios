@@ -11,7 +11,6 @@ import PDKit
 import PatchData
 
 typealias UITimePicker = UIDatePicker
-typealias SettingsKey = PDStrings.SettingsKey
 
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -52,7 +51,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var reminderTimeSlider: UISlider!
     
     // Trackers
-    private var whichTapped: SettingsKey?
+    private var whichTapped: PDDefaults.PDDefault?
     private var selectedRow: Int?
     
     override func viewDidLoad() {
@@ -76,7 +75,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        State.oldDeliveryCount = Defaults.getQuantity()
+        State.oldDeliveryCount = Defaults.quantity
     }
     
     // MARK: - Actions
@@ -84,29 +83,29 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func reminderTimeValueChanged(_ sender: Any) {
         let v = Int(reminderTimeSlider.value.rounded())
         reminderTimeSettingsLabel.text = String(v)
-        Defaults.setNotificationMinutesBefore(to: v)
+        Defaults.setNotificationsMinutesBefore(to: v)
         appDelegate.notificationsController.resendAllEstrogenNotifications()
         
     }
     
     @IBAction private func reminderTimeTapped(_ sender: Any) {
-        preparePicker(key: PDStrings.SettingsKey.notif)
+        preparePicker(key: .Notifications)
     }
     
     @IBAction func deliveryMethodButtonTapped(_ sender: Any) {
-        preparePicker(key: PDStrings.SettingsKey.deliv)
+        preparePicker(key: .DeliveryMethod)
     }
     
     @IBAction private func intervalButtonTapped(_ sender: Any) {
-        preparePicker(key: PDStrings.SettingsKey.interval)
+        preparePicker(key: .TimeInterval)
     }
     
     @IBAction private func countButtonTapped(_ sender: Any) {
-        preparePicker(key: PDStrings.SettingsKey.count)
+        preparePicker(key: .Quantity)
     }
     
     @IBAction private func themeButtonTapped(_ sender: Any) {
-        preparePicker(key: PDStrings.SettingsKey.theme)
+        preparePicker(key: .Theme)
     }
     
     @IBAction func receiveReminder_switched(_ sender: Any) {
@@ -116,14 +115,15 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         } else {
             disableNotificationButtons()
         }
-        Defaults.setNotify(to: shouldReceive)       // save
+        Defaults.set(&Defaults.notifications, to: shouldReceive, for: .Notifications, push: true)
     }
     
     // MARK: - Public
     
     /// Resets the title of the Estrogens tab bar item to either "Patches" or "Injections".
     public func resetEstrogensVCTabBarItem() {
-        let v = Schedule.totalDue(interval: Defaults.getTimeInterval())
+        let interval = Defaults.timeInterval
+        let v = Schedule.totalDue(interval: interval)
         // Estrogen icon
         if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
             vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil
@@ -143,36 +143,36 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Data loaders
     
     private func loadDeliveryMethod() {
-        deliveryMethodButton.setTitle(Defaults.getDeliveryMethod(),
-                                      for: .normal)
+        let deliv = Defaults.deliveryMethod
+        deliveryMethodButton.setTitle(deliv, for: .normal)
     }
     
     private func loadInterval() {
-        intervalButton.setTitle(Defaults.getTimeInterval(),
-                                for: .normal)
+        let interval = Defaults.timeInterval
+        intervalButton.setTitle(interval, for: .normal)
     }
     
     private func loadCount() {
-        let count = Defaults.getQuantity()
-        countButton.setTitle("\(count)", for: .normal)
+        let q = Defaults.quantity
+        countButton.setTitle("\(q)", for: .normal)
         if !Defaults.usingPatches() {
             countButton.isEnabled = false
             countArrowButton.isEnabled = false
-            if Defaults.getQuantity() != 1 {
+            if q != 1 {
                 Defaults.setQuantityWithoutWarning(to: 1)
             }
         }
     }
 
     private func loadReminder_bool() {
-        receiveReminderSwitch.setOn(Defaults.notify(), animated: false)
+        receiveReminderSwitch.setOn(Defaults.notifications, animated: false)
     }
     
     private func loadRemindMinutes() {
         if receiveReminderSwitch.isOn {
-            let v = Defaults.getNotificationMinutesBefore()
-            reminderTimeSlider.value = Float(v)
-            reminderTimeSettingsLabel.text = String(v)
+            let min = Defaults.notificationsMinutesBefore
+            reminderTimeSlider.value = Float(min)
+            reminderTimeSettingsLabel.text = String(min)
             reminderTimeSettingsLabel.textColor = UIColor.black
         } else {
             reminderTimeSettingsLabel.textColor = UIColor.lightGray
@@ -180,7 +180,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadTheme() {
-        themeButton.setTitle(Defaults.getTheme(), for: .normal)
+        themeButton.setTitle(Defaults.theme, for: .normal)
     }
 
     // MARK: - Picker Functions
@@ -212,13 +212,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let count = getPickerCount(from: key)
             if row < count && row >= 0 {
                 switch key {
-                case PDStrings.SettingsKey.deliv :
+                case .DeliveryMethod :
                     title = PDStrings.PickerData.deliveryMethods[row]
-                case PDStrings.SettingsKey.interval :
+                case .TimeInterval :
                     title = PDStrings.PickerData.expirationIntervals[row]
-                case PDStrings.SettingsKey.count :
+                case .Quantity :
                     title = PDStrings.PickerData.counts[row]
-                case PDStrings.SettingsKey.theme :
+                case .Theme :
                     title = PDStrings.PickerData.themes[row]
                 default:
                     print("Error:  Improper context for loading PickerView")
@@ -239,40 +239,45 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      // -- hides everything that is not that picker
      
      // key is either "interval" , "count" , "notifications" */
-    private func preparePicker(key: SettingsKey) {
+    private func preparePicker(key: PDDefaults.PDDefault) {
+        var picker: UIPickerView?
+        var deselectException: String?
+        var button: UIButton?
+        var selections: [String]?
+        
         setWhichTapped(to: key)
         switch key {
-        case PDStrings.SettingsKey.deliv:                // DELIVERY METHOD
-            deliveryMethodPicker.reloadAllComponents()
-            deselectEverything(except: "dm")
-            openOrClose(picker: deliveryMethodPicker,
-                        buttonTapped: deliveryMethodButton,
-                        selections: PDStrings.PickerData.deliveryMethods,
-                        key: key)
-        case PDStrings.SettingsKey.interval:                      // INTERVAL
+        case .DeliveryMethod:
+            picker = deliveryMethodPicker
+            deselectException = "dm"
+            button = deliveryMethodButton
+            selections = PDStrings.PickerData.deliveryMethods
+        case .TimeInterval:
+            picker = expirationIntervalPicker
+            deselectException = "i"
+            button = intervalButton
+            selections = PDStrings.PickerData.expirationIntervals
             expirationIntervalPicker.reloadAllComponents()
             deselectEverything(except: "i")
-            openOrClose(picker: expirationIntervalPicker,
-                        buttonTapped: intervalButton,
-                        selections: PDStrings.PickerData.expirationIntervals,
-                        key: key)
-        case PDStrings.SettingsKey.count:                         // COUNT
-            countPicker.reloadAllComponents()
-            deselectEverything(except: "c")
-            openOrClose(picker: countPicker,
-                        buttonTapped: countButton,
-                        selections: PDStrings.PickerData.counts,
-                        key: key)
-        case PDStrings.SettingsKey.theme:
-            themePicker.reloadAllComponents()
-            deselectEverything(except: "t")
-            openOrClose(picker: themePicker,
-                        buttonTapped: themeButton,
-                        selections: PDStrings.PickerData.themes,
-                        key: key)
+        case .Quantity:
+            picker = countPicker
+            deselectException = "c"
+            button = countButton
+            selections = PDStrings.PickerData.counts
+        case .Theme:
+            picker = themePicker
+            deselectException = "t"
+            button = themeButton
+            selections = PDStrings.PickerData.themes
         default:
             print("Error: Improper context for loading UIPicker.")
+            return
         }
+        
+        let p = picker!
+        p.reloadAllComponents()
+        deselectEverything(except: deselectException!)
+        openOrClose(picker: p, buttonTapped: button!, selections: selections!, key: key)
     }
     
     private func openPicker(_ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView) {
@@ -293,12 +298,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
        And for count, set global variable necessary for animation,
        And close the picker,
        Then, save newly set User Defaults */
-    private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView,_ key: SettingsKey) {
+    private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView,_ key: PDDefaults.PDDefault) {
         buttonTapped.isSelected = false
         picker.isHidden = true
         switch key {
-        case PDStrings.SettingsKey.count :
-            State.oldDeliveryCount = Defaults.getQuantity()
+        case .Quantity :
+            State.oldDeliveryCount = Defaults.quantity
         default :
             break
         }
@@ -309,7 +314,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func openOrClose(picker: UIPickerView,
                              buttonTapped: UIButton,
                              selections: [String],
-                             key: SettingsKey) {
+                             key: PDDefaults.PDDefault) {
         if picker.isHidden == false {
             closePicker(buttonTapped, picker, key)
         } else {
@@ -321,17 +326,17 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Saving
     
     /// Saves values from pickers (NOT a function for TimePickers though).
-    private func saveFromPicker(_ key: SettingsKey) {
+    private func saveFromPicker(_ key: PDDefaults.PDDefault) {
         if let row = selectedRow {
-            let oldHighest = Defaults.getQuantity() - 1
+            let oldHighest = Defaults.quantity - 1
             switch key {
-            case PDStrings.SettingsKey.deliv :
+            case .DeliveryMethod :
                 saveDeliveryMethodChange(row)
-            case PDStrings.SettingsKey.count :
+            case .Quantity :
                 saveCountChange(row)
-            case PDStrings.SettingsKey.interval :
+            case .TimeInterval :
                 saveIntervalChange(row)
-            case PDStrings.SettingsKey.theme :
+            case .Theme :
                 saveThemeChange(row)
             default:
                 print("Error: Improper context when saving details from picker")
@@ -381,7 +386,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveThemeChange(_ row: Int) {
         if row < PDStrings.PickerData.themes.count && row >= 0 {
             let choice = PDStrings.PickerData.themes[row]
-            Defaults.setTheme(to: choice)
+            Defaults.set(&Defaults.theme, to: choice, for: .Theme, push: true)
             appDelegate.resetTheme()
             navigationController?.navigationBar.barTintColor = appDelegate.themeManager.navbar_c
             navigationController?.navigationBar.tintColor = appDelegate.themeManager.button_c
@@ -395,11 +400,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - Setters and getters
     
-    private func setWhichTapped(to: SettingsKey?) {
+    private func setWhichTapped(to: PDDefaults.PDDefault?) {
         whichTapped = to
     }
     
-    private func getWhichTapped() -> SettingsKey? {
+    private func getWhichTapped() -> PDDefaults.PDDefault? {
         return whichTapped
     }
     
@@ -421,7 +426,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         reminderTimeSlider.isEnabled = false
         reminderTimeSettingsLabel.textColor = UIColor.lightGray
         reminderTimeSettingsLabel.text = "0"
-        Defaults.setNotificationMinutesBefore(to: 0)
+        Defaults.setNotificationsMinutesBefore(to: 0)
         reminderTimeSlider.value = 0
     }
     
@@ -462,15 +467,15 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func getPickerCount(from key: SettingsKey) -> Int {
+    private func getPickerCount(from key: PDDefaults.PDDefault) -> Int {
         switch (key) {
-        case PDStrings.SettingsKey.deliv :
+        case .DeliveryMethod :
             return PDStrings.PickerData.deliveryMethods.count
-        case PDStrings.SettingsKey.interval :
+        case .TimeInterval :
             return PDStrings.PickerData.expirationIntervals.count
-        case PDStrings.SettingsKey.count :
+        case .Quantity :
             return PDStrings.PickerData.counts.count
-        case PDStrings.SettingsKey.theme :
+        case .Theme :
             return PDStrings.PickerData.themes.count
         default:
             return 0
@@ -506,8 +511,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func alertForChangingDeliveryMethod(choice: String) {
         PDAlertController.alertForChangingDeliveryMethod(newMethod: choice,
-                                                         oldMethod: Defaults.getDeliveryMethod(),
-                                                         oldCount: Defaults.getQuantity(),
+                                                         oldMethod: Defaults.deliveryMethod,
+                                                         oldCount: Defaults.quantity,
                                                          deliveryButton: deliveryMethodButton,
                                                          countButton: countButton,
                                                          settingsVC: self)
@@ -516,7 +521,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func setTabBadge() {
         let tabController = self.navigationController?.tabBarController
         if let vcs = tabController?.viewControllers, vcs.count > 0 {
-            let interval = Defaults.getTimeInterval()
+            let interval = Defaults.timeInterval
             let c = EstrogenScheduleRef.totalDue(interval)
             let item = vcs[0].navigationController?.tabBarItem
             item?.badgeValue = (c > 0) ? "\(c)" : nil
@@ -541,9 +546,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func resendNotifications(oldHighest: Int) {
-        let newHighest = Defaults.getQuantity() - 1
-        appDelegate.notificationsController.resendEstrogenNotifications(upToRemove: oldHighest,
-                                                                        upToAdd: newHighest)
+        let q = Defaults.quantity
+        let newHighest = q - 1
+        let notCon = appDelegate.notificationsController
+        notCon.resendEstrogenNotifications(upToRemove: oldHighest, upToAdd: newHighest)
     }
     
     private func cancelNotifications(newCount: Int, oldCount: Int) {

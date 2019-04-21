@@ -25,7 +25,7 @@ public class PDSharedDataController: NSObject {
     // MARK: - Public
 
     public static func usingPatches() -> Bool {
-        let key = PDStrings.SettingsKey.deliv.rawValue
+        let key = "delivMethod"
         if let delivMethod = defaults?.string(forKey: key) {
             return delivMethod == PDStrings.DeliveryMethods.patches
         }

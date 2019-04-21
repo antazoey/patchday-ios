@@ -47,31 +47,20 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             topConstraint.constant = 100
         }
         nameText.autocapitalizationType = .words
-        navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: PDStrings.ActionStrings.save,
-                            style: .plain,
-                            target: self,
-                            action: #selector(saveButtonTapped(_:)))
+        loadSave()
         disableSave()
         nameText.borderStyle = .none
         nameText.delegate = self
         namePicker.delegate = self
         namePicker.isHidden = true
-        if let site = SiteScheduleRef.getSite(at: siteScheduleIndex) {
-            imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
-                                                          and: siteImage,
-                                                          saveButton: navigationItem.rightBarButtonItem!,
-                                                          selectedSite: site,
-                                                          usingPatches: Defaults.usingPatches())
-        }
-        imagePicker.delegate = imagePickerDelegate
-        imagePicker.dataSource = imagePickerDelegate
+        loadImagePickeR()
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         loadTitle()
         loadImage()
         typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
         verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
         nameText.restorationIdentifier = "select"
+        applyTheme()
     }
     
     public func setSiteScheduleIndex(to index: Int) {
@@ -213,9 +202,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     internal func pickerView(_ pickerView: UIPickerView,
-                             titleForRow row: Int,
-                             forComponent component: Int) -> String? {
-        return namePickerSet[row]
+                             attributedTitleForRow row: Int,
+                             forComponent component: Int) -> NSAttributedString? {
+        let attrs = [NSAttributedString.Key.foregroundColor : appDelegate.themeManager.text_c]
+        let n = namePickerSet[row]
+        let attributedString = NSAttributedString(string: n, attributes: attrs)
+        return attributedString
     }
  
     internal func pickerView(_ pickerView: UIPickerView,
@@ -298,11 +290,37 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
     }
     
+    private func loadImagePickeR() {
+        if let site = SiteScheduleRef.getSite(at: siteScheduleIndex) {
+            imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
+                                                          and: siteImage,
+                                                          saveButton: navigationItem.rightBarButtonItem!,
+                                                          selectedSite: site,
+                                                          usingPatches: Defaults.usingPatches())
+        }
+        imagePicker.delegate = imagePickerDelegate
+        imagePicker.dataSource = imagePickerDelegate
+    }
+    
+    private func loadSave() {
+        navigationItem.rightBarButtonItem =
+            UIBarButtonItem(title: PDStrings.ActionStrings.save,
+                            style: .plain,
+                            target: self,
+                            action: #selector(saveButtonTapped(_:)))
+    }
+    
     private func enableSave() {
         navigationItem.rightBarButtonItem?.isEnabled = true
     }
     
     private func disableSave() {
         navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
+    private func applyTheme() {
+        view.backgroundColor = appDelegate.themeManager.bg_c
+        typeNameButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
+        nameText.textColor = appDelegate.themeManager.text_c
     }
 }

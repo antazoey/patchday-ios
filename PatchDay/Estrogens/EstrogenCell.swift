@@ -21,11 +21,11 @@ class EstrogenCell: UITableViewCell {
     public func load() {
         let theme = appDelegate.themeManager.theme
         backgroundColor = appDelegate.themeManager.bg_c
-        let q = Defaults.getQuantity()
+        let q = Defaults.quantity
         setThemeColors(at: index)
         switch (index) {
         case 0..<q :
-            let interval = Defaults.getTimeInterval()
+            let interval = Defaults.timeInterval
             let usingPatches = Defaults.usingPatches()
             if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)
@@ -115,11 +115,12 @@ class EstrogenCell: UITableViewCell {
     }
     
     private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
+        let changes = Schedule.state
+        let q = Defaults.quantity
         var sortFromEstrogenDateChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false
-        let changes = Schedule.state
-        if index < Defaults.getQuantity() {
+        if index < q {
             if let _ = estro?.hasDate() {
                 // An estrogen date changed and they are flipping
                 sortFromEstrogenDateChange =
@@ -135,8 +136,7 @@ class EstrogenCell: UITableViewCell {
         }
         // Is exiting the schedule.
         let decreased = changes.decreasedCount
-        let count = Defaults.getQuantity()
-        let isGreaterThanNewCount = index >= count
+        let isGreaterThanNewCount = index >= q
         isGone = decreased && isGreaterThanNewCount
         return (
             sortFromEstrogenDateChange

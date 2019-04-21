@@ -8,7 +8,6 @@
 
 import Foundation
 import PDKit
-
 public struct PillAttributes {
     
     public var description: String {

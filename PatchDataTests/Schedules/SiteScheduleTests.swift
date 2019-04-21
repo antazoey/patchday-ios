@@ -28,7 +28,7 @@ class SiteScheduleTests: XCTestCase {
                               state: PDState(),
                               sharedData: nil,
                               alerter: nil)
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
         // Load estrogens to occupy the sites
         estrogenSchedule.setSite(of: 0,
                                  with: siteSchedule.getSite(at: 0)!,
@@ -47,7 +47,8 @@ class SiteScheduleTests: XCTestCase {
     
     func testInit() {
         XCTAssertEqual(estrogenSchedule.count(), 3)
-        XCTAssertEqual(defaults.getDeliveryMethod(), "Patches")
+        let deliv = defaults.deliveryMethod
+        XCTAssertEqual(deliv, "Patches")
         var i = 0
         for estro in estrogenSchedule.estrogens {
             if let actual = estro.getSite(),
@@ -178,11 +179,9 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testSetImageId() {
-        // Fails to set image id when it is not a default Site Name
-        let curr_id = siteSchedule.sites[0].getImageIdentifer()
+        let expected = "custom"
         siteSchedule.setImageId(at: 0, to: "BAD Id", usingPatches: true)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
-            let expected = curr_id
             XCTAssertEqual(actual, expected)
         } else {
             XCTFail()

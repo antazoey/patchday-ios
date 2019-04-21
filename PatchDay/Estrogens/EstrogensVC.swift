@@ -47,7 +47,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         // Alert for disclaimer and tutorial on first start up
         if appDelegate.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
-            Defaults.setMentionedDisclaimer(to: true)
+            Defaults.set(&Defaults.mentionedDisclaimer, to: true, for: .MentionedDisclaimer)
         }
         title = Defaults.usingPatches() ?
             PDStrings.VCTitles.patches :
@@ -81,7 +81,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < Defaults.getQuantity() {
+        if indexPath.row < Defaults.quantity {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -134,7 +134,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let interval = Defaults.getTimeInterval()
+        let interval = Defaults.timeInterval
         let estroDueCount = Schedule.estrogenSchedule.totalDue(interval)
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
