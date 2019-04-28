@@ -18,58 +18,84 @@ public class PDImages: NSObject {
     
     // Blank
     public static let addPatch: UIImage = { return UIImage(named: "Add Patch") }()!
-    public static let addPatchDark: UIImage = { return UIImage(named: "Add Patch Dark") }()!
-    public static var addInjection: UIImage = { return #imageLiteral(resourceName: "Add Injection")}()
+    public static let addPatch_d: UIImage = { return UIImage(named: "Add Patch Dark")! }()
+    public static var addInjection: UIImage = { return UIImage(named: "Add Injection")! }()
+    public static var addInjection_d: UIImage = { return UIImage(named: "Add Injection Dark")! }()
     
     // Patch site images
-    public static let rGlute_p: UIImage = { return UIImage(named: "Right Glute") }()!
-    public static let rGlute_p_dark: UIImage = { return UIImage(named: "Right Glute Dark")}()!
-    
-    public static let lGlute_p: UIImage = { return UIImage(named: "Left Glute") }()!
-    public static let lGlute_p_dark: UIImage = { return UIImage(named: "Left Glute Dark") }()!
-    
-    public static let rAbdomen_p: UIImage = { return UIImage(named: "Right Abdomen") }()!
-    public static let rAbdomen_p_dark: UIImage = { return UIImage(named: "Right Abdomen Dark") }()!
-    
-    public static let lAbdomen_p: UIImage = { return UIImage(named: "Left Abdomen") }()!
-    public static let lAbdomen_p_dark: UIImage = { return UIImage(named: "Left Abdomen Dark") }()!
-    
-    // Custom patch
-    public static let custom_p: UIImage = { return #imageLiteral(resourceName: "Custom Patch") }()
-    public static let custom_i: UIImage = { return #imageLiteral(resourceName: "Custom Injection") }()
+    public static let rGlute_p: UIImage = { return UIImage(named: "Right Glute")! }()
+    public static let rGlute_p_d: UIImage = { return UIImage(named: "Right Glute Dark")! }()
+    public static let lGlute_p: UIImage = { return UIImage(named: "Left Glute")! }()
+    public static let lGlute_p_d: UIImage = { return UIImage(named: "Left Glute Dark")! }()
+    public static let rAbdomen_p: UIImage = { return UIImage(named: "Right Abdomen")! }()
+    public static let rAbdomen_p_d: UIImage = { return UIImage(named: "Right Abdomen Dark")! }()
+    public static let lAbdomen_p: UIImage = { return UIImage(named: "Left Abdomen")! }()
+    public static let lAbdomen_p_d: UIImage = { return UIImage(named: "Left Abdomen Dark")! }()
+    public static let custom_p: UIImage = { return UIImage(named: "Custom Patch")! }()
+    public static let custom_p_d: UIImage = { return UIImage(named: "Custom Patch Darl")! }()
     
     // Injection site images
-    public static let lQuad_i: UIImage = { return #imageLiteral(resourceName: "Left Quad")}()
-    public static let rQuad_i: UIImage = { return #imageLiteral(resourceName: "Right Quad")}()
-    public static let lGlute_i: UIImage = { return #imageLiteral(resourceName: "Left Injection Glute")}()
-    public static let rGlute_i: UIImage = { return #imageLiteral(resourceName: "Right Injection Glute") }()
-    public static let lDelt_i: UIImage = { return #imageLiteral(resourceName: "Left Delt") }()
-    public static let rDelt_i: UIImage = { return #imageLiteral(resourceName: "Right Delt") }()
+    public static let lQuad_i: UIImage = { return UIImage(named: "Left Quad")! }()
+    public static let lQuad_i_d: UIImage = { return UIImage(named: "Left Quad Dark")! }()
+    public static let rQuad_i: UIImage = { return UIImage(named: "Right Quad")! }()
+    public static let rQuad_i_d: UIImage = { return UIImage(named: "Right Quad Dark")! }()
+    public static let lGlute_i: UIImage = { return UIImage(named: "Left Injection Glute")! }()
+    public static let lGlute_i_d: UIImage = { return UIImage(named: "Left Injection Glute Dark")! }()
+    public static let rGlute_i: UIImage = { return UIImage(named: "Right Injection Glute")! }()
+    public static let rGlute_i_d: UIImage = { return UIImage(named: "Right Injection Glute Dark")! }()
+    public static let lDelt_i: UIImage = { return UIImage(named: "Left Delt")! } ()
+    public static let lDelt_i_d: UIImage = { return UIImage(named: "Left Delt Dark")! } ()
+    public static let rDelt_i: UIImage = { return UIImage(named: "Right Delt")! }()
+    public static let rDelt_i_d: UIImage = { return UIImage(named: "Right Delt Dark")! }()
+    public static let custom_i: UIImage = { return UIImage(named: "Custom Injection")! }()
+    public static let custom_i_d: UIImage = { return UIImage(named: "Custom Injection Dark")! }()
     
     // Pills
     public static let pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
     
-    // Estrogen arrays
-    public static let patchImages: [UIImage] =
-        { return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p] }()
-    public static let injectionImages: [UIImage] = {
-        return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i]
-    }()
+    public static func siteImages(theme: PDDefaults.PDTheme,
+                                  deliveryMethod: PDDefaults.DeliveryMethod) -> [UIImage] {
+        switch (theme, deliveryMethod) {
+        case (.Light, .Patches):
+            return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p]
+        case (.Dark, .Patches):
+            return [rGlute_p_d, lGlute_p_d, rAbdomen_p_d, lAbdomen_p_d, custom_p_d]
+        case (.Light, .Injections):
+            return [rQuad_i, lQuad_i, lGlute_i, rGlute_i, lDelt_i, rDelt_i, custom_i]
+        case (.Dark, .Injections):
+            return [rQuad_i_d, lQuad_i_d, lGlute_i_d, rGlute_i_d, lDelt_i_d, rDelt_i_d, custom_i_d]
+        }
+    }
+    
+    public static func custom(theme: PDDefaults.PDTheme,
+                              deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+        switch (theme, deliveryMethod) {
+        case (.Light, .Patches):
+            return custom_p
+        case (.Dark, .Patches):
+            return custom_p_d
+        case (.Light, .Injections):
+            return custom_i
+        case (.Dark, .Injections):
+            return custom_i_d
+        }
+    }
     
     // -------------------------------------------------------------------------------
     
     // MARK: - Functions
     
-    public static func newSiteImage(theme: PDTheme, usingPatches: Bool) -> UIImage {
-        switch (theme, usingPatches) {
-        case (.Dark, true):
-            return addPatchDark
-        case(.Light, true):
+    public static func newSiteImage(theme: PDDefaults.PDTheme,
+                                    deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+        switch (theme, deliveryMethod) {
+        case (.Dark, .Patches):
+            return addPatch_d
+        case(.Light, .Patches):
             return addPatch
-        case (.Dark, false):
+        case (.Light, .Injections):
             return addInjection
-        default:
-            return UIImage();
+        case (.Dark, .Injections):
+            return addInjection_d
         }
     }
     
@@ -78,61 +104,41 @@ public class PDImages: NSObject {
     }
     
     /// Coverts SiteName a.k.a String to corresponding patch image.
-    public static func siteNameToPatchImage(_ siteName: SiteName, theme: PDTheme) -> UIImage {
-        var r: UIImage = addPatch
-        let stringToImageDict = getStringToImageDict(theme: theme)
+    public static func siteNameToImage(_ siteName: SiteName,
+                                       theme: PDDefaults.PDTheme,
+                                       deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+        let stringToImageDict = getStringToImageDict(theme: theme, deliveryMethod: deliveryMethod)
         let siteNames = PDStrings.SiteNames.patchSiteNames
         if (siteNames.contains(siteName)) {
-            r = stringToImageDict[siteName]!
+            return stringToImageDict[siteName]!
         } else if siteName != PDStrings.PlaceholderStrings.unplaced {
-            r = custom_p
+            return custom(theme: theme, deliveryMethod: deliveryMethod)
         }
-        return r
+        return newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
     }
     
     /// Converts patch image to SiteName a.k.a String
-    public static func patchImageToSiteName(_ image: UIImage) -> String {
+    public static func imageToSiteName(_ image: UIImage) -> String {
         let imageToStringDict = [rGlute_p : PDStrings.SiteNames.rightGlute,
+                                 rGlute_p_d : PDStrings.SiteNames.rightGlute,
                                  lGlute_p : PDStrings.SiteNames.leftGlute,
+                                 lGlute_p_d : PDStrings.SiteNames.leftGlute,
                                  rAbdomen_p : PDStrings.SiteNames.rightAbdomen,
-                                 lAbdomen_p : PDStrings.SiteNames.leftAbdomen]
-        if let name = imageToStringDict[image] {
-            return name
-        } else {
-            return PDStrings.PlaceholderStrings.new_site
-        }
-    }
-    
-    /// Converts SiteName a.k.a String to injection image.
-    public static func siteNameToInjectionImage(_ siteName: String) -> UIImage {
-        var r: UIImage = addInjection
-        typealias Names = PDStrings.SiteNames
-        let unplaced = PDStrings.PlaceholderStrings.unplaced
-        let stringToImageDict = [unplaced : addInjection,
-                                 Names.rightQuad : rQuad_i,
-                                 Names.leftQuad : lQuad_i,
-                                 Names.rightGlute : rGlute_i,
-                                 Names.leftGlute : lGlute_i,
-                                 Names.rightDelt : rDelt_i,
-                                 Names.leftDelt : lDelt_i]
-        let siteNames = Names.injectionSiteNames
-        if (siteNames.contains(siteName)) {
-            r = stringToImageDict[siteName]!
-        } else if siteName != unplaced {
-            r = custom_i
-        }
-        return r
-    }
-    
-    /// Convert injection image to SiteName a.k. String.
-    public static func injectionImageToSiteName(_ image: UIImage) -> String {
-        typealias Names = PDStrings.SiteNames
-        let imageToStringDict = [rQuad_i : Names.rightQuad,
-                                 lQuad_i : Names.leftQuad,
-                                 rGlute_i : Names.rightGlute,
-                                 lGlute_i : Names.leftGlute,
-                                 rDelt_i : Names.rightDelt,
-                                 lDelt_i : Names.leftDelt]
+                                 rAbdomen_p_d : PDStrings.SiteNames.rightAbdomen,
+                                 lAbdomen_p : PDStrings.SiteNames.leftAbdomen,
+                                 lAbdomen_p_d : PDStrings.SiteNames.leftAbdomen,
+                                 rGlute_i : PDStrings.SiteNames.rightGlute,
+                                 rGlute_i_d : PDStrings.SiteNames.rightGlute,
+                                 lGlute_i : PDStrings.SiteNames.leftGlute,
+                                 lGlute_i_d : PDStrings.SiteNames.leftGlute,
+                                 rQuad_i : PDStrings.SiteNames.rightQuad,
+                                 rQuad_i_d : PDStrings.SiteNames.rightQuad,
+                                 lQuad_i : PDStrings.SiteNames.leftQuad,
+                                 lQuad_i_d : PDStrings.SiteNames.leftQuad,
+                                 rDelt_i : PDStrings.SiteNames.rightDelt,
+                                 rDelt_i_d : PDStrings.SiteNames.rightDelt,
+                                 lDelt_i : PDStrings.SiteNames.leftDelt,
+                                 lDelt_i_d : PDStrings.SiteNames.leftDelt]
         if let name = imageToStringDict[image] {
             return name
         } else {
@@ -186,21 +192,38 @@ public class PDImages: NSObject {
 
     // MARK: - Private
     
-    private static func getStringToImageDict(theme: PDTheme) -> Dictionary<String, UIImage> {
-        let newImg = newSiteImage(theme: theme, usingPatches: true);
-        switch theme {
-        case .Dark:
+    private static func getStringToImageDict(theme: PDDefaults.PDTheme,
+                                         deliveryMethod: PDDefaults.DeliveryMethod) -> Dictionary<String, UIImage> {
+        let newImg = newSiteImage(theme: theme, deliveryMethod: .Patches);
+        switch (theme, deliveryMethod) {
+        case (.Light, .Patches):
             return [PDStrings.PlaceholderStrings.unplaced : newImg,
-                    PDStrings.SiteNames.rightGlute : rGlute_p_dark,
-                    PDStrings.SiteNames.leftGlute : lGlute_p_dark,
-                    PDStrings.SiteNames.rightAbdomen : rAbdomen_p_dark,
-                    PDStrings.SiteNames.leftAbdomen : lAbdomen_p_dark]
-        default:
+                    PDStrings.SiteNames.rightGlute : rGlute_p,
+                    PDStrings.SiteNames.leftGlute : lGlute_p,
+                    PDStrings.SiteNames.rightAbdomen : rAbdomen_p,
+                    PDStrings.SiteNames.leftAbdomen : lAbdomen_p]
+        case (.Dark, .Patches):
             return [PDStrings.PlaceholderStrings.unplaced : newImg,
-                   PDStrings.SiteNames.rightGlute : rGlute_p,
-                   PDStrings.SiteNames.leftGlute : lGlute_p,
-                   PDStrings.SiteNames.rightAbdomen : rAbdomen_p,
-                   PDStrings.SiteNames.leftAbdomen : lAbdomen_p]
+                    PDStrings.SiteNames.rightGlute : rGlute_p_d,
+                    PDStrings.SiteNames.leftGlute : lGlute_p_d,
+                    PDStrings.SiteNames.rightAbdomen : rAbdomen_p_d,
+                    PDStrings.SiteNames.leftAbdomen : lAbdomen_p_d]
+        case (.Light, .Injections):
+            return [PDStrings.PlaceholderStrings.unplaced : newImg,
+                    PDStrings.SiteNames.rightGlute : rGlute_i,
+                    PDStrings.SiteNames.leftGlute : lGlute_i,
+                    PDStrings.SiteNames.leftDelt : lDelt_i,
+                    PDStrings.SiteNames.rightDelt : rDelt_i,
+                    PDStrings.SiteNames.leftQuad : lQuad_i,
+                    PDStrings.SiteNames.rightQuad : rQuad_i]
+        case (.Dark, .Injections):
+            return [PDStrings.PlaceholderStrings.unplaced : newImg,
+                    PDStrings.SiteNames.rightGlute : rGlute_i_d,
+                    PDStrings.SiteNames.leftGlute : lGlute_i_d,
+                    PDStrings.SiteNames.leftDelt : lDelt_i_d,
+                    PDStrings.SiteNames.rightDelt : rDelt_i_d,
+                    PDStrings.SiteNames.leftQuad : lQuad_i_d,
+                    PDStrings.SiteNames.rightQuad : rQuad_i_d]
         }
     }
 }

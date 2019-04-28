@@ -37,14 +37,14 @@ public class PDSharedData: NSObject {
 
     /// Sets MOEstrogen data for PatchDay Today widget.
     public func setEstrogenDataForToday(interval: String,
-                                        usingPatches: Bool,
+                                        deliveryMethod: PDDefaults.DeliveryMethod,
                                         index: Index,
                                         setSiteIndex: @escaping (Int) -> ()) {
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
         if let estro = estrogenSchedule.nextDue() {
             if let siteName = getSiteNameForToday(using: estro,
-                                                  usingPatches: usingPatches,
+                                                  deliveryMethod: deliveryMethod,
                                                   current: index,
                                                   setSiteIndex: setSiteIndex) {
                 defaults?.set(siteName, forKey: siteKey)
@@ -79,10 +79,10 @@ public class PDSharedData: NSObject {
     
     /// Sets data to be displayed in PatchDay Today widget.
     public func setDataForTodayApp(interval: String, index: Index,
-                                   usingPatches: Bool,
+                                   deliveryMethod: PDDefaults.DeliveryMethod,
                                    setSiteIndex: @escaping (Int) -> ()) {
         setEstrogenDataForToday(interval: interval,
-                                usingPatches: usingPatches,
+                                deliveryMethod: deliveryMethod,
                                 index: index,
                                 setSiteIndex: setSiteIndex)
         setPillDataForToday()
@@ -90,17 +90,21 @@ public class PDSharedData: NSObject {
 
     /// Helper function for retrieving correct SiteName data to be saved in PatchDay Today widget.
     private func getSiteNameForToday(using estro: MOEstrogen,
-                                     usingPatches: Bool,
+                                     deliveryMethod: PDDefaults.DeliveryMethod,
                                      current: Index,
                                      setSiteIndex: @escaping (Int) -> ()) -> SiteName? {
-        let chg = setSiteIndex
-        let sched = siteSchedule
-        if usingPatches {
+        let setSI = setSiteIndex
+        switch deliveryMethod {
+        case .Patches:
             return estro.getSiteName()
-        } else if let suggestedSite = sched.suggest(changeIndex: chg),
-            let name = suggestedSite.getName() {
-            return name
+        case .Injections:
+            if let suggestedSite = siteSchedule.suggest(changeIndex: setSI) {
+                let name = suggestedSite.getName()
+                return name
+            }
+            fallthrough
+        default:
+            return nil
         }
-        return nil
     }
 }

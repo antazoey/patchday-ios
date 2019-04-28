@@ -800,6 +800,8 @@
                         <outlet property="imagePicker" destination="5W9-L1-osw" id="TSK-he-gZZ"/>
                         <outlet property="imagePickerDoneButton" destination="wNG-gS-sCu" id="xl6-W5-m4n"/>
                         <outlet property="namePicker" destination="HJs-18-e6K" id="nEb-04-89R"/>
+                        <outlet property="nameStackHorizontal" destination="Skr-g1-ZAg" id="b6O-yR-cjn"/>
+                        <outlet property="nameStackVertical" destination="C3e-sX-B7W" id="hdE-Cd-ht9"/>
                         <outlet property="nameText" destination="NFs-aY-cCq" id="dPx-d2-Q1F"/>
                         <outlet property="siteImage" destination="RLa-hi-dhK" id="5ou-Nj-T6a"/>
                         <outlet property="siteStack" destination="c2z-HC-dPi" id="jVW-aB-4oU"/>

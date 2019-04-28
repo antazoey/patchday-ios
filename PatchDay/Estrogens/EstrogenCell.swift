@@ -26,13 +26,13 @@ class EstrogenCell: UITableViewCell {
         switch (index) {
         case 0..<q :
             let interval = Defaults.timeInterval
-            let usingPatches = Defaults.usingPatches()
+            let deliv = Defaults.getDeliveryMethod()
             if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)
-                let img = determineImage(index: index, theme: theme)
+                let img = determineImage(index: index, theme: theme, deliveryMethod: deliv)
                 let title = determineTitle(estrogenIndex: index, interval)
                 configureDate(when: isExpired)
-                configureBadge(at: index, when: isExpired, and: usingPatches)
+                configureBadge(at: index, when: isExpired, deliveryMethod: deliv)
                 self.setDateLabel(title)
                 animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
                 selectionStyle = .default
@@ -46,20 +46,19 @@ class EstrogenCell: UITableViewCell {
     }
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.
-    private func determineImage(index: Index, theme: PDTheme) -> UIImage {
-        let usingPatches: Bool = Defaults.usingPatches()
-        var image = PDImages.newSiteImage(theme: theme, usingPatches: usingPatches)
+    private func determineImage(index: Index,
+                                theme: PDDefaults.PDTheme,
+                                deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+        var image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
         if let estro = Schedule.estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
-            if let site = estro.getSite(), let siteName = site.getImageIdentifer() {
-                // Check if Site relationship siteName is a general site.
-                image = usingPatches ?
-                    PDImages.siteNameToPatchImage(siteName, theme: theme) :
-                    PDImages.siteNameToInjectionImage(siteName)
+            if let site = estro.getSite(),
+                let siteName = site.getImageIdentifer() {
+                image = PDImages.siteNameToImage(siteName,
+                                                 theme: theme,
+                                                 deliveryMethod: deliveryMethod)
             } else {
-                image = usingPatches ?
-                    PDImages.custom_p :
-                    PDImages.custom_i
+                image = PDImages.custom(theme: theme, deliveryMethod: deliveryMethod)
             }
         }
         return image
@@ -72,12 +71,14 @@ class EstrogenCell: UITableViewCell {
         if let estro = Schedule.estrogenSchedule.getEstrogen(at: estrogenIndex),
             let date =  estro.getDate() as Date?,
             let expDate = estro.expirationDate(interval: interval) {
-            if Defaults.usingPatches() {
+            let deliv = Defaults.getDeliveryMethod()
+            switch deliv {
+            case .Patches:
                 let titleIntro = (estro.isExpired(interval)) ?
                     Strings.expired :
                     Strings.expires
                 title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
-            } else {
+            case .Injections:
                 let day = PDDateHelper.dayOfWeekString(date: date)
                 title += Strings.last_injected + day
             }
@@ -87,7 +88,7 @@ class EstrogenCell: UITableViewCell {
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(at index: Index,
-                                              theme: PDTheme,
+                                              theme: PDDefaults.PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
         let schedule = Schedule.estrogenSchedule
@@ -168,9 +169,16 @@ class EstrogenCell: UITableViewCell {
             UIFont.systemFont(ofSize: 38)
     }
 
-    private func configureBadge(at index: Int, when isExpired: Bool, and usingPatches: Bool) {
+    private func configureBadge(at index: Int,
+                                when isExpired: Bool,
+                                deliveryMethod: PDDefaults.DeliveryMethod) {
         badgeButton.restorationIdentifier = String(index)
-        badgeButton.type = usingPatches ? .patches : .injections
+        switch deliveryMethod {
+        case .Patches:
+            badgeButton.type = .patches
+        case .Injections:
+            badgeButton.type = .injections
+        }
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
 }

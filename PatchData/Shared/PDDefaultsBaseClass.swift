@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PDKit
 
 open class PDDefaultsBaseClass: NSObject {
     
@@ -33,17 +34,37 @@ open class PDDefaultsBaseClass: NSObject {
         case Theme = "theme"
     }
     
+    public enum DeliveryMethod {
+        case Patches
+        case Injections
+    }
+    
+    public enum PDTheme {
+        case Light
+        case Dark
+    }
+    
+    public static func getThemeKey(for theme: PDDefaults.PDTheme) -> String {
+        switch theme {
+        case .Light :
+            return PDStrings.PickerData.themes[0]
+        case .Dark :
+            return PDStrings.PickerData.themes[1]
+        }
+    }
+    
     open func set<T>(_ v: inout T, to new: T, for key: PDDefault, push: Bool = true) {
         v = new
         if push {
             shared?.defaults?.set(new, forKey: key.rawValue)
+            std_defaults.set(new, forKey: key.rawValue)
         }
     }
     
-    open func find<T>(_ val: inout T, key: String) -> Bool {
+    open func find<T>(_ v: inout T, key: String) -> Bool {
         let def1 = shared?.defaults?.object(forKey: key) as? T
         let def2 = std_defaults.object(forKey: key) as? T
-        val = def1 ?? def2 ?? val
+        v = def1 ?? def2 ?? v
         return def1 != nil || def2 != nil
     }
     

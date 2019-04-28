@@ -440,14 +440,14 @@ class EstrogenVC: UIViewController,
         let interval = Defaults.timeInterval
         if let estro = EstrogenScheduleRef.getEstrogen(at: estrogenScheduleIndex),
             estro.getDate() != nil {
-            switch Defaults.usingPatches() {
-            case true :
+            switch Defaults.getDeliveryMethod() {
+            case .Patches :
                 expLabel.text = (estro.isExpired(interval)) ?
                     Strings.expired :
                     Strings.expires
                 dateAndTimePlaced.text = Strings.date_and_time_applied
                 siteLabel.text = Strings.site
-            case false :
+            case .Injections:
                 expLabel.text = Strings.next_due
                 dateAndTimePlaced.text = Strings.date_and_time_injected
                 siteLabel.text = Strings.last_site_injected
@@ -482,11 +482,15 @@ class EstrogenVC: UIViewController,
     
     /// Configured title of view controller
     private func loadTitle() {
+        let deliv = Defaults.getDeliveryMethod()
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
             typealias Titles = PDStrings.VCTitles
-            title = (Defaults.usingPatches()) ?
-                Titles.patch :
-                Titles.injection
+            switch deliv {
+            case .Patches:
+                title = Titles.patch
+            case .Injections:
+                title = Titles.injection
+            }
         }
     }
     

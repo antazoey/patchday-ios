@@ -49,9 +49,13 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             PDAlertController.alertForDisclaimerAndTutorial()
             Defaults.set(&Defaults.mentionedDisclaimer, to: true, for: .MentionedDisclaimer)
         }
-        title = Defaults.usingPatches() ?
-            PDStrings.VCTitles.patches :
-            PDStrings.VCTitles.injections
+        let deliv = Defaults.getDeliveryMethod()
+        switch deliv {
+        case .Patches:
+            title = PDStrings.VCTitles.patches
+        case .Injections:
+            title = PDStrings.VCTitles.injections
+        }
         estrogenTable.reloadData()
     }
 
@@ -121,11 +125,11 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     public func setTabBarBadges() {
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
-        switch Defaults.usingPatches() {
-        case true :
+        switch Defaults.getDeliveryMethod() {
+        case .Patches :
             item?.image = #imageLiteral(resourceName: "Patch Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
-        case false :
+        case .Injections :
             item?.image = #imageLiteral(resourceName: "Injection Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Injection Icon")
         }
@@ -162,16 +166,20 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     /// Configures title of view controller.
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
-            title = (Defaults.usingPatches()) ?
-                PDStrings.VCTitles.patches :
-                PDStrings.VCTitles.injections
+            switch Defaults.getDeliveryMethod() {
+            case .Patches:
+                title = PDStrings.VCTitles.patches
+            case .Injections:
+                title = PDStrings.VCTitles.injections
+            }            
         }
     }
     
     private func loadTabBarItems() {
-        let c = UIColor.darkGray
-        navigationController?.tabBarController?.tabBar.unselectedItemTintColor = c
-        navigationController?.tabBarController?.tabBar.tintColor = UIColor.purple
+        navigationController?.tabBarController?.tabBar.unselectedItemTintColor =
+            appDelegate.themeManager.unselected_c
+        navigationController?.tabBarController?.tabBar.tintColor =
+            appDelegate.themeManager.purple_c
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() ==
             UIUserInterfaceIdiom.phone) ? 9 : 25
         if let vcs = navigationController?.tabBarController?.viewControllers {

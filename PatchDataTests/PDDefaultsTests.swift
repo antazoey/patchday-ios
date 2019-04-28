@@ -55,9 +55,9 @@ class PDDefaultsTests: XCTestCase {
     func testSiteSchedule() {
         defaults.setDeliveryMethod(to: "Patches")
         siteSchedule.setName(at: 0, to: "NEW SITE")
-        XCTAssert(!siteSchedule.isDefault(usingPatches: true))
+        XCTAssert(!siteSchedule.isDefault(deliveryMethod: .Patches))
         defaults.setDeliveryMethod(to: "Injections")
-        XCTAssert(siteSchedule.isDefault(usingPatches: false))
+        XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
     }
     
     /// Test the schedule state reflects changes from defaults
@@ -71,7 +71,7 @@ class PDDefaultsTests: XCTestCase {
         var d = String()
         defaults.setDeliveryMethod(to: "Injections")
         XCTAssertFalse(estrogenSchedule.usingPatches)
-        XCTAssertFalse(siteSchedule.usingPatches)
+        XCTAssertFalse(siteSchedule.deliveryMethod == .Patches)
         d = defaults.deliveryMethod
         XCTAssertEqual(d, "Injections")
         XCTAssertEqual(estrogenSchedule.count(), 1)
@@ -81,7 +81,7 @@ class PDDefaultsTests: XCTestCase {
         d = defaults.deliveryMethod
         XCTAssertEqual(d, "Patches")
         XCTAssert(estrogenSchedule.usingPatches)
-        XCTAssert(siteSchedule.usingPatches)
+        XCTAssert(siteSchedule.deliveryMethod == .Patches)
         XCTAssertEqual(estrogenSchedule.count(), 3)
         XCTAssertEqual(estrogenSchedule.quantity, 3)
         XCTAssertEqual(siteSchedule.count(), 4)
@@ -171,19 +171,19 @@ class PDDefaultsTests: XCTestCase {
     }
     
     func testNotificationMinutes() {
-        defaults.set(&defaults.notificationsMinutesBefore, to: 30, for: .NotificationMinutesBefore, push: true)
+        defaults.set(&defaults.notificationsMinutesBefore, to: 30, for: .NotificationMinutesBefore)
         let actual = defaults.notificationsMinutesBefore
         XCTAssertEqual(actual, 30)
     }
     
     func testNotify() {
-        defaults.set(&defaults.notifications, to: true, for: .Notifications, push: true)
+        defaults.set(&defaults.notifications, to: true, for: .Notifications)
         let notify = defaults.notifications
         XCTAssert(notify)
     }
     
     func testMentionedDisclaimer() {
-        defaults.set(&defaults.mentionedDisclaimer, to: true, for: .MentionedDisclaimer, push: true)
+        defaults.set(&defaults.mentionedDisclaimer, to: true, for: .MentionedDisclaimer)
         let mentioned = defaults.mentionedDisclaimer
         XCTAssert(mentioned)
     }
@@ -203,11 +203,11 @@ class PDDefaultsTests: XCTestCase {
 
     // Other public
     
-    func testUsingPatches() {
+    func testSetDeliveryMethod() {
         defaults.setDeliveryMethod(to: "Patches")
-        XCTAssert(defaults.usingPatches())
-        defaults.setDeliveryMethod(to: "Injections")
-        XCTAssertFalse(defaults.usingPatches())
+        XCTAssert(defaults.getDeliveryMethod() == .Patches)
+        defaults.setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[1])
+        XCTAssertFalse(defaults.getDeliveryMethod() == .Injections)
     }
 
     func testIsAccpetable() {

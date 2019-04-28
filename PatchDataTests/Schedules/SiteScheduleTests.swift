@@ -81,14 +81,14 @@ class SiteScheduleTests: XCTestCase {
         let _ = siteSchedule.insert()
         siteSchedule.reset()
         XCTAssertEqual(siteSchedule.count(), 4)
-        XCTAssert(siteSchedule.isDefault(usingPatches: true))
+        XCTAssert(siteSchedule.isDefault(deliveryMethod: .Patches))
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
         defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         XCTAssertEqual(siteSchedule.count(), 6)
-        XCTAssert(siteSchedule.isDefault(usingPatches: false))
+        XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
     }
     
     func testDelete() {
@@ -113,7 +113,7 @@ class SiteScheduleTests: XCTestCase {
     func testNew() {
         defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.new()
-        XCTAssert(siteSchedule.isDefault(usingPatches: false))
+        XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
     }
     
     func testFilterEmptySites() {
@@ -180,7 +180,7 @@ class SiteScheduleTests: XCTestCase {
     
     func testSetImageId() {
         let expected = "custom"
-        siteSchedule.setImageId(at: 0, to: "BAD Id", usingPatches: true)
+        siteSchedule.setImageId(at: 0, to: "BAD Id", deliveryMethod: .Patches)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
             XCTAssertEqual(actual, expected)
         } else {
@@ -188,7 +188,7 @@ class SiteScheduleTests: XCTestCase {
         }
         // Successfully sets id when it is default patch Site Name
         var good_id = PDStrings.SiteNames.patchSiteNames[0]
-        siteSchedule.setImageId(at: 0, to: good_id, usingPatches: true)
+        siteSchedule.setImageId(at: 0, to: good_id, deliveryMethod: .Patches)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = good_id
             XCTAssertEqual(actual, expected)
@@ -197,7 +197,7 @@ class SiteScheduleTests: XCTestCase {
         }
         // Successfully sets id when it is default injection Site Name
         good_id = PDStrings.SiteNames.injectionSiteNames[0]
-        siteSchedule.setImageId(at: 0, to: good_id, usingPatches: false)
+        siteSchedule.setImageId(at: 0, to: good_id, deliveryMethod: .Injections)
         if let actual = siteSchedule.sites[0].getImageIdentifer() {
             let expected = good_id
             XCTAssertEqual(actual, expected)
@@ -277,23 +277,23 @@ class SiteScheduleTests: XCTestCase {
         siteSchedule.setName(at: 0, to: "SITE NAME")
         var sites = PDStrings.SiteNames.patchSiteNames
         sites.append("SITE NAME")
-        XCTAssertEqual(siteSchedule.unionDefault(usingPatches: true),
+        XCTAssertEqual(siteSchedule.unionDefault(deliveryMethod: .Patches),
                        Set(sites))
     }
     
     func testIsDefault() {
-        XCTAssert(siteSchedule.isDefault(usingPatches: true))
+        XCTAssert(siteSchedule.isDefault(deliveryMethod: .Patches))
         // Patches fail when tested against injections
-        XCTAssertFalse(siteSchedule.isDefault(usingPatches: false))
+        XCTAssertFalse(siteSchedule.isDefault(deliveryMethod: .Injections))
         // Fails when add a custom site
         siteSchedule.setName(at: 0, to: "SITE NAME")
-        XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
+        XCTAssertFalse(siteSchedule.isDefault(deliveryMethod: .Patches))
         defaults.setDeliveryMethod(to: "Injections")
         siteSchedule.reset()
         // Injection defaults pass
-        XCTAssert(siteSchedule.isDefault(usingPatches: false))
+        XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
         // Injections fail when tested against patches
-        XCTAssertFalse(siteSchedule.isDefault(usingPatches: true))
+        XCTAssertFalse(siteSchedule.isDefault(deliveryMethod: .Patches))
     }
     
     func testAppendSite() {

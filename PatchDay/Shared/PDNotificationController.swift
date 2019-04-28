@@ -68,13 +68,18 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     public func notificationBody(for estro: MOEstrogen, interval: String) -> String {
         var body = ""
         typealias Bodies = PDStrings.NotificationStrings.Bodies
-        let usingPatches: Bool = Defaults.usingPatches()
+        let deliv = Defaults.getDeliveryMethod()
         let siteName = estro.getSiteName()
-        if !estro.isCustomLocated(usingPatches: usingPatches), usingPatches,
+        if !estro.isCustomLocated(deliveryMethod: deliv),
             let msg = Bodies.siteToExpiredPatchMessage[siteName] {
                 body = msg
         } else {
-            body = (usingPatches) ? Bodies.patchBody : Bodies.injectionBody
+            switch deliv {
+            case .Patches:
+                body = Bodies.patchBody
+            case .Injections:
+                body = Bodies.injectionBody
+            }
             body = body + siteName
         }
         return body
@@ -152,7 +157,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request an Estrogen notification.
     internal func requestEstrogenExpiredNotification(for estro: MOEstrogen) {
-        let usingPatches = Defaults.usingPatches()
+        let deliv = Defaults.getDeliveryMethod()
         let interval = Defaults.timeInterval
         let notify = Defaults.notifications
         let notifyTime = Double(Defaults.notificationsMinutesBefore)
@@ -163,8 +168,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
             var timeIntervalUntilExpire = PDDateHelper.expirationInterval(interval,
                                                                           date: date as Date) {
             let content = UNMutableNotificationContent()
-            content.title = determineEstrogenNotificationTitle(usingPatches: usingPatches,
-                                                               notifyTime: notifyTime)
+            content.title = determineEstrogenNotificationTitle(deliveryMethod: deliv, notifyTime: notifyTime)
             content.body = determineEstrogenNotificationBody(for: estro, interval: interval)
             content.sound = UNNotificationSound.default
             content.badge = Schedule.totalDue(interval: interval) + 1 as NSNumber
@@ -192,13 +196,16 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     
     /// Request an Estrogen notification that occurs when it's due overnight.
     internal func requestOvernightNotification(_ estro: MOEstrogen, expDate: Date) {
-        let usingPatches = Defaults.usingPatches()
+        let deliv = Defaults.getDeliveryMethod()
         let content = UNMutableNotificationContent()
         typealias Strings = PDStrings.NotificationStrings
         if let triggerDate = PDDateHelper.dateBefore(overNightDate: expDate) {
-            content.title = usingPatches ?
-                Strings.Titles.overnight_patch :
-                Strings.Titles.overnight_injection
+            switch deliv {
+            case .Patches:
+                content.title = Strings.Titles.overnight_patch
+            case .Injections:
+                content.title = Strings.Titles.overnight_injection
+            }
             content.sound = UNNotificationSound.default
             let interval = triggerDate.timeIntervalSinceNow
             if interval > 0 {
@@ -262,12 +269,17 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
     // MARK: - Private helpers
     
     /// Returns the title for an estrogen notification.
-    private func determineEstrogenNotificationTitle(usingPatches: Bool,
+    private func determineEstrogenNotificationTitle(deliveryMethod: PDDefaults.DeliveryMethod,
                                                     notifyTime: Double) -> String {
-        let options = (usingPatches) ? [PDStrings.NotificationStrings.Titles.patchExpired,
-                                        PDStrings.NotificationStrings.Titles.patchExpires] :
-                                        [PDStrings.NotificationStrings.Titles.injectionExpired,
-                                         PDStrings.NotificationStrings.Titles.injectionExpires]
+        var options: [String]
+        switch deliveryMethod {
+        case .Patches:
+            options = [PDStrings.NotificationStrings.Titles.patchExpired,
+                       PDStrings.NotificationStrings.Titles.patchExpires]
+        case .Injections:
+            options = [PDStrings.NotificationStrings.Titles.injectionExpired,
+                        PDStrings.NotificationStrings.Titles.injectionExpires]
+        }
         return (notifyTime == 0) ? options[0] : options[1]
     }
     
@@ -276,9 +288,14 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
                                                    interval: String) -> String {
         var body = notificationBody(for: estro, interval: interval)
         typealias Bodies = PDStrings.NotificationStrings.Bodies
-        let msg = (Defaults.usingPatches()) ?
-            Bodies.siteForNextPatch :
-            Bodies.siteForNextInjection
+        let deliv = Defaults.getDeliveryMethod()
+        var msg: String
+        switch deliv {
+        case .Patches:
+            msg = Bodies.siteForNextPatch
+        case .Injections:
+            msg = Bodies.siteForNextInjection
+        }
         if let additionalMessage = suggestSiteMessage(introMsg: msg) {
             body += additionalMessage
         }

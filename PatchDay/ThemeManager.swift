@@ -9,29 +9,38 @@
 import Foundation
 import UIKit
 import PDKit
+import PatchData
 
 internal class ThemeManager: NSObject {
     
-    public var theme: PDTheme
+    public var theme: PDDefaults.PDTheme
     internal var oddCell_c: UIColor
     internal var evenCell_c: UIColor
     internal var bg_c: UIColor
     internal var text_c: UIColor
     internal var border_c: UIColor
     internal var selected_c: UIColor
+    internal var unselected_c: UIColor
     internal var button_c: UIColor
     internal var navbar_c: UIColor
     internal var green_c: UIColor
     internal var purple_c: UIColor
-        
-    public convenience init(themeStr: String) {
-        let theme = ThemeManager.getTheme(from: themeStr)
-        self.init(theme: theme)
-    }
     
-    public init(theme: PDTheme) {
+    public init(theme: PDDefaults.PDTheme) {
         self.theme = theme
         switch theme {
+        case .Light:
+            oddCell_c = PDColors.getColor(.LightBlue)
+            evenCell_c = UIColor.white
+            bg_c = UIColor.white
+            text_c = UIColor.black
+            border_c = PDColors.getColor(.LightGray)
+            selected_c = PDColors.getColor(.Pink)
+            unselected_c = UIColor.darkGray
+            button_c = UIColor.blue
+            navbar_c = UIColor.white
+            green_c = PDColors.getColor(.Green)
+            purple_c = PDColors.getColor(.Purple)
         case .Dark:
             oddCell_c = UIColor.black
             evenCell_c = UIColor.black
@@ -39,21 +48,11 @@ internal class ThemeManager: NSObject {
             text_c = UIColor.white
             border_c = UIColor.white
             selected_c = PDColors.getColor(.Black)
+            unselected_c = UIColor.lightGray
             button_c = UIColor.white
             navbar_c = PDColors.getColor(.Black)
             green_c = UIColor.green
             purple_c = UIColor.magenta
-        default:
-            oddCell_c = PDColors.getColor(.LightBlue)
-            evenCell_c = UIColor.white
-            bg_c = UIColor.white
-            text_c = UIColor.black
-            border_c = PDColors.getColor(.LightGray)
-            selected_c = PDColors.getColor(.Pink)
-            button_c = UIColor.blue
-            navbar_c = UIColor.white
-            green_c = PDColors.getColor(.Green)
-            purple_c = PDColors.getColor(.Purple)
         }
     }
     
@@ -62,16 +61,6 @@ internal class ThemeManager: NSObject {
             return evenCell_c
         } else {
             return oddCell_c
-        }
-    }
-    
-
-    private static func getTheme(from key: String) -> PDTheme {
-        switch key {
-        case PDStrings.PickerData.themes[1] :
-            return .Dark
-        default : // light
-            return .Light
         }
     }
 }

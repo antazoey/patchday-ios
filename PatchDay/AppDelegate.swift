@@ -19,28 +19,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var window: UIWindow?
     internal var notificationsController = PDNotificationController()
     internal var themeManager: ThemeManager!
-
-    private var theme: String = PDStrings.PickerData.themes[0]
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
             PillScheduleRef.reset()
         }
-        let usingPatches = Defaults.usingPatches()
         let setSiteIndex = Defaults.setSiteIndex
         
         // Uncomment to nuke the db
         //Schedule.nuke()
         // Then re-comment, run again, and PatchDay resets to default.
-        
-        themeManager = ThemeManager(themeStr: theme)
+        let theme = Defaults.getTheme()
+        themeManager = ThemeManager(theme: theme)
 
         // Load data for the Today widget.
         Schedule.sharedData.setDataForTodayApp(interval: Defaults.timeInterval,
                                                index: Defaults.siteIndex,
-                                               usingPatches: usingPatches,
+                                               deliveryMethod: Defaults.getDeliveryMethod(),
                                                setSiteIndex: setSiteIndex)
         
         setBadge(with: Schedule.totalDue(interval: Defaults.timeInterval))
@@ -49,16 +47,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func isFirstLaunch() -> Bool {
-        return !Defaults.mentionedDisclaimer
-    }
-    
     func applicationWillTerminate(_ application: UIApplication) {
         setBadge(with: Schedule.totalDue(interval: Defaults.timeInterval))
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
         setBadge(with: Schedule.totalDue(interval: Defaults.timeInterval))
+    }
+    
+    func isFirstLaunch() -> Bool {
+        return !Defaults.mentionedDisclaimer
     }
     
     internal func setNavigationAppearance() {
@@ -74,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     internal func resetTheme() {
-        themeManager = ThemeManager(themeStr: theme)
+        themeManager = ThemeManager(theme: Defaults.getTheme())
         setNavigationAppearance()
     }
     

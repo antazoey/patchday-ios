@@ -83,7 +83,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func reminderTimeValueChanged(_ sender: Any) {
         let v = Int(reminderTimeSlider.value.rounded())
         reminderTimeSettingsLabel.text = String(v)
-        Defaults.setNotificationsMinutesBefore(to: v)
+        Defaults.set(&Defaults.notificationsMinutesBefore, to: v, for: .NotificationMinutesBefore)
         appDelegate.notificationsController.resendAllEstrogenNotifications()
         
     }
@@ -115,7 +115,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         } else {
             disableNotificationButtons()
         }
-        Defaults.set(&Defaults.notifications, to: shouldReceive, for: .Notifications, push: true)
+        Defaults.set(&Defaults.notifications, to: shouldReceive, for: .Notifications)
     }
     
     // MARK: - Public
@@ -127,11 +127,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         // Estrogen icon
         if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
             vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil
-            if Defaults.usingPatches() {
+            let deliv = Defaults.getDeliveryMethod()
+            switch deliv {
+            case .Patches:
                 vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Patch Icon")
                 vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Patch Icon")
                 vcs[0].tabBarItem.title = PDStrings.VCTitles.patches
-            } else {
+            case .Injections:
                 vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Injection Icon")
                 vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Injection Icon")
                 vcs[0].tabBarItem.title = PDStrings.VCTitles.injections
@@ -155,7 +157,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func loadCount() {
         let q = Defaults.quantity
         countButton.setTitle("\(q)", for: .normal)
-        if !Defaults.usingPatches() {
+        if Defaults.getDeliveryMethod() != .Patches {
             countButton.isEnabled = false
             countArrowButton.isEnabled = false
             if q != 1 {
@@ -386,7 +388,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveThemeChange(_ row: Int) {
         if row < PDStrings.PickerData.themes.count && row >= 0 {
             let choice = PDStrings.PickerData.themes[row]
-            Defaults.set(&Defaults.theme, to: choice, for: .Theme, push: true)
+            Defaults.set(&Defaults.theme, to: choice, for: .Theme)
             appDelegate.resetTheme()
             navigationController?.navigationBar.barTintColor = appDelegate.themeManager.navbar_c
             navigationController?.navigationBar.tintColor = appDelegate.themeManager.button_c
@@ -426,7 +428,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         reminderTimeSlider.isEnabled = false
         reminderTimeSettingsLabel.textColor = UIColor.lightGray
         reminderTimeSettingsLabel.text = "0"
-        Defaults.setNotificationsMinutesBefore(to: 0)
+        Defaults.set(&Defaults.notificationsMinutesBefore, to: 0, for: .NotificationMinutesBefore)
         reminderTimeSlider.value = 0
     }
     
@@ -497,9 +499,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func handleSiteScheduleChanges(choice: String) {
-        let usingPatches = Defaults.usingPatches()
+        let deliv = Defaults.getDeliveryMethod()
         if EstrogenScheduleRef.isEmpty() &&
-            SiteScheduleRef.isDefault(usingPatches: usingPatches) {
+            SiteScheduleRef.isDefault(deliveryMethod: deliv) {
             Defaults.setDeliveryMethod(to: choice)
             Defaults.setSiteIndex(to: 0)
             resetEstrogensVCTabBarItem()

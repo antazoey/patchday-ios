@@ -15,10 +15,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
     private var namePickerSet =
-        Array(SiteScheduleRef.unionDefault(usingPatches: Defaults.usingPatches()))
+        Array(SiteScheduleRef.unionDefault(deliveryMethod: Defaults.getDeliveryMethod()))
     
     @IBOutlet weak var siteStack: UIStackView!
     
+    @IBOutlet weak var nameStackVertical: UIStackView!
+
+    @IBOutlet weak var nameStackHorizontal: UIStackView!
     @IBOutlet weak var verticalLineByNameTextField: UIView!
     @IBOutlet weak var typeNameButton: UIButton!
     @IBOutlet weak var nameText: UITextField!
@@ -63,6 +66,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         applyTheme()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        applyTheme()
+    }
+    
     public func setSiteScheduleIndex(to index: Int) {
         siteScheduleIndex = index
     }
@@ -70,12 +78,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let usingPatches = Defaults.usingPatches()
-        let imageStruct = usingPatches ?
-            setImage(images: PDImages.patchImages,
-                     imageNameFunction: PDImages.patchImageToSiteName(_:)) :
-            setImage(images: PDImages.injectionImages,
-                     imageNameFunction: PDImages.injectionImageToSiteName(_:))
+        let t = Defaults.getTheme()
+        let deliv = Defaults.getDeliveryMethod()
+        let images = PDImages.siteImages(theme: t, deliveryMethod: deliv)
+        let imgF = PDImages.imageToSiteName(_:)
+        let imageStruct = setImage(images: images, imageNameFunction: imgF)
         imagePicker.isHidden = true
         siteImage.image = imageStruct.image
         siteImage.isHidden = false
@@ -87,7 +94,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         enableSave()
         SiteScheduleRef.setImageId(at: siteScheduleIndex,
                                 to: imageStruct.imageKey,
-                                usingPatches: usingPatches)
+                                deliveryMethod: deliv)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -243,7 +250,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func segueToSitesVC() {
-        if let sb = storyboard, let navCon = navigationController, let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
+        if let sb = storyboard, let navCon = navigationController,
+            let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
             sitesVC.siteNames = SiteScheduleRef.getNames()
             navCon.popViewController(animated: true)
         }
@@ -261,27 +269,29 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImage() {
-        let usingPatches: Bool = Defaults.usingPatches()
-        let sitesWithImages = usingPatches ?
-            PDStrings.SiteNames.patchSiteNames : PDStrings.SiteNames.injectionSiteNames
+        let deliv = Defaults.getDeliveryMethod()
         let theme = appDelegate.themeManager.theme
         if let name = nameText.text {
             var image: UIImage
-            // New image
+            var sitesWithImages: [String]
+
+            switch deliv {
+            case .Patches:
+                sitesWithImages = PDStrings.SiteNames.patchSiteNames
+            case .Injections:
+                sitesWithImages = PDStrings.SiteNames.injectionSiteNames
+            }
+            
             if name == PDStrings.PlaceholderStrings.new_site {
-                image = (usingPatches) ? PDImages.addPatch : PDImages.addInjection
+                image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
             } else if let site = SiteScheduleRef.getSite(at: siteScheduleIndex),
                 let imgId = site.getImageIdentifer(),
                 let i = sitesWithImages.firstIndex(of: imgId) {
-                // Set as default image
-                image = (usingPatches) ?
-                    PDImages.siteNameToPatchImage(sitesWithImages[i], theme: theme) :
-                    PDImages.siteNameToInjectionImage(sitesWithImages[i])
+                image = PDImages.siteNameToImage(sitesWithImages[i],
+                                                 theme: theme,
+                                                 deliveryMethod: deliv)
             } else {
-                // Set as custom patch image
-                image = (usingPatches) ?
-                    PDImages.custom_p :
-                    PDImages.custom_i
+                image = PDImages.custom(theme: theme, deliveryMethod: deliv)
             }
             UIView.transition(with: siteImage, duration:0.5,
                               options: .transitionCrossDissolve,
@@ -291,12 +301,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImagePickeR() {
+        let deliv = Defaults.getDeliveryMethod()
         if let site = SiteScheduleRef.getSite(at: siteScheduleIndex) {
             imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
                                                           and: siteImage,
                                                           saveButton: navigationItem.rightBarButtonItem!,
                                                           selectedSite: site,
-                                                          usingPatches: Defaults.usingPatches())
+                                                          deliveryMethod: deliv)
         }
         imagePicker.delegate = imagePickerDelegate
         imagePicker.dataSource = imagePickerDelegate
@@ -320,7 +331,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func applyTheme() {
         view.backgroundColor = appDelegate.themeManager.bg_c
+        nameStackVertical.backgroundColor = appDelegate.themeManager.bg_c
+        nameStackHorizontal.backgroundColor = appDelegate.themeManager.bg_c
         typeNameButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
         nameText.textColor = appDelegate.themeManager.text_c
+        nameText.backgroundColor = appDelegate.themeManager.bg_c
+        siteImage.backgroundColor = appDelegate.themeManager.bg_c
+        gapAboveImage.backgroundColor = appDelegate.themeManager.bg_c
     }
 }

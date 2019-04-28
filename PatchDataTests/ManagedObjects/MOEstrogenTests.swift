@@ -226,17 +226,17 @@ class MOEstrogenTests: XCTestCase {
         typealias Names = PDStrings.SiteNames
         site.setName("Custom")
         estro.setSite(site)
-        XCTAssertTrue(estro.isCustomLocated(usingPatches: true))
-        XCTAssertTrue(estro.isCustomLocated(usingPatches: false))
+        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Patches))
+        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Injections))
         
         // Solely injection sites are custom if usingPatches
         estro.setSiteBackup(to: Names.rightDelt)
-        XCTAssertTrue(estro.isCustomLocated(usingPatches: true))
-        XCTAssertFalse(estro.isCustomLocated(usingPatches: false))
+        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Patches))
+        XCTAssertFalse(estro.isCustomLocated(deliveryMethod: .Injections))
         
         // Solely patch sites are custom if not usingPatches
         estro.setSiteBackup(to: Names.leftAbdomen)
-        XCTAssertFalse(estro.isCustomLocated(usingPatches: true))
-        XCTAssertTrue(estro.isCustomLocated(usingPatches: false))
+        XCTAssertFalse(estro.isCustomLocated(deliveryMethod: .Patches))
+        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Injections))
     }
 }

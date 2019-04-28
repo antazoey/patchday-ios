@@ -27,22 +27,20 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        applyTheme()
         sitesTable.delegate = self
         sitesTable.dataSource = self
         loadBarButtons()
         sitesTable.allowsSelectionDuringEditing = true
         loadTabBarItemSize()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        applyTheme()
         reloadSiteNames()
         sitesTable.reloadData()
         setTitle()
-        swapVisibilityOfCellFeatures(cellCount: sitesTable.numberOfRows(inSection: 0),
-                                     shouldHide: false)
+        swapVisibilityOfCellFeatures(cellCount: sitesTable.numberOfRows(inSection: 0), shouldHide: false)
     }
     
     // MARK: - Table and cell characteristics.
@@ -271,9 +269,12 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func setTitle() {
         typealias Titles = PDStrings.VCTitles
-        title = (Defaults.usingPatches()) ?
-            Titles.patch_sites :
-            Titles.injection_sites
+        switch Defaults.getDeliveryMethod() {
+        case .Patches:
+            title = Titles.patch_sites
+        case .Injections:
+            title = Titles.injection_sites
+        }        
         self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
     }
     

@@ -23,9 +23,10 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
          and imageView: UIImageView,
          saveButton: UIBarButtonItem,
          selectedSite: MOSite,
-         usingPatches: Bool) {
+         deliveryMethod: PDDefaults.DeliveryMethod) {
         self.imageView = imageView
-        self.images = usingPatches ? PDImages.patchImages : PDImages.injectionImages
+        self.images = PDImages.siteImages(theme: Defaults.getTheme(),
+                                          deliveryMethod: deliveryMethod)
         self.picker = picker
         self.saveButton = saveButton
         self.selectedSite = selectedSite
@@ -47,7 +48,10 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         return 180
     }
     
-    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+    func pickerView(_ pickerView: UIPickerView,
+                    viewForRow row: Int,
+                    forComponent component: Int,
+                    reusing view: UIView?) -> UIView {
         let size = CGSize(width: 330.1375, height: 462.0)
         let img = PDImages.resizeImage(images[row], targetSize: size)
         let imgView = (row < images.count) ? UIImageView(image: img) : UIView()

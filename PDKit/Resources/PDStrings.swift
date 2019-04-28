@@ -378,17 +378,6 @@ public class PDStrings: NSObject {
         }()
     }
     
-    // MARK: - Themes
-    
-    public static func getKey(for theme: PDTheme) -> String {
-        switch theme {
-        case .Dark :
-            return PDStrings.PickerData.themes[1]
-        default :
-            return PDStrings.PickerData.themes[0]
-        }
-    }
-    
     // MARK: - Alerts (Localizable)
     
     public struct AlertStrings {

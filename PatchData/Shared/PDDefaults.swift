@@ -64,11 +64,11 @@ open class PDDefaults: PDDefaultsBaseClass {
         let usingPatches = (method == PDStrings.DeliveryMethods.patches)
         if methods.contains(method) {
             self.set(&self.deliveryMethod, to: method, for: .DeliveryMethod)
-            siteSchedule.usingPatches = usingPatches
+            siteSchedule.deliveryMethod = getDeliveryMethod()
             estrogenSchedule.usingPatches = usingPatches
             let setCount: () -> () = {
                 let c = usingPatches ? 3 : 1
-                self.set(&self.quantity, to: c, for: .Quantity, push: true)
+                self.set(&self.quantity, to: c, for: .Quantity)
             }
             if shouldReset {
                 siteSchedule.reset(completion: setCount)
@@ -81,7 +81,7 @@ open class PDDefaults: PDDefaultsBaseClass {
     public func setTimeInterval(to i: String) {
         let intervals = PDStrings.PickerData.expirationIntervals
         if intervals.contains(i) {
-            self.set(&self.timeInterval, to: i, for: .TimeInterval, push: true)
+            self.set(&self.timeInterval, to: i, for: .TimeInterval)
         }
     }
     
@@ -150,17 +150,24 @@ open class PDDefaults: PDDefaultsBaseClass {
         }
     }
     
-    public func setNotificationsMinutesBefore(to v: Int) {
-        set(&notificationsMinutesBefore, to: v, for: .NotificationMinutesBefore, push: true)
+    public func getDeliveryMethod() -> DeliveryMethod {
+        switch deliveryMethod {
+        case PDStrings.PickerData.deliveryMethods[1]:
+            return .Injections
+        default:
+            return .Patches
+        }
     }
-
-    //MARK: - Other public
     
-    public func usingPatches() -> Bool {
-        let patches = PDStrings.PickerData.deliveryMethods[0]
-        return self.deliveryMethod == patches
+    public func getTheme() -> PDTheme {
+        switch theme {
+        case PDStrings.PickerData.themes[1]:
+            return .Dark
+        default:
+            return .Light
+        }
     }
-
+    
     /// Checks to see if count is reasonable for PatchDay
     public func isAcceptable(count: Int, max: Int) -> Bool {
         return (count > 0) && (count <= max)

@@ -13,6 +13,7 @@ import PatchData
 class SiteCell: UITableViewCell {
     
     @IBOutlet weak var orderLabel: UILabel!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var estrogenScheduleImage: UIImageView!
     @IBOutlet weak var nextLabel: UILabel!
@@ -60,7 +61,7 @@ class SiteCell: UITableViewCell {
     
     private func setBackgroundSelected() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.getColor(.Pink)
+        backgroundView.backgroundColor = appDelegate.themeManager.selected_c
         selectedBackgroundView = backgroundView
     }
 }

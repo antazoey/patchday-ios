@@ -46,10 +46,10 @@ public class PDSchedule: NSObject {
         var siteIndex = Int()
         interval = defaults.timeInterval
         siteIndex = defaults.siteIndex
-        let usingPatches = defaults.usingPatches()
+        let deliveryMethod = defaults.getDeliveryMethod()
         let setSiteIndex = defaults.setSiteIndex
         self.sharedData.setEstrogenDataForToday(interval: interval,
-                                                usingPatches: usingPatches,
+                                                deliveryMethod: deliveryMethod,
                                                 index: siteIndex,
                                                 setSiteIndex: setSiteIndex)
     }
