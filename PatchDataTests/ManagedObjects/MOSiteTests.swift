@@ -26,7 +26,7 @@ class MOSiteTests: XCTestCase {
                               state: PDState(),
                               sharedData: nil,
                               alerter: nil)
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
     }
     
     override func tearDown() {

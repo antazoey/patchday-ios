@@ -36,15 +36,15 @@ public class PDSharedData: NSObject {
     }
 
     /// Sets MOEstrogen data for PatchDay Today widget.
-    public func setEstrogenDataForToday(interval: String,
-                                        deliveryMethod: PDDefaults.DeliveryMethod,
+    public func setEstrogenDataForToday(interval: ExpirationIntervalUD,
+                                        deliveryMethod: DeliveryMethodUD,
                                         index: Index,
                                         setSiteIndex: @escaping (Int) -> ()) {
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
         if let estro = estrogenSchedule.nextDue() {
             if let siteName = getSiteNameForToday(using: estro,
-                                                  deliveryMethod: deliveryMethod,
+                                                  deliveryMethod: deliveryMethod.value,
                                                   current: index,
                                                   setSiteIndex: setSiteIndex) {
                 defaults?.set(siteName, forKey: siteKey)
@@ -78,8 +78,8 @@ public class PDSharedData: NSObject {
     }
     
     /// Sets data to be displayed in PatchDay Today widget.
-    public func setDataForTodayApp(interval: String, index: Index,
-                                   deliveryMethod: PDDefaults.DeliveryMethod,
+    public func setDataForTodayApp(interval: ExpirationIntervalUD, index: Index,
+                                   deliveryMethod: DeliveryMethodUD,
                                    setSiteIndex: @escaping (Int) -> ()) {
         setEstrogenDataForToday(interval: interval,
                                 deliveryMethod: deliveryMethod,
@@ -90,7 +90,7 @@ public class PDSharedData: NSObject {
 
     /// Helper function for retrieving correct SiteName data to be saved in PatchDay Today widget.
     private func getSiteNameForToday(using estro: MOEstrogen,
-                                     deliveryMethod: PDDefaults.DeliveryMethod,
+                                     deliveryMethod: DeliveryMethod,
                                      current: Index,
                                      setSiteIndex: @escaping (Int) -> ()) -> SiteName? {
         let setSI = setSiteIndex

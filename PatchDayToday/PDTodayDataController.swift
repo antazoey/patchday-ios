@@ -27,7 +27,7 @@ public class PDSharedDataController: NSObject {
     public static func usingPatches() -> Bool {
         let key = "delivMethod"
         if let delivMethod = defaults?.string(forKey: key) {
-            return delivMethod == PDStrings.DeliveryMethods.patches
+            return delivMethod == PDStrings.PickerData.deliveryMethods[0]
         }
         return false
     }

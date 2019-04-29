@@ -23,7 +23,7 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     
     public var estrogens: [MOEstrogen] = []
     internal var quantity = 3
-    internal var usingPatches = true
+    internal var deliveryMethod = DeliveryMethod.Patches
     private var estrogenMap = [UUID: MOEstrogen]()
     
     override init() {
@@ -70,7 +70,12 @@ public class EstrogenSchedule: NSObject, PDScheduling {
             estro.reset()
             context.delete(estro)
         }
-        quantity = (usingPatches) ? 3 : 1
+        switch deliveryMethod {
+        case .Patches:
+            quantity = 3
+        case .Injections:
+            quantity = 1
+        }
         new()
         loadMap()
         PatchData.save()
@@ -83,7 +88,12 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     public func new() {
         estrogens.removeAll()
         reset(from: 0)
-        quantity = usingPatches ? 3 : 1
+        switch deliveryMethod {
+        case .Patches:
+            quantity = 3
+        case .Injections:
+            quantity = 1
+        }
         for _ in 0..<quantity {
             let type = PDEntity.estrogen.rawValue
             let mo = type
@@ -232,7 +242,7 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     }
     
     /// Returns how many expired estrogens there are in the given estrogens.
-    public func totalDue(_ interval: String) -> Int {
+    public func totalDue(_ interval: ExpirationIntervalUD) -> Int {
         return estrogens.reduce(0, {
             count, estro in
             let c = (estro.isExpired(interval)) ? 1 : 0

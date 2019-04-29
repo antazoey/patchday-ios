@@ -7,5 +7,6 @@
 //
 
 import UIKit
+import PatchData
 
-internal let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+//internal let appDelegate = (UIApplication.shared.delegate as! AppDelegate)

@@ -79,31 +79,27 @@ extension MOEstrogen {
     
     // MARK: - Strings
     
-    public func expirationDate(interval: String) -> Date? {
+    public func expirationDate(interval: ExpirationIntervalUD) -> Date? {
         if let date = getDate() as Date?,
-            let expires = PDDateHelper.expirationDate(from: date, interval) {
+            let expires = PDDateHelper.expirationDate(from: date, interval.hours) {
             return expires
         }
         return nil
     }
     
-    public func expirationDateAsString(_ interval: String,
-                                       useWords: Bool) -> String {
+    public func expirationDateAsString(_ interval: ExpirationIntervalUD, useWords: Bool) -> String {
         if let date = getDate() as Date?,
-            let expires = PDDateHelper.expirationDate(from: date,
-                                                      interval) {
-            return PDDateHelper.format(date: expires,
-                                       useWords: useWords)
+            let expires = PDDateHelper.expirationDate(from: date, interval.hours) {
+            return PDDateHelper.format(date: expires, useWords: useWords)
         }
         return PDStrings.PlaceholderStrings.dotdotdot
     }
     
     // MARK: - Booleans
     
-    public func isExpired(_ interval: String) -> Bool {
+    public func isExpired(_ interval: ExpirationIntervalUD) -> Bool {
         if let date = getDate() as Date?,
-            let untilExp = PDDateHelper.expirationInterval(interval,
-                                                           date: date) {
+            let untilExp = PDDateHelper.expirationInterval(interval.hours, date: date) {
             return untilExp <= 0
         }
         return false
@@ -120,7 +116,7 @@ extension MOEstrogen {
     }
     
     /// Returns if the Estrogen is located somewhere not in the default PatchDay sites.
-    public func isCustomLocated(deliveryMethod: PDDefaults.DeliveryMethod) -> Bool {
+    public func isCustomLocated(deliveryMethod: DeliveryMethod) -> Bool {
         let n = getSiteName()
         switch deliveryMethod {
         case .Patches:

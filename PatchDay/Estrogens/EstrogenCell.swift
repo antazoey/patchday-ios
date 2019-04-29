@@ -21,18 +21,18 @@ class EstrogenCell: UITableViewCell {
     public func load() {
         let theme = appDelegate.themeManager.theme
         backgroundColor = appDelegate.themeManager.bg_c
-        let q = Defaults.quantity
+        let q = patchData.defaults.quantity.value.rawValue
         setThemeColors(at: index)
         switch (index) {
         case 0..<q :
-            let interval = Defaults.timeInterval
-            let deliv = Defaults.getDeliveryMethod()
-            if let estro = Schedule.estrogenSchedule.getEstrogen(at: index) {
+            let interval = patchData.defaults.expirationInterval
+            let deliv = patchData.defaults.deliveryMethod
+            if let estro = patchData.estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)
-                let img = determineImage(index: index, theme: theme, deliveryMethod: deliv)
+                let img = determineImage(index: index, theme: theme, deliveryMethod: deliv.value)
                 let title = determineTitle(estrogenIndex: index, interval)
                 configureDate(when: isExpired)
-                configureBadge(at: index, when: isExpired, deliveryMethod: deliv)
+                configureBadge(at: index, when: isExpired, deliveryMethod: deliv.value)
                 self.setDateLabel(title)
                 animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
                 selectionStyle = .default
@@ -47,10 +47,10 @@ class EstrogenCell: UITableViewCell {
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.
     private func determineImage(index: Index,
-                                theme: PDDefaults.PDTheme,
-                                deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+                                theme: PDTheme,
+                                deliveryMethod: DeliveryMethod) -> UIImage {
         var image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
-        if let estro = Schedule.estrogenSchedule.getEstrogen(at: index),
+        if let estro = patchData.estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(),
                 let siteName = site.getImageIdentifer() {
@@ -65,18 +65,17 @@ class EstrogenCell: UITableViewCell {
     }
     
     /// Determines the start of the week title for a schedule button.
-    private func determineTitle(estrogenIndex: Int, _ interval: String) -> String {
+    private func determineTitle(estrogenIndex: Int, _ interval: ExpirationIntervalUD) -> String {
         var title: String = ""
         typealias Strings = PDStrings.ColonedStrings
-        if let estro = Schedule.estrogenSchedule.getEstrogen(at: estrogenIndex),
+        if let estro = patchData.estrogenSchedule.getEstrogen(at: estrogenIndex),
             let date =  estro.getDate() as Date?,
             let expDate = estro.expirationDate(interval: interval) {
-            let deliv = Defaults.getDeliveryMethod()
+            let deliv = patchData.defaults.deliveryMethod.value
             switch deliv {
             case .Patches:
                 let titleIntro = (estro.isExpired(interval)) ?
-                    Strings.expired :
-                    Strings.expires
+                    Strings.expired : Strings.expires
                 title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
             case .Injections:
                 let day = PDDateHelper.dayOfWeekString(date: date)
@@ -88,16 +87,16 @@ class EstrogenCell: UITableViewCell {
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
     private func animateEstrogenButtonChanges(at index: Index,
-                                              theme: PDDefaults.PDTheme,
+                                              theme: PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
-        let schedule = Schedule.estrogenSchedule
+        let schedule = patchData.schedule.estrogenSchedule
         let estrogenOptional = schedule.getEstrogen(at: index)
         var isNew = false
         if let img = newImage {
             isNew =  PDImages.isSiteless(img)
         }
-        Schedule.state.isNew = isNew
+        patchData.state.isNew = isNew
         let isAnimating = shouldAnimate(estrogenOptional, at: index)
         if isAnimating {
             UIView.transition(with: stateImage as UIView,
@@ -116,8 +115,8 @@ class EstrogenCell: UITableViewCell {
     }
     
     private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
-        let changes = Schedule.state
-        let q = Defaults.quantity
+        let changes = patchData.state
+        let q = patchData.defaults.quantity.value.rawValue
         var sortFromEstrogenDateChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false
@@ -169,9 +168,7 @@ class EstrogenCell: UITableViewCell {
             UIFont.systemFont(ofSize: 38)
     }
 
-    private func configureBadge(at index: Int,
-                                when isExpired: Bool,
-                                deliveryMethod: PDDefaults.DeliveryMethod) {
+    private func configureBadge(at index: Int, when isExpired: Bool, deliveryMethod: DeliveryMethod) {
         badgeButton.restorationIdentifier = String(index)
         switch deliveryMethod {
         case .Patches:

@@ -22,8 +22,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = {
         return UIFont.systemFont(ofSize: 39)
     }()
-    public var siteNames: [String] = SiteScheduleRef.getNames()
-    public var siteImgIds: [String] = SiteScheduleRef.getImageIds()
+    public var siteNames: [String] = patchData.siteSchedule.getNames()
+    public var siteImgIds: [String] = patchData.siteSchedule.getImageIds()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,15 +128,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    moveRowAt sourceIndexPath: IndexPath,
                    to destinationIndexPath: IndexPath) {
-        let siteToMove = SiteScheduleRef.sites[sourceIndexPath.row]
-        SiteScheduleRef.sites.remove(at: sourceIndexPath.row)
-        SiteScheduleRef.sites.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == SiteScheduleRef.nextIndex(changeIndex: Defaults.setSiteIndex) {
-            Defaults.setSiteIndex(to: destinationIndexPath.row)
+        let siteToMove = patchData.siteSchedule.sites[sourceIndexPath.row]
+        patchData.siteSchedule.sites.remove(at: sourceIndexPath.row)
+        patchData.siteSchedule.sites.insert(siteToMove, at: destinationIndexPath.row)
+        if sourceIndexPath.row == patchData.siteSchedule.nextIndex(changeIndex: patchData.defaults.setSiteIndex) {
+            patchData.defaults.setSiteIndex(to: destinationIndexPath.row)
         }
-        let count = SiteScheduleRef.count()
+        let count = patchData.siteSchedule.count()
         for i in 0..<count {
-            SiteScheduleRef.setOrder(at: i, to: Int16(i))
+            patchData.siteSchedule.setOrder(at: i, to: Int16(i))
         }
         reloadSiteNames()
         sitesTable.reloadData()
@@ -176,7 +176,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        SiteScheduleRef.reset(completion: nil)
+        patchData.siteSchedule.reset(completion: nil)
         reloadSiteNames()
         sitesTable.isEditing = false
         let range = 0..<siteNames.count
@@ -241,7 +241,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(indexPath: IndexPath) {
-        SiteScheduleRef.delete(at: indexPath.row)
+        patchData.siteSchedule.delete(at: indexPath.row)
         siteNames.remove(at: indexPath.row)
         sitesTable.deleteRows(at: [indexPath], with: .fade)
         sitesTable.reloadData()
@@ -269,7 +269,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func setTitle() {
         typealias Titles = PDStrings.VCTitles
-        switch Defaults.getDeliveryMethod() {
+        switch patchData.defaults.deliveryMethod.value {
         case .Patches:
             title = Titles.patch_sites
         case .Injections:
@@ -279,7 +279,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func reloadSiteNames() {
-        siteNames = SiteScheduleRef.getNames()
+        siteNames = patchData.siteSchedule.getNames()
     }
     
     private func loadTabBarItemSize() {

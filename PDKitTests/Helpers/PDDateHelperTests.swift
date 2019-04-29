@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import PatchData
 @testable import PDKit
 
 class PDDateHelperTests: XCTestCase {
@@ -15,9 +16,9 @@ class PDDateHelperTests: XCTestCase {
     
     let d1 = Date(timeIntervalSince1970: 0)
     let today = Date()
-    let halfweek_interval = Data.expirationIntervals[0]
-    let week_interval = Data.expirationIntervals[1]
-    let two_weeks_interval = Data.expirationIntervals[2]
+    let halfweek_interval = ExpirationIntervalUD(with: ExpirationInterval.TwiceAWeek)
+    let week_interval = ExpirationIntervalUD(with: ExpirationInterval.OnceAWeek)
+    let two_weeks_interval = ExpirationIntervalUD(with: ExpirationInterval.EveryTwoWeeks)
 
     override func setUp() {
         super.setUp()
@@ -87,28 +88,11 @@ class PDDateHelperTests: XCTestCase {
         }
     }
     
-    func testCalculateHours() {
-        let expected1 = 84
-        let expected2 = 168
-        let expected3 = 336
-        let actual1 = PDDateHelper.calculateHours(of: halfweek_interval)
-        let actual2 = PDDateHelper.calculateHours(of: week_interval)
-        let actual3 = PDDateHelper.calculateHours(of: two_weeks_interval)
-        let actual4 = PDDateHelper.calculateHours(of: "NONSENSE")
-        XCTAssertEqual(actual1, expected1)
-        XCTAssertEqual(actual2, expected2)
-        XCTAssertEqual(actual3, expected3)
-        XCTAssertEqual(actual4, expected1)
-    }
-    
     func testExpirationDate() {
         let testDate = Date(timeInterval: 21_000, since: d1)
-        let actual_expDate1 = PDDateHelper.expirationDate(from: testDate,
-                                                          halfweek_interval)
-        let actual_expDate2 = PDDateHelper.expirationDate(from: testDate,
-                                                          week_interval)
-        let actual_expDate3 = PDDateHelper.expirationDate(from: testDate,
-                                                          two_weeks_interval)
+        let actual_expDate1 = PDDateHelper.expirationDate(from: testDate, halfweek_interval.hours)
+        let actual_expDate2 = PDDateHelper.expirationDate(from: testDate, week_interval.hours)
+        let actual_expDate3 = PDDateHelper.expirationDate(from: testDate, two_weeks_interval.hours)
         
         let expected_expDate1 = Date(timeInterval: 302_400, since: testDate)
         let expected_expDate2 = Date(timeInterval: 604_800, since: testDate)
@@ -121,8 +105,7 @@ class PDDateHelperTests: XCTestCase {
     
     func testExpirationInterval() {
         let now = Date()
-        if let actual_interval_1 = PDDateHelper.expirationInterval(halfweek_interval,
-                                                                   date: now),
+        if let actual_interval_1 = PDDateHelper.expirationInterval(halfweek_interval.hours, date: now),
             let expected_interval_1 = TimeInterval(exactly: 302_400) {
                 let a1 = Float(actual_interval_1)
                 let e1 = Float(expected_interval_1)
@@ -130,8 +113,7 @@ class PDDateHelperTests: XCTestCase {
         } else {
             XCTFail()
         }
-        if let actual_interval_2 = PDDateHelper.expirationInterval(week_interval,
-                                                                   date: now),
+        if let actual_interval_2 = PDDateHelper.expirationInterval(week_interval.hours, date: now),
             let expected_interval_2 = TimeInterval(exactly: 604_800) {
             let a2 = Float(actual_interval_2)
             let e2 = Float(expected_interval_2)
@@ -139,8 +121,7 @@ class PDDateHelperTests: XCTestCase {
         } else {
             XCTFail()
         }
-        if let actual_interval_3 = PDDateHelper.expirationInterval(two_weeks_interval,
-                                                                   date: now),
+        if let actual_interval_3 = PDDateHelper.expirationInterval(two_weeks_interval.hours, date: now),
             let expected_interval_3 = TimeInterval(exactly: 1_209_600) {
             let a3 = Float(actual_interval_3)
             let e3 = Float(expected_interval_3)

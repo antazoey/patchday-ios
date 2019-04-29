@@ -28,7 +28,7 @@ class SiteScheduleTests: XCTestCase {
                               state: PDState(),
                               sharedData: nil,
                               alerter: nil)
-        defaults.setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[0])
+        defaults.setDeliveryMethod(to: .Patches)
         // Load estrogens to occupy the sites
         estrogenSchedule.setSite(of: 0,
                                  with: siteSchedule.getSite(at: 0)!,
@@ -47,8 +47,8 @@ class SiteScheduleTests: XCTestCase {
     
     func testInit() {
         XCTAssertEqual(estrogenSchedule.count(), 3)
-        let deliv = defaults.deliveryMethod
-        XCTAssertEqual(deliv, "Patches")
+        let deliv = defaults.deliveryMethod.value
+        XCTAssertEqual(deliv, DeliveryMethod.Patches)
         var i = 0
         for estro in estrogenSchedule.estrogens {
             if let actual = estro.getSite(),
@@ -75,7 +75,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     func testReset() {
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
@@ -85,7 +85,7 @@ class SiteScheduleTests: XCTestCase {
         siteSchedule.setName(at: 0, to: "NOT DEFAULT SITE NAME")
         siteSchedule.setName(at: 1, to: "NOT DEFAULT SITE NAME")
         let _ = siteSchedule.insert()
-        defaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: .Injections)
         siteSchedule.reset()
         XCTAssertEqual(siteSchedule.count(), 6)
         XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
@@ -111,7 +111,7 @@ class SiteScheduleTests: XCTestCase {
     }
 
     func testNew() {
-        defaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: .Injections)
         siteSchedule.new()
         XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
     }
@@ -288,7 +288,7 @@ class SiteScheduleTests: XCTestCase {
         // Fails when add a custom site
         siteSchedule.setName(at: 0, to: "SITE NAME")
         XCTAssertFalse(siteSchedule.isDefault(deliveryMethod: .Patches))
-        defaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: .Injections)
         siteSchedule.reset()
         // Injection defaults pass
         XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))

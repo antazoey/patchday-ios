@@ -23,10 +23,9 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
          and imageView: UIImageView,
          saveButton: UIBarButtonItem,
          selectedSite: MOSite,
-         deliveryMethod: PDDefaults.DeliveryMethod) {
+         deliveryMethod: DeliveryMethod) {
         self.imageView = imageView
-        self.images = PDImages.siteImages(theme: Defaults.getTheme(),
-                                          deliveryMethod: deliveryMethod)
+        self.images = PDImages.siteImages(theme: patchData.defaults.theme.value, deliveryMethod: deliveryMethod)
         self.picker = picker
         self.saveButton = saveButton
         self.selectedSite = selectedSite
@@ -80,11 +79,11 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         }
         if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            State.siteChanged = true
+            patchData.state.siteChanged = true
             if let estros = selectedSite.estrogenRelationship {
                 for estro in estros {
-                    if let estro_i = EstrogenScheduleRef.getIndex(for: estro as! MOEstrogen) {
-                        State.indicesOfChangedDelivery.append(estro_i)
+                    if let estro_i = patchData.estrogenSchedule.getIndex(for: estro as! MOEstrogen) {
+                        patchData.state.indicesOfChangedDelivery.append(estro_i)
                     }
                 }
             }

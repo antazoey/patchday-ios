@@ -73,38 +73,19 @@ public class PDDateHelper: NSObject {
         print("Error: Undetermined time.")
         return nil
     }
-    
-    /// Converts an interval string into the number of hours, defaults to 3.5 days.
-    public static func calculateHours(of interval: String) -> Int {
-        var numberOfHours: Int
-        switch interval {
-        case PDStrings.PickerData.expirationIntervals[1]:
-            numberOfHours = 168
-        case PDStrings.PickerData.expirationIntervals[2]:
-            numberOfHours = 336
-        default:
-            numberOfHours = 84
-        }
-        return numberOfHours
-    }
-    
+
     /// Gives the future date from the given one based on the given interval string.
-    public static func expirationDate(from date: Date,
-                                      _ interval: String) -> Date? {
-        let hours: Int = calculateHours(of: interval)
+    public static func expirationDate(from date: Date, _ hours: Int) -> Date? {
         let calendar = Calendar.current
-        guard let expDate = calendar.date(byAdding: .hour,
-                                          value: hours,
-                                          to: date) else {
+        guard let expDate = calendar.date(byAdding: .hour, value: hours, to: date) else {
             return nil
         }
         return expDate
     }
     
     /// Returns the TimeInterval until expiration based on given
-    public static func expirationInterval(_ interval: String,
-                                          date: Date) -> TimeInterval? {
-        if let expDate = expirationDate(from: date, interval) {
+    public static func expirationInterval(_ hours: Int, date: Date) -> TimeInterval? {
+        if let expDate = expirationDate(from: date, hours) {
             // Return the interval to the expiration date.
             let now = Date()
             let expInterval = expDate >= now ?

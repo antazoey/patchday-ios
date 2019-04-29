@@ -32,7 +32,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        State.reset()
+        patchData.state.reset()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,9 +47,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         // Alert for disclaimer and tutorial on first start up
         if appDelegate.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
-            Defaults.set(&Defaults.mentionedDisclaimer, to: true, for: .MentionedDisclaimer)
+            patchData.defaults.set(&patchData.defaults.mentionedDisclaimer, to: true)
         }
-        let deliv = Defaults.getDeliveryMethod()
+        let deliv = patchData.defaults.deliveryMethod.value
         switch deliv {
         case .Patches:
             title = PDStrings.VCTitles.patches
@@ -85,7 +85,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < Defaults.quantity {
+        if indexPath.row < patchData.defaults.quantity.value.rawValue {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -125,7 +125,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     public func setTabBarBadges() {
         // Estrogen icon
         let item = self.navigationController?.tabBarItem
-        switch Defaults.getDeliveryMethod() {
+        switch patchData.defaults.deliveryMethod.value {
         case .Patches :
             item?.image = #imageLiteral(resourceName: "Patch Icon")
             item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
@@ -138,15 +138,15 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let interval = Defaults.timeInterval
-        let estroDueCount = Schedule.estrogenSchedule.totalDue(interval)
+        let interval = patchData.defaults.expirationInterval
+        let estroDueCount = patchData.estrogenSchedule.totalDue(interval)
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
     }
     
     private func setExpiredPillsBadge() {
-        let pillDueCount = PillScheduleRef.totalDue()
+        let pillDueCount = patchData.pillSchedule.totalDue()
         if pillDueCount > 0,
             let vcs = self.navigationController?.tabBarController?.viewControllers,
             vcs.count > 1 {
@@ -166,7 +166,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     /// Configures title of view controller.
     private func loadTitle() {
         if PDStrings.PickerData.deliveryMethods.count >= 2 {
-            switch Defaults.getDeliveryMethod() {
+            switch patchData.defaults.deliveryMethod.value {
             case .Patches:
                 title = PDStrings.VCTitles.patches
             case .Injections:

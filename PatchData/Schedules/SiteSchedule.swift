@@ -23,7 +23,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     
     public var sites: [MOSite] = []
     internal var next: Index = 0
-    internal var deliveryMethod: PDDefaults.DeliveryMethod = .Patches
+    internal var deliveryMethod = DeliveryMethod.Patches
     
     override init() {
         super.init()
@@ -199,7 +199,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     }
     
     /// Sets the site image Id for the site at the given index.
-    public func setImageId(at index: Index, to newId: String, deliveryMethod: PDDefaults.DeliveryMethod) {
+    public func setImageId(at index: Index, to newId: String, deliveryMethod: DeliveryMethod) {
         var site_set: [String]
         switch deliveryMethod {
         case .Patches:
@@ -264,7 +264,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     }
     
     /// Returns the set of sites on record union with the set of default sites
-    public func unionDefault(deliveryMethod: PDDefaults.DeliveryMethod) -> SiteNameSet {
+    public func unionDefault(deliveryMethod: DeliveryMethod) -> SiteNameSet {
         let siteSet = Set(getNames())
         var defaults: Set<String> = Set<String>()
         switch deliveryMethod {
@@ -277,7 +277,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     }
     
     /// Returns if the sites in the site schedule are the same as the default sites.
-    public func isDefault(deliveryMethod: PDDefaults.DeliveryMethod) -> Bool {
+    public func isDefault(deliveryMethod: DeliveryMethod) -> Bool {
         var defaultSites: [String]
         switch deliveryMethod {
         case .Patches:

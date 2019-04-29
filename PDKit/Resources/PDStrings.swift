@@ -302,9 +302,9 @@ public class PDStrings: NSObject {
         public static let expirationIntervals: [String] = {
             let comment1 = "Displayed on a button and in a picker."
             let comment2 = "Displayed in a picker."
-            return [NSLocalizedString("Twice-a-week", tableName: nil, comment: comment1),
+            return [NSLocalizedString("Twice a week", tableName: nil, comment: comment1),
                     NSLocalizedString("Once a week", tableName: nil, comment: comment2),
-                    NSLocalizedString("Every two weeks", comment: comment1)]
+                    NSLocalizedString("Once every two weeks", comment: comment1)]
         }()
 
         public static let counts: [String] = {
@@ -361,23 +361,7 @@ public class PDStrings: NSObject {
         public static let leftDelt = { return injectionSiteNames[5] }()
         
     }
-    
-    // MARK: - Delivery methods
-    
-    public struct DeliveryMethods {
-        private static let comment =
-            """
-            Name of a View Controller. Keep short.
-            Refers to a transdermal medicinal patches.
-            """
-        public static let patches = {
-            return NSLocalizedString("Patches", comment: comment)
-        }()
-        public static let injections = {
-            return NSLocalizedString("Injections", comment: comment)
-        }()
-    }
-    
+
     // MARK: - Alerts (Localizable)
     
     public struct AlertStrings {

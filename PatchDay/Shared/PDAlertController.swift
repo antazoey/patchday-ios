@@ -21,9 +21,9 @@ internal class PDAlertController: NSObject {
     // MARK: - Changing delivery method
     
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    internal static func alertForChangingDeliveryMethod(newMethod: String,
-                                                        oldMethod: String,
-                                                        oldCount: Int,
+    internal static func alertForChangingDeliveryMethod(newMethod: DeliveryMethod,
+                                                        oldMethod: DeliveryMethod,
+                                                        oldCount: Quantity,
                                                         deliveryButton: UIButton,
                                                         countButton: UIButton,
                                                         settingsVC: SettingsVC?) {
@@ -39,32 +39,36 @@ internal class PDAlertController: NSObject {
             let continueAction = UIAlertAction(title: PDStrings.ActionStrings.cont,
                                                style: .destructive) {
                 void in
-                EstrogenScheduleRef.reset() {
-                    let patches = PDStrings.PickerData.deliveryMethods[0]
-                    let c = (newMethod == patches) ? 3 : 1
-                    Defaults.setQuantityWithoutWarning(to: c)
-                    Defaults.setDeliveryMethod(to: newMethod)
+                patchData.estrogenSchedule.reset() {
+                    var q: Quantity
+                    switch newMethod {
+                    case .Patches:
+                        q = Quantity.Three
+                    case .Injections:
+                        q = Quantity.One
+                    }
+                    patchData.defaults.setQuantityWithoutWarning(to: q.rawValue)
+                    patchData.defaults.setDeliveryMethod(to: newMethod)
                 }
-                Defaults.setSiteIndex(to: 0)
-                State.deliveryMethodChanged = true
+                patchData.defaults.setSiteIndex(to: 0)
+                patchData.state.deliveryMethodChanged = true
                 settingsVC?.resetEstrogensVCTabBarItem()
-                Schedule.setEstrogenDataForToday()
+                patchData.schedule.setEstrogenDataForToday()
                 
             }
             let declineAction = UIAlertAction(title: PDStrings.ActionStrings.decline,
                                               style: .cancel) {
                 void in
-                if oldMethod == PDStrings.PickerData.deliveryMethods[0] {
+                switch oldMethod {
+                case .Patches:
                     countButton.isEnabled = true
-                    countButton.setTitle(String(oldCount), for: .disabled)
-                    countButton.setTitle(String(oldCount), for: .normal)
-                } else {
+                    countButton.setTitle("\(oldCount.rawValue)", for: [.disabled, .normal])
+                case .Injections:
                     countButton.isEnabled = false
-                    countButton.setTitle("1", for: .disabled)
-                    countButton.setTitle("1", for: .normal)
-                    Defaults.setQuantityWithoutWarning(to: 1)
+                    countButton.setTitle("1", for: [.disabled, .normal])
+                    patchData.defaults.setQuantityWithoutWarning(to: 1)
                 }
-                deliveryButton.setTitle(oldMethod, for: .normal)
+                deliveryButton.setTitle(oldMethod.rawValue, for: .normal)
                 
             }
             currentAlert.addAction(continueAction)
@@ -125,7 +129,7 @@ internal class PDAlertController: NSObject {
             let add = PDStrings.AlertStrings.AddSite.addActionTitle
             let addAction = UIAlertAction(title: add, style: .default) {
                 void in
-                if let site = Schedule.siteSchedule.insert() as? MOSite {
+                if let site = patchData.schedule.siteSchedule.insert() as? MOSite {
                     site.setName(name)
                     estroVC.sitePicker.reloadAllComponents()
                 }

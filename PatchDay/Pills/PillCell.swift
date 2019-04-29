@@ -23,7 +23,7 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var imageViewView: UIView!
     
     public func load() {
-        if let pill = PillScheduleRef.getPill(at: index) {
+        if let pill = patchData.pillSchedule.getPill(at: index) {
             nameLabel.text = pill.getName()
             loadStateImage(from: pill)
             stateImageButton.type = .pills

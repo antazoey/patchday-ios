@@ -26,7 +26,7 @@ class EstrogenScheduleTests: XCTestCase {
                               state: PDState(),
                               sharedData: nil,
                               alerter: nil)
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
     }
     
     override func tearDown() {
@@ -35,7 +35,7 @@ class EstrogenScheduleTests: XCTestCase {
     }
 
     func testCount() {
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
         XCTAssertEqual(estrogenSchedule.count(), 3)
         let _ = estrogenSchedule.insert()
         XCTAssertEqual(estrogenSchedule.count(), 4)
@@ -82,7 +82,7 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testReset() {
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
         estrogenSchedule.reset() {
             self.defaults.setQuantityWithoutWarning(to: 3)
             let sched = EstrogenSchedule()
@@ -90,7 +90,7 @@ class EstrogenScheduleTests: XCTestCase {
             XCTAssert(self.estrogenSchedule.isEmpty())
         }
         XCTAssertEqual(estrogenSchedule.count(), 3)
-        defaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: .Injections)
         XCTAssertEqual(estrogenSchedule.count(), 1)
     }
     
@@ -289,40 +289,39 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testTotalDue() {
-        let intervals = PDStrings.PickerData.expirationIntervals
         let oldDate = Date(timeIntervalSince1970: 0)
         let now = Date()
         let halfweek: TimeInterval = 302400
         let week: TimeInterval = 2 * halfweek
         let twoweeks: TimeInterval = 2 * week
         estrogenSchedule.setDate(of: 0, with: oldDate, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue("ANY"), 1)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: "ANY")), 1)
         estrogenSchedule.setDate(of: 0, with: now, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue("ANY"), 0)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: "ANY")), 0)
         // Halfweek just past due
         var d1 = Date(timeInterval: -halfweek-10, since: now)
         estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue(intervals[0]), 1)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: .TwiceAWeek)), 1)
         // Halfweek not quite due yet
         d1 = Date(timeInterval: -halfweek+10, since: now)
         estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue(intervals[0]), 0)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: .TwiceAWeek)), 0)
         // Week just past due
         d1 = Date(timeInterval: -week-10, since: now)
         estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue(intervals[1]), 1)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: .OnceAWeek)), 1)
         // Week not quite due yet
         d1 = Date(timeInterval: -week+10, since: now)
         estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue(intervals[1]), 0)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: .OnceAWeek)), 0)
         // Two weeks just past due
         d1 = Date(timeInterval: -twoweeks-10, since: now)
         estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue(intervals[2]), 1)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: .EveryTwoWeeks)), 1)
         // Two weeks not quite due yet
         d1 = Date(timeInterval: -twoweeks+10, since: now)
         estrogenSchedule.setDate(of: 0, with: d1, setSharedData: nil)
-        XCTAssertEqual(estrogenSchedule.totalDue(intervals[2]), 0)
+        XCTAssertEqual(estrogenSchedule.totalDue(ExpirationIntervalUD(with: .EveryTwoWeeks)), 0)
     }
     
     func testResetFrom() {

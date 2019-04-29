@@ -21,7 +21,7 @@ class SiteCell: UITableViewCell {
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
         if index >= 0 && index < siteCount,
-            let site = Schedule.siteSchedule.getSite(at: index) {
+            let site = patchData.siteSchedule.getSite(at: index) {
             orderLabel.text = "\(index + 1)."
             orderLabel.textColor = appDelegate.themeManager.text_c
             arrowLabel.textColor = appDelegate.themeManager.text_c
@@ -41,7 +41,7 @@ class SiteCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        if cellIndex == Schedule.siteSchedule.nextIndex(changeIndex: Defaults.setSiteIndex) {
+        if cellIndex == patchData.siteSchedule.nextIndex(changeIndex: patchData.defaults.setSiteIndex) {
             nextLabel.isHidden = shouldHide
         }
     }
@@ -55,7 +55,7 @@ class SiteCell: UITableViewCell {
     
     /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        let nextIndex = Schedule.siteSchedule.nextIndex(changeIndex: Defaults.setSiteIndex)
+        let nextIndex = patchData.siteSchedule.nextIndex(changeIndex: patchData.defaults.setSiteIndex)
         return ((nextIndex != index) || isEditing)
     }
     

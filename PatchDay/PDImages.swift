@@ -53,8 +53,7 @@ public class PDImages: NSObject {
     // Pills
     public static let pill: UIImage = { return #imageLiteral(resourceName: "Pill") }()
     
-    public static func siteImages(theme: PDDefaults.PDTheme,
-                                  deliveryMethod: PDDefaults.DeliveryMethod) -> [UIImage] {
+    public static func siteImages(theme: PDTheme, deliveryMethod: DeliveryMethod) -> [UIImage] {
         switch (theme, deliveryMethod) {
         case (.Light, .Patches):
             return [rGlute_p, lGlute_p, rAbdomen_p, lAbdomen_p, custom_p]
@@ -67,8 +66,7 @@ public class PDImages: NSObject {
         }
     }
     
-    public static func custom(theme: PDDefaults.PDTheme,
-                              deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+    public static func custom(theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
         switch (theme, deliveryMethod) {
         case (.Light, .Patches):
             return custom_p
@@ -85,8 +83,7 @@ public class PDImages: NSObject {
     
     // MARK: - Functions
     
-    public static func newSiteImage(theme: PDDefaults.PDTheme,
-                                    deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+    public static func newSiteImage(theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
         switch (theme, deliveryMethod) {
         case (.Dark, .Patches):
             return addPatch_d
@@ -104,9 +101,7 @@ public class PDImages: NSObject {
     }
     
     /// Coverts SiteName a.k.a String to corresponding patch image.
-    public static func siteNameToImage(_ siteName: SiteName,
-                                       theme: PDDefaults.PDTheme,
-                                       deliveryMethod: PDDefaults.DeliveryMethod) -> UIImage {
+    public static func siteNameToImage(_ siteName: SiteName, theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
         let stringToImageDict = getStringToImageDict(theme: theme, deliveryMethod: deliveryMethod)
         let siteNames = PDStrings.SiteNames.patchSiteNames
         if (siteNames.contains(siteName)) {
@@ -192,8 +187,7 @@ public class PDImages: NSObject {
 
     // MARK: - Private
     
-    private static func getStringToImageDict(theme: PDDefaults.PDTheme,
-                                         deliveryMethod: PDDefaults.DeliveryMethod) -> Dictionary<String, UIImage> {
+    private static func getStringToImageDict(theme: PDTheme, deliveryMethod: DeliveryMethod) -> Dictionary<String, UIImage> {
         let newImg = newSiteImage(theme: theme, deliveryMethod: .Patches);
         switch (theme, deliveryMethod) {
         case (.Light, .Patches):

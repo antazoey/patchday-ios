@@ -15,7 +15,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
     private var namePickerSet =
-        Array(SiteScheduleRef.unionDefault(deliveryMethod: Defaults.getDeliveryMethod()))
+        Array(patchData.siteSchedule.unionDefault(deliveryMethod: patchData.defaults.deliveryMethod.value))
     
     @IBOutlet weak var siteStack: UIStackView!
     
@@ -78,8 +78,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let t = Defaults.getTheme()
-        let deliv = Defaults.getDeliveryMethod()
+        let t = patchData.defaults.theme.value
+        let deliv = patchData.defaults.deliveryMethod.value
         let images = PDImages.siteImages(theme: t, deliveryMethod: deliv)
         let imgF = PDImages.imageToSiteName(_:)
         let imageStruct = setImage(images: images, imageNameFunction: imgF)
@@ -92,7 +92,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        SiteScheduleRef.setImageId(at: siteScheduleIndex,
+        patchData.siteSchedule.setImageId(at: siteScheduleIndex,
                                 to: imageStruct.imageKey,
                                 deliveryMethod: deliv)
     }
@@ -118,13 +118,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let name = nameText.text {
             // Updating existing site
             let i = siteScheduleIndex
-            let count = SiteScheduleRef.count()
+            let count = patchData.siteSchedule.count()
             switch i {
             case 0..<count :
-                SiteScheduleRef.setName(at: i, to: name)
+                patchData.siteSchedule.setName(at: i, to: name)
             case count :
-                if let _ = SiteScheduleRef.insert() {
-                    SiteScheduleRef.setName(at: i, to: name)
+                if let _ = patchData.siteSchedule.insert() {
+                    patchData.siteSchedule.setName(at: i, to: name)
                 }
             default : break
             }
@@ -171,7 +171,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             nameText.text = PDStrings.PlaceholderStrings.new_site
         case let name :
             if let n = name {
-                SiteScheduleRef.setName(at: siteScheduleIndex, to: n)
+                patchData.siteSchedule.setName(at: siteScheduleIndex, to: n)
             }
         }
         loadImage()
@@ -252,13 +252,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController,
             let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = SiteScheduleRef.getNames()
+            sitesVC.siteNames = patchData.siteSchedule.getNames()
             navCon.popViewController(animated: true)
         }
     }
     
     private func loadTitle() {
-        let sites = SiteScheduleRef.sites
+        let sites = patchData.siteSchedule.sites
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDStrings.TitleStrings.site) \(siteScheduleIndex + 1)"
@@ -269,7 +269,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImage() {
-        let deliv = Defaults.getDeliveryMethod()
+        let deliv = patchData.defaults.deliveryMethod.value
         let theme = appDelegate.themeManager.theme
         if let name = nameText.text {
             var image: UIImage
@@ -284,7 +284,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
-            } else if let site = SiteScheduleRef.getSite(at: siteScheduleIndex),
+            } else if let site = patchData.siteSchedule.getSite(at: siteScheduleIndex),
                 let imgId = site.getImageIdentifer(),
                 let i = sitesWithImages.firstIndex(of: imgId) {
                 image = PDImages.siteNameToImage(sitesWithImages[i],
@@ -301,8 +301,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImagePickeR() {
-        let deliv = Defaults.getDeliveryMethod()
-        if let site = SiteScheduleRef.getSite(at: siteScheduleIndex) {
+        let deliv = patchData.defaults.deliveryMethod.value
+        if let site = patchData.siteSchedule.getSite(at: siteScheduleIndex) {
             imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
                                                           and: siteImage,
                                                           saveButton: navigationItem.rightBarButtonItem!,

@@ -42,15 +42,13 @@ public class PDSchedule: NSObject {
     // MARK: - Public
     
     public func setEstrogenDataForToday() {
-        var interval = String()
-        var siteIndex = Int()
-        interval = defaults.timeInterval
-        siteIndex = defaults.siteIndex
-        let deliveryMethod = defaults.getDeliveryMethod()
+        let interval = defaults.expirationInterval
+        let siteIndex = defaults.siteIndex
+        let deliveryMethod = defaults.deliveryMethod
         let setSiteIndex = defaults.setSiteIndex
         self.sharedData.setEstrogenDataForToday(interval: interval,
                                                 deliveryMethod: deliveryMethod,
-                                                index: siteIndex,
+                                                index: siteIndex.value,
                                                 setSiteIndex: setSiteIndex)
     }
 
@@ -70,7 +68,7 @@ public class PDSchedule: NSObject {
     }
     
     /// Returns the total due of MOEstrogens and MOPills in the schedule.
-    public func totalDue(interval: String) -> Int {
+    public func totalDue(interval: ExpirationIntervalUD) -> Int {
         return estrogenSchedule.totalDue(interval) + pillSchedule.totalDue()
     }
 

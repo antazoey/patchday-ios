@@ -13,7 +13,7 @@ import PatchData
 
 internal class ThemeManager: NSObject {
     
-    public var theme: PDDefaults.PDTheme
+    public var theme: PDTheme
     internal var oddCell_c: UIColor
     internal var evenCell_c: UIColor
     internal var bg_c: UIColor
@@ -26,7 +26,7 @@ internal class ThemeManager: NSObject {
     internal var green_c: UIColor
     internal var purple_c: UIColor
     
-    public init(theme: PDDefaults.PDTheme) {
+    public init(theme: PDTheme) {
         self.theme = theme
         switch theme {
         case .Light:

@@ -29,7 +29,7 @@ class PDDefaultsTests: XCTestCase {
                               state: state,
                               sharedData: nil,
                               alerter: nil)
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
         estrogenSchedule.reset() {
             self.defaults.setQuantityWithoutWarning(to: 3)
         }
@@ -53,70 +53,60 @@ class PDDefaultsTests: XCTestCase {
     
     /// Test the site schedule reflects changes from defaults
     func testSiteSchedule() {
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
         siteSchedule.setName(at: 0, to: "NEW SITE")
         XCTAssert(!siteSchedule.isDefault(deliveryMethod: .Patches))
-        defaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: .Injections)
         XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))
     }
     
     /// Test the schedule state reflects changes from defaults
     func testPDState() {
-        defaults.setDeliveryMethod(to: "Patches")
-        defaults.setDeliveryMethod(to: "Injections")
+        defaults.setDeliveryMethod(to: .Patches)
+        defaults.setDeliveryMethod(to: .Injections)
         XCTAssert(state.deliveryMethodChanged)
     }
     
     func testDeliveryMethod() {
         var d = String()
-        defaults.setDeliveryMethod(to: "Injections")
-        XCTAssertFalse(estrogenSchedule.usingPatches)
-        XCTAssertFalse(siteSchedule.deliveryMethod == .Patches)
-        d = defaults.deliveryMethod
+        defaults.setDeliveryMethod(to: .Injections)
+        XCTAssert(siteSchedule.deliveryMethod != .Patches)
+        d = defaults.deliveryMethod.value.rawValue
         XCTAssertEqual(d, "Injections")
         XCTAssertEqual(estrogenSchedule.count(), 1)
         XCTAssertEqual(estrogenSchedule.quantity, 1)
         XCTAssertEqual(siteSchedule.count(), 6)
-        defaults.setDeliveryMethod(to: "Patches")
-        d = defaults.deliveryMethod
-        XCTAssertEqual(d, "Patches")
-        XCTAssert(estrogenSchedule.usingPatches)
+        defaults.setDeliveryMethod(to: .Patches)
+        let deliv = defaults.deliveryMethod.value
+        XCTAssertEqual(deliv, DeliveryMethod.Patches)
+        XCTAssert(estrogenSchedule.deliveryMethod == .Patches)
         XCTAssert(siteSchedule.deliveryMethod == .Patches)
         XCTAssertEqual(estrogenSchedule.count(), 3)
         XCTAssertEqual(estrogenSchedule.quantity, 3)
         XCTAssertEqual(siteSchedule.count(), 4)
-        defaults.setDeliveryMethod(to: "BAD")
-        d = defaults.deliveryMethod
-        XCTAssertNotEqual(d, "BAD")
         // ignore resets
-        defaults.setDeliveryMethod(to: "Injections", shouldReset: false)
+        defaults.setDeliveryMethod(to: .Injections, shouldReset: false)
         XCTAssertEqual(estrogenSchedule.count(), 3)
         XCTAssertEqual(estrogenSchedule.quantity, 3)
         XCTAssertEqual(siteSchedule.count(), 4)
     }
     
     func testTimeInterval() {
-        var t = String()
-        let intervals = PDStrings.PickerData.expirationIntervals
-        defaults.setTimeInterval(to: intervals[0])
-        t = defaults.timeInterval
-        XCTAssertEqual(t, intervals[0])
-        defaults.setTimeInterval(to: "BAD INTERVAL")
-        t = defaults.timeInterval
-        XCTAssertEqual(t, intervals[0])
+        defaults.set(&defaults.expirationInterval, to: ExpirationInterval.TwiceAWeek)
+        let t = defaults.expirationInterval.value
+        XCTAssertEqual(t, ExpirationInterval.TwiceAWeek)
     }
     
     func testSetQuantityWithWarning() {
-        var actual = Int()
         defaults.setQuantityWithoutWarning(to: 1)
         let date = Date(timeIntervalSince1970: 0)
         let mock: (Int) -> () = { void in }
         estrogenSchedule.setDate(of: 0, with: date, setSharedData: nil)
-        defaults.setQuantityWithWarning(to: 2, oldCount: 4,
+        defaults.setQuantityWithWarning(to: Quantity.Two, oldQ: Quantity.Four,
                                         reset: mock,
                                         cancel: mock)
-        actual = defaults.quantity
-        XCTAssertEqual(actual, 2)
+        let actual = defaults.quantity.value
+        XCTAssertEqual(actual, Quantity.Two)
         
         // TODO: Figure out a way to test for newCount < oldCount
         //
@@ -124,98 +114,70 @@ class PDDefaultsTests: XCTestCase {
     }
     
     func testSetQuantityWithoutWarning() {
-        var actual = Int()
-        var expected = Int()
-        defaults.setDeliveryMethod(to: "Patches")
+        defaults.setDeliveryMethod(to: .Patches)
         defaults.setQuantityWithoutWarning(to: 1)
-        expected = 1
-        actual = defaults.quantity
-        XCTAssertEqual(actual, expected)
-        XCTAssertEqual(estrogenSchedule.quantity, expected)
-        XCTAssertEqual(estrogenSchedule.count(), expected)
+        XCTAssertEqual(defaults.quantity.value, Quantity.One)
+        XCTAssertEqual(estrogenSchedule.quantity, 1)
+        XCTAssertEqual(estrogenSchedule.count(), 1)
 
         defaults.setQuantityWithoutWarning(to: 2)
-        expected = 2
-        actual = defaults.quantity
-        XCTAssertEqual(actual, expected)
-        XCTAssertEqual(estrogenSchedule.quantity, expected)
-        XCTAssertEqual(estrogenSchedule.count(), expected)
+        XCTAssertEqual(defaults.quantity.value, Quantity.Two)
+        XCTAssertEqual(estrogenSchedule.quantity, 2)
+        XCTAssertEqual(estrogenSchedule.count(), 2)
 
         defaults.setQuantityWithoutWarning(to: 3)
-        expected = 3
-        actual = defaults.quantity
-        XCTAssertEqual(actual, expected)
-        XCTAssertEqual(estrogenSchedule.quantity, expected)
+        XCTAssertEqual(defaults.quantity.value, Quantity.Three)
+        XCTAssertEqual(estrogenSchedule.quantity, 3)
         XCTAssertEqual(estrogenSchedule.count(), 3)
 
         defaults.setQuantityWithoutWarning(to: 4)
-        expected = 4
-        actual = defaults.quantity
-        XCTAssertEqual(actual, 4)
+        XCTAssertEqual(defaults.quantity.value, Quantity.Four)
         XCTAssertEqual(estrogenSchedule.quantity, 4)
         XCTAssertEqual(estrogenSchedule.count(), 4)
         
         defaults.setQuantityWithoutWarning(to: 400)
-        actual = defaults.quantity
-        XCTAssertEqual(actual, 4)
+        XCTAssertEqual(defaults.quantity.value.rawValue, 4)
         
-        // Should not allow to exceed 4 while in Patches modes
+        defaults.setDeliveryMethod(to: .Injections)
         defaults.setQuantityWithoutWarning(to: 6)
-        actual = defaults.quantity
-        XCTAssertNotEqual(actual, 6)
-        
-        defaults.setDeliveryMethod(to: "Injections")
-        defaults.setQuantityWithoutWarning(to: 6)
-        actual = defaults.quantity
-        XCTAssertEqual(actual, 1)
+        XCTAssertEqual(defaults.quantity.value, Quantity.One)
     }
     
     func testNotificationMinutes() {
-        defaults.set(&defaults.notificationsMinutesBefore, to: 30, for: .NotificationMinutesBefore)
+        defaults.set(&defaults.notificationsMinutesBefore, to: 30)
         let actual = defaults.notificationsMinutesBefore
-        XCTAssertEqual(actual, 30)
+        XCTAssertEqual(actual.value, 30)
     }
     
     func testNotify() {
-        defaults.set(&defaults.notifications, to: true, for: .Notifications)
+        defaults.set(&defaults.notifications, to: true)
         let notify = defaults.notifications
-        XCTAssert(notify)
+        XCTAssert(notify.value)
     }
     
     func testMentionedDisclaimer() {
-        defaults.set(&defaults.mentionedDisclaimer, to: true, for: .MentionedDisclaimer)
+        defaults.set(&defaults.mentionedDisclaimer, to: true)
         let mentioned = defaults.mentionedDisclaimer
-        XCTAssert(mentioned)
+        XCTAssert(mentioned.value)
     }
     
     func testSiteIndex() {
-        var siteIndex = Int()
         defaults.setSiteIndex(to: 2)
-        siteIndex = defaults.siteIndex
-        XCTAssertEqual(siteIndex, 2)
+        XCTAssertEqual(defaults.siteIndex.value, 2)
         defaults.setSiteIndex(to: 10)
-        siteIndex = defaults.siteIndex
-        XCTAssertEqual(siteIndex, 2)
+        XCTAssertEqual(defaults.siteIndex.value, 2)
         defaults.setSiteIndex(to: -1)
-        siteIndex = defaults.siteIndex
-        XCTAssertEqual(siteIndex, 2)
+        XCTAssertEqual(defaults.siteIndex.value, 2)
+        defaults.setSiteIndex(to: 3)
+        XCTAssertEqual(defaults.siteIndex.value, 3)
     }
 
     // Other public
     
     func testSetDeliveryMethod() {
-        defaults.setDeliveryMethod(to: "Patches")
-        XCTAssert(defaults.getDeliveryMethod() == .Patches)
-        defaults.setDeliveryMethod(to: PDStrings.PickerData.deliveryMethods[1])
-        XCTAssertFalse(defaults.getDeliveryMethod() == .Injections)
-    }
-
-    func testIsAccpetable() {
-        XCTAssert(defaults.isAcceptable(count: 1, max: 4))
-        XCTAssert(defaults.isAcceptable(count: 2, max: 4))
-        XCTAssert(defaults.isAcceptable(count: 3, max: 4))
-        XCTAssert(defaults.isAcceptable(count: 4, max: 4))
-        XCTAssertFalse(defaults.isAcceptable(count: -1, max: 4))
-        XCTAssertFalse(defaults.isAcceptable(count: 5, max: 4))
+        defaults.setDeliveryMethod(to: .Patches)
+        XCTAssert(defaults.deliveryMethod.value == .Patches)
+        defaults.setDeliveryMethod(to: .Injections)
+        XCTAssert(defaults.deliveryMethod.value == .Injections)
     }
 }
