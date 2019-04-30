@@ -265,7 +265,7 @@
                                                             <switch opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d5M-4a-RjZ">
                                                                 <rect key="frame" x="11" y="14.5" width="51" height="31"/>
                                                                 <connections>
-                                                                    <action selector="receiveReminder_switched:" destination="KTV-H2-f0o" eventType="valueChanged" id="4Yq-Ft-YcL"/>
+                                                                    <action selector="notificationsSwitched:" destination="KTV-H2-f0o" eventType="valueChanged" id="E90-xU-qol"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
@@ -341,6 +341,7 @@
                                                         <color key="minimumTrackTintColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <color key="maximumTrackTintColor" red="0.32369780539999998" green="0.1063579395" blue="0.574860394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
+                                                            <action selector="notificationsMinutesBeforeValueChanged:" destination="KTV-H2-f0o" eventType="valueChanged" id="KdK-6f-ZWy"/>
                                                             <action selector="reminderTimeValueChanged:" destination="KTV-H2-f0o" eventType="valueChanged" id="pKY-tt-x1z"/>
                                                         </connections>
                                                     </slider>
@@ -494,20 +495,29 @@
                     <connections>
                         <outlet property="countArrowButton" destination="vYX-vA-hfJ" id="hPc-58-DzN"/>
                         <outlet property="countButton" destination="XiV-is-g5n" id="2KZ-8P-s6Q"/>
-                        <outlet property="countLabel" destination="7kW-w6-KcV" id="xHm-hD-7bw"/>
                         <outlet property="countPicker" destination="PiM-fd-ASD" id="euN-yb-GAG"/>
+                        <outlet property="countSideView" destination="Eev-UO-6j6" id="rRi-0i-tWI"/>
                         <outlet property="deliveryMethodButton" destination="8nT-zg-jpv" id="OhE-ah-cpU"/>
+                        <outlet property="deliveryMethodLabel" destination="rtX-lG-6b0" id="3Cu-yK-vO6"/>
                         <outlet property="deliveryMethodPicker" destination="ajI-Up-RPe" id="kPk-dA-YO7"/>
+                        <outlet property="dmSideView" destination="4Bl-Xs-uyl" id="mQ7-WD-Gha"/>
+                        <outlet property="expirationIntervalLabel" destination="AU8-7c-vIO" id="qDy-FH-L2x"/>
                         <outlet property="expirationIntervalPicker" destination="bzl-1c-YdT" id="J6d-ht-Vd9"/>
                         <outlet property="intervalButton" destination="dZo-Ez-aXA" id="33r-zU-WhF"/>
-                        <outlet property="receiveReminderSwitch" destination="d5M-4a-RjZ" id="DLT-Kj-4aL"/>
-                        <outlet property="reminderTimeLabel" destination="DvS-Oc-7gL" id="ZIP-o9-IxT"/>
-                        <outlet property="reminderTimeSettingsLabel" destination="cNG-oD-Cfr" id="Jgw-2o-2j7"/>
-                        <outlet property="reminderTimeSlider" destination="DLV-bL-uBa" id="ujk-Lf-lgu"/>
+                        <outlet property="notMinBeforeSideView" destination="onX-vA-iNv" id="SU0-gU-uFQ"/>
+                        <outlet property="notSideView" destination="bAq-e1-NTx" id="dlf-Wj-Pw6"/>
+                        <outlet property="notificationsLabel" destination="5Zu-BE-Jh8" id="X8y-mk-lOY"/>
+                        <outlet property="notificationsMinutesBeforeLabel" destination="DvS-Oc-7gL" id="biW-7O-nAo"/>
+                        <outlet property="notificationsMinutesBeforeSlider" destination="DLV-bL-uBa" id="iGf-Sn-1rg"/>
+                        <outlet property="notificationsMinutesBeforeValueLabel" destination="cNG-oD-Cfr" id="7NT-p3-c3Q"/>
+                        <outlet property="notificationsSwitch" destination="d5M-4a-RjZ" id="qiS-e8-sBA"/>
+                        <outlet property="quantityLabel" destination="7kW-w6-KcV" id="YuN-Wf-WTK"/>
+                        <outlet property="schedSideView" destination="M1G-ig-oUg" id="wqz-yc-BMc"/>
                         <outlet property="settingsStack" destination="kgF-Vl-aPW" id="Lez-Zg-QGN"/>
                         <outlet property="settingsView" destination="fVr-dg-9JY" id="iOO-FV-94v"/>
                         <outlet property="themeButton" destination="SKQ-qW-gtq" id="Oye-iL-wnL"/>
                         <outlet property="themePicker" destination="HaS-8e-dXu" id="a3r-Lq-xyR"/>
+                        <outlet property="themeSideView" destination="wpl-eW-vim" id="CkC-wT-5YA"/>
                         <outlet property="topConstraint" destination="hNz-xM-aAM" id="tIs-ak-Vph"/>
                     </connections>
                 </viewController>

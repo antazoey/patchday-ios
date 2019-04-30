@@ -29,14 +29,15 @@ public class DeliveryMethodUD: PDKeyStorable {
     
     public static var key = PDDefault.DeliveryMethod
     
-    public init(with val: String) {
+    public required init(with val: String) {
         if let i = DeliveryMethod(rawValue: val) {
             value = i
+        } else {
+            value = DeliveryMethod.Patches
         }
-        value = DeliveryMethod.Patches
     }
     
-    public init(with val: DeliveryMethod) {
+    public required init(with val: DeliveryMethod) {
         value = val
     }
 }

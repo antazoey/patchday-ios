@@ -30,9 +30,10 @@ open class PDDefaultsBaseClass: NSObject {
     }
     
     open func find<T>(_ v: inout T) -> Bool where T: PDKeyStorable {
-        let def1 = shared?.defaults?.object(forKey: T.key.rawValue) as? T
-        let def2 = std_defaults.object(forKey: T.key.rawValue) as? T
-        v = def1 ?? def2 ?? v
+        let def1 = shared?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
+        let def2 = std_defaults.object(forKey: T.key.rawValue) as? T.RawValue
+        let fv = def1 ?? def2 ?? v.rawValue
+        v = T(with: fv)
         return def1 != nil || def2 != nil
     }
     

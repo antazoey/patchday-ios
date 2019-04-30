@@ -14,6 +14,10 @@ public protocol PDKeyStorable {
     
     associatedtype RawValue
     
+    init(with val: Value)
+    
+    init(with val: RawValue)
+    
     var value: Value { get set }
     
     var rawValue: RawValue { get }

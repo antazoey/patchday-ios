@@ -1,5 +1,5 @@
 //
-//  SiteIndexUD.swift
+//  NotificationsMinutesBefore.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 4/28/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SiteIndexUD: PDKeyStorable {
+public class NotificationsMinutesBeforeUD: PDKeyStorable {
     
     public typealias Value = Int
     
@@ -22,7 +22,7 @@ public class SiteIndexUD: PDKeyStorable {
         }
     }
     
-    public static var key = PDDefault.SiteIndex
+    public static var key = PDDefault.NotiicationsMinutesBefore
     
     public required init(with val: Int) {
         value = val

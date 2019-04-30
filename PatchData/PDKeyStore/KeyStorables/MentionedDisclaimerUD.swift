@@ -1,5 +1,5 @@
 //
-//  NotificationUD.swift
+//  MentionedDisclaimer.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 4/28/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class NotificationsUD: PDKeyStorable {
+public class MentionedDisclaimerUD: PDKeyStorable {
     
     public typealias Value = Bool
     
@@ -22,7 +22,7 @@ public class NotificationsUD: PDKeyStorable {
         }
     }
     
-    public static var key = PDDefault.Notifications
+    public static var key = PDDefault.MentionedDisclaimer
     
     public required init(with val: Bool) {
         value = val

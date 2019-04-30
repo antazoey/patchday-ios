@@ -11,9 +11,7 @@ import PatchData
 @testable import PDKit
 
 class PDDateHelperTests: XCTestCase {
-    
-    private typealias Data = PDStrings.PickerData
-    
+
     let d1 = Date(timeIntervalSince1970: 0)
     let today = Date()
     let halfweek_interval = ExpirationIntervalUD(with: ExpirationInterval.TwiceAWeek)

@@ -289,45 +289,6 @@ public class PDStrings: NSObject {
   
     }
     
-    // MARK: - Arrays (Localizable)
-    
-    public struct PickerData {
-        
-        public static let deliveryMethods: [String] = {
-            let comment = "Displayed on a button and in a picker."
-            return [NSLocalizedString("Patches", tableName: nil, comment: comment),
-                    NSLocalizedString("Injections", tableName: nil, comment: comment)]
-        }()
-        
-        public static let expirationIntervals: [String] = {
-            let comment1 = "Displayed on a button and in a picker."
-            let comment2 = "Displayed in a picker."
-            return [NSLocalizedString("Twice a week", tableName: nil, comment: comment1),
-                    NSLocalizedString("Once a week", tableName: nil, comment: comment2),
-                    NSLocalizedString("Once every two weeks", comment: comment1)]
-        }()
-
-        public static let counts: [String] = {
-            let comment = "Displayed in a picker."
-            return [NSLocalizedString("1", comment: comment),
-                    NSLocalizedString("2", comment: comment),
-                    NSLocalizedString("3", comment: comment),
-                    NSLocalizedString("4", comment: comment)]
-        }()
-        
-        public static let themes: [String] = {
-            let comment = "Displayed in a picker."
-            return [NSLocalizedString("Light", comment: comment),
-                    NSLocalizedString("Dark", comment: comment)]
-        }()
-        
-        public static let pillCounts: [String] = { return [counts[0], counts[1]] }()
-        
-        private static let comment1 = "Displayed on a button and in a picker."
-        private static let comment2 = "Displayed in a picker."
-        
-    }
-    
     // MARK: - Site names (Localizable)
     
     public struct SiteNames {

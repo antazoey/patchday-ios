@@ -290,11 +290,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        let bgColor = appDelegate.themeManager.bg_c
-        let borderColor = appDelegate.themeManager.border_c
-        sitesView.backgroundColor = bgColor
-        sitesTable.backgroundColor = bgColor
-        sitesTable.separatorColor = borderColor
+        sitesView.backgroundColor = appDelegate.themeManager.bg_c
+        sitesTable.backgroundColor = appDelegate.themeManager.bg_c
+        sitesTable.separatorColor = appDelegate.themeManager.border_c
     }
 }
 

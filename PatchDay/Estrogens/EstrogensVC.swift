@@ -11,7 +11,7 @@ import Foundation
 import PDKit
 import PatchData
 
-let estrogenButtonTotal = PDStrings.PickerData.counts.count
+let estrogenButtonTotal = PDPickerStrings.quantities.count
 
 class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -165,7 +165,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     /// Configures title of view controller.
     private func loadTitle() {
-        if PDStrings.PickerData.deliveryMethods.count >= 2 {
+        if PDPickerStrings.deliveryMethods.count >= 2 {
             switch patchData.defaults.deliveryMethod.value {
             case .Patches:
                 title = PDStrings.VCTitles.patches

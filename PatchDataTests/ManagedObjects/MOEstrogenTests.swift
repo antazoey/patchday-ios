@@ -167,8 +167,6 @@ class MOEstrogenTests: XCTestCase {
     
     func testIsExpired() {
         let estro = estrogenSchedule.insert() as! MOEstrogen
-        
-        typealias Data = PDStrings.PickerData
         let halfweek_interval = ExpirationIntervalUD(with: .TwiceAWeek)
         let week_interval = ExpirationIntervalUD(with: .OnceAWeek)
         let two_weeks_interval = ExpirationIntervalUD(with: .EveryTwoWeeks)

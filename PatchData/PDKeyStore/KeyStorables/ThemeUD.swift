@@ -29,7 +29,15 @@ public class ThemeUD: PDKeyStorable {
     
     public static var key = PDDefault.Theme
     
-    public init(with val: PDTheme) {
+    public required init(with val: String) {
+        if let theme = PDTheme(rawValue: val) {
+            value = theme
+        } else {
+            value = .Light
+        }
+    }
+    
+    public required init(with val: PDTheme) {
         value = val
     }
 }

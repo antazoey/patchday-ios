@@ -31,15 +31,15 @@ public class QuantityUD: PDKeyStorable {
     
     public static var key = PDDefault.Quantity
     
-    
-    public init(with val: Int) {
+    public required init(with val: Int) {
         if let q = Quantity.init(rawValue: val) {
             value = q
+        } else {
+            value = Quantity.Four
         }
-        value = Quantity.Four
     }
     
-    public init(with val: Quantity) {
+    public required init(with val: Quantity) {
         value = val
     }
 }
