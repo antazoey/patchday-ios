@@ -221,20 +221,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                              forComponent component: Int) -> String? {
         var title = " "
         if let key = getWhichTapped() {
-            let count = getPickerCount(from: key)
-            if row < count && row >= 0 {
-                switch key {
-                case .DeliveryMethod :
-                    title = PDPickerStrings.deliveryMethods[row]
-                case .ExpirationInterval :
-                    title = PDPickerStrings.expirationIntervals[row]
-                case .Quantity :
-                    title = PDPickerStrings.quantities[row]
-                case .Theme :
-                    title = PDPickerStrings.themes[row]
-                default:
-                    print("Error:  Improper context for loading PickerView")
-                }
+            let data = PDPickerStrings.getPickerStrings(for: key)
+            if row < data.count && row >= 0 {
+                title = data[row]
             }
         }
         return title
