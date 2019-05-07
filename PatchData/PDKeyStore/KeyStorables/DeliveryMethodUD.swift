@@ -7,37 +7,58 @@
 //
 
 import Foundation
+import PDKit
 
-public enum DeliveryMethod: String {
-    case Patches = "Patches"
-    case Injections = "Injections"
+public class DeliveryMethodValueHolder: PDValueHolding {
+
+    var indexer: DeliveryMethod
+    
+    required public init(indexer: DeliveryMethod) {
+        self.indexer = indexer
+    }
+    
+    public var heldValue: String {
+        get {
+            switch indexer {
+            case .Patches: return "Patches"
+            case .Injections: return "Injections"
+            }
+        }
+    }
 }
 
 public class DeliveryMethodUD: PDKeyStorable {
+    
+    private var v: DeliveryMethod
+    
+    private var valueHolder: DeliveryMethodValueHolder
     
     public typealias Value = DeliveryMethod
     
     public typealias RawValue = String
     
-    public var value: DeliveryMethod
+    public var value: DeliveryMethod {
+        get { return v } set { }
+    }
     
     public var rawValue: String {
-        get {
-            return value.rawValue
-        }
+        get { return valueHolder.heldValue }
     }
     
     public static var key = PDDefault.DeliveryMethod
     
-    public required init(with val: String) {
+    public required convenience init(with val: String) {
+        var deliv: DeliveryMethod
         if let i = DeliveryMethod(rawValue: val) {
-            value = i
+            deliv = i
         } else {
-            value = DeliveryMethod.Patches
+            deliv = DeliveryMethod.Patches
         }
+        self.init(with: deliv)
     }
     
     public required init(with val: DeliveryMethod) {
-        value = val
+        v = val
+        valueHolder = DeliveryMethodValueHolder(indexer: v)
     }
 }

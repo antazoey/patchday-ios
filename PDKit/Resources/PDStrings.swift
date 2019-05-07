@@ -120,9 +120,6 @@ public class PDStrings: NSObject {
         public static let dotdotdot = {
             return NSLocalizedString("...", comment: c2)
         }()
-        public static let unplaced = {
-            return NSLocalizedString("unplaced", comment: c3)
-        }()
         public static let new_site = {
             return NSLocalizedString("New Site", comment: c3)
         }()
@@ -287,40 +284,6 @@ public class PDStrings: NSObject {
             }()
         }
   
-    }
-    
-    // MARK: - Site names (Localizable)
-    
-    public struct SiteNames {
-        
-        public static let patchSiteNames: [String] = {
-            let comment = "Displayed all over the app. Abbreviate if it is more than 2x as long."
-            return [NSLocalizedString("Right Glute", tableName: nil, comment: comment),
-                    NSLocalizedString("Left Glute", tableName: nil, comment: comment),
-                    NSLocalizedString("Right Abdomen", tableName: nil, comment: comment),
-                    NSLocalizedString("Left Abdomen", tableName: nil, comment: comment)]
-        }()
-        
-        public static let rightAbdomen = { return patchSiteNames[2] }()
-        public static let leftAbdomen = { return patchSiteNames[3] }()
-        public static let rightGlute = { return patchSiteNames[0] }()
-        public static let leftGlute = { return patchSiteNames[1] }()
-
-        public static let injectionSiteNames: [String] =  {
-            let comment = "Displayed all over the app. Abbreviate if it is more than 2x as long."
-            return [NSLocalizedString("Right Quad", comment: comment),
-                    NSLocalizedString("Left Quad", comment: comment),
-                    NSLocalizedString("Right Glute", comment: comment),
-                    NSLocalizedString("Left Glute", comment: comment),
-                    NSLocalizedString("Right Delt", comment: comment),
-                    NSLocalizedString("Left Delt", comment: comment)]
-        }()
-        
-        public static let rightQuad = { return injectionSiteNames[0] }()
-        public static let leftQuad = { return injectionSiteNames[1] }()
-        public static let rightDelt = { return injectionSiteNames[4] }()
-        public static let leftDelt = { return injectionSiteNames[5] }()
-        
     }
 
     // MARK: - Alerts (Localizable)

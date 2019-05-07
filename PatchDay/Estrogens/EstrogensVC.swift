@@ -15,7 +15,6 @@ let estrogenButtonTotal = PDPickerStrings.quantities.count
 
 class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
     @IBOutlet var estrogensView: UIView!
     @IBOutlet weak var estrogenTable: UITableView!
     
@@ -26,6 +25,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabs = PDTabViewDelegate(viewControllers: self.navigationController?.viewControllers)
         estrogenTable.dataSource = self
         estrogenTable.delegate = self
         loadTitle()
@@ -165,14 +165,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     /// Configures title of view controller.
     private func loadTitle() {
-        if PDPickerStrings.deliveryMethods.count >= 2 {
-            switch patchData.defaults.deliveryMethod.value {
-            case .Patches:
-                title = PDStrings.VCTitles.patches
-            case .Injections:
-                title = PDStrings.VCTitles.injections
-            }            
-        }
+        title = PDPickerStringsDelegate.getTitle(for: patchData.defaults.deliveryMethod.value)
     }
     
     private func loadTabBarItems() {

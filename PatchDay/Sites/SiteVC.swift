@@ -273,15 +273,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         let theme = appDelegate.themeManager.theme
         if let name = nameText.text {
             var image: UIImage
-            var sitesWithImages: [String]
-
-            switch deliv {
-            case .Patches:
-                sitesWithImages = PDStrings.SiteNames.patchSiteNames
-            case .Injections:
-                sitesWithImages = PDStrings.SiteNames.injectionSiteNames
-            }
-            
+            var sitesWithImages = PDSiteStrings.getSiteNames(for: deliv)
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
             } else if let site = patchData.siteSchedule.getSite(at: siteScheduleIndex),

@@ -14,6 +14,7 @@ import PDKit
 
 let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
 let patchData = appDelegate.patchData
+var tabs: PDTabViewDelegate?
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -118,11 +118,6 @@ extension MOEstrogen {
     /// Returns if the Estrogen is located somewhere not in the default PatchDay sites.
     public func isCustomLocated(deliveryMethod: DeliveryMethod) -> Bool {
         let n = getSiteName()
-        switch deliveryMethod {
-        case .Patches:
-            return !PDStrings.SiteNames.patchSiteNames.contains(n)
-        case .Injections:
-            return !PDStrings.SiteNames.injectionSiteNames.contains(n)
-        }
+        return !PDSiteStrings.getSiteNames(for: deliveryMethod).contains(n)
     }
 }

@@ -130,28 +130,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - Public
     
-    /// Resets the title of the Estrogens tab bar item to either "Patches" or "Injections".
-    public func resetEstrogensVCTabBarItem() {
-        let interval = patchData.defaults.expirationInterval
-        let v = patchData.schedule.totalDue(interval: interval)
-        // Estrogen icon
-        if let vcs = navigationController?.tabBarController?.viewControllers, vcs.count > 0 {
-            vcs[0].tabBarItem.badgeValue = v > 0 ? String(v) : nil
-            let deliv = patchData.defaults.deliveryMethod.value
-            switch deliv {
-            case .Patches:
-                vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Patch Icon")
-                vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Patch Icon")
-                vcs[0].tabBarItem.title = PDStrings.VCTitles.patches
-            case .Injections:
-                vcs[0].tabBarItem.image = #imageLiteral(resourceName: "Injection Icon")
-                vcs[0].tabBarItem.selectedImage = #imageLiteral(resourceName: "Injection Icon")
-                vcs[0].tabBarItem.title = PDStrings.VCTitles.injections
-            }
-            vcs[0].awakeFromNib()
-        }
-    }
-      
     // MARK: - Data loaders
     
     private func loadDeliveryMethod() {
@@ -221,7 +199,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                              forComponent component: Int) -> String? {
         var title = " "
         if let key = getWhichTapped() {
-            let data = PDPickerStrings.getPickerStrings(for: key)
+            let data = PDPickerStringsDelegate.getPickerStrings(for: key)
             if row < data.count && row >= 0 {
                 title = data[row]
             }
@@ -244,7 +222,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         var picker: UIPickerView?
         var deselectException: String?
         var button: UIButton?
-        var selections: [String]?
+        let selections = PDPickerStringsDelegate.getPickerStrings(for: key)
         
         setWhichTapped(to: key)
         switch key {
@@ -252,24 +230,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             picker = deliveryMethodPicker
             deselectException = "dm"
             button = deliveryMethodButton
-            selections = PDPickerStrings.deliveryMethods
         case .ExpirationInterval:
             picker = expirationIntervalPicker
             deselectException = "i"
             button = intervalButton
-            selections = PDPickerStrings.expirationIntervals
             expirationIntervalPicker.reloadAllComponents()
             deselectEverything(except: "i")
         case .Quantity:
             picker = countPicker
             deselectException = "c"
             button = countButton
-            selections = PDPickerStrings.quantities
         case .Theme:
             picker = themePicker
             deselectException = "t"
             button = themeButton
-            selections = PDPickerStrings.themes
         default:
             print("Error: Improper context for loading UIPicker.")
             return
@@ -278,7 +252,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let p = picker!
         p.reloadAllComponents()
         deselectEverything(except: deselectException!)
-        openOrClose(picker: p, buttonTapped: button!, selections: selections!, key: key)
+        openOrClose(picker: p, buttonTapped: button!, selections: selections, key: key)
     }
     
     private func openPicker(_ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView) {
@@ -286,7 +260,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let title = buttonTapped.titleLabel,
             let readText = title.text,
             let selectedRowIndex = selections.firstIndex(of: readText) {
-            picker.selectRow(selectedRowIndex, inComponent: 0, animated: true)
+            picker.selectRow(selectedRowIndex, inComponent: 0, animated: false)
         }
         UIView.transition(with: picker as UIView,
                           duration: 0.4,
@@ -302,11 +276,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView, _ key: PDDefault) {
         buttonTapped.isSelected = false
         picker.isHidden = true
-        switch key {
-        case .Quantity :
+        if key == PDDefault.Quantity {
             patchData.state.oldDeliveryCount = patchData.defaults.quantity.value.rawValue
-        default :
-            break
         }
         self.saveFromPicker(key)
     }
@@ -347,24 +318,19 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
-        if row < PDPickerStrings.deliveryMethods.count && row >= 0 {
-            let choice = PDPickerStrings.deliveryMethods[row]
-            if let deliv = DeliveryMethod(rawValue: choice) {
-                setButtonsFromDeliveryMethodChange(choice:  deliv)
-                deliveryMethodButton.setTitle(choice, for: .normal)
-                if patchData.estrogenSchedule.isEmpty() &&
-                    patchData.siteSchedule.isDefault(deliveryMethod: deliv) {
-                    
-                    patchData.defaults.setDeliveryMethod(to: deliv)
-                    patchData.defaults.setSiteIndex(to: 0)
-                    resetEstrogensVCTabBarItem()
-                    patchData.schedule.setEstrogenDataForToday()
-                } else {
-                    alertForChangingDeliveryMethod(choice: deliv)
-                }
-            }
+        
+        let deliv = PDPickerStringsDelegate.getDeliveryMethod(at: row)
+        setButtonsFromDeliveryMethodChange(choice:  deliv)
+        deliveryMethodButton.setTitle(deliv.rawValue, for: .normal)
+        if patchData.estrogenSchedule.isEmpty() &&
+            patchData.siteSchedule.isDefault(deliveryMethod: deliv) {
+            
+            patchData.defaults.setDeliveryMethod(to: deliv)
+            patchData.defaults.setSiteIndex(to: 0)
+            
+            patchData.schedule.setEstrogenDataForToday()
         } else {
-            print("Error: no delivery method for row  + \(row)")
+            alertForChangingDeliveryMethod(choice: deliv)
         }
     }
     

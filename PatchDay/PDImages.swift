@@ -103,10 +103,10 @@ public class PDImages: NSObject {
     /// Coverts SiteName a.k.a String to corresponding patch image.
     public static func siteNameToImage(_ siteName: SiteName, theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
         let stringToImageDict = getStringToImageDict(theme: theme, deliveryMethod: deliveryMethod)
-        let siteNames = PDStrings.SiteNames.patchSiteNames
+        let siteNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
         if (siteNames.contains(siteName)) {
             return stringToImageDict[siteName]!
-        } else if siteName != PDStrings.PlaceholderStrings.unplaced {
+        } else if siteName != PDSiteStrings.unplaced {
             return custom(theme: theme, deliveryMethod: deliveryMethod)
         }
         return newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
@@ -114,26 +114,26 @@ public class PDImages: NSObject {
     
     /// Converts patch image to SiteName a.k.a String
     public static func imageToSiteName(_ image: UIImage) -> String {
-        let imageToStringDict = [rGlute_p : PDStrings.SiteNames.rightGlute,
-                                 rGlute_p_d : PDStrings.SiteNames.rightGlute,
-                                 lGlute_p : PDStrings.SiteNames.leftGlute,
-                                 lGlute_p_d : PDStrings.SiteNames.leftGlute,
-                                 rAbdomen_p : PDStrings.SiteNames.rightAbdomen,
-                                 rAbdomen_p_d : PDStrings.SiteNames.rightAbdomen,
-                                 lAbdomen_p : PDStrings.SiteNames.leftAbdomen,
-                                 lAbdomen_p_d : PDStrings.SiteNames.leftAbdomen,
-                                 rGlute_i : PDStrings.SiteNames.rightGlute,
-                                 rGlute_i_d : PDStrings.SiteNames.rightGlute,
-                                 lGlute_i : PDStrings.SiteNames.leftGlute,
-                                 lGlute_i_d : PDStrings.SiteNames.leftGlute,
-                                 rQuad_i : PDStrings.SiteNames.rightQuad,
-                                 rQuad_i_d : PDStrings.SiteNames.rightQuad,
-                                 lQuad_i : PDStrings.SiteNames.leftQuad,
-                                 lQuad_i_d : PDStrings.SiteNames.leftQuad,
-                                 rDelt_i : PDStrings.SiteNames.rightDelt,
-                                 rDelt_i_d : PDStrings.SiteNames.rightDelt,
-                                 lDelt_i : PDStrings.SiteNames.leftDelt,
-                                 lDelt_i_d : PDStrings.SiteNames.leftDelt]
+        let imageToStringDict = [rGlute_p : PDSiteStrings.SiteNames.rightGlute,
+                                 rGlute_p_d : PDSiteStrings.SiteNames.rightGlute,
+                                 lGlute_p : PDSiteStrings.SiteNames.leftGlute,
+                                 lGlute_p_d : PDSiteStrings.SiteNames.leftGlute,
+                                 rAbdomen_p : PDSiteStrings.SiteNames.rightAbdomen,
+                                 rAbdomen_p_d : PDSiteStrings.SiteNames.rightAbdomen,
+                                 lAbdomen_p : PDSiteStrings.SiteNames.leftAbdomen,
+                                 lAbdomen_p_d : PDSiteStrings.SiteNames.leftAbdomen,
+                                 rGlute_i : PDSiteStrings.SiteNames.rightGlute,
+                                 rGlute_i_d : PDSiteStrings.SiteNames.rightGlute,
+                                 lGlute_i : PDSiteStrings.SiteNames.leftGlute,
+                                 lGlute_i_d : PDSiteStrings.SiteNames.leftGlute,
+                                 rQuad_i : PDSiteStrings.SiteNames.rightQuad,
+                                 rQuad_i_d : PDSiteStrings.SiteNames.rightQuad,
+                                 lQuad_i : PDSiteStrings.SiteNames.leftQuad,
+                                 lQuad_i_d : PDSiteStrings.SiteNames.leftQuad,
+                                 rDelt_i : PDSiteStrings.SiteNames.rightDelt,
+                                 rDelt_i_d : PDSiteStrings.SiteNames.rightDelt,
+                                 lDelt_i : PDSiteStrings.SiteNames.leftDelt,
+                                 lDelt_i_d : PDSiteStrings.SiteNames.leftDelt]
         if let name = imageToStringDict[image] {
             return name
         } else {
@@ -150,40 +150,6 @@ public class PDImages: NSObject {
             return #imageLiteral(resourceName: "Calendar Icon")
         }
     }
-    
-    // Original code by Kirit Modi
-    // https://stackoverflow.com/questions/31314412/how-to-resize-image-in-swift
-    /// Resizes an image to the target size.
-    public static func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
-        let size = image.size
-        
-        let widthRatio  = targetSize.width  / size.width
-        let heightRatio = targetSize.height / size.height
-        
-        // Figure out what our orientation is, and use that to form the rectangle
-        let newSize: CGSize
-        if(widthRatio > heightRatio) {
-            let w = size.width * heightRatio
-            let h = size.height * heightRatio
-            newSize = CGSize(width: w, height: h)
-        } else {
-            let w = size.width * widthRatio
-            let h = size.height * widthRatio
-            newSize = CGSize(width: w,  height: h)
-        }
-        
-        // This is the rect that we've calculated out and this is what is actually used below
-        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-        
-        // Actually do the resizing to the rect using the ImageContext stuff
-        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
-        image.draw(in: rect)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-
-        return newImage ?? UIImage()
-    }
-    
 
     // MARK: - Private
     
@@ -191,33 +157,33 @@ public class PDImages: NSObject {
         let newImg = newSiteImage(theme: theme, deliveryMethod: .Patches);
         switch (theme, deliveryMethod) {
         case (.Light, .Patches):
-            return [PDStrings.PlaceholderStrings.unplaced : newImg,
-                    PDStrings.SiteNames.rightGlute : rGlute_p,
-                    PDStrings.SiteNames.leftGlute : lGlute_p,
-                    PDStrings.SiteNames.rightAbdomen : rAbdomen_p,
-                    PDStrings.SiteNames.leftAbdomen : lAbdomen_p]
+            return [PDSiteStrings.unplaced: newImg,
+                    PDSiteStrings.SiteNames.rightGlute : rGlute_p,
+                    PDSiteStrings.SiteNames.leftGlute : lGlute_p,
+                    PDSiteStrings.SiteNames.rightAbdomen : rAbdomen_p,
+                    PDSiteStrings.SiteNames.leftAbdomen : lAbdomen_p]
         case (.Dark, .Patches):
-            return [PDStrings.PlaceholderStrings.unplaced : newImg,
-                    PDStrings.SiteNames.rightGlute : rGlute_p_d,
-                    PDStrings.SiteNames.leftGlute : lGlute_p_d,
-                    PDStrings.SiteNames.rightAbdomen : rAbdomen_p_d,
-                    PDStrings.SiteNames.leftAbdomen : lAbdomen_p_d]
+            return [PDSiteStrings.unplaced : newImg,
+                    PDSiteStrings.SiteNames.rightGlute : rGlute_p_d,
+                    PDSiteStrings.SiteNames.leftGlute : lGlute_p_d,
+                    PDSiteStrings.SiteNames.rightAbdomen : rAbdomen_p_d,
+                    PDSiteStrings.SiteNames.leftAbdomen : lAbdomen_p_d]
         case (.Light, .Injections):
-            return [PDStrings.PlaceholderStrings.unplaced : newImg,
-                    PDStrings.SiteNames.rightGlute : rGlute_i,
-                    PDStrings.SiteNames.leftGlute : lGlute_i,
-                    PDStrings.SiteNames.leftDelt : lDelt_i,
-                    PDStrings.SiteNames.rightDelt : rDelt_i,
-                    PDStrings.SiteNames.leftQuad : lQuad_i,
-                    PDStrings.SiteNames.rightQuad : rQuad_i]
+            return [PDSiteStrings.unplaced : newImg,
+                    PDSiteStrings.SiteNames.rightGlute : rGlute_i,
+                    PDSiteStrings.SiteNames.leftGlute : lGlute_i,
+                    PDSiteStrings.SiteNames.leftDelt : lDelt_i,
+                    PDSiteStrings.SiteNames.rightDelt : rDelt_i,
+                    PDSiteStrings.SiteNames.leftQuad : lQuad_i,
+                    PDSiteStrings.SiteNames.rightQuad : rQuad_i]
         case (.Dark, .Injections):
-            return [PDStrings.PlaceholderStrings.unplaced : newImg,
-                    PDStrings.SiteNames.rightGlute : rGlute_i_d,
-                    PDStrings.SiteNames.leftGlute : lGlute_i_d,
-                    PDStrings.SiteNames.leftDelt : lDelt_i_d,
-                    PDStrings.SiteNames.rightDelt : rDelt_i_d,
-                    PDStrings.SiteNames.leftQuad : lQuad_i_d,
-                    PDStrings.SiteNames.rightQuad : rQuad_i_d]
+            return [PDSiteStrings.unplaced : newImg,
+                    PDSiteStrings.SiteNames.rightGlute : rGlute_i_d,
+                    PDSiteStrings.SiteNames.leftGlute : lGlute_i_d,
+                    PDSiteStrings.SiteNames.leftDelt : lDelt_i_d,
+                    PDSiteStrings.SiteNames.rightDelt : rDelt_i_d,
+                    PDSiteStrings.SiteNames.leftQuad : lQuad_i_d,
+                    PDSiteStrings.SiteNames.rightQuad : rQuad_i_d]
         }
     }
 }

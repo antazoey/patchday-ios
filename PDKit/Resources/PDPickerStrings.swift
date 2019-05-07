@@ -7,24 +7,8 @@
 //
 
 import Foundation
-import PDKit
 
 public class PDPickerStrings {
-    
-    public static func getPickerStrings(for key: PDDefault) -> [String] {
-        switch key {
-        case PDDefault.DeliveryMethod:
-            return deliveryMethods
-        case PDDefault.ExpirationInterval:
-            return expirationIntervals
-        case PDDefault.Quantity:
-            return quantities
-        case PDDefault.Theme:
-            return themes
-        default:
-            return []
-        }
-    }
     
     public static let deliveryMethods: [String] = {
         let comment = "Displayed on a button and in a picker."
@@ -53,10 +37,4 @@ public class PDPickerStrings {
         return [NSLocalizedString("Light", comment: comment),
                 NSLocalizedString("Dark", comment: comment)]
     }()
-    
-    public static let pillCounts: [String] = { return [quantities[0], quantities[1]] }()
-    
-    private static let comment1 = "Displayed on a button and in a picker."
-    private static let comment2 = "Displayed in a picker."
-    
 }

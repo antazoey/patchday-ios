@@ -61,13 +61,7 @@ public class SiteSchedule: NSObject, PDScheduling {
         if isDefault(deliveryMethod: deliveryMethod) {
             return
         }
-        var resetNames: [String]
-        switch deliveryMethod {
-        case .Patches:
-            resetNames = PDStrings.SiteNames.patchSiteNames
-        case .Injections:
-            resetNames = PDStrings.SiteNames.injectionSiteNames
-        }
+        var resetNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
         let oldCount = sites.count
         let newcount = resetNames.count
         for i in 0..<newcount {
@@ -115,14 +109,9 @@ public class SiteSchedule: NSObject, PDScheduling {
     /// Generates a generic list of MOSites when there are none in store.
     public func new() {
         var sites: [MOSite] = []
-        typealias SiteNames = PDStrings.SiteNames
-        var names: [String]
-        switch deliveryMethod {
-        case .Patches:
-            names = SiteNames.patchSiteNames
-        default:
-            names = SiteNames.injectionSiteNames
-        }
+        typealias SiteNames = PDSiteStrings.SiteNames
+        let names = PDSiteStrings.getSiteNames(for: deliveryMethod)
+
         for i in 0..<names.count {
             if let site = insert() as? MOSite {
                 site.setName(names[i])
@@ -201,12 +190,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     /// Sets the site image Id for the site at the given index.
     public func setImageId(at index: Index, to newId: String, deliveryMethod: DeliveryMethod) {
         var site_set: [String]
-        switch deliveryMethod {
-        case .Patches:
-            site_set = PDStrings.SiteNames.patchSiteNames
-        case .Injections:
-            site_set = PDStrings.SiteNames.injectionSiteNames
-        }
+        site_set = PDSiteStrings.getSiteNames(for: deliveryMethod)
         if site_set.contains(newId), index >= 0 && index < sites.count {
             sites[index].setImageIdentifier(newId)
         } else {
@@ -266,25 +250,13 @@ public class SiteSchedule: NSObject, PDScheduling {
     /// Returns the set of sites on record union with the set of default sites
     public func unionDefault(deliveryMethod: DeliveryMethod) -> SiteNameSet {
         let siteSet = Set(getNames())
-        var defaults: Set<String> = Set<String>()
-        switch deliveryMethod {
-        case .Patches:
-            defaults = Set(PDStrings.SiteNames.patchSiteNames)
-        case .Injections:
-            defaults = Set(PDStrings.SiteNames.injectionSiteNames)
-        }
+        let defaults = Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod))
         return siteSet.union(defaults)
     }
     
     /// Returns if the sites in the site schedule are the same as the default sites.
     public func isDefault(deliveryMethod: DeliveryMethod) -> Bool {
-        var defaultSites: [String]
-        switch deliveryMethod {
-        case .Patches:
-            defaultSites = PDStrings.SiteNames.patchSiteNames
-        case .Injections:
-            defaultSites = PDStrings.SiteNames.injectionSiteNames
-        }
+        let defaultSites = PDSiteStrings.getSiteNames(for: deliveryMethod)
         let def_c = defaultSites.count
         let sites_c = count()
         if sites_c != def_c {

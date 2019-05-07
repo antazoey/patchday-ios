@@ -9,10 +9,27 @@
 import Foundation
 import PDKit
 
-public enum ExpirationInterval: String {
-    case TwiceAWeek = "One half-week"
-    case OnceAWeek = "One week"
-    case EveryTwoWeeks = "Two weeks"
+public class ExpirationIntervalValueHolder: PDValueHolding {
+    
+    public typealias KeyIndex = ExpirationInterval
+    
+    public typealias RawValue = String
+    
+    var indexer: ExpirationInterval
+    
+    required public init(indexer: ExpirationInterval) {
+        self.indexer = indexer
+    }
+    
+    public var heldValue: String {
+        get {
+            switch indexer {
+            case .TwiceAWeek: return "One half-week"
+            case .OnceAWeek: return "One week"
+            case .EveryTwoWeeks: return "Two weeks"
+            }
+        }
+    }
 }
 
 // MARK: - Private
@@ -21,30 +38,33 @@ public class ExpirationIntervalUD: PDKeyStorable {
     
     public typealias Value = ExpirationInterval
     
+    private var valueHolder: ExpirationIntervalValueHolder
+    
     public typealias RawValue = String
     
     public var value: ExpirationInterval
     
     public var rawValue: String {
-        get {
-            return value.rawValue
-        }
+        get { return valueHolder.heldValue }
     }
     
     public static var key = PDDefault.ExpirationInterval
     
-    public required init(with val: String) {
+    public required convenience init(with val: String) {
+        var interval: ExpirationInterval
         if let rawExp = ExpirationInterval(rawValue: val) {
-            value = rawExp
+            interval = rawExp
         } else if let expFromhuman = ExpirationIntervalUD.makeExpirationInterval(from: val) {
-            value = expFromhuman
+            interval = expFromhuman
         } else {
-            value = ExpirationInterval.TwiceAWeek
+            interval = ExpirationInterval.TwiceAWeek
         }
+        self.init(with: interval)
     }
     
     public required init(with val: ExpirationInterval) {
         value = val
+        valueHolder = ExpirationIntervalValueHolder(indexer: value)
     }
     
     public var hours: Int {
@@ -61,9 +81,7 @@ public class ExpirationIntervalUD: PDKeyStorable {
     }
     
     public var humanPresentableValue: String {
-        get {
-            return ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)!
-        }
+        get { return ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)! }
     }
     
     public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {

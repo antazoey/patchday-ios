@@ -22,9 +22,7 @@ public class ThemeUD: PDKeyStorable {
     public var value: PDTheme
     
     public var rawValue: String {
-        get {
-            return value.rawValue
-        }
+        get { return value.rawValue }
     }
     
     public static var key = PDDefault.Theme
@@ -37,7 +35,5 @@ public class ThemeUD: PDKeyStorable {
         }
     }
     
-    public required init(with val: PDTheme) {
-        value = val
-    }
+    public required init(with val: PDTheme) { value = val }
 }

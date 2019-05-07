@@ -17,14 +17,10 @@ public class NotificationsUD: PDKeyStorable {
     public var value: Bool
     
     public var rawValue: Bool {
-        get {
-            return value
-        }
+        get { return value }
     }
     
     public static var key = PDDefault.Notifications
     
-    public required init(with val: Bool) {
-        value = val
-    }
+    public required init(with val: Bool) { value = val }
 }

@@ -24,7 +24,5 @@ public class MentionedDisclaimerUD: PDKeyStorable {
     
     public static var key = PDDefault.MentionedDisclaimer
     
-    public required init(with val: Bool) {
-        value = val
-    }
+    public required init(with val: Bool) { value = val }
 }

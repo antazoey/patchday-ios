@@ -52,7 +52,7 @@ internal class PDAlertController: NSObject {
                 }
                 patchData.defaults.setSiteIndex(to: 0)
                 patchData.state.deliveryMethodChanged = true
-                settingsVC?.resetEstrogensVCTabBarItem()
+                tabs?.reflectEstrogen(deliveryMethod: newMethod)               
                 patchData.schedule.setEstrogenDataForToday()
                 
             }
@@ -100,8 +100,8 @@ internal class PDAlertController: NSObject {
                 void in
                 if let url = URL(string: "http://www.patchdayhrt.com") {
                     if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]),
-                                                  completionHandler: nil)
+                        let options = convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:])
+                        UIApplication.shared.open(url, options: options, completionHandler: nil)
                     } else {
                         UIApplication.shared.openURL(url)
                     }

@@ -25,10 +25,16 @@
 		9D1BC5752276098C00552BC1 /* MentionedDisclaimerUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC5742276098C00552BC1 /* MentionedDisclaimerUD.swift */; };
 		9D1BC577227609E800552BC1 /* SiteIndexUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC576227609E800552BC1 /* SiteIndexUD.swift */; };
 		9D1BC57922760A1A00552BC1 /* ThemeUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57822760A1A00552BC1 /* ThemeUD.swift */; };
-		9D1BC57C2277EDD000552BC1 /* PDPickerStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57A2277ECD500552BC1 /* PDPickerStrings.swift */; };
+		9D1BC57E2277F45F00552BC1 /* PDPickerStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* PDPickerStrings.swift */; };
+		9D1BC5802277F50D00552BC1 /* PDPickerStringsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */; };
 		9D43DB0A22639893008F56AE /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D43DB0922639893008F56AE /* ThemeManager.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */; };
 		9DC0107221FE311A0024E7CE /* PatchDataSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC0107121FE311A0024E7CE /* PatchDataSdk.swift */; };
+		9DD5C2F3227F4281009BAA25 /* PDTabViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */; };
+		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
+		9DD5C2F722810680009BAA25 /* PDValueHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F622810680009BAA25 /* PDValueHolding.swift */; };
+		9DD5C2F922811164009BAA25 /* ModiiImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */; };
+		9DD5C2FB228111F9009BAA25 /* PDSiteStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2FA228111F9009BAA25 /* PDSiteStrings.swift */; };
 		B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */; };
 		B405322521D4BACE00AF9CAD /* PillAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40531BC21CD845800BD64CE /* PillAttributes.swift */; };
 		B405322721D5F8DA00AF9CAD /* PDScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322621D5F8DA00AF9CAD /* PDScheduling.swift */; };
@@ -200,11 +206,17 @@
 		9D1BC5742276098C00552BC1 /* MentionedDisclaimerUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionedDisclaimerUD.swift; sourceTree = "<group>"; };
 		9D1BC576227609E800552BC1 /* SiteIndexUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteIndexUD.swift; sourceTree = "<group>"; };
 		9D1BC57822760A1A00552BC1 /* ThemeUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUD.swift; sourceTree = "<group>"; };
-		9D1BC57A2277ECD500552BC1 /* PDPickerStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerStrings.swift; sourceTree = "<group>"; };
+		9D1BC57D2277F45F00552BC1 /* PDPickerStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerStrings.swift; sourceTree = "<group>"; };
+		9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerStringsDelegate.swift; sourceTree = "<group>"; };
 		9D43DB0922639893008F56AE /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClass.swift; sourceTree = "<group>"; };
 		9DC0107121FE311A0024E7CE /* PatchDataSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSdk.swift; sourceTree = "<group>"; };
 		9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDayToday.entitlements; sourceTree = "<group>"; };
+		9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTabViewDelegate.swift; sourceTree = "<group>"; };
+		9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTypes.swift; sourceTree = "<group>"; };
+		9DD5C2F622810680009BAA25 /* PDValueHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDValueHolding.swift; sourceTree = "<group>"; };
+		9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModiiImageResizer.swift; sourceTree = "<group>"; };
+		9DD5C2FA228111F9009BAA25 /* PDSiteStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSiteStrings.swift; sourceTree = "<group>"; };
 		B40531BC21CD845800BD64CE /* PillAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributes.swift; sourceTree = "<group>"; };
 		B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillScheduleTests.swift; sourceTree = "<group>"; };
 		B405322621D5F8DA00AF9CAD /* PDScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDScheduling.swift; sourceTree = "<group>"; };
@@ -391,6 +403,7 @@
 				9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */,
 				13C746D01ED781DD00067A67 /* PDDefaults.swift */,
 				9D1BC5662275F3E700552BC1 /* PDKeyStorable.swift */,
+				9DD5C2F622810680009BAA25 /* PDValueHolding.swift */,
 			);
 			path = PDKeyStore;
 			sourceTree = "<group>";
@@ -415,6 +428,8 @@
 			children = (
 				139754B41ED8EE27006C82B8 /* PDColors.swift */,
 				1340A9E71EE4D4220003EFFA /* PDStrings.swift */,
+				9D1BC57D2277F45F00552BC1 /* PDPickerStrings.swift */,
+				9DD5C2FA228111F9009BAA25 /* PDSiteStrings.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -481,7 +496,6 @@
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
-				9D1BC57A2277ECD500552BC1 /* PDPickerStrings.swift */,
 				9DC0107121FE311A0024E7CE /* PatchDataSdk.swift */,
 				B480EE4C21CC7E34002C2238 /* Shared */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
@@ -521,10 +535,13 @@
 		B480EE4221CC79DD002C2238 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */,
 				B4355D9920EE968B0048D466 /* MFBadgeButton.swift */,
 				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
 				B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
+				9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */,
+				9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -587,6 +604,7 @@
 				B40CC9A821CCE4BE002364BB /* Helpers */,
 				B49A4A4020DB2D4C00F24FC0 /* PDKit.h */,
 				B49A4A4120DB2D4C00F24FC0 /* Info.plist */,
+				9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */,
 			);
 			path = PDKit;
 			sourceTree = "<group>";
@@ -879,8 +897,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D1BC5802277F50D00552BC1 /* PDPickerStringsDelegate.swift in Sources */,
 				B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */,
 				B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */,
+				9DD5C2F3227F4281009BAA25 /* PDTabViewDelegate.swift in Sources */,
+				9DD5C2F922811164009BAA25 /* ModiiImageResizer.swift in Sources */,
 				B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */,
 				B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */,
 				B4AED52320E5659C00559165 /* PillVC.swift in Sources */,
@@ -928,9 +949,9 @@
 				9D1BC5732276093F00552BC1 /* NotificationsMinutesBefore.swift in Sources */,
 				B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */,
 				B480EE4721CC7B5E002C2238 /* PDState.swift in Sources */,
+				9DD5C2F722810680009BAA25 /* PDValueHolding.swift in Sources */,
 				B480EE3E21CC75FE002C2238 /* EstrogenSchedule.swift in Sources */,
 				9D1BC56F2275FD6200552BC1 /* ExpirationIntervalUD.swift in Sources */,
-				9D1BC57C2277EDD000552BC1 /* PDPickerStrings.swift in Sources */,
 				9D1BC56D2275FC3E00552BC1 /* QuantityUD.swift in Sources */,
 				9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */,
 				B4C69F0B21E56CD7004EABC4 /* MOPillMethods.swift in Sources */,
@@ -975,6 +996,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D1BC57E2277F45F00552BC1 /* PDPickerStrings.swift in Sources */,
+				9DD5C2FB228111F9009BAA25 /* PDSiteStrings.swift in Sources */,
+				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
 				B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				B49A4A5C20DB2D5A00F24FC0 /* PDPillHelper.swift in Sources */,

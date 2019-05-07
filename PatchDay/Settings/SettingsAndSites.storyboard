@@ -461,7 +461,7 @@
                                             <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaS-8e-dXu">
                                                 <rect key="frame" x="0.0" y="455" width="359" height="180"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="180" id="bxU-N1-1Cl"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="yg7-7J-wfN"/>
                                                 </constraints>
                                             </pickerView>
                                         </subviews>
