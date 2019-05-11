@@ -32,9 +32,7 @@ public class PDPickerStringsDelegate {
     public static func getDeliveryMethod(at i: Index) -> DeliveryMethod {
         if i < S.deliveryMethods.count && i >= 0 {
             let choice = S.deliveryMethods[i]
-            if let method = DeliveryMethod(rawValue: choice) {
-                return method
-            }
+            return PDPickerStrings.getDeliveryMethod(for: choice)
         }
         return .Patches
     }

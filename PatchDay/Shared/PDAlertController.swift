@@ -68,7 +68,8 @@ internal class PDAlertController: NSObject {
                     countButton.setTitle("1", for: [.disabled, .normal])
                     patchData.defaults.setQuantityWithoutWarning(to: 1)
                 }
-                deliveryButton.setTitle(oldMethod.rawValue, for: .normal)
+                let title = PDPickerStrings.getDeliveryMethod(for: oldMethod)
+                deliveryButton.setTitle(title, for: .normal)
                 
             }
             currentAlert.addAction(continueAction)

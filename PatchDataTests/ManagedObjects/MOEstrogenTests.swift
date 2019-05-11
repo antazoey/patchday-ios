@@ -221,7 +221,7 @@ class MOEstrogenTests: XCTestCase {
     func testIsCustomLocated() {
         let estro = estrogenSchedule.insert() as! MOEstrogen
         let site = siteSchedule.insert() as! MOSite
-        typealias Names = PDStrings.SiteNames
+        typealias Names = PDSiteStrings.SiteNames
         site.setName("Custom")
         estro.setSite(site)
         XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Patches))

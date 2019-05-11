@@ -8,20 +8,25 @@
 
 import Foundation
 
-public enum DeliveryMethod: String {
+public enum DeliveryMethod {
     case Patches
     case Injections
 }
 
 public enum Quantity: Int {
-    case One
-    case Two
-    case Three
-    case Four
+    case One = 1
+    case Two = 2
+    case Three = 3
+    case Four = 4
 }
 
-public enum ExpirationInterval: String {
+public enum ExpirationInterval {
     case TwiceAWeek
     case OnceAWeek
     case EveryTwoWeeks
+}
+
+public enum PDTheme {
+    case Light
+    case Dark
 }

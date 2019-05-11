@@ -7,33 +7,67 @@
 //
 
 import Foundation
+import PDKit
 
-public enum PDTheme: String {
-    case Light = "Light"
-    case Dark = "Dark"
+public class PDThemeValueHolder: PDValueHolding {
+    
+    static let lkey = { return "Light" }()
+    static let dkey = { return "Dark" }()
+    
+    var indexer: PDTheme
+    
+    required public init(indexer: PDTheme) {
+        self.indexer = indexer
+    }
+    
+    public convenience init(raw: String) {
+        switch raw {
+        case PDThemeValueHolder.dkey:
+            self.init(indexer: .Dark)
+        default:
+            self.init(indexer: .Light)
+        }
+    }
+    
+    public var heldValue: String {
+        get {
+            switch indexer {
+            case .Light: return PDThemeValueHolder.lkey
+            case .Dark: return PDThemeValueHolder.dkey
+            }
+        }
+    }
 }
 
 public class ThemeUD: PDKeyStorable {
     
-    public typealias Value = PDTheme
+    private var v: PDTheme
+    private var valueHolder: PDThemeValueHolder
     
+    public typealias Value = PDTheme
     public typealias RawValue = String
     
-    public var value: PDTheme
+    public var value: PDTheme {
+        get { return v }
+        set {
+            v = newValue
+            valueHolder = PDThemeValueHolder(indexer: newValue)
+        }
+    }
     
     public var rawValue: String {
-        get { return value.rawValue }
+        get { return valueHolder.heldValue }
     }
     
     public static var key = PDDefault.Theme
     
     public required init(with val: String) {
-        if let theme = PDTheme(rawValue: val) {
-            value = theme
-        } else {
-            value = .Light
-        }
+        valueHolder = PDThemeValueHolder(raw: val)
+        v = valueHolder.indexer
     }
     
-    public required init(with val: PDTheme) { value = val }
+    public required init(with val: PDTheme) {
+        v = val
+        valueHolder = PDThemeValueHolder(indexer: v)
+    }
 }

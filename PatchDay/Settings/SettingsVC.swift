@@ -133,8 +133,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Data loaders
     
     private func loadDeliveryMethod() {
-        let deliv = patchData.defaults.deliveryMethod.value.rawValue
-        deliveryMethodButton.setTitle(deliv, for: .normal)
+        let deliv = patchData.defaults.deliveryMethod.value
+        let title = PDPickerStrings.getDeliveryMethod(for: deliv)
+        deliveryMethodButton.setTitle(title, for: .normal)
     }
     
     private func loadExpirationInterval() {
@@ -170,7 +171,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadTheme() {
-        themeButton.setTitle(patchData.defaults.theme.value.rawValue, for: .normal)
+        let theme = patchData.defaults.theme.value
+        let title = PDPickerStrings.getTheme(for: theme)
+        themeButton.setTitle(title, for: .normal)
     }
 
     // MARK: - Picker Functions
@@ -320,8 +323,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveDeliveryMethodChange(_ row: Int) {
         
         let deliv = PDPickerStringsDelegate.getDeliveryMethod(at: row)
+        let title = PDPickerStrings.getDeliveryMethod(for: deliv)
         setButtonsFromDeliveryMethodChange(choice:  deliv)
-        deliveryMethodButton.setTitle(deliv.rawValue, for: .normal)
+        deliveryMethodButton.setTitle(title, for: .normal)
         if patchData.estrogenSchedule.isEmpty() &&
             patchData.siteSchedule.isDefault(deliveryMethod: deliv) {
             
@@ -367,9 +371,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func saveThemeChange(_ row: Int) {
             let choice = PDPickerStrings.themes[row]
-        if row < PDPickerStrings.themes.count && row >= 0,
-            let theme = PDTheme(rawValue: choice) {
-            
+        if row < PDPickerStrings.themes.count && row >= 0 {
+            let theme = PDPickerStrings.getTheme(for: choice)
             patchData.defaults.set(&patchData.defaults.theme, to: theme)
             appDelegate.resetTheme()
             navigationController?.navigationBar.barTintColor = appDelegate.themeManager.navbar_c

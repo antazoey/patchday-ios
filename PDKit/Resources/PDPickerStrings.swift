@@ -16,6 +16,24 @@ public class PDPickerStrings {
                 NSLocalizedString("Injections", tableName: nil, comment: comment)]
     }()
     
+    public static func getDeliveryMethod(for method: DeliveryMethod) -> String {
+        switch method {
+        case .Patches:
+            return deliveryMethods[0]
+        case .Injections:
+            return deliveryMethods[1]
+        }
+    }
+    
+    public static func getDeliveryMethod(for pickerString: String) -> DeliveryMethod {
+        switch pickerString {
+        case deliveryMethods[1]:
+            return .Injections
+        default:
+            return .Patches
+        }
+    }
+    
     public static let expirationIntervals: [String] = {
         let comment1 = "Displayed on a button and in a picker."
         let comment2 = "Displayed in a picker."
@@ -23,6 +41,28 @@ public class PDPickerStrings {
                 NSLocalizedString("Once a week", tableName: nil, comment: comment2),
                 NSLocalizedString("Once every two weeks", comment: comment1)]
     }()
+    
+    public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
+        switch interval {
+        case .TwiceAWeek:
+            return expirationIntervals[0]
+        case .OnceAWeek:
+            return expirationIntervals[1]
+        case .EveryTwoWeeks:
+            return expirationIntervals[2]
+        }
+    }
+    
+    public static func getExpirationInterval(for pickerString: String) -> ExpirationInterval {
+        switch pickerString {
+        case expirationIntervals[1]:
+            return .OnceAWeek
+        case expirationIntervals[2]:
+            return .EveryTwoWeeks
+        default:
+            return .TwiceAWeek
+        }
+    }
     
     public static let quantities: [String] = {
         let comment = "Displayed in a picker."
@@ -37,4 +77,22 @@ public class PDPickerStrings {
         return [NSLocalizedString("Light", comment: comment),
                 NSLocalizedString("Dark", comment: comment)]
     }()
+    
+    public static func getTheme(for theme: PDTheme) -> String {
+        switch theme {
+        case .Light:
+            return themes[0]
+        case .Dark:
+            return themes[1]
+        }
+    }
+    
+    public static func getTheme(for pickerString: String) -> PDTheme {
+        switch pickerString {
+        case themes[1]:
+            return .Dark
+        default:
+            return .Light
+        }
+    }
 }

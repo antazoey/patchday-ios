@@ -29,12 +29,13 @@
 		9D1BC5802277F50D00552BC1 /* PDPickerStringsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */; };
 		9D43DB0A22639893008F56AE /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D43DB0922639893008F56AE /* ThemeManager.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */; };
-		9DC0107221FE311A0024E7CE /* PatchDataSdk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC0107121FE311A0024E7CE /* PatchDataSdk.swift */; };
+		9DC0107221FE311A0024E7CE /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */; };
 		9DD5C2F3227F4281009BAA25 /* PDTabViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
 		9DD5C2F722810680009BAA25 /* PDValueHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F622810680009BAA25 /* PDValueHolding.swift */; };
 		9DD5C2F922811164009BAA25 /* ModiiImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */; };
 		9DD5C2FB228111F9009BAA25 /* PDSiteStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2FA228111F9009BAA25 /* PDSiteStrings.swift */; };
+		9DD5C2FD2286578D009BAA25 /* PDDefaultsBaseClassTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2FC2286578D009BAA25 /* PDDefaultsBaseClassTests.swift */; };
 		B405322221D4B1FE00AF9CAD /* PillScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */; };
 		B405322521D4BACE00AF9CAD /* PillAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = B40531BC21CD845800BD64CE /* PillAttributes.swift */; };
 		B405322721D5F8DA00AF9CAD /* PDScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = B405322621D5F8DA00AF9CAD /* PDScheduling.swift */; };
@@ -210,13 +211,14 @@
 		9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerStringsDelegate.swift; sourceTree = "<group>"; };
 		9D43DB0922639893008F56AE /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClass.swift; sourceTree = "<group>"; };
-		9DC0107121FE311A0024E7CE /* PatchDataSdk.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSdk.swift; sourceTree = "<group>"; };
+		9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDayToday.entitlements; sourceTree = "<group>"; };
 		9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTabViewDelegate.swift; sourceTree = "<group>"; };
 		9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTypes.swift; sourceTree = "<group>"; };
 		9DD5C2F622810680009BAA25 /* PDValueHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDValueHolding.swift; sourceTree = "<group>"; };
 		9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModiiImageResizer.swift; sourceTree = "<group>"; };
 		9DD5C2FA228111F9009BAA25 /* PDSiteStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSiteStrings.swift; sourceTree = "<group>"; };
+		9DD5C2FC2286578D009BAA25 /* PDDefaultsBaseClassTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClassTests.swift; sourceTree = "<group>"; };
 		B40531BC21CD845800BD64CE /* PillAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributes.swift; sourceTree = "<group>"; };
 		B405322121D4B1FE00AF9CAD /* PillScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillScheduleTests.swift; sourceTree = "<group>"; };
 		B405322621D5F8DA00AF9CAD /* PDScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDScheduling.swift; sourceTree = "<group>"; };
@@ -496,7 +498,7 @@
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
-				9DC0107121FE311A0024E7CE /* PatchDataSdk.swift */,
+				9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */,
 				B480EE4C21CC7E34002C2238 /* Shared */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
 				138A65611F198B4D0068A972 /* Schedules */,
@@ -515,6 +517,7 @@
 				B480EE2D21CC7554002C2238 /* Info.plist */,
 				B405322821D6F05900AF9CAD /* PDDefaultsTests.swift */,
 				B4700F2221E57B5E00C8EFB6 /* ManagedObjects */,
+				9DD5C2FC2286578D009BAA25 /* PDDefaultsBaseClassTests.swift */,
 			);
 			path = PatchDataTests;
 			sourceTree = "<group>";
@@ -965,7 +968,7 @@
 				9D1BC5672275F3E700552BC1 /* PDKeyStorable.swift in Sources */,
 				9D1BC5752276098C00552BC1 /* MentionedDisclaimerUD.swift in Sources */,
 				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
-				9DC0107221FE311A0024E7CE /* PatchDataSdk.swift in Sources */,
+				9DC0107221FE311A0024E7CE /* PatchDataSDK.swift in Sources */,
 				9D1BC571227608FF00552BC1 /* NotificationsUD.swift in Sources */,
 				B40CC9C021CD7DA9002364BB /* PatchData.swift in Sources */,
 				B405322521D4BACE00AF9CAD /* PillAttributes.swift in Sources */,
@@ -983,6 +986,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4700F2421E5874600C8EFB6 /* MOPillTests.swift in Sources */,
+				9DD5C2FD2286578D009BAA25 /* PDDefaultsBaseClassTests.swift in Sources */,
 				B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */,
 				B4700F2121E57B5600C8EFB6 /* MOSiteTests.swift in Sources */,
 				B468414221DC815A00A0BE73 /* EstrogenScheduleTests.swift in Sources */,

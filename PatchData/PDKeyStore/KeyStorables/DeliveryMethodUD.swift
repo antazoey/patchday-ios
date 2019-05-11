@@ -10,6 +10,9 @@ import Foundation
 import PDKit
 
 public class DeliveryMethodValueHolder: PDValueHolding {
+    
+    static let pkey = { return "Patches" }()
+    static let ikey = { return "Injections" }()
 
     var indexer: DeliveryMethod
     
@@ -17,11 +20,20 @@ public class DeliveryMethodValueHolder: PDValueHolding {
         self.indexer = indexer
     }
     
+    public convenience init(raw: String) {
+        switch raw {
+        case DeliveryMethodValueHolder.ikey:
+            self.init(indexer: .Injections)
+        default:
+            self.init(indexer: .Patches)
+        }
+    }
+    
     public var heldValue: String {
         get {
             switch indexer {
-            case .Patches: return "Patches"
-            case .Injections: return "Injections"
+            case .Patches: return DeliveryMethodValueHolder.pkey
+            case .Injections: return DeliveryMethodValueHolder.ikey
             }
         }
     }
@@ -30,15 +42,17 @@ public class DeliveryMethodValueHolder: PDValueHolding {
 public class DeliveryMethodUD: PDKeyStorable {
     
     private var v: DeliveryMethod
-    
     private var valueHolder: DeliveryMethodValueHolder
     
     public typealias Value = DeliveryMethod
-    
     public typealias RawValue = String
     
     public var value: DeliveryMethod {
-        get { return v } set { }
+        get { return v }
+        set {
+            v = newValue
+            valueHolder = DeliveryMethodValueHolder(indexer: newValue)
+        }
     }
     
     public var rawValue: String {
@@ -47,14 +61,9 @@ public class DeliveryMethodUD: PDKeyStorable {
     
     public static var key = PDDefault.DeliveryMethod
     
-    public required convenience init(with val: String) {
-        var deliv: DeliveryMethod
-        if let i = DeliveryMethod(rawValue: val) {
-            deliv = i
-        } else {
-            deliv = DeliveryMethod.Patches
-        }
-        self.init(with: deliv)
+    public required init(with val: String) {
+        valueHolder = DeliveryMethodValueHolder(raw: val)
+        v = valueHolder.indexer
     }
     
     public required init(with val: DeliveryMethod) {

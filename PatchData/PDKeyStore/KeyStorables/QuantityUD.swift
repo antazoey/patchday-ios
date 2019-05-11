@@ -12,7 +12,6 @@ import PDKit
 public class QuantityValueHolder: PDValueHolding {
     
     public typealias KeyIndex = Quantity
-    
     public typealias RawValue = Int
     
     var indexer: Quantity
@@ -35,13 +34,19 @@ public class QuantityValueHolder: PDValueHolding {
 
 public class QuantityUD: PDKeyStorable {
     
-    public typealias Value = Quantity
-    
+    private var v: Quantity
     private var valueHolder: QuantityValueHolder
     
+    public typealias Value = Quantity
     public typealias RawValue = Int
     
-    public var value: Quantity
+    public var value: Quantity {
+        get { return v }
+        set {
+            v = newValue
+            valueHolder = QuantityValueHolder(indexer: value)
+        }
+    }
     
     public var rawValue: Int {
         get { return valueHolder.heldValue }
@@ -60,7 +65,7 @@ public class QuantityUD: PDKeyStorable {
     }
     
     public required init(with val: Quantity) {
-        value = val
-        valueHolder = QuantityValueHolder(indexer: value)
+        v = val
+        valueHolder = QuantityValueHolder(indexer: v)
     }
 }

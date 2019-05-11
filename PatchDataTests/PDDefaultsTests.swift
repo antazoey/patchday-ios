@@ -67,11 +67,15 @@ class PDDefaultsTests: XCTestCase {
         XCTAssert(state.deliveryMethodChanged)
     }
     
-    func testDeliveryMethod() {
+    func testThatDeliveryMethodSetsDefaults() {
         defaults.setDeliveryMethod(to: .Injections)
-        XCTAssert(siteSchedule.deliveryMethod != .Patches)
-        let actual = defaults.deliveryMethod.value.rawValue
-        XCTAssertEqual(actual, "Injections")
+        XCTAssertEqual(defaults.deliveryMethod.value, DeliveryMethod.Injections)
+        defaults.setDeliveryMethod(to: .Patches)
+        XCTAssertEqual(defaults.deliveryMethod.value, DeliveryMethod.Patches)
+    }
+    
+    func testDeliveryMethodSideEffects() {
+        defaults.setDeliveryMethod(to: .Injections)
         XCTAssertEqual(estrogenSchedule.count(), 1)
         XCTAssertEqual(estrogenSchedule.quantity, 1)
         XCTAssertEqual(siteSchedule.count(), 6)
