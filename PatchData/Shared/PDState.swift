@@ -28,7 +28,7 @@ public class PDState: NSObject {
     public var onlySiteChanged: Bool = false
     public var deliveryMethodChanged: Bool = false
     public var isNew: Bool = false
-    public var oldDeliveryCount: Int = 1
+    public var oldQuantity: Int = 1
     public var indicesOfChangedDelivery: [Int] = [-1]
     
     public func reset() {

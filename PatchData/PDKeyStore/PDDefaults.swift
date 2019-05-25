@@ -101,7 +101,7 @@ open class PDDefaults: PDDefaultsBaseClass {
     public func setQuantityWithWarning(to newQ: Quantity, oldQ: Quantity,
                                        reset: @escaping (_ newQuantity: Int) -> (),
                                        cancel: @escaping (_ oldQuantity: Int) -> ()) {
-        state.oldDeliveryCount = oldQ.rawValue
+        state.oldQuantity = oldQ.rawValue
         if newQ.rawValue < oldQ.rawValue {
             state.decreasedCount = true
             // Erases data

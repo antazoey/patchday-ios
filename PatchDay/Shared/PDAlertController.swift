@@ -52,7 +52,7 @@ internal class PDAlertController: NSObject {
                 }
                 patchData.defaults.setSiteIndex(to: 0)
                 patchData.state.deliveryMethodChanged = true
-                tabs?.reflectEstrogen(deliveryMethod: newMethod)               
+                appDelegate.tabs?.reflectEstrogen(deliveryMethod: newMethod)               
                 patchData.schedule.setEstrogenDataForToday()
                 
             }

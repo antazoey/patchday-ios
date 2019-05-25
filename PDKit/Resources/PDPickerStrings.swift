@@ -64,6 +64,15 @@ public class PDPickerStrings {
         }
     }
     
+    public static func getDefaultQuantity(deliveryMethod: DeliveryMethod) -> String {
+        switch deliveryMethod {
+        case .Patches:
+            return quantities[2]
+        case .Injections:
+            return quantities[0]
+        }
+    }
+    
     public static let quantities: [String] = {
         let comment = "Displayed in a picker."
         return [NSLocalizedString("1", comment: comment),

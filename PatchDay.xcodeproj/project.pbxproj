@@ -26,10 +26,12 @@
 		9D1BC577227609E800552BC1 /* SiteIndexUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC576227609E800552BC1 /* SiteIndexUD.swift */; };
 		9D1BC57922760A1A00552BC1 /* ThemeUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57822760A1A00552BC1 /* ThemeUD.swift */; };
 		9D1BC57E2277F45F00552BC1 /* PDPickerStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* PDPickerStrings.swift */; };
-		9D1BC5802277F50D00552BC1 /* PDPickerStringsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */; };
+		9D1BC5802277F50D00552BC1 /* PatchDataShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57F2277F50D00552BC1 /* PatchDataShell.swift */; };
 		9D43DB0A22639893008F56AE /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D43DB0922639893008F56AE /* ThemeManager.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */; };
 		9DC0107221FE311A0024E7CE /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */; };
+		9DC4175A22907DF100DD2CEF /* PDNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC4175922907DF100DD2CEF /* PDNavigationDelegate.swift */; };
+		9DC4175C2298AC2700DD2CEF /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC4175B2298AC2700DD2CEF /* SettingsModel.swift */; };
 		9DD5C2F3227F4281009BAA25 /* PDTabViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
 		9DD5C2F722810680009BAA25 /* PDValueHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F622810680009BAA25 /* PDValueHolding.swift */; };
@@ -49,7 +51,6 @@
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
 		B435182B20F5D72C00BD268C /* EstrogenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenCell.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
-		B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110921DD6EEC00C94B76 /* PatchDay.swift */; };
 		B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110D21DF3E5D00C94B76 /* DateExtension.swift */; };
 		B440111021DF3F2E00C94B76 /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */; };
@@ -208,11 +209,13 @@
 		9D1BC576227609E800552BC1 /* SiteIndexUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteIndexUD.swift; sourceTree = "<group>"; };
 		9D1BC57822760A1A00552BC1 /* ThemeUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUD.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* PDPickerStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerStrings.swift; sourceTree = "<group>"; };
-		9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerStringsDelegate.swift; sourceTree = "<group>"; };
+		9D1BC57F2277F50D00552BC1 /* PatchDataShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataShell.swift; sourceTree = "<group>"; };
 		9D43DB0922639893008F56AE /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClass.swift; sourceTree = "<group>"; };
 		9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDayToday.entitlements; sourceTree = "<group>"; };
+		9DC4175922907DF100DD2CEF /* PDNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNavigationDelegate.swift; sourceTree = "<group>"; };
+		9DC4175B2298AC2700DD2CEF /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTabViewDelegate.swift; sourceTree = "<group>"; };
 		9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTypes.swift; sourceTree = "<group>"; };
 		9DD5C2F622810680009BAA25 /* PDValueHolding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDValueHolding.swift; sourceTree = "<group>"; };
@@ -238,7 +241,6 @@
 		B4355D9320ED6F250048D466 /* MOPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPill.swift; sourceTree = "<group>"; };
 		B4355D9420ED6F250048D466 /* MOPillMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPillMethods.swift; sourceTree = "<group>"; };
 		B4355D9920EE968B0048D466 /* MFBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MFBadgeButton.swift; path = ../Shared/MFBadgeButton.swift; sourceTree = "<group>"; };
-		B440110921DD6EEC00C94B76 /* PatchDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDay.swift; sourceTree = "<group>"; };
 		B440110D21DF3E5D00C94B76 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTests.swift; sourceTree = "<group>"; };
 		B4454B0720E19A7E005CD2E3 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillCell.swift; path = Pills/PillCell.swift; sourceTree = "<group>"; };
@@ -364,8 +366,8 @@
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				9D43DB0922639893008F56AE /* ThemeManager.swift */,
-				B440110921DD6EEC00C94B76 /* PatchDay.swift */,
 				131F0B681EE3AAD700576200 /* PDImages.swift */,
+				9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */,
 				B480EE4221CC79DD002C2238 /* Shared */,
 				B480EE4321CC79FA002C2238 /* Settings */,
 				B480EE4521CC7A09002C2238 /* Estrogens */,
@@ -373,6 +375,7 @@
 				B480EE4621CC7A15002C2238 /* Sites */,
 				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
+				9DC4175922907DF100DD2CEF /* PDNavigationDelegate.swift */,
 			);
 			path = PatchDay;
 			sourceTree = "<group>";
@@ -538,12 +541,11 @@
 		B480EE4221CC79DD002C2238 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				9D1BC57F2277F50D00552BC1 /* PDPickerStringsDelegate.swift */,
+				9D1BC57F2277F50D00552BC1 /* PatchDataShell.swift */,
 				B4355D9920EE968B0048D466 /* MFBadgeButton.swift */,
 				13E0BB5C1EF8E5D900939D37 /* PDAlertController.swift */,
 				B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */,
 				1340A9ED1EE771EC0003EFFA /* PDNotificationController.swift */,
-				9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */,
 				9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */,
 			);
 			path = Shared;
@@ -553,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				133EEBAE1EF2EB0200E64C4D /* SettingsVC.swift */,
+				9DC4175B2298AC2700DD2CEF /* SettingsModel.swift */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -900,9 +903,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D1BC5802277F50D00552BC1 /* PDPickerStringsDelegate.swift in Sources */,
+				9DC4175C2298AC2700DD2CEF /* SettingsModel.swift in Sources */,
+				9D1BC5802277F50D00552BC1 /* PatchDataShell.swift in Sources */,
+				9DC4175A22907DF100DD2CEF /* PDNavigationDelegate.swift in Sources */,
 				B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */,
-				B440110A21DD6EEC00C94B76 /* PatchDay.swift in Sources */,
 				9DD5C2F3227F4281009BAA25 /* PDTabViewDelegate.swift in Sources */,
 				9DD5C2F922811164009BAA25 /* ModiiImageResizer.swift in Sources */,
 				B4454B0420DC56BE005CD2E3 /* PDImages.swift in Sources */,

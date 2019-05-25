@@ -11,10 +11,8 @@ import UserNotifications
 import PatchData
 import PDKit
 
-
 let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
 let patchData = appDelegate.patchData
-var tabs: PDTabViewDelegate?
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var notificationsController = PDNotificationController()
     var patchData = PatchDataSDK()
+    var tabs: PDTabViewDelegate?
+    var nav: PDNavigationDelegate?
     var themeManager: ThemeManager!
     
     func application(_ application: UIApplication,
@@ -34,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             patchData.pillSchedule.reset()
         }
         let setSiteIndex = patchData.defaults.setSiteIndex
+        
+        nav = PDNavigationDelegate()
         
         // Uncomment to nuke the db
         //patchData.schedule.nuke()
@@ -61,23 +63,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setBadge(with: patchData.schedule.totalDue(interval: patchData.defaults.expirationInterval))
     }
     
+    func setTabs(tc: UITabBarController, vcs: [UIViewController]) {
+        tabs = PDTabViewDelegate(tabController: tc, viewControllers: vcs)
+    }
+    
     func isFirstLaunch() -> Bool {
         return !patchData.defaults.mentionedDisclaimer.value
     }
     
-    internal func setNavigationAppearance() {
-        //navigationController?.navigationBar.barTintColor = UIColor.black
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = themeManager.button_c
-        navigationBarAppearace.barTintColor = themeManager.navbar_c
-        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor : themeManager.text_c]
-        
-        let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.tintColor = themeManager.button_c
-        tabBarAppearance.barTintColor = themeManager.navbar_c
+    func setNavigationAppearance() {
+        nav?.reflectTheme(theme: themeManager)
+        tabs?.reflectTheme(theme: themeManager)
     }
     
-    internal func resetTheme() {
+    func resetTheme() {
         themeManager = ThemeManager(theme: patchData.defaults.theme.value)
         setNavigationAppearance()
     }

@@ -42,28 +42,6 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         curr.delegate = self
     }
     
-    /// Resends all the estrogen notifications between the given indices.
-    public func resendEstrogenNotifications(upToRemove: Int, upToAdd: Int) {
-        cancelEstrogenNotifications(from: 0, to: upToRemove)
-        for j in 0...upToAdd {
-            if let estro = patchData.estrogenSchedule.getEstrogen(at: j) {
-                requestEstrogenExpiredNotification(for: estro)
-            }
-        }
-    }
-    
-    /// Resends all the estrogen notifications.
-    public func resendAllEstrogenNotifications() {
-        let i = patchData.defaults.quantity.value.rawValue
-        resendEstrogenNotifications(upToRemove: i, upToAdd: i)
-    }
-    
-    /// Resends the pill notification for the given pill.
-    public func resendPillNotification(for pill: MOPill) {
-        cancelPill(pill)
-        requestNotifyTakePill(pill)
-    }
-    
     /// Determines the proper message for expired notifications.
     public func notificationBody(for estro: MOEstrogen, interval: ExpirationInterval) -> String {
         var body = ""
@@ -112,12 +90,37 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         default : return
         }
     }
+    
+    /// Resends all the estrogen notifications between the given indices.
+    public func resendEstrogenNotifications(begin: Index, end: Index) {
+        for i in begin...end {
+            if let estro = patchData.estrogenSchedule.getEstrogen(at: i),
+                let idStr = estro.getId()?.uuidString {
+
+                let center = Center.current()
+                center.removePendingNotificationRequests(withIdentifiers: [idStr])
+                requestEstrogenExpiredNotification(for: estro)
+            }
+        }
+    }
+    
+    /// Resends all the estrogen notifications.
+    public func resendAllEstrogenNotifications() {
+        let c = patchData.defaults.quantity.value.rawValue - 1
+        resendEstrogenNotifications(begin: 0, end: c)
+    }
+    
+    /// Resends the pill notification for the given pill.
+    public func resendPillNotification(for pill: MOPill) {
+        cancelPill(pill)
+        requestNotifyTakePill(pill)
+    }
 
     /// Cancels the notification at the given index.
     internal func cancelEstrogenNotification(at index: Index) {
         if let estro = patchData.estrogenSchedule.getEstrogen(at: index),
-            let id = estro.getId() {
-            let idStr = id.uuidString
+            let idStr = estro.getId()?.uuidString {
+            
             let center = Center.current()
             center.removePendingNotificationRequests(withIdentifiers: [idStr])
         }
@@ -130,6 +133,7 @@ internal class PDNotificationController: NSObject, UNUserNotificationCenterDeleg
         for i in startIndex...endIndex {
             if let estro = patchData.estrogenSchedule.getEstrogen(at: i),
                 let id = estro.getId() {
+                
                 ids.append(id.uuidString)
             }
         }

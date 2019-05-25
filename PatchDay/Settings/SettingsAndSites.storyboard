@@ -40,7 +40,7 @@
                                                             <constraint firstAttribute="width" constant="10" id="Dgh-FX-jDY"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Method:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rtX-lG-6b0">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery method:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rtX-lG-6b0">
                                                         <rect key="frame" x="45" y="0.0" width="116.5" height="60"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
@@ -54,17 +54,17 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="delivMethod0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
                                                         <rect key="frame" x="161.5" y="0.0" width="167.5" height="60"/>
                                                         <state key="normal">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" red="1" green="0.89652202889999999" blue="0.44217208829999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="deliveryMethodButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nni-ez-nPF"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="oBy-3W-0e3"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="delivMethod1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -123,23 +123,24 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="patchChangeInterval0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
                                                         <rect key="frame" x="113.5" y="0.0" width="215.5" height="60"/>
                                                         <state key="normal">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <color key="titleShadowColor" red="1" green="0.89652202889999999" blue="0.44217208829999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="intervalButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="iNC-2s-X7L"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Pdl-yO-iTs"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="patchChangeInterval1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="intervalButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="yCr-qm-lKG"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="lRM-ib-m1g"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -165,7 +166,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Izm-E1-kh4">
                                                 <rect key="frame" x="0.0" y="122" width="359" height="60"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Count Icon" translatesAutoresizingMaskIntoConstraints="NO" id="6Wk-Yc-R98">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Quantity Icon" translatesAutoresizingMaskIntoConstraints="NO" id="6Wk-Yc-R98">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="60"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="35" id="bx5-6v-68L"/>
@@ -178,8 +179,8 @@
                                                             <constraint firstAttribute="width" constant="10" id="fOu-Tn-pkm"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Count:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kW-w6-KcV">
-                                                        <rect key="frame" x="45" y="0.0" width="46" height="60"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Quantity:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kW-w6-KcV">
+                                                        <rect key="frame" x="45" y="0.0" width="62.5" height="60"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -192,16 +193,16 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
-                                                        <rect key="frame" x="91" y="0.0" width="238" height="60"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="numberOfPatches0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
+                                                        <rect key="frame" x="107.5" y="0.0" width="221.5" height="60"/>
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="countButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="APZ-pc-5pd"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nyj-NO-gws"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="numberOfPatches1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -305,7 +306,7 @@
                                                             <constraint firstAttribute="width" constant="10" id="Btd-YV-IS2"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Minutes prior:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvS-Oc-7gL">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Notify x minutes before expiration:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvS-Oc-7gL">
                                                         <rect key="frame" x="45" y="0.0" width="264" height="60"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
@@ -435,16 +436,16 @@
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-qW-gtq">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="theme0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-qW-gtq">
                                                         <rect key="frame" x="97" y="0.0" width="232" height="60"/>
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="themeButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="3IG-wl-OTE"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="R9m-U2-zIo"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-jC-q0h">
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="theme1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-jC-q0h">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -493,26 +494,27 @@
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="d9V-PI-Gpd"/>
                     <connections>
-                        <outlet property="countArrowButton" destination="vYX-vA-hfJ" id="hPc-58-DzN"/>
-                        <outlet property="countButton" destination="XiV-is-g5n" id="2KZ-8P-s6Q"/>
                         <outlet property="countPicker" destination="PiM-fd-ASD" id="euN-yb-GAG"/>
-                        <outlet property="countSideView" destination="Eev-UO-6j6" id="rRi-0i-tWI"/>
                         <outlet property="deliveryMethodButton" destination="8nT-zg-jpv" id="OhE-ah-cpU"/>
                         <outlet property="deliveryMethodLabel" destination="rtX-lG-6b0" id="3Cu-yK-vO6"/>
                         <outlet property="deliveryMethodPicker" destination="ajI-Up-RPe" id="kPk-dA-YO7"/>
+                        <outlet property="deliveryMethodSideView" destination="M1G-ig-oUg" id="UFq-yt-Uer"/>
                         <outlet property="dmSideView" destination="4Bl-Xs-uyl" id="mQ7-WD-Gha"/>
                         <outlet property="expirationIntervalLabel" destination="AU8-7c-vIO" id="qDy-FH-L2x"/>
                         <outlet property="expirationIntervalPicker" destination="bzl-1c-YdT" id="J6d-ht-Vd9"/>
                         <outlet property="intervalButton" destination="dZo-Ez-aXA" id="33r-zU-WhF"/>
                         <outlet property="notMinBeforeSideView" destination="onX-vA-iNv" id="SU0-gU-uFQ"/>
-                        <outlet property="notSideView" destination="bAq-e1-NTx" id="dlf-Wj-Pw6"/>
                         <outlet property="notificationsLabel" destination="5Zu-BE-Jh8" id="X8y-mk-lOY"/>
                         <outlet property="notificationsMinutesBeforeLabel" destination="DvS-Oc-7gL" id="biW-7O-nAo"/>
                         <outlet property="notificationsMinutesBeforeSlider" destination="DLV-bL-uBa" id="iGf-Sn-1rg"/>
                         <outlet property="notificationsMinutesBeforeValueLabel" destination="cNG-oD-Cfr" id="7NT-p3-c3Q"/>
+                        <outlet property="notificationsSideView" destination="bAq-e1-NTx" id="orY-gC-r3h"/>
                         <outlet property="notificationsSwitch" destination="d5M-4a-RjZ" id="qiS-e8-sBA"/>
+                        <outlet property="quantityArrowButton" destination="vYX-vA-hfJ" id="ens-ZU-9RK"/>
+                        <outlet property="quantityButton" destination="XiV-is-g5n" id="qBf-ro-0u5"/>
                         <outlet property="quantityLabel" destination="7kW-w6-KcV" id="YuN-Wf-WTK"/>
-                        <outlet property="schedSideView" destination="M1G-ig-oUg" id="wqz-yc-BMc"/>
+                        <outlet property="quantityPicker" destination="PiM-fd-ASD" id="tRq-c6-jyq"/>
+                        <outlet property="quantitySideView" destination="Eev-UO-6j6" id="0Ec-yd-dJ3"/>
                         <outlet property="settingsStack" destination="kgF-Vl-aPW" id="Lez-Zg-QGN"/>
                         <outlet property="settingsView" destination="fVr-dg-9JY" id="iOO-FV-94v"/>
                         <outlet property="themeButton" destination="SKQ-qW-gtq" id="Oye-iL-wnL"/>
@@ -827,9 +829,9 @@
     </scenes>
     <resources>
         <image name="Calendar Icon" width="50" height="50"/>
-        <image name="Count Icon" width="50" height="50"/>
         <image name="Delivery Icon" width="50" height="50"/>
         <image name="Notify Icon" width="50" height="50"/>
+        <image name="Quantity Icon" width="50" height="50"/>
         <image name="Time Icon" width="50" height="50"/>
     </resources>
 </document>

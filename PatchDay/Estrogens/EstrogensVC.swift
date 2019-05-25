@@ -25,7 +25,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabs = PDTabViewDelegate(viewControllers: self.navigationController?.viewControllers)
+        appDelegate.setTabs(tc: self.navigationController!.tabBarController!,
+                            vcs: self.navigationController!.viewControllers)
         estrogenTable.dataSource = self
         estrogenTable.delegate = self
         loadTitle()
@@ -44,24 +45,15 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         
         super.viewDidAppear(false)
         applyTheme()
-        // Alert for disclaimer and tutorial on first start up
-        if appDelegate.isFirstLaunch() {
-            PDAlertController.alertForDisclaimerAndTutorial()
-            patchData.defaults.set(&patchData.defaults.mentionedDisclaimer, to: true)
-        }
+        alertForTutorial()
         let deliv = patchData.defaults.deliveryMethod.value
-        switch deliv {
-        case .Patches:
-            title = PDStrings.VCTitles.patches
-        case .Injections:
-            title = PDStrings.VCTitles.injections
-        }
+        title = PatchDataShell.getVCTitle(for: deliv)
         estrogenTable.reloadData()
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setTabBarBadges()
+        appDelegate.tabs?.reflectEstrogen()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -92,12 +84,12 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     // MARK: - Actions
     
-    @objc internal func editTapped() {
+    @objc internal func settingsTapped() {
         let sb = UIStoryboard(name: "SettingsAndSites", bundle: nil)
         let key = "SettingsVC_id"
-        if let navCon = navigationController,
+        if let n = navigationController,
             let settingsVC = sb.instantiateViewController(withIdentifier: key) as? SettingsVC {
-            navCon.pushViewController(settingsVC, animated: true)
+            n.pushViewController(settingsVC, animated: true)
         }
     }
     
@@ -118,23 +110,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         let settingsButton = UIBarButtonItem()
         settingsButton.image = #imageLiteral(resourceName: "Settings Icon")
         settingsButton.target = self
-        settingsButton.action = #selector(editTapped)
+        settingsButton.action = #selector(settingsTapped)
         navigationItem.rightBarButtonItems = [settingsButton]
-    }
-    
-    public func setTabBarBadges() {
-        // Estrogen icon
-        let item = self.navigationController?.tabBarItem
-        switch patchData.defaults.deliveryMethod.value {
-        case .Patches :
-            item?.image = #imageLiteral(resourceName: "Patch Icon")
-            item?.selectedImage = #imageLiteral(resourceName: "Patch Icon")
-        case .Injections :
-            item?.image = #imageLiteral(resourceName: "Injection Icon")
-            item?.selectedImage = #imageLiteral(resourceName: "Injection Icon")
-        }
-        setExpiredEstrogensBadge(item)
-        setExpiredPillsBadge()
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
@@ -165,7 +142,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     /// Configures title of view controller.
     private func loadTitle() {
-        title = PDPickerStringsDelegate.getTitle(for: patchData.defaults.deliveryMethod.value)
+        title = PatchDataShell.getVCTitle(for: patchData.defaults.deliveryMethod.value)
     }
     
     private func loadTabBarItems() {
@@ -190,5 +167,12 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         estrogensView.backgroundColor = bgColor
         estrogenTable.backgroundColor = bgColor
         estrogenTable.separatorColor = borderColor
+    }
+    
+    private func alertForTutorial() {
+        if appDelegate.isFirstLaunch() {
+            PDAlertController.alertForDisclaimerAndTutorial()
+            patchData.defaults.set(&patchData.defaults.mentionedDisclaimer, to: true)
+        }
     }
 }
