@@ -511,6 +511,7 @@
                         <outlet property="quantityLabel" destination="7kW-w6-KcV" id="YuN-Wf-WTK"/>
                         <outlet property="quantityPicker" destination="PiM-fd-ASD" id="tRq-c6-jyq"/>
                         <outlet property="quantitySideView" destination="Eev-UO-6j6" id="0Ec-yd-dJ3"/>
+                        <outlet property="scrollView" destination="Q1X-on-Iny" id="tv8-iH-JfS"/>
                         <outlet property="settingsStack" destination="kgF-Vl-aPW" id="Lez-Zg-QGN"/>
                         <outlet property="settingsView" destination="fVr-dg-9JY" id="iOO-FV-94v"/>
                         <outlet property="themeButton" destination="SKQ-qW-gtq" id="Oye-iL-wnL"/>

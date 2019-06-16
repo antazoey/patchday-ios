@@ -24,6 +24,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // Containers
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet fileprivate weak var settingsStack: UIStackView!
     @IBOutlet private weak var settingsView: UIView!
@@ -102,7 +103,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let id = sender.restorationIdentifier?.dropLast() {
             let key = String(id)
             if let def = PDDefault(rawValue: key) {
-                preparePicker(def, sender: sender)
+                activatePicker(def, sender: sender)
             }
         }
     }
@@ -134,16 +135,39 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return title
     }
     
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if let d = selectedDefault,
+            let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
+            switch d {
+            case .DeliveryMethod:
+                deliveryMethodButton.setTitle(chosenItem, for: .normal)
+            case .ExpirationInterval:
+                expirationIntervalButton.setTitle(chosenItem, for: .normal)
+            case .Quantity:
+                quantityButton.setTitle(chosenItem, for: .normal)
+            case .Theme:
+                themeButton.setTitle(chosenItem, for: .normal)
+            default:
+                break
+            }
+        }
+    }
+    
     /** Selector method for openOrClose(picker, buttonTapped, selections)
      // -- loads proper UI elements specific to each picker
      // -- hides everything that is not that picker
      
      // key is either "interval" , "count" , "notifications" */
-    private func preparePicker(_ key: PDDefault, sender: UIButton) {
+    private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
         let selections = PatchDataShell.getPickerStrings(for: key)
         let choice = sender.titleLabel?.text
-        let start = SettingsModel.getIndex(selections: selections, choice: choice)
+        let start: Int = { () in
+            if let c = choice, let i = selections.firstIndex(of: c) {
+                return i
+            }
+            return 0
+        }()
         
         selectedDefault = key
         switch key {
@@ -156,6 +180,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             picker = quantityPicker
         case .Theme:
             picker = themePicker
+            let y = themePicker!.frame.origin.y / 2.0
+            scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
         default:
             print("Error: Improper context for loading UIPicker.")
             return
@@ -219,10 +245,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func saveDeliveryMethodChange(_ row: Int) {
         let deliv = PatchDataShell.getDeliveryMethod(at: row)
-        let title = PDPickerStrings.getDeliveryMethod(for: deliv)
         setButtonsFromDeliveryMethodChange(choice: deliv)
-        deliveryMethodButton.setTitle(title, for: .normal)
-        
         if !PatchDataShell.setDeliveryMethodIfSafe(to: deliv) {
             alertForChangingDeliveryMethod(choice: deliv)
         }
@@ -232,18 +255,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let old = patchData.state.oldQuantity
         let reset = makeResetClosure(oldCount: old)
         let cancel = makeCancelClosure(oldCount: old)
-        let res = PatchDataShell.setQuantity(to: row, oldQuantityRaw: old, reset: reset, cancel: cancel)
-        if res.didSet {
-            quantityButton.setTitle("\(res.newQuantityRaw)", for: .normal)
-        } else {
-            print("Error: no index for row \(row)")
-        }
+        PatchDataShell.setQuantity(to: row, oldQuantityRaw: old, reset: reset, cancel: cancel)
     }
     
     private func saveIntervalChange(_ row: Int) {
         let result = PatchDataShell.setExpirationIntervalIfSafe(at: row)
         if result.didSet {
-            expirationIntervalButton.setTitle(result.chosenIntervalRaw, for: .normal)
         } else {
             print("Error: no expiration interval for row \(row)")
         }
@@ -253,7 +270,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let theme = PatchDataShell.setThemeIfSafe(toMethodAt: row)
         if theme != "" {
             appDelegate.resetTheme()
-            themeButton.setTitle(theme, for: .normal)
         } else {
             print("Error: no theme for row \(row)")
         }

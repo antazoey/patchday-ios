@@ -20,11 +20,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     // MARK: - Main
     
-    private var estrogenButtonTapped = 0            // for navigation
-    private var setUpFromViewDidLoad: Bool = true   // from change patch
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Have to set nav controllers during first view init
         appDelegate.setTabs(tc: self.navigationController!.tabBarController!,
                             vcs: self.navigationController!.viewControllers)
         estrogenTable.dataSource = self
@@ -43,12 +41,12 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             self.view.alpha = 1.0
         }, completion: nil)
         
-        super.viewDidAppear(false)
         applyTheme()
         alertForTutorial()
         let deliv = patchData.defaults.deliveryMethod.value
         title = PatchDataShell.getVCTitle(for: deliv)
         estrogenTable.reloadData()
+        super.viewDidAppear(false)
     }
 
     override func viewDidLayoutSubviews() {

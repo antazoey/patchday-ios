@@ -104,8 +104,10 @@ public class PatchDataShell {
         return (false, "")
     }
     
-    public static func setQuantity(to q: Int, oldQuantityRaw: Int, reset: @escaping ((Int)
-        -> ()), cancel: @escaping ((Int) -> ())) -> (didSet: Bool, newQuantityRaw: Int) {
+    public static func setQuantity(to q: Int,
+                                   oldQuantityRaw: Int,
+                                   reset: @escaping ((Int) -> ()),
+                                   cancel: @escaping ((Int) -> ())) {
         if q < PDPickerStrings.quantities.count && q >= 0,
             let oldQuantity = Quantity(rawValue: oldQuantityRaw),
             let newQuantityRaw = Int(PDPickerStrings.quantities[q]),
@@ -114,9 +116,7 @@ public class PatchDataShell {
                                                       oldQ: oldQuantity,
                                                       reset: reset,
                                                       cancel: cancel)
-            return (true, newQuantityRaw)
         }
-        return (false, -1)
     }
     
     public static func getVCTitle(for deliveryMethod: DeliveryMethod) -> String {
