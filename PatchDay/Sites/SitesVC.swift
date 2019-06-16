@@ -158,7 +158,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             switch items[1].title {
             case PDStrings.ActionStrings.edit :
                 self.title = ""
-                self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
+                self.navigationController?.tabBarItem.title = PDViewControllerTitleStrings.sitesTitle
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
@@ -195,7 +195,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func segueToSiteVC(_ siteIndex: Int) {
         let backItem = UIBarButtonItem()
-        backItem.title = PDStrings.VCTitles.sites
+        backItem.title = PDViewControllerTitleStrings.sitesTitle
         navigationItem.backBarButtonItem = backItem
         if let sb = storyboard, let navCon = navigationController, let siteVC = sb.instantiateViewController(withIdentifier: "SiteVC_id") as? SiteVC {
             siteVC.setSiteScheduleIndex(to: siteIndex)
@@ -268,14 +268,14 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setTitle() {
-        typealias Titles = PDStrings.VCTitles
+        typealias Titles = PDViewControllerTitleStrings
         switch patchData.defaults.deliveryMethod.value {
         case .Patches:
-            title = Titles.patch_sites
+            title = PDViewControllerTitleStrings.patchSitesTitle
         case .Injections:
-            title = Titles.injection_sites
+            title = PDViewControllerTitleStrings.injectionSitesTitle
         }        
-        self.navigationController?.tabBarItem.title = PDStrings.VCTitles.sites
+        self.navigationController?.tabBarItem.title = PDViewControllerTitleStrings.sitesTitle
     }
     
     private func reloadSiteNames() {

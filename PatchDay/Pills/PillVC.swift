@@ -291,8 +291,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func loadVCTitle() {
         title = (pill?.getName() ==
             PDStrings.PlaceholderStrings.new_pill) ?
-                PDStrings.VCTitles.pill_new :
-                PDStrings.VCTitles.pill_edit
+                PDViewControllerTitleStrings.newPillTitle :
+                PDViewControllerTitleStrings.editPillTitle
     }
     
     // Set VC pill as well as reflected attributes in the interactive UI

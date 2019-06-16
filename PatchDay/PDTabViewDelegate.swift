@@ -56,7 +56,7 @@ class PDTabViewDelegate {
         let c = expiredCount ?? patchData.schedule.totalDue(interval: interval)
 
         estrogenTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil
-        estrogenTab.tabBarItem.title = PatchDataShell.getVCTitle(for: deliv)
+        estrogenTab.tabBarItem.title = PDViewControllerTitleStrings.getTitle(for: deliv)
         switch deliv {
         case .Patches:
             estrogenTab.tabBarItem.image = #imageLiteral(resourceName: "Patch Icon")

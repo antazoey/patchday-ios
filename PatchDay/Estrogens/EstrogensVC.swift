@@ -44,7 +44,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         applyTheme()
         alertForTutorial()
         let deliv = patchData.defaults.deliveryMethod.value
-        title = PatchDataShell.getVCTitle(for: deliv)
+        title = PDViewControllerTitleStrings.getTitle(for: deliv)
         estrogenTable.reloadData()
         super.viewDidAppear(false)
     }
@@ -140,7 +140,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     /// Configures title of view controller.
     private func loadTitle() {
-        title = PatchDataShell.getVCTitle(for: patchData.defaults.deliveryMethod.value)
+        title = PDViewControllerTitleStrings.getTitle(for: patchData.defaults.deliveryMethod.value)
     }
     
     private func loadTabBarItems() {

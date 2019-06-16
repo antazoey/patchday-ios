@@ -484,12 +484,11 @@ class EstrogenVC: UIViewController,
     private func loadTitle() {
         let deliv = patchData.defaults.deliveryMethod.value
         if PDPickerStrings.deliveryMethods.count >= 2 {
-            typealias Titles = PDStrings.VCTitles
             switch deliv {
             case .Patches:
-                title = Titles.patch
+                title = PDViewControllerTitleStrings.patchTitle
             case .Injections:
-                title = Titles.injection
+                title = PDViewControllerTitleStrings.injectionTitle
             }
         }
     }

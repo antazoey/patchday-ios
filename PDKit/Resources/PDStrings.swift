@@ -149,13 +149,15 @@ public class PDStrings: NSObject {
         }
     }
     
-    // MARK: - Placeholders (Localizable)
+    // MARK: - PlaceHolders
     
-    public struct PlaceholderStrings {
+    public class PlaceholderStrings {
+        
         private static let c1 = "On buttons with plenty of room"
         private static let c2 = "Instruction for empty patch"
         private static let c3 = "Probably won't be seen by users, so don't worry too much."
         private static let c4 = "Displayed under a button with medium room."
+        
         public static let nothing_yet = {
             return NSLocalizedString("Nothing yet", comment: c1)
         }()
@@ -167,54 +169,6 @@ public class PDStrings: NSObject {
         }()
         public static let new_pill = {
             return NSLocalizedString("New Pill", comment: c4)
-        }()
-    }
-    
-    // MARK: - VC Titles
-    
-    public struct VCTitles {
-        private static let comment = "Title of a view controller. Keep it brief."
-        public static let patches = {
-            return NSLocalizedString("Patches", comment: comment)
-        }()
-        public static let injections = {
-            return NSLocalizedString("Injections", comment: comment)
-        }()
-        public static let settings = {
-            return NSLocalizedString("Settings", comment: comment)
-        }()
-        public static let pills = {
-            return NSLocalizedString("Pills", comment: comment)
-        }()
-        public static let pill_edit = {
-            return NSLocalizedString("Edit Pill", comment: comment)
-        }()
-        public static let pill_new = {
-            return NSLocalizedString("New Pill", comment: comment)
-        }()
-        public static let sites = {
-            return NSLocalizedString("Sites", comment: comment)
-        }()
-        public static let patch_sites = {
-            return NSLocalizedString("Patch Sites", comment: comment)
-        }()
-        public static let injection_sites = {
-            return NSLocalizedString("Injection Sites", comment: comment)
-        }()
-        public static let site_edit = {
-            return NSLocalizedString("Edit Site", comment: comment)
-        }()
-        public static let site_new = {
-            return NSLocalizedString("New Site", comment: comment)
-        }()
-        public static let patch = {
-            return NSLocalizedString("Patch", comment: comment)
-        }()
-        public static let injection = {
-            return NSLocalizedString("Injection", comment: comment)
-        }()
-        public static let site = {
-            return NSLocalizedString("Site", comment: comment)
         }()
     }
     

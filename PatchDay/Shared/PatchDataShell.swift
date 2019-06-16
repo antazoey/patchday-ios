@@ -119,15 +119,6 @@ public class PatchDataShell {
         }
     }
     
-    public static func getVCTitle(for deliveryMethod: DeliveryMethod) -> String {
-            switch deliveryMethod {
-            case .Patches:
-                return PDStrings.VCTitles.patches
-            case .Injections:
-                return PDStrings.VCTitles.injections
-            }
-    }
-    
     public static let pillCounts: [String] = { return [S.quantities[0], S.quantities[1]] }()
     
     private static func setDeliveryMethod(to method: DeliveryMethod) {
