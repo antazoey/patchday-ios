@@ -70,7 +70,7 @@
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="deliveryMethodButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="RRy-5F-9MG"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="3Zm-Sg-T4G"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -139,7 +139,6 @@
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="intervalButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="yCr-qm-lKG"/>
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="lRM-ib-m1g"/>
                                                         </connections>
                                                     </button>
@@ -208,7 +207,7 @@
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="countButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="bbi-Bf-aYs"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="hss-p5-4oN"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -343,7 +342,6 @@
                                                         <color key="maximumTrackTintColor" red="0.32369780539999998" green="0.1063579395" blue="0.574860394" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <connections>
                                                             <action selector="notificationsMinutesBeforeValueChanged:" destination="KTV-H2-f0o" eventType="valueChanged" id="KdK-6f-ZWy"/>
-                                                            <action selector="reminderTimeValueChanged:" destination="KTV-H2-f0o" eventType="valueChanged" id="pKY-tt-x1z"/>
                                                         </connections>
                                                     </slider>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="f4e-TE-fMx">
@@ -451,7 +449,7 @@
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="themeButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="sek-vz-Bwc"/>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Zg1-dl-bP0"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -494,18 +492,16 @@
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="d9V-PI-Gpd"/>
                     <connections>
-                        <outlet property="countPicker" destination="PiM-fd-ASD" id="euN-yb-GAG"/>
                         <outlet property="deliveryMethodButton" destination="8nT-zg-jpv" id="OhE-ah-cpU"/>
                         <outlet property="deliveryMethodLabel" destination="rtX-lG-6b0" id="3Cu-yK-vO6"/>
                         <outlet property="deliveryMethodPicker" destination="ajI-Up-RPe" id="kPk-dA-YO7"/>
-                        <outlet property="deliveryMethodSideView" destination="M1G-ig-oUg" id="UFq-yt-Uer"/>
-                        <outlet property="dmSideView" destination="4Bl-Xs-uyl" id="mQ7-WD-Gha"/>
+                        <outlet property="deliveryMethodSideView" destination="4Bl-Xs-uyl" id="3Ki-F7-H9Y"/>
+                        <outlet property="expirationIntervalButton" destination="dZo-Ez-aXA" id="ETU-dy-Gw6"/>
                         <outlet property="expirationIntervalLabel" destination="AU8-7c-vIO" id="qDy-FH-L2x"/>
                         <outlet property="expirationIntervalPicker" destination="bzl-1c-YdT" id="J6d-ht-Vd9"/>
-                        <outlet property="intervalButton" destination="dZo-Ez-aXA" id="33r-zU-WhF"/>
-                        <outlet property="notMinBeforeSideView" destination="onX-vA-iNv" id="SU0-gU-uFQ"/>
                         <outlet property="notificationsLabel" destination="5Zu-BE-Jh8" id="X8y-mk-lOY"/>
                         <outlet property="notificationsMinutesBeforeLabel" destination="DvS-Oc-7gL" id="biW-7O-nAo"/>
+                        <outlet property="notificationsMinutesBeforeSideView" destination="onX-vA-iNv" id="aEy-r2-LmL"/>
                         <outlet property="notificationsMinutesBeforeSlider" destination="DLV-bL-uBa" id="iGf-Sn-1rg"/>
                         <outlet property="notificationsMinutesBeforeValueLabel" destination="cNG-oD-Cfr" id="7NT-p3-c3Q"/>
                         <outlet property="notificationsSideView" destination="bAq-e1-NTx" id="orY-gC-r3h"/>

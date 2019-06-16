@@ -44,6 +44,9 @@ public class PDStrings: NSObject {
         public static let undo = {
             return NSLocalizedString("undo", comment: c4)
         }()
+        public static let autofill = {
+            return NSLocalizedString("Autofill", comment: c4)
+        }()
         public static let type = {
             return NSLocalizedString("Type", comment: c5)
         }()
@@ -90,21 +93,60 @@ public class PDStrings: NSObject {
             return NSLocalizedString("Tomorrow", comment: comment)
         }()
     }
+
+    // MARK: - Alerts (Localizable)
     
-    // MARK: - Titles (Localizable)
-    
-    public struct TitleStrings {
-        private static let c1 = "Nav bar item left title."
-        private static let c2 = "Title for view controller."
-        public static let pills = {
-            return NSLocalizedString("Pills", comment: c1)
-        }()
-        public static let site = {
-            return NSLocalizedString("Site", comment: c2)
-        }()
-        public static let sites = {
-            return NSLocalizedString("Sites", comment: c2)
-        }()
+    public struct AlertStrings {
+        private static let titleComment = "Title for alert."
+        private static let messageComment = "Message for alert."
+        public struct CoreDataAlert {
+            private static let msg = "PatchDay's storage is not working. " +
+                "You may report the problem to support@patchdayhrt.com if you'd like."
+            public static let title = {
+                return NSLocalizedString("Data Error", comment: titleComment) }()
+            public static let message = { return NSLocalizedString(msg, comment: messageComment)
+            }()
+        }
+        
+        public struct LoseDataAlert {
+            private static let msg = "This action will result in a loss of data."
+            public static let title = {
+                return NSLocalizedString("Warning", comment: titleComment)
+            }()
+            public static let message = {
+                return NSLocalizedString(msg, comment: messageComment)
+            }()
+        }
+        
+        public struct StartUp  {
+            private static let msg =
+                "To begin using PatchDay, tap the Edit button in the " +
+                "top right and setup your schedule.\n\nUse this tool responsibly, " +
+                "and please follow medication instructions!\n\nGo to www.PatchDayHRT.com " +
+                "to learn more."
+            public static let title = {
+                return NSLocalizedString("Setup / Disclaimer", comment: titleComment)
+            }()
+            public static let message = {
+                return NSLocalizedString(msg, comment: messageComment)
+            }()
+            public static let support = {
+                return NSLocalizedString("Support page", comment: titleComment)
+            }()
+        }
+        
+        public struct AddSite {
+            public static let title = {
+                return NSLocalizedString("Add new site name to sites list?",
+                                         comment: titleComment)
+            }()
+            public static let addActionTitle = {
+                return NSLocalizedString("Yes, add it!", comment: titleComment)
+            }()
+            public static let declineActionTitle = {
+                return NSLocalizedString("No, that's okay.", comment: titleComment)
+            }()
+        }
     }
     
     // MARK: - Placeholders (Localizable)
@@ -171,6 +213,9 @@ public class PDStrings: NSObject {
         public static let injection = {
             return NSLocalizedString("Injection", comment: comment)
         }()
+        public static let site = {
+            return NSLocalizedString("Site", comment: comment)
+        }()
     }
     
     // MARK: - Coloned strings (Localizable)
@@ -211,134 +256,6 @@ public class PDStrings: NSObject {
         public static let last_site_injected = {
             return NSLocalizedString("Site injected: ", comment: comment2)
         }()
-    }
-    
-    // MARK: - Notification strings (Localizable)
-    
-    public struct NotificationStrings {
-        private static let comment = "Title of notification."
-
-        public struct Titles {
-            public static let patchExpired = {
-                return NSLocalizedString("Time for your next patch", comment: comment)
-            }()
-            public static let patchExpires = {
-                return NSLocalizedString("Almost time for your next patch", comment: comment)
-            }()
-            public static let injectionExpired = {
-                return NSLocalizedString("Time for your next injection", comment: comment)
-            }()
-            public static let injectionExpires = {
-                return NSLocalizedString("Almost time for your next injection", comment: comment)
-            }()
-            public static let takePill = {
-                return NSLocalizedString("Time to take pill: ", comment: comment)
-            }()
-            public static let overnight_patch = {
-                return NSLocalizedString("Patch expires overnight.", comment: comment)
-            }()
-            public static let overnight_injection = {
-                return NSLocalizedString("Injection due overnight", comment: comment)
-            }()
-        }
-        
-        public struct Bodies {
-            private static let expComment = "Notification telling you where and " +
-                                            "when to change your patch."
-            private static let notifyComment = "Notification telling you where and when " +
-                                                "to change your patch."
-            private static let nextComment =
-                "The name of a site on the body follows this message in a notification. " +
-                "Don't worry about room."
-            private static let chg1 = "Change patch on your 'Right Abdomen' "
-            private static let chg2 = "Change patch on your 'Left Abdomen' "
-            private static let chg3 = "Change patch on your 'Right Glute' "
-            private static let chg4 = "Change patch on your 'Left Glute' "
-            public static let patchBody = {
-                return NSLocalizedString("Expired patch site: ", comment: notifyComment)
-            }()
-            public static let injectionBody = {
-                return NSLocalizedString("Your last injection site: ", comment: notifyComment)
-            }()
-            
-            public static let siteToExpiredPatchMessage: [String : String] =
-                ["Right Abdomen" : NSLocalizedString(chg1, comment: expComment),
-                 "Left Abdomen" : NSLocalizedString(chg2, comment: expComment),
-                 "Right Glute" : NSLocalizedString(chg3, comment: expComment),
-                 "Left Glute" : NSLocalizedString(chg4, comment: expComment)]
-            
-            public static let siteForNextPatch = {
-                return NSLocalizedString("Site for next patch: ", comment: nextComment)
-            }()
-            
-            public static let siteForNextInjection = {
-                return NSLocalizedString("Site for next injection: ", comment: nextComment)
-            }()
-        }
-        
-        public struct actionMessages {
-            private static let str = "Change to suggested site?"
-            private static let comment = "Notification action label."
-            public static let autofill = {
-                return NSLocalizedString(str, comment: comment)
-            }()
-        }
-  
-    }
-
-    // MARK: - Alerts (Localizable)
-    
-    public struct AlertStrings {
-        private static let titleComment = "Title for alert."
-        private static let messageComment = "Message for alert."
-        public struct CoreDataAlert {
-            private static let msg = "PatchDay's storage is not working. " +
-                "You may report the problem to support@patchdayhrt.com if you'd like."
-            public static let title = {
-                return NSLocalizedString("Data Error", comment: titleComment) }()
-            public static let message = { return NSLocalizedString(msg, comment: messageComment)
-            }()
-        }
-        
-        public struct LoseDataAlert {
-            private static let msg = "This action will result in a loss of data."
-            public static let title = {
-                return NSLocalizedString("Warning", comment: titleComment)
-            }()
-            public static let message = {
-                return NSLocalizedString(msg, comment: messageComment)
-            }()
-        }
-        
-        public struct StartUp  {
-            private static let msg =
-                "To begin using PatchDay, tap the Edit button in the " +
-                "top right and setup your schedule.\n\nUse this tool responsibly, " +
-                "and please follow medication instructions!\n\nGo to www.PatchDayHRT.com " +
-                "to learn more."
-            public static let title = {
-                return NSLocalizedString("Setup / Disclaimer", comment: titleComment)
-            }()
-            public static let message = {
-                return NSLocalizedString(msg, comment: messageComment)
-            }()
-            public static let support = {
-                return NSLocalizedString("Support page", comment: titleComment)
-            }()
-        }
-        
-        public struct AddSite {
-            public static let title = {
-                return NSLocalizedString("Add new site name to sites list?",
-                                         comment: titleComment)
-            }()
-            public static let addActionTitle = {
-                return NSLocalizedString("Yes, add it!", comment: titleComment)
-            }()
-            public static let declineActionTitle = {
-                return NSLocalizedString("No, that's okay.", comment: titleComment)
-            }()
-        }
     }
     
     // Non-Localizable

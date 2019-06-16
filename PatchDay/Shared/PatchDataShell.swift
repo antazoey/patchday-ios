@@ -17,6 +17,14 @@ public class PatchDataShell {
     
     typealias S = PDPickerStrings
     
+    public static func getSuggestedSite(for site: String) -> String {
+        let set = patchData.defaults.setSiteIndex
+        if let suggestedSite = patchData.siteSchedule.suggest(changeIndex: set) {
+            return suggestedSite.getName() ?? ""
+        }
+        return ""
+    }
+    
     public static func getPickerStrings(for key: PDDefault) -> [String] {
         switch key {
         case PDDefault.DeliveryMethod:

@@ -78,7 +78,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let setter = patchData.pdSharedData.setPillDataForToday
             if let i = Int("\(restoreId.suffix(1))") {
                 patchData.pillSchedule.takePill(at: i, setPDSharedData: setter)
-                appDelegate.notificationsController.requestNotifyTakePill(at: i)
+                appDelegate.notificationsController.requestPillNotification(forPillAt: i)
                 let cell = pillCellForRowAt(i)
                 cell.stamp()
                 if let pill = patchData.pillSchedule.getPill(at: i) {

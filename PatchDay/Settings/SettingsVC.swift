@@ -44,7 +44,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
     // Buttons
     @IBOutlet weak var deliveryMethodButton: UIButton!
-    @IBOutlet private weak var intervalButton: UIButton!
+    @IBOutlet private weak var expirationIntervalButton: UIButton!
     @IBOutlet private weak var quantityButton: UIButton!
     @IBOutlet weak var quantityArrowButton: UIButton!
     @IBOutlet weak var themeButton: UIButton!
@@ -54,11 +54,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var notificationsMinutesBeforeSlider: UISlider!
     
     // Views
-    @IBOutlet weak var dmSideView: UIView!
     @IBOutlet weak var deliveryMethodSideView: UIView!
     @IBOutlet weak var quantitySideView: UIView!
     @IBOutlet weak var notificationsSideView: UIView!
-    @IBOutlet weak var notMinBeforeSideView: UIView!
+    @IBOutlet weak var notificationsMinutesBeforeSideView: UIView!
     @IBOutlet weak var themeSideView: UIView!
     
     // Trackers
@@ -92,10 +91,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
+        appDelegate.notificationsController.cancelEstrogenNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
         patchData.defaults.set(&patchData.defaults.notificationsMinutesBefore, to: v)
-        appDelegate.notificationsController.resendAllEstrogenNotifications()
+        appDelegate.notificationsController.resendEstrogenNotifications()
     }
     
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
@@ -123,7 +123,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func loadExpirationInterval() {
         let interval = patchData.defaults.expirationInterval.humanPresentableValue
-        intervalButton.setTitle(interval, for: .normal)
+        expirationIntervalButton.setTitle(interval, for: .normal)
     }
     
     private func loadQuantity() {
@@ -261,32 +261,27 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - Saving
     
+    //TODO: delegate to notifications controler to handle which to resent, and make save func generic
+    
     /// Saves values from pickers (NOT a function for TimePickers though).
     private func saveFromPicker(_ key: PDDefault, selectedRow: Int?) {
-        var resendBegin: Index = 0
-        var resendEnd: Index = 0
+        let n = appDelegate.notificationsController
+        n.cancelEstrogenNotifications()
         if let row = selectedRow {
             switch key {
             case .DeliveryMethod :
-                resendBegin = patchData.defaults.quantity.rawValue - 1
                 saveDeliveryMethodChange(row)
-                resendEnd = row
             case .Quantity :
-                resendBegin = patchData.defaults.quantity.rawValue - 1
-                resendEnd = row
                 saveQuantityChange(row)
             case .ExpirationInterval :
-                resendBegin = 0
-                resendEnd = patchData.defaults.quantity.rawValue - 1
                 saveIntervalChange(row)
             case .Theme :
                 saveThemeChange(row)
             default:
                 print("Error: Improper context when saving details from picker")
             }
-            let n = appDelegate.notificationsController
-            n.resendEstrogenNotifications(begin: resendBegin, end: resendEnd)
         }
+        n.resendEstrogenNotifications()
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
@@ -315,8 +310,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveIntervalChange(_ row: Int) {
         let result = PatchDataShell.setExpirationIntervalIfSafe(at: row)
         if result.didSet {
-            intervalButton.setTitle(result.chosenIntervalRaw, for: .normal)
-            appDelegate.notificationsController.resendAllEstrogenNotifications()
+            expirationIntervalButton.setTitle(result.chosenIntervalRaw, for: .normal)
         } else {
             print("Error: no expiration interval for row \(row)")
         }
@@ -373,7 +367,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             fallthrough
         case let def where def != .ExpirationInterval:
             expirationIntervalPicker.isHidden = true
-            intervalButton.isSelected = false
+            expirationIntervalButton.isSelected = false
             fallthrough
         case let def where def != .Quantity:
             quantityPicker.isHidden = true
@@ -389,7 +383,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func loadButtonSelectedStates() {
         let save = PDStrings.ActionStrings.save
         deliveryMethodButton.setTitle(save, for: .selected)
-        intervalButton.setTitle(save, for: .selected)
+        expirationIntervalButton.setTitle(save, for: .selected)
         quantityButton.setTitle(save, for: .selected)
         themeButton.setTitle(save, for: .selected)
     }
@@ -452,15 +446,15 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         settingsView.backgroundColor = appDelegate.themeManager.bg_c
         settingsStack.backgroundColor = appDelegate.themeManager.bg_c
         deliveryMethodButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
-        intervalButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
+        expirationIntervalButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
         quantityButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
         notificationsSwitch.backgroundColor = appDelegate.themeManager.bg_c
         notificationsMinutesBeforeSlider.backgroundColor = appDelegate.themeManager.bg_c
-        dmSideView.backgroundColor = appDelegate.themeManager.bg_c
+        deliveryMethodSideView.backgroundColor = appDelegate.themeManager.bg_c
         deliveryMethodSideView.backgroundColor = appDelegate.themeManager.bg_c
         quantitySideView.backgroundColor = appDelegate.themeManager.bg_c
         notificationsSideView.backgroundColor = appDelegate.themeManager.bg_c
-        notMinBeforeSideView.backgroundColor = appDelegate.themeManager.bg_c
+        notificationsMinutesBeforeSideView.backgroundColor = appDelegate.themeManager.bg_c
         themeSideView.backgroundColor = appDelegate.themeManager.bg_c
     }
 }
