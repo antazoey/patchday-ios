@@ -61,8 +61,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBOutlet weak var themeSideView: UIView!
     
     // Trackers
-    private var whichTapped: PDDefault?
-    //private var selectedRow: Int?
+    private var selectedDefault: PDDefault?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,6 +97,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         appDelegate.notificationsController.resendEstrogenNotifications()
     }
     
+    /// For any default who's UI opens a UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
         if let id = sender.restorationIdentifier?.dropLast() {
             let key = String(id)
@@ -112,76 +112,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         shouldReceive ? enableNotificationButtons() : disableNotificationButtons()
         patchData.defaults.set(&patchData.defaults.notifications, to: shouldReceive)
     }
-    
-    // MARK: - Public
-    
-    // MARK: - Data loaders
-    
-    private func loadDeliveryMethod() {
-        deliveryMethodButton.setTitle(PatchDataShell.currentDeliveryMethod, for: .normal)
-    }
-    
-    private func loadExpirationInterval() {
-        let interval = patchData.defaults.expirationInterval.humanPresentableValue
-        expirationIntervalButton.setTitle(interval, for: .normal)
-    }
-    
-    private func loadQuantity() {
-        let q = patchData.defaults.quantity.value.rawValue
-        quantityButton.setTitle("\(q)", for: .normal)
-        if patchData.defaults.deliveryMethod.value != .Patches {
-            quantityButton.isEnabled = false
-            quantityArrowButton.isEnabled = false
-            if q != 1 {
-                patchData.defaults.setQuantityWithoutWarning(to: 1)
-            }
-        }
-    }
-
-    private func loadNotifications() {
-        notificationsSwitch.setOn(patchData.defaults.notifications.value, animated: false)
-    }
-    
-    private func loadNotificationsMinutesBefore() {
-        if notificationsSwitch.isOn {
-            let min = patchData.defaults.notificationsMinutesBefore.value
-            notificationsMinutesBeforeSlider.value = Float(min)
-            notificationsMinutesBeforeValueLabel.text = String(min)
-            notificationsMinutesBeforeValueLabel.textColor = UIColor.black
-        } else {
-            notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
-        }
-    }
-    
-    private func loadTheme() {
-        let theme = patchData.defaults.theme.value
-        let title = PDPickerStrings.getTheme(for: theme)
-        themeButton.setTitle(title, for: .normal)
-    }
 
     // MARK: - Picker Functions
     
-    private func delegatePickers() {
-        deliveryMethodPicker.delegate = self
-        expirationIntervalPicker.delegate = self
-        quantityPicker.delegate = self
-        themePicker.delegate = self
-    }
-    
-    internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
 
-    internal func pickerView(_ pickerView: UIPickerView,
-                             numberOfRowsInComponent component: Int) -> Int {
-        return PatchDataShell.getDefaultOptionsCount(for: getWhichTapped())
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return PatchDataShell.getDefaultOptionsCount(for: selectedDefault)
     }
     
-    internal func pickerView(_ pickerView: UIPickerView,
-                             titleForRow row: Int,
-                             forComponent component: Int) -> String? {
-        var title = " "
-        if let key = getWhichTapped() {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        var title: String? = nil
+        if let key = selectedDefault {
             let data = PatchDataShell.getPickerStrings(for: key)
             if row < data.count && row >= 0 {
                 title = data[row]
@@ -201,7 +145,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let choice = sender.titleLabel?.text
         let start = SettingsModel.getIndex(selections: selections, choice: choice)
         
-        setWhichTapped(to: key)
+        selectedDefault = key
         switch key {
         case .DeliveryMethod:
             picker = deliveryMethodPicker
@@ -220,7 +164,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let p = picker!
         p.reloadAllComponents()
         deselectEverything(except: key)
-        openOrClose(picker: p, buttonTapped: sender, selections: selections, key: key, row: start)
+        if p.isHidden == false {
+            closePicker(sender, p, key, row: start)
+        } else {
+            sender.isSelected = true
+            openPicker(sender, selections, p, selectedRow: start)
+        }
     }
     
     private func openPicker(_ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView, selectedRow: Int) {
@@ -245,23 +194,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         self.saveFromPicker(key, selectedRow: row)
     }
     
-    // For regular pickers
-    private func openOrClose(picker: UIPickerView,
-                             buttonTapped: UIButton,
-                             selections: [String],
-                             key: PDDefault,
-                             row: Int) {
-        if picker.isHidden == false {
-            closePicker(buttonTapped, picker, key, row: row)
-        } else {
-            buttonTapped.isSelected = true
-            openPicker(buttonTapped, selections, picker, selectedRow: row)
-        }
-    }
-    
     // MARK: - Saving
-    
-    //TODO: delegate to notifications controler to handle which to resent, and make save func generic
     
     /// Saves values from pickers (NOT a function for TimePickers though).
     private func saveFromPicker(_ key: PDDefault, selectedRow: Int?) {
@@ -327,16 +260,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // MARK: - Setters and getters
-    
-    private func setWhichTapped(to tappedDef: PDDefault) {
-        whichTapped = tappedDef
-    }
 
-    
-    private func getWhichTapped() -> PDDefault? {
-        return whichTapped
-    }
-    
     private func getBackgroundColor() -> UIColor {
         if let color = settingsView.backgroundColor {
             return color
@@ -456,6 +380,55 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         notificationsSideView.backgroundColor = appDelegate.themeManager.bg_c
         notificationsMinutesBeforeSideView.backgroundColor = appDelegate.themeManager.bg_c
         themeSideView.backgroundColor = appDelegate.themeManager.bg_c
+    }
+
+    private func loadDeliveryMethod() {
+        deliveryMethodButton.setTitle(PatchDataShell.currentDeliveryMethod, for: .normal)
+    }
+    
+    private func loadExpirationInterval() {
+        let interval = patchData.defaults.expirationInterval.humanPresentableValue
+        expirationIntervalButton.setTitle(interval, for: .normal)
+    }
+    
+    private func loadQuantity() {
+        let q = patchData.defaults.quantity.value.rawValue
+        quantityButton.setTitle("\(q)", for: .normal)
+        if patchData.defaults.deliveryMethod.value != .Patches {
+            quantityButton.isEnabled = false
+            quantityArrowButton.isEnabled = false
+            if q != 1 {
+                patchData.defaults.setQuantityWithoutWarning(to: 1)
+            }
+        }
+    }
+    
+    private func loadNotifications() {
+        notificationsSwitch.setOn(patchData.defaults.notifications.value, animated: false)
+    }
+    
+    private func loadNotificationsMinutesBefore() {
+        if notificationsSwitch.isOn {
+            let min = patchData.defaults.notificationsMinutesBefore.value
+            notificationsMinutesBeforeSlider.value = Float(min)
+            notificationsMinutesBeforeValueLabel.text = String(min)
+            notificationsMinutesBeforeValueLabel.textColor = UIColor.black
+        } else {
+            notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
+        }
+    }
+    
+    private func loadTheme() {
+        let theme = patchData.defaults.theme.value
+        let title = PDPickerStrings.getTheme(for: theme)
+        themeButton.setTitle(title, for: .normal)
+    }
+    
+    private func delegatePickers() {
+        deliveryMethodPicker.delegate = self
+        expirationIntervalPicker.delegate = self
+        quantityPicker.delegate = self
+        themePicker.delegate = self
     }
 }
 
