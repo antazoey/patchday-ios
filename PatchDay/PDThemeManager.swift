@@ -31,8 +31,8 @@ internal class PDThemeManager: NSObject {
         current = theme
         switch theme {
         case .Light:
-            oddCellColor = PDColors.getColor(.LightBlue)
-            evenCellColor = UIColor.white
+            oddCellColor = UIColor.white
+            evenCellColor = PDColors.getColor(.LightBlue)
             bgColor = UIColor.white
             textColor = UIColor.black
             borderColor = PDColors.getColor(.LightGray)
