@@ -42,10 +42,10 @@ class PDTabViewDelegate {
         }
     }
     
-    func reflectTheme(theme: ThemeManager) {
+    func reflectTheme(theme: PDThemeManager) {
         let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.tintColor = theme.button_c
-        tabBarAppearance.barTintColor = theme.navbar_c
+        tabBarAppearance.tintColor = theme.buttonColor
+        tabBarAppearance.barTintColor = theme.navbarColor
     }
     
     func reflectEstrogen(expirationInterval: ExpirationIntervalUD? = nil,

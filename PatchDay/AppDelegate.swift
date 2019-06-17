@@ -11,20 +11,20 @@ import UserNotifications
 import PatchData
 import PDKit
 
-let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
-let patchData = appDelegate.patchData
+let app = (UIApplication.shared.delegate as! AppDelegate)
+let patchData = app.patchData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    // How to get reference: "let appDelegate = UIApplication.shared.delegate as! AppDelegate"
+    // How to get reference: "let app = UIApplication.shared.delegate as! AppDelegate"
     
     var window: UIWindow?
-    var notificationsController = PDNotificationController()
+    var notifications = PDNotificationCenter()
     var patchData = PatchDataSDK()
     var tabs: PDTabViewDelegate?
     var nav: PDNavigationDelegate?
-    var themeManager: ThemeManager!
+    var theme: PDThemeManager!
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -40,8 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uncomment to nuke the db
         //patchData.schedule.nuke()
         // Then re-comment, run again, and PatchDay resets to default.
-        let theme = patchData.defaults.theme.value
-        themeManager = ThemeManager(theme: theme)
+
+        self.theme = PDThemeManager(theme: patchData.defaults.theme.value)
 
         // Load data for the Today widget.
         patchData.schedule.sharedData.setDataForTodayApp(interval: patchData.defaults.expirationInterval,
@@ -51,7 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         setBadge(with: patchData.schedule.totalDue(interval: patchData.defaults.expirationInterval))
         setNavigationAppearance()
-
         return true
     }
     
@@ -72,12 +71,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setNavigationAppearance() {
-        nav?.reflectTheme(theme: themeManager)
-        tabs?.reflectTheme(theme: themeManager)
+        nav?.reflectTheme(theme: theme)
+        tabs?.reflectTheme(theme: theme)
     }
     
     func resetTheme() {
-        themeManager = ThemeManager(theme: patchData.defaults.theme.value)
+        theme = PDThemeManager(theme: patchData.defaults.theme.value)
         setNavigationAppearance()
     }
     

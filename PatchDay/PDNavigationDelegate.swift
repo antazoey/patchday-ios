@@ -11,10 +11,10 @@ import UIKit
 
 public class PDNavigationDelegate {
     
-    func reflectTheme(theme: ThemeManager) {
+    func reflectTheme(theme: PDThemeManager) {
         let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = theme.button_c
-        navigationBarAppearace.barTintColor = theme.navbar_c
-        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.text_c]
+        navigationBarAppearace.tintColor = theme.buttonColor
+        navigationBarAppearace.barTintColor = theme.navbarColor
+        navigationBarAppearace.titleTextAttributes = [NSAttributedString.Key.foregroundColor : theme.textColor]
     }
 }

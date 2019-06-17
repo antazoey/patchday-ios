@@ -211,7 +211,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     internal func pickerView(_ pickerView: UIPickerView,
                              attributedTitleForRow row: Int,
                              forComponent component: Int) -> NSAttributedString? {
-        let attrs = [NSAttributedString.Key.foregroundColor : appDelegate.themeManager.text_c]
+        let attrs = [NSAttributedString.Key.foregroundColor : app.theme.textColor]
         let n = namePickerSet[row]
         let attributedString = NSAttributedString(string: n, attributes: attrs)
         return attributedString
@@ -270,7 +270,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func loadImage() {
         let deliv = patchData.defaults.deliveryMethod.value
-        let theme = appDelegate.themeManager.theme
+        let theme = app.theme.current
         if let name = nameText.text {
             var image: UIImage
             var sitesWithImages = PDSiteStrings.getSiteNames(for: deliv)
@@ -322,13 +322,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func applyTheme() {
-        view.backgroundColor = appDelegate.themeManager.bg_c
-        nameStackVertical.backgroundColor = appDelegate.themeManager.bg_c
-        nameStackHorizontal.backgroundColor = appDelegate.themeManager.bg_c
-        typeNameButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
-        nameText.textColor = appDelegate.themeManager.text_c
-        nameText.backgroundColor = appDelegate.themeManager.bg_c
-        siteImage.backgroundColor = appDelegate.themeManager.bg_c
-        gapAboveImage.backgroundColor = appDelegate.themeManager.bg_c
+        view.backgroundColor = app.theme.bgColor
+        nameStackVertical.backgroundColor = app.theme.bgColor
+        nameStackHorizontal.backgroundColor = app.theme.bgColor
+        typeNameButton.setTitleColor(app.theme.textColor, for: .normal)
+        nameText.textColor = app.theme.textColor
+        nameText.backgroundColor = app.theme.bgColor
+        siteImage.backgroundColor = app.theme.bgColor
+        gapAboveImage.backgroundColor = app.theme.bgColor
     }
 }

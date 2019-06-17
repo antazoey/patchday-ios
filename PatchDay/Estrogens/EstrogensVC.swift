@@ -23,7 +23,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Have to set nav controllers during first view init
-        appDelegate.setTabs(tc: self.navigationController!.tabBarController!,
+        app.setTabs(tc: self.navigationController!.tabBarController!,
                             vcs: self.navigationController!.viewControllers)
         estrogenTable.dataSource = self
         estrogenTable.delegate = self
@@ -51,7 +51,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        appDelegate.tabs?.reflectEstrogen()
+        app.tabs?.reflectEstrogen()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -145,9 +145,9 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     private func loadTabBarItems() {
         navigationController?.tabBarController?.tabBar.unselectedItemTintColor =
-            appDelegate.themeManager.unselected_c
+            app.theme.unselectedColor
         navigationController?.tabBarController?.tabBar.tintColor =
-            appDelegate.themeManager.purple_c
+            app.theme.purpleColor
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() ==
             UIUserInterfaceIdiom.phone) ? 9 : 25
         if let vcs = navigationController?.tabBarController?.viewControllers {
@@ -160,15 +160,13 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func applyTheme() {
-        let bgColor = appDelegate.themeManager.bg_c
-        let borderColor = appDelegate.themeManager.border_c
-        estrogensView.backgroundColor = bgColor
-        estrogenTable.backgroundColor = bgColor
-        estrogenTable.separatorColor = borderColor
+        estrogensView.backgroundColor = app.theme.bgColor
+        estrogenTable.backgroundColor = app.theme.bgColor
+        estrogenTable.separatorColor = app.theme.borderColor
     }
     
     private func alertForTutorial() {
-        if appDelegate.isFirstLaunch() {
+        if app.isFirstLaunch() {
             PDAlertController.alertForDisclaimerAndTutorial()
             patchData.defaults.set(&patchData.defaults.mentionedDisclaimer, to: true)
         }

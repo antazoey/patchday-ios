@@ -250,7 +250,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             for i in indexPath.row..<siteNames.count {
                 let nextIndexPath = IndexPath(row: i, section: 0)
                 sitesTable.cellForRow(at: nextIndexPath)?.backgroundColor =
-                    appDelegate.themeManager.getCellColor(at: i)
+                    app.theme.getCellColor(at: i)
             }
         }
     }
@@ -290,9 +290,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        sitesView.backgroundColor = appDelegate.themeManager.bg_c
-        sitesTable.backgroundColor = appDelegate.themeManager.bg_c
-        sitesTable.separatorColor = appDelegate.themeManager.border_c
+        sitesView.backgroundColor = app.theme.bgColor
+        sitesTable.backgroundColor = app.theme.bgColor
+        sitesTable.separatorColor = app.theme.borderColor
     }
 }
 

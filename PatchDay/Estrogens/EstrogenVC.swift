@@ -401,20 +401,18 @@ class EstrogenVC: UIViewController,
     
     private func requestNotification() {
         if let estro = estrogen {
-            let notCon = appDelegate.notificationsController
-            notCon.requestEstrogenExpiredNotification(for: estro)
+            app.notifications.requestEstrogenExpiredNotification(for: estro)
             // Overnight
             let interval = patchData.defaults.expirationInterval
             if let expDate = estro.expirationDate(interval: interval),
                 expDate.isOvernight() {
-                notCon.requestOvernightNotification(estro, expDate: expDate)
+                app.notifications.requestOvernightNotification(estro, expDate: expDate)
             }
         }
     }
     
     private func cancelNotification() {
-        let nc = appDelegate.notificationsController
-        nc.cancelEstrogenNotification(at: estrogenScheduleIndex)
+        app.notifications.cancelEstrogenNotification(at: estrogenScheduleIndex)
     }
     
     // MARK: - Private view creators / MOEstrogendifiers

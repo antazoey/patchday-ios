@@ -23,15 +23,15 @@ class SiteCell: UITableViewCell {
         if index >= 0 && index < siteCount,
             let site = patchData.siteSchedule.getSite(at: index) {
             orderLabel.text = "\(index + 1)."
-            orderLabel.textColor = appDelegate.themeManager.text_c
-            arrowLabel.textColor = appDelegate.themeManager.text_c
+            orderLabel.textColor = app.theme.textColor
+            arrowLabel.textColor = app.theme.textColor
             nameLabel.text = name
-            nameLabel.textColor = appDelegate.themeManager.purple_c
-            nextLabel.textColor = appDelegate.themeManager.green_c
+            nameLabel.textColor = app.theme.purpleColor
+            nextLabel.textColor = app.theme.greenColor
             estrogenScheduleImage.image = loadEstrogenImages(for: site)?.withRenderingMode(.alwaysTemplate)
-            estrogenScheduleImage.tintColor = appDelegate.themeManager.text_c
+            estrogenScheduleImage.tintColor = app.theme.textColor
             nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
-            backgroundColor = appDelegate.themeManager.bg_c
+            backgroundColor = app.theme.bgColor
             setBackgroundSelected()
         }
     }
@@ -61,7 +61,7 @@ class SiteCell: UITableViewCell {
     
     private func setBackgroundSelected() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = appDelegate.themeManager.selected_c
+        backgroundView.backgroundColor = app.theme.selectedColor
         selectedBackgroundView = backgroundView
     }
 }

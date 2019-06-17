@@ -86,7 +86,7 @@ class PillCell: UITableViewCell {
     public func setBackground() {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        backgroundColor = appDelegate.themeManager.getCellColor(at: index)
+        backgroundColor = app.theme.getCellColor(at: index)
     }
     
     // MARK: - Private
@@ -102,12 +102,12 @@ class PillCell: UITableViewCell {
     }
     
     private func applyTheme() {
-        nameLabel.textColor = appDelegate.themeManager.text_c
-        takeButton.setTitleColor(appDelegate.themeManager.button_c, for: .normal)
-        lastTakenLabel.textColor = appDelegate.themeManager.text_c
-        nextDueDate.textColor = appDelegate.themeManager.text_c
+        nameLabel.textColor = app.theme.textColor
+        takeButton.setTitleColor(app.theme.buttonColor, for: .normal)
+        lastTakenLabel.textColor = app.theme.textColor
+        nextDueDate.textColor = app.theme.textColor
         let img = stateImage.image?.withRenderingMode(.alwaysTemplate)
         stateImage.image = img
-        stateImage.tintColor = appDelegate.themeManager.button_c
+        stateImage.tintColor = app.theme.buttonColor
     }
 }

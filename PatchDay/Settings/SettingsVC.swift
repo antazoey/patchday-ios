@@ -91,11 +91,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        appDelegate.notificationsController.cancelEstrogenNotifications()
+        app.notifications.cancelEstrogenNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
         patchData.defaults.set(&patchData.defaults.notificationsMinutesBefore, to: v)
-        appDelegate.notificationsController.resendEstrogenNotifications()
+        app.notifications.resendEstrogenNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView
@@ -224,8 +224,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Saves values from pickers (NOT a function for TimePickers though).
     private func saveFromPicker(_ key: PDDefault, selectedRow: Int?) {
-        let n = appDelegate.notificationsController
-        n.cancelEstrogenNotifications()
+        app.notifications.cancelEstrogenNotifications()
         if let row = selectedRow {
             switch key {
             case .DeliveryMethod :
@@ -240,7 +239,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
                 print("Error: Improper context when saving details from picker")
             }
         }
-        n.resendEstrogenNotifications()
+        app.notifications.resendEstrogenNotifications()
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
@@ -269,7 +268,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveThemeChange(_ row: Int) {
         let theme = PatchDataShell.setThemeIfSafe(toMethodAt: row)
         if theme != "" {
-            appDelegate.resetTheme()
+            app.resetTheme()
         } else {
             print("Error: no theme for row \(row)")
         }
@@ -366,9 +365,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func makeResetClosure(oldCount: Int) -> ((Int) -> ()) {
         let reset: (Int) -> () = {
             newCount in
-            appDelegate.tabs?.reflectExpirationCountAsBadgeValue()
-            let n = appDelegate.notificationsController
-            n.cancelEstrogenNotifications(from: newCount, to: oldCount)
+            app.tabs?.reflectExpirationCountAsBadgeValue()
+            app.notifications.cancelEstrogenNotifications(from: newCount, to: oldCount)
         }
         return reset
     }
@@ -382,20 +380,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func applyTheme() {
-        view.backgroundColor = appDelegate.themeManager.bg_c
-        settingsView.backgroundColor = appDelegate.themeManager.bg_c
-        settingsStack.backgroundColor = appDelegate.themeManager.bg_c
-        deliveryMethodButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
-        expirationIntervalButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
-        quantityButton.setTitleColor(appDelegate.themeManager.text_c, for: .normal)
-        notificationsSwitch.backgroundColor = appDelegate.themeManager.bg_c
-        notificationsMinutesBeforeSlider.backgroundColor = appDelegate.themeManager.bg_c
-        deliveryMethodSideView.backgroundColor = appDelegate.themeManager.bg_c
-        deliveryMethodSideView.backgroundColor = appDelegate.themeManager.bg_c
-        quantitySideView.backgroundColor = appDelegate.themeManager.bg_c
-        notificationsSideView.backgroundColor = appDelegate.themeManager.bg_c
-        notificationsMinutesBeforeSideView.backgroundColor = appDelegate.themeManager.bg_c
-        themeSideView.backgroundColor = appDelegate.themeManager.bg_c
+        view.backgroundColor = app.theme.bgColor
+        settingsView.backgroundColor = app.theme.bgColor
+        settingsStack.backgroundColor = app.theme.bgColor
+        deliveryMethodButton.setTitleColor(app.theme.textColor, for: .normal)
+        expirationIntervalButton.setTitleColor(app.theme.textColor, for: .normal)
+        quantityButton.setTitleColor(app.theme.textColor, for: .normal)
+        notificationsSwitch.backgroundColor = app.theme.bgColor
+        notificationsMinutesBeforeSlider.backgroundColor = app.theme.bgColor
+        deliveryMethodSideView.backgroundColor = app.theme.bgColor
+        deliveryMethodSideView.backgroundColor = app.theme.bgColor
+        quantitySideView.backgroundColor = app.theme.bgColor
+        notificationsSideView.backgroundColor = app.theme.bgColor
+        notificationsMinutesBeforeSideView.backgroundColor = app.theme.bgColor
+        themeSideView.backgroundColor = app.theme.bgColor
     }
 
     private func loadDeliveryMethod() {

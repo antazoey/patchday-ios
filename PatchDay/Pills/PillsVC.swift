@@ -78,7 +78,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             let setter = patchData.pdSharedData.setPillDataForToday
             if let i = Int("\(restoreId.suffix(1))") {
                 patchData.pillSchedule.takePill(at: i, setPDSharedData: setter)
-                appDelegate.notificationsController.requestPillNotification(forPillAt: i)
+                app.notifications.requestPillNotification(forPillAt: i)
                 let cell = pillCellForRowAt(i)
                 cell.stamp()
                 if let pill = patchData.pillSchedule.getPill(at: i) {
@@ -172,8 +172,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        let bgColor = appDelegate.themeManager.bg_c
-        let borderColor = appDelegate.themeManager.border_c
+        let bgColor = app.theme.bgColor
+        let borderColor = app.theme.borderColor
         pillsView.backgroundColor = bgColor
         pillsTable.backgroundColor = bgColor
         pillsTable.separatorColor = borderColor

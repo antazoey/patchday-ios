@@ -99,9 +99,9 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBAction func saveButtonTapped() {
         if let pill = pill {
-            appDelegate.notificationsController.cancelPillNotification(pill)
+            app.notifications.cancelPillNotification(pill)
             patchData.pillSchedule.setPill(for: pill, with: makePillAttributes())
-            appDelegate.notificationsController.requestPillNotification(pill)
+            app.notifications.requestPillNotification(pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
                 let newValue = patchData.pillSchedule.totalDue()
                 vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil

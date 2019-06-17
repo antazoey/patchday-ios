@@ -19,8 +19,8 @@ class EstrogenCell: UITableViewCell {
     public var index = -1
     
     public func load() {
-        let theme = appDelegate.themeManager.theme
-        backgroundColor = appDelegate.themeManager.bg_c
+        let theme = app.theme.current
+        backgroundColor = app.theme.bgColor
         let q = patchData.defaults.quantity.value.rawValue
         setThemeColors(at: index)
         switch (index) {
@@ -110,7 +110,7 @@ class EstrogenCell: UITableViewCell {
     }
     
     private func setDateLabel(_ title: String?) {
-        self.dateLabel.textColor = appDelegate.themeManager.text_c
+        self.dateLabel.textColor = app.theme.textColor
         self.dateLabel.text = title
     }
     
@@ -157,8 +157,8 @@ class EstrogenCell: UITableViewCell {
 
     private func setThemeColors(at index: Int) {
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = appDelegate.themeManager.selected_c
-        backgroundColor = appDelegate.themeManager.getCellColor(at: index)
+        selectedBackgroundView?.backgroundColor = app.theme.selectedColor
+        backgroundColor = app.theme.getCellColor(at: index)
     }
 
     private func configureDate(when isExpired: Bool) {

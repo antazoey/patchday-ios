@@ -11,13 +11,11 @@ import UserNotifications
 import PDKit
 import PatchData
 
-class PDNotificationController: NSObject, UNUserNotificationCenterDelegate {
+class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     
     override var description: String {
         return "Singleton for handling user notifications."
     }
-    
-    //typealias Center = UNUserNotificationCenter
 
     var currentEstrogenIndex = 0
     var currentPillIndex = 0
