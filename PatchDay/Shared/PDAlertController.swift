@@ -10,18 +10,18 @@ import UIKit
 import PDKit
 import PatchData
 
-internal class PDAlertController: NSObject {
+class PDAlertController: NSObject {
     
     override var description: String {
         return "Singleton for controllnig PatchDay's alerts."
     }
     
-    internal static var currentAlert = UIAlertController()
+    static var currentAlert = UIAlertController()
     
     // MARK: - Changing delivery method
     
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    internal static func alertForChangingDeliveryMethod(newMethod: DeliveryMethod,
+    static func alertForChangingDeliveryMethod(newMethod: DeliveryMethod,
                                                         oldMethod: DeliveryMethod,
                                                         oldCount: Quantity,
                                                         deliveryButton: UIButton,
@@ -81,7 +81,7 @@ internal class PDAlertController: NSObject {
     // MARK: - Disclaimer + tutorial
     
     /// Alert that displays a quick tutorial and disclaimer on installation.
-    internal static func alertForDisclaimerAndTutorial() {
+    static func alertForDisclaimerAndTutorial() {
         if let currentVC = getRootVC() {
             let alertStyle: UIAlertController.Style =
                 (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad) ?
@@ -117,7 +117,7 @@ internal class PDAlertController: NSObject {
     // MARK: - Add site
     
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    internal static func alertForAddSite(with name: SiteName,
+    static func alertForAddSite(with name: SiteName,
                                          at index: Index,
                                          estroVC: EstrogenVC) {
         if let currentVC = getRootVC() {

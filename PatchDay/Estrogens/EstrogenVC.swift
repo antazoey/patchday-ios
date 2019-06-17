@@ -46,11 +46,11 @@ class EstrogenVC: UIViewController,
     @IBOutlet private weak var autofillButton: UIButton!
     
     // Non-interface
-    internal var estrogenScheduleIndex = -1
-    internal var estrogen: MOEstrogen!
-    internal var site: String = ""
-    internal var datePlaced: Date = Date()
-    internal var dateSelected: Date?
+    var estrogenScheduleIndex = -1
+    var estrogen: MOEstrogen!
+    var site: String = ""
+    var datePlaced: Date = Date()
+    var dateSelected: Date?
     private var siteTextHasChanged = false
     private var dateTextHasChanged = false
     private var shouldSaveSelectedSiteIndex = false
@@ -137,7 +137,7 @@ class EstrogenVC: UIViewController,
         selectSiteTextField.becomeFirstResponder()
     }
     
-    internal func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         selectSiteTextField.isUserInteractionEnabled = true
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
@@ -164,7 +164,7 @@ class EstrogenVC: UIViewController,
         }
     }
     
-    @objc internal func closeTextField() {
+    @objc func closeTextField() {
         self.selectedSite = nil
         siteTextHasChanged = true
         if selectSiteTextField.text == "" {
@@ -191,14 +191,14 @@ class EstrogenVC: UIViewController,
         }
     }
  
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         closeTextField()
         return true
     }
     
     // MARK: - Picker Functions
     
-    @IBAction internal func openSitePicker(_ sender: Any) {
+    @IBAction func openSitePicker(_ sender: Any) {
         UIView.transition(with: sitePicker as UIView,
                           duration: 0.4,
                           options: .transitionCrossDissolve,
@@ -211,7 +211,7 @@ class EstrogenVC: UIViewController,
         chooseDateButton.isEnabled = false
     }
     
-    @objc internal func closeSitePicker() {
+    @objc func closeSitePicker() {
         sitePicker.isHidden = true
         autofillButton.isEnabled = true
         chooseDateButton.isEnabled = true
@@ -231,16 +231,16 @@ class EstrogenVC: UIViewController,
                                  for: .touchUpInside)
     }
 
-    internal func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              numberOfRowsInComponent component: Int) -> Int {
         return patchData.siteSchedule.count()
     }
     
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              titleForRow row: Int,
                              forComponent component: Int) -> String? {
         let names = patchData.siteSchedule.getNames()
@@ -251,7 +251,7 @@ class EstrogenVC: UIViewController,
     }
     
     // Done
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
         let names = patchData.siteSchedule.getNames()
@@ -266,7 +266,7 @@ class EstrogenVC: UIViewController,
 
     // MARK: - Date Picker funcs
     
-    @IBAction internal func chooseDateTextTapped(_ sender: Any) {
+    @IBAction func chooseDateTextTapped(_ sender: Any) {
         // Unhide date picker
         UIView.transition(with: datePickerInputView as UIView,
                           duration: 0.4,
@@ -284,7 +284,7 @@ class EstrogenVC: UIViewController,
         selectSiteTextField.isEnabled = false
     }
     
-    @objc internal func datePickerDone(_ sender: Any) {
+    @objc func datePickerDone(_ sender: Any) {
         let doneButton = sender as! UIButton
         doneButton.removeFromSuperview()
         datePickerInputView.isHidden = true
@@ -328,7 +328,7 @@ class EstrogenVC: UIViewController,
         }
     }
     
-    internal func setEstrogenScheduleIndex(to: Int) {
+    func setEstrogenScheduleIndex(to: Int) {
         estrogenScheduleIndex = to
     }
     

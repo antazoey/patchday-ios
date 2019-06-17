@@ -192,7 +192,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                          for: .touchUpInside)
     }
     
-    @objc internal func timePickerDone(sender: Any) {
+    @objc func timePickerDone(sender: Any) {
         let timeButton = sender as! UIButton
         timeButton.isSelected = false
         timePicker.isHidden = true
@@ -234,13 +234,13 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return PT.defaultPills.count + PT.extraPills.count
     }
     
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              titleForRow row: Int,
                              forComponent component: Int) -> String? {
         return names[row]
     }
     
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
         nameSelected = names[row]
@@ -270,11 +270,11 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // MARK: - Text field
     
-    internal func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         selectNameButton.isEnabled = false
     }
     
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         if nameTextField.text == "" {
             nameTextField.text = PDStrings.PlaceholderStrings.new_pill

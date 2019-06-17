@@ -22,8 +22,8 @@ public class SiteSchedule: NSObject, PDScheduling {
     }
     
     public var sites: [MOSite] = []
-    internal var next: Index = 0
-    internal var deliveryMethod = DeliveryMethod.Patches
+    var next: Index = 0
+    var deliveryMethod = DeliveryMethod.Patches
     
     override init() {
         super.init()

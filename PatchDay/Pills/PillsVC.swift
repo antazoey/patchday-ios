@@ -140,7 +140,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     /// Updates the pill views when VC is reloaded from a notification.
-    internal func updateFromBackground() {
+    func updateFromBackground() {
         let name = UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(appWillEnterForeground),
@@ -148,7 +148,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                                                object: nil)
     }
     
-    @objc internal func appWillEnterForeground() {
+    @objc func appWillEnterForeground() {
         pillsTable.reloadData()
     }
     

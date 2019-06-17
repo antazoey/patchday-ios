@@ -45,7 +45,7 @@ open class PDDefaults: PDDefaultsBaseClass {
 
     // MARK: - initializer
     
-    internal init(estrogenSchedule: EstrogenSchedule,
+    init(estrogenSchedule: EstrogenSchedule,
                   siteSchedule: SiteSchedule,
                   state: PDState,
                   sharedData: PDSharedData?,

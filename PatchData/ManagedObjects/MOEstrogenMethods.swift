@@ -17,10 +17,10 @@ extension MOEstrogen {
         return NSFetchRequest<MOEstrogen>(entityName: "Estrogen")
     }
     
-    @NSManaged internal var id: UUID?
-    @NSManaged internal var date: NSDate?
-    @NSManaged internal var siteNameBackUp: String?
-    @NSManaged internal var siteRelationship: MOSite?
+    @NSManaged var id: UUID?
+    @NSManaged var date: NSDate?
+    @NSManaged var siteNameBackUp: String?
+    @NSManaged var siteRelationship: MOSite?
     
     
     // MARK: - Getters and setters

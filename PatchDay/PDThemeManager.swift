@@ -11,21 +11,21 @@ import UIKit
 import PDKit
 import PatchData
 
-internal class PDThemeManager: NSObject {
+class PDThemeManager: NSObject {
     
     public var current: PDTheme
 
-    internal var oddCellColor: UIColor
-    internal var evenCellColor: UIColor
-    internal var bgColor: UIColor
-    internal var textColor: UIColor
-    internal var borderColor: UIColor
-    internal var selectedColor: UIColor
-    internal var unselectedColor: UIColor
-    internal var buttonColor: UIColor
-    internal var navbarColor: UIColor
-    internal var greenColor: UIColor
-    internal var purpleColor: UIColor
+    var oddCellColor: UIColor
+    var evenCellColor: UIColor
+    var bgColor: UIColor
+    var textColor: UIColor
+    var borderColor: UIColor
+    var selectedColor: UIColor
+    var unselectedColor: UIColor
+    var buttonColor: UIColor
+    var navbarColor: UIColor
+    var greenColor: UIColor
+    var purpleColor: UIColor
     
     public init(theme: PDTheme) {
         current = theme

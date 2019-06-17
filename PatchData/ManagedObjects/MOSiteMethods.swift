@@ -14,9 +14,9 @@ import PDKit
 extension MOSite {
 
     @NSManaged public var estrogenRelationship: NSSet?
-    @NSManaged internal var imageIdentifier: String?
-    @NSManaged internal var name: String?
-    @NSManaged internal var order: Int16
+    @NSManaged var imageIdentifier: String?
+    @NSManaged var name: String?
+    @NSManaged var order: Int16
 }
 
 // MARK: Generated accessors for estrogenRelationship

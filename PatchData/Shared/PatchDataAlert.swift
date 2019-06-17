@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-internal class PatchDataAlert: NSObject {
+class PatchDataAlert: NSObject {
     
     override var description: String {
         return """
@@ -28,7 +28,7 @@ internal class PatchDataAlert: NSObject {
     // MARK: - Changing count
     
     /// Alert for changing the count of estrogens causing a loss of data.
-    internal func alertForChangingCount(oldCount: Int, newCount: Int,
+    func alertForChangingCount(oldCount: Int, newCount: Int,
                                         simpleSetQuantity: @escaping (_ newCount: Int) -> (),
                                         reset: @escaping (_ newCount: Int) -> (),
                                         cancel: @escaping (_ oldCount: Int) -> ()) {
@@ -69,7 +69,7 @@ internal class PatchDataAlert: NSObject {
     //MARK: - Core data errors
     
     /// Alert for when Core Data has an error.
-    internal static func alertForCoreDataError() {
+    static func alertForCoreDataError() {
         typealias Alert = PDStrings.AlertStrings.CoreDataAlert
         if let currentVC = getRootVC() {
             let alert = UIAlertController(title: Alert.title,
@@ -88,7 +88,7 @@ internal class PatchDataAlert: NSObject {
     // MARK: - Persistent store load error
     
     /// Alert for when the persistentStore has an error.
-    internal static func alertForPersistentStoreLoadError(error: NSError) {
+    static func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = getRootVC() {
             let alertTitle = PDStrings.AlertStrings.CoreDataAlert.title
             let msg = "(\(String(describing: error))"

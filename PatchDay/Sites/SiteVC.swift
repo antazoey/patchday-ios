@@ -134,7 +134,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // MARK: - Text field
     
-    internal func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
         typeNameButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
         nameText.removeTarget(self,
@@ -158,12 +158,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         }
     }
     
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         closeTextField()
         return true
     }
     
-    @objc internal func closeTextField() {
+    @objc func closeTextField() {
         view.endEditing(true)
         nameText.restorationIdentifier = "select"
         switch nameText.text {
@@ -208,7 +208,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return namePickerSet.count
     }
     
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              attributedTitleForRow row: Int,
                              forComponent component: Int) -> NSAttributedString? {
         let attrs = [NSAttributedString.Key.foregroundColor : app.theme.textColor]
@@ -217,14 +217,14 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return attributedString
     }
  
-    internal func pickerView(_ pickerView: UIPickerView,
+    func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
         self.nameText.text = self.namePickerSet[row]
         closePicker()
     }
     
-    @objc internal func closePicker() {
+    @objc func closePicker() {
         self.namePicker.isHidden = true;
         self.bottomLine.isHidden = false;
         self.siteImage.isHidden = false;

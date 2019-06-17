@@ -22,8 +22,8 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     }
     
     public var estrogens: [MOEstrogen] = []
-    internal var quantity = 3
-    internal var deliveryMethod = DeliveryMethod.Patches
+    var quantity = 3
+    var deliveryMethod = DeliveryMethod.Patches
     private var estrogenMap = [UUID: MOEstrogen]()
     
     override init() {

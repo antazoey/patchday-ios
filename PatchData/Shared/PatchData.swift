@@ -10,13 +10,13 @@ import Foundation
 import CoreData
 import PDKit
 
-internal enum PDEntity: String {
+enum PDEntity: String {
     case estrogen = "Estrogen"
     case pill = "Pill"
     case site = "Site"
 }
 
-internal struct EntityKey {
+struct EntityKey {
     public var type: PDEntity = .estrogen
     public var name: String = ""
     public var props: [String] = []
@@ -38,16 +38,16 @@ public class PatchData: NSObject {
 
     // MARK: - Internal
     
-    internal static func useTestContainer() {
+    static func useTestContainer() {
         container = .test
     }
 
-    internal enum PatchDataContainer {
+    enum PatchDataContainer {
         case app
         case test
     }
 
-    internal static var persistentContainer: NSPersistentContainer = {
+    static var persistentContainer: NSPersistentContainer = {
         typealias Keys = PDStrings.CoreDataKeys
         let isApp = container == .app
         let key = isApp ?
@@ -56,18 +56,18 @@ public class PatchData: NSObject {
         return pdContainer(key)
     }()
 
-    internal static var testContainer: NSPersistentContainer = {
+    static var testContainer: NSPersistentContainer = {
         let key = PDStrings.CoreDataKeys.testContainer_key
         return pdContainer(key)
     }()
 
     /// Get the current view context
-    internal static func getContext() -> NSManagedObjectContext {
+    static func getContext() -> NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
     /// Saves the all changed data in the persistentContainer.
-    internal static func save() {
+    static func save() {
         if persistentContainer.viewContext.hasChanges {
             do {
                 try persistentContainer.viewContext.save()
@@ -78,12 +78,12 @@ public class PatchData: NSObject {
     }
     
     /// Insert a Core Data entity into the view context
-    internal static func insert(_ entity: String) -> NSManagedObject? {
+    static func insert(_ entity: String) -> NSManagedObject? {
         return NSEntityDescription.insertNewObject(forEntityName: entity,
                                                    into: getContext());
     }
     
-    internal static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {
+    static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {
         let keys = PatchData.entityKey(for: entity)
         typealias MOFetch = NSFetchRequest<NSManagedObject>
         let fetchRequest = MOFetch(entityName: keys.name)
@@ -102,7 +102,7 @@ public class PatchData: NSObject {
     }
     
     /// Deletes all the managed objects in the context
-    internal static func nuke() {
+    static func nuke() {
         PDEntity.allCases.forEach {e in
             if let mos = loadMOs(for: e) {
                 for mo: NSManagedObject in mos {

@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-internal class PDNotificationStrings {
+class PDNotificationStrings {
     
     static let siteToExpiredPatchMessage: [String : String] =
         ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: comment),

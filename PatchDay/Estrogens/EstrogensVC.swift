@@ -82,7 +82,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     // MARK: - Actions
     
-    @objc internal func settingsTapped() {
+    @objc func settingsTapped() {
         let sb = UIStoryboard(name: "SettingsAndSites", bundle: nil)
         let key = "SettingsVC_id"
         if let n = navigationController,
@@ -93,14 +93,14 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     // MARK: - Private
     /// Updates the estrogen buttons when VC is reloaded from a notification.
-    internal func updateFromBackground() {
+    func updateFromBackground() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(appWillEnterForeground),
                                                name: UIApplication.willEnterForegroundNotification,
                                                object: nil)
     }
     
-    @objc internal func appWillEnterForeground() {
+    @objc func appWillEnterForeground() {
         estrogenTable.reloadData()
     }
     

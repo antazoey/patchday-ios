@@ -448,7 +448,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
 extension SettingsVC: UIScrollViewDelegate {
     
-    internal func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return settingsStack
     }
 }
