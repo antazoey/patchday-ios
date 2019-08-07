@@ -9,10 +9,5 @@
 import Foundation
 
 public protocol PDNotifying {
-    
-    var title: String { get }
-    
-    var body: String? { get }
-    
-    func send()
+    func request()
 }

@@ -28,12 +28,12 @@ public class PillNotification : PDNotification, PDNotifying {
         super.init(title: self.title, body: self.body, badge: totalDue)
     }
     
-    public func send() {
+    public func request() {
         let now = Date()
         super.content.categoryIdentifier = PillNotification.categoryId
         let interval = self.dueDate.timeIntervalSince(now)
         if let id = self.pill.getId() {
-            super.send(when: interval, requestId: id.uuidString)
+            super.request(when: interval, requestId: id.uuidString)
         }
     }
 }

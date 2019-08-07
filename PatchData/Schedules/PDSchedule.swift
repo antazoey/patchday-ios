@@ -25,18 +25,15 @@ public class PDSchedule: NSObject {
     public let pillSchedule = PillSchedule()
     public let siteSchedule = SiteSchedule()
     public let state = PDState()
-    private let alerter: PatchDataAlert
     
     public override init() {
-        alerter = PatchDataAlert(estrogenSchedule: estrogenSchedule)
         sharedData = PDSharedData(estrogenSchedule: estrogenSchedule,
                                   pillSchedule: pillSchedule,
                                   siteSchedule: siteSchedule)
         defaults = PDDefaults(estrogenSchedule: estrogenSchedule,
                               siteSchedule: siteSchedule,
                               state: state,
-                              sharedData: sharedData,
-                              alerter: alerter)
+                              sharedData: sharedData)
     }
 
     // MARK: - Public

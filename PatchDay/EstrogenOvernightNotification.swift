@@ -15,27 +15,25 @@ public class EstrogenOvernightNotification : PDNotification, PDNotifying {
     private let dateBeforeOvernightExpiration: Date
     private let deliveryMethod: DeliveryMethod
     
-    public var title: String
-    public var body: String?
-    
     init(triggerDate: Date, deliveryMethod: DeliveryMethod, totalDue: Int) {
         self.dateBeforeOvernightExpiration = triggerDate
         self.deliveryMethod = deliveryMethod
+        var t: String
         
         switch self.deliveryMethod {
         case .Patches:
-            self.title = PDNotificationStrings.overnightPatch
+            t = PDNotificationStrings.overnightPatch
         case .Injections:
-            self.title = PDNotificationStrings.overnightInjection
+            t = PDNotificationStrings.overnightInjection
         }
         
-        super.init(title: title, body: body, badge: totalDue)
+        super.init(title: t, body: nil, badge: totalDue)
     }
     
-    public func send() {
+    public func request() {
         let interval = dateBeforeOvernightExpiration.timeIntervalSinceNow
         if interval > 0 {
-            super.send(when: interval, requestId: "overnight")
+            super.request(when: interval, requestId: "overnight")
         }
     }
 }

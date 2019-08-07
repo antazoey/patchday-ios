@@ -113,9 +113,7 @@ public class PatchDataShell {
             let newQuantityRaw = Int(PDPickerStrings.quantities[q]),
             let newQuantity = Quantity(rawValue: newQuantityRaw) {
             patchData.defaults.setQuantityWithWarning(to: newQuantity,
-                                                      oldQ: oldQuantity,
-                                                      reset: reset,
-                                                      cancel: cancel)
+                                                      oldQ: oldQuantity, Pa)
         }
     }
     

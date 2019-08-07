@@ -16,69 +16,6 @@ public class PDStrings: NSObject {
         LOCALIZABLE
     **********************************/
     
-    // MARK: - Actions (Localizable)
-    
-    public struct ActionStrings {
-        private static let c1 = "Button title.  Could you keep it short?"
-        private static let c2 = "Notification action. Used all over app, so please keep it short."
-        private static let c3 = "Title for button, not too much room left for a really long word."
-        private static let c4 = "Button title.  Room is fair."
-        private static let c5 = "Button title.  Could you keep it short?"
-        private static let c6 = "Alert action. Room is not an issue."
-        private static let c7 = "Nav bar item title.  Could you keep it short?"
-        public static let done = {
-            return NSLocalizedString("Done", comment: c1)
-        }()
-        public static let delete = {
-            return NSLocalizedString("Delete", comment: c1)
-        }()
-        public static let take = {
-            return NSLocalizedString("Take", comment: c2)
-        }()
-        public static let taken = {
-            return NSLocalizedString("Taken", comment: c3)
-        }()
-        public static let save = {
-            return NSLocalizedString("Save", comment: c4)
-        }()
-        public static let undo = {
-            return NSLocalizedString("undo", comment: c4)
-        }()
-        public static let autofill = {
-            return NSLocalizedString("Autofill", comment: c4)
-        }()
-        public static let type = {
-            return NSLocalizedString("Type", comment: c5)
-        }()
-        public static let select = {
-            return NSLocalizedString("Select", comment: c5)
-        }()
-        public static let dismiss = {
-            return NSLocalizedString("Dismiss", comment: c5)
-        }()
-        public static let accept = {
-            return NSLocalizedString("Accept", comment: c6)
-        }()
-        public static let cont = {
-            return NSLocalizedString("Continue", comment: c6)
-        }()
-        public static let decline = {
-            return NSLocalizedString("Decline", comment: c6)
-        }()
-        public static let yes = {
-            return NSLocalizedString("Yes", comment: c6)
-        }()
-        public static let no = {
-            return NSLocalizedString("No", comment: c6)
-        }()
-        public static let edit = {
-            return NSLocalizedString("Edit", comment: c7)
-        }()
-        public static let reset = {
-            return NSLocalizedString("Reset", comment: c7)
-        }()
-    }
-    
     // MARK: - Days (Localizable)
     
     public struct DayStrings {
@@ -92,61 +29,6 @@ public class PDStrings: NSObject {
         public static let tomorrow = {
             return NSLocalizedString("Tomorrow", comment: comment)
         }()
-    }
-
-    // MARK: - Alerts (Localizable)
-    
-    public struct AlertStrings {
-        private static let titleComment = "Title for alert."
-        private static let messageComment = "Message for alert."
-        public struct CoreDataAlert {
-            private static let msg = "PatchDay's storage is not working. " +
-                "You may report the problem to support@patchdayhrt.com if you'd like."
-            public static let title = {
-                return NSLocalizedString("Data Error", comment: titleComment) }()
-            public static let message = { return NSLocalizedString(msg, comment: messageComment)
-            }()
-        }
-        
-        public struct LoseDataAlert {
-            private static let msg = "This action will result in a loss of data."
-            public static let title = {
-                return NSLocalizedString("Warning", comment: titleComment)
-            }()
-            public static let message = {
-                return NSLocalizedString(msg, comment: messageComment)
-            }()
-        }
-        
-        public struct StartUp  {
-            private static let msg =
-                "To begin using PatchDay, tap the Edit button in the " +
-                "top right and setup your schedule.\n\nUse this tool responsibly, " +
-                "and please follow medication instructions!\n\nGo to www.PatchDayHRT.com " +
-                "to learn more."
-            public static let title = {
-                return NSLocalizedString("Setup / Disclaimer", comment: titleComment)
-            }()
-            public static let message = {
-                return NSLocalizedString(msg, comment: messageComment)
-            }()
-            public static let support = {
-                return NSLocalizedString("Support page", comment: titleComment)
-            }()
-        }
-        
-        public struct AddSite {
-            public static let title = {
-                return NSLocalizedString("Add new site name to sites list?",
-                                         comment: titleComment)
-            }()
-            public static let addActionTitle = {
-                return NSLocalizedString("Yes, add it!", comment: titleComment)
-            }()
-            public static let declineActionTitle = {
-                return NSLocalizedString("No, that's okay.", comment: titleComment)
-            }()
-        }
     }
     
     // MARK: - PlaceHolders

@@ -21,7 +21,7 @@ public class PDNotification {
         content.badge = badge as NSNumber
     }
     
-    public func send(when interval: Double, requestId: String) {
+    public func request(when interval: Double, requestId: String) {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
         let request = UNNotificationRequest(identifier: requestId, content: content, trigger: trigger)
         let center = UNUserNotificationCenter.current()

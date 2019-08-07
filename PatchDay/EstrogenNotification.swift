@@ -16,9 +16,7 @@ public class EstrogenNotification : PDNotification, PDNotifying {
     private let estrogen: MOEstrogen
     private let expirationInterval: ExpirationIntervalUD
     private let notificationsMinutesBefore: Double
-    
-    public var title: String
-    public var body: String?
+
     public static var actionId = { return "estroActionId" }()
     public static let categoryId = { return "estroCategoryId" }()
     
@@ -34,19 +32,17 @@ public class EstrogenNotification : PDNotification, PDNotifying {
         let strs = PDNotificationStrings.getEstrogenNotificationStrings(method: method,
                                                                         minutesBefore: minutes,
                                                                         expiringSiteName: expName)
-        self.title = strs.0
-        self.body = strs.1
-        super.init(title: self.title, body: self.body, badge: totalDue)
+        super.init(title: strs.0, body: strs.1, badge: totalDue)
     }
     
-    public func send() {
+    public func request() {
         let hours = expirationInterval.hours
         if let date = estrogen.getDate(),
             var timeIntervalUntilExpire = PDDateHelper.expirationInterval(hours, date: date as Date) {
             timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)
             if timeIntervalUntilExpire > 0, let id = self.estrogen.getId() {
                 super.content.categoryIdentifier = EstrogenNotification.categoryId
-                super.send(when: timeIntervalUntilExpire, requestId: id.uuidString)
+                super.request(when: timeIntervalUntilExpire, requestId: id.uuidString)
             }
         }
     }

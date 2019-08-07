@@ -31,7 +31,6 @@ open class PDDefaults: PDDefaultsBaseClass {
     private var estrogenSchedule: EstrogenSchedule
     private var siteSchedule: SiteSchedule
     private var state: PDState
-    private var alerter: PatchDataAlert?
 
     // Defaults
     public var deliveryMethod = DeliveryMethodUD(with: DeliveryMethod.Patches)
@@ -46,19 +45,13 @@ open class PDDefaults: PDDefaultsBaseClass {
     // MARK: - initializer
     
     init(estrogenSchedule: EstrogenSchedule,
-                  siteSchedule: SiteSchedule,
-                  state: PDState,
-                  sharedData: PDSharedData?,
-                  alerter: PatchDataAlert?) {
+         siteSchedule: SiteSchedule,
+         state: PDState,
+         sharedData: PDSharedData?) {
         self.estrogenSchedule = estrogenSchedule
         self.siteSchedule = siteSchedule
         self.state = state
-        if let alertArg = alerter {
-            self.alerter = alertArg
-        }
-        if let sd = sharedData {
-            shared = sd
-        }
+        self.shared = sharedData
         super.init()
         self.load(&deliveryMethod)
         self.load(&expirationInterval)
@@ -98,28 +91,34 @@ open class PDDefaults: PDDefaultsBaseClass {
      which happens when the user decreases the count in a full schedule.
      Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
     */
-    public func setQuantityWithWarning(to newQ: Quantity, oldQ: Quantity,
-                                       reset: @escaping (_ newQuantity: Int) -> (),
-                                       cancel: @escaping (_ oldQuantity: Int) -> ()) {
+    public func setQuantityWithWarning(to newQ: Quantity, oldQ: Quantity, handler: ChangeQuantityAlertHandling? = nil) {
         state.oldQuantity = oldQ.rawValue
         if newQ.rawValue < oldQ.rawValue {
             state.decreasedCount = true
             // Erases data
             let last_i = self.quantity.value.rawValue - 1
-            if !estrogenSchedule.isEmpty(fromThisIndexOnward: newQ.rawValue,
-                                         lastIndex: last_i),
-                let alerter = alerter {
-                    let res = { (newCount) in reset(newCount) }
-                    let setQ = setQuantityWithoutWarning
-                    alerter.alertForChangingCount(oldCount: oldQ.rawValue,
-                                                  newCount: newQ.rawValue,
-                                                  simpleSetQuantity: setQ,
-                                                  reset: res,
-                                                  cancel: cancel)
+            if !estrogenSchedule.isEmpty(fromThisIndexOnward: newQ.rawValue, lastIndex: last_i) {
+                var h = handler ?? Change
+                handler.alert()
+                
+                
+                
+                //let setQ = setQuantityWithoutWarning
+                      //let res = { (newCount) in reset(newCount) }
+//                    alerter.alertForChangingCount(oldCount: oldQ.rawValue,
+//                                                  newCount: newQ.rawValue,
+//                                                  simpleSetQuantity: setQ,
+//                                                  reset: res,
+//                                                  cancel: cancel)
+                
+                
+                
+                
+                
             } else {
                 // Resets notifications but does not erase any data
                 setQuantityWithoutWarning(to: newQ.rawValue)
-                reset(newQ.rawValue)
+                handler.reset(newQ.rawValue)
             }
         }
     }

@@ -99,8 +99,6 @@ public class EstrogenSchedule: NSObject, PDScheduling {
             let mo = type
             if let estro = PatchData.insert(mo) as? MOEstrogen {
                 estrogens.append(estro)
-            } else {
-                PatchDataAlert.alertForCoreDataError()
             }
         }
     }

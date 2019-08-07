@@ -72,7 +72,7 @@ public class PatchData: NSObject {
             do {
                 try persistentContainer.viewContext.save()
             } catch {
-                PatchDataAlert.alertForCoreDataError()
+                return
             }
         }
     }
@@ -122,7 +122,7 @@ public class PatchData: NSObject {
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
             if let error = error as NSError? {
-                PatchDataAlert.alertForPersistentStoreLoadError(error: error)
+                print(error)
             }
         })
         return container

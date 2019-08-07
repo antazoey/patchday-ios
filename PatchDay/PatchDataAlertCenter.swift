@@ -8,15 +8,12 @@
 
 import UIKit
 import PDKit
+import PatchData
 
-class PatchDataAlert: NSObject {
+class PatchDataAlertCenter: NSObject {
     
     override var description: String {
-        return """
-                PatchDataAlert makes calls to UIAlertController
-                for the PatchData module. Each Alert function
-                Alerts are functions in PatchDay.
-                """
+        return "PatchDataAlert is where Patch Data Alerts are created and presented."
     }
 
     private var estrogenSchedule: EstrogenSchedule
@@ -26,50 +23,12 @@ class PatchDataAlert: NSObject {
     }
     
     // MARK: - Changing count
-    
-    /// Alert for changing the count of estrogens causing a loss of data.
-    func alertForChangingCount(oldCount: Int, newCount: Int,
-                                        simpleSetQuantity: @escaping (_ newCount: Int) -> (),
-                                        reset: @escaping (_ newCount: Int) -> (),
-                                        cancel: @escaping (_ oldCount: Int) -> ()) {
-        if (newCount > oldCount) {
-            simpleSetQuantity(newCount)
-            return
-        }
-        if let currentVC = PatchDataAlert.getRootVC() {
-            let isPad = UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
-            let alertStyle: UIAlertController.Style = isPad ?
-                .alert :
-                .actionSheet
-            typealias Alert = PDStrings.AlertStrings.LoseDataAlert
-            let alert = UIAlertController(title: Alert.title,
-                                             message: Alert.message,
-                                             preferredStyle: alertStyle)
-            let contStr = PDStrings.ActionStrings.cont
-            let continueAction = UIAlertAction(title: contStr,
-                                               style: .destructive) {
-                void in
-                // Note: newCount is start_i because reset only occurs
-                // when decreasing count.
-                self.estrogenSchedule.reset(from: newCount)
-                simpleSetQuantity(newCount)
-                reset(newCount)
-            }
-            let title = PDStrings.ActionStrings.decline
-            let cancelAction = UIAlertAction(title: title,style: .cancel) {
-                void in
-                cancel(oldCount)
-            }
-            alert.addAction(continueAction)
-            alert.addAction(cancelAction)
-            currentVC.present(alert, animated: true, completion: nil)
-        }
-    }
+
     
     //MARK: - Core data errors
     
     /// Alert for when Core Data has an error.
-    static func alertForCoreDataError() {
+    func alertForCoreDataError() {
         typealias Alert = PDStrings.AlertStrings.CoreDataAlert
         if let currentVC = getRootVC() {
             let alert = UIAlertController(title: Alert.title,
@@ -88,7 +47,7 @@ class PatchDataAlert: NSObject {
     // MARK: - Persistent store load error
     
     /// Alert for when the persistentStore has an error.
-    static func alertForPersistentStoreLoadError(error: NSError) {
+    func alertForPersistentStoreLoadError(error: NSError) {
         if let currentVC = getRootVC() {
             let alertTitle = PDStrings.AlertStrings.CoreDataAlert.title
             let msg = "(\(String(describing: error))"

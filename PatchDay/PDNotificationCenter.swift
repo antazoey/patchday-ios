@@ -117,7 +117,7 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
                                  deliveryMethod: deliv,
                                  expirationInterval: interval,
                                  notifyMinutesBefore: notifyMinBefore,
-                                 totalDue: totalExpired).send()
+                                 totalDue: totalExpired).request()
         }
     }
     
@@ -127,7 +127,7 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
         if let triggerDate = PDDateHelper.dateBefore(overNightDate: expDate) {
             EstrogenOvernightNotification(triggerDate: triggerDate,
                                           deliveryMethod: patchData.defaults.deliveryMethod.value,
-                                          totalDue: patchData.schedule.totalDue(interval: interval)).send()
+                                          totalDue: patchData.schedule.totalDue(interval: interval)).request()
         }
     }
     
@@ -144,7 +144,7 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
         if let dueDate = pill.due(), now < dueDate {
             let timeInterval = patchData.defaults.expirationInterval
             let totalDue = patchData.schedule.totalDue(interval: timeInterval)
-            PillNotification(for: pill, dueDate: dueDate, totalDue: totalDue).send()
+            PillNotification(for: pill, dueDate: dueDate, totalDue: totalDue).request()
         }
     }
     
