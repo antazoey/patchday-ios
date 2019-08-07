@@ -38,12 +38,11 @@
 		9D3E4C9022B7283000C82DAE /* NewSiteAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C8F22B7283000C82DAE /* NewSiteAlert.swift */; };
 		9D3E4C9422B72D1600C82DAE /* PDAlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9322B72D1600C82DAE /* PDAlertStrings.swift */; };
 		9D3E4C9622B730B500C82DAE /* PDActionStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9522B730B500C82DAE /* PDActionStrings.swift */; };
-		9D3E4C9722B87B3100C82DAE /* PatchDataAlertCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE4821CC7CC4002C2238 /* PatchDataAlertCenter.swift */; };
 		9D3E4C9B22B87F6C00C82DAE /* QuantityMutationActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9A22B87F6C00C82DAE /* QuantityMutationActionHandler.swift */; };
 		9D43DB0A22639893008F56AE /* PDThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D43DB0922639893008F56AE /* PDThemeManager.swift */; };
-		9D505F4C22FA5A9B0048A000 /* DisclaimerActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D505F4B22FA5A9B0048A000 /* DisclaimerActionHandler.swift */; };
 		9D5942B122BC7574008FA25D /* QuantityMutationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5942B022BC7574008FA25D /* QuantityMutationAlert.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */; };
+		9D913B7822FA6F1D001FC03C /* PDGenericAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */; };
 		9DC0107221FE311A0024E7CE /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */; };
 		9DC4175A22907DF100DD2CEF /* PDNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC4175922907DF100DD2CEF /* PDNavigationDelegate.swift */; };
 		9DD5C2F3227F4281009BAA25 /* PDTabViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F2227F4281009BAA25 /* PDTabViewDelegate.swift */; };
@@ -239,9 +238,9 @@
 		9D3E4C9522B730B500C82DAE /* PDActionStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDActionStrings.swift; sourceTree = "<group>"; };
 		9D3E4C9A22B87F6C00C82DAE /* QuantityMutationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityMutationActionHandler.swift; sourceTree = "<group>"; };
 		9D43DB0922639893008F56AE /* PDThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDThemeManager.swift; sourceTree = "<group>"; };
-		9D505F4B22FA5A9B0048A000 /* DisclaimerActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerActionHandler.swift; sourceTree = "<group>"; };
 		9D5942B022BC7574008FA25D /* QuantityMutationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityMutationAlert.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClass.swift; sourceTree = "<group>"; };
+		9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDGenericAlert.swift; sourceTree = "<group>"; };
 		9DC0107121FE311A0024E7CE /* PatchDataSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataSDK.swift; sourceTree = "<group>"; };
 		9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDayToday.entitlements; sourceTree = "<group>"; };
 		9DC4175922907DF100DD2CEF /* PDNavigationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNavigationDelegate.swift; sourceTree = "<group>"; };
@@ -300,7 +299,6 @@
 		B480EE2421CC7554002C2238 /* PatchDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B480EE2B21CC7554002C2238 /* SiteScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteScheduleTests.swift; sourceTree = "<group>"; };
 		B480EE2D21CC7554002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B480EE4821CC7CC4002C2238 /* PatchDataAlertCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataAlertCenter.swift; sourceTree = "<group>"; };
 		B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelper.swift; sourceTree = "<group>"; };
 		B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDateHelper.swift; sourceTree = "<group>"; };
 		B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -465,10 +463,10 @@
 		9D3E4C8622B7115400C82DAE /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
+				9D3E4C9322B72D1600C82DAE /* PDAlertStrings.swift */,
 				9D505F4822FA4A110048A000 /* ActionHandlers */,
 				9D3E4C9122B7285100C82DAE /* Alerts */,
 				13E0BB5C1EF8E5D900939D37 /* PDAlertCenter.swift */,
-				B480EE4821CC7CC4002C2238 /* PatchDataAlertCenter.swift */,
 				9D3E4C8722B7116C00C82DAE /* PDAlert.swift */,
 				9D3E4C8922B7117900C82DAE /* PDAlerting.swift */,
 			);
@@ -481,8 +479,8 @@
 				9D3E4C8B22B711B600C82DAE /* DeliveryMethodMutationAlert.swift */,
 				9D3E4C8F22B7283000C82DAE /* NewSiteAlert.swift */,
 				9D3E4C8D22B727DB00C82DAE /* DisclaimerAlert.swift */,
-				9D3E4C9322B72D1600C82DAE /* PDAlertStrings.swift */,
 				9D5942B022BC7574008FA25D /* QuantityMutationAlert.swift */,
+				9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */,
 			);
 			name = Alerts;
 			sourceTree = "<group>";
@@ -501,7 +499,6 @@
 			isa = PBXGroup;
 			children = (
 				9D3E4C9A22B87F6C00C82DAE /* QuantityMutationActionHandler.swift */,
-				9D505F4B22FA5A9B0048A000 /* DisclaimerActionHandler.swift */,
 			);
 			name = ActionHandlers;
 			sourceTree = "<group>";
@@ -1008,6 +1005,7 @@
 				9DDF13D4229CC9E7001E8A8A /* PDNotificationStrings.swift in Sources */,
 				9D3E4C8822B7116C00C82DAE /* PDAlert.swift in Sources */,
 				B4AED52320E5659C00559165 /* PillVC.swift in Sources */,
+				9D913B7822FA6F1D001FC03C /* PDGenericAlert.swift in Sources */,
 				B46AC63620CF1D6000CF7B54 /* SiteVC.swift in Sources */,
 				B4454B0820E19A7E005CD2E3 /* PillCell.swift in Sources */,
 				9D3E4C8022B5AFC500C82DAE /* PDNotification.swift in Sources */,
@@ -1016,10 +1014,8 @@
 				13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */,
 				9D3E4C8A22B7117900C82DAE /* PDAlerting.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationCenter.swift in Sources */,
-				9D505F4C22FA5A9B0048A000 /* DisclaimerActionHandler.swift in Sources */,
 				139754BE1EDA8C4D006C82B8 /* EstrogensVC.swift in Sources */,
 				B42F5D1020D2D6F90032E39A /* SiteCell.swift in Sources */,
-				9D3E4C9722B87B3100C82DAE /* PatchDataAlertCenter.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertCenter.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
 				130101201FE5936E00AEFF7C /* PillsVC.swift in Sources */,

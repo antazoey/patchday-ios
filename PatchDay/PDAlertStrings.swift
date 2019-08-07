@@ -13,11 +13,10 @@ class PDAlertStrings {
     private static let titleComment = { return "Title for alert." }()
     private static let messageComment = { return "Message for alert." }()
     
-    static var coreDataAlertStrings: (title: String, message: String) {
+    static var genericAlertStrings: (title: String, message: String) {
         get {
-            return (NSLocalizedString("Data Error", comment: titleComment),
-                    NSLocalizedString("PatchDay's storage is not working. " +
-                        "You may report the problem to support@patchdayhrt.com if you'd like.",
+            return (NSLocalizedString("PatchDay encountered a problem.", comment: titleComment),
+                    NSLocalizedString("You may report the problem to support@patchdayhrt.com if you'd like.",
                                       comment: messageComment))
         }
     }

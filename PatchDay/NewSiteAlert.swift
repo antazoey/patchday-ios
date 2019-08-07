@@ -11,24 +11,29 @@ import PDKit
 
 class NewSiteAlert: PDAlert {
     
+    private var appendActionHandler: () -> ()
+    
     private var appendSiteAction: UIAlertAction {
         get {
             return UIAlertAction(title: PDAlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
-                void in
-                if let site = patchData.schedule.siteSchedule.insert() as? MOSite {
-                    site.setName(name)
-                    estroVC.sitePicker.reloadAllComponents()
-                }
+                void in self.appendActionHandler()
             }
         }
     }
     
-    init(parent: UIViewController, style: UIAlertController.Style) {
-        var strs = PDAlertStrings.newSiteAlertStrings
+    private var declineAction: UIAlertAction {
+        get {
+            return UIAlertAction(title: PDActionStrings.decline, style: .default)
+        }
+    }
+    
+    init(parent: UIViewController, style: UIAlertController.Style, appendActionHandler: @escaping () -> ()) {
+        self.appendActionHandler = appendActionHandler
+        let strs = PDAlertStrings.newSiteAlertStrings
         super.init(parent: parent, title: strs.title, message: "", style: style)
     }
     
     override func present() {
-        self.present(actions: [appendSiteAction])
+        self.present(actions: [appendSiteAction, declineAction])
     }
 }

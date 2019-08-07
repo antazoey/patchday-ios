@@ -13,9 +13,7 @@ class DisclaimerAlert: PDAlert {
     
     private var dismissAction: UIAlertAction {
         get {
-            return UIAlertAction(title: PDActionStrings.dismiss,
-                                 style: UIAlertAction.Style.cancel,
-                                 handler: nil)
+            return UIAlertAction(title: PDActionStrings.dismiss, style: UIAlertAction.Style.cancel)
         }
     }
     
