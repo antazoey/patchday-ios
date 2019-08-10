@@ -12,6 +12,10 @@ import PatchData
 
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
     
+    private let estrogenSchedule: EstrogenScheduling
+    private let defaults: PDDefaultManaging
+    private let state: PDStateManaging
+    
     public var images: [UIImage]
     public var picker: UIPickerView
     public var imageView: UIImageView
@@ -19,16 +23,37 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     public var selectedSite: MOSite
     public var selectedImage: UIImage?
     
+    convenience init(with picker: UIPickerView,
+                     and imageView: UIImageView,
+                     saveButton: UIBarButtonItem,
+                     selectedSite: MOSite,
+                     deliveryMethod: DeliveryMethod) {
+        self.init(with: picker,
+                  and: imageView,
+                  saveButton: saveButton,
+                  selectedSite: selectedSite,
+                  deliveryMethod: deliveryMethod,
+                  estrogneSchedule: patchData.sdk.estrogenSchedule,
+                  defaults: patchData.sdk.defaults,
+                  state: patchData.sdk.state)
+    }
+    
     init(with picker: UIPickerView,
          and imageView: UIImageView,
          saveButton: UIBarButtonItem,
          selectedSite: MOSite,
-         deliveryMethod: DeliveryMethod) {
+         deliveryMethod: DeliveryMethod,
+         estrogenSchedule: EstrogenScheduling,
+         defaults: PDDefaultManaging,
+         state: PDStateManaging) {
         self.imageView = imageView
-        self.images = PDImages.siteImages(theme: patchData.defaults.theme.value, deliveryMethod: deliveryMethod)
+        self.images = PDImages.siteImages(theme: defaults.theme.value, deliveryMethod: deliveryMethod)
         self.picker = picker
         self.saveButton = saveButton
         self.selectedSite = selectedSite
+        self.estrogenSchedule = estrogenSchedule
+        self.defaults = defaults
+        self.state = state
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -79,10 +104,10 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         }
         if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            patchData.state.siteChanged = true
+            state.siteChanged = true
             if let estros = selectedSite.estrogenRelationship {
                 for estro in estros {
-                    if let estro_i = patchData.estrogenSchedule.getIndex(for: estro as! MOEstrogen) {
+                    if let estro_i = estrogenSchedule.getIndex(for: estro as! MOEstrogen) {
                         patchData.state.indicesOfChangedDelivery.append(estro_i)
                     }
                 }

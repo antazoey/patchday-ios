@@ -9,12 +9,8 @@
 import Foundation
 
 public protocol PDValueHolding {
-    
     associatedtype KeyIndex
-    
     associatedtype RawValue
-    
     init(indexer: KeyIndex)
-    
-    var heldValue: RawValue{ get }
+    var heldValue: RawValue { get }
 }

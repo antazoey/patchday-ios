@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-open class PDDefaultsBaseClass: NSObject {
+public class PDDefaultsBaseClass: NSObject {
     
     override open var description: String {
         return """
@@ -23,13 +23,13 @@ open class PDDefaultsBaseClass: NSObject {
     private let std_defaults = UserDefaults.standard
     private var shared: PDSharedData? = nil
     
-    open func set<T>(_ v: inout T, to new: T.Value) where T: PDKeyStorable {
+    func set<T>(_ v: inout T, to new: T.Value) where T: PDKeyStorable {
         v.value = new
         shared?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
         std_defaults.set(v.rawValue, forKey: T.key.rawValue)
     }
     
-    open func find<T>(_ v: inout T) -> Bool where T: PDKeyStorable {
+    func find<T>(_ v: inout T) -> Bool where T: PDKeyStorable {
         let def1 = shared?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
         let def2 = std_defaults.object(forKey: T.key.rawValue) as? T.RawValue
         let fv = def1 ?? def2 ?? v.rawValue
@@ -37,7 +37,7 @@ open class PDDefaultsBaseClass: NSObject {
         return def1 != nil || def2 != nil
     }
     
-    open func load<T>(_ v: inout T) where T: PDKeyStorable {
+    func load<T>(_ v: inout T) where T: PDKeyStorable {
         let found = find(&v)
         if !found {
             self.set(&v, to: v.value)

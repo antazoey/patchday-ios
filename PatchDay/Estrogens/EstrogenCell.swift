@@ -16,18 +16,22 @@ class EstrogenCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: MFBadgeButton!
     
+    private let estrogenSchedule = patchData.sdk.estrogenSchedule
+    private let defaults = patchData.sdk.defaults
+    private let state = patchData.sdk.state
+    
     public var index = -1
     
     public func load() {
         let theme = app.theme.current
         backgroundColor = app.theme.bgColor
-        let q = patchData.defaults.quantity.value.rawValue
+        let q = defaults.quantity.value.rawValue
         setThemeColors(at: index)
         switch (index) {
         case 0..<q :
-            let interval = patchData.defaults.expirationInterval
-            let deliv = patchData.defaults.deliveryMethod
-            if let estro = patchData.estrogenSchedule.getEstrogen(at: index) {
+            let interval = defaults.expirationInterval
+            let deliv = defaults.deliveryMethod
+            if let estro = estrogenSchedule.getEstrogen(at: index) {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index, theme: theme, deliveryMethod: deliv.value)
                 let title = determineTitle(estrogenIndex: index, interval)
@@ -50,7 +54,7 @@ class EstrogenCell: UITableViewCell {
                                 theme: PDTheme,
                                 deliveryMethod: DeliveryMethod) -> UIImage {
         var image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
-        if let estro = patchData.estrogenSchedule.getEstrogen(at: index),
+        if let estro = estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(),
                 let siteName = site.getImageIdentifer() {
@@ -68,10 +72,10 @@ class EstrogenCell: UITableViewCell {
     private func determineTitle(estrogenIndex: Int, _ interval: ExpirationIntervalUD) -> String {
         var title: String = ""
         typealias Strings = PDStrings.ColonedStrings
-        if let estro = patchData.estrogenSchedule.getEstrogen(at: estrogenIndex),
+        if let estro = estrogenSchedule.getEstrogen(at: estrogenIndex),
             let date =  estro.getDate() as Date?,
             let expDate = estro.expirationDate(interval: interval) {
-            let deliv = patchData.defaults.deliveryMethod.value
+            let deliv = defaults.deliveryMethod.value
             switch deliv {
             case .Patches:
                 let titleIntro = (estro.isExpired(interval)) ?
@@ -90,13 +94,12 @@ class EstrogenCell: UITableViewCell {
                                               theme: PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
-        let schedule = patchData.schedule.estrogenSchedule
-        let estrogenOptional = schedule.getEstrogen(at: index)
+        let estrogenOptional = estrogenSchedule.getEstrogen(at: index)
         var isNew = false
         if let img = newImage {
             isNew =  PDImages.isSiteless(img)
         }
-        patchData.state.isNew = isNew
+        state.isNew = isNew
         let isAnimating = shouldAnimate(estrogenOptional, at: index)
         if isAnimating {
             UIView.transition(with: stateImage as UIView,
@@ -115,8 +118,7 @@ class EstrogenCell: UITableViewCell {
     }
     
     private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
-        let changes = patchData.state
-        let q = patchData.defaults.quantity.value.rawValue
+        let q = defaults.quantity.value.rawValue
         var sortFromEstrogenDateChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false
@@ -124,24 +126,24 @@ class EstrogenCell: UITableViewCell {
             if let _ = estro?.hasDate() {
                 // An estrogen date changed and they are flipping
                 sortFromEstrogenDateChange =
-                    changes.wereEstrogenChanges
-                    && !changes.isNew
-                    && !changes.onlySiteChanged
-                    && index <= changes.indicesOfChangedDelivery[0]
+                    state.wereEstrogenChanges
+                    && !state.isNew
+                    && !state.onlySiteChanged
+                    && index <= state.indicesOfChangedDelivery[0]
             }
             // Newly changed site and none else (date didn't change).
             isSiteChange =
-                changes.siteChanged
-                && changes.indicesOfChangedDelivery.contains(index)
+                state.siteChanged
+                && state.indicesOfChangedDelivery.contains(index)
         }
         // Is exiting the schedule.
-        let decreased = changes.decreasedCount
+        let decreased = state.decreasedCount
         let isGreaterThanNewCount = index >= q
         isGone = decreased && isGreaterThanNewCount
         return (
             sortFromEstrogenDateChange
             || isSiteChange
-            || changes.isNew
+            || state.isNew
             || isGone
         )
     }

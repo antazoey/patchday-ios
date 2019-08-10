@@ -18,6 +18,11 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     @IBOutlet var estrogensView: UIView!
     @IBOutlet weak var estrogenTable: UITableView!
     
+    let defaults = patchData.sdk.defaults
+    let state = patchData.sdk.state
+    let estrogenSchedule = patchData.sdk.estrogenSchedule
+    let pillSchedule = patchData.sdk.pillSchedule
+    
     // MARK: - Main
     
     override func viewDidLoad() {
@@ -31,7 +36,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        patchData.state.reset()
+        state.reset()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,8 +47,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         }, completion: nil)
         
         applyTheme()
-        alertForTutorial()
-        let deliv = patchData.defaults.deliveryMethod.value
+        presentDisclaimerAlert()
+        let deliv = defaults.deliveryMethod.value
         title = PDViewControllerTitleStrings.getTitle(for: deliv)
         estrogenTable.reloadData()
         super.viewDidAppear(false)
@@ -75,7 +80,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < patchData.defaults.quantity.value.rawValue {
+        if indexPath.row < defaults.quantity.value.rawValue {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -113,15 +118,15 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let interval = patchData.defaults.expirationInterval
-        let estroDueCount = patchData.estrogenSchedule.totalDue(interval)
+        let interval = defaults.expirationInterval
+        let estroDueCount = estrogenSchedule.totalDue(interval)
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
     }
     
     private func setExpiredPillsBadge() {
-        let pillDueCount = patchData.pillSchedule.totalDue()
+        let pillDueCount = pillSchedule.totalDue()
         if pillDueCount > 0,
             let vcs = self.navigationController?.tabBarController?.viewControllers,
             vcs.count > 1 {
@@ -140,7 +145,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     /// Configures title of view controller.
     private func loadTitle() {
-        title = PDViewControllerTitleStrings.getTitle(for: patchData.defaults.deliveryMethod.value)
+        title = PDViewControllerTitleStrings.getTitle(for: defaults.deliveryMethod.value)
     }
     
     private func loadTabBarItems() {
@@ -165,10 +170,10 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         estrogenTable.separatorColor = app.theme.borderColor
     }
     
-    private func alertForTutorial() {
+    private func presentDisclaimerAlert() {
         if app.isFirstLaunch() {
-            PDAlertController.alertForDisclaimerAndTutorial()
-            patchData.defaults.set(&patchData.defaults.mentionedDisclaimer, to: true)
+            app.alerts.presentDisclaimerAlert()
+            defaults.setMentionedDisclaimer(to: true)
         }
     }
 }

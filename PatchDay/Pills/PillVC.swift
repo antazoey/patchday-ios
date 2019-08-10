@@ -24,6 +24,10 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var takeButton: UIButton!
     
+    private var notifications = app.notifications
+    private var pillSchedule = patchData.sdk.pillSchedule
+    private var shared = patchData.sdk.pdSharedData
+    
     private var pillIndex: Index?
     private var pill: MOPill?
     private var names = PDStrings.PillTypes.defaultPills + PDStrings.PillTypes.extraPills
@@ -59,8 +63,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         time2Button.setTitleColor(UIColor.lightGray, for: .disabled)
         time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
         time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
-        time1Button.setTitle(PDStrings.ActionStrings.done, for: .selected)
-        time2Button.setTitle(PDStrings.ActionStrings.done, for: .selected)
+        time1Button.setTitle(PDActionStrings.done, for: .selected)
+        time2Button.setTitle(PDActionStrings.done, for: .selected)
         time1Button.setTitleColor(UIColor.blue, for: .selected)
         time2Button.setTitleColor(UIColor.blue, for: .selected)
         disableSavebutton()
@@ -81,14 +85,14 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @objc func selectNameTapped() {
         openOrCloseNamePicker(closing: false)
-        selectNameButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        selectNameButton.setTitle(PDActionStrings.done, for: .normal)
         selectNameButton.removeTarget(nil, action: nil, for: .allEvents)
         selectNameButton.addTarget(self, action: #selector(doneWithSelectNameTapped), for: .touchUpInside)
     }
 
     @objc func doneWithSelectNameTapped() {
         openOrCloseNamePicker(closing: true)
-        selectNameButton.setTitle(PDStrings.ActionStrings.select, for: .normal)
+        selectNameButton.setTitle(PDActionStrings.select, for: .normal)
         selectNameButton.removeTarget(nil, action: nil, for: .allEvents)
         selectNameButton.addTarget(self, action: #selector(selectNameTapped), for: .touchUpInside)
         if name != nameSelected {
@@ -99,14 +103,14 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBAction func saveButtonTapped() {
         if let pill = pill {
-            app.notifications.cancelPillNotification(pill)
-            patchData.pillSchedule.setPill(for: pill, with: makePillAttributes())
-            app.notifications.requestPillNotification(pill)
+            notifications.cancelPillNotification(pill)
+            pillSchedule.setPill(for: pill, with: makePillAttributes())
+            notifications.requestPillNotification(pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
-                let newValue = patchData.pillSchedule.totalDue()
+                let newValue = pillSchedule.totalDue()
                 vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil
             }
-            patchData.pdSharedData.setPillDataForToday()
+            shared.setPillDataForToday()
             segueToPillsVC()
         }
     }
@@ -188,8 +192,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func transformIntoDoneButton(_ button: UIButton) {
         button.isSelected = true
         button.removeTarget(nil, action: nil, for: .allEvents)
-        button.addTarget(self, action: #selector(timePickerDone(sender:)),
-                         for: .touchUpInside)
+        button.addTarget(self, action: #selector(timePickerDone(sender:)), for: .touchUpInside)
     }
     
     @objc func timePickerDone(sender: Any) {
@@ -208,8 +211,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             time1Changed = true
             time1Selected = selectedTime
             time1Button.removeTarget(nil, action: nil, for: .allEvents)
-            time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)),
-                                  for: .touchUpInside)
+            time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
             if sliderSaysTwoPills() {
                 time2Button.isEnabled = true
             }
@@ -217,8 +219,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             time2Changed = true
             time2Selected = selectedTime
             time2Button.removeTarget(nil, action: nil, for: .allEvents)
-            time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)),
-                                  for: .touchUpInside)
+            time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
             time1Button.isEnabled = true
         }
     }
@@ -234,15 +235,11 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return PT.defaultPills.count + PT.extraPills.count
     }
     
-    func pickerView(_ pickerView: UIPickerView,
-                             titleForRow row: Int,
-                             forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return names[row]
     }
     
-    func pickerView(_ pickerView: UIPickerView,
-                             didSelectRow row: Int,
-                             inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         nameSelected = names[row]
         nameTextField.text = nameSelected
         nameChanged = true
@@ -297,7 +294,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // Set VC pill as well as reflected attributes in the interactive UI
     private func reflectPillAttributes() {
-        let pills = patchData.pillSchedule.pills
+        let pills = pillSchedule.pills
         if let index = pillIndex, index >= 0 && index < pills.count {
             self.pill = pills[index]
             loadName(from: pills[index])
@@ -362,7 +359,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             // Save if erronous and not the just the user messing around.
             if save, let index = pillIndex {
                 let attributes = makePillAttributes()
-                patchData.pillSchedule.setPill(at: index, with: attributes);
+                pillSchedule.setPill(at: index, with: attributes);
             }
         }
     }

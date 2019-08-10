@@ -166,14 +166,14 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     
     private func getNotificationCategories() -> Set<UNNotificationCategory> {
         let estrogenAction = UNNotificationAction(identifier: EstrogenNotification.actionId,
-                                                  title: PDStrings.ActionStrings.autofill,
+                                                  title: PDActionStrings.autofill,
                                                   options: [])
         let estrogenCategory = UNNotificationCategory(identifier: EstrogenNotification.actionId,
                                                       actions: [estrogenAction],
                                                       intentIdentifiers: [],
                                                       options: [])
         let pillAction = UNNotificationAction(identifier: PillNotification.actionId,
-                                                  title: PDStrings.ActionStrings.take,
+                                                  title: PDActionStrings.take,
                                                   options: [])
         let pillCategory = UNNotificationCategory(identifier: PillNotification.categoryId,
                                                   actions: [pillAction],

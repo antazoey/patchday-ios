@@ -63,7 +63,7 @@ class EstrogenVC: UIViewController,
         loadTitle()
         selectSiteTextField.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
-        let save = PDStrings.ActionStrings.save
+        let save = PDActionStrings.save
         let handleSave = #selector(saveButtonTapped(_:))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: save,
                                                             style: .plain,
@@ -89,7 +89,7 @@ class EstrogenVC: UIViewController,
         // Site Type setup
         selectSiteTextField.restorationIdentifier = "pick"
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
-        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
     }
     
     /** Save Button
@@ -141,7 +141,7 @@ class EstrogenVC: UIViewController,
         selectSiteTextField.isUserInteractionEnabled = true
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
-        typeSiteButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
+        typeSiteButton.setTitle(PDActionStrings.done, for: .normal)
         typeSiteButton.removeTarget(self,
                                     action: #selector(keyboardTapped(_:)),
                                     for: .touchUpInside)
@@ -170,7 +170,7 @@ class EstrogenVC: UIViewController,
         if selectSiteTextField.text == "" {
             selectSiteTextField.text = PDStrings.PlaceholderStrings.new_site
         }
-        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
         selectSiteTextField.endEditing(true)
         selectSiteTextField.isEnabled = true
         chooseDateButton.isEnabled = true
@@ -185,7 +185,7 @@ class EstrogenVC: UIViewController,
                                  for: .touchUpInside)
         siteIndexSelected = patchData.siteSchedule.count()
         if let n = selectSiteTextField.text {
-            PDAlertController.alertForAddSite(with: n,
+            app.alerts.presentNewSiteAlert(with: n,
                                               at: siteIndexSelected,
                                               estroVC: self)
         }
@@ -222,7 +222,7 @@ class EstrogenVC: UIViewController,
         saveButton.isEnabled = true
         shouldSaveSelectedSiteIndex = true
         shouldSaveIncrementedSiteIndex = false
-        typeSiteButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
         typeSiteButton.removeTarget(self,
                                     action: #selector(closeSitePicker),
                                     for: .touchUpInside)
@@ -312,7 +312,7 @@ class EstrogenVC: UIViewController,
         let n = estrogen.getSiteName()
         switch n {
         case PDStrings.PlaceholderStrings.new_site:
-            selectSiteTextField.text = PDStrings.ActionStrings.select
+            selectSiteTextField.text = PDActionStrings.select
         default:
             selectSiteTextField.text = n
         }
@@ -324,7 +324,7 @@ class EstrogenVC: UIViewController,
             chooseDateButton.setTitle(formattedDate, for: .normal)
             expirationDateLabel.text = estrogen.expirationDateAsString(interval, useWords: true)
         } else {
-            chooseDateButton.setTitle(PDStrings.ActionStrings.select, for: .normal)
+            chooseDateButton.setTitle(PDActionStrings.select, for: .normal)
         }
     }
     
@@ -469,8 +469,8 @@ class EstrogenVC: UIViewController,
         let doneSize = CGSize(width: 100, height: 50)
         let doneRect = CGRect(origin: donePoint, size: doneSize)
         let doneButton = UIButton(frame: doneRect)
-        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControl.State.normal)
-        doneButton.setTitle(PDStrings.ActionStrings.done, for: UIControl.State.highlighted)
+        doneButton.setTitle(PDActionStrings.done, for: UIControl.State.normal)
+        doneButton.setTitle(PDActionStrings.done, for: UIControl.State.highlighted)
         doneButton.setTitleColor(UIColor.blue, for: UIControl.State.normal)
         doneButton.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
         doneButton.removeTarget(nil, action: nil, for: .allEvents)

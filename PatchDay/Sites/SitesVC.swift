@@ -11,10 +11,14 @@ import PDKit
 import PatchData
 
 class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+
     @IBOutlet var sitesView: UIView!
     @IBOutlet weak var sitesTable: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
+    
+    // Dependencies
+    private let siteSchedule = patchData.sdk.siteSchedule
+    private let defaults = patchData.sdk.defaults
 
     public var buttonFontSize = {
         return UIFont.systemFont(ofSize: 15)
@@ -22,8 +26,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = {
         return UIFont.systemFont(ofSize: 39)
     }()
-    public var siteNames: [String] = patchData.siteSchedule.getNames()
-    public var siteImgIds: [String] = patchData.siteSchedule.getImageIds()
+    public var siteNames: [String] = patchData.sdk.siteSchedule.getNames()
+    public var siteImgIds: [String] = patchData.sdk.siteSchedule.getImageIds()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +52,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Edit actions
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
     {
-        let delete = UITableViewRowAction(style: .normal, title: PDStrings.ActionStrings.delete)
+        let delete = UITableViewRowAction(style: .normal, title: PDActionStrings.delete)
         { _, _ in
             self.deleteCell(indexPath: indexPath)
         }
@@ -114,11 +118,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return true
     }
     
-    
     // Delete cell (deletes MOSite)
-    func tableView(_ tableView: UITableView,
-                   commit editingStyle: UITableViewCell.EditingStyle,
-                   forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             deleteCell(indexPath: indexPath)
         }
@@ -128,15 +129,15 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    moveRowAt sourceIndexPath: IndexPath,
                    to destinationIndexPath: IndexPath) {
-        let siteToMove = patchData.siteSchedule.sites[sourceIndexPath.row]
-        patchData.siteSchedule.sites.remove(at: sourceIndexPath.row)
-        patchData.siteSchedule.sites.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == patchData.siteSchedule.nextIndex(changeIndex: patchData.defaults.setSiteIndex) {
-            patchData.defaults.setSiteIndex(to: destinationIndexPath.row)
+        let siteToMove = siteSchedule.sites[sourceIndexPath.row]
+        siteSchedule.sites.remove(at: sourceIndexPath.row)
+        siteSchedule.sites.insert(siteToMove, at: destinationIndexPath.row)
+        if sourceIndexPath.row == siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex) {
+            defaults.setSiteIndex(to: destinationIndexPath.row)
         }
-        let count = patchData.siteSchedule.count()
+        let count = siteSchedule.count()
         for i in 0..<count {
-            patchData.siteSchedule.setOrder(at: i, to: Int16(i))
+            siteSchedule.setOrder(at: i, to: Int16(i))
         }
         reloadSiteNames()
         sitesTable.reloadData()
@@ -156,14 +157,14 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let c = sitesTable.numberOfRows(inSection: 0)
         if var items = navigationItem.rightBarButtonItems {
             switch items[1].title {
-            case PDStrings.ActionStrings.edit :
+            case PDActionStrings.edit :
                 self.title = ""
                 self.navigationController?.tabBarItem.title = PDViewControllerTitleStrings.sitesTitle
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
                 sitesTable.isEditing = true
-            case PDStrings.ActionStrings.done :
+            case PDActionStrings.done :
                 setTitle()
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
                 switchBarItemFunctionality(items: &items)
@@ -176,7 +177,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        patchData.siteSchedule.reset(completion: nil)
+        siteSchedule.reset(completion: nil)
         reloadSiteNames()
         sitesTable.isEditing = false
         let range = 0..<siteNames.count
@@ -215,16 +216,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func switchBarItemFunctionality(items: inout [UIBarButtonItem]) {
         switch items[1].title {
-        case PDStrings.ActionStrings.edit :
-            items[1].title = PDStrings.ActionStrings.done
-            items[0] = UIBarButtonItem(title: PDStrings.ActionStrings.reset,
+        case PDActionStrings.edit :
+            items[1].title = PDActionStrings.done
+            items[0] = UIBarButtonItem(title: PDActionStrings.reset,
                                        style: .plain,
                                        target: self,
                                        action: #selector(resetTapped))
             items[0].tintColor = UIColor.red
             
-        case PDStrings.ActionStrings.done :
-            items[1].title = PDStrings.ActionStrings.edit
+        case PDActionStrings.done :
+            items[1].title = PDActionStrings.edit
             items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                        target: self,
                                        action: #selector(insertTapped))
@@ -241,7 +242,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(indexPath: IndexPath) {
-        patchData.siteSchedule.delete(at: indexPath.row)
+        siteSchedule.delete(at: indexPath.row)
         siteNames.remove(at: indexPath.row)
         sitesTable.deleteRows(at: [indexPath], with: .fade)
         sitesTable.reloadData()
@@ -260,7 +261,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                                            target: self,
                                            action: #selector(insertTapped))
         insertButton.tintColor = PDColors.getColor(.Green)
-        let editButton = UIBarButtonItem(title: PDStrings.ActionStrings.edit,
+        let editButton = UIBarButtonItem(title: PDActionStrings.edit,
                                          style: .plain,
                                          target: self,
                                          action: #selector(editTapped))
@@ -269,7 +270,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func setTitle() {
         typealias Titles = PDViewControllerTitleStrings
-        switch patchData.defaults.deliveryMethod.value {
+        switch defaults.deliveryMethod.value {
         case .Patches:
             title = PDViewControllerTitleStrings.patchSitesTitle
         case .Injections:
@@ -279,7 +280,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func reloadSiteNames() {
-        siteNames = patchData.siteSchedule.getNames()
+        siteNames = siteSchedule.getNames()
     }
     
     private func loadTabBarItemSize() {

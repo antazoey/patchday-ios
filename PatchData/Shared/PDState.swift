@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import PDKit
 
-public class PDState: NSObject {
+public class PDState: NSObject, PDStateManaging {
     
     override public var description: String {
         return """

@@ -1,5 +1,5 @@
 //
-//  PDAlertController.swift
+//  PDAlertDispatchswift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/20/17.
@@ -8,15 +8,16 @@
 
 import UIKit
 import PDKit
-import PatchData
 
-class PDAlertCenter: NSObject {
+class PDAlertDispatcher: NSObject {
     
     override var description: String {
         return "Singleton for controllnig PatchDay's alerts."
     }
     
-    private var estrogenSchedule: EstrogenSchedule
+    private let estrogenSchedule: EstrogenScheduling
+    private let siteSchedule: EstrogenSiteScheduling
+    private let defaults: PDDefaultManaging
     
     private var style: UIAlertController.Style = {
         return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
@@ -30,8 +31,16 @@ class PDAlertCenter: NSObject {
         return nil
     }()
     
-    init(estrogenSchedule: EstrogenSchedule) {
+    convenience override init() {
+        self.init(estrogenSchedule: patchData.sdk.estrogenSchedule,
+                  siteSchedule: patchData.sdk.siteSchedule,
+                  defaults: patchData.sdk.defaults)
+    }
+    
+    init(estrogenSchedule: EstrogenScheduling, siteSchedule: EstrogenSiteScheduling, defaults: PDDefaultManaging) {
         self.estrogenSchedule = estrogenSchedule
+        self.siteSchedule = siteSchedule
+        self.defaults = defaults
     }
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
@@ -87,8 +96,8 @@ class PDAlertCenter: NSObject {
         if let root = rootViewController {
             let handler: () -> () = {
                 () in
-                if let site = patchData.schedule.siteSchedule.insert() as? MOSite {
-                    site.setName(name)
+                if var site = self.siteSchedule.insert(completion: nil) as? BodilyManaged {
+                    site.name = name
                     estroVC.sitePicker.reloadAllComponents()
                 }
             }
@@ -98,7 +107,7 @@ class PDAlertCenter: NSObject {
     
     func presentGenericAlert() {
         if let root = rootViewController {
-            PDCoreDataAlert(parent: root, style: style).present()
+            PDGenericAlert(parent: root, style: style).present()
         }
     }
 }

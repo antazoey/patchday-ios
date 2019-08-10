@@ -21,19 +21,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var notifications = PDNotificationCenter()
-    var patchData = PatchDataSDK()
+    var patchData = PatchDataShell(PatchDataSDK())
+    var alerts = PDAlertDispatcher()
     var tabs: PDTabViewDelegate?
     var nav: PDNavigationDelegate?
     var theme: PDThemeManager!
+    
+    var sdk: PatchDataSDK {
+        get { return patchData.sdk }
+    }
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Set default Pills only on the first launch.
         if isFirstLaunch() {
-            patchData.pillSchedule.reset()
+            patchData.sdk.pillSchedule.reset()
         }
-        let setSiteIndex = patchData.defaults.setSiteIndex
+        let setSiteIndex = patchData.sdk.defaults.setSiteIndex
         
         nav = PDNavigationDelegate()
         
@@ -41,25 +46,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //patchData.schedule.nuke()
         // Then re-comment, run again, and PatchDay resets to default.
 
-        self.theme = PDThemeManager(theme: patchData.defaults.theme.value)
+        self.theme = PDThemeManager(theme: patchData.sdk.defaults.theme.value)
 
         // Load data for the Today widget.
-        patchData.schedule.sharedData.setDataForTodayApp(interval: patchData.defaults.expirationInterval,
-                                               index: patchData.defaults.siteIndex.value,
-                                               deliveryMethod: patchData.defaults.deliveryMethod,
-                                               setSiteIndex: setSiteIndex)
+        sdk.schedule.sharedData.setDataForTodayApp(interval: sdk.defaults.expirationInterval,
+                                                   index: sdk.defaults.siteIndex.value,
+                                                   deliveryMethod: sdk.defaults.deliveryMethod,
+                                                   setSiteIndex: setSiteIndex)
         
-        setBadge(with: patchData.schedule.totalDue(interval: patchData.defaults.expirationInterval))
+        setBadge(with: patchData.sdk.schedule.totalDue(interval: patchData.sdk.defaults.expirationInterval))
         setNavigationAppearance()
         return true
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge(with: patchData.schedule.totalDue(interval: patchData.defaults.expirationInterval))
+        setBadge(with: patchData.sdk.schedule.totalDue(interval: sdk.defaults.expirationInterval))
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge(with: patchData.schedule.totalDue(interval: patchData.defaults.expirationInterval))
+        setBadge(with: sdk.schedule.totalDue(interval: sdk.defaults.expirationInterval))
     }
     
     func setTabs(tc: UITabBarController, vcs: [UIViewController]) {
@@ -67,7 +72,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func isFirstLaunch() -> Bool {
-        return !patchData.defaults.mentionedDisclaimer.value
+        return !sdk.defaults.mentionedDisclaimer.value
     }
     
     func setNavigationAppearance() {
@@ -76,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func resetTheme() {
-        theme = PDThemeManager(theme: patchData.defaults.theme.value)
+        theme = PDThemeManager(theme: sdk.defaults.theme.value)
         setNavigationAppearance()
     }
     

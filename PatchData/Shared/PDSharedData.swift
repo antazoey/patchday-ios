@@ -99,8 +99,7 @@ public class PDSharedData: NSObject {
             return estro.getSiteName()
         case .Injections:
             if let suggestedSite = siteSchedule.suggest(changeIndex: setSI) {
-                let name = suggestedSite.getName()
-                return name
+                return suggestedSite.name
             }
             fallthrough
         default:

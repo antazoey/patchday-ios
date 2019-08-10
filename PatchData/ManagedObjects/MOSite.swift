@@ -9,8 +9,7 @@
 
 import Foundation
 import CoreData
-
-public typealias SiteName = String
+import PDKit
 
 @objc(MOSite)
 public class MOSite: NSManagedObject, Comparable {

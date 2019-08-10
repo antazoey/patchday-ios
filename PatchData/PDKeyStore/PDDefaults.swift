@@ -13,19 +13,8 @@ public class PDDefaultsConstants {
     public static let maxQuantity = 4
 }
 
-public enum PDDefault: String {
-    case DeliveryMethod = "delivMethod"
-    case ExpirationInterval = "patchChangeInterval"
-    case Quantity = "numberOfPatches"
-    case Notifications = "notification"
-    case NotiicationsMinutesBefore = "remindMeUpon"
-    case MentionedDisclaimer = "mentioned"
-    case SiteIndex = "site_i"
-    case Theme = "theme"
-}
+public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
 
-open class PDDefaults: PDDefaultsBaseClass {
-    
     // App
     private var shared: PDSharedData? = nil
     private var estrogenSchedule: EstrogenSchedule
@@ -40,7 +29,7 @@ open class PDDefaults: PDDefaultsBaseClass {
     public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(with: 0)
     public var mentionedDisclaimer = MentionedDisclaimerUD(with: false)
     public var siteIndex = SiteIndexUD(with: 0)
-    public var theme = ThemeUD(with: PDTheme.Light)
+    public var theme = PDThemeUD(with: PDTheme.Light)
 
     // MARK: - initializer
     
@@ -65,7 +54,7 @@ open class PDDefaults: PDDefaultsBaseClass {
     // MARK: - Setters
     
     public func setDeliveryMethod(to method: DeliveryMethod, shouldReset: Bool = true) {
-        self.set(&self.deliveryMethod, to: method)
+        set(&deliveryMethod, to: method)
         siteSchedule.deliveryMethod = method
         estrogenSchedule.deliveryMethod = method
         let setCount: () -> () = {
@@ -85,50 +74,15 @@ open class PDDefaults: PDDefaultsBaseClass {
         state.deliveryMethodChanged = true
     }
     
-    /**
-    Warns the user if they are about to delete delivery data.
-     It is necessary to reset MOs that are no longer in the schedule,
-     which happens when the user decreases the count in a full schedule.
-     Resetting unused MOs makes sorting the schedule less error prone and more comprehensive.
-    */
-    public func setQuantityWithWarning(to newQ: Quantity, oldQ: Quantity, handler: ChangeQuantityAlertHandling? = nil) {
-        state.oldQuantity = oldQ.rawValue
-        if newQ.rawValue < oldQ.rawValue {
-            state.decreasedCount = true
-            // Erases data
-            let last_i = self.quantity.value.rawValue - 1
-            if !estrogenSchedule.isEmpty(fromThisIndexOnward: newQ.rawValue, lastIndex: last_i) {
-                var h = handler ?? Change
-                handler.alert()
-                
-                
-                
-                //let setQ = setQuantityWithoutWarning
-                      //let res = { (newCount) in reset(newCount) }
-//                    alerter.alertForChangingCount(oldCount: oldQ.rawValue,
-//                                                  newCount: newQ.rawValue,
-//                                                  simpleSetQuantity: setQ,
-//                                                  reset: res,
-//                                                  cancel: cancel)
-                
-                
-                
-                
-                
-            } else {
-                // Resets notifications but does not erase any data
-                setQuantityWithoutWarning(to: newQ.rawValue)
-                handler.reset(newQ.rawValue)
-            }
-        }
+    public func setExpirationInterval(to i: ExpirationInterval) {
+        set(&expirationInterval, to: i)
     }
-    
-    @objc public func setQuantityWithoutWarning(to q: Int) {
-        let oldQuantity = self.quantity.value.rawValue
+
+    @objc public func setQuantity(to q: Int) {
+        let oldQuantity = quantity.value.rawValue
         if let q = Quantity(rawValue: q) {
-            self.set(&self.quantity, to: q)
-            let increasing = oldQuantity < q.rawValue
-            if increasing {
+            self.set(&quantity, to: q)
+            if oldQuantity < q.rawValue {
                 // Fill in new estros
                 for _ in oldQuantity..<q.rawValue {
                     let _ = estrogenSchedule.insert()
@@ -139,10 +93,26 @@ open class PDDefaults: PDDefaultsBaseClass {
         }
     }
     
+    public func setNotifications(to b: Bool) {
+        set(&notifications, to: b)
+    }
+    
+    public func setNotificationsMinutesBefore(to i: Int) {
+        set(&notificationsMinutesBefore, to: i)
+    }
+    
+    public func setMentionedDisclaimer(to b: Bool) {
+        set(&mentionedDisclaimer, to: b)
+    }
+    
     public func setSiteIndex(to i: Index) {
         let c = siteSchedule.count()
         if i < c && i >= 0 {
-            self.set(&siteIndex, to: i)
+            set(&siteIndex, to: i)
         }
+    }
+    
+    public func setTheme(to t: PDTheme) {
+        set(&theme, to: t)
     }
 }

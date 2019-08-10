@@ -8,17 +8,18 @@
 
 import UIKit
 import PDKit
-import PatchData
 
 class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
+    private let defaults = patchData.sdk.defaults
+    private let siteSchedule = patchData.sdk.siteSchedule
+    
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet =
-        Array(patchData.siteSchedule.unionDefault(deliveryMethod: patchData.defaults.deliveryMethod.value))
+    private var namePickerSet = Array(patchData.sdk.siteSchedule.unionDefault(deliveryMethod:
+        patchData.sdk.defaults.deliveryMethod.value))
     
     @IBOutlet weak var siteStack: UIStackView!
-    
     @IBOutlet weak var nameStackVertical: UIStackView!
 
     @IBOutlet weak var nameStackHorizontal: UIStackView!
@@ -60,7 +61,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         loadTitle()
         loadImage()
-        typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
+        typeNameButton.setTitle(PDActionStrings.type, for: .normal)
         verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
         nameText.restorationIdentifier = "select"
         applyTheme()
@@ -78,8 +79,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let t = patchData.defaults.theme.value
-        let deliv = patchData.defaults.deliveryMethod.value
+        let t = defaults.theme.value
+        let deliv = defaults.deliveryMethod.value
         let images = PDImages.siteImages(theme: t, deliveryMethod: deliv)
         let imgF = PDImages.imageToSiteName(_:)
         let imageStruct = setImage(images: images, imageNameFunction: imgF)
@@ -92,9 +93,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        patchData.siteSchedule.setImageId(at: siteScheduleIndex,
-                                to: imageStruct.imageKey,
-                                deliveryMethod: deliv)
+        siteSchedule.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: deliv)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -118,13 +117,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let name = nameText.text {
             // Updating existing site
             let i = siteScheduleIndex
-            let count = patchData.siteSchedule.count()
+            let count = siteSchedule.count()
             switch i {
             case 0..<count :
-                patchData.siteSchedule.setName(at: i, to: name)
+                siteSchedule.setName(at: i, to: name)
             case count :
-                if let _ = patchData.siteSchedule.insert() {
-                    patchData.siteSchedule.setName(at: i, to: name)
+                if let _ = siteSchedule.insert() {
+                    siteSchedule.setName(at: i, to: name)
                 }
             default : break
             }
@@ -136,24 +135,19 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
-        typeNameButton.setTitle(PDStrings.ActionStrings.done, for: .normal)
-        nameText.removeTarget(self,
-                                    action: #selector(typeTapped(_:)),
-                                    for: .touchUpInside)
+        typeNameButton.setTitle(PDActionStrings.done, for: .normal)
+        nameText.removeTarget(self, action: #selector(typeTapped(_:)), for: .touchUpInside)
+        
         switch textField.restorationIdentifier {
         case "type" :
             nameText.isEnabled = true
             textField.restorationIdentifier = "select"
-            typeNameButton.addTarget(self,
-                                     action: #selector(closeTextField),
-                                     for: .touchUpInside)
+            typeNameButton.addTarget(self, action: #selector(closeTextField), for: .touchUpInside)
         case "select" :
             view.endEditing(true)
             nameText.isEnabled = false
             openPicker(namePicker)
-            typeNameButton.addTarget(self,
-                                     action: #selector(closePicker),
-                                     for: .touchUpInside)
+            typeNameButton.addTarget(self, action: #selector(closePicker), for: .touchUpInside)
         default : break
         }
     }
@@ -171,29 +165,23 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             nameText.text = PDStrings.PlaceholderStrings.new_site
         case let name :
             if let n = name {
-                patchData.siteSchedule.setName(at: siteScheduleIndex, to: n)
+                siteSchedule.setName(at: siteScheduleIndex, to: n)
             }
         }
         loadImage()
-        typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
-        nameText.removeTarget(self,
-                              action: #selector(closeTextField),
-                              for: .touchUpInside)
-        typeNameButton.addTarget(self,
-                                 action: #selector(typeTapped(_:)),
-                                 for: .touchUpInside)
+        typeNameButton.setTitle(PDActionStrings.type, for: .normal)
+        nameText.removeTarget(self, action: #selector(closeTextField), for: .touchUpInside)
+        typeNameButton.addTarget(self, action: #selector(typeTapped(_:)), for: .touchUpInside)
     }
     
     // MARK: - Picker functions
     
     @objc private func openPicker(_ picker: UIPickerView) {
-        UIView.transition(with: picker as UIView,
-                          duration: 0.4,
-                          options: .transitionFlipFromTop,
-                          animations: {
-                            picker.isHidden = false;
-                            self.bottomLine.isHidden = true;
-                            self.siteImage.isHidden = true })
+        UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: {
+            picker.isHidden = false;
+            self.bottomLine.isHidden = true;
+            self.siteImage.isHidden = true
+        })
         if let n = nameText.text, let i = namePickerSet.firstIndex(of: n) {
             namePicker.selectRow(i, inComponent: 0, animated: true)
         }
@@ -208,9 +196,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return namePickerSet.count
     }
     
-    func pickerView(_ pickerView: UIPickerView,
-                             attributedTitleForRow row: Int,
-                             forComponent component: Int) -> NSAttributedString? {
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         let attrs = [NSAttributedString.Key.foregroundColor : app.theme.textColor]
         let n = namePickerSet[row]
         let attributedString = NSAttributedString(string: n, attributes: attrs)
@@ -229,13 +215,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         self.bottomLine.isHidden = false;
         self.siteImage.isHidden = false;
         nameText.restorationIdentifier = "select"
-        typeNameButton.setTitle(PDStrings.ActionStrings.type, for: .normal)
-        nameText.removeTarget(self,
-                              action: #selector(closePicker),
-                              for: .touchUpInside)
-        self.typeNameButton.addTarget(self,
-                                      action: #selector(self.typeTapped(_:)),
-                                      for: .touchUpInside)
+        typeNameButton.setTitle(PDActionStrings.type, for: .normal)
+        nameText.removeTarget(self, action: #selector(closePicker), for: .touchUpInside)
+        self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
     }
@@ -252,33 +234,36 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController,
             let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = patchData.siteSchedule.getNames()
+            sitesVC.siteNames = siteSchedule.getNames()
             navCon.popViewController(animated: true)
         }
     }
     
     private func loadTitle() {
-        let sites = patchData.siteSchedule.sites
+        let sites = siteSchedule.sites
         if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
             let site = sites[siteScheduleIndex]
             title = "\(PDViewControllerTitleStrings.siteTitle) \(siteScheduleIndex + 1)"
-            nameText.text = site.getName()
+            nameText.text = site.name
         } else {
             title = "\(PDViewControllerTitleStrings.siteTitle) \(sites.count + 1)"
         }
     }
     
     private func loadImage() {
-        let deliv = patchData.defaults.deliveryMethod.value
+        let deliv = defaults.deliveryMethod.value
         let theme = app.theme.current
+
         if let name = nameText.text {
             var image: UIImage
             var sitesWithImages = PDSiteStrings.getSiteNames(for: deliv)
+
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
-            } else if let site = patchData.siteSchedule.getSite(at: siteScheduleIndex),
-                let imgId = site.getImageIdentifer(),
+            } else if let site = siteSchedule.getSite(at: siteScheduleIndex),
+                let imgId = site.imageIdentifier,
                 let i = sitesWithImages.firstIndex(of: imgId) {
+
                 image = PDImages.siteNameToImage(sitesWithImages[i],
                                                  theme: theme,
                                                  deliveryMethod: deliv)
@@ -293,8 +278,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImagePickeR() {
-        let deliv = patchData.defaults.deliveryMethod.value
-        if let site = patchData.siteSchedule.getSite(at: siteScheduleIndex) {
+        let deliv = defaults.deliveryMethod.value
+        if let site = siteSchedule.getSite(at: siteScheduleIndex) {
             imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
                                                           and: siteImage,
                                                           saveButton: navigationItem.rightBarButtonItem!,
@@ -307,10 +292,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func loadSave() {
         navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: PDStrings.ActionStrings.save,
-                            style: .plain,
-                            target: self,
-                            action: #selector(saveButtonTapped(_:)))
+            UIBarButtonItem(title: PDActionStrings.save,style: .plain,target: self,action: #selector(saveButtonTapped(_:)))
     }
     
     private func enableSave() {

@@ -8,6 +8,9 @@
 
 import Foundation
 
+public typealias Index = Int
+public typealias SiteName = String
+
 public enum DeliveryMethod {
     case Patches
     case Injections
@@ -29,4 +32,15 @@ public enum ExpirationInterval {
 public enum PDTheme {
     case Light
     case Dark
+}
+
+public enum PDDefault: String {
+    case DeliveryMethod = "delivMethod"
+    case ExpirationInterval = "patchChangeInterval"
+    case Quantity = "numberOfPatches"
+    case Notifications = "notification"
+    case NotiicationsMinutesBefore = "remindMeUpon"
+    case MentionedDisclaimer = "mentioned"
+    case SiteIndex = "site_i"
+    case Theme = "theme"
 }

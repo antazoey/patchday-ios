@@ -12,11 +12,11 @@ import PDKit
 class PDGenericAlert: PDAlert {
     
     init(parent: UIViewController, style: UIAlertController.Style) {
-        let strs = PDAlertStrings.coreDataAlertStrings
+        let strs = PDAlertStrings.genericAlertStrings
         super.init(parent: parent, title: strs.title, message: strs.message, style: style)
     }
     
     override func present() {
-        super.present(actions: [UIAlertAction(title: PDActionStrings.dismiss, style: style, handler: nil)])
+        super.present(actions: [UIAlertAction(title: PDActionStrings.dismiss, style: UIAlertAction.Style.cancel, handler: nil)])
     }
 }

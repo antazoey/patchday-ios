@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-@objc protocol PDScheduling: NSObjectProtocol {
+@objc public protocol PDScheduling: NSObjectProtocol {
 
     /// Return the number of Managed Objects in the schedule
     func count() -> Int

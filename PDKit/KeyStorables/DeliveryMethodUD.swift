@@ -7,13 +7,12 @@
 //
 
 import Foundation
-import PDKit
 
 public class DeliveryMethodValueHolder: PDValueHolding {
     
     static let pkey = { return "Patches" }()
     static let ikey = { return "Injections" }()
-
+    
     var indexer: DeliveryMethod
     
     required public init(indexer: DeliveryMethod) {

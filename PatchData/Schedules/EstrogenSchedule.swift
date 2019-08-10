@@ -10,10 +10,8 @@ import Foundation
 import CoreData
 import PDKit
 
-public typealias Index = Int;
+public class EstrogenSchedule: NSObject, EstrogenScheduling {
 
-public class EstrogenSchedule: NSObject, PDScheduling {
-    
     override public var description: String {
         return """
                Schedule for reading, writing,
@@ -21,7 +19,7 @@ public class EstrogenSchedule: NSObject, PDScheduling {
                """
     }
     
-    public var estrogens: [MOEstrogen] = []
+    public var estrogens: [TimeReleased] = []
     var quantity = 3
     var deliveryMethod = DeliveryMethod.Patches
     private var estrogenMap = [UUID: MOEstrogen]()
@@ -181,8 +179,8 @@ public class EstrogenSchedule: NSObject, PDScheduling {
     }
     
     /// Returns the index of the given estrogen.
-    public func getIndex(for estrogen: MOEstrogen) -> Index? {
-        return estrogens.firstIndex(of: estrogen)
+    public func getIndex(for estrogen: TimeReleased) -> Index? {
+        return estrogens.firstIndex(of: estrogen as! MOEstrogen)
     }
     
     /// Returns the next MOEstrogen that needs to be taken.
@@ -292,7 +290,7 @@ public class EstrogenSchedule: NSObject, PDScheduling {
                 print(PDDateHelper.format(date: d as Date,
                                           useWords: true))
             }
-            if let s = estro.getSite(), let n = s.getName() {
+            if let s = estro.getSite(), let n = s.name {
                 print(n)
             } else if let n = estro.getSiteNameBackUp() {
                 print(n)

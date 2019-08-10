@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PDKit
 
 public class PDThemeValueHolder: PDValueHolding {
     
@@ -39,7 +38,7 @@ public class PDThemeValueHolder: PDValueHolding {
     }
 }
 
-public class ThemeUD: PDKeyStorable {
+public class PDThemeUD: PDKeyStorable {
     
     private var v: PDTheme
     private var valueHolder: PDThemeValueHolder

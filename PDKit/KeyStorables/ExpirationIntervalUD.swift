@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PDKit
 
 public class ExpirationIntervalValueHolder: PDValueHolding {
     

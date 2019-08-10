@@ -11,32 +11,50 @@ import UIKit
 import PDKit
 import PatchData
 
-class PDTabViewDelegate {
+class PDTabViewDelegate: PDTabReflective {
     
-    private var tabController: UITabBarController
-    private var viewControllers: [UIViewController]
+    private let tabController: UITabBarController
+    private let viewControllers: [UIViewController]
+    private let defaults: PDDefaultManaging
+    private let estrogenSchedule: EstrogenScheduling
+    private let totalDueAnnoyance: TotalDueAnnoying
     
-    init(tabController: UITabBarController, viewControllers: [UIViewController]) {
-        self.tabController = tabController
-        self.viewControllers = viewControllers
+    convenience init(tabController: UITabBarController, viewControllers: [UIViewController]) {
+        self.init(tabController: tabController,
+                  viewControllers: viewControllers,
+                  defaults: patchData.sdk.defaults,
+                  estrogenSchedule: patchData.sdk.estrogenSchedule,
+                  totalDueAnnoyance: patchData.sdk.schedule)
     }
     
-    var estrogenTab: UIViewController  {
+    init(tabController: UITabBarController,
+         viewControllers: [UIViewController],
+         defaults: PDDefaultManaging,
+         estrogenSchedule: EstrogenScheduling,
+         totalDueAnnoyance: TotalDueAnnoying) {
+        self.tabController = tabController
+        self.viewControllers = viewControllers
+        self.defaults = defaults
+        self.estrogenSchedule = estrogenSchedule
+        self.totalDueAnnoyance = totalDueAnnoyance
+    }
+    
+    var estrogenTab: UIViewController {
         get { return viewControllers[0] }
     }
     
-    var pillTab: UIViewController  {
+    var pillTab: UIViewController {
         get { return viewControllers[1] }
     }
     
-    var siteTab: UIViewController?  {
+    var siteTab: UIViewController {
         get { return viewControllers[2] }
     }
     
     func reflectExpirationCountAsBadgeValue() {
-        if  viewControllers.count > 0 {
-            let interval = patchData.defaults.expirationInterval
-            let c = patchData.estrogenSchedule.totalDue(interval)
+        if viewControllers.count > 0 {
+            let interval = defaults.expirationInterval
+            let c = estrogenSchedule.totalDue(interval)
             let item = estrogenTab.navigationController?.tabBarItem
             item?.badgeValue = (c > 0) ? "\(c)" : nil
         }
@@ -48,22 +66,20 @@ class PDTabViewDelegate {
         tabBarAppearance.barTintColor = theme.navbarColor
     }
     
-    func reflectEstrogen(expirationInterval: ExpirationIntervalUD? = nil,
-                         deliveryMethod: DeliveryMethod? = nil,
-                         expiredCount: Int? = -1) {
-        let interval = expirationInterval ?? patchData.defaults.expirationInterval
-        let deliv = deliveryMethod ?? patchData.defaults.deliveryMethod.value
-        let c = expiredCount ?? patchData.schedule.totalDue(interval: interval)
+    func reflectEstrogen() {
+        let interval = defaults.expirationInterval
+        let deliv = defaults.deliveryMethod.value
+        let c = totalDueAnnoyance.totalDue(interval: interval)
 
         estrogenTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil
         estrogenTab.tabBarItem.title = PDViewControllerTitleStrings.getTitle(for: deliv)
         switch deliv {
         case .Patches:
-            estrogenTab.tabBarItem.image = #imageLiteral(resourceName: "Patch Icon")
-            estrogenTab.tabBarItem.selectedImage = #imageLiteral(resourceName: "Patch Icon")
+            estrogenTab.tabBarItem.image = UIImage(named: "Patch Icon")
+            estrogenTab.tabBarItem.selectedImage = UIImage(named: "Patch Icon")
         case .Injections:
-            estrogenTab.tabBarItem.image = #imageLiteral(resourceName: "Injection Icon")
-            estrogenTab.tabBarItem.selectedImage = #imageLiteral(resourceName: "Injection Icon")
+            estrogenTab.tabBarItem.image = UIImage(named: "Injection Icon")
+            estrogenTab.tabBarItem.selectedImage = UIImage(named: "Injection Icon")
         }
         estrogenTab.awakeFromNib()
     }

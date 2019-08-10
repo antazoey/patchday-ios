@@ -12,6 +12,7 @@ import PatchData
 
 class PillCell: UITableViewCell {
     
+    private let pillSchedule = patchData.sdk.pillSchedule
     public var index: Index = -1
 
     @IBOutlet weak var nameLabel: UILabel!
@@ -23,7 +24,7 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var imageViewView: UIView!
     
     public func load() {
-        if let pill = patchData.pillSchedule.getPill(at: index) {
+        if let pill = pillSchedule.getPill(at: index) {
             nameLabel.text = pill.getName()
             loadStateImage(from: pill)
             stateImageButton.type = .pills
@@ -72,12 +73,12 @@ class PillCell: UITableViewCell {
     public func enableOrDisableTake() {
         if stateImage.tintColor == UIColor.lightGray {
             // Disable
-            takeButton.setTitle(PDStrings.ActionStrings.taken, for: .normal)
+            takeButton.setTitle(PDActionStrings.taken, for: .normal)
             takeButton.isEnabled = false
             stateImageButton.isEnabled = false
         } else {
             // Enable
-            takeButton.setTitle(PDStrings.ActionStrings.take, for: .normal)
+            takeButton.setTitle(PDActionStrings.take, for: .normal)
             takeButton.isEnabled = true
             stateImageButton.isEnabled = true
         }

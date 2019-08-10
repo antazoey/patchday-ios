@@ -12,7 +12,7 @@ import PDKit
 
 public typealias SiteNameSet = Set<SiteName>
 
-public class SiteSchedule: NSObject, PDScheduling {
+public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     
     override public var description: String {
         return """
@@ -48,7 +48,7 @@ public class SiteSchedule: NSObject, PDScheduling {
    public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
     let type = PDEntity.site.rawValue
         if let site = PatchData.insert(type) as? MOSite {
-            site.setOrder(Int16(sites.count))
+            site.order = Int16(sites.count)
             sites.append(site)
             PatchData.save()
             return site
@@ -66,12 +66,12 @@ public class SiteSchedule: NSObject, PDScheduling {
         let newcount = resetNames.count
         for i in 0..<newcount {
             if i < oldCount {
-                sites[i].setOrder(Int16(i))
-                sites[i].setName(resetNames[i])
-                sites[i].setImageIdentifier(resetNames[i])
+                sites[i].order = Int16(i)
+                sites[i].name = resetNames[i]
+                sites[i].imageIdentifier = resetNames[i]
             } else if let site = insert() as? MOSite {
-                site.setName(resetNames[i])
-                site.setImageIdentifier(resetNames[i])
+                site.name = resetNames[i]
+                site.imageIdentifier = resetNames[i]
             }
         }
         if oldCount > resetNames.count {
@@ -114,8 +114,8 @@ public class SiteSchedule: NSObject, PDScheduling {
 
         for i in 0..<names.count {
             if let site = insert() as? MOSite {
-                site.setName(names[i])
-                site.setImageIdentifier(names[i])
+                site.name = names[i]
+                site.imageIdentifier = names[i]
                 sites.append(site)
             }
         }
@@ -128,9 +128,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     public func filterEmpty() {
         var sites_new: [MOSite] = []
         sites.forEach() {
-            if $0.getName() == ""
-                || $0.getName() == nil
-                || $0.getOrder() < 0 {
+            if $0.name == "" || $0.name == nil || $0.order < 0 {
                 PatchData.getContext().delete($0)
             } else {
                 sites_new.append($0)
@@ -161,15 +159,15 @@ public class SiteSchedule: NSObject, PDScheduling {
         }
         // Append new site
         let site = insert() as? MOSite
-        site?.setName(name)
-        site?.setImageIdentifier(name)
+        site?.name = name
+        site?.imageIdentifier = name
         return site
     }
     
     /// Sets a the siteName for the site at the given index.
     public func setName(at index: Index, to name: String) {
         if index >= 0 && index < sites.count {
-            sites[index].setName(name)
+            sites[index].name = name
             PatchData.save()
         }
     }
@@ -180,8 +178,8 @@ public class SiteSchedule: NSObject, PDScheduling {
         if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
             // Make sure index is correct both before and after swap
             sort()
-            sites[index].setOrder(newOrder)
-            sites[newIndex].setOrder(Int16(index))
+            sites[index].order = newOrder
+            sites[newIndex].order = Int16(index)
             sort()
             PatchData.save()
         }
@@ -192,9 +190,9 @@ public class SiteSchedule: NSObject, PDScheduling {
         var site_set: [String]
         site_set = PDSiteStrings.getSiteNames(for: deliveryMethod)
         if site_set.contains(newId), index >= 0 && index < sites.count {
-            sites[index].setImageIdentifier(newId)
+            sites[index].imageIdentifier = newId
         } else {
-            sites[index].setImageIdentifier("custom")
+            sites[index].imageIdentifier = "custom"
         }
         PatchData.save()
     }
@@ -233,7 +231,7 @@ public class SiteSchedule: NSObject, PDScheduling {
     public func getNames() -> [SiteName] {
         return sites.map({
             (site: MOSite) -> SiteName? in
-            return site.getName()
+            return site.name
         }).filter() { $0 != nil } as! [SiteName]
     }
     
@@ -241,10 +239,8 @@ public class SiteSchedule: NSObject, PDScheduling {
     public func getImageIds() -> [String] {
         return sites.map({
             (site: MOSite) -> String? in
-            return site.getImageIdentifer()
-        }).filter() {
-            $0 != nil
-            } as! [String]
+            return site.imageIdentifier
+        }).filter() { $0 != nil } as! [String]
     }
     
     /// Returns the set of sites on record union with the set of default sites
@@ -263,7 +259,7 @@ public class SiteSchedule: NSObject, PDScheduling {
             return false
         }
         for i in 0..<def_c {
-            if let n = sites[i].getName() {
+            if let n = sites[i].name {
                 if n != defaultSites[i] {
                     return false
                 }
@@ -279,8 +275,8 @@ public class SiteSchedule: NSObject, PDScheduling {
         print("PRINTING SITES")
         print("--------------")
         for site in sites {
-            print("Order: " + String(site.getOrder()))
-            if let n = site.getName() {
+            print("Order: " + String(site.order))
+            if let n = site.name {
                 print("Name: " + n)
             } else {
                 print("Unnamed")
@@ -298,7 +294,7 @@ public class SiteSchedule: NSObject, PDScheduling {
             let estroSet = site.estrogenRelationship {
             for estro in Array(estroSet) {
                 let e = estro as! MOEstrogen
-                if let n = site.getName() {
+                if let n = site.name {
                     e.setSiteBackup(to: n)
                 }
             }

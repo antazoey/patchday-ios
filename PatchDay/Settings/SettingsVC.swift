@@ -23,6 +23,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         """
     }
     
+    // Dependencies
+    private let pdShell = patchData
+    private let defaults = patchData.sdk.defaults
+    private let state = patchData.sdk.state
+    private let notifications = app.notifications
+    private let alerts = app.alerts
+    
     // Containers
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -84,18 +91,18 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        patchData.state.oldQuantity = patchData.defaults.quantity.value.rawValue
+        state.oldQuantity = defaults.quantity.value.rawValue
         applyTheme()
     }
     
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        app.notifications.cancelEstrogenNotifications()
+        notifications.cancelEstrogenNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
-        patchData.defaults.set(&patchData.defaults.notificationsMinutesBefore, to: v)
-        app.notifications.resendEstrogenNotifications()
+        defaults.setNotificationsMinutesBefore(to: v)
+        notifications.resendEstrogenNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView
@@ -109,9 +116,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
-        let shouldReceive = notificationsSwitch.isOn
-        shouldReceive ? enableNotificationButtons() : disableNotificationButtons()
-        patchData.defaults.set(&patchData.defaults.notifications, to: shouldReceive)
+        let n = notificationsSwitch.isOn
+        n ? enableNotificationButtons() : disableNotificationButtons()
+        defaults.setNotifications(to: n)
     }
 
     // MARK: - Picker Functions
@@ -121,13 +128,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PatchDataShell.getDefaultOptionsCount(for: selectedDefault)
+        return pdShell.getDefaultOptionsCount(for: selectedDefault)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title: String? = nil
         if let key = selectedDefault {
-            let data = PatchDataShell.getPickerStrings(for: key)
+            let data = pdShell.getPickerStrings(for: key)
             if row < data.count && row >= 0 {
                 title = data[row]
             }
@@ -160,7 +167,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      // key is either "interval" , "count" , "notifications" */
     private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
-        let selections = PatchDataShell.getPickerStrings(for: key)
+        let selections = pdShell.getPickerStrings(for: key)
         let choice = sender.titleLabel?.text
         let start: Int = { () in
             if let c = choice, let i = selections.firstIndex(of: c) {
@@ -215,7 +222,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         buttonTapped.isSelected = false
         picker.isHidden = true
         if key == PDDefault.Quantity {
-            patchData.state.oldQuantity = patchData.defaults.quantity.value.rawValue
+            state.oldQuantity = defaults.quantity.value.rawValue
         }
         self.saveFromPicker(key, selectedRow: row)
     }
@@ -243,22 +250,22 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
-        let deliv = PatchDataShell.getDeliveryMethod(at: row)
+        let deliv = pdShell.getDeliveryMethod(at: row)
         setButtonsFromDeliveryMethodChange(choice: deliv)
-        if !PatchDataShell.setDeliveryMethodIfSafe(to: deliv) {
-            alertForChangingDeliveryMethod(choice: deliv)
+        if !pdShell.setDeliveryMethodIfSafe(to: deliv) {
+            presentDeliveryMethodMutationAlert(choice: deliv)
         }
     }
     
     private func saveQuantityChange(_ row: Int) {
-        let old = patchData.state.oldQuantity
+        let old = state.oldQuantity
         let reset = makeResetClosure(oldCount: old)
         let cancel = makeCancelClosure(oldCount: old)
-        PatchDataShell.setQuantity(to: row, oldQuantityRaw: old, reset: reset, cancel: cancel)
+        pdShell.setQuantity(to: row, oldQuantityRaw: old, reset: reset, cancel: cancel)
     }
     
     private func saveIntervalChange(_ row: Int) {
-        let result = PatchDataShell.setExpirationIntervalIfSafe(at: row)
+        let result = pdShell.setExpirationIntervalIfSafe(at: row)
         if result.didSet {
         } else {
             print("Error: no expiration interval for row \(row)")
@@ -266,7 +273,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveThemeChange(_ row: Int) {
-        let theme = PatchDataShell.setThemeIfSafe(toMethodAt: row)
+        let theme = pdShell.setThemeIfSafe(toMethodAt: row)
         if theme != "" {
             app.resetTheme()
         } else {
@@ -294,7 +301,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
-        patchData.defaults.set(&patchData.defaults.notificationsMinutesBefore, to: 0)
+        defaults.setNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.value = 0
     }
     
@@ -320,7 +327,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadButtonSelectedStates() {
-        let save = PDStrings.ActionStrings.save
+        let save = PDActionStrings.save
         deliveryMethodButton.setTitle(save, for: .selected)
         expirationIntervalButton.setTitle(save, for: .selected)
         quantityButton.setTitle(save, for: .selected)
@@ -353,13 +360,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func alertForChangingDeliveryMethod(choice: DeliveryMethod) {
-        PDAlertController.alertForChangingDeliveryMethod(newMethod: choice,
-                                                         oldMethod: patchData.defaults.deliveryMethod.value,
-                                                         oldCount: patchData.defaults.quantity.value,
-                                                         deliveryButton: deliveryMethodButton,
-                                                         countButton: quantityButton,
-                                                         settingsVC: self)
+    private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod) {
+        alerts.presentDeliveryMethodMutationAlert(newMethod: choice, oldMethod: <#T##DeliveryMethod#>, oldQuantity: <#T##Quantity#>, decline: <#T##((Int) -> ())##((Int) -> ())##(Int) -> ()#>)
     }
     
     private func makeResetClosure(oldCount: Int) -> ((Int) -> ()) {
@@ -397,33 +399,33 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     private func loadDeliveryMethod() {
-        deliveryMethodButton.setTitle(PatchDataShell.currentDeliveryMethod, for: .normal)
+        deliveryMethodButton.setTitle(pdShell.currentDeliveryMethod, for: .normal)
     }
     
     private func loadExpirationInterval() {
-        let interval = patchData.defaults.expirationInterval.humanPresentableValue
+        let interval = defaults.expirationInterval.humanPresentableValue
         expirationIntervalButton.setTitle(interval, for: .normal)
     }
     
     private func loadQuantity() {
-        let q = patchData.defaults.quantity.value.rawValue
+        let q = defaults.quantity.value.rawValue
         quantityButton.setTitle("\(q)", for: .normal)
-        if patchData.defaults.deliveryMethod.value != .Patches {
+        if defaults.deliveryMethod.value != .Patches {
             quantityButton.isEnabled = false
             quantityArrowButton.isEnabled = false
             if q != 1 {
-                patchData.defaults.setQuantityWithoutWarning(to: 1)
+                defaults.setQuantity(to: 1)
             }
         }
     }
     
     private func loadNotifications() {
-        notificationsSwitch.setOn(patchData.defaults.notifications.value, animated: false)
+        notificationsSwitch.setOn(defaults.notifications.value, animated: false)
     }
     
     private func loadNotificationsMinutesBefore() {
         if notificationsSwitch.isOn {
-            let min = patchData.defaults.notificationsMinutesBefore.value
+            let min = defaults.notificationsMinutesBefore.value
             notificationsMinutesBeforeSlider.value = Float(min)
             notificationsMinutesBeforeValueLabel.text = String(min)
             notificationsMinutesBeforeValueLabel.textColor = UIColor.black
@@ -433,7 +435,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadTheme() {
-        let theme = patchData.defaults.theme.value
+        let theme = defaults.theme.value
         let title = PDPickerStrings.getTheme(for: theme)
         themeButton.setTitle(title, for: .normal)
     }

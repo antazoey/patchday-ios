@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PDKit
 
 public class QuantityValueHolder: PDValueHolding {
     
@@ -28,7 +27,7 @@ public class QuantityValueHolder: PDValueHolding {
             case .Three: return 3
             case .Four: return 4
             }
-        }  
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import PDKit
 
 public typealias SiteSet = [String]
 
-public class PDSchedule: NSObject {
+public class PDSchedule: NSObject, PDTodayAppPrepared, TotalDueAnnoying {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying Core Data objects."
@@ -52,8 +52,8 @@ public class PDSchedule: NSObject {
     /// Returns array of current occupied SiteNames
     public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
         return estrogenSchedule.estrogens.map({
-            (estro: MOEstrogen) -> SiteName in
-            if let site = estro.getSite(), let name = site.getName() {
+            (estro: TimeReleased) -> SiteName in
+            if let site = estro.site, let name = site.name {
                 return name
             }
             else {
@@ -73,7 +73,7 @@ public class PDSchedule: NSObject {
     public func getOccupiedSiteIndices() -> [Index] {
         var indices: [Index] = []
         for estro in estrogenSchedule.estrogens {
-            if let site = estro.getSite(),
+            if let site = estro.site,
                 let index = siteSchedule.sites.firstIndex(of: site) {
                 indices.append(index)
             } else {
