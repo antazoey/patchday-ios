@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PDKit
 
 public class PatchDataSDK : NSObject {
     
@@ -18,7 +19,7 @@ public class PatchDataSDK : NSObject {
     public let pillSchedule: PillSchedule
     public let pdSharedData: PDSharedData
     
-    public override init () {
+    public override init() {
         schedule = PDSchedule()
         defaults = schedule.defaults
         state = schedule.state
@@ -27,5 +28,15 @@ public class PatchDataSDK : NSObject {
         pillSchedule = schedule.pillSchedule
         pdSharedData = schedule.sharedData
         super.init()
+    }
+    
+    public func setDeliveryMethod(to method: DeliveryMethod, shouldReset: Bool = true) {
+        defaults.setDeliveryMethod(to: method)
+        siteSchedule.deliveryMethod = method
+        if shouldReset {
+            siteSchedule.reset(completion: setCount)
+            estrogenSchedule.reset(completion: setCount)
+        }
+        state.deliveryMethodChanged = true
     }
 }

@@ -361,7 +361,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod) {
-        alerts.presentDeliveryMethodMutationAlert(newMethod: choice, oldMethod: <#T##DeliveryMethod#>, oldQuantity: <#T##Quantity#>, decline: <#T##((Int) -> ())##((Int) -> ())##(Int) -> ()#>)
+        alerts.presentDeliveryMethodMutationAlert(newMethod: choice, decline: <#T##((Int) -> ())##((Int) -> ())##(Int) -> ()#>)
     }
     
     private func makeResetClosure(oldCount: Int) -> ((Int) -> ()) {

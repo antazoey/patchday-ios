@@ -9,57 +9,16 @@
 
 import Foundation
 import CoreData
+import PDKit
 
 @objc(MOPill)
-public class MOPill: NSManagedObject, Comparable {
-    
-    // Note: For pills, the logic favors not nil.
-    // true: due() > nil
-    // true: due () < nil
-    // false: nil > due()
-    // false: nil < due()
-    // this way, nils are always at the end of an array
-    
-    public static func < (lhs: MOPill, rhs: MOPill) -> Bool {
-        let ld = lhs.due()
-        let rd = rhs.due()
-        switch (ld, rd) {
-        case (nil, nil) : return false
-        case (nil, _) : return false
-        case (_, nil) : return true
-        default : return ld! < rd!
-        }
-    }
-    
-    public static func > (lhs: MOPill, rhs: MOPill) -> Bool {
-        let ld = lhs.due()
-        let rd = rhs.due()
-        switch (ld, rd) {
-        case (nil, nil) : return false
-        case (nil, _) : return false
-        case (_, nil) : return true
-        default : return ld! > rd!
-        }
-    }
-    
-    public static func == (lhs: MOPill, rhs: MOPill) -> Bool {
-        let ld = lhs.due()
-        let rd = rhs.due()
-        switch (ld, rd) {
-        case (nil, nil) : return true
-        case (nil, _) : return false
-        case (_, nil) : return false
-        default : return ld! == rd!
-        }
-    }
-    public static func != (lhs: MOPill, rhs: MOPill) -> Bool {
-        let ld = lhs.due()
-        let rd = rhs.due()
-        switch (ld, rd) {
-        case (nil, nil) : return false
-        case (nil, _) : return true
-        case (_, nil) : return true
-        default : return ld! != rd!
-        }
-    }
+public class MOPill: NSManagedObject {
+    @NSManaged var lastTaken: NSDate?
+    @NSManaged var name: String?
+    @NSManaged var notify: Bool
+    @NSManaged var time1: NSDate?
+    @NSManaged var time2: NSDate?
+    @NSManaged var timesaday: Int16
+    @NSManaged var timesTakenToday: Int16
+    @NSManaged var id: UUID?
 }

@@ -10,14 +10,13 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PillSchedule: NSObject, PDScheduling {
+public class PillSchedule: NSObject, PDPillScheduling {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOPill array."
     }
     
-    public var pills: [MOPill] = []
-    private var pillMap = [UUID: MOPill]()
+    public var pills: [Swallowable] = []
     
     override init() {
         super.init()
@@ -25,7 +24,7 @@ public class PillSchedule: NSObject, PDScheduling {
         if let mos = mos_opt {
             pills = mos as! [MOPill]
         }
-        loadTakenTodays(for: pills)
+        awaken()
         filterEmpty()
         loadMap()
     }
@@ -73,7 +72,7 @@ public class PillSchedule: NSObject, PDScheduling {
         for i in 0..<names.count {
             let type = PDEntity.pill.rawValue
             if let pill = PatchData.insert(type) as? MOPill {
-                pill.initAttributes(name: names[i])
+                pill.initialize(name: names[i])
                 pills.append(pill)
             }
         }
@@ -129,14 +128,14 @@ public class PillSchedule: NSObject, PDScheduling {
         if let lastTaken = attributes.lastTaken {
             pill.setLastTaken(with: lastTaken as NSDate)
         }
-        let id = pill.setId()
+        let id = pill.brand()
         pillMap[id] = pill
         PatchData.save()
     }
     
     /** Sets the pill's last date-taken at the given index to now,
     and increments how many times it was taken today. */
-    public func takePill(at index: Index, setPDSharedData: (() -> ())?) {
+    public func takePill(at index: Index, pushSharedData: (() -> ())?) {
         if let pill = getPill(at: index),
             let timesTaken = pill.getTimesTakenToday(),
             let timesaday = pill.getTimesday() {
@@ -146,8 +145,8 @@ public class PillSchedule: NSObject, PDScheduling {
                 pill.take()
                 PatchData.save()
                 // Reflect in Today widget
-                if let setToday = setPDSharedData {
-                    setToday()
+                if let setData = pushSharedData {
+                    setData()
                 }
             }
         }
@@ -155,7 +154,7 @@ public class PillSchedule: NSObject, PDScheduling {
     
     /** Sets the given pill's last date taken to now,
     and increments how many times it was taken today. */
-    public func take(_ pill: MOPill, setPDSharedData: (() -> ())?) {
+    public func take(_ pill: Swallowable, pushSharedData: (() -> ())?) {
         if let timesTaken = pill.getTimesTakenToday(),
             let timesaday = pill.getTimesday() {
             let t = Int(timesTaken)
@@ -164,17 +163,17 @@ public class PillSchedule: NSObject, PDScheduling {
                 pill.take()
                 PatchData.save()
                 // Reflect in the Today widget
-                if let setToday = setPDSharedData {
-                    setToday()
+                if let setData = pushSharedData {
+                    setData()
                 }
             }
         }
     }
     
     /// Takes the pills that is next due.
-    public func take(setPDSharedData: (() -> ())? = nil) {
+    public func take(pushSharedData: (() -> ())? = nil) {
         if let next = nextDue() {
-            take(next, setPDSharedData: setPDSharedData)
+            take(next, pushSharedData: pushSharedData)
         }
     }
     
@@ -186,7 +185,7 @@ public class PillSchedule: NSObject, PDScheduling {
     public func totalDue() -> Int {
         return pills.reduce(0, {
             (count: Int, pill: MOPill) -> Int in
-            let r = pill.isExpired() ? 1 + count : count
+            let r = pill.isExpired ? 1 + count : count
             return r
         })
     }
@@ -200,9 +199,9 @@ public class PillSchedule: NSObject, PDScheduling {
     // MARK: - Private
 
     /// Resets "taken today" if it is a new day. Else, does nothing.
-    private func loadTakenTodays(for pills: [MOPill]) {
+    private func awaken() {
         for pill in pills {
-            pill.fixTakenToday()
+            pill.awaken()
         }
         PatchData.save()
     }
@@ -213,7 +212,7 @@ public class PillSchedule: NSObject, PDScheduling {
         if let pill = PatchData.insert(type) as? MOPill {
             setPill(for: pill, with: attributes)
             pills.append(pill)
-            let id = pill.setId()
+            let id = pill.brand()
             pillMap[id] = pill
             return pill
         }
@@ -226,10 +225,10 @@ public class PillSchedule: NSObject, PDScheduling {
         pillMap = pills.reduce([UUID: MOPill]()) {
             (pillDict, pill) -> [UUID: MOPill] in
             var dict = pillDict
-            if let id = pill.getId() {
+            if let id = pill.id {
                 dict[id] = pill
             } else {
-                let id = pill.setId()
+                let id = pill.brand()
                 dict[id] = pill
             }
             return dict

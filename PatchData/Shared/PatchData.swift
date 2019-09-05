@@ -79,14 +79,12 @@ public class PatchData: NSObject {
     
     /// Insert a Core Data entity into the view context
     static func insert(_ entity: String) -> NSManagedObject? {
-        return NSEntityDescription.insertNewObject(forEntityName: entity,
-                                                   into: getContext());
+        return NSEntityDescription.insertNewObject(forEntityName: entity, into: getContext());
     }
     
     static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {
         let keys = PatchData.entityKey(for: entity)
-        typealias MOFetch = NSFetchRequest<NSManagedObject>
-        let fetchRequest = MOFetch(entityName: keys.name)
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: keys.name)
         fetchRequest.propertiesToFetch = keys.props
         do {
             // Load user data if it exists

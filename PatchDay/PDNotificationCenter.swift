@@ -9,7 +9,7 @@
 import UIKit
 import UserNotifications
 import PDKit
-import PatchData
+//import PatchData
 
 class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     
@@ -17,12 +17,25 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
         return "Singleton for handling user notifications."
     }
 
+    private var estrogenSchedule: EstrogenScheduling
+    private var siteSchedule: EstrogenSiteScheduling
+    private var pillSchedule: PDPillScheduling
+    private var defaults: PDDefaultManaging
+
     var currentEstrogenIndex = 0
     var currentPillIndex = 0
     var sendingNotifications = true
     
-    override init() {
+    init(estrogenSchedule: EstrogenScheduling,
+         siteSchedule: EstrogenSiteScheduling,
+         pillSchedule: PDPillScheduling,
+         defaults: PDDefaultManaging) {
+        self.estrogenSchedule = estrogenSchedule
+        self.defaults = defaults
         super.init()
+    }
+    
+    convenience override init() {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) {
             (granted, error) in
@@ -32,29 +45,33 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
         }
         center.setNotificationCategories(getNotificationCategories())
         center.delegate = self
+        self.init(estrogenSchedule: patchData.sdk.estrogenSchedule,
+                  siteSchedule: patchData.sdk.siteSchedule,
+                  pillSchedule: patchData.sdk.pillSchedule,
+                  defaults: patchData.sdk.defaults)
     }
     
     /// Handles responses received from interacting with notifications.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let set = patchData.defaults.setSiteIndex
+        let set = defaults.setSiteIndex
         switch response.actionIdentifier {
         case EstrogenNotification.actionId :
             if let id = UUID(uuidString: response.notification.request.identifier),
-            let suggestedsite = patchData.siteSchedule.suggest(changeIndex: set) {
+            let suggestedsite = patchData.sdk.siteSchedule.suggest(changeIndex: set) {
                 let now = Date() as NSDate
-                let setter = patchData.schedule.setEstrogenDataForToday
-                patchData.estrogenSchedule.setEstrogen(for: id, date: now,
-                                                site: suggestedsite,
-                                                setSharedData: setter)
+                let setter = patchData.sdk.schedule.setEstrogenDataForToday
+                patchData.sdk.estrogenSchedule.setEstrogen(for: id, date: now,
+                                                       site: suggestedsite,
+                                                       setSharedData: setter)
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         case PillNotification.actionId :
             if let uuid = UUID(uuidString: response.notification.request.identifier),
-                let pill = patchData.pillSchedule.getPill(for: uuid) {
-                let setter = patchData.pdSharedData.setPillDataForToday
-                patchData.pillSchedule.take(pill,setPDSharedData: setter)
+                let pill = patchData.sdk.pillSchedule.getPill(for: uuid) {
+                let setter = patchData.sdk.pdSharedData.setPillDataForToday
+                pillSchedule.take(pill,setPDSharedData: setter)
                 requestPillNotification(pill)
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }

@@ -44,16 +44,15 @@ class PDAlertDispatcher: NSObject {
     }
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod,
-                                            oldMethod: DeliveryMethod,
-                                            oldQuantity: Quantity,
-                                            decline: @escaping ((Int) -> ())) {
+    func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
         if let root = rootViewController {
+            let oldQuantity = defaults.quantity.rawValue
+            let oldMethod = defaults.deliveryMethod.value
             DeliveryMethodMutationAlert(parent: root,
                                         style: self.style,
                                         oldDeliveryMethod: oldMethod,
                                         newDeliveryMethod: newMethod,
-                                        oldQuantity: oldQuantity.rawValue,
+                                        oldQuantity: oldQuantity,
                                         decline: decline).present()
         }
     }
@@ -96,7 +95,7 @@ class PDAlertDispatcher: NSObject {
         if let root = rootViewController {
             let handler: () -> () = {
                 () in
-                if var site = self.siteSchedule.insert(completion: nil) as? BodilyManaged {
+                if var site = self.siteSchedule.insert(completion: nil) as? Bodily {
                     site.name = name
                     estroVC.sitePicker.reloadAllComponents()
                 }

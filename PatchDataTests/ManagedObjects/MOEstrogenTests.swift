@@ -113,12 +113,12 @@ class MOEstrogenTests: XCTestCase {
     
     func testSetDate() {
         let estro = estrogenSchedule.insert() as! MOEstrogen
-        estro.setDate()
+        estro.stamp()
         let d = estro.getDate()! as Date
         // Should set to now without arg
         XCTAssert(d.isWithin(minutes: 1, of: Date()))
         let date = Date(timeIntervalSince1970: 23975) as NSDate
-        estro.setDate(date)
+        estro.date = date
         XCTAssertEqual(estro.getDate(), date)
     }
     
@@ -157,7 +157,7 @@ class MOEstrogenTests: XCTestCase {
     func testReset() {
         let estro = estrogenSchedule.insert() as! MOEstrogen
         estro.setSiteBackup(to: "Booty")
-        estro.setDate()
+        estro.stamp()
         estro.reset()
         XCTAssertNil(estro.getId())
         XCTAssertNil(estro.getDate())
@@ -176,38 +176,32 @@ class MOEstrogenTests: XCTestCase {
         let expDate2 = Date(timeInterval: -604801, since: date) as NSDate
         let expDate3 = Date(timeInterval: -1209601, since: date) as NSDate
         
-        estro.setDate(date as NSDate)
+        estro.date = date as NSDate
         XCTAssertFalse(estro.isExpired(halfweek_interval))
         XCTAssertFalse(estro.isExpired(week_interval))
         XCTAssertFalse(estro.isExpired(two_weeks_interval))
         
-        estro.setDate(expDate1)
+        estro.date = expDate1
         XCTAssertTrue(estro.isExpired(halfweek_interval))
         XCTAssertFalse(estro.isExpired(week_interval))
         XCTAssertFalse(estro.isExpired(two_weeks_interval))
         
-        estro.setDate(expDate2)
+        estro.date = expDate2
         XCTAssertTrue(estro.isExpired(halfweek_interval))
         XCTAssertTrue(estro.isExpired(week_interval))
         XCTAssertFalse(estro.isExpired(two_weeks_interval))
         
+        estro.date = expDate3
         estro.setDate(expDate3)
         XCTAssertTrue(estro.isExpired(halfweek_interval))
         XCTAssertTrue(estro.isExpired(week_interval))
         XCTAssertTrue(estro.isExpired(two_weeks_interval))
     }
     
-    func testHasDate() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
-        XCTAssertFalse(estro.hasDate())
-        estro.setDate()
-        XCTAssertTrue(estro.hasDate())
-    }
-    
     func testIsEmpty() {
         let estro = estrogenSchedule.insert() as! MOEstrogen
         XCTAssertTrue(estro.isEmpty())
-        estro.setDate()
+        estro.stamp()
         XCTAssertFalse(estro.isEmpty())
         estro.reset()
         XCTAssertTrue(estro.isEmpty())
@@ -216,25 +210,5 @@ class MOEstrogenTests: XCTestCase {
         estro.reset()
         estro.setSiteBackup(to: "Site")
         XCTAssertFalse(estro.isEmpty())
-    }
-    
-    func testIsCustomLocated() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
-        let site = siteSchedule.insert() as! MOSite
-        typealias Names = PDSiteStrings.SiteNames
-        site.setName("Custom")
-        estro.setSite(site)
-        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Patches))
-        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Injections))
-        
-        // Solely injection sites are custom if usingPatches
-        estro.setSiteBackup(to: Names.rightDelt)
-        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Patches))
-        XCTAssertFalse(estro.isCustomLocated(deliveryMethod: .Injections))
-        
-        // Solely patch sites are custom if not usingPatches
-        estro.setSiteBackup(to: Names.leftAbdomen)
-        XCTAssertFalse(estro.isCustomLocated(deliveryMethod: .Patches))
-        XCTAssertTrue(estro.isCustomLocated(deliveryMethod: .Injections))
     }
 }

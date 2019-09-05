@@ -57,7 +57,7 @@ class EstrogenCell: UITableViewCell {
         if let estro = estrogenSchedule.getEstrogen(at: index),
             !estro.isEmpty() {
             if let site = estro.getSite(),
-                let siteName = site.getImageIdentifer() {
+                let siteName = site.imageIdentifier {
                 image = PDImages.siteNameToImage(siteName,
                                                  theme: theme,
                                                  deliveryMethod: deliveryMethod)
@@ -123,7 +123,7 @@ class EstrogenCell: UITableViewCell {
         var isSiteChange: Bool = false
         var isGone: Bool = false
         if index < q {
-            if let _ = estro?.hasDate() {
+            if let _ = estro?.date {
                 // An estrogen date changed and they are flipping
                 sortFromEstrogenDateChange =
                     state.wereEstrogenChanges

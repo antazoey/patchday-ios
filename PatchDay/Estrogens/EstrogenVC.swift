@@ -45,6 +45,14 @@ class EstrogenVC: UIViewController,
     @IBOutlet private var horizontalLineBelowSite: UIView!
     @IBOutlet private weak var autofillButton: UIButton!
     
+    // Dependencies
+    private var schedule = patchData.sdk.schedule
+    private var estrogenSchedule = patchData.sdk.estrogenSchedule
+    private var siteSchedule = patchData.sdk.siteSchedule
+    private var defaults = patchData.sdk.defaults
+    private var state = patchData.sdk.state
+    private var notifications = app.notifications
+    
     // Non-interface
     var estrogenScheduleIndex = -1
     var estrogen: MOEstrogen!
@@ -59,7 +67,7 @@ class EstrogenVC: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = patchData.estrogenSchedule.getEstrogen(at: estrogenScheduleIndex)
+        estrogen = estrogenSchedule.getEstrogen(at: estrogenScheduleIndex)
         loadTitle()
         selectSiteTextField.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -99,22 +107,22 @@ class EstrogenVC: UIViewController,
        4.) Segue back to the EstrogensVC
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
-        let interval = patchData.defaults.expirationInterval
+        let interval = defaults.expirationInterval
         if let estro = estrogen {
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
             saveData()    // Save
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-            patchData.estrogenSchedule.sort()
+            estrogenSchedule.sort()
             // Save effects
-            patchData.state.wereEstrogenChanges = true
-            if let i = patchData.estrogenSchedule.getIndex(for: estro) {
-                patchData.state.indicesOfChangedDelivery = [i]
+            state.wereEstrogenChanges = true
+            if let i = estrogenSchedule.getIndex(for: estro) {
+                state.indicesOfChangedDelivery = [i]
             }
         }
         
-        let estrosDue = patchData.schedule.totalDue(interval: interval)
+        let estrosDue = schedule.totalDue(interval: interval)
         self.navigationController?.tabBarItem.badgeValue =
             (estrosDue <= 0) ? nil : String(estrosDue)
         
@@ -142,23 +150,17 @@ class EstrogenVC: UIViewController,
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
         typeSiteButton.setTitle(PDActionStrings.done, for: .normal)
-        typeSiteButton.removeTarget(self,
-                                    action: #selector(keyboardTapped(_:)),
-                                    for: .touchUpInside)
+        typeSiteButton.removeTarget(self, action: #selector(keyboardTapped(_:)), for: .touchUpInside)
         switch (textField.restorationIdentifier) {
             case "type" :
                 selectSiteTextField.isEnabled = true
                 selectSiteTextField.text = ""
                 textField.restorationIdentifier = "pick"
-                typeSiteButton.addTarget(self,
-                                         action: #selector(closeTextField),
-                                         for: .touchUpInside)
+                typeSiteButton.addTarget(self, action: #selector(closeTextField), for: .touchUpInside)
             case "pick" :
                 view.endEditing(true)
                 selectSiteTextField.isEnabled = false
-                typeSiteButton.addTarget(self,
-                                         action: #selector(closeSitePicker),
-                                         for: .touchUpInside)
+                typeSiteButton.addTarget(self, action: #selector(closeSitePicker), for: .touchUpInside)
                 fallthrough
             default : openSitePicker(textField)
         }
@@ -177,17 +179,11 @@ class EstrogenVC: UIViewController,
         autofillButton.isHidden = false
         selectSiteTextField.isHidden = false
         saveButton.isEnabled = true
-        typeSiteButton.removeTarget(self,
-                                    action: #selector(closeTextField),
-                                    for: .touchUpInside)
-        typeSiteButton.addTarget(self,
-                                 action: #selector(keyboardTapped(_:)),
-                                 for: .touchUpInside)
-        siteIndexSelected = patchData.siteSchedule.count()
+        typeSiteButton.removeTarget(self, action: #selector(closeTextField), for: .touchUpInside)
+        typeSiteButton.addTarget(self, action: #selector(keyboardTapped(_:)), for: .touchUpInside)
+        siteIndexSelected = siteSchedule.count()
         if let n = selectSiteTextField.text {
-            app.alerts.presentNewSiteAlert(with: n,
-                                              at: siteIndexSelected,
-                                              estroVC: self)
+            app.alerts.presentNewSiteAlert(with: n, at: siteIndexSelected, estroVC: self)
         }
     }
  
@@ -237,13 +233,13 @@ class EstrogenVC: UIViewController,
     
     func pickerView(_ pickerView: UIPickerView,
                              numberOfRowsInComponent component: Int) -> Int {
-        return patchData.siteSchedule.count()
+        return siteSchedule.count()
     }
     
     func pickerView(_ pickerView: UIPickerView,
                              titleForRow row: Int,
                              forComponent component: Int) -> String? {
-        let names = patchData.siteSchedule.getNames()
+        let names = siteSchedule.getNames()
         if row < names.count && row >= 0 {
             return names[row]
         }
@@ -254,10 +250,10 @@ class EstrogenVC: UIViewController,
     func pickerView(_ pickerView: UIPickerView,
                              didSelectRow row: Int,
                              inComponent component: Int) {
-        let names = patchData.siteSchedule.getNames()
+        let names = siteSchedule.getNames()
         if row < names.count && row >= 0 {
-            selectedSite = patchData.siteSchedule.getSite(at: row)
-            let name = patchData.siteSchedule.getNames()[row]
+            selectedSite = siteSchedule.getSite(at: row)
+            let name = siteSchedule.getNames()[row]
             selectSiteTextField.text = name
             closeSitePicker()
             siteIndexSelected = row
@@ -289,7 +285,7 @@ class EstrogenVC: UIViewController,
         doneButton.removeFromSuperview()
         datePickerInputView.isHidden = true
         dateSelected = datePicker.date
-        let interval = patchData.defaults.expirationInterval.hours
+        let interval = defaults.expirationInterval.hours
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControl.State.normal)
         if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {
@@ -317,7 +313,7 @@ class EstrogenVC: UIViewController,
             selectSiteTextField.text = n
         }
         if let date = estrogen.getDate() {
-            let interval = patchData.defaults.expirationInterval
+            let interval = defaults.expirationInterval
             datePlaced = date as Date
             let formattedDate = PDDateHelper.format(date: date as Date,
                                                     useWords: true)
@@ -339,17 +335,17 @@ class EstrogenVC: UIViewController,
     
     private func saveSite() {
         if siteTextHasChanged {
-            patchData.state.siteChanged = true
+            state.siteChanged = true
             switch (selectedSite, selectSiteTextField.text) {
             // Attempt saving site via MOSite first
             case (let site, _) where site != nil :
-                let setter = patchData.schedule.setEstrogenDataForToday
-                patchData.estrogenSchedule.setSite(of: estrogenScheduleIndex,
+                let setter = schedule.setEstrogenDataForToday
+                estrogenSchedule.setSite(of: estrogenScheduleIndex,
                                          with: site!,
                                          setSharedData: setter)
             // Use backupsite name when there is no site.
             case (nil, let name) where name != nil :
-                patchData.estrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name!)
+                estrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name!)
             default : break
             }
         }
@@ -357,8 +353,8 @@ class EstrogenVC: UIViewController,
     
     private func saveDate() {
         if dateTextHasChanged {
-            let setter = patchData.schedule.setEstrogenDataForToday
-            patchData.estrogenSchedule.setDate(of: estrogenScheduleIndex,
+            let setter = schedule.setEstrogenDataForToday
+            estrogenSchedule.setDate(of: estrogenScheduleIndex,
                                      with: datePicker.date,
                                      setSharedData: setter)
         }
@@ -370,27 +366,27 @@ class EstrogenVC: UIViewController,
         saveDate()
         // For EstrogensVC animation.
         if !dateTextHasChanged {
-            patchData.state.onlySiteChanged = true
+            state.onlySiteChanged = true
         }
     }
     
     private func autoPickSite() {
-        let set = patchData.defaults.setSiteIndex
-        if let suggestedSite = patchData.siteSchedule.suggest(changeIndex: set) {
+        let set = defaults.setSiteIndex
+        if let suggestedSite = siteSchedule.suggest(changeIndex: set) {
             selectedSite = suggestedSite
             shouldSaveIncrementedSiteIndex = true
             shouldSaveSelectedSiteIndex = false
-            if let suggestedSiteName = suggestedSite.getName() {
+            if let suggestedSiteName = suggestedSite.name{
                 selectSiteTextField.text = suggestedSiteName
                 siteTextHasChanged = true
-                siteIndexSelected = Int(suggestedSite.getOrder())
+                siteIndexSelected = Int(suggestedSite.order)
             }
         }
     }
     
     private func autoPickDate() {
         let now = Date()
-        let interval = patchData.defaults.expirationInterval.hours
+        let interval = defaults.expirationInterval.hours
         chooseDateButton.setTitle(PDDateHelper.format(date: now, useWords: true), for: .normal)
         if let expDate = PDDateHelper.expirationDate(from: now, interval) {
             expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
@@ -401,18 +397,18 @@ class EstrogenVC: UIViewController,
     
     private func requestNotification() {
         if let estro = estrogen {
-            app.notifications.requestEstrogenExpiredNotification(for: estro)
+            notifications.requestEstrogenExpiredNotification(for: estro)
             // Overnight
-            let interval = patchData.defaults.expirationInterval
+            let interval = defaults.expirationInterval
             if let expDate = estro.expirationDate(interval: interval),
                 expDate.isOvernight() {
-                app.notifications.requestOvernightNotification(estro, expDate: expDate)
+                notifications.requestOvernightNotification(estro, expDate: expDate)
             }
         }
     }
     
     private func cancelNotification() {
-        app.notifications.cancelEstrogenNotification(at: estrogenScheduleIndex)
+        notifications.cancelEstrogenNotification(at: estrogenScheduleIndex)
     }
     
     // MARK: - Private view creators / MOEstrogendifiers
@@ -421,8 +417,8 @@ class EstrogenVC: UIViewController,
         if siteIndexSelected != -1 {
             return siteIndexSelected
         } else if let site = estrogen.getSite() {
-            let order = site.getOrder()
-            if order >= 1 && order <= patchData.siteSchedule.count() {
+            let order = site.order
+            if order >= 1 && order <= siteSchedule.count() {
                 let i = Int(order)
                 siteIndexSelected = i
                 return i
@@ -435,10 +431,10 @@ class EstrogenVC: UIViewController,
     private func setUpLabelsInUI() {
         var exp = ""
         typealias Strings = PDStrings.ColonedStrings
-        let interval = patchData.defaults.expirationInterval
-        if let estro = patchData.estrogenSchedule.getEstrogen(at: estrogenScheduleIndex),
+        let interval = defaults.expirationInterval
+        if let estro = estrogenSchedule.getEstrogen(at: estrogenScheduleIndex),
             estro.getDate() != nil {
-            switch patchData.defaults.deliveryMethod.value {
+            switch defaults.deliveryMethod.value {
             case .Patches :
                 expLabel.text = (estro.isExpired(interval)) ?
                     Strings.expired :
@@ -480,7 +476,7 @@ class EstrogenVC: UIViewController,
     
     /// Configured title of view controller
     private func loadTitle() {
-        let deliv = patchData.defaults.deliveryMethod.value
+        let deliv = defaults.deliveryMethod.value
         if PDPickerStrings.deliveryMethods.count >= 2 {
             switch deliv {
             case .Patches:

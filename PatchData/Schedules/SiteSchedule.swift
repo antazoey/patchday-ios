@@ -45,8 +45,8 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     }
     
     /// Appends the the new site to the sites and returns it.
-   public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
-    let type = PDEntity.site.rawValue
+    public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
+        let type = PDEntity.site.rawValue
         if let site = PatchData.insert(type) as? MOSite {
             site.order = Int16(sites.count)
             sites.append(site)

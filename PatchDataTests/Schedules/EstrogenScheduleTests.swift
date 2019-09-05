@@ -59,17 +59,17 @@ class EstrogenScheduleTests: XCTestCase {
         youngest?.setDate(youngestDate)
         let oldestDate = Date(timeIntervalSince1970: 0) as NSDate
         let oldest = estrogenSchedule.insert() as? MOEstrogen
-        oldest?.setDate(oldestDate)
+        oldest?.date = oldestDate
         let middleDate = Date(timeIntervalSince1970: 10000) as NSDate
         let middle = estrogenSchedule.insert() as? MOEstrogen
-        middle?.setDate(middleDate)
+        middle?.date = middleDate
         estrogenSchedule.sort()
         if let estro1 = estrogenSchedule.getEstrogen(at: 0),
             let estro2 = estrogenSchedule.getEstrogen(at: 1),
             let estro3 = estrogenSchedule.getEstrogen(at: 2) {
             XCTAssert(estro1 < estro2)
             XCTAssert(estro2 < estro3)
-            estro1.setDate(youngestDate)
+            estro1.date = youngestDate
             estrogenSchedule.sort()
             if let estro4 = estrogenSchedule.getEstrogen(at: 0) {
                 XCTAssertEqual(estro4.getDate(), middleDate)

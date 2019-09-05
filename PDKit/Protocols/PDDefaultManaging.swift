@@ -17,7 +17,6 @@ public protocol PDDefaultManaging {
     var mentionedDisclaimer: MentionedDisclaimerUD { get }
     var siteIndex: SiteIndexUD { get }
     var theme: PDThemeUD { get }
-    
     func setDeliveryMethod(to method: DeliveryMethod, shouldReset: Bool)
     func setExpirationInterval(to interval: ExpirationInterval)
     func setQuantity(to q: Int)

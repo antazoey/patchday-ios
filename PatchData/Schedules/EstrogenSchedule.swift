@@ -13,44 +13,38 @@ import PDKit
 public class EstrogenSchedule: NSObject, EstrogenScheduling {
 
     override public var description: String {
-        return """
-               Schedule for reading, writing,
-               and querying the MOEstrogen array.
-               """
+        return "Schedule for reading, writing, and querying the MOEstrogen array."
+    }
+    
+    init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
+        super.init()
+        let moCount = loadMOs()
+        if moCount <= 0 { new(deliveryMethod: deliveryMethod, interval: interval) }
+        sort()
     }
     
     public var estrogens: [TimeReleased] = []
-    var quantity = 3
-    var deliveryMethod = DeliveryMethod.Patches
-    private var estrogenMap = [UUID: MOEstrogen]()
     
-    override init() {
-        super.init()
-        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .estrogen)
-        if let mos = mos_opt {
-            estrogens = mos as! [MOEstrogen]
+    public var isEmpty: Bool {
+        get {
+            return estrogens.count == 0 || (hasNoDates && hasNoSites)
         }
-        if count() <= 0 {
-            new()
-        }
-        sort()
-        loadMap()
     }
-
-    // MARK: - Base class overrides
     
-    public func count() -> Int {
-        return min(estrogens.count, quantity)
+    public var next: TimeReleased? {
+        get {
+            sort()
+            if estrogens.count > 0 { return estrogens[0] }
+            return nil
+        }
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
-    public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
+    public func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> TimeReleased? {
         let type = PDEntity.estrogen.rawValue
-        if let estro: MOEstrogen = PatchData.insert(type) as! MOEstrogen? {
-            quantity += 1
+        if let mo = PatchData.insert(type) as? MOEstrogen {
+            let estro = PDEstrogen(mo: mo, interval: expiration, deliveryMethod: deliveryMethod)
             estrogens.append(estro)
-            let id = estro.setId()
-            estrogenMap[id] = estro
             sort()
             return estro
         }
@@ -58,59 +52,58 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     public func sort() {
-        estrogens.sort(by: <)
+        if var estros = estrogens as? [PDEstrogen] {
+            estros.sort(by: <)
+        }
     }
     
     /// Reset the schedule to factory default
-    public func reset(completion: (() -> ())?) {
-        let context = PatchData.getContext()
+    public func reset(completion: (() -> ())?, deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
         for estro in estrogens {
             estro.reset()
-            context.delete(estro)
+            estro.delete()
         }
-        switch deliveryMethod {
-        case .Patches:
-            quantity = 3
-        case .Injections:
-            quantity = 1
-        }
-        new()
-        loadMap()
+        new(deliveryMethod: deliveryMethod, interval: interval)
         PatchData.save()
         if let comp = completion {
             comp()
         }
     }
     
-    /// Resets without changing the quantity
-    public func new() {
-        estrogens.removeAll()
-        reset(from: 0)
-        switch deliveryMethod {
-        case .Patches:
-            quantity = 3
-        case .Injections:
-            quantity = 1
-        }
-        for _ in 0..<quantity {
-            let type = PDEntity.estrogen.rawValue
-            let mo = type
-            if let estro = PatchData.insert(mo) as? MOEstrogen {
-                estrogens.append(estro)
+    /// Sets all MOEstrogen data between given indices to nil.
+    public func reset(from start: Index) {
+        switch(start) {
+        case 0..<estrogens.count :
+            let context = PatchData.getContext()
+            for i in start..<estrogens.count {
+                estrogens[i].reset()
+                context.delete(estrogens[i] as! NSManagedObject)
             }
+            estrogens = Array(estrogens.prefix(start))
+            PatchData.save()
+        default : return
         }
     }
     
-    // MARK: - Public
+    /// Resets without changing the quantity
+    public func new(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
+        estrogens.removeAll()
+        reset(from: 0)
+        let quantity = deliveryMethod == .Injections ? 1 : 3
+        for _ in 0..<quantity {
+            let type = PDEntity.estrogen.rawValue
+            if let mo = PatchData.insert(type) as? MOEstrogen {
+                estrogens.append(PDEstrogen(mo: mo, interval: interval, deliveryMethod: deliveryMethod))
+            }
+        }
+    }
 
-    func delete(after i: Index) {
+    public func delete(after i: Index) {
         let start = (i >= -1) ? i + 1 : 0
-        let end = count()
-        if end >= start {
-            for _ in start..<end {
+        if estrogens.count >= start {
+            for _ in start..<estrogens.count {
                 if let estro = estrogens.popLast() {
-                    quantity -= 1
-                    PatchData.getContext().delete(estro)
+                    estro.delete()
                 }
             }
             PatchData.save()
@@ -118,24 +111,24 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Returns the MOEstrogen for the given index
-    public func getEstrogen(at index: Index) -> MOEstrogen? {
+    public func getEstrogen(at index: Index) -> TimeReleased? {
         switch index {
-            case 0..<count() :
+            case 0..<estrogens.count :
                 return estrogens[index]
         default : return nil
         }
     }
 
     /// Returns the MOEstrogen for the given id.
-    public func getEstrogen(for id: UUID) -> MOEstrogen? {
-        return estrogenMap[id]
+    public func getEstrogen(for id: UUID) -> TimeReleased? {
+        return estrogens.filter({(estro: TimeReleased) -> Bool in return estro.id == id })[0]
     }
     
     /// Sets the site of the MOEstrogen for the given index.
-    public func setSite(of index: Index, with site: MOSite,
-                        setSharedData: (() -> ())?) {
-        let estro = getEstrogen(at: index)
-        estro?.setSite(site)
+    public func setSite(of index: Index, with site: Bodily, setSharedData: (() -> ())?) {
+        if var estro = getEstrogen(at: index) {
+            estro.site = site
+        }
         if let todaySet = setSharedData {
             todaySet()
         }
@@ -143,10 +136,10 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    public func setDate(of index: Index, with date: Date,
-                        setSharedData: (() -> ())?) {
-        let estro = getEstrogen(at: index)
-        estro?.setDate(date as NSDate)
+    public func setDate(of index: Index, with date: NSDate, setSharedData: (() -> ())?) {
+        if var estro = getEstrogen(at: index) {
+            estro.date = date
+        }
         sort()
         if let todaySet = setSharedData {
             todaySet()
@@ -155,13 +148,10 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Sets the date and the site of the MOEstrogen for the given id.
-    public func setEstrogen(for id: UUID,
-                            date: NSDate,
-                            site: MOSite,
-                            setSharedData: (() -> ())?) {
-        if let estro = getEstrogen(for: id) {
-            estro.setSite(site)
-            estro.setDate(date)
+    public func setEstrogen(for id: UUID, date: NSDate, site: Bodily, setSharedData: (() -> ())?) {
+        if var estro = getEstrogen(for: id) {
+            estro.site = site
+            estro.date = date
             sort()
             if let todaySet = setSharedData {
                 todaySet()
@@ -172,63 +162,31 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
     public func setBackUpSiteName(of index: Index, with name: String) {
-        if index < count() && index >= 0 {
-            estrogens[index].setSiteBackup(to: name)
+        if var estro = getEstrogen(at: index) {
+            estro.siteNameBackUp = name
             PatchData.save()
         }
     }
     
     /// Returns the index of the given estrogen.
-    public func getIndex(for estrogen: TimeReleased) -> Index? {
-        return estrogens.firstIndex(of: estrogen as! MOEstrogen)
-    }
-    
-    /// Returns the next MOEstrogen that needs to be taken.
-    public func nextDue() -> MOEstrogen? {
-        sort()
-        if count() > 0 {
-            return estrogens[0]
+    public func indexOf(_ estrogen: TimeReleased) -> Index? {
+        var i = -1
+        for estro in estrogens {
+            i += 1
+            if estro.id == estrogen.id {
+                return i
+            }
         }
-        return nil
-    }
-    
-    /// Returns the total non-nil dates in given estrogens.
-    public func datePlacedCount() -> Int {
-        return estrogens.reduce(0, {
-            count, estro in
-            let c = (estro.getDate() != nil) ? 1 : 0
-            return c + count
-        })
-    }
-    
-    /// Returns if there are no dates in the estrogen schedule.
-    public func hasNoDates() -> Bool {
-        return (estrogens.count == 0) || (estrogens.filter() {
-            $0.getDate() != nil
-        }).count == 0
-    }
-    
-    /// Returns if there are no sites in the estrogen schedule.
-    public func hasNoSites() -> Bool {
-        return (estrogens.count == 0) || (estrogens.filter() {
-            $0.getSite() != nil || $0.getSiteNameBackUp() != nil
-        }).count == 0
-    }
-    
-    /// Returns if there are no dates or sites in the estrogen schedule.
-    public func isEmpty() -> Bool {
-        return estrogens.count == 0 || (hasNoDates() && hasNoSites())
+        return -1
     }
     
     /// Returns if each MOEstrogen fromThisIndexOnward is empty.
-    public func isEmpty(fromThisIndexOnward: Index,
-                        lastIndex: Index) -> Bool {
-        let c = count()
+    public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
-                if i >= 0 && i < c {
+                if i >= 0 && i < estrogens.count {
                     let estro = estrogens[i]
-                    if !estro.isEmpty() {
+                    if !estro.isEmpty {
                         return false
                     }
                 }
@@ -241,61 +199,34 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     public func totalDue(_ interval: ExpirationIntervalUD) -> Int {
         return estrogens.reduce(0, {
             count, estro in
-            let c = (estro.isExpired(interval)) ? 1 : 0
+            let c = estro.isExpired ? 1 : 0
             return c + count
         })
     }
     
-    /// Sets all MOEstrogen data between given indices to nil.
-    public func reset(from start: Index) {
-        if quantity != estrogens.count {
-            quantity = estrogens.count
-        }
-        switch(start) {
-        case 0..<quantity :
-            let context = PatchData.getContext()
-            for i in start..<quantity {
-                estrogens[i].reset()
-                context.delete(estrogens[i])
-            }
-            estrogens = Array(estrogens.prefix(start))
-            loadMap()
-            quantity = start
-            PatchData.save()
-        default : return
+    // MARK: - Private
+    
+    private var hasNoDates: Bool {
+        get {
+            return (estrogens.count == 0) || (estrogens.filter() {
+                $0.date != nil
+            }).count == 0
         }
     }
-
-    /// Load estrogen Id map after changes occur to the schedule.
-    private func loadMap() {
-        estrogenMap.removeAll()
-        estrogenMap = estrogens.reduce([UUID: MOEstrogen]()) {
-            (estroDict, estro) -> [UUID: MOEstrogen] in
-            var dict = estroDict
-            if let id = estro.getId() {
-                dict[id] = estro
-            } else {
-                let id = estro.setId()
-                dict[id] = estro
-            }
-            return dict
+    
+    private var hasNoSites: Bool {
+        get {
+            return (estrogens.count == 0) || (estrogens.filter() {
+                $0.site != nil || $0.siteNameBackUp != nil
+            }).count == 0
         }
     }
-
-    public func printEstrogens() {
-        print("\n")
-        for estro in estrogens {
-            print("Estrogen")
-            if let d = estro.getDate() {
-                print(PDDateHelper.format(date: d as Date,
-                                          useWords: true))
-            }
-            if let s = estro.getSite(), let n = s.name {
-                print(n)
-            } else if let n = estro.getSiteNameBackUp() {
-                print(n)
-            }
-            print("---")
+    
+    private func loadMOs() -> Int {
+        if let mos = PatchData.loadMOs(for: .estrogen) {
+            estrogens = mos as! [TimeReleased]
+            return mos.count
         }
+        return 0
     }
 }

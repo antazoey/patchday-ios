@@ -42,7 +42,7 @@ public class PDSharedData: NSObject {
                                         setSiteIndex: @escaping (Int) -> ()) {
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
-        if let estro = estrogenSchedule.nextDue() {
+        if let estro = estrogenSchedule.next {
             if let siteName = getSiteNameForToday(using: estro,
                                                   deliveryMethod: deliveryMethod.value,
                                                   current: index,
@@ -51,7 +51,7 @@ public class PDSharedData: NSObject {
             } else {
                 defaults?.set(nil, forKey: siteKey)
             }
-            if let date = estro.expirationDate(interval: interval) {
+            if let date = estro.expiration {
                 defaults?.set(date, forKey: dateKey)
             } else {
                 defaults?.set(nil, forKey: dateKey)
@@ -64,12 +64,12 @@ public class PDSharedData: NSObject {
         let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
         let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
         if let nextPill = pillSchedule.nextDue() {
-            if let pillName = nextPill.getName() {
+            if let pillName = nextPill.name {
                 defaults?.set(pillName, forKey: pillNameKey)
             } else {
                 defaults?.set(nil, forKey: pillNameKey)
             }
-            if let pillDate = nextPill.due() {
+            if let pillDate = nextPill.due {
                 defaults?.set(pillDate, forKey: pillDateKey)
             } else {
                 defaults?.set(nil, forKey: pillDateKey)

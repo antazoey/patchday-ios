@@ -14,7 +14,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     
     private let estrogenSchedule: EstrogenScheduling
     private let defaults: PDDefaultManaging
-    private let state: PDStateManaging
+    private var state: PDStateManaging
     
     public var images: [UIImage]
     public var picker: UIPickerView
@@ -33,7 +33,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
                   saveButton: saveButton,
                   selectedSite: selectedSite,
                   deliveryMethod: deliveryMethod,
-                  estrogneSchedule: patchData.sdk.estrogenSchedule,
+                  estrogenSchedule: patchData.sdk.estrogenSchedule,
                   defaults: patchData.sdk.defaults,
                   state: patchData.sdk.state)
     }
@@ -108,7 +108,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
             if let estros = selectedSite.estrogenRelationship {
                 for estro in estros {
                     if let estro_i = estrogenSchedule.getIndex(for: estro as! MOEstrogen) {
-                        patchData.state.indicesOfChangedDelivery.append(estro_i)
+                        state.indicesOfChangedDelivery.append(estro_i)
                     }
                 }
             }

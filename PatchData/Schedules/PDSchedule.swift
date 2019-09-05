@@ -74,7 +74,7 @@ public class PDSchedule: NSObject, PDTodayAppPrepared, TotalDueAnnoying {
         var indices: [Index] = []
         for estro in estrogenSchedule.estrogens {
             if let site = estro.site,
-                let index = siteSchedule.sites.firstIndex(of: site) {
+                let index = siteSchedule.sites.firstIndex(of: site as! MOSite) {
                 indices.append(index)
             } else {
                 indices.append(-1)

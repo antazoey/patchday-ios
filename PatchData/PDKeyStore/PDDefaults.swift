@@ -53,7 +53,7 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
 
     // MARK: - Setters
     
-    public func setDeliveryMethod(to method: DeliveryMethod, shouldReset: Bool = true) {
+    public func setDeliveryMethod(to method: DeliveryMethod) {
         set(&deliveryMethod, to: method)
         siteSchedule.deliveryMethod = method
         estrogenSchedule.deliveryMethod = method
@@ -66,10 +66,6 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
                 c = Quantity.Four
             }
             self.set(&self.quantity, to: c)
-        }
-        if shouldReset {
-            siteSchedule.reset(completion: setCount)
-            estrogenSchedule.reset(completion: setCount)
         }
         state.deliveryMethodChanged = true
     }
