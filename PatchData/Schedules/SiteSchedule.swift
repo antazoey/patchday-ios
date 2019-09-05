@@ -91,12 +91,12 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     public func delete(at index: Index) {
         switch (index) {
         case 0..<sites.count :
-            loadBackupSiteName(from: sites[index])
+            sites[index].pushBackupSiteNameToEstrogens()
             PatchData.getContext().delete(sites[index])
             sites[index].reset()
             if (index + 1) < (sites.count - 1) {
                 for i in (index+1)..<sites.count {
-                    sites[i].decrement()
+                    sites[i].order -= 1
                 }
             }
             filterEmpty()
@@ -284,20 +284,5 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
             print("---------")
         }
         print("*************")
-    }
-    
-    // MARK: Private
-    
-    /// Set the siteBackUpName in every estrogen.
-    private func loadBackupSiteName(from site: MOSite) {
-        if site.isOccupied(),
-            let estroSet = site.estrogenRelationship {
-            for estro in Array(estroSet) {
-                let e = estro as! MOEstrogen
-                if let n = site.name {
-                    e.setSiteBackup(to: n)
-                }
-            }
-        }
     }
 }

@@ -158,17 +158,6 @@ class MOSiteTests: XCTestCase {
         XCTAssertEqual(site.string(), "666. Devil")
     }
     
-    func testDecrement() {
-        let site = siteSchedule.getSite(at: 0)!
-        XCTAssertEqual(site.getOrder(), 0)
-        // Does not decrement when already 0
-        site.decrement()
-        XCTAssertEqual(site.getOrder(), 0)
-        site.setOrder(666)
-        site.decrement()
-        XCTAssertEqual(site.getOrder(), 666 - 1)
-    }
-    
     func testReset() {
         let site = siteSchedule.getSite(at: 0)!
         site.reset()

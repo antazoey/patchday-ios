@@ -10,25 +10,53 @@ import Foundation
 import PDKit
 
 public class PDSite: Bodily, Comparable {
-    
+
     private let site: MOSite
+    private let globalExpirationInterval: ExpirationIntervalUD
+    private let deliveryMethod: DeliveryMethod
     
-    public init(site: MOSite, globalExpirationInterval: ExpirationInterval, de) {
+    public init(site: MOSite, globalExpirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
         self.site = site
+        self.globalExpirationInterval = globalExpirationInterval
+        self.deliveryMethod = deliveryMethod
     }
     
     public var estrogen: [Hormonal] {
         get {
+            var hormones: [Hormonal]
             if let estroSet = site.estrogenRelationship {
                 for estro in estroSet {
-                    let pdestro = PDEstrogen(estrogen: estro, interval: , deliveryMethod: <#T##DeliveryMethod#>)
+                    let pdEstro = PDEstrogen(estrogen: estro as! MOEstrogen,
+                                             interval: globalExpirationInterval,
+                                             deliveryMethod: deliveryMethod)
+                    hormones.append(pdEstro)
                 }
+            }
+            return hormones
+        }
+    }
+    
+    public var imageIdentifier: String {
+        get { return site.imageIdentifier ?? "" }
+        set { site.imageIdentifier = newValue }
+    }
+    
+    public var name: String {
+        get { return site.name ?? "" }
+        set { site.name = newValue }
+    }
+    
+    public var order: Int {
+        get { return Int(site.order) }
+        set {
+            if newValue >= 0 {
+                site.order = Int16(newValue)
             }
         }
     }
     
     /// Set the siteBackUpName in every estrogen.
-    public func loadBackupSiteName() {
+    public func pushBackupSiteNameToEstrogens() {
         if isOccupied(), let estroSet = site.estrogenRelationship {
             for estro in Array(estroSet) {
                 let e = estro as! MOEstrogen
@@ -38,18 +66,7 @@ public class PDSite: Bodily, Comparable {
             }
         }
     }
-    
-    public func string() -> String {
-        let n = site.name ?? PDStrings.PlaceholderStrings.new_site
-        return "\(site.order + 1). \(n)"
-    }
-    
-    public func decrement() {
-        if site.order > 0 {
-            site.order -= 1
-        }
-    }
-    
+
     /// Returns if the the MOSite is occupied by more than one MOEstrogen.
     public func isOccupied(byAtLeast many: Int = 1) -> Bool {
         if let r = site.estrogenRelationship {
@@ -71,7 +88,7 @@ public class PDSite: Bodily, Comparable {
      */
     
     public static func < (lhs: PDSite, rhs: PDSite) -> Bool {
-        switch(lhs.siorder, rhs.order) {
+        switch(lhs.order, rhs.order) {
         // both not set
         case (nil, nil) : return false
         case (let neg1, let neg2) where neg1 < 0 && neg2 < 0 : return false
@@ -112,7 +129,7 @@ public class PDSite: Bodily, Comparable {
         }
     }
     
-    public static func == (lhs: MOSite, rhs: MOSite) -> Bool {
+    public static func == (lhs: PDSite, rhs: PDSite) -> Bool {
         switch(lhs.order, rhs.order) {
         // both not set
         case (nil, nil) : return true
@@ -133,7 +150,7 @@ public class PDSite: Bodily, Comparable {
         }
     }
     
-    public static func != (lhs: MOSite, rhs: MOSite) -> Bool {
+    public static func != (lhs: PDSite, rhs: PDSite) -> Bool {
         switch(lhs.order, rhs.order) {
         // both not set
         case (nil, nil) : return false

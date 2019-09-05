@@ -9,12 +9,11 @@
 import Foundation
 
 public protocol Bodily {
-    var estrogenRelationship: NSSet? { get set }
-    var imageIdentifier: String? { get set }
-    var name: String? { get set }
-    var order: Int16 { get set }
-    func string() -> String
-    func decrement()
+    var estrogenRelationship: [Hormonal] { get }
+    var imageIdentifier: String { get set }
+    var name: String { get set }
+    var order: Int { get set }
     func isOccupied(byAtLeast many: Int) -> Bool
     func reset()
+    func pushBackupSiteNameToEstrogens()
 }
