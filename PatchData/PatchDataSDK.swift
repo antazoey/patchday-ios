@@ -29,14 +29,4 @@ public class PatchDataSDK : NSObject {
         pdSharedData = schedule.sharedData
         super.init()
     }
-    
-    public func setDeliveryMethod(to method: DeliveryMethod, shouldReset: Bool = true) {
-        defaults.setDeliveryMethod(to: method)
-        siteSchedule.deliveryMethod = method
-        if shouldReset {
-            siteSchedule.reset(completion: setCount)
-            estrogenSchedule.reset(completion: setCount)
-        }
-        state.deliveryMethodChanged = true
-    }
 }

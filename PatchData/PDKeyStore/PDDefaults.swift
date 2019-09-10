@@ -55,18 +55,8 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
     
     public func setDeliveryMethod(to method: DeliveryMethod) {
         set(&deliveryMethod, to: method)
-        siteSchedule.deliveryMethod = method
-        estrogenSchedule.deliveryMethod = method
-        let setCount: () -> () = {
-            var c: Quantity
-            switch method {
-            case .Injections:
-                c = Quantity.One
-            default:
-                c = Quantity.Four
-            }
-            self.set(&self.quantity, to: c)
-        }
+        let q = method == .Injections ? Quantity.One : Quantity.Three
+        self.set(&self.quantity, to: q)
         state.deliveryMethodChanged = true
     }
     

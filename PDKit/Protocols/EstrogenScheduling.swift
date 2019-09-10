@@ -21,8 +21,8 @@ public protocol EstrogenScheduling {
     func getEstrogen(at index: Index) -> Hormonal?
     func getEstrogen(for id: UUID) -> Hormonal?
     func setSite(of index: Index, with site: Bodily, setSharedData: (() -> ())?)
-    func setDate(of index: Index, with date: NSDate, setSharedData: (() -> ())?)
-    func setEstrogen(for id: UUID, date: NSDate, site: Bodily, setSharedData: (() -> ())?)
+    func setDate(of index: Index, with date: Date, setSharedData: (() -> ())?)
+    func setEstrogen(for id: UUID, date: Date, site: Bodily, setSharedData: (() -> ())?)
     func setBackUpSiteName(of index: Index, with name: String)
     func indexOf(_ estrogen: Hormonal) -> Index?
     func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool

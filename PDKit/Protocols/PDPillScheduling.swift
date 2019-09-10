@@ -9,7 +9,18 @@
 import Foundation
 
 public protocol PDPillScheduling {
-    func takePill(at index: Index, pushSharedData: (() -> ())?)
-    func take(_ pill: Swallowable, pushSharedData: (() -> ())?)
-    func take(pushSharedData: (() -> ())) 
+    var pills: [Swallowable] { get }
+    var nextDue: Swallowable? { get }
+    var totalDue: Int { get }
+    func insert(completion: (() -> ())?) -> Swallowable?
+    func delete(at index: Index)
+    func new()
+    func new(completion: (() -> ())?)
+    func getPill(at index: Index) -> Swallowable?
+    func getPill(for id: UUID) -> Swallowable?
+    func setPill(at index: Index, with attributes: PillAttributes)
+    func setPill(for pill: Swallowable, with attributes: PillAttributes)
+    func swallowPill(at index: Index, pushSharedData: (() -> ())?)
+    func swallow(_ pill: Swallowable, pushSharedData: (() -> ())?)
+    func swallow(pushSharedData: (() -> ())?)
 }

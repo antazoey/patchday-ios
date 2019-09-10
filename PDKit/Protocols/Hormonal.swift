@@ -8,9 +8,9 @@
 
 import Foundation
 
-public protocol Hormonal: PDManaged {
+public protocol Hormonal: PDPbjectifiable {
     var id: UUID { get set }
-    var date: NSDate? { get set }
+    var date: Date { get set }
     var expiration: Date? { get }
     var expirationString: String { get }
     var siteName: String { get }
@@ -19,6 +19,4 @@ public protocol Hormonal: PDManaged {
     var isEmpty: Bool { get }
     var site: Bodily? { get set }
     func stamp()
-    func reset()
-    func delete()
 }

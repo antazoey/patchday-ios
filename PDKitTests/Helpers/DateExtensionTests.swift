@@ -24,7 +24,7 @@ class DateExtensionTests: XCTestCase {
     func testIsWithinMinutes() {
         let d1 = Date()
         let d2 = Date()
-        let d3 = Date(timeIntervalSince1970: 0)
+        let d3 = Date.createDefaultDate()
         XCTAssert(d1.isWithin(minutes: 1, of: d2))
         XCTAssert(!d1.isWithin(minutes: 100, of: d3))
     }
@@ -38,7 +38,7 @@ class DateExtensionTests: XCTestCase {
     }
     
     func testIsInToday() {
-        let date = Date(timeIntervalSince1970: 0)
+        let date = Date.createDefaultDate()
         XCTAssertTrue(Date().isInToday())
         XCTAssertFalse(date.isInToday())
     }

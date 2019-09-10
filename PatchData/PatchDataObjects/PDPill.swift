@@ -9,12 +9,27 @@
 import Foundation
 import PDKit
 
-public class PDPill: Swallowable, Comparable {
+public class PDPill: PDObject, Swallowable, Comparable {
     
-    private let pill: MOPill
+    
+    private var pill: MOPill {
+        get { return mo as! MOPill }
+    }
     
     public init(pill: MOPill, name: String) {
-        self.pill = pill
+        super.init(mo: pill)
+        initializeAttributes(name: name)
+    }
+    
+    public static func createNew() -> Swallowable? {
+        let type = PDEntity.pill.rawValue
+        if let pill = PatchData.insert(type) as? MOPill {
+            return PDPill(pill: pill, name: PDStrings.PlaceholderStrings.new_pill)
+        }
+        return nil
+    }
+
+    public func initializeAttributes(name: String) {
         pill.name = name
         pill.timesaday = 1
         pill.time1 = NSDate()
@@ -24,9 +39,34 @@ public class PDPill: Swallowable, Comparable {
         pill.id = UUID()
     }
     
+    public func initializeAttributes(attributes: PillAttributes) {
+        if let n = attributes.name {
+            name = n
+        }
+        if let times = attributes.timesaday {
+            timesaday = times
+        }
+        if let t1 = attributes.time1 {
+            time1 = t1
+        }
+        if let t2 = attributes.time2 {
+            time2 = t2
+        }
+        if let n = attributes.notify {
+            notify = n
+        }
+        if let timesTaken = attributes.timesTakenToday {
+            timesTakenToday = timesTaken
+        }
+        if let last = attributes.lastTaken {
+            lastTaken = last
+        }
+        id = UUID()
+    }
+    
     public var name: String {
-        get { return mo.name ?? PDSiteStrings.unplaced }
-        set { mo.name = newValue }
+        get { return pill.name ?? PDSiteStrings.unplaced }
+        set { pill.name = newValue }
     }
     
     public var id: UUID {
@@ -34,15 +74,25 @@ public class PDPill: Swallowable, Comparable {
         set { pill.id = newValue }
     }
     
-    public var time1: NSDate {
-        get { return pill.time1 ?? NSDate() }
+    public var time1: Date {
+        get {
+            if let t1 = pill.time1 {
+                return t1 as Date
+            }
+            return Date.createDefaultDate()
+        }
         set { pill.time1 = newValue as NSDate? }
     }
     
-    public var time2: NSDate {
-        get { return pill.time2 ?? NSDate() }
+    public var time2: Date {
+        get {
+            if let t2 = pill.time2 {
+                return t2 as Date
+            }
+            return Date.createDefaultDate()
+        }
         set {
-            if time1.ge(time2) {
+            if time1 >= time2 {
                 pill.time2 = newValue as NSDate?
             } else {
                 // swap times if time2 is smaller than time1
@@ -57,31 +107,31 @@ public class PDPill: Swallowable, Comparable {
         set { pill.notify = newValue }
     }
     
-    public var timesaday: Int16 {
-        get { return pill.timesaday }
+    public var timesaday: Int {
+        get { return Int(pill.timesaday) }
         set {
             if newValue >= 0 {
-                pill.timesaday = newValue
+                pill.timesaday = Int16(newValue)
                 pill.time2 = nil
             }
         }
     }
     
-    public var timesTakenToday: Int16 {
-        get { return pill.timesTakenToday }
+    public var timesTakenToday: Int {
+        get { return Int(pill.timesTakenToday) }
         set {
             if newValue <= pill.timesTakenToday {
-                pill.timesTakenToday = newValue
+                pill.timesTakenToday = Int16(newValue)
             }
         }
     }
     
-    public var lastTaken: NSDate? {
-        get { return pill.lastTaken }
-        set { pill.lastTaken = newValue }
+    public var lastTaken: Date? {
+        get { return pill.lastTaken as Date? }
+        set { pill.lastTaken = newValue as NSDate? }
     }
     
-    public var due: Date? {
+    public var due: Date {
         get {
             if let t1 = pill.time1 as Time? {
                 do {
@@ -91,24 +141,19 @@ public class PDPill: Swallowable, Comparable {
                     if let t2 = pill.time2 {
                         times.append(t2 as Time)
                     }
-                    return try PDPillHelper.nextDueDate(timesTakenToday: todays, timesaday: goal, times: times)
+                    return try PDPillHelper.nextDueDate(timesTakenToday: todays, timesaday: goal, times: times) ?? Date()
                 } catch PDPillHelper.NextDueDateError.notEnoughTimes {
-                    return handleNotEnoughTimesError(t1: t1)
+                    return handleNotEnoughTimesError(t1: t1) ?? Date()
                 } catch {
-                    return nil
+                    return Date()
                 }
             }
-            return nil
+            return Date()
         }
     }
     
     public var isDue: Bool {
-        get {
-            if let dueDate = due {
-                return Date() > dueDate
-            }
-            return false
-        }
+        get { return Date() > due }
     }
     
     public var isNew: Bool {
@@ -158,7 +203,7 @@ public class PDPill: Swallowable, Comparable {
         case (nil, nil) : return false
         case (nil, _) : return false
         case (_, nil) : return true
-        default : return ld! < rd!
+        default : return ld < rd
         }
     }
     
@@ -169,7 +214,7 @@ public class PDPill: Swallowable, Comparable {
         case (nil, nil) : return false
         case (nil, _) : return false
         case (_, nil) : return true
-        default : return ld! > rd!
+        default : return ld > rd
         }
     }
     
@@ -180,7 +225,7 @@ public class PDPill: Swallowable, Comparable {
         case (nil, nil) : return true
         case (nil, _) : return false
         case (_, nil) : return false
-        default : return ld! == rd!
+        default : return ld == rd
         }
     }
     public static func != (lhs: PDPill, rhs: PDPill) -> Bool {
@@ -190,7 +235,7 @@ public class PDPill: Swallowable, Comparable {
         case (nil, nil) : return false
         case (nil, _) : return true
         case (_, nil) : return true
-        default : return ld! != rd!
+        default : return ld != rd
         }
     }
     
@@ -201,9 +246,9 @@ public class PDPill: Swallowable, Comparable {
             // Set the dates that are missing
             for i in c..<goal {
                 switch (i) {
-                case 0: self.mo.time1 = NSDate()
+                case 0: self.pill.time1 = NSDate()
                 case 1:
-                    self.mo.time2 = Time(timeInterval: 1000, since: t1 as Date) as NSDate
+                    self.pill.time2 = Time(timeInterval: 1000, since: t1 as Date) as NSDate
                 default :
                     break
                 }

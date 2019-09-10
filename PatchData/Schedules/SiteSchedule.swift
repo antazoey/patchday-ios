@@ -10,54 +10,42 @@ import Foundation
 import CoreData
 import PDKit
 
-public typealias SiteNameSet = Set<SiteName>
-
 public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     
     override public var description: String {
-        return """
-               Schedule for maintaining sites
-               for estrogen patches or injections.
-               """
+        return "Schedule for maintaining sites for estrogen patches or injections."
     }
     
-    public var sites: [MOSite] = []
+    public var sites: [Bodily]
     var next: Index = 0
-    var deliveryMethod = DeliveryMethod.Patches
     
-    override init() {
+    init(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) {
+        sites = PatchData.createSites(expirationIntervalUD: globalExpirationInterval,
+                                      deliveryMethod: deliveryMethod)
         super.init()
-        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .site)
-        if let mos = mos_opt {
-            sites = mos as! [MOSite]
-        }
         if sites.count == 0 {
-            new()
+            new(deliveryMethod: deliveryMethod, globalExpirationInterval: globalExpirationInterval)
         }
-        filterEmpty()
         sort()
     }
     
     // MARK: - Overrides
     
-    public func count() -> Int {
-        return sites.count
-    }
-    
     /// Appends the the new site to the sites and returns it.
-    public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
-        let type = PDEntity.site.rawValue
-        if let site = PatchData.insert(type) as? MOSite {
-            site.order = Int16(sites.count)
-            sites.append(site)
-            PatchData.save()
+    public func insert(deliveryMethod: DeliveryMethod,
+                       globalExpirationInterval: ExpirationIntervalUD,
+                       completion: (() -> ())? = nil) -> Bodily? {
+        if let site = PDSite.createNew(deliveryMethod: deliveryMethod,
+                                       globalExpirationInterval: globalExpirationInterval) {
             return site
         }
         return nil
     }
 
     /// Resets the site array a default list of sites.
-    public func reset(completion: (() -> ())? = nil) {
+    public func reset(deliveryMethod: DeliveryMethod,
+                      globalExpirationInterval: ExpirationIntervalUD,
+                      completion: (() -> ())? = nil) {
         if isDefault(deliveryMethod: deliveryMethod) {
             return
         }
@@ -66,10 +54,11 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         let newcount = resetNames.count
         for i in 0..<newcount {
             if i < oldCount {
-                sites[i].order = Int16(i)
+                sites[i].order = i
                 sites[i].name = resetNames[i]
                 sites[i].imageIdentifier = resetNames[i]
-            } else if let site = insert() as? MOSite {
+            } else if var site = insert(deliveryMethod: deliveryMethod,
+                                        globalExpirationInterval: globalExpirationInterval) {
                 site.name = resetNames[i]
                 site.imageIdentifier = resetNames[i]
             }
@@ -79,7 +68,6 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
                 sites[i].reset()
             }
         }
-        filterEmpty()
         sort()
         PatchData.save()
         if let comp = completion {
@@ -92,14 +80,13 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         switch (index) {
         case 0..<sites.count :
             sites[index].pushBackupSiteNameToEstrogens()
-            PatchData.getContext().delete(sites[index])
+            sites[index].delete()
             sites[index].reset()
             if (index + 1) < (sites.count - 1) {
                 for i in (index+1)..<sites.count {
                     sites[i].order -= 1
                 }
             }
-            filterEmpty()
             sort()
             PatchData.save()
         default : return
@@ -107,61 +94,43 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     }
     
     /// Generates a generic list of MOSites when there are none in store.
-    public func new() {
-        var sites: [MOSite] = []
-        typealias SiteNames = PDSiteStrings.SiteNames
+    public func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) {
+        var sites: [Bodily] = []
         let names = PDSiteStrings.getSiteNames(for: deliveryMethod)
-
         for i in 0..<names.count {
-            if let site = insert() as? MOSite {
+            if var site = insert(deliveryMethod: deliveryMethod, globalExpirationInterval: globalExpirationInterval) {
                 site.name = names[i]
                 site.imageIdentifier = names[i]
                 sites.append(site)
             }
         }
-        PatchData.save()
-        sort()
         self.sites = sites
-    }
-    
-    /// Removes all sites with empty or nil names from the sites.
-    public func filterEmpty() {
-        var sites_new: [MOSite] = []
-        sites.forEach() {
-            if $0.name == "" || $0.name == nil || $0.order < 0 {
-                PatchData.getContext().delete($0)
-            } else {
-                sites_new.append($0)
-            }
-        }
-        sites = sites_new
+        sort()
         PatchData.save()
     }
     
     public func sort() {
-        sites.sort(by: <)
+        if var sites = self.sites as? [PDSite] {
+            sites.sort()
+        }
     }
 
     // MARK: - Other Public
 
     /// Returns the site at the given index.
-    public func getSite(at index: Index) -> MOSite? {
+    public func getSite(at index: Index) -> Bodily? {
         if index >= 0 && index < sites.count {
             return sites[index]
         }
         return nil
     }
     
-    /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
-    public func getSite(for name: String) -> MOSite? {
+    /// Returns the MOSite for the given name.
+    public func getSite(for name: String) -> Bodily? {
         if let index = getNames().firstIndex(of: name) {
             return sites[index]
         }
-        // Append new site
-        let site = insert() as? MOSite
-        site?.name = name
-        site?.imageIdentifier = name
-        return site
+        return nil
     }
     
     /// Sets a the siteName for the site at the given index.
@@ -173,13 +142,13 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     }
     
     /// Swaps the indices of two sites by setting the order.
-    public func setOrder(at index: Index, to newOrder: Int16) {
+    public func setOrder(at index: Index, to newOrder: Int) {
         let newIndex = Index(newOrder)
         if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
             // Make sure index is correct both before and after swap
             sort()
             sites[index].order = newOrder
-            sites[newIndex].order = Int16(index)
+            sites[newIndex].order = index
             sort()
             PatchData.save()
         }
@@ -208,8 +177,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         }
         for i in 0..<sites.count {
             // Return site that has no estros
-            if let estros = sites[i].estrogenRelationship,
-                estros.count == 0 {
+            if sites[i].estrogens.count == 0 {
                 changeIndex(i)
                 next = i
                 return i
@@ -220,7 +188,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     
     /// Returns the next site in the site schedule as a suggestion of where to relocate.
     // Suggested changeIndex function: Defaults.setSiteIndex
-    public func suggest(changeIndex: (Int) -> ()) -> MOSite? {
+    public func suggest(changeIndex: (Int) -> ()) -> Bodily? {
         if let i = nextIndex(changeIndex: changeIndex) {
             return sites[i]
         }
@@ -230,7 +198,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     /// Returns an array of a siteNames for each site in the schedule.
     public func getNames() -> [SiteName] {
         return sites.map({
-            (site: MOSite) -> SiteName? in
+            (site: Bodily) -> SiteName? in
             return site.name
         }).filter() { $0 != nil } as! [SiteName]
     }
@@ -238,13 +206,13 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     /// Returns array of image Ids from array of MOSites.
     public func getImageIds() -> [String] {
         return sites.map({
-            (site: MOSite) -> String? in
+            (site: Bodily) -> String? in
             return site.imageIdentifier
         }).filter() { $0 != nil } as! [String]
     }
     
     /// Returns the set of sites on record union with the set of default sites
-    public func unionDefault(deliveryMethod: DeliveryMethod) -> SiteNameSet {
+    public func unionize(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
         let siteSet = Set(getNames())
         let defaults = Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod))
         return siteSet.union(defaults)
@@ -253,36 +221,11 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     /// Returns if the sites in the site schedule are the same as the default sites.
     public func isDefault(deliveryMethod: DeliveryMethod) -> Bool {
         let defaultSites = PDSiteStrings.getSiteNames(for: deliveryMethod)
-        let def_c = defaultSites.count
-        let sites_c = count()
-        if sites_c != def_c {
-            return false
-        }
-        for i in 0..<def_c {
-            if let n = sites[i].name {
-                if n != defaultSites[i] {
-                    return false
-                }
-            } else {
+        for i in 0..<sites.count {
+            if !defaultSites.contains(sites[i].name) {
                 return false
             }
         }
         return true
-    }
-
-    /// Prints the every site and order (for debugging).
-    public func printSites() {
-        print("PRINTING SITES")
-        print("--------------")
-        for site in sites {
-            print("Order: " + String(site.order))
-            if let n = site.name {
-                print("Name: " + n)
-            } else {
-                print("Unnamed")
-            }
-            print("---------")
-        }
-        print("*************")
     }
 }

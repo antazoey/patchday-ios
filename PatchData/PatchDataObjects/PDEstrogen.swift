@@ -9,16 +9,27 @@
 import Foundation
 import PDKit
 
-public class PDEstrogen: Hormonal, Comparable {
+public class PDEstrogen: PDObject, Hormonal, Comparable {
     
-    public let estrogen: MOEstrogen
     private let exp: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
+    private var estrogen: MOEstrogen {
+        get { return self.mo as! MOEstrogen }
+    }
+    
     public init(estrogen: MOEstrogen, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
-        self.estrogen = estrogen
         self.exp = interval
         self.deliveryMethod = deliveryMethod
+        super.init(mo: estrogen)
+    }
+    
+    public static func createNew(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
+        let type = PDEntity.estrogen.rawValue
+        if let estro = PatchData.insert(type) as? MOEstrogen {
+            return PDEstrogen(estrogen: estro, interval: expiration, deliveryMethod: deliveryMethod)
+        }
+        return nil
     }
     
     public var id: UUID {
@@ -26,9 +37,14 @@ public class PDEstrogen: Hormonal, Comparable {
         set { estrogen.id = newValue }
     }
     
-    public var date: NSDate? {
-        get { return estrogen.date }
-        set { estrogen.date = newValue }
+    public var date: Date {
+        get {
+            if let date = estrogen.date {
+                return date as Date
+            }
+            return Date.createDefaultDate()
+        }
+        set { estrogen.date = newValue as NSDate }
     }
     
     public var expiration: Date? {
@@ -78,7 +94,7 @@ public class PDEstrogen: Hormonal, Comparable {
     
     public var isEmpty: Bool {
         get {
-            return date == nil && site == nil && siteNameBackUp == nil
+            return !date.isDefault() && site == nil && siteNameBackUp == nil
         }
     }
     
@@ -86,7 +102,7 @@ public class PDEstrogen: Hormonal, Comparable {
     {
         get {
             if let s = estrogen.siteRelationship {
-                return PDSite(site: s)
+                return PDSite(site: s, globalExpirationInterval: exp, deliveryMethod: deliveryMethod)
             }
             return nil
         }
@@ -136,8 +152,6 @@ public class PDEstrogen: Hormonal, Comparable {
         }
     }
     
-    // MARK: - Getters and setters
-    
     public func stamp() {
         estrogen.date = NSDate()
     }
@@ -148,9 +162,5 @@ public class PDEstrogen: Hormonal, Comparable {
         estrogen.date = nil
         estrogen.siteRelationship = nil
         estrogen.siteNameBackUp = nil
-    }
-    
-    public func delete() {
-        PatchData.getContext().delete(estrogen)
     }
 }

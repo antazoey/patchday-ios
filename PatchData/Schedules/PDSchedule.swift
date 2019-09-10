@@ -19,12 +19,12 @@ public class PDSchedule: NSObject, PDTodayAppPrepared, TotalDueAnnoying {
     }
     
     // Sub-schedules
-    public var defaults: PDDefaults
-    public let sharedData: PDSharedData
-    public let estrogenSchedule = EstrogenSchedule()
-    public let pillSchedule = PillSchedule()
-    public let siteSchedule = SiteSchedule()
-    public let state = PDState()
+    public var defaults: PDDefaultManaging
+    public let sharedData: PDDataSharing
+    public let estrogenSchedule: EstrogenScheduling
+    public let pillSchedule: PDPillScheduling
+    public let siteSchedule: EstrogenSiteScheduling
+    public let state: PDStateManaging
     
     public override init() {
         sharedData = PDSharedData(estrogenSchedule: estrogenSchedule,
@@ -52,7 +52,7 @@ public class PDSchedule: NSObject, PDTodayAppPrepared, TotalDueAnnoying {
     /// Returns array of current occupied SiteNames
     public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
         return estrogenSchedule.estrogens.map({
-            (estro: TimeReleased) -> SiteName in
+            (estro: Hormonal) -> SiteName in
             if let site = estro.site, let name = site.name {
                 return name
             }
@@ -66,7 +66,7 @@ public class PDSchedule: NSObject, PDTodayAppPrepared, TotalDueAnnoying {
     
     /// Returns the total due of MOEstrogens and MOPills in the schedule.
     public func totalDue(interval: ExpirationIntervalUD) -> Int {
-        return estrogenSchedule.totalDue(interval) + pillSchedule.totalDue()
+        return estrogenSchedule
     }
 
     /// Returns array of occupied site indices.

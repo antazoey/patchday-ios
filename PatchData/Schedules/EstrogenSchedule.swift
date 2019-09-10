@@ -17,21 +17,19 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
+        estrogens = PatchData.createEstrogens(expirationInterval: interval, deliveryMethod: deliveryMethod)
         super.init()
-        let moCount = loadMOs()
-        if moCount <= 0 { new(deliveryMethod: deliveryMethod, interval: interval) }
+        if estrogens.count <= 0 { new(deliveryMethod: deliveryMethod, interval: interval) }
         sort()
     }
     
-    public var estrogens: [TimeReleased] = []
+    public var estrogens: [Hormonal]
     
     public var isEmpty: Bool {
-        get {
-            return estrogens.count == 0 || (hasNoDates && hasNoSites)
-        }
+        get { return estrogens.count == 0 || (hasNoDates && hasNoSites) }
     }
     
-    public var next: TimeReleased? {
+    public var next: Hormonal? {
         get {
             sort()
             if estrogens.count > 0 { return estrogens[0] }
@@ -40,10 +38,8 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
-    public func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> TimeReleased? {
-        let type = PDEntity.estrogen.rawValue
-        if let mo = PatchData.insert(type) as? MOEstrogen {
-            let estro = PDEstrogen(mo: mo, interval: expiration, deliveryMethod: deliveryMethod)
+    public func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
+        if let estro = PDEstrogen.createNew(expiration: expiration, deliveryMethod: deliveryMethod) {
             estrogens.append(estro)
             sort()
             return estro
@@ -91,10 +87,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
         reset(from: 0)
         let quantity = deliveryMethod == .Injections ? 1 : 3
         for _ in 0..<quantity {
-            let type = PDEntity.estrogen.rawValue
-            if let mo = PatchData.insert(type) as? MOEstrogen {
-                estrogens.append(PDEstrogen(mo: mo, interval: interval, deliveryMethod: deliveryMethod))
-            }
+            _ = insert(expiration: interval, deliveryMethod: deliveryMethod)
         }
     }
 
@@ -111,7 +104,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Returns the MOEstrogen for the given index
-    public func getEstrogen(at index: Index) -> TimeReleased? {
+    public func getEstrogen(at index: Index) -> Hormonal? {
         switch index {
             case 0..<estrogens.count :
                 return estrogens[index]
@@ -120,8 +113,8 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
 
     /// Returns the MOEstrogen for the given id.
-    public func getEstrogen(for id: UUID) -> TimeReleased? {
-        return estrogens.filter({(estro: TimeReleased) -> Bool in return estro.id == id })[0]
+    public func getEstrogen(for id: UUID) -> Hormonal? {
+        return estrogens.filter({(estro: Hormonal) -> Bool in return estro.id == id })[0]
     }
     
     /// Sets the site of the MOEstrogen for the given index.
@@ -136,7 +129,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    public func setDate(of index: Index, with date: NSDate, setSharedData: (() -> ())?) {
+    public func setDate(of index: Index, with date: Date, setSharedData: (() -> ())?) {
         if var estro = getEstrogen(at: index) {
             estro.date = date
         }
@@ -148,7 +141,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Sets the date and the site of the MOEstrogen for the given id.
-    public func setEstrogen(for id: UUID, date: NSDate, site: Bodily, setSharedData: (() -> ())?) {
+    public func setEstrogen(for id: UUID, date: Date, site: Bodily, setSharedData: (() -> ())?) {
         if var estro = getEstrogen(for: id) {
             estro.site = site
             estro.date = date
@@ -169,7 +162,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Returns the index of the given estrogen.
-    public func indexOf(_ estrogen: TimeReleased) -> Index? {
+    public func indexOf(_ estrogen: Hormonal) -> Index? {
         var i = -1
         for estro in estrogens {
             i += 1
@@ -209,7 +202,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     private var hasNoDates: Bool {
         get {
             return (estrogens.count == 0) || (estrogens.filter() {
-                $0.date != nil
+                !$0.date.isDefault()
             }).count == 0
         }
     }
@@ -220,13 +213,5 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
                 $0.site != nil || $0.siteNameBackUp != nil
             }).count == 0
         }
-    }
-    
-    private func loadMOs() -> Int {
-        if let mos = PatchData.loadMOs(for: .estrogen) {
-            estrogens = mos as! [TimeReleased]
-            return mos.count
-        }
-        return 0
     }
 }

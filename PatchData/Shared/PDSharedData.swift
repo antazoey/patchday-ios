@@ -9,12 +9,9 @@
 import Foundation
 import PDKit
 
-public class PDSharedData: NSObject {
+public class PDSharedData: NSObject, PDDataSharing {
     
     public let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
-    private let estrogenSchedule: EstrogenSchedule
-    private let pillSchedule: PillSchedule
-    private let siteSchedule: SiteSchedule
     
     override public var description: String {
         return """
@@ -24,86 +21,35 @@ public class PDSharedData: NSObject {
                """
     }
     
-    public init(estrogenSchedule: EstrogenSchedule,
-                pillSchedule: PillSchedule,
-                siteSchedule: SiteSchedule) {
+    public override init() {
         if defaults == nil {
             print("Unable to load shared defaults.")
         }
-        self.estrogenSchedule = estrogenSchedule
-        self.pillSchedule = pillSchedule
-        self.siteSchedule = siteSchedule
     }
 
     /// Sets MOEstrogen data for PatchDay Today widget.
-    public func setEstrogenDataForToday(interval: ExpirationIntervalUD,
+    public func setEstrogenDataForToday(latestExpiredEstrogen: Hormonal,
+                                        nextSuggestedSite: SiteName,
+                                        interval: ExpirationIntervalUD,
                                         deliveryMethod: DeliveryMethodUD,
                                         index: Index,
                                         setSiteIndex: @escaping (Int) -> ()) {
-        let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
-        let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
-        if let estro = estrogenSchedule.next {
-            if let siteName = getSiteNameForToday(using: estro,
-                                                  deliveryMethod: deliveryMethod.value,
-                                                  current: index,
-                                                  setSiteIndex: setSiteIndex) {
-                defaults?.set(siteName, forKey: siteKey)
-            } else {
-                defaults?.set(nil, forKey: siteKey)
-            }
-            if let date = estro.expiration {
-                defaults?.set(date, forKey: dateKey)
-            } else {
-                defaults?.set(nil, forKey: dateKey)
-            }
+        var siteName: SiteName
+        switch deliveryMethod.value {
+        case .Patches:
+            siteName = latestExpiredEstrogen.siteName
+        case .Injections:
+            siteName = nextSuggestedSite
         }
+        defaults?.set(siteName, forKey: PDStrings.TodayKey.nextEstroSiteName.rawValue)
+        defaults?.set(latestExpiredEstrogen.date, forKey: PDStrings.TodayKey.nextEstroDate.rawValue)
     }
 
     /// Sets MOPill data for PatchDay Today widget.
-    public func setPillDataForToday() {
-        let pillNameKey = PDStrings.TodayKey.nextPillToTake.rawValue
-        let pillDateKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
-        if let nextPill = pillSchedule.nextDue() {
-            if let pillName = nextPill.name {
-                defaults?.set(pillName, forKey: pillNameKey)
-            } else {
-                defaults?.set(nil, forKey: pillNameKey)
-            }
-            if let pillDate = nextPill.due {
-                defaults?.set(pillDate, forKey: pillDateKey)
-            } else {
-                defaults?.set(nil, forKey: pillDateKey)
-            }
-        }
-    }
-    
-    /// Sets data to be displayed in PatchDay Today widget.
-    public func setDataForTodayApp(interval: ExpirationIntervalUD, index: Index,
-                                   deliveryMethod: DeliveryMethodUD,
-                                   setSiteIndex: @escaping (Int) -> ()) {
-        setEstrogenDataForToday(interval: interval,
-                                deliveryMethod: deliveryMethod,
-                                index: index,
-                                setSiteIndex: setSiteIndex)
-        setPillDataForToday()
-    }
-
-    /// Helper function for retrieving correct SiteName data to be saved in PatchDay Today widget.
-    private func getSiteNameForToday(using estro: MOEstrogen,
-                                     deliveryMethod: DeliveryMethod,
-                                     current: Index,
-                                     setSiteIndex: @escaping (Int) -> ()) -> SiteName? {
-        let setSI = setSiteIndex
-        switch deliveryMethod {
-        case .Patches:
-            return estro.getSiteName()
-        case .Injections:
-            if let suggestedSite = siteSchedule.suggest(changeIndex: setSI) {
-                return suggestedSite.name
-            }
-            fallthrough
-        default:
-            return nil
+    public func setPillDataForToday(nextPill: Swallowable) {
+        if let defs = defaults {
+            defs.set(nextPill.name, forKey: PDStrings.TodayKey.nextPillToTake.rawValue)
+            defs.set(nextPill.due, forKey: PDStrings.TodayKey.nextPillTakeTime.rawValue)
         }
     }
 }

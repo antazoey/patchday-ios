@@ -57,10 +57,10 @@ class EstrogenScheduleTests: XCTestCase {
         let youngestDate = Date(timeIntervalSince1970: 7000000) as NSDate
         let youngest = estrogenSchedule.insert() as? MOEstrogen
         youngest?.setDate(youngestDate)
-        let oldestDate = Date(timeIntervalSince1970: 0) as NSDate
+        let oldestDate = Date.createDefaultDate()
         let oldest = estrogenSchedule.insert() as? MOEstrogen
         oldest?.date = oldestDate
-        let middleDate = Date(timeIntervalSince1970: 10000) as NSDate
+        let middleDate = Date.createDefaultDate()
         let middle = estrogenSchedule.insert() as? MOEstrogen
         middle?.date = middleDate
         estrogenSchedule.sort()
@@ -289,7 +289,7 @@ class EstrogenScheduleTests: XCTestCase {
     }
     
     func testTotalDue() {
-        let oldDate = Date(timeIntervalSince1970: 0)
+        let oldDate = Date.createDefaultDate()
         let now = Date()
         let halfweek: TimeInterval = 302400
         let week: TimeInterval = 2 * halfweek

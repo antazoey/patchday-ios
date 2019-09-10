@@ -42,7 +42,7 @@ class PDDefaultsTests: XCTestCase {
     /// Test that the estrogen schedule reflects changes from defaults
     func testEstrogenSchedule() {
         defaults.setQuantityWithoutWarning(to: 4)
-        let date = Date(timeIntervalSince1970: 0)
+        let date = Date.createDefaultDate()
         estrogenSchedule.setDate(of: 0, with: date, setSharedData: nil)
         estrogenSchedule.setDate(of: 1, with: date, setSharedData: nil)
         estrogenSchedule.setDate(of: 2, with: date, setSharedData: nil)
@@ -102,7 +102,7 @@ class PDDefaultsTests: XCTestCase {
     
     func testSetQuantityWithWarning() {
         defaults.setQuantityWithoutWarning(to: 1)
-        let date = Date(timeIntervalSince1970: 0)
+        let date = Date.createDefaultDate()
         let mock: (Int) -> () = { void in }
         estrogenSchedule.setDate(of: 0, with: date, setSharedData: nil)
         defaults.setQuantityWithWarning(to: Quantity.Two, oldQ: Quantity.Four,

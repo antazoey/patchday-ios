@@ -8,12 +8,11 @@
 
 import Foundation
 
-public protocol Bodily {
-    var estrogenRelationship: [Hormonal] { get }
+public protocol Bodily: PDPbjectifiable {
+    var estrogens: [Hormonal] { get }
     var imageIdentifier: String { get set }
-    var name: String { get set }
+    var name: SiteName { get set }
     var order: Int { get set }
     func isOccupied(byAtLeast many: Int) -> Bool
-    func reset()
     func pushBackupSiteNameToEstrogens()
 }

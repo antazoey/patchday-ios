@@ -41,4 +41,12 @@ extension Date {
         }
         return false
     }
+    
+    public func isDefault() -> Bool {
+        return self == Date.createDefaultDate()
+    }
+    
+    public static func createDefaultDate() -> Date {
+        return Date(timeIntervalSince1970: 0)
+    }
 }

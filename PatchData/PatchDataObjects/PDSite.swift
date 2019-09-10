@@ -9,21 +9,34 @@
 import Foundation
 import PDKit
 
-public class PDSite: Bodily, Comparable {
+public class PDSite: PDObject, Bodily, Comparable {
 
-    private let site: MOSite
     private let globalExpirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
-    public init(site: MOSite, globalExpirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
-        self.site = site
-        self.globalExpirationInterval = globalExpirationInterval
-        self.deliveryMethod = deliveryMethod
+    private var site: MOSite {
+        get { return self.mo as! MOSite }
     }
     
-    public var estrogen: [Hormonal] {
+    public init(site: MOSite, globalExpirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+        self.globalExpirationInterval = globalExpirationInterval
+        self.deliveryMethod = deliveryMethod
+        super.init(mo: site)
+    }
+    
+    public static func createNew(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) -> PDSite? {
+        let type = PDEntity.site.rawValue
+        if let site = PatchData.insert(type) as? MOSite {
+            return PDSite(site: site,
+                          globalExpirationInterval: globalExpirationInterval,
+                          deliveryMethod: deliveryMethod)
+        }
+        return nil
+    }
+    
+    public var estrogens: [Hormonal] {
         get {
-            var hormones: [Hormonal]
+            var hormones: [Hormonal] = []
             if let estroSet = site.estrogenRelationship {
                 for estro in estroSet {
                     let pdEstro = PDEstrogen(estrogen: estro as! MOEstrogen,
@@ -41,7 +54,7 @@ public class PDSite: Bodily, Comparable {
         set { site.imageIdentifier = newValue }
     }
     
-    public var name: String {
+    public var name: SiteName {
         get { return site.name ?? "" }
         set { site.name = newValue }
     }

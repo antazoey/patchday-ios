@@ -12,7 +12,7 @@ import PatchData
 
 class PDDateHelperTests: XCTestCase {
 
-    let d1 = Date(timeIntervalSince1970: 0)
+    let d1 = Date.createDefaultDate()
     let today = Date()
     let halfweek_interval = ExpirationIntervalUD(with: ExpirationInterval.TwiceAWeek)
     let week_interval = ExpirationIntervalUD(with: ExpirationInterval.OnceAWeek)

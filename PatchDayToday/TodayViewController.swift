@@ -33,8 +33,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             estrogenSiteLabel.text = dots
         }
         if let d = nextEstro.date {
-            estrogenDateLabel.text = PDDateHelper.format(date: d,
-                                                         useWords: true)
+            estrogenDateLabel.text = PDDateHelper.format(date: d, useWords: true)
         } else {
             estrogenDateLabel.text = dots
         }
@@ -44,8 +43,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             nextPillNameLabel.text = dots
         }
         if let d = nextPill.nextTakeDate {
-            nextPillTakeDateLabel.text = PDDateHelper.format(date: d,
-                                                             useWords: true)
+            nextPillTakeDateLabel.text = PDDateHelper.format(date: d, useWords: true)
         } else {
             nextPillTakeDateLabel.text = dots
         }
