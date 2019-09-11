@@ -177,7 +177,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        siteSchedule.reset(completion: nil)
+        siteSchedule.reset()
         reloadSiteNames()
         sitesTable.isEditing = false
         let range = 0..<siteNames.count

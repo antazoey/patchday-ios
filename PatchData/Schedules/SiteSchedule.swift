@@ -18,10 +18,14 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     
     public var sites: [Bodily]
     var next: Index = 0
+    let correctSiteIndex: (_ newIndex: Int, _ siteCount: Int) -> ()
     
-    init(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) {
-        sites = PatchData.createSites(expirationIntervalUD: globalExpirationInterval,
+    init(deliveryMethod: DeliveryMethod,
+         globalExpirationInterval: ExpirationIntervalUD,
+         correctSiteIndex: @escaping (_ newIndex: Int, _ siteCount: Int) -> ()) {
+        self.sites = PatchData.createSites(expirationIntervalUD: globalExpirationInterval,
                                       deliveryMethod: deliveryMethod)
+        self.correctSiteIndex = correctSiteIndex
         super.init()
         if sites.count == 0 {
             new(deliveryMethod: deliveryMethod, globalExpirationInterval: globalExpirationInterval)
@@ -29,7 +33,47 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         sort()
     }
     
-    // MARK: - Overrides
+    /// The next site in the site schedule as a suggestion of where to relocate.
+    public var suggestedSite: Bodily? {
+        if let i = nextIndex { return sites[i] }
+        return nil
+    }
+    
+    // An array of a siteNames for each site in the schedule.
+    public var names: [SiteName] {
+        return sites.map({
+            (site: Bodily) -> SiteName? in
+            return site.name
+        }).filter() { $0 != nil } as! [SiteName]
+    }
+    
+    /// An array of image Ids from array of MOSites.
+    public var imageIds: [String] {
+        return sites.map({
+            (site: Bodily) -> String? in
+            return site.imageIdentifier
+        }).filter() { $0 != nil } as! [String]
+    }
+    
+    /// The next site for scheduling in the site schedule.
+    public var nextIndex: Index? {
+        if next < 0 {
+            correctSiteIndex(0, sites.count)
+            next = 0
+        }
+        if sites.count <= 0 {
+            return nil
+        }
+        for i in 0..<sites.count {
+            // Return site that has no estros
+            if sites[i].estrogens.count == 0 {
+                correctSiteIndex(i, sites.count)
+                next = i
+                return i
+            }
+        }
+        return next
+    }
     
     /// Appends the the new site to the sites and returns it.
     public func insert(deliveryMethod: DeliveryMethod,
@@ -44,8 +88,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
 
     /// Resets the site array a default list of sites.
     public func reset(deliveryMethod: DeliveryMethod,
-                      globalExpirationInterval: ExpirationIntervalUD,
-                      completion: (() -> ())? = nil) {
+                      globalExpirationInterval: ExpirationIntervalUD) {
         if isDefault(deliveryMethod: deliveryMethod) {
             return
         }
@@ -70,9 +113,6 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         }
         sort()
         PatchData.save()
-        if let comp = completion {
-            comp()
-        }
     }
     
     /// Deletes the site at the given index.
@@ -127,7 +167,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     
     /// Returns the MOSite for the given name.
     public func getSite(for name: String) -> Bodily? {
-        if let index = getNames().firstIndex(of: name) {
+        if let index = names.firstIndex(of: name) {
             return sites[index]
         }
         return nil
@@ -165,57 +205,11 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         }
         PatchData.save()
     }
-    
-    /// Returns the next site for scheduling in the site schedule.
-    public func nextIndex(changeIndex: (Int) -> ()) -> Index? {
-        if next < 0 {
-            changeIndex(0)
-            next = 0
-        }
-        if sites.count <= 0 {
-            return nil
-        }
-        for i in 0..<sites.count {
-            // Return site that has no estros
-            if sites[i].estrogens.count == 0 {
-                changeIndex(i)
-                next = i
-                return i
-            }
-        }
-        return next
-    }
-    
-    /// Returns the next site in the site schedule as a suggestion of where to relocate.
-    // Suggested changeIndex function: Defaults.setSiteIndex
-    public func suggest(changeIndex: (Int) -> ()) -> Bodily? {
-        if let i = nextIndex(changeIndex: changeIndex) {
-            return sites[i]
-        }
-        return nil
-    }
 
-    /// Returns an array of a siteNames for each site in the schedule.
-    public func getNames() -> [SiteName] {
-        return sites.map({
-            (site: Bodily) -> SiteName? in
-            return site.name
-        }).filter() { $0 != nil } as! [SiteName]
-    }
-    
-    /// Returns array of image Ids from array of MOSites.
-    public func getImageIds() -> [String] {
-        return sites.map({
-            (site: Bodily) -> String? in
-            return site.imageIdentifier
-        }).filter() { $0 != nil } as! [String]
-    }
-    
     /// Returns the set of sites on record union with the set of default sites
     public func unionize(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
-        let siteSet = Set(getNames())
         let defaults = Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod))
-        return siteSet.union(defaults)
+        return Set(names).union(defaults)
     }
     
     /// Returns if the sites in the site schedule are the same as the default sites.

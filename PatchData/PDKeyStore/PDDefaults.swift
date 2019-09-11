@@ -15,11 +15,8 @@ public class PDDefaultsConstants {
 
 public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
 
-    // App
-    private var shared: PDSharedData? = nil
-    private var estrogenSchedule: EstrogenSchedule
-    private var siteSchedule: SiteSchedule
-    private var state: PDState
+    // Dependencies
+    private var state: PDStateManaging
 
     // Defaults
     public var deliveryMethod = DeliveryMethodUD(with: DeliveryMethod.Patches)
@@ -33,15 +30,9 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
 
     // MARK: - initializer
     
-    init(estrogenSchedule: EstrogenSchedule,
-         siteSchedule: SiteSchedule,
-         state: PDState,
-         sharedData: PDSharedData?) {
-        self.estrogenSchedule = estrogenSchedule
-        self.siteSchedule = siteSchedule
-        self.state = state
-        self.shared = sharedData
-        super.init()
+    init(stateManager: PDStateManaging, meter: PDDataMeting) {
+        self.state = stateManager
+        super.init(meter: meter)
         self.load(&deliveryMethod)
         self.load(&expirationInterval)
         self.load(&quantity)
@@ -50,8 +41,6 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         self.load(&mentionedDisclaimer)
         self.load(&theme)
     }
-
-    // MARK: - Setters
     
     public func setDeliveryMethod(to method: DeliveryMethod) {
         set(&deliveryMethod, to: method)
@@ -60,23 +49,14 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         state.deliveryMethodChanged = true
     }
     
+    @objc public func setQuantity(to newQuantity: Int) {
+        if let q = Quantity(rawValue: newQuantity) {
+            self.set(&quantity, to: q)
+        }
+    }
+    
     public func setExpirationInterval(to i: ExpirationInterval) {
         set(&expirationInterval, to: i)
-    }
-
-    @objc public func setQuantity(to q: Int) {
-        let oldQuantity = quantity.value.rawValue
-        if let q = Quantity(rawValue: q) {
-            self.set(&quantity, to: q)
-            if oldQuantity < q.rawValue {
-                // Fill in new estros
-                for _ in oldQuantity..<q.rawValue {
-                    let _ = estrogenSchedule.insert()
-                }
-            } else {
-                estrogenSchedule.delete(after: q.rawValue - 1)
-            }
-        }
     }
     
     public func setNotifications(to b: Bool) {
@@ -91,9 +71,8 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         set(&mentionedDisclaimer, to: b)
     }
     
-    public func setSiteIndex(to i: Index) {
-        let c = siteSchedule.count()
-        if i < c && i >= 0 {
+    public func setSiteIndex(to i: Index, siteCount: Int) {
+        if i < siteCount && i >= 0 {
             set(&siteIndex, to: i)
         }
     }

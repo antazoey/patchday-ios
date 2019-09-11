@@ -21,16 +21,20 @@ public class PDDefaultsBaseClass: NSObject {
     }
     
     private let std_defaults = UserDefaults.standard
-    private var shared: PDSharedData? = nil
+    private var meter: PDDataMeting? = nil
+
+    public init(meter: PDDataMeting) {
+        self.meter = meter
+    }
     
     func set<T>(_ v: inout T, to new: T.Value) where T: PDKeyStorable {
         v.value = new
-        shared?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
+        meter?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
         std_defaults.set(v.rawValue, forKey: T.key.rawValue)
     }
     
     func find<T>(_ v: inout T) -> Bool where T: PDKeyStorable {
-        let def1 = shared?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
+        let def1 = meter?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
         let def2 = std_defaults.object(forKey: T.key.rawValue) as? T.RawValue
         let fv = def1 ?? def2 ?? v.rawValue
         v = T(with: fv)

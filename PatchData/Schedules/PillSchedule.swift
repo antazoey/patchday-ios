@@ -25,22 +25,18 @@ public class PillSchedule: NSObject, PDPillScheduling {
     }
     
     public var nextDue: Swallowable? {
-        get {
-            if let pills = pills as? [PDPill] {
-                return pills.min(by: <)
-            }
-            return nil
+        if let pills = pills as? [PDPill] {
+            return pills.min(by: <)
         }
+        return nil
     }
 
     public var totalDue: Int {
-        get {
-            return pills.reduce(0, {
-                (count: Int, pill: Swallowable) -> Int in
-                let r = pill.isDue ? 1 + count : count
-                return r
-            })
-        }
+        return pills.reduce(0, {
+            (count: Int, pill: Swallowable) -> Int in
+            let r = pill.isDue ? 1 + count : count
+            return r
+        })
     }
     
     // MARK: - Override base class

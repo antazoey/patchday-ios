@@ -17,13 +17,13 @@ public protocol PDDefaultManaging {
     var mentionedDisclaimer: MentionedDisclaimerUD { get }
     var siteIndex: SiteIndexUD { get }
     var theme: PDThemeUD { get }
-    func setDeliveryMethod(to method: DeliveryMethod, shouldReset: Bool)
+    func setDeliveryMethod(to method: DeliveryMethod)
     func setExpirationInterval(to interval: ExpirationInterval)
     func setQuantity(to q: Int)
     func setNotifications(to b: Bool)
     func setNotificationsMinutesBefore(to i: Int)
     func setMentionedDisclaimer(to b: Bool)
-    func setSiteIndex(to i: Int)
+    func setSiteIndex(to i: Int, siteCount: Int)
     func setTheme(to t: PDTheme)
 }
 

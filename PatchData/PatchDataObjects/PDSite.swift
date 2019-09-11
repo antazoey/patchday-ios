@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class PDSite: PDObject, Bodily, Comparable {
+public class PDSite: PDObject, Bodily, Comparable, Equatable {
 
     private let globalExpirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod

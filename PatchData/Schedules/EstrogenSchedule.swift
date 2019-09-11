@@ -26,15 +26,13 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     public var estrogens: [Hormonal]
     
     public var isEmpty: Bool {
-        get { return estrogens.count == 0 || (hasNoDates && hasNoSites) }
+        return estrogens.count == 0 || (hasNoDates && hasNoSites)
     }
     
     public var next: Hormonal? {
-        get {
-            sort()
-            if estrogens.count > 0 { return estrogens[0] }
-            return nil
-        }
+        sort()
+        if estrogens.count > 0 { return estrogens[0] }
+        return nil
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
