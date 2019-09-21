@@ -12,7 +12,6 @@ import PatchData
 import PDKit
 
 let app = (UIApplication.shared.delegate as! AppDelegate)
-let patchData = app.patchData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,32 +20,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var notifications = PDNotificationCenter()
-    var patchData = PatchDataShell(PatchDataSDK())
+    var sdk = PatchDataSDK()
     var alerts = PDAlertDispatcher()
     var tabs: PDTabViewDelegate?
-    var nav: PDNavigationDelegate?
+    var nav: PDNavigationDelegate = PDNavigationDelegate()
     var theme: PDThemeManager!
-    
-    var sdk: PatchDataSDK {
-        get { return patchData.sdk }
-    }
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Set default Pills only on the first launch.
-        if isFirstLaunch() {
-            patchData.sdk.pillSchedule.reset()
-        }
-        let setSiteIndex = patchData.sdk.defaults.setSiteIndex
-        
-        nav = PDNavigationDelegate()
+        if isFirstLaunch() { sdk.pills.reset() }
         
         // Uncomment to nuke the db
         //patchData.schedule.nuke()
         // Then re-comment, run again, and PatchDay resets to default.
 
-        self.theme = PDThemeManager(theme: patchData.sdk.defaults.theme.value)
+        self.theme = PDThemeManager(theme: sdk.defaults.theme.value)
 
         // Load data for the Today widget.
         sdk.schedule.sharedData.setDataForTodayApp(interval: sdk.defaults.expirationInterval,

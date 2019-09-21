@@ -16,22 +16,26 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         return "Schedule for maintaining sites for estrogen patches or injections."
     }
     
-    public var sites: [Bodily]
+    private var sites: [Bodily]
     var next: Index = 0
-    let correctSiteIndex: (_ newIndex: Int, _ siteCount: Int) -> ()
+    let siteIndexRebounder: PDIndexRebounce
     
     init(deliveryMethod: DeliveryMethod,
          globalExpirationInterval: ExpirationIntervalUD,
-         correctSiteIndex: @escaping (_ newIndex: Int, _ siteCount: Int) -> ()) {
+         siteIndexRebounder: PDIndexRebounce) {
         self.sites = PatchData.createSites(expirationIntervalUD: globalExpirationInterval,
                                       deliveryMethod: deliveryMethod)
-        self.correctSiteIndex = correctSiteIndex
+        self.siteIndexRebounder = siteIndexRebounder
         super.init()
         if sites.count == 0 {
             new(deliveryMethod: deliveryMethod, globalExpirationInterval: globalExpirationInterval)
         }
         sort()
     }
+    
+    public var count: Int { return sites.count }
+    
+    public var get: [Bodily] { return sites }
     
     /// The next site in the site schedule as a suggestion of where to relocate.
     public var suggestedSite: Bodily? {
@@ -58,8 +62,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     /// The next site for scheduling in the site schedule.
     public var nextIndex: Index? {
         if next < 0 {
-            correctSiteIndex(0, sites.count)
-            next = 0
+            next = siteIndexRebounder.rebound(upon: 0, lessThan: sites.count)
         }
         if sites.count <= 0 {
             return nil
@@ -67,9 +70,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         for i in 0..<sites.count {
             // Return site that has no estros
             if sites[i].estrogens.count == 0 {
-                correctSiteIndex(i, sites.count)
-                next = i
-                return i
+                next = siteIndexRebounder.rebound(upon: i, lessThan: sites.count)
             }
         }
         return next
@@ -79,8 +80,8 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     public func insert(deliveryMethod: DeliveryMethod,
                        globalExpirationInterval: ExpirationIntervalUD,
                        completion: (() -> ())? = nil) -> Bodily? {
-        if let site = PDSite.createNew(deliveryMethod: deliveryMethod,
-                                       globalExpirationInterval: globalExpirationInterval) {
+        let i = globalExpirationInterval
+        if let site = PDSite.createNew(deliveryMethod: deliveryMethod, globalExpirationInterval: i) {
             return site
         }
         return nil

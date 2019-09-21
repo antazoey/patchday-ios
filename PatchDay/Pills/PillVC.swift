@@ -23,14 +23,16 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var time2Button: UIButton!
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var takeButton: UIButton!
-    
-    private var notifications = app.notifications
-    private var pillSchedule = patchData.sdk.pillSchedule
-    private var shared = patchData.sdk.pdSharedData
+
+    private var sdk = app.sdk
+    private var notifications: PDNotifying
     
     private var pillIndex: Index?
-    private var pill: MOPill?
-    private var names = PDStrings.PillTypes.defaultPills + PDStrings.PillTypes.extraPills
+    private var pill: Swallowable?
+
+    private var names: [String] {
+        return PDStrings.PillTypes.defaultPills + PDStrings.PillTypes.extraPills
+    }
     
     private var name: String?
     private var nameSelected: String?

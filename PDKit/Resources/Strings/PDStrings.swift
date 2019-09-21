@@ -107,8 +107,7 @@ public class PDStrings: NSObject {
         public static let siteProps = { return ["order", "name"] }()
         public static let pillEntityName = { return "Pill" }()
         public static let pillProps = {
-            return ["name", "timesaday", "time1", "time2",
-                    "notify", "timesTakenToday", "lastTaken"]
+            return ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"]
         }()
     }
     

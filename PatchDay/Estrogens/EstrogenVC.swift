@@ -46,11 +46,7 @@ class EstrogenVC: UIViewController,
     @IBOutlet private weak var autofillButton: UIButton!
     
     // Dependencies
-    private var schedule = patchData.sdk.schedule
-    private var estrogenSchedule = patchData.sdk.estrogenSchedule
-    private var siteSchedule = patchData.sdk.siteSchedule
-    private var defaults = patchData.sdk.defaults
-    private var state = patchData.sdk.state
+    private var schedule: PDScheduling
     private var notifications = app.notifications
     
     // Non-interface
@@ -334,29 +330,22 @@ class EstrogenVC: UIViewController,
     }
     
     private func saveSite() {
-        if siteTextHasChanged {
-            state.siteChanged = true
-            switch (selectedSite, selectSiteTextField.text) {
-            // Attempt saving site via MOSite first
-            case (let site, _) where site != nil :
+        if siteTextHasChanged, let text = selectSiteTextField.text {
+            if let site = selectSite {
+                schedule.setEstrogenSite(at: estrogenScheduleIndex, with: site!)
                 let setter = schedule.setEstrogenDataForToday
                 estrogenSchedule.setSite(of: estrogenScheduleIndex,
                                          with: site!,
                                          setSharedData: setter)
-            // Use backupsite name when there is no site.
-            case (nil, let name) where name != nil :
+            } else {
                 estrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name!)
-            default : break
             }
         }
     }
     
     private func saveDate() {
         if dateTextHasChanged {
-            let setter = schedule.setEstrogenDataForToday
-            estrogenSchedule.setDate(of: estrogenScheduleIndex,
-                                     with: datePicker.date,
-                                     setSharedData: setter)
+            pd.setDate(at: estrogenScheduleIndex, with: datePicker.dat)
         }
     }
     

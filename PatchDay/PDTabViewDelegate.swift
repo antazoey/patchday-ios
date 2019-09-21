@@ -15,46 +15,26 @@ class PDTabViewDelegate: PDTabReflective {
     
     private let tabController: UITabBarController
     private let viewControllers: [UIViewController]
-    private let defaults: PDDefaultManaging
-    private let estrogenSchedule: EstrogenScheduling
-    private let totalDueAnnoyance: TotalDueAnnoying
-    
-    convenience init(tabController: UITabBarController, viewControllers: [UIViewController]) {
-        self.init(tabController: tabController,
-                  viewControllers: viewControllers,
-                  defaults: patchData.sdk.defaults,
-                  estrogenSchedule: patchData.sdk.estrogenSchedule,
-                  totalDueAnnoyance: patchData.sdk.schedule)
-    }
-    
+    private let sdk: PatchDataDelegate
+
     init(tabController: UITabBarController,
          viewControllers: [UIViewController],
-         defaults: PDDefaultManaging,
-         estrogenSchedule: EstrogenScheduling,
-         totalDueAnnoyance: TotalDueAnnoying) {
+         sdk: PatchDataDelegate) {
         self.tabController = tabController
         self.viewControllers = viewControllers
-        self.defaults = defaults
-        self.estrogenSchedule = estrogenSchedule
-        self.totalDueAnnoyance = totalDueAnnoyance
+        self.sdk = sdk
     }
     
-    var estrogenTab: UIViewController {
-        get { return viewControllers[0] }
-    }
+    var estrogenTab: UIViewController { return viewControllers[0] }
     
-    var pillTab: UIViewController {
-        get { return viewControllers[1] }
-    }
+    var pillTab: UIViewController { return viewControllers[1] }
     
-    var siteTab: UIViewController {
-        get { return viewControllers[2] }
-    }
+    var siteTab: UIViewController { return viewControllers[2] }
     
     func reflectExpirationCountAsBadgeValue() {
         if viewControllers.count > 0 {
-            let interval = defaults.expirationInterval
-            let c = estrogenSchedule.totalDue(interval)
+            let interval = sdk.defaults.expirationInterval
+            let c = sdk.estrogens.totalDue(interval)
             let item = estrogenTab.navigationController?.tabBarItem
             item?.badgeValue = (c > 0) ? "\(c)" : nil
         }
@@ -67,9 +47,8 @@ class PDTabViewDelegate: PDTabReflective {
     }
     
     func reflectEstrogen() {
-        let interval = defaults.expirationInterval
-        let deliv = defaults.deliveryMethod.value
-        let c = totalDueAnnoyance.totalDue(interval: interval)
+        let deliv = sdk.defaults.deliveryMethod.value
+        let c = sdk.totalDue
 
         estrogenTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil
         estrogenTab.tabBarItem.title = PDViewControllerTitleStrings.getTitle(for: deliv)

@@ -8,8 +8,8 @@
 
 import Foundation
 
-public protocol EstrogenSiteScheduling {
-    var sites: [Bodily] { get }
+public protocol EstrogenSiteScheduling: PDSchedule, PDSimpleSorting {
+    var get: [Bodily] { get }
     var suggestedSite: Bodily? { get }
     var names: [SiteName] { get }
     var imageIds: [String] { get }
@@ -18,7 +18,6 @@ public protocol EstrogenSiteScheduling {
     func reset(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD)
     func delete(at index: Index)
     func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD)
-    func sort()
     func getSite(at index: Index) -> Bodily?
     func getSite(for name: String) -> Bodily?
     func setName(at index: Index, to name: String)

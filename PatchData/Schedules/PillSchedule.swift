@@ -16,13 +16,17 @@ public class PillSchedule: NSObject, PDPillScheduling {
         return "Singleton for reading, writing, and querying the MOPill array."
     }
     
-    public var pills: [Swallowable]
+    private var pills: [Swallowable]
     
     override init() {
         pills = PatchData.createPills()
         super.init()
         awaken()
     }
+    
+    public var get: [Swallowable] { return pills }
+    
+    public var count: Int { return pills.count }
     
     public var nextDue: Swallowable? {
         if let pills = pills as? [PDPill] {

@@ -11,9 +11,9 @@ import UserNotifications
 import PDKit
 import PatchData
 
-public class PillNotification : PDNotification, PDNotifying {
+public class DuePillNotification : PDNotification, PDNotifying {
     
-    private let pill: MOPill
+    private let pill: Swallowable
     private let dueDate: Date
     
     public var title: String
@@ -21,19 +21,17 @@ public class PillNotification : PDNotification, PDNotifying {
     public static var actionId = { return "takeActionId" }()
     public static var categoryId = { return "pillCategoryId" }()
     
-    init(for pill: MOPill, dueDate: Date, totalDue: Int) {
+    init(for pill: Swallowable, dueDate: Date, totalDue: Int) {
         self.pill = pill
         self.dueDate = dueDate
-        self.title = PDNotificationStrings.takePill + (pill.getName() ?? "")
+        self.title = PDNotificationStrings.takePill + pill.name
         super.init(title: self.title, body: self.body, badge: totalDue)
     }
     
     public func request() {
         let now = Date()
-        super.content.categoryIdentifier = PillNotification.categoryId
+        super.content.categoryIdentifier = DuePillNotification.categoryId
         let interval = self.dueDate.timeIntervalSince(now)
-        if let id = self.pill.getId() {
-            super.request(when: interval, requestId: id.uuidString)
-        }
+        super.request(when: interval, requestId: self.pill.id.uuidString)
     }
 }

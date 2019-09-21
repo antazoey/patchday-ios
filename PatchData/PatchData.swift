@@ -37,29 +37,10 @@ public class PatchData: NSObject {
     }
 
     // MARK: - Internal
-    
-    static func useTestContainer() {
-        container = .test
+
+    static var persistentContainer: NSPersistentContainer {
+        return pdContainer(PDStrings.CoreDataKeys.persistantContainer_key)
     }
-
-    enum PatchDataContainer {
-        case app
-        case test
-    }
-
-    static var persistentContainer: NSPersistentContainer = {
-        typealias Keys = PDStrings.CoreDataKeys
-        let isApp = container == .app
-        let key = isApp ?
-            Keys.persistantContainer_key :
-            Keys.testContainer_key
-        return pdContainer(key)
-    }()
-
-    static var testContainer: NSPersistentContainer = {
-        let key = PDStrings.CoreDataKeys.testContainer_key
-        return pdContainer(key)
-    }()
 
     /// Get the current view context
     static func getContext() -> NSManagedObjectContext {
@@ -112,8 +93,6 @@ public class PatchData: NSObject {
     }
     
     // MARK: - Private
-    
-    private static var container: PatchDataContainer = .app
     
     private static func pdContainer(_ name: String) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: name)

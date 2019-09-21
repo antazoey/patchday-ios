@@ -16,6 +16,8 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
         return "Schedule for reading, writing, and querying the MOEstrogen array."
     }
     
+    private var estrogens: [Hormonal]
+    
     init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
         estrogens = PatchData.createEstrogens(expirationInterval: interval, deliveryMethod: deliveryMethod)
         super.init()
@@ -23,7 +25,9 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
         sort()
     }
     
-    public var estrogens: [Hormonal]
+    public var count: Int { return estrogens.count }
+    
+    public var get: [Hormonal] { return estrogens }
     
     public var isEmpty: Bool {
         return estrogens.count == 0 || (hasNoDates && hasNoSites)
@@ -116,38 +120,22 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Sets the site of the MOEstrogen for the given index.
-    public func setSite(of index: Index, with site: Bodily, setSharedData: (() -> ())?) {
-        if var estro = getEstrogen(at: index) {
-            estro.site = site
-        }
-        if let todaySet = setSharedData {
-            todaySet()
-        }
-        PatchData.save()
+    public func setSite(at index: Index, with site: Bodily) {
+        if var estro = getEstrogen(at: index) { estro.site = site }
     }
     
     /// Sets the date of the MOEstrogen for the given index.
-    public func setDate(of index: Index, with date: Date, setSharedData: (() -> ())?) {
-        if var estro = getEstrogen(at: index) {
-            estro.date = date
-        }
+    public func setDate(at index: Index, with date: Date) {
+        if var estro = getEstrogen(at: index) { estro.date = date }
         sort()
-        if let todaySet = setSharedData {
-            todaySet()
-        }
-        PatchData.save()
     }
     
     /// Sets the date and the site of the MOEstrogen for the given id.
-    public func setEstrogen(for id: UUID, date: Date, site: Bodily, setSharedData: (() -> ())?) {
+    public func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily) {
         if var estro = getEstrogen(for: id) {
             estro.site = site
             estro.date = date
             sort()
-            if let todaySet = setSharedData {
-                todaySet()
-            }
-            PatchData.save()
         }
     }
     

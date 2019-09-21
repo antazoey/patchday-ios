@@ -8,8 +8,8 @@
 
 import Foundation
 
-public protocol PDPillScheduling {
-    var pills: [Swallowable] { get }
+public protocol PDPillScheduling: PDSchedule {
+    var get: [Swallowable] { get }
     var nextDue: Swallowable? { get }
     var totalDue: Int { get }
     func insert(completion: (() -> ())?) -> Swallowable?

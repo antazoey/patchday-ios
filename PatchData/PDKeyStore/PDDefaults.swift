@@ -55,29 +55,21 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         }
     }
     
-    public func setExpirationInterval(to i: ExpirationInterval) {
-        set(&expirationInterval, to: i)
-    }
+    public func setExpirationInterval(to i: ExpirationInterval) { set(&expirationInterval, to: i) }
     
-    public func setNotifications(to b: Bool) {
-        set(&notifications, to: b)
-    }
+    public func setNotifications(to b: Bool) { set(&notifications, to: b) }
     
-    public func setNotificationsMinutesBefore(to i: Int) {
-        set(&notificationsMinutesBefore, to: i)
-    }
+    public func setNotificationsMinutesBefore(to i: Int) { set(&notificationsMinutesBefore, to: i) }
     
-    public func setMentionedDisclaimer(to b: Bool) {
-        set(&mentionedDisclaimer, to: b)
-    }
+    public func setMentionedDisclaimer(to b: Bool) { set(&mentionedDisclaimer, to: b) }
     
-    public func setSiteIndex(to i: Index, siteCount: Int) {
+    public func setSiteIndex(to i: Index, siteCount: Int) -> Int {
         if i < siteCount && i >= 0 {
             set(&siteIndex, to: i)
+            return i
         }
+        return 0
     }
     
-    public func setTheme(to t: PDTheme) {
-        set(&theme, to: t)
-    }
+    public func setTheme(to t: PDTheme) { set(&theme, to: t) }
 }
