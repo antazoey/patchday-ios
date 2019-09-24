@@ -14,17 +14,13 @@ class NewSiteAlert: PDAlert {
     private var appendActionHandler: () -> ()
     
     private var appendSiteAction: UIAlertAction {
-        get {
-            return UIAlertAction(title: PDAlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
-                void in self.appendActionHandler()
-            }
+        return UIAlertAction(title: PDAlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
+            void in self.appendActionHandler()
         }
     }
     
     private var declineAction: UIAlertAction {
-        get {
-            return UIAlertAction(title: PDActionStrings.decline, style: .default)
-        }
+        return UIAlertAction(title: PDActionStrings.decline, style: .default)
     }
     
     init(parent: UIViewController, style: UIAlertController.Style, appendActionHandler: @escaping () -> ()) {

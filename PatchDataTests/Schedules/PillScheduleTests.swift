@@ -8,7 +8,7 @@
 
 import XCTest
 import PDKit
-@testable import PatchData
+@testable 
 
 class PillScheduleTests: XCTestCase {
 
@@ -64,7 +64,7 @@ class PillScheduleTests: XCTestCase {
                                                          lastTaken: nil))
         pillSchedule.delete(at: 0)
         XCTAssertEqual(pillSchedule.count(), 1)
-        XCTAssertNotEqual(pillSchedule.getPill(at: 0)?.getName(), "PILLY PIE")
+        XCTAssertNotEqual(pillSchedule.at(0)?.getName(), "PILLY PIE")
         // Doesn't delete when out of range
         pillSchedule.delete(at: -1)
         XCTAssertEqual(pillSchedule.count(), 1)
@@ -80,21 +80,21 @@ class PillScheduleTests: XCTestCase {
 
     func testGetPillAtIndex() {
         let expected = "PILL 1"
-        if let pill = pillSchedule.getPill(at: 0) {
+        if let pill = pillSchedule.at(0) {
             XCTAssertEqual(pill.getName(), expected)
         } else {
             XCTFail()
         }
-        if let _ = pillSchedule.getPill(at: -1) {
+        if let _ = pillSchedule.at(-1) {
             XCTFail()
         }
-        if let _ = pillSchedule.getPill(at: 1000) {
+        if let _ = pillSchedule.at(1000) {
             XCTFail()
         }
     }
     
     func testGetPillForId() {
-        if let pill = pillSchedule.getPill(at: 0),
+        if let pill = pillSchedule.at(0),
             let id = pill.getId() {
             let actual = pillSchedule.getPill(for: id)
             let expected = pill
@@ -117,7 +117,7 @@ class PillScheduleTests: XCTestCase {
                                         timesTakenToday: 1,
                                         lastTaken: d)
         pillSchedule.setPill(at: 1, with: attributes)
-        if let pill = pillSchedule.getPill(at: 1) {
+        if let pill = pillSchedule.at(1) {
             XCTAssertNotNil(pill.getId())
             XCTAssertEqual(pill.getName(), "NEW PILL")
             XCTAssertEqual(pill.getTimesday(), 2)
@@ -132,7 +132,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testSetPillForPill() {
-        if let pill = pillSchedule.getPill(at: 0) {
+        if let pill = pillSchedule.at(0) {
             let t = Time()
             let d = Date(timeInterval: -10, since: t)
             let attributes = PillAttributes(name: "NEW PILL",
@@ -165,14 +165,14 @@ class PillScheduleTests: XCTestCase {
         }
         wait(for: [e1], timeout: 3)
         // Taking once increased to 1
-        if let pill = pillSchedule.getPill(at: 0) {
+        if let pill = pillSchedule.at(0) {
             XCTAssertEqual(pill.getTimesTakenToday(), 1)
         } else {
             XCTFail()
         }
         // Taking twice increase to 2
         pillSchedule.takePill(at: 0, setPDSharedData: nil)
-        if let pill = pillSchedule.getPill(at: 0) {
+        if let pill = pillSchedule.at(0) {
             XCTAssertEqual(pill.getTimesTakenToday(), 2)
         } else {
             XCTFail()
@@ -185,7 +185,7 @@ class PillScheduleTests: XCTestCase {
         // Won't take or callback
         XCTAssertFalse(called)
         // But can't take more than the pill's timesday
-        if let pill = pillSchedule.getPill(at: 0) {
+        if let pill = pillSchedule.at(0) {
             XCTAssertEqual(pill.getTimesTakenToday(), 2)
         } else {
             XCTFail()
@@ -193,7 +193,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     func testTakePill() {
-        if let pill = pillSchedule.getPill(at: 0) {
+        if let pill = pillSchedule.at(0) {
             let e1 = expectation(description: "Shared data set.")
             pillSchedule.take(pill) {
                 e1.fulfill()
@@ -214,7 +214,7 @@ class PillScheduleTests: XCTestCase {
     
     func testNextDue() {
         let t = Time(timeInterval: 500,
-                     since: pillSchedule.getPill(at: 0)!.getTime1()! as Date)
+                     since: pillSchedule.at(0)!.getTime1()! as Date)
         let last = Time(timeInterval: -15000, since: t)
         let a = PillAttributes(name: "PILL 2",
                                 timesaday: 1,
@@ -225,15 +225,15 @@ class PillScheduleTests: XCTestCase {
                                 lastTaken: last)
         pillSchedule.setPill(at: 1, with: a)
         var nextDue = pillSchedule.nextDue()
-        XCTAssertEqual(pillSchedule.getPill(at: 0)!, nextDue)
+        XCTAssertEqual(pillSchedule.at(0)!, nextDue)
         // After taking, the other pill should be the next.
         pillSchedule.take(setPDSharedData: nil)
         nextDue = pillSchedule.nextDue()
-        XCTAssertEqual(pillSchedule.getPill(at: 1)!, nextDue)
+        XCTAssertEqual(pillSchedule.at(1)!, nextDue)
         // Take again and then first one should be the next
         pillSchedule.take(setPDSharedData: nil)
         nextDue = pillSchedule.nextDue()
-        XCTAssertEqual(pillSchedule.getPill(at: 0)!, nextDue)
+        XCTAssertEqual(pillSchedule.at(0)!, nextDue)
     }
     
     func testTotalDue() {
@@ -242,8 +242,8 @@ class PillScheduleTests: XCTestCase {
         let now = Date()
         let earlier = Date(timeInterval: -1000, since: now)
         let yesterday = Date(timeInterval: -86400, since: earlier)
-        pillSchedule.getPill(at: 0)?.setLastTaken(with: yesterday as NSDate)
-        pillSchedule.getPill(at: 0)?.setTime1(with: earlier as NSDate)
+        pillSchedule.at(0)?.setLastTaken(with: yesterday as NSDate)
+        pillSchedule.at(0)?.setTime1(with: earlier as NSDate)
         XCTAssertEqual(pillSchedule.totalDue(), 1)
         let pill = pillSchedule.insert(completion: nil) as? MOPill
         pill?.setLastTaken(with: yesterday as NSDate)

@@ -15,9 +15,7 @@ class PDAlertDispatcher: NSObject {
         return "Singleton for controllnig PatchDay's alerts."
     }
     
-    private let estrogenSchedule: EstrogenScheduling
-    private let siteSchedule: EstrogenSiteScheduling
-    private let defaults: PDDefaultManaging
+    private let sdk: PatchDataDelegate
     
     private var style: UIAlertController.Style = {
         return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
@@ -32,22 +30,18 @@ class PDAlertDispatcher: NSObject {
     }()
     
     convenience override init() {
-        self.init(estrogenSchedule: patchData.sdk.estrogenSchedule,
-                  siteSchedule: patchData.sdk.siteSchedule,
-                  defaults: patchData.sdk.defaults)
+        self.init(sdk: app.sdk)
     }
     
-    init(estrogenSchedule: EstrogenScheduling, siteSchedule: EstrogenSiteScheduling, defaults: PDDefaultManaging) {
-        self.estrogenSchedule = estrogenSchedule
-        self.siteSchedule = siteSchedule
-        self.defaults = defaults
+    init(sdk: PatchDataDelegate) {
+        self.sdk = sdk
     }
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
     func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
         if let root = rootViewController {
-            let oldQuantity = defaults.quantity.rawValue
-            let oldMethod = defaults.deliveryMethod.value
+            let oldQuantity = sdk.defaults.quantity.rawValue
+            let oldMethod = sdk.defaults.deliveryMethod.value
             DeliveryMethodMutationAlert(parent: root,
                                         style: self.style,
                                         oldDeliveryMethod: oldMethod,
@@ -70,7 +64,7 @@ class PDAlertDispatcher: NSObject {
         if let root = rootViewController {
             let cont: (_ newQuantity: Int) -> () = {
                 (newQuantity) in
-                self.estrogenSchedule.reset(from: newQuantity);
+                self.sdk.estrogens.reset(from: newQuantity);
                 simpleSetQuantity(newQuantity);
                 reset(newQuantity)
             }
@@ -94,9 +88,7 @@ class PDAlertDispatcher: NSObject {
     func presentNewSiteAlert(with name: SiteName, at index: Index, estroVC: EstrogenVC) {
         if let root = rootViewController {
             let handler: () -> () = {
-                () in
-                if var site = self.siteSchedule.insert(completion: nil) as? Bodily {
-                    site.name = name
+                () in self.sdk.insertSite(name: name) {
                     estroVC.sitePicker.reloadAllComponents()
                 }
             }

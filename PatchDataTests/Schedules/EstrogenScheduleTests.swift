@@ -8,7 +8,7 @@
 
 //import XCTest
 //import PDKit
-//@testable import PatchData
+//@testable 
 //
 //class EstrogenScheduleTests: XCTestCase {
 //    
@@ -50,7 +50,7 @@
 //    }
 //    
 //    func testSort() {
-//        if let newEstro = estrogenSchedule.getEstrogen(at: 0) as MOEstrogen? {
+//        if let newEstro = estrogenSchedule.at(0) as MOEstrogen? {
 //            XCTAssertNil(newEstro.getDate())
 //        }
 //        estrogenSchedule.delete(after: -1)
@@ -64,14 +64,14 @@
 //        let middle = estrogenSchedule.insert() as? MOEstrogen
 //        middle?.date = middleDate
 //        estrogenSchedule.sort()
-//        if let estro1 = estrogenSchedule.getEstrogen(at: 0),
-//            let estro2 = estrogenSchedule.getEstrogen(at: 1),
-//            let estro3 = estrogenSchedule.getEstrogen(at: 2) {
+//        if let estro1 = estrogenSchedule.at(0),
+//            let estro2 = estrogenSchedule.at(1),
+//            let estro3 = estrogenSchedule.at(2) {
 //            XCTAssert(estro1 < estro2)
 //            XCTAssert(estro2 < estro3)
 //            estro1.date = youngestDate
 //            estrogenSchedule.sort()
-//            if let estro4 = estrogenSchedule.getEstrogen(at: 0) {
+//            if let estro4 = estrogenSchedule.at(0) {
 //                XCTAssertEqual(estro4.getDate(), middleDate)
 //            } else {
 //                XCTFail()
@@ -125,10 +125,10 @@
 //    }
 //    
 //    func testGetEstrogenAtIndex() {
-//        var actual = estrogenSchedule.getEstrogen(at: 0)
+//        var actual = estrogenSchedule.at(0)
 //        let expected = estrogenSchedule.estrogens[0]
 //        XCTAssertEqual(actual, expected)
-//        actual = estrogenSchedule.getEstrogen(at: -1)
+//        actual = estrogenSchedule.at(-1)
 //        XCTAssertNil(actual)
 //    }
 //    
@@ -146,13 +146,13 @@
 //    }
 //    
 //    func testSetSite() {
-//        if let site = siteSchedule.getSite(at: 3) {
+//        if let site = siteSchedule.at(3) {
 //            let e = expectation(description: "Setter was called.")
 //            estrogenSchedule.setSite(of: 0, with: site) {
 //                e.fulfill()
 //            }
 //            wait(for: [e], timeout: 3)
-//            let actual = estrogenSchedule.getEstrogen(at: 0)?.getSite()
+//            let actual = estrogenSchedule.at(0)?.getSite()
 //            XCTAssertEqual(actual, site)
 //        } else {
 //            XCTFail()
@@ -166,15 +166,15 @@
 //            e.fulfill()
 //        }
 //        wait(for: [e], timeout: 3)
-//        let actual = estrogenSchedule.getEstrogen(at: 0)?.getDate()
+//        let actual = estrogenSchedule.at(0)?.getDate()
 //        XCTAssertEqual(actual, d as NSDate)
 //    }
 //    
 //    func testSetEstrogen() {
 //        let d = Date(timeIntervalSince1970: 234534624) as NSDate
-//        if let estro = estrogenSchedule.getEstrogen(at: 0),
-//            let site = siteSchedule.getSite(at: 3),
-//            let id = estro.getId() {
+//        if let estro = estrogenSchedule.at(0),
+//            let site = siteSchedule.at(3),
+//            let id = estro.id {
 //            let e = expectation(description: "Shared data was set.")
 //            estrogenSchedule.setEstrogen(for: id,
 //                                         date: d,
@@ -182,21 +182,21 @@
 //            wait(for: [e], timeout: 3)
 //            XCTAssertEqual(estro.getDate(), d)
 //            XCTAssertEqual(estro.getSite(), site)
-//            XCTAssertEqual(estro.getId(), id)
+//            XCTAssertEqual(estro.id, id)
 //        } else {
 //            XCTFail()
 //        }
 //    }
 //    
 //    func testSetBackupSiteName() {
-//        if let site = siteSchedule.getSite(at: 0) {
+//        if let site = siteSchedule.at(0) {
 //            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
 //            let expected = site.getName()
 //            siteSchedule.delete(at: 0)
-//            var actual = estrogenSchedule.getEstrogen(at: 0)?.getSiteName()
+//            var actual = estrogenSchedule.at(0)?.getSiteName()
 //            XCTAssertEqual(actual, expected)
 //            estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
-//            actual = estrogenSchedule.getEstrogen(at: 0)?.getSiteName()
+//            actual = estrogenSchedule.at(0)?.getSiteName()
 //            XCTAssertEqual(actual, "SITE NAME")
 //        } else {
 //            XCTFail()
@@ -204,7 +204,7 @@
 //    }
 //    
 //    func testGetIndex() {
-//        if let estro = estrogenSchedule.getEstrogen(at: 0) {
+//        if let estro = estrogenSchedule.at(0) {
 //            let actual = estrogenSchedule.getIndex(for: estro)
 //            XCTAssertEqual(actual, 0)
 //        } else {
@@ -247,7 +247,7 @@
 //    
 //    func testHasNoSites() {
 //        XCTAssert(estrogenSchedule.hasNoSites())
-//        if let site = siteSchedule.getSite(at: 0) {
+//        if let site = siteSchedule.at(0) {
 //            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
 //            XCTAssertFalse(estrogenSchedule.hasNoSites())
 //        } else {
@@ -265,14 +265,14 @@
 //        estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
 //        XCTAssertFalse(estrogenSchedule.isEmpty())
 //        estrogenSchedule.new()
-//        if let site = siteSchedule.getSite(at: 0) {
+//        if let site = siteSchedule.at(0) {
 //            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
 //            XCTAssertFalse(estrogenSchedule.isEmpty())
 //        } else {
 //            XCTFail()
 //        }
 //        estrogenSchedule.new()
-//        if let site = siteSchedule.getSite(at: 0) {
+//        if let site = siteSchedule.at(0) {
 //            estrogenSchedule.setSite(of: 0, with: site, setSharedData: nil)
 //            estrogenSchedule.setDate(of: 0, with: Date(), setSharedData: nil)
 //            XCTAssertFalse(estrogenSchedule.isEmpty())

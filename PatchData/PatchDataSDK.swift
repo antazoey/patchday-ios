@@ -106,6 +106,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         }
     }
     
+    public var deliveryMethodName: String {
+        let deliv = defaults.deliveryMethod.value
+        return PDPickerStrings.getDeliveryMethod(for: deliv)
+    }
+
     public func setQuantity(to newQuantity: Int) {
         let oldQuantity = defaults.quantity.value.rawValue
         defaults.setQuantity(to: newQuantity)
@@ -120,8 +125,8 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         }
     }
     
-    // MARK: - Estrogen Schedule
-    
+    // MARK: - Estrogens
+
     public func setEstrogenSite(at index: Index, with site: Bodily) {
         state.siteChanged = true
         estrogens.setSite(at: index, with: site)
@@ -155,6 +160,17 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         }
     }
     
+    // MARK: - Sites
+    
+    public func insertSite(name: SiteName? = nil, completion: (() -> ())?) {
+        let n = name ?? PDStrings.PlaceholderStrings.new_site
+        if var site = sites.insert(deliveryMethod: defaults.deliveryMethod.value,
+                     globalExpirationInterval: defaults.expirationInterval,
+                     completion: completion) {
+            site.name = n
+        }
+    }
+    
     // MARK: - DataMeter
     
     public func attemptToBroadcastRelevantEstrogenData() {
@@ -166,6 +182,21 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
                                                     nextSuggestedSite: name,
                                                     interval: interval,
                                                     deliveryMethod: deliveryMethod)
+        }
+    }
+    
+    // MARK: - Stateful
+    
+    public func stampQuantity() {
+        state.oldQuantity = defaults.quantity.value.rawValue
+    }
+    
+    public func prepareToSaveSiteImage(for site: Bodily) {
+        state.siteChanged = true
+        for estro in site.estrogens {
+            if let i = estrogens.indexOf(estro) {
+                state.indicesOfChangedDelivery.append(i)
+            }
         }
     }
 

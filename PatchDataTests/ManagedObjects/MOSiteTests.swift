@@ -7,7 +7,7 @@
 ////
 //
 //import XCTest
-//@testable import PatchData
+//@testable 
 //
 //class MOSiteTests: XCTestCase {
 //    
@@ -138,19 +138,19 @@
 //    }
 //    
 //    func testIsOccupied() {
-//        let estro = estrogenSchedule.getEstrogen(at: 0)!
-//        let site = siteSchedule.getSite(at: 0)!
+//        let estro = estrogenSchedule.at(0)!
+//        let site = siteSchedule.at(0)!
 //        XCTAssertFalse(site.isOccupied())
 //        estro.setSite(site)
 //        XCTAssert(site.isOccupied())
-//        let anotherEstro = estrogenSchedule.getEstrogen(at: 1)!
+//        let anotherEstro = estrogenSchedule.at(1)!
 //        anotherEstro.setSite(site)
 //        XCTAssert(site.isOccupied(byAtLeast: 2))
 //        XCTAssertFalse(site.isOccupied(byAtLeast: 3))
 //    }
 //    
 //    func testToString() {
-//        let site = siteSchedule.getSite(at: 0)!
+//        let site = siteSchedule.at(0)!
 //        site.reset()
 //        XCTAssertEqual(site.string(), "0. New Site")
 //        site.setOrder(665)
@@ -159,7 +159,7 @@
 //    }
 //    
 //    func testReset() {
-//        let site = siteSchedule.getSite(at: 0)!
+//        let site = siteSchedule.at(0)!
 //        site.reset()
 //        XCTAssertEqual(site.getOrder(), -1)
 //        XCTAssertNil(site.getName())

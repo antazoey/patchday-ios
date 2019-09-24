@@ -14,11 +14,13 @@ public protocol EstrogenSiteScheduling: PDSchedule, PDSimpleSorting {
     var names: [SiteName] { get }
     var imageIds: [String] { get }
     var nextIndex: Index? { get }
-    func insert(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD, completion: (() -> ())?) -> Bodily?
+    func insert(deliveryMethod: DeliveryMethod,
+                globalExpirationInterval: ExpirationIntervalUD,
+                completion: (() -> ())?) -> Bodily?
     func reset(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD)
     func delete(at index: Index)
     func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD)
-    func getSite(at index: Index) -> Bodily?
+    func at(_ index: Index) -> Bodily?
     func getSite(for name: String) -> Bodily?
     func setName(at index: Index, to name: String)
     func setOrder(at index: Index, to newOrder: Int)

@@ -8,7 +8,7 @@
 
 import XCTest
 import PDKit
-@testable import PatchData
+@testable 
 
 class SiteScheduleTests: XCTestCase {
     private var estrogenSchedule: EstrogenSchedule!
@@ -31,13 +31,13 @@ class SiteScheduleTests: XCTestCase {
         defaults.setDeliveryMethod(to: .Patches)
         // Load estrogens to occupy the sites
         estrogenSchedule.setSite(of: 0,
-                                 with: siteSchedule.getSite(at: 0)!,
+                                 with: siteSchedule.at(0)!,
                                  setSharedData: nil)
         estrogenSchedule.setSite(of: 1,
-                                 with: siteSchedule.getSite(at: 1)!,
+                                 with: siteSchedule.at(1)!,
                                  setSharedData: nil)
         estrogenSchedule.setSite(of: 2,
-                                 with: siteSchedule.getSite(at: 2)!,
+                                 with: siteSchedule.at(2)!,
                                  setSharedData: nil)
     }
 
@@ -52,7 +52,7 @@ class SiteScheduleTests: XCTestCase {
         var i = 0
         for estro in estrogenSchedule.estrogens {
             if let actual = estro.getSite(),
-                let expected = siteSchedule.getSite(at: i) {
+                let expected = siteSchedule.at(i) {
                 i += 1
                 XCTAssertEqual(actual, expected)
             } else {
@@ -94,7 +94,7 @@ class SiteScheduleTests: XCTestCase {
     func testDelete() {
         var old_count = siteSchedule.count();
         let old_site = siteSchedule.sites[0]
-        if let siteNameDeleted = siteSchedule.getSite(at: 0)?.getName() {
+        if let siteNameDeleted = siteSchedule.at(0)?.getName() {
             siteSchedule.delete(at: 0)
             // Assert that the backup site name remains after deleted
             if let n = estrogenSchedule.estrogens[0].getSiteNameBackUp() {
@@ -133,8 +133,8 @@ class SiteScheduleTests: XCTestCase {
     
     func testGetSiteAtIndex() {
         // Returns nil when site index too high
-        XCTAssertNil(siteSchedule.getSite(at: 100))
-        if let actual = siteSchedule.getSite(at: 0) {
+        XCTAssertNil(siteSchedule.at(100))
+        if let actual = siteSchedule.at(0) {
             XCTAssertEqual(actual, siteSchedule.sites[0])
         }
     }
@@ -222,7 +222,7 @@ class SiteScheduleTests: XCTestCase {
         // Returns same index when all sites are filled
         let _ = estrogenSchedule.insert()
         estrogenSchedule.setSite(of: 3,
-                                 with: siteSchedule.getSite(at: 3)!,
+                                 with: siteSchedule.at(3)!,
                                  setSharedData: nil)
         let sitesCount = estrogenSchedule.estrogens.reduce(0) {
             (count: Int, estro: MOEstrogen) -> Int in
@@ -240,7 +240,7 @@ class SiteScheduleTests: XCTestCase {
         actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 0)
         estrogenSchedule.setSite(of: 0,
-                                 with: siteSchedule.getSite(at: 0)!,
+                                 with: siteSchedule.at(0)!,
                                  setSharedData: nil)
         actual = siteSchedule.nextIndex(changeIndex: setter)
         XCTAssertEqual(actual, 0)
@@ -255,11 +255,11 @@ class SiteScheduleTests: XCTestCase {
     func testSuggest() {
         let set = defaults.setSiteIndex
         var actual = siteSchedule.suggest(changeIndex: set)
-        var expected = siteSchedule.getSite(at: 3)!
+        var expected = siteSchedule.at(3)!
         XCTAssertEqual(actual, expected)
         estrogenSchedule.setSite(of: 0, with: expected, setSharedData: nil)
         actual = siteSchedule.suggest(changeIndex: set)
-        expected = siteSchedule.getSite(at: 0)!
+        expected = siteSchedule.at(0)!
         XCTAssertEqual(actual, expected)
     }
     

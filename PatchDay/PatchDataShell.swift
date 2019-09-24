@@ -8,72 +8,9 @@
 //
 //import Foundation
 //import PDKit
-//import PatchData
+//
 //
 //public class PatchDataShell {
-//
-//    typealias S = PDPickerStrings
-//
-//    init(_ sdk: PatchDataSDK) {
-//        self.sdk = sdk
-//    }
-//
-//    let sdk: PatchDataSDK
-//
-//    public func getSuggestedSite(for site: String) -> String {
-//        if let suggestedSite =  {
-//            return suggestedSite.name ?? ""
-//        }
-//        return ""
-//    }
-//
-//    public func getPickerStrings(for key: PDDefault) -> [String] {
-//        switch key {
-//        case PDDefault.DeliveryMethod:
-//            return S.deliveryMethods
-//        case PDDefault.ExpirationInterval:
-//            return S.expirationIntervals
-//        case PDDefault.Quantity:
-//            return S.quantities
-//        case PDDefault.Theme:
-//            return S.themes
-//        default:
-//            return []
-//        }
-//    }
-//
-//    public  var currentDeliveryMethod: String {
-//        get {
-//            let deliv = sdk.defaults.deliveryMethod.value
-//            return PDPickerStrings.getDeliveryMethod(for: deliv)
-//        }
-//    }
-//
-//    public func getDefaultOptionsCount(for def: PDDefault?) -> Int {
-//        if let d = def {
-//            switch (d) {
-//            case .DeliveryMethod:
-//                return S.deliveryMethods.count
-//            case .ExpirationInterval:
-//                return S.expirationIntervals.count
-//            case .Quantity:
-//                return S.quantities.count
-//            case .Theme:
-//                return S.themes.count
-//            default:
-//                return 0
-//            }
-//        }
-//        return 0
-//    }
-//
-//    public func getDeliveryMethod(at i: Index) -> DeliveryMethod {
-//        if i < S.deliveryMethods.count && i >= 0 {
-//            let choice = S.deliveryMethods[i]
-//            return S.getDeliveryMethod(for: choice)
-//        }
-//        return .Patches
-//    }
 //
 //    public func setDeliveryMethodIfSafe(to method: DeliveryMethod) -> Bool {
 //        if sdk.estrogenSchedule.isEmpty() &&

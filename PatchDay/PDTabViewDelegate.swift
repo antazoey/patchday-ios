@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import PDKit
-import PatchData
 
 class PDTabViewDelegate: PDTabReflective {
     
@@ -47,7 +46,7 @@ class PDTabViewDelegate: PDTabReflective {
     }
     
     func reflectEstrogen() {
-        let deliv = sdk.defaults.deliveryMethod.value
+        let deliv = sdk.deliveryMethod
         let c = sdk.totalDue
 
         estrogenTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil

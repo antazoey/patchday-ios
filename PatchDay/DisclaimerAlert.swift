@@ -12,22 +12,18 @@ import PDKit
 class DisclaimerAlert: PDAlert {
     
     private var dismissAction: UIAlertAction {
-        get {
-            return UIAlertAction(title: PDActionStrings.dismiss, style: UIAlertAction.Style.cancel)
-        }
+        return UIAlertAction(title: PDActionStrings.dismiss, style: UIAlertAction.Style.cancel)
     }
     
     private var goToUrlAction: UIAlertAction {
-        get {
-            return UIAlertAction(title: PDAlertStrings.disclaimerAlertStrings.supportPageActionTitle,
-                                 style: .default) {
-                void in
-                if let url = URL(string: "http://www.patchdayhrt.com") {
-                    if #available(iOS 10.0, *) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    } else {
-                        UIApplication.shared.openURL(url)
-                    }
+        return UIAlertAction(title: PDAlertStrings.disclaimerAlertStrings.supportPageActionTitle,
+                             style: .default) {
+            void in
+            if let url = URL(string: "http://www.patchdayhrt.com") {
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
                 }
             }
         }

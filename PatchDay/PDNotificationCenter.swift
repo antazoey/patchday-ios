@@ -9,29 +9,22 @@
 import UIKit
 import UserNotifications
 import PDKit
-//import PatchData
+//
 
 class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     
     override var description: String {
         return "Singleton for handling user notifications."
     }
-
-    private var estrogenSchedule: EstrogenScheduling
-    private var siteSchedule: EstrogenSiteScheduling
-    private var pillSchedule: PDPillScheduling
-    private var defaults: PDDefaultManaging
+    
+    private let sdk: PatchDataDelegate
 
     var currentEstrogenIndex = 0
     var currentPillIndex = 0
     var sendingNotifications = true
     
-    init(estrogenSchedule: EstrogenScheduling,
-         siteSchedule: EstrogenSiteScheduling,
-         pillSchedule: PDPillScheduling,
-         defaults: PDDefaultManaging) {
-        self.estrogenSchedule = estrogenSchedule
-        self.defaults = defaults
+    init(sdk: PatchDataDelegate) {
+        self.sdk = sdk
         super.init()
     }
     
@@ -45,21 +38,17 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
         }
         center.setNotificationCategories(getNotificationCategories())
         center.delegate = self
-        self.init(estrogenSchedule: patchData.sdk.estrogenSchedule,
-                  siteSchedule: patchData.sdk.siteSchedule,
-                  pillSchedule: patchData.sdk.pillSchedule,
-                  defaults: patchData.sdk.defaults)
+        self.init(sdk: app.sdk)
     }
     
     /// Handles responses received from interacting with notifications.
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let set = defaults.setSiteIndex
         switch response.actionIdentifier {
         case EstrogenNotification.actionId :
             if let id = UUID(uuidString: response.notification.request.identifier),
-            let suggestedsite = patchData.sdk.siteSchedule.suggest(changeIndex: set) {
+                let suggestedsite = sdk.suggestedSite {
                 let now = Date() as NSDate
                 let setter = patchData.sdk.schedule.setEstrogenDataForToday
                 patchData.sdk.estrogenSchedule.setEstrogen(for: id, date: now,
@@ -81,10 +70,10 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
 
     /// Cancels the notification at the given index.
     func cancelEstrogenNotification(at index: Index) {
-        if let estro = patchData.estrogenSchedule.getEstrogen(at: index),
-            let idStr = estro.getId()?.uuidString {
-            let center = UNUserNotificationCenter.current()
-            center.removePendingNotificationRequests(withIdentifiers: [idStr])
+        if let estro = sdk.estrogens.at(index),
+            let center = UNUserNotificationCenter.current() {
+            let id = estro.id.uuidString
+            center.removePendingNotificationRequests(withIdentifiers: [id])
         }
     }
     
@@ -92,10 +81,7 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     func cancelEstrogenNotifications(from start: Index, to end: Index) {
         var ids: [String] = []
         for i in start...end {
-            if let estro = patchData.estrogenSchedule.getEstrogen(at: i),
-                let id = estro.getId() {
-                ids.append(id.uuidString)
-            }
+            appendEstrogenIdToList(at: i, lst: &ids)
         }
         if ids.count > 0 {
             let center = UNUserNotificationCenter.current()
@@ -103,26 +89,31 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
+    private func appendEstrogenIdToList(at i: Index, inout lst: [String]) {
+        if let estro = sdk.estrogens.at(i) {
+            let id = estro.id.uuidString
+            lst.append(id)
+        }
+    }
+    
     /// Cancels all the estrogen notifications.
     func cancelEstrogenNotifications() {
-        let end = patchData.defaults.quantity.value.rawValue - 1
+        let end = sdk.defaults.quantity.value.rawValue - 1
         cancelEstrogenNotifications(from: 0, to: end)
     }
     
     /// Cancels a pill notification.
-    func cancelPillNotification(_ pill: MOPill) {
+    func cancelPillNotification(_ pill: Swallowable) {
         let center = UNUserNotificationCenter.current()
-        if let id = pill.getId() {
-            let idStr = id.uuidString
-            center.removePendingNotificationRequests(withIdentifiers: [idStr])
-        }
+        let id = pill.id.uuidString
+        center.removePendingNotificationRequests(withIdentifiers: [id])
     }
 
     // MARK: - notifications
     
     /// Request an Estrogen notification.
     func requestEstrogenExpiredNotification(for estrogen: MOEstrogen) {
-        let deliv = patchData.defaults.deliveryMethod.value
+        let deliv = sdk.deliveryMethod
         let interval = patchData.defaults.expirationInterval
         let notify = patchData.defaults.notifications.value
         let notifyMinBefore = Double(patchData.defaults.notificationsMinutesBefore.value)
@@ -150,7 +141,7 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     
     /// Request a pill notification from index.
     func requestPillNotification(forPillAt index: Index) {
-        if let pill = patchData.pillSchedule.getPill(at: index) {
+        if let pill = patchData.pillSchedule.at(index) {
             requestPillNotification(pill)
         }
     }
@@ -167,11 +158,11 @@ class PDNotificationCenter: NSObject, UNUserNotificationCenterDelegate {
     
     /// Resends all the estrogen notifications between the given indices.
     func resendEstrogenNotifications(begin: Index = 0, end: Index = -1) {
-        let e = end >= 0 ? end : patchData.estrogenSchedule.count() - 1
+        let e = end >= 0 ? end : sdk.estrogens.count() - 1
         if e < begin { return }
         for i in begin...e {
-            if let estro = patchData.estrogenSchedule.getEstrogen(at: i),
-                let idStr = estro.getId()?.uuidString {
+            if let estro = sdk.estrogens.at(i),
+                let idStr = estro.id?.uuidString {
                 let center = UNUserNotificationCenter.current()
                 center.removePendingNotificationRequests(withIdentifiers: [idStr])
                 requestEstrogenExpiredNotification(for: estro)

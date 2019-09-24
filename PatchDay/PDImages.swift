@@ -8,7 +8,7 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 public class PDImages: NSObject {
     

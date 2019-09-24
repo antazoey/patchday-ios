@@ -8,7 +8,7 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 class SiteCell: UITableViewCell {
     
@@ -25,7 +25,7 @@ class SiteCell: UITableViewCell {
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
         if index >= 0 && index < siteCount,
-            let site = siteSchedule.getSite(at: index) {
+            let site = siteSchedule.at(index) {
             orderLabel.text = "\(index + 1)."
             orderLabel.textColor = app.theme.textColor
             arrowLabel.textColor = app.theme.textColor

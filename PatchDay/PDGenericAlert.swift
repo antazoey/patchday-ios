@@ -17,6 +17,8 @@ class PDGenericAlert: PDAlert {
     }
     
     override func present() {
-        super.present(actions: [UIAlertAction(title: PDActionStrings.dismiss, style: UIAlertAction.Style.cancel, handler: nil)])
+        super.present(actions: [UIAlertAction(title: PDActionStrings.dismiss,
+                                              style: UIAlertAction.Style.cancel,
+                                              handler: nil)])
     }
 }

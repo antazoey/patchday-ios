@@ -71,6 +71,7 @@ public class PillSchedule: NSObject, PDPillScheduling {
     
     /// Generates a generic list of MOPills when there are none in store.
     public func new() {
+        deleteAll()
         let names = PDStrings.PillTypes.defaultPills
         pills = []
         for i in 0..<names.count {
@@ -81,19 +82,11 @@ public class PillSchedule: NSObject, PDPillScheduling {
         }
         PatchData.save()
     }
-    
-    /// Sets the pills and map to a generic list of MOPills.
-    public func new(completion: (() -> ())? = nil) {
-        new()
-        if let comp = completion {
-            comp()
-        }
-    }
 
     // MARK: - Public
 
     /// Returns the MOPill for the given index.
-    public func getPill(at index: Index) -> Swallowable? {
+    public func at(_ index: Index) -> Swallowable? {
         if index >= 0 && index < pills.count {
             return pills[index]
         }
@@ -112,7 +105,7 @@ public class PillSchedule: NSObject, PDPillScheduling {
     
     /// Sets a given MOPill with the given PillAttributes.
     public func setPill(at index: Index, with attributes: PillAttributes) {
-        if let pill = getPill(at: index) {
+        if let pill = at(index) {
             setPill(for: pill, with: attributes)
         }
     }
@@ -126,7 +119,7 @@ public class PillSchedule: NSObject, PDPillScheduling {
     /** Sets the pill's last date-taken at the given index to now,
     and increments how many times it was taken today. */
     public func swallowPill(at index: Index, pushSharedData: (() -> ())?) {
-        if let pill = getPill(at: index) {
+        if let pill = at(index) {
             swallow(pill, pushSharedData: pushSharedData)
         }
     }
@@ -159,5 +152,10 @@ public class PillSchedule: NSObject, PDPillScheduling {
             pill.awaken()
         }
         PatchData.save()
+    }
+    
+    private func deleteAll() {
+        for pill in pills { pill.delete() }
+        pills = []
     }
 }

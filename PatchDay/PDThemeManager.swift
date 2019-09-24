@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import PDKit
-import PatchData
+
 
 class PDThemeManager: NSObject {
     

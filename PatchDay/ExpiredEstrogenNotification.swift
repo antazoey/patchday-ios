@@ -9,7 +9,6 @@
 import Foundation
 import UserNotifications
 import PDKit
-import PatchData
 
 public class ExpiredEstrogenNotification : PDNotification, PDNotifying {
     

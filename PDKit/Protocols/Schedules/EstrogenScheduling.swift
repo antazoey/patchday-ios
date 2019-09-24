@@ -17,7 +17,7 @@ public protocol EstrogenScheduling: PDSchedule, PDSimpleSorting {
     func reset(from start: Index)
     func new(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD)
     func delete(after i: Index)
-    func getEstrogen(at index: Index) -> Hormonal?
+    func at(_ index: Index) -> Hormonal?
     func getEstrogen(for id: UUID) -> Hormonal?
     func setSite(at index: Index, with site: Bodily)
     func setDate(at index: Index, with date: Date)

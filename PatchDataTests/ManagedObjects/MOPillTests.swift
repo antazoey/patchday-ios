@@ -8,7 +8,7 @@
 
 import XCTest
 import PDKit
-@testable import PatchData
+@testable 
 
 class MOPillTests: XCTestCase {
     

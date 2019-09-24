@@ -8,11 +8,11 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 class PillCell: UITableViewCell {
     
-    private let pillSchedule = patchData.sdk.pillSchedule
+    private let pills = app.sdk.pills
     public var index: Index = -1
 
     @IBOutlet weak var nameLabel: UILabel!
@@ -24,8 +24,8 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var imageViewView: UIView!
     
     public func load() {
-        if let pill = pillSchedule.getPill(at: index) {
-            nameLabel.text = pill.getName()
+        if let pill = pills.at(index) {
+            nameLabel.text = pill.name
             loadStateImage(from: pill)
             stateImageButton.type = .pills
             loadLastTakenText(from: pill)
@@ -33,7 +33,7 @@ class PillCell: UITableViewCell {
             takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
             stateImageButton.restorationIdentifier = "i \(index)"
             takeButton.restorationIdentifier = "t \(index)"
-            takeButton.isEnabled = (pill.isDone()) ? false : true
+            takeButton.isEnabled = (pill.isDone) ? false : true
             enableOrDisableTake()
             setBackground()
             setBackgroundSelected()
@@ -47,37 +47,29 @@ class PillCell: UITableViewCell {
         lastTakenLabel.text = PDDateHelper.format(date: Date(), useWords: true)
     }
     
-    public func loadDueDateText(from pill: MOPill) {
-        if let dueDate = pill.due() {
-            nextDueDate.text = PDDateHelper.format(date: dueDate, useWords: true)
-        }
+    public func loadDueDateText(from pill: Swallowable) {
+        nextDueDate.text = PDDateHelper.format(date: pill.due, useWords: true)
     }
     
-    public func loadLastTakenText(from pill: MOPill) {
-        if let lastTaken = pill.getLastTaken() {
+    public func loadLastTakenText(from pill: Swallowable) {
+        if let lastTaken = pill.lastTaken {
             lastTakenLabel.text = PDDateHelper.format(date: lastTaken as Date, useWords: true)
         } else {
             lastTakenLabel.text = PDStrings.PlaceholderStrings.dotdotdot
         }
     }
     
-    public func loadStateImage(from pill: MOPill) {
+    public func loadStateImage(from pill: Swallowable) {
         stateImage.image = PDImages.pill
-        if pill.isDone() {
-            stateImage.tintColor = UIColor.lightGray
-        } else {
-            stateImage.tintColor = UIColor.blue
-        }
+        stateImage.tintColor = pill.isDone ? UIColor.lightGray : UIColor.blue
     }
     
     public func enableOrDisableTake() {
         if stateImage.tintColor == UIColor.lightGray {
-            // Disable
             takeButton.setTitle(PDActionStrings.taken, for: .normal)
             takeButton.isEnabled = false
             stateImageButton.isEnabled = false
         } else {
-            // Enable
             takeButton.setTitle(PDActionStrings.take, for: .normal)
             takeButton.isEnabled = true
             stateImageButton.isEnabled = true
@@ -98,8 +90,8 @@ class PillCell: UITableViewCell {
         selectedBackgroundView = backgroundView
     }
     
-    private func setImageBadge(using pill: MOPill) {
-        stateImageButton.badgeValue = (pill.isExpired()) ? "!" : nil
+    private func setImageBadge(using pill: Swallowable) {
+        stateImageButton.badgeValue = (pill.isDue) ? "!" : nil
     }
     
     private func applyTheme() {

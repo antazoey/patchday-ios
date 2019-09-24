@@ -8,7 +8,7 @@
 
 import UIKit
 import UserNotifications
-import PatchData
+
 import PDKit
 
 let app = (UIApplication.shared.delegate as! AppDelegate)
@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     var notifications = PDNotificationCenter()
-    var sdk = PatchDataSDK()
+    var sdk: PatchDataDelegate = PatchDataSDK()
     var alerts = PDAlertDispatcher()
     var tabs: PDTabViewDelegate?
     var nav: PDNavigationDelegate = PDNavigationDelegate()
@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Set default Pills only on the first launch.
-        if isFirstLaunch() { sdk.pills.reset() }
+        if isFirstLaunch() { sdk.pills.new() }
         
         // Uncomment to nuke the db
         //patchData.schedule.nuke()
@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.theme = PDThemeManager(theme: sdk.defaults.theme.value)
 
         // Load data for the Today widget.
+        sdk.attemptToBroadcastRelevantEstrogenData()
         sdk.schedule.sharedData.setDataForTodayApp(interval: sdk.defaults.expirationInterval,
                                                    index: sdk.defaults.siteIndex.value,
                                                    deliveryMethod: sdk.defaults.deliveryMethod,

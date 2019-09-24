@@ -16,6 +16,14 @@ public class PDPickerStrings {
                 NSLocalizedString("Injections", tableName: nil, comment: comment)]
     }()
     
+    public static func getDeliveryMethod(at i: Index) -> DeliveryMethod {
+        if i < deliveryMethods.count && i >= 0 {
+            let choice = deliveryMethods[i]
+            return getDeliveryMethod(for: choice)
+        }
+        return .Patches
+    }
+    
     public static func getDeliveryMethod(for method: DeliveryMethod) -> String {
         switch method {
         case .Patches:
@@ -31,6 +39,21 @@ public class PDPickerStrings {
             return .Injections
         default:
             return .Patches
+        }
+    }
+    
+    public static func getStrings(for key: PDDefault) -> [String] {
+        switch key {
+        case PDDefault.DeliveryMethod:
+            return deliveryMethods
+        case PDDefault.ExpirationInterval:
+            return expirationIntervals
+        case PDDefault.Quantity:
+            return quantities
+        case PDDefault.Theme:
+            return themes
+        default:
+            return []
         }
     }
     
@@ -71,6 +94,24 @@ public class PDPickerStrings {
         case .Injections:
             return quantities[0]
         }
+    }
+    
+    public static func getCount(for def: PDDefault?) -> Int {
+        if let d = def {
+            switch (d) {
+            case .DeliveryMethod:
+                return deliveryMethods.count
+            case .ExpirationInterval:
+                return expirationIntervals.count
+            case .Quantity:
+                return quantities.count
+            case .Theme:
+                return themes.count
+            default:
+                return 0
+            }
+        }
+        return 0
     }
     
     public static let quantities: [String] = {

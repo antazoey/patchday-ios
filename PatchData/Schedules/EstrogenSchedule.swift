@@ -106,7 +106,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Returns the MOEstrogen for the given index
-    public func getEstrogen(at index: Index) -> Hormonal? {
+    public func at(_ index: Index) -> Hormonal? {
         switch index {
             case 0..<estrogens.count :
                 return estrogens[index]
@@ -121,12 +121,12 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     
     /// Sets the site of the MOEstrogen for the given index.
     public func setSite(at index: Index, with site: Bodily) {
-        if var estro = getEstrogen(at: index) { estro.site = site }
+        if var estro = at(index) { estro.site = site }
     }
     
     /// Sets the date of the MOEstrogen for the given index.
     public func setDate(at index: Index, with date: Date) {
-        if var estro = getEstrogen(at: index) { estro.date = date }
+        if var estro = at(index) { estro.date = date }
         sort()
     }
     
@@ -141,7 +141,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
     public func setBackUpSiteName(of index: Index, with name: String) {
-        if var estro = getEstrogen(at: index) {
+        if var estro = at(index) {
             estro.siteNameBackUp = name
             PatchData.save()
         }

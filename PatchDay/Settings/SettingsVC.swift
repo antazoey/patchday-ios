@@ -8,7 +8,7 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 typealias UITimePicker = UIDatePicker
 
@@ -24,9 +24,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // Dependencies
-    private let pdShell = patchData
-    private let defaults = patchData.sdk.defaults
-    private let state = patchData.sdk.state
+    private let sdk = app.sdk
     private let notifications = app.notifications
     private let alerts = app.alerts
     
@@ -91,7 +89,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        state.oldQuantity = defaults.quantity.value.rawValue
+        sdk.stampQuantity()
         applyTheme()
     }
     
@@ -101,7 +99,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         notifications.cancelEstrogenNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
-        defaults.setNotificationsMinutesBefore(to: v)
+        sdk.defaults.setNotificationsMinutesBefore(to: v)
         notifications.resendEstrogenNotifications()
     }
     
@@ -118,7 +116,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func notificationsSwitched(_ sender: Any) {
         let n = notificationsSwitch.isOn
         n ? enableNotificationButtons() : disableNotificationButtons()
-        defaults.setNotifications(to: n)
+        sdk.defaults.setNotifications(to: n)
     }
 
     // MARK: - Picker Functions
@@ -128,13 +126,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pdShell.getDefaultOptionsCount(for: selectedDefault)
+        return PDPickerStrings.getCount(for: selectedDefault)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title: String? = nil
         if let key = selectedDefault {
-            let data = pdShell.getPickerStrings(for: key)
+            let data = PDPickerStrings.getStrings(for: key)
             if row < data.count && row >= 0 {
                 title = data[row]
             }
@@ -167,7 +165,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      // key is either "interval" , "count" , "notifications" */
     private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
-        let selections = pdShell.getPickerStrings(for: key)
+        let selections = PDPickerStrings.getPickerStrings(for: key)
         let choice = sender.titleLabel?.text
         let start: Int = { () in
             if let c = choice, let i = selections.firstIndex(of: c) {
@@ -344,24 +342,23 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func setButtonsFromDeliveryMethodChange(choice: DeliveryMethod) {
-        let quantityTitle = PDPickerStrings.getDeliveryMethod(for: choice)
-        switch choice {
-        case .Patches:
-            quantityButton.setTitle(quantityTitle, for: .disabled)
-            quantityButton.setTitle(quantityTitle, for: .normal)
-            quantityButton.isEnabled = true
-            quantityArrowButton.isEnabled = true
-        case .Injections:
-            quantityButton.setTitle(quantityTitle, for: .disabled)
-            quantityButton.setTitle(quantityTitle, for: .normal)
-            quantityButton.isEnabled = false
-            quantityArrowButton.isEnabled = false
-        }
-    }
-    
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod) {
-        alerts.presentDeliveryMethodMutationAlert(newMethod: choice, decline: <#T##((Int) -> ())##((Int) -> ())##(Int) -> ()#>)
+        alerts.presentDeliveryMethodMutationAlert(newMethod: choice) {
+            void in
+            let quantityTitle = PDPickerStrings.getDeliveryMethod(for: choice)
+            switch choice {
+            case .Patches:
+                self.quantityButton.setTitle(quantityTitle, for: .disabled)
+                self.quantityButton.setTitle(quantityTitle, for: .normal)
+                self.quantityButton.isEnabled = true
+                self.quantityArrowButton.isEnabled = true
+            case .Injections:
+                self.quantityButton.setTitle(quantityTitle, for: .disabled)
+                self.quantityButton.setTitle(quantityTitle, for: .normal)
+                self.quantityButton.isEnabled = false
+                self.quantityArrowButton.isEnabled = false
+            }
+        }
     }
     
     private func makeResetClosure(oldCount: Int) -> ((Int) -> ()) {
@@ -399,18 +396,18 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     private func loadDeliveryMethod() {
-        deliveryMethodButton.setTitle(pdShell.currentDeliveryMethod, for: .normal)
+        deliveryMethodButton.setTitle(sdk.deliveryMethodName, for: .normal)
     }
     
     private func loadExpirationInterval() {
-        let interval = defaults.expirationInterval.humanPresentableValue
+        let interval = sdk.defaults.expirationInterval.humanPresentableValue
         expirationIntervalButton.setTitle(interval, for: .normal)
     }
     
     private func loadQuantity() {
-        let q = defaults.quantity.value.rawValue
+        let q = sdk.defaults.quantity.value.rawValue
         quantityButton.setTitle("\(q)", for: .normal)
-        if defaults.deliveryMethod.value != .Patches {
+        if sdk.deliveryMethod != .Patches {
             quantityButton.isEnabled = false
             quantityArrowButton.isEnabled = false
             if q != 1 {

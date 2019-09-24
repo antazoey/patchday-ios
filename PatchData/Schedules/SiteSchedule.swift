@@ -93,7 +93,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         if isDefault(deliveryMethod: deliveryMethod) {
             return
         }
-        var resetNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
+        let resetNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
         let oldCount = sites.count
         let newcount = resetNames.count
         for i in 0..<newcount {
@@ -159,7 +159,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     // MARK: - Other Public
 
     /// Returns the site at the given index.
-    public func getSite(at index: Index) -> Bodily? {
+    public func at(_ index: Index) -> Bodily? {
         if index >= 0 && index < sites.count {
             return sites[index]
         }

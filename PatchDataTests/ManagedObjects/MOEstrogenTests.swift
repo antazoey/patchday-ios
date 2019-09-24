@@ -8,7 +8,7 @@
 
 import XCTest
 import PDKit
-@testable import PatchData
+@testable 
 
 class MOEstrogenTests: XCTestCase {
     
@@ -125,7 +125,7 @@ class MOEstrogenTests: XCTestCase {
     func testSetId() {
         let estro = estrogenSchedule.insert() as! MOEstrogen
         let id = estro.setId()
-        XCTAssertEqual(estro.getId(), id)
+        XCTAssertEqual(estro.id, id)
     }
     
     func testSetBackupSiteName() {
@@ -159,7 +159,7 @@ class MOEstrogenTests: XCTestCase {
         estro.setSiteBackup(to: "Booty")
         estro.stamp()
         estro.reset()
-        XCTAssertNil(estro.getId())
+        XCTAssertNil(estro.id)
         XCTAssertNil(estro.getDate())
         XCTAssertNil(estro.getSite())
         XCTAssertNil(estro.getSiteNameBackUp())

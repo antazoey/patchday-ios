@@ -8,14 +8,14 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 class EstrogenVC: UIViewController,
                   UIPickerViewDelegate,
                   UIPickerViewDataSource,
                   UITextFieldDelegate {
     
-    private var selectedSite: MOSite?
+    private var selectedSite: Bodily?
     
     //MARK: - Main
     
@@ -46,12 +46,12 @@ class EstrogenVC: UIViewController,
     @IBOutlet private weak var autofillButton: UIButton!
     
     // Dependencies
-    private var schedule: PDScheduling
+    private var sdk = app.sdk
     private var notifications = app.notifications
     
     // Non-interface
     var estrogenScheduleIndex = -1
-    var estrogen: MOEstrogen!
+    var estrogen: Hormonal!
     var site: String = ""
     var datePlaced: Date = Date()
     var dateSelected: Date?
@@ -63,7 +63,7 @@ class EstrogenVC: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = estrogenSchedule.getEstrogen(at: estrogenScheduleIndex)
+        estrogen = sdk.estrogens.at(estrogenScheduleIndex)
         loadTitle()
         selectSiteTextField.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -103,14 +103,14 @@ class EstrogenVC: UIViewController,
        4.) Segue back to the EstrogensVC
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
-        let interval = defaults.expirationInterval
+        let interval = sdk.defaults.expirationInterval
         if let estro = estrogen {
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
             saveData()    // Save
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-            estrogenSchedule.sort()
+            sdk.estrogens.sort()
             // Save effects
             state.wereEstrogenChanges = true
             if let i = estrogenSchedule.getIndex(for: estro) {
@@ -248,7 +248,7 @@ class EstrogenVC: UIViewController,
                              inComponent component: Int) {
         let names = siteSchedule.getNames()
         if row < names.count && row >= 0 {
-            selectedSite = siteSchedule.getSite(at: row)
+            selectedSite = siteSchedule.at(row)
             let name = siteSchedule.getNames()[row]
             selectSiteTextField.text = name
             closeSitePicker()
@@ -328,8 +328,18 @@ class EstrogenVC: UIViewController,
     private func needsToSave() -> Bool {
         return siteTextHasChanged || dateTextHasChanged
     }
-    
-    private func saveSite() {
+
+    /// Saves any changed attributes.
+    private func saveData() {
+        
+        // TODO:
+        sdk.save
+        
+        
+        
+        
+        
+        // site
         if siteTextHasChanged, let text = selectSiteTextField.text {
             if let site = selectSite {
                 schedule.setEstrogenSite(at: estrogenScheduleIndex, with: site!)
@@ -341,18 +351,11 @@ class EstrogenVC: UIViewController,
                 estrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name!)
             }
         }
-    }
-    
-    private func saveDate() {
+        
+        // date
         if dateTextHasChanged {
-            pd.setDate(at: estrogenScheduleIndex, with: datePicker.dat)
+            sdk.estrogens.setDate(at: estrogenScheduleIndex, with: datePicker.date)
         }
-    }
-    
-    /// Saves any changed attributes.
-    private func saveData() {
-        saveSite()
-        saveDate()
         // For EstrogensVC animation.
         if !dateTextHasChanged {
             state.onlySiteChanged = true
@@ -421,7 +424,7 @@ class EstrogenVC: UIViewController,
         var exp = ""
         typealias Strings = PDStrings.ColonedStrings
         let interval = defaults.expirationInterval
-        if let estro = estrogenSchedule.getEstrogen(at: estrogenScheduleIndex),
+        if let estro = estrogenSchedule.at(estrogenScheduleIndex),
             estro.getDate() != nil {
             switch defaults.deliveryMethod.value {
             case .Patches :

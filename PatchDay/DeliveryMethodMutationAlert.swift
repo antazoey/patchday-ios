@@ -8,7 +8,6 @@
 
 import UIKit
 import PDKit
-import PatchData
 
 class DeliveryMethodMutationAlert: PDAlert {
     
@@ -21,20 +20,16 @@ class DeliveryMethodMutationAlert: PDAlert {
     private let decline: ((Int) -> ())
     
     private var continueAction: UIAlertAction {
-        get {
-            return UIAlertAction(title: PDActionStrings.cont, style: .destructive) {
-                void in
-                self.sdk.deliveryMethod = self.newDeliveryMethod
-                self.tabs?.reflectEstrogen()
-            }
+        return UIAlertAction(title: PDActionStrings.cont, style: .destructive) {
+            void in
+            self.sdk.deliveryMethod = self.newDeliveryMethod
+            self.tabs?.reflectEstrogen()
         }
     }
     
     private var declineAction: UIAlertAction {
-        get {
-            return UIAlertAction(title: PDActionStrings.decline, style: .cancel) {
-                void in self.decline(self.oldQuantity)
-            }
+        return UIAlertAction(title: PDActionStrings.decline, style: .cancel) {
+            void in self.decline(self.oldQuantity)
         }
     }
     
@@ -56,7 +51,7 @@ class DeliveryMethodMutationAlert: PDAlert {
     
     init(parent: UIViewController,
          style: UIAlertController.Style,
-         sdk: inout PatchDataDelegate,
+         sdk: PatchDataDelegate,
          tabs: PDTabReflective?,
          oldDeliveryMethod: DeliveryMethod,
          newDeliveryMethod: DeliveryMethod,

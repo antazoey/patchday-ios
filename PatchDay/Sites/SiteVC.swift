@@ -260,7 +260,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
 
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
-            } else if let site = siteSchedule.getSite(at: siteScheduleIndex),
+            } else if let site = siteSchedule.at(siteScheduleIndex),
                 let imgId = site.imageIdentifier,
                 let i = sitesWithImages.firstIndex(of: imgId) {
 
@@ -279,7 +279,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func loadImagePickeR() {
         let deliv = defaults.deliveryMethod.value
-        if let site = siteSchedule.getSite(at: siteScheduleIndex) {
+        if let site = siteSchedule.at(siteScheduleIndex) {
             imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
                                                           and: siteImage,
                                                           saveButton: navigationItem.rightBarButtonItem!,

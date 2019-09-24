@@ -8,52 +8,44 @@
 
 import UIKit
 import PDKit
-import PatchData
 
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    private let estrogenSchedule: EstrogenScheduling
-    private let defaults: PDDefaultManaging
-    private var state: PDStateManaging
-    
+
+    private var sdk: PatchDataDelegate
+
     public var images: [UIImage]
     public var picker: UIPickerView
     public var imageView: UIImageView
     public var saveButton: UIBarButtonItem
-    public var selectedSite: MOSite
+    public var selectedSite: Bodily
     public var selectedImage: UIImage?
     
     convenience init(with picker: UIPickerView,
                      and imageView: UIImageView,
                      saveButton: UIBarButtonItem,
-                     selectedSite: MOSite,
+                     selectedSite: Bodily,
                      deliveryMethod: DeliveryMethod) {
         self.init(with: picker,
                   and: imageView,
                   saveButton: saveButton,
                   selectedSite: selectedSite,
                   deliveryMethod: deliveryMethod,
-                  estrogenSchedule: patchData.sdk.estrogenSchedule,
-                  defaults: patchData.sdk.defaults,
-                  state: patchData.sdk.state)
+                  sdk: app.sdk)
     }
     
     init(with picker: UIPickerView,
          and imageView: UIImageView,
          saveButton: UIBarButtonItem,
-         selectedSite: MOSite,
+         selectedSite: Bodily,
          deliveryMethod: DeliveryMethod,
-         estrogenSchedule: EstrogenScheduling,
-         defaults: PDDefaultManaging,
-         state: PDStateManaging) {
+         sdk: PatchDataDelegate) {
         self.imageView = imageView
-        self.images = PDImages.siteImages(theme: defaults.theme.value, deliveryMethod: deliveryMethod)
+        self.images = PDImages.siteImages(theme: sdk.defaults.theme.value,
+                                          deliveryMethod: deliveryMethod)
         self.picker = picker
         self.saveButton = saveButton
         self.selectedSite = selectedSite
-        self.estrogenSchedule = estrogenSchedule
-        self.defaults = defaults
-        self.state = state
+        self.sdk = sdk
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -98,20 +90,12 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
                           }
                         )
         closure()
-        
         if selectedImage == nil {
             selectedImage = imageView.image
         }
         if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            state.siteChanged = true
-            if let estros = selectedSite.estrogenRelationship {
-                for estro in estros {
-                    if let estro_i = estrogenSchedule.getIndex(for: estro as! MOEstrogen) {
-                        state.indicesOfChangedDelivery.append(estro_i)
-                    }
-                }
-            }
+            sdk.prepareToSaveSiteImage(for: selectedSite)
         }
     }
 }

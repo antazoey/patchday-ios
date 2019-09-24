@@ -15,5 +15,16 @@ public protocol PatchDataDelegate {
     var pills: PDPillScheduling { get }
     var state: PDStateManaging { get }
     var deliveryMethod: DeliveryMethod { get set }
+    var deliveryMethodName: String { get }
     var totalDue: Int { get }
+    func insertSite(name: SiteName?, completion: (() -> ())?)
+    func attemptToBroadcastRelevantEstrogenData()
+    func stampQuantity()
+    func prepareToSaveSiteImage(for: Bodily)
+
+    // Estrogens
+    func setEstrogenSite(at index: Index, with site: Bodily) 
+    func setEstrogenDate(at index: Index, with date: Date)
+    func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily)
+    func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] 
 }

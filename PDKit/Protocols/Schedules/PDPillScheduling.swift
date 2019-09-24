@@ -15,8 +15,7 @@ public protocol PDPillScheduling: PDSchedule {
     func insert(completion: (() -> ())?) -> Swallowable?
     func delete(at index: Index)
     func new()
-    func new(completion: (() -> ())?)
-    func getPill(at index: Index) -> Swallowable?
+    func at(_ index: Index) -> Swallowable?
     func getPill(for id: UUID) -> Swallowable?
     func setPill(at index: Index, with attributes: PillAttributes)
     func setPill(for pill: Swallowable, with attributes: PillAttributes)

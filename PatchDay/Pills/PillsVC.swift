@@ -8,7 +8,7 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 typealias PillName = String
 
@@ -86,7 +86,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 notifications.requestPillNotification(forPillAt: i)
                 let cell = pillCellForRowAt(i)
                 cell.stamp()
-                if let pill = pillSchedule.getPill(at: i) {
+                if let pill = pillSchedule.at(i) {
                     cell.loadDueDateText(from: pill)
                     cell.loadStateImage(from: pill)
                     cell.loadLastTakenText(from: pill)

@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import PatchData
+
 @testable import PDKit
 
 class PDDateHelperTests: XCTestCase {

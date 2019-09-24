@@ -8,7 +8,7 @@
 
 import UIKit
 import PDKit
-import PatchData
+
 
 class EstrogenCell: UITableViewCell {
     
@@ -31,7 +31,7 @@ class EstrogenCell: UITableViewCell {
         case 0..<q :
             let interval = defaults.expirationInterval
             let deliv = defaults.deliveryMethod
-            if let estro = estrogenSchedule.getEstrogen(at: index) {
+            if let estro = estrogenSchedule.at(index) {
                 let isExpired = estro.isExpired(interval)
                 let img = determineImage(index: index, theme: theme, deliveryMethod: deliv.value)
                 let title = determineTitle(estrogenIndex: index, interval)
@@ -54,7 +54,7 @@ class EstrogenCell: UITableViewCell {
                                 theme: PDTheme,
                                 deliveryMethod: DeliveryMethod) -> UIImage {
         var image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
-        if let estro = estrogenSchedule.getEstrogen(at: index),
+        if let estro = estrogenSchedule.at(index),
             !estro.isEmpty() {
             if let site = estro.getSite(),
                 let siteName = site.imageIdentifier {
@@ -72,7 +72,7 @@ class EstrogenCell: UITableViewCell {
     private func determineTitle(estrogenIndex: Int, _ interval: ExpirationIntervalUD) -> String {
         var title: String = ""
         typealias Strings = PDStrings.ColonedStrings
-        if let estro = estrogenSchedule.getEstrogen(at: estrogenIndex),
+        if let estro = estrogenSchedule.at(estrogenIndex),
             let date =  estro.getDate() as Date?,
             let expDate = estro.expirationDate(interval: interval) {
             let deliv = defaults.deliveryMethod.value
@@ -94,7 +94,7 @@ class EstrogenCell: UITableViewCell {
                                               theme: PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
-        let estrogenOptional = estrogenSchedule.getEstrogen(at: index)
+        let estrogenOptional = estrogenSchedule.at(index)
         var isNew = false
         if let img = newImage {
             isNew =  PDImages.isSiteless(img)
