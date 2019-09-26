@@ -35,10 +35,10 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     
     public var count: Int { return sites.count }
     
-    public var get: [Bodily] { return sites }
+    public var all: [Bodily] { return sites }
     
     /// The next site in the site schedule as a suggestion of where to relocate.
-    public var suggestedSite: Bodily? {
+    public var suggested: Bodily? {
         if let i = nextIndex { return sites[i] }
         return nil
     }
@@ -167,7 +167,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     }
     
     /// Returns the MOSite for the given name.
-    public func getSite(for name: String) -> Bodily? {
+    public func get(for name: String) -> Bodily? {
         if let index = names.firstIndex(of: name) {
             return sites[index]
         }
@@ -175,7 +175,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     }
     
     /// Sets a the siteName for the site at the given index.
-    public func setName(at index: Index, to name: String) {
+    public func rename(at index: Index, to name: String) {
         if index >= 0 && index < sites.count {
             sites[index].name = name
             PatchData.save()
@@ -183,7 +183,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
     }
     
     /// Swaps the indices of two sites by setting the order.
-    public func setOrder(at index: Index, to newOrder: Int) {
+    public func reorder(at index: Index, to newOrder: Int) {
         let newIndex = Index(newOrder)
         if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
             // Make sure index is correct both before and after swap

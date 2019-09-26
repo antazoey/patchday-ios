@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol EstrogenScheduling: PDSchedule, PDSimpleSorting {
-    var get: [Hormonal] { get }
+    var all: [Hormonal] { get }
     var isEmpty: Bool { get }
     var next: Hormonal? { get }
     func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal?
@@ -18,12 +18,12 @@ public protocol EstrogenScheduling: PDSchedule, PDSimpleSorting {
     func new(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD)
     func delete(after i: Index)
     func at(_ index: Index) -> Hormonal?
-    func getEstrogen(for id: UUID) -> Hormonal?
+    func get(for id: UUID) -> Hormonal?
+    func set(for id: UUID, date: Date, site: Bodily)
     func setSite(at index: Index, with site: Bodily)
     func setDate(at index: Index, with date: Date)
-    func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily)
     func setBackUpSiteName(of index: Index, with name: String)
     func indexOf(_ estrogen: Hormonal) -> Index?
     func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool
-    func totalDue(_ interval: ExpirationIntervalUD) -> Int
+    func totalExpired(_ interval: ExpirationIntervalUD) -> Int
 }

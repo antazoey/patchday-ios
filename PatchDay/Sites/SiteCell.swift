@@ -19,13 +19,12 @@ class SiteCell: UITableViewCell {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
     
-    // Dependencies
-    private let siteSchedule = patchData.sdk.siteSchedule
-    private let defaults = patchData.sdk.defaults
+    private let sdk: PatchDataDelegate = app.sdk
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
         if index >= 0 && index < siteCount,
-            let site = siteSchedule.at(index) {
+            let site = sdk.sites.at(index) {
+
             orderLabel.text = "\(index + 1)."
             orderLabel.textColor = app.theme.textColor
             arrowLabel.textColor = app.theme.textColor
@@ -45,13 +44,13 @@ class SiteCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         estrogenScheduleImage.isHidden = shouldHide
-        if cellIndex == siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex) {
+        if cellIndex == sdk.sites.nextIndex {
             nextLabel.isHidden = shouldHide
         }
     }
     
-    private func loadEstrogenImages(for site: MOSite) -> UIImage? {
-        if site.isOccupied() {
+    private func loadEstrogenImages(for site: Bodily) -> UIImage? {
+        if site.isOccupied {
             return  #imageLiteral(resourceName: "ES Icon")
         }
         return nil
@@ -59,8 +58,7 @@ class SiteCell: UITableViewCell {
     
     /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        let nextIndex = siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex)
-        return ((nextIndex != index) || isEditing)
+        return sdk.sites.nextIndex != index || isEditing
     }
     
     private func setBackgroundSelected() {

@@ -39,7 +39,7 @@ public class PDState: NSObject, PDStateManaging {
         siteChanged = false
         onlySiteChanged = false
         deliveryMethodChanged = false
-        isNew = false
+        isHormoneless = false
         indicesOfChangedDelivery = []
     }
 }

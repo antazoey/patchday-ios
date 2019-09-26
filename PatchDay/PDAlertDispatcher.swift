@@ -41,7 +41,7 @@ class PDAlertDispatcher: NSObject {
     func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
         if let root = rootViewController {
             let oldQuantity = sdk.defaults.quantity.rawValue
-            let oldMethod = sdk.defaults.deliveryMethod.value
+            let oldMethod = sdk.deliveryMethod
             DeliveryMethodMutationAlert(parent: root,
                                         style: self.style,
                                         oldDeliveryMethod: oldMethod,

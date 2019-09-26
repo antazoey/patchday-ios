@@ -15,6 +15,13 @@ class PDTabViewDelegate: PDTabReflective {
     private let tabController: UITabBarController
     private let viewControllers: [UIViewController]
     private let sdk: PatchDataDelegate
+    
+    convenience init(tabController: UITabBarController,
+                     viewControllers: [UIViewController]) {
+        self.init(tabController: tabController,
+                  viewControllers: viewControllers,
+                  sdk: app.sdk)
+    }
 
     init(tabController: UITabBarController,
          viewControllers: [UIViewController],
@@ -32,10 +39,9 @@ class PDTabViewDelegate: PDTabReflective {
     
     func reflectExpirationCountAsBadgeValue() {
         if viewControllers.count > 0 {
-            let interval = sdk.defaults.expirationInterval
-            let c = sdk.estrogens.totalDue(interval)
+            let exp = sdk.totalEstrogensExpired
             let item = estrogenTab.navigationController?.tabBarItem
-            item?.badgeValue = (c > 0) ? "\(c)" : nil
+            item?.badgeValue = (exp > 0) ? "\(exp)" : nil
         }
     }
     

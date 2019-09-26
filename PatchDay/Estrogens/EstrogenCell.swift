@@ -15,26 +15,24 @@ class EstrogenCell: UITableViewCell {
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: MFBadgeButton!
-    
-    private let estrogenSchedule = patchData.sdk.estrogenSchedule
-    private let defaults = patchData.sdk.defaults
-    private let state = patchData.sdk.state
+
+    private var sdk: PatchDataDelegate = app.sdk
     
     public var index = -1
     
     public func load() {
         let theme = app.theme.current
         backgroundColor = app.theme.bgColor
-        let q = defaults.quantity.value.rawValue
+        let q = sdk.defaults.quantity.value.rawValue
         setThemeColors(at: index)
         switch (index) {
         case 0..<q :
-            let interval = defaults.expirationInterval
-            let deliv = defaults.deliveryMethod
-            if let estro = estrogenSchedule.at(index) {
-                let isExpired = estro.isExpired(interval)
-                let img = determineImage(index: index, theme: theme, deliveryMethod: deliv.value)
-                let title = determineTitle(estrogenIndex: index, interval)
+            let interval = sdk.defaults.expirationInterval
+            let deliv = sdk.defaults.deliveryMethod
+            if let estro = sdk.estrogens.at(index) {
+                let isExpired = estro.isExpired
+                let img = getImage(at: index)
+                let title = getTitle(at: index, interval)
                 configureDate(when: isExpired)
                 configureBadge(at: index, when: isExpired, deliveryMethod: deliv.value)
                 self.setDateLabel(title)
@@ -50,40 +48,34 @@ class EstrogenCell: UITableViewCell {
     }
     
     /// Returns the site-reflecting estrogen button image to the corresponding index.
-    private func determineImage(index: Index,
-                                theme: PDTheme,
-                                deliveryMethod: DeliveryMethod) -> UIImage {
-        var image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
-        if let estro = estrogenSchedule.at(index),
-            !estro.isEmpty() {
-            if let site = estro.getSite(),
-                let siteName = site.imageIdentifier {
-                image = PDImages.siteNameToImage(siteName,
-                                                 theme: theme,
-                                                 deliveryMethod: deliveryMethod)
+    private func getImage(at index: Index) -> UIImage {
+        let theme = sdk.defaults.theme.value
+        let method = sdk.defaults.deliveryMethod
+        var image = PDImages.newSiteImage(theme: theme, deliveryMethod: method)
+        if let estro = sdk.estrogens.at(index),
+            !estro.isEmpty {
+            if let site = estro.site {
+                let siteName = site.imageIdentifier
+                image = PDImages.siteNameToImage(siteName, theme: theme, deliveryMethod: method)
             } else {
-                image = PDImages.custom(theme: theme, deliveryMethod: deliveryMethod)
+                image = PDImages.custom(theme: theme, deliveryMethod: method)
             }
         }
         return image
     }
     
     /// Determines the start of the week title for a schedule button.
-    private func determineTitle(estrogenIndex: Int, _ interval: ExpirationIntervalUD) -> String {
+    private func getTitle(at index: Int, _ interval: ExpirationIntervalUD) -> String {
         var title: String = ""
         typealias Strings = PDStrings.ColonedStrings
-        if let estro = estrogenSchedule.at(estrogenIndex),
-            let date =  estro.getDate() as Date?,
-            let expDate = estro.expirationDate(interval: interval) {
-            let deliv = defaults.deliveryMethod.value
-            switch deliv {
+        if let estro = sdk.estrogens.at(index), let exp = estro.expiration {
+            switch sdk.deliveryMethod {
             case .Patches:
-                let titleIntro = (estro.isExpired(interval)) ?
-                    Strings.expired : Strings.expires
-                title += titleIntro + PDDateHelper.dayOfWeekString(date: expDate)
+                let intro = estro.isExpired ? Strings.expired : Strings.expires
+                title += intro + PDDateHelper.dayOfWeekString(date: exp)
             case .Injections:
-                let day = PDDateHelper.dayOfWeekString(date: date)
-                title += Strings.last_injected + day
+                let day = PDDateHelper.dayOfWeekString(date: estro.date)
+                title += Strings.lastInjected + day
             }
         }
         return title
@@ -94,12 +86,8 @@ class EstrogenCell: UITableViewCell {
                                               theme: PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
-        let estrogenOptional = estrogenSchedule.at(index)
-        var isNew = false
-        if let img = newImage {
-            isNew =  PDImages.isSiteless(img)
-        }
-        state.isNew = isNew
+        let estro = sdk.estrogens.at(index)
+        sdk.state.isHormoneless = PDImages.representsSiteless(<#T##img: UIImage##UIImage#>)
         let isAnimating = shouldAnimate(estrogenOptional, at: index)
         if isAnimating {
             UIView.transition(with: stateImage as UIView,
@@ -117,8 +105,8 @@ class EstrogenCell: UITableViewCell {
         self.dateLabel.text = title
     }
     
-    private func shouldAnimate(_ estro: MOEstrogen?, at index: Index) -> Bool {
-        let q = defaults.quantity.value.rawValue
+    private func shouldAnimate(_ estro: Hormonal?, at index: Index) -> Bool {
+        let q = sdk.defaults.quantity.rawValue
         var sortFromEstrogenDateChange: Bool = false
         var isSiteChange: Bool = false
         var isGone: Bool = false

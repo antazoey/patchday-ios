@@ -25,8 +25,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var takeButton: UIButton!
 
     private var sdk = app.sdk
-    private var notifications: PDNotifying
-    
+    private var notifications: PDNotificationCenter
     private var pillIndex: Index?
     private var pill: Swallowable?
 
@@ -75,7 +74,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         loadVCTitle()
     }
     
-    public func setPill(_ pill: MOPill) {
+    public func setPill(_ pill: PDPill) {
         self.pill = pill
     }
     
@@ -105,7 +104,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBAction func saveButtonTapped() {
         if let pill = pill {
-            notifications.cancelPillNotification(pill)
+            notifications.cancel(pill)
             pillSchedule.setPill(for: pill, with: makePillAttributes())
             notifications.requestPillNotification(pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
@@ -152,21 +151,10 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             timePicker.minimumDate = nil
             transformIntoDoneButton(time1Button)
             disableNonTimeInteractions()
-            if let time1 = time1Selected {
-                timePicker.date = time1
-            } else if let time1 = pill.getTime1() {
-                timePicker.date = time1 as Date
-            }
-            if time2Button.isEnabled {
-                if let time2 = time2Selected {
-                    timePicker.maximumDate = time2
-                } else if let time2 = pill.getTime2() {
-                    timePicker.maximumDate = time2 as Date
-                }
-            } else {
-                timePicker.maximumDate = nil
-            }
-            time2Button.isEnabled = false
+            timePicker.date = time1Selected ?? pill.time1
+            timePicker.maximumDate = time2Button.isEnabled ?
+                time2Selected ?? pill.time2 : nil
+            time2Button.isEnabled = false // temporarily disable time2button
         }
     }
     
@@ -178,16 +166,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             transformIntoDoneButton(time2Button)
             disableNonTimeInteractions()
             time1Button.isEnabled = false
-            if let time2 = time2Selected {
-                timePicker.date = time2
-            } else if let time2 = pill.getTime2() {
-                timePicker.date = time2 as Date
-            }
-            if let time1 = time1Selected {
-                timePicker.minimumDate = time1
-            } else if let time1 = pill.getTime1() {
-                timePicker.minimumDate = time1 as Date
-            }
+            timePicker.date = time2Selected ?? pill.time2
+            timePicker.minimumDate = time1Selected ?? pill.time1
         }
     }
     

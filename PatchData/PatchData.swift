@@ -39,7 +39,7 @@ public class PatchData: NSObject {
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer {
-        return pdContainer(PDStrings.CoreDataKeys.persistantContainer_key)
+        return pdContainer(PDStrings.CoreDataKeys.persistantContainerKey)
     }
 
     /// Get the current view context

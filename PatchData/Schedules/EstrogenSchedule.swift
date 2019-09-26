@@ -27,7 +27,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     
     public var count: Int { return estrogens.count }
     
-    public var get: [Hormonal] { return estrogens }
+    public var all: [Hormonal] { return estrogens }
     
     public var isEmpty: Bool {
         return estrogens.count == 0 || (hasNoDates && hasNoSites)
@@ -47,6 +47,10 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
             return estro
         }
         return nil
+    }
+    
+    public func forEach(doThis: (Hormonal) -> ()) {
+        estrogens.forEach(doThis)
     }
     
     public func sort() {
@@ -115,10 +119,19 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
 
     /// Returns the MOEstrogen for the given id.
-    public func getEstrogen(for id: UUID) -> Hormonal? {
+    public func get(for id: UUID) -> Hormonal? {
         return estrogens.filter({(estro: Hormonal) -> Bool in return estro.id == id })[0]
     }
-    
+
+    /// Sets the date and the site of the MOEstrogen for the given id.
+    public func set(for id: UUID, date: Date, site: Bodily) {
+        if var estro = get(for: id) {
+            estro.site = site
+            estro.date = date
+            sort()
+        }
+    }
+
     /// Sets the site of the MOEstrogen for the given index.
     public func setSite(at index: Index, with site: Bodily) {
         if var estro = at(index) { estro.site = site }
@@ -128,15 +141,6 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     public func setDate(at index: Index, with date: Date) {
         if var estro = at(index) { estro.date = date }
         sort()
-    }
-    
-    /// Sets the date and the site of the MOEstrogen for the given id.
-    public func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily) {
-        if var estro = getEstrogen(for: id) {
-            estro.site = site
-            estro.date = date
-            sort()
-        }
     }
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
@@ -175,7 +179,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     /// Returns how many expired estrogens there are in the given estrogens.
-    public func totalDue(_ interval: ExpirationIntervalUD) -> Int {
+    public func totalExpired(_ interval: ExpirationIntervalUD) -> Int {
         return estrogens.reduce(0, {
             count, estro in
             let c = estro.isExpired ? 1 : 0

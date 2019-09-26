@@ -24,7 +24,7 @@ public class PillSchedule: NSObject, PDPillScheduling {
         awaken()
     }
     
-    public var get: [Swallowable] { return pills }
+    public var all: [Swallowable] { return pills }
     
     public var count: Int { return pills.count }
     
@@ -94,7 +94,7 @@ public class PillSchedule: NSObject, PDPillScheduling {
     }
     
     /// Returns the MOPill for the given Id.
-    public func getPill(for id: UUID) -> Swallowable? {
+    public func get(for id: UUID) -> Swallowable? {
         for pill in pills {
             if pill.id == id {
                 return pill
@@ -104,21 +104,21 @@ public class PillSchedule: NSObject, PDPillScheduling {
     }
     
     /// Sets a given MOPill with the given PillAttributes.
-    public func setPill(at index: Index, with attributes: PillAttributes) {
+    public func set(at index: Index, with attributes: PillAttributes) {
         if let pill = at(index) {
-            setPill(for: pill, with: attributes)
+            set(for: pill, with: attributes)
         }
     }
     
     /// Sets a given MOPill with the given PillAttributes.
-    public func setPill(for pill: Swallowable, with attributes: PillAttributes) {
+    public func set(for pill: Swallowable, with attributes: PillAttributes) {
         pill.initializeAttributes(attributes: attributes)
         PatchData.save()
     }
     
     /** Sets the pill's last date-taken at the given index to now,
     and increments how many times it was taken today. */
-    public func swallowPill(at index: Index, pushSharedData: (() -> ())?) {
+    public func swallow(at index: Index, pushSharedData: (() -> ())?) {
         if let pill = at(index) {
             swallow(pill, pushSharedData: pushSharedData)
         }

@@ -18,10 +18,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     @IBOutlet var estrogensView: UIView!
     @IBOutlet weak var estrogenTable: UITableView!
     
-    let defaults = patchData.sdk.defaults
-    let state = patchData.sdk.state
-    let estrogenSchedule = patchData.sdk.estrogenSchedule
-    let pillSchedule = patchData.sdk.pillSchedule
+    let sdk: PatchDataDelegate = app.sdk
     
     // MARK: - Main
     
@@ -36,7 +33,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        state.reset()
+        sdk.state.reset()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,7 +45,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         
         applyTheme()
         presentDisclaimerAlert()
-        let deliv = defaults.deliveryMethod.value
+        let deliv = sdk.defaults.deliveryMethod.value
         title = PDViewControllerTitleStrings.getTitle(for: deliv)
         estrogenTable.reloadData()
         super.viewDidAppear(false)
@@ -80,7 +77,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < defaults.quantity.value.rawValue {
+        if indexPath.row < sdk.defaults.quantity.value.rawValue {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -118,8 +115,7 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let interval = defaults.expirationInterval
-        let estroDueCount = estrogenSchedule.totalDue(interval)
+        let estroDueCount = sdk.totalEstrogensExpired()
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }

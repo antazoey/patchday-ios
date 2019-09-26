@@ -65,7 +65,7 @@ public class PDStrings: NSObject {
         public static let time = {
             return NSLocalizedString("Time:", comment: comment1)
         }()
-        public static let first_time = {
+        public static let firstTime = {
             return NSLocalizedString("First time:", comment: comment1)
         }()
         public static let expires = {
@@ -74,22 +74,22 @@ public class PDStrings: NSObject {
         public static let expired = {
             return NSLocalizedString("Expired: ", comment: comment2)
         }()
-        public static let last_injected = {
+        public static let lastInjected = {
             return NSLocalizedString("Injected: ", comment: comment2)
         }()
-        public static let next_due = {
+        public static let nextDue = {
             return NSLocalizedString("Next due: ", comment: comment2)
         }()
-        public static let date_and_time_applied = {
+        public static let dateAndTimeApplied = {
             return NSLocalizedString("Date and time applied: ", comment: comment2)
         }()
-        public static let date_and_time_injected = {
+        public static let dateAndTimeInjected = {
             return NSLocalizedString("Date and time injected: ", comment: comment2)
         }()
         public static let site = {
             return NSLocalizedString("Site: ", comment: comment2)
         }()
-        public static let last_site_injected = {
+        public static let lastSiteInjected = {
             return NSLocalizedString("Site injected: ", comment: comment2)
         }()
     }
@@ -99,8 +99,8 @@ public class PDStrings: NSObject {
     // MARK: - Core data keys
     
     public struct CoreDataKeys {
-        public static let persistantContainer_key = { return "patchData" }()
-        public static let testContainer_key = { return "patchDataTest" }()
+        public static let persistantContainerKey = { return "patchData" }()
+        public static let testContainerKey = { return "patchDataTest" }()
         public static let estrogenEntityName = { return "Estrogen" }()
         public static let estrogenProps = { return ["date", "id", "siteNameBackUp"] }()
         public static let siteEntityName = { return "Site" }()

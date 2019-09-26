@@ -120,10 +120,10 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             let count = siteSchedule.count()
             switch i {
             case 0..<count :
-                siteSchedule.setName(at: i, to: name)
+                siteSchedule.rename(at: i, to: name)
             case count :
                 if let _ = siteSchedule.insert() {
-                    siteSchedule.setName(at: i, to: name)
+                    siteSchedule.rename(at: i, to: name)
                 }
             default : break
             }
@@ -165,7 +165,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             nameText.text = PDStrings.PlaceholderStrings.new_site
         case let name :
             if let n = name {
-                siteSchedule.setName(at: siteScheduleIndex, to: n)
+                siteSchedule.rename(at: siteScheduleIndex, to: n)
             }
         }
         loadImage()

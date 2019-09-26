@@ -54,7 +54,7 @@ class PDDefaultsTests: XCTestCase {
     /// Test the site schedule reflects changes from defaults
     func testSiteSchedule() {
         defaults.setDeliveryMethod(to: .Patches)
-        siteSchedule.setName(at: 0, to: "NEW SITE")
+        siteSchedule.rename(at: 0, to: "NEW SITE")
         XCTAssert(!siteSchedule.isDefault(deliveryMethod: .Patches))
         defaults.setDeliveryMethod(to: .Injections)
         XCTAssert(siteSchedule.isDefault(deliveryMethod: .Injections))

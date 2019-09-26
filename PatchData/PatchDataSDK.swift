@@ -81,11 +81,15 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     
     /// Returns the total due of MOEstrogens and MOPills in the schedule.
     public var totalDue: Int {
-        return estrogens.totalDue(defaults.expirationInterval) + pills.totalDue
+        return totalEstrogensExpired + pills.totalDue
     }
-    
+
+    public var totalEstrogensExpired: Int {
+        return estrogens.totalExpired(defaults.expirationInterval)
+    }
+
     // MARK: - Defaults
-    
+
     public var siteIndex: Index {
         get {
             return defaults.siteIndex.rawValue
@@ -94,18 +98,18 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             _ = defaults.setSiteIndex(to: newValue, siteCount: sites.count)
         }
     }
-    
+
     public var deliveryMethod: DeliveryMethod {
         get { return defaults.deliveryMethod.value }
         set {
             defaults.setDeliveryMethod(to: newValue)
             let newIndex = PDKeyStorableHelper.defaultQuantity(for: newValue)
             _ = defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
-            attemptToBroadcastRelevantEstrogenData()
+            broadcastEstrogens()
             state.deliveryMethodChanged = true
         }
     }
-    
+
     public var deliveryMethodName: String {
         let deliv = defaults.deliveryMethod.value
         return PDPickerStrings.getDeliveryMethod(for: deliv)
@@ -124,44 +128,37 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             estrogens.delete(after: oldQuantity - 1)
         }
     }
-    
+
     // MARK: - Estrogens
 
     public func setEstrogenSite(at index: Index, with site: Bodily) {
         state.siteChanged = true
         estrogens.setSite(at: index, with: site)
-        attemptToBroadcastRelevantEstrogenData()
+        broadcastEstrogens()
         patchdata.save()
     }
-    
+
     public func setEstrogenDate(at index: Index, with date: Date) {
         estrogens.setDate(at: index, with: date)
-        attemptToBroadcastRelevantEstrogenData()
+        broadcastEstrogens()
         patchdata.save()
     }
-    
+
     public func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily) {
-        estrogens.setEstrogenDateAndSite(for: id, date: date, site: site)
-        attemptToBroadcastRelevantEstrogenData()
+        estrogens.set(for: id, date: date, site: site)
+        broadcastEstrogens()
         patchdata.save()
     }
-    
+
     /// Returns array of current occupied SiteNames
     public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
-        return estrogens.get.map({
-            (estro: Hormonal) -> SiteName in
-            if let site = estro.site {
-                return site.name
-            } else {
-                return ""
-            }
-        }).filter() {
-            $0 != ""
-        }
+        return estrogens.all.map({(estro: Hormonal) -> SiteName in
+            return estro.site?.name ?? ""
+        }).filter() { $0 != "" }
     }
-    
+
     // MARK: - Sites
-    
+
     public func insertSite(name: SiteName? = nil, completion: (() -> ())?) {
         let n = name ?? PDStrings.PlaceholderStrings.new_site
         if var site = sites.insert(deliveryMethod: defaults.deliveryMethod.value,
@@ -170,13 +167,19 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             site.name = n
         }
     }
-    
+
+    // MARK: - Pills
+
+    public func swallow(_ pill: Swallowable) {
+        pills.swallow(pushSharedData: broadcastPills)
+    }
+
     // MARK: - DataMeter
-    
-    public func attemptToBroadcastRelevantEstrogenData() {
+
+    public func broadcastEstrogens() {
         if let estro = estrogens.next {
             let interval = defaults.expirationInterval
-            let name = sites.suggestedSite?.name ?? PDStrings.PlaceholderStrings.new_site
+            let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.new_site
             let deliveryMethod = defaults.deliveryMethod
             dataMeter.broadcastRelevantEstrogenData(oldestEstrogen: estro,
                                                     nextSuggestedSite: name,
@@ -184,13 +187,19 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
                                                     deliveryMethod: deliveryMethod)
         }
     }
-    
+
+    func broadcastPills() {
+        if let next = pills.nextDue {
+            dataMeter.broadcastRelevantPillData(nextPill: next)
+        }
+    }
+
     // MARK: - Stateful
-    
+
     public func stampQuantity() {
         state.oldQuantity = defaults.quantity.value.rawValue
     }
-    
+
     public func prepareToSaveSiteImage(for site: Bodily) {
         state.siteChanged = true
         for estro in site.estrogens {
@@ -203,24 +212,35 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     // MARK: - Other public
 
     /// Returns array of occupied site indices.
-    public func getOccupiedSiteIndices() -> [Index] {
+    func occupiedSitesIndices() -> [Index] {
         var indices: [Index] = []
-        for estro in estrogens.get {
-            if let site = estro.site, let pdSite = site as? PDSite, let pdSites = sites.get as? [PDSite],
-                let index = pdSites.firstIndex(of: pdSite) {
-                indices.append(index)
-            } else {
-                indices.append(-1)
+        if let pdSites = sites.all.asPDSiteArray() {
+            for estro in estrogens.all {
+                if let occupiedSite = estro.site?.asPDSite(), let i = pdSites.firstIndex(of: occupiedSite) {
+                    indices.append(i)
+                }
             }
         }
         return indices
     }
-    
+
     public func nuke() {
         PatchData.nuke()
         estrogens.reset(from: 0)
         pills.new()
         sites.reset(deliveryMethod: defaults.deliveryMethod.value,
                     globalExpirationInterval: defaults.expirationInterval)
+    }
+}
+
+extension Array where Iterator.Element == Bodily {
+    func asPDSiteArray() -> [PDSite]? {
+        return self as? [PDSite]
+    }
+}
+
+extension Bodily {
+    func asPDSite() -> PDSite? {
+        return self as? PDSite
     }
 }

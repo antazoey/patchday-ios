@@ -68,6 +68,8 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
         }
     }
     
+    public var isOccupied: Bool { return isOccupied() }
+    
     /// Set the siteBackUpName in every estrogen.
     public func pushBackupSiteNameToEstrogens() {
         if isOccupied(), let estroSet = site.estrogenRelationship {

@@ -17,8 +17,9 @@ public protocol PatchDataDelegate {
     var deliveryMethod: DeliveryMethod { get set }
     var deliveryMethodName: String { get }
     var totalDue: Int { get }
+    var totalEstrogensExpired: Int { get }
     func insertSite(name: SiteName?, completion: (() -> ())?)
-    func attemptToBroadcastRelevantEstrogenData()
+    func broadcastEstrogens()
     func stampQuantity()
     func prepareToSaveSiteImage(for: Bodily)
 
@@ -26,5 +27,8 @@ public protocol PatchDataDelegate {
     func setEstrogenSite(at index: Index, with site: Bodily) 
     func setEstrogenDate(at index: Index, with date: Date)
     func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily)
-    func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] 
+    func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName]
+    
+    // Pills
+    func swallow(_ pill: Swallowable)
 }

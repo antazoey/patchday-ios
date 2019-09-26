@@ -83,7 +83,7 @@ public class PDImages: NSObject {
     
     // MARK: - Functions
     
-    public static func newSiteImage(theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
+    public static func getNonHormonalImage(theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
         switch (theme, deliveryMethod) {
         case (.Dark, .Patches):
             return addPatch_d
@@ -96,7 +96,7 @@ public class PDImages: NSObject {
         }
     }
     
-    public static func isSiteless(_ img: UIImage) -> Bool {
+    public static func representsEstrogenLess(_ img: UIImage) -> Bool {
         return img == addPatch || img == addInjection
     }
     
@@ -109,7 +109,7 @@ public class PDImages: NSObject {
         } else if siteName != PDSiteStrings.unplaced {
             return custom(theme: theme, deliveryMethod: deliveryMethod)
         }
-        return newSiteImage(theme: theme, deliveryMethod: deliveryMethod)
+        return getNonHormonalImage(theme: theme, deliveryMethod: deliveryMethod)
     }
     
     /// Converts patch image to SiteName a.k.a String
@@ -154,7 +154,7 @@ public class PDImages: NSObject {
     // MARK: - Private
     
     private static func getStringToImageDict(theme: PDTheme, deliveryMethod: DeliveryMethod) -> Dictionary<String, UIImage> {
-        let newImg = newSiteImage(theme: theme, deliveryMethod: .Patches);
+        let newImg = getNonHormonalImage(theme: theme, deliveryMethod: .Patches);
         switch (theme, deliveryMethod) {
         case (.Light, .Patches):
             return [PDSiteStrings.unplaced: newImg,

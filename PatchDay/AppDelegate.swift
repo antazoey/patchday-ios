@@ -7,9 +7,11 @@
 //
 
 import UIKit
-import UserNotifications
-
 import PDKit
+
+// Mock these for testing
+import UserNotifications
+import PatchData
 
 let app = (UIApplication.shared.delegate as! AppDelegate)
 
@@ -19,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // How to get reference: "let app = UIApplication.shared.delegate as! AppDelegate"
     
     var window: UIWindow?
-    var notifications = PDNotificationCenter()
+    var notifications = PDNotificationSchedule()
     var sdk: PatchDataDelegate = PatchDataSDK()
     var alerts = PDAlertDispatcher()
     var tabs: PDTabViewDelegate?
@@ -28,34 +30,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        // Set default Pills only on the first launch.
         if isFirstLaunch() { sdk.pills.new() }
-        
-        // Uncomment to nuke the db
         //patchData.schedule.nuke()
-        // Then re-comment, run again, and PatchDay resets to default.
-
         self.theme = PDThemeManager(theme: sdk.defaults.theme.value)
-
-        // Load data for the Today widget.
-        sdk.attemptToBroadcastRelevantEstrogenData()
-        sdk.schedule.sharedData.setDataForTodayApp(interval: sdk.defaults.expirationInterval,
-                                                   index: sdk.defaults.siteIndex.value,
-                                                   deliveryMethod: sdk.defaults.deliveryMethod,
-                                                   setSiteIndex: setSiteIndex)
-        
-        setBadge(with: patchData.sdk.schedule.totalDue(interval: patchData.sdk.defaults.expirationInterval))
+        sdk.broadcastEstrogens()
+        setBadge()
         setNavigationAppearance()
         return true
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge(with: patchData.sdk.schedule.totalDue(interval: sdk.defaults.expirationInterval))
+        setBadge()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge(with: sdk.schedule.totalDue(interval: sdk.defaults.expirationInterval))
+        setBadge()
     }
     
     func setTabs(tc: UITabBarController, vcs: [UIViewController]) {
@@ -67,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setNavigationAppearance() {
-        nav?.reflectTheme(theme: theme)
+        nav.reflectTheme(theme: theme)
         tabs?.reflectTheme(theme: theme)
     }
     
@@ -78,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     /** Sets the App badge number to the expired
     estrogen count + the total pills due for taking. */
-    private func setBadge(with newBadgeNumber: Int) {
-        UIApplication.shared.applicationIconBadgeNumber = newBadgeNumber
+    private func setBadge() {
+        UIApplication.shared.applicationIconBadgeNumber = sdk.totalDue
     }
 }

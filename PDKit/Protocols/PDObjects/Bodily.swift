@@ -13,6 +13,7 @@ public protocol Bodily: PDPbjectifiable {
     var imageIdentifier: String { get set }
     var name: SiteName { get set }
     var order: Int { get set }
+    var isOccupied: Bool { get }
     func isOccupied(byAtLeast many: Int) -> Bool
     func pushBackupSiteNameToEstrogens()
 }
