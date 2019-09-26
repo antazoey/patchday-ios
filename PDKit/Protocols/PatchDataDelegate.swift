@@ -10,8 +10,8 @@ import Foundation
 
 public protocol PatchDataDelegate {
     var defaults: PDDefaultManaging { get }
-    var estrogens: EstrogenScheduling { get }
-    var sites: EstrogenSiteScheduling { get }
+    var hormones: HormoneScheduling { get }
+    var sites: HormoneSiteScheduling { get }
     var pills: PDPillScheduling { get }
     var state: PDStateManaging { get }
     var deliveryMethod: DeliveryMethod { get set }

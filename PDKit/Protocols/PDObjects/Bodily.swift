@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol Bodily: PDPbjectifiable {
-    var estrogens: [Hormonal] { get }
+    var hormones: [Hormonal] { get }
     var imageIdentifier: String { get set }
     var name: SiteName { get set }
     var order: Int { get set }

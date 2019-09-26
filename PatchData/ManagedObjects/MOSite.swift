@@ -14,20 +14,20 @@ import PDKit
 @objc(MOSite)
 public class MOSite: NSManagedObject {
     
-    @NSManaged public var estrogenRelationship: NSSet?
+    @NSManaged public var hormoneRelationship: NSSet?
     @NSManaged public var imageIdentifier: String?
     @NSManaged public var name: String?
     @NSManaged public var order: Int16
     
-    @objc(addEstrogenRelationshipObject:)
-    @NSManaged public func addToEstrogenRelationship(_ value: MOEstrogen)
+    @objc(addHormoneRelationshipObject:)
+    @NSManaged public func addToHormoneRelationship(_ value: MOHormone)
     
-    @objc(removeEstrogenRelationshipObject:)
-    @NSManaged public func removeFromEstrogenRelationship(_ value: MOEstrogen)
+    @objc(removeHormoneRelationshipObject:)
+    @NSManaged public func removeFromHormoneRelationship(_ value: MOHormone)
     
-    @objc(addEstrogenRelationship:)
-    @NSManaged public func addToEstrogenRelationship(_ values: NSSet)
+    @objc(addHormoneRelationship:)
+    @NSManaged public func addToHormoneRelationship(_ values: NSSet)
     
-    @objc(removeEstrogenRelationship:)
-    @NSManaged public func removeFromEstrogenRelationship(_ values: NSSet)
+    @objc(removeHormoneRelationship:)
+    @NSManaged public func removeFromHormoneRelationship(_ values: NSSet)
 }

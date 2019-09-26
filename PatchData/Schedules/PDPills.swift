@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PillSchedule: NSObject, PDPillScheduling {
+public class PDPills: NSObject, PDPillScheduling {
     
     override public var description: String {
         return "Singleton for reading, writing, and querying the MOPill array."

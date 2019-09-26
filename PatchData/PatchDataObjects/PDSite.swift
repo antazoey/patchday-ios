@@ -34,14 +34,14 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
         return nil
     }
     
-    public var estrogens: [Hormonal] {
+    public var hormones: [Hormonal] {
         get {
             var hormones: [Hormonal] = []
-            if let estroSet = site.estrogenRelationship {
-                for estro in estroSet {
-                    let pdEstro = PDEstrogen(estrogen: estro as! MOEstrogen,
-                                             interval: globalExpirationInterval,
-                                             deliveryMethod: deliveryMethod)
+            if let moneSet = site.hormoneRelationship {
+                for mone in moneSet {
+                    let pdEstro = PDHormone(hormone: mone as! MOHormone,
+                                            interval: globalExpirationInterval,
+                                            deliveryMethod: deliveryMethod)
                     hormones.append(pdEstro)
                 }
             }
@@ -72,19 +72,18 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
     
     /// Set the siteBackUpName in every estrogen.
     public func pushBackupSiteNameToEstrogens() {
-        if isOccupied(), let estroSet = site.estrogenRelationship {
-            for estro in Array(estroSet) {
-                let e = estro as! MOEstrogen
-                if let n = site.name {
-                    e.siteNameBackUp = n
-                }
+        if isOccupied(), let moneData = site.hormoneRelationship {
+            let mones = Array(moneData)
+            for mone in mones {
+                let mo = mone as! MOHormone
+                mo.siteNameBackUp = site.name ?? mo.siteNameBackUp
             }
         }
     }
 
     /// Returns if the the MOSite is occupied by more than one MOEstrogen.
     public func isOccupied(byAtLeast many: Int = 1) -> Bool {
-        if let r = site.estrogenRelationship {
+        if let r = site.hormoneRelationship {
             return r.count >= many
         }
         return false
@@ -94,7 +93,7 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
         site.order = Int16(-1)
         site.name = nil
         site.imageIdentifier = nil
-        site.estrogenRelationship = nil
+        site.hormoneRelationship = nil
     }
     
     /* Note: In MOSites, we want negative orders and nil orders

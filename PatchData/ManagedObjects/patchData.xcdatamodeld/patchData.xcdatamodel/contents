@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14903" systemVersion="18G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Hormone" representedClassName="MOEstrogen" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="siteNameBackUp" optional="YES" attributeType="String"/>
+        <relationship name="siteRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Site" inverseName="hormoneRelationship" inverseEntity="Site"/>
+    </entity>
+    <entity name="Pill" representedClassName="MOPill" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="lastTaken" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="notify" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="time1" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="time2" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timesaday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timesTakenToday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Site" representedClassName="MOSite" syncable="YES">
+        <attribute name="imageIdentifier" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="hormoneRelationship" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Hormone" inverseName="siteRelationship" inverseEntity="Hormone"/>
+    </entity>
+    <elements>
+        <element name="Hormone" positionX="-36" positionY="54" width="128" height="103"/>
+        <element name="Pill" positionX="-27" positionY="63" width="128" height="165"/>
+        <element name="Site" positionX="-27" positionY="63" width="128" height="103"/>
+    </elements>
+</model>

@@ -13,7 +13,7 @@ import PDKit
 
 let estrogenButtonTotal = PDPickerStrings.quantities.count
 
-class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var estrogensView: UIView!
     @IBOutlet weak var estrogenTable: UITableView!
@@ -68,8 +68,8 @@ class EstrogensVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let estrogenIndex = indexPath.row
-        let id = "estrogenCellReuseId"
-        typealias Cell = EstrogenCell
+        let id = "HormoneCellReuseId"
+        typealias Cell = HormoneCell
         let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
         estroCell.index = estrogenIndex
         estroCell.load()

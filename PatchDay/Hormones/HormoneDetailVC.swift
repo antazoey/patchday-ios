@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class EstrogenVC: UIViewController,
+class HormoneDetailVC: UIViewController,
                   UIPickerViewDelegate,
                   UIPickerViewDataSource,
                   UITextFieldDelegate {
@@ -100,7 +100,7 @@ class EstrogenVC: UIViewController,
        1.) Side effects related to schedule animation
        2.) Save data
        3.) Notification badge number config
-       4.) Segue back to the EstrogensVC
+       4.) Segue back to the HormonessVC
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
         let interval = sdk.defaults.expirationInterval
@@ -356,7 +356,7 @@ class EstrogenVC: UIViewController,
         if dateTextHasChanged {
             sdk.estrogens.setDate(at: estrogenScheduleIndex, with: datePicker.date)
         }
-        // For EstrogensVC animation.
+        // For HormonesVC animation.
         if !dateTextHasChanged {
             state.onlySiteChanged = true
         }

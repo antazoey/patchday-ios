@@ -15,7 +15,7 @@ public class PDDataMeter: PDDataMeting {
         get { return UserDefaults(suiteName: "group.com.patchday.todaydata") }
     }
 
-    /// Sets MOEstrogen data for PatchDay Today widget.
+    /// Sets hormone data for other apps, such as the PatchDay Today widget.
     public func broadcastRelevantEstrogenData(oldestEstrogen: Hormonal,
                                               nextSuggestedSite: SiteName,
                                               interval: ExpirationIntervalUD,

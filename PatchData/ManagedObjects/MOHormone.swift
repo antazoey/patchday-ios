@@ -12,7 +12,7 @@ import CoreData
 import PDKit
 
 @objc(MOEstrogen)
-public class MOEstrogen: NSManagedObject {
+public class MOHormone: NSManagedObject {
     @NSManaged var siteRelationship: MOSite?
     @NSManaged var id: UUID?
     @NSManaged var date: NSDate?

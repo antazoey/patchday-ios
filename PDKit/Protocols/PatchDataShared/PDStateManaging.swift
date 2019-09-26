@@ -15,7 +15,7 @@ public protocol PDStateManaging {
     var siteChanged: Bool { get set }
     var onlySiteChanged: Bool { get set }
     var deliveryMethodChanged: Bool { get set }
-    var isNew: Bool { get set }
+    var isHormoneless: Bool { get set }
     var oldQuantity: Int { get set }
     var indicesOfChangedDelivery: [Int] { get set }
     func reset()

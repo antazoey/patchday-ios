@@ -16,10 +16,10 @@ extension PatchData {
         var estrogens: [Hormonal] = []
         if let mos = loadMOs(for: .estrogen) {
             for mo in mos {
-                if let moEstro = mo as? MOEstrogen {
-                    let pdEstro = PDEstrogen(estrogen: moEstro,
-                                             interval: expirationInterval,
-                                             deliveryMethod: deliveryMethod)
+                if let mone = mo as? MOHormone {
+                    let pdEstro = PDHormone(hormone: mone,
+                                            interval: expirationInterval,
+                                            deliveryMethod: deliveryMethod)
                     estrogens.append(pdEstro)
                 }
             }

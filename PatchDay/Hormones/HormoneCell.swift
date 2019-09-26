@@ -1,5 +1,5 @@
 //
-//  EstrogenCell.swift
+//  HormoneCell.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 7/11/18.
@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class EstrogenCell: UITableViewCell {
+class HormoneCell: UITableViewCell {
     
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!

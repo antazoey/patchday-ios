@@ -28,7 +28,7 @@ public class PDState: NSObject, PDStateManaging {
     public var siteChanged: Bool = false
     public var onlySiteChanged: Bool = false
     public var deliveryMethodChanged: Bool = false
-    public var isNew: Bool = false
+    public var isHormoneless: Bool = false
     public var oldQuantity: Int = 1
     public var indicesOfChangedDelivery: [Int] = [-1]
     

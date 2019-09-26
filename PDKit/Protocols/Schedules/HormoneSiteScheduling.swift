@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol EstrogenSiteScheduling: PDSchedule, PDSimpleSorting {
+public protocol HormoneSiteScheduling: PDSchedule, PDSimpleSorting {
     var all: [Bodily] { get }
     var suggested: Bodily? { get }
     var names: [SiteName] { get }

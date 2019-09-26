@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol EstrogenScheduling: PDSchedule, PDSimpleSorting {
+public protocol HormoneScheduling: PDSchedule, PDSimpleSorting {
     var all: [Hormonal] { get }
     var isEmpty: Bool { get }
     var next: Hormonal? { get }

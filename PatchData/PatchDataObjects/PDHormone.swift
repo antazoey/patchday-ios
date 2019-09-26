@@ -9,25 +9,25 @@
 import Foundation
 import PDKit
 
-public class PDEstrogen: PDObject, Hormonal, Comparable {
+public class PDHormone: PDObject, Hormonal, Comparable {
     
     private let exp: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
-    private var estrogen: MOEstrogen {
-        get { return self.mo as! MOEstrogen }
+    private var estrogen: MOHormone {
+        return self.mo as! MOHormone
     }
     
-    public init(estrogen: MOEstrogen, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+    public init(hormone: MOHormone, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
         self.exp = interval
         self.deliveryMethod = deliveryMethod
-        super.init(mo: estrogen)
+        super.init(mo: hormone)
     }
     
     public static func createNew(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
         let type = PDEntity.estrogen.rawValue
-        if let estro = PatchData.insert(type) as? MOEstrogen {
-            return PDEstrogen(estrogen: estro, interval: expiration, deliveryMethod: deliveryMethod)
+        if let mone = PatchData.insert(type) as? MOHormone {
+            return PDHormone(hormone: mone, interval: expiration, deliveryMethod: deliveryMethod)
         }
         return nil
     }
@@ -48,23 +48,19 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
     }
     
     public var expiration: Date? {
-        get {
-            if let date = date as Date?,
-                let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
-                return expires
-            }
-            return nil
+        if let date = date as Date?,
+            let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
+            return expires
         }
+        return nil
     }
     
     public var expirationString: String {
-        get {
-            if let date = date as Date?,
-                let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
-                return PDDateHelper.format(date: expires, useWords: true)
-            }
-            return PDStrings.PlaceholderStrings.dotdotdot
+        if let date = date as Date?,
+            let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
+            return PDDateHelper.format(date: expires, useWords: true)
         }
+        return PDStrings.PlaceholderStrings.dotdotdot
     }
     
     public var isExpired: Bool {
@@ -75,12 +71,10 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
     }
     
     public var siteName: String {
-        get {
-            let site = estrogen.siteRelationship?.name ?? siteNameBackUp
-            switch site {
-            case nil : return PDStrings.PlaceholderStrings.new_site
-            case let s : return s!
-            }
+        let site = estrogen.siteRelationship?.name ?? siteNameBackUp
+        switch site {
+        case nil : return PDStrings.PlaceholderStrings.new_site
+        case let s : return s!
         }
     }
     
@@ -93,9 +87,7 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
     }
     
     public var isEmpty: Bool {
-        get {
-            return !date.isDefault() && site == nil && siteNameBackUp == nil
-        }
+        return !date.isDefault() && site == nil && siteNameBackUp == nil
     }
     
     public var site: Bodily?
@@ -116,7 +108,7 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
     
     // Note: nil is greater than all for MOEstrogens
     
-    public static func < (lhs: PDEstrogen, rhs: PDEstrogen) -> Bool {
+    public static func < (lhs: PDHormone, rhs: PDHormone) -> Bool {
         switch(lhs.date, rhs.date) {
         case (nil, nil) : return false
         case (nil, _) : return false
@@ -125,7 +117,7 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
         }
     }
     
-    public static func > (lhs: PDEstrogen, rhs: PDEstrogen) -> Bool {
+    public static func > (lhs: PDHormone, rhs: PDHormone) -> Bool {
         switch(lhs.date, rhs.date) {
         case (nil, nil) : return false
         case (nil, _) : return true
@@ -134,7 +126,7 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
         }
     }
     
-    public static func == (lhs: PDEstrogen, rhs: PDEstrogen) -> Bool {
+    public static func == (lhs: PDHormone, rhs: PDHormone) -> Bool {
         switch(lhs.date, rhs.date) {
         case (nil, nil) : return true
         case (nil, _) : return false
@@ -143,7 +135,7 @@ public class PDEstrogen: PDObject, Hormonal, Comparable {
         }
     }
     
-    public static func != (lhs: PDEstrogen, rhs: PDEstrogen) -> Bool {
+    public static func != (lhs: PDHormone, rhs: PDHormone) -> Bool {
         switch(lhs.date, rhs.date) {
         case (nil, nil) : return false
         case (nil, _) : return true

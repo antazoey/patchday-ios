@@ -10,39 +10,38 @@ import Foundation
 import CoreData
 import PDKit
 
-public class EstrogenSchedule: NSObject, EstrogenScheduling {
+public class PDHormones: NSObject, HormoneScheduling {
 
     override public var description: String {
         return "Schedule for reading, writing, and querying the MOEstrogen array."
     }
     
-    private var estrogens: [Hormonal]
+    private var hormones: [Hormonal]
     
     init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        estrogens = PatchData.createEstrogens(expirationInterval: interval, deliveryMethod: deliveryMethod)
+        hormones = PatchData.createEstrogens(expirationInterval: interval, deliveryMethod: deliveryMethod)
         super.init()
-        if estrogens.count <= 0 { new(deliveryMethod: deliveryMethod, interval: interval) }
+        if hormones.count <= 0 { new(deliveryMethod: deliveryMethod, interval: interval) }
         sort()
     }
     
-    public var count: Int { return estrogens.count }
+    public var count: Int { return hormones.count }
     
-    public var all: [Hormonal] { return estrogens }
+    public var all: [Hormonal] { return hormones }
     
     public var isEmpty: Bool {
-        return estrogens.count == 0 || (hasNoDates && hasNoSites)
+        return hormones.count == 0 || (hasNoDates && hasNoSites)
     }
     
     public var next: Hormonal? {
         sort()
-        if estrogens.count > 0 { return estrogens[0] }
-        return nil
+        return count > 0 ? hormones[0] : nil
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
     public func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
-        if let estro = PDEstrogen.createNew(expiration: expiration, deliveryMethod: deliveryMethod) {
-            estrogens.append(estro)
+        if let estro = PDHormone.createNew(expiration: expiration, deliveryMethod: deliveryMethod) {
+            hormones.append(estro)
             sort()
             return estro
         }
@@ -50,20 +49,20 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     }
     
     public func forEach(doThis: (Hormonal) -> ()) {
-        estrogens.forEach(doThis)
+        hormones.forEach(doThis)
     }
     
     public func sort() {
-        if var estros = estrogens as? [PDEstrogen] {
-            estros.sort(by: <)
+        if var mones = hormones as? [PDHormone] {
+            mones.sort(by: <)
         }
     }
     
     /// Reset the schedule to factory default
     public func reset(completion: (() -> ())?, deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        for estro in estrogens {
-            estro.reset()
-            estro.delete()
+        for mone in hormones {
+            mone.reset()
+            mone.delete()
         }
         new(deliveryMethod: deliveryMethod, interval: interval)
         PatchData.save()
@@ -75,13 +74,13 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     /// Sets all MOEstrogen data between given indices to nil.
     public func reset(from start: Index) {
         switch(start) {
-        case 0..<estrogens.count :
+        case 0..<count :
             let context = PatchData.getContext()
-            for i in start..<estrogens.count {
-                estrogens[i].reset()
-                context.delete(estrogens[i] as! NSManagedObject)
+            for i in start..<count {
+                hormones[i].reset()
+                context.delete(hormones[i] as! NSManagedObject)
             }
-            estrogens = Array(estrogens.prefix(start))
+            hormones = Array(hormones.prefix(start))
             PatchData.save()
         default : return
         }
@@ -89,7 +88,7 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     
     /// Resets without changing the quantity
     public func new(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        estrogens.removeAll()
+        hormones.removeAll()
         reset(from: 0)
         let quantity = deliveryMethod == .Injections ? 1 : 3
         for _ in 0..<quantity {
@@ -99,10 +98,10 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
 
     public func delete(after i: Index) {
         let start = (i >= -1) ? i + 1 : 0
-        if estrogens.count >= start {
-            for _ in start..<estrogens.count {
-                if let estro = estrogens.popLast() {
-                    estro.delete()
+        if count >= start {
+            for _ in start..<count {
+                if let mone = hormones.popLast() {
+                    mone.delete()
                 }
             }
             PatchData.save()
@@ -112,51 +111,51 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     /// Returns the MOEstrogen for the given index
     public func at(_ index: Index) -> Hormonal? {
         switch index {
-            case 0..<estrogens.count :
-                return estrogens[index]
+            case 0..<count :
+                return hormones[index]
         default : return nil
         }
     }
 
     /// Returns the MOEstrogen for the given id.
     public func get(for id: UUID) -> Hormonal? {
-        return estrogens.filter({(estro: Hormonal) -> Bool in return estro.id == id })[0]
+        return hormones.filter({(mone: Hormonal) -> Bool in return mone.id == id })[0]
     }
 
     /// Sets the date and the site of the MOEstrogen for the given id.
     public func set(for id: UUID, date: Date, site: Bodily) {
-        if var estro = get(for: id) {
-            estro.site = site
-            estro.date = date
+        if var mone = get(for: id) {
+            mone.site = site
+            mone.date = date
             sort()
         }
     }
 
     /// Sets the site of the MOEstrogen for the given index.
     public func setSite(at index: Index, with site: Bodily) {
-        if var estro = at(index) { estro.site = site }
+        if var mone = at(index) { mone.site = site }
     }
     
     /// Sets the date of the MOEstrogen for the given index.
     public func setDate(at index: Index, with date: Date) {
-        if var estro = at(index) { estro.date = date }
+        if var mone = at(index) { mone.date = date }
         sort()
     }
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
     public func setBackUpSiteName(of index: Index, with name: String) {
-        if var estro = at(index) {
-            estro.siteNameBackUp = name
+        if var mone = at(index) {
+            mone.siteNameBackUp = name
             PatchData.save()
         }
     }
     
     /// Returns the index of the given estrogen.
-    public func indexOf(_ estrogen: Hormonal) -> Index? {
+    public func indexOf(_ soughtHormone: Hormonal) -> Index? {
         var i = -1
-        for estro in estrogens {
+        for mone in hormones {
             i += 1
-            if estro.id == estrogen.id {
+            if mone.id == soughtHormone.id {
                 return i
             }
         }
@@ -167,9 +166,9 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
-                if i >= 0 && i < estrogens.count {
-                    let estro = estrogens[i]
-                    if !estro.isEmpty {
+                if i >= 0 && i < count {
+                    let mone = hormones[i]
+                    if !mone.isEmpty {
                         return false
                     }
                 }
@@ -180,9 +179,9 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     
     /// Returns how many expired estrogens there are in the given estrogens.
     public func totalExpired(_ interval: ExpirationIntervalUD) -> Int {
-        return estrogens.reduce(0, {
-            count, estro in
-            let c = estro.isExpired ? 1 : 0
+        return hormones.reduce(0, {
+            count, mone in
+            let c = mone.isExpired ? 1 : 0
             return c + count
         })
     }
@@ -190,18 +189,14 @@ public class EstrogenSchedule: NSObject, EstrogenScheduling {
     // MARK: - Private
     
     private var hasNoDates: Bool {
-        get {
-            return (estrogens.count == 0) || (estrogens.filter() {
-                !$0.date.isDefault()
-            }).count == 0
-        }
+        return isEmpty || (hormones.filter() {
+            !$0.date.isDefault()
+        }).count == 0
     }
     
     private var hasNoSites: Bool {
-        get {
-            return (estrogens.count == 0) || (estrogens.filter() {
-                $0.site != nil || $0.siteNameBackUp != nil
-            }).count == 0
-        }
+        return isEmpty || (hormones.filter() {
+            $0.site != nil || $0.siteNameBackUp != nil
+        }).count == 0
     }
 }

@@ -12,47 +12,41 @@ import PDKit
 
 public typealias SiteSet = [String]
 
-public class PatchDataSDK: NSObject, PatchDataDelegate {
+public class PatchDataSDK: NSObject, PatchDataDelegate {    
     
     override public var description: String {
         return "Main interface for controlling patch data"
     }
-    
-    // Sub-schedules
-//    public var _defaults: PDDefaultManaging
-      public let dataMeter: PDDataMeting
-//    public let _estrogenSchedule: EstrogenScheduling
-//    public let _pillSchedule: PDPillScheduling
-//    public let _siteSchedule: EstrogenSiteScheduling
-  //   public var _state: PDStateManaging
-      public var patchdata: PatchDataCalling
+
+    public let dataMeter: PDDataMeting
+    public var patchdata: PatchDataCalling
     
     public convenience init(defaults: PDDefaultManaging,
                             dataMeter: PDDataMeting,
-                            estrogenSchedule: EstrogenScheduling,
-                            pillSchedule: PDPillScheduling,
-                            estrogenSiteSchedule: EstrogenSiteScheduling) {
+                            hormones: HormoneScheduling,
+                            pills: PDPillScheduling,
+                            sites: HormoneSiteScheduling) {
         self.init(defaults: defaults,
                   dataMeter: dataMeter,
-                  estrogenSchedule: estrogenSchedule,
-                  pillSchedule: pillSchedule,
-                  estrogenSiteSchedule: estrogenSiteSchedule,
+                  hormones: hormones,
+                  pills: pills,
+                  sites: sites,
                   state: PDState(),
                   patchdata: PatchDataCaller())
     }
 
     public init(defaults: PDDefaultManaging,
                 dataMeter: PDDataMeting,
-                estrogenSchedule: EstrogenScheduling,
-                pillSchedule: PDPillScheduling,
-                estrogenSiteSchedule: EstrogenSiteScheduling,
+                hormones: HormoneScheduling,
+                pills: PDPillScheduling,
+                sites: HormoneSiteScheduling,
                 state: PDStateManaging,
                 patchdata: PatchDataCalling) {
         self.defaults = defaults
         self.dataMeter = dataMeter
-        self.estrogens = estrogenSchedule
-        self.pills = pillSchedule
-        self.sites = estrogenSiteSchedule
+        self.hormones = hormones
+        self.pills = pills
+        self.sites = sites
         self.state = state
         self.patchdata = patchdata
     }
@@ -61,42 +55,36 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         self.dataMeter = PDDataMeter()
         self.state = PDState()
         self.patchdata = PatchDataCaller()
-        self.pills = PillSchedule()
-
+        self.pills = PDPills()
         self.defaults = PDDefaults(stateManager: self.state, meter: self.dataMeter)
-        self.estrogens = EstrogenSchedule(deliveryMethod: self.defaults.deliveryMethod.value,
-                                          interval: self.defaults.expirationInterval)
-        
+        self.hormones = PDHormones(deliveryMethod: self.defaults.deliveryMethod.value,
+                                   interval: self.defaults.expirationInterval)
         let indexer = PDSiteIndexer(defaults: self.defaults)
-        self.sites = SiteSchedule(deliveryMethod: self.defaults.deliveryMethod.value,
-                                  globalExpirationInterval: self.defaults.expirationInterval,
-                                  siteIndexRebounder: indexer)
+        self.sites = PDSites(deliveryMethod: self.defaults.deliveryMethod.value,
+                             globalExpirationInterval: self.defaults.expirationInterval,
+                             siteIndexRebounder: indexer)
     }
     
     public var defaults: PDDefaultManaging
-    public var estrogens: EstrogenScheduling
-    public var sites: EstrogenSiteScheduling
+    public var hormones: HormoneScheduling
+    public var sites: HormoneSiteScheduling
     public var pills: PDPillScheduling
     public var state: PDStateManaging
     
-    /// Returns the total due of MOEstrogens and MOPills in the schedule.
+    /// Returns the total hormones expired and pills due.
     public var totalDue: Int {
         return totalEstrogensExpired + pills.totalDue
     }
 
     public var totalEstrogensExpired: Int {
-        return estrogens.totalExpired(defaults.expirationInterval)
+        return hormones.totalExpired(defaults.expirationInterval)
     }
 
     // MARK: - Defaults
 
     public var siteIndex: Index {
-        get {
-            return defaults.siteIndex.rawValue
-        }
-        set {
-            _ = defaults.setSiteIndex(to: newValue, siteCount: sites.count)
-        }
+        get { return defaults.siteIndex.rawValue }
+        set { _ = defaults.setSiteIndex(to: newValue, siteCount: sites.count) }
     }
 
     public var deliveryMethod: DeliveryMethod {
@@ -121,11 +109,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         if oldQuantity < newQuantity {
             // Fill in new estros
             for _ in oldQuantity..<newQuantity {
-                let _ = estrogens.insert(expiration: defaults.expirationInterval,
-                                         deliveryMethod: defaults.deliveryMethod.value)
+                let _ = hormones.insert(expiration: defaults.expirationInterval,
+                                        deliveryMethod: defaults.deliveryMethod.value)
             }
         } else {
-            estrogens.delete(after: oldQuantity - 1)
+            hormones.delete(after: oldQuantity - 1)
         }
     }
 
@@ -133,26 +121,26 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     public func setEstrogenSite(at index: Index, with site: Bodily) {
         state.siteChanged = true
-        estrogens.setSite(at: index, with: site)
+        hormones.setSite(at: index, with: site)
         broadcastEstrogens()
         patchdata.save()
     }
 
     public func setEstrogenDate(at index: Index, with date: Date) {
-        estrogens.setDate(at: index, with: date)
+        hormones.setDate(at: index, with: date)
         broadcastEstrogens()
         patchdata.save()
     }
 
     public func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily) {
-        estrogens.set(for: id, date: date, site: site)
+        hormones.set(for: id, date: date, site: site)
         broadcastEstrogens()
         patchdata.save()
     }
 
     /// Returns array of current occupied SiteNames
     public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
-        return estrogens.all.map({(estro: Hormonal) -> SiteName in
+        return hormones.all.map({(estro: Hormonal) -> SiteName in
             return estro.site?.name ?? ""
         }).filter() { $0 != "" }
     }
@@ -177,7 +165,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     // MARK: - DataMeter
 
     public func broadcastEstrogens() {
-        if let estro = estrogens.next {
+        if let estro = hormones.next {
             let interval = defaults.expirationInterval
             let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.new_site
             let deliveryMethod = defaults.deliveryMethod
@@ -202,8 +190,8 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     public func prepareToSaveSiteImage(for site: Bodily) {
         state.siteChanged = true
-        for estro in site.estrogens {
-            if let i = estrogens.indexOf(estro) {
+        for estro in site.hormones {
+            if let i = hormones.indexOf(estro) {
                 state.indicesOfChangedDelivery.append(i)
             }
         }
@@ -215,8 +203,9 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     func occupiedSitesIndices() -> [Index] {
         var indices: [Index] = []
         if let pdSites = sites.all.asPDSiteArray() {
-            for estro in estrogens.all {
-                if let occupiedSite = estro.site?.asPDSite(), let i = pdSites.firstIndex(of: occupiedSite) {
+            for estro in hormones.all {
+                if let occupiedSite = estro.site?.asPDSite(),
+                    let i = pdSites.firstIndex(of: occupiedSite) {
                     indices.append(i)
                 }
             }
@@ -226,10 +215,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     public func nuke() {
         PatchData.nuke()
-        estrogens.reset(from: 0)
+        hormones.reset(from: 0)
         pills.new()
-        sites.reset(deliveryMethod: defaults.deliveryMethod.value,
-                    globalExpirationInterval: defaults.expirationInterval)
+        let method = defaults.deliveryMethod.value
+        let interval = defaults.expirationInterval
+        sites.reset(deliveryMethod: method, globalExpirationInterval: interval)
     }
 }
 

@@ -13,9 +13,9 @@
 		137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 137330EC1E22BA3E0048F91E /* AppDelegate.swift */; };
 		137330F21E22BA3E0048F91E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F01E22BA3E0048F91E /* Main.storyboard */; };
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
-		139754BE1EDA8C4D006C82B8 /* EstrogensVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */; };
+		139754BE1EDA8C4D006C82B8 /* HormonesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* HormonesVC.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* PDAlertDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* PDAlertDispatcher.swift */; };
-		13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* EstrogenVC.swift */; };
+		13E980D81EDFA54B0062B144 /* HormoneDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E980D71EDFA54B0062B144 /* HormoneDetailVC.swift */; };
 		9D003E962321BD250070C964 /* PatchDataAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E952321BD250070C964 /* PatchDataAdapter.swift */; };
 		9D003E982321C24B0070C964 /* PDObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E972321C24B0070C964 /* PDObject.swift */; };
 		9D003E9A23231E880070C964 /* PDObjectifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9923231E880070C964 /* PDObjectifiable.swift */; };
@@ -47,7 +47,7 @@
 		9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */; };
 		9D913B7822FA6F1D001FC03C /* PDGenericAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */; };
 		9D913B7A22FF3A0B001FC03C /* PDDefaultManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7922FF3A0B001FC03C /* PDDefaultManaging.swift */; };
-		9D913B7D22FF3BEA001FC03C /* EstrogenScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* EstrogenScheduling.swift */; };
+		9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */; };
 		9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */; };
 		9D913B8322FF3F9E001FC03C /* PDTabReflective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8222FF3F9E001FC03C /* PDTabReflective.swift */; };
 		9D913B8622FF43AB001FC03C /* PDValueHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F622810680009BAA25 /* PDValueHolding.swift */; };
@@ -60,14 +60,14 @@
 		9D913B9322FF4AE2001FC03C /* MentionedDisclaimerUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9222FF4AE2001FC03C /* MentionedDisclaimerUD.swift */; };
 		9D913B9522FF4AFC001FC03C /* SiteIndexUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9422FF4AFC001FC03C /* SiteIndexUD.swift */; };
 		9D913B9822FF4B13001FC03C /* ThemeUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9722FF4B13001FC03C /* ThemeUD.swift */; };
-		9D913B9C22FF5497001FC03C /* EstrogenSiteScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9B22FF5497001FC03C /* EstrogenSiteScheduling.swift */; };
+		9D913B9C22FF5497001FC03C /* HormoneSiteScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9B22FF5497001FC03C /* HormoneSiteScheduling.swift */; };
 		9D913B9E22FF56B4001FC03C /* PDAlertDispatching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9D22FF56B4001FC03C /* PDAlertDispatching.swift */; };
 		9D913BA022FF697F001FC03C /* Bodily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9F22FF697F001FC03C /* Bodily.swift */; };
 		9D913BA222FF7B56001FC03C /* Hormonal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BA122FF7B56001FC03C /* Hormonal.swift */; };
 		9D913BA42304ED7B001FC03C /* PDPillScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BA32304ED7B001FC03C /* PDPillScheduling.swift */; };
 		9D913BA62304EF83001FC03C /* Swallowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BA52304EF83001FC03C /* Swallowable.swift */; };
 		9D913BA823065676001FC03C /* PDError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BA723065676001FC03C /* PDError.swift */; };
-		9D913BAC230CD5C9001FC03C /* PDEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAB230CD5C9001FC03C /* PDEstrogen.swift */; };
+		9D913BAC230CD5C9001FC03C /* PDHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAB230CD5C9001FC03C /* PDHormone.swift */; };
 		9D913BAE231D89AD001FC03C /* PDPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* PDPill.swift */; };
 		9D913BB6231F3EB5001FC03C /* PDSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BB5231F3EB5001FC03C /* PDSite.swift */; };
 		9DA3A901233AFD4D00DAF350 /* PDNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */; };
@@ -91,7 +91,7 @@
 		B42D16D220A74B4700F21AF4 /* SettingsAndSites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */; };
 		B42F5D1020D2D6F90032E39A /* SiteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42F5D0F20D2D6F90032E39A /* SiteCell.swift */; };
 		B434B93E20FAEA45008F3CE1 /* TabBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */; };
-		B435182B20F5D72C00BD268C /* EstrogenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* EstrogenCell.swift */; };
+		B435182B20F5D72C00BD268C /* HormoneCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B435182A20F5D72C00BD268C /* HormoneCell.swift */; };
 		B4355D9B20EE96B10048D466 /* MFBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9920EE968B0048D466 /* MFBadgeButton.swift */; };
 		B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */; };
 		B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B440110D21DF3E5D00C94B76 /* DateExtension.swift */; };
@@ -119,10 +119,10 @@
 		B480EE3121CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
 		B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B480EE3C21CC75FB002C2238 /* PatchDataSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1335B9BA1EC7500D00DD7088 /* PatchDataSDK.swift */; };
-		B480EE3E21CC75FE002C2238 /* EstrogenSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8D20ED24CF0048D466 /* EstrogenSchedule.swift */; };
-		B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9120ED2E6A0048D466 /* SiteSchedule.swift */; };
+		B480EE3E21CC75FE002C2238 /* PDHormones.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8D20ED24CF0048D466 /* PDHormones.swift */; };
+		B480EE4021CC7602002C2238 /* PDSites.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9120ED2E6A0048D466 /* PDSites.swift */; };
 		B480EE4721CC7B5E002C2238 /* PDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* PDState.swift */; };
-		B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8F20ED2C1A0048D466 /* PillSchedule.swift */; };
+		B480EE4A21CC7D76002C2238 /* PDPills.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D8F20ED2C1A0048D466 /* PDPills.swift */; };
 		B480EE4B21CC7E20002C2238 /* PDDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13C746D01ED781DD00067A67 /* PDDefaults.swift */; };
 		B49A4A5020DB2D4C00F24FC0 /* PDKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B49A4A4020DB2D4C00F24FC0 /* PDKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B49A4A5320DB2D4C00F24FC0 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
@@ -134,7 +134,7 @@
 		B4AED52320E5659C00559165 /* PillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AED52220E5659C00559165 /* PillVC.swift */; };
 		B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9320ED6F250048D466 /* MOPill.swift */; };
 		B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993B20F8822700D36B06 /* MOSite.swift */; };
-		B4C69F0E21E56CD7004EABC4 /* MOEstrogen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOEstrogen.swift */; };
+		B4C69F0E21E56CD7004EABC4 /* MOHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOHormone.swift */; };
 		B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -231,11 +231,11 @@
 		137330F81E22BA3E0048F91E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		138426D31F4DDB31008C6E6D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		139754B41ED8EE27006C82B8 /* PDColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDColors.swift; sourceTree = "<group>"; };
-		139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EstrogensVC.swift; path = ../Estrogens/EstrogensVC.swift; sourceTree = "<group>"; };
+		139754BD1EDA8C4D006C82B8 /* HormonesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormonesVC.swift; sourceTree = "<group>"; };
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* PDDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDDefaults.swift; sourceTree = "<group>"; };
 		13E0BB5C1EF8E5D900939D37 /* PDAlertDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertDispatcher.swift; sourceTree = "<group>"; };
-		13E980D71EDFA54B0062B144 /* EstrogenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EstrogenVC.swift; path = ../Estrogens/EstrogenVC.swift; sourceTree = "<group>"; };
+		13E980D71EDFA54B0062B144 /* HormoneDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDetailVC.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
 		9D003E952321BD250070C964 /* PatchDataAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataAdapter.swift; sourceTree = "<group>"; };
 		9D003E972321C24B0070C964 /* PDObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObject.swift; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 		9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClass.swift; sourceTree = "<group>"; };
 		9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDGenericAlert.swift; sourceTree = "<group>"; };
 		9D913B7922FF3A0B001FC03C /* PDDefaultManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultManaging.swift; sourceTree = "<group>"; };
-		9D913B7C22FF3BEA001FC03C /* EstrogenScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenScheduling.swift; sourceTree = "<group>"; };
+		9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduling.swift; sourceTree = "<group>"; };
 		9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDStateManaging.swift; sourceTree = "<group>"; };
 		9D913B8222FF3F9E001FC03C /* PDTabReflective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTabReflective.swift; sourceTree = "<group>"; };
 		9D913B8822FF49F3001FC03C /* DeliveryMethodUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryMethodUD.swift; sourceTree = "<group>"; };
@@ -279,14 +279,14 @@
 		9D913B9222FF4AE2001FC03C /* MentionedDisclaimerUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MentionedDisclaimerUD.swift; sourceTree = "<group>"; };
 		9D913B9422FF4AFC001FC03C /* SiteIndexUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteIndexUD.swift; sourceTree = "<group>"; };
 		9D913B9722FF4B13001FC03C /* ThemeUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeUD.swift; sourceTree = "<group>"; };
-		9D913B9B22FF5497001FC03C /* EstrogenSiteScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenSiteScheduling.swift; sourceTree = "<group>"; };
+		9D913B9B22FF5497001FC03C /* HormoneSiteScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneSiteScheduling.swift; sourceTree = "<group>"; };
 		9D913B9D22FF56B4001FC03C /* PDAlertDispatching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDAlertDispatching.swift; sourceTree = "<group>"; };
 		9D913B9F22FF697F001FC03C /* Bodily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bodily.swift; sourceTree = "<group>"; };
 		9D913BA122FF7B56001FC03C /* Hormonal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hormonal.swift; sourceTree = "<group>"; };
 		9D913BA32304ED7B001FC03C /* PDPillScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillScheduling.swift; sourceTree = "<group>"; };
 		9D913BA52304EF83001FC03C /* Swallowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swallowable.swift; sourceTree = "<group>"; };
 		9D913BA723065676001FC03C /* PDError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDError.swift; sourceTree = "<group>"; };
-		9D913BAB230CD5C9001FC03C /* PDEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDEstrogen.swift; sourceTree = "<group>"; };
+		9D913BAB230CD5C9001FC03C /* PDHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDHormone.swift; sourceTree = "<group>"; };
 		9D913BAD231D89AD001FC03C /* PDPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPill.swift; sourceTree = "<group>"; };
 		9D913BB5231F3EB5001FC03C /* PDSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSite.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationDelegate.swift; sourceTree = "<group>"; };
@@ -314,10 +314,10 @@
 		B42D16D120A74B4700F21AF4 /* SettingsAndSites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = SettingsAndSites.storyboard; path = Settings/SettingsAndSites.storyboard; sourceTree = "<group>"; };
 		B42F5D0F20D2D6F90032E39A /* SiteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteCell.swift; path = Sites/SiteCell.swift; sourceTree = "<group>"; };
 		B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TabBarExtension.swift; path = ../Shared/TabBarExtension.swift; sourceTree = "<group>"; };
-		B435182A20F5D72C00BD268C /* EstrogenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenCell.swift; sourceTree = "<group>"; };
-		B4355D8D20ED24CF0048D466 /* EstrogenSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenSchedule.swift; sourceTree = "<group>"; };
-		B4355D8F20ED2C1A0048D466 /* PillSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillSchedule.swift; sourceTree = "<group>"; };
-		B4355D9120ED2E6A0048D466 /* SiteSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSchedule.swift; sourceTree = "<group>"; };
+		B435182A20F5D72C00BD268C /* HormoneCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneCell.swift; sourceTree = "<group>"; };
+		B4355D8D20ED24CF0048D466 /* PDHormones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDHormones.swift; sourceTree = "<group>"; };
+		B4355D8F20ED2C1A0048D466 /* PDPills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPills.swift; sourceTree = "<group>"; };
+		B4355D9120ED2E6A0048D466 /* PDSites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSites.swift; sourceTree = "<group>"; };
 		B4355D9320ED6F250048D466 /* MOPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOPill.swift; sourceTree = "<group>"; };
 		B4355D9920EE968B0048D466 /* MFBadgeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MFBadgeButton.swift; path = ../Shared/MFBadgeButton.swift; sourceTree = "<group>"; };
 		B440110D21DF3E5D00C94B76 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
@@ -325,7 +325,7 @@
 		B4454B0720E19A7E005CD2E3 /* PillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PillCell.swift; path = Pills/PillCell.swift; sourceTree = "<group>"; };
 		B44611B320F740C300312DCD /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SiteImagePickerDelegate.swift; path = Sites/SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
 		B458993B20F8822700D36B06 /* MOSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOSite.swift; sourceTree = "<group>"; };
-		B458994120F8865C00D36B06 /* MOEstrogen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOEstrogen.swift; sourceTree = "<group>"; };
+		B458994120F8865C00D36B06 /* MOHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHormone.swift; sourceTree = "<group>"; };
 		B463E1AA211640E90099DE36 /* PDState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDState.swift; sourceTree = "<group>"; };
 		B468414121DC815A00A0BE73 /* EstrogenScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EstrogenScheduleTests.swift; sourceTree = "<group>"; };
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
@@ -449,7 +449,7 @@
 				131F0B681EE3AAD700576200 /* PDImages.swift */,
 				B480EE4221CC79DD002C2238 /* Shared */,
 				B480EE4321CC79FA002C2238 /* Settings */,
-				B480EE4521CC7A09002C2238 /* Estrogens */,
+				B480EE4521CC7A09002C2238 /* Hormones */,
 				B480EE4421CC7A04002C2238 /* Pills */,
 				B480EE4621CC7A15002C2238 /* Sites */,
 				137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */,
@@ -462,9 +462,9 @@
 		138A65611F198B4D0068A972 /* Schedules */ = {
 			isa = PBXGroup;
 			children = (
-				B4355D8D20ED24CF0048D466 /* EstrogenSchedule.swift */,
-				B4355D8F20ED2C1A0048D466 /* PillSchedule.swift */,
-				B4355D9120ED2E6A0048D466 /* SiteSchedule.swift */,
+				B4355D8D20ED24CF0048D466 /* PDHormones.swift */,
+				B4355D8F20ED2C1A0048D466 /* PDPills.swift */,
+				B4355D9120ED2E6A0048D466 /* PDSites.swift */,
 			);
 			path = Schedules;
 			sourceTree = "<group>";
@@ -509,8 +509,8 @@
 		9D003EB7233467D20070C964 /* Schedules */ = {
 			isa = PBXGroup;
 			children = (
-				9D913B7C22FF3BEA001FC03C /* EstrogenScheduling.swift */,
-				9D913B9B22FF5497001FC03C /* EstrogenSiteScheduling.swift */,
+				9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */,
+				9D913B9B22FF5497001FC03C /* HormoneSiteScheduling.swift */,
 				9D913BA32304ED7B001FC03C /* PDPillScheduling.swift */,
 				9D003EC0233599A90070C964 /* PDSchedule.swift */,
 			);
@@ -642,7 +642,7 @@
 		9D913BAA230CD5B7001FC03C /* PatchDataObjects */ = {
 			isa = PBXGroup;
 			children = (
-				9D913BAB230CD5C9001FC03C /* PDEstrogen.swift */,
+				9D913BAB230CD5C9001FC03C /* PDHormone.swift */,
 				9D913BAD231D89AD001FC03C /* PDPill.swift */,
 				9D913BB5231F3EB5001FC03C /* PDSite.swift */,
 				9D003E972321C24B0070C964 /* PDObject.swift */,
@@ -747,7 +747,6 @@
 				9D913BAA230CD5B7001FC03C /* PatchDataObjects */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
 				138A65611F198B4D0068A972 /* Schedules */,
-				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
 				B480EE1E21CC7553002C2238 /* PatchData.h */,
 				B480EE1F21CC7553002C2238 /* Info.plist */,
 				9D1BC56A2275FAC800552BC1 /* PDKeyStore */,
@@ -770,9 +769,10 @@
 		B480EE4121CC76FE002C2238 /* ManagedObjects */ = {
 			isa = PBXGroup;
 			children = (
+				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
 				B4355D9320ED6F250048D466 /* MOPill.swift */,
 				B458993B20F8822700D36B06 /* MOSite.swift */,
-				B458994120F8865C00D36B06 /* MOEstrogen.swift */,
+				B458994120F8865C00D36B06 /* MOHormone.swift */,
 			);
 			path = ManagedObjects;
 			sourceTree = "<group>";
@@ -805,14 +805,14 @@
 			name = Pills;
 			sourceTree = "<group>";
 		};
-		B480EE4521CC7A09002C2238 /* Estrogens */ = {
+		B480EE4521CC7A09002C2238 /* Hormones */ = {
 			isa = PBXGroup;
 			children = (
-				139754BD1EDA8C4D006C82B8 /* EstrogensVC.swift */,
-				B435182A20F5D72C00BD268C /* EstrogenCell.swift */,
-				13E980D71EDFA54B0062B144 /* EstrogenVC.swift */,
+				139754BD1EDA8C4D006C82B8 /* HormonesVC.swift */,
+				B435182A20F5D72C00BD268C /* HormoneCell.swift */,
+				13E980D71EDFA54B0062B144 /* HormoneDetailVC.swift */,
 			);
-			path = Estrogens;
+			path = Hormones;
 			sourceTree = "<group>";
 		};
 		B480EE4621CC7A15002C2238 /* Sites */ = {
@@ -1157,10 +1157,10 @@
 				9D43DB0A22639893008F56AE /* PDThemeManager.swift in Sources */,
 				9DA3A901233AFD4D00DAF350 /* PDNotificationDelegate.swift in Sources */,
 				133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */,
-				13E980D81EDFA54B0062B144 /* EstrogenVC.swift in Sources */,
+				13E980D81EDFA54B0062B144 /* HormoneDetailVC.swift in Sources */,
 				9D3E4C8A22B7117900C82DAE /* PDAlerting.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotificationSchedule.swift in Sources */,
-				139754BE1EDA8C4D006C82B8 /* EstrogensVC.swift in Sources */,
+				139754BE1EDA8C4D006C82B8 /* HormonesVC.swift in Sources */,
 				B42F5D1020D2D6F90032E39A /* SiteCell.swift in Sources */,
 				13E0BB5D1EF8E5D900939D37 /* PDAlertDispatcher.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
@@ -1171,7 +1171,7 @@
 				9D3E4C8C22B711B600C82DAE /* DeliveryMethodMutationAlert.swift in Sources */,
 				B46AC63420CDA48400CF7B54 /* SitesVC.swift in Sources */,
 				9D3E4C8E22B727DB00C82DAE /* DisclaimerAlert.swift in Sources */,
-				B435182B20F5D72C00BD268C /* EstrogenCell.swift in Sources */,
+				B435182B20F5D72C00BD268C /* HormoneCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,7 +1200,7 @@
 			files = (
 				B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */,
 				B480EE4721CC7B5E002C2238 /* PDState.swift in Sources */,
-				B480EE3E21CC75FE002C2238 /* EstrogenSchedule.swift in Sources */,
+				B480EE3E21CC75FE002C2238 /* PDHormones.swift in Sources */,
 				9D003EA92331DE390070C964 /* PatchDataCaller.swift in Sources */,
 				9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PatchDataSDK.swift in Sources */,
@@ -1212,10 +1212,10 @@
 				9D003E962321BD250070C964 /* PatchDataAdapter.swift in Sources */,
 				9D003EB3233330CE0070C964 /* PDSiteIndexer.swift in Sources */,
 				B40CC9C221CD802D002364BB /* PDDataMeter.swift in Sources */,
-				9D913BAC230CD5C9001FC03C /* PDEstrogen.swift in Sources */,
-				B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */,
-				B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */,
-				B4C69F0E21E56CD7004EABC4 /* MOEstrogen.swift in Sources */,
+				9D913BAC230CD5C9001FC03C /* PDHormone.swift in Sources */,
+				B480EE4A21CC7D76002C2238 /* PDPills.swift in Sources */,
+				B480EE4021CC7602002C2238 /* PDSites.swift in Sources */,
+				B4C69F0E21E56CD7004EABC4 /* MOHormone.swift in Sources */,
 				9D913BAE231D89AD001FC03C /* PDPill.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1245,7 +1245,7 @@
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
 				9D913B8B22FF4A7C001FC03C /* QuantityUD.swift in Sources */,
 				9D003EBF2335958A0070C964 /* PDSimpleProtocols.swift in Sources */,
-				9D913B9C22FF5497001FC03C /* EstrogenSiteScheduling.swift in Sources */,
+				9D913B9C22FF5497001FC03C /* HormoneSiteScheduling.swift in Sources */,
 				9D913B8D22FF4A95001FC03C /* ExpirationIntervalUD.swift in Sources */,
 				9D913BA022FF697F001FC03C /* Bodily.swift in Sources */,
 				9D913B7A22FF3A0B001FC03C /* PDDefaultManaging.swift in Sources */,
@@ -1266,7 +1266,7 @@
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				B49A4A5C20DB2D5A00F24FC0 /* PDPillHelper.swift in Sources */,
 				9D913B8F22FF4AB3001FC03C /* NotificationsUD.swift in Sources */,
-				9D913B7D22FF3BEA001FC03C /* EstrogenScheduling.swift in Sources */,
+				9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */,
 				9D913B9522FF4AFC001FC03C /* SiteIndexUD.swift in Sources */,
 				9D913B8722FF43AB001FC03C /* PDKeyStorable.swift in Sources */,
 				9D003E9B232326F70070C964 /* PillAttributes.swift in Sources */,

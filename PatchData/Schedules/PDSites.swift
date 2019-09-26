@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 import PDKit
 
-public class SiteSchedule: NSObject, EstrogenSiteScheduling {
+public class PDSites: NSObject, HormoneSiteScheduling {
     
     override public var description: String {
-        return "Schedule for maintaining sites for estrogen patches or injections."
+        return "Schedule for maintaining sites for hormone patches or injections."
     }
     
     private var sites: [Bodily]
@@ -69,7 +69,7 @@ public class SiteSchedule: NSObject, EstrogenSiteScheduling {
         }
         for i in 0..<sites.count {
             // Return site that has no estros
-            if sites[i].estrogens.count == 0 {
+            if sites[i].hormones.count == 0 {
                 next = siteIndexRebounder.rebound(upon: i, lessThan: sites.count)
             }
         }
