@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var notifications = PDNotificationSchedule()
     var sdk: PatchDataDelegate = PatchDataSDK()
     var alerts = PDAlertDispatcher()
-    var tabs: PDTabViewDelegate?
+    var tabs: PDTabReflector?
     var nav: PDNavigationDelegate = PDNavigationDelegate()
     var theme: PDThemeManager!
     
@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setTabs(tc: UITabBarController, vcs: [UIViewController]) {
-        tabs = PDTabViewDelegate(tabController: tc, viewControllers: vcs)
+        tabs = PDTabReflector(tabController: tc, viewControllers: vcs)
     }
     
     func isFirstLaunch() -> Bool {

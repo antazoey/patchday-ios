@@ -24,7 +24,7 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
         super.init(mo: site)
     }
     
-    public static func createNew(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) -> PDSite? {
+    public static func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) -> PDSite? {
         let type = PDEntity.site.rawValue
         if let site = PatchData.insert(type) as? MOSite {
             return PDSite(site: site,

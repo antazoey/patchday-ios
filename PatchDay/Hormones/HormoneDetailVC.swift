@@ -63,7 +63,7 @@ class HormoneDetailVC: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = sdk.estrogens.at(estrogenScheduleIndex)
+        estrogen = sdk.hormones.at(estrogenScheduleIndex)
         loadTitle()
         selectSiteTextField.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -104,17 +104,17 @@ class HormoneDetailVC: UIViewController,
        5.) Set site index */
     @objc private func saveButtonTapped(_ sender: Any) {
         let interval = sdk.defaults.expirationInterval
-        if let estro = estrogen {
+        if let mone = estrogen {
             let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
             saveData()    // Save
             let isExpiredAfterSave = estro.isExpired(interval)
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
-            sdk.estrogens.sort()
+            sdk.hormones.sort()
             // Save effects
-            state.wereEstrogenChanges = true
+            state.wereHormonalChanges = true
             if let i = estrogenSchedule.getIndex(for: estro) {
-                state.indicesOfChangedDelivery = [i]
+                state.indicesOfMutatedHormones = [i]
             }
         }
         
@@ -354,7 +354,7 @@ class HormoneDetailVC: UIViewController,
         
         // date
         if dateTextHasChanged {
-            sdk.estrogens.setDate(at: estrogenScheduleIndex, with: datePicker.date)
+            sdk.hormones.setDate(at: estrogenScheduleIndex, with: datePicker.date)
         }
         // For HormonesVC animation.
         if !dateTextHasChanged {
@@ -388,7 +388,7 @@ class HormoneDetailVC: UIViewController,
     }
     
     private func requestNotification() {
-        if let estro = estrogen {
+        if let mone = estrogen {
             notifications.requestEstrogenExpiredNotification(for: estro)
             // Overnight
             let interval = defaults.expirationInterval
@@ -424,7 +424,7 @@ class HormoneDetailVC: UIViewController,
         var exp = ""
         typealias Strings = PDStrings.ColonedStrings
         let interval = defaults.expirationInterval
-        if let estro = estrogenSchedule.at(estrogenScheduleIndex),
+        if let mone = estrogenSchedule.at(estrogenScheduleIndex),
             estro.getDate() != nil {
             switch defaults.deliveryMethod.value {
             case .Patches :
@@ -487,12 +487,12 @@ class HormoneDetailVC: UIViewController,
     }
     
     private func configureBadgeIcon(_ wasExpiredBeforeSave: Bool,_ isExpiredAfterSave: Bool) {
-        // New estro is fresh
+        // New mone is fresh
         let hasBadge = UIApplication.shared.applicationIconBadgeNumber > 0
         if !isExpiredAfterSave && hasBadge {
             UIApplication.shared.applicationIconBadgeNumber -= 1
         } else if !wasExpiredBeforeSave && isExpiredAfterSave {
-            // New estro is not fresh
+            // New mone is not fresh
             UIApplication.shared.applicationIconBadgeNumber += 1
         }
         if !wasExpiredBeforeSave {

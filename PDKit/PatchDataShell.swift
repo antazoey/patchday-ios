@@ -53,7 +53,7 @@
 //
 //            // Decreasing - will result in deletions if user agrees
 //            if newQuantityRaw < oldQuantityRaw {
-//                sdk.state.decreasedCount = true
+//                sdk.state.decreasedQuantity = true
 //                app.alerts.presentQuantityMutationAlert(oldQuantity: oldQuantityRaw,
 //                                                        newQuantity: newQuantityRaw,
 //                                                        simpleSetQuantity: sdk.defaults.setQuantity(to:),

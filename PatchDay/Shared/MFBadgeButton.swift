@@ -6,6 +6,7 @@
 
 
 import UIKit
+import PDKit
 
 enum PDBadgeButtonType {
     case patches
@@ -15,7 +16,7 @@ enum PDBadgeButtonType {
 
 class MFBadgeButton : UIButton {
     
-    public var type: PDBadgeButtonType = .patches
+    private var type: PDBadgeButtonType = .patches
     
     var badgeValue : String! = "" {
         didSet {
@@ -39,6 +40,16 @@ class MFBadgeButton : UIButton {
     }
     
     var badgeLayer :CAShapeLayer!
+    
+    func setType(deliveryMethod: DeliveryMethod) {
+        switch deliveryMethod {
+        case .Patches:
+            type = .patches
+        case .Injections:
+            type = .injections
+        }
+    }
+
     func drawBadgeLayer() {
         
         if self.badgeLayer != nil {

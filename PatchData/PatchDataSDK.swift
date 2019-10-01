@@ -81,6 +81,21 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     }
 
     // MARK: - Defaults
+    
+    public var themedDeliveryMethod: ThemedDeliveryMethod {
+        let method = defaults.deliveryMethod.value
+        let theme = defaults.theme.value
+        switch (method, theme) {
+        case (.Injections, .Dark):
+            return .DarkInjection
+        case (.Injections, .Light):
+            return .LightInjection
+        case (.Patches, .Dark):
+            return .DarkPatch
+        case (.Patches, .Light):
+            return .LightPatch
+        }
+    }
 
     public var siteIndex: Index {
         get { return defaults.siteIndex.rawValue }
@@ -120,7 +135,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     // MARK: - Estrogens
 
     public func setEstrogenSite(at index: Index, with site: Bodily) {
-        state.siteChanged = true
+        state.bodilyChanged = true
         hormones.setSite(at: index, with: site)
         broadcastEstrogens()
         patchdata.save()
@@ -165,11 +180,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     // MARK: - DataMeter
 
     public func broadcastEstrogens() {
-        if let estro = hormones.next {
+        if let mone = hormones.next {
             let interval = defaults.expirationInterval
             let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.new_site
             let deliveryMethod = defaults.deliveryMethod
-            dataMeter.broadcastRelevantEstrogenData(oldestEstrogen: estro,
+            dataMeter.broadcastRelevantEstrogenData(oldestEstrogen: mone,
                                                     nextSuggestedSite: name,
                                                     interval: interval,
                                                     deliveryMethod: deliveryMethod)
@@ -188,23 +203,14 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         state.oldQuantity = defaults.quantity.value.rawValue
     }
 
-    public func prepareToSaveSiteImage(for site: Bodily) {
-        state.siteChanged = true
-        for estro in site.hormones {
-            if let i = hormones.indexOf(estro) {
-                state.indicesOfChangedDelivery.append(i)
-            }
-        }
-    }
-
     // MARK: - Other public
 
     /// Returns array of occupied site indices.
     func occupiedSitesIndices() -> [Index] {
         var indices: [Index] = []
         if let pdSites = sites.all.asPDSiteArray() {
-            for estro in hormones.all {
-                if let occupiedSite = estro.site?.asPDSite(),
+            for mone in hormones.all {
+                if let occupiedSite = mone.site?.asPDSite(),
                     let i = pdSites.firstIndex(of: occupiedSite) {
                     indices.append(i)
                 }

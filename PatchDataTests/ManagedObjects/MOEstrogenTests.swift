@@ -102,7 +102,7 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testSetSite() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         let site = SiteSchedule().insert() as! MOSite
         site.setName("Left Armpit")
         estro.setSite(site)
@@ -112,7 +112,7 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testSetDate() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         estro.stamp()
         let d = estro.getDate()! as Date
         // Should set to now without arg
@@ -123,13 +123,13 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testSetId() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         let id = estro.setId()
         XCTAssertEqual(estro.id, id)
     }
     
     func testSetBackupSiteName() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         estro.setSiteBackup(to: "NEW SITE")
         XCTAssertEqual(estro.getSiteNameBackUp(), "NEW SITE")
         // should set site to nil upon setting site backup name
@@ -137,7 +137,7 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testGetSiteName() {
-        if let estro = estrogenSchedule.insert() as? MOEstrogen,
+        if let mone = estrogenSchedule.insert() as? MOEstrogen,
             let site = siteSchedule.insert() as? MOSite {
             site.setName("Left Armpit")
             estro.setSite(site)
@@ -147,7 +147,7 @@ class MOEstrogenTests: XCTestCase {
             estro.setSiteBackup(to: "Right Tongue")
             XCTAssertEqual(estro.getSiteName(), estro.getSiteNameBackUp())
             estro.reset()
-            // When estro is without a site, it's sitename is "NEW SITE"
+            // When mone is without a site, it's sitename is "NEW SITE"
             XCTAssertEqual(estro.getSiteName(), PDStrings.PlaceholderStrings.new_site)
         } else {
             XCTFail()
@@ -155,7 +155,7 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testReset() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         estro.setSiteBackup(to: "Booty")
         estro.stamp()
         estro.reset()
@@ -166,7 +166,7 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testIsExpired() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         let halfweek_interval = ExpirationIntervalUD(with: .TwiceAWeek)
         let week_interval = ExpirationIntervalUD(with: .OnceAWeek)
         let two_weeks_interval = ExpirationIntervalUD(with: .EveryTwoWeeks)
@@ -199,7 +199,7 @@ class MOEstrogenTests: XCTestCase {
     }
     
     func testIsEmpty() {
-        let estro = estrogenSchedule.insert() as! MOEstrogen
+        let mone = estrogenSchedule.insert() as! MOEstrogen
         XCTAssertTrue(estro.isEmpty())
         estro.stamp()
         XCTAssertFalse(estro.isEmpty())

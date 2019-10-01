@@ -172,7 +172,7 @@
 //    
 //    func testSetEstrogen() {
 //        let d = Date(timeIntervalSince1970: 234534624) as NSDate
-//        if let estro = estrogenSchedule.at(0),
+//        if let mone = estrogenSchedule.at(0),
 //            let site = siteSchedule.at(3),
 //            let id = estro.id {
 //            let e = expectation(description: "Shared data was set.")
@@ -204,7 +204,7 @@
 //    }
 //    
 //    func testGetIndex() {
-//        if let estro = estrogenSchedule.at(0) {
+//        if let mone = estrogenSchedule.at(0) {
 //            let actual = estrogenSchedule.getIndex(for: estro)
 //            XCTAssertEqual(actual, 0)
 //        } else {

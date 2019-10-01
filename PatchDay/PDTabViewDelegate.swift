@@ -1,5 +1,5 @@
 //
-//  PDTabViewDelegate.swift
+//  PDTabReflector.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/5/19.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import PDKit
 
-class PDTabViewDelegate: PDTabReflective {
+class PDTabReflector: PDTabReflective {
     
     private let tabController: UITabBarController
     private let viewControllers: [UIViewController]
@@ -31,16 +31,16 @@ class PDTabViewDelegate: PDTabReflective {
         self.sdk = sdk
     }
     
-    var estrogenTab: UIViewController { return viewControllers[0] }
+    var hormonalTab: UIViewController { return viewControllers[0] }
     
-    var pillTab: UIViewController { return viewControllers[1] }
+    var swallowableTab: UIViewController { return viewControllers[1] }
     
-    var siteTab: UIViewController { return viewControllers[2] }
+    var bodilyTab: UIViewController { return viewControllers[2] }
     
     func reflectExpirationCountAsBadgeValue() {
         if viewControllers.count > 0 {
             let exp = sdk.totalEstrogensExpired
-            let item = estrogenTab.navigationController?.tabBarItem
+            let item = hormonalTab.navigationController?.tabBarItem
             item?.badgeValue = (exp > 0) ? "\(exp)" : nil
         }
     }
@@ -51,20 +51,20 @@ class PDTabViewDelegate: PDTabReflective {
         tabBarAppearance.barTintColor = theme.navbarColor
     }
     
-    func reflectEstrogen() {
+    func reflectHormone() {
         let deliv = sdk.deliveryMethod
         let c = sdk.totalDue
 
-        estrogenTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil
-        estrogenTab.tabBarItem.title = PDViewControllerTitleStrings.getTitle(for: deliv)
+        hormonalTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil
+        hormonalTab.tabBarItem.title = PDViewControllerTitleStrings.getTitle(for: deliv)
         switch deliv {
         case .Patches:
-            estrogenTab.tabBarItem.image = UIImage(named: "Patch Icon")
-            estrogenTab.tabBarItem.selectedImage = UIImage(named: "Patch Icon")
+            hormonalTab.tabBarItem.image = UIImage(named: "Patch Icon")
+            hormonalTab.tabBarItem.selectedImage = UIImage(named: "Patch Icon")
         case .Injections:
-            estrogenTab.tabBarItem.image = UIImage(named: "Injection Icon")
-            estrogenTab.tabBarItem.selectedImage = UIImage(named: "Injection Icon")
+            hormonalTab.tabBarItem.image = UIImage(named: "Injection Icon")
+            hormonalTab.tabBarItem.selectedImage = UIImage(named: "Injection Icon")
         }
-        estrogenTab.awakeFromNib()
+        hormonalTab.awakeFromNib()
     }
 }

@@ -24,7 +24,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         super.init(mo: hormone)
     }
     
-    public static func createNew(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
+    public static func new(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
         let type = PDEntity.estrogen.rawValue
         if let mone = PatchData.insert(type) as? MOHormone {
             return PDHormone(hormone: mone, interval: expiration, deliveryMethod: deliveryMethod)

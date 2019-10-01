@@ -40,10 +40,10 @@ public class PDHormones: NSObject, HormoneScheduling {
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
     public func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
-        if let estro = PDHormone.createNew(expiration: expiration, deliveryMethod: deliveryMethod) {
-            hormones.append(estro)
+        if let mone = PDHormone.new(expiration: expiration, deliveryMethod: deliveryMethod) {
+            hormones.append(mone)
             sort()
-            return estro
+            return mone
         }
         return nil
     }

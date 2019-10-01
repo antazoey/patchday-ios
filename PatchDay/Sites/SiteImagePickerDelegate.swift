@@ -95,7 +95,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         }
         if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            sdk.prepareToSaveSiteImage(for: selectedSite)
+            sdk.state.markSiteForImageMutation(site: selectedSite)
         }
     }
 }

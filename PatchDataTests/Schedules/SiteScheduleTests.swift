@@ -50,7 +50,7 @@
 //        let deliv = defaults.deliveryMethod.value
 //        XCTAssertEqual(deliv, DeliveryMethod.Patches)
 //        var i = 0
-//        for estro in estrogenSchedule.estrogens {
+//        for mone in estrogenSchedule.estrogens {
 //            if let actual = estro.getSite(),
 //                let expected = siteSchedule.at(i) {
 //                i += 1

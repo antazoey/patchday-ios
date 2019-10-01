@@ -138,7 +138,7 @@
 //    }
 //    
 //    func testIsOccupied() {
-//        let estro = estrogenSchedule.at(0)!
+//        let mone = estrogenSchedule.at(0)!
 //        let site = siteSchedule.at(0)!
 //        XCTAssertFalse(site.isOccupied())
 //        estro.setSite(site)

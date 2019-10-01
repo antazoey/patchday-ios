@@ -9,14 +9,17 @@
 import Foundation
 
 public protocol PDStateManaging {
-    var wereEstrogenChanges: Bool { get set }
-    var increasedCount: Bool { get set }
-    var decreasedCount: Bool { get set }
-    var siteChanged: Bool { get set }
+    var wereHormonalChanges: Bool { get set }
+    var increasedQuantity: Bool { get set }
+    var decreasedQuantity: Bool { get set }
+    var bodilyChanged: Bool { get set }
     var onlySiteChanged: Bool { get set }
     var deliveryMethodChanged: Bool { get set }
-    var isHormoneless: Bool { get set }
+    var isCerebral: Bool { get set }
     var oldQuantity: Int { get set }
-    var indicesOfChangedDelivery: [Int] { get set }
+    var mutatedHormoneIds: [UUID?] { get set }
     func reset()
+    func hormoneDateDidChange(for id: UUID) -> Bool
+    func hormonalBodilyDidChange(for id: UUID) -> Bool
+    func markSiteForImageMutation(site: Bodily)
 }

@@ -38,7 +38,7 @@ class PDNotificationSchedule: NSObject, PDNotificationScheduling {
 
     /// Cancels the notification at the given index.
     func cancelEstrogenNotification(at index: Index) {
-        if let estro = sdk.estrogens.at(index) {
+        if let mone = sdk.hormones.at(index) {
             let id = estro.id.uuidString
             center.removeNotifications(with: [id])
         }
@@ -56,7 +56,7 @@ class PDNotificationSchedule: NSObject, PDNotificationScheduling {
     }
     
     private func appendEstrogenIdToList(at i: Index, lst: inout [String]) {
-        if let estro = sdk.estrogens.at(i) {
+        if let mone = sdk.hormones.at(i) {
             let id = estro.id.uuidString
             lst.append(id)
         }
@@ -122,10 +122,10 @@ class PDNotificationSchedule: NSObject, PDNotificationScheduling {
     
     /// Resends all the estrogen notifications between the given indices.
     func resendEstrogenNotifications(begin: Index = 0, end: Index = -1) {
-        let e = end >= 0 ? end : sdk.estrogens.count - 1
+        let e = end >= 0 ? end : sdk.hormones.count - 1
         if e < begin { return }
         for i in begin...e {
-            if let estro = sdk.estrogens.at(i) {
+            if let mone = sdk.hormones.at(i) {
                 let id = estro.id.uuidString
                 center.removeNotifications(with: [id])
                 requestEstrogenExpiredNotification(for: estro)

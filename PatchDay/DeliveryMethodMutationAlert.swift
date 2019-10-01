@@ -23,7 +23,7 @@ class DeliveryMethodMutationAlert: PDAlert {
         return UIAlertAction(title: PDActionStrings.cont, style: .destructive) {
             void in
             self.sdk.deliveryMethod = self.newDeliveryMethod
-            self.tabs?.reflectEstrogen()
+            self.tabs?.reflectHormone()
         }
     }
     

@@ -21,7 +21,6 @@ public protocol PatchDataDelegate {
     func insertSite(name: SiteName?, completion: (() -> ())?)
     func broadcastEstrogens()
     func stampQuantity()
-    func prepareToSaveSiteImage(for: Bodily)
 
     // Estrogens
     func setEstrogenSite(at index: Index, with site: Bodily) 

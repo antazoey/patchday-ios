@@ -81,7 +81,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
                        globalExpirationInterval: ExpirationIntervalUD,
                        completion: (() -> ())? = nil) -> Bodily? {
         let i = globalExpirationInterval
-        if let site = PDSite.createNew(deliveryMethod: deliveryMethod, globalExpirationInterval: i) {
+        if let site = PDSite.new(deliveryMethod: deliveryMethod, globalExpirationInterval: i) {
             return site
         }
         return nil

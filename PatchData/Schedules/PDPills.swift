@@ -47,7 +47,7 @@ public class PDPills: NSObject, PDPillScheduling {
 
     /// Creates a new MOPill and inserts it in to the pills.
     public func insert(completion: (() -> ())?) -> Swallowable? {
-        if let pill = PDPill.createNew() {
+        if let pill = PDPill.new() {
             pill.initializeAttributes(attributes: PillAttributes())
             pills.append(pill)
             if let comp = completion {

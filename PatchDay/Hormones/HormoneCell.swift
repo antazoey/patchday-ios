@@ -15,26 +15,28 @@ class HormoneCell: UITableViewCell {
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: MFBadgeButton!
-
-    private var sdk: PatchDataDelegate = app.sdk
     
+    private let sdk: PatchDataDelegate!
+
     public var index = -1
     
-    public func load() {
-        let theme = app.theme.current
+    public func load(sdk: PatchDataDelegate) {
+        self.sdk = sdk
         backgroundColor = app.theme.bgColor
         let q = sdk.defaults.quantity.value.rawValue
         setThemeColors(at: index)
         switch (index) {
         case 0..<q :
             let interval = sdk.defaults.expirationInterval
-            let deliv = sdk.defaults.deliveryMethod
-            if let estro = sdk.estrogens.at(index) {
-                let isExpired = estro.isExpired
-                let img = getImage(at: index)
+            let method = sdk.defaults.deliveryMethod.value
+            let theme = sdk.defaults.theme.value
+            if let mone = sdk.hormones.at(index) {
+    
+                let isExpired = mone.isExpired
+                let img = PDImages.getImage(for: mone, theme: theme, deliveryMethod: method)
                 let title = getTitle(at: index, interval)
                 configureDate(when: isExpired)
-                configureBadge(at: index, when: isExpired, deliveryMethod: deliv.value)
+                configureBadge(at: index, isExpired: isExpired, deliveryMethod: deliv)
                 self.setDateLabel(title)
                 animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
                 selectionStyle = .default
@@ -47,34 +49,17 @@ class HormoneCell: UITableViewCell {
         }
     }
     
-    /// Returns the site-reflecting estrogen button image to the corresponding index.
-    private func getImage(at index: Index) -> UIImage {
-        let theme = sdk.defaults.theme.value
-        let method = sdk.defaults.deliveryMethod
-        var image = PDImages.newSiteImage(theme: theme, deliveryMethod: method)
-        if let estro = sdk.estrogens.at(index),
-            !estro.isEmpty {
-            if let site = estro.site {
-                let siteName = site.imageIdentifier
-                image = PDImages.siteNameToImage(siteName, theme: theme, deliveryMethod: method)
-            } else {
-                image = PDImages.custom(theme: theme, deliveryMethod: method)
-            }
-        }
-        return image
-    }
-    
     /// Determines the start of the week title for a schedule button.
     private func getTitle(at index: Int, _ interval: ExpirationIntervalUD) -> String {
         var title: String = ""
         typealias Strings = PDStrings.ColonedStrings
-        if let estro = sdk.estrogens.at(index), let exp = estro.expiration {
+        if let mone = sdk.hormones.at(index), let exp = mone.expiration {
             switch sdk.deliveryMethod {
             case .Patches:
-                let intro = estro.isExpired ? Strings.expired : Strings.expires
+                let intro = mone.isExpired ? Strings.expired : Strings.expires
                 title += intro + PDDateHelper.dayOfWeekString(date: exp)
             case .Injections:
-                let day = PDDateHelper.dayOfWeekString(date: estro.date)
+                let day = PDDateHelper.dayOfWeekString(date: mone.date)
                 title += Strings.lastInjected + day
             }
         }
@@ -86,8 +71,8 @@ class HormoneCell: UITableViewCell {
                                               theme: PDTheme,
                                               newImage: UIImage?=nil,
                                               newTitle: String?=nil) {
-        let estro = sdk.estrogens.at(index)
-        sdk.state.isHormoneless = PDImages.representsSiteless(<#T##img: UIImage##UIImage#>)
+        let mone = sdk.hormones.at(index)
+        sdk.state.isCerebral = PDImages.representsSiteless(<#T##img: UIImage##UIImage#>)
         let isAnimating = shouldAnimate(estrogenOptional, at: index)
         if isAnimating {
             UIView.transition(with: stateImage as UIView,
@@ -105,27 +90,19 @@ class HormoneCell: UITableViewCell {
         self.dateLabel.text = title
     }
     
-    private func shouldAnimate(_ estro: Hormonal?, at index: Index) -> Bool {
-        let q = sdk.defaults.quantity.rawValue
-        var sortFromEstrogenDateChange: Bool = false
-        var isSiteChange: Bool = false
+    private func shouldAnimate(_ estro: Hormonal?, at index: Index, hormoneQuantity: Int, sdk: PatchDataDelegate) -> Bool {
+        var dateChanged: Bool = false
+        var siteChange: Bool = false
         var isGone: Bool = false
-        if index < q {
+        if index < hormoneQuantity {
             if let _ = estro?.date {
-                // An estrogen date changed and they are flipping
-                sortFromEstrogenDateChange =
-                    state.wereEstrogenChanges
-                    && !state.isNew
-                    && !state.onlySiteChanged
-                    && index <= state.indicesOfChangedDelivery[0]
+                dateChanged = sdk.state.hormoneDateDidChange(at: index)
             }
             // Newly changed site and none else (date didn't change).
-            isSiteChange =
-                state.siteChanged
-                && state.indicesOfChangedDelivery.contains(index)
+            bodilyChanged = sdk.state.hormonalBodilyDidChange(at: index)
         }
         // Is exiting the schedule.
-        let decreased = state.decreasedCount
+        let decreased = state.decreasedQuantity
         let isGreaterThanNewCount = index >= q
         isGone = decreased && isGreaterThanNewCount
         return (
@@ -158,14 +135,9 @@ class HormoneCell: UITableViewCell {
             UIFont.systemFont(ofSize: 38)
     }
 
-    private func configureBadge(at index: Int, when isExpired: Bool, deliveryMethod: DeliveryMethod) {
+    private func configureBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {
         badgeButton.restorationIdentifier = String(index)
-        switch deliveryMethod {
-        case .Patches:
-            badgeButton.type = .patches
-        case .Injections:
-            badgeButton.type = .injections
-        }
+        badgeButton.setType(deliveryMethod: deliveryMethod)
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
 }

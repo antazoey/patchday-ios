@@ -21,7 +21,7 @@ public class PDPill: PDObject, Swallowable, Comparable {
         initializeAttributes(name: name)
     }
     
-    public static func createNew() -> Swallowable? {
+    public static func new() -> Swallowable? {
         let type = PDEntity.pill.rawValue
         if let pill = PatchData.insert(type) as? MOPill {
             return PDPill(pill: pill, name: PDStrings.PlaceholderStrings.new_pill)

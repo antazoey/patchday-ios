@@ -33,16 +33,16 @@ public class PDSharedDataController: NSObject {
     }
     
     public static func getNextEstrogen() -> EstrogenStruct {
-        var estro = EstrogenStruct()
+        var mone = EstrogenStruct()
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         if let name = defaults?.object(forKey: siteKey) as? String {
-            estro.siteName = name
+            mone.siteName = name
         }
         let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
         if let date = defaults?.object(forKey: dateKey) as? Date {
-            estro.date = date
+            mone.date = date
         }
-        return estro
+        return mone
     }
     
     public static func getNextPill() -> PillStruct {

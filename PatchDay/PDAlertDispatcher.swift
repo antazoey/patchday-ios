@@ -64,7 +64,7 @@ class PDAlertDispatcher: NSObject {
         if let root = rootViewController {
             let cont: (_ newQuantity: Int) -> () = {
                 (newQuantity) in
-                self.sdk.estrogens.reset(from: newQuantity);
+                self.sdk.hormones.reset(from: newQuantity);
                 simpleSetQuantity(newQuantity);
                 reset(newQuantity)
             }

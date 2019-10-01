@@ -16,7 +16,7 @@ let estrogenButtonTotal = PDPickerStrings.quantities.count
 class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var estrogensView: UIView!
-    @IBOutlet weak var estrogenTable: UITableView!
+    @IBOutlet weak var hormonalTable: UITableView!
     
     let sdk: PatchDataDelegate = app.sdk
     
@@ -27,8 +27,8 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         // Have to set nav controllers during first view init
         app.setTabs(tc: self.navigationController!.tabBarController!,
                             vcs: self.navigationController!.viewControllers)
-        estrogenTable.dataSource = self
-        estrogenTable.delegate = self
+        hormonalTable.dataSource = self
+        hormonalTable.delegate = self
         loadTitle()
         loadBarButtons()
         updateFromBackground()
@@ -47,13 +47,13 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         presentDisclaimerAlert()
         let deliv = sdk.defaults.deliveryMethod.value
         title = PDViewControllerTitleStrings.getTitle(for: deliv)
-        estrogenTable.reloadData()
+        hormonalTable.reloadData()
         super.viewDidAppear(false)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        app.tabs?.reflectEstrogen()
+        app.tabs?.reflectHormone()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -70,7 +70,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let estrogenIndex = indexPath.row
         let id = "HormoneCellReuseId"
         typealias Cell = HormoneCell
-        let estroCell = estrogenTable.dequeueReusableCell(withIdentifier: id) as! Cell
+        let estroCell = hormonalTable.dequeueReusableCell(withIdentifier: id) as! Cell
         estroCell.index = estrogenIndex
         estroCell.load()
         return estroCell
@@ -103,7 +103,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func appWillEnterForeground() {
-        estrogenTable.reloadData()
+        hormonalTable.reloadData()
     }
     
     private func loadBarButtons() {
@@ -162,8 +162,8 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func applyTheme() {
         estrogensView.backgroundColor = app.theme.bgColor
-        estrogenTable.backgroundColor = app.theme.bgColor
-        estrogenTable.separatorColor = app.theme.borderColor
+        hormonalTable.backgroundColor = app.theme.bgColor
+        hormonalTable.separatorColor = app.theme.borderColor
     }
     
     private func presentDisclaimerAlert() {
