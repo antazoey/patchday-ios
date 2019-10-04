@@ -105,15 +105,15 @@ class HormoneDetailVC: UIViewController,
     @objc private func saveButtonTapped(_ sender: Any) {
         let interval = sdk.defaults.expirationInterval
         if let mone = estrogen {
-            let wasExpiredBeforeSave: Bool = estro.isExpired(interval)
+            let wasExpiredBeforeSave = mone.isExpired
             saveData()    // Save
-            let isExpiredAfterSave = estro.isExpired(interval)
+            let isExpiredAfterSave = mone.isExpired
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
             sdk.hormones.sort()
             // Save effects
             state.wereHormonalChanges = true
-            if let i = estrogenSchedule.getIndex(for: estro) {
+            if let i = estrogenSchedule.getIndex(for: mone) {
                 state.indicesOfMutatedHormones = [i]
             }
         }

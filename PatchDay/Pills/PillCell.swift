@@ -86,7 +86,7 @@ class PillCell: UITableViewCell {
     
     private func setBackgroundSelected() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.getColor(.Pink)
+        backgroundView.backgroundColor = PDColors.get(.Pink)
         selectedBackgroundView = backgroundView
     }
     

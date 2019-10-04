@@ -20,7 +20,7 @@ protocol PDAlertDispatching {
                                       reset: @escaping (_ newQuantity: Int) -> (),
                                       cancel: @escaping (_ oldQuantity: Int) -> ())
     func presentDisclaimerAlert()
-    func presentNewSiteAlert(with name: SiteName, at index: Index, estroVC: EstrogenVC)
+    func presentNewSiteAlert(with name: SiteName, at index: Index, hormonesVC: HormonesVC)
     func presentGenericAlert()
     
 }

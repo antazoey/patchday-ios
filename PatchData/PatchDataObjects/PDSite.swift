@@ -15,38 +15,41 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
     private let deliveryMethod: DeliveryMethod
     
     private var site: MOSite {
-        get { return self.mo as! MOSite }
+        return self.mo as! MOSite
     }
     
-    public init(site: MOSite, globalExpirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+    public init(site: MOSite, globalExpirationInterval: ExpirationIntervalUD,
+                deliveryMethod: DeliveryMethod) {
+
         self.globalExpirationInterval = globalExpirationInterval
         self.deliveryMethod = deliveryMethod
         super.init(mo: site)
     }
     
-    public static func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) -> PDSite? {
+    public static func new(deliveryMethod: DeliveryMethod,
+                           globalExpirationInterval: ExpirationIntervalUD) -> PDSite? {
+
         let type = PDEntity.site.rawValue
         if let site = PatchData.insert(type) as? MOSite {
-            return PDSite(site: site,
-                          globalExpirationInterval: globalExpirationInterval,
-                          deliveryMethod: deliveryMethod)
+            return PDSite(
+                site: site,
+                globalExpirationInterval: globalExpirationInterval,
+                deliveryMethod: deliveryMethod)
         }
         return nil
     }
     
     public var hormones: [Hormonal] {
-        get {
-            var hormones: [Hormonal] = []
-            if let moneSet = site.hormoneRelationship {
-                for mone in moneSet {
-                    let pdEstro = PDHormone(hormone: mone as! MOHormone,
-                                            interval: globalExpirationInterval,
-                                            deliveryMethod: deliveryMethod)
-                    hormones.append(pdEstro)
-                }
+        var hormones: [Hormonal] = []
+        if let moneSet = site.hormoneRelationship {
+            for mone in moneSet {
+                let pdEstro = PDHormone(hormone: mone as! MOHormone,
+                                        interval: globalExpirationInterval,
+                                        deliveryMethod: deliveryMethod)
+                hormones.append(pdEstro)
             }
-            return hormones
         }
+        return hormones
     }
     
     public var imageIdentifier: String {

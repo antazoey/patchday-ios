@@ -79,6 +79,10 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var totalEstrogensExpired: Int {
         return hormones.totalExpired(defaults.expirationInterval)
     }
+    
+    public var allSiteNames: [String] {
+        return Array(sites.unionize(deliveryMethod: deliveryMethod))
+    }
 
     // MARK: - Defaults
     

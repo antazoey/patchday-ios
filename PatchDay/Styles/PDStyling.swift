@@ -9,5 +9,5 @@
 import Foundation
 
 protocol PDStyling {
-    let theme: PDAppTheme { get }
+    var theme: PDAppTheme { get }
 }

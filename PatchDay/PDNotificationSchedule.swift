@@ -39,7 +39,7 @@ class PDNotificationSchedule: NSObject, PDNotificationScheduling {
     /// Cancels the notification at the given index.
     func cancelEstrogenNotification(at index: Index) {
         if let mone = sdk.hormones.at(index) {
-            let id = estro.id.uuidString
+            let id = mone.id.uuidString
             center.removeNotifications(with: [id])
         }
     }

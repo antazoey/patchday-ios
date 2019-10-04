@@ -229,7 +229,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             items[0] = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                        target: self,
                                        action: #selector(insertTapped))
-            items[0].tintColor = PDColors.getColor(.Green)
+            items[0].tintColor = PDColors.get(.Green)
         default : break
         }
     }
@@ -260,7 +260,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                            target: self,
                                            action: #selector(insertTapped))
-        insertButton.tintColor = PDColors.getColor(.Green)
+        insertButton.tintColor = PDColors.get(.Green)
         let editButton = UIBarButtonItem(title: PDActionStrings.edit,
                                          style: .plain,
                                          target: self,

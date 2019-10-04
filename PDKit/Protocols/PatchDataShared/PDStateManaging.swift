@@ -19,7 +19,6 @@ public protocol PDStateManaging {
     var oldQuantity: Int { get set }
     var mutatedHormoneIds: [UUID?] { get set }
     func reset()
-    func hormoneDateDidChange(for id: UUID) -> Bool
-    func hormonalBodilyDidChange(for id: UUID) -> Bool
     func markSiteForImageMutation(site: Bodily)
+    func shouldAlert(_ mone: Hormonal, at index: Index, quantity: Int) -> Bool
 }

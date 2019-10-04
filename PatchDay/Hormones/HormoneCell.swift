@@ -14,36 +14,40 @@ class HormoneCell: UITableViewCell {
     
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var badgeButton: MFBadgeButton!
+    @IBOutlet weak var badgeButton: PDBadgeButton!
     
-    private let sdk: PatchDataDelegate!
+    private var sdk: PatchDataDelegate!
 
     public var index = -1
     
     public func load(sdk: PatchDataDelegate) {
         self.sdk = sdk
-        backgroundColor = app.theme.bgColor
-        let q = sdk.defaults.quantity.value.rawValue
+        let quantity = sdk.defaults.quantity.rawValue
+        backgroundColor = app.styles.theme[.bg]
         setThemeColors(at: index)
         switch (index) {
-        case 0..<q :
+        case 0..<quantity :
             let interval = sdk.defaults.expirationInterval
             let method = sdk.defaults.deliveryMethod.value
             let theme = sdk.defaults.theme.value
             if let mone = sdk.hormones.at(index) {
-    
                 let isExpired = mone.isExpired
                 let img = PDImages.getImage(for: mone, theme: theme, deliveryMethod: method)
+                
+                
+                sdk.state.isCerebral = PDImages.representsCerebral(img)
+                
+                
                 let title = getTitle(at: index, interval)
                 configureDate(when: isExpired)
-                configureBadge(at: index, isExpired: isExpired, deliveryMethod: deliv)
+                configureBadge(at: index, isExpired: isExpired, deliveryMethod: method)
                 self.setDateLabel(title)
-                animateEstrogenButtonChanges(at: index, theme: theme, newImage: img, newTitle: title)
+                animateHormoneButtonMutations(at: index, theme: theme, newImage: img, newTitle: title)
                 selectionStyle = .default
                 stateImage.isHidden = false
             }
-        case q...3 :
-            animateEstrogenButtonChanges(at: index, theme: theme)
+        case quantity...3 :
+            animateHormoneButtonMutations(at: index, theme: theme)
             fallthrough
         default : reset()
         }
@@ -67,35 +71,37 @@ class HormoneCell: UITableViewCell {
     }
     
     /// Animates the making of an estrogen button if there were estrogen data changes.
-    private func animateEstrogenButtonChanges(at index: Index,
-                                              theme: PDTheme,
-                                              newImage: UIImage?=nil,
-                                              newTitle: String?=nil) {
+    private func animateHormoneButtonMutations(at index: Index,
+                                               theme: PDTheme,
+                                               newImage: UIImage?=nil,
+                                               newTitle: String?=nil) {
         let mone = sdk.hormones.at(index)
-        sdk.state.isCerebral = PDImages.representsSiteless(<#T##img: UIImage##UIImage#>)
-        let isAnimating = shouldAnimate(estrogenOptional, at: index)
+        let isAnimating = shouldAnimate(mone, at: index, hormoneQuantity: <#Int#>)
         if isAnimating {
-            UIView.transition(with: stateImage as UIView,
-                              duration: 0.75,
-                              options: .transitionCrossDissolve, animations: {
-                self.stateImage.image = newImage
-            }, completion: nil)
+            UIView.transition(
+                with: stateImage as UIView,
+                duration: 0.75,
+                options: .transitionCrossDissolve,
+                animations: { self.stateImage.image = newImage },
+                completion: nil
+            )
         } else {
             stateImage.image = newImage
         }
     }
     
     private func setDateLabel(_ title: String?) {
-        self.dateLabel.textColor = app.theme.textColor
+        self.dateLabel.textColor = app.styles.theme[.text]
         self.dateLabel.text = title
     }
     
-    private func shouldAnimate(_ estro: Hormonal?, at index: Index, hormoneQuantity: Int, sdk: PatchDataDelegate) -> Bool {
+    private func shouldAnimate(_ mone: Hormonal?, at index: Index, sdk: PatchDataDelegate) -> Bool {
         var dateChanged: Bool = false
         var siteChange: Bool = false
         var isGone: Bool = false
-        if index < hormoneQuantity {
-            if let _ = estro?.date {
+        let c = sdk.hormones.count
+        if index < c {
+            if let _ = mone?.date {
                 dateChanged = sdk.state.hormoneDateDidChange(at: index)
             }
             // Newly changed site and none else (date didn't change).

@@ -51,21 +51,27 @@ public class PDState: NSObject, PDStateManaging {
 
     /// Prepares the state to represent the current hormome's site occupancy
     public func markIfCerebral(selectedHormoneImage: UIImage) {
-        isCerebral = PDImages.representsSiteless(selectedHormoneImage)
+        //isCerebral = representsCerebral(selectedHormoneImage)
     }
 
-    public func hormonalBodilyDidChange(for id: UUID) -> Bool {
+    /// Returns if the current state reflects an update-worthy mutation
+    public func shouldAlert(_ mone: Hormonal, at index: Index, quantity: Int) -> Bool {
+        var moneChanged = false
+        if index < quantity {
+            moneChanged = checkHormoneMutatationStatus(for: mone.id)
+        }
+        let isGone = decreasedQuantity && index >= quantity
+
+        return (
+            bodilyChanged
+            || moneChanged
+            || isGone
+        )
+    }
+    
+    private func checkHormoneMutatationStatus(for id: UUID) -> Bool {
         if mutatedHormoneIds.contains(id) {
             return bodilyChanged
-        }
-        return false
-    }
-
-    public func hormoneDateDidChange(for id: UUID) -> Bool {
-        if mutatedHormoneIds.contains(id) {
-            return wereHormonalChanges
-            && !isCerebral
-            && !onlySiteChanged
         }
         return false
     }

@@ -14,6 +14,6 @@ protocol PDTabReflective {
     var swallowableTab: UIViewController { get }
     var bodilyTab: UIViewController { get }
     func reflectExpirationCountAsBadgeValue()
-    func reflectTheme(theme: PDThemeManager)
+    func reflectTheme(theme: PDAppTheme)
     func reflectHormone()
 }

@@ -10,35 +10,35 @@ import UIKit
 import PDKit
 
 class PDAlertDispatcher: NSObject {
-    
-    override var description: String {
-        return "Singleton for controllnig PatchDay's alerts."
-    }
-    
+
+    override var description: String { return "Controls alerts." }
+
     private let sdk: PatchDataDelegate
-    
+
     private var style: UIAlertController.Style = {
         return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
                 ? .alert : .actionSheet
     }()
-    
+
     private var rootViewController: UIViewController? = {
         if let window = UIApplication.shared.keyWindow {
             return window.rootViewController
         }
         return nil
     }()
-    
+
     convenience override init() {
         self.init(sdk: app.sdk)
     }
-    
+
     init(sdk: PatchDataDelegate) {
         self.sdk = sdk
     }
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
+    func presentDeliveryMethodMutationAlert(
+        newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
+
         if let root = rootViewController {
             let oldQuantity = sdk.defaults.quantity.rawValue
             let oldMethod = sdk.deliveryMethod
@@ -76,23 +76,27 @@ class PDAlertDispatcher: NSObject {
                                   newQuantity: newQuantity).present()
         }
     }
-    
+
     /// Alert that displays a quick tutorial and disclaimer on installation.
     func presentDisclaimerAlert() {
         if let root = rootViewController {
             DisclaimerAlert(parent: root, style: style).present()
         }
     }
-    
+
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    func presentNewSiteAlert(with name: SiteName, at index: Index, estroVC: EstrogenVC) {
+    func presentNewSiteAlert
+        (with name: SiteName, at index: Index, moneVC: HormoneDetailVC) {
+
         if let root = rootViewController {
             let handler: () -> () = {
                 () in self.sdk.insertSite(name: name) {
-                    estroVC.sitePicker.reloadAllComponents()
+                    moneVC.sitePicker.reloadAllComponents()
                 }
             }
-            NewSiteAlert(parent: root, style: style, appendActionHandler: handler).present()
+            NewSiteAlert(parent: root,
+                         style: style,
+                         appendActionHandler: handler).present()
         }
     }
     

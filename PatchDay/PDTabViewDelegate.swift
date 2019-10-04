@@ -45,26 +45,21 @@ class PDTabReflector: PDTabReflective {
         }
     }
     
-    func reflectTheme(theme: PDThemeManager) {
+    func reflectTheme(theme: PDAppTheme) {
         let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.tintColor = theme.buttonColor
-        tabBarAppearance.barTintColor = theme.navbarColor
+        tabBarAppearance.tintColor = theme[.button]
+        tabBarAppearance.barTintColor = theme[.navbar]
     }
     
     func reflectHormone() {
-        let deliv = sdk.deliveryMethod
-        let c = sdk.totalDue
-
-        hormonalTab.tabBarItem.badgeValue = c > 0 ? String(c) : nil
-        hormonalTab.tabBarItem.title = PDViewControllerTitleStrings.getTitle(for: deliv)
-        switch deliv {
-        case .Patches:
-            hormonalTab.tabBarItem.image = UIImage(named: "Patch Icon")
-            hormonalTab.tabBarItem.selectedImage = UIImage(named: "Patch Icon")
-        case .Injections:
-            hormonalTab.tabBarItem.image = UIImage(named: "Injection Icon")
-            hormonalTab.tabBarItem.selectedImage = UIImage(named: "Injection Icon")
-        }
+        let total = sdk.totalDue
+        let method = sdk.deliveryMethod
+        let title = PDViewControllerTitleStrings.getTitle(for: method)
+        hormonalTab.tabBarItem.title = title
+        hormonalTab.tabBarItem.badgeValue = total > 0 ? String(total) : nil
+        let icon = PDImages.getDeliveryIcon(method)
+        hormonalTab.tabBarItem.image = icon
+        hormonalTab.tabBarItem.selectedImage = icon
         hormonalTab.awakeFromNib()
     }
 }

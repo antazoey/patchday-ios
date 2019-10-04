@@ -172,7 +172,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let insertButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                                            target: self,
                                            action: #selector(insertTapped))
-        insertButton.tintColor = PDColors.getColor(.Green)
+        insertButton.tintColor = PDColors.get(.Green)
         navigationItem.rightBarButtonItems = [insertButton]
     }
     

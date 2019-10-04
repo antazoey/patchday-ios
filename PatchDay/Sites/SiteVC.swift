@@ -11,13 +11,12 @@ import PDKit
 
 class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
-    private let defaults = patchData.sdk.defaults
-    private let siteSchedule = patchData.sdk.siteSchedule
+    private let sdk = app.sdk
+    private let theme = app.styles.theme
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = Array(patchData.sdk.siteSchedule.unionDefault(deliveryMethod:
-        patchData.sdk.defaults.deliveryMethod.value))
+    private var namePickerSet = sdk.allSiteNames()
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var nameStackVertical: UIStackView!
@@ -260,7 +259,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
 
             if name == PDStrings.PlaceholderStrings.new_site {
                 image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
-            } else if let site = siteSchedule.at(siteScheduleIndex),
+            } else if let site = sdk.sites.at(siteScheduleIndex),
                 let imgId = site.imageIdentifier,
                 let i = sitesWithImages.firstIndex(of: imgId) {
 
@@ -278,13 +277,16 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImagePickeR() {
-        let deliv = defaults.deliveryMethod.value
-        if let site = siteSchedule.at(siteScheduleIndex) {
-            imagePickerDelegate = SiteImagePickerDelegate(with: imagePicker,
-                                                          and: siteImage,
-                                                          saveButton: navigationItem.rightBarButtonItem!,
-                                                          selectedSite: site,
-                                                          deliveryMethod: deliv)
+        let deliv = sdk.deliveryMethod
+        if let site = sdk.sites.at(siteScheduleIndex),
+            let saveButton = navigationItem.rightBarButtonItem {
+    
+            imagePickerDelegate = SiteImagePickerDelegate(
+                with: imagePicker,
+                and: siteImage,
+                saveButton: saveButton,
+                selectedSite: site,
+                deliveryMethod: deliv)
         }
         imagePicker.delegate = imagePickerDelegate
         imagePicker.dataSource = imagePickerDelegate
@@ -304,13 +306,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func applyTheme() {
-        view.backgroundColor = app.theme.bgColor
-        nameStackVertical.backgroundColor = app.theme.bgColor
-        nameStackHorizontal.backgroundColor = app.theme.bgColor
-        typeNameButton.setTitleColor(app.theme.textColor, for: .normal)
-        nameText.textColor = app.theme.textColor
-        nameText.backgroundColor = app.theme.bgColor
-        siteImage.backgroundColor = app.theme.bgColor
-        gapAboveImage.backgroundColor = app.theme.bgColor
+        view.backgroundColor = theme[.bg]
+        nameStackVertical.backgroundColor = theme[.bg]
+        nameStackHorizontal.backgroundColor = theme[.bg]
+        typeNameButton.setTitleColor(theme[.text], for: .normal)
+        nameText.textColor = theme[.text]
+        nameText.backgroundColor = theme[.bg]
+        siteImage.backgroundColor = theme[.bg]
+        gapAboveImage.backgroundColor = theme[.bg]
     }
 }

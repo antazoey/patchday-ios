@@ -367,7 +367,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zMR-IS-Zxh">
                                                     <rect key="frame" x="15" y="65" width="56" height="70"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IQd-DF-3tL" customClass="MFBadgeButton" customModule="PatchDay" customModuleProvider="target">
+                                                        <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IQd-DF-3tL" customClass="PDBadgeButton" customModule="PatchDay" customModuleProvider="target">
                                                             <rect key="frame" x="0.0" y="0.0" width="56" height="35"/>
                                                             <connections>
                                                                 <action selector="takeButtonTapped:" destination="55H-Ew-68p" eventType="touchUpInside" id="MyG-yE-HLa"/>
@@ -737,7 +737,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-va-RXc">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n77-qe-kWD" customClass="MFBadgeButton" customModule="PatchDay" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n77-qe-kWD" customClass="PDBadgeButton" customModule="PatchDay" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>
                                                     <state key="normal" title=" "/>
                                                 </button>

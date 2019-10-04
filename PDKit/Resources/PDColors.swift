@@ -13,7 +13,7 @@ public class PDColors: NSObject {
     }
     
     /// Returns UIColor based on key from PDStrings.
-    public static func getColor(_ key: PDStrings.ColorKey) -> UIColor {
+    public static func get(_ key: PDStrings.ColorKey) -> UIColor {
         let colorDict: [PDStrings.ColorKey: UIColor] =  [ PDStrings.ColorKey.OffWhite : pdOffWhite,
                                                           PDStrings.ColorKey.LightBlue : pdLightBlue,
                                                           PDStrings.ColorKey.Gray : pdCuteGray,

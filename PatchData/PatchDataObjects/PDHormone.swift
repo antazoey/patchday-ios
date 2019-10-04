@@ -87,7 +87,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public var isEmpty: Bool {
-        return !date.isDefault() && site == nil && siteNameBackUp == nil
+        return date.isDefault() && site == nil && siteNameBackUp == nil
     }
     
     public var site: Bodily?
