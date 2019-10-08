@@ -16,13 +16,17 @@ public protocol PatchDataDelegate {
     var state: PDStateManaging { get }
     var deliveryMethod: DeliveryMethod { get set }
     var deliveryMethodName: String { get }
-    var totalDue: Int { get }
-    var totalEstrogensExpired: Int { get }
+    var totalAlerts: Int { get }
+    var totalHormonesExpired: Int { get }
     func insertSite(name: SiteName?, completion: (() -> ())?)
-    func broadcastEstrogens()
+    func broadcastHormones()
+    func nuke()
+    
+    // Stateful
     func stampQuantity()
+    func shouldAnimate(hormoneAt index: Index) -> Bool
 
-    // Estrogens
+    // Hormones
     func setEstrogenSite(at index: Index, with site: Bodily) 
     func setEstrogenDate(at index: Index, with date: Date)
     func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily)

@@ -1,5 +1,5 @@
 //
-//  PDViewControllerTitleStrings.swift
+//  PDVCTitleStrings.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/15/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PDViewControllerTitleStrings {
+public class PDVCTitleStrings {
     
     private static let comment = "Title of a view controller. Keep it brief."
 

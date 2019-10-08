@@ -15,7 +15,7 @@ let estrogenButtonTotal = PDPickerStrings.quantities.count
 
 class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet var estrogensView: UIView!
+    @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonalTable: UITableView!
     
     let sdk: PatchDataDelegate = app.sdk
@@ -46,7 +46,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         applyTheme()
         presentDisclaimerAlert()
         let deliv = sdk.defaults.deliveryMethod.value
-        title = PDViewControllerTitleStrings.getTitle(for: deliv)
+        title = PDVCTitleStrings.getTitle(for: deliv)
         hormonalTable.reloadData()
         super.viewDidAppear(false)
     }
@@ -115,7 +115,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let estroDueCount = sdk.totalEstrogensExpired()
+        let estroDueCount = sdk.totalHormonesExpired()
         if estroDueCount > 0 {
             item?.badgeValue = String(estroDueCount)
         }
@@ -131,9 +131,9 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func segueToEstrogenVC(index: Int) {
-        let id = "EstrogenVC_id"
+        let id = "HormoneVC_id"
         if let sb = storyboard, let navCon = navigationController,
-            let estroVC = sb.instantiateViewController(withIdentifier: id) as? EstrogenVC {
+            let estroVC = sb.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
             estroVC.setEstrogenScheduleIndex(to: index)
             navCon.pushViewController(estroVC, animated: true)
         }
@@ -141,14 +141,14 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     /// Configures title of view controller.
     private func loadTitle() {
-        title = PDViewControllerTitleStrings.getTitle(for: defaults.deliveryMethod.value)
+        title = PDVCTitleStrings.getTitle(for: sdk.deliveryMethod)
     }
     
     private func loadTabBarItems() {
         navigationController?.tabBarController?.tabBar.unselectedItemTintColor =
-            app.theme.unselectedColor
+            app.styles.theme[.unselected]
         navigationController?.tabBarController?.tabBar.tintColor =
-            app.theme.purpleColor
+            app.styles.theme[.purple]
         let size: CGFloat = (UI_USER_INTERFACE_IDIOM() ==
             UIUserInterfaceIdiom.phone) ? 9 : 25
         if let vcs = navigationController?.tabBarController?.viewControllers {
@@ -161,15 +161,15 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        estrogensView.backgroundColor = app.theme.bgColor
-        hormonalTable.backgroundColor = app.theme.bgColor
-        hormonalTable.separatorColor = app.theme.borderColor
+        hormonesView.backgroundColor = app.styles.theme[.bg]
+        hormonalTable.backgroundColor = app.styles.theme[.bg]
+        hormonalTable.separatorColor = app.styles.theme[.border]
     }
     
     private func presentDisclaimerAlert() {
         if app.isFirstLaunch() {
             app.alerts.presentDisclaimerAlert()
-            defaults.setMentionedDisclaimer(to: true)
+            sdk.defaults.setMentionedDisclaimer(to: true)
         }
     }
 }

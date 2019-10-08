@@ -14,7 +14,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     private let exp: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
-    private var estrogen: MOHormone {
+    private var hormone: MOHormone {
         return self.mo as! MOHormone
     }
     
@@ -27,24 +27,33 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     public static func new(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
         let type = PDEntity.estrogen.rawValue
         if let mone = PatchData.insert(type) as? MOHormone {
-            return PDHormone(hormone: mone, interval: expiration, deliveryMethod: deliveryMethod)
+            return PDHormone(hormone: mone,
+                             interval: expiration,
+                             deliveryMethod: deliveryMethod)
         }
         return nil
     }
     
     public var id: UUID {
-        get { return estrogen.id ?? { let newId = UUID(); estrogen.id = newId; return newId }() }
-        set { estrogen.id = newValue }
+        get {
+            return hormone.id ?? {
+                let newId = UUID()
+                hormone.id = newId
+                return newId
+            }()
+        } set {
+            hormone.id = newValue
+        }
     }
     
     public var date: Date {
         get {
-            if let date = estrogen.date {
+            if let date = hormone.date {
                 return date as Date
             }
             return Date.createDefaultDate()
         }
-        set { estrogen.date = newValue as NSDate }
+        set { hormone.date = newValue as NSDate }
     }
     
     public var expiration: Date? {
@@ -71,7 +80,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public var siteName: String {
-        let site = estrogen.siteRelationship?.name ?? siteNameBackUp
+        let site = hormone.siteRelationship?.name ?? siteNameBackUp
         switch site {
         case nil : return PDStrings.PlaceholderStrings.new_site
         case let s : return s!
@@ -79,10 +88,10 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public var siteNameBackUp: String? {
-        get { return site == nil ? estrogen.siteNameBackUp : nil }
+        get { return site == nil ? hormone.siteNameBackUp : nil }
         set {
-            estrogen.siteNameBackUp = newValue
-            estrogen.siteRelationship = nil
+            hormone.siteNameBackUp = newValue
+            hormone.siteRelationship = nil
         }
     }
     
@@ -93,15 +102,14 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     public var site: Bodily?
     {
         get {
-            if let s = estrogen.siteRelationship {
+            if let s = hormone.siteRelationship {
                 return PDSite(site: s, globalExpirationInterval: exp, deliveryMethod: deliveryMethod)
             }
             return nil
-        }
-        set {
+        } set {
             if let s = newValue as? MOSite {
-                estrogen.siteRelationship = s
-                estrogen.siteNameBackUp = nil
+                hormone.siteRelationship = s
+                hormone.siteNameBackUp = nil
             }
         }
     }
@@ -145,14 +153,14 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public func stamp() {
-        estrogen.date = NSDate()
+        hormone.date = NSDate()
     }
 
     /// Sets all attributes to nil.
     public func reset() {
-        estrogen.id = nil
-        estrogen.date = nil
-        estrogen.siteRelationship = nil
-        estrogen.siteNameBackUp = nil
+        hormone.id = nil
+        hormone.date = nil
+        hormone.siteRelationship = nil
+        hormone.siteNameBackUp = nil
     }
 }

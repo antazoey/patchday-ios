@@ -11,7 +11,6 @@ import PDKit
 
 public class PDPill: PDObject, Swallowable, Comparable {
     
-    
     private var pill: MOPill {
         get { return mo as! MOPill }
     }
@@ -90,8 +89,7 @@ public class PDPill: PDObject, Swallowable, Comparable {
                 return t2 as Date
             }
             return Date.createDefaultDate()
-        }
-        set {
+        } set {
             if time1 >= time2 {
                 pill.time2 = newValue as NSDate?
             } else {
@@ -132,40 +130,36 @@ public class PDPill: PDObject, Swallowable, Comparable {
     }
     
     public var due: Date {
-        get {
-            if let t1 = pill.time1 as Time? {
-                do {
-                    let todays = Int(pill.timesTakenToday)
-                    let goal = Int(pill.timesaday)
-                    var times: [Time] = [t1]
-                    if let t2 = pill.time2 {
-                        times.append(t2 as Time)
-                    }
-                    return try PDPillHelper.nextDueDate(timesTakenToday: todays, timesaday: goal, times: times) ?? Date()
-                } catch PDPillHelper.NextDueDateError.notEnoughTimes {
-                    return handleNotEnoughTimesError(t1: t1) ?? Date()
-                } catch {
-                    return Date()
+        if let t1 = pill.time1 as Time? {
+            do {
+                let todays = Int(pill.timesTakenToday)
+                let goal = Int(pill.timesaday)
+                var times: [Time] = [t1]
+                if let t2 = pill.time2 {
+                    times.append(t2 as Time)
                 }
+                return try PDPillHelper.nextDueDate(timesTakenToday: todays, timesaday: goal, times: times) ?? Date()
+            } catch PDPillHelper.NextDueDateError.notEnoughTimes {
+                return handleNotEnoughTimesError(t1: t1) ?? Date()
+            } catch {
+                return Date()
             }
-            return Date()
         }
+        return Date()
     }
     
     public var isDue: Bool {
-        get { return Date() > due }
+        return Date() > due
     }
     
     public var isNew: Bool {
-        get { return pill.lastTaken == nil }
+        return pill.lastTaken == nil
     }
     
     public var isDone: Bool {
-        get {
-            let taken = Int(pill.timesTakenToday)
-            let times = Int(pill.timesaday)
-            return PDPillHelper.isDone(timesTakenToday: taken, timesaday: times)
-        }
+        let taken = Int(pill.timesTakenToday)
+        let times = Int(pill.timesaday)
+        return PDPillHelper.isDone(timesTakenToday: taken, timesaday: times)
     }
     
     /// Increments timesTakenToday and sets lastTaken to now.

@@ -268,59 +268,45 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Private loaders
     
     private func loadVCTitle() {
-        title = (pill?.getName() ==
-            PDStrings.PlaceholderStrings.new_pill) ?
-                PDViewControllerTitleStrings.newPillTitle :
-                PDViewControllerTitleStrings.editPillTitle
+        let isNew = pill?.name == PDStrings.PlaceholderStrings.new_pill
+        title = isNew ? PDVCTitleStrings.newPillTitle : PDVCTitleStrings.editPillTitle
     }
     
     // Set VC pill as well as reflected attributes in the interactive UI
     private func reflectPillAttributes() {
-        let pills = pillSchedule.pills
-        if let index = pillIndex, index >= 0 && index < pills.count {
-            self.pill = pills[index]
-            loadName(from: pills[index])
-            loadTimesaday(from: pills[index])
-            loadTime1(from: pills[index])
-            loadTime2(from: pills[index])
-            loadNotify(from: pills[index])
+        if let index = pillIndex, index >= 0 && index < sdk.pills.count {
+            self.pill = sdk.pills.all[index]
+            loadName(from: sdk.pills.all[index])
+            loadTimesaday(from: sdk.pills.all[index])
+            loadTime1(from: sdk.pills.all[index])
+            loadTime2(from: sdk.pills.all[index])
+            loadNotify(from: sdk.pills.all[index])
         }
     }
     
-    private func loadName(from pill: MOPill) {
-        if let name = pill.getName() {
-            self.name = name
-            nameTextField.text = name
-        }
+    private func loadName(from pill: Swallowable) {
+        self.name = pill.name
+        nameTextField.text = pill.name
     }
     
-    private func loadNotify(from pill: MOPill) {
-        if let notify = pill.getNotify() {
-            notificationSwitch.isOn = notify
-        }
+    private func loadNotify(from pill: Swallowable) {
+        notificationSwitch.isOn = pill.notify
     }
     
-    private func loadTimesaday(from pill: MOPill) {
-        if let timesaday = pill.getTimesday() {
-            let tVal = (timesaday == 1) ? 1.0 : 3.0
-            timesadaySlider.setValue(Float(tVal), animated: false)
-            time2Button.isEnabled = timesaday == 2
-        }
+    private func loadTimesaday(from pill: Swallowable) {
+        let timesday = Float((pill.timesaday == 1) ? 1.0 : 3.0)
+        timesadaySlider.setValue(timesday, animated: false)
+        time2Button.isEnabled = pill.timesaday == 2
     }
     
-    private func loadTime1(from pill: MOPill) {
-        if let time1 = pill.getTime1() {
-            time1Button.setTitle(PDDateHelper.format(time: time1 as Time), for: .normal)
-            time1Selected = time1 as Time
-        }
+    private func loadTime1(from pill: Swallowable) {
+        time1Button.setTitle(PDDateHelper.format(time: pill.time1), for: .normal)
+        time1Selected = pill.time1
     }
     
-    private func loadTime2(from pill: MOPill) {
-        if let time2 = pill.getTime2() {
-            time2Button.setTitle(PDDateHelper.format(time: time2 as Time), for: .normal)
-            time2Selected = time2 as Time
-        }
-
+    private func loadTime2(from pill: Swallowable) {
+        time2Button.setTitle(PDDateHelper.format(time: pill.time2), for: .normal)
+        time2Selected = pill.time2
     }
     
     private func enableTime2() {

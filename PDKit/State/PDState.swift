@@ -49,14 +49,10 @@ public class PDState: NSObject, PDStateManaging {
         }
     }
 
-    /// Prepares the state to represent the current hormome's site occupancy
-    public func markIfCerebral(selectedHormoneImage: UIImage) {
-        //isCerebral = representsCerebral(selectedHormoneImage)
-    }
-
     /// Returns if the current state reflects an update-worthy mutation
-    public func shouldAlert(_ mone: Hormonal, at index: Index, quantity: Int) -> Bool {
+    public func shouldAlert(_ mone: Hormonal, at index: Index, quantity: Int, isNewImage: Bool) -> Bool {
         var moneChanged = false
+        isCerebral = isNewImage
         if index < quantity {
             moneChanged = checkHormoneMutatationStatus(for: mone.id)
         }
@@ -71,7 +67,7 @@ public class PDState: NSObject, PDStateManaging {
     
     private func checkHormoneMutatationStatus(for id: UUID) -> Bool {
         if mutatedHormoneIds.contains(id) {
-            return bodilyChanged
+            return bodilyChanged && !isCerebral
         }
         return false
     }

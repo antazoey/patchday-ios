@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import PDKit
 
-public class ExpiredEstrogenOvernightNotification : PDNotification, PDNotifying {
+public class ExpiredHormoneOvernightNotification : PDNotification, PDNotifying {
     
     private let dateBeforeOvernightExpiration: Date
     private let deliveryMethod: DeliveryMethod
@@ -18,16 +18,8 @@ public class ExpiredEstrogenOvernightNotification : PDNotification, PDNotifying 
     init(triggerDate: Date, deliveryMethod: DeliveryMethod, totalDue: Int) {
         self.dateBeforeOvernightExpiration = triggerDate
         self.deliveryMethod = deliveryMethod
-        var t: String
-        
-        switch self.deliveryMethod {
-        case .Patches:
-            t = PDNotificationStrings.overnightPatch
-        case .Injections:
-            t = PDNotificationStrings.overnightInjection
-        }
-        
-        super.init(title: t, body: nil, badge: totalDue)
+        let title = PDNotificationStrings.getOvernightString(for: deliveryMethod)
+        super.init(title: title, body: nil, badge: totalDue)
     }
     
     public func request() {

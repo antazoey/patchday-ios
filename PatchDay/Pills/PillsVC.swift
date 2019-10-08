@@ -25,7 +25,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         applyTheme()
-        title = PDViewControllerTitleStrings.pillsTitle
+        title = PDVCTitleStrings.pillsTitle
         pillsTable.delegate = self
         pillsTable.dataSource = self
         loadTabBarItemSize()

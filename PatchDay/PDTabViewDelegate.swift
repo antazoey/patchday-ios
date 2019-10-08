@@ -39,7 +39,7 @@ class PDTabReflector: PDTabReflective {
     
     func reflectExpirationCountAsBadgeValue() {
         if viewControllers.count > 0 {
-            let exp = sdk.totalEstrogensExpired
+            let exp = sdk.totalHormonesExpired
             let item = hormonalTab.navigationController?.tabBarItem
             item?.badgeValue = (exp > 0) ? "\(exp)" : nil
         }
@@ -52,9 +52,9 @@ class PDTabReflector: PDTabReflective {
     }
     
     func reflectHormone() {
-        let total = sdk.totalDue
+        let total = sdk.totalAlerts
         let method = sdk.deliveryMethod
-        let title = PDViewControllerTitleStrings.getTitle(for: method)
+        let title = PDVCTitleStrings.getTitle(for: method)
         hormonalTab.tabBarItem.title = title
         hormonalTab.tabBarItem.badgeValue = total > 0 ? String(total) : nil
         let icon = PDImages.getDeliveryIcon(method)

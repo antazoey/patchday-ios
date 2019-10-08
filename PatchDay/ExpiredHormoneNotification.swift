@@ -10,37 +10,38 @@ import Foundation
 import UserNotifications
 import PDKit
 
-public class ExpiredEstrogenNotification : PDNotification, PDNotifying {
+public class ExpiredHormoneNotification : PDNotification, PDNotifying {
     
-    private let estrogen: Hormonal
+    private let hormone: Hormonal
     private let expirationInterval: ExpirationIntervalUD
     private let notificationsMinutesBefore: Double
 
     public static var actionId = { return "estroActionId" }()
     public static let categoryId = { return "estroCategoryId" }()
     
-    public init(for estrogen: Hormonal,
+    public init(for hormone: Hormonal,
                 deliveryMethod method: DeliveryMethod,
                 expirationInterval: ExpirationIntervalUD,
                 notifyMinutesBefore minutes: Double,
                 totalDue: Int) {
-        self.estrogen = estrogen
+        self.hormone = hormone
         self.expirationInterval = expirationInterval
         self.notificationsMinutesBefore = minutes
-        let expName = estrogen.siteName
-        let strs = PDNotificationStrings.getEstrogenNotificationStrings(method: method,
-                                                                        minutesBefore: minutes,
-                                                                        expiringSiteName: expName)
+        let expName = hormone.siteName
+        let strs = PDNotificationStrings.getHormoneNotificationStrings(
+            method: method,
+            minutesBefore: minutes,expiringSiteName: expName
+        )
         super.init(title: strs.0, body: strs.1, badge: totalDue)
     }
     
     public func request() {
         let hours = expirationInterval.hours
-        if var timeIntervalUntilExpire = PDDateHelper.expirationInterval(hours, date: estrogen.date) {
+        if var timeIntervalUntilExpire = PDDateHelper.expirationInterval(hours, date: hormone.date) {
             timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)
             if timeIntervalUntilExpire > 0 {
-                let id = self.estrogen.id.uuidString
-                super.content.categoryIdentifier = ExpiredEstrogenNotification.categoryId
+                let id = self.hormone.id.uuidString
+                super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
                 super.request(when: timeIntervalUntilExpire, requestId: id)
             }
         }

@@ -14,13 +14,28 @@ import UserNotifications
 import PatchData
 
 let app = (UIApplication.shared.delegate as! AppDelegate)
+let isResetMode = false  // Change this to true to nuke the database
+
+class PDSwallower: PDPillSwallowing {
+    
+    let notifications: PDNotificationScheduling
+    
+    init(notifications: PDNotificationScheduling) {
+        self.notifications = notifications
+    }
+    
+    func handleSwallow(_ pill: Swallowable) {
+        self.notifications.requestPillNotification(pill)
+    }
+}
+    
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var notifications = PDNotificationSchedule()
-    var sdk: PatchDataDelegate = PatchDataSDK()
+    var notifications: PDNotificationScheduling!
+    var sdk: PatchDataDelegate!
     var alerts = PDAlertDispatcher()
     var tabs: PDTabReflector?
     var nav: PDNavigationDelegate = PDNavigationDelegate()
@@ -29,13 +44,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        self.notifications = PDNotifications()
+        let swallower = PDSwallower(notifications: self.notifications)
+        self.sdk = PatchDataSDK(swallowHandler: swallower)
 
-        if isFirstLaunch() { sdk.pills.new() }
-        //patchData.schedule.nuke()
-        self.styles = PDStylist(theme: sdk.defaults.theme.value)
-        sdk.broadcastEstrogens()
-        setBadge()
-        setNavigationAppearance()
+        if isFirstLaunch() {
+            self.sdk.pills.new()
+        }
+        if isResetMode {
+            sdk.nuke()
+            return false
+        }
+        self.styles = PDStylist(theme: self.sdk.defaults.theme.value)
+        self.sdk.broadcastHormones()
+        self.setBadge()
+        self.setNavigationAppearance()
         return true
     }
 

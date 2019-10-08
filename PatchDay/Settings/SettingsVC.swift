@@ -71,7 +71,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = PDViewControllerTitleStrings.settingsTitle
+        title = PDVCTitleStrings.settingsTitle
         quantityLabel.text = PDStrings.ColonedStrings.count
         quantityButton.tag = 10
         settingsView.backgroundColor = UIColor.white
@@ -96,7 +96,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        notifications.cancelEstrogenNotifications()
+        notifications.cancelHormoneNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
         sdk.defaults.setNotificationsMinutesBefore(to: v)
@@ -229,7 +229,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Saves values from pickers (NOT a function for TimePickers though).
     private func saveFromPicker(_ key: PDDefault, selectedRow: Int?) {
-        app.notifications.cancelEstrogenNotifications()
+        app.notifications.cancelHormoneNotifications()
         if let row = selectedRow {
             switch key {
             case .DeliveryMethod :
@@ -365,7 +365,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let reset: (Int) -> () = {
             newCount in
             app.tabs?.reflectExpirationCountAsBadgeValue()
-            app.notifications.cancelEstrogenNotifications(from: newCount, to: oldCount)
+            app.notifications.cancelHormoneNotifications(from: newCount, to: oldCount)
         }
         return reset
     }

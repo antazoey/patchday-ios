@@ -11,13 +11,27 @@ import PDKit
 
 class PDNotificationStrings {
     
-    static let siteToExpiredPatchMessage: [String : String] =
-        ["Right Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: comment),
-         "Left Abdomen" : NSLocalizedString("Change patch on your 'Right Abdomen' ", comment: comment),
-         "Right Glute" : NSLocalizedString("Change patch on your 'Right Glute' ", comment: comment),
-         "Left Glute" : NSLocalizedString("Change patch on your 'Left Glute' ", comment: comment)]
+    static let siteToExpiredPatchMessage =
+        [
+            "Right Abdomen" : NSLocalizedString(
+                "Change patch on your 'Right Abdomen'",
+                comment: comment
+            ),
+            "Left Abdomen" : NSLocalizedString(
+                "Change patch on your 'Right Abdomen'",
+                comment: comment
+            ),
+            "Right Glute" : NSLocalizedString(
+                "Change patch on your 'Right Glute'",
+                comment: comment
+            ),
+            "Left Glute" : NSLocalizedString(
+                "Change patch on your 'Left Glute'",
+                comment: comment
+            )
+    ]
     
-    static func getEstrogenNotificationStrings(method: DeliveryMethod,
+    static func getHormoneNotificationStrings(method: DeliveryMethod,
                                                minutesBefore: Double,
                                                expiringSiteName: String,
                                                suggestedSiteName: String? = nil) -> (String, String) {
@@ -42,6 +56,15 @@ class PDNotificationStrings {
         }
         return (titleBuilder, bodyBuilder)
     }
+    
+    static func getOvernightString(for method: DeliveryMethod) -> String {
+        switch method {
+        case .Patches:
+            return overnightPatch
+        case .Injections:
+            return overnightInjection
+        }
+    }
 
     // MARK: - User facing
     
@@ -62,7 +85,10 @@ class PDNotificationStrings {
     }()
     
     static let autofill = {
-        return NSLocalizedString("Change to suggested site?", comment: "Notification action label.")
+        return NSLocalizedString(
+            "Change to suggested site?",
+            comment: "Notification action label."
+        )
     }()
     
     static let patchExpired = {
@@ -78,7 +104,10 @@ class PDNotificationStrings {
     }()
     
     static let injectionExpires = {
-        return NSLocalizedString("Almost time for your next injection", comment: comment)
+        return NSLocalizedString(
+            "Almost time for your next injection",
+            comment: comment
+        )
     }()
     
     static let takePill = {

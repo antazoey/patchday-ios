@@ -13,15 +13,11 @@ import PDKit
 class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
 
     private let sdk: PatchDataDelegate
-    private let requestPillNotification: (Swallowable) -> ()
     private let root: UNUserNotificationCenter
     
-    init(sdk: PatchDataDelegate,
-         root: UNUserNotificationCenter,
-         requestPillNotification: @escaping (Swallowable) -> ()) {
+    init(sdk: PatchDataDelegate, root: UNUserNotificationCenter) {
         self.sdk = sdk
         self.root = root
-        self.requestPillNotification = requestPillNotification
         super.init()
         self.root.delegate = self
         self.root.requestAuthorization(options: [.alert, .sound, .badge]) {
@@ -31,11 +27,11 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
     }
     
     private var categories: Set<UNNotificationCategory> {
-        let estroActionId = ExpiredEstrogenNotification.actionId
+        let estroActionId = ExpiredHormoneNotification.actionId
         let estrogenAction = UNNotificationAction(identifier: estroActionId,
                                                   title: PDActionStrings.autofill,
                                                   options: [])
-        let estroCatId = ExpiredEstrogenNotification.categoryId
+        let estroCatId = ExpiredHormoneNotification.categoryId
         let estrogenCategory = UNNotificationCategory(identifier: estroCatId,
                                                       actions: [estrogenAction],
                                                       intentIdentifiers: [],
@@ -57,7 +53,7 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         switch response.actionIdentifier {
-        case ExpiredEstrogenNotification.actionId :
+        case ExpiredHormoneNotification.actionId :
             if let id = UUID(uuidString: response.notification.request.identifier),
                 let suggestedsite = sdk.sites.suggested {
 
@@ -69,7 +65,6 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
                 let pill = sdk.pills.get(for: uuid) {
 
                 sdk.swallow(pill)
-                requestPillNotification(pill)
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         default : return

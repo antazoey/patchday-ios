@@ -389,7 +389,7 @@ class HormoneDetailVC: UIViewController,
     
     private func requestNotification() {
         if let mone = estrogen {
-            notifications.requestEstrogenExpiredNotification(for: estro)
+            notifications.requestHormoneExpiredNotification(for: estro)
             // Overnight
             let interval = defaults.expirationInterval
             if let expDate = estro.expirationDate(interval: interval),
@@ -400,7 +400,7 @@ class HormoneDetailVC: UIViewController,
     }
     
     private func cancelNotification() {
-        notifications.cancelEstrogenNotification(at: estrogenScheduleIndex)
+        notifications.cancelHormoneNotification(at: estrogenScheduleIndex)
     }
     
     // MARK: - Private view creators / MOEstrogendifiers
@@ -472,9 +472,9 @@ class HormoneDetailVC: UIViewController,
         if PDPickerStrings.deliveryMethods.count >= 2 {
             switch deliv {
             case .Patches:
-                title = PDViewControllerTitleStrings.patchTitle
+                title = PDVCTitleStrings.patchTitle
             case .Injections:
-                title = PDViewControllerTitleStrings.injectionTitle
+                title = PDVCTitleStrings.injectionTitle
             }
         }
     }

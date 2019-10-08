@@ -33,11 +33,6 @@ class HormoneCell: UITableViewCell {
             if let mone = sdk.hormones.at(index) {
                 let isExpired = mone.isExpired
                 let img = PDImages.getImage(for: mone, theme: theme, deliveryMethod: method)
-                
-                
-                sdk.state.isCerebral = PDImages.representsCerebral(img)
-                
-                
                 let title = getTitle(at: index, interval)
                 configureDate(when: isExpired)
                 configureBadge(at: index, isExpired: isExpired, deliveryMethod: method)
@@ -47,7 +42,7 @@ class HormoneCell: UITableViewCell {
                 stateImage.isHidden = false
             }
         case quantity...3 :
-            animateHormoneButtonMutations(at: index, theme: theme)
+            animateHormoneButtonMutations(at: index, theme: sdk.defaults.theme.value)
             fallthrough
         default : reset()
         }
@@ -76,7 +71,7 @@ class HormoneCell: UITableViewCell {
                                                newImage: UIImage?=nil,
                                                newTitle: String?=nil) {
         let mone = sdk.hormones.at(index)
-        let isAnimating = shouldAnimate(mone, at: index, hormoneQuantity: <#Int#>)
+        let isAnimating = shouldAnimate(mone, at: index, sdk: sdk)
         if isAnimating {
             UIView.transition(
                 with: stateImage as UIView,
@@ -96,27 +91,32 @@ class HormoneCell: UITableViewCell {
     }
     
     private func shouldAnimate(_ mone: Hormonal?, at index: Index, sdk: PatchDataDelegate) -> Bool {
-        var dateChanged: Bool = false
-        var siteChange: Bool = false
-        var isGone: Bool = false
-        let c = sdk.hormones.count
-        if index < c {
-            if let _ = mone?.date {
-                dateChanged = sdk.state.hormoneDateDidChange(at: index)
+        var dateChanged = false
+        var siteChange = false
+        var isGone = false
+        return sdk.state.shouldAlert(mone, at: <#T##Index#>, quantity: <#T##Int#>)
+        
+        if let img = self.imageView?.image {
+            sdk.state.isCerebral = PDImages.representsCerebral(img)
+            let c = sdk.hormones.count
+            if index < c {
+                if let _ = mone?.date {
+                    dateChanged = sdk.state.hormoneDateDidChange(at: index)
+                }
+                // Newly changed site and none else (date didn't change).
+                bodilyChanged = sdk.state.hormonalBodilyDidChange(at: index)
             }
-            // Newly changed site and none else (date didn't change).
-            bodilyChanged = sdk.state.hormonalBodilyDidChange(at: index)
+            // Is exiting the schedule.
+            let decreased = state.decreasedQuantity
+            let isGreaterThanNewCount = index >= q
+            isGone = decreased && isGreaterThanNewCount
+            return (
+                sortFromEstrogenDateChange
+                || isSiteChange
+                || state.isNew
+                || isGone
+            )
         }
-        // Is exiting the schedule.
-        let decreased = state.decreasedQuantity
-        let isGreaterThanNewCount = index >= q
-        isGone = decreased && isGreaterThanNewCount
-        return (
-            sortFromEstrogenDateChange
-            || isSiteChange
-            || state.isNew
-            || isGone
-        )
     }
 
     private func reset() {
