@@ -17,6 +17,7 @@ public protocol Hormonal: PDPbjectifiable {
     var siteNameBackUp: String? { get set }
     var isExpired: Bool { get }
     var isEmpty: Bool { get }
+    var isCerebral: Bool { get }
     var site: Bodily? { get set }
     func stamp()
 }

@@ -27,25 +27,25 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
     }
     
     private var categories: Set<UNNotificationCategory> {
-        let estroActionId = ExpiredHormoneNotification.actionId
-        let estrogenAction = UNNotificationAction(identifier: estroActionId,
-                                                  title: PDActionStrings.autofill,
-                                                  options: [])
-        let estroCatId = ExpiredHormoneNotification.categoryId
-        let estrogenCategory = UNNotificationCategory(identifier: estroCatId,
-                                                      actions: [estrogenAction],
+        let hormoneActionId = ExpiredHormoneNotification.actionId
+        let hormoneAction = UNNotificationAction(identifier: hormoneActionId,
+                                                 title: PDActionStrings.autofill,
+                                                 options: [])
+        let hormoneCatId = ExpiredHormoneNotification.categoryId
+        let hormoneCategory = UNNotificationCategory(identifier: hormoneCatId,
+                                                      actions: [hormoneAction],
                                                       intentIdentifiers: [],
                                                       options: [])
         let pillActionId = DuePillNotification.actionId
         let pillAction = UNNotificationAction(identifier: pillActionId,
-                                                  title: PDActionStrings.take,
-                                                  options: [])
+                                              title: PDActionStrings.take,
+                                              options: [])
         let pillCatId = DuePillNotification.categoryId
         let pillCategory = UNNotificationCategory(identifier: pillCatId,
                                                   actions: [pillAction],
                                                   intentIdentifiers: [],
                                                   options: [])
-        return Set([estrogenCategory, pillCategory])
+        return Set([hormoneCategory, pillCategory])
     }
 
     /// Handles responses received from interacting with notifications.
@@ -57,7 +57,7 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
             if let id = UUID(uuidString: response.notification.request.identifier),
                 let suggestedsite = sdk.sites.suggested {
 
-                sdk.setEstrogenDateAndSite(for: id, date: Date(), site: suggestedsite)
+                sdk.setHormoneDateAndSite(for: id, date: Date(), site: suggestedsite)
                 UIApplication.shared.applicationIconBadgeNumber -= 1
             }
         case DuePillNotification.actionId :

@@ -72,7 +72,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         title = PDVCTitleStrings.settingsTitle
-        quantityLabel.text = PDStrings.ColonedStrings.count
+        quantityLabel.text = PDColonedStrings.count
         quantityButton.tag = 10
         settingsView.backgroundColor = UIColor.white
         setTopConstraint()

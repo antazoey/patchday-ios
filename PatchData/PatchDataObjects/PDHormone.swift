@@ -80,11 +80,10 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public var siteName: String {
-        let site = hormone.siteRelationship?.name ?? siteNameBackUp
-        switch site {
-        case nil : return PDStrings.PlaceholderStrings.new_site
-        case let s : return s!
+        if let name = hormone.siteRelationship?.name ?? siteNameBackUp {
+            return name
         }
+        return PDStrings.PlaceholderStrings.new_site
     }
     
     public var siteNameBackUp: String? {
@@ -97,6 +96,10 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     
     public var isEmpty: Bool {
         return date.isDefault() && site == nil && siteNameBackUp == nil
+    }
+    
+    public var isCerebral: Bool {
+        return siteName == PDStrings.PlaceholderStrings.new_site
     }
     
     public var site: Bodily?

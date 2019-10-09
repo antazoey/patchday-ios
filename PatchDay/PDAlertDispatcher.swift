@@ -51,7 +51,7 @@ class PDAlertDispatcher: NSObject {
         }
     }
 
-    /// Alert for changing the count of estrogens causing a loss of data.
+    /// Alert for changing the count of hormones causing a loss of data.
     func presentQuantityMutationAlert(oldQuantity: Int,
                                       newQuantity: Int,
                                       simpleSetQuantity: @escaping (_ newQuantity: Int) -> (),

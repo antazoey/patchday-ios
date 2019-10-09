@@ -12,10 +12,6 @@ public class PDStrings: NSObject {
         return "Read-only class for PatchDay Strings."
     }
     
-    /**********************************
-        LOCALIZABLE
-    **********************************/
-    
     // MARK: - Days (Localizable)
     
     public struct DayStrings {
@@ -53,48 +49,6 @@ public class PDStrings: NSObject {
             return NSLocalizedString("New Pill", comment: c4)
         }()
     }
-    
-    // MARK: - Coloned strings (Localizable)
-    
-    public struct ColonedStrings {
-        private static let comment1 = "Displayed on a label, plenty of room."
-        private static let comment2 = "Label next to date. Easy on room."
-        public static let count = {
-            return NSLocalizedString("Count:", comment: comment1)
-        }()
-        public static let time = {
-            return NSLocalizedString("Time:", comment: comment1)
-        }()
-        public static let firstTime = {
-            return NSLocalizedString("First time:", comment: comment1)
-        }()
-        public static let expires = {
-            return NSLocalizedString("Expires: ", comment: comment2)
-        }()
-        public static let expired = {
-            return NSLocalizedString("Expired: ", comment: comment2)
-        }()
-        public static let lastInjected = {
-            return NSLocalizedString("Injected: ", comment: comment2)
-        }()
-        public static let nextDue = {
-            return NSLocalizedString("Next due: ", comment: comment2)
-        }()
-        public static let dateAndTimeApplied = {
-            return NSLocalizedString("Date and time applied: ", comment: comment2)
-        }()
-        public static let dateAndTimeInjected = {
-            return NSLocalizedString("Date and time injected: ", comment: comment2)
-        }()
-        public static let site = {
-            return NSLocalizedString("Site: ", comment: comment2)
-        }()
-        public static let lastSiteInjected = {
-            return NSLocalizedString("Site injected: ", comment: comment2)
-        }()
-    }
-    
-    // Non-Localizable
     
     // MARK: - Core data keys
     

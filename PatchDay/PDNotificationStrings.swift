@@ -32,20 +32,26 @@ class PDNotificationStrings {
     ]
     
     static func getHormoneNotificationStrings(method: DeliveryMethod,
-                                               minutesBefore: Double,
-                                               expiringSiteName: String,
-                                               suggestedSiteName: String? = nil) -> (String, String) {
+                                              minutesBefore: Double,
+                                              expiringSiteName: String,
+                                              suggestedSiteName: String? = nil) -> (String, String) {
         var titleBuilder: String
         var titleOptions: [String]
         var bodyBuilder: String
         var siteBody: String
         switch method {
         case .Patches:
-            titleOptions = [patchExpired, patchExpires]
+            titleOptions = [
+                patchExpired,
+                patchExpires
+            ]
             bodyBuilder = patchBody
             siteBody = siteForNextPatch
         case .Injections:
-            titleOptions = [injectionExpired, injectionExpires]
+            titleOptions = [
+                injectionExpired,
+                injectionExpires
+            ]
             bodyBuilder = injectionBody
             siteBody = siteForNextInjection
         }

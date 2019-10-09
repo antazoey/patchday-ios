@@ -50,9 +50,9 @@ public class PDState: NSObject, PDStateManaging {
     }
 
     /// Returns if the current state reflects an update-worthy mutation
-    public func shouldAlert(_ mone: Hormonal, at index: Index, quantity: Int, isNewImage: Bool) -> Bool {
+    public func hormoneHasStateChanges(_ mone: Hormonal, at index: Index, quantity: Int) -> Bool {
         var moneChanged = false
-        isCerebral = isNewImage
+        isCerebral = mone.isCerebral
         if index < quantity {
             moneChanged = checkHormoneMutatationStatus(for: mone.id)
         }

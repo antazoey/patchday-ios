@@ -422,7 +422,7 @@ class HormoneDetailVC: UIViewController,
     /// Sets titles related to the estrogen's expiration date.
     private func setUpLabelsInUI() {
         var exp = ""
-        typealias Strings = PDStrings.ColonedStrings
+        typealias Strings = PDColonedStrings
         let interval = defaults.expirationInterval
         if let mone = estrogenSchedule.at(estrogenScheduleIndex),
             estro.getDate() != nil {

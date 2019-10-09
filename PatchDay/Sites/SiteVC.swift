@@ -16,7 +16,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = sdk.allSiteNames()
+    private var namePickerSet = app.sdk.sites.names
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var nameStackVertical: UIStackView!
@@ -78,8 +78,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let t = defaults.theme.value
-        let deliv = defaults.deliveryMethod.value
+        let t = sdk.defaults.theme.value
+        let deliv = sdk.defaults.deliveryMethod.value
         let images = PDImages.siteImages(theme: t, deliveryMethod: deliv)
         let imgF = PDImages.imageToSiteName(_:)
         let imageStruct = setImage(images: images, imageNameFunction: imgF)
@@ -92,7 +92,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        siteSchedule.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: deliv)
+        sdk?.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: deliv)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -116,12 +116,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let name = nameText.text {
             // Updating existing site
             let i = siteScheduleIndex
-            let count = siteSchedule.count()
+            let count = sdk.sites.count()
             switch i {
             case 0..<count :
                 siteSchedule.rename(at: i, to: name)
             case count :
-                if let _ = siteSchedule.insert() {
+                if let _ = sdk.insertSite() {
                     siteSchedule.rename(at: i, to: name)
                 }
             default : break

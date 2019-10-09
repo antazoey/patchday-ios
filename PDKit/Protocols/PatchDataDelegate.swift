@@ -14,23 +14,28 @@ public protocol PatchDataDelegate {
     var sites: HormoneSiteScheduling { get }
     var pills: PDPillScheduling { get }
     var state: PDStateManaging { get }
-    var deliveryMethod: DeliveryMethod { get set }
-    var deliveryMethodName: String { get }
     var totalAlerts: Int { get }
-    var totalHormonesExpired: Int { get }
-    func insertSite(name: SiteName?, completion: (() -> ())?)
-    func broadcastHormones()
+    func getNamesOfOccupiedSites() -> Set<SiteName>
     func nuke()
     
+    // Defaults
+    var deliveryMethod: DeliveryMethod { get set }
+    var deliveryMethodName: String { get }
+
+    // Sites
+    func insertNewSite(name: SiteName, completion: (() -> ())?)
+    func insertNewSite()
+
     // Stateful
     func stampQuantity()
-    func shouldAnimate(hormoneAt index: Index) -> Bool
+    func checkForStateChangas(forHormoneIndex index: Index) -> Bool
 
     // Hormones
-    func setEstrogenSite(at index: Index, with site: Bodily) 
-    func setEstrogenDate(at index: Index, with date: Date)
-    func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily)
-    func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName]
+    func setHormoneSite(at index: Index, with site: Bodily)
+    func setHormoneDate(at index: Index, with date: Date)
+    func setHormoneDateAndSite(for id: UUID, date: Date, site: Bodily)
+    var totalHormonesExpired: Int { get }
+    func broadcastHormones()
     
     // Pills
     func swallow(_ pill: Swallowable)

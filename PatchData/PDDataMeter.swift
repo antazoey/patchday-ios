@@ -16,20 +16,20 @@ public class PDDataMeter: PDDataMeting {
     }
 
     /// Sets hormone data for other apps, such as the PatchDay Today widget.
-    public func broadcastRelevantEstrogenData(oldestEstrogen: Hormonal,
+    public func broadcastRelevantHormoneData(oldestHormone: Hormonal,
                                               nextSuggestedSite: SiteName,
                                               interval: ExpirationIntervalUD,
                                               deliveryMethod: DeliveryMethodUD) {
         var siteName: SiteName
         switch deliveryMethod.value {
         case .Patches:
-            siteName = oldestEstrogen.siteName
+            siteName = oldestHormone.siteName
         case .Injections:
             siteName = nextSuggestedSite
         }
         if let defs = defaults {
             defs.set(siteName, forKey: PDStrings.TodayKey.nextEstroSiteName.rawValue)
-            defs.set(oldestEstrogen.date, forKey: PDStrings.TodayKey.nextEstroDate.rawValue)
+            defs.set(oldestHormone.date, forKey: PDStrings.TodayKey.nextEstroDate.rawValue)
         }
     }
 

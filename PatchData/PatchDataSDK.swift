@@ -12,8 +12,8 @@ import PDKit
 
 public typealias SiteSet = [String]
 
-public class PatchDataSDK: NSObject, PatchDataDelegate {    
-    
+public class PatchDataSDK: NSObject, PatchDataDelegate {
+
     override public var description: String {
         return "Main interface for controlling patch data"
     }
@@ -78,7 +78,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var state: PDStateManaging
     
     /// Returns the total hormones expired and pills due.
-    public var totalDue: Int {
+    public var totalAlerts: Int {
         return totalHormonesExpired + pills.totalDue
     }
 
@@ -129,40 +129,46 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     // MARK: - Hormones
 
-    public func setEstrogenSite(at index: Index, with site: Bodily) {
+    public func setHormoneSite(at index: Index, with site: Bodily) {
         state.bodilyChanged = true
         hormones.setSite(at: index, with: site)
         broadcastHormones()
         patchdata.save()
     }
 
-    public func setEstrogenDate(at index: Index, with date: Date) {
+    public func setHormoneDate(at index: Index, with date: Date) {
         hormones.setDate(at: index, with: date)
         broadcastHormones()
         patchdata.save()
     }
 
-    public func setEstrogenDateAndSite(for id: UUID, date: Date, site: Bodily) {
+    public func setHormoneDateAndSite(for id: UUID, date: Date, site: Bodily) {
         hormones.set(for: id, date: date, site: site)
         broadcastHormones()
         patchdata.save()
     }
 
-    /// Returns array of current occupied SiteNames
-    public func getCurrentSiteNamesInEstrogenSchedule() -> [SiteName] {
-        return hormones.all.map({(estro: Hormonal) -> SiteName in
-            return estro.site?.name ?? ""
-        }).filter() { $0 != "" }
+    /// Returns set of current occupied SiteNames
+    public func getNamesOfOccupiedSites() -> Set<SiteName> {
+        return Set(hormones.all.map({(mone: Hormonal) -> SiteName in
+            return mone.site?.name ?? ""
+        }).filter() { $0 != "" })
     }
 
     // MARK: - Sites
+    
+    public func insertNewSite() {
+        let name = PDStrings.PlaceholderStrings.new_site
+        insertNewSite(name: name, completion: nil)
+    }
 
-    public func insertSite(name: SiteName? = nil, completion: (() -> ())?) {
-        let n = name ?? PDStrings.PlaceholderStrings.new_site
-        if var site = sites.insert(deliveryMethod: defaults.deliveryMethod.value,
-                     globalExpirationInterval: defaults.expirationInterval,
-                     completion: completion) {
-            site.name = n
+    public func insertNewSite(name: SiteName, completion: (() -> ())?) {
+        if var site = sites.insert(
+            deliveryMethod: defaults.deliveryMethod.value,
+            globalExpirationInterval: defaults.expirationInterval,
+            completion: completion
+        ) {
+            site.name = name
         }
     }
 
@@ -180,10 +186,12 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             let interval = defaults.expirationInterval
             let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.new_site
             let deliveryMethod = defaults.deliveryMethod
-            dataMeter.broadcastRelevantEstrogenData(oldestEstrogen: mone,
-                                                    nextSuggestedSite: name,
-                                                    interval: interval,
-                                                    deliveryMethod: deliveryMethod)
+            dataMeter.broadcastRelevantHormoneData(
+                oldestHormone: mone,
+                nextSuggestedSite: name,
+                interval: interval,
+                deliveryMethod: deliveryMethod
+            )
         }
     }
 
@@ -199,9 +207,9 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         state.oldQuantity = defaults.quantity.value.rawValue
     }
     
-    public func shouldAnimate(hormoneAt index: Index) -> Bool {
+    public func checkForStateChangas(forHormoneIndex index: Index) -> Bool {
         if let mone = hormones.at(index) {
-            return state.shouldAlert(mone, at: index, quantity: hormones.count)
+            return state.hormoneHasStateChanges(mone, at: index, quantity: hormones.count)
         }
         return false
     }
