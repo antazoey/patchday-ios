@@ -20,7 +20,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Dependencies
     private let pillSchedule = patchData.sdk.pillSchedule
     private let shared = patchData.sdk.pdSharedData
-    private let notifications = app.notifications
+    private let notifications: PDNotificationScheduling = app.notifications
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -79,10 +79,9 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         let t = sdk.defaults.theme.value
-        let deliv = sdk.defaults.deliveryMethod.value
-        let images = PDImages.siteImages(theme: t, deliveryMethod: deliv)
-        let imgF = PDImages.imageToSiteName(_:)
-        let imageStruct = setImage(images: images, imageNameFunction: imgF)
+        let method = sdk.defaults.deliveryMethod.value
+        let images = PDImages.siteImages(theme: t, deliveryMethod: method)
+        let imageStruct = setImage(images: images)
         imagePicker.isHidden = true
         siteImage.image = imageStruct.image
         siteImage.isHidden = false
@@ -92,7 +91,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         imagePickerDoneButton.isEnabled = false
         imagePickerDoneButton.isHidden = true
         enableSave()
-        sdk?.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: deliv)
+        sdk.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: method)
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -223,17 +222,16 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     // MARK: - Private
     
-    private func setImage(images: [UIImage],
-                          imageNameFunction: ((UIImage) -> SiteName)) -> ImageStruct {
+    private func setImage(images: [UIImage]) -> ImageStruct {
         let image = images[imagePicker.selectedRow(inComponent: 0)]
-        let imageKey = imageNameFunction(image)
+        let imageKey = PDImages.imageToSiteName(image)
         return ImageStruct(image: image, imageKey: imageKey)
     }
     
     private func segueToSitesVC() {
         if let sb = storyboard, let navCon = navigationController,
             let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = siteSchedule.getNames()
+            sitesVC.siteNames = sdk.sites.names
             navCon.popViewController(animated: true)
         }
     }
@@ -250,22 +248,23 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadImage() {
-        let deliv = defaults.deliveryMethod.value
-        let theme = app.theme.current
+        let method = sdk.defaults.deliveryMethod.value
+        let theme = app.sdk.defaults.theme.value
 
         if let name = nameText.text {
             var image: UIImage
-            var sitesWithImages = PDSiteStrings.getSiteNames(for: deliv)
+            var sitesWithImages = PDSiteStrings.getSiteNames(for: method)
 
             if name == PDStrings.PlaceholderStrings.new_site {
-                image = PDImages.newSiteImage(theme: theme, deliveryMethod: deliv)
+                image = PDImages.newSiteImage(theme: theme, deliveryMethod: method)
             } else if let site = sdk.sites.at(siteScheduleIndex),
-                let imgId = site.imageIdentifier,
-                let i = sitesWithImages.firstIndex(of: imgId) {
+                let i = sitesWithImages.firstIndex(of: site.imageIdentifier) {
 
-                image = PDImages.siteNameToImage(sitesWithImages[i],
-                                                 theme: theme,
-                                                 deliveryMethod: deliv)
+                image = PDImages.siteNameToImage(
+                    sitesWithImages[i],
+                    theme: theme,
+                    deliveryMethod: method
+                )
             } else {
                 image = PDImages.custom(theme: theme, deliveryMethod: deliv)
             }

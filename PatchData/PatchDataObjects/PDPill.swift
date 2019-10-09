@@ -234,7 +234,7 @@ public class PDPill: PDObject, Swallowable, Comparable {
     }
     
     private func handleNotEnoughTimesError(t1: Time) -> Date? {
-        let c = [pill.time1, pill.time2].filter() { $0 != nil }.count
+        let c = [pill.time1, pill.time2].count
         if c < timesaday {
             let goal = Int(timesaday)
             // Set the dates that are missing

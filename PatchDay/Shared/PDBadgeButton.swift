@@ -113,7 +113,7 @@ extension CGRect {
 
 class PDBadgeButton: UIButton {
 
-    private var type: PDBadgeButtonType = .patches
+    var type: PDBadgeButtonType = .patches
 
     var badgeValue: String! = "" {
         didSet {

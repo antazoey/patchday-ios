@@ -207,7 +207,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         state.oldQuantity = defaults.quantity.value.rawValue
     }
     
-    public func checkForStateChangas(forHormoneIndex index: Index) -> Bool {
+    public func stateChanged(forHormoneAtIndex index: Index) -> Bool {
         if let mone = hormones.at(index) {
             return state.hormoneHasStateChanges(mone, at: index, quantity: hormones.count)
         }

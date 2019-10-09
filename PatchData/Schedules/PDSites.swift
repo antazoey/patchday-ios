@@ -23,12 +23,17 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     init(deliveryMethod: DeliveryMethod,
          globalExpirationInterval: ExpirationIntervalUD,
          siteIndexRebounder: PDIndexRebounce) {
-        self.sites = PatchData.createSites(expirationIntervalUD: globalExpirationInterval,
-                                      deliveryMethod: deliveryMethod)
+        self.sites = PatchData.createSites(
+            expirationIntervalUD: globalExpirationInterval,
+            deliveryMethod: deliveryMethod
+        )
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
         if sites.count == 0 {
-            new(deliveryMethod: deliveryMethod, globalExpirationInterval: globalExpirationInterval)
+            new(
+                deliveryMethod: deliveryMethod,
+                globalExpirationInterval: globalExpirationInterval
+            )
         }
         sort()
     }
@@ -45,18 +50,12 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     
     // An array of a siteNames for each site in the schedule.
     public var names: [SiteName] {
-        return sites.map({
-            (site: Bodily) -> SiteName? in
-            return site.name
-        }).filter() { $0 != nil } as! [SiteName]
+        return sites.map({ (site: Bodily) -> SiteName in return site.name })
     }
     
-    /// An array of image Ids from array of MOSites.
+    /// An array of image Ids for each site
     public var imageIds: [String] {
-        return sites.map({
-            (site: Bodily) -> String? in
-            return site.imageIdentifier
-        }).filter() { $0 != nil } as! [String]
+        return sites.map({ (site: Bodily) -> String in return site.imageIdentifier })
     }
     
     /// The next site for scheduling in the site schedule.
@@ -134,7 +133,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         }
     }
     
-    /// Generates a generic list of MOSites when there are none in store.
+    /// Generates a generic list of sites when there are none in store.
     public func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) {
         var sites: [Bodily] = []
         let names = PDSiteStrings.getSiteNames(for: deliveryMethod)
@@ -166,10 +165,10 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         return nil
     }
     
-    /// Returns the MOSite for the given name.
+    /// Returns the site for the given name.
     public func get(for name: String) -> Bodily? {
-        if let index = names.firstIndex(of: name) {
-            return sites[index]
+        if let i = names.firstIndex(of: name) {
+            return sites[i]
         }
         return nil
     }

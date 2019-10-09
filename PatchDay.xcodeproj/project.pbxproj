@@ -695,6 +695,14 @@
 			name = Notifications;
 			sourceTree = "<group>";
 		};
+		9DDF47E4234D7AC4005AA467 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B440110D21DF3E5D00C94B76 /* DateExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		B40CC9A721CCE4AE002364BB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -710,7 +718,6 @@
 				9D003EC423359E990070C964 /* PDKeyStorableHelper.swift */,
 				B40531BC21CD845800BD64CE /* PillAttributes.swift */,
 				B49A4A2F20DAE8A200F24FC0 /* PDDateHelper.swift */,
-				B440110D21DF3E5D00C94B76 /* DateExtension.swift */,
 				B49A4A2D20DAE14000F24FC0 /* PDPillHelper.swift */,
 			);
 			path = Helpers;
@@ -858,6 +865,7 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
+				9DDF47E4234D7AC4005AA467 /* Extensions */,
 				9D1BC57F2277F50D00552BC1 /* PatchDataShell.swift */,
 				9D72A9142342F3D00030D460 /* State */,
 				9D1BC56B2275FC1000552BC1 /* KeyStorables */,

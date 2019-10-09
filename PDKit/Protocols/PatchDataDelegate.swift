@@ -28,7 +28,7 @@ public protocol PatchDataDelegate {
 
     // Stateful
     func stampQuantity()
-    func checkForStateChangas(forHormoneIndex index: Index) -> Bool
+    func stateChanged(forHormoneAtIndex index: Index) -> Bool
 
     // Hormones
     func setHormoneSite(at index: Index, with site: Bodily)

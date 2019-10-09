@@ -16,8 +16,8 @@ class PillCell: UITableViewCell {
     public var index: Index = -1
 
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var stateImage: UIImageView!
-    @IBOutlet weak var stateImageButton: MFBadgeButton!
+    @IBOutlet weak var stateImageView: UIImageView!
+    @IBOutlet weak var stateImageButton: PDBadgeButton!
     @IBOutlet weak var takeButton: UIButton!
     @IBOutlet weak var lastTakenLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!
@@ -79,7 +79,7 @@ class PillCell: UITableViewCell {
     public func setBackground() {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        backgroundColor = app.theme.getCellColor(at: index)
+        backgroundColor = app.styles.
     }
     
     // MARK: - Private
@@ -95,12 +95,13 @@ class PillCell: UITableViewCell {
     }
     
     private func applyTheme() {
-        nameLabel.textColor = app.theme.textColor
-        takeButton.setTitleColor(app.theme.buttonColor, for: .normal)
-        lastTakenLabel.textColor = app.theme.textColor
-        nextDueDate.textColor = app.theme.textColor
-        let img = stateImage.image?.withRenderingMode(.alwaysTemplate)
-        stateImage.image = img
-        stateImage.tintColor = app.theme.buttonColor
+        let textColor = app.styles.theme[.text]
+        nameLabel.textColor = textColor
+        takeButton.setTitleColor(textColor, for: .normal)
+        lastTakenLabel.textColor = textColor
+        nextDueDate.textColor = textColor
+        let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
+        stateImageView.image = stateImage
+        stateImageView.tintColor = app.styles.theme[.button]
     }
 }

@@ -96,7 +96,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        notifications.cancelHormoneNotifications()
+        notifications.cancelAllHormoneNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
         sdk.defaults.setNotificationsMinutesBefore(to: v)

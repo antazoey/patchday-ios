@@ -31,12 +31,16 @@ class HormoneCell: UITableViewCell {
             let theme = sdk.defaults.theme.value
             if let mone = sdk.hormones.at(index) {
                 let isExpired = mone.isExpired
-                let img = PDImages.getImage(for: mone, theme: theme, deliveryMethod: method)
-                let title = PDColonedStrings.getDateTitle(for: hormone, method: sdk.deliveryMethod)
+                let siteImage = PDImages.getImage(for: mone, theme: theme, deliveryMethod: method)
+                let cellTitle = PDColonedStrings.getDateTitle(for: hormone, method: sdk.deliveryMethod)
                 configureDate(when: isExpired)
                 configureBadge(at: index, isExpired: isExpired, deliveryMethod: method)
-                self.setDateLabel(title)
-                animateHormoneButtonMutations(at: index, theme: theme, newImage: img, newTitle: title)
+                setDateLabel(cellTitle)
+                if sdk.stateChanged(forHormoneAtIndex: index) {
+                    animate(at: index, theme: theme, newImage: siteImage, newTitle: cellTitle)
+                } else {
+                    stateImage.image = siteImage
+                }
                 selectionStyle = .default
                 stateImage.isHidden = false
             }
@@ -47,23 +51,18 @@ class HormoneCell: UITableViewCell {
         }
     }
     
-    /// Animates the making of an estrogen button if there were estrogen data changes.
-    private func animateHormoneButtonMutations(at index: Index,
-                                               theme: PDTheme,
+    /// Animates drawing hormone button
+    private func animate(at index: Index,
+                                         theme: PDTheme,
                                                newImage: UIImage?=nil,
                                                newTitle: String?=nil) {
-        let isAnimating = sdk.checkForStateChangas(forHormoneIndex: index)
-        if isAnimating {
-            UIView.transition(
-                with: stateImage as UIView,
-                duration: 0.75,
-                options: .transitionCrossDissolve,
-                animations: { self.stateImage.image = newImage },
-                completion: nil
-            )
-        } else {
-            stateImage.image = newImage
-        }
+        UIView.transition(
+            with: stateImage as UIView,
+            duration: 0.75,
+            options: .transitionCrossDissolve,
+            animations: { self.stateImage.image = newImage },
+            completion: nil
+        )
     }
     
     private func setDateLabel(_ title: String?) {
@@ -95,7 +94,7 @@ class HormoneCell: UITableViewCell {
 
     private func configureBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {
         badgeButton.restorationIdentifier = String(index)
-        badgeButton.setType(deliveryMethod: deliveryMethod)
+        badgeButton. = deliveryMethod
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
 }
