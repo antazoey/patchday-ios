@@ -141,8 +141,8 @@
 //
 //    func testGetSiteForName() {
 //        // Should append new site if site not in schedule
-//        if let new_site = siteSchedule.getSite(for: "NEW SITE NAME") {
-//            XCTAssert(siteSchedule.sites.contains(new_site))
+//        if let newSite = siteSchedule.getSite(for: "NEW SITE NAME") {
+//            XCTAssert(siteSchedule.sites.contains(newSite))
 //        } else {
 //            XCTFail()
 //        }
@@ -297,8 +297,8 @@
 //    }
 //
 //    func testAppendSite() {
-//        if let new_site = siteSchedule.insert() as? MOSite {
-//            XCTAssert(siteSchedule.sites.contains(new_site))
+//        if let newSite = siteSchedule.insert() as? MOSite {
+//            XCTAssert(siteSchedule.sites.contains(newSite))
 //        } else {
 //            XCTFail()
 //        }

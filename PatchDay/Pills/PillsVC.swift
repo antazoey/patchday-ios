@@ -177,8 +177,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        let bgColor = app.theme.bgColor
-        let borderColor = app.theme.borderColor
+        let bgColor = app.styles.theme[.bg]
+        let borderColor = app.styles.theme[.border]
         pillsView.backgroundColor = bgColor
         pillsTable.backgroundColor = bgColor
         pillsTable.separatorColor = borderColor

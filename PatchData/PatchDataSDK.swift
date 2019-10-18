@@ -77,6 +77,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var pills: PDPillScheduling
     public var state: PDStateManaging
     
+    /// Returns whether the schedules are unmutated after initialization
+    public var isFresh: Bool {
+        return hormones.isEmpty && sites.isDefault(deliveryMethod: deliveryMethod)
+    }
+    
     /// Returns the total hormones expired and pills due.
     public var totalAlerts: Int {
         return totalHormonesExpired + pills.totalDue
@@ -116,6 +121,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public func setQuantity(to newQuantity: Int) {
         let oldQuantity = defaults.quantity.value.rawValue
         defaults.setQuantity(to: newQuantity)
+        state.oldQuantity = oldQuantity
         if oldQuantity < newQuantity {
             // Fill in new estros
             for _ in oldQuantity..<newQuantity {
@@ -158,7 +164,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     // MARK: - Sites
     
     public func insertNewSite() {
-        let name = PDStrings.PlaceholderStrings.new_site
+        let name = PDStrings.PlaceholderStrings.newSite
         insertNewSite(name: name, completion: nil)
     }
 
@@ -184,7 +190,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public func broadcastHormones() {
         if let mone = hormones.next {
             let interval = defaults.expirationInterval
-            let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.new_site
+            let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.newSite
             let deliveryMethod = defaults.deliveryMethod
             dataMeter.broadcastRelevantHormoneData(
                 oldestHormone: mone,
@@ -217,7 +223,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     // MARK: - Other public
 
     /// Returns array of occupied site indices.
-    func occupiedSitesIndices() -> [Index] {
+    public func occupiedSitesIndices() -> [Index] {
         var indices: [Index] = []
         if let pdSites = sites.all.asPDSiteArray() {
             for mone in hormones.all {

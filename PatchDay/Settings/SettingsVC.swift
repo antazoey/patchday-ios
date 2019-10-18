@@ -74,7 +74,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         title = PDVCTitleStrings.settingsTitle
         quantityLabel.text = PDColonedStrings.count
         quantityButton.tag = 10
-        settingsView.backgroundColor = UIColor.white
         setTopConstraint()
         loadButtonSelectedStates()
         loadButtonDisabledStates()
@@ -96,11 +95,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        notifications.cancelAllHormoneNotifications()
+        notifications.cancelAllHormoneExpiredNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
         sdk.defaults.setNotificationsMinutesBefore(to: v)
-        notifications.resendEstrogenNotifications()
+        notifications.resendAllHormoneExpiredNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView
@@ -165,7 +164,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      // key is either "interval" , "count" , "notifications" */
     private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
-        let selections = PDPickerStrings.getPickerStrings(for: key)
+        let selections = PDPickerStrings.getStrings(for: key)
         let choice = sender.titleLabel?.text
         let start: Int = { () in
             if let c = choice, let i = selections.firstIndex(of: c) {
@@ -219,58 +218,63 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView, _ key: PDDefault, row: Int) {
         buttonTapped.isSelected = false
         picker.isHidden = true
-        if key == PDDefault.Quantity {
-            state.oldQuantity = defaults.quantity.value.rawValue
-        }
-        self.saveFromPicker(key, selectedRow: row)
+        self.saveFromPicker(key, for: row)
     }
     
     // MARK: - Saving
     
     /// Saves values from pickers (NOT a function for TimePickers though).
-    private func saveFromPicker(_ key: PDDefault, selectedRow: Int?) {
-        app.notifications.cancelHormoneNotifications()
-        if let row = selectedRow {
-            switch key {
-            case .DeliveryMethod :
-                saveDeliveryMethodChange(row)
-            case .Quantity :
-                saveQuantityChange(row)
-            case .ExpirationInterval :
-                saveIntervalChange(row)
-            case .Theme :
-                saveThemeChange(row)
-            default:
-                print("Error: Improper context when saving details from picker")
-            }
+    private func saveFromPicker(_ key: PDDefault, for row: Int) {
+        app.notifications.cancelAllHormoneExpiredNotifications()
+        switch key {
+        case .DeliveryMethod :
+            deliveryMethodPicker.selectRow(row)
+            saveDeliveryMethodChange()
+        case .Quantity :
+            quantityPicker.selectRow(row)
+            saveQuantityChange()
+        case .ExpirationInterval :
+            expirationIntervalPicker.selectRow(row)
+            saveIntervalChange()
+        case .Theme :
+            themePicker.selectRow(0)
+            saveThemeChange()
+        default:
+            print("Error: Improper context when saving details from picker")
         }
-        app.notifications.resendEstrogenNotifications()
+        app.notifications.resendAllHormoneExpiredNotifications()
     }
     
-    private func saveDeliveryMethodChange(_ row: Int) {
-        let deliv = pdShell.getDeliveryMethod(at: row)
-        setButtonsFromDeliveryMethodChange(choice: deliv)
-        if !pdShell.setDeliveryMethodIfSafe(to: deliv) {
-            presentDeliveryMethodMutationAlert(choice: deliv)
+    private func saveDeliveryMethodChange() {
+        
+        let newMethod = deliveryMethodPicker.select deliveryMethodPicker.getSelectedRow()
+        setButtonsFromDeliveryMethodChange(choice: newMethod)
+        if sdk.isFresh {
+            sdk.deliveryMethod = newMethod
+        } else {
+            presentDeliveryMethodMutationAlert(choice: newMethod)
         }
     }
     
-    private func saveQuantityChange(_ row: Int) {
+    private func saveQuantityChange() {
         let old = state.oldQuantity
         let reset = makeResetClosure(oldCount: old)
         let cancel = makeCancelClosure(oldCount: old)
-        pdShell.setQuantity(to: row, oldQuantityRaw: old, reset: reset, cancel: cancel)
+        let newQuantity = quantityPicker.getSelectedRow()
+        pdShell.setQuantity(to: newQuantity, oldQuantityRaw: old, reset: reset, cancel: cancel)
     }
     
-    private func saveIntervalChange(_ row: Int) {
-        let result = pdShell.setExpirationIntervalIfSafe(at: row)
+    private func saveIntervalChange() {
+        let newInterval = expirationIntervalPicker.getSelectedRow()
+        let result = pdShell.setExpirationIntervalIfSafe(at: newInterval)
         if result.didSet {
         } else {
             print("Error: no expiration interval for row \(row)")
         }
     }
     
-    private func saveThemeChange(_ row: Int) {
+    private func saveThemeChange() {
+        let newTheme = themePicker.getSelectedRow()
         let theme = pdShell.setThemeIfSafe(toMethodAt: row)
         if theme != "" {
             app.resetTheme()
@@ -299,7 +303,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
-        defaults.setNotificationsMinutesBefore(to: 0)
+        sdk.defaults.setNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.value = 0
     }
     
@@ -333,7 +337,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadButtonDisabledStates() {
-            quantityButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        // Add more disabled states here as they arise
+        quantityButton.setTitleColor(UIColor.lightGray, for: .disabled)
     }
     
     private func setTopConstraint() {
@@ -379,20 +384,21 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func applyTheme() {
-        view.backgroundColor = app.theme.bgColor
-        settingsView.backgroundColor = app.theme.bgColor
-        settingsStack.backgroundColor = app.theme.bgColor
-        deliveryMethodButton.setTitleColor(app.theme.textColor, for: .normal)
-        expirationIntervalButton.setTitleColor(app.theme.textColor, for: .normal)
-        quantityButton.setTitleColor(app.theme.textColor, for: .normal)
-        notificationsSwitch.backgroundColor = app.theme.bgColor
-        notificationsMinutesBeforeSlider.backgroundColor = app.theme.bgColor
-        deliveryMethodSideView.backgroundColor = app.theme.bgColor
-        deliveryMethodSideView.backgroundColor = app.theme.bgColor
-        quantitySideView.backgroundColor = app.theme.bgColor
-        notificationsSideView.backgroundColor = app.theme.bgColor
-        notificationsMinutesBeforeSideView.backgroundColor = app.theme.bgColor
-        themeSideView.backgroundColor = app.theme.bgColor
+        settingsView.backgroundColor = UIColor.white
+        view.backgroundColor = app.styles.theme[.bg]
+        settingsView.backgroundColor = app.styles.theme[.bg]
+        settingsStack.backgroundColor = app.styles.theme[.bg]
+        deliveryMethodButton.setTitleColor(app.styles.theme[.text], for: .normal)
+        expirationIntervalButton.setTitleColor(app.styles.theme[.text], for: .normal)
+        quantityButton.setTitleColor(app.styles.theme[.text], for: .normal)
+        notificationsSwitch.backgroundColor = app.styles.theme[.bg]
+        notificationsMinutesBeforeSlider.backgroundColor = app.styles.theme[.bg]
+        deliveryMethodSideView.backgroundColor = app.styles.theme[.bg]
+        deliveryMethodSideView.backgroundColor = app.styles.theme[.bg]
+        quantitySideView.backgroundColor = app.styles.theme[.bg]
+        notificationsSideView.backgroundColor = app.styles.theme[.bg]
+        notificationsMinutesBeforeSideView.backgroundColor = app.styles.theme[.bg]
+        themeSideView.backgroundColor = app.styles.theme[.bg]
     }
 
     private func loadDeliveryMethod() {
@@ -411,18 +417,18 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             quantityButton.isEnabled = false
             quantityArrowButton.isEnabled = false
             if q != 1 {
-                defaults.setQuantity(to: 1)
+                sdk.defaults.setQuantity(to: 1)
             }
         }
     }
     
     private func loadNotifications() {
-        notificationsSwitch.setOn(defaults.notifications.value, animated: false)
+        notificationsSwitch.setOn(sdk.defaults.notifications.value)
     }
     
     private func loadNotificationsMinutesBefore() {
         if notificationsSwitch.isOn {
-            let min = defaults.notificationsMinutesBefore.value
+            let min = sdk.defaults.notificationsMinutesBefore.value
             notificationsMinutesBeforeSlider.value = Float(min)
             notificationsMinutesBeforeValueLabel.text = String(min)
             notificationsMinutesBeforeValueLabel.textColor = UIColor.black
@@ -432,7 +438,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadTheme() {
-        let theme = defaults.theme.value
+        let theme = sdk.defaults.theme.value
         let title = PDPickerStrings.getTheme(for: theme)
         themeButton.setTitle(title, for: .normal)
     }

@@ -74,6 +74,7 @@
 		9D913BAC230CD5C9001FC03C /* PDHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAB230CD5C9001FC03C /* PDHormone.swift */; };
 		9D913BAE231D89AD001FC03C /* PDPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* PDPill.swift */; };
 		9D913BB6231F3EB5001FC03C /* PDSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BB5231F3EB5001FC03C /* PDSite.swift */; };
+		9D99784023595530009679FB /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99783F23595530009679FB /* UIKitExtensions.swift */; };
 		9DA3A901233AFD4D00DAF350 /* PDNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DA3A905233C4B6300DAF350 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
@@ -296,6 +297,7 @@
 		9D913BAB230CD5C9001FC03C /* PDHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDHormone.swift; sourceTree = "<group>"; };
 		9D913BAD231D89AD001FC03C /* PDPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPill.swift; sourceTree = "<group>"; };
 		9D913BB5231F3EB5001FC03C /* PDSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSite.swift; sourceTree = "<group>"; };
+		9D99783F23595530009679FB /* UIKitExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitExtensions.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationScheduling.swift; sourceTree = "<group>"; };
@@ -819,6 +821,7 @@
 				B4355D9920EE968B0048D466 /* PDBadgeButton.swift */,
 				B434B93D20FAEA45008F3CE1 /* TabBarExtension.swift */,
 				9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */,
+				9D99783F23595530009679FB /* UIKitExtensions.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1197,6 +1200,7 @@
 				9DA3A901233AFD4D00DAF350 /* PDNotificationDelegate.swift in Sources */,
 				133EEBAF1EF2EB0200E64C4D /* SettingsVC.swift in Sources */,
 				9D72A90A233DA2CE0030D460 /* PDStyling.swift in Sources */,
+				9D99784023595530009679FB /* UIKitExtensions.swift in Sources */,
 				13E980D81EDFA54B0062B144 /* HormoneDetailVC.swift in Sources */,
 				9D3E4C8A22B7117900C82DAE /* PDAlerting.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* PDNotifications.swift in Sources */,

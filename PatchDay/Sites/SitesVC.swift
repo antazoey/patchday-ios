@@ -291,9 +291,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        sitesView.backgroundColor = app.theme.bgColor
-        sitesTable.backgroundColor = app.theme.bgColor
-        sitesTable.separatorColor = app.theme.borderColor
+        sitesView.backgroundColor = app.styles.theme[.bg]
+        sitesTable.backgroundColor = app.styles.theme[.bg]
+        sitesTable.separatorColor = app.styles.theme[.border]
     }
 }
 

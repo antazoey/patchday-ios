@@ -67,9 +67,11 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let hormoneIndex = indexPath.row
         let id = "HormoneCellReuseId"
-        if let cell = hormonalTable.dequeueReusableCell(withIdentifier: id) as? HormoneCell {
+        if let hormone = sdk.hormones.at(hormoneIndex),
+            let cell = hormonalTable.dequeueReusableCell(withIdentifier: id) as? HormoneCell {
+
             cell.index = hormoneIndex
-            cell.load(sdk: sdk)
+            cell.load(sdk: sdk, hormone: hormone)
             return cell
         }
     }
@@ -92,12 +94,14 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     // MARK: - Private
-    /// Updates the estrogen buttons when VC is reloaded from a notification.
+    /// Updates the hormone buttons when VC is reloaded from a notification.
     func updateFromBackground() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(appWillEnterForeground),
-                                               name: UIApplication.willEnterForegroundNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(appWillEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
     }
     
     @objc func appWillEnterForeground() {
@@ -106,21 +110,21 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func loadBarButtons() {
         let settingsButton = UIBarButtonItem()
-        settingsButton.image = #imageLiteral(resourceName: "Settings Icon")
+        settingsButton.image = PDImages.settging
         settingsButton.target = self
         settingsButton.action = #selector(settingsTapped)
         navigationItem.rightBarButtonItems = [settingsButton]
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let estroDueCount = sdk.totalHormonesExpired()
-        if estroDueCount > 0 {
-            item?.badgeValue = String(estroDueCount)
+        let expiredHormoneCount = sdk.totalHormonesExpired
+        if expiredHormoneCount > 0 {
+            item?.badgeValue = String(expiredHormoneCount)
         }
     }
     
     private func setExpiredPillsBadge() {
-        let pillDueCount = pillSchedule.totalDue()
+        let pillDueCount = sdk.pills.totalDue
         if pillDueCount > 0,
             let vcs = self.navigationController?.tabBarController?.viewControllers,
             vcs.count > 1 {
@@ -131,9 +135,9 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func segueToEstrogenVC(index: Int) {
         let id = "HormoneVC_id"
         if let sb = storyboard, let navCon = navigationController,
-            let estroVC = sb.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
-            estroVC.setEstrogenScheduleIndex(to: index)
-            navCon.pushViewController(estroVC, animated: true)
+            let hormoneVC = sb.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
+            hormoneVC.hormoneIndex = index
+            navCon.pushViewController(hormoneVC, animated: true)
         }
     }
     

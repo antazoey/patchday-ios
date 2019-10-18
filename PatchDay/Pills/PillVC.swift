@@ -256,7 +256,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         if nameTextField.text == "" {
-            nameTextField.text = PDStrings.PlaceholderStrings.new_pill
+            nameTextField.text = PDStrings.PlaceholderStrings.newPill
         }
         selectNameButton.isEnabled = true
         nameSelected = nameTextField.text
@@ -268,7 +268,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Private loaders
     
     private func loadVCTitle() {
-        let isNew = pill?.name == PDStrings.PlaceholderStrings.new_pill
+        let isNew = pill?.name == PDStrings.PlaceholderStrings.newPill
         title = isNew ? PDVCTitleStrings.newPillTitle : PDVCTitleStrings.editPillTitle
     }
     

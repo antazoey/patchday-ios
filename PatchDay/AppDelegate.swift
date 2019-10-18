@@ -74,6 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     /// Sets the App badge number to the expired count + the total pills due for taking.
     private func setBadge() {
-        UIApplication.shared.applicationIconBadgeNumber = sdk.totalDue
+        UIApplication.shared.applicationIconBadgeNumber = sdk.totalAlerts
     }
 }

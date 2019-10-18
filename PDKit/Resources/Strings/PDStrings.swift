@@ -36,35 +36,20 @@ public class PDStrings: NSObject {
         private static let c3 = "Probably won't be seen by users, so don't worry too much."
         private static let c4 = "Displayed under a button with medium room."
         
-        public static let nothing_yet = {
+        public static let nothingYet = {
             return NSLocalizedString("Nothing yet", comment: c1)
         }()
-        public static let dotdotdot = {
+        public static let dotDotDot = {
             return NSLocalizedString("...", comment: c2)
         }()
-        public static let new_site = {
+        public static let newSite = {
             return NSLocalizedString("New Site", comment: c3)
         }()
-        public static let new_pill = {
+        public static let newPill = {
             return NSLocalizedString("New Pill", comment: c4)
         }()
     }
-    
-    // MARK: - Core data keys
-    
-    public struct CoreDataKeys {
-        public static let persistantContainerKey = { return "patchData" }()
-        public static let testContainerKey = { return "patchDataTest" }()
-        public static let estrogenEntityName = { return "Estrogen" }()
-        public static let estrogenProps = { return ["date", "id", "siteNameBackUp"] }()
-        public static let siteEntityName = { return "Site" }()
-        public static let siteProps = { return ["order", "name"] }()
-        public static let pillEntityName = { return "Pill" }()
-        public static let pillProps = {
-            return ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"]
-        }()
-    }
-    
+
     // MARK: - User default keys
     
     public enum TodayKey: String {

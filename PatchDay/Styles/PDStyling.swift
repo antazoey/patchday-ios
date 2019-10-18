@@ -6,8 +6,9 @@
 //  Copyright © 2019 Juliya Smith. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol PDStyling {
     var theme: PDAppTheme { get }
+    func getCellColor(at index: Int) -> UIColor
 }

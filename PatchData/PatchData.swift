@@ -11,18 +11,35 @@ import CoreData
 import PDKit
 
 enum PDEntity: String {
-    case estrogen = "Estrogen"
+    case hormone = "Hormone"
     case pill = "Pill"
     case site = "Site"
 }
 
 struct EntityKey {
-    public var type: PDEntity = .estrogen
-    public var name: String = ""
-    public var props: [String] = []
+    public var type: PDEntity
+    public var name: String
+    public var props: [String]
 }
 
 public class PatchData: NSObject {
+    
+    static let persistantContainerKey = "patchData"
+    static let testContainerKey = "patchDataTest"
+    static let hormoneEntityName = "Hormone"
+    static let hormoneProps = ["date", "id", "siteNameBackUp"]
+    static let siteEntityName = "Site"
+    static let siteProps = ["order", "name"]
+    static let pillEntityName = "Pill"
+    static let pillProps = [
+            "name",
+            "timesaday",
+            "time1",
+            "time2",
+            "notify",
+            "timesTakenToday",
+            "lastTaken"
+    ]
     
     // MARK: - Public
     
@@ -39,11 +56,11 @@ public class PatchData: NSObject {
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer {
-        return pdContainer(PDStrings.CoreDataKeys.persistantContainerKey)
+        return pdContainer(persistantContainerKey)
     }
 
-    /// Get the current view context
-    static func getContext() -> NSManagedObjectContext {
+    /// The current view context
+    static var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
@@ -59,8 +76,9 @@ public class PatchData: NSObject {
     }
     
     /// Insert a Core Data entity into the view context
-    static func insert(_ entity: String) -> NSManagedObject? {
-        return NSEntityDescription.insertNewObject(forEntityName: entity, into: getContext());
+    static func insert(_ entity: PDEntity) -> NSManagedObject? {
+        let name = entity.rawValue
+        return NSEntityDescription.insertNewObject(forEntityName: name, into: context);
     }
     
     static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {
@@ -69,13 +87,14 @@ public class PatchData: NSObject {
         fetchRequest.propertiesToFetch = keys.props
         do {
             // Load user data if it exists
-            let context = PatchData.getContext()
+            let context = PatchData.context
             let mos = try context.fetch(fetchRequest)
             if mos.count > 0 {
                 return mos
             }
         } catch {
             print("Data Fetch Request Failed")
+            
         }
         return nil
     }
@@ -85,7 +104,7 @@ public class PatchData: NSObject {
         PDEntity.allCases.forEach {e in
             if let mos = loadMOs(for: e) {
                 for mo: NSManagedObject in mos {
-                    getContext().delete(mo)
+                    context.delete(mo)
                 }
             }
         }
@@ -106,19 +125,18 @@ public class PatchData: NSObject {
     }
     
     private static func entityKey(for entity: PDEntity) -> EntityKey {
-        typealias data = PDStrings.CoreDataKeys
         var n: String
         var props: [String]
         switch entity {
-        case .estrogen:
-            n = data.estrogenEntityName
-            props = data.estrogenProps
+        case .hormone:
+            n = hormoneEntityName
+            props = hormoneProps
         case .pill:
-            n = data.pillEntityName
-            props = data.pillProps
+            n = pillEntityName
+            props = pillProps
         case .site:
-            n = data.siteEntityName
-            props = data.siteProps
+            n = siteEntityName
+            props = siteProps
         }
         return EntityKey(type: entity, name: n, props: props)
     }

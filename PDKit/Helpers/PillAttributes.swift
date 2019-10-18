@@ -35,7 +35,7 @@ public struct PillAttributes {
     }
     // Default
     public init() {
-        self.name = PDStrings.PlaceholderStrings.new_pill
+        self.name = PDStrings.PlaceholderStrings.newPill
         self.timesaday = 1
         self.time1 = Time()
         self.time2 = Time()

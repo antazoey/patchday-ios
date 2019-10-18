@@ -61,6 +61,10 @@ public class PDImages: NSObject {
     private static let patchIcon = { return UIImage(named: "Patch Icon")! }()
     private static let injectionIcon = { return UIImage(named: "Injection Icon")! }()
     
+    // Accessible Icons
+    static let settingsIcon = { return UIImage(named: "Settings Icon")! }()
+    
+    
     // Pills
     public static let pill = { return UIImage(named: "Pill")! }()
     
@@ -192,7 +196,7 @@ public class PDImages: NSObject {
             injectionLeftDelt : PDSiteStrings.SiteNames.leftDelt,
             darkInjectionLeftDelt : PDSiteStrings.SiteNames.leftDelt
         ]
-        return imageToStringDict[image] ?? PDStrings.PlaceholderStrings.new_site
+        return imageToStringDict[image] ?? PDStrings.PlaceholderStrings.newSite
     }
     
     public enum SiteIndexSpecifier: Int {

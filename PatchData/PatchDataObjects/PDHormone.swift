@@ -25,11 +25,12 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public static func new(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
-        let type = PDEntity.estrogen.rawValue
-        if let mone = PatchData.insert(type) as? MOHormone {
-            return PDHormone(hormone: mone,
-                             interval: expiration,
-                             deliveryMethod: deliveryMethod)
+        if let mone = PatchData.insert(.hormone) as? MOHormone {
+            return PDHormone(
+                hormone: mone,
+                interval: expiration,
+                deliveryMethod: deliveryMethod
+            )
         }
         return nil
     }
@@ -69,7 +70,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
             let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
             return PDDateHelper.format(date: expires, useWords: true)
         }
-        return PDStrings.PlaceholderStrings.dotdotdot
+        return PDStrings.PlaceholderStrings.dotDotDot
     }
     
     public var isExpired: Bool {
@@ -83,7 +84,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         if let name = hormone.siteRelationship?.name ?? siteNameBackUp {
             return name
         }
-        return PDStrings.PlaceholderStrings.new_site
+        return PDStrings.PlaceholderStrings.newSite
     }
     
     public var siteNameBackUp: String? {
@@ -99,7 +100,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
     
     public var isCerebral: Bool {
-        return siteName == PDStrings.PlaceholderStrings.new_site
+        return siteName == PDStrings.PlaceholderStrings.newSite
     }
     
     public var site: Bodily?
@@ -110,8 +111,8 @@ public class PDHormone: PDObject, Hormonal, Comparable {
             }
             return nil
         } set {
-            if let s = newValue as? MOSite {
-                hormone.siteRelationship = s
+            if let newSite = newValue as? PDSite, let newMOSite = newSite.mo as? MOSite {
+                hormone.siteRelationship = newMOSite
                 hormone.siteNameBackUp = nil
             }
         }

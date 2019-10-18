@@ -67,7 +67,6 @@ public class PDSites: NSObject, HormoneSiteScheduling {
             return nil
         }
         for i in 0..<sites.count {
-            // Return site that has no estros
             if sites[i].hormones.count == 0 {
                 next = siteIndexRebounder.rebound(upon: i, lessThan: sites.count)
             }

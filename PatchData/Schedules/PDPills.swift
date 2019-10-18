@@ -75,8 +75,7 @@ public class PDPills: NSObject, PDPillScheduling {
         let names = PDStrings.PillTypes.defaultPills
         pills = []
         for i in 0..<names.count {
-            let type = PDEntity.pill.rawValue
-            if let pill = PatchData.insert(type) as? MOPill {
+            if let pill = PatchData.insert(.pill) as? MOPill {
                 pills.append(PDPill(pill: pill, name: names[i]))
             }
         }

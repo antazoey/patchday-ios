@@ -18,6 +18,6 @@ public class PDObject {
     var mo: NSManagedObject
     
     public func delete() {
-         PatchData.getContext().delete(mo)
+         PatchData.context.delete(mo)
     }
 }

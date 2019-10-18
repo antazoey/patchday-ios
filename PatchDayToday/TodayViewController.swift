@@ -24,7 +24,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         let usingPatches = PDSharedDataController.usingPatches()
         let comment = "Short label on Today App"
         let title = usingPatches ? "Change:" : "Inject:"
-        let dots = PDStrings.PlaceholderStrings.dotdotdot
+        let dots = PDStrings.PlaceholderStrings.dotDotDot
         nextEstrogenLabel.text = NSLocalizedString(title, comment: comment)
         
         if let n = nextEstro.siteName {

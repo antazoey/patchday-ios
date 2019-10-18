@@ -55,17 +55,17 @@ class PillCell: UITableViewCell {
         if let lastTaken = pill.lastTaken {
             lastTakenLabel.text = PDDateHelper.format(date: lastTaken as Date, useWords: true)
         } else {
-            lastTakenLabel.text = PDStrings.PlaceholderStrings.dotdotdot
+            lastTakenLabel.text = PDStrings.PlaceholderStrings.dotDotDot
         }
     }
     
     public func loadStateImage(from pill: Swallowable) {
-        stateImage.image = PDImages.pill
-        stateImage.tintColor = pill.isDone ? UIColor.lightGray : UIColor.blue
+        stateImageView.image = PDImages.pill
+        stateImageView.tintColor = pill.isDone ? UIColor.lightGray : UIColor.blue
     }
     
     public func enableOrDisableTake() {
-        if stateImage.tintColor == UIColor.lightGray {
+        if stateImageView.tintColor == UIColor.lightGray {
             takeButton.setTitle(PDActionStrings.taken, for: .normal)
             takeButton.isEnabled = false
             stateImageButton.isEnabled = false
@@ -79,7 +79,7 @@ class PillCell: UITableViewCell {
     public func setBackground() {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        backgroundColor = app.styles.
+        backgroundColor = app.styles.theme[.bg]
     }
     
     // MARK: - Private

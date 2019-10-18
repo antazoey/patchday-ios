@@ -61,11 +61,16 @@ class PDNotifications: NSObject, PDNotificationScheduling {
             center.removeNotifications(with: [id])
         }
     }
+
+    func cancelAllHormoneNotifications() {
+        let end = sdk.defaults.quantity.value.rawValue - 1
+        cancelHormoneExpiredNotifications(from: 0, to: end)
+    }
     
     /// Cancels all the hormone notifications in the given indices.
-    func cancelHormoneNotifications(from start: Index, to end: Index) {
+    func cancelHormoneExpiredNotifications(from begin: Index, to end: Index) {
         var ids: [String] = []
-        for i in start...end {
+        for i in begin...end {
             appendHormoneIdToList(at: i, lst: &ids)
         }
         if ids.count > 0 {
@@ -74,7 +79,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
     
     /// Resends all the hormone notifications between the given indices.
-    func resendHormoneNotifications(begin: Index = 0, end: Index = -1) {
+    func resendHormoneExpiredNotifications(from begin: Index = 0, to end: Index = -1) {
         let e = end >= 0 ? end : sdk.hormones.count - 1
         if e < begin { return }
         for i in begin...e {
@@ -84,6 +89,11 @@ class PDNotifications: NSObject, PDNotificationScheduling {
                 requestHormoneExpiredNotification(for: mone)
             }
         }
+    }
+    
+    func resendAllHormoneExpiredNotifications() {
+        let end = sdk.defaults.quantity.value.rawValue - 1
+        resendHormoneExpiredNotifications(from: 0, to: end)
     }
     
     // MARK: - Pills
@@ -104,12 +114,6 @@ class PDNotifications: NSObject, PDNotificationScheduling {
                                 totalDue: totalDue)
                 .request()
         }
-    }
-    
-    /// Cancels all the hormone notifications.
-    func cancelHormoneNotifications() {
-        let end = sdk.defaults.quantity.value.rawValue - 1
-        cancelHormoneNotifications(from: 0, to: end)
     }
     
     /// Cancels a pill notification.

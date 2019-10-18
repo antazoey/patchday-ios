@@ -160,7 +160,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         nameText.restorationIdentifier = "select"
         switch nameText.text {
         case "" :
-            nameText.text = PDStrings.PlaceholderStrings.new_site
+            nameText.text = PDStrings.PlaceholderStrings.newSite
         case let name :
             if let n = name {
                 siteSchedule.rename(at: siteScheduleIndex, to: n)
@@ -195,7 +195,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attrs = [NSAttributedString.Key.foregroundColor : app.theme.textColor]
+        let attrs = [NSAttributedString.Key.foregroundColor : app.styles.theme[.text]]
         let n = namePickerSet[row]
         let attributedString = NSAttributedString(string: n, attributes: attrs)
         return attributedString
@@ -223,7 +223,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     // MARK: - Private
     
     private func setImage(images: [UIImage]) -> ImageStruct {
-        let image = images[imagePicker.selectedRow(inComponent: 0)]
+        let image = images[imagePicker.getSelectedRow()]
         let imageKey = PDImages.imageToSiteName(image)
         return ImageStruct(image: image, imageKey: imageKey)
     }
@@ -237,13 +237,11 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     }
     
     private func loadTitle() {
-        let sites = siteSchedule.sites
-        if siteScheduleIndex >= 0 && siteScheduleIndex < sites.count {
-            let site = sites[siteScheduleIndex]
+        if siteScheduleIndex >= 0, let site = sdk.sites.at(siteScheduleIndex) {
             title = "\(PDVCTitleStrings.siteTitle) \(siteScheduleIndex + 1)"
             nameText.text = site.name
         } else {
-            title = "\(PDVCTitleStrings.siteTitle) \(sites.count + 1)"
+            title = "\(PDVCTitleStrings.siteTitle) \(sdk.sites.count + 1)"
         }
     }
     
@@ -254,9 +252,8 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let name = nameText.text {
             var image: UIImage
             var sitesWithImages = PDSiteStrings.getSiteNames(for: method)
-
-            if name == PDStrings.PlaceholderStrings.new_site {
-                image = PDImages.newSiteImage(theme: theme, deliveryMethod: method)
+            if name == PDStrings.PlaceholderStrings.newSite {
+                image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
             } else if let site = sdk.sites.at(siteScheduleIndex),
                 let i = sitesWithImages.firstIndex(of: site.imageIdentifier) {
 

@@ -50,8 +50,8 @@ class HormoneDetailVC: UIViewController,
     private var notifications = app.notifications
     
     // Non-interface
-    var estrogenScheduleIndex = -1
-    var estrogen: Hormonal!
+    var hormoneIndex = -1
+    var hormone: Hormonal!
     var site: String = ""
     var datePlaced: Date = Date()
     var dateSelected: Date?
@@ -63,7 +63,7 @@ class HormoneDetailVC: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        estrogen = sdk.hormones.at(estrogenScheduleIndex)
+        hormone = sdk.hormones.at(hormoneIndex)
         loadTitle()
         selectSiteTextField.autocapitalizationType = .words
         view.backgroundColor = UIColor.white
@@ -166,7 +166,7 @@ class HormoneDetailVC: UIViewController,
         self.selectedSite = nil
         siteTextHasChanged = true
         if selectSiteTextField.text == "" {
-            selectSiteTextField.text = PDStrings.PlaceholderStrings.new_site
+            selectSiteTextField.text = PDStrings.PlaceholderStrings.newSite
         }
         typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
         selectSiteTextField.endEditing(true)
@@ -303,7 +303,7 @@ class HormoneDetailVC: UIViewController,
     private func displayAttributeTexts() {
         let n = estrogen.getSiteName()
         switch n {
-        case PDStrings.PlaceholderStrings.new_site:
+        case PDStrings.PlaceholderStrings.newSite:
             selectSiteTextField.text = PDActionStrings.select
         default:
             selectSiteTextField.text = n
@@ -311,19 +311,17 @@ class HormoneDetailVC: UIViewController,
         if let date = estrogen.getDate() {
             let interval = defaults.expirationInterval
             datePlaced = date as Date
-            let formattedDate = PDDateHelper.format(date: date as Date,
-                                                    useWords: true)
+            let formattedDate = PDDateHelper.format(
+                date: date as Date,
+                useWords: true
+            )
             chooseDateButton.setTitle(formattedDate, for: .normal)
             expirationDateLabel.text = estrogen.expirationDateAsString(interval, useWords: true)
         } else {
             chooseDateButton.setTitle(PDActionStrings.select, for: .normal)
         }
     }
-    
-    func setEstrogenScheduleIndex(to: Int) {
-        estrogenScheduleIndex = to
-    }
-    
+
     /// Returns if there have been changes.
     private func needsToSave() -> Bool {
         return siteTextHasChanged || dateTextHasChanged
@@ -440,7 +438,7 @@ class HormoneDetailVC: UIViewController,
             }
             exp = estro.expirationDateAsString(interval, useWords: true)
         } else {
-            exp = PDStrings.PlaceholderStrings.dotdotdot
+            exp = PDStrings.PlaceholderStrings.dotDotDot
         }
         expirationDateLabel.text = exp
     }

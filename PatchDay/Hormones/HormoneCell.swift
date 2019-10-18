@@ -45,17 +45,19 @@ class HormoneCell: UITableViewCell {
                 stateImage.isHidden = false
             }
         case quantity...3 :
-            animateHormoneButtonMutations(at: index, theme: sdk.defaults.theme.value)
+            animate(at: index, theme: sdk.defaults.theme.value)
             fallthrough
         default : reset()
         }
     }
     
     /// Animates drawing hormone button
-    private func animate(at index: Index,
-                                         theme: PDTheme,
-                                               newImage: UIImage?=nil,
-                                               newTitle: String?=nil) {
+    private func animate(
+        at index: Index,
+        theme: PDTheme,
+        newImage: UIImage?=nil,
+        newTitle: String?=nil
+    ) {
         UIView.transition(
             with: stateImage as UIView,
             duration: 0.75,
@@ -81,8 +83,8 @@ class HormoneCell: UITableViewCell {
 
     private func setThemeColors(at index: Int) {
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = app.theme.selectedColor
-        backgroundColor = app.theme.getCellColor(at: index)
+        selectedBackgroundView?.backgroundColor = app.styles.theme[.selected]
+        backgroundColor = app.styles.getCellColor(at: index)
     }
 
     private func configureDate(when isExpired: Bool) {
@@ -94,7 +96,9 @@ class HormoneCell: UITableViewCell {
 
     private func configureBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {
         badgeButton.restorationIdentifier = String(index)
-        badgeButton. = deliveryMethod
+        badgeButton.type = deliveryMethod == DeliveryMethod.Injections
+            ? PDBadgeButtonType.injections
+            : PDBadgeButtonType.patches
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
 }

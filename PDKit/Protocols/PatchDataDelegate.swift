@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol PatchDataDelegate {
+    var isFresh: Bool { get }
     var defaults: PDDefaultManaging { get }
     var hormones: HormoneScheduling { get }
     var sites: HormoneSiteScheduling { get }

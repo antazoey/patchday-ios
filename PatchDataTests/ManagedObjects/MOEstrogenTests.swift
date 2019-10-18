@@ -148,7 +148,7 @@
 //            XCTAssertEqual(estro.getSiteName(), estro.getSiteNameBackUp())
 //            estro.reset()
 //            // When mone is without a site, it's sitename is "NEW SITE"
-//            XCTAssertEqual(estro.getSiteName(), PDStrings.PlaceholderStrings.new_site)
+//            XCTAssertEqual(estro.getSiteName(), PDStrings.PlaceholderStrings.newSite)
 //        } else {
 //            XCTFail()
 //        }

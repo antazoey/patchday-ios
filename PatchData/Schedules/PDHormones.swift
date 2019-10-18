@@ -13,7 +13,7 @@ import PDKit
 public class PDHormones: NSObject, HormoneScheduling {
 
     override public var description: String {
-        return "Schedule for reading, writing, and querying the MOEstrogen array."
+        return "Schedule for reading, writing, and querying hormone data"
     }
     
     private var hormones: [Hormonal]
@@ -75,7 +75,7 @@ public class PDHormones: NSObject, HormoneScheduling {
     public func reset(from start: Index) {
         switch(start) {
         case 0..<count :
-            let context = PatchData.getContext()
+            let context = PatchData.context
             for i in start..<count {
                 hormones[i].reset()
                 context.delete(hormones[i] as! NSManagedObject)
@@ -150,16 +150,16 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
     
-    /// Returns the index of the given estrogen.
-    public func indexOf(_ soughtHormone: Hormonal) -> Index? {
+    /// Returns the index of the given hormone.
+    public func indexOf(_ hormone: Hormonal) -> Index? {
         var i = -1
         for mone in hormones {
             i += 1
-            if mone.id == soughtHormone.id {
+            if mone.id == hormone.id {
                 return i
             }
         }
-        return -1
+        return nil
     }
     
     /// Returns if each MOEstrogen fromThisIndexOnward is empty.

@@ -14,7 +14,7 @@ extension PatchData {
     static func createEstrogens(expirationInterval: ExpirationIntervalUD,
                                 deliveryMethod: DeliveryMethod) -> [Hormonal] {
         var estrogens: [Hormonal] = []
-        if let mos = loadMOs(for: .estrogen) {
+        if let mos = loadMOs(for: .hormone) {
             for mo in mos {
                 if let mone = mo as? MOHormone {
                     let pdEstro = PDHormone(hormone: mone,
@@ -32,7 +32,7 @@ extension PatchData {
         if let mos = loadMOs(for: .pill) {
             for mo in mos {
                 if let moPill = mo as? MOPill {
-                    let name = moPill.name ?? PDStrings.PlaceholderStrings.new_pill
+                    let name = moPill.name ?? PDStrings.PlaceholderStrings.newPill
                     let pdPill = PDPill(pill: moPill, name: name)
                     pills.append(pdPill)
                 }
