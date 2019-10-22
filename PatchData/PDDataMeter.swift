@@ -12,14 +12,14 @@ import PDKit
 public class PDDataMeter: PDDataMeting {
     
     public var defaults: UserDefaults? {
-        get { return UserDefaults(suiteName: "group.com.patchday.todaydata") }
+        return UserDefaults(suiteName: "group.com.patchday.todaydata")
     }
 
     /// Sets hormone data for other apps, such as the PatchDay Today widget.
     public func broadcastRelevantHormoneData(oldestHormone: Hormonal,
-                                              nextSuggestedSite: SiteName,
-                                              interval: ExpirationIntervalUD,
-                                              deliveryMethod: DeliveryMethodUD) {
+                                             nextSuggestedSite: SiteName,
+                                             interval: ExpirationIntervalUD,
+                                             deliveryMethod: DeliveryMethodUD) {
         var siteName: SiteName
         switch deliveryMethod.value {
         case .Patches:

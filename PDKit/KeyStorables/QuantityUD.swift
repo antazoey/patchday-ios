@@ -20,13 +20,11 @@ public class QuantityValueHolder: PDValueHolding {
     }
     
     public var heldValue: Int {
-        get {
-            switch indexer {
-            case .One: return 1
-            case .Two: return 2
-            case .Three: return 3
-            case .Four: return 4
-            }
+        switch indexer {
+        case .One: return 1
+        case .Two: return 2
+        case .Three: return 3
+        case .Four: return 4
         }
     }
 }
@@ -47,9 +45,7 @@ public class QuantityUD: PDKeyStorable {
         }
     }
     
-    public var rawValue: Int {
-        get { return valueHolder.heldValue }
-    }
+    public var rawValue: Int { return valueHolder.heldValue }
     
     public static var key = PDDefault.Quantity
     

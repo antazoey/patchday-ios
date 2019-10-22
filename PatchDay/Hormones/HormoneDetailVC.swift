@@ -15,6 +15,8 @@ class HormoneDetailVC: UIViewController,
                   UIPickerViewDataSource,
                   UITextFieldDelegate {
     
+    private var tabs: PDTabReflective = app.tabs!
+    private var alerts: PDAlertDispatching = app.alerts
     private var selectedSite: Bodily?
     
     //MARK: - Main
@@ -95,34 +97,17 @@ class HormoneDetailVC: UIViewController,
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
         typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
     }
-    
-    /** Save Button
-       1.) Side effects related to schedule animation
-       2.) Save data
-       3.) Notification badge number config
-       4.) Segue back to the HormonessVC
-       5.) Set site index */
+
     @objc private func saveButtonTapped(_ sender: Any) {
-        let interval = sdk.defaults.expirationInterval
-        if let mone = estrogen {
+        if let mone = hormone {
             let wasExpiredBeforeSave = mone.isExpired
-            saveData()    // Save
+            saveData()
             let isExpiredAfterSave = mone.isExpired
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotification()
             sdk.hormones.sort()
-            // Save effects
-            state.wereHormonalChanges = true
-            if let i = estrogenSchedule.getIndex(for: mone) {
-                state.indicesOfMutatedHormones = [i]
-            }
         }
-        
-        let estrosDue = schedule.totalDue(interval: interval)
-        self.navigationController?.tabBarItem.badgeValue =
-            (estrosDue <= 0) ? nil : String(estrosDue)
-        
-        // Transition
+        self.tabs.reflectHormone()
         if let navCon = navigationController {
             navCon.popViewController(animated: true)
         }
@@ -175,11 +160,19 @@ class HormoneDetailVC: UIViewController,
         autofillButton.isHidden = false
         selectSiteTextField.isHidden = false
         saveButton.isEnabled = true
-        typeSiteButton.removeTarget(self, action: #selector(closeTextField), for: .touchUpInside)
+        typeSiteButton.removeTarget(
+            self,
+            action: #selector(closeTextField),
+            for: .touchUpInside
+        )
         typeSiteButton.addTarget(self, action: #selector(keyboardTapped(_:)), for: .touchUpInside)
-        siteIndexSelected = siteSchedule.count()
+        siteIndexSelected = sdk.sites.count
         if let n = selectSiteTextField.text {
-            app.alerts.presentNewSiteAlert(with: n, at: siteIndexSelected, estroVC: self)
+            alerts.presentNewSiteAlert(
+                with: n,
+                at: siteIndexSelected,
+                moneVC: self
+            )
         }
     }
  
@@ -228,14 +221,14 @@ class HormoneDetailVC: UIViewController,
     }
     
     func pickerView(_ pickerView: UIPickerView,
-                             numberOfRowsInComponent component: Int) -> Int {
-        return siteSchedule.count()
+                    numberOfRowsInComponent component: Int) -> Int {
+        return sdk.sites.count
     }
     
     func pickerView(_ pickerView: UIPickerView,
-                             titleForRow row: Int,
-                             forComponent component: Int) -> String? {
-        let names = siteSchedule.getNames()
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+        let names = sdk.sites.names
         if row < names.count && row >= 0 {
             return names[row]
         }
@@ -244,12 +237,12 @@ class HormoneDetailVC: UIViewController,
     
     // Done
     func pickerView(_ pickerView: UIPickerView,
-                             didSelectRow row: Int,
-                             inComponent component: Int) {
-        let names = siteSchedule.getNames()
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
+        let names = sdk.sites.names
         if row < names.count && row >= 0 {
-            selectedSite = siteSchedule.at(row)
-            let name = siteSchedule.getNames()[row]
+            selectedSite = sdk.sites.at(row)
+            let name = names[row]
             selectSiteTextField.text = name
             closeSitePicker()
             siteIndexSelected = row
@@ -265,9 +258,7 @@ class HormoneDetailVC: UIViewController,
                           options: .transitionCrossDissolve,
                           animations: { self.datePickerInputView.isHidden = false
         }, completion: nil)
-        if let date = dateSelected ?? estrogen?.getDate() as Date? {
-             datePicker.date = date
-        }
+        datePicker.date = dateSelected ?? hormone.date
         let doneButton = makeDoneButton()
         datePickerInputView.addSubview(doneButton)
         autofillButton.isHidden = true
@@ -281,7 +272,7 @@ class HormoneDetailVC: UIViewController,
         doneButton.removeFromSuperview()
         datePickerInputView.isHidden = true
         dateSelected = datePicker.date
-        let interval = defaults.expirationInterval.hours
+        let interval = sdk.defaults.expirationInterval.hours
         let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControl.State.normal)
         if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {
@@ -301,60 +292,32 @@ class HormoneDetailVC: UIViewController,
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        let n = estrogen.getSiteName()
+        let name = hormone.siteName
         switch n {
         case PDStrings.PlaceholderStrings.newSite:
             selectSiteTextField.text = PDActionStrings.select
         default:
-            selectSiteTextField.text = n
+            selectSiteTextField.text = name
         }
-        if let date = estrogen.getDate() {
-            let interval = defaults.expirationInterval
-            datePlaced = date as Date
-            let formattedDate = PDDateHelper.format(
-                date: date as Date,
-                useWords: true
-            )
-            chooseDateButton.setTitle(formattedDate, for: .normal)
-            expirationDateLabel.text = estrogen.expirationDateAsString(interval, useWords: true)
-        } else {
-            chooseDateButton.setTitle(PDActionStrings.select, for: .normal)
-        }
-    }
-
-    /// Returns if there have been changes.
-    private func needsToSave() -> Bool {
-        return siteTextHasChanged || dateTextHasChanged
+        let interval = sdk.defaults.expirationInterval
+        let formattedDate = PDDateHelper.format(date: hormone.date, useWords: true)
+        chooseDateButton.setTitle(formattedDate, for: .normal)
+        expirationDateLabel.text = hormone.expirationString
     }
 
     /// Saves any changed attributes.
     private func saveData() {
-        
-        // TODO:
-        sdk.save
-        
-        
-        
-        
-        
-        // site
-        if siteTextHasChanged, let text = selectSiteTextField.text {
-            if let site = selectSite {
-                schedule.setEstrogenSite(at: estrogenScheduleIndex, with: site!)
-                let setter = schedule.setEstrogenDataForToday
-                estrogenSchedule.setSite(of: estrogenScheduleIndex,
-                                         with: site!,
-                                         setSharedData: setter)
+        if siteTextHasChanged, let siteName = selectSiteTextField.text {
+            if let site = selectedSite {
+                sdk.setHormoneSite(at: siteIndexSelected, with: site)
             } else {
-                estrogenSchedule.setBackUpSiteName(of: estrogenScheduleIndex, with: name!)
+                sdk.hormones.setBackUpSiteName(at: siteIndexSelected, with: siteName)
             }
         }
         
-        // date
         if dateTextHasChanged {
             sdk.hormones.setDate(at: estrogenScheduleIndex, with: datePicker.date)
         }
-        // For HormonesVC animation.
         if !dateTextHasChanged {
             state.onlySiteChanged = true
         }
@@ -467,7 +430,7 @@ class HormoneDetailVC: UIViewController,
     /// Configured title of view controller
     private func loadTitle() {
         let deliv = defaults.deliveryMethod.value
-        if PDPickerStrings.deliveryMethods.count >= 2 {
+        if PDPickerOptions.deliveryMethods.count >= 2 {
             switch deliv {
             case .Patches:
                 title = PDVCTitleStrings.patchTitle

@@ -60,14 +60,24 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         self.dataMeter = PDDataMeter()
         self.state = PDState()
         self.patchdata = PatchDataCaller()
-        self.pills = PDPills()
-        self.defaults = PDDefaults(stateManager: self.state, meter: self.dataMeter)
-        self.hormones = PDHormones(deliveryMethod: self.defaults.deliveryMethod.value,
-                                   interval: self.defaults.expirationInterval)
+        self.defaults = PDDefaults(
+            stateManager: self.state,
+            meter: self.dataMeter
+        )
+        
+        let isNew = !defaults.mentionedDisclaimer.value
+        self.pills = PDPills(isFirstInit: isNew)
+
+        self.hormones = PDHormones(
+            deliveryMethod: self.defaults.deliveryMethod.value,
+            interval: self.defaults.expirationInterval
+        )
         let indexer = PDSiteIndexer(defaults: self.defaults)
-        self.sites = PDSites(deliveryMethod: self.defaults.deliveryMethod.value,
-                             globalExpirationInterval: self.defaults.expirationInterval,
-                             siteIndexRebounder: indexer)
+        self.sites = PDSites(
+            deliveryMethod: self.defaults.deliveryMethod.value,
+            globalExpirationInterval: self.defaults.expirationInterval,
+            siteIndexRebounder: indexer
+        )
         self.swallowHandler = swallowHandler
     }
     
@@ -77,12 +87,13 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var pills: PDPillScheduling
     public var state: PDStateManaging
     
-    /// Returns whether the schedules are unmutated after initialization
+    /// If the schedules are unmutated after initialization
     public var isFresh: Bool {
-        return hormones.isEmpty && sites.isDefault(deliveryMethod: deliveryMethod)
+        return hormones.isEmpty
+            && sites.isDefault(deliveryMethod: deliveryMethod)
     }
-    
-    /// Returns the total hormones expired and pills due.
+
+    /// The total hormones expired plus the pills due.
     public var totalAlerts: Int {
         return totalHormonesExpired + pills.totalDue
     }
@@ -92,7 +103,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     }
     
     public var allSiteNames: [String] {
-        return Array(sites.unionize(deliveryMethod: deliveryMethod))
+        return Array(sites.unionWithDefaults(deliveryMethod: deliveryMethod))
     }
 
     // MARK: - Defaults
@@ -113,24 +124,59 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         }
     }
 
-    public var deliveryMethodName: String {
-        let deliv = defaults.deliveryMethod.value
-        return PDPickerStrings.getDeliveryMethod(for: deliv)
+    public var deliveryMethodString: String {
+        return PDPickerOptions.getDeliveryMethodString(for: deliveryMethod)
     }
-
-    public func setQuantity(to newQuantity: Int) {
-        let oldQuantity = defaults.quantity.value.rawValue
-        defaults.setQuantity(to: newQuantity)
-        state.oldQuantity = oldQuantity
-        if oldQuantity < newQuantity {
-            // Fill in new estros
-            for _ in oldQuantity..<newQuantity {
-                let _ = hormones.insert(expiration: defaults.expirationInterval,
-                                        deliveryMethod: defaults.deliveryMethod.value)
+    
+    public var quantity: Quantity {
+        get { return defaults.quantity.value }
+        set {
+            let newQuantity = newValue.rawValue
+            let endRange = PDPickerOptions.quantities.count
+            if newQuantity < endRange && newQuantity > 0 {
+                let oldQuantity = defaults.quantity.rawValue
+                if newQuantity < oldQuantity {
+                    state.decreasedQuantity = true
+                    hormones.delete(after: newQuantity - 1)
+                } else if newQuantity > oldQuantity {
+                    state.decreasedQuantity = false
+                    hormones.fillIn(
+                        newQuantity: newQuantity,
+                        expiration: defaults.expirationInterval,
+                        deliveryMethod: deliveryMethod
+                    )
+                }
+                defaults.setQuantity(to: newQuantity)
             }
-        } else {
-            hormones.delete(after: oldQuantity - 1)
         }
+    }
+    
+    public func setQuantity(using quantityInt: Int) {
+        if let newQuantity = Quantity(rawValue: quantityInt) {
+            self.quantity = newQuantity
+        }
+    }
+    
+    public var expirationInterval: ExpirationInterval {
+        return defaults.expirationInterval.value
+    }
+    
+    public func setExpirationInterval(using expString: String) {
+        let exp = PDPickerOptions.getExpirationInterval(for: expString)
+        defaults.setExpirationInterval(to: exp)
+    }
+    
+    public var theme: PDTheme {
+        return defaults.theme.value
+    }
+    
+    public func setTheme(using themeString: String) {
+        let theme = PDPickerOptions.getTheme(for: themeString)
+        defaults.setTheme(to: theme)
+    }
+    
+    public func setSiteIndex(to newIndex: Index) -> Index {
+        return defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
     }
 
     // MARK: - Hormones
@@ -160,22 +206,43 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             return mone.site?.name ?? ""
         }).filter() { $0 != "" })
     }
-
-    // MARK: - Sites
     
-    public func insertNewSite() {
-        let name = PDStrings.PlaceholderStrings.newSite
-        insertNewSite(name: name, completion: nil)
+    public func resetHormonesToDefault() {
+        let interval = defaults.expirationInterval
+        hormones.reset(deliveryMethod: deliveryMethod, interval: interval)
     }
 
+    // MARK: - Sites
+
     public func insertNewSite(name: SiteName, completion: (() -> ())?) {
-        if var site = sites.insert(
+        if var site = sites.insertNew(
             deliveryMethod: defaults.deliveryMethod.value,
             globalExpirationInterval: defaults.expirationInterval,
             completion: completion
         ) {
             site.name = name
         }
+    }
+    
+    public func insertNewSite(name: SiteName) {
+        insertNewSite(name: name, completion: nil)
+    }
+    
+    public func insertNewSite() {
+        let name = PDStrings.PlaceholderStrings.newSite
+        insertNewSite(name: name, completion: nil)
+    }
+    
+    public func swapSites(_ sourceIndex: Index, with destinationIndex: Index) {
+        sites.swap(sourceIndex, with: destinationIndex)
+        if sourceIndex == sites.nextIndex {
+            _ = setSiteIndex(to: destinationIndex)
+        }
+    }
+    
+    public func resetSitesToDefault() {
+        let interval = defaults.expirationInterval
+        sites.reset(deliveryMethod: deliveryMethod, globalExpirationInterval: interval)
     }
 
     // MARK: - Pills
@@ -189,14 +256,12 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     public func broadcastHormones() {
         if let mone = hormones.next {
-            let interval = defaults.expirationInterval
             let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.newSite
-            let deliveryMethod = defaults.deliveryMethod
             dataMeter.broadcastRelevantHormoneData(
                 oldestHormone: mone,
                 nextSuggestedSite: name,
-                interval: interval,
-                deliveryMethod: deliveryMethod
+                interval: defaults.expirationInterval,
+                deliveryMethod: defaults.deliveryMethod
             )
         }
     }
@@ -238,11 +303,9 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     public func nuke() {
         PatchData.nuke()
-        hormones.reset(from: 0)
-        pills.new()
-        let method = defaults.deliveryMethod.value
-        let interval = defaults.expirationInterval
-        sites.reset(deliveryMethod: method, globalExpirationInterval: interval)
+        resetHormonesToDefault()
+        pills.setAsDefault()
+        resetSitesToDefault()
     }
 }
 

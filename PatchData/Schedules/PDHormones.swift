@@ -10,21 +10,22 @@ import Foundation
 import CoreData
 import PDKit
 
+
 public class PDHormones: NSObject, HormoneScheduling {
 
-    override public var description: String {
-        return "Schedule for reading, writing, and querying hormone data"
-    }
+    override public var description: String { return "Schedule for hormones." }
     
     private var hormones: [Hormonal]
     
     init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        hormones = PatchData.createEstrogens(expirationInterval: interval, deliveryMethod: deliveryMethod)
+        hormones = PatchData.createHormones(expirationInterval: interval, deliveryMethod: deliveryMethod)
         super.init()
-        if hormones.count <= 0 { new(deliveryMethod: deliveryMethod, interval: interval) }
+        if hormones.count <= 0{
+            reset(deliveryMethod: deliveryMethod, interval: interval)
+        }
         sort()
     }
-    
+
     public var count: Int { return hormones.count }
     
     public var all: [Hormonal] { return hormones }
@@ -39,7 +40,10 @@ public class PDHormones: NSObject, HormoneScheduling {
     }
 
     /// Creates a new MOEstrogen and appends it to the estrogens.
-    public func insert(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
+    public func insertNew(
+        expiration: ExpirationIntervalUD,
+        deliveryMethod: DeliveryMethod
+    ) -> Hormonal? {
         if let mone = PDHormone.new(expiration: expiration, deliveryMethod: deliveryMethod) {
             hormones.append(mone)
             sort()
@@ -57,43 +61,24 @@ public class PDHormones: NSObject, HormoneScheduling {
             mones.sort(by: <)
         }
     }
+
+    public func reset(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
+        reset(deliveryMethod: deliveryMethod, interval: interval, completion: nil)
+    }
     
     /// Reset the schedule to factory default
-    public func reset(completion: (() -> ())?, deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        for mone in hormones {
-            mone.reset()
-            mone.delete()
+    public func reset(deliveryMethod: DeliveryMethod,
+                      interval: ExpirationIntervalUD,
+                      completion: (() -> ())?) {
+        deleteAll()
+        let quantity = PDKeyStorableHelper.defaultQuantity(for: deliveryMethod)
+        for _ in 0..<quantity {
+            _ = insertNew(expiration: interval, deliveryMethod: deliveryMethod)
         }
-        new(deliveryMethod: deliveryMethod, interval: interval)
-        PatchData.save()
         if let comp = completion {
             comp()
         }
-    }
-    
-    /// Sets all MOEstrogen data between given indices to nil.
-    public func reset(from start: Index) {
-        switch(start) {
-        case 0..<count :
-            let context = PatchData.context
-            for i in start..<count {
-                hormones[i].reset()
-                context.delete(hormones[i] as! NSManagedObject)
-            }
-            hormones = Array(hormones.prefix(start))
-            PatchData.save()
-        default : return
-        }
-    }
-    
-    /// Resets without changing the quantity
-    public func new(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        hormones.removeAll()
-        reset(from: 0)
-        let quantity = deliveryMethod == .Injections ? 1 : 3
-        for _ in 0..<quantity {
-            _ = insert(expiration: interval, deliveryMethod: deliveryMethod)
-        }
+        PatchData.save()
     }
 
     public func delete(after i: Index) {
@@ -106,6 +91,10 @@ public class PDHormones: NSObject, HormoneScheduling {
             }
             PatchData.save()
         }
+    }
+    
+    public func deleteAll() {
+        delete(after: -1)
     }
     
     /// Returns the MOEstrogen for the given index
@@ -143,7 +132,7 @@ public class PDHormones: NSObject, HormoneScheduling {
     }
     
     /// Sets the backup-site-name of the MOEstrogen for the given index.
-    public func setBackUpSiteName(of index: Index, with name: String) {
+    public func setBackUpSiteName(at index: Index, with name: String) {
         if var mone = at(index) {
             mone.siteNameBackUp = name
             PatchData.save()
@@ -184,6 +173,17 @@ public class PDHormones: NSObject, HormoneScheduling {
             let c = mone.isExpired ? 1 : 0
             return c + count
         })
+    }
+    
+    /// Fill in new hormoness to the schedule
+    public func fillIn(
+        newQuantity: Int,
+        expiration: ExpirationIntervalUD,
+        deliveryMethod: DeliveryMethod
+    ) {
+        for _ in count..<newQuantity {
+            let _ = insertNew(expiration: expiration, deliveryMethod: deliveryMethod)
+        }
     }
     
     // MARK: - Private

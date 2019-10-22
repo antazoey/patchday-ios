@@ -29,11 +29,9 @@ public class DeliveryMethodValueHolder: PDValueHolding {
     }
     
     public var heldValue: String {
-        get {
-            switch indexer {
-            case .Patches: return DeliveryMethodValueHolder.pkey
-            case .Injections: return DeliveryMethodValueHolder.ikey
-            }
+        switch indexer {
+        case .Patches: return DeliveryMethodValueHolder.pkey
+        case .Injections: return DeliveryMethodValueHolder.ikey
         }
     }
 }
@@ -54,9 +52,7 @@ public class DeliveryMethodUD: PDKeyStorable {
         }
     }
     
-    public var rawValue: String {
-        get { return valueHolder.heldValue }
-    }
+    public var rawValue: String { return valueHolder.heldValue }
     
     public static var key = PDDefault.DeliveryMethod
     

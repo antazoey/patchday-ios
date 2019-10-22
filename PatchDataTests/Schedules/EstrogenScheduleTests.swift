@@ -195,7 +195,7 @@
 //            siteSchedule.delete(at: 0)
 //            var actual = estrogenSchedule.at(0)?.getSiteName()
 //            XCTAssertEqual(actual, expected)
-//            estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
+//            estrogenSchedule.setBackUpSiteName(at: 0, with: "SITE NAME")
 //            actual = estrogenSchedule.at(0)?.getSiteName()
 //            XCTAssertEqual(actual, "SITE NAME")
 //        } else {
@@ -256,7 +256,7 @@
 //        estrogenSchedule.new()
 //        XCTAssert(estrogenSchedule.estrogens.count > 0)
 //        XCTAssert(estrogenSchedule.hasNoSites())
-//        estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
+//        estrogenSchedule.setBackUpSiteName(at: 0, with: "SITE NAME")
 //        XCTAssertFalse(estrogenSchedule.hasNoSites())
 //    }
 //    
@@ -283,7 +283,7 @@
 //    
 //    func testIsEmptyFromThisIndexOnward() {
 //        XCTAssert(estrogenSchedule.isEmpty(fromThisIndexOnward: 0, lastIndex: 2))
-//        estrogenSchedule.setBackUpSiteName(of: 0, with: "SITE NAME")
+//        estrogenSchedule.setBackUpSiteName(at: 0, with: "SITE NAME")
 //        XCTAssertFalse(estrogenSchedule.isEmpty(fromThisIndexOnward: 0, lastIndex: 2))
 //        XCTAssert(estrogenSchedule.isEmpty(fromThisIndexOnward: 1, lastIndex: 2))
 //    }

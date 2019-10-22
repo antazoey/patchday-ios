@@ -77,7 +77,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < sdk.defaults.quantity.value.rawValue {
+        if indexPath.row < sdk.quantityInt {
             segueToEstrogenVC(index: indexPath.row)
         }
     }

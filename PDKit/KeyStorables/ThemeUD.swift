@@ -29,11 +29,9 @@ public class PDThemeValueHolder: PDValueHolding {
     }
     
     public var heldValue: String {
-        get {
-            switch indexer {
-            case .Light: return PDThemeValueHolder.lkey
-            case .Dark: return PDThemeValueHolder.dkey
-            }
+        switch indexer {
+        case .Light: return PDThemeValueHolder.lkey
+        case .Dark: return PDThemeValueHolder.dkey
         }
     }
 }
@@ -54,9 +52,7 @@ public class PDThemeUD: PDKeyStorable {
         }
     }
     
-    public var rawValue: String {
-        get { return valueHolder.heldValue }
-    }
+    public var rawValue: String { return valueHolder.heldValue }
     
     public static var key = PDDefault.Theme
     

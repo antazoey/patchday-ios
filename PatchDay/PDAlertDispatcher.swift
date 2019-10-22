@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class PDAlertDispatcher: NSObject {
+class PDAlertDispatcher: NSObject, PDAlertDispatching {
 
     override var description: String { return "Controls alerts." }
 
@@ -37,43 +37,52 @@ class PDAlertDispatcher: NSObject {
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
     func presentDeliveryMethodMutationAlert(
-        newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
-
+        newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())
+    ) {
         if let root = rootViewController {
-            let oldQuantity = sdk.defaults.quantity.rawValue
+            let oldQuantity = sdk.quantity.rawValue
             let oldMethod = sdk.deliveryMethod
-            DeliveryMethodMutationAlert(parent: root,
-                                        style: self.style,
-                                        oldDeliveryMethod: oldMethod,
-                                        newDeliveryMethod: newMethod,
-                                        oldQuantity: oldQuantity,
-                                        decline: decline).present()
+            DeliveryMethodMutationAlert(
+                parent: root,
+                style: self.style,
+                oldDeliveryMethod: oldMethod,
+                newDeliveryMethod: newMethod,
+                oldQuantity: oldQuantity,
+                decline: decline
+            ).present()
         }
     }
 
     /// Alert for changing the count of hormones causing a loss of data.
-    func presentQuantityMutationAlert(oldQuantity: Int,
-                                      newQuantity: Int,
-                                      simpleSetQuantity: @escaping (_ newQuantity: Int) -> (),
-                                      reset: @escaping (_ newQuantity: Int) -> (),
-                                      cancel: @escaping (_ oldQuantity: Int) -> ()) {
+    func presentQuantityMutationAlert(
+        oldQuantity: Int,
+        newQuantity: Int,
+        setter: @escaping (_ newQuantity: Int) -> (),
+        reset: @escaping (_ newQuantity: Int) -> (),
+        cancel: @escaping (_ oldQuantity: Int) -> ()
+    ) {
         if newQuantity > oldQuantity {
-            simpleSetQuantity(newQuantity)
+            setter(newQuantity)
             return
         }
         if let root = rootViewController {
-            let cont: (_ newQuantity: Int) -> () = {
+            let continueAction: (_ newQuantity: Int) -> () = {
                 (newQuantity) in
-                self.sdk.hormones.reset(from: newQuantity);
-                simpleSetQuantity(newQuantity);
+                self.sdk.hormones.delete(after: newQuantity)
+                setter(newQuantity)
                 reset(newQuantity)
             }
-            let handler = QuantityMutationActionHandler(cont: cont, cancel: cancel)
-            QuantityMutationAlert(parent: root,
-                                  style: self.style,
-                                  actionHandler: handler,
-                                  oldQuantity: oldQuantity,
-                                  newQuantity: newQuantity).present()
+            let handler = QuantityMutationActionHandler(
+                cont: continueAction,
+                cancel: cancel
+            )
+            QuantityMutationAlert(
+                parent: root,
+                style: self.style,
+                actionHandler: handler,
+                oldQuantity: oldQuantity,
+                newQuantity: newQuantity
+            ).present()
         }
     }
 
@@ -86,17 +95,19 @@ class PDAlertDispatcher: NSObject {
 
     /// Alert that gives the user the option to add a new site they typed out in the UI.
     func presentNewSiteAlert
-        (with name: SiteName, at index: Index, moneVC: HormoneDetailVC) {
-
+        (with name: SiteName, at index: Index, moneVC: HormoneDetailVC
+    ) {
         if let root = rootViewController {
             let handler: () -> () = {
-                () in self.sdk.insertSite(name: name) {
+                () in self.sdk.insertNewSite(name: name) {
                     moneVC.sitePicker.reloadAllComponents()
                 }
             }
-            NewSiteAlert(parent: root,
-                         style: style,
-                         appendActionHandler: handler).present()
+            NewSiteAlert(
+                parent: root,
+                style: style,
+                appendActionHandler: handler
+            ).present()
         }
     }
     

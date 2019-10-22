@@ -22,6 +22,6 @@ class PDSwallower: PDPillSwallowing {
     }
     
     func handleSwallow(_ pill: Swallowable) {
-        self.notifications.requestPillNotification(pill)
+        self.notifications.requestDuePillNotification(pill)
     }
 }

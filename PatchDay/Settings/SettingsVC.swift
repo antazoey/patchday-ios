@@ -24,9 +24,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     // Dependencies
-    private let sdk = app.sdk
-    private let notifications = app.notifications
-    private let alerts = app.alerts
+    private var sdk: PatchDataDelegate = app.sdk
+    private var tabs: PDTabReflective = app.tabs!
+    private let notifications: PDNotificationScheduling = app.notifications
+    private let alerts: PDAlertDispatching = app.alerts
     
     // Containers
     @IBOutlet weak var scrollView: UIScrollView!
@@ -125,13 +126,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PDPickerStrings.getCount(for: selectedDefault)
+        return PDPickerOptions.getOptionsCount(for: selectedDefault)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         var title: String? = nil
         if let key = selectedDefault {
-            let data = PDPickerStrings.getStrings(for: key)
+            let data = PDPickerOptions.getStrings(for: key)
             if row < data.count && row >= 0 {
                 title = data[row]
             }
@@ -164,7 +165,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
      // key is either "interval" , "count" , "notifications" */
     private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
-        let selections = PDPickerStrings.getStrings(for: key)
+        let selections = PDPickerOptions.getStrings(for: key)
         let choice = sender.titleLabel?.text
         let start: Int = { () in
             if let c = choice, let i = selections.firstIndex(of: c) {
@@ -202,6 +203,10 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
+    private func selectPicker(deliveryMethod: DeliveryMethod) -> UIPickerView {
+        
+    }
+    
     private func openPicker(_ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView, selectedRow: Int) {
         picker.selectRow(selectedRow, inComponent: 0, animated: false)
         UIView.transition(with: picker as UIView,
@@ -228,27 +233,21 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         app.notifications.cancelAllHormoneExpiredNotifications()
         switch key {
         case .DeliveryMethod :
-            deliveryMethodPicker.selectRow(row)
-            saveDeliveryMethodChange()
+            saveDeliveryMethodChange(row)
         case .Quantity :
-            quantityPicker.selectRow(row)
-            saveQuantityChange()
+            saveQuantityChange(row)
         case .ExpirationInterval :
-            expirationIntervalPicker.selectRow(row)
-            saveIntervalChange()
+            saveIntervalChange(row)
         case .Theme :
-            themePicker.selectRow(0)
             saveThemeChange()
         default:
-            print("Error: Improper context when saving details from picker")
+            print("Error: No picker for key \(key)")
         }
         app.notifications.resendAllHormoneExpiredNotifications()
     }
     
-    private func saveDeliveryMethodChange() {
-        
-        let newMethod = deliveryMethodPicker.select deliveryMethodPicker.getSelectedRow()
-        setButtonsFromDeliveryMethodChange(choice: newMethod)
+    private func saveDeliveryMethodChange(_ row: Int) {
+        let newMethod = PDPickerOptions.getDeliveryMethod(at: row)
         if sdk.isFresh {
             sdk.deliveryMethod = newMethod
         } else {
@@ -256,21 +255,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func saveQuantityChange() {
-        let old = state.oldQuantity
-        let reset = makeResetClosure(oldCount: old)
-        let cancel = makeCancelClosure(oldCount: old)
-        let newQuantity = quantityPicker.getSelectedRow()
-        pdShell.setQuantity(to: newQuantity, oldQuantityRaw: old, reset: reset, cancel: cancel)
+    private func saveQuantityChange(_ row: Int) {
+        let cancel = makeCancelClosure()
+        let newQuantity = PDPickerOptions.getQuantity(at: row).rawValue
+        PDQuantityMutator(
+            sdk: self.sdk,
+            alerts: self.alerts,
+            tabs: self.tabs,
+            cancel: cancel
+        ).setQuantity(to: newQuantity)
     }
     
-    private func saveIntervalChange() {
-        let newInterval = expirationIntervalPicker.getSelectedRow()
-        let result = pdShell.setExpirationIntervalIfSafe(at: newInterval)
-        if result.didSet {
-        } else {
-            print("Error: no expiration interval for row \(row)")
-        }
+    private func saveIntervalChange(_ row: Int) {
+        let newInterval = PDPickerOptions.expirationIntervals[row]
+        sdk.setExpirationInterval(using: newInterval)
     }
     
     private func saveThemeChange() {
@@ -350,7 +348,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod) {
         alerts.presentDeliveryMethodMutationAlert(newMethod: choice) {
             void in
-            let quantityTitle = PDPickerStrings.getDeliveryMethod(for: choice)
+            let quantityTitle = PDPickerOptions.getDeliveryMethodString(for: choice)
             switch choice {
             case .Patches:
                 self.quantityButton.setTitle(quantityTitle, for: .disabled)
@@ -365,20 +363,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
         }
     }
-    
-    private func makeResetClosure(oldCount: Int) -> ((Int) -> ()) {
-        let reset: (Int) -> () = {
-            newCount in
-            app.tabs?.reflectExpirationCountAsBadgeValue()
-            app.notifications.cancelHormoneNotifications(from: newCount, to: oldCount)
-        }
-        return reset
-    }
 
-    private func makeCancelClosure(oldCount: Int) -> ((Int) -> ()) {
+    private func makeCancelClosure() -> ((Int) -> ()) {
         let cancel: (Int) -> () = {
-            oldCount in
-            self.quantityButton.setTitle(String(oldCount), for: .normal)
+            oldQuantity in
+            self.quantityButton.setTitle("\(oldQuantity)", for: .normal)
         }
         return cancel
     }
@@ -402,7 +391,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     private func loadDeliveryMethod() {
-        deliveryMethodButton.setTitle(sdk.deliveryMethodName, for: .normal)
+        let method = sdk.deliveryMethodString
+        deliveryMethodButton.setTitle(method, for: .normal)
     }
     
     private func loadExpirationInterval() {
@@ -411,7 +401,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadQuantity() {
-        let q = sdk.defaults.quantity.value.rawValue
+        let q = sdk.quantityInt
         quantityButton.setTitle("\(q)", for: .normal)
         if sdk.deliveryMethod != .Patches {
             quantityButton.isEnabled = false
@@ -439,7 +429,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func loadTheme() {
         let theme = sdk.defaults.theme.value
-        let title = PDPickerStrings.getTheme(for: theme)
+        let title = PDPickerOptions.getTheme(for: theme)
         themeButton.setTitle(title, for: .normal)
     }
     
@@ -456,4 +446,8 @@ extension SettingsVC: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return settingsStack
     }
+}
+
+class PDPickerView: UIPickerView {
+    
 }

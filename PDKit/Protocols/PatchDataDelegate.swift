@@ -21,11 +21,19 @@ public protocol PatchDataDelegate {
     
     // Defaults
     var deliveryMethod: DeliveryMethod { get set }
-    var deliveryMethodName: String { get }
+    var deliveryMethodString: String { get }
+    var quantity: Quantity { get }
+    func setQuantity(using quantityInt: Int)
+    var expirationInterval: ExpirationInterval { get }
+    func setExpirationInterval(using expString: String)
+    func setSiteIndex(to newIndex: Index) -> Index 
 
     // Sites
     func insertNewSite(name: SiteName, completion: (() -> ())?)
+    func insertNewSite(name: SiteName)
     func insertNewSite()
+    func swapSites(_ sourceIndex: Index, with destinationIndex: Index)
+    func resetSitesToDefault()
 
     // Stateful
     func stampQuantity()

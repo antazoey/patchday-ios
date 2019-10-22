@@ -12,9 +12,7 @@ import PDKit
 
 public class PDSites: NSObject, HormoneSiteScheduling {
     
-    override public var description: String {
-        return "Schedule for maintaining sites for hormone patches or injections."
-    }
+    override public var description: String { return "Schedule for sites." }
     
     private var sites: [Bodily]
     var next: Index = 0
@@ -30,10 +28,8 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
         if sites.count == 0 {
-            new(
-                deliveryMethod: deliveryMethod,
-                globalExpirationInterval: globalExpirationInterval
-            )
+            let exp = globalExpirationInterval
+            reset(deliveryMethod: deliveryMethod, globalExpirationInterval: exp)
         }
         sort()
     }
@@ -74,33 +70,43 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         return next
     }
     
+    public func swap(_ sourceIndex: Index, with destinationIndex: Index) {
+        let destinationOccupant = sites[destinationIndex]
+        sites[destinationIndex] = sites[sourceIndex]
+        sites[sourceIndex] = destinationOccupant
+    }
+
     /// Appends the the new site to the sites and returns it.
-    public func insert(deliveryMethod: DeliveryMethod,
-                       globalExpirationInterval: ExpirationIntervalUD,
-                       completion: (() -> ())? = nil) -> Bodily? {
+    public func insertNew(
+        deliveryMethod: DeliveryMethod,
+        globalExpirationInterval: ExpirationIntervalUD,
+        completion: (() -> ())? = nil
+    ) -> Bodily? {
         let i = globalExpirationInterval
         if let site = PDSite.new(deliveryMethod: deliveryMethod, globalExpirationInterval: i) {
+            sites.append(site)
             return site
         }
         return nil
     }
 
     /// Resets the site array a default list of sites.
-    public func reset(deliveryMethod: DeliveryMethod,
-                      globalExpirationInterval: ExpirationIntervalUD) {
+    public func reset(
+        deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD
+    ) {
         if isDefault(deliveryMethod: deliveryMethod) {
             return
         }
         let resetNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
         let oldCount = sites.count
         let newcount = resetNames.count
+        let exp = globalExpirationInterval
         for i in 0..<newcount {
             if i < oldCount {
                 sites[i].order = i
                 sites[i].name = resetNames[i]
                 sites[i].imageIdentifier = resetNames[i]
-            } else if var site = insert(deliveryMethod: deliveryMethod,
-                                        globalExpirationInterval: globalExpirationInterval) {
+            } else if var site = insertNew(deliveryMethod: deliveryMethod, globalExpirationInterval: exp) {
                 site.name = resetNames[i]
                 site.imageIdentifier = resetNames[i]
             }
@@ -130,22 +136,6 @@ public class PDSites: NSObject, HormoneSiteScheduling {
             PatchData.save()
         default : return
         }
-    }
-    
-    /// Generates a generic list of sites when there are none in store.
-    public func new(deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD) {
-        var sites: [Bodily] = []
-        let names = PDSiteStrings.getSiteNames(for: deliveryMethod)
-        for i in 0..<names.count {
-            if var site = insert(deliveryMethod: deliveryMethod, globalExpirationInterval: globalExpirationInterval) {
-                site.name = names[i]
-                site.imageIdentifier = names[i]
-                sites.append(site)
-            }
-        }
-        self.sites = sites
-        sort()
-        PatchData.save()
     }
     
     public func sort() {
@@ -206,7 +196,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     }
 
     /// Returns the set of sites on record union with the set of default sites
-    public func unionize(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
+    public func unionWithDefaults(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
         let defaults = Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod))
         return Set(names).union(defaults)
     }

@@ -10,14 +10,13 @@ import Foundation
 import PDKit
 
 protocol PDNotificationScheduling {
-    func cancelHormoneNotification(at index: Index)
-    func cancelHormoneNotifications(from begin: Index, to end: Index)
-    func cancelAllHormoneExpiredNotifications()
-    func requestHormoneExpiredNotification(for hormone: Hormonal)
-    func resendHormoneExpiredNotifications(from begin: Index, to end: Index)
-    func resendAllHormoneExpiredNotifications()
-    func requestOvernightNotification(_ hormone: Hormonal, expDate: Date)
-    func requestPillNotification(forPillAt index: Index)
-    func cancelPillNotification(_ pill: Swallowable)
-    func requestPillNotification(_ pill: Swallowable)
+    func cancelExpiredHormoneNotification(at index: Index)
+    func cancelExpiredHormoneNotifications(from begin: Index, to end: Index)
+    func cancelAllExpiredHormoneNotifications()
+    func requestExpiredHormoneNotification(for hormone: Hormonal)
+    func resendExpiredHormoneNotifications(from begin: Index, to end: Index)
+    func requestOvernightExpirationNotification(_ hormone: Hormonal, expDate: Date)
+    func requestDuePillNotification(forPillAt index: Index)
+    func cancelDuePillNotification(_ pill: Swallowable)
+    func requestDuePillNotification(_ pill: Swallowable)
 }

@@ -15,6 +15,11 @@ public class PDPill: PDObject, Swallowable, Comparable {
         get { return mo as! MOPill }
     }
     
+    public init(pill: MOPill) {
+        super.init(mo: pill)
+        initializeAttributes(name: PDStrings.PlaceholderStrings.newPill)
+    }
+    
     public init(pill: MOPill, name: String) {
         super.init(mo: pill)
         initializeAttributes(name: name)
@@ -22,7 +27,7 @@ public class PDPill: PDObject, Swallowable, Comparable {
     
     public static func new() -> Swallowable? {
         if let pill = PatchData.insert(.pill) as? MOPill {
-            return PDPill(pill: pill, name: PDStrings.PlaceholderStrings.newPill)
+            return PDPill(pill: pill)
         }
         return nil
     }

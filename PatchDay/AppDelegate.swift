@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var notifications: PDNotificationScheduling = PDNotifications()
     var sdk: PatchDataDelegate = PatchDataSDK(swallowHandler: PDSwallower())
-    var alerts = PDAlertDispatcher()
-    var tabs: PDTabReflector?
+    var alerts: PDAlertDispatching = PDAlertDispatcher()
+    var tabs: PDTabReflective?
     var nav: PDNavigationDelegate = PDNavigationDelegate()
     var styles: PDStyling!
 
@@ -31,13 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        if isFirstLaunch() {
-            self.sdk.pills.new()
-        }
         if isResetMode {
             sdk.nuke()
             return false
         }
+
         self.styles = PDStylist(theme: self.sdk.defaults.theme.value)
         self.sdk.broadcastHormones()
         self.setBadge()

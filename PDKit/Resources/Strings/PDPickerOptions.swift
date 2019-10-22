@@ -1,5 +1,5 @@
 //
-//  PDPickerStrings.swift
+//  PDPickerOptions.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 4/29/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PDPickerStrings {
+public class PDPickerOptions {
     
     public static let deliveryMethods: [String] = {
         let comment = "Displayed on a button and in a picker."
@@ -24,7 +24,7 @@ public class PDPickerStrings {
         return .Patches
     }
     
-    public static func getDeliveryMethod(for method: DeliveryMethod) -> String {
+    public static func getDeliveryMethodString(for method: DeliveryMethod) -> String {
         switch method {
         case .Patches:
             return deliveryMethods[0]
@@ -42,6 +42,25 @@ public class PDPickerStrings {
         }
     }
     
+    public static func getQuantity(at i: Index) -> Quantity {
+        if i < quantities.count && i >= 0 {
+            let choice = quantities[i]
+            if let quantityInt = Int(choice), let quantity = Quantity(rawValue: quantityInt) {
+                return quantity
+            }
+        }
+        return .One
+    }
+    
+    public static func getDefaultQuantityString(deliveryMethod: DeliveryMethod) -> String {
+        switch deliveryMethod {
+        case .Patches:
+            return quantities[2]
+        case .Injections:
+            return quantities[0]
+        }
+    }
+
     public static func getStrings(for key: PDDefault) -> [String] {
         switch key {
         case PDDefault.DeliveryMethod:
@@ -87,16 +106,7 @@ public class PDPickerStrings {
         }
     }
     
-    public static func getDefaultQuantity(deliveryMethod: DeliveryMethod) -> String {
-        switch deliveryMethod {
-        case .Patches:
-            return quantities[2]
-        case .Injections:
-            return quantities[0]
-        }
-    }
-    
-    public static func getCount(for def: PDDefault?) -> Int {
+    public static func getOptionsCount(for def: PDDefault?) -> Int {
         if let d = def {
             switch (d) {
             case .DeliveryMethod:

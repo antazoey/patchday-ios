@@ -13,6 +13,7 @@ import PDKit
 
 class PDNotifications: NSObject, PDNotificationScheduling {
 
+
     private let sdk: PatchDataDelegate
     private let center: PDNotificationCenter
 
@@ -37,7 +38,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     // MARK: - Hormones
     
     /// Request a hormone notification.
-    func requestHormoneExpiredNotification(for hormone: Hormonal) {
+    func requestExpiredHormoneNotification(for hormone: Hormonal) {
         let deliv = sdk.deliveryMethod
         let interval = sdk.defaults.expirationInterval
         let notify = sdk.defaults.notifications.value
@@ -45,30 +46,31 @@ class PDNotifications: NSObject, PDNotificationScheduling {
         let totalExpired = sdk.totalHormonesExpired
 
         if sendingNotifications, notify {
-            ExpiredHormoneNotification(for: hormone,
-                                        deliveryMethod: deliv,
-                                        expirationInterval: interval,
-                                        notifyMinutesBefore: notifyMinBefore,
-                                        totalDue: totalExpired)
-                .request()
+            ExpiredHormoneNotification(
+                for: hormone,
+                deliveryMethod: deliv,
+                expirationInterval: interval,
+                notifyMinutesBefore: notifyMinBefore,
+                totalDue: totalExpired
+            ).request()
         }
     }
 
     /// Cancels the hormone notification at the given index.
-    func cancelHormoneNotification(at index: Index) {
+    func cancelExpiredHormoneNotification(at index: Index) {
         if let mone = sdk.hormones.at(index) {
             let id = mone.id.uuidString
             center.removeNotifications(with: [id])
         }
     }
 
-    func cancelAllHormoneNotifications() {
-        let end = sdk.defaults.quantity.value.rawValue - 1
-        cancelHormoneExpiredNotifications(from: 0, to: end)
+    func cancelAllExpiredHormoneNotifications() {
+        let end = sdk.quantity.rawValue - 1
+        cancelExpiredHormoneNotifications(from: 0, to: end)
     }
     
     /// Cancels all the hormone notifications in the given indices.
-    func cancelHormoneExpiredNotifications(from begin: Index, to end: Index) {
+    func cancelExpiredHormoneNotifications(from begin: Index, to end: Index) {
         var ids: [String] = []
         for i in begin...end {
             appendHormoneIdToList(at: i, lst: &ids)
@@ -79,55 +81,57 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
     
     /// Resends all the hormone notifications between the given indices.
-    func resendHormoneExpiredNotifications(from begin: Index = 0, to end: Index = -1) {
+    func resendExpiredHormoneNotifications(from begin: Index = 0, to end: Index = -1) {
         let e = end >= 0 ? end : sdk.hormones.count - 1
         if e < begin { return }
         for i in begin...e {
             if let mone = sdk.hormones.at(i) {
                 let id = mone.id.uuidString
                 center.removeNotifications(with: [id])
-                requestHormoneExpiredNotification(for: mone)
+                requestExpiredHormoneNotification(for: mone)
             }
         }
     }
     
-    func resendAllHormoneExpiredNotifications() {
-        let end = sdk.defaults.quantity.value.rawValue - 1
-        resendHormoneExpiredNotifications(from: 0, to: end)
+    func resendAllExpiredExpiredNotifications() {
+        let end = sdk.quantity.rawValue - 1
+        resendExpiredHormoneNotifications(from: 0, to: end)
     }
     
     // MARK: - Pills
     
     /// Request a pill notification from index.
-    func requestPillNotification(forPillAt index: Index) {
+    func requestDueillNotification(forPillAt index: Index) {
         if let pill = sdk.pills.at(index) {
-            requestPillNotification(pill)
+            requestDuePillNotification(pill)
         }
     }
     
     /// Request a pill notification.
-    func requestPillNotification(_ pill: Swallowable) {
+    func requestDuePillNotification(_ pill: Swallowable) {
         if Date() < pill.due {
             let totalDue = sdk.totalAlerts
-            DuePillNotification(for: pill,
-                                dueDate: pill.due,
-                                totalDue: totalDue)
-                .request()
+            DuePillNotification(
+                for: pill,
+                dueDate: pill.due,
+                totalDue: totalDue
+            ).request()
         }
     }
     
     /// Cancels a pill notification.
-    func cancelPillNotification(_ pill: Swallowable) {
+    func cancelDuePillNotification(_ pill: Swallowable) {
         center.removeNotifications(with: [pill.id.uuidString])
     }
     
     /// Request a hormone notification that occurs when it's due overnight.
-    func requestOvernightNotification(_ hormone: Hormonal, expDate: Date) {
+    func requestOvernightExpirationNotification(_ hormone: Hormonal, expDate: Date) {
         if let triggerDate = PDDateHelper.dateBefore(overNightDate: expDate) {
-            ExpiredHormoneOvernightNotification(triggerDate: triggerDate,
-                                          deliveryMethod: sdk.deliveryMethod,
-                                          totalDue: sdk.totalAlerts)
-                .request()
+            ExpiredHormoneOvernightNotification(
+                triggerDate: triggerDate,
+                deliveryMethod: sdk.deliveryMethod,
+                totalDue: sdk.totalAlerts
+            ).request()
         }
     }
     

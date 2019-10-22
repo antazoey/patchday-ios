@@ -115,14 +115,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         if let name = nameText.text {
             // Updating existing site
             let i = siteScheduleIndex
-            let count = sdk.sites.count()
+            let count = sdk.sites.count
             switch i {
             case 0..<count :
-                siteSchedule.rename(at: i, to: name)
+                sdk.sites.rename(at: i, to: name)
             case count :
-                if let _ = sdk.insertSite() {
-                    siteSchedule.rename(at: i, to: name)
-                }
+                _ = sdk.insertNewSite(name: name)
             default : break
             }
         }
@@ -163,7 +161,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
             nameText.text = PDStrings.PlaceholderStrings.newSite
         case let name :
             if let n = name {
-                siteSchedule.rename(at: siteScheduleIndex, to: n)
+                sdk.sites.rename(at: siteScheduleIndex, to: n)
             }
         }
         loadImage()
@@ -194,8 +192,13 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         return namePickerSet.count
     }
     
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        let attrs = [NSAttributedString.Key.foregroundColor : app.styles.theme[.text]]
+    func pickerView(
+        _ pickerView: UIPickerView,
+        attributedTitleForRow row: Int,
+        forComponent component: Int
+    ) -> NSAttributedString? {
+
+        let attrs = [NSAttributedString.Key.foregroundColor : app.styles.theme[.text] as Any]
         let n = namePickerSet[row]
         let attributedString = NSAttributedString(string: n, attributes: attrs)
         return attributedString
@@ -251,7 +254,7 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
 
         if let name = nameText.text {
             var image: UIImage
-            var sitesWithImages = PDSiteStrings.getSiteNames(for: method)
+            let sitesWithImages = PDSiteStrings.getSiteNames(for: method)
             if name == PDStrings.PlaceholderStrings.newSite {
                 image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
             } else if let site = sdk.sites.at(siteScheduleIndex),
@@ -263,12 +266,15 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
                     deliveryMethod: method
                 )
             } else {
-                image = PDImages.custom(theme: theme, deliveryMethod: deliv)
+                image = PDImages.getCustomHormoneImage(theme: theme, deliveryMethod: method)
             }
-            UIView.transition(with: siteImage, duration:0.5,
-                              options: .transitionCrossDissolve,
-                              animations: { self.siteImage.image = image },
-                              completion: nil)
+            UIView.transition(
+                with: siteImage,
+                duration: 0.5,
+                options: .transitionCrossDissolve,
+                animations: { self.siteImage.image = image },
+                completion: nil
+            )
         }
     }
     
@@ -290,7 +296,12 @@ class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     private func loadSave() {
         navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: PDActionStrings.save,style: .plain,target: self,action: #selector(saveButtonTapped(_:)))
+            UIBarButtonItem(
+                title: PDActionStrings.save,
+                style: .plain,
+                target: self,
+                action: #selector(saveButtonTapped(_:))
+            )
     }
     
     private func enableSave() {

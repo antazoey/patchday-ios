@@ -16,9 +16,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var sitesTable: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
     
-    // Dependencies
-    private let siteSchedule = patchData.sdk.siteSchedule
-    private let defaults = patchData.sdk.defaults
+    private let sdk = app.sdk
 
     public var buttonFontSize = {
         return UIFont.systemFont(ofSize: 15)
@@ -26,8 +24,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     public var addFontSize = {
         return UIFont.systemFont(ofSize: 39)
     }()
-    public var siteNames: [String] = patchData.sdk.siteSchedule.getNames()
-    public var siteImgIds: [String] = patchData.sdk.siteSchedule.getImageIds()
+    public var siteNames: [String] = app.sdk.sites.names
+    public var siteImgIds: [String] = app.sdk.sites.imageIds
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,31 +117,31 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     // Delete cell (deletes MOSite)
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
         if editingStyle == .delete {
             deleteCell(indexPath: indexPath)
         }
     }
     
-    // Reorder cell (reorders MOSite order attributes)
-    func tableView(_ tableView: UITableView,
-                   moveRowAt sourceIndexPath: IndexPath,
-                   to destinationIndexPath: IndexPath) {
-        let siteToMove = siteSchedule.sites[sourceIndexPath.row]
-        siteSchedule.sites.remove(at: sourceIndexPath.row)
-        siteSchedule.sites.insert(siteToMove, at: destinationIndexPath.row)
-        if sourceIndexPath.row == siteSchedule.nextIndex(changeIndex: defaults.setSiteIndex) {
-            defaults.setSiteIndex(to: destinationIndexPath.row)
-        }
-        let count = siteSchedule.count()
-        for i in 0..<count {
-            siteSchedule.setOrder(at: i, to: Int16(i))
-        }
+    // Reorder cell
+    func tableView(
+        _ tableView: UITableView,
+        moveRowAt sourceIndexPath: IndexPath,
+        to destinationIndexPath: IndexPath
+    ) {
+        sdk.swapSites(sourceIndexPath.row, with: destinationIndexPath.row)
         reloadSiteNames()
         sitesTable.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
         return 55.0
     }
     
@@ -177,7 +175,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        siteSchedule.reset()
+        sdk.resetSitesToDefault()
         reloadSiteNames()
         sitesTable.isEditing = false
         let range = 0..<siteNames.count

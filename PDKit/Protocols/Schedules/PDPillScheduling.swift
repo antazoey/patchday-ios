@@ -12,13 +12,13 @@ public protocol PDPillScheduling: PDSchedule {
     var all: [Swallowable] { get }
     var nextDue: Swallowable? { get }
     var totalDue: Int { get }
-    func insert(completion: (() -> ())?) -> Swallowable?
+    func insertNew(completion: (() -> ())?) -> Swallowable?
     func delete(at index: Index)
-    func new()
     func at(_ index: Index) -> Swallowable?
     func get(for id: UUID) -> Swallowable?
     func set(at index: Index, with attributes: PillAttributes)
     func set(for pill: Swallowable, with attributes: PillAttributes)
+    func setAsDefault()
     func swallow(at index: Index, pushSharedData: (() -> ())?)
     func swallow(_ pill: Swallowable, pushSharedData: (() -> ())?)
     func swallow(pushSharedData: (() -> ())?)

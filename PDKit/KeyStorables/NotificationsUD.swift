@@ -16,9 +16,7 @@ public class NotificationsUD: PDKeyStorable {
     
     public var value: Bool
     
-    public var rawValue: Bool {
-        get { return value }
-    }
+    public var rawValue: Bool { return value }
     
     public static var key = PDDefault.Notifications
     

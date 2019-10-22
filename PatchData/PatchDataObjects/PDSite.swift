@@ -18,7 +18,8 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
         return self.mo as! MOSite
     }
     
-    public init(site: MOSite, globalExpirationInterval: ExpirationIntervalUD,
+    public init(site: MOSite,
+                globalExpirationInterval: ExpirationIntervalUD,
                 deliveryMethod: DeliveryMethod) {
 
         self.globalExpirationInterval = globalExpirationInterval

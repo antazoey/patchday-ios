@@ -12,15 +12,14 @@ import PDKit
 
 public class PDPills: NSObject, PDPillScheduling {
     
-    override public var description: String {
-        return "Singleton for reading, writing, and querying the MOPill array."
-    }
+    override public var description: String { return "Schedule for pills." }
     
     private var pills: [Swallowable]
     
-    override init() {
-        pills = PatchData.createPills()
+    init(isFirstInit: Bool) {
+        self.pills = PatchData.createPills()
         super.init()
+        if isFirstInit { self.setAsDefault() }
         awaken()
     }
     
@@ -45,8 +44,8 @@ public class PDPills: NSObject, PDPillScheduling {
     
     // MARK: - Override base class
 
-    /// Creates a new MOPill and inserts it in to the pills.
-    public func insert(completion: (() -> ())?) -> Swallowable? {
+    /// Creates a new pill row and inserts it in to the pills.
+    public func insertNew(completion: (() -> ())?) -> Swallowable? {
         if let pill = PDPill.new() {
             pill.initializeAttributes(attributes: PillAttributes())
             pills.append(pill)
@@ -70,7 +69,7 @@ public class PDPills: NSObject, PDPillScheduling {
     }
     
     /// Generates a generic list of MOPills when there are none in store.
-    public func new() {
+    public func setAsDefault() {
         deleteAll()
         let names = PDStrings.PillTypes.defaultPills
         pills = []

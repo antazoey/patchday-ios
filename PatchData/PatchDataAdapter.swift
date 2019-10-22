@@ -11,20 +11,22 @@ import PDKit
 
 extension PatchData {
     
-    static func createEstrogens(expirationInterval: ExpirationIntervalUD,
+    static func createHormones(expirationInterval: ExpirationIntervalUD,
                                 deliveryMethod: DeliveryMethod) -> [Hormonal] {
-        var estrogens: [Hormonal] = []
+        var hormones: [Hormonal] = []
         if let mos = loadMOs(for: .hormone) {
             for mo in mos {
                 if let mone = mo as? MOHormone {
-                    let pdEstro = PDHormone(hormone: mone,
-                                            interval: expirationInterval,
-                                            deliveryMethod: deliveryMethod)
-                    estrogens.append(pdEstro)
+                    let pdMone = PDHormone(
+                        hormone: mone,
+                        interval: expirationInterval,
+                        deliveryMethod: deliveryMethod
+                    )
+                   hormones.append(pdMone)
                 }
             }
         }
-        return estrogens
+        return hormones
     }
     
     static func createPills() -> [Swallowable] {

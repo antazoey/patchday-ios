@@ -63,7 +63,7 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
     
     public func setMentionedDisclaimer(to b: Bool) { set(&mentionedDisclaimer, to: b) }
     
-    public func setSiteIndex(to i: Index, siteCount: Int) -> Int {
+    public func setSiteIndex(to i: Index, siteCount: Int) -> Index {
         if i < siteCount && i >= 0 {
             set(&siteIndex, to: i)
             return i

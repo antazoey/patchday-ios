@@ -36,17 +36,13 @@ public class ExpirationIntervalValueHolder: PDValueHolding {
     }
     
     public var heldValue: String {
-        get {
-            switch indexer {
-            case .TwiceAWeek: return ExpirationIntervalValueHolder.tawKey
-            case .OnceAWeek: return ExpirationIntervalValueHolder.oawKey
-            case .EveryTwoWeeks: return ExpirationIntervalValueHolder.etwKey
-            }
+        switch indexer {
+        case .TwiceAWeek: return ExpirationIntervalValueHolder.tawKey
+        case .OnceAWeek: return ExpirationIntervalValueHolder.oawKey
+        case .EveryTwoWeeks: return ExpirationIntervalValueHolder.etwKey
         }
     }
 }
-
-// MARK: - Private
 
 public class ExpirationIntervalUD: PDKeyStorable {
     
@@ -64,9 +60,7 @@ public class ExpirationIntervalUD: PDKeyStorable {
         }
     }
     
-    public var rawValue: String {
-        get { return valueHolder.heldValue }
-    }
+    public var rawValue: String { return valueHolder.heldValue }
     
     public static var key = PDDefault.ExpirationInterval
     
@@ -81,29 +75,27 @@ public class ExpirationIntervalUD: PDKeyStorable {
     }
     
     public var hours: Int {
-        get {
-            switch value {
-            case .TwiceAWeek:
-                return 84
-            case .OnceAWeek:
-                return 168
-            case .EveryTwoWeeks:
-                return 336
-            }
+        switch value {
+        case .TwiceAWeek:
+            return 84
+        case .OnceAWeek:
+            return 168
+        case .EveryTwoWeeks:
+            return 336
         }
     }
     
     public var humanPresentableValue: String {
-        get { return ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)! }
+        return ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)!
     }
     
     public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {
         switch humanReadableStr {
-        case PDPickerStrings.expirationIntervals[0]:
+        case PDPickerOptions.expirationIntervals[0]:
             return ExpirationInterval.TwiceAWeek
-        case PDPickerStrings.expirationIntervals[1]:
+        case PDPickerOptions.expirationIntervals[1]:
             return ExpirationInterval.OnceAWeek
-        case PDPickerStrings.expirationIntervals[2]:
+        case PDPickerOptions.expirationIntervals[2]:
             return ExpirationInterval.EveryTwoWeeks
         default:
             return nil
@@ -111,10 +103,12 @@ public class ExpirationIntervalUD: PDKeyStorable {
     }
     
     private static func getHumanPresentableValue(from v: String) -> String? {
-        let dispStrs = PDPickerStrings.expirationIntervals
-        let strDict = [ExpirationIntervalValueHolder.tawKey: dispStrs[0],
-                       ExpirationIntervalValueHolder.oawKey : dispStrs[1],
-                       ExpirationIntervalValueHolder.etwKey : dispStrs[2]]
+        let strs = PDPickerOptions.expirationIntervals
+        let strDict = [
+            ExpirationIntervalValueHolder.tawKey : strs[0],
+            ExpirationIntervalValueHolder.oawKey : strs[1],
+            ExpirationIntervalValueHolder.etwKey : strs[2]
+        ]
         return strDict[v]
     }
 }
