@@ -44,8 +44,8 @@ public protocol PatchDataDelegate {
     func setHormoneDate(at index: Index, with date: Date)
     func setHormoneDateAndSite(for id: UUID, date: Date, site: Bodily)
     var totalHormonesExpired: Int { get }
-    func broadcastHormones()
     
     // Pills
     func swallow(_ pill: Swallowable)
+    func setPill(_ pill: Swallowable, with attributes: PillAttributes)
 }

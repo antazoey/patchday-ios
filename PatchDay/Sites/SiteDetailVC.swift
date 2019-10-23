@@ -1,5 +1,5 @@
 //
-//  SiteVC.swift
+//  SiteDetailVC.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/11/18.
@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class SiteVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
     private let sdk = app.sdk
     private let theme = app.styles.theme

@@ -1,5 +1,5 @@
 //
-//  PillVC.swift
+//  PillDetailVC.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/28/18.
@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -24,8 +24,8 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var takeButton: UIButton!
 
-    private var sdk = app.sdk
-    private var notifications: PDNotificationCenter
+    private var sdk: PatchDataDelegate = app.sdk
+    private var notifications: PDNotificationScheduling = app.notifications
     private var pillIndex: Index?
     private var pill: Swallowable?
 
@@ -74,7 +74,7 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
         loadVCTitle()
     }
     
-    public func setPill(_ pill: PDPill) {
+    public func setPill(_ pill: Swallowable) {
         self.pill = pill
     }
     
@@ -104,14 +104,13 @@ class PillVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UI
     
     @IBAction func saveButtonTapped() {
         if let pill = pill {
-            notifications.cancel(pill)
-            pillSchedule.setPill(for: pill, with: makePillAttributes())
-            notifications.requestPillNotification(pill)
+            notifications.cancelDuePillNotification(pill)
+            sdk.pills.set(for: pill, with: makePillAttributes())
+            notifications.requestDuePillNotification(pill)
             if let vcs = navigationController?.tabBarController?.viewControllers {
-                let newValue = pillSchedule.totalDue()
-                vcs[1].tabBarItem.badgeValue = (newValue > 0) ? String(newValue) : nil
+                let newValue = sdk.pills.totalDue
+                vcs[1].tabBarItem.badgeValue = newValue > 0 ? "\(newValue)" : nil
             }
-            shared.setPillDataForToday()
             segueToPillsVC()
         }
     }

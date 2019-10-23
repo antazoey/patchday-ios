@@ -37,7 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         self.styles = PDStylist(theme: self.sdk.defaults.theme.value)
-        self.sdk.broadcastHormones()
         self.setBadge()
         self.setNavigationAppearance()
         return true

@@ -133,7 +133,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func segueToEstrogenVC(index: Int) {
-        let id = "HormoneVC_id"
+        let id = "HormoneDetailVC_id"
         if let sb = storyboard, let navCon = navigationController,
             let hormoneVC = sb.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
             hormoneVC.hormoneIndex = index

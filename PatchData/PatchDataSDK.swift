@@ -22,22 +22,6 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var patchdata: PatchDataCalling
     public let swallowHandler: PDPillSwallowing
     
-    public convenience init(defaults: PDDefaultManaging,
-                            dataMeter: PDDataMeting,
-                            hormones: HormoneScheduling,
-                            pills: PDPillScheduling,
-                            sites: HormoneSiteScheduling,
-                            swallowHandler: PDPillSwallowing) {
-        self.init(defaults: defaults,
-                  dataMeter: dataMeter,
-                  hormones: hormones,
-                  pills: pills,
-                  sites: sites,
-                  state: PDState(),
-                  patchdata: PatchDataCaller(),
-                  swallowHandler: swallowHandler)
-    }
-
     public init(defaults: PDDefaultManaging,
                 dataMeter: PDDataMeting,
                 hormones: HormoneScheduling,
@@ -54,31 +38,49 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         self.state = state
         self.patchdata = patchdata
         self.swallowHandler = swallowHandler
+        super.init()
+        self.broadcastHormones()
     }
     
-    public init(swallowHandler: PDPillSwallowing) {
-        self.dataMeter = PDDataMeter()
-        self.state = PDState()
-        self.patchdata = PatchDataCaller()
-        self.defaults = PDDefaults(
-            stateManager: self.state,
-            meter: self.dataMeter
-        )
-        
+    public convenience init(defaults: PDDefaultManaging,
+                            dataMeter: PDDataMeting,
+                            hormones: HormoneScheduling,
+                            pills: PDPillScheduling,
+                            sites: HormoneSiteScheduling,
+                            swallowHandler: PDPillSwallowing) {
+        self.init(defaults: defaults,
+                  dataMeter: dataMeter,
+                  hormones: hormones,
+                  pills: pills,
+                  sites: sites,
+                  state: PDState(),
+                  patchdata: PatchDataCaller(),
+                  swallowHandler: swallowHandler)
+    }
+    
+    public convenience init(swallowHandler: PDPillSwallowing) {
+        let dataMeter = PDDataMeter()
+        let state = PDState()
+        let defaults = PDDefaults(stateManager: state, meter: dataMeter)
         let isNew = !defaults.mentionedDisclaimer.value
-        self.pills = PDPills(isFirstInit: isNew)
-
-        self.hormones = PDHormones(
-            deliveryMethod: self.defaults.deliveryMethod.value,
-            interval: self.defaults.expirationInterval
-        )
-        let indexer = PDSiteIndexer(defaults: self.defaults)
-        self.sites = PDSites(
-            deliveryMethod: self.defaults.deliveryMethod.value,
-            globalExpirationInterval: self.defaults.expirationInterval,
+        let pills = PDPills(isFirstInit: isNew)
+        let method = defaults.deliveryMethod.value
+        let interval = defaults.expirationInterval
+        let hormones = PDHormones(deliveryMethod: method, interval: interval)
+        let indexer = PDSiteIndexer(defaults: defaults)
+        let sites = PDSites(
+            deliveryMethod: method,
+            globalExpirationInterval: interval,
             siteIndexRebounder: indexer
         )
-        self.swallowHandler = swallowHandler
+        self.init(
+            defaults: defaults,
+            dataMeter: dataMeter,
+            hormones: hormones,
+            pills: pills,
+            sites: sites,
+            swallowHandler: swallowHandler
+        )
     }
     
     public var defaults: PDDefaultManaging
@@ -251,10 +253,15 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         pills.swallow(pushSharedData: broadcastPills)
         swallowHandler.handleSwallow(pill)
     }
+    
+    public func setPill(_ pill: Swallowable, with attributes: PillAttributes) {
+        pills.set(for: pill, with: attributes)
+        broadcastPills()
+    }
 
     // MARK: - DataMeter
 
-    public func broadcastHormones() {
+    private func broadcastHormones() {
         if let mone = hormones.next {
             let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.newSite
             dataMeter.broadcastRelevantHormoneData(
@@ -266,7 +273,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         }
     }
 
-    func broadcastPills() {
+    private func broadcastPills() {
         if let next = pills.nextDue {
             dataMeter.broadcastRelevantPillData(nextPill: next)
         }

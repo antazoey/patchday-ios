@@ -112,7 +112,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func segueToPillView(for pill: MOPill, at index: Index) {
         if let sb = storyboard, let navCon = navigationController,
-            let pillVC = sb.instantiateViewController(withIdentifier: "PillVC_id") as? PillVC {
+            let pillVC = sb.instantiateViewController(withIdentifier: "PillDetailVC_id") as? PillDetailVC {
             pillVC.setPillIndex(index)
             navCon.pushViewController(pillVC, animated: true)
         }
