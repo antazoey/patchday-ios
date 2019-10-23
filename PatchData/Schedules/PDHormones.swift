@@ -39,7 +39,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         return count > 0 ? hormones[0] : nil
     }
 
-    /// Creates a new MOEstrogen and appends it to the estrogens.
+    /// Creates a new hormone and inserts it into the schedule
     public func insertNew(
         expiration: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethod
@@ -97,7 +97,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         delete(after: -1)
     }
     
-    /// Returns the MOEstrogen for the given index
+    /// Returns the hormone for the given index
     public func at(_ index: Index) -> Hormonal? {
         switch index {
             case 0..<count :
@@ -106,12 +106,12 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
 
-    /// Returns the MOEstrogen for the given id.
+    /// Returns the hormone for the given id.
     public func get(for id: UUID) -> Hormonal? {
         return hormones.filter({(mone: Hormonal) -> Bool in return mone.id == id })[0]
     }
 
-    /// Sets the date and the site of the MOEstrogen for the given id.
+    /// Sets the date and the site of the hormone for the given id.
     public func set(for id: UUID, date: Date, site: Bodily) {
         if var mone = get(for: id) {
             mone.site = site
@@ -120,18 +120,18 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
 
-    /// Sets the site of the MOEstrogen for the given index.
+    /// Sets the site of the hormone for the given index.
     public func setSite(at index: Index, with site: Bodily) {
         if var mone = at(index) { mone.site = site }
     }
     
-    /// Sets the date of the MOEstrogen for the given index.
+    /// Sets the date of the hormone for the given index.
     public func setDate(at index: Index, with date: Date) {
         if var mone = at(index) { mone.date = date }
         sort()
     }
     
-    /// Sets the backup-site-name of the MOEstrogen for the given index.
+    /// Sets the backup-site-name of the hormone for the given index.
     public func setBackUpSiteName(at index: Index, with name: String) {
         if var mone = at(index) {
             mone.siteNameBackUp = name
@@ -139,7 +139,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
     
-    /// Returns the index of the given hormone.
+    /// Tthe index of the given hormone.
     public func indexOf(_ hormone: Hormonal) -> Index? {
         var i = -1
         for mone in hormones {
@@ -151,7 +151,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         return nil
     }
     
-    /// Returns if each MOEstrogen fromThisIndexOnward is empty.
+    /// If each hormone fromThisIndexOnward is empty
     public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
@@ -166,7 +166,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         return true
     }
     
-    /// Returns how many expired estrogens there are in the given estrogens.
+    /// How many hormones are past their date in the schedule
     public func totalExpired(_ interval: ExpirationIntervalUD) -> Int {
         return hormones.reduce(0, {
             count, mone in
@@ -175,7 +175,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         })
     }
     
-    /// Fill in new hormoness to the schedule
+    /// Fill in new hormones until the new quantity is reached
     public func fillIn(
         newQuantity: Int,
         expiration: ExpirationIntervalUD,

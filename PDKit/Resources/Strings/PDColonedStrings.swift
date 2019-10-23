@@ -72,4 +72,25 @@ public class PDColonedStrings {
         }
         return title
     }
+    
+    public static func getHormoneViewStrings(
+        deliveryMethod: DeliveryMethod,
+        hormone: Hormonal
+    ) -> (expirationText: String, dateAndTimePlacedText: String, siteLabeText: String) {
+        switch deliveryMethod {
+        case .Patches :
+            let expText = hormone.isExpired ? expired : expires
+            return (
+                expirationText: expText,
+                dateAndTimePlacedText: dateAndTimeApplied,
+                siteLabeText: site
+            )
+        case .Injections:
+            return (
+                expirationText: nextDue,
+                dateAndTimePlacedText: dateAndTimeInjected,
+                siteLabeText: lastSiteInjected
+            )
+        }
+    }
 }

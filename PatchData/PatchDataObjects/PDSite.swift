@@ -73,23 +73,23 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
     
     public var isOccupied: Bool { return isOccupied() }
     
-    /// Set the siteBackUpName in every estrogen.
-    public func pushBackupSiteNameToEstrogens() {
-        if isOccupied(), let moneData = site.hormoneRelationship {
+    /// If the site is related to any hormones.
+    public func isOccupied(byAtLeast many: Int = 1) -> Bool {
+        if let r = site.hormoneRelationship {
+            return r.count >= many
+        }
+        return false
+    }
+    
+    /// Set the siteBackUpName in every hormone
+    public func pushBackupSiteNameToHormones() {
+        if isOccupied, let moneData = site.hormoneRelationship {
             let mones = Array(moneData)
             for mone in mones {
                 let mo = mone as! MOHormone
                 mo.siteNameBackUp = site.name ?? mo.siteNameBackUp
             }
         }
-    }
-
-    /// Returns if the the MOSite is occupied by more than one MOEstrogen.
-    public func isOccupied(byAtLeast many: Int = 1) -> Bool {
-        if let r = site.hormoneRelationship {
-            return r.count >= many
-        }
-        return false
     }
     
     public func reset() {

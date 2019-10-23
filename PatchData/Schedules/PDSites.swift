@@ -124,7 +124,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     public func delete(at index: Index) {
         switch (index) {
         case 0..<sites.count :
-            sites[index].pushBackupSiteNameToEstrogens()
+            sites[index].pushBackupSiteNameToHormones()
             sites[index].delete()
             sites[index].reset()
             if (index + 1) < (sites.count - 1) {

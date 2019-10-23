@@ -23,7 +23,7 @@ public protocol HormoneScheduling: PDSchedule, PDSimpleSorting {
     func setSite(at index: Index, with site: Bodily)
     func setDate(at index: Index, with date: Date)
     func setBackUpSiteName(at index: Index, with name: String)
-    func indexOf(_ estrogen: Hormonal) -> Index?
+    func indexOf(_ hormone: Hormonal) -> Index?
     func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool
     func totalExpired(_ interval: ExpirationIntervalUD) -> Int
     func fillIn(newQuantity: Int,expiration: ExpirationIntervalUD,deliveryMethod: DeliveryMethod)

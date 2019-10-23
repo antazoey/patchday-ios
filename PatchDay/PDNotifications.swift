@@ -13,7 +13,6 @@ import PDKit
 
 class PDNotifications: NSObject, PDNotificationScheduling {
 
-
     private let sdk: PatchDataDelegate
     private let center: PDNotificationCenter
 
@@ -101,7 +100,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     // MARK: - Pills
     
     /// Request a pill notification from index.
-    func requestDueillNotification(forPillAt index: Index) {
+    func requestDuePillNotification(forPillAt index: Index) {
         if let pill = sdk.pills.at(index) {
             requestDuePillNotification(pill)
         }

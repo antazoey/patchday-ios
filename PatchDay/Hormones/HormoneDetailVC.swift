@@ -104,7 +104,7 @@ class HormoneDetailVC: UIViewController,
             saveData()
             let isExpiredAfterSave = mone.isExpired
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
-            requestNotification()
+            requestNotifications()
             sdk.hormones.sort()
         }
         self.tabs.reflectHormone()
@@ -292,8 +292,16 @@ class HormoneDetailVC: UIViewController,
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        let name = hormone.siteName
-        switch n {
+        ledft isNewSite = hormone.siteName == PDStrings.PlaceholderStrings.newSite
+        selectSiteTextField.text = name
+        
+        if hormone.siteName == PDStrings.PlaceholderStrings.newSite {
+            selectSiteTextField.text = PDActionStrings.select
+        } else {
+            selectSiteTextField.text = name
+        }
+        
+        switch hormone.siteName {
         case PDStrings.PlaceholderStrings.newSite:
             selectSiteTextField.text = PDActionStrings.select
         default:
@@ -348,9 +356,10 @@ class HormoneDetailVC: UIViewController,
         }
     }
     
-    private func requestNotification() {
-        if let mone = estrogen {
+    private func requestNotifications() {
+        if let mone = hormone {
             notifications.requestHormoneExpiredNotification(for: estro)
+
             // Overnight
             let interval = defaults.expirationInterval
             if let expDate = estro.expirationDate(interval: interval),
@@ -361,10 +370,10 @@ class HormoneDetailVC: UIViewController,
     }
     
     private func cancelNotification() {
-        notifications.cancelHormoneNotification(at: estrogenScheduleIndex)
+        notifications.cancelHormoneNotification(at: hormoneIndex)
     }
     
-    // MARK: - Private view creators / MOEstrogendifiers
+    // MARK: - Private
     
     private func findSiteStartRow(_ site: String) -> Int {
         if siteIndexSelected != -1 {
@@ -380,30 +389,21 @@ class HormoneDetailVC: UIViewController,
         return 0
     }
     
-    /// Sets titles related to the estrogen's expiration date.
+    /// Sets titles related to the hormone's expiration date.
     private func setUpLabelsInUI() {
-        var exp = ""
-        typealias Strings = PDColonedStrings
-        let interval = defaults.expirationInterval
-        if let mone = estrogenSchedule.at(estrogenScheduleIndex),
-            estro.getDate() != nil {
-            switch defaults.deliveryMethod.value {
-            case .Patches :
-                expLabel.text = (estro.isExpired(interval)) ?
-                    Strings.expired :
-                    Strings.expires
-                dateAndTimePlaced.text = Strings.date_and_time_applied
-                siteLabel.text = Strings.site
-            case .Injections:
-                expLabel.text = Strings.next_due
-                dateAndTimePlaced.text = Strings.date_and_time_injected
-                siteLabel.text = Strings.last_site_injected
-            }
-            exp = estro.expirationDateAsString(interval, useWords: true)
+        if let mone = hormone {
+            let method = sdk.deliveryMethod
+            let viewStrings = PDColonedStrings.getHormoneViewStrings(
+                deliveryMethod: method,
+                hormone: mone
+            )
+            expLabel.text = viewStrings.expirationText
+            dateAndTimePlaced.text = viewStrings.dateAndTimePlacedText
+            siteLabel.text = viewStrings.siteLabeText
+            expirationDateLabel.text  = mone.expirationString
         } else {
-            exp = PDStrings.PlaceholderStrings.dotDotDot
+            expirationDateLabel.text  = PDStrings.PlaceholderStrings.dotDotDot
         }
-        expirationDateLabel.text = exp
     }
     
     /// Returns UIDatePicker start-x value based on on whether iphone or ipad.
@@ -426,18 +426,9 @@ class HormoneDetailVC: UIViewController,
         doneButton.addTarget(self, action: #selector(datePickerDone), for: .touchUpInside)
         return doneButton
     }
-    
-    /// Configured title of view controller
+
     private func loadTitle() {
-        let deliv = defaults.deliveryMethod.value
-        if PDPickerOptions.deliveryMethods.count >= 2 {
-            switch deliv {
-            case .Patches:
-                title = PDVCTitleStrings.patchTitle
-            case .Injections:
-                title = PDVCTitleStrings.injectionTitle
-            }
-        }
+        title = PDVCTitleStrings.getTitle(for: sdk.deliveryMethod)
     }
     
     /// Gives start x for date picker Done button depending on iPad vs iPhone.

@@ -15,5 +15,5 @@ public protocol Bodily: PDPbjectifiable {
     var order: Int { get set }
     var isOccupied: Bool { get }
     func isOccupied(byAtLeast many: Int) -> Bool
-    func pushBackupSiteNameToEstrogens()
+    func pushBackupSiteNameToHormones()
 }
