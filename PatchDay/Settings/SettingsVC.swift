@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 typealias UITimePicker = UIDatePicker
 
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
@@ -142,16 +141,20 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let d = selectedDefault,
-            let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
+            let chosenItem = self.pickerView(
+                pickerView,
+                titleForRow: row,
+                forComponent: component
+            ) {
             switch d {
             case .DeliveryMethod:
-                deliveryMethodButton.setTitle(chosenItem, for: .normal)
+                deliveryMethodButton.setTitle(to: chosenItem)
             case .ExpirationInterval:
-                expirationIntervalButton.setTitle(chosenItem, for: .normal)
+                expirationIntervalButton.setTitle(to: chosenItem)
             case .Quantity:
-                quantityButton.setTitle(chosenItem, for: .normal)
+                quantityButton.setTitle(to: chosenItem)
             case .Theme:
-                themeButton.setTitle(chosenItem, for: .normal)
+                themeButton.setTitle(to: chosenItem)
             default:
                 break
             }
@@ -249,6 +252,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func saveDeliveryMethodChange(_ row: Int) {
         let newMethod = PDPickerOptions.getDeliveryMethod(at: row)
         if sdk.isFresh {
+            sdk.set
             sdk.deliveryMethod = newMethod
         } else {
             presentDeliveryMethodMutationAlert(choice: newMethod)
@@ -348,16 +352,14 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod) {
         alerts.presentDeliveryMethodMutationAlert(newMethod: choice) {
             void in
-            let quantityTitle = PDPickerOptions.getDeliveryMethodString(for: choice)
+            let methodTitle = PDPickerOptions.getDeliveryMethodString(for: choice)
             switch choice {
             case .Patches:
-                self.quantityButton.setTitle(quantityTitle, for: .disabled)
-                self.quantityButton.setTitle(quantityTitle, for: .normal)
+                self.deliveryMethodButton.setStatelessTitle(to: methodTitle)
                 self.quantityButton.isEnabled = true
                 self.quantityArrowButton.isEnabled = true
             case .Injections:
-                self.quantityButton.setTitle(quantityTitle, for: .disabled)
-                self.quantityButton.setTitle(quantityTitle, for: .normal)
+                self.deliveryMethodButton.setStatelessTitle(to: methodTitle)
                 self.quantityButton.isEnabled = false
                 self.quantityArrowButton.isEnabled = false
             }
@@ -391,7 +393,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 
     private func loadDeliveryMethod() {
-        let method = sdk.deliveryMethodString
+        let method = sdk.defaults.deliveryMethod.rawValue
         deliveryMethodButton.setTitle(method, for: .normal)
     }
     

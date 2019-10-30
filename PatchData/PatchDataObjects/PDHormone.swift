@@ -23,7 +23,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         self.deliveryMethod = deliveryMethod
         super.init(mo: hormone)
     }
-    
+
     public static func new(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
         if let mone = PatchData.insert(.hormone) as? MOHormone {
             return PDHormone(
@@ -34,7 +34,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         }
         return nil
     }
-    
+
     public var id: UUID {
         get {
             return hormone.id ?? {
@@ -47,67 +47,14 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         }
     }
     
-    public var date: Date {
+    public var site: Bodily? {
         get {
-            if let date = hormone.date {
-                return date as Date
-            }
-            return Date.createDefaultDate()
-        }
-        set { hormone.date = newValue as NSDate }
-    }
-    
-    public var expiration: Date? {
-        if let date = date as Date?,
-            let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
-            return expires
-        }
-        return nil
-    }
-    
-    public var expirationString: String {
-        if let date = date as Date?,
-            let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
-            return PDDateHelper.format(date: expires, useWords: true)
-        }
-        return PDStrings.PlaceholderStrings.dotDotDot
-    }
-    
-    public var isExpired: Bool {
-        if let date = date as Date? {
-            return (PDDateHelper.expirationInterval(exp.hours, date: date) ?? 1) <= 0
-        }
-        return false
-    }
-    
-    public var siteName: String {
-        if let name = hormone.siteRelationship?.name ?? siteNameBackUp {
-            return name
-        }
-        return PDStrings.PlaceholderStrings.newSite
-    }
-    
-    public var siteNameBackUp: String? {
-        get { return site == nil ? hormone.siteNameBackUp : nil }
-        set {
-            hormone.siteNameBackUp = newValue
-            hormone.siteRelationship = nil
-        }
-    }
-    
-    public var isEmpty: Bool {
-        return date.isDefault() && site == nil && siteNameBackUp == nil
-    }
-    
-    public var isCerebral: Bool {
-        return siteName == PDStrings.PlaceholderStrings.newSite
-    }
-    
-    public var site: Bodily?
-    {
-        get {
-            if let s = hormone.siteRelationship {
-                return PDSite(site: s, globalExpirationInterval: exp, deliveryMethod: deliveryMethod)
+            if let site = hormone.siteRelationship {
+                return PDSite(
+                    moSite: site,
+                    globalExpirationInterval: exp,
+                    deliveryMethod: deliveryMethod
+                )
             }
             return nil
         } set {
@@ -117,8 +64,75 @@ public class PDHormone: PDObject, Hormonal, Comparable {
             }
         }
     }
+
+    public var date: Date {
+        get {
+            if let date = hormone.date {
+                return date as Date
+            }
+            return Date.createDefaultDate()
+        }
+        set { hormone.date = newValue as NSDate }
+    }
+
+    public var expiration: Date? {
+        if let date = date as Date?,
+            let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
+            return expires
+        }
+        return nil
+    }
+
+    public var expirationString: String {
+        if let date = date as Date?,
+            let expires = PDDateHelper.expirationDate(from: date, exp.hours) {
+            return PDDateHelper.format(date: expires, useWords: true)
+        }
+        return PDStrings.PlaceholderStrings.dotDotDot
+    }
+
+    public var isExpired: Bool {
+        if let date = date as Date? {
+            return (PDDateHelper.expirationInterval(exp.hours, date: date) ?? 1) <= 0
+        }
+        return false
+    }
+
+    public var siteName: String {
+        if let name = hormone.siteRelationship?.name ?? siteNameBackUp {
+            return name
+        }
+        return ""
+    }
+
+    public var siteNameBackUp: String? {
+        get { return site == nil ? hormone.siteNameBackUp : nil }
+        set {
+            hormone.siteNameBackUp = newValue
+            hormone.siteRelationship = nil
+        }
+    }
+
+    public var isEmpty: Bool {
+        return date.isDefault() && site == nil && siteNameBackUp == nil
+    }
+
+    public var isCerebral: Bool {
+        return siteName == PDStrings.PlaceholderStrings.newSite
+    }
     
-    // Note: nil is greater than all for MOEstrogens
+    public func stamp() {
+        hormone.date = NSDate()
+    }
+
+    public func reset() {
+        hormone.id = nil
+        hormone.date = nil
+        hormone.siteRelationship = nil
+        hormone.siteNameBackUp = nil
+    }
+    
+    // MARK: - Comparable. nil > all.
     
     public static func < (lhs: PDHormone, rhs: PDHormone) -> Bool {
         switch(lhs.date, rhs.date) {
@@ -154,17 +168,5 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         case (_, nil) : return true
         default : return (lhs.date as Date?)! != (rhs.date as Date?)!
         }
-    }
-    
-    public func stamp() {
-        hormone.date = NSDate()
-    }
-
-    /// Sets all attributes to nil.
-    public func reset() {
-        hormone.id = nil
-        hormone.date = nil
-        hormone.siteRelationship = nil
-        hormone.siteNameBackUp = nil
     }
 }

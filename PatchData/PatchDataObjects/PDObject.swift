@@ -15,8 +15,10 @@ public class PDObject {
         self.mo = mo
     }
     
+    /// Managed object for Core Data
     var mo: NSManagedObject
     
+    /// Delete the object from Core Date.
     public func delete() {
          PatchData.context.delete(mo)
     }

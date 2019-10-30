@@ -77,7 +77,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < sdk.quantityInt {
+        if indexPath.row < sdk.quantity.rawValue {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -110,7 +110,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func loadBarButtons() {
         let settingsButton = UIBarButtonItem()
-        settingsButton.image = PDImages.settging
+        settingsButton.image = PDImages.settingsIcon
         settingsButton.target = self
         settingsButton.action = #selector(settingsTapped)
         navigationItem.rightBarButtonItems = [settingsButton]

@@ -20,7 +20,8 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     
     init(deliveryMethod: DeliveryMethod,
          globalExpirationInterval: ExpirationIntervalUD,
-         siteIndexRebounder: PDIndexRebounce) {
+         siteIndexRebounder: PDIndexRebounce
+    ) {
         self.sites = PatchData.createSites(
             expirationIntervalUD: globalExpirationInterval,
             deliveryMethod: deliveryMethod
@@ -29,7 +30,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         super.init()
         if sites.count == 0 {
             let exp = globalExpirationInterval
-            reset(deliveryMethod: deliveryMethod, globalExpirationInterval: exp)
+            reset(deliveryMethod: deliveryMethod, interval: exp)
         }
         sort()
     }
@@ -37,24 +38,20 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     public var count: Int { return sites.count }
     
     public var all: [Bodily] { return sites }
-    
-    /// The next site in the site schedule as a suggestion of where to relocate.
+
     public var suggested: Bodily? {
         if let i = nextIndex { return sites[i] }
         return nil
     }
-    
-    // An array of a siteNames for each site in the schedule.
+
     public var names: [SiteName] {
         return sites.map({ (site: Bodily) -> SiteName in return site.name })
     }
-    
-    /// An array of image Ids for each site
+
     public var imageIds: [String] {
-        return sites.map({ (site: Bodily) -> String in return site.imageIdentifier })
+        return sites.map({ (site: Bodily) -> String in return site.imageId })
     }
-    
-    /// The next site for scheduling in the site schedule.
+
     public var nextIndex: Index? {
         if next < 0 {
             next = siteIndexRebounder.rebound(upon: 0, lessThan: sites.count)
@@ -76,7 +73,6 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         sites[sourceIndex] = destinationOccupant
     }
 
-    /// Appends the the new site to the sites and returns it.
     public func insertNew(
         deliveryMethod: DeliveryMethod,
         globalExpirationInterval: ExpirationIntervalUD,
@@ -90,25 +86,26 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         return nil
     }
 
-    /// Resets the site array a default list of sites.
-    public func reset(
-        deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD
-    ) {
+    @discardableResult public func reset(
+        deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD
+    ) -> Int {
         if isDefault(deliveryMethod: deliveryMethod) {
-            return
+            return sites.count
         }
         let resetNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
         let oldCount = sites.count
         let newcount = resetNames.count
-        let exp = globalExpirationInterval
         for i in 0..<newcount {
             if i < oldCount {
                 sites[i].order = i
                 sites[i].name = resetNames[i]
-                sites[i].imageIdentifier = resetNames[i]
-            } else if var site = insertNew(deliveryMethod: deliveryMethod, globalExpirationInterval: exp) {
+                sites[i].imageId = resetNames[i]
+            } else if var site = insertNew(
+                deliveryMethod: deliveryMethod,
+                globalExpirationInterval: interval
+                ) {
                 site.name = resetNames[i]
-                site.imageIdentifier = resetNames[i]
+                site.imageId = resetNames[i]
             }
         }
         if oldCount > resetNames.count {
@@ -118,13 +115,12 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         }
         sort()
         PatchData.save()
+        return sites.count
     }
-    
-    /// Deletes the site at the given index.
+
     public func delete(at index: Index) {
         switch (index) {
         case 0..<sites.count :
-            sites[index].pushBackupSiteNameToHormones()
             sites[index].delete()
             sites[index].reset()
             if (index + 1) < (sites.count - 1) {
@@ -146,31 +142,27 @@ public class PDSites: NSObject, HormoneSiteScheduling {
 
     // MARK: - Other Public
 
-    /// Returns the site at the given index.
     public func at(_ index: Index) -> Bodily? {
         if index >= 0 && index < sites.count {
             return sites[index]
         }
         return nil
     }
-    
-    /// Returns the site for the given name.
+
     public func get(for name: String) -> Bodily? {
         if let i = names.firstIndex(of: name) {
             return sites[i]
         }
         return nil
     }
-    
-    /// Sets a the siteName for the site at the given index.
+
     public func rename(at index: Index, to name: String) {
         if index >= 0 && index < sites.count {
             sites[index].name = name
             PatchData.save()
         }
     }
-    
-    /// Swaps the indices of two sites by setting the order.
+
     public func reorder(at index: Index, to newOrder: Int) {
         let newIndex = Index(newOrder)
         if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
@@ -182,26 +174,23 @@ public class PDSites: NSObject, HormoneSiteScheduling {
             PatchData.save()
         }
     }
-    
-    /// Sets the site image Id for the site at the given index.
+
     public func setImageId(at index: Index, to newId: String, deliveryMethod: DeliveryMethod) {
         var site_set: [String]
         site_set = PDSiteStrings.getSiteNames(for: deliveryMethod)
         if site_set.contains(newId), index >= 0 && index < sites.count {
-            sites[index].imageIdentifier = newId
+            sites[index].imageId = newId
         } else {
-            sites[index].imageIdentifier = "custom"
+            sites[index].imageId = "custom"
         }
         PatchData.save()
     }
 
-    /// Returns the set of sites on record union with the set of default sites
     public func unionWithDefaults(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
         let defaults = Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod))
         return Set(names).union(defaults)
     }
-    
-    /// Returns if the sites in the site schedule are the same as the default sites.
+
     public func isDefault(deliveryMethod: DeliveryMethod) -> Bool {
         let defaultSites = PDSiteStrings.getSiteNames(for: deliveryMethod)
         for i in 0..<sites.count {

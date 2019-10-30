@@ -49,9 +49,11 @@ extension PatchData {
         if let mos = loadMOs(for: .site) {
             for mo in mos {
                 if let moSite = mo as? MOSite {
-                    let pdSite = PDSite(site: moSite,
-                                        globalExpirationInterval: expirationIntervalUD,
-                                        deliveryMethod: deliveryMethod)
+                    let pdSite = PDSite(
+                        moSite: moSite,
+                        globalExpirationInterval: expirationIntervalUD,
+                        deliveryMethod: deliveryMethod
+                    )
                     sites.append(pdSite)
                 }
             }

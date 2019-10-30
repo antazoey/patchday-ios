@@ -23,6 +23,7 @@ public protocol PDDefaultManaging {
     func setNotifications(to b: Bool)
     func setNotificationsMinutesBefore(to i: Int)
     func setMentionedDisclaimer(to b: Bool)
-    func setSiteIndex(to i: Int, siteCount: Int) -> Index
+    @discardableResult func setSiteIndex(to i: Int, siteCount: Int) -> Index
     func setTheme(to t: PDTheme)
+    func reset(defaultSiteCount: Int)
 }

@@ -22,14 +22,16 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var patchdata: PatchDataCalling
     public let swallowHandler: PDPillSwallowing
     
-    public init(defaults: PDDefaultManaging,
-                dataMeter: PDDataMeting,
-                hormones: HormoneScheduling,
-                pills: PDPillScheduling,
-                sites: HormoneSiteScheduling,
-                state: PDStateManaging,
-                patchdata: PatchDataCalling,
-                swallowHandler: PDPillSwallowing) {
+    public init(
+        defaults: PDDefaultManaging,
+        dataMeter: PDDataMeting,
+        hormones: HormoneScheduling,
+        pills: PDPillScheduling,
+        sites: HormoneSiteScheduling,
+        state: PDStateManaging,
+        patchdata: PatchDataCalling,
+        swallowHandler: PDPillSwallowing
+    ) {
         self.defaults = defaults
         self.dataMeter = dataMeter
         self.hormones = hormones
@@ -42,20 +44,24 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         self.broadcastHormones()
     }
     
-    public convenience init(defaults: PDDefaultManaging,
-                            dataMeter: PDDataMeting,
-                            hormones: HormoneScheduling,
-                            pills: PDPillScheduling,
-                            sites: HormoneSiteScheduling,
-                            swallowHandler: PDPillSwallowing) {
-        self.init(defaults: defaults,
-                  dataMeter: dataMeter,
-                  hormones: hormones,
-                  pills: pills,
-                  sites: sites,
-                  state: PDState(),
-                  patchdata: PatchDataCaller(),
-                  swallowHandler: swallowHandler)
+    public convenience init(
+        defaults: PDDefaultManaging,
+        dataMeter: PDDataMeting,
+        hormones: HormoneScheduling,
+        pills: PDPillScheduling,
+        sites: HormoneSiteScheduling,
+        swallowHandler: PDPillSwallowing
+    ) {
+        self.init(
+            defaults: defaults,
+            dataMeter: dataMeter,
+            hormones: hormones,
+            pills: pills,
+            sites: sites,
+            state: PDState(),
+            patchdata: PatchDataCaller(),
+            swallowHandler: swallowHandler
+        )
     }
     
     public convenience init(swallowHandler: PDPillSwallowing) {
@@ -88,14 +94,12 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public var sites: HormoneSiteScheduling
     public var pills: PDPillScheduling
     public var state: PDStateManaging
-    
-    /// If the schedules are unmutated after initialization
+
     public var isFresh: Bool {
         return hormones.isEmpty
             && sites.isDefault(deliveryMethod: deliveryMethod)
     }
 
-    /// The total hormones expired plus the pills due.
     public var totalAlerts: Int {
         return totalHormonesExpired + pills.totalDue
     }
@@ -108,76 +112,70 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         return Array(sites.unionWithDefaults(deliveryMethod: deliveryMethod))
     }
 
+    public var occupiedSites: Set<SiteName> {
+        return Set(hormones.all.map({(mone: Hormonal) ->
+            SiteName in return mone.site?.name ?? ""
+        }).filter() { $0 != "" })
+    }
+
     // MARK: - Defaults
 
     public var siteIndex: Index {
-        get { return defaults.siteIndex.rawValue }
-        set { _ = defaults.setSiteIndex(to: newValue, siteCount: sites.count) }
+        return defaults.siteIndex.rawValue
     }
 
     public var deliveryMethod: DeliveryMethod {
-        get { return defaults.deliveryMethod.value }
-        set {
-            defaults.setDeliveryMethod(to: newValue)
-            let newIndex = PDKeyStorableHelper.defaultQuantity(for: newValue)
-            _ = defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
-            broadcastHormones()
-            state.deliveryMethodChanged = true
-        }
-    }
-
-    public var deliveryMethodString: String {
-        return PDPickerOptions.getDeliveryMethodString(for: deliveryMethod)
+        return defaults.deliveryMethod.value
     }
     
-    public var quantity: Quantity {
-        get { return defaults.quantity.value }
-        set {
-            let newQuantity = newValue.rawValue
-            let endRange = PDPickerOptions.quantities.count
-            if newQuantity < endRange && newQuantity > 0 {
-                let oldQuantity = defaults.quantity.rawValue
-                if newQuantity < oldQuantity {
-                    state.decreasedQuantity = true
-                    hormones.delete(after: newQuantity - 1)
-                } else if newQuantity > oldQuantity {
-                    state.decreasedQuantity = false
-                    hormones.fillIn(
-                        newQuantity: newQuantity,
-                        expiration: defaults.expirationInterval,
-                        deliveryMethod: deliveryMethod
-                    )
-                }
-                defaults.setQuantity(to: newQuantity)
-            }
-        }
-    }
-    
-    public func setQuantity(using quantityInt: Int) {
-        if let newQuantity = Quantity(rawValue: quantityInt) {
-            self.quantity = newQuantity
-        }
-    }
+    public var quantity: Int { return defaults.quantity.rawValue }
     
     public var expirationInterval: ExpirationInterval {
         return defaults.expirationInterval.value
     }
     
-    public func setExpirationInterval(using expString: String) {
-        let exp = PDPickerOptions.getExpirationInterval(for: expString)
-        defaults.setExpirationInterval(to: exp)
-    }
-    
     public var theme: PDTheme {
         return defaults.theme.value
     }
+
+    public func setDeliveryMethod(to newMethod: DeliveryMethod) {
+        defaults.setDeliveryMethod(to: newMethod)
+        let newIndex = PDKeyStorableHelper.defaultQuantity(for: newMethod)
+        defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
+        broadcastHormones()
+        state.deliveryMethodChanged = true
+    }
+
+    public func setQuantity(to newQuantity: Int) {
+        let endRange = PDPickerOptions.quantities.count
+        if newQuantity < endRange && newQuantity > 0 {
+            let oldQuantity = defaults.quantity.rawValue
+            if newQuantity < oldQuantity {
+                state.decreasedQuantity = true
+                hormones.delete(after: newQuantity - 1)
+            } else if newQuantity > oldQuantity {
+                state.decreasedQuantity = false
+                hormones.fillIn(
+                    newQuantity: newQuantity,
+                    expiration: defaults.expirationInterval,
+                    deliveryMethod: deliveryMethod
+                )
+            }
+            defaults.setQuantity(to: newQuantity)
+        }
+    }
+     
+    public func setExpirationInterval(to newInterval: String) {
+        let exp = PDPickerOptions.getExpirationInterval(for: newInterval)
+        defaults.setExpirationInterval(to: exp)
+    }
     
-    public func setTheme(using themeString: String) {
-        let theme = PDPickerOptions.getTheme(for: themeString)
+    public func setTheme(to newTheme: String) {
+        let theme = PDPickerOptions.getTheme(for: newTheme)
         defaults.setTheme(to: theme)
     }
     
-    public func setSiteIndex(to newIndex: Index) -> Index {
+    @discardableResult public func setSiteIndex(to newIndex: Index) -> Index {
         return defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
     }
 
@@ -188,27 +186,33 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         hormones.setSite(at: index, with: site)
         broadcastHormones()
         patchdata.save()
+        state.onlySiteChanged = true
+        state.bodilyChanged = true
     }
 
     public func setHormoneDate(at index: Index, with date: Date) {
         hormones.setDate(at: index, with: date)
         broadcastHormones()
         patchdata.save()
+        state.onlySiteChanged = false
     }
 
     public func setHormoneDateAndSite(for id: UUID, date: Date, site: Bodily) {
         hormones.set(for: id, date: date, site: site)
         broadcastHormones()
         patchdata.save()
-    }
-
-    /// Returns set of current occupied SiteNames
-    public func getNamesOfOccupiedSites() -> Set<SiteName> {
-        return Set(hormones.all.map({(mone: Hormonal) -> SiteName in
-            return mone.site?.name ?? ""
-        }).filter() { $0 != "" })
+        state.onlySiteChanged = false
+        state.bodilyChanged = true
     }
     
+    public func setHormoneDateAndSite(at index: Index, date: Date, site: Bodily) {
+        hormones.set(at: index, date: date, site: site)
+        broadcastHormones()
+        patchdata.save()
+        state.onlySiteChanged = false
+        state.bodilyChanged = true
+    }
+
     public func resetHormonesToDefault() {
         let interval = defaults.expirationInterval
         hormones.reset(deliveryMethod: deliveryMethod, interval: interval)
@@ -238,19 +242,21 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public func swapSites(_ sourceIndex: Index, with destinationIndex: Index) {
         sites.swap(sourceIndex, with: destinationIndex)
         if sourceIndex == sites.nextIndex {
-            _ = setSiteIndex(to: destinationIndex)
+            setSiteIndex(to: destinationIndex)
         }
     }
     
-    public func resetSitesToDefault() {
-        let interval = defaults.expirationInterval
-        sites.reset(deliveryMethod: deliveryMethod, globalExpirationInterval: interval)
+    @discardableResult public func resetSitesToDefault() -> Int {
+        return sites.reset(
+            deliveryMethod: deliveryMethod,
+            interval: defaults.expirationInterval
+        )
     }
 
     // MARK: - Pills
 
     public func swallow(_ pill: Swallowable) {
-        pills.swallow(pushSharedData: broadcastPills)
+        pills.swallow(completion: broadcastPills)
         swallowHandler.handleSwallow(pill)
     }
     
@@ -311,8 +317,9 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public func nuke() {
         PatchData.nuke()
         resetHormonesToDefault()
-        pills.setAsDefault()
-        resetSitesToDefault()
+        pills.reset()
+        let newSiteCount = resetSitesToDefault()
+        defaults.reset(defaultSiteCount: newSiteCount)
     }
 }
 

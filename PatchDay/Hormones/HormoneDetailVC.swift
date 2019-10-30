@@ -292,7 +292,8 @@ class HormoneDetailVC: UIViewController,
     // MARK: - private funcs
     
     private func displayAttributeTexts() {
-        ledft isNewSite = hormone.siteName == PDStrings.PlaceholderStrings.newSite
+        let isNew = hormone.i
+        ledft isNewSite = hor hormone.siteName == PDStrings.PlaceholderStrings.newSite
         selectSiteTextField.text = name
         
         if hormone.siteName == PDStrings.PlaceholderStrings.newSite {
@@ -313,22 +314,23 @@ class HormoneDetailVC: UIViewController,
         expirationDateLabel.text = hormone.expirationString
     }
 
-    /// Saves any changed attributes.
     private func saveData() {
-        if siteTextHasChanged, let siteName = selectSiteTextField.text {
+        switch (saveSite: siteTextHasChanged, saveDate: dateTextHasChanged) {
+        case (saveSite: true, saveDate: true):
             if let site = selectedSite {
-                sdk.setHormoneSite(at: siteIndexSelected, with: site)
-            } else {
-                sdk.hormones.setBackUpSiteName(at: siteIndexSelected, with: siteName)
+                sdk.setHormoneDateAndSite(
+                    at: hormoneIndex,
+                    date: datePicker.date, site: site
+                )
             }
-        }
-        
-        if dateTextHasChanged {
-            sdk.hormones.setDate(at: estrogenScheduleIndex, with: datePicker.date)
-        }
-        if !dateTextHasChanged {
-            state.onlySiteChanged = true
-        }
+        case (saveSite: true, saveDate: false):
+            if let site = selectedSite {
+                sdk.setHormoneSite(at: hormoneIndex, with: site)
+            }
+        case (saveSite: false, saveDate: true):
+            sdk.setHormoneDate(at: hormoneIndex, with: datePicker.date)
+        default:
+            return
     }
     
     private func autoPickSite() {

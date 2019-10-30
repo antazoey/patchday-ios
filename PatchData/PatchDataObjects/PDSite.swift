@@ -14,89 +14,86 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
     private let globalExpirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
-    private var site: MOSite {
+    private var moSite: MOSite {
         return self.mo as! MOSite
     }
     
-    public init(site: MOSite,
-                globalExpirationInterval: ExpirationIntervalUD,
-                deliveryMethod: DeliveryMethod) {
-
+    public init(
+        moSite: MOSite,
+        globalExpirationInterval: ExpirationIntervalUD,
+        deliveryMethod: DeliveryMethod
+    ) {
         self.globalExpirationInterval = globalExpirationInterval
         self.deliveryMethod = deliveryMethod
-        super.init(mo: site)
+        super.init(mo: moSite)
+    }
+
+    public override func delete() {
+        super.delete()
+        pushBackupSiteNameToHormones()
     }
     
-    public static func new(deliveryMethod: DeliveryMethod,
-                           globalExpirationInterval: ExpirationIntervalUD) -> PDSite? {
-
-        if let site = PatchData.insert(.site) as? MOSite {
+    public static func new(
+        deliveryMethod: DeliveryMethod, globalExpirationInterval: ExpirationIntervalUD
+    ) -> PDSite? {
+        if let mo = PatchData.insert(.site) as? MOSite {
             return PDSite(
-                site: site,
+                moSite: mo,
                 globalExpirationInterval: globalExpirationInterval,
-                deliveryMethod: deliveryMethod)
+                deliveryMethod: deliveryMethod
+            )
         }
         return nil
     }
     
     public var hormones: [Hormonal] {
         var hormones: [Hormonal] = []
-        if let moneSet = site.hormoneRelationship {
+        if let moneSet = moSite.hormoneRelationship {
             for mone in moneSet {
-                let pdEstro = PDHormone(hormone: mone as! MOHormone,
-                                        interval: globalExpirationInterval,
-                                        deliveryMethod: deliveryMethod)
+                let pdEstro = PDHormone(
+                    hormone: mone as! MOHormone,
+                    interval: globalExpirationInterval,
+                    deliveryMethod: deliveryMethod
+                )
                 hormones.append(pdEstro)
             }
         }
         return hormones
     }
     
-    public var imageIdentifier: String {
-        get { return site.imageIdentifier ?? "" }
-        set { site.imageIdentifier = newValue }
+    public var imageId: String {
+        get { return moSite.imageIdentifier ?? "" }
+        set { moSite.imageIdentifier = newValue }
     }
     
     public var name: SiteName {
-        get { return site.name ?? "" }
-        set { site.name = newValue }
+        get { return moSite.name ?? "" }
+        set { moSite.name = newValue }
     }
     
     public var order: Int {
-        get { return Int(site.order) }
+        get { return Int(moSite.order) }
         set {
             if newValue >= 0 {
-                site.order = Int16(newValue)
+                moSite.order = Int16(newValue)
             }
         }
     }
     
     public var isOccupied: Bool { return isOccupied() }
-    
-    /// If the site is related to any hormones.
+
     public func isOccupied(byAtLeast many: Int = 1) -> Bool {
-        if let r = site.hormoneRelationship {
+        if let r = moSite.hormoneRelationship {
             return r.count >= many
         }
         return false
     }
     
-    /// Set the siteBackUpName in every hormone
-    public func pushBackupSiteNameToHormones() {
-        if isOccupied, let moneData = site.hormoneRelationship {
-            let mones = Array(moneData)
-            for mone in mones {
-                let mo = mone as! MOHormone
-                mo.siteNameBackUp = site.name ?? mo.siteNameBackUp
-            }
-        }
-    }
-    
     public func reset() {
-        site.order = Int16(-1)
-        site.name = nil
-        site.imageIdentifier = nil
-        site.hormoneRelationship = nil
+        moSite.order = Int16(-1)
+        moSite.name = nil
+        moSite.imageIdentifier = nil
+        moSite.hormoneRelationship = nil
     }
     
     /* Note: In MOSites, we want negative orders and nil orders
@@ -185,6 +182,17 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
             
         // both fields sets
         default : return lhs.order != rhs.order
+        }
+    }
+
+    private func pushBackupSiteNameToHormones() {
+        if isOccupied, let moneData = moSite.hormoneRelationship {
+            let mones = Array(moneData)
+            for mone in mones {
+                if let mo = mone as? MOHormone {
+                    mo.siteNameBackUp = moSite.name
+                }
+            }
         }
     }
 }

@@ -120,7 +120,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             case 0..<count :
                 sdk.sites.rename(at: i, to: name)
             case count :
-                _ = sdk.insertNewSite(name: name)
+                sdk.insertNewSite(name: name)
             default : break
             }
         }
@@ -232,11 +232,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func segueToSitesVC() {
-        if let sb = storyboard, let navCon = navigationController,
-            let sitesVC = sb.instantiateViewController(withIdentifier: "SitesVC_id") as? SitesVC {
-            sitesVC.siteNames = sdk.sites.names
-            navCon.popViewController(animated: true)
-        }
+        navigationController?.popViewController(animated: true)
     }
     
     private func loadTitle() {
@@ -258,7 +254,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             if name == PDStrings.PlaceholderStrings.newSite {
                 image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
             } else if let site = sdk.sites.at(siteScheduleIndex),
-                let i = sitesWithImages.firstIndex(of: site.imageIdentifier) {
+                let i = sitesWithImages.firstIndex(of: site.imageId) {
 
                 image = PDImages.siteNameToImage(
                     sitesWithImages[i],

@@ -55,15 +55,23 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         }
     }
     
-    public func setExpirationInterval(to i: ExpirationInterval) { set(&expirationInterval, to: i) }
+    public func setExpirationInterval(to i: ExpirationInterval) {
+        set(&expirationInterval, to: i)
+    }
     
-    public func setNotifications(to b: Bool) { set(&notifications, to: b) }
+    public func setNotifications(to b: Bool) {
+        set(&notifications, to: b)
+    }
     
-    public func setNotificationsMinutesBefore(to i: Int) { set(&notificationsMinutesBefore, to: i) }
+    public func setNotificationsMinutesBefore(to i: Int) {
+        set(&notificationsMinutesBefore, to: i)
+    }
     
-    public func setMentionedDisclaimer(to b: Bool) { set(&mentionedDisclaimer, to: b) }
+    public func setMentionedDisclaimer(to b: Bool) {
+        set(&mentionedDisclaimer, to: b)
+    }
     
-    public func setSiteIndex(to i: Index, siteCount: Int) -> Index {
+    @discardableResult public func setSiteIndex(to i: Index, siteCount: Int) -> Index {
         if i < siteCount && i >= 0 {
             set(&siteIndex, to: i)
             return i
@@ -71,5 +79,18 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         return 0
     }
     
-    public func setTheme(to t: PDTheme) { set(&theme, to: t) }
+    public func setTheme(to t: PDTheme) {
+        set(&theme, to: t)
+    }
+    
+    public func reset(defaultSiteCount: Int=4) {
+        setDeliveryMethod(to: .Patches)
+        setQuantity(to: 3)
+        setExpirationInterval(to: .TwiceAWeek)
+        setNotifications(to: true)
+        setSiteIndex(to: 3, siteCount: defaultSiteCount)
+        setNotificationsMinutesBefore(to: 0)
+        setMentionedDisclaimer(to: false)
+        setTheme(to: .Light)
+    }
 }

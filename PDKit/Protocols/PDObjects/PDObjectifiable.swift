@@ -9,6 +9,10 @@
 import Foundation
 
 public protocol PDPbjectifiable {
+    
+    /// Delete object from storage.
     func delete()
+    
+    /// Set all attributes to default values.
     func reset()
 }

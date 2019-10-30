@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol PatchDataCalling: PDSimpleSaving {
+public protocol PatchDataCalling: PDSaving {
     
 }

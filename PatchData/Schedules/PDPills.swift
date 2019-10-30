@@ -19,7 +19,7 @@ public class PDPills: NSObject, PDPillScheduling {
     init(isFirstInit: Bool) {
         self.pills = PatchData.createPills()
         super.init()
-        if isFirstInit { self.setAsDefault() }
+        if isFirstInit { self.reset() }
         awaken()
     }
     
@@ -44,10 +44,8 @@ public class PDPills: NSObject, PDPillScheduling {
     
     // MARK: - Override base class
 
-    /// Creates a new pill row and inserts it in to the pills.
     public func insertNew(completion: (() -> ())?) -> Swallowable? {
         if let pill = PDPill.new() {
-            pill.initializeAttributes(attributes: PillAttributes())
             pills.append(pill)
             if let comp = completion {
                 comp()
@@ -56,8 +54,7 @@ public class PDPills: NSObject, PDPillScheduling {
         }
         return nil
     }
-    
-    /// Deletes the pill at the given index from the schedule.
+
     public func delete(at index: Index) {
         switch index {
         case 0..<pills.count :
@@ -67,9 +64,8 @@ public class PDPills: NSObject, PDPillScheduling {
         default : return
         }
     }
-    
-    /// Generates a generic list of MOPills when there are none in store.
-    public func setAsDefault() {
+
+    public func reset() {
         deleteAll()
         let names = PDStrings.PillTypes.defaultPills
         pills = []
@@ -83,15 +79,13 @@ public class PDPills: NSObject, PDPillScheduling {
 
     // MARK: - Public
 
-    /// Returns the MOPill for the given index.
     public func at(_ index: Index) -> Swallowable? {
         if index >= 0 && index < pills.count {
             return pills[index]
         }
         return nil
     }
-    
-    /// Returns the MOPill for the given Id.
+
     public func get(for id: UUID) -> Swallowable? {
         for pill in pills {
             if pill.id == id {
@@ -100,51 +94,42 @@ public class PDPills: NSObject, PDPillScheduling {
         }
         return nil
     }
-    
-    /// Sets a given MOPill with the given PillAttributes.
+
     public func set(at index: Index, with attributes: PillAttributes) {
         if let pill = at(index) {
             set(for: pill, with: attributes)
         }
     }
-    
-    /// Sets a given MOPill with the given PillAttributes.
+
     public func set(for pill: Swallowable, with attributes: PillAttributes) {
-        pill.initializeAttributes(attributes: attributes)
+        pill.set(attributes: attributes)
         PatchData.save()
     }
-    
-    /** Sets the pill's last date-taken at the given index to now,
-    and increments how many times it was taken today. */
-    public func swallow(at index: Index, pushSharedData: (() -> ())?) {
+
+    public func swallow(at index: Index, completion: (() -> ())?) {
         if let pill = at(index) {
-            swallow(pill, pushSharedData: pushSharedData)
+            swallow(pill, completion: completion)
         }
     }
-    
-    /** Sets the given pill's last date taken to now,
-    and increments how many times it was taken today. */
-    public func swallow(_ pill: Swallowable, pushSharedData: (() -> ())?) {
+
+    public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
             PatchData.save()
-            // Reflect in the Today widget
-            if let setData = pushSharedData {
-                setData()
+            if let comp = completion {
+                comp()
             }
         }
     }
-    
-    /// Takes the pills that is next due.
-    public func swallow(pushSharedData: (() -> ())? = nil) {
+
+    public func swallow(completion: (() -> ())? = nil) {
         if let next = nextDue {
-            swallow(next, pushSharedData: pushSharedData)
+            swallow(next, completion: completion)
         }
     }
     
     // MARK: - Private
 
-    /// Resets "taken today" if it is a new day. Else, does nothing.
     private func awaken() {
         for pill in pills {
             pill.awaken()

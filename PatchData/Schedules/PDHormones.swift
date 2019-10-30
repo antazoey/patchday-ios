@@ -18,7 +18,10 @@ public class PDHormones: NSObject, HormoneScheduling {
     private var hormones: [Hormonal]
     
     init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        hormones = PatchData.createHormones(expirationInterval: interval, deliveryMethod: deliveryMethod)
+        hormones = PatchData.createHormones(
+            expirationInterval: interval,
+            deliveryMethod: deliveryMethod
+        )
         super.init()
         if hormones.count <= 0{
             reset(deliveryMethod: deliveryMethod, interval: interval)
@@ -39,10 +42,8 @@ public class PDHormones: NSObject, HormoneScheduling {
         return count > 0 ? hormones[0] : nil
     }
 
-    /// Creates a new hormone and inserts it into the schedule
-    public func insertNew(
-        expiration: ExpirationIntervalUD,
-        deliveryMethod: DeliveryMethod
+    @discardableResult public func insertNew(
+        deliveryMethod: DeliveryMethod, expiration: ExpirationIntervalUD
     ) -> Hormonal? {
         if let mone = PDHormone.new(expiration: expiration, deliveryMethod: deliveryMethod) {
             hormones.append(mone)
@@ -62,23 +63,27 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
 
-    public func reset(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        reset(deliveryMethod: deliveryMethod, interval: interval, completion: nil)
+    @discardableResult public func reset(
+        deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD
+    ) -> Int {
+        return reset(deliveryMethod: deliveryMethod, interval: interval, completion: nil)
     }
-    
-    /// Reset the schedule to factory default
-    public func reset(deliveryMethod: DeliveryMethod,
-                      interval: ExpirationIntervalUD,
-                      completion: (() -> ())?) {
+
+    @discardableResult public func reset(
+        deliveryMethod: DeliveryMethod,
+        interval: ExpirationIntervalUD,
+        completion: (() -> ())?
+    ) -> Int {
         deleteAll()
         let quantity = PDKeyStorableHelper.defaultQuantity(for: deliveryMethod)
         for _ in 0..<quantity {
-            _ = insertNew(expiration: interval, deliveryMethod: deliveryMethod)
+            insertNew(deliveryMethod: deliveryMethod, expiration: interval)
         }
         if let comp = completion {
             comp()
         }
         PatchData.save()
+        return hormones.count
     }
 
     public func delete(after i: Index) {
@@ -96,8 +101,7 @@ public class PDHormones: NSObject, HormoneScheduling {
     public func deleteAll() {
         delete(after: -1)
     }
-    
-    /// Returns the hormone for the given index
+
     public func at(_ index: Index) -> Hormonal? {
         switch index {
             case 0..<count :
@@ -106,12 +110,10 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
 
-    /// Returns the hormone for the given id.
     public func get(for id: UUID) -> Hormonal? {
         return hormones.filter({(mone: Hormonal) -> Bool in return mone.id == id })[0]
     }
 
-    /// Sets the date and the site of the hormone for the given id.
     public func set(for id: UUID, date: Date, site: Bodily) {
         if var mone = get(for: id) {
             mone.site = site
@@ -120,26 +122,30 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
 
-    /// Sets the site of the hormone for the given index.
+    public func set(at index: Index, date: Date, site: Bodily) {
+        if var mone = at(index) {
+            mone.site = site
+            mone.date = date
+            sort()
+        }
+    }
+
     public func setSite(at index: Index, with site: Bodily) {
         if var mone = at(index) { mone.site = site }
     }
-    
-    /// Sets the date of the hormone for the given index.
+
     public func setDate(at index: Index, with date: Date) {
         if var mone = at(index) { mone.date = date }
         sort()
     }
-    
-    /// Sets the backup-site-name of the hormone for the given index.
+
     public func setBackUpSiteName(at index: Index, with name: String) {
         if var mone = at(index) {
             mone.siteNameBackUp = name
             PatchData.save()
         }
     }
-    
-    /// Tthe index of the given hormone.
+
     public func indexOf(_ hormone: Hormonal) -> Index? {
         var i = -1
         for mone in hormones {
@@ -150,23 +156,18 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
         return nil
     }
-    
-    /// If each hormone fromThisIndexOnward is empty
+
     public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
         if fromThisIndexOnward <= lastIndex {
             for i in fromThisIndexOnward...lastIndex {
-                if i >= 0 && i < count {
-                    let mone = hormones[i]
-                    if !mone.isEmpty {
-                        return false
-                    }
+                if let mone = at(i), mone.isEmpty {
+                    return false
                 }
             }
         }
         return true
     }
-    
-    /// How many hormones are past their date in the schedule
+
     public func totalExpired(_ interval: ExpirationIntervalUD) -> Int {
         return hormones.reduce(0, {
             count, mone in
@@ -174,15 +175,14 @@ public class PDHormones: NSObject, HormoneScheduling {
             return c + count
         })
     }
-    
-    /// Fill in new hormones until the new quantity is reached
+
     public func fillIn(
         newQuantity: Int,
         expiration: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethod
     ) {
         for _ in count..<newQuantity {
-            let _ = insertNew(expiration: expiration, deliveryMethod: deliveryMethod)
+            insertNew(deliveryMethod: deliveryMethod, expiration: expiration)
         }
     }
     

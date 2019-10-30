@@ -11,38 +11,140 @@ import PDKit
 
 public class PDPill: PDObject, Swallowable, Comparable {
     
-    private var pill: MOPill {
-        get { return mo as! MOPill }
+    private var moPill: MOPill {
+        return mo as! MOPill
     }
     
     public init(pill: MOPill) {
         super.init(mo: pill)
-        initializeAttributes(name: PDStrings.PlaceholderStrings.newPill)
+        initialize()
     }
     
     public init(pill: MOPill, name: String) {
         super.init(mo: pill)
-        initializeAttributes(name: name)
+        initialize(name: name)
     }
-    
+
+    /// Factory method
     public static func new() -> Swallowable? {
-        if let pill = PatchData.insert(.pill) as? MOPill {
-            return PDPill(pill: pill)
+        if let mo = PatchData.insert(.pill) as? MOPill {
+            let pill = PDPill(pill: mo)
+            pill.initialize()
+            return pill
         }
         return nil
     }
+    
+    public var id: UUID {
+        get {
+            return moPill.id ?? {
+                let newId = UUID()
+                moPill.id = newId
+                return newId
+            }()
+        }
+        set { moPill.id = newValue }
+    }
 
-    public func initializeAttributes(name: String) {
-        pill.name = name
-        pill.timesaday = 1
-        pill.time1 = NSDate()
-        pill.time2 = NSDate()
-        pill.notify = true
-        pill.timesTakenToday = 0
-        pill.id = UUID()
+    public var name: String {
+        get { return moPill.name ?? PDSiteStrings.unplaced }
+        set { moPill.name = newValue }
+    }
+
+    public var time1: Date {
+        get {
+            if let t1 = moPill.time1 {
+                return t1 as Date
+            }
+            return Date.createDefaultDate()
+        }
+        set { moPill.time1 = newValue as NSDate? }
+    }
+
+    public var time2: Date {
+        get {
+            if let t2 = moPill.time2 {
+                return t2 as Date
+            }
+            return Date.createDefaultDate()
+        } set {
+            if time1 >= time2 {
+                moPill.time2 = newValue as NSDate?
+            } else {
+                // swap times if time2 is smaller than time1
+                moPill.time1 = moPill.time2
+                moPill.time2 = newValue as NSDate
+            }
+        }
+    }
+
+    public var notify: Bool {
+        get { return moPill.notify }
+        set { moPill.notify = newValue }
     }
     
-    public func initializeAttributes(attributes: PillAttributes) {
+    public var timesaday: Int {
+        get { return Int(moPill.timesaday) }
+        set {
+            if newValue >= 0 {
+                moPill.timesaday = Int16(newValue)
+                moPill.time2 = nil
+            }
+        }
+    }
+
+    public var timesTakenToday: Int {
+        get { return Int(moPill.timesTakenToday) }
+        set {
+            if newValue <= moPill.timesTakenToday {
+                moPill.timesTakenToday = Int16(newValue)
+            }
+        }
+    }
+
+    public var lastTaken: Date? {
+        get { return moPill.lastTaken as Date? }
+        set { moPill.lastTaken = newValue as NSDate? }
+    }
+
+    public var due: Date {
+        if let t1 = moPill.time1 as Time? {
+            do {
+                let todays = Int(moPill.timesTakenToday)
+                let goal = Int(moPill.timesaday)
+                var times: [Time] = [t1]
+                if let t2 = moPill.time2 {
+                    times.append(t2 as Time)
+                }
+                return try PDPillHelper.nextDueDate(
+                    timesTakenToday: todays,
+                    timesaday: goal,
+                    times: times
+                    ) ?? Date()
+            } catch PDPillHelper.NextDueDateError.notEnoughTimes {
+                return handleNotEnoughTimesError(t1: t1) ?? Date()
+            } catch {
+                return Date()
+            }
+        }
+        return Date()
+    }
+
+    public var isDue: Bool {
+        return Date() > due
+    }
+    
+    public var isNew: Bool {
+        return moPill.lastTaken == nil
+    }
+    
+    public var isDone: Bool {
+        return PDPillHelper.isDone(
+            timesTakenToday: timesTakenToday, timesaday: timesaday
+        )
+    }
+    
+    public func set(attributes: PillAttributes) {
         if let n = attributes.name {
             name = n
         }
@@ -66,130 +168,31 @@ public class PDPill: PDObject, Swallowable, Comparable {
         }
         id = UUID()
     }
-    
-    public var name: String {
-        get { return pill.name ?? PDSiteStrings.unplaced }
-        set { pill.name = newValue }
-    }
-    
-    public var id: UUID {
-        get { return pill.id ?? { let newId = UUID(); pill.id = newId; return newId }() }
-        set { pill.id = newValue }
-    }
-    
-    public var time1: Date {
-        get {
-            if let t1 = pill.time1 {
-                return t1 as Date
-            }
-            return Date.createDefaultDate()
-        }
-        set { pill.time1 = newValue as NSDate? }
-    }
-    
-    public var time2: Date {
-        get {
-            if let t2 = pill.time2 {
-                return t2 as Date
-            }
-            return Date.createDefaultDate()
-        } set {
-            if time1 >= time2 {
-                pill.time2 = newValue as NSDate?
-            } else {
-                // swap times if time2 is smaller than time1
-                pill.time1 = pill.time2
-                pill.time2 = newValue as NSDate
-            }
-        }
-    }
-    
-    public var notify: Bool {
-        get { return pill.notify }
-        set { pill.notify = newValue }
-    }
-    
-    public var timesaday: Int {
-        get { return Int(pill.timesaday) }
-        set {
-            if newValue >= 0 {
-                pill.timesaday = Int16(newValue)
-                pill.time2 = nil
-            }
-        }
-    }
-    
-    public var timesTakenToday: Int {
-        get { return Int(pill.timesTakenToday) }
-        set {
-            if newValue <= pill.timesTakenToday {
-                pill.timesTakenToday = Int16(newValue)
-            }
-        }
-    }
-    
-    public var lastTaken: Date? {
-        get { return pill.lastTaken as Date? }
-        set { pill.lastTaken = newValue as NSDate? }
-    }
-    
-    public var due: Date {
-        if let t1 = pill.time1 as Time? {
-            do {
-                let todays = Int(pill.timesTakenToday)
-                let goal = Int(pill.timesaday)
-                var times: [Time] = [t1]
-                if let t2 = pill.time2 {
-                    times.append(t2 as Time)
-                }
-                return try PDPillHelper.nextDueDate(timesTakenToday: todays, timesaday: goal, times: times) ?? Date()
-            } catch PDPillHelper.NextDueDateError.notEnoughTimes {
-                return handleNotEnoughTimesError(t1: t1) ?? Date()
-            } catch {
-                return Date()
-            }
-        }
-        return Date()
-    }
-    
-    public var isDue: Bool {
-        return Date() > due
-    }
-    
-    public var isNew: Bool {
-        return pill.lastTaken == nil
-    }
-    
-    public var isDone: Bool {
-        let taken = Int(pill.timesTakenToday)
-        let times = Int(pill.timesaday)
-        return PDPillHelper.isDone(timesTakenToday: taken, timesaday: times)
-    }
-    
-    /// Increments timesTakenToday and sets lastTaken to now.
+
     public func swallow() {
-        if pill.timesTakenToday < pill.timesaday {
-            pill.timesTakenToday += 1
-            pill.lastTaken = NSDate()
+        if moPill.timesTakenToday < moPill.timesaday {
+            moPill.timesTakenToday += 1
+            moPill.lastTaken = NSDate()
         }
     }
-    
-    /// Fixes issue when timesTakenToday is lying (start of next day).
+
     public func awaken() {
-        if timesTakenToday > 0, let lastDate = pill.lastTaken as Date?, !lastDate.isInToday() {
-            pill.timesTakenToday = 0
+        if timesTakenToday > 0,
+            let lastDate = moPill.lastTaken as Date?,
+            !lastDate.isInToday() {
+    
+            moPill.timesTakenToday = 0
         }
     }
-    
-    /// Sets all attributes to default values
+
     public func reset() {
-        pill.name = nil
-        pill.timesaday = 1
-        pill.time1 = nil
-        pill.time2 = nil
-        pill.notify = false
-        pill.timesTakenToday = 0
-        pill.lastTaken = nil
+        moPill.name = nil
+        moPill.timesaday = 1
+        moPill.time1 = nil
+        moPill.time2 = nil
+        moPill.notify = false
+        moPill.timesTakenToday = 0
+        moPill.lastTaken = nil
     }
     
     // MARK: - Comparable, nil is always at the end of a sort
@@ -237,16 +240,30 @@ public class PDPill: PDObject, Swallowable, Comparable {
         }
     }
     
+    private func initialize() {
+        self.initialize(name: PDStrings.PlaceholderStrings.newPill)
+    }
+    
+    private func initialize(name: String) {
+        moPill.name = name
+        moPill.timesaday = 1
+        moPill.time1 = NSDate()
+        moPill.time2 = NSDate()
+        moPill.notify = true
+        moPill.timesTakenToday = 0
+        moPill.id = UUID()
+    }
+    
     private func handleNotEnoughTimesError(t1: Time) -> Date? {
-        let c = [pill.time1, pill.time2].count
+        let c = [moPill.time1, moPill.time2].count
         if c < timesaday {
             let goal = Int(timesaday)
             // Set the dates that are missing
             for i in c..<goal {
                 switch (i) {
-                case 0: self.pill.time1 = NSDate()
+                case 0: self.moPill.time1 = NSDate()
                 case 1:
-                    self.pill.time2 = Time(timeInterval: 1000, since: t1 as Date) as NSDate
+                    self.moPill.time2 = Time(timeInterval: 1000, since: t1 as Date) as NSDate
                 default :
                     break
                 }
