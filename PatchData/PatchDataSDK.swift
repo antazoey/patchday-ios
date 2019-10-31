@@ -240,7 +240,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     }
     
     public func swapSites(_ sourceIndex: Index, with destinationIndex: Index) {
-        sites.swap(sourceIndex, with: destinationIndex)
+        sites.reorder(at: sourceIndex, to: destinationIndex)
         if sourceIndex == sites.nextIndex {
             setSiteIndex(to: destinationIndex)
         }

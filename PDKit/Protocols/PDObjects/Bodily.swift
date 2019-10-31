@@ -10,19 +10,19 @@ import Foundation
 
 public protocol Bodily: PDPbjectifiable {
     
-    /// The hormones you currently have here.
+    /// The hormones in the schedule that you have applied to this site.
     var hormones: [Hormonal] { get }
     
-    /// The ID associated with the image representation.
+    /// The ID associated with the image representation of this site.
     var imageId: String { get set }
     
-    /// The name of the body part.
+    /// The name of the body part that this site represents.
     var name: SiteName { get set }
     
-    /// The order when suggested next.
+    /// The order when this site will be suggested next.
     var order: Int { get set }
     
-    /// Whether there are hormones here or not.
+    /// Whether any hormones in the schedule have been applied to this site.
     var isOccupied: Bool { get }
     
     /// Whether there are the specified amount of hormones here or not.

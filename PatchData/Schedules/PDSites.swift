@@ -66,12 +66,6 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         }
         return next
     }
-    
-    public func swap(_ sourceIndex: Index, with destinationIndex: Index) {
-        let destinationOccupant = sites[destinationIndex]
-        sites[destinationIndex] = sites[sourceIndex]
-        sites[sourceIndex] = destinationOccupant
-    }
 
     public func insertNew(
         deliveryMethod: DeliveryMethod,
@@ -143,10 +137,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     // MARK: - Other Public
 
     public func at(_ index: Index) -> Bodily? {
-        if index >= 0 && index < sites.count {
-            return sites[index]
-        }
-        return nil
+        return sites.tryGet(at: index)
     }
 
     public func get(for name: String) -> Bodily? {
@@ -157,38 +148,42 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     }
 
     public func rename(at index: Index, to name: String) {
-        if index >= 0 && index < sites.count {
-            sites[index].name = name
+        if var site = at(index) {
+            site.name = name
             PatchData.save()
         }
     }
 
     public func reorder(at index: Index, to newOrder: Int) {
-        let newIndex = Index(newOrder)
-        if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
-            // Make sure index is correct both before and after swap
-            sort()
-            sites[index].order = newOrder
-            sites[newIndex].order = index
-            sort()
-            PatchData.save()
+        if var site = at(index) {
+            if var originalSiteAtOrder = at(newOrder) {
+                // Make sure index is correct both before and after swap
+                sort()
+                site.order = newOrder
+                originalSiteAtOrder.order = index + 1
+                sort()
+                PatchData.save()
+            } else {
+                site.order = newOrder
+            }
         }
     }
 
     public func setImageId(at index: Index, to newId: String, deliveryMethod: DeliveryMethod) {
         var site_set: [String]
         site_set = PDSiteStrings.getSiteNames(for: deliveryMethod)
-        if site_set.contains(newId), index >= 0 && index < sites.count {
-            sites[index].imageId = newId
-        } else {
-            sites[index].imageId = "custom"
+        if var site = at(index) {
+            if site_set.contains(newId) {
+                site.imageId = newId
+            } else {
+                sites[index].imageId = "custom"
+            }
         }
         PatchData.save()
     }
 
     public func unionWithDefaults(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
-        let defaults = Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod))
-        return Set(names).union(defaults)
+        return Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod)).union(names)
     }
 
     public func isDefault(deliveryMethod: DeliveryMethod) -> Bool {

@@ -75,8 +75,8 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if row < images.count && row >= 0 {
-            selectedImage = images[row]
+        if let image = images.tryGet(at: row) {
+            selectedImage = image
         }
     }
  

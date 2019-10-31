@@ -43,7 +43,6 @@ class PDNotifications: NSObject, PDNotificationScheduling {
         let notify = sdk.defaults.notifications.value
         let notifyMinBefore = Double(sdk.defaults.notificationsMinutesBefore.value)
         let totalExpired = sdk.totalHormonesExpired
-
         if sendingNotifications, notify {
             ExpiredHormoneNotification(
                 for: hormone,
@@ -64,8 +63,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
 
     func cancelAllExpiredHormoneNotifications() {
-        let end = sdk.quantity.rawValue - 1
-        cancelExpiredHormoneNotifications(from: 0, to: end)
+        cancelExpiredHormoneNotifications(from: 0, to: sdk.quantity - 1)
     }
     
     /// Cancels all the hormone notifications in the given indices.
@@ -93,8 +91,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
     
     func resendAllExpiredExpiredNotifications() {
-        let end = sdk.quantity.rawValue - 1
-        resendExpiredHormoneNotifications(from: 0, to: end)
+        resendExpiredHormoneNotifications(from: 0, to: sdk.quantity - 1)
     }
     
     // MARK: - Pills

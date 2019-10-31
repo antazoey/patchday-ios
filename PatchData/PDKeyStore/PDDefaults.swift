@@ -42,6 +42,17 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
         self.load(&theme)
     }
     
+    public func reset(defaultSiteCount: Int=4) {
+        setDeliveryMethod(to: .Patches)
+        setQuantity(to: 3)
+        setExpirationInterval(to: .TwiceAWeek)
+        setNotifications(to: true)
+        setSiteIndex(to: 3, siteCount: defaultSiteCount)
+        setNotificationsMinutesBefore(to: 0)
+        setMentionedDisclaimer(to: false)
+        setTheme(to: .Light)
+    }
+    
     public func setDeliveryMethod(to method: DeliveryMethod) {
         set(&deliveryMethod, to: method)
         let q = method == .Injections ? Quantity.One : Quantity.Three
@@ -81,16 +92,5 @@ public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
     
     public func setTheme(to t: PDTheme) {
         set(&theme, to: t)
-    }
-    
-    public func reset(defaultSiteCount: Int=4) {
-        setDeliveryMethod(to: .Patches)
-        setQuantity(to: 3)
-        setExpirationInterval(to: .TwiceAWeek)
-        setNotifications(to: true)
-        setSiteIndex(to: 3, siteCount: defaultSiteCount)
-        setNotificationsMinutesBefore(to: 0)
-        setMentionedDisclaimer(to: false)
-        setTheme(to: .Light)
     }
 }

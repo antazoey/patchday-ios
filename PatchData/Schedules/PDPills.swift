@@ -80,10 +80,7 @@ public class PDPills: NSObject, PDPillScheduling {
     // MARK: - Public
 
     public func at(_ index: Index) -> Swallowable? {
-        if index >= 0 && index < pills.count {
-            return pills[index]
-        }
-        return nil
+        return pills.tryGet(at: index)
     }
 
     public func get(for id: UUID) -> Swallowable? {

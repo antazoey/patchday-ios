@@ -33,9 +33,7 @@ class SiteCell: UITableViewCell {
     }
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
-        if index >= 0 && index < siteCount,
-            let site = sdk.sites.at(index) {
-
+        if let site = sdk.sites.at(index) {
             orderLabel.text = "\(index + 1)."
             orderLabel.textColor = app.styles.theme[.text]
             arrowLabel.textColor = app.styles.theme[.text]

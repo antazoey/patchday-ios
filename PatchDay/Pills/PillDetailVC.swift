@@ -273,12 +273,13 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     // Set VC pill as well as reflected attributes in the interactive UI
     private func reflectPillAttributes() {
-        if let index = pillIndex, index >= 0 && index < sdk.pills.count {
-            self.pill = sdk.pills.all[index]
-            loadName(from: sdk.pills.all[index])
-            loadTimesaday(from: sdk.pills.all[index])
-            loadTime1(from: sdk.pills.all[index])
-            loadTime2(from: sdk.pills.all[index])
+        if let index = pillIndex {
+            let pill = sdk.pills.at(index)
+            self.pill = pill
+            loadName(from: sdk.pills.at(index)
+            loadTimesaday(from: sdk.pills.at(index)
+            loadTime1(from: sdk.pills.at(index)
+            loadTime2(from: sdk.pills.atindex])
             loadNotify(from: sdk.pills.all[index])
         }
     }

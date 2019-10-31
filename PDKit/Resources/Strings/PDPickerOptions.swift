@@ -10,18 +10,17 @@ import Foundation
 
 public class PDPickerOptions {
     
-    public static let deliveryMethods: [String] = {
+    public static var deliveryMethods: [String] {
         let comment = "Displayed on a button and in a picker."
-        return [NSLocalizedString("Patches", tableName: nil, comment: comment),
-                NSLocalizedString("Injections", tableName: nil, comment: comment)]
-    }()
+        return [
+            NSLocalizedString("Patches", tableName: nil, comment: comment),
+            NSLocalizedString("Injections", tableName: nil, comment: comment)
+        ]
+    }
     
     public static func getDeliveryMethod(at i: Index) -> DeliveryMethod {
-        if i < deliveryMethods.count && i >= 0 {
-            let choice = deliveryMethods[i]
-            return getDeliveryMethod(for: choice)
-        }
-        return .Patches
+        let choice = deliveryMethods.tryGet(at: i)
+        return getDeliveryMethod(for: choice)
     }
     
     public static func getDeliveryMethodString(for method: DeliveryMethod) -> String {
@@ -33,7 +32,7 @@ public class PDPickerOptions {
         }
     }
     
-    public static func getDeliveryMethod(for pickerString: String) -> DeliveryMethod {
+    public static func getDeliveryMethod(for pickerString: String?) -> DeliveryMethod {
         switch pickerString {
         case deliveryMethods[1]:
             return .Injections
@@ -43,11 +42,11 @@ public class PDPickerOptions {
     }
     
     public static func getQuantity(at i: Index) -> Quantity {
-        if i < quantities.count && i >= 0 {
-            let choice = quantities[i]
-            if let quantityInt = Int(choice), let quantity = Quantity(rawValue: quantityInt) {
-                return quantity
-            }
+        if let quantityString = quantities.tryGet(at: i),
+            let quantityInt = Int(quantityString),
+            let quantity = Quantity(rawValue: quantityInt) {
+
+            return quantity
         }
         return .One
     }
@@ -63,25 +62,42 @@ public class PDPickerOptions {
 
     public static func getStrings(for key: PDDefault) -> [String] {
         switch key {
-        case PDDefault.DeliveryMethod:
+        case .DeliveryMethod:
             return deliveryMethods
-        case PDDefault.ExpirationInterval:
+        case .ExpirationInterval:
             return expirationIntervals
-        case PDDefault.Quantity:
+        case .Quantity:
             return quantities
-        case PDDefault.Theme:
+        case .Theme:
             return themes
         default:
             return []
         }
     }
     
+    public static func getPickerOption(key: PDDefault, row: Index) -> String? {
+        switch key {
+        case .DeliveryMethod:
+            return deliveryMethods.tryGet(at: row)
+        case .Quantity:
+            return quantities.tryGet(at: row)
+        case .ExpirationInterval:
+            return expirationIntervals.tryGet(at: row)
+        case .Theme:
+            return themes.tryGet(at: row)
+        default:
+            return nil
+        }
+    }
+    
     public static let expirationIntervals: [String] = {
         let comment1 = "Displayed on a button and in a picker."
         let comment2 = "Displayed in a picker."
-        return [NSLocalizedString("Twice a week", tableName: nil, comment: comment1),
-                NSLocalizedString("Once a week", tableName: nil, comment: comment2),
-                NSLocalizedString("Once every two weeks", comment: comment1)]
+        return [
+            NSLocalizedString("Twice a week", tableName: nil, comment: comment1),
+            NSLocalizedString("Once a week", tableName: nil, comment: comment2),
+            NSLocalizedString("Once every two weeks", comment: comment1)
+        ]
     }()
     
     public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
@@ -126,16 +142,20 @@ public class PDPickerOptions {
     
     public static let quantities: [String] = {
         let comment = "Displayed in a picker."
-        return [NSLocalizedString("1", comment: comment),
-                NSLocalizedString("2", comment: comment),
-                NSLocalizedString("3", comment: comment),
-                NSLocalizedString("4", comment: comment)]
+        return [
+            NSLocalizedString("1", comment: comment),
+            NSLocalizedString("2", comment: comment),
+            NSLocalizedString("3", comment: comment),
+            NSLocalizedString("4", comment: comment)
+        ]
     }()
     
     public static let themes: [String] = {
         let comment = "Displayed in a picker."
-        return [NSLocalizedString("Light", comment: comment),
-                NSLocalizedString("Dark", comment: comment)]
+        return [
+            NSLocalizedString("Light", comment: comment),
+            NSLocalizedString("Dark", comment: comment)
+        ]
     }()
     
     public static func getTheme(for theme: PDTheme) -> String {

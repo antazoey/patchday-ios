@@ -11,33 +11,33 @@ import Foundation
 public protocol Hormonal: PDPbjectifiable {
     var id: UUID { get set }
     
-    /// The related site placed on / in.
+    /// The site you applied this hormones to.
     var site: Bodily? { get set }
     
-    /// When placed
+    /// The date you applied this hormone to a site.
     var date: Date { get set }
     
-    /// When to re-dose
+    /// The date that this hormone runs out of juice.
     var expiration: Date? { get }
     
-    /// The string representation of when to re-dose.
+    /// The string representation of the expiration date.
     var expirationString: String { get }
     
-    /// If it is past time to re-dose.
+    /// Whether it is past this hormone's expiration date.
     var isExpired: Bool { get }
     
-    /// The name of the site placed on / in.
+    /// The name of the site that you applied this hormone to.
     var siteName: String { get }
     
     /// For preserving site data in case you delete the related PDSite.
     var siteNameBackUp: String? { get set }
     
-    /// If is unscheduled and unplaced.
+    /// If this hormone without a site and date placed.
     var isEmpty: Bool { get }
     
-    /// If unplaced.
+    /// If this hormone is without a site.
     var isCerebral: Bool { get }
     
-    /// Set date placed to now.
+    /// Sets the date to now.
     func stamp()
 }

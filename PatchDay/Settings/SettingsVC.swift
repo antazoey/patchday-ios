@@ -124,22 +124,29 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return 1
     }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        numberOfRowsInComponent component: Int
+    ) -> Int {
         return PDPickerOptions.getOptionsCount(for: selectedDefault)
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        var title: String? = nil
+    func pickerView(
+        _ pickerView: UIPickerView,
+        titleForRow row: Int,
+        forComponent component: Int
+    ) -> String? {
         if let key = selectedDefault {
-            let data = PDPickerOptions.getStrings(for: key)
-            if row < data.count && row >= 0 {
-                title = data[row]
-            }
+            return PDPickerOptions.getStrings(for: key).tryGet(at: row)
         }
-        return title
+        return nil
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        didSelectRow row: Int,
+        inComponent component: Int
+    ) {
         if let d = selectedDefault,
             let chosenItem = self.pickerView(
                 pickerView,
@@ -160,12 +167,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             }
         }
     }
-    
-    /** Selector method for openOrClose(picker, buttonTapped, selections)
-     // -- loads proper UI elements specific to each picker
-     // -- hides everything that is not that picker
-     
-     // key is either "interval" , "count" , "notifications" */
+
     private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
         let selections = PDPickerOptions.getStrings(for: key)

@@ -13,25 +13,25 @@ public protocol PatchDataDelegate {
     /// If this is the first initialization.
     var isFresh: Bool { get }
     
-    /// Read or write UserDefaults
+    /// The UserDefaults manager.
     var defaults: PDDefaultManaging { get }
     
-    /// Schedule and manage PDHormones.
+    /// PDHormones schedule.
     var hormones: HormoneScheduling { get }
     
-    /// Schedule and manage PDSites.
+    /// The PDSites schedule.
     var sites: HormoneSiteScheduling { get }
     
-    /// Schedule and manage PDPills
+    /// The PDPills schedule.
     var pills: PDPillScheduling { get }
     
-    /// Read the state of recent mutations.
+    /// A state manager for recent mutations.
     var state: PDStateManaging { get }
     
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
     
-    /// Names of sites that contain hormones.
+    /// The names of sites that contain hormones.
     var occupiedSites: Set<SiteName> { get }
     
     /// Resets all data to default values.
@@ -39,13 +39,13 @@ public protocol PatchDataDelegate {
     
     // MARK: - Defaults
     
-    /// Current delivery method set in user defaults.
+    /// The current delivery method set in user defaults. The method by which you take hormones.
     var deliveryMethod: DeliveryMethod { get }
 
-    /// Current hormone quanity set in user defaults.
+    /// The current hormone quanity set in user defaults.
     var quantity: Int { get }
     
-    /// Current expiration interval set in user defaults.
+    /// The current expiration interval set in user defaults.
     var expirationInterval: ExpirationInterval { get }
     
     /// Sets the delivery method in UserDefaults with stateful side effects.
@@ -65,51 +65,51 @@ public protocol PatchDataDelegate {
 
     // MARK: - Sites
 
-    /// A convenient way to insert a new site.
+    /// Conveniently inserts a new site.
     func insertNewSite(name: SiteName, completion: (() -> ())?)
     
-    /// A convenient way to insert a site with the given name.
+    /// Conveniently inserts a site with the given name.
     func insertNewSite(name: SiteName)
     
-    /// A convenient way to insert a new site.
+    /// Conveniently inserts a new site.
     func insertNewSite()
     
-    /// Swap the index of two sites.
+    /// Swaps the index of two sites.
     func swapSites(_ sourceIndex: Index, with destinationIndex: Index)
     
-    /// A convenient way to reset sites to default.
+    /// Conveniently resets sites to their default.
     @discardableResult func resetSitesToDefault() -> Int
 
     // MARK: - Stateful
     
-    /// Mark the current quantity in the state in preparation of potential change.
+    /// Marks the current quantity in the state for tracking purposes.
     func stampQuantity()
     
-    /// Track that a hormone changed at the given index.
+    /// Tracks that a hormone has changed at the given index.
     func stateChanged(forHormoneAtIndex index: Index) -> Bool
 
     // MARK: - Hormones
 
-    /// How many hormones are ready for redose.
+    /// The amount of hormones that are past their expiration dates.
     var totalHormonesExpired: Int { get }
 
-    /// Set hormone site with stateful / data meter side effects.
+    /// Sets the site for the hormone at the given index. Includes stateful and data-meter side-effects.
     func setHormoneSite(at index: Index, with site: Bodily)
 
-    /// Set hormone date with stateful / data meter side effects.
+    /// Sets the date for the hormone at the given index. Includes stateful and data-meter side-effects.
     func setHormoneDate(at index: Index, with date: Date)
 
-    /// Set hormone date and site with stateful / data meter side effects.
+    /// Sets the date and site for the hormone with the given id. Includes stateful and data-meter side-effects.
     func setHormoneDateAndSite(for id: UUID, date: Date, site: Bodily)
     
-    /// Set hormone at given index date and site with stateful / data meter side effects.
+    /// Sets the date and site for the hormone at given index. Includes stateful and data-meter side-effects.
     func setHormoneDateAndSite(at index: Index, date: Date, site: Bodily)
 
     // MARK: - Pills
     
-    /// Swallow the pill with stateful / data meter side effects.
+    /// Swallows the pill. Includes stateful and data-meter side-effects.
     func swallow(_ pill: Swallowable)
     
-    /// Set pill attributes with stateful / data meter side effects.
+    /// Sets pill attributes. Includes stateful and data-meter side-effects.
     func setPill(_ pill: Swallowable, with attributes: PillAttributes)
 }

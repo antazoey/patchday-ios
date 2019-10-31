@@ -12,45 +12,45 @@ public protocol Swallowable: PDPbjectifiable {
     
     var id: UUID { get set }
     
-    /// Use DTO to set all attributes.
-    func set(attributes: PillAttributes)
-    
     /// The name of the pill.
     var name: String { get set }
     
-    /// The first time in a day to swallow.
+    /// The first time in a day to take this pill.
     var time1: Date { get set }
     
-    /// The second time in a day to swallow.
+    /// The second time in a day to take this pill.
     var time2: Date { get set }
     
     /// Whether you want to be notified when due.
     var notify: Bool { get set }
     
-    /// The number of times you are scheduled to swallow a day.
+    /// The number of times you should take this pill a day.
     var timesaday: Int { get set }
     
-    /// The number of times you swallowed today.
+    /// The number of times you took this pill today.
     var timesTakenToday: Int { get set }
     
-    /// When you last swallowed.
+    /// The date when you last took this pill.
     var lastTaken: Date? { get set }
     
-    /// When you should swallow next.
+    /// The date when you should take this pill next.
     var due: Date { get }
     
-    /// If you are past due on swallowing.
+    /// Whether it is past the due date.
     var isDue: Bool { get }
     
-    /// If has never been swallowed.
+    /// Whether you never took this pill before.
     var isNew: Bool { get }
     
-    /// If you are done swallowing today.
+    /// If you are done taking this pill today.
     var isDone: Bool { get }
     
-    /// Put it in your body orally.
+    /// Sets this pill's attributes using the given DTO.
+    func set(attributes: PillAttributes)
+    
+    /// Simulates taking the pill.
     func swallow()
     
-    /// Configure properties that depend on a day-to-day basis, such as timesTakenToday.
+    /// Configures properties that depend on a day-to-day basis, such as timesTakenToday.
     func awaken()
 }

@@ -77,6 +77,7 @@
 		9D9978472367B01C009679FB /* PDSimpleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978462367B01C009679FB /* PDSimpleProtocols.swift */; };
 		9D9978492367B0E5009679FB /* PDIndexRebounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978482367B0E5009679FB /* PDIndexRebounce.swift */; };
 		9D99784B23691694009679FB /* PDSettingsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99784A23691694009679FB /* PDSettingsHelper.swift */; };
+		9D99784D2369265B009679FB /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99784C2369265B009679FB /* ArrayExtension.swift */; };
 		9DA3A901233AFD4D00DAF350 /* PDNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DA3A905233C4B6300DAF350 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
@@ -302,6 +303,7 @@
 		9D9978462367B01C009679FB /* PDSimpleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSimpleProtocols.swift; sourceTree = "<group>"; };
 		9D9978482367B0E5009679FB /* PDIndexRebounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDIndexRebounce.swift; sourceTree = "<group>"; };
 		9D99784A23691694009679FB /* PDSettingsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSettingsHelper.swift; sourceTree = "<group>"; };
+		9D99784C2369265B009679FB /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationScheduling.swift; sourceTree = "<group>"; };
@@ -697,6 +699,7 @@
 			isa = PBXGroup;
 			children = (
 				B440110D21DF3E5D00C94B76 /* DateExtension.swift */,
+				9D99784C2369265B009679FB /* ArrayExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1322,6 +1325,7 @@
 				9D913B8922FF49F3001FC03C /* DeliveryMethodUD.swift in Sources */,
 				B49A4A5B20DB2D5A00F24FC0 /* PDDateHelper.swift in Sources */,
 				9D913B9822FF4B13001FC03C /* ThemeUD.swift in Sources */,
+				9D99784D2369265B009679FB /* ArrayExtension.swift in Sources */,
 				9D003E9D232737D30070C964 /* PDDateMeting.swift in Sources */,
 				B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */,
 			);

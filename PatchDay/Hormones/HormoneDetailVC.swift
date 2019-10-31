@@ -225,24 +225,20 @@ class HormoneDetailVC: UIViewController,
         return sdk.sites.count
     }
     
-    func pickerView(_ pickerView: UIPickerView,
-                    titleForRow row: Int,
-                    forComponent component: Int) -> String? {
-        let names = sdk.sites.names
-        if row < names.count && row >= 0 {
-            return names[row]
-        }
-        return ""
+    func pickerView(
+        _ pickerView: UIPickerView,
+        titleForRow row: Int,
+        forComponent component: Int
+    ) -> String? {
+        return sdk.sites.names.tryGet(at: row)
     }
     
     // Done
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
-        let names = sdk.sites.names
-        if row < names.count && row >= 0 {
+        if let name = sdk.sites.names.tryGet(at: row) {
             selectedSite = sdk.sites.at(row)
-            let name = names[row]
             selectSiteTextField.text = name
             closeSitePicker()
             siteIndexSelected = row
@@ -253,11 +249,13 @@ class HormoneDetailVC: UIViewController,
     
     @IBAction func chooseDateTextTapped(_ sender: Any) {
         // Unhide date picker
-        UIView.transition(with: datePickerInputView as UIView,
-                          duration: 0.4,
-                          options: .transitionCrossDissolve,
-                          animations: { self.datePickerInputView.isHidden = false
-        }, completion: nil)
+        UIView.transition(
+            with: datePickerInputView as UIView,
+            duration: 0.4,
+            options: .transitionCrossDissolve,
+            animations: { self.datePickerInputView.isHidden = false },
+            completion: nil
+        )
         datePicker.date = dateSelected ?? hormone.date
         let doneButton = makeDoneButton()
         datePickerInputView.addSubview(doneButton)
