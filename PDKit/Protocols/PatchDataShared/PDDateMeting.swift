@@ -10,9 +10,11 @@ import Foundation
 
 public protocol PDDataMeting  {
     var defaults: UserDefaults? { get }
-    func broadcastRelevantHormoneData(oldestHormone: Hormonal,
-                                      nextSuggestedSite: SiteName,
-                                      interval: ExpirationIntervalUD,
-                                      deliveryMethod: DeliveryMethodUD)
+    func broadcastRelevantHormoneData(
+        oldestHormone: Hormonal,
+        nextSuggestedSite: SiteName,
+        interval: ExpirationIntervalUD,
+        deliveryMethod: DeliveryMethodUD
+    )
     func broadcastRelevantPillData(nextPill: Swallowable)
 }

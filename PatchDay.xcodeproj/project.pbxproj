@@ -28,6 +28,7 @@
 		9D003EC323359B2D0070C964 /* PatchDataCalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* PatchDataCalling.swift */; };
 		9D003EC523359E990070C964 /* PDKeyStorableHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC423359E990070C964 /* PDKeyStorableHelper.swift */; };
 		9D1BC57E2277F45F00552BC1 /* PDPickerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* PDPickerOptions.swift */; };
+		9D1C2999236D2CB800488564 /* PDDefaultStorageHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* PDDefaultStorageHandling.swift */; };
 		9D3E4C7E22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C7D22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift */; };
 		9D3E4C8022B5AFC500C82DAE /* PDNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C7F22B5AFC500C82DAE /* PDNotification.swift */; };
 		9D3E4C8222B5B47E00C82DAE /* DuePillNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C8122B5B47E00C82DAE /* DuePillNotification.swift */; };
@@ -45,7 +46,7 @@
 		9D72A90A233DA2CE0030D460 /* PDStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D72A909233DA2CE0030D460 /* PDStyling.swift */; };
 		9D72A9172342FB8F0030D460 /* PDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* PDState.swift */; };
 		9D72A91A2344404F0030D460 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131F0B681EE3AAD700576200 /* PDImages.swift */; };
-		9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */; };
+		9D7B0A79226CCB9B0089E1CD /* PDDefaultsStorageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* PDDefaultsStorageHandler.swift */; };
 		9D913B7822FA6F1D001FC03C /* PDGenericAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */; };
 		9D913B7A22FF3A0B001FC03C /* PDDefaultManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7922FF3A0B001FC03C /* PDDefaultManaging.swift */; };
 		9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */; };
@@ -53,14 +54,6 @@
 		9D913B8322FF3F9E001FC03C /* PDTabReflective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8222FF3F9E001FC03C /* PDTabReflective.swift */; };
 		9D913B8622FF43AB001FC03C /* PDValueHolding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F622810680009BAA25 /* PDValueHolding.swift */; };
 		9D913B8722FF43AB001FC03C /* PDKeyStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC5662275F3E700552BC1 /* PDKeyStorable.swift */; };
-		9D913B8922FF49F3001FC03C /* DeliveryMethodUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8822FF49F3001FC03C /* DeliveryMethodUD.swift */; };
-		9D913B8B22FF4A7C001FC03C /* QuantityUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8A22FF4A7C001FC03C /* QuantityUD.swift */; };
-		9D913B8D22FF4A95001FC03C /* ExpirationIntervalUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8C22FF4A95001FC03C /* ExpirationIntervalUD.swift */; };
-		9D913B8F22FF4AB3001FC03C /* NotificationsUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8E22FF4AB3001FC03C /* NotificationsUD.swift */; };
-		9D913B9122FF4ACE001FC03C /* NotificationsMinutesBefore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9022FF4ACE001FC03C /* NotificationsMinutesBefore.swift */; };
-		9D913B9322FF4AE2001FC03C /* MentionedDisclaimerUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9222FF4AE2001FC03C /* MentionedDisclaimerUD.swift */; };
-		9D913B9522FF4AFC001FC03C /* SiteIndexUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9422FF4AFC001FC03C /* SiteIndexUD.swift */; };
-		9D913B9822FF4B13001FC03C /* ThemeUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9722FF4B13001FC03C /* ThemeUD.swift */; };
 		9D913B9C22FF5497001FC03C /* HormoneSiteScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9B22FF5497001FC03C /* HormoneSiteScheduling.swift */; };
 		9D913B9E22FF56B4001FC03C /* PDAlertDispatching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9D22FF56B4001FC03C /* PDAlertDispatching.swift */; };
 		9D913BA022FF697F001FC03C /* Bodily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9F22FF697F001FC03C /* Bodily.swift */; };
@@ -78,6 +71,14 @@
 		9D9978492367B0E5009679FB /* PDIndexRebounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978482367B0E5009679FB /* PDIndexRebounce.swift */; };
 		9D99784B23691694009679FB /* PDSettingsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99784A23691694009679FB /* PDSettingsHelper.swift */; };
 		9D99784D2369265B009679FB /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99784C2369265B009679FB /* ArrayExtension.swift */; };
+		9D997858236D17DD009679FB /* DeliveryMethodUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8822FF49F3001FC03C /* DeliveryMethodUD.swift */; };
+		9D997859236D17DD009679FB /* QuantityUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8A22FF4A7C001FC03C /* QuantityUD.swift */; };
+		9D99785A236D17DD009679FB /* ExpirationIntervalUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8C22FF4A95001FC03C /* ExpirationIntervalUD.swift */; };
+		9D99785B236D17DD009679FB /* NotificationsUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B8E22FF4AB3001FC03C /* NotificationsUD.swift */; };
+		9D99785C236D17DD009679FB /* NotificationsMinutesBefore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9022FF4ACE001FC03C /* NotificationsMinutesBefore.swift */; };
+		9D99785D236D17DD009679FB /* MentionedDisclaimerUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9222FF4AE2001FC03C /* MentionedDisclaimerUD.swift */; };
+		9D99785E236D17DD009679FB /* SiteIndexUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9422FF4AFC001FC03C /* SiteIndexUD.swift */; };
+		9D99785F236D17DD009679FB /* ThemeUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B9722FF4B13001FC03C /* ThemeUD.swift */; };
 		9DA3A901233AFD4D00DAF350 /* PDNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationDelegate.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DA3A905233C4B6300DAF350 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
@@ -258,6 +259,7 @@
 		9D003EC423359E990070C964 /* PDKeyStorableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDKeyStorableHelper.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* PDKeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDKeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* PDPickerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPickerOptions.swift; sourceTree = "<group>"; };
+		9D1C2998236D2CB800488564 /* PDDefaultStorageHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultStorageHandling.swift; sourceTree = "<group>"; };
 		9D3E4C7D22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneOvernightNotification.swift; sourceTree = "<group>"; };
 		9D3E4C7F22B5AFC500C82DAE /* PDNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotification.swift; sourceTree = "<group>"; };
 		9D3E4C8122B5B47E00C82DAE /* DuePillNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuePillNotification.swift; sourceTree = "<group>"; };
@@ -273,7 +275,7 @@
 		9D43DB0922639893008F56AE /* PDStylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDStylist.swift; sourceTree = "<group>"; };
 		9D5942B022BC7574008FA25D /* QuantityMutationAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityMutationAlert.swift; sourceTree = "<group>"; };
 		9D72A909233DA2CE0030D460 /* PDStyling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDStyling.swift; sourceTree = "<group>"; };
-		9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsBaseClass.swift; sourceTree = "<group>"; };
+		9D7B0A78226CCB9B0089E1CD /* PDDefaultsStorageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultsStorageHandler.swift; sourceTree = "<group>"; };
 		9D913B7722FA6F1D001FC03C /* PDGenericAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDGenericAlert.swift; sourceTree = "<group>"; };
 		9D913B7922FF3A0B001FC03C /* PDDefaultManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultManaging.swift; sourceTree = "<group>"; };
 		9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduling.swift; sourceTree = "<group>"; };
@@ -511,6 +513,7 @@
 				9D1BC5662275F3E700552BC1 /* PDKeyStorable.swift */,
 				9DD5C2F622810680009BAA25 /* PDValueHolding.swift */,
 				9D913B7922FF3A0B001FC03C /* PDDefaultManaging.swift */,
+				9D1C2998236D2CB800488564 /* PDDefaultStorageHandling.swift */,
 			);
 			path = KeyStorables;
 			sourceTree = "<group>";
@@ -561,7 +564,7 @@
 			isa = PBXGroup;
 			children = (
 				9D003EB2233330CE0070C964 /* PDSiteIndexer.swift */,
-				9D7B0A78226CCB9B0089E1CD /* PDDefaultsBaseClass.swift */,
+				9D7B0A78226CCB9B0089E1CD /* PDDefaultsStorageHandler.swift */,
 				13C746D01ED781DD00067A67 /* PDDefaults.swift */,
 			);
 			path = PDKeyStore;
@@ -870,9 +873,9 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
+				9D1BC56B2275FC1000552BC1 /* KeyStorables */,
 				9DDF47E4234D7AC4005AA467 /* Extensions */,
 				9D72A9142342F3D00030D460 /* State */,
-				9D1BC56B2275FC1000552BC1 /* KeyStorables */,
 				9D913B7B22FF3BD6001FC03C /* Protocols */,
 				B40CC9A721CCE4AE002364BB /* Resources */,
 				B40CC9A821CCE4BE002364BB /* Helpers */,
@@ -1249,7 +1252,7 @@
 				B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */,
 				B480EE3E21CC75FE002C2238 /* PDHormones.swift in Sources */,
 				9D003EA92331DE390070C964 /* PatchDataCaller.swift in Sources */,
-				9D7B0A79226CCB9B0089E1CD /* PDDefaultsBaseClass.swift in Sources */,
+				9D7B0A79226CCB9B0089E1CD /* PDDefaultsStorageHandler.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PatchDataSDK.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* PDDefaults.swift in Sources */,
 				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
@@ -1289,18 +1292,19 @@
 				9D913BA222FF7B56001FC03C /* Hormonal.swift in Sources */,
 				9D1BC57E2277F45F00552BC1 /* PDPickerOptions.swift in Sources */,
 				9D913BA62304EF83001FC03C /* Swallowable.swift in Sources */,
+				9D997859236D17DD009679FB /* QuantityUD.swift in Sources */,
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
-				9D913B8B22FF4A7C001FC03C /* QuantityUD.swift in Sources */,
 				9D913B9C22FF5497001FC03C /* HormoneSiteScheduling.swift in Sources */,
-				9D913B8D22FF4A95001FC03C /* ExpirationIntervalUD.swift in Sources */,
+				9D1C2999236D2CB800488564 /* PDDefaultStorageHandling.swift in Sources */,
 				9D913BA022FF697F001FC03C /* Bodily.swift in Sources */,
+				9D997858236D17DD009679FB /* DeliveryMethodUD.swift in Sources */,
 				9DDF47DF234C329F005AA467 /* PDPillSwallowing.swift in Sources */,
 				9D913B7A22FF3A0B001FC03C /* PDDefaultManaging.swift in Sources */,
 				9DD5C2FB228111F9009BAA25 /* PDSiteStrings.swift in Sources */,
+				9D99785B236D17DD009679FB /* NotificationsUD.swift in Sources */,
 				9D3E4C9622B730B500C82DAE /* PDActionStrings.swift in Sources */,
 				9D913B8622FF43AB001FC03C /* PDValueHolding.swift in Sources */,
 				9D003E9A23231E880070C964 /* PDObjectifiable.swift in Sources */,
-				9D913B9122FF4ACE001FC03C /* NotificationsMinutesBefore.swift in Sources */,
 				9D003E9F232878CE0070C964 /* PatchDataDelegate.swift in Sources */,
 				9D913BA42304ED7B001FC03C /* PDPillScheduling.swift in Sources */,
 				9DDF47E3234D6EE2005AA467 /* PDColonedStrings.swift in Sources */,
@@ -1309,24 +1313,24 @@
 				9D72A9172342FB8F0030D460 /* PDState.swift in Sources */,
 				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
 				9D003EC1233599A90070C964 /* PDSchedule.swift in Sources */,
+				9D99785D236D17DD009679FB /* MentionedDisclaimerUD.swift in Sources */,
 				B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */,
-				9D913B9322FF4AE2001FC03C /* MentionedDisclaimerUD.swift in Sources */,
 				9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				B49A4A5C20DB2D5A00F24FC0 /* PDPillHelper.swift in Sources */,
 				9D9978492367B0E5009679FB /* PDIndexRebounce.swift in Sources */,
-				9D913B8F22FF4AB3001FC03C /* NotificationsUD.swift in Sources */,
+				9D99785A236D17DD009679FB /* ExpirationIntervalUD.swift in Sources */,
 				9D9978472367B01C009679FB /* PDSimpleProtocols.swift in Sources */,
 				9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */,
-				9D913B9522FF4AFC001FC03C /* SiteIndexUD.swift in Sources */,
+				9D99785C236D17DD009679FB /* NotificationsMinutesBefore.swift in Sources */,
 				9D913B8722FF43AB001FC03C /* PDKeyStorable.swift in Sources */,
 				9D003E9B232326F70070C964 /* PillAttributes.swift in Sources */,
+				9D99785E236D17DD009679FB /* SiteIndexUD.swift in Sources */,
 				9D3E4C8522B5DEB300C82DAE /* PDViewControllerTitleStrings.swift in Sources */,
-				9D913B8922FF49F3001FC03C /* DeliveryMethodUD.swift in Sources */,
 				B49A4A5B20DB2D5A00F24FC0 /* PDDateHelper.swift in Sources */,
-				9D913B9822FF4B13001FC03C /* ThemeUD.swift in Sources */,
 				9D99784D2369265B009679FB /* ArrayExtension.swift in Sources */,
 				9D003E9D232737D30070C964 /* PDDateMeting.swift in Sources */,
+				9D99785F236D17DD009679FB /* ThemeUD.swift in Sources */,
 				B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

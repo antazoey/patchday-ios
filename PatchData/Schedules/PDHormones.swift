@@ -87,7 +87,7 @@ public class PDHormones: NSObject, HormoneScheduling {
     }
 
     public func delete(after i: Index) {
-        let start = (i >= -1) ? i + 1 : 0
+        let start = i >= -1 ? i + 1 : 0
         if count >= start {
             for _ in start..<count {
                 if let mone = hormones.popLast() {

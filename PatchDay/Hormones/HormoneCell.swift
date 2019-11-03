@@ -22,7 +22,7 @@ class HormoneCell: UITableViewCell {
     
     public func load(sdk: PatchDataDelegate, hormone: Hormonal) {
         self.sdk = sdk
-        let quantity = sdk.quantity.rawValue
+        let quantity = sdk.defaults.quantity.rawValue
         backgroundColor = app.styles.theme[.bg]
         setThemeColors(at: index)
         switch (index) {

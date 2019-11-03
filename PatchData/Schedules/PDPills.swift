@@ -125,6 +125,17 @@ public class PDPills: NSObject, PDPillScheduling {
         }
     }
     
+    public func indexOf(_ pill: Swallowable) -> Index? {
+        var i = -1
+        for p in pills {
+            i += 1
+            if pill.id == p.id {
+                return i
+            }
+        }
+        return nil
+    }
+    
     // MARK: - Private
 
     private func awaken() {

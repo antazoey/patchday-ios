@@ -12,8 +12,8 @@ import PDKit
 
 class PillCell: UITableViewCell {
     
-    private let pills = app.sdk.pills
-    public var index: Index = -1
+    private let sdk: PatchDataDelegate = app.sdk
+    private var pill: Swallowable!
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var stateImageView: UIImageView!
@@ -23,48 +23,52 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var nextDueDate: UILabel!
     @IBOutlet weak var imageViewView: UIView!
     
-    public func load() {
-        if let pill = pills.at(index) {
-            nameLabel.text = pill.name
-            loadStateImage(from: pill)
-            stateImageButton.type = .pills
-            loadLastTakenText(from: pill)
-            loadDueDateText(from: pill)
-            takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
-            stateImageButton.restorationIdentifier = "i \(index)"
-            takeButton.restorationIdentifier = "t \(index)"
-            takeButton.isEnabled = (pill.isDone) ? false : true
-            enableOrDisableTake()
-            setBackground()
-            setBackgroundSelected()
-            setImageBadge(using: pill)
+    @discardableResult public func load(at index: Index) -> PillCell {
+        if let pill = sdk.pills.at(index) {
+            loadNameLabel(pill)
+            loadStateImage(pill, index: index)
+            loadLastTakenText(pill)
+            loadDueDateText(pill)
+            loadTakeButton(pill, index: index)
+            loadBackground()
+            setImageBadge(pill)
             applyTheme()
         }
+        return self
     }
     
     /// Set the "last taken" label to the curent date as a string.
-    public func stamp() {
+    @discardableResult func stamp() -> PillCell {
         lastTakenLabel.text = PDDateHelper.format(date: Date(), useWords: true)
+        return self
     }
     
-    public func loadDueDateText(from pill: Swallowable) {
+    @discardableResult func loadDueDateText(_ pill: Swallowable) -> PillCell {
         nextDueDate.text = PDDateHelper.format(date: pill.due, useWords: true)
+        return self
     }
     
-    public func loadLastTakenText(from pill: Swallowable) {
+    @discardableResult func loadLastTakenText(_ pill: Swallowable) -> PillCell {
         if let lastTaken = pill.lastTaken {
             lastTakenLabel.text = PDDateHelper.format(date: lastTaken as Date, useWords: true)
         } else {
             lastTakenLabel.text = PDStrings.PlaceholderStrings.dotDotDot
         }
+        return self
     }
     
-    public func loadStateImage(from pill: Swallowable) {
+    @discardableResult func loadStateImage(_ pill: Swallowable, index: Index) -> PillCell {
+        stateImageButton.type = .pills
+        stateImageButton.restorationIdentifier = "i \(index)"
         stateImageView.image = PDImages.pill
         stateImageView.tintColor = pill.isDone ? UIColor.lightGray : UIColor.blue
+        return self
     }
     
-    public func enableOrDisableTake() {
+    @discardableResult func loadTakeButton(_ pill: Swallowable, index: Index) -> PillCell {
+        takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        takeButton.restorationIdentifier = "t \(index)"
+        takeButton.isEnabled = !pill.isDone
         if stateImageView.tintColor == UIColor.lightGray {
             takeButton.setTitle(PDActionStrings.taken, for: .normal)
             takeButton.isEnabled = false
@@ -74,27 +78,34 @@ class PillCell: UITableViewCell {
             takeButton.isEnabled = true
             stateImageButton.isEnabled = true
         }
+        return self
     }
     
-    public func setBackground() {
+    @discardableResult func loadBackground() -> PillCell {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
         backgroundColor = app.styles.theme[.bg]
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = PDColors.get(.Pink)
+        selectedBackgroundView = backgroundView
+        
+        return self
     }
     
     // MARK: - Private
     
-    private func setBackgroundSelected() {
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.get(.Pink)
-        selectedBackgroundView = backgroundView
+    @discardableResult private func loadNameLabel(_ pill: Swallowable) -> PillCell {
+        nameLabel.text = pill.name
+        return self
     }
     
-    private func setImageBadge(using pill: Swallowable) {
+    @discardableResult private func setImageBadge(_ pill: Swallowable) -> PillCell {
         stateImageButton.badgeValue = (pill.isDue) ? "!" : nil
+        return self
     }
     
-    private func applyTheme() {
+    @discardableResult private func applyTheme() -> PillCell {
         let textColor = app.styles.theme[.text]
         nameLabel.textColor = textColor
         takeButton.setTitleColor(textColor, for: .normal)
@@ -103,5 +114,6 @@ class PillCell: UITableViewCell {
         let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
         stateImageView.image = stateImage
         stateImageView.tintColor = app.styles.theme[.button]
+        return self
     }
 }

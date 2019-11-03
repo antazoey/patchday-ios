@@ -95,11 +95,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        notifications.cancelAllHormoneExpiredNotifications()
+        notifications.cancelAllExpiredHormoneNotifications()
         let v = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(v)
-        sdk.defaults.setNotificationsMinutesBefore(to: v)
-        notifications.resendAllHormoneExpiredNotifications()
+        sdk.defaults.replaceStoredNotificationsMinutesBefore(to: v)
+        notifications.resendAllExpiredExpiredNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView
@@ -115,7 +115,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     @IBAction func notificationsSwitched(_ sender: Any) {
         let n = notificationsSwitch.isOn
         n ? enableNotificationButtons() : disableNotificationButtons()
-        sdk.defaults.setNotifications(to: n)
+        sdk.defaults.replaceStoredNotifications(to: n)
     }
 
     // MARK: - Picker Functions
@@ -155,13 +155,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             ) {
             switch d {
             case .DeliveryMethod:
-                deliveryMethodButton.setTitle(to: chosenItem)
+                deliveryMethodButton.setTitle(chosenItem)
             case .ExpirationInterval:
-                expirationIntervalButton.setTitle(to: chosenItem)
+                expirationIntervalButton.setTitle(chosenItem)
             case .Quantity:
-                quantityButton.setTitle(to: chosenItem)
+                quantityButton.setTitle(chosenItem)
             case .Theme:
-                themeButton.setTitle(to: chosenItem)
+                themeButton.setTitle(chosenItem)
             default:
                 break
             }
@@ -208,24 +208,21 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
     
-    private func selectPicker(deliveryMethod: DeliveryMethod) -> UIPickerView {
-        
-    }
-    
-    private func openPicker(_ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView, selectedRow: Int) {
+    private func openPicker(
+        _ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView, selectedRow: Int
+    ) {
         picker.selectRow(selectedRow, inComponent: 0, animated: false)
-        UIView.transition(with: picker as UIView,
-                          duration: 0.4,
-                          options: .transitionFlipFromTop,
-                          animations: { picker.isHidden = false },
-                          completion: nil)
+        UIView.transition(
+            with: picker as UIView,
+            duration: 0.4,
+            options: .transitionFlipFromTop,
+            animations: { picker.isHidden = false },
+            completion: nil
+        )
     }
-    
-    /** Select the button,
-       And for count, set global variable necessary for animation,
-       And close the picker,
-       Then, save newly set User Defaults */
-    private func closePicker(_ buttonTapped: UIButton,_ picker: UIPickerView, _ key: PDDefault, row: Int) {
+
+    private func closePicker(
+        _ buttonTapped: UIButton,_ picker: UIPickerView, _ key: PDDefault, row: Int) {
         buttonTapped.isSelected = false
         picker.isHidden = true
         self.saveFromPicker(key, for: row)
@@ -235,7 +232,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// Saves values from pickers (NOT a function for TimePickers though).
     private func saveFromPicker(_ key: PDDefault, for row: Int) {
-        app.notifications.cancelAllHormoneExpiredNotifications()
+        app.notifications.cancelAllExpiredHormoneNotifications()
         switch key {
         case .DeliveryMethod :
             saveDeliveryMethodChange(row)
@@ -244,18 +241,17 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         case .ExpirationInterval :
             saveIntervalChange(row)
         case .Theme :
-            saveThemeChange()
+            saveThemeChange(row)
         default:
             print("Error: No picker for key \(key)")
         }
-        app.notifications.resendAllHormoneExpiredNotifications()
+        app.notifications.resendAllExpiredExpiredNotifications()
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
         let newMethod = PDPickerOptions.getDeliveryMethod(at: row)
         if sdk.isFresh {
-            sdk.set
-            sdk.deliveryMethod = newMethod
+            sdk.setDeliveryMethod(to: newMethod)
         } else {
             presentDeliveryMethodMutationAlert(choice: newMethod)
         }
@@ -274,16 +270,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func saveIntervalChange(_ row: Int) {
         let newInterval = PDPickerOptions.expirationIntervals[row]
-        sdk.setExpirationInterval(using: newInterval)
+        sdk.setExpirationInterval(to: newInterval)
     }
     
-    private func saveThemeChange() {
-        let newTheme = themePicker.getSelectedRow()
-        let theme = pdShell.setThemeIfSafe(toMethodAt: row)
-        if theme != "" {
+    private func saveThemeChange(_ row: Int) {
+        if let theme = PDPickerOptions.getTheme(at: row) {
+            sdk.setTheme(to: theme)
             app.resetTheme()
-        } else {
-            print("Error: no theme for row \(row)")
         }
     }
     
@@ -307,7 +300,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
-        sdk.defaults.setNotificationsMinutesBefore(to: 0)
+        sdk.defaults.replaceStoredNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.value = 0
     }
     
@@ -357,11 +350,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             let methodTitle = PDPickerOptions.getDeliveryMethodString(for: choice)
             switch choice {
             case .Patches:
-                self.deliveryMethodButton.setStatelessTitle(to: methodTitle)
+                self.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
                 self.quantityButton.isEnabled = true
                 self.quantityArrowButton.isEnabled = true
             case .Injections:
-                self.deliveryMethodButton.setStatelessTitle(to: methodTitle)
+                self.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
                 self.quantityButton.isEnabled = false
                 self.quantityArrowButton.isEnabled = false
             }
@@ -381,8 +374,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         view.backgroundColor = app.styles.theme[.bg]
         settingsView.backgroundColor = app.styles.theme[.bg]
         settingsStack.backgroundColor = app.styles.theme[.bg]
-        deliveryMethodButton.setTitleColor(app.styles.theme[.text], for: .normal)
-        expirationIntervalButton.setTitleColor(app.styles.theme[.text], for: .normal)
+        deliveryMethodButton.setTitleColor(app.styles.theme[.text]!)
+        expirationIntervalButton.setTitleColor(app.styles.theme[.text]!)
         quantityButton.setTitleColor(app.styles.theme[.text], for: .normal)
         notificationsSwitch.backgroundColor = app.styles.theme[.bg]
         notificationsMinutesBeforeSlider.backgroundColor = app.styles.theme[.bg]
@@ -396,22 +389,22 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
     private func loadDeliveryMethod() {
         let method = sdk.defaults.deliveryMethod.rawValue
-        deliveryMethodButton.setTitle(method, for: .normal)
+        deliveryMethodButton.setTitle(method)
     }
     
     private func loadExpirationInterval() {
         let interval = sdk.defaults.expirationInterval.humanPresentableValue
-        expirationIntervalButton.setTitle(interval, for: .normal)
+        expirationIntervalButton.setTitle(interval)
     }
     
     private func loadQuantity() {
-        let q = sdk.quantityInt
-        quantityButton.setTitle("\(q)", for: .normal)
-        if sdk.deliveryMethod != .Patches {
+        let q = sdk.defaults.quantity.rawValue
+        quantityButton.setTitle("\(q)")
+        if sdk.deliveryMethod == .Injections {
             quantityButton.isEnabled = false
             quantityArrowButton.isEnabled = false
             if q != 1 {
-                sdk.defaults.setQuantity(to: 1)
+                sdk.setQuantity(to: 1)
             }
         }
     }

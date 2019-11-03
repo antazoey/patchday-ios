@@ -31,10 +31,12 @@ class PDNotificationStrings {
             )
     ]
     
-    static func getHormoneNotificationStrings(method: DeliveryMethod,
-                                              minutesBefore: Double,
-                                              expiringSiteName: String,
-                                              suggestedSiteName: String? = nil) -> (String, String) {
+    static func getHormoneNotificationStrings(
+        method: DeliveryMethod,
+        minutesBefore: Double,
+        expiringSiteName: String,
+        suggestedSiteName: String? = nil) -> (String, String
+        ) {
         var titleBuilder: String
         var titleOptions: [String]
         var bodyBuilder: String

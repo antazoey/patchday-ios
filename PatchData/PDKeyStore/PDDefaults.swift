@@ -13,84 +13,85 @@ public class PDDefaultsConstants {
     public static let maxQuantity = 4
 }
 
-public class PDDefaults: PDDefaultsBaseClass, PDDefaultManaging {
+public class PDDefaults: PDDefaultManaging {
 
     // Dependencies
     private var state: PDStateManaging
+    private var handler: PDDefaultsStorageHandler
 
     // Defaults
-    public var deliveryMethod = DeliveryMethodUD(with: DeliveryMethod.Patches)
-    public var expirationInterval = ExpirationIntervalUD(with: ExpirationInterval.TwiceAWeek)
-    public var quantity = QuantityUD(with: 4)
-    public var notifications = NotificationsUD(with: false)
-    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(with: 0)
-    public var mentionedDisclaimer = MentionedDisclaimerUD(with: false)
-    public var siteIndex = SiteIndexUD(with: 0)
-    public var theme = PDThemeUD(with: PDTheme.Light)
+    public var deliveryMethod = DeliveryMethodUD()
+    public var expirationInterval = ExpirationIntervalUD()
+    public var quantity = QuantityUD()
+    public var notifications = NotificationsUD()
+    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD()
+    public var mentionedDisclaimer = MentionedDisclaimerUD()
+    public var siteIndex = SiteIndexUD()
+    public var theme = PDThemeUD()
 
     // MARK: - initializer
     
-    init(stateManager: PDStateManaging, meter: PDDataMeting) {
+    init(stateManager: PDStateManaging, handler: PDDefaultsStorageHandler) {
         self.state = stateManager
-        super.init(meter: meter)
-        self.load(&deliveryMethod)
-        self.load(&expirationInterval)
-        self.load(&quantity)
-        self.load(&notifications)
-        self.load(&notificationsMinutesBefore)
-        self.load(&mentionedDisclaimer)
-        self.load(&theme)
+        self.handler = handler
+        handler.load(&deliveryMethod)
+            .load(&expirationInterval)
+            .load(&quantity)
+            .load(&notifications)
+            .load(&notificationsMinutesBefore)
+            .load(&mentionedDisclaimer)
+            .load(&theme)
     }
     
     public func reset(defaultSiteCount: Int=4) {
-        setDeliveryMethod(to: .Patches)
-        setQuantity(to: 3)
-        setExpirationInterval(to: .TwiceAWeek)
-        setNotifications(to: true)
-        setSiteIndex(to: 3, siteCount: defaultSiteCount)
-        setNotificationsMinutesBefore(to: 0)
-        setMentionedDisclaimer(to: false)
-        setTheme(to: .Light)
+        replaceStoredDeliveryMethod(to: .Patches)
+        replaceStoredQuantity(to: 3)
+        replaceStoredExpirationInterval(to: .TwiceAWeek)
+        replaceStoredNotifications(to: true)
+        replaceStoredSiteIndex(to: 3, siteCount: defaultSiteCount)
+        replaceStoredNotificationsMinutesBefore(to: 0)
+        replaceStoredMentionedDisclaimer(to: false)
+        replaceStoredTheme(to: .Light)
     }
     
-    public func setDeliveryMethod(to method: DeliveryMethod) {
-        set(&deliveryMethod, to: method)
+    public func replaceStoredDeliveryMethod(to method: DeliveryMethod) {
+        handler.replace(&deliveryMethod, to: method)
         let q = method == .Injections ? Quantity.One : Quantity.Three
-        self.set(&self.quantity, to: q)
+        handler.replace(&quantity, to: q)
         state.deliveryMethodChanged = true
     }
     
-    @objc public func setQuantity(to newQuantity: Int) {
+    @objc public func replaceStoredQuantity(to newQuantity: Int) {
         if let q = Quantity(rawValue: newQuantity) {
-            self.set(&quantity, to: q)
+            handler.replace(&quantity, to: q)
         }
     }
-    
-    public func setExpirationInterval(to i: ExpirationInterval) {
-        set(&expirationInterval, to: i)
+     
+    public func replaceStoredExpirationInterval(to i: ExpirationInterval) {
+        handler.replace(&expirationInterval, to: i)
     }
     
-    public func setNotifications(to b: Bool) {
-        set(&notifications, to: b)
+    public func replaceStoredNotifications(to b: Bool) {
+        handler.replace(&notifications, to: b)
     }
     
-    public func setNotificationsMinutesBefore(to i: Int) {
-        set(&notificationsMinutesBefore, to: i)
+    public func replaceStoredNotificationsMinutesBefore(to i: Int) {
+        handler.replace(&notificationsMinutesBefore, to: i)
     }
     
-    public func setMentionedDisclaimer(to b: Bool) {
-        set(&mentionedDisclaimer, to: b)
+    public func replaceStoredMentionedDisclaimer(to b: Bool) {
+        handler.replace(&mentionedDisclaimer, to: b)
     }
     
-    @discardableResult public func setSiteIndex(to i: Index, siteCount: Int) -> Index {
+    @discardableResult public func replaceStoredSiteIndex(to i: Index, siteCount: Int) -> Index {
         if i < siteCount && i >= 0 {
-            set(&siteIndex, to: i)
+            handler.replace(&siteIndex, to: i)
             return i
         }
         return 0
     }
     
-    public func setTheme(to t: PDTheme) {
-        set(&theme, to: t)
+    public func replaceStoredTheme(to t: PDTheme) {
+        handler.replace(&theme, to: t)
     }
 }

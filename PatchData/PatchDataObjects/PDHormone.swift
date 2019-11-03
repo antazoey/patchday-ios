@@ -97,6 +97,13 @@ public class PDHormone: PDObject, Hormonal, Comparable {
         }
         return false
     }
+    
+    public var expiresOvernight: Bool {
+        if let exp = expiration {
+            return exp.isOvernight()
+        }
+        return false
+    }
 
     public var siteName: String {
         if let name = hormone.siteRelationship?.name ?? siteNameBackUp {

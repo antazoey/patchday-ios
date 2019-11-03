@@ -63,7 +63,8 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
 
     func cancelAllExpiredHormoneNotifications() {
-        cancelExpiredHormoneNotifications(from: 0, to: sdk.quantity - 1)
+        let end = sdk.defaults.quantity.rawValue - 1
+        cancelExpiredHormoneNotifications(from: 0, to: end)
     }
     
     /// Cancels all the hormone notifications in the given indices.
@@ -91,7 +92,8 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
     
     func resendAllExpiredExpiredNotifications() {
-        resendExpiredHormoneNotifications(from: 0, to: sdk.quantity - 1)
+        let end = sdk.defaults.quantity.rawValue - 1
+        resendExpiredHormoneNotifications(from: 0, to: end)
     }
     
     // MARK: - Pills
@@ -121,8 +123,8 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
     
     /// Request a hormone notification that occurs when it's due overnight.
-    func requestOvernightExpirationNotification(_ hormone: Hormonal, expDate: Date) {
-        if let triggerDate = PDDateHelper.dateBefore(overNightDate: expDate) {
+    func requestOvernightExpirationNotification(_ hormone: Hormonal) {
+        if let exp = hormone.expiration, let triggerDate = PDDateHelper.dateBefore(overNightDate: exp) {
             ExpiredHormoneOvernightNotification(
                 triggerDate: triggerDate,
                 deliveryMethod: sdk.deliveryMethod,

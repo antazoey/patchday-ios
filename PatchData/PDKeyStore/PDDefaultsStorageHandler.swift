@@ -9,14 +9,11 @@
 import Foundation
 import PDKit
 
-public class PDDefaultsBaseClass: NSObject {
-    
+public class PDDefaultsStorageHandler: NSObject, PDDefaultStorageHandling {
+
     override open var description: String {
         return """
-        The PDDefaults makes calls to User Defaults
-        that are unique to the user and their schedule.
-        The data stored here is simple enough that PatchDay
-        stores it as key-value pairs.
+        Handles pushing and pulling from UserDefaults.
         """
     }
     
@@ -26,14 +23,15 @@ public class PDDefaultsBaseClass: NSObject {
     public init(meter: PDDataMeting) {
         self.meter = meter
     }
-    
-    func set<T>(_ v: inout T, to new: T.Value) where T: PDKeyStorable {
+
+     @discardableResult public func replace<T>(_ v: inout T, to new: T.Value) -> PDDefaultStorageHandling where T : PDKeyStorable {
         v.value = new
         meter?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
         std_defaults.set(v.rawValue, forKey: T.key.rawValue)
+        return self
     }
     
-    func find<T>(_ v: inout T) -> Bool where T: PDKeyStorable {
+    public func find<T>(_ v: inout T) -> Bool where T: PDKeyStorable {
         let def1 = meter?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
         let def2 = std_defaults.object(forKey: T.key.rawValue) as? T.RawValue
         let fv = def1 ?? def2 ?? v.rawValue
@@ -41,10 +39,11 @@ public class PDDefaultsBaseClass: NSObject {
         return def1 != nil || def2 != nil
     }
     
-    func load<T>(_ v: inout T) where T: PDKeyStorable {
+    @discardableResult public func load<T>(_ v: inout T) -> PDDefaultStorageHandling where T : PDKeyStorable {
         let found = find(&v)
         if !found {
-            self.set(&v, to: v.value)
+            self.replace(&v, to: v.value)
         }
+        return self
     }
 }

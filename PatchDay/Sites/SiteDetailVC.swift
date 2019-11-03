@@ -131,20 +131,23 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
-        typeNameButton.setTitle(PDActionStrings.done, for: .normal)
-        nameText.removeTarget(self, action: #selector(typeTapped(_:)), for: .touchUpInside)
+        typeNameButton.setTitle(PDActionStrings.done)
         
+        var newAction: Selector?
         switch textField.restorationIdentifier {
         case "type" :
             nameText.isEnabled = true
             textField.restorationIdentifier = "select"
-            typeNameButton.addTarget(self, action: #selector(closeTextField), for: .touchUpInside)
+            newAction = #selector(closeTextField)
         case "select" :
             view.endEditing(true)
             nameText.isEnabled = false
             openPicker(namePicker)
-            typeNameButton.addTarget(self, action: #selector(closePicker), for: .touchUpInside)
+            newAction = #selector(closePicker)
         default : break
+        }
+        if let new = newAction {
+            typeNameButton.replaceTarget(self, newAction: new)
         }
     }
     

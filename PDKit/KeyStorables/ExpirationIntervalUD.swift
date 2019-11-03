@@ -52,6 +52,20 @@ public class ExpirationIntervalUD: PDKeyStorable {
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
     
+    public required init(with val: String) {
+        valueHolder = ExpirationIntervalValueHolder(raw: val)
+        v = valueHolder.indexer
+    }
+    
+    public required init(with val: ExpirationInterval) {
+        v = val
+        valueHolder = ExpirationIntervalValueHolder(indexer: v)
+    }
+    
+    public convenience required init() {
+        self.init(with: .TwiceAWeek)
+    }
+    
     public var value: ExpirationInterval {
         get { return v }
         set {
@@ -63,16 +77,6 @@ public class ExpirationIntervalUD: PDKeyStorable {
     public var rawValue: String { return valueHolder.heldValue }
     
     public static var key = PDDefault.ExpirationInterval
-    
-    public required init(with val: String) {
-        valueHolder = ExpirationIntervalValueHolder(raw: val)
-        v = valueHolder.indexer
-    }
-    
-    public required init(with val: ExpirationInterval) {
-        v = val
-        valueHolder = ExpirationIntervalValueHolder(indexer: v)
-    }
     
     public var hours: Int {
         switch value {

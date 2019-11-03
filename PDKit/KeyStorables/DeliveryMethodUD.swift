@@ -44,6 +44,20 @@ public class DeliveryMethodUD: PDKeyStorable {
     public typealias Value = DeliveryMethod
     public typealias RawValue = String
     
+    public required init(with val: String) {
+        valueHolder = DeliveryMethodValueHolder(raw: val)
+        v = valueHolder.indexer
+    }
+    
+    public required init(with val: DeliveryMethod) {
+        v = val
+        valueHolder = DeliveryMethodValueHolder(indexer: v)
+    }
+    
+    public convenience required init() {
+        self.init(with: .Patches)
+    }
+    
     public var value: DeliveryMethod {
         get { return v }
         set {
@@ -55,14 +69,4 @@ public class DeliveryMethodUD: PDKeyStorable {
     public var rawValue: String { return valueHolder.heldValue }
     
     public static var key = PDDefault.DeliveryMethod
-    
-    public required init(with val: String) {
-        valueHolder = DeliveryMethodValueHolder(raw: val)
-        v = valueHolder.indexer
-    }
-    
-    public required init(with val: DeliveryMethod) {
-        v = val
-        valueHolder = DeliveryMethodValueHolder(indexer: v)
-    }
 }

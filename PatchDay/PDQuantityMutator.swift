@@ -27,16 +27,16 @@ class PDQuantityMutator: PDQuantityMutating {
     }
     
     func setQuantity(to newQuantity: Int) {
-        let oldQuantity = sdk.quantity.rawValue
+        let oldQuantity = sdk.defaults.quantity.rawValue
         if newQuantity < oldQuantity {
             alerts.presentQuantityMutationAlert(
                 oldQuantity: oldQuantity,
                 newQuantity: newQuantity,
-                setter: sdk.setQuantity(using:),
+                setter: sdk.setQuantity(to:),
                 reset: makeResetClosure(oldQuantity: oldQuantity),
                 cancel: self.cancel)
         } else {
-            sdk.setQuantity(using: newQuantity)
+            sdk.setQuantity(to: newQuantity)
             cancel(oldQuantity)
         }
     }

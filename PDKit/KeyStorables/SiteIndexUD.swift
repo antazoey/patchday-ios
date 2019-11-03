@@ -14,11 +14,13 @@ public class SiteIndexUD: PDKeyStorable {
     
     public typealias RawValue = Int
     
+    public required init(with val: Int) { value = val }
+    
+    public convenience required init() { self.init(with: 0) }
+    
     public var value: Int
     
     public var rawValue: Int { return value }
     
     public static var key = PDDefault.SiteIndex
-    
-    public required init(with val: Int) { value = val }
 }

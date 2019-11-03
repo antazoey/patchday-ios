@@ -67,7 +67,9 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public convenience init(swallowHandler: PDPillSwallowing) {
         let dataMeter = PDDataMeter()
         let state = PDState()
-        let defaults = PDDefaults(stateManager: state, meter: dataMeter)
+        let defaults = PDDefaults(
+            stateManager: state, handler: PDDefaultsStorageHandler(meter: dataMeter)
+        )
         let isNew = !defaults.mentionedDisclaimer.value
         let pills = PDPills(isFirstInit: isNew)
         let method = defaults.deliveryMethod.value
@@ -120,28 +122,14 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     // MARK: - Defaults
 
-    public var siteIndex: Index {
-        return defaults.siteIndex.rawValue
-    }
-
     public var deliveryMethod: DeliveryMethod {
         return defaults.deliveryMethod.value
     }
-    
-    public var quantity: Int { return defaults.quantity.rawValue }
-    
-    public var expirationInterval: ExpirationInterval {
-        return defaults.expirationInterval.value
-    }
-    
-    public var theme: PDTheme {
-        return defaults.theme.value
-    }
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
-        defaults.setDeliveryMethod(to: newMethod)
+        defaults.replaceStoredDeliveryMethod(to: newMethod)
         let newIndex = PDKeyStorableHelper.defaultQuantity(for: newMethod)
-        defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
+        defaults.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
         broadcastHormones()
         state.deliveryMethodChanged = true
     }
@@ -161,22 +149,22 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
                     deliveryMethod: deliveryMethod
                 )
             }
-            defaults.setQuantity(to: newQuantity)
+            defaults.replaceStoredQuantity(to: newQuantity)
         }
     }
      
     public func setExpirationInterval(to newInterval: String) {
         let exp = PDPickerOptions.getExpirationInterval(for: newInterval)
-        defaults.setExpirationInterval(to: exp)
+        defaults.replaceStoredExpirationInterval(to: exp)
     }
     
     public func setTheme(to newTheme: String) {
         let theme = PDPickerOptions.getTheme(for: newTheme)
-        defaults.setTheme(to: theme)
+        defaults.replaceStoredTheme(to: theme)
     }
     
     @discardableResult public func setSiteIndex(to newIndex: Index) -> Index {
-        return defaults.setSiteIndex(to: newIndex, siteCount: sites.count)
+        return defaults.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
     }
 
     // MARK: - Hormones
@@ -263,6 +251,20 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     public func setPill(_ pill: Swallowable, with attributes: PillAttributes) {
         pills.set(for: pill, with: attributes)
         broadcastPills()
+    }
+    
+    @discardableResult public func insetNewPill() -> Swallowable? {
+        if let pill = pills.insertNew(completion: self.broadcastPills) {
+            return pill
+        }
+        return nil
+    }
+    
+    public func deletePill(at index: Index) {
+        if let pill = pills.at(index) {
+            pill.delete()
+            broadcastPills()
+        }
     }
 
     // MARK: - DataMeter

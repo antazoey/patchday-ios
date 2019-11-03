@@ -44,6 +44,20 @@ public class PDThemeUD: PDKeyStorable {
     public typealias Value = PDTheme
     public typealias RawValue = String
     
+    public required init(with val: String) {
+        valueHolder = PDThemeValueHolder(raw: val)
+        v = valueHolder.indexer
+    }
+    
+    public required init(with val: PDTheme) {
+        v = val
+        valueHolder = PDThemeValueHolder(indexer: v)
+    }
+    
+    public convenience required init() {
+        self.init(with: .Light)
+    }
+    
     public var value: PDTheme {
         get { return v }
         set {
@@ -55,14 +69,4 @@ public class PDThemeUD: PDKeyStorable {
     public var rawValue: String { return valueHolder.heldValue }
     
     public static var key = PDDefault.Theme
-    
-    public required init(with val: String) {
-        valueHolder = PDThemeValueHolder(raw: val)
-        v = valueHolder.indexer
-    }
-    
-    public required init(with val: PDTheme) {
-        v = val
-        valueHolder = PDThemeValueHolder(indexer: v)
-    }
 }

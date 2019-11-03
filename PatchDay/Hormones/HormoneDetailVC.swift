@@ -67,35 +67,12 @@ class HormoneDetailVC: UIViewController,
         super.viewDidLoad()
         hormone = sdk.hormones.at(hormoneIndex)
         loadTitle()
-        selectSiteTextField.autocapitalizationType = .words
-        view.backgroundColor = UIColor.white
-        let save = PDActionStrings.save
-        let handleSave = #selector(saveButtonTapped(_:))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: save,
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: handleSave)
-        saveButton = navigationItem.rightBarButtonItem
-        saveButton.isEnabled = false
-        autofillButton.setTitleColor(UIColor.darkGray, for: UIControl.State.disabled)
-        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
-            topConstraint.constant = 100
-            autofillButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
-        }
-        
-        // Load data
-        setUpLabelsInUI()
-        displayAttributeTexts()
-        
-        // Delegation
-        selectSiteTextField.delegate = self
-        sitePicker.delegate = self
-        sitePicker.dataSource = self
-        
-        // Site Type setup
-        selectSiteTextField.restorationIdentifier = "pick"
-        verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
-        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
+        loadExpirationText()
+        loadSiteControls()
+        loadSaveButton()
+        loadAutofillButton()
+        loadExpirationText()
+        loadSiteControls()
     }
 
     @objc private func saveButtonTapped(_ sender: Any) {
@@ -105,7 +82,6 @@ class HormoneDetailVC: UIViewController,
             let isExpiredAfterSave = mone.isExpired
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotifications()
-            sdk.hormones.sort()
         }
         self.tabs.reflectHormone()
         if let navCon = navigationController {
@@ -131,19 +107,22 @@ class HormoneDetailVC: UIViewController,
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
         typeSiteButton.setTitle(PDActionStrings.done, for: .normal)
-        typeSiteButton.removeTarget(self, action: #selector(keyboardTapped(_:)), for: .touchUpInside)
+        var newAction: Selector?
         switch (textField.restorationIdentifier) {
             case "type" :
                 selectSiteTextField.isEnabled = true
                 selectSiteTextField.text = ""
                 textField.restorationIdentifier = "pick"
-                typeSiteButton.addTarget(self, action: #selector(closeTextField), for: .touchUpInside)
+                newAction = #selector(closeTextField)
             case "pick" :
                 view.endEditing(true)
                 selectSiteTextField.isEnabled = false
-                typeSiteButton.addTarget(self, action: #selector(closeSitePicker), for: .touchUpInside)
+                newAction = #selector(closeSitePicker)
                 fallthrough
             default : openSitePicker(textField)
+        }
+        if let new = newAction {
+            typeSiteButton.replaceTarget(self, newAction: new)
         }
     }
     
@@ -160,12 +139,7 @@ class HormoneDetailVC: UIViewController,
         autofillButton.isHidden = false
         selectSiteTextField.isHidden = false
         saveButton.isEnabled = true
-        typeSiteButton.removeTarget(
-            self,
-            action: #selector(closeTextField),
-            for: .touchUpInside
-        )
-        typeSiteButton.addTarget(self, action: #selector(keyboardTapped(_:)), for: .touchUpInside)
+        typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
         siteIndexSelected = sdk.sites.count
         if let n = selectSiteTextField.text {
             alerts.presentNewSiteAlert(
@@ -208,12 +182,7 @@ class HormoneDetailVC: UIViewController,
         shouldSaveSelectedSiteIndex = true
         shouldSaveIncrementedSiteIndex = false
         typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
-        typeSiteButton.removeTarget(self,
-                                    action: #selector(closeSitePicker),
-                                    for: .touchUpInside)
-        typeSiteButton.addTarget(self,
-                                 action: #selector(keyboardTapped(_:)),
-                                 for: .touchUpInside)
+        typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -289,108 +258,11 @@ class HormoneDetailVC: UIViewController,
     
     // MARK: - private funcs
     
-    private func displayAttributeTexts() {
-        let isNew = hormone.i
-        ledft isNewSite = hor hormone.siteName == PDStrings.PlaceholderStrings.newSite
-        selectSiteTextField.text = name
-        
-        if hormone.siteName == PDStrings.PlaceholderStrings.newSite {
-            selectSiteTextField.text = PDActionStrings.select
-        } else {
-            selectSiteTextField.text = name
-        }
-        
-        switch hormone.siteName {
-        case PDStrings.PlaceholderStrings.newSite:
-            selectSiteTextField.text = PDActionStrings.select
-        default:
-            selectSiteTextField.text = name
-        }
-        let interval = sdk.defaults.expirationInterval
-        let formattedDate = PDDateHelper.format(date: hormone.date, useWords: true)
-        chooseDateButton.setTitle(formattedDate, for: .normal)
-        expirationDateLabel.text = hormone.expirationString
-    }
-
-    private func saveData() {
-        switch (saveSite: siteTextHasChanged, saveDate: dateTextHasChanged) {
-        case (saveSite: true, saveDate: true):
-            if let site = selectedSite {
-                sdk.setHormoneDateAndSite(
-                    at: hormoneIndex,
-                    date: datePicker.date, site: site
-                )
-            }
-        case (saveSite: true, saveDate: false):
-            if let site = selectedSite {
-                sdk.setHormoneSite(at: hormoneIndex, with: site)
-            }
-        case (saveSite: false, saveDate: true):
-            sdk.setHormoneDate(at: hormoneIndex, with: datePicker.date)
-        default:
-            return
+    private func loadTitle() {
+        title = PDVCTitleStrings.getTitle(for: sdk.deliveryMethod)
     }
     
-    private func autoPickSite() {
-        let set = defaults.setSiteIndex
-        if let suggestedSite = siteSchedule.suggest(changeIndex: set) {
-            selectedSite = suggestedSite
-            shouldSaveIncrementedSiteIndex = true
-            shouldSaveSelectedSiteIndex = false
-            if let suggestedSiteName = suggestedSite.name{
-                selectSiteTextField.text = suggestedSiteName
-                siteTextHasChanged = true
-                siteIndexSelected = Int(suggestedSite.order)
-            }
-        }
-    }
-    
-    private func autoPickDate() {
-        let now = Date()
-        let interval = defaults.expirationInterval.hours
-        chooseDateButton.setTitle(PDDateHelper.format(date: now, useWords: true), for: .normal)
-        if let expDate = PDDateHelper.expirationDate(from: now, interval) {
-            expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
-            dateTextHasChanged = true
-            dateSelected = now
-        }
-    }
-    
-    private func requestNotifications() {
-        if let mone = hormone {
-            notifications.requestHormoneExpiredNotification(for: estro)
-
-            // Overnight
-            let interval = defaults.expirationInterval
-            if let expDate = estro.expirationDate(interval: interval),
-                expDate.isOvernight() {
-                notifications.requestOvernightNotification(estro, expDate: expDate)
-            }
-        }
-    }
-    
-    private func cancelNotification() {
-        notifications.cancelHormoneNotification(at: hormoneIndex)
-    }
-    
-    // MARK: - Private
-    
-    private func findSiteStartRow(_ site: String) -> Int {
-        if siteIndexSelected != -1 {
-            return siteIndexSelected
-        } else if let site = estrogen.getSite() {
-            let order = site.order
-            if order >= 1 && order <= siteSchedule.count() {
-                let i = Int(order)
-                siteIndexSelected = i
-                return i
-            }
-        }
-        return 0
-    }
-    
-    /// Sets titles related to the hormone's expiration date.
-    private func setUpLabelsInUI() {
+    private func loadExpirationText() {
         if let mone = hormone {
             let method = sdk.deliveryMethod
             let viewStrings = PDColonedStrings.getHormoneViewStrings(
@@ -406,10 +278,110 @@ class HormoneDetailVC: UIViewController,
         }
     }
     
+    private func loadSiteControls() {
+        selectSiteTextField.autocapitalizationType = .words
+        selectSiteTextField.text = hormone.isCerebral
+            ? PDActionStrings.select : hormone.siteName
+        selectSiteTextField.restorationIdentifier = "pick"
+        selectSiteTextField.delegate = self
+        sitePicker.delegate = self
+        sitePicker.dataSource = self
+        verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
+        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
+    }
+    
+    private func loadSaveButton() {
+        let save = PDActionStrings.save
+        let handleSave = #selector(saveButtonTapped(_:))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: save, style: .plain, target: self, action: handleSave
+        )
+        saveButton = navigationItem.rightBarButtonItem
+        saveButton.isEnabled = false
+    }
+    
+    private func loadAutofillButton() {
+        autofillButton.setTitleColor(UIColor.darkGray, for: UIControl.State.disabled)
+        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+            topConstraint.constant = 100
+            autofillButton.titleLabel?.font = UIFont.systemFont(ofSize: 30)
+        }
+    }
+
+    private func saveData() {
+        switch (saveSite: siteTextHasChanged, saveDate: dateTextHasChanged) {
+        case (saveSite: true, saveDate: true):
+            if let site = selectedSite {
+                sdk.setHormoneDateAndSite(
+                    at: hormoneIndex,
+                    date: datePicker.date,
+                    site: site
+                )
+            }
+        case (saveSite: true, saveDate: false):
+            if let site = selectedSite {
+                sdk.setHormoneSite(at: hormoneIndex, with: site)
+            }
+        case (saveSite: false, saveDate: true):
+            sdk.setHormoneDate(at: hormoneIndex, with: datePicker.date)
+        default:
+            return
+        }
+    }
+    
+    private func autoPickSite() {
+        if let nextSite = sdk.sites.suggested {
+            shouldSaveIncrementedSiteIndex = true
+            shouldSaveSelectedSiteIndex = false
+            selectSiteTextField.text = nextSite.name
+            siteTextHasChanged = true
+            siteIndexSelected = nextSite.order
+        }
+    }
+    
+    private func autoPickDate() {
+        let now = Date()
+        let interval = sdk.defaults.expirationInterval.hours
+        chooseDateButton.setTitle(PDDateHelper.format(date: now, useWords: true), for: .normal)
+        if let expDate = PDDateHelper.expirationDate(from: now, interval) {
+            expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
+            dateTextHasChanged = true
+            dateSelected = now
+        }
+    }
+    
+    private func requestNotifications() {
+        if let mone = hormone {
+            notifications.requestExpiredHormoneNotification(for: mone)
+            if mone.expiresOvernight {
+                notifications.requestOvernightExpirationNotification(mone)
+            }
+        }
+    }
+    
+    private func cancelNotification() {
+        notifications.requestExpiredHormoneNotification(for: hormone)
+    }
+    
+    // MARK: - Private
+    
+    private func findSiteStartRow(_ site: String) -> Int {
+        if siteIndexSelected != -1 {
+            return siteIndexSelected
+        } else if let site = hormone.site {
+            let order = site.order
+            if order >= 1 && order <= sdk.sites.count {
+                siteIndexSelected = order
+                return order 
+            }
+        }
+        return 0
+    }
+    
     /// Returns UIDatePicker start-x value based on on whether iphone or ipad.
     private func configureDatePickerStartX() -> CGFloat {
-        let dim = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 0 : view.frame.width/2.8
-        return dim
+        return UI_USER_INTERFACE_IDIOM() ==
+            UIUserInterfaceIdiom.phone ? 0 : view.frame.width / 2.8
     }
     
     /// Makes done button for editing state.
@@ -422,20 +394,13 @@ class HormoneDetailVC: UIViewController,
         doneButton.setTitle(PDActionStrings.done, for: UIControl.State.highlighted)
         doneButton.setTitleColor(UIColor.blue, for: UIControl.State.normal)
         doneButton.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
-        doneButton.removeTarget(nil, action: nil, for: .allEvents)
-        doneButton.addTarget(self, action: #selector(datePickerDone), for: .touchUpInside)
+        doneButton.replaceTarget(self, newAction: #selector(datePickerDone))
         return doneButton
     }
 
-    private func loadTitle() {
-        title = PDVCTitleStrings.getTitle(for: sdk.deliveryMethod)
-    }
-    
-    /// Gives start x for date picker Done button depending on iPad vs iPhone.
     private func configureDoneButtonStartX() -> CGFloat {
-        let x = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
+        return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone ?
             (view.frame.size.width / 2) - 50 : 0
-        return x
     }
     
     private func configureBadgeIcon(_ wasExpiredBeforeSave: Bool,_ isExpiredAfterSave: Bool) {

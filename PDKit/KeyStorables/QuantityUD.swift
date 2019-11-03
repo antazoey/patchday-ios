@@ -37,18 +37,6 @@ public class QuantityUD: PDKeyStorable {
     public typealias Value = Quantity
     public typealias RawValue = Int
     
-    public var value: Quantity {
-        get { return v }
-        set {
-            v = newValue
-            valueHolder = QuantityValueHolder(indexer: value)
-        }
-    }
-    
-    public var rawValue: Int { return valueHolder.heldValue }
-    
-    public static var key = PDDefault.Quantity
-    
     public required convenience init(with val: Int) {
         var count: Quantity;
         if let q = Quantity.init(rawValue: val) {
@@ -63,4 +51,20 @@ public class QuantityUD: PDKeyStorable {
         v = val
         valueHolder = QuantityValueHolder(indexer: v)
     }
+    
+    public convenience required init() {
+        self.init(with: .Four)
+    }
+    
+    public var value: Quantity {
+        get { return v }
+        set {
+            v = newValue
+            valueHolder = QuantityValueHolder(indexer: value)
+        }
+    }
+    
+    public var rawValue: Int { return valueHolder.heldValue }
+    
+    public static var key = PDDefault.Quantity
 }

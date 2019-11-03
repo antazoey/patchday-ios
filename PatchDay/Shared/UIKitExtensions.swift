@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PDKit
 
 extension UIPickerView {
 
@@ -28,12 +29,37 @@ extension UISwitch {
 
 extension UIButton {
     
-    func setStatelessTitle(to title: String) {
+    func setTitleForNormalAndDisabled(_ title: String) {
         setTitle(title, for: .normal)
         setTitle(title, for: .disabled)
     }
     
-    func setTitle(to title: String) {
+    func setTitle(_ title: String) {
         setTitle(title, for: .normal)
+    }
+    
+    func setTitleColor(_ color: UIColor) {
+        setTitleColor(color, for: .normal)
+    }
+    
+    func restoreSuffix() -> Int? {
+        if let restoreId = restorationIdentifier {
+            return Int("\(restoreId.suffix(1))")
+        }
+        return -1
+    }
+    
+    func replaceTarget(_ baseTarget: Any?, newAction: Selector, for event: UIControl.Event = .touchUpInside) {
+        removeTarget(nil, action: nil, for: .allEvents)
+        addTarget(baseTarget, action: newAction, for: event)
+    }
+}
+
+extension UINavigationController {
+    
+    func goToPillDetails(source: UIViewController, sdk: PatchDataDelegate, pill: Swallowable) {
+        if let vc = PillDetailVC.createPillDetailVC(source: source, sdk: sdk, pill: pill) {
+            pushViewController(vc, animated: true)
+        }
     }
 }

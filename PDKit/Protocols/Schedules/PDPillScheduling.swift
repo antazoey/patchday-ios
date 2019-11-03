@@ -45,4 +45,7 @@ public protocol PDPillScheduling: PDSchedule, PDDeleting {
     
     /// Swallows the next pill due.
     func swallow(completion: (() -> ())?)
+    
+    /// Gets the index of the given pill.
+    func indexOf(_ pill: Swallowable) -> Index?
 }

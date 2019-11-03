@@ -38,26 +38,26 @@ public protocol PDDefaultManaging {
     func reset(defaultSiteCount: Int)
 
     /// Replaces the value of 'delivery method' with the given one.
-    func setDeliveryMethod(to method: DeliveryMethod)
+    func replaceStoredDeliveryMethod(to method: DeliveryMethod)
 
     /// Replaces the value of 'expiration interval' with the given one.
-    func setExpirationInterval(to interval: ExpirationInterval)
+    func replaceStoredExpirationInterval(to interval: ExpirationInterval)
     
     /// Replaces the value of 'quantity' with the given one. Accepts 1, 2, 3, 4.
-    func setQuantity(to q: Int)
+    func replaceStoredQuantity(to q: Int)
     
     /// Replaces the value of 'notifications' with the given one.
-    func setNotifications(to b: Bool)
+    func replaceStoredNotifications(to b: Bool)
 
     /// Replaces the value of 'notifications minutes before' with the given one.
-    func setNotificationsMinutesBefore(to i: Int)
+    func replaceStoredNotificationsMinutesBefore(to i: Int)
 
     /// Replaces the value of 'mentioned disclaimer' with the given one.
-    func setMentionedDisclaimer(to b: Bool)
+    func replaceStoredMentionedDisclaimer(to b: Bool)
     
     /// Replaces the value of 'site index' with the given one. Accepts 0..<siteCount. Returns the index after trying to set.
-    @discardableResult func setSiteIndex(to i: Int, siteCount: Int) -> Index
+    @discardableResult func replaceStoredSiteIndex(to i: Int, siteCount: Int) -> Index
 
     /// Replaces the value of 'theme' with the given one.
-    func setTheme(to t: PDTheme)
+    func replaceStoredTheme(to t: PDTheme)
 }

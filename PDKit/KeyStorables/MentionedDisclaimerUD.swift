@@ -14,11 +14,13 @@ public class MentionedDisclaimerUD: PDKeyStorable {
     
     public typealias RawValue = Bool
     
+    public required init(with val: Bool) { value = val }
+    
+    public convenience required init() { self.init(with: false) }
+    
     public var value: Bool
     
     public var rawValue: Bool { return value }
     
     public static var key = PDDefault.MentionedDisclaimer
-    
-    public required init(with val: Bool) { value = val }
 }

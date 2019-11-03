@@ -175,4 +175,11 @@ public class PDPickerOptions {
             return .Light
         }
     }
-}
+    
+    public static func getTheme(at index: Index) -> String? {
+        if let theme = themes.tryGet(at: index) {
+            return theme
+        }
+        return nil
+    }
+ }

@@ -26,6 +26,9 @@ public protocol Hormonal: PDPbjectifiable {
     /// Whether it is past this hormone's expiration date.
     var isExpired: Bool { get }
     
+    /// Whether the hormone expires between the hours of midnight and 6 am.
+    var expiresOvernight: Bool { get }
+    
     /// The name of the site that you applied this hormone to.
     var siteName: String { get }
     

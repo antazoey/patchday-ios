@@ -22,7 +22,7 @@ class DeliveryMethodMutationAlert: PDAlert {
     private var continueAction: UIAlertAction {
         return UIAlertAction(title: PDActionStrings.cont, style: .destructive) {
             void in
-            self.sdk.deliveryMethod = self.newDeliveryMethod
+            self.sdk.setDeliveryMethod(to: self.newDeliveryMethod)
             self.tabs?.reflectHormone()
         }
     }
@@ -33,30 +33,36 @@ class DeliveryMethodMutationAlert: PDAlert {
         }
     }
     
-    convenience init(parent: UIViewController,
-                     style: UIAlertController.Style,
-                     oldDeliveryMethod: DeliveryMethod,
-                     newDeliveryMethod: DeliveryMethod,
-                     oldQuantity: Int,
-                     decline: @escaping ((_ oldQuantity: Int) -> ())) {
-        self.init(parent: parent,
-                  style: style,
-                  sdk: app.sdk,
-                  tabs: app.tabs,
-                  oldDeliveryMethod: oldDeliveryMethod,
-                  newDeliveryMethod: newDeliveryMethod,
-                  oldQuantity: oldQuantity,
-                  decline: decline)
+    convenience init(
+        parent: UIViewController,
+        style: UIAlertController.Style,
+        oldDeliveryMethod: DeliveryMethod,
+        newDeliveryMethod: DeliveryMethod,
+        oldQuantity: Int,
+        decline: @escaping ((_ oldQuantity: Int) -> ())
+    ) {
+        self.init(
+            parent: parent,
+            style: style,
+            sdk: app.sdk,
+            tabs: app.tabs,
+            oldDeliveryMethod: oldDeliveryMethod,
+            newDeliveryMethod: newDeliveryMethod,
+            oldQuantity: oldQuantity,
+            decline: decline
+        )
     }
     
-    init(parent: UIViewController,
-         style: UIAlertController.Style,
-         sdk: PatchDataDelegate,
-         tabs: PDTabReflective?,
-         oldDeliveryMethod: DeliveryMethod,
-         newDeliveryMethod: DeliveryMethod,
-         oldQuantity: Int,
-         decline: @escaping ((_ oldQuantity: Int) -> ())) {
+    init(
+        parent: UIViewController,
+        style: UIAlertController.Style,
+        sdk: PatchDataDelegate,
+        tabs: PDTabReflective?,
+        oldDeliveryMethod: DeliveryMethod,
+        newDeliveryMethod: DeliveryMethod,
+        oldQuantity: Int,
+        decline: @escaping ((_ oldQuantity: Int) -> ())
+    ) {
         self.sdk = sdk
         self.tabs = tabs
         self.oldQuantity = oldQuantity
@@ -64,7 +70,9 @@ class DeliveryMethodMutationAlert: PDAlert {
         let strs = PDAlertStrings.loseDataAlertStrings
         self.oldDeliveryMethod = oldDeliveryMethod
         self.newDeliveryMethod = newDeliveryMethod
-        super.init(parent: parent, title: strs.title, message: strs.message, style: style)
+        super.init(
+            parent: parent, title: strs.title, message: strs.message, style: style
+        )
     }
     
     override func present() {

@@ -199,23 +199,15 @@ public class PDImages: NSObject {
         return imageToStringDict[image] ?? PDStrings.PlaceholderStrings.newSite
     }
     
-    public enum SiteIndexSpecifier: Int {
-        case Generic = 0
-        case One = 1
-        case Two = 2
-        case Three = 3
-        case Four = 4
-    }
-    
     /// Returns a site icon representing the site index
-    public static func getSiteIndexIcon(spec: SiteIndexSpecifier = .Generic) -> UIIcon {
-        return [
-            .Generic : siteIndexIcon,
-            .One : siteIndexIconOne,
-            .Two : siteIndexIconTwo,
-            .Three : siteIndexIconThree,
-            .Four : siteIndexIconFour
-        ][spec] ?? siteIndexIcon
+    public static func getSiteIndexIcon(for site: Bodily) -> UIIcon {
+        switch site.hormones.count {
+        case 1: return siteIndexIconOne
+        case 2: return siteIndexIconTwo
+        case 3: return siteIndexIconThree
+        case 4: return siteIndexIconFour
+        default: return siteIndexIcon
+        }
     }
     
     public static func getImage(

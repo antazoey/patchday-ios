@@ -113,18 +113,16 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     }
 
     public func delete(at index: Index) {
-        switch (index) {
-        case 0..<sites.count :
-            sites[index].delete()
-            sites[index].reset()
-            if (index + 1) < (sites.count - 1) {
-                for i in (index+1)..<sites.count {
+        if let site = at(index) {
+            site.delete()
+            site.reset()
+            if index + 1 < sites.count - 1 {
+                for i in index + 1..<sites.count {
                     sites[i].order -= 1
                 }
             }
             sort()
             PatchData.save()
-        default : return
         }
     }
     

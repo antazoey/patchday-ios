@@ -74,10 +74,11 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             cell.load(sdk: sdk, hormone: hormone)
             return cell
         }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < sdk.quantity.rawValue {
+        if indexPath.row < sdk.defaults.quantity.rawValue {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -171,7 +172,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func presentDisclaimerAlert() {
         if app.isFirstLaunch() {
             app.alerts.presentDisclaimerAlert()
-            sdk.defaults.setMentionedDisclaimer(to: true)
+            sdk.defaults.replaceStoredMentionedDisclaimer(to: true)
         }
     }
 }

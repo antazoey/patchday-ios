@@ -14,11 +14,13 @@ public class NotificationsUD: PDKeyStorable {
     
     public typealias RawValue = Bool
     
+    public convenience required init() { self.init(with: false) }
+    
+    public required init(with val: Bool) { value = val }
+    
     public var value: Bool
     
     public var rawValue: Bool { return value }
     
     public static var key = PDDefault.Notifications
-    
-    public required init(with val: Bool) { value = val }
 }

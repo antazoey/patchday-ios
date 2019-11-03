@@ -29,7 +29,12 @@ class SiteCell: UITableViewCell {
         sdk: PatchDataDelegate
     ) {
         self.sdk = sdk
-        return configure(at: index, name: name, siteCount: siteCount, isEditing: isEditing)
+        return configure(
+            at: index,
+            name: name,
+            siteCount: siteCount,
+            isEditing: isEditing
+        )
     }
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
@@ -59,11 +64,7 @@ class SiteCell: UITableViewCell {
     }
     
     private func loadSiteIndexImage(for site: Bodily) -> UIImage? {
-        if site.isOccupied {
-            return PDImages.getSiteIndexIcon(spec: .One)
-            return PDImages.getSiteIndexIcon()
-        }
-        return nil
+        return PDImages.getSiteIndexIcon(for: site)
     }
     
     /// Should hide if not the the next index.

@@ -41,12 +41,6 @@ public protocol PatchDataDelegate {
     
     /// The current delivery method set in user defaults. The method by which you take hormones.
     var deliveryMethod: DeliveryMethod { get }
-
-    /// The current hormone quanity set in user defaults.
-    var quantity: Int { get }
-    
-    /// The current expiration interval set in user defaults.
-    var expirationInterval: ExpirationInterval { get }
     
     /// Sets the delivery method in UserDefaults with stateful side effects.
     func setDeliveryMethod(to newMethod: DeliveryMethod)
@@ -112,4 +106,10 @@ public protocol PatchDataDelegate {
     
     /// Sets pill attributes. Includes stateful and data-meter side-effects.
     func setPill(_ pill: Swallowable, with attributes: PillAttributes)
+    
+    /// Conveniently inserts a new pill.
+    @discardableResult func insetNewPill() -> Swallowable?
+    
+    /// Delete the pill. Includes data meter side effects.
+    func deletePill(at index: Index)
 }
