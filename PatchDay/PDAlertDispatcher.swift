@@ -13,11 +13,10 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
 
     override var description: String { return "Controls alerts." }
 
-    private let sdk: PatchDataDelegate
+    private let sdk: PatchDataDelegate?
 
     private var style: UIAlertController.Style = {
-        return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad)
-                ? .alert : .actionSheet
+        return AppDelegate.isPad ? .alert : .actionSheet
     }()
 
     private var rootViewController: UIViewController? = {
@@ -28,10 +27,10 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
     }()
 
     convenience override init() {
-        self.init(sdk: app.sdk)
+        self.init(sdk: app?.sdk)
     }
 
-    init(sdk: PatchDataDelegate) {
+    init(sdk: PatchDataDelegate?) {
         self.sdk = sdk
     }
 
@@ -39,7 +38,7 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
     func presentDeliveryMethodMutationAlert(
         newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())
     ) {
-        if let root = rootViewController {
+        if let root = rootViewController, let sdk = sdk {
             let oldQuantity = sdk.defaults.quantity.rawValue
             let oldMethod = sdk.deliveryMethod
             DeliveryMethodMutationAlert(
@@ -68,7 +67,7 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
         if let root = rootViewController {
             let continueAction: (_ newQuantity: Int) -> () = {
                 (newQuantity) in
-                self.sdk.hormones.delete(after: newQuantity)
+                self.sdk?.hormones.delete(after: newQuantity)
                 setter(newQuantity)
                 reset(newQuantity)
             }
@@ -99,7 +98,8 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
     ) {
         if let root = rootViewController {
             let handler: () -> () = {
-                () in self.sdk.insertNewSite(name: name) {
+                () in
+                self.sdk?.insertNewSite(name: name) {
                     moneVC.sitePicker.reloadAllComponents()
                 }
             }
@@ -119,7 +119,9 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(
+    _ input: [String: Any]
+) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 	return Dictionary(uniqueKeysWithValues: input.map {
         key, value in
         (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)

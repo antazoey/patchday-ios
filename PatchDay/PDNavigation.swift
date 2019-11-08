@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class PDNavigationDelegate {
+public class PDNavigation {
 
     func reflectTheme(theme: PDAppTheme) {
         let navigationBarAppearace = UINavigationBar.appearance()

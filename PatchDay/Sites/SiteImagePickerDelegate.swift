@@ -11,7 +11,7 @@ import PDKit
 
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    private var sdk: PatchDataDelegate
+    private var sdk: PatchDataDelegate?
 
     public var images: [UIImage]
     public var picker: UIPickerView
@@ -20,28 +20,36 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     public var selectedSite: Bodily
     public var selectedImage: UIImage?
     
-    convenience init(with picker: UIPickerView,
-                     and imageView: UIImageView,
-                     saveButton: UIBarButtonItem,
-                     selectedSite: Bodily,
-                     deliveryMethod: DeliveryMethod) {
-        self.init(with: picker,
-                  and: imageView,
-                  saveButton: saveButton,
-                  selectedSite: selectedSite,
-                  deliveryMethod: deliveryMethod,
-                  sdk: app.sdk)
+    convenience init(
+        with picker: UIPickerView,
+        and imageView: UIImageView,
+        saveButton: UIBarButtonItem,
+        selectedSite: Bodily,
+        deliveryMethod: DeliveryMethod
+    ) {
+        self.init(
+            with: picker,
+            and: imageView,
+            saveButton: saveButton,
+            selectedSite: selectedSite,
+            deliveryMethod: deliveryMethod,
+            sdk: app?.sdk
+        )
     }
     
-    init(with picker: UIPickerView,
-         and imageView: UIImageView,
-         saveButton: UIBarButtonItem,
-         selectedSite: Bodily,
-         deliveryMethod: DeliveryMethod,
-         sdk: PatchDataDelegate) {
+    init(
+        with picker: UIPickerView,
+        and imageView: UIImageView,
+        saveButton: UIBarButtonItem,
+        selectedSite: Bodily,
+        deliveryMethod: DeliveryMethod,
+        sdk: PatchDataDelegate?
+    ) {
         self.imageView = imageView
-        self.images = PDImages.siteImages(theme: sdk.defaults.theme.value,
-                                          deliveryMethod: deliveryMethod)
+        self.images = PDImages.siteImages(
+            theme: sdk?.defaults.theme.value,
+            deliveryMethod: deliveryMethod
+        )
         self.picker = picker
         self.saveButton = saveButton
         self.selectedSite = selectedSite
@@ -81,21 +89,20 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
     }
  
     public func openPicker(closure: @escaping () -> ()) {
-        UIView.transition(with: picker as UIView,
-                          duration: 0.4,
-                          options: .transitionFlipFromTop,
-                          animations: {
-                            self.picker.isHidden = false;
-                            self.imageView.isHidden = true
-                          }
-                        )
+        UIView.transition(
+            with: picker as UIView,
+            duration: 0.4,
+            options: .transitionFlipFromTop,
+            animations: {
+                self.picker.isHidden = false;
+                self.imageView.isHidden = true
+            })
         closure()
-        if selectedImage == nil {
-            selectedImage = imageView.image
-        }
+        
+        selectedImage = imageView.image
         if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            sdk.state.markSiteForImageMutation(site: selectedSite)
+            sdk?.state.markSiteForImageMutation(site: selectedSite)
         }
     }
 }

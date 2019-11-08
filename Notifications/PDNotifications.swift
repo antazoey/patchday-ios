@@ -13,22 +13,24 @@ import PDKit
 
 class PDNotifications: NSObject, PDNotificationScheduling {
 
-    private let sdk: PatchDataDelegate
+    private let sdk: PatchDataDelegate?
     private let center: PDNotificationCenter
+    private let factory: PDNotificationProducing
 
     var currentEstrogenIndex = 0
     var currentPillIndex = 0
     var sendingNotifications = true
     
-    init(sdk: PatchDataDelegate, center: PDNotificationCenter) {
+    init(sdk: PatchDataDelegate, center: PDNotificationCenter, factory: PDNotificationProducing) {
         self.sdk = sdk
         self.center = center
+        self.factory = factory
         super.init()
     }
     
     convenience override init() {
         let center = PDNotificationCenter(
-            sdk: app.sdk,
+            sdk: app?.sdk,
             root: UNUserNotificationCenter.current()
         )
         self.init(sdk: app.sdk, center: center)
@@ -36,34 +38,40 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     
     // MARK: - Hormones
     
+    func removeNotifications(with ids: [String]) {
+        center.removePendingNotificationRequests(withIdentifiers: ids)
+    }
+    
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
-        let deliv = sdk.deliveryMethod
-        let interval = sdk.defaults.expirationInterval
-        let notify = sdk.defaults.notifications.value
-        let notifyMinBefore = Double(sdk.defaults.notificationsMinutesBefore.value)
-        let totalExpired = sdk.totalHormonesExpired
-        if sendingNotifications, notify {
-            ExpiredHormoneNotification(
-                for: hormone,
-                deliveryMethod: deliv,
-                expirationInterval: interval,
-                notifyMinutesBefore: notifyMinBefore,
-                totalDue: totalExpired
-            ).request()
+        if let sdk = sdk {
+            let method = sdk.deliveryMethod
+            let interval = sdk.defaults.expirationInterval
+            let notify = sdk.defaults.notifications.value
+            let notifyMinBefore = Double(sdk.defaults.notificationsMinutesBefore.value)
+            let totalExpired = sdk.totalHormonesExpired
+            if sendingNotifications, notify {
+                factory.createExpiredHormoneNotification(
+                    hormone,
+                    deliveryMethod: method,
+                    expirationInterval: interval,
+                    notifyMinutesBefore: notifyMinBefore,
+                    totalDue: totalExpired
+                ).request()
+            }
         }
     }
 
     /// Cancels the hormone notification at the given index.
     func cancelExpiredHormoneNotification(at index: Index) {
-        if let mone = sdk.hormones.at(index) {
+        if let mone = sdk?.hormones.at(index) {
             let id = mone.id.uuidString
             center.removeNotifications(with: [id])
         }
     }
 
     func cancelAllExpiredHormoneNotifications() {
-        let end = sdk.defaults.quantity.rawValue - 1
+        let end = (sdk?.defaults.quantity.rawValue ?? 1) - 1
         cancelExpiredHormoneNotifications(from: 0, to: end)
     }
     
@@ -80,19 +88,21 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     
     /// Resends all the hormone notifications between the given indices.
     func resendExpiredHormoneNotifications(from begin: Index = 0, to end: Index = -1) {
-        let e = end >= 0 ? end : sdk.hormones.count - 1
-        if e < begin { return }
-        for i in begin...e {
-            if let mone = sdk.hormones.at(i) {
-                let id = mone.id.uuidString
-                center.removeNotifications(with: [id])
-                requestExpiredHormoneNotification(for: mone)
+        if let hormones = sdk?.hormones {
+            let e = end >= 0 ? end : hormones.count - 1
+            if e < begin { return }
+            for i in begin...e {
+                if let mone = hormones.at(i) {
+                    let id = mone.id.uuidString
+                    center.removeNotifications(with: [id])
+                    requestExpiredHormoneNotification(for: mone)
+                }
             }
         }
     }
     
     func resendAllExpiredExpiredNotifications() {
-        let end = sdk.defaults.quantity.rawValue - 1
+        let end = (sdk?.defaults.quantity.rawValue ?? 1) - 1
         resendExpiredHormoneNotifications(from: 0, to: end)
     }
     
@@ -100,15 +110,14 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     
     /// Request a pill notification from index.
     func requestDuePillNotification(forPillAt index: Index) {
-        if let pill = sdk.pills.at(index) {
+        if let pill = sdk?.pills.at(index) {
             requestDuePillNotification(pill)
         }
     }
     
     /// Request a pill notification.
     func requestDuePillNotification(_ pill: Swallowable) {
-        if Date() < pill.due {
-            let totalDue = sdk.totalAlerts
+        if Date() < pill.due, let totalDue = sdk?.totalAlerts {
             DuePillNotification(
                 for: pill,
                 dueDate: pill.due,
@@ -124,7 +133,10 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     
     /// Request a hormone notification that occurs when it's due overnight.
     func requestOvernightExpirationNotification(_ hormone: Hormonal) {
-        if let exp = hormone.expiration, let triggerDate = PDDateHelper.dateBefore(overNightDate: exp) {
+        if let sdk = sdk,
+            let exp = hormone.expiration,
+            let triggerDate = PDDateHelper.dateBefore(overNightDate: exp) {
+            
             ExpiredHormoneOvernightNotification(
                 triggerDate: triggerDate,
                 deliveryMethod: sdk.deliveryMethod,
@@ -134,7 +146,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     }
     
     private func appendHormoneIdToList(at i: Index, lst: inout [String]) {
-        if let mone = sdk.hormones.at(i) {
+        if let mone = sdk?.hormones.at(i) {
             let id = mone.id.uuidString
             lst.append(id)
         }

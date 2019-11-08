@@ -339,7 +339,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func setTopConstraint() {
-        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+        if AppDelegate.isPad {
             topConstraint.constant = 100
         }
     }

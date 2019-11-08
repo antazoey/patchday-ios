@@ -16,42 +16,52 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonalTable: UITableView!
     
-    let sdk: PatchDataDelegate = app.sdk
+    let sdk: PatchDataDelegate? = app.sdk
     
     // MARK: - Main
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Have to set nav controllers during first view init
-        app.setTabs(tc: self.navigationController!.tabBarController!,
-                            vcs: self.navigationController!.viewControllers)
-        hormonalTable.dataSource = self
-        hormonalTable.delegate = self
+        loadTabs()
+        setDelegates()
         loadTitle()
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        sdk.state.reset()
+        sdk?.state.reset()
+    }
+    
+    private func loadTabs() {
+        if let tabs = self.navigationController?.tabBarController, let vcs = self.navigationController?.viewControllers {
+            app?.setTabs(tc: tabs, vcs: vcs)
+        }
+    }
+    
+    private func setDelegates() {
+        hormonalTable.dataSource = self
+        hormonalTable.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 1.0, delay: 0.0,
-                       options: UIView.AnimationOptions.curveEaseIn,
-                       animations: {
-            self.view.alpha = 1.0
-        }, completion: nil)
-        
+        UIView.animate(
+            withDuration: 1.0, delay: 0.0,
+            options: UIView.AnimationOptions.curveEaseIn,
+            animations: { self.view.alpha = 1.0 },
+            completion: nil
+        )
         applyTheme()
         presentDisclaimerAlert()
-        let deliv = sdk.defaults.deliveryMethod.value
-        title = PDVCTitleStrings.getTitle(for: deliv)
+        let method = sdk?.defaults.deliveryMethod.value
+        title = PDVCTitleStrings.getTitle(for: method)
         hormonalTable.reloadData()
         super.viewDidAppear(false)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        app.tabs?.reflectHormone()
+        if let tabs = app?.tabs {
+            tabs.reflectHormone()
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -67,7 +77,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let hormoneIndex = indexPath.row
         let id = "HormoneCellReuseId"
-        if let hormone = sdk.hormones.at(hormoneIndex),
+        if let hormone = sdk?.hormones.at(hormoneIndex),
             let cell = hormonalTable.dequeueReusableCell(withIdentifier: id) as? HormoneCell {
 
             cell.index = hormoneIndex
@@ -78,7 +88,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row < sdk.defaults.quantity.rawValue {
+        if let q = sdk?.defaults.quantity.rawValue, indexPath.row < q {
             segueToEstrogenVC(index: indexPath.row)
         }
     }
@@ -133,7 +143,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    private func segueToEstrogenVC(index: Int) {
+    private func segueToHormoneVC(index: Int) {
         let id = "HormoneDetailVC_id"
         if let sb = storyboard, let navCon = navigationController,
             let hormoneVC = sb.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
@@ -148,12 +158,13 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func loadTabBarItems() {
-        navigationController?.tabBarController?.tabBar.unselectedItemTintColor =
-            app.styles.theme[.unselected]
-        navigationController?.tabBarController?.tabBar.tintColor =
-            app.styles.theme[.purple]
-        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() ==
-            UIUserInterfaceIdiom.phone) ? 9 : 25
+        if let styles = app?.styles {
+            let tabBar = navigationController?.tabBarController?.tabBar
+            tabBar?.unselectedItemTintColor = styles.theme[.unselected]
+            tabBar?.tintColor = styles.theme[.purple]
+        }
+
+        let size: CGFloat = AppDelegate.isPad ? 25 : 9
         if let vcs = navigationController?.tabBarController?.viewControllers {
             for i in 0..<vcs.count {
                 let font = UIFont.systemFont(ofSize: size)
@@ -164,13 +175,15 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        hormonesView.backgroundColor = app.styles.theme[.bg]
-        hormonalTable.backgroundColor = app.styles.theme[.bg]
-        hormonalTable.separatorColor = app.styles.theme[.border]
+        if let styles = app?.styles {
+            hormonesView.backgroundColor = styles.theme[.bg]
+            hormonalTable.backgroundColor = styles.theme[.bg]
+            hormonalTable.separatorColor = styles.theme[.border]
+        }
     }
     
     private func presentDisclaimerAlert() {
-        if app.isFirstLaunch() {
+        if let app = app, app.isFirstLaunch() {
             app.alerts.presentDisclaimerAlert()
             sdk.defaults.replaceStoredMentionedDisclaimer(to: true)
         }

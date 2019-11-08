@@ -280,15 +280,17 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     private func loadTabBarItemSize() {
-        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
+        let size: CGFloat = AppDelegate.isPad ? 25 : 9
         let fontSize = UIFont.systemFont(ofSize: size)
         let font = [NSAttributedString.Key.font: fontSize]
         self.navigationController?.tabBarItem.setTitleTextAttributes(font, for: .normal)
     }
     
     private func applyTheme() {
-        sitesView.backgroundColor = app.styles.theme[.bg]
-        sitesTable.backgroundColor = app.styles.theme[.bg]
-        sitesTable.separatorColor = app.styles.theme[.border]
+        if let theme = app?.styles.theme {
+            sitesView.backgroundColor = theme[.bg]
+            sitesTable.backgroundColor = theme[.bg]
+            sitesTable.separatorColor = theme[.border]
+        }
     }
 }

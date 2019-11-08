@@ -19,7 +19,7 @@ class SiteCell: UITableViewCell {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
     
-    private var sdk: PatchDataDelegate! = app.sdk
+    private var sdk: PatchDataDelegate? = app?.sdk
 
     public func configure(
         at index: Index,
@@ -38,17 +38,17 @@ class SiteCell: UITableViewCell {
     }
     
     public func configure(at index: Index, name: String, siteCount: Int, isEditing: Bool) {
-        if let site = sdk.sites.at(index) {
+        if let site = sdk?.sites.at(index), let theme = app?.styles.theme {
             orderLabel.text = "\(index + 1)."
-            orderLabel.textColor = app.styles.theme[.text]
-            arrowLabel.textColor = app.styles.theme[.text]
+            orderLabel.textColor = theme[.text]
+            arrowLabel.textColor = theme[.text]
             nameLabel.text = name
-            nameLabel.textColor = app.styles.theme[.purple]
-            nextLabel.textColor = app.styles.theme[.green]
+            nameLabel.textColor = theme[.purple]
+            nextLabel.textColor = theme[.green]
             siteIndexImage.image = loadSiteIndexImage(for: site)?.withRenderingMode(.alwaysTemplate)
-            siteIndexImage.tintColor = app.styles.theme[.text]
+            siteIndexImage.tintColor = theme[.text]
             nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
-            backgroundColor = app.styles.theme[.bg]
+            backgroundColor = theme[.bg]
             setBackgroundSelected()
         }
     }
@@ -58,7 +58,7 @@ class SiteCell: UITableViewCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         siteIndexImage.isHidden = shouldHide
-        if cellIndex == sdk.sites.nextIndex {
+        if cellIndex == sdk?.sites.nextIndex {
             nextLabel.isHidden = shouldHide
         }
     }
@@ -69,12 +69,12 @@ class SiteCell: UITableViewCell {
     
     /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        return sdk.sites.nextIndex != index || isEditing
+        return sdk?.sites.nextIndex != index || isEditing
     }
     
     private func setBackgroundSelected() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = app.styles.theme[.selected]
+        backgroundView.backgroundColor = app?.styles.theme[.selected]
         selectedBackgroundView = backgroundView
     }
 }

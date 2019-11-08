@@ -12,7 +12,7 @@ import PDKit
 
 class PillCell: UITableViewCell {
     
-    private let sdk: PatchDataDelegate = app.sdk
+    private let sdk: PatchDataDelegate? = app?.sdk
     private var pill: Swallowable!
 
     @IBOutlet weak var nameLabel: UILabel!
@@ -24,7 +24,7 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var imageViewView: UIView!
     
     @discardableResult public func load(at index: Index) -> PillCell {
-        if let pill = sdk.pills.at(index) {
+        if let pill = sdk?.pills.at(index) {
             loadNameLabel(pill)
             loadStateImage(pill, index: index)
             loadLastTakenText(pill)
@@ -84,7 +84,7 @@ class PillCell: UITableViewCell {
     @discardableResult func loadBackground() -> PillCell {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        backgroundColor = app.styles.theme[.bg]
+        backgroundColor = app?.styles.theme[.bg]
         
         let backgroundView = UIView()
         backgroundView.backgroundColor = PDColors.get(.Pink)
@@ -106,14 +106,14 @@ class PillCell: UITableViewCell {
     }
     
     @discardableResult private func applyTheme() -> PillCell {
-        let textColor = app.styles.theme[.text]
+        let textColor = app?.styles.theme[.text] ?? UIColor.black
+        stateImageView.tintColor = app?.styles.theme[.button]
         nameLabel.textColor = textColor
         takeButton.setTitleColor(textColor, for: .normal)
         lastTakenLabel.textColor = textColor
         nextDueDate.textColor = textColor
         let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
         stateImageView.image = stateImage
-        stateImageView.tintColor = app.styles.theme[.button]
         return self
     }
 }

@@ -20,7 +20,6 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     public let dataMeter: PDDataMeting
     public var patchdata: PatchDataCalling
-    public let swallowHandler: PDPillSwallowing
     
     public init(
         defaults: PDDefaultManaging,
@@ -29,8 +28,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         pills: PDPillScheduling,
         sites: HormoneSiteScheduling,
         state: PDStateManaging,
-        patchdata: PatchDataCalling,
-        swallowHandler: PDPillSwallowing
+        patchdata: PatchDataCalling
     ) {
         self.defaults = defaults
         self.dataMeter = dataMeter
@@ -39,7 +37,6 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         self.sites = sites
         self.state = state
         self.patchdata = patchdata
-        self.swallowHandler = swallowHandler
         super.init()
         self.broadcastHormones()
     }
@@ -49,8 +46,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         dataMeter: PDDataMeting,
         hormones: HormoneScheduling,
         pills: PDPillScheduling,
-        sites: HormoneSiteScheduling,
-        swallowHandler: PDPillSwallowing
+        sites: HormoneSiteScheduling
     ) {
         self.init(
             defaults: defaults,
@@ -59,12 +55,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             pills: pills,
             sites: sites,
             state: PDState(),
-            patchdata: PatchDataCaller(),
-            swallowHandler: swallowHandler
+            patchdata: PatchDataCaller()
         )
     }
     
-    public convenience init(swallowHandler: PDPillSwallowing) {
+    public override convenience init() {
         let dataMeter = PDDataMeter()
         let state = PDState()
         let defaults = PDDefaults(
@@ -86,8 +81,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             dataMeter: dataMeter,
             hormones: hormones,
             pills: pills,
-            sites: sites,
-            swallowHandler: swallowHandler
+            sites: sites
         )
     }
     
@@ -242,11 +236,6 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     }
 
     // MARK: - Pills
-
-    public func swallow(_ pill: Swallowable) {
-        pills.swallow(completion: broadcastPills)
-        swallowHandler.handleSwallow(pill)
-    }
     
     public func setPill(_ pill: Swallowable, with attributes: PillAttributes) {
         pills.set(for: pill, with: attributes)

@@ -251,7 +251,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func handleHardwareConstraints() {
-        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+        if AppDelegate.isPad {
             topConstraint.constant = 100
         }
     }

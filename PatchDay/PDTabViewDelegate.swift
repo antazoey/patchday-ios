@@ -14,18 +14,24 @@ class PDTabReflector: PDTabReflective {
     
     private let tabController: UITabBarController
     private let viewControllers: [UIViewController]
-    private let sdk: PatchDataDelegate
+    private let sdk: PatchDataDelegate?
     
-    convenience init(tabController: UITabBarController,
-                     viewControllers: [UIViewController]) {
-        self.init(tabController: tabController,
-                  viewControllers: viewControllers,
-                  sdk: app.sdk)
+    convenience init(
+        tabController: UITabBarController,
+        viewControllers: [UIViewController]
+    ) {
+        self.init(
+            tabController: tabController,
+            viewControllers: viewControllers,
+            sdk: app?.sdk
+        )
     }
 
-    init(tabController: UITabBarController,
-         viewControllers: [UIViewController],
-         sdk: PatchDataDelegate) {
+    init(
+        tabController: UITabBarController,
+        viewControllers: [UIViewController],
+        sdk: PatchDataDelegate?
+    ) {
         self.tabController = tabController
         self.viewControllers = viewControllers
         self.sdk = sdk
@@ -39,9 +45,9 @@ class PDTabReflector: PDTabReflective {
     
     func reflectExpirationCountAsBadgeValue() {
         if viewControllers.count > 0 {
-            let exp = sdk.totalHormonesExpired
+            let exp = sdk?.totalHormonesExpired ?? 0
             let item = hormonalTab.navigationController?.tabBarItem
-            item?.badgeValue = (exp > 0) ? "\(exp)" : nil
+            item?.badgeValue = exp > 0 ? "\(exp)" : nil
         }
     }
     
@@ -52,14 +58,16 @@ class PDTabReflector: PDTabReflective {
     }
     
     func reflectHormone() {
-        let total = sdk.totalAlerts
-        let method = sdk.deliveryMethod
-        let title = PDVCTitleStrings.getTitle(for: method)
-        hormonalTab.tabBarItem.title = title
-        hormonalTab.tabBarItem.badgeValue = total > 0 ? String(total) : nil
-        let icon = PDImages.getDeliveryIcon(method)
-        hormonalTab.tabBarItem.image = icon
-        hormonalTab.tabBarItem.selectedImage = icon
-        hormonalTab.awakeFromNib()
+        if let sdk = sdk {
+            let total = sdk.totalAlerts
+            let method = sdk.deliveryMethod
+            let title = PDVCTitleStrings.getTitle(for: method)
+            hormonalTab.tabBarItem.title = title
+            hormonalTab.tabBarItem.badgeValue = total > 0 ? String(total) : nil
+            let icon = PDImages.getDeliveryIcon(method)
+            hormonalTab.tabBarItem.image = icon
+            hormonalTab.tabBarItem.selectedImage = icon
+            hormonalTab.awakeFromNib()
+        }
     }
 }

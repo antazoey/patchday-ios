@@ -23,10 +23,9 @@ class HormoneCell: UITableViewCell {
     public func load(sdk: PatchDataDelegate, hormone: Hormonal) {
         self.sdk = sdk
         let quantity = sdk.defaults.quantity.rawValue
-        backgroundColor = app.styles.theme[.bg]
+        backgroundColor = app?.styles.theme[.bg]
         setThemeColors(at: index)
-        switch (index) {
-        case 0..<quantity :
+        if index < quantity && index >= 0 {
             let method = sdk.defaults.deliveryMethod.value
             let theme = sdk.defaults.theme.value
             if let mone = sdk.hormones.at(index) {
@@ -44,10 +43,10 @@ class HormoneCell: UITableViewCell {
                 selectionStyle = .default
                 stateImage.isHidden = false
             }
-        case quantity...3 :
+        } else if index >= quantity && index <= 3 {
             animate(at: index, theme: sdk.defaults.theme.value)
-            fallthrough
-        default : reset()
+        } else {
+            reset()
         }
     }
     
@@ -68,7 +67,7 @@ class HormoneCell: UITableViewCell {
     }
     
     private func setDateLabel(_ title: String?) {
-        self.dateLabel.textColor = app.styles.theme[.text]
+        self.dateLabel.textColor = app?.styles.theme[.text]
         self.dateLabel.text = title
     }
 
@@ -83,15 +82,16 @@ class HormoneCell: UITableViewCell {
 
     private func setThemeColors(at index: Int) {
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = app.styles.theme[.selected]
-        backgroundColor = app.styles.getCellColor(at: index)
+        if let styles = app?.styles {
+            selectedBackgroundView?.backgroundColor = styles.theme[.selected]
+            backgroundColor = styles.getCellColor(at: index)
+        }
     }
 
     private func configureDate(when isExpired: Bool) {
         dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
-        dateLabel.font = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ?
-            UIFont.systemFont(ofSize: 15) :
-            UIFont.systemFont(ofSize: 38)
+        let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
+        dateLabel.font = UIFont.systemFont(ofSize: size)
     }
 
     private func configureBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {

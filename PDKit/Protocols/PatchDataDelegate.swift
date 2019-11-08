@@ -101,9 +101,6 @@ public protocol PatchDataDelegate {
 
     // MARK: - Pills
     
-    /// Swallows the pill. Includes stateful and data-meter side-effects.
-    func swallow(_ pill: Swallowable)
-    
     /// Sets pill attributes. Includes stateful and data-meter side-effects.
     func setPill(_ pill: Swallowable, with attributes: PillAttributes)
     

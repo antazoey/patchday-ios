@@ -16,7 +16,7 @@ extension UITabBar {
             return super.sizeThatFits(size)
         }
         var sizeThatFits = super.sizeThatFits(size)
-        let h: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 44 : 100
+        let h: CGFloat = AppDelegate.isPad ? 100 : 44
         sizeThatFits.height = window.safeAreaInsets.bottom + h
         return sizeThatFits
     }

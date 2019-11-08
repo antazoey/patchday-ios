@@ -18,8 +18,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var pillsTable: UITableView!
     
     // Dependencies
-    private var sdk: PatchDataDelegate = app.sdk
-    private let notifications: PDNotificationScheduling = app.notifications
+    private var sdk: PatchDataDelegate? = app?.sdk
+    private let notifications: PDNotificationScheduling? = app?.notifications
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,16 +105,17 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(at indexPath: IndexPath) {
-        sdk.deletePill(at: indexPath.row)
-        pillsTable.deleteRows(at: [indexPath], with: .fade)
-        pillsTable.reloadData()
-        setBadge()
-
-        let start = indexPath.row
-        let end = sdk.pills.count - 1
-        if start <= end {
-            for i in start...end {
-                pillCellForRowAt(i).loadBackground()
+        if let sdk = sdk {
+            sdk.deletePill(at: indexPath.row)
+            pillsTable.deleteRows(at: [indexPath], with: .fade)
+            pillsTable.reloadData()
+            setBadge()
+            let start = indexPath.row
+            let end = sdk.pills.count - 1
+            if start <= end {
+                for i in start...end {
+                    pillCellForRowAt(i).loadBackground()
+                }
             }
         }
     }
@@ -131,12 +132,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setBadge() {
-        let v = sdk.pills.totalDue
-        navigationController?.tabBarItem.badgeValue = (v > 0) ? "\(v)" : nil
+        let v = sdk?.pills.totalDue ?? 0
+        navigationController?.tabBarItem.badgeValue = v > 0 ? "\(v)" : nil
     }
     
     private func loadTabBarItemSize() {
-        let size: CGFloat = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.phone) ? 9 : 25
+        let size: CGFloat = AppDelegate.isPad ? 25 : 9
         let attrs = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: size)]
         self.navigationController?.tabBarItem.setTitleTextAttributes(attrs, for: .normal)
     }
@@ -152,10 +153,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        let bgColor = app.styles.theme[.bg]
-        let borderColor = app.styles.theme[.border]
-        pillsView.backgroundColor = bgColor
-        pillsTable.backgroundColor = bgColor
-        pillsTable.separatorColor = borderColor
+        if let theme = app?.styles.theme {
+            let bgColor = theme[.bg]
+            let borderColor = theme[.border]
+            pillsView.backgroundColor = bgColor
+            pillsTable.backgroundColor = bgColor
+            pillsTable.separatorColor = borderColor
+        }
     }
 }

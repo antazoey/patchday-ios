@@ -44,10 +44,12 @@ class PDQuantityMutator: PDQuantityMutating {
     private func makeResetClosure(oldQuantity: Int) -> ((Int) -> ()) {
         let reset: (Int) -> () = {
             newQuantity in
-            app.tabs?.reflectExpirationCountAsBadgeValue()
-            app.notifications.cancelExpiredHormoneNotifications(
-                from: newQuantity,to: oldQuantity
-            )
+            if let app = app {
+                app.tabs?.reflectExpirationCountAsBadgeValue()
+                app.notifications.cancelExpiredHormoneNotifications(
+                    from: newQuantity,to: oldQuantity
+                )
+            }
         }
         return reset
     }

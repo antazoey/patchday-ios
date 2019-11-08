@@ -69,45 +69,49 @@ public class PDImages: NSObject {
     public static let pill = { return UIImage(named: "Pill")! }()
     
     public static func siteImages(
-        theme: PDTheme, deliveryMethod: DeliveryMethod) -> [UIImage] {
+        theme: PDTheme?, deliveryMethod: DeliveryMethod?) -> [UIImage] {
 
-        switch (theme, deliveryMethod) {
-        case (.Light, .Patches):
-            return [
-                patchRightGlute,
-                patchLeftGlute,
-                patchRightAbdomen,
-                patchLeftAbdomen,
-                customPatch
-            ]
-        case (.Dark, .Patches):
-            return [
-                darkPatchRightGlute,
-                darkPatchLeftGlute,
-                darkPatchRightAbdomen,
-                darkPatchLeftAbdomen,
-                darkCustomPatch
-            ]
-        case (.Light, .Injections):
-            return [
-                injectionRightQuad,
-                injectionLeftQuad,
-                injectionLeftGlute,
-                injectionGluteRight,
-                injectionLeftDelt,
-                injectionRightDelt,
-                customInjection
-            ]
-        case (.Dark, .Injections):
-            return [
-                darkInjectionRightQuad,
-                darkInjectionLeftQuad,
-                darkInjectionLeftGlute,
-                darkInjectionGluteRight,
-                darkInjectionLeftDelt,
-                darkInjectionRightDelt,
-                darkCustomInjection
-            ]
+        if let theme = theme, let deliveryMethod = deliveryMethod {
+            switch (theme, deliveryMethod) {
+            case (.Light, .Patches):
+                return [
+                    patchRightGlute,
+                    patchLeftGlute,
+                    patchRightAbdomen,
+                    patchLeftAbdomen,
+                    customPatch
+                ]
+            case (.Dark, .Patches):
+                return [
+                    darkPatchRightGlute,
+                    darkPatchLeftGlute,
+                    darkPatchRightAbdomen,
+                    darkPatchLeftAbdomen,
+                    darkCustomPatch
+                ]
+            case (.Light, .Injections):
+                return [
+                    injectionRightQuad,
+                    injectionLeftQuad,
+                    injectionLeftGlute,
+                    injectionGluteRight,
+                    injectionLeftDelt,
+                    injectionRightDelt,
+                    customInjection
+                ]
+            case (.Dark, .Injections):
+                return [
+                    darkInjectionRightQuad,
+                    darkInjectionLeftQuad,
+                    darkInjectionLeftGlute,
+                    darkInjectionGluteRight,
+                    darkInjectionLeftDelt,
+                    darkInjectionRightDelt,
+                    darkCustomInjection
+                ]
+            }
+        } else {
+            return []
         }
     }
     

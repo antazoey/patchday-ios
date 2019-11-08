@@ -11,12 +11,10 @@ import PDKit
 
 class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
-    private let sdk = app.sdk
-    private let theme = app.styles.theme
+    private let sdk: PatchDataDelegate? = app?.sdk
     
     private var siteScheduleIndex: Int = -1
     private var hasChanged: Bool = false
-    private var namePickerSet = app.sdk.sites.names
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var nameStackVertical: UIStackView!
@@ -46,7 +44,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiom.phone) {
+        if AppDelegate.isPad {
             topConstraint.constant = 100
         }
         nameText.autocapitalizationType = .words
@@ -78,20 +76,22 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let t = sdk.defaults.theme.value
-        let method = sdk.defaults.deliveryMethod.value
-        let images = PDImages.siteImages(theme: t, deliveryMethod: method)
-        let imageStruct = setImage(images: images)
-        imagePicker.isHidden = true
-        siteImage.image = imageStruct.image
-        siteImage.isHidden = false
-        imageButton.isEnabled = true
-        typeNameButton.isEnabled = true
-        nameText.isEnabled = true
-        imagePickerDoneButton.isEnabled = false
-        imagePickerDoneButton.isHidden = true
-        enableSave()
-        sdk.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: method)
+        if let sdk = sdk {
+            let t = sdk.defaults.theme.value
+            let method = sdk.defaults.deliveryMethod.value
+            let images = PDImages.siteImages(theme: t, deliveryMethod: method)
+            let imageStruct = setImage(images: images)
+            imagePicker.isHidden = true
+            siteImage.image = imageStruct.image
+            siteImage.isHidden = false
+            imageButton.isEnabled = true
+            typeNameButton.isEnabled = true
+            nameText.isEnabled = true
+            imagePickerDoneButton.isEnabled = false
+            imagePickerDoneButton.isHidden = true
+            enableSave()
+            sdk.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: method)
+        }
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
@@ -112,7 +112,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @objc func saveButtonTapped(_ sender: Any) {
-        if let name = nameText.text {
+        if let name = nameText.text, let sdk = sdk {
             // Updating existing site
             let i = siteScheduleIndex
             let count = sdk.sites.count
@@ -164,7 +164,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             nameText.text = PDStrings.PlaceholderStrings.newSite
         case let name :
             if let n = name {
-                sdk.sites.rename(at: siteScheduleIndex, to: n)
+                sdk?.sites.rename(at: siteScheduleIndex, to: n)
             }
         }
         loadImage()
@@ -176,12 +176,15 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     // MARK: - Picker functions
     
     @objc private func openPicker(_ picker: UIPickerView) {
-        UIView.transition(with: picker as UIView, duration: 0.4, options: .transitionFlipFromTop, animations: {
-            picker.isHidden = false;
-            self.bottomLine.isHidden = true;
-            self.siteImage.isHidden = true
-        })
-        if let n = nameText.text, let i = namePickerSet.firstIndex(of: n) {
+        UIView.transition(
+            with: picker as UIView,
+            duration: 0.4,
+            options: .transitionFlipFromTop, animations: {
+                picker.isHidden = false;
+                self.bottomLine.isHidden = true;
+                self.siteImage.isHidden = true
+            })
+        if let n = nameText.text, let i = sdk?.sites.names.firstIndex(of: n) {
             namePicker.selectRow(i, inComponent: 0, animated: true)
         }
     }
@@ -190,9 +193,11 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         return 1
     }
     
-    func pickerView(_ pickerView: UIPickerView,
-                    numberOfRowsInComponent component: Int) -> Int {
-        return namePickerSet.count
+    func pickerView(
+        _ pickerView: UIPickerView,
+        numberOfRowsInComponent component: Int
+    ) -> Int {
+        return sdk?.sites.names.count ?? 0
     }
     
     func pickerView(
@@ -201,17 +206,26 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         forComponent component: Int
     ) -> NSAttributedString? {
 
-        let attrs = [NSAttributedString.Key.foregroundColor : app.styles.theme[.text] as Any]
-        let n = namePickerSet[row]
-        let attributedString = NSAttributedString(string: n, attributes: attrs)
-        return attributedString
+        if let sdk = sdk,
+            let name = sdk.sites.names.tryGet(at: row),
+            let textColor = app?.styles.theme[.text] {
+    
+            let attrs = [NSAttributedString.Key.foregroundColor : textColor as Any]
+            let attributedString = NSAttributedString(string: name, attributes: attrs)
+            return attributedString
+        }
+        return nil
     }
  
-    func pickerView(_ pickerView: UIPickerView,
-                             didSelectRow row: Int,
-                             inComponent component: Int) {
-        self.nameText.text = self.namePickerSet[row]
-        closePicker()
+    func pickerView(
+        _ pickerView: UIPickerView,
+        didSelectRow row: Int,
+        inComponent component: Int
+    ) {
+        if let sdk = sdk, let name = sdk.sites.names.tryGet(at: row) {
+            self.nameText.text = name
+            closePicker()
+        }
     }
     
     @objc func closePicker() {
@@ -239,20 +253,20 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTitle() {
-        if siteScheduleIndex >= 0, let site = sdk.sites.at(siteScheduleIndex) {
+        if siteScheduleIndex >= 0, let site = sdk?.sites.at(siteScheduleIndex) {
             title = "\(PDVCTitleStrings.siteTitle) \(siteScheduleIndex + 1)"
             nameText.text = site.name
         } else {
-            title = "\(PDVCTitleStrings.siteTitle) \(sdk.sites.count + 1)"
+            let indexSuffix = (sdk?.sites.count ?? 0) + 1
+            title = "\(PDVCTitleStrings.siteTitle) \(indexSuffix)"
         }
     }
     
     private func loadImage() {
-        let method = sdk.defaults.deliveryMethod.value
-        let theme = app.sdk.defaults.theme.value
-
-        if let name = nameText.text {
+        if let name = nameText.text, let sdk = sdk {
             var image: UIImage
+            let method = sdk.defaults.deliveryMethod.value
+            let theme = sdk.defaults.theme.value
             let sitesWithImages = PDSiteStrings.getSiteNames(for: method)
             if name == PDStrings.PlaceholderStrings.newSite {
                 image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
@@ -278,19 +292,21 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadImagePickeR() {
-        let deliv = sdk.deliveryMethod
-        if let site = sdk.sites.at(siteScheduleIndex),
-            let saveButton = navigationItem.rightBarButtonItem {
-    
-            imagePickerDelegate = SiteImagePickerDelegate(
-                with: imagePicker,
-                and: siteImage,
-                saveButton: saveButton,
-                selectedSite: site,
-                deliveryMethod: deliv)
+        if let sdk = sdk {
+            let method = sdk.deliveryMethod
+            if let site = sdk.sites.at(siteScheduleIndex),
+                let saveButton = navigationItem.rightBarButtonItem {
+        
+                imagePickerDelegate = SiteImagePickerDelegate(
+                    with: imagePicker,
+                    and: siteImage,
+                    saveButton: saveButton,
+                    selectedSite: site,
+                    deliveryMethod: method)
+            }
+            imagePicker.delegate = imagePickerDelegate
+            imagePicker.dataSource = imagePickerDelegate
         }
-        imagePicker.delegate = imagePickerDelegate
-        imagePicker.dataSource = imagePickerDelegate
     }
     
     private func loadSave() {
@@ -312,13 +328,15 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func applyTheme() {
-        view.backgroundColor = theme[.bg]
-        nameStackVertical.backgroundColor = theme[.bg]
-        nameStackHorizontal.backgroundColor = theme[.bg]
-        typeNameButton.setTitleColor(theme[.text], for: .normal)
-        nameText.textColor = theme[.text]
-        nameText.backgroundColor = theme[.bg]
-        siteImage.backgroundColor = theme[.bg]
-        gapAboveImage.backgroundColor = theme[.bg]
+        if let theme = app?.styles.theme {
+            view.backgroundColor = theme[.bg]
+            nameStackVertical.backgroundColor = theme[.bg]
+            nameStackHorizontal.backgroundColor = theme[.bg]
+            typeNameButton.setTitleColor(theme[.text], for: .normal)
+            nameText.textColor = theme[.text]
+            nameText.backgroundColor = theme[.bg]
+            siteImage.backgroundColor = theme[.bg]
+            gapAboveImage.backgroundColor = theme[.bg]
+        }
     }
 }
