@@ -21,7 +21,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     var currentPillIndex = 0
     var sendingNotifications = true
     
-    init(sdk: PatchDataDelegate, center: PDNotificationCenter, factory: PDNotificationProducing) {
+    init(sdk: PatchDataDelegate?, center: PDNotificationCenter, factory: PDNotificationProducing) {
         self.sdk = sdk
         self.center = center
         self.factory = factory
@@ -30,16 +30,17 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     
     convenience override init() {
         let center = PDNotificationCenter(
-            sdk: app?.sdk,
-            root: UNUserNotificationCenter.current()
+            root: UNUserNotificationCenter.current(),
+            applyHormoneHandler: ApplyHormoneNotificationActionHandler(),
+            swallowPillHandler: SwallowPillNotificationActionHandler()
         )
-        self.init(sdk: app.sdk, center: center)
+        self.init(sdk: app?.sdk, center: center, factory: PDNotificationFactory())
     }
     
     // MARK: - Hormones
     
     func removeNotifications(with ids: [String]) {
-        center.removePendingNotificationRequests(withIdentifiers: ids)
+        center.removeNotifications(with: ids)
     }
     
     /// Request a hormone notification.
@@ -118,11 +119,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
     /// Request a pill notification.
     func requestDuePillNotification(_ pill: Swallowable) {
         if Date() < pill.due, let totalDue = sdk?.totalAlerts {
-            DuePillNotification(
-                for: pill,
-                dueDate: pill.due,
-                totalDue: totalDue
-            ).request()
+            factory.createDuePillNotification(pill, totalDue: totalDue).request()
         }
     }
     
@@ -137,7 +134,7 @@ class PDNotifications: NSObject, PDNotificationScheduling {
             let exp = hormone.expiration,
             let triggerDate = PDDateHelper.dateBefore(overNightDate: exp) {
             
-            ExpiredHormoneOvernightNotification(
+            factory.createOvernightExpiredHormoneNotification(
                 triggerDate: triggerDate,
                 deliveryMethod: sdk.deliveryMethod,
                 totalDue: sdk.totalAlerts

@@ -13,16 +13,16 @@ import PDKit
 class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
 
     private let root: UNUserNotificationCenter
-    private let applyHormone: ApplyHormoneNotificationActionHandling
-    private let swallowPill: SwallowPillNotificationActionHandling
+    private let hormoneApplicant: ApplyHormoneNotificationActionHandling
+    private let pillSwallower: SwallowPillNotificationActionHandling
     
     init(
         root: UNUserNotificationCenter,
-        applyHormoneAction: ApplyHormoneNotificationActionHandling,
-        swallowAction: SwallowPillNotificationActionHandling
+        applyHormoneHandler: ApplyHormoneNotificationActionHandling,
+        swallowPillHandler: SwallowPillNotificationActionHandling
     ) {
-        self.applyHormone = applyHormoneAction
-        self.swallowPill = swallowAction
+        self.hormoneApplicant = applyHormoneHandler
+        self.pillSwallower = swallowPillHandler
         self.root = root
         super.init()
         self.root.delegate = self
@@ -64,6 +64,10 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
         )
         return Set([hormoneCategory, pillCategory])
     }
+    
+    func removeNotifications(with ids: [String]) {
+        root.removePendingNotificationRequests(withIdentifiers: ids)
+    }
 
     /// Handles responses received from interacting with notifications.
     func userNotificationCenter(
@@ -71,23 +75,12 @@ class PDNotificationCenter: NSObject, PDNotificationCenterDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
+        let uid = response.notification.request.identifier
         switch response.actionIdentifier {
         case ExpiredHormoneNotification.actionId :
-            if let id = UUID(uuidString: response.notification.request.identifier),
-                let suggestedsite = sdk.sites.suggested {
-
-                sdk.setHormoneDateAndSite(for: id, date: Date(), site: suggestedsite)
-                UIApplication.shared.applicationIconBadgeNumber -= 1
-            }
+            hormoneApplicant.applyHormone(hormoneUid: uid)
         case DuePillNotification.actionId :
-            if let uuid = UUID(uuidString: response.notification.request.identifier),
-                let pill = sdk.pills.get(for: uuid) {
-
-                
-                sdk.swallow(pill)
-                requestDuePillNotification(pill)
-                UIApplication.shared.applicationIconBadgeNumber -= 1
-            }
+            pillSwallower.swallow(pillUid: uid)
         default : return
         }
     }

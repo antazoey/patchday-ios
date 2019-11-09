@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import PDKit
 
-public class ExpiredHormoneNotification : PDNotification, PDNotifying {
+public class ExpiredHormoneNotification : PDNotification, ExpiredHormoneNotifying {
     
     private let hormone: Hormonal
     private let expirationInterval: ExpirationIntervalUD

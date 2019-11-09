@@ -17,5 +17,11 @@ protocol PDNotificationProducing {
         expirationInterval: ExpirationIntervalUD,
         notifyMinutesBefore: Double,
         totalDue: Int
-    ) -> PDNotifying
+    ) -> ExpiredHormoneNotifying
+    
+    func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> DuePillNotifying
+    
+    func createOvernightExpiredHormoneNotification(
+        triggerDate: Date, deliveryMethod: DeliveryMethod, totalDue: Int
+    ) -> ExpiredHormoneOvernightNotifying
 }
