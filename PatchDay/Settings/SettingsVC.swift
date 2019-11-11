@@ -14,7 +14,7 @@ typealias UITimePicker = UIDatePicker
 class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     override public var description: String {
-        return """
+        """
         The view controller for the Settings View.
         The Settings View is where the user may select their defaults,
         which are saved and used for PatchDay scheduling.

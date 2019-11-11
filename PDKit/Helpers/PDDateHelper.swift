@@ -10,10 +10,6 @@ public typealias Time = Date
 
 public class PDDateHelper: NSObject {
     
-    override public var description: String {
-        return "Class for doing calculations on Dates."
-    }
-    
     /// Returns the day of the week, such as "Tuesday"
     public class func dayOfWeekString(date: Date) -> String {
         let dateFormatter = DateFormatter()

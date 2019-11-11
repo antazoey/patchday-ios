@@ -1,97 +1,95 @@
 //
 //  PDDefaults.swift
-//  PatchDay
+//  PatchData
 //
-//  Created by Juliya Smith on 5/25/17.
-//  Copyright © 2018 Juliya Smith. All rights reserved.
+//  Created by Juliya Smith on 11/11/19.
+//  Copyright © 2019 Juliya Smith. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import PDKit
 
-public class PDDefaultsConstants {
-    public static let maxQuantity = 4
-}
+public class PDDefaults : PDDefaultManaging {
 
-public class PDDefaults: PDDefaultManaging {
-
-    // Dependencies
+    private let store: PDDefaultStoring
     private var state: PDStateManaging
-    private var handler: PDDefaultsStorageHandler
+    private let hormoneBroadcaster: HormoneDataBroadcasting
+    private let hormones: HormoneScheduling
+    private let sites: HormoneSiteScheduling
 
-    // Defaults
-    public var deliveryMethod = DeliveryMethodUD()
-    public var expirationInterval = ExpirationIntervalUD()
-    public var quantity = QuantityUD()
-    public var notifications = NotificationsUD()
-    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD()
-    public var mentionedDisclaimer = MentionedDisclaimerUD()
-    public var siteIndex = SiteIndexUD()
-    public var theme = PDThemeUD()
+    init(store: PDDefaultStoring,
+         state: PDStateManaging,
+         hormones: HormoneScheduling,
+         sites: HormoneSiteScheduling,
+         hormoneBroadcaster: HormoneDataBroadcasting
+    ) {
+        self.store = store
+        self.state = state
+        self.hormones = hormones
+        self.sites = sites
+        self.hormoneBroadcaster = hormoneBroadcaster
+    }
 
-    // MARK: - initializer
-    
-    init(stateManager: PDStateManaging, handler: PDDefaultsStorageHandler) {
-        self.state = stateManager
-        self.handler = handler
-        handler.load(&deliveryMethod)
-            .load(&expirationInterval)
-            .load(&quantity)
-            .load(&notifications)
-            .load(&notificationsMinutesBefore)
-            .load(&mentionedDisclaimer)
-            .load(&theme)
-    }
-    
-    public func reset(defaultSiteCount: Int=4) {
-        replaceStoredDeliveryMethod(to: .Patches)
-        replaceStoredQuantity(to: 3)
-        replaceStoredExpirationInterval(to: .TwiceAWeek)
-        replaceStoredNotifications(to: true)
-        replaceStoredSiteIndex(to: 3, siteCount: defaultSiteCount)
-        replaceStoredNotificationsMinutesBefore(to: 0)
-        replaceStoredMentionedDisclaimer(to: false)
-        replaceStoredTheme(to: .Light)
-    }
-    
-    public func replaceStoredDeliveryMethod(to method: DeliveryMethod) {
-        handler.replace(&deliveryMethod, to: method)
-        let q = method == .Injections ? Quantity.One : Quantity.Three
-        handler.replace(&quantity, to: q)
+    public var deliveryMethod: DeliveryMethodUD { store.deliveryMethod }
+    public var expirationInterval: ExpirationIntervalUD { store.expirationInterval }
+    public var quantity: QuantityUD { store.quantity }
+    public var notifications: NotificationsUD { store.notifications }
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD { store.notificationsMinutesBefore }
+    public var mentionedDisclaimer: MentionedDisclaimerUD { store.mentionedDisclaimer }
+    public var siteIndex: SiteIndexUD { store.siteIndex }
+    public var theme: PDThemeUD { store.theme }
+
+    public func setDeliveryMethod(to newMethod: DeliveryMethod) {
+        store.replaceStoredDeliveryMethod(to: newMethod)
+        let newIndex = PDKeyStorableHelper.defaultQuantity(for: newMethod)
+        store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
+        
+        hormoneBroadcaster.broadcast(nextHormone: hormones.next)
         state.deliveryMethodChanged = true
     }
-    
-    @objc public func replaceStoredQuantity(to newQuantity: Int) {
-        if let q = Quantity(rawValue: newQuantity) {
-            handler.replace(&quantity, to: q)
+
+    public func setQuantity(to newQuantity: Int) {
+        let endRange = PDPickerOptions.quantities.count
+        if newQuantity < endRange && newQuantity > 0 {
+            let oldQuantity = store.quantity.rawValue
+            if newQuantity < oldQuantity {
+                state.decreasedQuantity = true
+                hormones.delete(after: newQuantity - 1)
+            } else if newQuantity > oldQuantity {
+                state.decreasedQuantity = false
+                hormones.fillIn(newQuantity: newQuantity)
+            }
+            store.replaceStoredQuantity(to: newQuantity)
         }
     }
-     
-    public func replaceStoredExpirationInterval(to i: ExpirationInterval) {
-        handler.replace(&expirationInterval, to: i)
+
+    public func setExpirationInterval(to newInterval: String) {
+        let exp = PDPickerOptions.getExpirationInterval(for: newInterval)
+        store.replaceStoredExpirationInterval(to: exp)
+    }
+
+    public func setTheme(to newTheme: String) {
+        let theme = PDPickerOptions.getTheme(for: newTheme)
+        store.replaceStoredTheme(to: theme)
+    }
+
+    @discardableResult public func setSiteIndex(to newIndex: Index) -> Index {
+        return store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
     }
     
-    public func replaceStoredNotifications(to b: Bool) {
-        handler.replace(&notifications, to: b)
+    public func setNotifications(to newValue: Bool) {
+        store.replaceStoredNotifications(to: newValue)
     }
     
-    public func replaceStoredNotificationsMinutesBefore(to i: Int) {
-        handler.replace(&notificationsMinutesBefore, to: i)
+    public func setNotificationsMinutesBefore(to newMinutes: Int) {
+        store.replaceStoredNotificationsMinutesBefore(to: newMinutes)
     }
     
-    public func replaceStoredMentionedDisclaimer(to b: Bool) {
-        handler.replace(&mentionedDisclaimer, to: b)
+    public func setMentionedDisclaimer(to newValue: Bool) {
+        store.replaceStoredMentionedDisclaimer(to: newValue)
     }
     
-    @discardableResult public func replaceStoredSiteIndex(to i: Index, siteCount: Int) -> Index {
-        if i < siteCount && i >= 0 {
-            handler.replace(&siteIndex, to: i)
-            return i
-        }
-        return 0
-    }
-    
-    public func replaceStoredTheme(to t: PDTheme) {
-        handler.replace(&theme, to: t)
+    public func reset(defaultSiteCount: Int) {
+        store.reset(defaultSiteCount: defaultSiteCount)
     }
 }

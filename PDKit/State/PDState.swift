@@ -11,9 +11,9 @@ import Foundation
 public class PDState: NSObject, PDStateManaging {
 
     override public var description: String {
-        return """
-               Manages the state of data during a PatchDay session.
-               """
+        """
+        Manages the state of data during a PatchDay session.
+        """
     }
 
     public var wereHormonalChanges = false

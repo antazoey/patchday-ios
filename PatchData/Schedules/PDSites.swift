@@ -12,10 +12,10 @@ import PDKit
 
 public class PDSites: NSObject, HormoneSiteScheduling {    
     
-    override public var description: String { return "Schedule for sites." }
+    override public var description: String { "Schedule for sites." }
     
     private let store: PatchDataCalling
-    private let defaults: PDDefaultManaging
+    private let defaults: PDDefaultStoring
     private var sites: [Bodily]
     let siteIndexRebounder: PDIndexRebounce
     
@@ -41,7 +41,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
         return oldestHormoneSiteIndex
     }
     
-    init(store: PatchDataCalling, defaults: PDDefaultManaging, siteIndexRebounder: PDIndexRebounce) {
+    init(store: PatchDataCalling, defaults: PDDefaultStoring, siteIndexRebounder: PDIndexRebounce) {
         self.store = store
         self.defaults = defaults
         let exp = defaults.expirationInterval

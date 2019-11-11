@@ -11,10 +11,6 @@ public typealias Stamps = [Stamp?]?
 
 public class PDPillHelper: NSObject {
 
-    override public var description: String {
-        return "Class for doing calculations on MOPill attributes."
-    }
-    
     public enum NextDueDateError: Error {
         case notEnoughTimes
     }

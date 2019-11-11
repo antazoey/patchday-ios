@@ -19,12 +19,12 @@ public struct HormoneScheduleData {
 
 public class PDHormones: NSObject, HormoneScheduling {
     
-    override public var description: String { return "Schedule for hormones." }
+    override public var description: String { "Schedule for hormones." }
 
     private let dataBroadcaster: HormoneDataBroadcasting
     private var store: PatchDataCalling
     private var state: PDStateManaging
-    private let defaults: PDDefaultManaging
+    private let defaults: PDDefaultStoring
     private var hormones: [Hormonal]
     
     init(
@@ -32,7 +32,7 @@ public class PDHormones: NSObject, HormoneScheduling {
         hormoneDataBroadcaster: HormoneDataBroadcasting,
         store: PatchDataCalling,
         stateManager: PDStateManaging,
-        defaults: PDDefaultManaging
+        defaults: PDDefaultStoring
     ) {
         self.hormones = PDHormones.createHormones(data: data)
         self.dataBroadcaster = hormoneDataBroadcaster
@@ -57,7 +57,7 @@ public class PDHormones: NSObject, HormoneScheduling {
     }
     
     public var totalExpired: Int {
-        return hormones.reduce(0, {
+        hormones.reduce(0, {
             count, mone in
             let c = mone.isExpired ? 1 : 0
             return c + count

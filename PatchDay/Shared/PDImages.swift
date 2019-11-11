@@ -13,60 +13,60 @@ public typealias UIIcon = UIImage
 
 public class PDImages: NSObject {
     
-    override public var description: String { return "Read-only app images." }
+    override public var description: String { "Read-only app images." }
     
     // Cerebral
-    private static let cerebralPatch = { return UIImage(named: "Add Patch")! }()
-    private static let darkCerebralPatch = { return UIImage(named: "Add Patch Dark")! }()
-    private static var cerebralInjection = { return UIImage(named: "Add Injection")! }()
-    private static var darkCerebralInjection = { return UIImage(named: "Add Injection Dark")! }()
+    private static let cerebralPatch = { UIImage(named: "Add Patch")! }()
+    private static let darkCerebralPatch = { UIImage(named: "Add Patch Dark")! }()
+    private static var cerebralInjection = { UIImage(named: "Add Injection")! }()
+    private static var darkCerebralInjection = { UIImage(named: "Add Injection Dark")! }()
     
     // Patch site images
-    private static let patchRightGlute = { return UIImage(named: "Right Glute")! }()
-    private static let darkPatchRightGlute = { return UIImage(named: "Right Glute Dark")! }()
-    private static let patchLeftGlute = { return UIImage(named: "Left Glute")! }()
-    private static let darkPatchLeftGlute = { return UIImage(named: "Left Glute Dark")! }()
-    private static let patchRightAbdomen = { return UIImage(named: "Right Abdomen")! }()
-    private static let darkPatchRightAbdomen = { return UIImage(named: "Right Abdomen Dark")! }()
-    private static let patchLeftAbdomen = { return UIImage(named: "Left Abdomen")! }()
-    private static let darkPatchLeftAbdomen = { return UIImage(named: "Left Abdomen Dark")! }()
-    private static let customPatch = { return UIImage(named: "Custom Patch")! }()
-    private static let darkCustomPatch = { return UIImage(named: "Custom Patch Darl")! }()
+    private static let patchRightGlute = { UIImage(named: "Right Glute")! }()
+    private static let darkPatchRightGlute = { UIImage(named: "Right Glute Dark")! }()
+    private static let patchLeftGlute = { UIImage(named: "Left Glute")! }()
+    private static let darkPatchLeftGlute = { UIImage(named: "Left Glute Dark")! }()
+    private static let patchRightAbdomen = { UIImage(named: "Right Abdomen")! }()
+    private static let darkPatchRightAbdomen = { UIImage(named: "Right Abdomen Dark")! }()
+    private static let patchLeftAbdomen = { UIImage(named: "Left Abdomen")! }()
+    private static let darkPatchLeftAbdomen = { UIImage(named: "Left Abdomen Dark")! }()
+    private static let customPatch = { UIImage(named: "Custom Patch")! }()
+    private static let darkCustomPatch = { UIImage(named: "Custom Patch Darl")! }()
     
     // Injection site images
-    private static let injectionLeftQuad = { return UIImage(named: "Left Quad")! }()
-    private static let darkInjectionLeftQuad = { return UIImage(named: "Left Quad Dark")! }()
-    private static let injectionRightQuad = { return UIImage(named: "Right Quad")! }()
-    private static let darkInjectionRightQuad = { return UIImage(named: "Right Quad Dark")! }()
-    private static let injectionLeftGlute = { return UIImage(named: "Left Injection Glute")! }()
-    private static let darkInjectionLeftGlute = { return UIImage(named: "Left Injection Glute Dark")! }()
-    private static let injectionGluteRight = { return UIImage(named: "Right Injection Glute")! }()
-    private static let darkInjectionGluteRight = { return UIImage(named: "Right Injection Glute Dark")! }()
-    private static let injectionLeftDelt = { return UIImage(named: "Left Delt")! } ()
-    private static let darkInjectionLeftDelt = { return UIImage(named: "Left Delt Dark")! } ()
-    private static let injectionRightDelt = { return UIImage(named: "Right Delt")! }()
-    private static let darkInjectionRightDelt = { return UIImage(named: "Right Delt Dark")! }()
-    private static let customInjection = { return UIImage(named: "Custom Injection")! }()
-    private static let darkCustomInjection = { return UIImage(named: "Custom Injection Dark")! }()
+    private static let injectionLeftQuad = { UIImage(named: "Left Quad")! }()
+    private static let darkInjectionLeftQuad = { UIImage(named: "Left Quad Dark")! }()
+    private static let injectionRightQuad = { UIImage(named: "Right Quad")! }()
+    private static let darkInjectionRightQuad = { UIImage(named: "Right Quad Dark")! }()
+    private static let injectionLeftGlute = { UIImage(named: "Left Injection Glute")! }()
+    private static let darkInjectionLeftGlute = { UIImage(named: "Left Injection Glute Dark")! }()
+    private static let injectionGluteRight = { UIImage(named: "Right Injection Glute")! }()
+    private static let darkInjectionGluteRight = { UIImage(named: "Right Injection Glute Dark")! }()
+    private static let injectionLeftDelt = { UIImage(named: "Left Delt")! } ()
+    private static let darkInjectionLeftDelt = { UIImage(named: "Left Delt Dark")! } ()
+    private static let injectionRightDelt = { UIImage(named: "Right Delt")! }()
+    private static let darkInjectionRightDelt = { UIImage(named: "Right Delt Dark")! }()
+    private static let customInjection = { UIImage(named: "Custom Injection")! }()
+    private static let darkCustomInjection = { UIImage(named: "Custom Injection Dark")! }()
     
     // Site Index Icons
-    private static let calendarIcon = { return UIImage(named: "Calendar Icon")! }()
-    private static let siteIndexIcon = { return UIImage(named: "Site Index Icon")! }()
-    private static let siteIndexIconOne = { return UIImage(named: "Site Index Icon 1")! }()
-    private static let siteIndexIconTwo = { return UIImage(named: "Site Index Icon 2")! }()
-    private static let siteIndexIconThree = { return UIImage(named: "Site Index Icon 3")! }()
-    private static let siteIndexIconFour = { return UIImage(named: "Site Index Icon 4")! }()
+    private static let calendarIcon = { UIImage(named: "Calendar Icon")! }()
+    private static let siteIndexIcon = { UIImage(named: "Site Index Icon")! }()
+    private static let siteIndexIconOne = { UIImage(named: "Site Index Icon 1")! }()
+    private static let siteIndexIconTwo = { UIImage(named: "Site Index Icon 2")! }()
+    private static let siteIndexIconThree = { UIImage(named: "Site Index Icon 3")! }()
+    private static let siteIndexIconFour = { UIImage(named: "Site Index Icon 4")! }()
     
     // Icons
-    private static let patchIcon = { return UIImage(named: "Patch Icon")! }()
-    private static let injectionIcon = { return UIImage(named: "Injection Icon")! }()
+    private static let patchIcon = { UIImage(named: "Patch Icon")! }()
+    private static let injectionIcon = { UIImage(named: "Injection Icon")! }()
     
     // Accessible Icons
-    static let settingsIcon = { return UIImage(named: "Settings Icon")! }()
+    static let settingsIcon = { UIImage(named: "Settings Icon")! }()
     
     
     // Pills
-    public static let pill = { return UIImage(named: "Pill")! }()
+    public static let pill = { UIImage(named: "Pill")! }()
     
     public static func siteImages(
         theme: PDTheme?, deliveryMethod: DeliveryMethod?) -> [UIImage] {
@@ -220,9 +220,11 @@ public class PDImages: NSObject {
         deliveryMethod: DeliveryMethod) -> UIImage {
 
         if let site = hormone.site {
-            return siteNameToImage(site.name,
-                                   theme: theme,
-                                   deliveryMethod: deliveryMethod)
+            return siteNameToImage(
+                site.name,
+                theme: theme,
+                deliveryMethod: deliveryMethod
+            )
         }
         return getCerebralHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
     }

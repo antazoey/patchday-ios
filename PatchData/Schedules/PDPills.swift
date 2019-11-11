@@ -12,7 +12,7 @@ import PDKit
 
 public class PDPills: NSObject, PDPillScheduling {
     
-    override public var description: String { return "Schedule for pills." }
+    override public var description: String { "Schedule for pills." }
     
     private var pills: [Swallowable]
     private let store: PatchDataCalling

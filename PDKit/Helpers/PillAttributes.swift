@@ -10,9 +10,7 @@ import Foundation
 
 public struct PillAttributes {
     
-    public var description: String {
-        return "Class for setting MOPill attributes."
-    }
+    public var description: String { "Pill DTO" }
     
     public var name: String?
     public var timesaday: Int?
@@ -21,10 +19,15 @@ public struct PillAttributes {
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
-    public init(name: String?, timesaday: Int?,
-                time1: Time?, time2: Time?,
-                notify: Bool?, timesTakenToday: Int?,
-                lastTaken: Date?) {
+    public init(
+        name: String?,
+        timesaday: Int?,
+        time1: Time?,
+        time2: Time?,
+        notify: Bool?,
+        timesTakenToday: Int?,
+        lastTaken: Date?
+    ) {
         self.name = name
         self.timesaday = timesaday
         self.time1 = time1

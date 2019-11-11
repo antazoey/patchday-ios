@@ -11,7 +11,7 @@ import PDKit
 
 class PDAlertDispatcher: NSObject, PDAlertDispatching {
 
-    override var description: String { return "Controls alerts." }
+    override var description: String { "Controls alerts." }
 
     private let sdk: PatchDataDelegate?
 

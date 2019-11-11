@@ -36,31 +36,6 @@ public protocol PatchDataDelegate {
     
     /// Resets all data to default values.
     func nuke()
-    
-    // MARK: - Defaults
-    
-    /// The current delivery method set in user defaults. The method by which you take hormones.
-    var deliveryMethod: DeliveryMethod { get }
-    
-    /// Sets the delivery method in UserDefaults with stateful side effects.
-    func setDeliveryMethod(to newMethod: DeliveryMethod)
-    
-    /// Sets the quantity in UserDefaults with stateful side effects.
-    func setQuantity(to newQuantity: Int)
-    
-    /// Sets the expiration interval in UserDefaults with stateful side effects.
-    func setExpirationInterval(to newInterval: String)
-    
-    /// Sets the theme in UserDefaults with stateful side effects.
-    func setTheme(to newTheme: String)
-    
-    /// Sets the site index in UserDefaults with stateful side effects and optionally returns the new index.
-    @discardableResult func setSiteIndex(to newIndex: Index) -> Index
-
-    // MARK: - Sites
-    
-    /// Swaps the index of two sites.
-    func swapSites(_ sourceIndex: Index, with destinationIndex: Index)
 
     // MARK: - Stateful
     
