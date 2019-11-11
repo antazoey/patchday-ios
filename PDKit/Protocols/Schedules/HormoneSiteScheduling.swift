@@ -19,6 +19,12 @@ public protocol HormoneSiteScheduling: PDSchedule, PDSorting, PDDeleting, PDRese
     /// The index of suggested site or -1 if there are no sites.
     var nextIndex: Index { get }
     
+    /// The list of all sites containing hormones.
+    var occupiedSites: [Bodily] { get }
+    
+    /// The indices of all the sites containing hormones.
+    var occupiedSitesIndices: [Index] { get }
+    
     /// All names.
     var names: [SiteName] { get }
     
@@ -51,4 +57,7 @@ public protocol HormoneSiteScheduling: PDSchedule, PDSorting, PDDeleting, PDRese
     
     /// Sets  the image ID of the site at the given index.
     func setImageId(at index: Index, to newId: String)
+    
+    /// Returns the first index of the given site.
+    func indexOf(_ site: Bodily) -> Index?
 }

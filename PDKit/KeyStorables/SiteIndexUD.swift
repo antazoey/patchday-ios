@@ -20,7 +20,7 @@ public class SiteIndexUD: PDKeyStorable {
     
     public var value: Int
     
-    public var rawValue: Int { return value }
+    public var rawValue: Int { value }
     
     public static var key = PDDefault.SiteIndex
 }

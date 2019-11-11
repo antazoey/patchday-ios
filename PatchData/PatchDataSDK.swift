@@ -15,7 +15,7 @@ public typealias SiteSet = [String]
 public class PatchDataSDK: NSObject, PatchDataDelegate {
 
     override public var description: String {
-        "Main interface for controlling patch data"
+        "Root object for developing with PatchData."
     }
 
     let dataMeter: PDDataMeting
@@ -129,12 +129,6 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         hormones.totalExpired + pills.totalDue
     }
 
-    public var occupiedSites: Set<SiteName> {
-        Set(hormones.all.map({(mone: Hormonal) ->
-            SiteName in return mone.site?.name ?? ""
-        }).filter() { $0 != "" })
-    }
-
     // MARK: - DataMeter
 
     private func broadcastPills() {
@@ -157,20 +151,6 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     }
 
     // MARK: - Other public
-
-    /// Returns array of occupied site indices.
-    public func occupiedSitesIndices() -> [Index] {
-        var indices: [Index] = []
-        if let pdSites = sites.all.asPDSiteArray() {
-            for mone in hormones.all {
-                if let occupiedSite = mone.site?.asPDSite(),
-                    let i = pdSites.firstIndex(of: occupiedSite) {
-                    indices.append(i)
-                }
-            }
-        }
-        return indices
-    }
 
     public func nuke() {
         PatchData.nuke()

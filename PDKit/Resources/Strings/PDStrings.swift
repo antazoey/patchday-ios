@@ -9,7 +9,7 @@
 public class PDStrings: NSObject {
     
     override public var description: String {
-        return "Read-only class for PatchDay Strings."
+        "Read-only class for PatchDay Strings."
     }
     
     // MARK: - Days (Localizable)
@@ -17,13 +17,13 @@ public class PDStrings: NSObject {
     public struct DayStrings {
         private static let comment = "The word 'today' displayed on a button."
         public static let today = {
-            return NSLocalizedString("Today", comment: comment)
+            NSLocalizedString("Today", comment: comment)
         }()
         public static let yesterday = {
-            return NSLocalizedString("Yesterday", comment: comment)
+            NSLocalizedString("Yesterday", comment: comment)
         }()
         public static let tomorrow = {
-            return NSLocalizedString("Tomorrow", comment: comment)
+            NSLocalizedString("Tomorrow", comment: comment)
         }()
     }
     
@@ -37,16 +37,16 @@ public class PDStrings: NSObject {
         private static let c4 = "Displayed under a button with medium room."
         
         public static let nothingYet = {
-            return NSLocalizedString("Nothing yet", comment: c1)
+            NSLocalizedString("Nothing yet", comment: c1)
         }()
         public static let dotDotDot = {
-            return NSLocalizedString("...", comment: c2)
+            NSLocalizedString("...", comment: c2)
         }()
         public static let newSite = {
-            return NSLocalizedString("New Site", comment: c3)
+            NSLocalizedString("New Site", comment: c3)
         }()
         public static let newPill = {
-            return NSLocalizedString("New Pill", comment: c4)
+            NSLocalizedString("New Pill", comment: c4)
         }()
     }
 
@@ -60,8 +60,8 @@ public class PDStrings: NSObject {
     }
     
     public struct PillTypes {
-        public static let defaultPills = { return ["T-Blocker", "Progesterone"] }()
-        public static let extraPills = { return ["Estrogen", "Prolactin"] }()
+        public static let defaultPills = { ["T-Blocker", "Progesterone"] }()
+        public static let extraPills = { ["Estrogen", "Prolactin"] }()
     }
     
     // MARK: - Color keys

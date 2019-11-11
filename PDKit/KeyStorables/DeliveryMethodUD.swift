@@ -10,8 +10,8 @@ import Foundation
 
 public class DeliveryMethodValueHolder: PDValueHolding {
     
-    static let pkey = { return "Patches" }()
-    static let ikey = { return "Injections" }()
+    static let pkey = { "Patches" }()
+    static let ikey = { "Injections" }()
     
     var indexer: DeliveryMethod
     
@@ -59,14 +59,14 @@ public class DeliveryMethodUD: PDKeyStorable {
     }
     
     public var value: DeliveryMethod {
-        get { return v }
+        get { v }
         set {
             v = newValue
             valueHolder = DeliveryMethodValueHolder(indexer: newValue)
         }
     }
     
-    public var rawValue: String { return valueHolder.heldValue }
+    public var rawValue: String { valueHolder.heldValue }
     
     public static var key = PDDefault.DeliveryMethod
 }

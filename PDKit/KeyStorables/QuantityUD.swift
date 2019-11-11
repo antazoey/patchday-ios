@@ -57,14 +57,14 @@ public class QuantityUD: PDKeyStorable {
     }
     
     public var value: Quantity {
-        get { return v }
+        get { v }
         set {
             v = newValue
             valueHolder = QuantityValueHolder(indexer: value)
         }
     }
     
-    public var rawValue: Int { return valueHolder.heldValue }
+    public var rawValue: Int { valueHolder.heldValue }
     
     public static var key = PDDefault.Quantity
 }

@@ -77,63 +77,63 @@ class PDNotificationStrings {
     // MARK: - User facing
     
     static let patchBody = {
-        return NSLocalizedString("Expired patch site: ", comment: comment)
+        NSLocalizedString("Expired patch site: ", comment: comment)
     }()
     
     static let injectionBody = {
-        return NSLocalizedString("Your last injection site: ", comment: comment)
+        NSLocalizedString("Your last injection site: ", comment: comment)
     }()
     
     static let siteForNextPatch = {
-        return NSLocalizedString("Site for next patch: ", comment: comment)
+        NSLocalizedString("Site for next patch: ", comment: comment)
     }()
     
     static let siteForNextInjection = {
-        return NSLocalizedString("Site for next injection: ", comment: comment)
+        NSLocalizedString("Site for next injection: ", comment: comment)
     }()
     
     static let autofill = {
-        return NSLocalizedString(
+        NSLocalizedString(
             "Change to suggested site?",
             comment: "Notification action label."
         )
     }()
     
     static let patchExpired = {
-        return NSLocalizedString("Time for your next patch", comment: comment)
+        NSLocalizedString("Time for your next patch", comment: comment)
     }()
     
     static let patchExpires = {
-        return NSLocalizedString("Almost time for your next patch", comment: comment)
+        NSLocalizedString("Almost time for your next patch", comment: comment)
     }()
     
     static let injectionExpired = {
-        return NSLocalizedString("Time for your next injection", comment: comment)
+        NSLocalizedString("Time for your next injection", comment: comment)
     }()
     
     static let injectionExpires = {
-        return NSLocalizedString(
+        NSLocalizedString(
             "Almost time for your next injection",
             comment: comment
         )
     }()
     
     static let takePill = {
-        return NSLocalizedString("Time to take pill: ", comment: comment)
+        NSLocalizedString("Time to take pill: ", comment: comment)
     }()
     
     static let overnightPatch = {
-        return NSLocalizedString("Patch expires overnight.", comment: comment)
+        NSLocalizedString("Patch expires overnight.", comment: comment)
     }()
     
     static let overnightInjection = {
-        return NSLocalizedString("Injection due overnight", comment: comment)
+        NSLocalizedString("Injection due overnight", comment: comment)
     }()
     
     // MARK: - Comments
     
-    private static let comment = { return "Notification telling you where and " +
+    private static let comment = { "Notification telling you where and " +
         "when to change your patch." }()
     
-    private static let titleComment = { return "Title of notification." }()
+    private static let titleComment = { "Title of notification." }()
 }

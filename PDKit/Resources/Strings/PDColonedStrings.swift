@@ -15,47 +15,47 @@ public class PDColonedStrings {
     private static let c2 = "Label next to date. Easy on room."
 
     public static let count = {
-        return NSLocalizedString("Count:", comment: c1)
+        NSLocalizedString("Count:", comment: c1)
     }()
 
     public static let time = {
-        return NSLocalizedString("Time:", comment: c1)
+        NSLocalizedString("Time:", comment: c1)
     }()
 
     public static let firstTime = {
-        return NSLocalizedString("First time:", comment: c1)
+        NSLocalizedString("First time:", comment: c1)
     }()
 
     public static let expires = {
-        return NSLocalizedString("Expires: ", comment: c2)
+        NSLocalizedString("Expires: ", comment: c2)
     }()
 
     public static let expired = {
-        return NSLocalizedString("Expired: ", comment: c2)
+        NSLocalizedString("Expired: ", comment: c2)
     }()
 
     public static let lastInjected = {
-        return NSLocalizedString("Injected: ", comment: c2)
+        NSLocalizedString("Injected: ", comment: c2)
     }()
 
     public static let nextDue = {
-        return NSLocalizedString("Next due: ", comment: c2)
+        NSLocalizedString("Next due: ", comment: c2)
     }()
 
     public static let dateAndTimeApplied = {
-        return NSLocalizedString("Date and time applied: ", comment: c2)
+        NSLocalizedString("Date and time applied: ", comment: c2)
     }()
 
     public static let dateAndTimeInjected = {
-        return NSLocalizedString("Date and time injected: ", comment: c2)
+        NSLocalizedString("Date and time injected: ", comment: c2)
     }()
 
     public static let site = {
-        return NSLocalizedString("Site: ", comment: c2)
+        NSLocalizedString("Site: ", comment: c2)
     }()
 
     public static let lastSiteInjected = {
-        return NSLocalizedString("Site injected: ", comment: c2)
+        NSLocalizedString("Site injected: ", comment: c2)
     }()
     
     public static func getDateTitle(for mone: Hormonal, method: DeliveryMethod) -> String {

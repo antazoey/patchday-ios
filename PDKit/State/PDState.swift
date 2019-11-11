@@ -66,9 +66,6 @@ public class PDState: NSObject, PDStateManaging {
     }
     
     private func checkHormoneMutatationStatus(for id: UUID) -> Bool {
-        if mutatedHormoneIds.contains(id) {
-            return bodilyChanged && !isCerebral
-        }
-        return false
+        return mutatedHormoneIds.contains(id) && bodilyChanged && !isCerebral
     }
 }

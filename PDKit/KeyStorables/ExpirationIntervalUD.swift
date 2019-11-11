@@ -10,9 +10,9 @@ import Foundation
 
 public class ExpirationIntervalValueHolder: PDValueHolding {
     
-    static var tawKey = { return "One half-week" }()
-    static var oawKey = { return "One week" } ()
-    static var etwKey = { return "Two weeks" }()
+    static var tawKey = { "One half-week" }()
+    static var oawKey = { "One week" } ()
+    static var etwKey = { "Two weeks" }()
     
     public typealias KeyIndex = ExpirationInterval
     
@@ -67,7 +67,7 @@ public class ExpirationIntervalUD: PDKeyStorable {
     }
     
     public var value: ExpirationInterval {
-        get { return v }
+        get { v }
         set {
             v = newValue
             valueHolder = ExpirationIntervalValueHolder(indexer: v)
@@ -90,7 +90,7 @@ public class ExpirationIntervalUD: PDKeyStorable {
     }
     
     public var humanPresentableValue: String {
-        return ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)!
+        ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)!
     }
     
     public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {

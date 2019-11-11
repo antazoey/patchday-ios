@@ -62,6 +62,26 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     public var suggested: Bodily? {
         sites.tryGet(at: nextIndex)
     }
+    
+    public var occupiedSites: [Bodily] {
+        var occupiedList: [Bodily] = []
+        for site in sites {
+            if site.isOccupied {
+                occupiedList.append(site)
+            }
+        }
+        return occupiedList
+    }
+    
+    public var occupiedSitesIndices: [Index] {
+        var indices: [Index] = []
+        for site in occupiedSites {
+            if let i = indexOf(site) {
+                indices.append(i)
+            }
+        }
+        return indices
+    }
 
     public var names: [SiteName] {
         sites.map({ (site: Bodily) -> SiteName in site.name })
@@ -206,6 +226,17 @@ public class PDSites: NSObject, HormoneSiteScheduling {
             }
         }
         store.save()
+    }
+    
+    public func indexOf(_ site: Bodily) -> Index? {
+        var i = -1
+        for s in sites {
+            i += 1
+            if site.name == s.name && site.order == s.order {
+                return i
+            }
+        }
+        return nil
     }
 
     @discardableResult private func updateIndex() -> Index {

@@ -51,4 +51,8 @@ extension Date {
     public static func createDefaultDate() -> Date {
         return Date(timeIntervalSince1970: 0)
     }
+    
+    public func dayBefore() -> Date? {
+        return Calendar.current.date(byAdding: .day, value: -1, to: self)
+    }
 }

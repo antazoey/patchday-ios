@@ -10,8 +10,8 @@ import Foundation
 
 public class PDThemeValueHolder: PDValueHolding {
     
-    static let lkey = { return "Light" }()
-    static let dkey = { return "Dark" }()
+    static let lkey = { "Light" }()
+    static let dkey = { "Dark" }()
     
     var indexer: PDTheme
     
@@ -59,14 +59,14 @@ public class PDThemeUD: PDKeyStorable {
     }
     
     public var value: PDTheme {
-        get { return v }
+        get { v }
         set {
             v = newValue
             valueHolder = PDThemeValueHolder(indexer: newValue)
         }
     }
     
-    public var rawValue: String { return valueHolder.heldValue }
+    public var rawValue: String { valueHolder.heldValue }
     
     public static var key = PDDefault.Theme
 }

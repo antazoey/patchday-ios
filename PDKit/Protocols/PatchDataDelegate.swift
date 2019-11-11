@@ -31,9 +31,6 @@ public protocol PatchDataDelegate {
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
     
-    /// The names of sites that contain hormones.
-    var occupiedSites: Set<SiteName> { get }
-    
     /// Resets all data to default values.
     func nuke()
 
