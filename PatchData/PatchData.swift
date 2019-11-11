@@ -44,24 +44,24 @@ public class PatchData: NSObject {
     // MARK: - Public
     
     override public var description: String {
-        return  """
-                PatchData is home of the Core Data stack
-                and static methods for Core Data calls.
-                In the PatchData package, the schedules
-                use the PatchData object to create their
-                managed object arrays.
-                """
+        """
+        PatchData is home of the Core Data stack
+        and static methods for Core Data calls.
+        In the PatchData package, the schedules
+        use the PatchData object to create their
+        managed object arrays.
+        """
     }
 
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer {
-        return pdContainer(persistantContainerKey)
+        pdContainer(persistantContainerKey)
     }
 
     /// The current view context
     static var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
     
     /// Saves the all changed data in the persistentContainer.
@@ -77,8 +77,7 @@ public class PatchData: NSObject {
     
     /// Insert a Core Data entity into the view context
     static func insert(_ entity: PDEntity) -> NSManagedObject? {
-        let name = entity.rawValue
-        return NSEntityDescription.insertNewObject(forEntityName: name, into: context);
+        NSEntityDescription.insertNewObject(forEntityName: entity.rawValue, into: context)
     }
     
     static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {

@@ -21,11 +21,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var notifications: PDNotificationScheduling = PDNotifications()
-    var sdk: PatchDataDelegate = PatchDataSDK(swallowHandler: PDSwallower())
+    var sdk: PatchDataDelegate = PatchDataSDK()
     var alerts: PDAlertDispatching = PDAlertDispatcher()
     var tabs: PDTabReflective?
-    var nav: PDNavigationDelegate = PDNavigationDelegate()
+    var nav: PDNavigationDelegate = PDNavigation()
     var styles: PDStyling!
+    var badge: PDBadgeDelegate = PDBadge()
 
     func application(
         _ application: UIApplication,
@@ -37,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         self.styles = PDStylist(theme: self.sdk.defaults.theme.value)
-        self.setBadge()
+        self.setBadgeToTotalAlerts()
         self.setNavigationAppearance()
         return true
     }
@@ -47,11 +48,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        setBadge()
+        setBadgeToTotalAlerts()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        setBadge()
+        setBadgeToTotalAlerts()
     }
 
     func setTabs(tc: UITabBarController, vcs: [UIViewController]) {
@@ -74,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     /// Sets the App badge number to the expired count + the total pills due for taking.
-    private func setBadge() {
-        UIApplication.shared.applicationIconBadgeNumber = sdk.totalAlerts
+    private func setBadgeToTotalAlerts() {
+        badge.set(to: sdk.totalAlerts)
     }
 }

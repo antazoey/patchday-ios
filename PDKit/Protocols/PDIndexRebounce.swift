@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol PDIndexRebounce {
-    func rebound(upon attempted: Index, lessThan bound: Index) -> Int
+    @discardableResult func rebound(upon attempted: Index, lessThan bound: Index) -> Int
 }

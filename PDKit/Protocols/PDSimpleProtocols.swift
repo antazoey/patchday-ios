@@ -26,6 +26,7 @@ public protocol PDDeleting {
 
 public protocol PDResetting {
  
-/// Reset all properties to their default values and returns the new count.
-@discardableResult func reset(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) -> Int
+    /// Reset all properties to their default values and returns the new count.
+    @discardableResult func reset() -> Int
+
 }

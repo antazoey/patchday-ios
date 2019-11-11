@@ -15,7 +15,7 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
     private let deliveryMethod: DeliveryMethod
     
     private var moSite: MOSite {
-        return self.mo as! MOSite
+        self.mo as! MOSite
     }
     
     public init(
@@ -62,12 +62,12 @@ public class PDSite: PDObject, Bodily, Comparable, Equatable {
     }
     
     public var imageId: String {
-        get { return moSite.imageIdentifier ?? "" }
+        get { moSite.imageIdentifier ?? "" }
         set { moSite.imageIdentifier = newValue }
     }
     
     public var name: SiteName {
-        get { return moSite.name ?? "" }
+        get { moSite.name ?? "" }
         set { moSite.name = newValue }
     }
     

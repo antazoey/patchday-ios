@@ -11,9 +11,7 @@ import PDKit
 
 public class PDPill: PDObject, Swallowable, Comparable {
     
-    private var moPill: MOPill {
-        return mo as! MOPill
-    }
+    private var moPill: MOPill { mo as! MOPill }
     
     public init(pill: MOPill) {
         super.init(mo: pill)
@@ -47,17 +45,12 @@ public class PDPill: PDObject, Swallowable, Comparable {
     }
 
     public var name: String {
-        get { return moPill.name ?? PDSiteStrings.unplaced }
+        get { moPill.name ?? PDSiteStrings.unplaced }
         set { moPill.name = newValue }
     }
 
     public var time1: Date {
-        get {
-            if let t1 = moPill.time1 {
-                return t1 as Date
-            }
-            return Date.createDefaultDate()
-        }
+        get { moPill.time1 as Date? ?? Date.createDefaultDate() }
         set { moPill.time1 = newValue as NSDate? }
     }
 
@@ -79,12 +72,12 @@ public class PDPill: PDObject, Swallowable, Comparable {
     }
 
     public var notify: Bool {
-        get { return moPill.notify }
+        get { moPill.notify }
         set { moPill.notify = newValue }
     }
     
     public var timesaday: Int {
-        get { return Int(moPill.timesaday) }
+        get { Int(moPill.timesaday) }
         set {
             if newValue >= 0 {
                 moPill.timesaday = Int16(newValue)
@@ -94,7 +87,7 @@ public class PDPill: PDObject, Swallowable, Comparable {
     }
 
     public var timesTakenToday: Int {
-        get { return Int(moPill.timesTakenToday) }
+        get { Int(moPill.timesTakenToday) }
         set {
             if newValue <= moPill.timesTakenToday {
                 moPill.timesTakenToday = Int16(newValue)
@@ -130,18 +123,12 @@ public class PDPill: PDObject, Swallowable, Comparable {
         return Date()
     }
 
-    public var isDue: Bool {
-        return Date() > due
-    }
+    public var isDue: Bool { Date() > due }
     
-    public var isNew: Bool {
-        return moPill.lastTaken == nil
-    }
+    public var isNew: Bool { moPill.lastTaken == nil }
     
     public var isDone: Bool {
-        return PDPillHelper.isDone(
-            timesTakenToday: timesTakenToday, timesaday: timesaday
-        )
+        PDPillHelper.isDone(timesTakenToday: timesTakenToday, timesaday: timesaday)
     }
     
     public func set(attributes: PillAttributes) {

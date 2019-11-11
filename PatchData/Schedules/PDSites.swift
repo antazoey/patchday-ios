@@ -10,83 +10,113 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PDSites: NSObject, HormoneSiteScheduling {
+public class PDSites: NSObject, HormoneSiteScheduling {    
     
     override public var description: String { return "Schedule for sites." }
     
+    private let store: PatchDataCalling
+    private let defaults: PDDefaultManaging
     private var sites: [Bodily]
-    var next: Index = 0
     let siteIndexRebounder: PDIndexRebounce
     
-    init(deliveryMethod: DeliveryMethod,
-         globalExpirationInterval: ExpirationIntervalUD,
-         siteIndexRebounder: PDIndexRebounce
-    ) {
-        self.sites = PatchData.createSites(
-            expirationIntervalUD: globalExpirationInterval,
-            deliveryMethod: deliveryMethod
-        )
+    private var firstEmptyIndex: Index? {
+        return sites.firstIndex {
+            (_ site: Bodily) -> Bool in
+            site.hormones.count == 0
+        }
+    }
+    
+    private var siteIndexWithOldestHormone: Index {
+        var date = Date()
+        var oldestHormoneSiteIndex = -1
+        for i in 0..<count {
+            let site = sites[i]
+            for mone in site.hormones {
+                if mone.date < date {
+                    date = mone.date
+                    oldestHormoneSiteIndex = i
+                }
+            }
+        }
+        return oldestHormoneSiteIndex
+    }
+    
+    init(store: PatchDataCalling, defaults: PDDefaultManaging, siteIndexRebounder: PDIndexRebounce) {
+        self.store = store
+        self.defaults = defaults
+        let exp = defaults.expirationInterval
+        let method = defaults.deliveryMethod.value
+        self.sites = PatchData.createSites(expirationIntervalUD: exp, deliveryMethod: method)
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
         if sites.count == 0 {
-            let exp = globalExpirationInterval
-            reset(deliveryMethod: deliveryMethod, interval: exp)
+            reset()
         }
         sort()
     }
     
-    public var count: Int { return sites.count }
+    public var count: Int { sites.count }
     
-    public var all: [Bodily] { return sites }
+    public var all: [Bodily] { sites }
 
     public var suggested: Bodily? {
-        if let i = nextIndex { return sites[i] }
-        return nil
+        sites.tryGet(at: nextIndex)
     }
 
     public var names: [SiteName] {
-        return sites.map({ (site: Bodily) -> SiteName in return site.name })
+        sites.map({ (site: Bodily) -> SiteName in site.name })
     }
 
     public var imageIds: [String] {
-        return sites.map({ (site: Bodily) -> String in return site.imageId })
+        sites.map({ (site: Bodily) -> String in site.imageId })
     }
 
-    public var nextIndex: Index? {
-        if next < 0 {
-            next = siteIndexRebounder.rebound(upon: 0, lessThan: sites.count)
-        }
+    public var nextIndex: Index {
         if sites.count <= 0 {
-            return nil
+            return -1
         }
+        if let siteIndex = firstEmptyIndex {
+            return updateIndex(focus: siteIndex)
+        }
+        return siteIndexWithOldestHormone
+    }
+
+    public var unionWithDefaults: [SiteName] {
+        let method = defaults.deliveryMethod.value
+        return Array(Set<String>(PDSiteStrings.getSiteNames(for: method)).union(names))
+    }
+
+    public var isDefault: Bool {
+        let method = defaults.deliveryMethod.value
+        let defaultSites = PDSiteStrings.getSiteNames(for: method)
         for i in 0..<sites.count {
-            if sites[i].hormones.count == 0 {
-                next = siteIndexRebounder.rebound(upon: i, lessThan: sites.count)
+            if !defaultSites.contains(sites[i].name) {
+                return false
             }
         }
-        return next
+        return true
+    }
+    
+    public func insertNew() -> Bodily? {
+        insertNew(completion: nil)
     }
 
-    public func insertNew(
-        deliveryMethod: DeliveryMethod,
-        globalExpirationInterval: ExpirationIntervalUD,
-        completion: (() -> ())? = nil
-    ) -> Bodily? {
-        let i = globalExpirationInterval
-        if let site = PDSite.new(deliveryMethod: deliveryMethod, globalExpirationInterval: i) {
+    public func insertNew(completion: (() -> ())? = nil) -> Bodily? {
+        let exp = defaults.expirationInterval
+        let method = defaults.deliveryMethod.value
+        if let site = PDSite.new(deliveryMethod: method, globalExpirationInterval: exp) {
             sites.append(site)
             return site
         }
         return nil
     }
 
-    @discardableResult public func reset(
-        deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD
-    ) -> Int {
-        if isDefault(deliveryMethod: deliveryMethod) {
+    @discardableResult public func reset() -> Int {
+        let method = defaults.deliveryMethod.value
+        if isDefault {
             return sites.count
         }
-        let resetNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
+        let resetNames = PDSiteStrings.getSiteNames(for: method)
         let oldCount = sites.count
         let newcount = resetNames.count
         for i in 0..<newcount {
@@ -94,10 +124,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
                 sites[i].order = i
                 sites[i].name = resetNames[i]
                 sites[i].imageId = resetNames[i]
-            } else if var site = insertNew(
-                deliveryMethod: deliveryMethod,
-                globalExpirationInterval: interval
-                ) {
+            } else if var site = insertNew() {
                 site.name = resetNames[i]
                 site.imageId = resetNames[i]
             }
@@ -108,7 +135,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
             }
         }
         sort()
-        PatchData.save()
+        store.save()
         return sites.count
     }
 
@@ -122,7 +149,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
                 }
             }
             sort()
-            PatchData.save()
+            store.save()
         }
     }
     
@@ -135,7 +162,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     // MARK: - Other Public
 
     public func at(_ index: Index) -> Bodily? {
-        return sites.tryGet(at: index)
+        sites.tryGet(at: index)
     }
 
     public func get(for name: String) -> Bodily? {
@@ -148,7 +175,7 @@ public class PDSites: NSObject, HormoneSiteScheduling {
     public func rename(at index: Index, to name: String) {
         if var site = at(index) {
             site.name = name
-            PatchData.save()
+            store.save()
         }
     }
 
@@ -160,37 +187,32 @@ public class PDSites: NSObject, HormoneSiteScheduling {
                 site.order = newOrder
                 originalSiteAtOrder.order = index + 1
                 sort()
-                PatchData.save()
+                store.save()
             } else {
                 site.order = newOrder
             }
         }
     }
 
-    public func setImageId(at index: Index, to newId: String, deliveryMethod: DeliveryMethod) {
-        var site_set: [String]
-        site_set = PDSiteStrings.getSiteNames(for: deliveryMethod)
+    public func setImageId(at index: Index, to newId: String) {
+        var siteSet: [String]
+        let method = defaults.deliveryMethod.value
+        siteSet = PDSiteStrings.getSiteNames(for: method)
         if var site = at(index) {
-            if site_set.contains(newId) {
+            if siteSet.contains(newId) {
                 site.imageId = newId
             } else {
                 sites[index].imageId = "custom"
             }
         }
-        PatchData.save()
+        store.save()
     }
 
-    public func unionWithDefaults(deliveryMethod: DeliveryMethod) -> Set<SiteName> {
-        return Set<String>(PDSiteStrings.getSiteNames(for: deliveryMethod)).union(names)
+    @discardableResult private func updateIndex() -> Index {
+        siteIndexRebounder.rebound(upon: nextIndex, lessThan: count)
     }
-
-    public func isDefault(deliveryMethod: DeliveryMethod) -> Bool {
-        let defaultSites = PDSiteStrings.getSiteNames(for: deliveryMethod)
-        for i in 0..<sites.count {
-            if !defaultSites.contains(sites[i].name) {
-                return false
-            }
-        }
-        return true
+    
+    @discardableResult private func updateIndex(focus: Index) -> Index {
+        siteIndexRebounder.rebound(upon: focus, lessThan: count)
     }
 }

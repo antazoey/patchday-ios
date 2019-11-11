@@ -42,6 +42,6 @@ public class ModiiImageResizer {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return newImage ?? UIImage()
+        return newImage ?? image
     }
 }

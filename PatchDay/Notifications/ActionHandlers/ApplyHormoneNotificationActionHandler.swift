@@ -26,7 +26,7 @@ class ApplyHormoneNotificationActionHandler : ApplyHormoneNotificationActionHand
     func applyHormone(hormoneUid: String) {
         if let id = UUID(uuidString: hormoneUid),
             let suggestedsite = sdk?.sites.suggested {
-            sdk?.setHormoneDateAndSite(for: id, date: Date(), site: suggestedsite)
+            sdk?.hormones.set(for: id, date: Date(), site: suggestedsite)
             badge.decrement()
         }
     }

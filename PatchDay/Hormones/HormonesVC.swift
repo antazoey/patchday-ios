@@ -16,7 +16,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonalTable: UITableView!
     
-    let sdk: PatchDataDelegate? = app.sdk
+    let model = HormonesModel()
     
     // MARK: - Main
     
@@ -28,11 +28,11 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         loadBarButtons()
         updateFromBackground()
         loadTabBarItems()
-        sdk?.state.reset()
     }
     
     private func loadTabs() {
-        if let tabs = self.navigationController?.tabBarController, let vcs = self.navigationController?.viewControllers {
+        if let tabs = self.navigationController?.tabBarController,
+            let vcs = self.navigationController?.viewControllers {
             app?.setTabs(tc: tabs, vcs: vcs)
         }
     }
@@ -50,9 +50,8 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             completion: nil
         )
         applyTheme()
-        presentDisclaimerAlert()
-        let method = sdk?.defaults.deliveryMethod.value
-        title = PDVCTitleStrings.getTitle(for: method)
+        model.presentDisclaimerAlert()
+        loadTitle()
         hormonalTable.reloadData()
         super.viewDidAppear(false)
     }
@@ -69,34 +68,32 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Have to return 4 so that we can animate all the cells
-        // (We animte cells when they removed)
+        // Have to return 4 so that we can animate all the cells after deletions
         return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let hormoneIndex = indexPath.row
-        let id = "HormoneCellReuseId"
-        if let hormone = sdk?.hormones.at(hormoneIndex),
-            let cell = hormonalTable.dequeueReusableCell(withIdentifier: id) as? HormoneCell {
+        if let hormone = model.hormones?.at(hormoneIndex),
+            let cell = hormonalTable.dequeueHormoneCell() {
 
             cell.index = hormoneIndex
-            cell.load(sdk: sdk, hormone: hormone)
+            cell.load(hormone: hormone)
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let q = sdk?.defaults.quantity.rawValue, indexPath.row < q {
-            segueToEstrogenVC(index: indexPath.row)
+        if let mone = model.hormones?.at(indexPath.row) {
+            segueToHormoneVC(mone)
         }
     }
     
     // MARK: - Actions
     
     @objc func settingsTapped() {
-        let sb = UIStoryboard(name: "SettingsAndSites", bundle: nil)
+        let sb = UIStoryboard.createSettingsStoryboard()
         let key = "SettingsVC_id"
         if let n = navigationController,
             let settingsVC = sb.instantiateViewController(withIdentifier: key) as? SettingsVC {
@@ -128,33 +125,24 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        let expiredHormoneCount = sdk.totalHormonesExpired
-        if expiredHormoneCount > 0 {
-            item?.badgeValue = String(expiredHormoneCount)
+        if let numExpired = model.sdk?.totalHormonesExpired, numExpired > 0 {
+            item?.badgeValue = "\(numExpired)";
         }
     }
     
     private func setExpiredPillsBadge() {
-        let pillDueCount = sdk.pills.totalDue
-        if pillDueCount > 0,
-            let vcs = self.navigationController?.tabBarController?.viewControllers,
-            vcs.count > 1 {
-            vcs[1].tabBarItem.badgeValue = String(pillDueCount)
-        }
+        app?.tabs?.reflectDuePillBadgeValue()
     }
     
-    private func segueToHormoneVC(index: Int) {
-        let id = "HormoneDetailVC_id"
-        if let sb = storyboard, let navCon = navigationController,
-            let hormoneVC = sb.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
-            hormoneVC.hormoneIndex = index
-            navCon.pushViewController(hormoneVC, animated: true)
-        }
+    private func segueToHormoneVC(_ hormone: Hormonal) {
+        app?.nav.goToHormoneDetails(hormone, source: self)
     }
     
     /// Configures title of view controller.
     private func loadTitle() {
-        title = PDVCTitleStrings.getTitle(for: sdk.deliveryMethod)
+        if let method = model.sdk?.deliveryMethod {
+            title = PDVCTitleStrings.getTitle(for: method)
+        }
     }
     
     private func loadTabBarItems() {
@@ -179,13 +167,6 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             hormonesView.backgroundColor = styles.theme[.bg]
             hormonalTable.backgroundColor = styles.theme[.bg]
             hormonalTable.separatorColor = styles.theme[.border]
-        }
-    }
-    
-    private func presentDisclaimerAlert() {
-        if let app = app, app.isFirstLaunch() {
-            app.alerts.presentDisclaimerAlert()
-            sdk.defaults.replaceStoredMentionedDisclaimer(to: true)
         }
     }
 }

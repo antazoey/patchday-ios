@@ -9,5 +9,6 @@
 import Foundation
 
 public protocol PatchDataCalling: PDSaving {
-    
+    func createPill(named name: String) -> Swallowable?
+    func createPills() -> [Swallowable]
 }

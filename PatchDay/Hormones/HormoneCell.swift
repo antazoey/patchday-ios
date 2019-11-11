@@ -16,26 +16,29 @@ class HormoneCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
     
-    private var sdk: PatchDataDelegate!
+    private var data: HormonesModel = HormonesModel()
 
     public var index = -1
     
-    public func load(sdk: PatchDataDelegate, hormone: Hormonal) {
-        self.sdk = sdk
-        let quantity = sdk.defaults.quantity.rawValue
+    public func load(data: HormonesModel, hormone: Hormonal) {
+        self.data = data
+        let quantity = data.sdk?.defaults.quantity
         backgroundColor = app?.styles.theme[.bg]
         setThemeColors(at: index)
-        if index < quantity && index >= 0 {
-            let method = sdk.defaults.deliveryMethod.value
-            let theme = sdk.defaults.theme.value
-            if let mone = sdk.hormones.at(index) {
+        if index < quantity.rawValue && index >= 0 {
+            let theme = data.sdk?.defaults.theme
+            if let mone = data.hormones?.at(index) {
                 let isExpired = mone.isExpired
-                let siteImage = PDImages.getImage(for: mone, theme: theme, deliveryMethod: method)
-                let cellTitle = PDColonedStrings.getDateTitle(for: hormone, method: sdk.deliveryMethod)
+                let siteImage = PDImages.getImage(
+                    for: mone, theme: theme, deliveryMethod: data.deliveryMethod
+                )
+                let cellTitle = PDColonedStrings.getDateTitle(
+                    for: hormone, method: data.deliveryMethod
+                )
                 configureDate(when: isExpired)
-                configureBadge(at: index, isExpired: isExpired, deliveryMethod: method)
+                configureBadge(at: index, isExpired: isExpired, deliveryMethod: data.deliveryMethod)
                 setDateLabel(cellTitle)
-                if sdk.stateChanged(forHormoneAtIndex: index) {
+                if data.didStateChange(for: hormone) {
                     animate(at: index, theme: theme, newImage: siteImage, newTitle: cellTitle)
                 } else {
                     stateImage.image = siteImage
@@ -43,8 +46,8 @@ class HormoneCell: UITableViewCell {
                 selectionStyle = .default
                 stateImage.isHidden = false
             }
-        } else if index >= quantity && index <= 3 {
-            animate(at: index, theme: sdk.defaults.theme.value)
+        } else if index >= quantity.rawValue && index <= 3 {
+            animate(at: index, theme: data.theme)
         } else {
             reset()
         }

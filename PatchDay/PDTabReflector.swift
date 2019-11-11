@@ -37,19 +37,9 @@ class PDTabReflector: PDTabReflective {
         self.sdk = sdk
     }
     
-    var hormonalTab: UIViewController { return viewControllers[0] }
-    
-    var swallowableTab: UIViewController { return viewControllers[1] }
-    
-    var bodilyTab: UIViewController { return viewControllers[2] }
-    
-    func reflectExpirationCountAsBadgeValue() {
-        if viewControllers.count > 0 {
-            let exp = sdk?.totalHormonesExpired ?? 0
-            let item = hormonalTab.navigationController?.tabBarItem
-            item?.badgeValue = exp > 0 ? "\(exp)" : nil
-        }
-    }
+    var hormonesVC: UIViewController? { return viewControllers.tryGet(at: 0) }
+    var pillsVC: UIViewController? { return viewControllers.tryGet(at: 1) }
+    var sitesVC: UIViewController? { return viewControllers.tryGet(at: 2) }
     
     func reflectTheme(theme: PDAppTheme) {
         let tabBarAppearance = UITabBar.appearance()
@@ -58,16 +48,29 @@ class PDTabReflector: PDTabReflective {
     }
     
     func reflectHormone() {
-        if let sdk = sdk {
+        if let sdk = sdk, let hormonesVC = hormonesVC {
             let total = sdk.totalAlerts
             let method = sdk.deliveryMethod
             let title = PDVCTitleStrings.getTitle(for: method)
-            hormonalTab.tabBarItem.title = title
-            hormonalTab.tabBarItem.badgeValue = total > 0 ? String(total) : nil
+            hormonesVC.tabBarItem.title = title
+            hormonesVC.tabBarItem.badgeValue = total > 0 ? String(total) : nil
             let icon = PDImages.getDeliveryIcon(method)
-            hormonalTab.tabBarItem.image = icon
-            hormonalTab.tabBarItem.selectedImage = icon
-            hormonalTab.awakeFromNib()
+            hormonesVC.tabBarItem.image = icon
+            hormonesVC.tabBarItem.selectedImage = icon
+            hormonesVC.awakeFromNib()
+        }
+    }
+    
+    func reflectExpiredHormoneBadgeValue() {
+        if let hormoneTab = hormonesVC?.tabBarItem {
+            let exp = sdk?.totalHormonesExpired ?? 0
+            hormoneTab.badgeValue = exp > 0 ? "\(exp)" : nil
+        }
+    }
+    
+    func reflectDuePillBadgeValue() {
+        if let totalDue = sdk?.pills.totalDue, let pillTab = pillsVC?.tabBarItem {
+            pillTab.badgeValue = String(totalDue)
         }
     }
 }

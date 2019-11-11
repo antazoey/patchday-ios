@@ -22,18 +22,14 @@ public protocol HormoneScheduling: PDSchedule, PDSorting, PDResetting {
     /// The next hormone to expire.
     var next: Hormonal? { get }
     
+    /// The number of hormones that are past their expiration dates.
+    var totalExpired: Int { get }
+    
     /// Inserts a new hormone into the schedule.
-    @discardableResult func insertNew(
-        deliveryMethod: DeliveryMethod,
-        expiration: ExpirationIntervalUD
-    ) -> Hormonal?
+    @discardableResult func insertNew() -> Hormonal?
     
     /// Resets all hormone properties to their default values.
-    @discardableResult func reset(
-        deliveryMethod: DeliveryMethod,
-        interval: ExpirationIntervalUD,
-        completion: (() -> ())?
-    ) -> Int
+    @discardableResult func reset(completion: (() -> ())?) -> Int
     
     /// Deletes a hormone from the schedule.
     func delete(after i: Index)
@@ -64,10 +60,7 @@ public protocol HormoneScheduling: PDSchedule, PDSorting, PDResetting {
     
     /// Gets the index of the given hormone.
     func indexOf(_ hormone: Hormonal) -> Index?
-
-    /// Gets the number of hormones that are past their expiration dates.
-    func totalExpired(_ interval: ExpirationIntervalUD) -> Int
     
     /// Fills in hormones from the current quantity to the given one.
-    func fillIn(newQuantity: Int, expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod)
+    func fillIn(newQuantity: Int)
 }

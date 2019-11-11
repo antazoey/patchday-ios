@@ -14,4 +14,15 @@ class PatchDataCaller: PatchDataCalling {
     public func save() {
         PatchData.save()
     }
+    
+    public func createPill(named name: String) -> Swallowable? {
+        if let mo = PatchData.insert(.pill) as? MOPill {
+            return PDPill(pill: mo, name: name)
+        }
+        return nil
+    }
+    
+    public func createPills() -> [Swallowable] {
+        PatchData.createPills()
+    }
 }

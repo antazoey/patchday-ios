@@ -14,9 +14,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     private let exp: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
-    private var hormone: MOHormone {
-        return self.mo as! MOHormone
-    }
+    private var hormone: MOHormone { self.mo as! MOHormone }
     
     public init(hormone: MOHormone, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
         self.exp = interval
@@ -37,7 +35,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
 
     public var id: UUID {
         get {
-            return hormone.id ?? {
+            hormone.id ?? {
                 let newId = UUID()
                 hormone.id = newId
                 return newId
@@ -66,12 +64,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
 
     public var date: Date {
-        get {
-            if let date = hormone.date {
-                return date as Date
-            }
-            return Date.createDefaultDate()
-        }
+        get { (hormone.date as Date?) ?? Date.createDefaultDate() }
         set { hormone.date = newValue as NSDate }
     }
 
@@ -113,7 +106,7 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
 
     public var siteNameBackUp: String? {
-        get { return site == nil ? hormone.siteNameBackUp : nil }
+        get { site == nil ? hormone.siteNameBackUp : nil }
         set {
             hormone.siteNameBackUp = newValue
             hormone.siteRelationship = nil
@@ -121,11 +114,11 @@ public class PDHormone: PDObject, Hormonal, Comparable {
     }
 
     public var isEmpty: Bool {
-        return date.isDefault() && site == nil && siteNameBackUp == nil
+        date.isDefault() && site == nil && siteNameBackUp == nil
     }
 
     public var isCerebral: Bool {
-        return siteName == PDStrings.PlaceholderStrings.newSite
+        siteName == PDStrings.PlaceholderStrings.newSite
     }
     
     public func stamp() {

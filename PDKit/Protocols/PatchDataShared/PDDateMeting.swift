@@ -10,11 +10,15 @@ import Foundation
 
 public protocol PDDataMeting  {
     var defaults: UserDefaults? { get }
+    
+    /// Sets hormone data for other apps and widgets, such as the PatchDay Today widget.
     func broadcastRelevantHormoneData(
         oldestHormone: Hormonal,
         nextSuggestedSite: SiteName,
         interval: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethodUD
     )
+    
+    /// Sets pill data for other apps and widgets, such as the PatchDay Today widget.
     func broadcastRelevantPillData(nextPill: Swallowable)
 }

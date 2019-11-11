@@ -15,17 +15,21 @@ public class PDPills: NSObject, PDPillScheduling {
     override public var description: String { return "Schedule for pills." }
     
     private var pills: [Swallowable]
+    private let store: PatchDataCalling
+    private let meter: PDDataMeting
     
-    init(isFirstInit: Bool) {
-        self.pills = PatchData.createPills()
+    init(store: PatchDataCalling, pillDataMeter: PDDataMeting, isFirstInit: Bool) {
+        self.store = store
+        self.meter = pillDataMeter
+        self.pills = store.createPills()
         super.init()
         if isFirstInit { self.reset() }
         awaken()
     }
     
-    public var all: [Swallowable] { return pills }
-    
-    public var count: Int { return pills.count }
+    public var all: [Swallowable] { pills }
+
+    public var count: Int { pills.count }
     
     public var nextDue: Swallowable? {
         if let pills = pills as? [PDPill] {
@@ -50,18 +54,17 @@ public class PDPills: NSObject, PDPillScheduling {
             if let comp = completion {
                 comp()
             }
+            meter.broadcastRelevantPillData(nextPill: pill)
             return pill
         }
         return nil
     }
 
     public func delete(at index: Index) {
-        switch index {
-        case 0..<pills.count :
-            let pill = pills.remove(at: index)
+        if let pill = at(index) {
             pill.delete()
-            PatchData.save()
-        default : return
+            store.save()
+            meter.broadcastRelevantPillData(nextPill: pill)
         }
     }
 
@@ -70,11 +73,11 @@ public class PDPills: NSObject, PDPillScheduling {
         let names = PDStrings.PillTypes.defaultPills
         pills = []
         for i in 0..<names.count {
-            if let pill = PatchData.insert(.pill) as? MOPill {
-                pills.append(PDPill(pill: pill, name: names[i]))
+            if let pill = store.createPill(named: names[i]) {
+                pills.append(pill)
             }
         }
-        PatchData.save()
+        store.save()
     }
 
     // MARK: - Public
@@ -95,12 +98,13 @@ public class PDPills: NSObject, PDPillScheduling {
     public func set(at index: Index, with attributes: PillAttributes) {
         if let pill = at(index) {
             set(for: pill, with: attributes)
+            meter.broadcastRelevantPillData(nextPill: pill)
         }
     }
 
     public func set(for pill: Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
-        PatchData.save()
+        store.save()
     }
 
     public func swallow(at index: Index, completion: (() -> ())?) {
@@ -112,7 +116,7 @@ public class PDPills: NSObject, PDPillScheduling {
     public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
-            PatchData.save()
+            store.save()
             if let comp = completion {
                 comp()
             }
@@ -126,14 +130,10 @@ public class PDPills: NSObject, PDPillScheduling {
     }
     
     public func indexOf(_ pill: Swallowable) -> Index? {
-        var i = -1
-        for p in pills {
-            i += 1
-            if pill.id == p.id {
-                return i
-            }
+        return pills.firstIndex { (_ p: Swallowable) ->
+            Bool in
+            pill.id == p.id
         }
-        return nil
     }
     
     // MARK: - Private
@@ -142,7 +142,7 @@ public class PDPills: NSObject, PDPillScheduling {
         for pill in pills {
             pill.awaken()
         }
-        PatchData.save()
+        store.save()
     }
     
     private func deleteAll() {

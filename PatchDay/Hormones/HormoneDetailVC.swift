@@ -15,10 +15,7 @@ class HormoneDetailVC: UIViewController,
                   UIPickerViewDataSource,
                   UITextFieldDelegate {
     
-    private var tabs: PDTabReflective? = app?.tabs
-    private var alerts: PDAlertDispatching? = app?.alerts
-    private var sdk: PatchDataDelegate? = app?.sdk
-    private var notifications: PDNotificationScheduling? = app?.notifications
+    private var model: HormonesModel = HormonesModel()
     private var selectedSite: Bodily?
     
     //MARK: - Main
@@ -50,7 +47,6 @@ class HormoneDetailVC: UIViewController,
     @IBOutlet private weak var autofillButton: UIButton!
 
     // Non-interface
-    var hormoneIndex = -1
     var hormone: Hormonal!
     var site: String = ""
     var datePlaced: Date = Date()
@@ -63,7 +59,6 @@ class HormoneDetailVC: UIViewController,
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hormone = sdk?.hormones.at(hormoneIndex)
         loadTitle()
         loadExpirationText()
         loadSiteControls()
@@ -71,6 +66,19 @@ class HormoneDetailVC: UIViewController,
         loadAutofillButton()
         loadExpirationText()
         loadSiteControls()
+    }
+    
+    static func createHormoneDetailVC(source: UIViewController, hormone: Hormonal) -> HormoneDetailVC? {
+        let id = "HormoneDetailVC_id"
+        if let moneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
+            moneVC.hormone = hormone
+            return moneVC
+        }
+        return nil
+    }
+    
+    var hormoneIndex: Index {
+        return model.hormones?.indexOf(hormone) ?? -1
     }
 
     @objc private func saveButtonTapped(_ sender: Any) {

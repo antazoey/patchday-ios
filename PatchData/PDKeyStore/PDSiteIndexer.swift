@@ -18,6 +18,6 @@ class PDSiteIndexer: PDIndexRebounce  {
     }
 
     func rebound(upon attempted: Index, lessThan bound: Index) -> Int {
-        return defaults.replaceStoredSiteIndex(to: attempted, siteCount: bound)
+        defaults.replaceStoredSiteIndex(to: attempted, siteCount: bound)
     }
 }

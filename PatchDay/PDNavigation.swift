@@ -6,10 +6,10 @@
 //  Copyright © 2019 Juliya Smith. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import PDKit
 
-public class PDNavigation {
+public class PDNavigation : PDNavigationDelegate {
 
     func reflectTheme(theme: PDAppTheme) {
         let navigationBarAppearace = UINavigationBar.appearance()
@@ -19,6 +19,16 @@ public class PDNavigation {
             navigationBarAppearace.titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor : textColor
             ]
+        }
+    }
+
+    func goToHormoneDetails(_ mone: Hormonal, source: UIViewController) {
+        source.navigationController?.goToHormoneDetails(source: source, hormone: mone)
+    }
+    
+    func goToPillDetails(_ pill: Swallowable, source: UIViewController) {
+        if let sdk = app?.sdk {
+            source.navigationController?.goToPillDetails(source: source, sdk: sdk, pill: pill)
         }
     }
 }

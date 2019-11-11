@@ -11,41 +11,63 @@ import CoreData
 import PDKit
 
 
-public class PDHormones: NSObject, HormoneScheduling {
+public struct HormoneScheduleData {
+    var deliveryMethod: DeliveryMethodUD
+    var expirationInterval: ExpirationIntervalUD
+}
 
-    override public var description: String { return "Schedule for hormones." }
+
+public class PDHormones: NSObject, HormoneScheduling {
     
+    override public var description: String { return "Schedule for hormones." }
+
+    private let dataBroadcaster: HormoneDataBroadcasting
+    private var store: PatchDataCalling
+    private var state: PDStateManaging
+    private let defaults: PDDefaultManaging
     private var hormones: [Hormonal]
     
-    init(deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD) {
-        hormones = PatchData.createHormones(
-            expirationInterval: interval,
-            deliveryMethod: deliveryMethod
-        )
+    init(
+        data: HormoneScheduleData,
+        hormoneDataBroadcaster: HormoneDataBroadcasting,
+        store: PatchDataCalling,
+        stateManager: PDStateManaging,
+        defaults: PDDefaultManaging
+    ) {
+        self.hormones = PDHormones.createHormones(data: data)
+        self.dataBroadcaster = hormoneDataBroadcaster
+        self.store = store
+        self.state = stateManager
+        self.defaults = defaults
         super.init()
-        if hormones.count <= 0{
-            reset(deliveryMethod: deliveryMethod, interval: interval)
-        }
+        reset()
         sort()
+        broadcastHormones()
     }
 
-    public var count: Int { return hormones.count }
+    public var count: Int { hormones.count }
     
-    public var all: [Hormonal] { return hormones }
+    public var all: [Hormonal] { hormones }
     
-    public var isEmpty: Bool {
-        return hormones.count == 0 || (hasNoDates && hasNoSites)
-    }
+    public var isEmpty: Bool { hormones.count == 0 || (hasNoDates && hasNoSites) }
     
     public var next: Hormonal? {
         sort()
         return count > 0 ? hormones[0] : nil
     }
+    
+    public var totalExpired: Int {
+        return hormones.reduce(0, {
+            count, mone in
+            let c = mone.isExpired ? 1 : 0
+            return c + count
+        })
+    }
 
-    @discardableResult public func insertNew(
-        deliveryMethod: DeliveryMethod, expiration: ExpirationIntervalUD
-    ) -> Hormonal? {
-        if let mone = PDHormone.new(expiration: expiration, deliveryMethod: deliveryMethod) {
+    @discardableResult public func insertNew() -> Hormonal? {
+        let method = defaults.deliveryMethod.value
+        let exp = defaults.expirationInterval
+        if let mone = PDHormone.new(expiration: exp, deliveryMethod: method) {
             hormones.append(mone)
             sort()
             return mone
@@ -63,26 +85,21 @@ public class PDHormones: NSObject, HormoneScheduling {
         }
     }
 
-    @discardableResult public func reset(
-        deliveryMethod: DeliveryMethod, interval: ExpirationIntervalUD
-    ) -> Int {
-        return reset(deliveryMethod: deliveryMethod, interval: interval, completion: nil)
+    @discardableResult public func reset() -> Int {
+        reset(completion: nil)
     }
 
-    @discardableResult public func reset(
-        deliveryMethod: DeliveryMethod,
-        interval: ExpirationIntervalUD,
-        completion: (() -> ())?
-    ) -> Int {
+    @discardableResult public func reset(completion: (() -> ())?) -> Int {
         deleteAll()
-        let quantity = PDKeyStorableHelper.defaultQuantity(for: deliveryMethod)
+        let method = defaults.deliveryMethod.value
+        let quantity = PDKeyStorableHelper.defaultQuantity(for: method)
         for _ in 0..<quantity {
-            insertNew(deliveryMethod: deliveryMethod, expiration: interval)
+            insertNew()
         }
         if let comp = completion {
             comp()
         }
-        PatchData.save()
+        store.save()
         return hormones.count
     }
 
@@ -94,7 +111,7 @@ public class PDHormones: NSObject, HormoneScheduling {
                     mone.delete()
                 }
             }
-            PatchData.save()
+            store.save()
         }
     }
     
@@ -103,15 +120,14 @@ public class PDHormones: NSObject, HormoneScheduling {
     }
 
     public func at(_ index: Index) -> Hormonal? {
-        switch index {
-            case 0..<count :
-                return hormones[index]
-        default : return nil
-        }
+        hormones.tryGet(at: index)
     }
 
     public func get(for id: UUID) -> Hormonal? {
-        return hormones.filter({(mone: Hormonal) -> Bool in return mone.id == id })[0]
+        return hormones.filter(
+            {(mone: Hormonal) -> Bool in
+                return mone.id == id
+            }).tryGet(at: 0)
     }
 
     public func set(for id: UUID, date: Date, site: Bodily) {
@@ -119,6 +135,7 @@ public class PDHormones: NSObject, HormoneScheduling {
             mone.site = site
             mone.date = date
             sort()
+            saveFromDateAndSiteChange()
         }
     }
 
@@ -127,22 +144,35 @@ public class PDHormones: NSObject, HormoneScheduling {
             mone.site = site
             mone.date = date
             sort()
+            saveFromDateAndSiteChange()
         }
     }
 
     public func setSite(at index: Index, with site: Bodily) {
-        if var mone = at(index) { mone.site = site }
+        if var mone = at(index) {
+            mone.site = site
+            store.save()
+            state.bodilyChanged = true
+            state.onlySiteChanged = true
+            state.bodilyChanged = true
+            broadcastHormones()
+        }
     }
 
     public func setDate(at index: Index, with date: Date) {
-        if var mone = at(index) { mone.date = date }
-        sort()
+        if var mone = at(index) {
+            mone.date = date
+            sort()
+            store.save()
+            broadcastHormones()
+            state.onlySiteChanged = false
+        }
     }
 
     public func setBackUpSiteName(at index: Index, with name: String) {
         if var mone = at(index) {
             mone.siteNameBackUp = name
-            PatchData.save()
+            store.save()
         }
     }
 
@@ -168,35 +198,41 @@ public class PDHormones: NSObject, HormoneScheduling {
         return true
     }
 
-    public func totalExpired(_ interval: ExpirationIntervalUD) -> Int {
-        return hormones.reduce(0, {
-            count, mone in
-            let c = mone.isExpired ? 1 : 0
-            return c + count
-        })
-    }
-
-    public func fillIn(
-        newQuantity: Int,
-        expiration: ExpirationIntervalUD,
-        deliveryMethod: DeliveryMethod
-    ) {
+    public func fillIn(newQuantity: Int) {
         for _ in count..<newQuantity {
-            insertNew(deliveryMethod: deliveryMethod, expiration: expiration)
+            insertNew()
         }
     }
     
     // MARK: - Private
     
     private var hasNoDates: Bool {
-        return isEmpty || (hormones.filter() {
+        isEmpty || (hormones.filter() {
             !$0.date.isDefault()
         }).count == 0
     }
     
     private var hasNoSites: Bool {
-        return isEmpty || (hormones.filter() {
+        isEmpty || (hormones.filter() {
             $0.site != nil || $0.siteNameBackUp != nil
         }).count == 0
+    }
+    
+    private static func createHormones(data: HormoneScheduleData) -> [Hormonal] {
+        PatchData.createHormones(
+            expirationInterval: data.expirationInterval,
+            deliveryMethod: data.deliveryMethod.value
+        )
+    }
+    
+    private func broadcastHormones() {
+        dataBroadcaster.broadcast(nextHormone: next)
+    }
+    
+    private func saveFromDateAndSiteChange() {
+        store.save()
+        broadcastHormones()
+        state.onlySiteChanged = false
+        state.bodilyChanged = true
     }
 }

@@ -92,6 +92,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         applyTheme()
     }
     
+    static func createSettingsVC(source: UIViewController) -> SettingsVC? {
+        let sb = UIStoryboard.createSettingsStoryboard()
+        let id = "SettingsVC_id"
+        return sb.instantiateViewController(withIdentifier: id) as? SettingsVC
+    }
+    
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {

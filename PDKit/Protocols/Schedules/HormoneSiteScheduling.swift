@@ -16,21 +16,26 @@ public protocol HormoneSiteScheduling: PDSchedule, PDSorting, PDDeleting, PDRese
     /// The currently next suggested site for applying a hormone.
     var suggested: Bodily? { get }
     
-    /// The index of suggested site.
-    var nextIndex: Index? { get }
+    /// The index of suggested site or -1 if there are no sites.
+    var nextIndex: Index { get }
     
     /// All names.
     var names: [SiteName] { get }
     
     /// All image IDs.
     var imageIds: [String] { get }
+    
+    /// The set of current site names union with the default ones.
+    var unionWithDefaults: [SiteName] { get }
+    
+    /// If the sites use the default scheme for the given delivery method.
+    var isDefault: Bool { get }
+    
+    /// Inserts a new site into the schedule.
+    func insertNew() -> Bodily?
 
-    /// Insets a new site into the schedule.
-    func insertNew(
-        deliveryMethod: DeliveryMethod,
-        globalExpirationInterval: ExpirationIntervalUD,
-        completion: (() -> ())?
-    ) -> Bodily?
+    /// Inserts a new site into the schedule.
+    func insertNew(completion: (() -> ())?) -> Bodily?
     
     /// The site at the given index.
     func at(_ index: Index) -> Bodily?
@@ -45,11 +50,5 @@ public protocol HormoneSiteScheduling: PDSchedule, PDSorting, PDDeleting, PDRese
     func reorder(at index: Index, to newOrder: Int)
     
     /// Sets  the image ID of the site at the given index.
-    func setImageId(at index: Index, to newId: String, deliveryMethod: DeliveryMethod)
-    
-    /// Gets the set of current site names union with the default ones.
-    func unionWithDefaults(deliveryMethod: DeliveryMethod) -> Set<SiteName>
-    
-    /// Checks if the sites use the default scheme for the given delivery method.
-    func isDefault(deliveryMethod: DeliveryMethod) -> Bool
+    func setImageId(at index: Index, to newId: String)
 }

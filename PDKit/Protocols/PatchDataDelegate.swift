@@ -58,21 +58,9 @@ public protocol PatchDataDelegate {
     @discardableResult func setSiteIndex(to newIndex: Index) -> Index
 
     // MARK: - Sites
-
-    /// Conveniently inserts a new site.
-    func insertNewSite(name: SiteName, completion: (() -> ())?)
-    
-    /// Conveniently inserts a site with the given name.
-    func insertNewSite(name: SiteName)
-    
-    /// Conveniently inserts a new site.
-    func insertNewSite()
     
     /// Swaps the index of two sites.
     func swapSites(_ sourceIndex: Index, with destinationIndex: Index)
-    
-    /// Conveniently resets sites to their default.
-    @discardableResult func resetSitesToDefault() -> Int
 
     // MARK: - Stateful
     
@@ -81,32 +69,4 @@ public protocol PatchDataDelegate {
     
     /// Tracks that a hormone has changed at the given index.
     func stateChanged(forHormoneAtIndex index: Index) -> Bool
-
-    // MARK: - Hormones
-
-    /// The amount of hormones that are past their expiration dates.
-    var totalHormonesExpired: Int { get }
-
-    /// Sets the site for the hormone at the given index. Includes stateful and data-meter side-effects.
-    func setHormoneSite(at index: Index, with site: Bodily)
-
-    /// Sets the date for the hormone at the given index. Includes stateful and data-meter side-effects.
-    func setHormoneDate(at index: Index, with date: Date)
-
-    /// Sets the date and site for the hormone with the given id. Includes stateful and data-meter side-effects.
-    func setHormoneDateAndSite(for id: UUID, date: Date, site: Bodily)
-    
-    /// Sets the date and site for the hormone at given index. Includes stateful and data-meter side-effects.
-    func setHormoneDateAndSite(at index: Index, date: Date, site: Bodily)
-
-    // MARK: - Pills
-    
-    /// Sets pill attributes. Includes stateful and data-meter side-effects.
-    func setPill(_ pill: Swallowable, with attributes: PillAttributes)
-    
-    /// Conveniently inserts a new pill.
-    @discardableResult func insetNewPill() -> Swallowable?
-    
-    /// Delete the pill. Includes data meter side effects.
-    func deletePill(at index: Index)
 }

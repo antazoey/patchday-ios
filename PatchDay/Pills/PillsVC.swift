@@ -18,8 +18,9 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var pillsTable: UITableView!
     
     // Dependencies
-    private var sdk: PatchDataDelegate? = app?.sdk
+    private var pills: PDPillScheduling? = app?.sdk.pills
     private let notifications: PDNotificationScheduling? = app?.notifications
+    private let navigation: PDNavigationDelegate? = app?.nav
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sdk.pills.count
+        return pills?.count ?? 0
     }
     
     func tableView(
@@ -50,7 +51,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let pill = sdk.pills.at(indexPath.row) {
+        if let pill = pills?.at(indexPath.row) {
             segueToPillView(for: pill)
         }
     }
@@ -73,10 +74,12 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBAction func takeButtonTapped(_ sender: Any) {
         // Acquire Pill Id from cell's takeButton restore Id.
-        if let pillIndex = (sender as! UIButton).restoreSuffix(),
-            let pill = sdk.pills.at(pillIndex) {
-            sdk.pills.swallow(pill) {
-                self.notifications.requestDuePillNotification(pill)
+        if let button = sender as? UIButton,
+            let pillIndex = button.restoreSuffix(),
+            let pills = pills,
+            let pill = pills.at(pillIndex) {
+            pills.swallow(pill) {
+                self.notifications?.requestDuePillNotification(pill)
                 self.pillCellForRowAt(pillIndex).stamp().load(at: pillIndex)
                 self.pillsTable.reloadData()
                 self.reloadInputViews()
@@ -86,8 +89,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     @objc func insertTapped() {
-        if let pill = sdk.insetNewPill() {
-            pillsTable.reloadData()
+        if let pill = app?.sdk.pills.insertNew(completion: pillsTable.reloadData) {
             segueToPillView(for: pill)
         }
     }
@@ -95,7 +97,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Private / Helpers
     
     private func segueToPillView(for pill: Swallowable) {
-        navigationController?.goToPillDetails(source: self, sdk: sdk, pill: pill)
+        navigation?.goToPillDetails(pill, source: self)
     }
     
     private func pillCellForRowAt(_ index: Index) -> PillCell {
