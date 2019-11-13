@@ -75,6 +75,7 @@
 		9D9397BD2379444300FDF290 /* PDDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BC2379444300FDF290 /* PDDefaults.swift */; };
 		9D9397C02379473B00FDF290 /* PDDefaultManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BE2379471A00FDF290 /* PDDefaultManaging.swift */; };
 		9D9397C22379476F00FDF290 /* PDDefaultGetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397C12379476F00FDF290 /* PDDefaultGetting.swift */; };
+		9D9397C4237BA20600FDF290 /* PatchDataStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397C3237BA20600FDF290 /* PatchDataStateManager.swift */; };
 		9D9946CA2377265100CF3C96 /* PDBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9946C92377265100CF3C96 /* PDBadge.swift */; };
 		9D9946CD2377266C00CF3C96 /* PDBadgeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */; };
 		9D9946CF237726D100CF3C96 /* ExpiredHormoneNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9946CE237726D100CF3C96 /* ExpiredHormoneNotifying.swift */; };
@@ -325,6 +326,7 @@
 		9D9397BC2379444300FDF290 /* PDDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaults.swift; sourceTree = "<group>"; };
 		9D9397BE2379471A00FDF290 /* PDDefaultManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultManaging.swift; sourceTree = "<group>"; };
 		9D9397C12379476F00FDF290 /* PDDefaultGetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDDefaultGetting.swift; sourceTree = "<group>"; };
+		9D9397C3237BA20600FDF290 /* PatchDataStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataStateManager.swift; sourceTree = "<group>"; };
 		9D9946C92377265100CF3C96 /* PDBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDBadge.swift; sourceTree = "<group>"; };
 		9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDBadgeDelegate.swift; sourceTree = "<group>"; };
 		9D9946CE237726D100CF3C96 /* ExpiredHormoneNotifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneNotifying.swift; sourceTree = "<group>"; };
@@ -866,14 +868,15 @@
 				9D003E952321BD250070C964 /* PatchDataAdapter.swift */,
 				9D003EA82331DE390070C964 /* PatchDataCaller.swift */,
 				1335B9BA1EC7500D00DD7088 /* PatchDataSDK.swift */,
+				9D9397C3237BA20600FDF290 /* PatchDataStateManager.swift */,
+				9D9397B8237921C300FDF290 /* HormoneDataBroadcaster.swift */,
+				9D9397BA237922D800FDF290 /* HormoneDataBroadcasting.swift */,
 				9D913BAA230CD5B7001FC03C /* PatchDataObjects */,
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
 				138A65611F198B4D0068A972 /* Schedules */,
 				B480EE1E21CC7553002C2238 /* PatchData.h */,
 				B480EE1F21CC7553002C2238 /* Info.plist */,
 				9D1BC56A2275FAC800552BC1 /* PDKeyStore */,
-				9D9397B8237921C300FDF290 /* HormoneDataBroadcaster.swift */,
-				9D9397BA237922D800FDF290 /* HormoneDataBroadcasting.swift */,
 			);
 			path = PatchData;
 			sourceTree = "<group>";
@@ -1367,6 +1370,7 @@
 				9D913BAC230CD5C9001FC03C /* PDHormone.swift in Sources */,
 				B480EE4A21CC7D76002C2238 /* PDPills.swift in Sources */,
 				B480EE4021CC7602002C2238 /* PDSites.swift in Sources */,
+				9D9397C4237BA20600FDF290 /* PatchDataStateManager.swift in Sources */,
 				B4C69F0E21E56CD7004EABC4 /* MOHormone.swift in Sources */,
 				9D913BAE231D89AD001FC03C /* PDPill.swift in Sources */,
 				9D9397BB237922D800FDF290 /* HormoneDataBroadcasting.swift in Sources */,

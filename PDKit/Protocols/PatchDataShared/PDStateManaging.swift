@@ -9,16 +9,8 @@
 import Foundation
 
 public protocol PDStateManaging {
-    var wereHormonalChanges: Bool { get set }
-    var increasedQuantity: Bool { get set }
-    var decreasedQuantity: Bool { get set }
-    var bodilyChanged: Bool { get set }
-    var onlySiteChanged: Bool { get set }
-    var deliveryMethodChanged: Bool { get set }
-    var isCerebral: Bool { get set }
-    var oldQuantity: Int { get set }
-    var mutatedHormoneIds: [UUID?] { get set }
+    func stampQuantity()
     func reset()
+    func hormoneRecentlyMutated(at index: Index) -> Bool 
     func markSiteForImageMutation(site: Bodily)
-    func hormoneHasStateChanges(_ mone: Hormonal, at index: Index, quantity: Int) -> Bool
 }

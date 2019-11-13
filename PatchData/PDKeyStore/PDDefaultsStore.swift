@@ -16,7 +16,7 @@ public class PDDefaultsConstants {
 public class PDDefaultsStore: PDDefaultStoring {
 
     // Dependencies
-    private var state: PDStateManaging
+    private var state: PDState
     private var handler: PDDefaultsStorageHandler
 
     // Defaults
@@ -31,8 +31,8 @@ public class PDDefaultsStore: PDDefaultStoring {
 
     // MARK: - initializer
     
-    init(stateManager: PDStateManaging, handler: PDDefaultsStorageHandler) {
-        self.state = stateManager
+    init(state: PDState, handler: PDDefaultsStorageHandler) {
+        self.state = state
         self.handler = handler
         handler.load(&deliveryMethod)
             .load(&expirationInterval)

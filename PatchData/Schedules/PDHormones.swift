@@ -23,7 +23,7 @@ public class PDHormones: NSObject, HormoneScheduling {
 
     private let dataBroadcaster: HormoneDataBroadcasting
     private var store: PatchDataCalling
-    private var state: PDStateManaging
+    private var state: PDState
     private let defaults: PDDefaultStoring
     private var hormones: [Hormonal]
     
@@ -31,13 +31,13 @@ public class PDHormones: NSObject, HormoneScheduling {
         data: HormoneScheduleData,
         hormoneDataBroadcaster: HormoneDataBroadcasting,
         store: PatchDataCalling,
-        stateManager: PDStateManaging,
+        state: PDState,
         defaults: PDDefaultStoring
     ) {
         self.hormones = PDHormones.createHormones(data: data)
         self.dataBroadcaster = hormoneDataBroadcaster
         self.store = store
-        self.state = stateManager
+        self.state = state
         self.defaults = defaults
         super.init()
         reset()

@@ -48,4 +48,7 @@ public protocol PDPillScheduling: PDSchedule, PDDeleting {
     
     /// Gets the index of the given pill.
     func indexOf(_ pill: Swallowable) -> Index?
+    
+    /// Makes data available for other local apps, such as the Today widget.
+    func broadcastData()
 }

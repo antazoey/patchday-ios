@@ -26,19 +26,11 @@ public protocol PatchDataDelegate {
     var pills: PDPillScheduling { get }
     
     /// A state manager for recent mutations.
-    var state: PDStateManaging { get }
+    var stateManager: PDStateManaging { get }
     
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
     
     /// Resets all data to default values.
     func nuke()
-
-    // MARK: - Stateful
-    
-    /// Marks the current quantity in the state for tracking purposes.
-    func stampQuantity()
-    
-    /// Tracks that a hormone has changed at the given index.
-    func stateChanged(forHormoneAtIndex index: Index) -> Bool
 }

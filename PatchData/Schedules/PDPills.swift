@@ -136,6 +136,12 @@ public class PDPills: NSObject, PDPillScheduling {
         }
     }
     
+    public func broadcastData() {
+        if let next = nextDue {
+               meter.broadcastRelevantPillData(nextPill: next)
+           }
+    }
+    
     // MARK: - Private
 
     private func awaken() {

@@ -21,6 +21,12 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
     let dataMeter: PDDataMeting
     let patchData: PatchDataCalling
     let hormoneDataBroadcaster: HormoneDataBroadcasting
+
+    public var defaults: PDDefaultManaging
+    public var hormones: HormoneScheduling
+    public var sites: HormoneSiteScheduling
+    public var pills: PDPillScheduling
+    public var stateManager: PDStateManaging
     
     public init(
         defaults: PDDefaultManaging,
@@ -28,7 +34,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         hormones: HormoneScheduling,
         pills: PDPillScheduling,
         sites: HormoneSiteScheduling,
-        state: PDStateManaging,
+        stateManager: PDStateManaging,
         patchData: PatchDataCalling,
         hormoneDataBroadcaster: HormoneDataBroadcasting
     ) {
@@ -37,31 +43,10 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         self.hormones = hormones
         self.pills = pills
         self.sites = sites
-        self.state = state
+        self.stateManager = stateManager
         self.patchData = patchData
         self.hormoneDataBroadcaster = hormoneDataBroadcaster
         super.init()
-    }
-    
-    public convenience init(
-        defaults: PDDefaultManaging,
-        dataMeter: PDDataMeting,
-        hormones: HormoneScheduling,
-        pills: PDPillScheduling,
-        sites: HormoneSiteScheduling,
-        patchData: PatchDataCalling,
-        hormoneDataBroadcaster: HormoneDataBroadcasting
-    ) {
-        self.init(
-            defaults: defaults,
-            dataMeter: dataMeter,
-            hormones: hormones,
-            pills: pills,
-            sites: sites,
-            state: PDState(),
-            patchData: patchData,
-            hormoneDataBroadcaster: hormoneDataBroadcaster
-        )
     }
     
     public override convenience init() {
@@ -69,7 +54,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         let dataMeter = PDDataMeter()
         let state = PDState()
         let defaultsStore = PDDefaultsStore(
-            stateManager: state, handler: PDDefaultsStorageHandler(meter: dataMeter)
+            state: state, handler: PDDefaultsStorageHandler(meter: dataMeter)
         )
         let isNew = !defaultsStore.mentionedDisclaimer.value
         let pills = PDPills(store: store, pillDataMeter: dataMeter, isFirstInit: isNew)
@@ -92,7 +77,7 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             data: hormoneData,
             hormoneDataBroadcaster: hormoneDataBroadcaster,
             store: store,
-            stateManager: state,
+            state: state,
             defaults: defaultsStore
         )
         
@@ -104,22 +89,23 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
             hormoneBroadcaster: hormoneDataBroadcaster
         )
         
+        let stateManager = PatchDataStateManager(
+            state: state,
+            defaults: defaults,
+            hormones: hormones
+        )
+        
         self.init(
             defaults: defaults,
             dataMeter: dataMeter,
             hormones: hormones,
             pills: pills,
             sites: sites,
+            stateManager: stateManager,
             patchData: store,
             hormoneDataBroadcaster: hormoneDataBroadcaster
         )
     }
-    
-    public var defaults: PDDefaultManaging
-    public var hormones: HormoneScheduling
-    public var sites: HormoneSiteScheduling
-    public var pills: PDPillScheduling
-    public var state: PDStateManaging
 
     public var isFresh: Bool {
         hormones.isEmpty && sites.isDefault
@@ -129,50 +115,11 @@ public class PatchDataSDK: NSObject, PatchDataDelegate {
         hormones.totalExpired + pills.totalDue
     }
 
-    // MARK: - DataMeter
-
-    private func broadcastPills() {
-        if let next = pills.nextDue {
-            dataMeter.broadcastRelevantPillData(nextPill: next)
-        }
-    }
-
-    // MARK: - Stateful
-
-    public func stampQuantity() {
-        state.oldQuantity = defaults.quantity.value.rawValue
-    }
-    
-    public func stateChanged(forHormoneAtIndex index: Index) -> Bool {
-        if let mone = hormones.at(index) {
-            return state.hormoneHasStateChanges(mone, at: index, quantity: hormones.count)
-        }
-        return false
-    }
-
-    // MARK: - Other public
-
     public func nuke() {
         PatchData.nuke()
         hormones.reset()
         pills.reset()
         let newSiteCount = sites.reset()
         defaults.reset(defaultSiteCount: newSiteCount)
-    }
-    
-    private func broadcastHormones() {
-        hormoneDataBroadcaster.broadcast(nextHormone: hormones.next)
-    }
-}
-
-extension Array where Iterator.Element == Bodily {
-    func asPDSiteArray() -> [PDSite]? {
-        return self as? [PDSite]
-    }
-}
-
-extension Bodily {
-    func asPDSite() -> PDSite? {
-        return self as? PDSite
     }
 }
