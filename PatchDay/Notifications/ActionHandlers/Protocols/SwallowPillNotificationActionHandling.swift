@@ -1,5 +1,5 @@
 //
-//  PDPillSwallowHandling.swift
+//  PillSwallowHandling.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 10/7/19.

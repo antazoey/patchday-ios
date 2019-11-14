@@ -32,7 +32,7 @@ class HormoneCell: UITableViewCell {
                 let siteImage = PDImages.getImage(
                     for: mone, theme: theme, deliveryMethod: data.deliveryMethod
                 )
-                let cellTitle = PDColonedStrings.getDateTitle(
+                let cellTitle = ColonedStrings.getDateTitle(
                     for: hormone, method: data.deliveryMethod
                 )
                 configureDate(when: isExpired)

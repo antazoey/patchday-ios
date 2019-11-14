@@ -16,14 +16,14 @@ class QuantityMutationAlert: PDAlert {
     private let handler: QuantityMutationActionHandler
     
     private var continueAction: UIAlertAction {
-        let contStr = PDActionStrings.cont
+        let contStr = ActionStrings.cont
         return UIAlertAction(title: contStr, style: .destructive) {
             void in self.handler.cont(self.newQuantity)
         }
     }
     
     private var cancelAction: UIAlertAction {
-        let title = PDActionStrings.decline
+        let title = ActionStrings.decline
         return UIAlertAction(title: title, style: .cancel) {
             void in self.handler.cancel(self.oldQuantity)
         }

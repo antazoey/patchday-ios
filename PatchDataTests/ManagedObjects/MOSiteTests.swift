@@ -14,7 +14,7 @@
 //    // Just use these for easy MO generation
 //    private var siteSchedule: SiteSchedule!
 //    private var estrogenSchedule: EstrogenSchedule!
-//    private var defaults: PDDefaultManaging!
+//    private var defaults: UserDefaultsManaging!
 //    
 //    override func setUp() {
 //        super.setUp()

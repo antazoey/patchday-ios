@@ -12,10 +12,10 @@ import PDKit
 public class HormoneDataBroadcaster : HormoneDataBroadcasting {
     
     private let sites: HormoneSiteScheduling
-    private let siteDataMeter: PDDataMeting
-    private let defaults: PDDefaultStoring
+    private let siteDataMeter: DataMeting
+    private let defaults: UserDefaultsStoring
     
-    init(sites: HormoneSiteScheduling, siteDataMeter: PDDataMeting, defaults: PDDefaultStoring) {
+    init(sites: HormoneSiteScheduling, siteDataMeter: DataMeting, defaults: UserDefaultsStoring) {
         self.sites = sites
         self.siteDataMeter = siteDataMeter
         self.defaults = defaults
@@ -23,7 +23,7 @@ public class HormoneDataBroadcaster : HormoneDataBroadcasting {
     
     public func broadcast(nextHormone: Hormonal?) {
         if let mone = nextHormone {
-            let name = sites.suggested?.name ?? PDStrings.PlaceholderStrings.newSite
+            let name = sites.suggested?.name ?? SiteStrings.newSite
             siteDataMeter.broadcastRelevantHormoneData(
                 oldestHormone: mone,
                 nextSuggestedSite: name,

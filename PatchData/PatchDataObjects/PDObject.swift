@@ -20,6 +20,6 @@ public class PDObject {
     
     /// Delete the object from Core Date.
     public func delete() {
-         PatchData.context.delete(mo)
+         PDCoreData.context.delete(mo)
     }
 }

@@ -20,7 +20,7 @@ class NewSiteAlert: PDAlert {
     }
     
     private var declineAction: UIAlertAction {
-        return UIAlertAction(title: PDActionStrings.decline, style: .default)
+        return UIAlertAction(title: ActionStrings.decline, style: .default)
     }
     
     init(parent: UIViewController, style: UIAlertController.Style, appendActionHandler: @escaping () -> ()) {

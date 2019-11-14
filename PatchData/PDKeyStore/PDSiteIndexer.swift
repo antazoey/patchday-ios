@@ -9,11 +9,11 @@
 import Foundation
 import PDKit
 
-class PDSiteIndexer: PDIndexRebounce  {
+class SiteIndexer: PDIndexRebounce  {
     
-    let defaults: PDDefaultStoring
+    let defaults: UserDefaultsStoring
     
-    public init(defaults: PDDefaultStoring) {
+    public init(defaults: UserDefaultsStoring) {
         self.defaults = defaults
     }
 

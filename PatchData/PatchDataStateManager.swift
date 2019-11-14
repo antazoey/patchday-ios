@@ -12,10 +12,10 @@ import PDKit
 public class PatchDataStateManager : PDStateManaging {
     
     private let state: PDState
-    private let defaults: PDDefaultManaging
+    private let defaults: UserDefaultsManaging
     private let hormones: HormoneScheduling
     
-    init(state: PDState, defaults: PDDefaultManaging, hormones: HormoneScheduling) {
+    init(state: PDState, defaults: UserDefaultsManaging, hormones: HormoneScheduling) {
         self.state = state
         self.defaults = defaults
         self.hormones = hormones

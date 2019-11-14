@@ -58,7 +58,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         loadTitle()
         loadImage()
-        typeNameButton.setTitle(PDActionStrings.type, for: .normal)
+        typeNameButton.setTitle(ActionStrings.type, for: .normal)
         verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
         nameText.restorationIdentifier = "select"
         applyTheme()
@@ -131,7 +131,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
-        typeNameButton.setTitle(PDActionStrings.done)
+        typeNameButton.setTitle(ActionStrings.done)
         
         var newAction: Selector?
         switch textField.restorationIdentifier {
@@ -161,14 +161,14 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         nameText.restorationIdentifier = "select"
         switch nameText.text {
         case "" :
-            nameText.text = PDStrings.PlaceholderStrings.newSite
+            nameText.text = SiteStrings.newSite
         case let name :
             if let n = name {
                 sdk?.sites.rename(at: siteScheduleIndex, to: n)
             }
         }
         loadImage()
-        typeNameButton.setTitle(PDActionStrings.type, for: .normal)
+        typeNameButton.setTitle(ActionStrings.type, for: .normal)
         nameText.removeTarget(self, action: #selector(closeTextField), for: .touchUpInside)
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)), for: .touchUpInside)
     }
@@ -233,7 +233,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         self.bottomLine.isHidden = false;
         self.siteImage.isHidden = false;
         nameText.restorationIdentifier = "select"
-        typeNameButton.setTitle(PDActionStrings.type, for: .normal)
+        typeNameButton.setTitle(ActionStrings.type, for: .normal)
         nameText.removeTarget(self, action: #selector(closePicker), for: .touchUpInside)
         self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
         self.nameText.isEnabled = true
@@ -267,8 +267,8 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             var image: UIImage
             let method = sdk.defaults.deliveryMethod.value
             let theme = sdk.defaults.theme.value
-            let sitesWithImages = PDSiteStrings.getSiteNames(for: method)
-            if name == PDStrings.PlaceholderStrings.newSite {
+            let sitesWithImages = SiteStrings.getSiteNames(for: method)
+            if name == SiteStrings.newSite {
                 image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
             } else if let site = sdk.sites.at(siteScheduleIndex),
                 let i = sitesWithImages.firstIndex(of: site.imageId) {
@@ -312,7 +312,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private func loadSave() {
         navigationItem.rightBarButtonItem =
             UIBarButtonItem(
-                title: PDActionStrings.save,
+                title: ActionStrings.save,
                 style: .plain,
                 target: self,
                 action: #selector(saveButtonTapped(_:))

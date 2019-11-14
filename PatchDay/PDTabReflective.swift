@@ -13,7 +13,7 @@ protocol PDTabReflective {
     var hormonesVC: UIViewController? { get }
     var pillsVC: UIViewController? { get }
     var sitesVC: UIViewController? { get }
-    func reflectTheme(theme: PDAppTheme)
+    func reflectTheme(theme: AppTheme)
     func reflectHormone()
     func reflectExpiredHormoneBadgeValue()
     func reflectDuePillBadgeValue()

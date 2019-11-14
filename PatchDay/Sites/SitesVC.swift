@@ -49,7 +49,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         editActionsForRowAt indexPath: IndexPath
     ) -> [UITableViewRowAction]?
     {
-        let title = PDActionStrings.delete
+        let title = ActionStrings.delete
         let delete = UITableViewRowAction(style: .normal, title: title) {
             _, _ in self.deleteCell(indexPath: indexPath)
         }
@@ -152,14 +152,14 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let c = sitesTable.numberOfRows(inSection: 0)
         if var items = navigationItem.rightBarButtonItems {
             switch items[1].title {
-            case PDActionStrings.edit :
+            case ActionStrings.edit :
                 self.title = ""
                 self.navigationController?.tabBarItem.title = PDVCTitleStrings.sitesTitle
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
                 sitesTable.isEditing = true
-            case PDActionStrings.done :
+            case ActionStrings.done :
                 setTitle()
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
                 switchBarItemFunctionality(items: &items)
@@ -209,18 +209,18 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func switchBarItemFunctionality(items: inout [UIBarButtonItem]) {
         switch items[1].title {
-        case PDActionStrings.edit :
-            items[1].title = PDActionStrings.done
+        case ActionStrings.edit :
+            items[1].title = ActionStrings.done
             items[0] = UIBarButtonItem(
-                title: PDActionStrings.reset,
+                title: ActionStrings.reset,
                 style: .plain,
                 target: self,
                 action: #selector(resetTapped)
             )
             items[0].tintColor = UIColor.red
             
-        case PDActionStrings.done :
-            items[1].title = PDActionStrings.edit
+        case ActionStrings.done :
+            items[1].title = ActionStrings.edit
             items[0] = UIBarButtonItem(
                 barButtonSystemItem: UIBarButtonItem.SystemItem.add,
                 target: self,
@@ -260,7 +260,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         )
         insertButton.tintColor = PDColors.get(.Green)
         let editButton = UIBarButtonItem(
-            title: PDActionStrings.edit,
+            title: ActionStrings.edit,
             style: .plain,
             target: self,
             action: #selector(editTapped)

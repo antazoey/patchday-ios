@@ -9,15 +9,15 @@
 import Foundation
 import PDKit
 
-public class PDDefaults : PDDefaultManaging {
+public class PDDefaults : UserDefaultsManaging {
 
-    private let store: PDDefaultStoring
+    private let store: UserDefaultsStoring
     private var state: PDState
     private let hormoneBroadcaster: HormoneDataBroadcasting
     private let hormones: HormoneScheduling
     private let sites: HormoneSiteScheduling
 
-    init(store: PDDefaultStoring,
+    init(store: UserDefaultsStoring,
          state: PDState,
          hormones: HormoneScheduling,
          sites: HormoneSiteScheduling,
@@ -41,7 +41,7 @@ public class PDDefaults : PDDefaultManaging {
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         store.replaceStoredDeliveryMethod(to: newMethod)
-        let newIndex = PDKeyStorableHelper.defaultQuantity(for: newMethod)
+        let newIndex = KeyStorableHelper.defaultQuantity(for: newMethod)
         store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
         
         hormoneBroadcaster.broadcast(nextHormone: hormones.next)
@@ -49,7 +49,7 @@ public class PDDefaults : PDDefaultManaging {
     }
 
     public func setQuantity(to newQuantity: Int) {
-        let endRange = PDPickerOptions.quantities.count
+        let endRange = PickerOptions.quantities.count
         if newQuantity < endRange && newQuantity > 0 {
             let oldQuantity = store.quantity.rawValue
             if newQuantity < oldQuantity {
@@ -64,12 +64,12 @@ public class PDDefaults : PDDefaultManaging {
     }
 
     public func setExpirationInterval(to newInterval: String) {
-        let exp = PDPickerOptions.getExpirationInterval(for: newInterval)
+        let exp = PickerOptions.getExpirationInterval(for: newInterval)
         store.replaceStoredExpirationInterval(to: exp)
     }
 
     public func setTheme(to newTheme: String) {
-        let theme = PDPickerOptions.getTheme(for: newTheme)
+        let theme = PickerOptions.getTheme(for: newTheme)
         store.replaceStoredTheme(to: theme)
     }
 

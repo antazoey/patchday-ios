@@ -18,7 +18,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var pillsTable: UITableView!
     
     // Dependencies
-    private var pills: PDPillScheduling? = app?.sdk.pills
+    private var pills: PillScheduling? = app?.sdk.pills
     private let notifications: PDNotificationScheduling? = app?.notifications
     private let navigation: PDNavigationDelegate? = app?.nav
     
@@ -63,7 +63,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     func tableView(
         _ tableView: UITableView, editActionsForRowAt indexPath: IndexPath
     ) -> [UITableViewRowAction]? {
-        let title = PDActionStrings.delete
+        let title = ActionStrings.delete
         let delete = UITableViewRowAction(style: .normal, title: title) {
             (action, index) in
             self.deleteCell(at: indexPath)

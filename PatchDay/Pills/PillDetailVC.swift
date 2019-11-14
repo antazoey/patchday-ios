@@ -73,13 +73,13 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @objc func selectNameTapped() {
         openOrCloseNamePicker(closing: false)
-        selectNameButton.setTitle(PDActionStrings.done, for: .normal)
+        selectNameButton.setTitle(ActionStrings.done, for: .normal)
         selectNameButton.replaceTarget(self, newAction: #selector(doneWithSelectNameTapped))
     }
 
     @objc func doneWithSelectNameTapped() {
         openOrCloseNamePicker(closing: true)
-        selectNameButton.setTitle(PDActionStrings.select, for: .normal)
+        selectNameButton.setTitle(ActionStrings.select, for: .normal)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
         if name != nameSelected {
             nameChanged = true
@@ -162,7 +162,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @objc func timePickerDone(sender: Any) {
         let timeButton = sender as! UIButton
-        timeButton.setTitle(PDDateHelper.format(time: timePicker.date))
+        timeButton.setTitle(DateHelper.format(time: timePicker.date))
         enableSaveButton()
         timeButton.isSelected = false
         timePicker.isHidden = true
@@ -271,8 +271,8 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         time2Button.setTitleColor(UIColor.lightGray, for: .disabled)
         time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
         time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
-        time1Button.setTitle(PDActionStrings.done, for: .selected)
-        time2Button.setTitle(PDActionStrings.done, for: .selected)
+        time1Button.setTitle(ActionStrings.done, for: .selected)
+        time2Button.setTitle(ActionStrings.done, for: .selected)
         time1Button.setTitleColor(UIColor.blue, for: .selected)
         time2Button.setTitleColor(UIColor.blue, for: .selected)
     }
@@ -309,12 +309,12 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTime1(from pill: Swallowable) {
-        time1Button.setTitle(PDDateHelper.format(time: pill.time1), for: .normal)
+        time1Button.setTitle(DateHelper.format(time: pill.time1), for: .normal)
         time1Selected = pill.time1
     }
     
     private func loadTime2(from pill: Swallowable) {
-        time2Button.setTitle(PDDateHelper.format(time: pill.time2), for: .normal)
+        time2Button.setTitle(DateHelper.format(time: pill.time2), for: .normal)
         time2Selected = pill.time2
     }
     
@@ -330,7 +330,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             time2 < time1 {
             time2Selected = time1
             time2Changed = true
-            let timeString = PDDateHelper.format(time: time1)
+            let timeString = DateHelper.format(time: time1)
             time2Button.setTitleForNormalAndDisabled(timeString)
             if save, let p = pill {
                 sdk.pills.set(for: p, with: createPillAttributes())

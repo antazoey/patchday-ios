@@ -18,7 +18,7 @@ public class ExpiredHormoneOvernightNotification : PDNotification, ExpiredHormon
     init(triggerDate: Date, deliveryMethod: DeliveryMethod, totalDue: Int) {
         self.dateBeforeOvernightExpiration = triggerDate
         self.deliveryMethod = deliveryMethod
-        let title = PDNotificationStrings.getOvernightString(for: deliveryMethod)
+        let title = NotificationStrings.getOvernightString(for: deliveryMethod)
         super.init(title: title, body: nil, badge: totalDue)
     }
     

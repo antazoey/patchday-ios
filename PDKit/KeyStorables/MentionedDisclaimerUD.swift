@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class MentionedDisclaimerUD: PDKeyStorable {
+public class MentionedDisclaimerUD: KeyStorable {
     
     public typealias Value = Bool
     

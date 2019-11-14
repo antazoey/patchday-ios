@@ -187,7 +187,7 @@
 //            XCTFail()
 //        }
 //        // Successfully sets id when it is default patch Site Name
-//        var good_id = PDSiteStrings.getSiteNames(for: .Patches)[0]
+//        var good_id = SiteStrings.getSiteNames(for: .Patches)[0]
 //        siteSchedule.setImageId(at: 0, to: good_id, deliveryMethod: .Patches)
 //        if let actual = siteSchedule.sites[0].getImageIdentifer() {
 //            let expected = good_id
@@ -196,7 +196,7 @@
 //            XCTFail()
 //        }
 //        // Successfully sets id when it is default injection Site Name
-//        good_id = PDSiteStrings.getSiteNames(for: .Injections)[0]
+//        good_id = SiteStrings.getSiteNames(for: .Injections)[0]
 //        siteSchedule.setImageId(at: 0, to: good_id, deliveryMethod: .Injections)
 //        if let actual = siteSchedule.sites[0].getImageIdentifer() {
 //            let expected = good_id
@@ -265,17 +265,17 @@
 //
 //    func testGetNames() {
 //        XCTAssertEqual(siteSchedule.getNames(),
-//                       PDSiteStrings.getSiteNames(for: .Patches))
+//                       SiteStrings.getSiteNames(for: .Patches))
 //    }
 //
 //    func testGetImageIds() {
 //        XCTAssertEqual(siteSchedule.getImageIds(),
-//                       PDSiteStrings.getSiteNames(for: .Patches))
+//                       SiteStrings.getSiteNames(for: .Patches))
 //    }
 //
 //    func testUnionDefault() {
 //        siteSchedule.rename(at: 0, to: "SITE NAME")
-//        var sites = PDSiteStrings.getSiteNames(for: .Patches)
+//        var sites = SiteStrings.getSiteNames(for: .Patches)
 //        sites.append("SITE NAME")
 //        XCTAssertEqual(siteSchedule.unionDefault(deliveryMethod: .Patches),
 //                       Set(sites))

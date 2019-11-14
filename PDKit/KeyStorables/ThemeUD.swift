@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PDThemeValueHolder: PDValueHolding {
+public class PDThemeValueHolder: ComplexValueHolding {
     
     static let lkey = { "Light" }()
     static let dkey = { "Dark" }()
@@ -36,7 +36,7 @@ public class PDThemeValueHolder: PDValueHolding {
     }
 }
 
-public class PDThemeUD: PDKeyStorable {
+public class PDThemeUD: KeyStorable {
     
     private var v: PDTheme
     private var valueHolder: PDThemeValueHolder

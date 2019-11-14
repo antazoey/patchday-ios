@@ -21,7 +21,7 @@ public class DuePillNotification : PDNotification, DuePillNotifying {
     
     init(for pill: Swallowable, totalDue: Int) {
         self.pill = pill
-        self.title = PDNotificationStrings.takePill + pill.name
+        self.title = NotificationStrings.takePill + pill.name
         super.init(title: self.title, body: self.body, badge: totalDue)
     }
     

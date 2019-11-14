@@ -13,7 +13,7 @@ import PDKit
 public class ExpiredHormoneNotification : PDNotification, ExpiredHormoneNotifying {
     
     private let hormone: Hormonal
-    private let expirationInterval: ExpirationIntervalUD
+    private let expiration: ExpirationIntervalUD
     private let notificationsMinutesBefore: Double
 
     public static var actionId = { return "estroActionId" }()
@@ -21,14 +21,14 @@ public class ExpiredHormoneNotification : PDNotification, ExpiredHormoneNotifyin
     
     public init(for hormone: Hormonal,
                 deliveryMethod method: DeliveryMethod,
-                expirationInterval: ExpirationIntervalUD,
+                expiration: ExpirationIntervalUD,
                 notifyMinutesBefore minutes: Double,
                 totalDue: Int) {
         self.hormone = hormone
-        self.expirationInterval = expirationInterval
+        self.expiration = expiration
         self.notificationsMinutesBefore = minutes
         let expName = hormone.siteName
-        let strs = PDNotificationStrings.getHormoneNotificationStrings(
+        let strs = NotificationStrings.getHormoneNotificationStrings(
             method: method,
             minutesBefore: minutes,expiringSiteName: expName
         )
@@ -36,8 +36,8 @@ public class ExpiredHormoneNotification : PDNotification, ExpiredHormoneNotifyin
     }
     
     public func request() {
-        let hours = expirationInterval.hours
-        if var timeIntervalUntilExpire = PDDateHelper.expirationInterval(hours, date: hormone.date) {
+        let hours = expiration.hours
+        if var timeIntervalUntilExpire = DateHelper.calculateExpirationTimeInterval(hours, date: hormone.date) {
             timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)
             if timeIntervalUntilExpire > 0 {
                 let id = self.hormone.id.uuidString

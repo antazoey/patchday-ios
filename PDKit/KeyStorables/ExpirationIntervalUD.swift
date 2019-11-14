@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ExpirationIntervalValueHolder: PDValueHolding {
+public class ExpirationIntervalValueHolder: ComplexValueHolding {
     
     static var tawKey = { "One half-week" }()
     static var oawKey = { "One week" } ()
@@ -44,7 +44,7 @@ public class ExpirationIntervalValueHolder: PDValueHolding {
     }
 }
 
-public class ExpirationIntervalUD: PDKeyStorable {
+public class ExpirationIntervalUD: KeyStorable {
     
     private var v: ExpirationInterval
     private var valueHolder: ExpirationIntervalValueHolder
@@ -95,11 +95,11 @@ public class ExpirationIntervalUD: PDKeyStorable {
     
     public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {
         switch humanReadableStr {
-        case PDPickerOptions.expirationIntervals[0]:
+        case PickerOptions.expirationIntervals[0]:
             return ExpirationInterval.TwiceAWeek
-        case PDPickerOptions.expirationIntervals[1]:
+        case PickerOptions.expirationIntervals[1]:
             return ExpirationInterval.OnceAWeek
-        case PDPickerOptions.expirationIntervals[2]:
+        case PickerOptions.expirationIntervals[2]:
             return ExpirationInterval.EveryTwoWeeks
         default:
             return nil
@@ -107,7 +107,7 @@ public class ExpirationIntervalUD: PDKeyStorable {
     }
     
     private static func getHumanPresentableValue(from v: String) -> String? {
-        let strs = PDPickerOptions.expirationIntervals
+        let strs = PickerOptions.expirationIntervals
         let strDict = [
             ExpirationIntervalValueHolder.tawKey : strs[0],
             ExpirationIntervalValueHolder.oawKey : strs[1],

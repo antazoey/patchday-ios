@@ -20,7 +20,7 @@ class DeliveryMethodMutationAlert: PDAlert {
     private let decline: ((Int) -> ())
     
     private var continueAction: UIAlertAction {
-        return UIAlertAction(title: PDActionStrings.cont, style: .destructive) {
+        return UIAlertAction(title: ActionStrings.cont, style: .destructive) {
             void in
             self.sdk?.setDeliveryMethod(to: self.newDeliveryMethod)
             self.tabs?.reflectHormone()
@@ -28,7 +28,7 @@ class DeliveryMethodMutationAlert: PDAlert {
     }
     
     private var declineAction: UIAlertAction {
-        return UIAlertAction(title: PDActionStrings.decline, style: .cancel) {
+        return UIAlertAction(title: ActionStrings.decline, style: .cancel) {
             void in self.decline(self.oldQuantity)
         }
     }

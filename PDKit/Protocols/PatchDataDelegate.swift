@@ -14,16 +14,16 @@ public protocol PatchDataDelegate {
     var isFresh: Bool { get }
     
     /// The UserDefaults manager.
-    var defaults: PDDefaultManaging { get }
+    var defaults: UserDefaultsManaging { get }
     
-    /// PDHormones schedule.
+    /// Hormones schedule.
     var hormones: HormoneScheduling { get }
     
-    /// The PDSites schedule.
+    /// The Sites schedule.
     var sites: HormoneSiteScheduling { get }
     
-    /// The PDPills schedule.
-    var pills: PDPillScheduling { get }
+    /// The Pills schedule.
+    var pills: PillScheduling { get }
     
     /// A state manager for recent mutations.
     var stateManager: PDStateManaging { get }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class QuantityValueHolder: PDValueHolding {
+public class QuantityValueHolder: ComplexValueHolding {
     
     public typealias KeyIndex = Quantity
     public typealias RawValue = Int
@@ -29,7 +29,7 @@ public class QuantityValueHolder: PDValueHolding {
     }
 }
 
-public class QuantityUD: PDKeyStorable {
+public class QuantityUD: KeyStorable {
     
     private var v: Quantity
     private var valueHolder: QuantityValueHolder

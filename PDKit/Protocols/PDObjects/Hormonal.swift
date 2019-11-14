@@ -32,7 +32,7 @@ public protocol Hormonal: PDPbjectifiable {
     /// The name of the site that you applied this hormone to.
     var siteName: String { get }
     
-    /// For preserving site data in case you delete the related PDSite.
+    /// For preserving site data in case you delete the related Site.
     var siteNameBackUp: String? { get set }
     
     /// If this hormone without a site and date placed.

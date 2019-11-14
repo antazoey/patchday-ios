@@ -72,7 +72,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         title = PDVCTitleStrings.settingsTitle
-        quantityLabel.text = PDColonedStrings.count
+        quantityLabel.text = ColonedStrings.count
         quantityButton.tag = 10
         setTopConstraint()
         loadButtonSelectedStates()
@@ -134,7 +134,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         _ pickerView: UIPickerView,
         numberOfRowsInComponent component: Int
     ) -> Int {
-        return PDPickerOptions.getOptionsCount(for: selectedDefault)
+        return PickerOptions.getOptionsCount(for: selectedDefault)
     }
     
     func pickerView(
@@ -143,7 +143,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         forComponent component: Int
     ) -> String? {
         if let key = selectedDefault {
-            return PDPickerOptions.getStrings(for: key).tryGet(at: row)
+            return PickerOptions.getStrings(for: key).tryGet(at: row)
         }
         return nil
     }
@@ -176,7 +176,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
     private func activatePicker(_ key: PDDefault, sender: UIButton) {
         var picker: UIPickerView?
-        let selections = PDPickerOptions.getStrings(for: key)
+        let selections = PickerOptions.getStrings(for: key)
         let choice = sender.titleLabel?.text
         let start: Int = { () in
             if let c = choice, let i = selections.firstIndex(of: c) {
@@ -255,7 +255,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
-        let newMethod = PDPickerOptions.getDeliveryMethod(at: row)
+        let newMethod = PickerOptions.getDeliveryMethod(at: row)
         if sdk.isFresh {
             sdk.setDeliveryMethod(to: newMethod)
         } else {
@@ -265,7 +265,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func saveQuantityChange(_ row: Int) {
         let cancel = makeCancelClosure()
-        let newQuantity = PDPickerOptions.getQuantity(at: row).rawValue
+        let newQuantity = PickerOptions.getQuantity(at: row).rawValue
         PDQuantityMutator(
             sdk: self.sdk,
             alerts: self.alerts,
@@ -275,12 +275,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func saveIntervalChange(_ row: Int) {
-        let newInterval = PDPickerOptions.expirationIntervals[row]
+        let newInterval = PickerOptions.expirationIntervals[row]
         sdk.setExpirationInterval(to: newInterval)
     }
     
     private func saveThemeChange(_ row: Int) {
-        if let theme = PDPickerOptions.getTheme(at: row) {
+        if let theme = PickerOptions.getTheme(at: row) {
             sdk.setTheme(to: theme)
             app.resetTheme()
         }
@@ -332,7 +332,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadButtonSelectedStates() {
-        let save = PDActionStrings.save
+        let save = ActionStrings.save
         deliveryMethodButton.setTitle(save, for: .selected)
         expirationIntervalButton.setTitle(save, for: .selected)
         quantityButton.setTitle(save, for: .selected)
@@ -353,7 +353,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod) {
         alerts.presentDeliveryMethodMutationAlert(newMethod: choice) {
             void in
-            let methodTitle = PDPickerOptions.getDeliveryMethodString(for: choice)
+            let methodTitle = PickerOptions.getDeliveryMethodString(for: choice)
             switch choice {
             case .Patches:
                 self.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
@@ -432,7 +432,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     private func loadTheme() {
         let theme = sdk.defaults.theme.value
-        let title = PDPickerOptions.getTheme(for: theme)
+        let title = PickerOptions.getTheme(for: theme)
         themeButton.setTitle(title, for: .normal)
     }
     

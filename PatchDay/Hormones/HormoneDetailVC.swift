@@ -112,7 +112,7 @@ class HormoneDetailVC: UIViewController,
         selectSiteTextField.isUserInteractionEnabled = true
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
-        typeSiteButton.setTitle(PDActionStrings.done, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.done, for: .normal)
         var newAction: Selector?
         switch (textField.restorationIdentifier) {
             case "type" :
@@ -136,9 +136,9 @@ class HormoneDetailVC: UIViewController,
         self.selectedSite = nil
         siteTextHasChanged = true
         if selectSiteTextField.text == "" {
-            selectSiteTextField.text = PDStrings.PlaceholderStrings.newSite
+            selectSiteTextField.text = SiteStrings.newSite
         }
-        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.type, for: .normal)
         selectSiteTextField.endEditing(true)
         selectSiteTextField.isEnabled = true
         chooseDateButton.isEnabled = true
@@ -187,7 +187,7 @@ class HormoneDetailVC: UIViewController,
         saveButton.isEnabled = true
         shouldSaveSelectedSiteIndex = true
         shouldSaveIncrementedSiteIndex = false
-        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.type, for: .normal)
         typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
     }
 
@@ -248,10 +248,10 @@ class HormoneDetailVC: UIViewController,
         datePickerInputView.isHidden = true
         dateSelected = datePicker.date
         let interval = sdk?.defaults.expirationInterval.hours ?? 0
-        let dateStr = PDDateHelper.format(date: datePicker.date, useWords: true)
+        let dateStr = DateHelper.format(date: datePicker.date, useWords: true)
         chooseDateButton.setTitle(dateStr, for: UIControl.State.normal)
-        if let expDate = PDDateHelper.expirationDate(from: datePicker.date, interval) {
-            expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
+        if let expDate = DateHelper.expirationDate(from: datePicker.date, interval) {
+            expirationDateLabel.text = DateHelper.format(date: expDate, useWords: true)
         }
         // outer view changes
         saveButton.isEnabled = true
@@ -272,7 +272,7 @@ class HormoneDetailVC: UIViewController,
     
     private func loadExpirationText() {
         if let mone = hormone, let method = sdk?.deliveryMethod {
-            let viewStrings = PDColonedStrings.getHormoneViewStrings(
+            let viewStrings = ColonedStrings.getHormoneViewStrings(
                 deliveryMethod: method,
                 hormone: mone
             )
@@ -288,17 +288,17 @@ class HormoneDetailVC: UIViewController,
     private func loadSiteControls() {
         selectSiteTextField.autocapitalizationType = .words
         selectSiteTextField.text = hormone.isCerebral
-            ? PDActionStrings.select : hormone.siteName
+            ? ActionStrings.select : hormone.siteName
         selectSiteTextField.restorationIdentifier = "pick"
         selectSiteTextField.delegate = self
         sitePicker.delegate = self
         sitePicker.dataSource = self
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
-        typeSiteButton.setTitle(PDActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.type, for: .normal)
     }
     
     private func loadSaveButton() {
-        let save = PDActionStrings.save
+        let save = ActionStrings.save
         let handleSave = #selector(saveButtonTapped(_:))
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: save, style: .plain, target: self, action: handleSave
@@ -348,11 +348,11 @@ class HormoneDetailVC: UIViewController,
     
     private func autoPickDate() {
         let now = Date()
-        chooseDateButton.setTitle(PDDateHelper.format(date: now, useWords: true), for: .normal)
+        chooseDateButton.setTitle(DateHelper.format(date: now, useWords: true), for: .normal)
         if let interval = sdk?.defaults.expirationInterval.hours,
-            let expDate = PDDateHelper.expirationDate(from: now, interval) {
+            let expDate = DateHelper.expirationDate(from: now, interval) {
             
-            expirationDateLabel.text = PDDateHelper.format(date: expDate, useWords: true)
+            expirationDateLabel.text = DateHelper.format(date: expDate, useWords: true)
             dateTextHasChanged = true
             dateSelected = now
         }
@@ -393,8 +393,8 @@ class HormoneDetailVC: UIViewController,
         let doneSize = CGSize(width: 100, height: 50)
         let doneRect = CGRect(origin: donePoint, size: doneSize)
         let doneButton = UIButton(frame: doneRect)
-        doneButton.setTitle(PDActionStrings.done, for: UIControl.State.normal)
-        doneButton.setTitle(PDActionStrings.done, for: UIControl.State.highlighted)
+        doneButton.setTitle(ActionStrings.done, for: UIControl.State.normal)
+        doneButton.setTitle(ActionStrings.done, for: UIControl.State.highlighted)
         doneButton.setTitleColor(UIColor.blue, for: UIControl.State.normal)
         doneButton.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
         doneButton.replaceTarget(self, newAction: #selector(datePickerDone))

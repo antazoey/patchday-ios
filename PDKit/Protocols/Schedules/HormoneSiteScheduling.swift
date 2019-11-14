@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol HormoneSiteScheduling: PDSchedule, PDSorting, PDDeleting, PDResetting {
+public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     
     /// All the sites.
     var all: [Bodily] { get }

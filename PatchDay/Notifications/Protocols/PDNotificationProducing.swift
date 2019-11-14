@@ -14,7 +14,7 @@ protocol PDNotificationProducing {
     func createExpiredHormoneNotification(
         _ hormone: Hormonal,
         deliveryMethod: DeliveryMethod,
-        expirationInterval: ExpirationIntervalUD,
+        expiration: ExpirationIntervalUD,
         notifyMinutesBefore: Double,
         totalDue: Int
     ) -> ExpiredHormoneNotifying

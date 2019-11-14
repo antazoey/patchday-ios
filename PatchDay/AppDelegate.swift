@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var notifications: PDNotificationScheduling = PDNotifications()
-    var sdk: PatchDataDelegate = PatchDataSDK()
+    var sdk: PatchDataDelegate = PatchData()
     var alerts: PDAlertDispatching = PDAlertDispatcher()
     var tabs: PDTabReflective?
     var nav: PDNavigationDelegate = PDNavigation()

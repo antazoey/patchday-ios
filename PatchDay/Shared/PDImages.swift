@@ -165,11 +165,11 @@ public class PDImages: NSObject {
         _ siteName: SiteName, theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
 
         let stringToImageDict = getStringToImageDict(theme: theme, deliveryMethod: deliveryMethod)
-        let siteNames = PDSiteStrings.getSiteNames(for: deliveryMethod)
+        let siteNames = SiteStrings.getSiteNames(for: deliveryMethod)
         if (siteNames.contains(siteName)), let siteImage = stringToImageDict[siteName] {
             return siteImage
         }
-        if siteName != PDSiteStrings.unplaced {
+        if siteName != SiteStrings.unplaced {
             let customSiteImage = getCustomHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
             return customSiteImage
         }
@@ -179,28 +179,28 @@ public class PDImages: NSObject {
     /// Converts patch image to SiteName a.k.a String
     public static func imageToSiteName(_ image: UIImage) -> String {
         let imageToStringDict = [
-            patchRightGlute : PDSiteStrings.SiteNames.rightGlute,
-            darkPatchRightGlute : PDSiteStrings.SiteNames.rightGlute,
-            patchLeftGlute : PDSiteStrings.SiteNames.leftGlute,
-            darkPatchLeftGlute : PDSiteStrings.SiteNames.leftGlute,
-            patchRightAbdomen : PDSiteStrings.SiteNames.rightAbdomen,
-            darkPatchRightAbdomen : PDSiteStrings.SiteNames.rightAbdomen,
-            patchLeftAbdomen : PDSiteStrings.SiteNames.leftAbdomen,
-            darkPatchLeftAbdomen : PDSiteStrings.SiteNames.leftAbdomen,
-            injectionGluteRight : PDSiteStrings.SiteNames.rightGlute,
-            darkInjectionGluteRight : PDSiteStrings.SiteNames.rightGlute,
-            injectionLeftGlute : PDSiteStrings.SiteNames.leftGlute,
-            darkInjectionLeftGlute : PDSiteStrings.SiteNames.leftGlute,
-            injectionRightQuad : PDSiteStrings.SiteNames.rightQuad,
-            darkInjectionRightQuad : PDSiteStrings.SiteNames.rightQuad,
-            injectionLeftQuad : PDSiteStrings.SiteNames.leftQuad,
-            darkInjectionLeftQuad : PDSiteStrings.SiteNames.leftQuad,
-            injectionRightDelt : PDSiteStrings.SiteNames.rightDelt,
-            darkInjectionRightDelt : PDSiteStrings.SiteNames.rightDelt,
-            injectionLeftDelt : PDSiteStrings.SiteNames.leftDelt,
-            darkInjectionLeftDelt : PDSiteStrings.SiteNames.leftDelt
+            patchRightGlute : SiteStrings.SiteNames.rightGlute,
+            darkPatchRightGlute : SiteStrings.SiteNames.rightGlute,
+            patchLeftGlute : SiteStrings.SiteNames.leftGlute,
+            darkPatchLeftGlute : SiteStrings.SiteNames.leftGlute,
+            patchRightAbdomen : SiteStrings.SiteNames.rightAbdomen,
+            darkPatchRightAbdomen : SiteStrings.SiteNames.rightAbdomen,
+            patchLeftAbdomen : SiteStrings.SiteNames.leftAbdomen,
+            darkPatchLeftAbdomen : SiteStrings.SiteNames.leftAbdomen,
+            injectionGluteRight : SiteStrings.SiteNames.rightGlute,
+            darkInjectionGluteRight : SiteStrings.SiteNames.rightGlute,
+            injectionLeftGlute : SiteStrings.SiteNames.leftGlute,
+            darkInjectionLeftGlute : SiteStrings.SiteNames.leftGlute,
+            injectionRightQuad : SiteStrings.SiteNames.rightQuad,
+            darkInjectionRightQuad : SiteStrings.SiteNames.rightQuad,
+            injectionLeftQuad : SiteStrings.SiteNames.leftQuad,
+            darkInjectionLeftQuad : SiteStrings.SiteNames.leftQuad,
+            injectionRightDelt : SiteStrings.SiteNames.rightDelt,
+            darkInjectionRightDelt : SiteStrings.SiteNames.rightDelt,
+            injectionLeftDelt : SiteStrings.SiteNames.leftDelt,
+            darkInjectionLeftDelt : SiteStrings.SiteNames.leftDelt
         ]
-        return imageToStringDict[image] ?? PDStrings.PlaceholderStrings.newSite
+        return imageToStringDict[image] ?? SiteStrings.newSite
     }
     
     /// Returns a site icon representing the site index
@@ -239,39 +239,39 @@ public class PDImages: NSObject {
         switch (theme, deliveryMethod) {
         case (.Light, .Patches):
             return [
-                PDSiteStrings.unplaced: newImg,
-                PDSiteStrings.SiteNames.rightGlute : patchRightGlute,
-                PDSiteStrings.SiteNames.leftGlute : patchLeftGlute,
-                PDSiteStrings.SiteNames.rightAbdomen : patchRightAbdomen,
-                PDSiteStrings.SiteNames.leftAbdomen : patchLeftAbdomen
+                SiteStrings.unplaced: newImg,
+                SiteStrings.SiteNames.rightGlute : patchRightGlute,
+                SiteStrings.SiteNames.leftGlute : patchLeftGlute,
+                SiteStrings.SiteNames.rightAbdomen : patchRightAbdomen,
+                SiteStrings.SiteNames.leftAbdomen : patchLeftAbdomen
             ]
         case (.Dark, .Patches):
             return [
-                PDSiteStrings.unplaced : newImg,
-                PDSiteStrings.SiteNames.rightGlute : darkPatchRightGlute,
-                PDSiteStrings.SiteNames.leftGlute : darkPatchLeftGlute,
-                PDSiteStrings.SiteNames.rightAbdomen : darkPatchRightAbdomen,
-                PDSiteStrings.SiteNames.leftAbdomen : darkPatchLeftAbdomen
+                SiteStrings.unplaced : newImg,
+                SiteStrings.SiteNames.rightGlute : darkPatchRightGlute,
+                SiteStrings.SiteNames.leftGlute : darkPatchLeftGlute,
+                SiteStrings.SiteNames.rightAbdomen : darkPatchRightAbdomen,
+                SiteStrings.SiteNames.leftAbdomen : darkPatchLeftAbdomen
             ]
         case (.Light, .Injections):
             return [
-                PDSiteStrings.unplaced : newImg,
-                PDSiteStrings.SiteNames.rightGlute : injectionGluteRight,
-                PDSiteStrings.SiteNames.leftGlute : injectionLeftGlute,
-                PDSiteStrings.SiteNames.leftDelt : injectionLeftDelt,
-                PDSiteStrings.SiteNames.rightDelt : injectionRightDelt,
-                PDSiteStrings.SiteNames.leftQuad : injectionLeftQuad,
-                PDSiteStrings.SiteNames.rightQuad : injectionRightQuad
+                SiteStrings.unplaced : newImg,
+                SiteStrings.SiteNames.rightGlute : injectionGluteRight,
+                SiteStrings.SiteNames.leftGlute : injectionLeftGlute,
+                SiteStrings.SiteNames.leftDelt : injectionLeftDelt,
+                SiteStrings.SiteNames.rightDelt : injectionRightDelt,
+                SiteStrings.SiteNames.leftQuad : injectionLeftQuad,
+                SiteStrings.SiteNames.rightQuad : injectionRightQuad
             ]
         case (.Dark, .Injections):
             return [
-                PDSiteStrings.unplaced : newImg,
-                PDSiteStrings.SiteNames.rightGlute : darkInjectionGluteRight,
-                PDSiteStrings.SiteNames.leftGlute : darkInjectionLeftGlute,
-                PDSiteStrings.SiteNames.leftDelt : darkInjectionLeftDelt,
-                PDSiteStrings.SiteNames.rightDelt : darkInjectionRightDelt,
-                PDSiteStrings.SiteNames.leftQuad : darkInjectionLeftQuad,
-                PDSiteStrings.SiteNames.rightQuad : darkInjectionRightQuad
+                SiteStrings.unplaced : newImg,
+                SiteStrings.SiteNames.rightGlute : darkInjectionGluteRight,
+                SiteStrings.SiteNames.leftGlute : darkInjectionLeftGlute,
+                SiteStrings.SiteNames.leftDelt : darkInjectionLeftDelt,
+                SiteStrings.SiteNames.rightDelt : darkInjectionRightDelt,
+                SiteStrings.SiteNames.leftQuad : darkInjectionLeftQuad,
+                SiteStrings.SiteNames.rightQuad : darkInjectionRightQuad
             ]
         }
     }

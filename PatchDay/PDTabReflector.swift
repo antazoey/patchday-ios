@@ -41,7 +41,7 @@ class PDTabReflector: PDTabReflective {
     var pillsVC: UIViewController? { return viewControllers.tryGet(at: 1) }
     var sitesVC: UIViewController? { return viewControllers.tryGet(at: 2) }
     
-    func reflectTheme(theme: PDAppTheme) {
+    func reflectTheme(theme: AppTheme) {
         let tabBarAppearance = UITabBar.appearance()
         tabBarAppearance.tintColor = theme[.button]
         tabBarAppearance.barTintColor = theme[.navbar]

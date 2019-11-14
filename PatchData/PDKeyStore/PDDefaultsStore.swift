@@ -13,7 +13,7 @@ public class PDDefaultsConstants {
     public static let maxQuantity = 4
 }
 
-public class PDDefaultsStore: PDDefaultStoring {
+public class PDDefaultsStore: UserDefaultsStoring {
 
     // Dependencies
     private var state: PDState

@@ -12,14 +12,14 @@ import PDKit
 class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandling {
     
     let notifications: PDNotificationScheduling?
-    let pills: PDPillScheduling?
+    let pills: PillScheduling?
     let badge: PDBadgeDelegate
     
     convenience init() {
         self.init(notifications: app?.notifications, pills: app?.sdk.pills, appBadge: PDBadge())
     }
     
-    init(notifications: PDNotificationScheduling?, pills: PDPillScheduling?, appBadge: PDBadgeDelegate) {
+    init(notifications: PDNotificationScheduling?, pills: PillScheduling?, appBadge: PDBadgeDelegate) {
         self.notifications = notifications
         self.pills = pills
         self.badge = appBadge

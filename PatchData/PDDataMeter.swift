@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class PDDataMeter: PDDataMeting {
+public class DataMeter: DataMeting {
     
     public var defaults: UserDefaults? {
         return UserDefaults(suiteName: "group.com.patchday.todaydata")

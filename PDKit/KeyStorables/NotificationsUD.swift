@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class NotificationsUD: PDKeyStorable {
+public class NotificationsUD: KeyStorable {
     
     public typealias Value = Bool
     

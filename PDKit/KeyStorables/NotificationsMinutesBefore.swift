@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class NotificationsMinutesBeforeUD: PDKeyStorable {
+public class NotificationsMinutesBeforeUD: KeyStorable {
     
     public typealias Value = Int
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class DeliveryMethodValueHolder: PDValueHolding {
+public class DeliveryMethodValueHolder: ComplexValueHolding {
     
     static let pkey = { "Patches" }()
     static let ikey = { "Injections" }()
@@ -36,7 +36,7 @@ public class DeliveryMethodValueHolder: PDValueHolding {
     }
 }
 
-public class DeliveryMethodUD: PDKeyStorable {
+public class DeliveryMethodUD: KeyStorable {
     
     private var v: DeliveryMethod
     private var valueHolder: DeliveryMethodValueHolder

@@ -182,12 +182,12 @@ class MOPillTests: XCTestCase {
         
         // Should be today at t1 with timesaday = 1 and timesTaken = 1
         var actual = p?.due()
-        var expected = PDDateHelper.getDate(at: t, daysFromNow: 0)
+        var expected = DateHelper.getDate(at: t, daysFromNow: 0)
 
         // Should be tomorrow at t1 with timesaday = 1 and timesTaken = 1
         p?.setTimesTakenToday(with: 1)
         actual = p?.due()
-        expected = PDDateHelper.getDate(at: t, daysFromNow: 1)
+        expected = DateHelper.getDate(at: t, daysFromNow: 1)
         XCTAssertEqual(actual, expected)
 
         // Should be today at time 2 when timesaday = 2 and timesTaken = 1
@@ -195,22 +195,22 @@ class MOPillTests: XCTestCase {
         let t2 = Time(timeInterval: 4000, since: t as Date)
         p?.setTime2(with: t2 as NSDate)
         actual = p?.due()
-        expected = PDDateHelper.getDate(at: t2 as Time, daysFromNow: 0)
+        expected = DateHelper.getDate(at: t2 as Time, daysFromNow: 0)
         
         // Should be today at time 1 when timesaday = 2 and timesTaken = 0
         p?.setTimesTakenToday(with: 0)
         actual = p?.due()
-        expected = PDDateHelper.getDate(at: t as Time, daysFromNow: 0)
+        expected = DateHelper.getDate(at: t as Time, daysFromNow: 0)
         
         // Should be tomorrow at time 1 when timesaday = 2 and timesTaken = 2
         p?.setTimesTakenToday(with: 2)
         actual = p?.due()
-        expected = PDDateHelper.getDate(at: t2 as Time, daysFromNow: 1)
+        expected = DateHelper.getDate(at: t2 as Time, daysFromNow: 1)
     }
     
     func testIsExpired() {
         let p = pillSchedule.insert(completion: nil) as? MOPill
-        let t = PDDateHelper.getDate(at: Time(), daysFromNow: 0)
+        let t = DateHelper.getDate(at: Time(), daysFromNow: 0)
         p?.setTimesaday(with: 1)
         p?.setTimesTakenToday(with: 0)
         p?.setTime1(with: t! as NSDate)
@@ -218,7 +218,7 @@ class MOPillTests: XCTestCase {
         // have to take once to start the schedule
         XCTAssertFalse(p?.isExpired() ?? false)
         // is expired when taken yesterday but not toay
-        let d = PDDateHelper.getDate(at: t!, daysFromNow: -1)! as NSDate
+        let d = DateHelper.getDate(at: t!, daysFromNow: -1)! as NSDate
         let d2 = Date(timeInterval: -1000, since: d as Date)
         p?.setLastTaken(with: d2 as NSDate)
         XCTAssertEqual(p?.getLastTaken(), d2 as NSDate)
@@ -236,7 +236,7 @@ class MOPillTests: XCTestCase {
     
     func testFixTakenToday() {
         let p = pillSchedule.insert(completion: nil) as? MOPill
-        let d = PDDateHelper.getDate(at: Time(), daysFromNow: -1)! as NSDate
+        let d = DateHelper.getDate(at: Time(), daysFromNow: -1)! as NSDate
         p?.setLastTaken(with: d)
         p?.setTimesTakenToday(with: 1)
         p?.fixTakenToday()

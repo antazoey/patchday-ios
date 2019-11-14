@@ -10,7 +10,7 @@ import XCTest
 
 @testable import PDKit
 
-class PDDateHelperTests: XCTestCase {
+class DateHelperTests: XCTestCase {
 
     let d1 = Date.createDefaultDate()
     let today = Date()
@@ -27,30 +27,30 @@ class PDDateHelperTests: XCTestCase {
     }
 
     func testDayOfWeek() {
-        let dateStr = PDDateHelper.dayOfWeekString(date: d1)
+        let dateStr = DateHelper.dayOfWeekString(date: d1)
         let expected = "Wednesday, 6:00 PM"
         XCTAssertEqual(dateStr, expected)
     }
     
     func testDateWord() {
-        var dateWord = PDDateHelper.dateWord(from: today)
+        var dateWord = DateHelper.dateWord(from: today)
         var expected = "Today"
         XCTAssertEqual(dateWord, expected)
         
         let yesterday = Date(timeInterval: -86_400, since: today)
-        dateWord = PDDateHelper.dateWord(from: yesterday)
+        dateWord = DateHelper.dateWord(from: yesterday)
         expected = "Yesterday"
         XCTAssertEqual(dateWord, expected)
         
         let tomorrow = Date(timeInterval: 86_400, since: today)
-        dateWord = PDDateHelper.dateWord(from: tomorrow)
+        dateWord = DateHelper.dateWord(from: tomorrow)
         expected = "Tomorrow"
         XCTAssertEqual(dateWord, expected)
     }
     
     func testGetDateOnDateAtTime() {
         let time = Time()
-        if let testDate = PDDateHelper.getDate(on: d1, at: time) {
+        if let testDate = DateHelper.getDate(on: d1, at: time) {
             let calendar = Calendar.current
             let t_year = calendar.component(.year, from: testDate)
             let t_mon = calendar.component(.month, from: testDate)
@@ -76,10 +76,10 @@ class PDDateHelperTests: XCTestCase {
     
     func testGetDateAtTimeWithDaysToAdd() {
         let now = Date()
-        if let actualDate = PDDateHelper.getDate(at: now, daysFromNow: 3) {
+        if let actualDate = DateHelper.getDate(at: now, daysFromNow: 3) {
             let expectedDate = Date(timeInterval: 3 * 86_400, since: now)
-            let actual = PDDateHelper.dayOfWeekString(date: actualDate)
-            let expected = PDDateHelper.dayOfWeekString(date: expectedDate)
+            let actual = DateHelper.dayOfWeekString(date: actualDate)
+            let expected = DateHelper.dayOfWeekString(date: expectedDate)
             XCTAssertEqual(actual, expected)
         } else {
             XCTFail()
@@ -88,9 +88,9 @@ class PDDateHelperTests: XCTestCase {
     
     func testExpirationDate() {
         let testDate = Date(timeInterval: 21_000, since: d1)
-        let actual_expDate1 = PDDateHelper.expirationDate(from: testDate, halfweek_interval.hours)
-        let actual_expDate2 = PDDateHelper.expirationDate(from: testDate, week_interval.hours)
-        let actual_expDate3 = PDDateHelper.expirationDate(from: testDate, two_weeks_interval.hours)
+        let actual_expDate1 = DateHelper.expirationDate(from: testDate, halfweek_interval.hours)
+        let actual_expDate2 = DateHelper.expirationDate(from: testDate, week_interval.hours)
+        let actual_expDate3 = DateHelper.expirationDate(from: testDate, two_weeks_interval.hours)
         
         let expected_expDate1 = Date(timeInterval: 302_400, since: testDate)
         let expected_expDate2 = Date(timeInterval: 604_800, since: testDate)
@@ -103,7 +103,7 @@ class PDDateHelperTests: XCTestCase {
     
     func testExpirationInterval() {
         let now = Date()
-        if let actual_interval_1 = PDDateHelper.expirationInterval(halfweek_interval.hours, date: now),
+        if let actual_interval_1 = DateHelper.expirationInterval(halfweek_interval.hours, date: now),
             let expected_interval_1 = TimeInterval(exactly: 302_400) {
                 let a1 = Float(actual_interval_1)
                 let e1 = Float(expected_interval_1)
@@ -111,7 +111,7 @@ class PDDateHelperTests: XCTestCase {
         } else {
             XCTFail()
         }
-        if let actual_interval_2 = PDDateHelper.expirationInterval(week_interval.hours, date: now),
+        if let actual_interval_2 = DateHelper.expirationInterval(week_interval.hours, date: now),
             let expected_interval_2 = TimeInterval(exactly: 604_800) {
             let a2 = Float(actual_interval_2)
             let e2 = Float(expected_interval_2)
@@ -119,7 +119,7 @@ class PDDateHelperTests: XCTestCase {
         } else {
             XCTFail()
         }
-        if let actual_interval_3 = PDDateHelper.expirationInterval(two_weeks_interval.hours, date: now),
+        if let actual_interval_3 = DateHelper.expirationInterval(two_weeks_interval.hours, date: now),
             let expected_interval_3 = TimeInterval(exactly: 1_209_600) {
             let a3 = Float(actual_interval_3)
             let e3 = Float(expected_interval_3)
@@ -139,7 +139,7 @@ class PDDateHelperTests: XCTestCase {
             let eightPM_before = Calendar.current.date(byAdding: .day,
                                                        value: -1,
                                                         to: eightPM)
-            let actual = PDDateHelper.dateBefore(overNightDate: now)
+            let actual = DateHelper.dateBefore(overNightDate: now)
             XCTAssertEqual(actual, eightPM_before)
         } else {
             XCTFail()
@@ -147,18 +147,18 @@ class PDDateHelperTests: XCTestCase {
     }
     
     func testFormatTime() {
-        let actual = PDDateHelper.format(time: d1)
+        let actual = DateHelper.format(time: d1)
         XCTAssertEqual(actual, "6:00 PM")
     }
     
     func testFormatDate() {
-        var actual = PDDateHelper.format(date: d1, useWords: false)
+        var actual = DateHelper.format(date: d1, useWords: false)
         let now = Date()
         let expected = "Dec 31, 6:00 PM"
         XCTAssertEqual(actual, expected)
-        actual = PDDateHelper.format(date: d1, useWords: true)
+        actual = DateHelper.format(date: d1, useWords: true)
         XCTAssertEqual(actual, expected)
-        actual = PDDateHelper.format(date: now, useWords: true)
+        actual = DateHelper.format(date: now, useWords: true)
         XCTAssert(actual.range(of: "Today") != nil)
     }
 }

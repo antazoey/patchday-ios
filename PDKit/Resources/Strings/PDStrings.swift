@@ -42,9 +42,6 @@ public class PDStrings: NSObject {
         public static let dotDotDot = {
             NSLocalizedString("...", comment: c2)
         }()
-        public static let newSite = {
-            NSLocalizedString("New Site", comment: c3)
-        }()
         public static let newPill = {
             NSLocalizedString("New Pill", comment: c4)
         }()

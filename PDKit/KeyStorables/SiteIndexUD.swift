@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class SiteIndexUD: PDKeyStorable {
+public class SiteIndexUD: KeyStorable {
     
     public typealias Value = Int
     
