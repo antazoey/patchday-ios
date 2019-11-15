@@ -15,7 +15,7 @@ class HormoneDetailVC: UIViewController,
                   UIPickerViewDataSource,
                   UITextFieldDelegate {
     
-    private var model: HormonesModel = HormonesModel()
+    private var codeBehind: HormonesCodeBehind = HormonesCodeBehind()
     private var selectedSite: Bodily?
     
     //MARK: - Main
@@ -89,7 +89,7 @@ class HormoneDetailVC: UIViewController,
             configureBadgeIcon(wasExpiredBeforeSave, isExpiredAfterSave)
             requestNotifications()
         }
-        self.tabs?.reflectHormone()
+        codeBehind.tabs?.reflectHormone()
         if let navCon = navigationController {
             navCon.popViewController(animated: true)
         }
@@ -267,7 +267,7 @@ class HormoneDetailVC: UIViewController,
     // MARK: - private funcs
     
     private func loadTitle() {
-        title = PDVCTitleStrings.getTitle(for: sdk?.deliveryMethod ?? .Patches)
+        title = VCTitleStrings.getTitle(for: sdk?.deliveryMethod ?? .Patches)
     }
     
     private func loadExpirationText() {

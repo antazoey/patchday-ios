@@ -94,11 +94,6 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func settingsTapped() {
         let sb = UIStoryboard.createSettingsStoryboard()
-        let key = "SettingsVC_id"
-        if let n = navigationController,
-            let settingsVC = sb.instantiateViewController(withIdentifier: key) as? SettingsVC {
-            n.pushViewController(settingsVC, animated: true)
-        }
     }
     
     // MARK: - Private
@@ -141,7 +136,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     /// Configures title of view controller.
     private func loadTitle() {
         if let method = model.sdk?.deliveryMethod {
-            title = PDVCTitleStrings.getTitle(for: method)
+            title = VCTitleStrings.getTitle(for: method)
         }
     }
     

@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class PDDefaults : UserDefaultsManaging {
+public class PDDefaults: UserDefaultsManaging {
 
     private let store: UserDefaultsStoring
     private var state: PDState

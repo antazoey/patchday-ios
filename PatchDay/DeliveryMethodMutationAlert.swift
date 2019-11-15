@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class DeliveryMethodMutationAlert: PDAlert {
+class DeliveryMethodMutationAlert: Alert {
     
     private var sdk: PatchDataDelegate?
     private let tabs: PDTabReflective?
@@ -22,7 +22,7 @@ class DeliveryMethodMutationAlert: PDAlert {
     private var continueAction: UIAlertAction {
         return UIAlertAction(title: ActionStrings.cont, style: .destructive) {
             void in
-            self.sdk?.setDeliveryMethod(to: self.newDeliveryMethod)
+            self.sdk?.defaults.setDeliveryMethod(to: self.newDeliveryMethod)
             self.tabs?.reflectHormone()
         }
     }
@@ -67,7 +67,7 @@ class DeliveryMethodMutationAlert: PDAlert {
         self.tabs = tabs
         self.oldQuantity = oldQuantity
         self.decline = decline
-        let strs = PDAlertStrings.loseDataAlertStrings
+        let strs = AlertStrings.loseDataAlertStrings
         self.oldDeliveryMethod = oldDeliveryMethod
         self.newDeliveryMethod = newDeliveryMethod
         super.init(

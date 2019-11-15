@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import PDKit
 
-public class DuePillNotification : PDNotification, DuePillNotifying {
+public class DuePillNotification: Notification, DuePillNotifying {
     
     private let pill: Swallowable
     

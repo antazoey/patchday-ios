@@ -1,5 +1,5 @@
 //
-//  HormoneController.swift
+//  HormonesCodeBehind.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/10/19.
@@ -9,17 +9,19 @@
 import Foundation
 import PDKit
 
-class HormonesModel {
+class HormonesCodeBehind {
     
     let sdk: PatchDataDelegate?
+    let tabs: TabReflective?
     
     convenience init() {
-        self.init(sdk: app?.sdk)
-        sdk?.state.reset()
+        self.init(sdk: app?.sdk, tabs: app?.tabs)
+        sdk?.stateManager.reset()
     }
     
-    init(sdk: PatchDataDelegate?) {
+    init(sdk: PatchDataDelegate?, tabs: TabReflective) {
         self.sdk = sdk
+        self.tabs = tabs
     }
     
     var hormones: HormoneScheduling? {
@@ -29,7 +31,7 @@ class HormonesModel {
     func presentDisclaimerAlert() {
         if let app = app, app.isFirstLaunch() {
             app.alerts.presentDisclaimerAlert()
-            app.sdk.defaults.replaceStoredMentionedDisclaimer(to: true)
+            app.sdk.defaults.setMentionedDisclaimer(to: true)
         }
     }
 }

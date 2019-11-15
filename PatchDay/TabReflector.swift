@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import PDKit
 
-class PDTabReflector: PDTabReflective {
+class TabReflector: TabReflective {
     
     private let tabController: UITabBarController
     private let viewControllers: [UIViewController]
@@ -50,8 +50,8 @@ class PDTabReflector: PDTabReflective {
     func reflectHormone() {
         if let sdk = sdk, let hormonesVC = hormonesVC {
             let total = sdk.totalAlerts
-            let method = sdk.deliveryMethod
-            let title = PDVCTitleStrings.getTitle(for: method)
+            let method = sdk.defaults.deliveryMethod.value
+            let title = VCTitleStrings.getTitle(for: method)
             hormonesVC.tabBarItem.title = title
             hormonesVC.tabBarItem.badgeValue = total > 0 ? String(total) : nil
             let icon = PDImages.getDeliveryIcon(method)
@@ -63,7 +63,7 @@ class PDTabReflector: PDTabReflective {
     
     func reflectExpiredHormoneBadgeValue() {
         if let hormoneTab = hormonesVC?.tabBarItem {
-            let exp = sdk?.totalHormonesExpired ?? 0
+            let exp = sdk?.hormones.totalExpired ?? 0
             hormoneTab.badgeValue = exp > 0 ? "\(exp)" : nil
         }
     }

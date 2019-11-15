@@ -1,5 +1,5 @@
 //
-//  PDNotificationCenter.swift
+//  NotificationCenter.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 9/24/19.
@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import PDKit
 
-class NotificationCenter: NSObject, NotificationCenterDelegate {
+class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
     private let root: UNUserNotificationCenter
     private let hormoneApplicant: ApplyHormoneNotificationActionHandling

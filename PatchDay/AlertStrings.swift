@@ -1,5 +1,5 @@
 //
-//  PDAlertStrings.swift
+//  AlertStrings.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/16/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PDAlertStrings {
+class AlertStrings {
     
     private static let titleComment = { return "Title for alert." }()
     private static let messageComment = { return "Message for alert." }()

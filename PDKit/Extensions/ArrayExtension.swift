@@ -17,3 +17,13 @@ public extension Array {
         return nil
     }
 }
+
+public extension Array where Element: Equatable {
+
+    func tryGetIndex(item: Element?) -> Index? {
+        if let item = item, let i = firstIndex(of: item) {
+            return i
+        }
+        return nil
+    }
+}

@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class QuantityMutationAlert: PDAlert {
+class QuantityMutationAlert: Alert {
     
     private let oldQuantity: Int
     private let newQuantity: Int
@@ -37,7 +37,7 @@ class QuantityMutationAlert: PDAlert {
         self.handler = actionHandler
         self.oldQuantity = oldQuantity
         self.newQuantity = newQuantity
-        let strs = PDAlertStrings.loseDataAlertStrings
+        let strs = AlertStrings.loseDataAlertStrings
         super.init(parent: parent, title: strs.title, message: strs.message, style: style)
     }
     

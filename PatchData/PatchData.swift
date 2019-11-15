@@ -19,7 +19,7 @@ public class PatchData: NSObject, PatchDataDelegate {
     }
 
     let dataMeter: DataMeting
-    let coreData: CoreDataCalling
+    let coreData: PDCoreDataDelegate
     let hormoneDataBroadcaster: HormoneDataBroadcasting
 
     public var defaults: UserDefaultsManaging
@@ -35,7 +35,7 @@ public class PatchData: NSObject, PatchDataDelegate {
         pills: PillScheduling,
         sites: HormoneSiteScheduling,
         stateManager: PDStateManaging,
-        coreData: CoreDataCalling,
+        coreData: PDCoreDataDelegate,
         hormoneDataBroadcaster: HormoneDataBroadcasting
     ) {
         self.defaults = defaults

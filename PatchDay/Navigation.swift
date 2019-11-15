@@ -1,5 +1,5 @@
 //
-//  PDNavigationDelegate.swift
+//  Navigation.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/18/19.
@@ -9,7 +9,8 @@
 import UIKit
 import PDKit
 
-public class Navigation : NavigationDelegate {
+/// Wrapper for navigationController to improve testability.
+public class Navigation: NavigationDelegate {
 
     func reflectTheme(theme: AppTheme) {
         let navigationBarAppearace = UINavigationBar.appearance()
@@ -30,5 +31,9 @@ public class Navigation : NavigationDelegate {
         if let sdk = app?.sdk {
             source.navigationController?.goToPillDetails(source: source, sdk: sdk, pill: pill)
         }
+    }
+    
+    func goToSettings(source: UIViewController) {
+        source.navigationController?.goToSettings(source: source)
     }
 }

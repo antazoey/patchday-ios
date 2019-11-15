@@ -1,5 +1,5 @@
 //
-//  PDNavigationDelegate.swift
+//  NavigationDelegate.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/9/19.
@@ -13,4 +13,5 @@ protocol NavigationDelegate {
     func reflectTheme(theme: AppTheme)
     func goToHormoneDetails(_ mone: Hormonal, source: UIViewController)
     func goToPillDetails(_ pill: Swallowable, source: UIViewController)
+    func goToSettings(source: UIViewController)
 }

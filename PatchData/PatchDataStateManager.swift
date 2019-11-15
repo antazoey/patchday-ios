@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class PatchDataStateManager : PDStateManaging {
+public class PatchDataStateManager: PDStateManaging {
     
     private let state: PDState
     private let defaults: UserDefaultsManaging

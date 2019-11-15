@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-class CoreDataWrapper: CoreDataCalling {
+class CoreDataWrapper: PDCoreDataDelegate {
 
     public func save() {
         PDCoreData.save()

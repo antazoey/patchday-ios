@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-class ApplyHormoneNotificationActionHandler : ApplyHormoneNotificationActionHandling {
+class ApplyHormoneNotificationActionHandler: ApplyHormoneNotificationActionHandling {
     
     private let sdk: PatchDataDelegate?
     private let badge: PDBadgeDelegate

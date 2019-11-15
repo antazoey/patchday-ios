@@ -254,11 +254,11 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     private func loadTitle() {
         if siteScheduleIndex >= 0, let site = sdk?.sites.at(siteScheduleIndex) {
-            title = "\(PDVCTitleStrings.siteTitle) \(siteScheduleIndex + 1)"
+            title = "\(VCTitleStrings.siteTitle) \(siteScheduleIndex + 1)"
             nameText.text = site.name
         } else {
             let indexSuffix = (sdk?.sites.count ?? 0) + 1
-            title = "\(PDVCTitleStrings.siteTitle) \(indexSuffix)"
+            title = "\(VCTitleStrings.siteTitle) \(indexSuffix)"
         }
     }
     
@@ -293,7 +293,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     private func loadImagePickeR() {
         if let sdk = sdk {
-            let method = sdk.deliveryMethod
+            let method = sdk.defaults.deliveryMethod.value
             if let site = sdk.sites.at(siteScheduleIndex),
                 let saveButton = navigationItem.rightBarButtonItem {
         

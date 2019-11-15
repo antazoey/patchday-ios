@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-protocol PDTabReflective {
+protocol TabReflective {
     var hormonesVC: UIViewController? { get }
     var pillsVC: UIViewController? { get }
     var sitesVC: UIViewController? { get }

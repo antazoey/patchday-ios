@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CoreDataCalling: Saving {
+public protocol PDCoreDataDelegate: Saving {
     func createPill() -> Swallowable?
     func createPill(named name: String) -> Swallowable?
     func createHormoneList(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal]

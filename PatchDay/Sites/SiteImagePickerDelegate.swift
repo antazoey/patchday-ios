@@ -102,7 +102,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         selectedImage = imageView.image
         if let i = images.firstIndex(of: selectedImage!) {
             picker.selectRow(i, inComponent: 0, animated: false)
-            sdk?.state.markSiteForImageMutation(site: selectedSite)
+            sdk?.stateManager.markSiteForImageMutation(site: selectedSite)
         }
     }
 }

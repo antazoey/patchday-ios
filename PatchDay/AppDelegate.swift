@@ -20,12 +20,12 @@ let app: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var notifications: PDNotificationScheduling = PDNotifications()
+    var notifications: NotificationScheduling = Notifications()
     var sdk: PatchDataDelegate = PatchData()
-    var alerts: PDAlertDispatching = PDAlertDispatcher()
+    var alerts: AlertDispatching = AlertDispatcher()
     var tabs: PDTabReflective?
-    var nav: PDNavigationDelegate = PDNavigation()
-    var styles: PDStyling!
+    var nav: NavigationDelegate = Navigation()
+    var styles: Styling!
     var badge: PDBadgeDelegate = PDBadge()
 
     func application(
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
 
-        self.styles = PDStylist(theme: self.sdk.defaults.theme.value)
+        self.styles = Stylist(theme: self.sdk.defaults.theme.value)
         self.setBadgeToTotalAlerts()
         self.setNavigationAppearance()
         return true
@@ -70,7 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func resetTheme() {
         let t = sdk.defaults.theme.value
-        self.styles = PDStylist(theme: t)
+        self.styles = Stylist(theme: t)
         setNavigationAppearance()
     }
 

@@ -1,5 +1,5 @@
 //
-//  PDNotificationFactory.swift
+//  NotificationFactory.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/7/19.

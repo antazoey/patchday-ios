@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol ExpiredHormoneNotifying: PDNotifying {
+protocol ExpiredHormoneNotifying: Notifying {
     
 }

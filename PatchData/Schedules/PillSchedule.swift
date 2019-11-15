@@ -15,10 +15,10 @@ public class PillSchedule: NSObject, PillScheduling {
     override public var description: String { "Schedule for pills." }
     
     private var pills: [Swallowable]
-    private let store: CoreDataCalling
+    private let store: PDCoreDataDelegate
     private let meter: DataMeting
     
-    init(store: CoreDataCalling, pillDataMeter: DataMeting, isFirstInit: Bool) {
+    init(store: PDCoreDataDelegate, pillDataMeter: DataMeting, isFirstInit: Bool) {
         self.store = store
         self.meter = pillDataMeter
         self.pills = store.createPillList()

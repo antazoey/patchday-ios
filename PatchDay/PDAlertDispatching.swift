@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-protocol PDAlertDispatching {
+protocol AlertDispatching {
     func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ()))
     func presentQuantityMutationAlert(oldQuantity: Int,
                                       newQuantity: Int,

@@ -16,7 +16,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var sitesTable: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
     
-    private let sdk = app.sdk
+    private let model = SitesModel(sites: app?.sdk.sites, defaults: app?.sdk.defaults)
 
     public var buttonFontSize = { return UIFont.systemFont(ofSize: 15) }()
     
@@ -65,7 +65,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Movable
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         tableView.cellForRow(at: indexPath)
-        return indexPath.row < sdk.sites.names.count
+        return indexPath.row < model.sites?.names.count ?? indexPath.row
     }
     
     // Highlightable
@@ -79,16 +79,19 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sdk.sites.names.count
+        return sites?.names.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let id = "siteCellReuseId"
-        if let siteCell = sitesTable.dequeueReusableCell(withIdentifier: id) as? SiteCell {
+        if let siteCell = sitesTable.dequeueReusableCell(withIdentifier: id) as? SiteCell,
+            let sites = sites,
+            let siteName = sites.names.tryGet(at: indexPath.row) {
+    
             siteCell.configure(
                 at: indexPath.row,
-                name: sdk.sites.names[indexPath.row],
-                siteCount: sdk.sites.names.count,
+                name: siteName,
+                siteCount: sites.count,
                 isEditing: sitesTable.isEditing
             )
             return siteCell
@@ -100,7 +103,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Permits editing on filled cells
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return indexPath.row < sdk.sites.count
+        return indexPath.row < sites?.count ?? indexPath.row
     }
     
     // Editing style
@@ -134,7 +137,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         moveRowAt sourceIndexPath: IndexPath,
         to destinationIndexPath: IndexPath
     ) {
-        sdk.swapSites(sourceIndexPath.row, with: destinationIndexPath.row)
+        sites?.reorder(at: sourceIndexPath.row, to: destinationIndexPath.row)
         sitesTable.reloadData()
     }
     
@@ -145,7 +148,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Actions
     
     @objc func insertTapped() {
-        segueToSiteDetailVC(sdk.sites.names.count)
+        if let siteCount = sites?.count {
+            segueToSiteDetailVC(siteCount)
+        }
     }
 
     @objc func editTapped() {
@@ -154,7 +159,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             switch items[1].title {
             case ActionStrings.edit :
                 self.title = ""
-                self.navigationController?.tabBarItem.title = PDVCTitleStrings.sitesTitle
+                self.navigationController?.tabBarItem.title = VCTitleStrings.sitesTitle
                 swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
                 switchBarItemFunctionality(items: &items)
                 navigationItem.rightBarButtonItems = items
@@ -172,25 +177,27 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @objc func resetTapped() {
         setTitle()
-        sdk.resetSitesToDefault()
-        sitesTable.isEditing = false
-        let range = 0..<sdk.sites.names.count
-        let indexPathsToReload: [IndexPath] = range.map({
-            (value: Int) -> IndexPath in
-            return IndexPath(row: value, section: 0)
-        })
-        sitesTable.reloadData()
-        sitesTable.reloadRows(at: indexPathsToReload, with: .automatic)
-        let c = sitesTable.numberOfRows(inSection: 0)
-        swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
-        switchNavItems()    // Close editing
+        if let sites = sites {
+            sites.reset()
+            sitesTable.isEditing = false
+            let range = 0..<sites.count
+            let indexPathsToReload: [IndexPath] = range.map({
+                (value: Int) -> IndexPath in
+                return IndexPath(row: value, section: 0)
+            })
+            sitesTable.reloadData()
+            sitesTable.reloadRows(at: indexPathsToReload, with: .automatic)
+            let c = sitesTable.numberOfRows(inSection: 0)
+            swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
+            switchNavItems()    // Close editing
+        }
     }
     
     // MARK: - Private
     
     private func segueToSiteDetailVC(_ siteIndex: Int) {
         let backItem = UIBarButtonItem()
-        backItem.title = PDVCTitleStrings.sitesTitle
+        backItem.title = VCTitleStrings.sitesTitle
         navigationItem.backBarButtonItem = backItem
         if let sb = storyboard, let navCon = navigationController, let siteVC = sb.instantiateViewController(withIdentifier: "SiteDetailVC_id") as? SiteDetailVC {
             siteVC.setSiteScheduleIndex(to: siteIndex)
@@ -239,15 +246,17 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(indexPath: IndexPath) {
-        sdk.sites.delete(at: indexPath.row)
-        sitesTable.deleteRows(at: [indexPath], with: .fade)
-        sitesTable.reloadData()
-        if indexPath.row <= (sdk.sites.names.count - 1) {
-            // Reset cell colors
-            for i in indexPath.row..<sdk.sites.names.count {
-                let nextIndexPath = IndexPath(row: i, section: 0)
-                let cell = sitesTable.cellForRow(at: nextIndexPath)
-                cell?.backgroundColor = app.styles.getCellColor(at: i)
+        if let sites = sites {
+            sites.delete(at: indexPath.row)
+            sitesTable.deleteRows(at: [indexPath], with: .fade)
+            sitesTable.reloadData()
+            if indexPath.row <= (sites.names.count - 1) {
+                // Reset cell colors
+                for i in indexPath.row..<sites.count {
+                    let nextIndexPath = IndexPath(row: i, section: 0)
+                    let cell = sitesTable.cellForRow(at: nextIndexPath)
+                    cell?.backgroundColor = styles?.getCellColor(at: i)
+                }
             }
         }
     }
@@ -269,14 +278,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setTitle() {
-        typealias Titles = PDVCTitleStrings
-        switch sdk.deliveryMethod {
+        typealias Titles = VCTitleStrings
+        let method 
+        title = VCTitleStrings.getSitesTitle(for: <#T##DeliveryMethod#>)
+        switch sdk.defaults.deliveryMethod.value {
         case .Patches:
-            title = PDVCTitleStrings.patchSitesTitle
+            title = VCTitleStrings.patchSitesTitle
         case .Injections:
-            title = PDVCTitleStrings.injectionSitesTitle
+            title = VCTitleStrings.injectionSitesTitle
         }        
-        self.navigationController?.tabBarItem.title = PDVCTitleStrings.sitesTitle
+        self.navigationController?.tabBarItem.title = VCTitleStrings.sitesTitle
     }
 
     private func loadTabBarItemSize() {

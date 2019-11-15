@@ -22,7 +22,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     override public var description: String { "Schedule for hormones." }
 
     private let dataBroadcaster: HormoneDataBroadcasting
-    private var store: CoreDataCalling
+    private var store: PDCoreDataDelegate
     private var state: PDState
     private let defaults: UserDefaultsStoring
     private var hormones: [Hormonal]
@@ -218,7 +218,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         }).count == 0
     }
     
-    private static func createHormones(_ store: CoreDataCalling, _ data: HormoneScheduleData) -> [Hormonal] {
+    private static func createHormones(_ store: PDCoreDataDelegate, _ data: HormoneScheduleData) -> [Hormonal] {
         store.createHormoneList(
             expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value
         )

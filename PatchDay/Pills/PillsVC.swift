@@ -19,13 +19,13 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Dependencies
     private var pills: PillScheduling? = app?.sdk.pills
-    private let notifications: PDNotificationScheduling? = app?.notifications
-    private let navigation: PDNavigationDelegate? = app?.nav
+    private let notifications: NotificationScheduling? = app?.notifications
+    private let navigation: NavigationDelegate? = app?.nav
     
     override func viewDidLoad() {
         super.viewDidLoad()
         applyTheme()
-        title = PDVCTitleStrings.pillsTitle
+        title = VCTitleStrings.pillsTitle
         pillsTable.delegate = self
         pillsTable.dataSource = self
         loadTabBarItemSize()
@@ -107,17 +107,15 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func deleteCell(at indexPath: IndexPath) {
-        if let sdk = sdk {
-            sdk.deletePill(at: indexPath.row)
-            pillsTable.deleteRows(at: [indexPath], with: .fade)
-            pillsTable.reloadData()
-            setBadge()
-            let start = indexPath.row
-            let end = sdk.pills.count - 1
-            if start <= end {
-                for i in start...end {
-                    pillCellForRowAt(i).loadBackground()
-                }
+        pills?.delete(at: indexPath.row)
+        pillsTable.deleteRows(at: [indexPath], with: .fade)
+        pillsTable.reloadData()
+        setBadge()
+        let start = indexPath.row
+        let end = (pills?.count ?? start) - 1
+        if start <= end {
+            for i in start...end {
+                pillCellForRowAt(i).loadBackground()
             }
         }
     }
@@ -134,7 +132,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setBadge() {
-        let v = sdk?.pills.totalDue ?? 0
+        let v = pills?.totalDue ?? 0
         navigationController?.tabBarItem.badgeValue = v > 0 ? "\(v)" : nil
     }
     

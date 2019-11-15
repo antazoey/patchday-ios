@@ -17,17 +17,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         """
         The view controller for the Settings View.
         The Settings View is where the user may select their defaults,
-        which are saved and used for PatchDay scheduling.
-        See PatchData's PDDefaults object for info on the types of defaults.
+        which are saved and used for Hormone scheduling.
+        See PatchData.KeyStorables and PDKit.KeyStorables.
         """
     }
     
-    // Dependencies
-    private var sdk: PatchDataDelegate = app.sdk
-    private var tabs: PDTabReflective = app.tabs!
-    private let notifications: PDNotificationScheduling = app.notifications
-    private let alerts: PDAlertDispatching = app.alerts
-    
+    let codeBehind = SettingsCodeBehind()
+
     // Containers
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -71,7 +67,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = PDVCTitleStrings.settingsTitle
+        title = VCTitleStrings.settingsTitle
         quantityLabel.text = ColonedStrings.count
         quantityButton.tag = 10
         setTopConstraint()
@@ -88,7 +84,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        sdk.stampQuantity()
+        codeBehind.sdk?.stateManager.stampQuantity()
         applyTheme()
     }
     
@@ -101,11 +97,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        notifications.cancelAllExpiredHormoneNotifications()
-        let v = Int(notificationsMinutesBeforeSlider.value.rounded())
-        notificationsMinutesBeforeValueLabel.text = String(v)
-        sdk.defaults.replaceStoredNotificationsMinutesBefore(to: v)
-        notifications.resendAllExpiredExpiredNotifications()
+        codeBehind.notifications?.cancelAllExpiredHormoneNotifications()
+        let newMinutesBeforeValue = Int(notificationsMinutesBeforeSlider.value.rounded())
+        notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
+        codeBehind.sdk?.defaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        codeBehind.notifications?.resendAllExpiredExpiredNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView
@@ -113,15 +109,15 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         if let id = sender.restorationIdentifier?.dropLast() {
             let key = String(id)
             if let def = PDDefault(rawValue: key) {
-                activatePicker(def, sender: sender)
+                selectedDefault = def
+                handlePickerActivation(def, sender: sender)
             }
         }
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
-        let n = notificationsSwitch.isOn
-        n ? enableNotificationButtons() : disableNotificationButtons()
-        sdk.defaults.replaceStoredNotifications(to: n)
+        reflectNotificationSwitchInNotificationButtons()
+        codeBehind.sdk?.defaults.setNotifications(to: notificationsSwitch.isOn)
     }
 
     // MARK: - Picker Functions
@@ -130,29 +126,18 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         return 1
     }
 
-    func pickerView(
-        _ pickerView: UIPickerView,
-        numberOfRowsInComponent component: Int
-    ) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return PickerOptions.getOptionsCount(for: selectedDefault)
     }
     
-    func pickerView(
-        _ pickerView: UIPickerView,
-        titleForRow row: Int,
-        forComponent component: Int
-    ) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if let key = selectedDefault {
             return PickerOptions.getStrings(for: key).tryGet(at: row)
         }
         return nil
     }
     
-    func pickerView(
-        _ pickerView: UIPickerView,
-        didSelectRow row: Int,
-        inComponent component: Int
-    ) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let d = selectedDefault,
             let chosenItem = self.pickerView(
                 pickerView,
@@ -174,64 +159,84 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
     }
 
-    private func activatePicker(_ key: PDDefault, sender: UIButton) {
-        var picker: UIPickerView?
-        let selections = PickerOptions.getStrings(for: key)
-        let choice = sender.titleLabel?.text
-        let start: Int = { () in
-            if let c = choice, let i = selections.firstIndex(of: c) {
-                return i
-            }
-            return 0
-        }()
-        
-        selectedDefault = key
-        switch key {
-        case .DeliveryMethod:
-            picker = deliveryMethodPicker
-        case .ExpirationInterval:
-            picker = expirationIntervalPicker
-            expirationIntervalPicker.reloadAllComponents()
-        case .Quantity:
-            picker = quantityPicker
-        case .Theme:
-            picker = themePicker
-            let y = themePicker!.frame.origin.y / 2.0
-            scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
-        default:
-            print("Error: Improper context for loading UIPicker.")
-            return
-        }
-        
-        let p = picker!
-        p.reloadAllComponents()
-        deselectEverything(except: key)
-        if p.isHidden == false {
-            closePicker(sender, p, key, row: start)
-        } else {
-            sender.isSelected = true
-            openPicker(sender, selections, p, selectedRow: start)
+    private func handlePickerActivation(_ key: PDDefault, activator: UIButton) {
+        if let pickerActivationProps = createPickerActivationProps(for: key, activator: activator) {
+            pickerActivationProps.picker.reloadAllComponents()
+            deselectEverything(except: key)
+            handleBottomPickerViewRequirements(for: key)
+            activatePicker(props: pickerActivationProps)
         }
     }
     
-    private func openPicker(
-        _ buttonTapped: UIButton,_ selections: [String],_ picker: UIPickerView, selectedRow: Int
-    ) {
-        picker.selectRow(selectedRow, inComponent: 0, animated: false)
+    private func createPickerActivationProps(for key: PDDefault, activator: UIButton) -> PickerActivationProperties? {
+        let choices = PickerOptions.getStrings(for: key)
+        if let picker = getPicker(from: key) {
+            let startRow = choices.tryGetIndex(item: activator.titleLabel?.text) ?? 0
+            return PickerActivationProperties(
+                picker: picker,
+                activator: activator,
+                choices: choices,
+                startRow: startRow,
+                propertyKey: key
+            )
+        }
+        return nil
+    }
+    
+    private func getSelectedRow(selections: [String], rowItemName: String?) -> Index {
+        if let item = rowItemName, let i = selections.firstIndex(of: item) {
+            return i
+        }
+        return 0
+    }
+    
+    private func getPicker(from key: PDDefault) -> UIPickerView? {
+        switch key {
+        case .DeliveryMethod:
+            return deliveryMethodPicker
+        case .ExpirationInterval:
+            return expirationIntervalPicker
+        case .Quantity:
+            return quantityPicker
+        case .Theme:
+            return themePicker
+        default:
+            print("Error: PDDefault \(key) does not have a UIPicker.")
+            return nil
+        }
+    }
+    
+    private func handleBottomPickerViewRequirements(for pickerKey: PDDefault) {
+        if pickerKey == .Theme {
+            let y = themePicker!.frame.origin.y / 2.0
+            scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
+        }
+    }
+
+    private func activatePicker(props: PickerActivationProperties) {
+        if !props.picker.isHidden {
+            closePicker(props)
+        } else {
+            props.activator.isSelected = true
+            openPicker(props)
+        }
+    }
+    
+    private func openPicker(_ props: PickerActivationProperties) {
+        props.picker.selectRow(props.startRow, inComponent: 0, animated: false)
         UIView.transition(
-            with: picker as UIView,
+            with: props.picker as UIView,
             duration: 0.4,
             options: .transitionFlipFromTop,
-            animations: { picker.isHidden = false },
+            animations: { props.picker.isHidden = false },
             completion: nil
         )
     }
 
-    private func closePicker(
-        _ buttonTapped: UIButton,_ picker: UIPickerView, _ key: PDDefault, row: Int) {
-        buttonTapped.isSelected = false
-        picker.isHidden = true
-        self.saveFromPicker(key, for: row)
+    private func closePicker(_ props: PickerActivationProperties) {
+        props.activator.isSelected = false
+        props.picker.isHidden = true
+        self.saveFromPicker(props.propertyKey, for: props.startRow)
     }
     
     // MARK: - Saving
@@ -297,16 +302,24 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     // MARK: - View loading and altering
     
+    private func reflectNotificationSwitchInNotificationButtons() {
+        if notificationsSwitch.isOn {
+            enableNotificationButtons()
+        } else {
+            disableNotificationButtons()
+        }
+    }
+    
     private func enableNotificationButtons() {
         notificationsMinutesBeforeSlider.isEnabled = true
         notificationsMinutesBeforeValueLabel.textColor = UIColor.black
     }
     
     private func disableNotificationButtons() {
+        codeBehind.sdk?.defaults.setNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
-        sdk.defaults.replaceStoredNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.value = 0
     }
     
@@ -406,7 +419,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     private func loadQuantity() {
         let q = sdk.defaults.quantity.rawValue
         quantityButton.setTitle("\(q)")
-        if sdk.deliveryMethod == .Injections {
+        if sdk.defaults.deliveryMethod.value == .Injections {
             quantityButton.isEnabled = false
             quantityArrowButton.isEnabled = false
             if q != 1 {

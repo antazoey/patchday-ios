@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class HormoneDataBroadcaster : HormoneDataBroadcasting {
+public class HormoneDataBroadcaster: HormoneDataBroadcasting {
     
     private let sites: HormoneSiteScheduling
     private let siteDataMeter: DataMeting

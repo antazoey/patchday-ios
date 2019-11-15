@@ -1,5 +1,5 @@
 //
-//  PDNotificationProducing.swift
+//  NotificationProducing.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/7/19.
@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-protocol PDNotificationProducing {
+protocol NotificationProducing {
     
     func createExpiredHormoneNotification(
         _ hormone: Hormonal,

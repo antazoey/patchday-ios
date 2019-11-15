@@ -1,5 +1,5 @@
 //
-//  PDNotificationController.swift
+//  NotificationController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/6/17.
@@ -15,13 +15,13 @@ class Notifications: NSObject, NotificationScheduling {
 
     private let sdk: PatchDataDelegate?
     private let center: PDNotificationCenter
-    private let factory: PDNotificationProducing
+    private let factory: NotificationProducing
 
     var currentEstrogenIndex = 0
     var currentPillIndex = 0
     var sendingNotifications = true
     
-    init(sdk: PatchDataDelegate?, center: NotificationCenter, factory: NotificationProducing) {
+    init(sdk: PatchDataDelegate?, center: PDNotificationCenter, factory: NotificationProducing) {
         self.sdk = sdk
         self.center = center
         self.factory = factory
@@ -34,7 +34,7 @@ class Notifications: NSObject, NotificationScheduling {
             applyHormoneHandler: ApplyHormoneNotificationActionHandler(),
             swallowPillHandler: SwallowPillNotificationActionHandler()
         )
-        self.init(sdk: app?.sdk, center: center, factory: PDNotificationFactory())
+        self.init(sdk: app?.sdk, center: center, factory: NotificationFactory())
     }
     
     // MARK: - Hormones
@@ -46,16 +46,16 @@ class Notifications: NSObject, NotificationScheduling {
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
         if let sdk = sdk {
-            let method = sdk.deliveryMethod
+            let method = sdk.defaults.deliveryMethod.value
             let interval = sdk.defaults.expirationInterval
             let notify = sdk.defaults.notifications.value
             let notifyMinBefore = Double(sdk.defaults.notificationsMinutesBefore.value)
-            let totalExpired = sdk.totalHormonesExpired
+            let totalExpired = sdk.hormones.totalExpired
             if sendingNotifications, notify {
                 factory.createExpiredHormoneNotification(
                     hormone,
                     deliveryMethod: method,
-                    expirationInterval: interval,
+                    expiration: interval,
                     notifyMinutesBefore: notifyMinBefore,
                     totalDue: totalExpired
                 ).request()
@@ -136,7 +136,7 @@ class Notifications: NSObject, NotificationScheduling {
             
             factory.createOvernightExpiredHormoneNotification(
                 triggerDate: triggerDate,
-                deliveryMethod: sdk.deliveryMethod,
+                deliveryMethod: sdk.defaults.deliveryMethod.value,
                 totalDue: sdk.totalAlerts
             ).request()
         }

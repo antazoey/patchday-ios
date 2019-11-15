@@ -1,5 +1,5 @@
 //
-//  PDNotificationScheduling.swift
+//  NotificationScheduling.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 9/25/19.
@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-protocol PDNotificationScheduling {
+protocol NotificationScheduling {
     func cancelExpiredHormoneNotification(at index: Index)
     func cancelExpiredHormoneNotifications(from begin: Index, to end: Index)
     func cancelAllExpiredHormoneNotifications()

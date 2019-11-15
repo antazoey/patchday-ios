@@ -1,5 +1,5 @@
 //
-//  PDNotificationProviding.swift
+//  NotificationProviding.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 9/24/19.
@@ -9,6 +9,6 @@
 import Foundation
 import UserNotifications
 
-protocol PDNotificationCenterDelegate: UNUserNotificationCenterDelegate {
+protocol NotificationCenterDelegate: UNUserNotificationCenterDelegate {
     func removeNotifications(with ids: [String])
 }

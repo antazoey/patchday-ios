@@ -25,7 +25,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var takeButton: UIButton!
 
     private var sdk: PatchDataDelegate = app.sdk
-    private var notifications: PDNotificationScheduling = app.notifications
+    private var notifications: NotificationScheduling = app.notifications
     private var pill: Swallowable?
 
     private var names: [String] {
@@ -279,7 +279,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     private func loadTitle() {
         let isNew = pill?.name == PDStrings.PlaceholderStrings.newPill
-        title = isNew ? PDVCTitleStrings.newPillTitle : PDVCTitleStrings.editPillTitle
+        title = isNew ? VCTitleStrings.newPillTitle : VCTitleStrings.editPillTitle
     }
     
     // Set VC pill as well as reflected attributes in the interactive UI

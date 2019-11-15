@@ -11,7 +11,7 @@ import PDKit
 
 class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandling {
     
-    let notifications: PDNotificationScheduling?
+    let notifications: NotificationScheduling?
     let pills: PillScheduling?
     let badge: PDBadgeDelegate
     
@@ -19,7 +19,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
         self.init(notifications: app?.notifications, pills: app?.sdk.pills, appBadge: PDBadge())
     }
     
-    init(notifications: PDNotificationScheduling?, pills: PillScheduling?, appBadge: PDBadgeDelegate) {
+    init(notifications: NotificationScheduling?, pills: PillScheduling?, appBadge: PDBadgeDelegate) {
         self.notifications = notifications
         self.pills = pills
         self.badge = appBadge

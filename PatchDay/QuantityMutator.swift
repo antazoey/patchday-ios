@@ -12,15 +12,15 @@ import PDKit
 class QuantityMutator: QuantityMutating {
     
     var sdk: PatchDataDelegate
-    let alerts: PDAlertDispatching
+    let alerts: AlertDispatching
     let tabs: PDTabReflective
-    let notifications: PDNotificationScheduling
+    let notifications: NotificationScheduling
     let cancel: (Int) -> ()
     
     init(sdk: PatchDataDelegate,
-         alerts: PDAlertDispatching,
+         alerts: AlertDispatching,
          tabs: PDTabReflective,
-         notifications: PDNotificationScheduling,
+         notifications: NotificationScheduling,
          cancel: @escaping (Int) -> ()) {
         self.sdk = sdk
         self.alerts = alerts
@@ -35,11 +35,11 @@ class QuantityMutator: QuantityMutating {
             alerts.presentQuantityMutationAlert(
                 oldQuantity: oldQuantity,
                 newQuantity: newQuantity,
-                setter: sdk.setQuantity(to:),
+                setter: sdk.defaults.setQuantity(to:),
                 reset: makeResetClosure(oldQuantity: oldQuantity),
                 cancel: self.cancel)
         } else {
-            sdk.setQuantity(to: newQuantity)
+            sdk.defaults.setQuantity(to: newQuantity)
             cancel(oldQuantity)
         }
     }

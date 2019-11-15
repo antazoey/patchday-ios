@@ -1,5 +1,5 @@
 //
-//  PDVCTitleStrings.swift
+//  VCTitleStrings.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/15/19.
@@ -69,6 +69,15 @@ public class VCTitleStrings {
             return patchesTitle
         case .Injections:
             return injectionsTitle
+        }
+    }
+    
+    public static func getSitesTitle(for method: DeliveryMethod) -> String {
+        switch method {
+        case .Patches:
+            return patchSitesTitle
+        case .Injections:
+            return injectionSitesTitle
         }
     }
 }

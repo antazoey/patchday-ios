@@ -1,5 +1,5 @@
 //
-//  PDAlertDispatchswift
+//  AlertDispatchswift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/20/17.
@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class PDAlertDispatcher: NSObject, PDAlertDispatching {
+class AlertDispatcher: NSObject, AlertDispatching {
 
     override var description: String { "Controls alerts." }
 
@@ -40,7 +40,7 @@ class PDAlertDispatcher: NSObject, PDAlertDispatching {
     ) {
         if let root = rootViewController, let sdk = sdk {
             let oldQuantity = sdk.defaults.quantity.rawValue
-            let oldMethod = sdk.deliveryMethod
+            let oldMethod = sdk.defaults.deliveryMethod.value
             DeliveryMethodMutationAlert(
                 parent: root,
                 style: self.style,

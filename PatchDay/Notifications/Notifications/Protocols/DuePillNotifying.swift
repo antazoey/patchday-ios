@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol DuePillNotifying : PDNotifying {
+protocol DuePillNotifying: Notifying {
     
 }

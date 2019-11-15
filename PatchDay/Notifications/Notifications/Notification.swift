@@ -1,5 +1,5 @@
 //
-//  PDNotification.swift
+//  Notification.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/15/19.
@@ -9,7 +9,7 @@
 import Foundation
 import UserNotifications
 
-public class PDNotification {
+public class Notification {
     
     public var content: UNMutableNotificationContent
     

@@ -1,5 +1,5 @@
 //
-//  PDAlerting.swift
+//  Alerting.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/16/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol PDAlerting {
+public protocol Alerting {
     func present(actions: [UIAlertAction])
     func present()
 }

@@ -9,12 +9,12 @@
 import UIKit
 import PDKit
 
-class NewSiteAlert: PDAlert {
+class NewSiteAlert: Alert {
     
     private var appendActionHandler: () -> ()
     
     private var appendSiteAction: UIAlertAction {
-        return UIAlertAction(title: PDAlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
+        return UIAlertAction(title: AlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
             void in self.appendActionHandler()
         }
     }
@@ -25,7 +25,7 @@ class NewSiteAlert: PDAlert {
     
     init(parent: UIViewController, style: UIAlertController.Style, appendActionHandler: @escaping () -> ()) {
         self.appendActionHandler = appendActionHandler
-        let strs = PDAlertStrings.newSiteAlertStrings
+        let strs = AlertStrings.newSiteAlertStrings
         super.init(parent: parent, title: strs.title, message: "", style: style)
     }
     
