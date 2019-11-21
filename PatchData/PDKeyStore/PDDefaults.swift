@@ -17,11 +17,12 @@ public class PDDefaults: UserDefaultsManaging {
     private let hormones: HormoneScheduling
     private let sites: HormoneSiteScheduling
 
-    init(store: UserDefaultsStoring,
-         state: PDState,
-         hormones: HormoneScheduling,
-         sites: HormoneSiteScheduling,
-         hormoneBroadcaster: HormoneDataBroadcasting
+    init(
+        store: UserDefaultsStoring,
+        state: PDState,
+        hormones: HormoneScheduling,
+        sites: HormoneSiteScheduling,
+        hormoneBroadcaster: HormoneDataBroadcasting
     ) {
         self.store = store
         self.state = state
@@ -43,7 +44,6 @@ public class PDDefaults: UserDefaultsManaging {
         store.replaceStoredDeliveryMethod(to: newMethod)
         let newIndex = KeyStorableHelper.defaultQuantity(for: newMethod)
         store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
-        
         hormoneBroadcaster.broadcast(nextHormone: hormones.next)
         state.deliveryMethodChanged = true
     }
@@ -71,6 +71,10 @@ public class PDDefaults: UserDefaultsManaging {
     public func setTheme(to newTheme: String) {
         let theme = PickerOptions.getTheme(for: newTheme)
         store.replaceStoredTheme(to: theme)
+    }
+    
+    public func setTheme(to newTheme: PDTheme) {
+        store.replaceStoredTheme(to: newTheme)
     }
 
     @discardableResult public func setSiteIndex(to newIndex: Index) -> Index {

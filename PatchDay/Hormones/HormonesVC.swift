@@ -16,7 +16,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonalTable: UITableView!
     
-    let model = HormonesModel()
+    let codeBehind = HormonesCodeBehind()
     
     // MARK: - Main
     
@@ -50,7 +50,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             completion: nil
         )
         applyTheme()
-        model.presentDisclaimerAlert()
+        codeBehind.presentDisclaimerAlert()
         loadTitle()
         hormonalTable.reloadData()
         super.viewDidAppear(false)
@@ -74,7 +74,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let hormoneIndex = indexPath.row
-        if let hormone = model.hormones?.at(hormoneIndex),
+        if let hormone = codeBehind.hormones?.at(hormoneIndex),
             let cell = hormonalTable.dequeueHormoneCell() {
 
             cell.index = hormoneIndex
@@ -85,7 +85,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let mone = model.hormones?.at(indexPath.row) {
+        if let mone = codeBehind.hormones?.at(indexPath.row) {
             segueToHormoneVC(mone)
         }
     }
@@ -93,6 +93,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Actions
     
     @objc func settingsTapped() {
+        codeBehind.na
         let sb = UIStoryboard.createSettingsStoryboard()
     }
     

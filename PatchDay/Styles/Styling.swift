@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import PDKit
 
 protocol Styling {
     var theme: AppTheme { get }
     func getCellColor(at index: Int) -> UIColor
+    func applyTheme(_ theme: PDTheme)
 }

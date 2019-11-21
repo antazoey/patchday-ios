@@ -1,6 +1,6 @@
 //
 //  SiteSchedule.swift
-//  PatchDay
+//  PatchData
 //
 //  Created by Juliya Smith on 7/4/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -11,7 +11,7 @@ import CoreData
 import PDKit
 
 public class SiteSchedule: NSObject, HormoneSiteScheduling {
-    
+
     override public var description: String { "Schedule for sites." }
     
     private let store: CoreDataWrapper
@@ -122,10 +122,19 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     public func insertNew(completion: (() -> ())? = nil) -> Bodily? {
-        let exp = defaults.expirationInterval
-        let method = defaults.deliveryMethod.value
-        if let site = store.createSite(expiration: exp, deliveryMethod: method) {
+        if let site = createSite() {
             sites.append(site)
+            store.save()
+            return site
+        }
+        return nil
+    }
+
+    public func insertNew(name: String) -> Bodily? {
+        if var site = createSite() {
+            site.name = name
+            sites.append(site)
+            store.save()
             return site
         }
         return nil
@@ -245,5 +254,11 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     
     @discardableResult private func updateIndex(focus: Index) -> Index {
         siteIndexRebounder.rebound(upon: focus, lessThan: count)
+    }
+    
+    private func createSite() -> Bodily? {
+        let exp = defaults.expirationInterval
+        let method = defaults.deliveryMethod.value
+        return store.createSite(expiration: exp, deliveryMethod: method)
     }
 }

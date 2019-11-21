@@ -12,27 +12,25 @@ import PDKit
 
 class TabReflector: TabReflective {
     
-    private let tabController: UITabBarController
+    private let tabBarController: UITabBarController
     private let viewControllers: [UIViewController]
     private let sdk: PatchDataDelegate?
     
     convenience init(
-        tabController: UITabBarController,
+        tabBarController: UITabBarController,
         viewControllers: [UIViewController]
     ) {
         self.init(
-            tabController: tabController,
-            viewControllers: viewControllers,
-            sdk: app?.sdk
+            tabBarController: tabBarController, viewControllers: viewControllers, sdk: app?.sdk
         )
     }
 
     init(
-        tabController: UITabBarController,
+        tabBarController: UITabBarController,
         viewControllers: [UIViewController],
         sdk: PatchDataDelegate?
     ) {
-        self.tabController = tabController
+        self.tabBarController = tabBarController
         self.viewControllers = viewControllers
         self.sdk = sdk
     }

@@ -13,7 +13,7 @@ protocol NotificationScheduling {
     func cancelExpiredHormoneNotification(at index: Index)
     func cancelExpiredHormoneNotifications(from begin: Index, to end: Index)
     func cancelAllExpiredHormoneNotifications()
-    func resendAllExpiredExpiredNotifications()
+    func resendAllExpiredHormoneNotifications()
     func requestExpiredHormoneNotification(for hormone: Hormonal)
     func resendExpiredHormoneNotifications(from begin: Index, to end: Index)
     func requestOvernightExpirationNotification(_ hormone: Hormonal)

@@ -23,6 +23,8 @@ public protocol UserDefaultsManaging: UserDefaultsReading {
     func setMentionedDisclaimer(to newValue: Bool)
 
     func setTheme(to newTheme: String)
+    
+    func setTheme(to newTheme: PDTheme)
 
     @discardableResult func setSiteIndex(to newIndex: Index) -> Index
 

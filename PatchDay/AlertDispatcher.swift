@@ -99,7 +99,8 @@ class AlertDispatcher: NSObject, AlertDispatching {
         if let root = rootViewController {
             let handler: () -> () = {
                 () in
-                self.sdk?.insertNewSite(name: name) {
+                self.sdk?.sites.insertNew(name: name)
+                self.sdk?.sites.insert(name: name) {
                     moneVC.sitePicker.reloadAllComponents()
                 }
             }

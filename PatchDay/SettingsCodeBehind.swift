@@ -9,31 +9,57 @@
 import Foundation
 import PDKit
 
-class SettingsCodeBehind {
+class SettingsCodeBehind : CodeBehindDependencies {
     
-    let sdk: PatchDataDelegate?
-    let tabs: TabReflective?
-    let notifications: NotificationScheduling?
-    let alerts: AlertDispatching?
-    
-    convenience init() {
-        self.init(
-            sdk: app?.sdk,
-            tabs: app?.tabs,
-            notifications: app?.notifications,
-            alerts: app?.alerts
-        )
+    func saveQuantity(quantityIndex: Index, cancelAction: @escaping (_ originalQuantity: Int) -> ()) {
+        let newQuantity = PickerOptions.getQuantity(at: quantityIndex).rawValue
+        QuantityMutator(
+            sdk: sdk,
+            alerts: alerts,
+            tabs: tabs,
+            notifications: notifications,
+            cancel: cancelAction
+        ).setQuantity(to: newQuantity)
     }
     
-    init(
-        sdk: PatchDataDelegate?,
-        tabs: TabReflective?,
-        notifications: NotificationScheduling?,
-        alerts: AlertDispatching?
-    ) {
-        self.sdk = sdk
-        self.tabs = tabs
-        self.notifications = notifications
-        self.alerts = alerts
+    func saveDeliveryMethod(deliveryMethodIndex: Index, controls: SettingsControls) {
+        if let sdk = sdk {
+            let newMethod = PickerOptions.getDeliveryMethod(at: deliveryMethodIndex)
+            if sdk.isFresh {
+                sdk.defaults.setDeliveryMethod(to: newMethod)
+            } else {
+                presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
+            }
+        }
+    }
+    
+    func saveExpirationInterval(expirationIntervalIndex: Index) {
+        let newInterval = PickerOptions.expirationIntervals[expirationIntervalIndex]
+        sdk?.defaults.setExpirationInterval(to: newInterval)
+    }
+    
+    func saveTheme(themeIndex: Index) {
+        if let themeName = PickerOptions.getTheme(at: themeIndex) {
+            let theme = PickerOptions.getTheme(for: themeName)
+            sdk?.defaults.setTheme(to: theme)
+            styles?.applyTheme(theme)
+        }
+    }
+    
+    private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
+        alerts?.presentDeliveryMethodMutationAlert(newMethod: choice) {
+            void in
+            let methodTitle = PickerOptions.getDeliveryMethodString(for: choice)
+            switch choice {
+            case .Patches:
+                controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
+                controls.quantityButton.isEnabled = true
+                controls.quantityArrowButton.isEnabled = true
+            case .Injections:
+                controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
+                controls.quantityButton.isEnabled = false
+                controls.quantityArrowButton.isEnabled = false
+            }
+        }
     }
 }

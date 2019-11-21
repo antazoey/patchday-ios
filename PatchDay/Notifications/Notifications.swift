@@ -102,7 +102,7 @@ class Notifications: NSObject, NotificationScheduling {
         }
     }
     
-    func resendAllExpiredExpiredNotifications() {
+    func resendAllExpiredHormoneNotifications() {
         let end = (sdk?.defaults.quantity.rawValue ?? 1) - 1
         resendExpiredHormoneNotifications(from: 0, to: end)
     }

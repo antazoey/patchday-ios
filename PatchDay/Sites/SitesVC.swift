@@ -279,7 +279,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func setTitle() {
         typealias Titles = VCTitleStrings
-        let method 
+        let method = codeBehind.defaults.mdasdf
         title = VCTitleStrings.getSitesTitle(for: <#T##DeliveryMethod#>)
         switch sdk.defaults.deliveryMethod.value {
         case .Patches:

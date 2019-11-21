@@ -1,5 +1,5 @@
 //
-//  PDEstrogenSiteScheduling.swift
+//  SiteScheduling.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 8/10/19.
@@ -39,6 +39,9 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     
     /// Inserts a new site into the schedule.
     func insertNew() -> Bodily?
+    
+    /// Inserts a new site into the schedule with the given name.
+    func insertNew(name: String) -> Bodily?
 
     /// Inserts a new site into the schedule.
     func insertNew(completion: (() -> ())?) -> Bodily?

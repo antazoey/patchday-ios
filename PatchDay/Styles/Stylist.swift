@@ -28,9 +28,18 @@ typealias AppTheme = Dictionary<ThemedAsset, UIColor>
 
 class Stylist: NSObject, Styling {
 
-    let theme: AppTheme
+    var theme: AppTheme
     
     public init(theme: PDTheme) {
+        applyTheme(theme)
+    }
+
+    public func getCellColor(at index: Int) -> UIColor {
+        let color = index % 2 == 0 ? theme[.evenCell] : theme[.oddCell]
+        return color ?? UIColor()
+    }
+    
+    public func applyTheme(_ theme: PDTheme) {
         switch theme {
         case .Light:
             self.theme = [
@@ -61,10 +70,6 @@ class Stylist: NSObject, Styling {
                 .unselected : UIColor.lightGray
             ]
         }
-    }
 
-    public func getCellColor(at index: Int) -> UIColor {
-        let color = index % 2 == 0 ? theme[.evenCell] : theme[.oddCell]
-        return color ?? UIColor()
     }
 }

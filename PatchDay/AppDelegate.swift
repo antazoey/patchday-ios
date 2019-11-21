@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var notifications: NotificationScheduling = Notifications()
     var sdk: PatchDataDelegate = PatchData()
     var alerts: AlertDispatching = AlertDispatcher()
-    var tabs: PDTabReflective?
+    var tabs: TabReflective?
     var nav: NavigationDelegate = Navigation()
     var styles: Styling!
     var badge: PDBadgeDelegate = PDBadge()
@@ -55,8 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setBadgeToTotalAlerts()
     }
 
-    func setTabs(tc: UITabBarController, vcs: [UIViewController]) {
-        tabs = PDTabReflector(tabController: tc, viewControllers: vcs)
+    func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
+        tabs = TabReflector(tabBarController: tabBarController, viewControllers: appViewControllers)
     }
 
     func isFirstLaunch() -> Bool {
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabs?.reflectTheme(theme: styles.theme)
     }
 
-    func resetTheme() {
+    func setTheme() {
         let t = sdk.defaults.theme.value
         self.styles = Stylist(theme: t)
         setNavigationAppearance()

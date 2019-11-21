@@ -13,6 +13,7 @@ class HormonesCodeBehind {
     
     let sdk: PatchDataDelegate?
     let tabs: TabReflective?
+    let navigation: PDNab
     
     convenience init() {
         self.init(sdk: app?.sdk, tabs: app?.tabs)

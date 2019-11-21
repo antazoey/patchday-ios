@@ -9,7 +9,5 @@
 import Foundation
 
 protocol QuantityMutating {
-    
     func setQuantity(to newQuantity: Int)
-    
 }
