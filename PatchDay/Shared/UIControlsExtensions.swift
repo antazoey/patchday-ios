@@ -1,5 +1,5 @@
 //
-//  UIKitExtensions.swift
+//  UIControlsExtensions.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 10/17/19.
@@ -53,40 +53,11 @@ extension UIButton {
         removeTarget(nil, action: nil, for: .allEvents)
         addTarget(baseTarget, action: newAction, for: event)
     }
-}
-
-extension UIStoryboard {
     
-    static func createSettingsStoryboard() -> UIStoryboard {
-        return UIStoryboard(name: "SettingsAndSites", bundle: nil)
-    }
-}
-
-extension UINavigationController {
-    
-    func goToHormoneDetails(source: UIViewController, hormone: Hormonal) {
-        if let vc = HormoneDetailVC.createHormoneDetailVC(source: source, hormone: hormone) {
-            pushViewController(vc, animated: true)
+    func tryGetKeyFromButtonMetadata() -> String? {
+        if let key = restorationIdentifier?.dropLast() {
+            return String(key)
         }
-    }
-    
-    func goToPillDetails(source: UIViewController, sdk: PatchDataDelegate, pill: Swallowable) {
-        if let vc = PillDetailVC.createPillDetailVC(source: source, sdk: sdk, pill: pill) {
-            pushViewController(vc, animated: true)
-        }
-    }
-    
-    func goToSettings(source: UIViewController) {
-        if let vc = SettingsVC.createSettingsVC(source: source),
-            let n = navigationController {
-            n.pushViewController(vc, animated: true)
-        }
-    }
-}
-
-extension UITableView {
-    
-    func dequeueHormoneCell() -> HormoneCell? {
-         return dequeueReusableCell(withIdentifier: "HormoneCellReuseId") as? HormoneCell
+        return nil
     }
 }

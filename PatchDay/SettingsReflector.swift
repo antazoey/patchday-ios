@@ -9,7 +9,8 @@
 import Foundation
 import PDKit
 
-class SettingsLoadController {
+/// Reflects stored settings in some UIControls.
+class SettingsReflector {
     
     private let codeBehind: SettingsCodeBehind
     private let controls: SettingsControls
@@ -19,13 +20,28 @@ class SettingsLoadController {
         self.controls = controls
     }
     
-    public func loadSettings() {
+    public func reflectStoredSettings() {
         loadDeliveryMethod()
         loadExpirationInterval()
         loadQuantity()
         loadNotifications()
         loadNotificationsMinutesBefore()
         loadTheme()
+    }
+    
+    public func reflectNewButtonTitle(key: PDDefault, newTitle: String) {
+        switch key {
+        case .DeliveryMethod:
+            controls.deliveryMethodButton.setTitle(newTitle)
+        case .ExpirationInterval:
+            controls.expirationIntervalButton.setTitle(newTitle)
+        case .Quantity:
+            controls.quantityButton.setTitle(newTitle)
+        case .Theme:
+            controls.themeButton.setTitle(newTitle)
+        default:
+            break
+        }
     }
     
     private func loadDeliveryMethod() {

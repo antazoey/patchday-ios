@@ -7,7 +7,16 @@
 //
 
 import UIKit
+import PDKit
 
+
+struct PickerActivationProperties {
+    var picker: UIPickerView
+    var activator: UIButton
+    var choices: [String]
+    var startRow: Index
+    var propertyKey: PDDefault
+}
 
 struct SettingsControls {
     let deliveryMethodButton: UIButton
@@ -18,4 +27,11 @@ struct SettingsControls {
     let notificationsMinutesBeforeSlider: UISlider
     let notificationsMinutesBeforeValueLabel: UILabel
     let themeButton: UIButton
+}
+
+struct SettingsPickers {
+    let quantityPicker: UIPickerView
+    let deliveryMethodPicker: UIPickerView
+    let expirationIntervalPicker: UIPickerView
+    let themePicker: UIPickerView
 }

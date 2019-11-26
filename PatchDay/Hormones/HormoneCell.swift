@@ -15,41 +15,36 @@ class HormoneCell: UITableViewCell {
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
-    
-    private var data: HormonesModel = HormonesModel()
 
-    public var index = -1
-    
-    public func load(data: HormonesModel, hormone: Hormonal) {
-        self.data = data
-        let quantity = data.sdk?.defaults.quantity
+    public func load(codeBehind: HormonesCodeBehind, hormone: Hormonal, hormoneIndex: Index) {
         backgroundColor = app?.styles.theme[.bg]
-        setThemeColors(at: index)
-        if index < quantity.rawValue && index >= 0 {
-            let theme = data.sdk?.defaults.theme
-            if let mone = data.hormones?.at(index) {
-                let isExpired = mone.isExpired
+        setThemeColors(at: hormoneIndex)
+        if let sdk = app?.sdk {
+            let quantity = sdk.defaults.quantity
+            if hormoneIndex < quantity.rawValue && hormoneIndex >= 0 {
+                let theme = sdk.defaults.theme.value
+                let method = sdk.defaults.deliveryMethod.value
                 let siteImage = PDImages.getImage(
-                    for: mone, theme: theme, deliveryMethod: data.deliveryMethod
+                    for: hormone, theme: theme, deliveryMethod: method
                 )
                 let cellTitle = ColonedStrings.getDateTitle(
-                    for: hormone, method: data.deliveryMethod
+                    for: hormone, method: method
                 )
                 configureDate(when: isExpired)
-                configureBadge(at: index, isExpired: isExpired, deliveryMethod: data.deliveryMethod)
+                configureBadge(at: index, isExpired: hormone.isExpired, deliveryMethod: method)
                 setDateLabel(cellTitle)
-                if data.didStateChange(for: hormone) {
+                if sdk.state.didStaChange(for: hormone) {
                     animate(at: index, theme: theme, newImage: siteImage, newTitle: cellTitle)
                 } else {
                     stateImage.image = siteImage
                 }
                 selectionStyle = .default
                 stateImage.isHidden = false
-            }
         } else if index >= quantity.rawValue && index <= 3 {
             animate(at: index, theme: data.theme)
         } else {
             reset()
+        }
         }
     }
     

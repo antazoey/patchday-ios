@@ -22,19 +22,12 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadTabs()
+        codeBehind.loadAppTabs(source: self)
+        codeBehind.reflectThemeInTabBar()
         setDelegates()
         loadTitle()
         loadBarButtons()
         updateFromBackground()
-        loadTabBarItems()
-    }
-    
-    private func loadTabs() {
-        if let tabs = self.navigationController?.tabBarController,
-            let vcs = self.navigationController?.viewControllers {
-            app?.setTabs(tc: tabs, vcs: vcs)
-        }
     }
     
     private func setDelegates() {
@@ -68,16 +61,14 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Have to return 4 so that we can animate all the cells after deletions
-        return 4
+        return codeBehind.HormoneMaxCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let hormoneIndex = indexPath.row
-        if let hormone = codeBehind.hormones?.at(hormoneIndex),
+        if let hormone = codeBehind.hormones?.at(indexPath.row),
             let cell = hormonalTable.dequeueHormoneCell() {
 
-            cell.index = hormoneIndex
+            cell.index = indexPath.row
             cell.load(hormone: hormone)
             return cell
         }
@@ -93,25 +84,15 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Actions
     
     @objc func settingsTapped() {
-        codeBehind.na
-        let sb = UIStoryboard.createSettingsStoryboard()
+        codeBehind.nav?.goToSettings(source: self)
+    }
+
+    func updateFromBackground() {
+        codeBehind.watchHormonesForChanges(selector: #selector(hormonalTable.reloadData))
     }
     
     // MARK: - Private
-    /// Updates the hormone buttons when VC is reloaded from a notification.
-    func updateFromBackground() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(appWillEnterForeground),
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
-    }
-    
-    @objc func appWillEnterForeground() {
-        hormonalTable.reloadData()
-    }
-    
+
     private func loadBarButtons() {
         let settingsButton = UIBarButtonItem()
         settingsButton.image = PDImages.settingsIcon
@@ -121,9 +102,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        if let numExpired = model.sdk?.totalHormonesExpired, numExpired > 0 {
-            item?.badgeValue = "\(numExpired)";
-        }
+        item?.badgeValue = codeBehind.expiredHormoneBadgeValue
     }
     
     private func setExpiredPillsBadge() {
@@ -133,29 +112,9 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private func segueToHormoneVC(_ hormone: Hormonal) {
         app?.nav.goToHormoneDetails(hormone, source: self)
     }
-    
-    /// Configures title of view controller.
-    private func loadTitle() {
-        if let method = model.sdk?.deliveryMethod {
-            title = VCTitleStrings.getTitle(for: method)
-        }
-    }
-    
-    private func loadTabBarItems() {
-        if let styles = app?.styles {
-            let tabBar = navigationController?.tabBarController?.tabBar
-            tabBar?.unselectedItemTintColor = styles.theme[.unselected]
-            tabBar?.tintColor = styles.theme[.purple]
-        }
 
-        let size: CGFloat = AppDelegate.isPad ? 25 : 9
-        if let vcs = navigationController?.tabBarController?.viewControllers {
-            for i in 0..<vcs.count {
-                let font = UIFont.systemFont(ofSize: size)
-                let fontKey = [NSAttributedString.Key.font: font]
-                vcs[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
-            }
-        }
+    private func loadTitle() {
+        title = codeBehind.mainViewControllerTitle
     }
     
     private func applyTheme() {
@@ -164,5 +123,12 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             hormonalTable.backgroundColor = styles.theme[.bg]
             hormonalTable.separatorColor = styles.theme[.border]
         }
+    }
+}
+
+extension UITableView {
+    
+    func dequeueHormoneCell() -> HormoneCell? {
+         return dequeueReusableCell(withIdentifier: "HormoneCellReuseId") as? HormoneCell
     }
 }

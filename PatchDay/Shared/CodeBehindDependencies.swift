@@ -16,19 +16,22 @@ class CodeBehindDependencies {
     let notifications: NotificationScheduling?
     let alerts: AlertDispatching?
     let styles: Styling?
+    let nav: NavigationDelegate?
     
     init(
         sdk: PatchDataDelegate?,
         tabs: TabReflective?,
         notifications: NotificationScheduling?,
         alerts: AlertDispatching?,
-        styles: Styling?
+        styles: Styling?,
+        nav: NavigationDelegate?
     ) {
         self.sdk = sdk
         self.tabs = tabs
         self.notifications = notifications
         self.alerts = alerts
         self.styles = styles
+        self.nav = nav
     }
     
     convenience init() {
@@ -37,7 +40,8 @@ class CodeBehindDependencies {
             tabs: app?.tabs,
             notifications: app?.notifications,
             alerts: app?.alerts,
-            styles: app?.styles
+            styles: app?.styles,
+            nav: app?.nav
         )
     }
 }

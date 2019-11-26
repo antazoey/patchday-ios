@@ -46,6 +46,13 @@ class SettingsCodeBehind : CodeBehindDependencies {
         }
     }
     
+    func createDefaultFromButton(_ button: UIButton) -> PDDefault? {
+        if let key = button.tryGetKeyFromButtonMetadata() {
+            return PDDefault(rawValue: key)
+        }
+        return nil
+    }
+    
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
         alerts?.presentDeliveryMethodMutationAlert(newMethod: choice) {
             void in

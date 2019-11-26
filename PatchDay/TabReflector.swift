@@ -1,5 +1,5 @@
 //
-//  PDTabReflector.swift
+//  TabReflector.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/5/19.
@@ -33,6 +33,7 @@ class TabReflector: TabReflective {
         self.tabBarController = tabBarController
         self.viewControllers = viewControllers
         self.sdk = sdk
+        loadViewControllerTabTexts()
     }
     
     var hormonesVC: UIViewController? { return viewControllers.tryGet(at: 0) }
@@ -40,9 +41,9 @@ class TabReflector: TabReflective {
     var sitesVC: UIViewController? { return viewControllers.tryGet(at: 2) }
     
     func reflectTheme(theme: AppTheme) {
-        let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.tintColor = theme[.button]
-        tabBarAppearance.barTintColor = theme[.navbar]
+        let tabBar = tabBarController.tabBar
+        tabBar.unselectedItemTintColor = theme[.unselected]
+        tabBar.tintColor = theme[.purple]
     }
     
     func reflectHormone() {
@@ -69,6 +70,15 @@ class TabReflector: TabReflective {
     func reflectDuePillBadgeValue() {
         if let totalDue = sdk?.pills.totalDue, let pillTab = pillsVC?.tabBarItem {
             pillTab.badgeValue = String(totalDue)
+        }
+    }
+
+    private func loadViewControllerTabTexts() {
+        let size: CGFloat = AppDelegate.isPad ? 25 : 9
+        for i in 0..<viewControllers.count {
+            let font = UIFont.systemFont(ofSize: size)
+            let fontKey = [NSAttributedString.Key.font: font]
+            viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
         }
     }
 }

@@ -16,14 +16,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     override public var description: String {
         """
         The view controller for the Settings View.
-        The Settings View is where the user may select their defaults,
-        which are saved and used for Hormone scheduling.
-        See PatchData.KeyStorables and PDKit.KeyStorables.
+        The Settings View is where the user may configure stuff like how many patches there are, or what theme is.
         """
     }
     
     private let codeBehind = SettingsCodeBehind()
-    private var loader: SettingsLoadController!
+    private var reflector: SettingsReflector!
     private var saver: SettingsSaveController!
 
     // Containers
@@ -78,8 +76,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         delegatePickers()
         
         let controlsStruct = createControlsStruct()
-        loadLoadController(controls: controlsStruct)
+        loadReflector(controls: controlsStruct)
         loadSaveController(controls: controlsStruct)
+        reflector.reflectStoredSettings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,12 +105,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     /// For any default who's UI opens a UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
-        if let id = sender.restorationIdentifier?.dropLast() {
-            let key = String(id)
-            if let def = PDDefault(rawValue: key) {
-                selectedDefault = def
-                handlePickerActivation(def, activator: sender)
-            }
+        if let def = codeBehind.createDefaultFromButton(sender) {
+            handlePickerActivation(def, activator: sender)
         }
     }
     
@@ -120,7 +115,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         codeBehind.sdk?.defaults.setNotifications(to: notificationsSwitch.isOn)
     }
 
-    // MARK: - Picker Functions
+    // MARK: - Picker Delegate Functions
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -138,39 +133,33 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let d = selectedDefault,
-            let chosenItem = self.pickerView(
-                pickerView,
-                titleForRow: row,
-                forComponent: component
-            ) {
-            switch d {
-            case .DeliveryMethod:
-                deliveryMethodButton.setTitle(chosenItem)
-            case .ExpirationInterval:
-                expirationIntervalButton.setTitle(chosenItem)
-            case .Quantity:
-                quantityButton.setTitle(chosenItem)
-            case .Theme:
-                themeButton.setTitle(chosenItem)
-            default:
-                break
-            }
+        if let key = selectedDefault,
+            let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
+
+            reflector.reflectNewButtonTitle(key: key, newTitle: chosenItem)
         }
     }
 
     private func handlePickerActivation(_ key: PDDefault, activator: UIButton) {
-        if let pickerActivationProps = createPickerActivationProps(for: key, activator: activator) {
-            pickerActivationProps.picker.reloadAllComponents()
+        if let props = createPickerActivationProps(for: key, activator: activator) {
+            props.picker.reloadAllComponents()
             deselectEverything(except: key)
             handleBottomPickerViewRequirements(for: key)
-            activatePicker(props: pickerActivationProps)
+            selectedDefault = key  // Must set for use by picker delegate methods
+            SettingsPickerController(pickerActivationProperties: props, saver: saver).activate()
         }
     }
     
     private func createPickerActivationProps(for key: PDDefault, activator: UIButton) -> PickerActivationProperties? {
         let choices = PickerOptions.getStrings(for: key)
-        if let picker = getPicker(from: key) {
+        let pickers = SettingsPickers(
+            quantityPicker: quantityPicker,
+            deliveryMethodPicker: deliveryMethodPicker,
+            expirationIntervalPicker: expirationIntervalPicker,
+            themePicker: themePicker
+        )
+        let pickerSelector = SettingsPickerSelector(pickers: pickers)
+        if let picker = pickerSelector.selectPicker(key: key) {
             let startRow = choices.tryGetIndex(item: activator.titleLabel?.text) ?? 0
             return PickerActivationProperties(
                 picker: picker,
@@ -182,70 +171,12 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         }
         return nil
     }
-    
-    private func getSelectedRow(selections: [String], rowItemName: String?) -> Index {
-        if let item = rowItemName, let i = selections.firstIndex(of: item) {
-            return i
-        }
-        return 0
-    }
-    
-    private func getPicker(from key: PDDefault) -> UIPickerView? {
-        switch key {
-        case .DeliveryMethod:
-            return deliveryMethodPicker
-        case .ExpirationInterval:
-            return expirationIntervalPicker
-        case .Quantity:
-            return quantityPicker
-        case .Theme:
-            return themePicker
-        default:
-            print("Error: PDDefault \(key) does not have a UIPicker.")
-            return nil
-        }
-    }
-    
+
     private func handleBottomPickerViewRequirements(for pickerKey: PDDefault) {
         if pickerKey == .Theme {
             let y = themePicker!.frame.origin.y / 2.0
             scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
         }
-    }
-
-    private func activatePicker(props: PickerActivationProperties) {
-        if !props.picker.isHidden {
-            closePicker(props)
-        } else {
-            props.activator.isSelected = true
-            openPicker(props)
-        }
-    }
-    
-    private func openPicker(_ props: PickerActivationProperties) {
-        props.picker.selectRow(props.startRow, inComponent: 0, animated: false)
-        UIView.transition(
-            with: props.picker as UIView,
-            duration: 0.4,
-            options: .transitionFlipFromTop,
-            animations: { props.picker.isHidden = false },
-            completion: nil
-        )
-    }
-
-    private func closePicker(_ props: PickerActivationProperties) {
-        props.activator.isSelected = false
-        props.picker.isHidden = true
-        saver.save(props.propertyKey, for: props.startRow)
-    }
-    
-    // MARK: - Setters and getters
-
-    private func getBackgroundColor() -> UIColor {
-        if let color = settingsView.backgroundColor {
-            return color
-        }
-        return UIColor.white
     }
     
     // MARK: - View loading and altering
@@ -284,6 +215,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         case let def where def != .Quantity:
             quantityPicker.isHidden = true
             quantityButton.isSelected = false
+            fallthrough
         case let def where def != .Theme:
             themeButton.isHidden = true
             themeButton.isSelected = false
@@ -344,8 +276,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         )
     }
     
-    private func loadLoadController(controls: SettingsControls) {
-        self.loader = SettingsLoadController(codeBehind: self.codeBehind, controls: controls)
+    private func loadReflector(controls: SettingsControls) {
+        self.reflector = SettingsReflector(codeBehind: self.codeBehind, controls: controls)
     }
     
     private func loadSaveController(controls: SettingsControls) {

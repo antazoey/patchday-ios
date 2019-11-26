@@ -10,7 +10,7 @@ import Foundation
 
 public class VCTitleStrings {
     
-    private static let comment = "Title of a view controller. Keep it brief."
+    private static let comment = "Title of a view controller. Keep it brief please."
 
     public static let patchesTitle = {
         NSLocalizedString("Patches", comment: comment)
@@ -18,6 +18,10 @@ public class VCTitleStrings {
 
     public static let injectionsTitle = {
         NSLocalizedString("Injections", comment: comment)
+    }()
+    
+    public static let hormonesTitle = {
+        return NSLocalizedString("Hormones", comment: comment)
     }()
 
     public static let settingsTitle = {
