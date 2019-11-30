@@ -11,6 +11,10 @@ import UIKit
 class PDBadge : PDBadgeDelegate {
     
     private var badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+
+    var hasValue: Bool {
+        badgeNumber > 0
+    }
     
     func increment() {
         badgeNumber += 1

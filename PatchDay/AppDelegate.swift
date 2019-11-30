@@ -13,9 +13,6 @@ import PDKit
 import UserNotifications
 import PatchData
 
-let isResetMode = false  // Change this to true to nuke the database
-let app: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -44,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     static var isPad: Bool {
-        return UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
+        UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -60,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func isFirstLaunch() -> Bool {
-        return !sdk.defaults.mentionedDisclaimer.value
+        !sdk.defaults.mentionedDisclaimer.value
     }
 
     func setNavigationAppearance() {

@@ -26,8 +26,8 @@ public class PatchDataStateManager: PDStateManaging {
     }
     
     public func hormoneRecentlyMutated(at index: Index) -> Bool {
-        if let mone = hormones.at(index) {
-            return hormoneHasStateChanges(mone, at: index, quantity: hormones.count)
+        if let hormone = hormones.at(index) {
+            return hormoneHasStateChanges(hormone, at: index, quantity: hormones.count)
         }
         return false
     }
@@ -46,28 +46,28 @@ public class PatchDataStateManager: PDStateManaging {
     /// Prepares the state to represent a proposed site image mutation for a site
     public func markSiteForImageMutation(site: Bodily) {
         state.bodilyChanged = true
-        for mone in site.hormones {
-            state.mutatedHormoneIds.append(mone.id)
+        for hormone in site.hormones {
+            state.mutatedHormoneIds.append(hormone.id)
         }
     }
 
-    /// Returns if the current state reflects an update-worthy mutation
-    private func hormoneHasStateChanges(_ mone: Hormonal, at index: Index, quantity: Int) -> Bool {
-        var moneChanged = false
-        state.isCerebral = mone.isCerebral
+    /// Whether the current state reflects an update-worthy mutation
+    private func hormoneHasStateChanges(_ hormone: Hormonal, at index: Index, quantity: Int) -> Bool {
+        var hormoneChanged = false
+        state.isCerebral = hormone.isCerebral
         if index < quantity {
-            moneChanged = checkHormoneMutatationStatus(for: mone.id)
+            hormoneChanged = checkHormoneMutationStatus(for: hormone.id)
         }
         let isGone = state.decreasedQuantity && index >= quantity
 
         return (
             state.bodilyChanged
-            || moneChanged
+            || hormoneChanged
             || isGone
         )
     }
     
-    private func checkHormoneMutatationStatus(for id: UUID) -> Bool {
-        return state.mutatedHormoneIds.contains(id) && state.bodilyChanged && !state.isCerebral
+    private func checkHormoneMutationStatus(for id: UUID) -> Bool {
+        state.mutatedHormoneIds.contains(id) && state.bodilyChanged && !state.isCerebral
     }
 }

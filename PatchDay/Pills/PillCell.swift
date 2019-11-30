@@ -23,21 +23,19 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var nextDueDate: UILabel!
     @IBOutlet weak var imageViewView: UIView!
     
-    @discardableResult public func load(at index: Index) -> PillCell {
-        if let pill = sdk?.pills.at(index) {
-            loadNameLabel(pill)
-            loadStateImage(pill, index: index)
-            loadLastTakenText(pill)
-            loadDueDateText(pill)
-            loadTakeButton(pill, index: index)
-            loadBackground()
-            setImageBadge(pill)
-            applyTheme()
-        }
+    @discardableResult public func load(_ pill: Swallowable, pillIndex: Index) -> PillCell {
+        loadNameLabel(pill)
+        loadStateImage(pill, index: pillIndex)
+        loadLastTakenText(pill)
+        loadDueDateText(pill)
+        loadTakeButton(pill, index: pillIndex)
+        loadBackground()
+        setImageBadge(pill)
+        applyTheme()
         return self
     }
     
-    /// Set the "last taken" label to the curent date as a string.
+    /// Set the "last taken" label to the current date as a string.
     @discardableResult func stamp() -> PillCell {
         lastTakenLabel.text = DateHelper.format(date: Date(), useWords: true)
         return self
@@ -101,7 +99,7 @@ class PillCell: UITableViewCell {
     }
     
     @discardableResult private func setImageBadge(_ pill: Swallowable) -> PillCell {
-        stateImageButton.badgeValue = (pill.isDue) ? "!" : nil
+        stateImageButton.badgeValue = pill.isDue ? "!" : nil
         return self
     }
     

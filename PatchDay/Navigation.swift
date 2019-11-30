@@ -13,11 +13,11 @@ import PDKit
 public class Navigation: NavigationDelegate {
 
     func reflectTheme(theme: AppTheme) {
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = theme[.button]
-        navigationBarAppearace.barTintColor = theme[.navbar]
+        let navigationBarAppearance = UINavigationBar.appearance()
+        navigationBarAppearance.tintColor = theme[.button]
+        navigationBarAppearance.barTintColor = theme[.navbar]
         if let textColor = theme[.text] {
-            navigationBarAppearace.titleTextAttributes = [
+            navigationBarAppearance.titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor : textColor
             ]
         }
@@ -35,6 +35,12 @@ public class Navigation: NavigationDelegate {
     
     func goToSettings(source: UIViewController) {
         source.navigationController?.goToSettings(source: source)
+    }
+
+    func pop(source: UIViewController) {
+        if let navCon = source.navigationController {
+            navCon.popViewController(animated: true)
+        }
     }
 }
 
@@ -63,6 +69,10 @@ extension UINavigationController {
 extension UIStoryboard {
     
     static func createSettingsStoryboard() -> UIStoryboard {
-        return UIStoryboard(name: "SettingsAndSites", bundle: nil)
+        UIStoryboard(name: "SettingsAndSites", bundle: nil)
+    }
+
+    static func createHormoneDetailStoryboard() -> UIStoryboard {
+
     }
 }

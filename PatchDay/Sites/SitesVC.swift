@@ -28,7 +28,6 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         sitesTable.dataSource = self
         loadBarButtons()
         sitesTable.allowsSelectionDuringEditing = true
-        loadTabBarItemSize()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -279,7 +278,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func setTitle() {
         typealias Titles = VCTitleStrings
-        let method = codeBehind.defaults.mdasdf
+        let method = viewModel.defaults.mdasdf
         title = VCTitleStrings.getSitesTitle(for: <#T##DeliveryMethod#>)
         switch sdk.defaults.deliveryMethod.value {
         case .Patches:
@@ -290,13 +289,6 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         self.navigationController?.tabBarItem.title = VCTitleStrings.sitesTitle
     }
 
-    private func loadTabBarItemSize() {
-        let size: CGFloat = AppDelegate.isPad ? 25 : 9
-        let fontSize = UIFont.systemFont(ofSize: size)
-        let font = [NSAttributedString.Key.font: fontSize]
-        self.navigationController?.tabBarItem.setTitleTextAttributes(font, for: .normal)
-    }
-    
     private func applyTheme() {
         if let theme = app?.styles.theme {
             sitesView.backgroundColor = theme[.bg]

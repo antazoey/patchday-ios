@@ -16,13 +16,8 @@ class TabReflector: TabReflective {
     private let viewControllers: [UIViewController]
     private let sdk: PatchDataDelegate?
     
-    convenience init(
-        tabBarController: UITabBarController,
-        viewControllers: [UIViewController]
-    ) {
-        self.init(
-            tabBarController: tabBarController, viewControllers: viewControllers, sdk: app?.sdk
-        )
+    convenience init(tabBarController: UITabBarController, viewControllers: [UIViewController]) {
+        self.init(tabBarController: tabBarController, viewControllers: viewControllers, sdk: app?.sdk)
     }
 
     init(
@@ -36,9 +31,9 @@ class TabReflector: TabReflective {
         loadViewControllerTabTexts()
     }
     
-    var hormonesVC: UIViewController? { return viewControllers.tryGet(at: 0) }
-    var pillsVC: UIViewController? { return viewControllers.tryGet(at: 1) }
-    var sitesVC: UIViewController? { return viewControllers.tryGet(at: 2) }
+    var hormonesVC: UIViewController? { viewControllers.tryGet(at: 0) }
+    var pillsVC: UIViewController? { viewControllers.tryGet(at: 1) }
+    var sitesVC: UIViewController? { viewControllers.tryGet(at: 2) }
     
     func reflectTheme(theme: AppTheme) {
         let tabBar = tabBarController.tabBar
@@ -46,24 +41,10 @@ class TabReflector: TabReflective {
         tabBar.tintColor = theme[.purple]
     }
     
-    func reflectHormone() {
-        if let sdk = sdk, let hormonesVC = hormonesVC {
-            let total = sdk.totalAlerts
-            let method = sdk.defaults.deliveryMethod.value
-            let title = VCTitleStrings.getTitle(for: method)
-            hormonesVC.tabBarItem.title = title
-            hormonesVC.tabBarItem.badgeValue = total > 0 ? String(total) : nil
-            let icon = PDImages.getDeliveryIcon(method)
-            hormonesVC.tabBarItem.image = icon
-            hormonesVC.tabBarItem.selectedImage = icon
+    func reflectHormoneCharacteristics() {
+        if let sdk = sdk, let hormonesVC = hormonesVC, let tabItem = hormonesVC.tabBarItem {
+            tabItem.reflectHormonesCharacteristics(sdk: sdk)
             hormonesVC.awakeFromNib()
-        }
-    }
-    
-    func reflectExpiredHormoneBadgeValue() {
-        if let hormoneTab = hormonesVC?.tabBarItem {
-            let exp = sdk?.hormones.totalExpired ?? 0
-            hormoneTab.badgeValue = exp > 0 ? "\(exp)" : nil
         }
     }
     
@@ -80,5 +61,34 @@ class TabReflector: TabReflective {
             let fontKey = [NSAttributedString.Key.font: font]
             viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
         }
+    }
+}
+
+extension UITabBarItem {
+
+    func reflectHormonesCharacteristics(sdk: PatchDataDelegate) {
+        let method = sdk.defaults.deliveryMethod.value
+        reflectExpiredHormoneBadgeValue(sdk: sdk)
+        reflectHormoneTabBarItemTitle(deliveryMethod: method)
+        reflectHormoneTabBarItemIcon(deliveryMethod: method)
+    }
+
+    private func reflectExpiredHormoneBadgeValue(sdk: PatchDataDelegate?) {
+        let expCount = sdk?.hormones.totalExpired ?? 0
+        setHormoneTabBarItemBadge(expiredCount: expCount)
+    }
+
+    private func reflectHormoneTabBarItemTitle(deliveryMethod: DeliveryMethod) {
+        title = VCTitleStrings.getTitle(for: deliveryMethod)
+    }
+
+    private func reflectHormoneTabBarItemIcon(deliveryMethod: DeliveryMethod) {
+        let icon = PDImages.getDeliveryIcon(deliveryMethod)
+        image = icon
+        selectedImage = icon
+    }
+
+    private func setHormoneTabBarItemBadge(expiredCount: Int) {
+        badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
     }
 }

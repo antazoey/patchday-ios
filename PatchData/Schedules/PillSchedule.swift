@@ -39,10 +39,8 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public var totalDue: Int {
-        return pills.reduce(0, {
-            (count: Int, pill: Swallowable) -> Int in
-            let r = pill.isDue ? 1 + count : count
-            return r
+        pills.reduce(0, {
+            (count: Int, pill: Swallowable) -> Int in pill.isDue ? 1 + count : count
         })
     }
     
@@ -83,7 +81,7 @@ public class PillSchedule: NSObject, PillScheduling {
     // MARK: - Public
 
     public func at(_ index: Index) -> Swallowable? {
-        return pills.tryGet(at: index)
+        pills.tryGet(at: index)
     }
 
     public func get(for id: UUID) -> Swallowable? {
@@ -114,12 +112,16 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
+        swallow(pill)
+        if let comp = completion {
+            comp()
+        }
+    }
+
+    public func swallow(_ pill: Swallowable) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
             store.save()
-            if let comp = completion {
-                comp()
-            }
         }
     }
 
@@ -130,7 +132,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
     
     public func indexOf(_ pill: Swallowable) -> Index? {
-        return pills.firstIndex { (_ p: Swallowable) ->
+        pills.firstIndex { (_ p: Swallowable) ->
             Bool in
             pill.id == p.id
         }
@@ -148,6 +150,7 @@ public class PillSchedule: NSObject, PillScheduling {
         for pill in pills {
             pill.awaken()
         }
+
         store.save()
     }
     

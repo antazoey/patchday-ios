@@ -10,58 +10,61 @@ import UIKit
 import PDKit
 
 
+private enum HormoneCellState {
+    case Occupied
+    case Waiting
+    case Empty
+}
+
 class HormoneCell: UITableViewCell {
     
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
-    public func load(codeBehind: HormonesCodeBehind, hormone: Hormonal, hormoneIndex: Index) {
+    public func load(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) {
         backgroundColor = app?.styles.theme[.bg]
         setThemeColors(at: hormoneIndex)
         if let sdk = app?.sdk {
             let quantity = sdk.defaults.quantity
-            if hormoneIndex < quantity.rawValue && hormoneIndex >= 0 {
-                let theme = sdk.defaults.theme.value
-                let method = sdk.defaults.deliveryMethod.value
-                let siteImage = PDImages.getImage(
-                    for: hormone, theme: theme, deliveryMethod: method
-                )
-                let cellTitle = ColonedStrings.getDateTitle(
-                    for: hormone, method: method
-                )
-                configureDate(when: isExpired)
-                configureBadge(at: index, isExpired: hormone.isExpired, deliveryMethod: method)
-                setDateLabel(cellTitle)
-                if sdk.state.didStaChange(for: hormone) {
-                    animate(at: index, theme: theme, newImage: siteImage, newTitle: cellTitle)
-                } else {
-                    stateImage.image = siteImage
-                }
-                selectionStyle = .default
-                stateImage.isHidden = false
-        } else if index >= quantity.rawValue && index <= 3 {
-            animate(at: index, theme: data.theme)
-        } else {
-            reset()
-        }
+            let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
+                hormoneIndex, hormoneLimit: quantity.rawValue
+            )
+            handleHormoneFromState(hormoneCellState, sdk, hormone, hormoneIndex)
         }
     }
-    
-    /// Animates drawing hormone button
-    private func animate(
-        at index: Index,
-        theme: PDTheme,
-        newImage: UIImage?=nil,
-        newTitle: String?=nil
+
+    private static func convertHormoneIndexToCellState(_ index: Index, hormoneLimit: Int) -> HormoneCellState {
+        if index < hormoneLimit && index >= 0 {
+            return .Occupied
+        } else if index >= hormoneLimit && index <= SupportedHormoneUpperQuantityLimit {
+            return .Waiting
+        } else {
+            return .Empty
+        }
+    }
+
+    private func handleHormoneFromState(
+        _ state: HormoneCellState, _ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index
     ) {
-        UIView.transition(
-            with: stateImage as UIView,
-            duration: 0.75,
-            options: .transitionCrossDissolve,
-            animations: { self.stateImage.image = newImage },
-            completion: nil
-        )
+        switch state {
+        case .Occupied: appearAsOccupiedState(sdk, hormone, hormoneIndex)
+        case .Waiting: appearAsWaitingState(sdk, hormoneIndex)
+        case .Empty: reset()
+        }
+    }
+
+    private func appearAsOccupiedState(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
+        let theme = sdk.defaults.theme.value
+        let method = sdk.defaults.deliveryMethod.value
+        loadDateLabel(when: hormone.isExpired)
+        loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
+        loadSiteComponents(sdk, hormone, hormoneIndex)
+        selectionStyle = .default
+    }
+
+    private func appearAsWaitingState(_ sdk: PatchDataDelegate, _ hormoneIndex: Index) {
+        animate(at: hormoneIndex, theme: sdk.defaults.theme.value)
     }
     
     private func setDateLabel(_ title: String?) {
@@ -86,17 +89,44 @@ class HormoneCell: UITableViewCell {
         }
     }
 
-    private func configureDate(when isExpired: Bool) {
+    private func loadDateLabel(when isExpired: Bool) {
         dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
         let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
         dateLabel.font = UIFont.systemFont(ofSize: size)
     }
 
-    private func configureBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {
+    private func loadBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {
         badgeButton.restorationIdentifier = String(index)
         badgeButton.type = deliveryMethod == DeliveryMethod.Injections
-            ? PDBadgeButtonType.injections
-            : PDBadgeButtonType.patches
+            ? PDBadgeButtonType.injections : PDBadgeButtonType.patches
         badgeButton.badgeValue = isExpired ? "!" : nil
+    }
+
+    private func loadSiteComponents(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
+        let theme = sdk.defaults.theme.value
+        let method = sdk.defaults.deliveryMethod.value
+        let siteImage = PDImages.getImage(for: hormone, theme: theme, deliveryMethod: method)
+        let cellTitle = ColonedStrings.getDateTitle(for: hormone, method: method)
+        if sdk.stateManager.hormoneRecentlyMutated(at: hormoneIndex) {
+            animate(at: hormoneIndex, theme: theme, newImage: siteImage, newTitle: cellTitle)
+        } else {
+            stateImage.image = siteImage
+        }
+        stateImage.isHidden = false
+    }
+
+    private func animate(
+        at index: Index,
+        theme: PDTheme,
+        newImage: UIImage?=nil,
+        newTitle: String?=nil
+    ) {
+        UIView.transition(
+            with: stateImage as UIView,
+            duration: 0.75,
+            options: .transitionCrossDissolve,
+            animations: { self.stateImage.image = newImage },
+            completion: nil
+        )
     }
 }

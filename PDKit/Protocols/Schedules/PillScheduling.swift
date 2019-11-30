@@ -45,6 +45,9 @@ public protocol PillScheduling: Schedule, Deleting {
     
     /// Swallows the next pill due.
     func swallow(completion: (() -> ())?)
+
+    /// Swallows the pills
+    func swallow(_ pill: Swallowable)
     
     /// Gets the index of the given pill.
     func indexOf(_ pill: Swallowable) -> Index?

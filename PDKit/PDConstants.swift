@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PDConstants {
-    
-    public static let OnlySupportedInjectionsQuantity = 1
-}
+public let OnlySupportedInjectionsQuantity = 1
+public let SupportedHormoneUpperQuantityLimit = 4
+public let DefaultExpirationIntervalHours = 84
+public let DefaultDeliveryMethod = DeliveryMethod.Patches

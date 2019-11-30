@@ -12,6 +12,17 @@ import PDKit
 public class Pill: PDObject, Swallowable, Comparable {
     
     private var moPill: MOPill { mo as! MOPill }
+
+    private var times: [Time] {
+        var _times: [Time] = []
+        if let t1 = moPill.time1 {
+            _times.append(t1 as Time)
+        }
+        if let t2 = moPill.time2 {
+            _times.append(t2 as Time)
+        }
+        return _times
+    }
     
     public init(pill: MOPill) {
         super.init(mo: pill)
@@ -25,7 +36,7 @@ public class Pill: PDObject, Swallowable, Comparable {
 
     public var id: UUID {
         get {
-            return moPill.id ?? {
+            moPill.id ?? {
                 let newId = UUID()
                 moPill.id = newId
                 return newId
@@ -86,31 +97,21 @@ public class Pill: PDObject, Swallowable, Comparable {
     }
 
     public var lastTaken: Date? {
-        get { return moPill.lastTaken as Date? }
+        get { moPill.lastTaken as Date? }
         set { moPill.lastTaken = newValue as NSDate? }
     }
 
     public var due: Date {
-        if let t1 = moPill.time1 as Time? {
-            do {
-                let todays = Int(moPill.timesTakenToday)
-                let goal = Int(moPill.timesaday)
-                var times: [Time] = [t1]
-                if let t2 = moPill.time2 {
-                    times.append(t2 as Time)
-                }
-                return try PillHelper.nextDueDate(
-                    timesTakenToday: todays,
-                    timesaday: goal,
-                    times: times
-                    ) ?? Date()
-            } catch PillHelper.NextDueDateError.notEnoughTimes {
-                return handleNotEnoughTimesError(t1: t1) ?? Date()
-            } catch {
-                return Date()
-            }
+        do {
+            let nextDueDate = try PillHelper.nextDueDate(
+                timesTakenToday: timesTakenToday, timesaday: timesaday, times: times
+            )
+            return nextDueDate ?? Date()
+        } catch PillHelper.NextDueDateError.notEnoughTimes {
+            return handleNotEnoughTimesError()
+        } catch {
+            return Date()
         }
-        return Date()
     }
 
     public var isDue: Bool { Date() > due }
@@ -160,6 +161,7 @@ public class Pill: PDObject, Swallowable, Comparable {
     
             moPill.timesTakenToday = 0
         }
+        correctIfNeeded()
     }
 
     public func reset() {
@@ -216,6 +218,12 @@ public class Pill: PDObject, Swallowable, Comparable {
         default : return ld != rd
         }
     }
+
+    private func correctIfNeeded() {
+        if self.time2 < time1 || self.time1 > time2{
+            self.time2 = time1
+        }
+    }
     
     private func initialize() {
         self.initialize(name: PDStrings.PlaceholderStrings.newPill)
@@ -231,23 +239,25 @@ public class Pill: PDObject, Swallowable, Comparable {
         moPill.id = UUID()
     }
     
-    private func handleNotEnoughTimesError(t1: Time) -> Date? {
-        let c = [moPill.time1, moPill.time2].count
-        if c < timesaday {
-            let goal = Int(timesaday)
-            // Set the dates that are missing
-            for i in c..<goal {
-                switch (i) {
-                case 0: self.moPill.time1 = NSDate()
-                case 1:
-                    self.moPill.time2 = Time(timeInterval: 1000, since: t1 as Date) as NSDate
-                default :
-                    break
-                }
-            }
-            // Retry due, this time there should be enough times
+    private func handleNotEnoughTimesError() -> Date {
+        if times.count < timesaday {
+            addMissingDates()
             return due
         }
-        return nil
+        return Date()
+    }
+
+    private func addMissingDates() {
+        for i in times.count..<timesaday {
+            if i == 0 {
+                self.moPill.time1 = NSDate()
+            } else if i == 1 {
+                if let time1 = moPill.time1 as? Date {
+                    self.moPill.time2 = Time(timeInterval: 1000, since: time1) as NSDate
+                } else {
+                    self.moPill.time2 = Time() as NSDate
+                }
+            }
+        }
     }
 }

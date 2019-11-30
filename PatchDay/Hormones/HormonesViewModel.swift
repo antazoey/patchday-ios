@@ -1,5 +1,5 @@
 //
-//  HormonesCodeBehind.swift
+//  HormonesViewModel.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/10/19.
@@ -9,13 +9,11 @@
 import Foundation
 import PDKit
 
-class HormonesCodeBehind: CodeBehindDependencies {
+class HormonesViewModel: CodeBehindDependencies {
     
     public let HormoneMaxCount = 4
 
-    var hormones: HormoneScheduling? {
-        return sdk?.hormones
-    }
+    var hormones: HormoneScheduling? { sdk?.hormones }
     
     var mainViewControllerTitle: String {
         if let method = sdk?.defaults.deliveryMethod.value {
@@ -58,5 +56,9 @@ class HormonesCodeBehind: CodeBehindDependencies {
         if let theme = styles?.theme {
             tabs?.reflectTheme(theme: theme)
         }
+    }
+
+    func presentNewSiteAlert(from source: UIViewController, newSiteName: String) {
+        alerts.presentNewSiteAlert(with: newSiteName, at: siteIndexSelected, hormoneVC: source)
     }
 }

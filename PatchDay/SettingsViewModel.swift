@@ -1,5 +1,5 @@
 //
-//  SettingsCodeBehind.swift
+//  SettingsViewModel.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 10/29/19.
@@ -9,17 +9,12 @@
 import Foundation
 import PDKit
 
-class SettingsCodeBehind : CodeBehindDependencies {
+class SettingsViewModel : CodeBehindDependencies {
     
     func saveQuantity(quantityIndex: Index, cancelAction: @escaping (_ originalQuantity: Int) -> ()) {
         let newQuantity = PickerOptions.getQuantity(at: quantityIndex).rawValue
-        QuantityMutator(
-            sdk: sdk,
-            alerts: alerts,
-            tabs: tabs,
-            notifications: notifications,
-            cancel: cancelAction
-        ).setQuantity(to: newQuantity)
+        QuantityMutator(sdk: sdk, alerts: alerts, tabs: tabs, notifications: notifications, cancel: cancelAction)
+            .setQuantity(to: newQuantity)
     }
     
     func saveDeliveryMethod(deliveryMethodIndex: Index, controls: SettingsControls) {

@@ -9,6 +9,12 @@
 import Foundation
 
 
+public struct HormoneViewStrings {
+    public var expirationText: String
+    public var dateAndTimePlacedText: String
+    public var siteLabelText: String
+}
+
 public class ColonedStrings {
 
     private static let c1 = "Displayed on a label, plenty of room."
@@ -73,23 +79,20 @@ public class ColonedStrings {
         return title
     }
     
-    public static func getHormoneViewStrings(
-        deliveryMethod: DeliveryMethod,
-        hormone: Hormonal
-    ) -> (expirationText: String, dateAndTimePlacedText: String, siteLabeText: String) {
+    public static func createHormoneViewStrings(deliveryMethod: DeliveryMethod, hormone: Hormonal) -> HormoneViewStrings {
         switch deliveryMethod {
         case .Patches :
             let expText = hormone.isExpired ? expired : expires
-            return (
+            return HormoneViewStrings(
                 expirationText: expText,
                 dateAndTimePlacedText: dateAndTimeApplied,
-                siteLabeText: site
+                siteLabelText: site
             )
         case .Injections:
-            return (
+            return HormoneViewStrings(
                 expirationText: nextDue,
                 dateAndTimePlacedText: dateAndTimeInjected,
-                siteLabeText: lastSiteInjected
+                siteLabelText: lastSiteInjected
             )
         }
     }

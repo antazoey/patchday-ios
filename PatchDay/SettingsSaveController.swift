@@ -12,16 +12,16 @@ import PDKit
 
 class SettingsSaveController {
     
-    private let codeBehind: SettingsCodeBehind
+    private let viewModel: SettingsCodeBehind
     private let controls: SettingsControls
     
-    init(codeBehind: SettingsCodeBehind, controls: SettingsControls) {
+    init(viewModel: SettingsCodeBehind, controls: SettingsControls) {
         self.controls = controls
-        self.codeBehind = codeBehind
+        self.viewModel = viewModel
     }
     
     public func save(_ key: PDDefault, for row: Int) {
-        codeBehind.notifications?.cancelAllExpiredHormoneNotifications()
+        viewModel.notifications?.cancelAllExpiredHormoneNotifications()
         switch key {
         case .DeliveryMethod :
             saveDeliveryMethodChange(row)
@@ -34,24 +34,24 @@ class SettingsSaveController {
         default:
             print("Error: No picker for key \(key)")
         }
-        codeBehind.notifications?.resendAllExpiredHormoneNotifications()
+        viewModel.notifications?.resendAllExpiredHormoneNotifications()
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {
-        codeBehind.saveDeliveryMethod(deliveryMethodIndex: row, controls: controls)
+        viewModel.saveDeliveryMethod(deliveryMethodIndex: row, controls: controls)
     }
     
     private func saveQuantityChange(_ row: Int) {
         let cancel = createCancelSaveQuantityButtonClosure()
-        codeBehind.saveQuantity(quantityIndex: row, cancelAction: cancel)
+        viewModel.saveQuantity(quantityIndex: row, cancelAction: cancel)
     }
     
     private func saveIntervalChange(_ row: Int) {
-        codeBehind.saveExpirationInterval(expirationIntervalIndex: row)
+        viewModel.saveExpirationInterval(expirationIntervalIndex: row)
     }
     
     private func saveThemeChange(_ row: Int) {
-        codeBehind.saveTheme(themeIndex: row)
+        viewModel.saveTheme(themeIndex: row)
     }
     
     private func createCancelSaveQuantityButtonClosure() -> (Int) -> () {

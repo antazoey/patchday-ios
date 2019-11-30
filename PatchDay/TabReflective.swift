@@ -14,7 +14,6 @@ protocol TabReflective {
     var pillsVC: UIViewController? { get }
     var sitesVC: UIViewController? { get }
     func reflectTheme(theme: AppTheme)
-    func reflectHormone()
-    func reflectExpiredHormoneBadgeValue()
+    func reflectHormoneCharacteristics()
     func reflectDuePillBadgeValue()
 }

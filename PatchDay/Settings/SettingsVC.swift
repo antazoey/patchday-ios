@@ -20,7 +20,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         """
     }
     
-    private let codeBehind = SettingsCodeBehind()
+    private let viewModel = SettingsCodeBehind()
     private var reflector: SettingsReflector!
     private var saver: SettingsSaveController!
 
@@ -83,36 +83,35 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        codeBehind.sdk?.stateManager.stampQuantity()
+        viewModel.sdk?.stateManager.stampQuantity()
         applyTheme()
     }
     
     static func createSettingsVC(source: UIViewController) -> SettingsVC? {
         let sb = UIStoryboard.createSettingsStoryboard()
-        let id = "SettingsVC_id"
-        return sb.instantiateViewController(withIdentifier: id) as? SettingsVC
+        return sb.instantiateViewController(withIdentifier: "SettingsVC_id") as? SettingsVC
     }
     
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        codeBehind.notifications?.cancelAllExpiredHormoneNotifications()
+        viewModel.notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
-        codeBehind.sdk?.defaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
-        codeBehind.notifications?.resendAllExpiredHormoneNotifications()
+        viewModel.sdk?.defaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        viewModel.notifications?.resendAllExpiredHormoneNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
-        if let def = codeBehind.createDefaultFromButton(sender) {
+        if let def = viewModel.createDefaultFromButton(sender) {
             handlePickerActivation(def, activator: sender)
         }
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
         reflectNotificationSwitchInNotificationButtons()
-        codeBehind.sdk?.defaults.setNotifications(to: notificationsSwitch.isOn)
+        viewModel.sdk?.defaults.setNotifications(to: notificationsSwitch.isOn)
     }
 
     // MARK: - Picker Delegate Functions
@@ -195,7 +194,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func disableNotificationButtons() {
-        codeBehind.sdk?.defaults.setNotificationsMinutesBefore(to: 0)
+        viewModel.sdk?.defaults.setNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
@@ -244,7 +243,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func applyTheme() {
-        if let styles = codeBehind.styles {
+        if let styles = viewModel.styles {
             settingsView.backgroundColor = styles.theme[.bg]
             view.backgroundColor = styles.theme[.bg]
             settingsView.backgroundColor = styles.theme[.bg]
@@ -264,7 +263,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func createControlsStruct() -> SettingsControls {
-        return SettingsControls(
+        SettingsControls(
             deliveryMethodButton: self.deliveryMethodButton,
             quantityButton: self.quantityButton,
             quantityArrowButton: self.quantityArrowButton,
@@ -277,11 +276,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadReflector(controls: SettingsControls) {
-        self.reflector = SettingsReflector(codeBehind: self.codeBehind, controls: controls)
+        self.reflector = SettingsReflector(viewModel: self.viewModel, controls: controls)
     }
     
     private func loadSaveController(controls: SettingsControls) {
-        self.saver = SettingsSaveController(codeBehind: self.codeBehind, controls: controls)
+        self.saver = SettingsSaveController(viewModel: self.viewModel, controls: controls)
     }
     
     private func delegatePickers() {
@@ -294,7 +293,5 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 
 extension SettingsVC: UIScrollViewDelegate {
     
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return settingsStack
-    }
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? { settingsStack }
 }

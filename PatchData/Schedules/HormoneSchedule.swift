@@ -131,47 +131,55 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func set(for id: UUID, date: Date, site: Bodily) {
-        if var mone = get(for: id) {
-            mone.site = site
-            mone.date = date
+        if var hormone = get(for: id) {
+            hormone.site = site
+            hormone.date = date
             sort()
             saveFromDateAndSiteChange()
         }
     }
 
     public func set(at index: Index, date: Date, site: Bodily) {
-        if var mone = at(index) {
-            mone.site = site
-            mone.date = date
+        if var hormone = at(index) {
+            hormone.site = site
+            hormone.date = date
             sort()
             saveFromDateAndSiteChange()
         }
     }
 
     public func setSite(at index: Index, with site: Bodily) {
-        if var mone = at(index) {
-            mone.site = site
-            store.save()
-            state.bodilyChanged = true
-            state.onlySiteChanged = true
-            state.bodilyChanged = true
-            broadcastHormones()
+        if var hormone = at(index) {
+            setSite(for: &hormone, with: site)
         }
+    }
+
+    public func setSite(for hormone: inout Hormonal, with site: Bodily) {
+        hormone.site = site
+        store.save()
+        state.bodilyChanged = true
+        state.onlySiteChanged = true
+        state.bodilyChanged = true
+        broadcastHormones()
     }
 
     public func setDate(at index: Index, with date: Date) {
-        if var mone = at(index) {
-            mone.date = date
-            sort()
-            store.save()
-            broadcastHormones()
-            state.onlySiteChanged = false
+        if var hormone = at(index) {
+            setDate(for: &hormone, with: date)
         }
     }
 
+    public func setDate(for hormone: inout Hormonal, with date: Date) {
+        hormone.date = date
+        sort()
+        store.save()
+        broadcastHormones()
+        state.onlySiteChanged = false
+    }
+
     public func setBackUpSiteName(at index: Index, with name: String) {
-        if var mone = at(index) {
-            mone.siteNameBackUp = name
+        if var hormone = at(index) {
+            hormone.siteNameBackUp = name
             store.save()
         }
     }

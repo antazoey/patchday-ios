@@ -21,7 +21,7 @@ public class VCTitleStrings {
     }()
     
     public static let hormonesTitle = {
-        return NSLocalizedString("Hormones", comment: comment)
+        NSLocalizedString("Hormones", comment: comment)
     }()
 
     public static let settingsTitle = {
@@ -30,6 +30,10 @@ public class VCTitleStrings {
 
     public static let pillsTitle = {
         NSLocalizedString("Pills", comment: comment)
+    }()
+
+    public static let pillTitle = {
+        NSLocalizedString("Pill", comment: comment)
     }()
 
     public static let editPillTitle = {

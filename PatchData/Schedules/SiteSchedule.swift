@@ -20,7 +20,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     let siteIndexRebounder: PDIndexRebounce
     
     private var firstEmptyIndex: Index? {
-        return sites.firstIndex {
+        sites.firstIndex {
             (_ site: Bodily) -> Bool in
             site.hormones.count == 0
         }
@@ -118,10 +118,6 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
     
     public func insertNew() -> Bodily? {
-        insertNew(completion: nil)
-    }
-
-    public func insertNew(completion: (() -> ())? = nil) -> Bodily? {
         if let site = createSite() {
             sites.append(site)
             store.save()
@@ -130,14 +126,22 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return nil
     }
 
+    public func insertNew(completion: @escaping () -> ()) -> Bodily? {
+        let site = insertNew()
+        completion()
+        return site
+    }
+
     public func insertNew(name: String) -> Bodily? {
-        if var site = createSite() {
-            site.name = name
-            sites.append(site)
-            store.save()
-            return site
-        }
-        return nil
+        var site = insertNew()
+        site?.name = name
+        return site
+    }
+
+    public func insertNew(name: String, completion: @escaping () -> ()) -> Bodily? {
+        var site = insertNew(name: name)
+        completion()
+        return site
     }
 
     @discardableResult public func reset() -> Int {
@@ -147,8 +151,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         }
         let resetNames = SiteStrings.getSiteNames(for: method)
         let oldCount = sites.count
-        let newcount = resetNames.count
-        for i in 0..<newcount {
+        let newCount = resetNames.count
+        for i in 0..<newCount {
             if i < oldCount {
                 sites[i].order = i
                 sites[i].name = resetNames[i]

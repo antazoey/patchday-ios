@@ -10,6 +10,10 @@ import Foundation
 
 extension Date {
 
+    public func createNewDateFromAddingHours(_ hours: Int) -> Date? {
+        Calendar.current.date(bySetting: .hour, value: hours, of: self)
+    }
+
     public func isWithin(minutes: Int, of date: Date) -> Bool {
         let earlier = min(self, date)
         let later = max(self, date)
@@ -18,41 +22,33 @@ extension Date {
     }
 
     public func isInPast() -> Bool {
-        return self < Date()
+        self < Date()
     }
     
     /// Whether this date happened on the same day as today.
     public func isInToday() -> Bool {
-        return Calendar.current.isDate(self, inSameDayAs: Date())
+        Calendar.current.isDate(self, inSameDayAs: Date())
     }
     
     /// Whether this date is between the hours of midnight and 6 am.
     public func isOvernight() -> Bool {
-        if let sixAM = Calendar.current.date(
-            bySettingHour: 6,
-            minute: 0,
-            second: 0,
-            of: self),
-            let midnight = Calendar.current.date(
-                bySettingHour: 0,
-                minute: 0,
-                second: 0,
-                of: self
-            ) {
+        if let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: self),
+            let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self) {
+
             return self < sixAM && self > midnight
         }
         return false
     }
     
     public func isDefault() -> Bool {
-        return self == Date.createDefaultDate()
+        self == Date.createDefaultDate()
     }
     
     public static func createDefaultDate() -> Date {
-        return Date(timeIntervalSince1970: 0)
+        Date(timeIntervalSince1970: 0)
     }
     
     public func dayBefore() -> Date? {
-        return Calendar.current.date(byAdding: .day, value: -1, to: self)
+        Calendar.current.date(byAdding: .day, value: -1, to: self)
     }
 }

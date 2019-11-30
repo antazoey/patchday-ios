@@ -13,22 +13,20 @@ import PDKit
 typealias PillName = String
 
 class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+    private let viewModel = PillsCodeBehind()
+    private var pillsTableWrapper: PillsTable?
     
     @IBOutlet var pillsView: UIView!
     @IBOutlet weak var pillsTable: UITableView!
     
-    // Dependencies
-    private var pills: PillScheduling? = app?.sdk.pills
-    private let notifications: NotificationScheduling? = app?.notifications
-    private let navigation: NavigationDelegate? = app?.nav
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        pillsTableWrapper = PillsTable(pillsTable)
         applyTheme()
         title = VCTitleStrings.pillsTitle
         pillsTable.delegate = self
         pillsTable.dataSource = self
-        loadTabBarItemSize()
         insertInsertButton()
         pillsTable.allowsSelectionDuringEditing = true
         updateFromBackground()
@@ -41,50 +39,41 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pills?.count ?? 0
+        viewModel.sdk?.pills.count ?? 0
     }
     
-    func tableView(
-        _ tableView: UITableView, cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        return pillCellForRowAt(indexPath.row).load(at: indexPath.row)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        pillsTableWrapper?.getCellForRowAt(indexPath.row)?.load(at: indexPath.row) ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let pill = pills?.at(indexPath.row) {
+        if let pill = viewModel.pills?.at(indexPath.row) {
             segueToPillView(for: pill)
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 170.0
+        170.0
     }
     
-    func tableView(
-        _ tableView: UITableView, editActionsForRowAt indexPath: IndexPath
-    ) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let title = ActionStrings.delete
         let delete = UITableViewRowAction(style: .normal, title: title) {
-            (action, index) in
-            self.deleteCell(at: indexPath)
+            (action, index) in self.deleteCell(at: indexPath)
         }
         delete.backgroundColor = UIColor.red
         return [delete]
     }
     
     @IBAction func takeButtonTapped(_ sender: Any) {
-        // Acquire Pill Id from cell's takeButton restore Id.
         if let button = sender as? UIButton,
-            let pillIndex = button.restoreSuffix(),
-            let pills = pills,
-            let pill = pills.at(pillIndex) {
-            pills.swallow(pill) {
-                self.notifications?.requestDuePillNotification(pill)
-                self.pillCellForRowAt(pillIndex).stamp().load(at: pillIndex)
-                self.pillsTable.reloadData()
-                self.reloadInputViews()
-                self.setBadge()
-            }
+           let pillIndex = button.restoreSuffix(),
+           let pill = viewModel.takePill(at: pillIndex) {
+
+            self.viewModel.notifications?.requestDuePillNotification(pill)
+            self.pillsTableWrapper?.getCellForRowAt(pillIndex)?.stamp().load(pill, pillIndex: pillIndex)
+            self.pillsTable.reloadData()
+            self.reloadInputViews()
         }
     }
     
@@ -97,56 +86,26 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Private / Helpers
     
     private func segueToPillView(for pill: Swallowable) {
-        navigation?.goToPillDetails(pill, source: self)
-    }
-    
-    private func pillCellForRowAt(_ index: Index) -> PillCell {
-        let indexPath = IndexPath(row: index, section: 0)
-        let id = "pillCellReuseId"
-        return pillsTable.dequeueReusableCell(withIdentifier: id, for: indexPath) as! PillCell
+        viewModel.nav?.goToPillDetails(pill, source: self)
     }
     
     private func deleteCell(at indexPath: IndexPath) {
-        pills?.delete(at: indexPath.row)
-        pillsTable.deleteRows(at: [indexPath], with: .fade)
-        pillsTable.reloadData()
-        setBadge()
-        let start = indexPath.row
-        let end = (pills?.count ?? start) - 1
-        if start <= end {
-            for i in start...end {
-                pillCellForRowAt(i).loadBackground()
-            }
-        }
+        viewModel.pills?.delete(at: indexPath.row)
+        let pillsCount = viewModel.pills?.count ?? 0
+        pillsTableWrapper?.deleteCell(at: indexPath, pillsCount: pillsCount)
     }
     
     /// Updates the pill views when VC is reloaded from a notification.
     func updateFromBackground() {
         let name = UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(pillsTable.reloadData),
-            name: name,
-            object: nil
+            self, selector: #selector(pillsTable.reloadData), name: name, object: nil
         )
-    }
-    
-    private func setBadge() {
-        let v = pills?.totalDue ?? 0
-        navigationController?.tabBarItem.badgeValue = v > 0 ? "\(v)" : nil
-    }
-    
-    private func loadTabBarItemSize() {
-        let size: CGFloat = AppDelegate.isPad ? 25 : 9
-        let attrs = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: size)]
-        self.navigationController?.tabBarItem.setTitleTextAttributes(attrs, for: .normal)
     }
     
     private func insertInsertButton() {
         let insertButton = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonItem.SystemItem.add,
-            target: self,
-            action: #selector(insertTapped)
+            barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(insertTapped)
         )
         insertButton.tintColor = PDColors.get(.Green)
         navigationItem.rightBarButtonItems = [insertButton]
@@ -162,3 +121,11 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
+
+extension UITableView {
+
+    func dequeuePillCell() -> PillCell? {
+        dequeueReusableCell(withIdentifier: "pillCellReuseId") as? PillCell
+    }
+}
+

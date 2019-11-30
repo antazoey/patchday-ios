@@ -44,7 +44,10 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     func insertNew(name: String) -> Bodily?
 
     /// Inserts a new site into the schedule.
-    func insertNew(completion: (() -> ())?) -> Bodily?
+    func insertNew(completion: @escaping () -> ()) -> Bodily?
+
+    /// Inserts a new site into the schedule with the given name.
+    func insertNew(name: String, completion: @escaping () -> ()) -> Bodily?
     
     /// The site at the given index.
     func at(_ index: Index) -> Bodily?

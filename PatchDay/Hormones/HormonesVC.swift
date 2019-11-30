@@ -16,14 +16,14 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonalTable: UITableView!
     
-    let codeBehind = HormonesCodeBehind()
+    let viewModel = HormonesViewModel()
     
     // MARK: - Main
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        codeBehind.loadAppTabs(source: self)
-        codeBehind.reflectThemeInTabBar()
+        viewModel.loadAppTabs(source: self)
+        viewModel.reflectThemeInTabBar()
         setDelegates()
         loadTitle()
         loadBarButtons()
@@ -43,7 +43,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             completion: nil
         )
         applyTheme()
-        codeBehind.presentDisclaimerAlert()
+        viewModel.presentDisclaimerAlert()
         loadTitle()
         hormonalTable.reloadData()
         super.viewDidAppear(false)
@@ -52,31 +52,31 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if let tabs = app?.tabs {
-            tabs.reflectHormone()
+            viewModel.tabs?.reflectHormoneCharacteristics()
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.frame.height * 0.24
+        view.frame.height * 0.24
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return codeBehind.HormoneMaxCount
+        viewModel.HormoneMaxCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let hormone = codeBehind.hormones?.at(indexPath.row),
+        let hormoneIndex = indexPath.row
+        if let hormone = viewModel.hormones?.at(hormoneIndex),
             let cell = hormonalTable.dequeueHormoneCell() {
 
-            cell.index = indexPath.row
-            cell.load(hormone: hormone)
+            cell.load(viewModel: viewModel, hormone: hormone, hormoneIndex: hormoneIndex)
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let mone = codeBehind.hormones?.at(indexPath.row) {
+        if let mone = viewModel.hormones?.at(indexPath.row) {
             segueToHormoneVC(mone)
         }
     }
@@ -84,11 +84,11 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Actions
     
     @objc func settingsTapped() {
-        codeBehind.nav?.goToSettings(source: self)
+        viewModel.nav?.goToSettings(source: self)
     }
 
     func updateFromBackground() {
-        codeBehind.watchHormonesForChanges(selector: #selector(hormonalTable.reloadData))
+        viewModel.watchHormonesForChanges(selector: #selector(hormonalTable.reloadData))
     }
     
     // MARK: - Private
@@ -100,21 +100,13 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         settingsButton.action = #selector(settingsTapped)
         navigationItem.rightBarButtonItems = [settingsButton]
     }
-    
-    private func setExpiredEstrogensBadge(_ item: UITabBarItem?) {
-        item?.badgeValue = codeBehind.expiredHormoneBadgeValue
-    }
-    
-    private func setExpiredPillsBadge() {
-        app?.tabs?.reflectDuePillBadgeValue()
-    }
-    
+
     private func segueToHormoneVC(_ hormone: Hormonal) {
         app?.nav.goToHormoneDetails(hormone, source: self)
     }
 
     private func loadTitle() {
-        title = codeBehind.mainViewControllerTitle
+        title = viewModel.mainViewControllerTitle
     }
     
     private func applyTheme() {
@@ -129,6 +121,6 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 extension UITableView {
     
     func dequeueHormoneCell() -> HormoneCell? {
-         return dequeueReusableCell(withIdentifier: "HormoneCellReuseId") as? HormoneCell
+         dequeueReusableCell(withIdentifier: "HormoneCellReuseId") as? HormoneCell
     }
 }

@@ -14,4 +14,5 @@ protocol NavigationDelegate {
     func goToHormoneDetails(_ mone: Hormonal, source: UIViewController)
     func goToPillDetails(_ pill: Swallowable, source: UIViewController)
     func goToSettings(source: UIViewController)
+    func pop(source: UIViewController)
 }

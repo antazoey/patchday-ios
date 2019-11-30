@@ -11,13 +11,13 @@ import PDKit
 
 public class Hormone: PDObject, Hormonal, Comparable {
     
-    private let exp: ExpirationIntervalUD
+    private let expirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
     private var moHormone: MOHormone { self.mo as! MOHormone }
     
     public init(hormone: MOHormone, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
-        self.exp = interval
+        self.expirationInterval = interval
         self.deliveryMethod = deliveryMethod
         super.init(mo: hormone)
     }
@@ -38,7 +38,7 @@ public class Hormone: PDObject, Hormonal, Comparable {
             if let site = moHormone.siteRelationship {
                 return Site(
                     moSite: site,
-                    globalExpirationInterval: exp,
+                    globalExpirationInterval: expirationInterval,
                     deliveryMethod: deliveryMethod
                 )
             }
@@ -58,7 +58,7 @@ public class Hormone: PDObject, Hormonal, Comparable {
 
     public var expiration: Date? {
         if let date = date as Date?,
-            let expires = DateHelper.expirationDate(from: date, exp.hours) {
+            let expires = DateHelper.calculateExpirationDate(from: date, expirationInterval.hours) {
             return expires
         }
         return nil
@@ -66,7 +66,7 @@ public class Hormone: PDObject, Hormonal, Comparable {
 
     public var expirationString: String {
         if let date = date as Date?,
-            let expires = DateHelper.expirationDate(from: date, exp.hours) {
+            let expires = DateHelper.calculateExpirationDate(from: date, expirationInterval.hours) {
             return DateHelper.format(date: expires, useWords: true)
         }
         return PDStrings.PlaceholderStrings.dotDotDot
@@ -74,8 +74,18 @@ public class Hormone: PDObject, Hormonal, Comparable {
 
     public var isExpired: Bool {
         if let date = date as Date? {
-            let timeInterval = DateHelper.calculateExpirationTimeInterval(exp.hours, date: date)
+            let timeInterval = DateHelper.calculateExpirationTimeInterval(expirationInterval.hours, date: date)
             return (timeInterval ?? 1) <= 0
+        }
+        return false
+    }
+
+    public var isPastNotificationTime: Bool {
+        if let expDate = expiration {
+            let hours = 0 - expirationInterval.hours
+            if let notifyDate = expDate.createNewDateFromAddingHours(hours) {
+                return Date() > notifyDate
+            }
         }
         return false
     }

@@ -10,7 +10,7 @@ public typealias Time = Date
 
 public class DateHelper: NSObject {
     
-    private static var cal = Calendar.current
+    private static var calendar = Calendar.current
     
     /// Returns the day of the week, such as "Tuesday"
     public class func dayOfWeekString(date: Date) -> String {
@@ -25,57 +25,52 @@ public class DateHelper: NSObject {
     
     /// Returns word of date, such as "Tomorrow"
     public static func dateWord(from date: Date) -> String? {
-        if cal.isDateInToday(date) {
+        if calendar.isDateInToday(date) {
             return PDStrings.DayStrings.today
         } else if let yesterday = getDate(at: Date(), daysFromNow: -1),
-            cal.isDate(date, inSameDayAs: yesterday) {
+            calendar.isDate(date, inSameDayAs: yesterday) {
+
             return PDStrings.DayStrings.yesterday
         } else if let tomorrow = getDate(at: Date(), daysFromNow: 1),
-            cal.isDate(date, inSameDayAs: tomorrow) {
+            calendar.isDate(date, inSameDayAs: tomorrow) {
+
             return PDStrings.DayStrings.tomorrow
         }
         return nil
     }
     
-    /// Returns new date from date argument at the given time arguement.
+    /// Creates a new Date from given Date at the given Time.
     public static func getDate(on date: Date, at time: Time) -> Date? {
-        let year = cal.component(.year, from: date)
-        let month = cal.component(.month, from: date)
-        let day = cal.component(.day, from: date)
-        let hour = cal.component(.hour, from: time)
-        let min = cal.component(.minute, from: time)
-        return cal.date(from: DateComponents(
-            calendar: cal,
-            timeZone: cal.timeZone,
-            year: year,
-            month: month,
-            day: day,
-            hour: hour,
-            minute: min
-            )
+        let components = DateComponents(
+            calendar: calendar,
+            timeZone: calendar.timeZone,
+            year: calendar.component(.year, from: date),
+            month: calendar.component(.month, from: date),
+            day: calendar.component(.day, from: date),
+            hour: calendar.component(.hour, from: time),
+            minute: calendar.component(.minute, from: time)
         )
+        return calendar.date(from: components)
     }
     
-    /// Returns date calculated by adding days from today.
+    /// Creates a Date calculated by adding days from today.
     public static func getDate(at time: Time, daysFromNow: Int) -> Date? {
-        let now = Date()
         var addComponents = DateComponents()
         addComponents.day = daysFromNow
-        if let newDate = cal.date(byAdding: addComponents, to: now) {
+        if let newDate = calendar.date(byAdding: addComponents, to: Date()) {
             return getDate(on: newDate, at: time)
         }
-        print("Error: Undetermined time.")
         return nil
     }
 
     /// Gives the future date from the given one based on the given interval string.
-    public static func expirationDate(from date: Date, _ hours: Int) -> Date? {
-        return cal.date(byAdding: .hour, value: hours, to: date)
+    public static func calculateExpirationDate(from date: Date, _ hours: Int) -> Date? {
+        calendar.date(byAdding: .hour, value: hours, to: date)
     }
     
     /// Returns the TimeInterval until expiration based on given
     public static func calculateExpirationTimeInterval(_ hours: Int, date: Date) -> TimeInterval? {
-        if let expDate = expirationDate(from: date, hours) {
+        if let expDate = calculateExpirationDate(from: date, hours) {
             let now = Date()
             return expDate >= now ?
                 DateInterval(start: now, end: expDate).duration
@@ -111,11 +106,6 @@ public class DateHelper: NSObject {
     }
     
     private static func getEightPM(of date: Date) -> Date? {
-        return cal.date(
-            bySettingHour: 20,
-            minute: 0,
-            second: 0,
-            of: date
-        )
+        calendar.date(bySettingHour: 20, minute: 0, second: 0, of: date)
     }
 }

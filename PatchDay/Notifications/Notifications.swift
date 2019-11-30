@@ -65,10 +65,14 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Cancels the hormone notification at the given index.
     func cancelExpiredHormoneNotification(at index: Index) {
-        if let mone = sdk?.hormones.at(index) {
-            let id = mone.id.uuidString
-            center.removeNotifications(with: [id])
+        if let hormone = sdk?.hormones.at(index) {
+            cancelExpiredHormoneNotification(for: hormone)
         }
+    }
+
+    func cancelExpiredHormoneNotification(for hormone: Hormonal) {
+        let id = hormone.id.uuidString
+        center.removeNotifications(with: [id])
     }
 
     func cancelAllExpiredHormoneNotifications() {

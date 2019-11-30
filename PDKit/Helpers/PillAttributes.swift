@@ -9,6 +9,8 @@
 import Foundation
 
 public struct PillAttributes {
+
+    private let defaultName = PDStrings.PlaceholderStrings.newPill
     
     public var description: String { "Pill DTO" }
     
@@ -36,14 +38,14 @@ public struct PillAttributes {
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
     }
-    // Default
+
     public init() {
-        self.name = PDStrings.PlaceholderStrings.newPill
-        self.timesaday = 1
-        self.time1 = Time()
-        self.time2 = Time()
+        self.name = nil
+        self.timesaday = nil
+        self.time1 = nil
+        self.time2 = nil
         self.notify = true
-        self.timesTakenToday = 0
+        self.timesTakenToday = nil
         self.lastTaken = nil
     }
 }
