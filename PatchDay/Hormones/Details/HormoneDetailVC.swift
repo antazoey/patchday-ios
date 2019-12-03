@@ -12,7 +12,7 @@ import PDKit
 
 class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    var viewModel: HormoneDetailViewModel?
+    private var viewModel: HormoneDetailViewModel?
 
     private var saveButton: UIBarButtonItem!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
@@ -20,7 +20,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     @IBOutlet private weak var selectSiteTextField: UITextField!
     @IBOutlet private weak var chooseDateButton: UIButton!
     @IBOutlet private weak var datePickerInputView: UIView!
-    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet private weak var datePicker: UIDatePicker!
     @IBOutlet private weak var lineUnderScheduleDate: UIView!
     @IBOutlet private weak var lineUnderDate: UIView!
     @IBOutlet private weak var lineUnderDateAndTimePlaced: UIView!
@@ -33,9 +33,9 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     @IBOutlet private weak var siteStackView: UIStackView!
     @IBOutlet private weak var siteLabel: UILabel!
     @IBOutlet private weak var verticalLineInSiteStack: UIView!
-    @IBOutlet private var typeSiteButton: UIButton!
-    @IBOutlet public weak var sitePicker: UIPickerView!
-    @IBOutlet private var horizontalLineBelowSite: UIView!
+    @IBOutlet private weak var typeSiteButton: UIButton!
+    @IBOutlet private weak var sitePicker: UIPickerView!
+    @IBOutlet private weak var horizontalLineBelowSite: UIView!
     @IBOutlet private weak var autofillButton: UIButton!
 
     override func viewDidLoad() {
@@ -48,19 +48,20 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         loadExpirationText()
         loadSiteControls()
     }
+
+    public func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailVC {
+        self.viewModel = viewModel
+        return self
+    }
     
     static func createHormoneDetailVC(source: UIViewController, hormone: Hormonal) -> HormoneDetailVC? {
         createHormoneDetailVC(source: source, hormoneDetailsCodeBehind: HormoneDetailViewModel(hormone))
     }
 
-    static func createHormoneDetailVC(
-        source: UIViewController, hormoneDetailsCodeBehind: HormoneDetailViewModel
-    ) -> HormoneDetailVC? {
-        if let hormoneVC = source.storyboard?.instantiateViewController(
-            withIdentifier: HormoneDetailViewModel.viewControllerId
-        ) as? HormoneDetailVC {
-            hormoneVC.viewModel = hormoneDetailsCodeBehind
-            return hormoneVC
+    static func createHormoneDetailVC(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailVC? {
+        let id = HormoneDetailViewModel.viewControllerId
+        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
+            return hormoneVC.initWithViewModel(viewModel)
         }
         return nil
     }

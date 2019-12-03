@@ -11,8 +11,7 @@ import PDKit
 
 
 class PillCell: UITableViewCell {
-    
-    private let sdk: PatchDataDelegate? = app?.sdk
+
     private var pill: Swallowable!
 
     @IBOutlet weak var nameLabel: UILabel!

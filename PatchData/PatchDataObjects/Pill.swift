@@ -62,12 +62,14 @@ public class Pill: PDObject, Swallowable, Comparable {
             }
             return Date.createDefaultDate()
         } set {
-            if time1 >= time2 {
-                moPill.time2 = newValue as NSDate?
-            } else {
-                // swap times if time2 is smaller than time1
-                moPill.time1 = moPill.time2
-                moPill.time2 = newValue as NSDate
+            if let time1 = moPill.time1 as Date? {
+                let newStoredDate = newValue as NSDate
+                if newValue < time1 {
+                    moPill.time2 = time1 as NSDate
+                    moPill.time1 = newStoredDate
+                } else {
+                    moPill.time2 = newStoredDate
+                }
             }
         }
     }
@@ -161,7 +163,6 @@ public class Pill: PDObject, Swallowable, Comparable {
     
             moPill.timesTakenToday = 0
         }
-        correctIfNeeded()
     }
 
     public func reset() {
@@ -177,54 +178,26 @@ public class Pill: PDObject, Swallowable, Comparable {
     // MARK: - Comparable, nil is always at the end of a sort
     
     public static func < (lhs: Pill, rhs: Pill) -> Bool {
-        let ld = lhs.due
-        let rd = rhs.due
-        switch (ld, rd) {
-        case (nil, nil) : return false
-        case (nil, _) : return false
-        case (_, nil) : return true
-        default : return ld < rd
-        }
+        lhs.due < rhs.due
     }
     
     public static func > (lhs: Pill, rhs: Pill) -> Bool {
-        let ld = lhs.due
-        let rd = rhs.due
-        switch (ld, rd) {
-        case (nil, nil) : return false
-        case (nil, _) : return false
-        case (_, nil) : return true
-        default : return ld > rd
-        }
+        lhs.due > rhs.due
     }
     
     public static func == (lhs: Pill, rhs: Pill) -> Bool {
-        let ld = lhs.due
-        let rd = rhs.due
-        switch (ld, rd) {
-        case (nil, nil) : return true
-        case (nil, _) : return false
-        case (_, nil) : return false
-        default : return ld == rd
-        }
+        lhs.due == rhs.due
     }
     public static func != (lhs: Pill, rhs: Pill) -> Bool {
-        let ld = lhs.due
-        let rd = rhs.due
-        switch (ld, rd) {
-        case (nil, nil) : return false
-        case (nil, _) : return true
-        case (_, nil) : return true
-        default : return ld != rd
-        }
+        lhs.due != rhs.due
     }
 
-    private func correctIfNeeded() {
+    private func ensureTimeOrdering() {
         if self.time2 < time1 || self.time1 > time2{
             self.time2 = time1
         }
     }
-    
+
     private func initialize() {
         self.initialize(name: PDStrings.PlaceholderStrings.newPill)
     }
@@ -241,23 +214,31 @@ public class Pill: PDObject, Swallowable, Comparable {
     
     private func handleNotEnoughTimesError() -> Date {
         if times.count < timesaday {
-            addMissingDates()
+            addMissingTimes()
             return due
         }
         return Date()
     }
 
-    private func addMissingDates() {
+    private func addMissingTimes() {
         for i in times.count..<timesaday {
-            if i == 0 {
-                self.moPill.time1 = NSDate()
-            } else if i == 1 {
-                if let time1 = moPill.time1 as? Date {
-                    self.moPill.time2 = Time(timeInterval: 1000, since: time1) as NSDate
-                } else {
-                    self.moPill.time2 = Time() as NSDate
-                }
-            }
+            addMissingTime(timeIndex: i)
+        }
+    }
+
+    private func addMissingTime(timeIndex: Index) {
+        if timeIndex == 0 {
+            self.moPill.time1 = NSDate()
+        } else if timeIndex == 1 {
+            addMissingTimeTwo()
+        }
+    }
+
+    private func addMissingTimeTwo() {
+        if let time1 = moPill.time1 as Date? {
+            self.moPill.time2 = Time(timeInterval: 1000, since: time1) as NSDate
+        } else {
+            self.moPill.time2 = Time() as NSDate
         }
     }
 }

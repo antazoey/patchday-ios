@@ -8,7 +8,7 @@
 
 import PDKit
 
-public struct EstrogenStruct {
+public struct HormoneStruct {
     var siteName: String?
     var date: Date?
 }
@@ -32,8 +32,8 @@ public class PDSharedDataController: NSObject {
         return false
     }
     
-    public static func getNextEstrogen() -> EstrogenStruct {
-        var mone = EstrogenStruct()
+    public static func getNextHormone() -> HormoneStruct {
+        var mone = HormoneStruct()
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         if let name = defaults?.object(forKey: siteKey) as? String {
             mone.siteName = name

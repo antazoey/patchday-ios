@@ -6,6 +6,12 @@
 import Foundation
 import PDKit
 
+
+enum TimeNumber: String {
+    case Time1 = "time1"
+    case Time2 = "time2"
+}
+
 class PillDetailViewModel: CodeBehindDependencies {
 
     let pill: Swallowable
@@ -41,17 +47,19 @@ class PillDetailViewModel: CodeBehindDependencies {
     }
 
     var namePickerStartIndex: Index {
-        if let pills = sdk?.pills {
-            let name = selections.name ?? pill.name
-            if let i = names.firstIndex(of: name) {
-                return i
-            }
+        let name = selections.name ?? pill.name
+        if let i = providedPillNameSelection.firstIndex(of: name) {
+            return i
         }
         return 0
     }
 
     var providedPillNameSelection: [String] {
         PDStrings.PillTypes.defaultPills + PDStrings.PillTypes.extraPills
+    }
+
+    var pillSelectionCount: Int {
+        PDStrings.PillTypes.defaultPills.count + PDStrings.PillTypes.extraPills.count
     }
 
     func save() {
@@ -61,5 +69,12 @@ class PillDetailViewModel: CodeBehindDependencies {
             notifications.requestDuePillNotification(pill)
             tabs?.reflectDuePillBadgeValue()
         }
+    }
+
+    func createTimeNumberTypeFromButton(_ button: UIButton) -> TimeNumber {
+        if let id = button.restorationIdentifier, let numType = TimeNumber(rawValue: id) {
+            return numType
+        }
+        return TimeNumber.Time1
     }
 }
