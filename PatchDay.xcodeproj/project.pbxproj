@@ -15,11 +15,9 @@
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
 		139754BE1EDA8C4D006C82B8 /* HormonesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* HormonesVC.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* AlertDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* AlertDispatcher.swift */; };
-		3397C1A0178334EE487F2BD6 /* TodayAppDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */; };
 		3397C3D0A67271CA2D73286D /* PatchDayAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C46296174AEBD22741E7 /* PatchDayAppConstants.swift */; };
 		3397C8D746435C86B21A2549 /* PillDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C773C40F8C3A2E9B65C7 /* PillDetailViewModel.swift */; };
 		3397C99144FAEE3F528DEFD9 /* PillsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C8059B81779DAB0D1B4F /* PillsViewModel.swift */; };
-		3397CA089748B5B40778A7A2 /* TodayAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayAppData.swift */; };
 		3397CA43642C4E0F8A721BC4 /* PillDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C6D10424222DFD220002 /* PillDetailVC.swift */; };
 		3397CA689C9CC82D9E5BC09C /* HormoneDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C83CA26AB9993A1C43D2 /* HormoneDetailVC.swift */; };
 		3397CAE5610E737C6C20E17B /* TimesadaySliderDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CB308A2352054D78961F /* TimesadaySliderDefinition.swift */; };
@@ -121,6 +119,8 @@
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DA3A905233C4B6300DAF350 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
 		9DC4175A22907DF100DD2CEF /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC4175922907DF100DD2CEF /* Navigation.swift */; };
+		9DC5135723973B0A00A5138B /* TodayAppDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */; };
+		9DC5135823973B0E00A5138B /* TodayAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayAppData.swift */; };
 		9DD5C2F3227F4281009BAA25 /* TabReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F2227F4281009BAA25 /* TabReflector.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
 		9DD5C2F922811164009BAA25 /* ModiiImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */; };
@@ -1423,8 +1423,6 @@
 				3397CA43642C4E0F8A721BC4 /* PillDetailVC.swift in Sources */,
 				3397CAE5610E737C6C20E17B /* TimesadaySliderDefinition.swift in Sources */,
 				3397CBA0C1D5654C5717D6A1 /* SiteStructs.swift in Sources */,
-				3397CA089748B5B40778A7A2 /* TodayAppData.swift in Sources */,
-				3397C1A0178334EE487F2BD6 /* TodayAppDataDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1461,12 +1459,14 @@
 				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
 				9D003E982321C24B0070C964 /* PDObject.swift in Sources */,
 				9D913BB6231F3EB5001FC03C /* Site.swift in Sources */,
+				9DC5135723973B0A00A5138B /* TodayAppDataDelegate.swift in Sources */,
 				B40CC9C021CD7DA9002364BB /* PDCoreData.swift in Sources */,
 				9D9397BD2379444300FDF290 /* PDDefaults.swift in Sources */,
 				9D003E962321BD250070C964 /* PDCoreDataExtension.swift in Sources */,
 				9D003EB3233330CE0070C964 /* PDSiteIndexer.swift in Sources */,
 				B40CC9C221CD802D002364BB /* DataMeter.swift in Sources */,
 				9D913BAC230CD5C9001FC03C /* Hormone.swift in Sources */,
+				9DC5135823973B0E00A5138B /* TodayAppData.swift in Sources */,
 				B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */,
 				B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */,
 				9D9397C4237BA20600FDF290 /* PatchDataStateManager.swift in Sources */,
