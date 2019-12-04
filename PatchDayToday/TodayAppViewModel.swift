@@ -1,6 +1,6 @@
 //
-//  EstrogenSchedule.swift
-//  PatchDay
+//  TodayAppViewModel.swift
+//  PatchDayToday
 //
 //  Created by Juliya Smith on 6/19/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -8,55 +8,60 @@
 
 import PDKit
 
-struct HormoneStruct {
-    var siteName: String?
-    var date: Date?
-}
-
-struct PillStruct {
-    var name: String?
-    var nextTakeDate: Date?
-}
-
 class TodayAppViewModel: NSObject {
 
-    private static let data: TodayAppDataDelegate
+    private let data: TodayAppDataDelegate
+    private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
+    private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
 
-    init(dataDelegate: TodayAppDataDelegate)
+    private let placeholderText = {
+        PDStrings.PlaceholderStrings.dotDotDot
+    }()
+
+    init(dataDelegate: TodayAppDataDelegate) {
+        self.data = dataDelegate
+    }
+
+    convenience override init() {
+        self.init(dataDelegate: TodayAppData())
+    }
     
     // MARK: - Public
 
-    static var usingPatches: Bool {
-        let key = PDDefault.DeliveryMethod.rawValue
-        if let method = defaults?.string(forKey: key) {
+    var usingPatches: Bool {
+        if let method = data.getDeliveryMethod() {
             return method == NSLocalizedString("Patches", comment: "duplicate")
         }
         return false
     }
-    
-    static func getNextHormone() -> HormoneStruct {
-        var mone = HormoneStruct()
-        let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
-        if let name = defaults?.object(forKey: siteKey) as? String {
-            mone.siteName = name
-        }
-        let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
-        if let date = defaults?.object(forKey: dateKey) as? Date {
-            mone.date = date
-        }
-        return mone
+
+    var hormoneTitle: String {
+        usingPatches ? changeLabel : injectLabel
     }
-    
-    static func getNextPill() -> PillStruct {
-        var pill = PillStruct()
-        let pillKey = PDStrings.TodayKey.nextPillToTake.rawValue
-        if let name = defaults?.object(forKey: pillKey) as? String {
-            pill.name = name
+
+    var hormoneSiteName: String {
+        let hormone = PDTStructFactory.createHormone(data)
+        return hormone.siteName ?? placeholderText
+    }
+
+    var hormoneDateText: String {
+        let hormone = PDTStructFactory.createHormone(data)
+        if let date = hormone.date {
+            return DateHelper.format(date: date, useWords: true)
         }
-        let timeKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
-        if let t = defaults?.object(forKey: timeKey) as? Date {
-            pill.nextTakeDate = t
+        return placeholderText
+    }
+
+    var nextPillName: String {
+        let pill = PDTStructFactory.createPill(data)
+        return pill.name ?? placeholderText
+    }
+
+    var nextPillDateText: String {
+        let pill = PDTStructFactory.createPill(data)
+        if let date = pill.nextTakeDate {
+            return DateHelper.format(date: date, useWords: true)
         }
-        return pill
+        return placeholderText
     }
 }

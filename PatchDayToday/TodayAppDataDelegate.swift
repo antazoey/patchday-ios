@@ -6,5 +6,9 @@
 import Foundation
 
 protocol TodayAppDataDelegate {
-    func getStoredDeliveryMethod() -> String?
+    func getDeliveryMethod() -> String?
+    func getSiteName() -> String?
+    func getHormoneDate() -> Date?
+    func getNextPillName() -> String?
+    func getNextPillDate() -> Date?
 }

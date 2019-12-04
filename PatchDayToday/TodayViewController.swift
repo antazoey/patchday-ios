@@ -16,24 +16,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBOutlet weak var estrogenDateLabel: UILabel!
     @IBOutlet weak var nextPillNameLabel: UILabel!
     @IBOutlet weak var nextPillTakeDateLabel: UILabel!
-
-    private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
-    private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
-
-    private let placeholderText = {
-        PDStrings.PlaceholderStrings.dotDotDot
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nextHormone = PDSharedDataController.getNextHormone()
-        let nextPill = PDSharedDataController.getNextPill()
-        let usingPatches = PDSharedDataController.usingPatches()
-        loadHormoneTitleLabel(usingPatches: usingPatches)
-        loadHormoneSiteLabel(nextHormone)
-        loadHormoneDateLabel(nextHormone)
-        loadPillNameLabel(nextPill)
-        loadPillDateLabel(nextPill)
+        let viewModel = TodayAppViewModel()
+        estrogenSiteLabel.text = viewModel.hormoneSiteName
+        nextEstrogenLabel.text = viewModel.hormoneTitle
+        estrogenDateLabel.text = viewModel.hormoneDateText
+        nextPillNameLabel.text = viewModel.nextPillName
+        nextPillTakeDateLabel.text = viewModel.nextPillDateText
     }
     
     @IBAction func widgetTapped(_ sender: Any) {
@@ -41,44 +32,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         extensionContext?.open(myAppUrl as URL, completionHandler: {
             (success) in
             if (!success) {
-                print("Failure to open PatchDay")
+                print("Failure to open PatchDayToday")
             }
         })
-    }
-
-    private func loadHormoneTitleLabel(usingPatches: Bool) {
-        nextEstrogenLabel.text = usingPatches ? changeLabel : injectLabel
-    }
-
-    private func loadHormoneSiteLabel(_ hormone: HormoneStruct) {
-        if let n = hormone.siteName {
-            estrogenSiteLabel.text = n
-        } else {
-            estrogenSiteLabel.text = placeholderText
-        }
-    }
-
-    private func loadHormoneDateLabel(_ hormone: HormoneStruct) {
-        if let d = hormone.date {
-            estrogenDateLabel.text = DateHelper.format(date: d, useWords: true)
-        } else {
-            estrogenDateLabel.text = placeholderText
-        }
-    }
-
-    private func loadPillNameLabel(_ pill: PillStruct) {
-        if let n = pill.name {
-            nextPillNameLabel.text = n
-        } else {
-            nextPillNameLabel.text = placeholderText
-        }
-    }
-
-    private func loadPillDateLabel(_ pill: PillStruct) {
-        if let d = pill.nextTakeDate {
-            nextPillTakeDateLabel.text = DateHelper.format(date: d, useWords: true)
-        } else {
-            nextPillTakeDateLabel.text = placeholderText
-        }
     }
 }
