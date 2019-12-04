@@ -22,5 +22,5 @@ public class NotificationsMinutesBeforeUD: KeyStorable {
     
     public var rawValue: Int { value }
     
-    public static var key = PDDefault.NotiicationsMinutesBefore
+    public static var key = PDDefault.NotificationsMinutesBefore
 }

@@ -8,31 +8,33 @@
 
 import PDKit
 
-public struct HormoneStruct {
+struct HormoneStruct {
     var siteName: String?
     var date: Date?
 }
 
-public struct PillStruct {
+struct PillStruct {
     var name: String?
     var nextTakeDate: Date?
 }
 
-public class PDSharedDataController: NSObject {
+class TodayAppViewModel: NSObject {
 
-    private static var defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
+    private static let data: TodayAppDataDelegate
+
+    init(dataDelegate: TodayAppDataDelegate)
     
     // MARK: - Public
 
-    public static func usingPatches() -> Bool {
-        let key = "delivMethod"
-        if let delivMethod = defaults?.string(forKey: key) {
-            return delivMethod == NSLocalizedString("Patches", comment: "duplicate")
+    static var usingPatches: Bool {
+        let key = PDDefault.DeliveryMethod.rawValue
+        if let method = defaults?.string(forKey: key) {
+            return method == NSLocalizedString("Patches", comment: "duplicate")
         }
         return false
     }
     
-    public static func getNextHormone() -> HormoneStruct {
+    static func getNextHormone() -> HormoneStruct {
         var mone = HormoneStruct()
         let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
         if let name = defaults?.object(forKey: siteKey) as? String {
@@ -45,7 +47,7 @@ public class PDSharedDataController: NSObject {
         return mone
     }
     
-    public static func getNextPill() -> PillStruct {
+    static func getNextPill() -> PillStruct {
         var pill = PillStruct()
         let pillKey = PDStrings.TodayKey.nextPillToTake.rawValue
         if let name = defaults?.object(forKey: pillKey) as? String {

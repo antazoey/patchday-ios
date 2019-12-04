@@ -1,6 +1,6 @@
 //
 //  TodayViewController.swift
-//  patchdayToday
+//  PatchDayToday
 //
 //  Created by Juliya Smith on 6/19/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -16,6 +16,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBOutlet weak var estrogenDateLabel: UILabel!
     @IBOutlet weak var nextPillNameLabel: UILabel!
     @IBOutlet weak var nextPillTakeDateLabel: UILabel!
+
+    private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
+    private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
 
     private let placeholderText = {
         PDStrings.PlaceholderStrings.dotDotDot
@@ -44,8 +47,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
 
     private func loadHormoneTitleLabel(usingPatches: Bool) {
-        let nextHormoneText = usingPatches ? "Change:" : "Inject:"
-        nextEstrogenLabel.text = NSLocalizedString(nextHormoneText, comment: "Short label on Today App")
+        nextEstrogenLabel.text = usingPatches ? changeLabel : injectLabel
     }
 
     private func loadHormoneSiteLabel(_ hormone: HormoneStruct) {

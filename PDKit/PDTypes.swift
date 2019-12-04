@@ -39,7 +39,7 @@ public enum PDDefault: String {
     case ExpirationInterval = "patchChangeInterval"
     case Quantity = "numberOfPatches"
     case Notifications = "notification"
-    case NotiicationsMinutesBefore = "remindMeUpon"
+    case NotificationsMinutesBefore = "remindMeUpon"
     case MentionedDisclaimer = "mentioned"
     case SiteIndex = "site_i"
     case Theme = "theme"

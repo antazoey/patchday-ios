@@ -15,9 +15,11 @@
 		137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 137330F51E22BA3E0048F91E /* LaunchScreen.storyboard */; };
 		139754BE1EDA8C4D006C82B8 /* HormonesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* HormonesVC.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* AlertDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* AlertDispatcher.swift */; };
+		3397C1A0178334EE487F2BD6 /* TodayAppDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */; };
 		3397C3D0A67271CA2D73286D /* PatchDayAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C46296174AEBD22741E7 /* PatchDayAppConstants.swift */; };
 		3397C8D746435C86B21A2549 /* PillDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C773C40F8C3A2E9B65C7 /* PillDetailViewModel.swift */; };
 		3397C99144FAEE3F528DEFD9 /* PillsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C8059B81779DAB0D1B4F /* PillsViewModel.swift */; };
+		3397CA089748B5B40778A7A2 /* TodayAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayAppData.swift */; };
 		3397CA43642C4E0F8A721BC4 /* PillDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C6D10424222DFD220002 /* PillDetailVC.swift */; };
 		3397CA689C9CC82D9E5BC09C /* HormoneDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C83CA26AB9993A1C43D2 /* HormoneDetailVC.swift */; };
 		3397CAE5610E737C6C20E17B /* TimesadaySliderDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CB308A2352054D78961F /* TimesadaySliderDefinition.swift */; };
@@ -158,7 +160,7 @@
 		B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE0921CC72DB002C2238 /* TodayViewController.swift */; };
 		B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */; };
 		B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B480EE0621CC72DB002C2238 /* PatchDayToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		B480EE1621CC7328002C2238 /* PDTodayDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE1521CC7328002C2238 /* PDTodayDataController.swift */; };
+		B480EE1621CC7328002C2238 /* TodayAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE1521CC7328002C2238 /* TodayAppViewModel.swift */; };
 		B480EE2521CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
 		B480EE2C21CC7554002C2238 /* SiteScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE2B21CC7554002C2238 /* SiteScheduleTests.swift */; };
 		B480EE2E21CC7554002C2238 /* PatchData.h in Headers */ = {isa = PBXBuildFile; fileRef = B480EE1E21CC7553002C2238 /* PatchData.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -280,6 +282,7 @@
 		13C746D01ED781DD00067A67 /* PDDefaultsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDDefaultsStore.swift; sourceTree = "<group>"; };
 		13E0BB5C1EF8E5D900939D37 /* AlertDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDispatcher.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
+		3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayAppDataDelegate.swift; sourceTree = "<group>"; };
 		3397C0F9462E43822D044541 /* SiteStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteStructs.swift; sourceTree = "<group>"; };
 		3397C46296174AEBD22741E7 /* PatchDayAppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayAppConstants.swift; sourceTree = "<group>"; };
 		3397C4DA54594D9CCD478BD2 /* PillsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsTable.swift; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 		3397CA1A9C6D122F6FEB4D49 /* HormonesStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormonesStructs.swift; sourceTree = "<group>"; };
 		3397CB308A2352054D78961F /* TimesadaySliderDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimesadaySliderDefinition.swift; sourceTree = "<group>"; };
 		3397CDDC25322F027DE45D6A /* DoneButtonFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoneButtonFactory.swift; sourceTree = "<group>"; };
+		3397CEC480B40360BA66C97A /* TodayAppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayAppData.swift; sourceTree = "<group>"; };
 		9D003E952321BD250070C964 /* PDCoreDataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataExtension.swift; sourceTree = "<group>"; };
 		9D003E972321C24B0070C964 /* PDObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObject.swift; sourceTree = "<group>"; };
 		9D003E9923231E880070C964 /* PDObjectifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObjectifiable.swift; sourceTree = "<group>"; };
@@ -427,7 +431,7 @@
 		B480EE0921CC72DB002C2238 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		B480EE0C21CC72DB002C2238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		B480EE0E21CC72DB002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B480EE1521CC7328002C2238 /* PDTodayDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTodayDataController.swift; sourceTree = "<group>"; };
+		B480EE1521CC7328002C2238 /* TodayAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAppViewModel.swift; sourceTree = "<group>"; };
 		B480EE1C21CC7553002C2238 /* PatchData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PatchData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B480EE1E21CC7553002C2238 /* PatchData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PatchData.h; sourceTree = "<group>"; };
 		B480EE1F21CC7553002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -920,9 +924,11 @@
 			children = (
 				9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */,
 				B480EE0921CC72DB002C2238 /* TodayViewController.swift */,
-				B480EE1521CC7328002C2238 /* PDTodayDataController.swift */,
+				B480EE1521CC7328002C2238 /* TodayAppViewModel.swift */,
 				B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */,
 				B480EE0E21CC72DB002C2238 /* Info.plist */,
+				3397CEC480B40360BA66C97A /* TodayAppData.swift */,
+				3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */,
 			);
 			path = PatchDayToday;
 			sourceTree = "<group>";
@@ -1417,6 +1423,8 @@
 				3397CA43642C4E0F8A721BC4 /* PillDetailVC.swift in Sources */,
 				3397CAE5610E737C6C20E17B /* TimesadaySliderDefinition.swift in Sources */,
 				3397CBA0C1D5654C5717D6A1 /* SiteStructs.swift in Sources */,
+				3397CA089748B5B40778A7A2 /* TodayAppData.swift in Sources */,
+				3397C1A0178334EE487F2BD6 /* TodayAppDataDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1435,7 +1443,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */,
-				B480EE1621CC7328002C2238 /* PDTodayDataController.swift in Sources */,
+				B480EE1621CC7328002C2238 /* TodayAppViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
