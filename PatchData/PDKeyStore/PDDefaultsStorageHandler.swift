@@ -18,9 +18,9 @@ public class PDDefaultsStorageHandler: NSObject, Storing {
     }
     
     private let stdDefaults = UserDefaults.standard
-    private var meter: DataMeting? = nil
+    private var meter: DataShareDelegate? = nil
 
-    public init(meter: DataMeting) {
+    public init(meter: DataShareDelegate) {
         self.meter = meter
     }
 

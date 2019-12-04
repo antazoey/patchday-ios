@@ -15,7 +15,6 @@ struct PillStruct {
     var nextTakeDate: Date?
 }
 
-
 class PDTStructFactory {
 
     static func createHormone(_ data: TodayAppDataDelegate) -> HormoneStruct {
@@ -27,19 +26,19 @@ class PDTStructFactory {
 
     static func createPill(_ data: TodayAppDataDelegate) -> PillStruct {
         var pill = PillStruct()
-        trySetPillNextName(pill: &pill)
-        trySetPillNextDate(pill: &pill)
+        trySetPillNextName(data, pill: &pill)
+        trySetPillNextDate(data, pill: &pill)
         return pill
     }
 
     private static func trySetHormoneSiteName(_ data: TodayAppDataDelegate, hormone: inout HormoneStruct) {
-        if let siteName = data.getSiteName() {
+        if let siteName = data.getNextHormoneSiteName() {
             hormone.siteName = siteName
         }
     }
 
     private static func trySetHormoneDate(_ data: TodayAppDataDelegate, hormone: inout HormoneStruct) {
-        if let expirationDate = data.getHormoneDate() {
+        if let expirationDate = data.getNextHormoneExpirationDate() {
             hormone.date = expirationDate
         }
     }

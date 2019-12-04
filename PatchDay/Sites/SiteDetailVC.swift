@@ -90,7 +90,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             imagePickerDoneButton.isEnabled = false
             imagePickerDoneButton.isHidden = true
             enableSave()
-            sdk.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey, deliveryMethod: method)
+            sdk.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey)
         }
     }
     
@@ -120,7 +120,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             case 0..<count :
                 sdk.sites.rename(at: i, to: name)
             case count :
-                sdk.insertNewSite(name: name)
+                sdk.sites.insertNew(name: name)
             default : break
             }
         }

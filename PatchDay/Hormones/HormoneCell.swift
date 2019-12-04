@@ -22,7 +22,7 @@ class HormoneCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
-    public func load(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) {
+    public func configure(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) -> HormoneCell {
         backgroundColor = app?.styles.theme[.bg]
         setThemeColors(at: hormoneIndex)
         if let sdk = app?.sdk {
@@ -32,6 +32,7 @@ class HormoneCell: UITableViewCell {
             )
             handleHormoneFromState(hormoneCellState, sdk, hormone, hormoneIndex)
         }
+        return self
     }
 
     private static func convertHormoneIndexToCellState(_ index: Index, hormoneLimit: Int) -> HormoneCellState {

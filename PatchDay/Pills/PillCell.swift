@@ -21,8 +21,10 @@ class PillCell: UITableViewCell {
     @IBOutlet weak var lastTakenLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!
     @IBOutlet weak var imageViewView: UIView!
+
+    static let RowHeight: CGFloat = 170.0
     
-    @discardableResult public func load(_ pill: Swallowable, pillIndex: Index) -> PillCell {
+    @discardableResult public func configure(_ pill: Swallowable, pillIndex: Index) -> PillCell {
         loadNameLabel(pill)
         loadStateImage(pill, index: pillIndex)
         loadLastTakenText(pill)

@@ -50,8 +50,8 @@ public class PDStrings: NSObject {
     // MARK: - User default keys
     
     public enum TodayKey: String {
-        case nextEstroSiteName = "nextEstroSiteName"
-        case nextEstroDate = "nextEstroDate"
+        case nextHormoneSiteName = "nextEstroSiteName"
+        case nextHormoneDate = "nextEstroDate"
         case nextPillToTake = "nextPillToTake"
         case nextPillTakeTime = "nextPillTakeTime"
     }

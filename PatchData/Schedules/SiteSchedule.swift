@@ -139,7 +139,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     public func insertNew(name: String, completion: @escaping () -> ()) -> Bodily? {
-        var site = insertNew(name: name)
+        let site = insertNew(name: name)
         completion()
         return site
     }

@@ -9,10 +9,10 @@
 import Foundation
 import PDKit
 
-public class DataMeter: DataMeting {
+public class DataShare: DataShareDelegate {
     
     public var defaults: UserDefaults? {
-        return UserDefaults(suiteName: "group.com.patchday.todaydata")
+        UserDefaults(suiteName: "group.com.patchday.todaydata")
     }
 
     public func broadcastRelevantHormoneData(
@@ -27,8 +27,8 @@ public class DataMeter: DataMeting {
         case .Injections: siteName = nextSuggestedSite
         }
         if let defs = defaults {
-            defs.set(siteName, forKey: PDStrings.TodayKey.nextEstroSiteName.rawValue)
-            defs.set(oldestHormone.date, forKey: PDStrings.TodayKey.nextEstroDate.rawValue)
+            defs.set(siteName, forKey: PDStrings.TodayKey.nextHormoneSiteName.rawValue)
+            defs.set(oldestHormone.date, forKey: PDStrings.TodayKey.nextHormoneDate.rawValue)
         }
     }
 

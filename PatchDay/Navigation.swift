@@ -71,8 +71,4 @@ extension UIStoryboard {
     static func createSettingsStoryboard() -> UIStoryboard {
         UIStoryboard(name: "SettingsAndSites", bundle: nil)
     }
-
-    static func createHormoneDetailStoryboard() -> UIStoryboard {
-
-    }
 }

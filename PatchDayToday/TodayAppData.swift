@@ -15,13 +15,13 @@ class TodayAppData: TodayAppDataDelegate {
         return  defaults?.string(forKey: key)
     }
 
-    func getSiteName() -> String? {
-        let siteKey = PDStrings.TodayKey.nextEstroSiteName.rawValue
+    func getNextHormoneSiteName() -> String? {
+        let siteKey = PDStrings.TodayKey.nextHormoneSiteName.rawValue
         return defaults?.object(forKey: siteKey) as? String
     }
 
-    func getHormoneDate() -> Date? {
-        let dateKey = PDStrings.TodayKey.nextEstroDate.rawValue
+    func getNextHormoneExpirationDate() -> Date? {
+        let dateKey = PDStrings.TodayKey.nextHormoneDate.rawValue
         return defaults?.object(forKey: dateKey) as? Date
     }
 

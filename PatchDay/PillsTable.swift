@@ -14,15 +14,16 @@ class PillsTable {
         self.table = table
     }
 
+    func reload() {
+        table.reloadData()
+    }
+
     func getCellForRowAt(_ index: Index) -> PillCell? {
         table.dequeuePillCell()
     }
 
     func deleteCell(at indexPath: IndexPath, pillsCount: Int) {
-        //viewModel.pills?.delete(at: indexPath.row)
         table.deleteRows(at: [indexPath], with: .fade)
-        table.reloadData()
-        //setBadge()
         let start = indexPath.row
         let count = pillsCount ?? (start + 1)
         let end = count - 1
@@ -31,5 +32,13 @@ class PillsTable {
                 getCellForRowAt(i)?.loadBackground()
             }
         }
+        table.reloadData()
+    }
+}
+
+extension UITableView {
+
+    func dequeuePillCell() -> PillCell? {
+        dequeueReusableCell(withIdentifier: "pillCellReuseId") as? PillCell
     }
 }

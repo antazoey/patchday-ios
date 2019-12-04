@@ -51,13 +51,11 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        if let tabs = app?.tabs {
-            viewModel.tabs?.reflectHormoneCharacteristics()
-        }
+        viewModel.tabs?.reflectHormoneCharacteristics()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        view.frame.height * 0.24
+        viewModel.getCellRowHeight(viewHeight: view.frame.height)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,8 +67,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         if let hormone = viewModel.hormones?.at(hormoneIndex),
             let cell = hormonalTable.dequeueHormoneCell() {
 
-            cell.load(viewModel: viewModel, hormone: hormone, hormoneIndex: hormoneIndex)
-            return cell
+            return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: hormoneIndex)
         }
         return UITableViewCell()
     }

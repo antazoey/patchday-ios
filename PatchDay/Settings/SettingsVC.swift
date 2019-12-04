@@ -20,7 +20,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         """
     }
     
-    private let viewModel = SettingsCodeBehind()
+    private let viewModel = SettingsViewModel()
     private var reflector: SettingsReflector!
     private var saver: SettingsSaveController!
 

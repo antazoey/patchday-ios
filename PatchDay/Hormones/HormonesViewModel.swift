@@ -58,7 +58,7 @@ class HormonesViewModel: CodeBehindDependencies {
         }
     }
 
-    func presentNewSiteAlert(from source: UIViewController, newSiteName: String) {
-        alerts.presentNewSiteAlert(with: newSiteName, at: siteIndexSelected, hormoneVC: source)
+    func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
+        viewHeight * 0.24
     }
 }

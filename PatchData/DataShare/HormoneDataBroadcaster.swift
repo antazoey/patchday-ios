@@ -12,10 +12,10 @@ import PDKit
 public class HormoneDataBroadcaster: HormoneDataBroadcasting {
     
     private let sites: HormoneSiteScheduling
-    private let siteDataMeter: DataMeting
+    private let siteDataMeter: DataShareDelegate
     private let defaults: UserDefaultsStoring
     
-    init(sites: HormoneSiteScheduling, siteDataMeter: DataMeting, defaults: UserDefaultsStoring) {
+    init(sites: HormoneSiteScheduling, siteDataMeter: DataShareDelegate, defaults: UserDefaultsStoring) {
         self.sites = sites
         self.siteDataMeter = siteDataMeter
         self.defaults = defaults
