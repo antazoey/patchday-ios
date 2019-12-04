@@ -119,8 +119,8 @@
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DA3A905233C4B6300DAF350 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
 		9DC4175A22907DF100DD2CEF /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC4175922907DF100DD2CEF /* Navigation.swift */; };
-		9DC5135723973B0A00A5138B /* TodayAppDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */; };
-		9DC5135823973B0E00A5138B /* TodayAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayAppData.swift */; };
+		9DC5135923973C1400A5138B /* TodayAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayAppData.swift */; };
+		9DC5135A23973C1700A5138B /* TodayAppDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */; };
 		9DD5C2F3227F4281009BAA25 /* TabReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F2227F4281009BAA25 /* TabReflector.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
 		9DD5C2F922811164009BAA25 /* ModiiImageResizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F822811164009BAA25 /* ModiiImageResizer.swift */; };
@@ -1440,8 +1440,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DC5135A23973C1700A5138B /* TodayAppDataDelegate.swift in Sources */,
 				B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */,
 				B480EE1621CC7328002C2238 /* TodayAppViewModel.swift in Sources */,
+				9DC5135923973C1400A5138B /* TodayAppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1459,14 +1461,12 @@
 				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
 				9D003E982321C24B0070C964 /* PDObject.swift in Sources */,
 				9D913BB6231F3EB5001FC03C /* Site.swift in Sources */,
-				9DC5135723973B0A00A5138B /* TodayAppDataDelegate.swift in Sources */,
 				B40CC9C021CD7DA9002364BB /* PDCoreData.swift in Sources */,
 				9D9397BD2379444300FDF290 /* PDDefaults.swift in Sources */,
 				9D003E962321BD250070C964 /* PDCoreDataExtension.swift in Sources */,
 				9D003EB3233330CE0070C964 /* PDSiteIndexer.swift in Sources */,
 				B40CC9C221CD802D002364BB /* DataMeter.swift in Sources */,
 				9D913BAC230CD5C9001FC03C /* Hormone.swift in Sources */,
-				9DC5135823973B0E00A5138B /* TodayAppData.swift in Sources */,
 				B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */,
 				B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */,
 				9D9397C4237BA20600FDF290 /* PatchDataStateManager.swift in Sources */,
