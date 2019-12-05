@@ -11,6 +11,12 @@ import PDKit
 
 class SitesViewModel: CodeBehindDependencies {
 
+    let sitesTable: SitesTable
+
+    init(sitesTable: SitesTable) {
+        self.sitesTable = sitesTable
+    }
+
     var sitesCount: Int {
         sdk?.sites.count ?? 0
     }
@@ -29,6 +35,13 @@ class SitesViewModel: CodeBehindDependencies {
         }
     }
 
+    func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
+        SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
+        if let site = sdk?.sites.at(siteIndex) {
+            nav?.goToSiteDetails(site, source: sitesViewController)
+        }
+    }
+
     func deleteSite(at index: Index) {
         if let sites = sdk?.sites {
             sites.delete(at: index)
@@ -42,17 +55,14 @@ class SitesViewModel: CodeBehindDependencies {
         return VCTitleStrings.siteTitle
     }
 
-    func createCellProps(_ siteIndex: Index, _ isEditing: Bool) -> SiteCellProperties {
-        var props = SiteCellProperties(nextSiteIndex: siteIndex, isEditing: isEditing)
-        if let sites = sdk?.sites {
-            props.nextSiteIndex = sites.nextIndex
-            props.totalSiteCount = sites.count
-            if let site = sites.at(siteIndex) {
-                props.site = site
-            }
-            if let theme = styles?.theme {
-                props.theme = theme
-            }
-        }
+    func createBarItems(insertAction: Selector, editAction: Selector, sitesViewController: UIViewController) -> [UIBarButtonItem] {
+        let insert = SiteViewFactory.createInsertItem(insertAction: insertAction, sitesViewController: sitesViewController)
+        let edit = SiteViewFactory.createEditItem(editAction: editAction, sitesViewController: sitesViewController)
+        return [insert, edit]
+    }
+
+    private static func prepareBackButtonForNavigation(_ sitesViewController: UIViewController) {
+        let backItem = SiteViewFactory.createBackItem()
+        sitesViewController.navigationItem.backBarButtonItem = backItem
     }
 }

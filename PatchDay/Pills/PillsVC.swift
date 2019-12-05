@@ -21,7 +21,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = PillsViewModel(pillsTable: PillsTable(pillsTable))
+        viewModel = PillsViewModel(pillsTable: PillsTable(pillsTable, pills: viewModel?.pills))
         applyTheme()
         title = VCTitleStrings.pillsTitle
         pillsTable.delegate = self
@@ -80,7 +80,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func applyTheme() {
-        if let theme = app?.styles.theme {
+        if let theme = viewModel?.styles?.theme {
             let bgColor = theme[.bg]
             let borderColor = theme[.border]
             pillsView.backgroundColor = bgColor

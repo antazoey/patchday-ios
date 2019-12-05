@@ -54,7 +54,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         return self
     }
     
-    static func createHormoneDetailVC(source: UIViewController, hormone: Hormonal) -> HormoneDetailVC? {
+    static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailVC? {
         createHormoneDetailVC(source: source, hormoneDetailsCodeBehind: HormoneDetailViewModel(hormone))
     }
 

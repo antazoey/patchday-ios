@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class PillCell: UITableViewCell {
+class PillCell: TableCell {
 
     private var pill: Swallowable!
 

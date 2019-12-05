@@ -6,6 +6,11 @@
 import Foundation
 import PDKit
 
+struct ImageStruct {
+    let image: UIImage
+    let imageKey: SiteName
+}
+
 struct SiteCellProperties {
     var site: Bodily? = nil
     var rowIndex: Index = 0
@@ -13,4 +18,9 @@ struct SiteCellProperties {
     var nextSiteIndex: Int = 0
     var isEditing: Bool = false
     var theme: AppTheme? = nil
+}
+
+struct SiteSelectionState {
+    var siteScheduleIndex: Int = -1
+    var hasChanged: Bool = false
 }

@@ -44,8 +44,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         DefaultNumberOfPickerComponents
     }
 
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]?
-    {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let title = ActionStrings.delete
         let delete = UITableViewRowAction(style: .normal, title: title) {
             _, _ in self.deleteCell(indexPath: indexPath)
@@ -74,12 +73,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id = "siteCellReuseId"
-        if let siteCell = sitesTable.dequeueReusableCell(withIdentifier: id) as? SiteCell {
-            let props = viewModel.createCellProps(siteIndex: indexPath.row, isEditing: sitesTable.isEditing)
-            siteCell.configure(props: props)
-        }
-        return UITableViewCell()
+        viewModel.sitesTable.getCell
     }
     
     // MARK: - Editing cells in the table
@@ -160,13 +154,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Private
     
     private func segueToSiteDetailVC(_ siteIndex: Int) {
-        let backItem = UIBarButtonItem()
-        backItem.title = VCTitleStrings.sitesTitle
-        navigationItem.backBarButtonItem = backItem
-        if let sb = storyboard, let navCon = navigationController, let siteVC = sb.instantiateViewController(withIdentifier: "SiteDetailVC_id") as? SiteDetailVC {
-            siteVC.setSiteScheduleIndex(to: siteIndex)
-            navCon.pushViewController(siteVC, animated: true)
-        }
+        viewModel.goToSiteDetails(siteIndex: siteIndex, sitesViewController: self)
     }
     
     // Hides labels in the table cells for edit mode.
@@ -227,19 +215,9 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     private func loadBarButtons() {
-        let insertButton = UIBarButtonItem(
-            barButtonSystemItem: UIBarButtonItem.SystemItem.add,
-            target: self,
-            action: #selector(insertTapped)
+        navigationItem.rightBarButtonItems = viewModel.createBarItems(
+            insertAction: #selector(insertTapped), editAction: #selector(editTapped), sitesViewController: self
         )
-        insertButton.tintColor = PDColors.get(.Green)
-        let editButton = UIBarButtonItem(
-            title: ActionStrings.edit,
-            style: .plain,
-            target: self,
-            action: #selector(editTapped)
-        )
-        navigationItem.rightBarButtonItems = [insertButton, editButton]
     }
     
     private func loadTitle() {

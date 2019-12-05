@@ -13,6 +13,7 @@ protocol NavigationDelegate {
     func reflectTheme(theme: AppTheme)
     func goToHormoneDetails(_ mone: Hormonal, source: UIViewController)
     func goToPillDetails(_ pill: Swallowable, source: UIViewController)
+    func goToSiteDetails(_ site: Bodily, source: UIViewController)
     func goToSettings(source: UIViewController)
     func pop(source: UIViewController)
 }

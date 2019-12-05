@@ -24,8 +24,6 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     var hormone: Hormonal
     var selectionState = HormoneSelectionState()
 
-    static let viewControllerId = "HormoneDetailVC_id"
-
     init(_ hormone: Hormonal) {
         self.hormone = hormone
     }

@@ -87,9 +87,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         applyTheme()
     }
     
-    static func createSettingsVC(source: UIViewController) -> SettingsVC? {
+    static func createSettingsVC(_ source: UIViewController) -> SettingsVC? {
         let sb = UIStoryboard.createSettingsStoryboard()
-        return sb.instantiateViewController(withIdentifier: "SettingsVC_id") as? SettingsVC
+        return sb.instantiateViewController(withIdentifier: ViewControllerIds.Settings) as? SettingsVC
     }
     
     // MARK: - Actions

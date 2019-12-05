@@ -4,6 +4,18 @@
 //
 
 import Foundation
+import PDKit
 
 class SiteDetailViewModel {
+
+    private var site: Bodily
+    private var selections = SiteSelectionState()
+
+    init(_ site: Bodily) {
+        self.site = site
+    }
+
+    func saveChanges() {
+
+    }
 }

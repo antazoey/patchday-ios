@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 struct HormoneSelectionState {
     var siteIndexSelected: Index = 0
     var selectedSite: Bodily?

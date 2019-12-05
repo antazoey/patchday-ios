@@ -16,13 +16,13 @@ private enum HormoneCellState {
     case Empty
 }
 
-class HormoneCell: UITableViewCell {
+class HormoneCell: TableCell {
     
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
-    public func configure(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) -> HormoneCell {
+    @discardableResult public func configure(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) -> HormoneCell {
         backgroundColor = app?.styles.theme[.bg]
         setThemeColors(at: hormoneIndex)
         if let sdk = app?.sdk {

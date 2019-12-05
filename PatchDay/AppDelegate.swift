@@ -52,14 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setBadgeToTotalAlerts()
     }
 
-    func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
-        tabs = TabReflector(tabBarController: tabBarController, viewControllers: appViewControllers)
-    }
-
-    func isFirstLaunch() -> Bool {
-        !sdk.defaults.mentionedDisclaimer.value
-    }
-
     func setNavigationAppearance() {
         nav.reflectTheme(theme: styles.theme)
         tabs?.reflectTheme(theme: styles.theme)

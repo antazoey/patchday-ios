@@ -43,12 +43,8 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         return self
     }
     
-    public static func createPillDetailVC(
-        source: UIViewController,
-        sdk: PatchDataDelegate,
-        pill: Swallowable
-    ) -> PillDetailVC? {
-        let id = "PillDetailVC_id"
+    public static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
+        let id = ViewControllerIds.Pill
         if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailVC {
             return vc.initWithPill(pill)
         }
@@ -83,14 +79,8 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
         let slider = sender as! UISlider
-        if slider.value >= 2 {
-            time2Button.isEnabled = true
-            viewModel?.selections.timesaday = 2
-        } else {
-            time2Button.isEnabled = false
-            viewModel?.selections.timesaday = 1
-
-        }
+        viewModel?.setSelectedTimesadayFromSliderValue(sliderValue: slider.value)
+        time2Button.isEnabled = viewModel?.sliderValueRepresentsPlurality(sliderValue: slider.value) ?? false
         enableSaveButton()
     }
     
@@ -145,11 +135,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let vm = viewModel {
-            let name = vm.providedPillNameSelection[row]
-            vm.selections.name = name
-            nameTextField.text = name
-        }
+        nameTextField.text = viewModel?.selectNameFromRow(row)
     }
     
     // MARK: - Text field
@@ -226,7 +212,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTimesaday(from pill: Swallowable) {
-        let sliderValue = TimesadaySliderDefinition.convertToSliderValue(timesaday: pill.timesaday)
+        let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(timesaday: pill.timesaday)
         timesadaySlider.setValue(sliderValue, animated: false)
         time2Button.isEnabled = pill.timesaday == 2
     }
@@ -250,7 +236,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         button.replaceTarget(self, newAction: #selector(timePickerDone(sender:)))
     }
 
-    private func handlePickerActivationDirection(opening: Bool) {
+    private func handlePickerActivation(opening: Bool) {
         if opening {
             openPicker()
         } else {
@@ -261,6 +247,10 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     private func openPicker() {
         startPickerActivation()
         nameTextField.isEnabled = false
+        unhideNamePicker()
+    }
+
+    private func unhideNamePicker() {
         UIView.transition(
             with: namePicker as UIView,
             duration: 0.4,

@@ -12,16 +12,12 @@ class PillsViewModel: CodeBehindDependencies {
 
     init(pillsTable: PillsTable) {
         self.pillsTable = pillsTable
-        addObserverForUpdatingPillTableWhenEnteringForeground()
         super.init()
+        addObserverForUpdatingPillTableWhenEnteringForeground()
     }
 
     var pills: PillScheduling? {
         sdk?.pills
-    }
-
-    func getCell(at index: Index)-> UITableViewCell {
-        pillsTable.getCellForRowAt(index)?.configure(at: index, pillIndex: index) ?? UITableViewCell()
     }
 
     func takePill(at index: Index) {
@@ -29,7 +25,7 @@ class PillsViewModel: CodeBehindDependencies {
             pills.swallow(pill)
             tabs?.reflectDuePillBadgeValue()
             notifications?.requestDuePillNotification(pill)
-            self.pillsTable.getCellForRowAt(index)?.stamp().configure(pill, pillIndex: index)
+            pillsTable.dequeueCell()?.stamp().configure(pill, pillIndex: index)
         }
     }
 

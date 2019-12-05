@@ -10,37 +10,24 @@ import UIKit
 import PDKit
 
 class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    
-    private let sdk: PatchDataDelegate? = app?.sdk
-    
-    private var siteScheduleIndex: Int = -1
-    private var hasChanged: Bool = false
+
+    var viewModel: SiteDetailViewModel?
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var nameStackVertical: UIStackView!
-
     @IBOutlet weak var nameStackHorizontal: UIStackView!
     @IBOutlet weak var verticalLineByNameTextField: UIView!
     @IBOutlet weak var typeNameButton: UIButton!
     @IBOutlet weak var nameText: UITextField!
     @IBOutlet weak var namePicker: UIPickerView!
     @IBOutlet weak var gapAboveImage: UIView!
-    
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var imagePickerDoneButton: UIButton!
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var siteImage: UIImageView!
     @IBOutlet weak var imagePicker: UIPickerView!
-    
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
-    private var imagePickerDelegate: SiteImagePickerDelegate?
-    
-    struct ImageStruct {
-        let image: UIImage
-        let imageKey: SiteName
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +41,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         nameText.delegate = self
         namePicker.delegate = self
         namePicker.isHidden = true
-        loadImagePickeR()
+        loadImagePicker()
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         loadTitle()
         loadImage()
@@ -63,16 +50,29 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         nameText.restorationIdentifier = "select"
         applyTheme()
     }
+
+    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily) -> SiteDetailVC? {
+        createSiteDetailVC(source, SiteDetailViewModel(site))
+    }
+
+    static func createSiteDetailVC(_ source: UIViewController, _ viewModel: SiteDetailViewModel) -> SiteDetailVC? {
+        let id = ViewControllerIds.Site
+        if let siteVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailVC {
+            return siteVC.initWithViewModel(viewModel)
+        }
+        return nil
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
         applyTheme()
     }
-    
-    public func setSiteScheduleIndex(to index: Int) {
-        siteScheduleIndex = index
+
+    func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailVC {
+        self.viewModel = viewModel
+        return self
     }
-    
+
     // MARK: - Actions
     
     @IBAction func doneButtonTapped(_ sender: Any) {
@@ -291,7 +291,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
-    private func loadImagePickeR() {
+    private func loadImagePicker() {
         if let sdk = sdk {
             let method = sdk.defaults.deliveryMethod.value
             if let site = sdk.sites.at(siteScheduleIndex),

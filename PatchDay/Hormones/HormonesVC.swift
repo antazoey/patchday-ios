@@ -36,12 +36,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(
-            withDuration: 1.0, delay: 0.0,
-            options: UIView.AnimationOptions.curveEaseIn,
-            animations: { self.view.alpha = 1.0 },
-            completion: nil
-        )
+        fadeInView()
         applyTheme()
         viewModel.presentDisclaimerAlert()
         loadTitle()
@@ -63,19 +58,16 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let hormoneIndex = indexPath.row
-        if let hormone = viewModel.hormones?.at(hormoneIndex),
+        if let hormone = viewModel.hormones?.at(indexPath.row),
             let cell = hormonalTable.dequeueHormoneCell() {
 
-            return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: hormoneIndex)
+            return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: indexPath.row)
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let mone = viewModel.hormones?.at(indexPath.row) {
-            segueToHormoneVC(mone)
-        }
+        viewModel.goToHormoneDetails(hormoneIndex: indexPath.row, hormonesViewController: self)
     }
     
     // MARK: - Actions
@@ -98,26 +90,24 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         navigationItem.rightBarButtonItems = [settingsButton]
     }
 
-    private func segueToHormoneVC(_ hormone: Hormonal) {
-        app?.nav.goToHormoneDetails(hormone, source: self)
-    }
-
     private func loadTitle() {
         title = viewModel.mainViewControllerTitle
     }
     
     private func applyTheme() {
-        if let styles = app?.styles {
-            hormonesView.backgroundColor = styles.theme[.bg]
-            hormonalTable.backgroundColor = styles.theme[.bg]
-            hormonalTable.separatorColor = styles.theme[.border]
+        if let theme = viewModel.styles?.theme {
+            hormonesView.backgroundColor = theme[.bg]
+            hormonalTable.backgroundColor = theme[.bg]
+            hormonalTable.separatorColor = theme[.border]
         }
     }
-}
 
-extension UITableView {
-    
-    func dequeueHormoneCell() -> HormoneCell? {
-         dequeueReusableCell(withIdentifier: "HormoneCellReuseId") as? HormoneCell
+    private func fadeInView() {
+        UIView.animate(
+            withDuration: 1.0, delay: 0.0,
+            options: UIView.AnimationOptions.curveEaseIn,
+            animations: { self.view.alpha = 1.0 },
+            completion: nil
+        )
     }
 }

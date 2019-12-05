@@ -16,7 +16,7 @@ extension UIPickerView {
     }
     
     func getSelectedRow() -> Int {
-        return selectedRow(inComponent: 0)
+        selectedRow(inComponent: 0)
     }
 }
 
