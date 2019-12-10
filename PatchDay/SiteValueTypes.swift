@@ -24,3 +24,17 @@ struct SiteSelectionState {
     var siteScheduleIndex: Int = -1
     var hasChanged: Bool = false
 }
+
+struct BarItemInitializationProperties {
+    var sitesViewController: UIViewController
+    var cellEditingState: SiteCellEditingState
+    var oppositeActionTitle: String
+    var reset: Selector
+    var insert: Selector
+}
+
+enum SiteCellEditingState {
+    case Editing
+    case Done
+    case Unknown
+}

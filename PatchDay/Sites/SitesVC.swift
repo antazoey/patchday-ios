@@ -9,14 +9,13 @@
 import UIKit
 import PDKit
 
-
 class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var sitesView: UIView!
     @IBOutlet weak var sitesTable: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
     
-    private let viewModel = SitesViewModel()
+    private var viewModel: SitesViewModel?
     private let RowHeight: CGFloat = 55.0
     
     override func viewDidLoad() {
@@ -29,6 +28,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        viewModel = SitesViewModel(sitesTable: SitesTable(sitesTable))
         applyTheme()
         sitesTable.reloadData()
         loadTitle()
@@ -45,22 +45,17 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let title = ActionStrings.delete
-        let delete = UITableViewRowAction(style: .normal, title: title) {
-            _, _ in self.deleteCell(indexPath: indexPath)
-        }
-        delete.backgroundColor = UIColor.red
-        return [delete]
+        [SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: viewModel?.deleteSite(at: indexPath))]
     }
     
     // Row select action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        segueToSiteDetailVC(indexPath.row)
+        viewModel?.goToSiteDetails(siteIndex: indexPath.row, sitesViewController: self)
     }
     
     // Movable
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        viewModel.isValidSiteIndex(indexPath.row)
+        viewModel?.isValidSiteIndex(indexPath.row) ?? false
     }
     
     // Highlightable
@@ -69,18 +64,18 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.sitesOptionsCount
+        viewModel?.sitesOptionsCount ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.sitesTable.getCell
+        viewModel?.sitesTable.getCell(at: indexPath.row, isEditing: false) ?? UITableViewCell()
     }
     
     // MARK: - Editing cells in the table
     
     // Permit editing at index
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        viewModel.isValidSiteIndex(indexPath.row)
+        viewModel?.isValidSiteIndex(indexPath.row) ?? false
     }
     
     // Editing style
@@ -102,7 +97,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // Reorder cell
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        viewModel.sdk?.sites.reorder(at: sourceIndexPath.row, to: destinationIndexPath.row)
+        viewModel?.sdk?.sites.reorder(at: sourceIndexPath.row, to: destinationIndexPath.row)
         sitesTable.reloadData()
     }
     
@@ -113,31 +108,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // MARK: - Actions
     
     @objc func insertTapped() {
-        segueToSiteDetailVC(viewModel.sitesCount)
+        viewModel?.handleSiteInsert(sitesViewController: self)
     }
 
     @objc func editTapped() {
-        let c = sitesTable.numberOfRows(inSection: 0)
-        if var items = navigationItem.rightBarButtonItems {
-            switch items[1].title {
-            case ActionStrings.edit :
-                self.title = ""
-                self.navigationController?.tabBarItem.title = VCTitleStrings.sitesTitle
-                swapVisibilityOfCellFeatures(cellCount: c, shouldHide: true)
-                switchBarItemFunctionality(items: &items)
-                navigationItem.rightBarButtonItems = items
-                sitesTable.isEditing = true
-            case ActionStrings.done :
-                loadTitle()
-                swapVisibilityOfCellFeatures(cellCount: c, shouldHide: false)
-                switchBarItemFunctionality(items: &items)
-                navigationItem.rightBarButtonItems = items
-                sitesTable.isEditing = false
-            default : break
-            }
-        }
+        let props = SiteValueTypeFactory.createBarItemInitProps(#selector(resetTapped), #selector(insertTapped), self)
+        viewModel?.handleEditSite(editBarItemProps: props)
+        loadTitle(cellEditingState: props.cellEditingState)
+        switchNavItems(barItemEditProps: props)
     }
-    
+
     @objc func resetTapped() {
         loadTitle()
         viewModel.resetSites()
@@ -152,76 +132,27 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     // MARK: - Private
-    
-    private func segueToSiteDetailVC(_ siteIndex: Int) {
-        viewModel.goToSiteDetails(siteIndex: siteIndex, sitesViewController: self)
-    }
-    
-    // Hides labels in the table cells for edit mode.
-    private func swapVisibilityOfCellFeatures(cellCount: Int, shouldHide: Bool) {
-        for i in 0..<cellCount {
-            let indexPath = IndexPath(row: i, section: 0)
-            let cell = sitesTable.cellForRow(at: indexPath) as! SiteCell
-            cell.swapVisibilityOfCellFeatures(cellIndex: i, shouldHide: shouldHide)
-        }
-    }
-    
-    private func switchBarItemFunctionality(items: inout [UIBarButtonItem]) {
-        switch items[1].title {
-        case ActionStrings.edit :
-            items[1].title = ActionStrings.done
-            items[0] = UIBarButtonItem(
-                title: ActionStrings.reset,
-                style: .plain,
-                target: self,
-                action: #selector(resetTapped)
-            )
-            items[0].tintColor = UIColor.red
-            
-        case ActionStrings.done :
-            items[1].title = ActionStrings.edit
-            items[0] = UIBarButtonItem(
-                barButtonSystemItem: UIBarButtonItem.SystemItem.add,
-                target: self,
-                action: #selector(insertTapped)
-            )
-            items[0].tintColor = PDColors.get(.Green)
-        default : break
-        }
-    }
-    
-    private func switchNavItems() {
-        if var items = navigationItem.rightBarButtonItems {
-            switchBarItemFunctionality(items: &items)
-            navigationItem.rightBarButtonItems = items
-        }
-    }
-    
-    private func deleteCell(indexPath: IndexPath) {
-        viewModel.deleteSite(at: indexPath.row)
-        sitesTable.deleteRows(at: [indexPath], with: .fade)
-        sitesTable.reloadData()
-        if indexPath.row < viewModel.sitesCount {
-            resetCellColors(startIndex: indexPath.row)
+
+    private func switchNavItems(barItemEditProps props: BarItemInitializationProperties) {
+        if var barItems = navigationItem.rightBarButtonItems, barItems.count >= 2 {
+            barItems[0] = SiteViewFactory.createItemFromEditingState(props)
+            barItems[1].title = props.oppositeActionTitle
         }
     }
 
-    private func resetCellColors(startIndex: Index) {
-        for i in startIndex..<viewModel.sitesCount {
-            let nextIndexPath = IndexPath(row: i, section: 0)
-            let cell = sitesTable.cellForRow(at: nextIndexPath)
-            cell?.backgroundColor = viewModel.styles?.getCellColor(at: i)
-        }
-    }
-    
     private func loadBarButtons() {
         navigationItem.rightBarButtonItems = viewModel.createBarItems(
             insertAction: #selector(insertTapped), editAction: #selector(editTapped), sitesViewController: self
         )
     }
     
-    private func loadTitle() {
-        title = viewModel.getSitesTitle()
+    private func loadTitle(cellEditingState: SiteCellEditingState = .Unknown) {
+        if cellEditingState == .Editing {
+            title = ""
+            return
+        }
+
+        title = viewModel?.getSitesTitle()
     }
 
     private func applyTheme() {

@@ -15,6 +15,10 @@ class TableViewWrapper<T> where T: TableCell {
         self.primaryCellReuseId = primaryCellReuseId
     }
 
+    var cellCount: Int {
+        table.numberOfRows(inSection: 0)
+    }
+
     @objc func reload() {
         table.reloadData()
     }

@@ -17,3 +17,9 @@ struct HormoneExpirationState {
     var wasPastAlertTimeAfterSave = false
     var isExpiredAfterSave = false
 }
+
+enum HormoneCellState {
+    case Occupied
+    case Waiting
+    case Empty
+}

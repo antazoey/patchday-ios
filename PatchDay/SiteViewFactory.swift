@@ -14,32 +14,49 @@ class SiteViewFactory {
         return backItem
     }
 
-    static func createInsertItem(insertAction: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
+    static func createItemFromEditingState(_ props: BarItemInitializationProperties) -> UIBarButtonItem {
+        switch props.cellEditingState {
+        case .Editing: return SiteViewFactory.createResetItem(reset: props.reset)
+        case .Done: return SiteViewFactory.createInsertItem(insert: props.insert, sitesViewController: props.sitesViewController)
+        case .Unknown: return UIBarButtonItem()
+        }
+    }
+
+    static func createInsertItem(insert: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
         let insertItem = UIBarButtonItem(
             barButtonSystemItem: UIBarButtonItem.SystemItem.add,
             target: sitesViewController,
-            action: insertAction
+            action: insert
         )
         insertItem.tintColor = PDColors.get(.Green)
         return insertItem
     }
 
-    static func createEditItem(editAction: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
-        let editButton = UIBarButtonItem(
+    static func createEditItem(edit: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
+        UIBarButtonItem(
             title: ActionStrings.edit,
             style: .plain,
             target: sitesViewController,
-            action: editAction
+            action: edit
         )
-        return editButton
     }
 
-    static func createDeleteRowTableAction(indexPath: IndexPath) -> UITableViewRowAction {
+    static func createResetItem(reset: Selector) -> UIBarButtonItem {
+        let item = UIBarButtonItem(
+            title: ActionStrings.reset,
+            style: .plain,
+            target: self,
+            action: reset
+        )
+        item.tintColor = UIColor.red
+        return item
+    }
+
+    /// Create a delete row action. Row actions are the buttons that appear in TableViews when you swipe them.
+    static func createDeleteRowTableAction(indexPath: IndexPath, delete: () -> ()) -> UITableViewRowAction {
         let title = ActionStrings.delete
-        let delete = UITableViewRowAction(style: .normal, title: title) {
-            _, _ in self.deleteCell(indexPath: indexPath)
-        }
-        delete.backgroundColor = UIColor.red
-        return [delete]
+        let deleteRowAction = UITableViewRowAction(style: .normal, title: title) { _, _ in delete()}
+        deleteRowAction.backgroundColor = UIColor.red
+        return deleteRowAction
     }
 }

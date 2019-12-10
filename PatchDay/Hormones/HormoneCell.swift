@@ -10,12 +10,6 @@ import UIKit
 import PDKit
 
 
-private enum HormoneCellState {
-    case Occupied
-    case Waiting
-    case Empty
-}
-
 class HormoneCell: TableCell {
     
     @IBOutlet weak var stateImage: UIImageView!

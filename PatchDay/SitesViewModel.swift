@@ -17,6 +17,10 @@ class SitesViewModel: CodeBehindDependencies {
         self.sitesTable = sitesTable
     }
 
+    var sites: HormoneSiteScheduling? {
+        sdk?.sites
+    }
+
     var sitesCount: Int {
         sdk?.sites.count ?? 0
     }
@@ -42,12 +46,25 @@ class SitesViewModel: CodeBehindDependencies {
         }
     }
 
-    func deleteSite(at index: Index) {
+    func handleSiteInsert(sitesViewController: UIViewController) {
+        goToSiteDetails(siteIndex: sitesCount, sitesViewController: sitesViewController)
+    }
+
+    func handleEditSite(editBarItemProps props: BarItemInitializationProperties) {
+        sitesTable.prepareCellsForEditMode(editingState: props.cellEditingState)
+    }
+
+    @objc func deleteSite(at indexPath: IndexPath) {
         if let sites = sdk?.sites {
-            sites.delete(at: index)
+            sites.delete(at: indexPath.row)
+        }
+        sitesTable.deleteRows(at: [indexPath], with: .fade)
+        sitesTable.reloadData()
+        if indexPath.row < viewModel.sitesCount {
+            resetCellColors(startIndex: indexPath.row)
         }
     }
-    
+
     func getSitesTitle() -> String {
         if let method = sdk?.defaults.deliveryMethod.value {
             return VCTitleStrings.getSitesTitle(for: method)

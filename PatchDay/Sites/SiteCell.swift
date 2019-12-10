@@ -30,8 +30,8 @@ class SiteCell: TableCell {
         return self
     }
 
-    // Hides labels in the table cells for edit mode.
-    public func swapVisibilityOfCellFeatures(cellIndex: Index, shouldHide: Bool) {
+    public func handleEditingStateChange(cellIndex: Index, editingState: SiteCellEditingState) {
+        let shouldHide = editingState == .Editing
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         siteIndexImage.isHidden = shouldHide
