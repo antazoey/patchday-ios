@@ -16,7 +16,9 @@
 		139754BE1EDA8C4D006C82B8 /* HormonesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* HormonesVC.swift */; };
 		13E0BB5D1EF8E5D900939D37 /* AlertDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13E0BB5C1EF8E5D900939D37 /* AlertDispatcher.swift */; };
 		3397C25AE996E55A7FA08DCC /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C657E8FDF0438CBDF5E1 /* TableCell.swift */; };
+		3397C342629E5C0FA3DC270E /* SiteDetailValueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CB16CEC51FA5ECF27E2C /* SiteDetailValueTypes.swift */; };
 		3397C35C32581F075D01A3FD /* HormoneDataBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9E6D36B45D518F0CB35 /* HormoneDataBroadcaster.swift */; };
+		3397C36B3E4620A179A70198 /* SiteDetailConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C4D5D5E8E69940340A7A /* SiteDetailConstants.swift */; };
 		3397C3A87384B9AB002A501E /* PDBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CC25A2E15D29EA1B462C /* PDBadgeButton.swift */; };
 		3397C3D0A67271CA2D73286D /* PatchDayAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C46296174AEBD22741E7 /* PatchDayAppConstants.swift */; };
 		3397C3EF27D567221BCBBAA3 /* PDImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C188BBF8844E19D270D0 /* PDImages.swift */; };
@@ -301,6 +303,7 @@
 		3397C39C0009B86CC213E55D /* DataShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataShare.swift; sourceTree = "<group>"; };
 		3397C46296174AEBD22741E7 /* PatchDayAppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDayAppConstants.swift; sourceTree = "<group>"; };
 		3397C478C3A31A2B19EE03A6 /* PDTStructFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDTStructFactory.swift; sourceTree = "<group>"; };
+		3397C4D5D5E8E69940340A7A /* SiteDetailConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailConstants.swift; sourceTree = "<group>"; };
 		3397C4DA54594D9CCD478BD2 /* PillsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsTable.swift; sourceTree = "<group>"; };
 		3397C4E72B97FAB79FE3636F /* HormoneDataBroadcasting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDataBroadcasting.swift; sourceTree = "<group>"; };
 		3397C54B996C771347615EDB /* PillsViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsViewFactory.swift; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 		3397CA12B098B78F4EF41902 /* ModiiImageResizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModiiImageResizer.swift; sourceTree = "<group>"; };
 		3397CA1A9C6D122F6FEB4D49 /* HormoneValueTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneValueTypes.swift; sourceTree = "<group>"; };
 		3397CA83C5236EBAFDADC105 /* SiteDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiteDetailVC.swift; path = Sites/SiteDetailVC.swift; sourceTree = "<group>"; };
+		3397CB16CEC51FA5ECF27E2C /* SiteDetailValueTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailValueTypes.swift; sourceTree = "<group>"; };
 		3397CB308A2352054D78961F /* TimesadaySliderDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimesadaySliderDefinition.swift; sourceTree = "<group>"; };
 		3397CB3EB8E1FDCDE97139F9 /* SiteImagePickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SiteImagePickerDelegate.swift; path = Sites/SiteImagePickerDelegate.swift; sourceTree = "<group>"; };
 		3397CB4BB5AA9C4FB0948A47 /* UIControlsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControlsExtensions.swift; sourceTree = "<group>"; };
@@ -613,6 +617,8 @@
 				3397CA83C5236EBAFDADC105 /* SiteDetailVC.swift */,
 				3397C284BBCC649DAC5781AE /* SiteDetailViewModel.swift */,
 				3397CB3EB8E1FDCDE97139F9 /* SiteImagePickerDelegate.swift */,
+				3397C4D5D5E8E69940340A7A /* SiteDetailConstants.swift */,
+				3397CB16CEC51FA5ECF27E2C /* SiteDetailValueTypes.swift */,
 			);
 			name = Details;
 			sourceTree = "<group>";
@@ -1496,6 +1502,8 @@
 				3397C3EF27D567221BCBBAA3 /* PDImages.swift in Sources */,
 				3397C6638911F5DF1244DAF3 /* ModiiImageResizer.swift in Sources */,
 				3397CE8B978C5E346B6D5445 /* SiteValueTypeFactory.swift in Sources */,
+				3397C36B3E4620A179A70198 /* SiteDetailConstants.swift in Sources */,
+				3397C342629E5C0FA3DC270E /* SiteDetailValueTypes.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

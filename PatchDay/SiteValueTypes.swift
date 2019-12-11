@@ -6,9 +6,9 @@
 import Foundation
 import PDKit
 
-struct ImageStruct {
+struct SiteImageStruct {
     let image: UIImage
-    let imageKey: SiteName
+    let name: SiteName
 }
 
 struct SiteCellProperties {

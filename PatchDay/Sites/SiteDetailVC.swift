@@ -24,13 +24,22 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var imagePickerDoneButton: UIButton!
     @IBOutlet weak var imageButton: UIButton!
+
+    // TODO: Rename to siteImageView
     @IBOutlet weak var siteImage: UIImageView!
+
+
     @IBOutlet weak var imagePicker: UIPickerView!
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
+
+    private var saveButton: UIBarButtonItem {
+        navigationItem.rightBarButtonItem ?? UIBarButtonItem()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         if AppDelegate.isPad {
             topConstraint.constant = 100
         }
@@ -41,31 +50,32 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         nameText.delegate = self
         namePicker.delegate = self
         namePicker.isHidden = true
-        loadImagePicker()
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         loadTitle()
         loadImage()
         typeNameButton.setTitle(ActionStrings.type, for: .normal)
         verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
-        nameText.restorationIdentifier = "select"
+        nameText.restorationIdentifier = SiteDetailConstants.SelectId
         applyTheme()
     }
 
-    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily) -> SiteDetailVC? {
-        createSiteDetailVC(source, SiteDetailViewModel(site))
-    }
-
-    static func createSiteDetailVC(_ source: UIViewController, _ viewModel: SiteDetailViewModel) -> SiteDetailVC? {
+    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, index: Index) -> SiteDetailVC? {
         let id = ViewControllerIds.Site
         if let siteVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailVC {
-            return siteVC.initWithViewModel(viewModel)
+            return siteVC.initWithSite(site, index: index)
         }
         return nil
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
         applyTheme()
+    }
+
+    func initWithSite(_ site: Bodily, index: Index) -> SiteDetailVC {
+        let relatedViews = SiteImagePickerDelegateRelatedViews(picker: imagePicker, imageView: siteImage, saveButton: saveButton)
+        let vm = SiteDetailViewModel(site, siteIndex: index, siteImagePickerRelatedViews: relatedViews)
+        return initWithViewModel(vm)
     }
 
     func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailVC {
@@ -74,30 +84,23 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     // MARK: - Actions
-    
+
+    // TODO: RENAME THIS - Done button to what? Be specific.
     @IBAction func doneButtonTapped(_ sender: Any) {
-        if let sdk = sdk {
-            let t = sdk.defaults.theme.value
-            let method = sdk.defaults.deliveryMethod.value
-            let images = PDImages.siteImages(theme: t, deliveryMethod: method)
-            let imageStruct = setImage(images: images)
-            imagePicker.isHidden = true
-            siteImage.image = imageStruct.image
-            siteImage.isHidden = false
-            imageButton.isEnabled = true
-            typeNameButton.isEnabled = true
-            nameText.isEnabled = true
-            imagePickerDoneButton.isEnabled = false
-            imagePickerDoneButton.isHidden = true
-            enableSave()
-            sdk.sites.setImageId(at: siteScheduleIndex, to: imageStruct.imageKey)
-        }
+        siteImage.image = viewModel?.saveSiteImageChanges()
+        imagePicker.isHidden = true
+        imageButton.isEnabled = true
+        nameText.isEnabled = true
+        siteImage.isHidden = false
+        typeNameButton.isEnabled = true
+        imagePickerDoneButton.hideAsDisabled()
+        enableSave()
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
         siteImage.isHidden = true
         imageButton.isEnabled = false
-        imagePickerDelegate?.openPicker() {
+        viewModel?.imagePickerDelegate?.openPicker() {
             self.typeNameButton.isEnabled = false
             self.imageButton.isEnabled = false
             self.nameText.isEnabled = false
@@ -107,7 +110,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @IBAction func typeTapped(_ sender: Any) {
-        nameText.restorationIdentifier = "type"
+        nameText.restorationIdentifier = SiteDetailConstants.TypeId
         nameText.becomeFirstResponder()
     }
     
@@ -190,21 +193,14 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        DefaultNumberOfPickerComponents
     }
     
-    func pickerView(
-        _ pickerView: UIPickerView,
-        numberOfRowsInComponent component: Int
-    ) -> Int {
-        return sdk?.sites.names.count ?? 0
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        sdk?.sites.names.count ?? 0
     }
     
-    func pickerView(
-        _ pickerView: UIPickerView,
-        attributedTitleForRow row: Int,
-        forComponent component: Int
-    ) -> NSAttributedString? {
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
 
         if let sdk = sdk,
             let name = sdk.sites.names.tryGet(at: row),
@@ -217,11 +213,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         return nil
     }
  
-    func pickerView(
-        _ pickerView: UIPickerView,
-        didSelectRow row: Int,
-        inComponent component: Int
-    ) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let sdk = sdk, let name = sdk.sites.names.tryGet(at: row) {
             self.nameText.text = name
             closePicker()
@@ -242,10 +234,10 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     // MARK: - Private
     
-    private func setImage(images: [UIImage]) -> ImageStruct {
+    private func createImageStruct(images: [UIImage]) -> SiteImageStruct {
         let image = images[imagePicker.getSelectedRow()]
         let imageKey = PDImages.imageToSiteName(image)
-        return ImageStruct(image: image, imageKey: imageKey)
+        return SiteImageStruct(image: image, name: imageKey)
     }
     
     private func segueToSitesVC() {
@@ -288,24 +280,6 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 animations: { self.siteImage.image = image },
                 completion: nil
             )
-        }
-    }
-    
-    private func loadImagePicker() {
-        if let sdk = sdk {
-            let method = sdk.defaults.deliveryMethod.value
-            if let site = sdk.sites.at(siteScheduleIndex),
-                let saveButton = navigationItem.rightBarButtonItem {
-        
-                imagePickerDelegate = SiteImagePickerDelegate(
-                    with: imagePicker,
-                    and: siteImage,
-                    saveButton: saveButton,
-                    selectedSite: site,
-                    deliveryMethod: method)
-            }
-            imagePicker.delegate = imagePickerDelegate
-            imagePicker.dataSource = imagePickerDelegate
         }
     }
     

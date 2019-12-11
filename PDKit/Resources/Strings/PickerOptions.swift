@@ -25,19 +25,15 @@ public class PickerOptions {
     
     public static func getDeliveryMethodString(for method: DeliveryMethod) -> String {
         switch method {
-        case .Patches:
-            return deliveryMethods[0]
-        case .Injections:
-            return deliveryMethods[1]
+        case .Patches: return deliveryMethods[0]
+        case .Injections: return deliveryMethods[1]
         }
     }
     
     public static func getDeliveryMethod(for pickerString: String?) -> DeliveryMethod {
         switch pickerString {
-        case deliveryMethods[1]:
-            return .Injections
-        default:
-            return .Patches
+        case deliveryMethods[1]: return .Injections
+        default: return .Patches
         }
     }
     
@@ -53,40 +49,28 @@ public class PickerOptions {
     
     public static func getDefaultQuantityString(deliveryMethod: DeliveryMethod) -> String {
         switch deliveryMethod {
-        case .Patches:
-            return quantities[2]
-        case .Injections:
-            return quantities[0]
+        case .Patches: return quantities[2]
+        case .Injections: return quantities[0]
         }
     }
 
     public static func getStrings(for key: PDDefault) -> [String] {
         switch key {
-        case .DeliveryMethod:
-            return deliveryMethods
-        case .ExpirationInterval:
-            return expirationIntervals
-        case .Quantity:
-            return quantities
-        case .Theme:
-            return themes
-        default:
-            return []
+        case .DeliveryMethod: return deliveryMethods
+        case .ExpirationInterval: return expirationIntervals
+        case .Quantity: return quantities
+        case .Theme: return themes
+        default: return []
         }
     }
     
     public static func getPickerOption(key: PDDefault, row: Index) -> String? {
         switch key {
-        case .DeliveryMethod:
-            return deliveryMethods.tryGet(at: row)
-        case .Quantity:
-            return quantities.tryGet(at: row)
-        case .ExpirationInterval:
-            return expirationIntervals.tryGet(at: row)
-        case .Theme:
-            return themes.tryGet(at: row)
-        default:
-            return nil
+        case .DeliveryMethod: return deliveryMethods.tryGet(at: row)
+        case .Quantity: return quantities.tryGet(at: row)
+        case .ExpirationInterval: return expirationIntervals.tryGet(at: row)
+        case .Theme: return themes.tryGet(at: row)
+        default: return nil
         }
     }
     
@@ -102,39 +86,28 @@ public class PickerOptions {
     
     public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
         switch interval {
-        case .TwiceAWeek:
-            return expirationIntervals[0]
-        case .OnceAWeek:
-            return expirationIntervals[1]
-        case .EveryTwoWeeks:
-            return expirationIntervals[2]
+        case .TwiceAWeek: return expirationIntervals[0]
+        case .OnceAWeek: return expirationIntervals[1]
+        case .EveryTwoWeeks: return expirationIntervals[2]
         }
     }
     
     public static func getExpirationInterval(for pickerString: String) -> ExpirationInterval {
         switch pickerString {
-        case expirationIntervals[1]:
-            return .OnceAWeek
-        case expirationIntervals[2]:
-            return .EveryTwoWeeks
-        default:
-            return .TwiceAWeek
+        case expirationIntervals[1]: return .OnceAWeek
+        case expirationIntervals[2]: return .EveryTwoWeeks
+        default: return .TwiceAWeek
         }
     }
     
     public static func getOptionsCount(for def: PDDefault?) -> Int {
         if let d = def {
             switch (d) {
-            case .DeliveryMethod:
-                return deliveryMethods.count
-            case .ExpirationInterval:
-                return expirationIntervals.count
-            case .Quantity:
-                return quantities.count
-            case .Theme:
-                return themes.count
-            default:
-                return 0
+            case .DeliveryMethod: return deliveryMethods.count
+            case .ExpirationInterval: return expirationIntervals.count
+            case .Quantity: return quantities.count
+            case .Theme: return themes.count
+            default: return 0
             }
         }
         return 0
@@ -160,23 +133,19 @@ public class PickerOptions {
     
     public static func getTheme(for theme: PDTheme) -> String {
         switch theme {
-        case .Light:
-            return themes[0]
-        case .Dark:
-            return themes[1]
+        case .Light: return themes[0]
+        case .Dark: return themes[1]
         }
     }
     
     public static func getTheme(for pickerString: String) -> PDTheme {
         switch pickerString {
-        case themes[1]:
-            return .Dark
-        default:
-            return .Light
+        case themes[1]: return .Dark
+        default: return .Light
         }
     }
     
     public static func getTheme(at index: Index) -> String? {
-        return themes.tryGet(at: index)
+        themes.tryGet(at: index)
     }
  }

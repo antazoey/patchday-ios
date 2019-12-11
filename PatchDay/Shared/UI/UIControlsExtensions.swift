@@ -9,6 +9,20 @@
 import UIKit
 import PDKit
 
+
+extension UIControl {
+
+    func showAsEnabled() {
+        isEnabled = true
+        isHidden = false
+    }
+
+    func hideAsDisabled() {
+        isEnabled = false
+        isHidden = true
+    }
+}
+
 extension UIPickerView {
 
     func selectRow(_ row: Int) {
