@@ -15,9 +15,9 @@ class SiteViewFactory {
     }
 
     static func createItemFromEditingState(_ props: BarItemInitializationProperties) -> UIBarButtonItem {
-        switch props.cellEditingState {
+        switch props.cellActionState {
         case .Editing: return SiteViewFactory.createResetItem(reset: props.reset)
-        case .Done: return SiteViewFactory.createInsertItem(insert: props.insert, sitesViewController: props.sitesViewController)
+        case .Reading: return SiteViewFactory.createInsertItem(insert: props.insert, sitesViewController: props.sitesViewController)
         case .Unknown: return UIBarButtonItem()
         }
     }
@@ -53,9 +53,9 @@ class SiteViewFactory {
     }
 
     /// Create a delete row action. Row actions are the buttons that appear in TableViews when you swipe them.
-    static func createDeleteRowTableAction(indexPath: IndexPath, delete: () -> ()) -> UITableViewRowAction {
+    static func createDeleteRowTableAction(indexPath: IndexPath, delete: @escaping (IndexPath) -> ()) -> UITableViewRowAction {
         let title = ActionStrings.delete
-        let deleteRowAction = UITableViewRowAction(style: .normal, title: title) { _, _ in delete()}
+        let deleteRowAction = UITableViewRowAction(style: .normal, title: title) { _, _ in delete(indexPath)}
         deleteRowAction.backgroundColor = UIColor.red
         return deleteRowAction
     }

@@ -27,11 +27,12 @@ class SiteCell: TableCell {
         loadSiteProperties()
         reflectTheme()
         prepareBackgroundSelectedView()
+        reflectActionState(cellIndex: props.rowIndex, actionState: .Reading)
         return self
     }
 
-    public func handleEditingStateChange(cellIndex: Index, editingState: SiteCellEditingState) {
-        let shouldHide = editingState == .Editing
+    public func reflectActionState(cellIndex: Index, actionState: SiteCellActionState) {
+        let shouldHide = actionState == .Editing
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         siteIndexImage.isHidden = shouldHide

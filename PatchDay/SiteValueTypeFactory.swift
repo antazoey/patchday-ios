@@ -18,25 +18,25 @@ class SiteValueTypeFactory {
         let cellEditingState = SiteValueTypeFactory.createEditingState(sitesViewController)
         return BarItemInitializationProperties(
             sitesViewController: sitesViewController,
-            cellEditingState: cellEditingState,
+            cellActionState: cellEditingState,
             oppositeActionTitle: createOppositeActionTitle(cellEditingState),
             reset: reset,
             insert: insert
         )
     }
 
-    private static func createEditingState(_ sitesViewController: UIViewController) -> SiteCellEditingState {
+    private static func createEditingState(_ sitesViewController: UIViewController) -> SiteCellActionState {
         if let items = sitesViewController.navigationItem.rightBarButtonItems {
             switch items[1].title {
             case ActionStrings.edit: return .Editing
-            case ActionStrings.done: return .Done
+            case ActionStrings.done: return .Reading
             default: break
             }
         }
         return .Unknown
     }
 
-    private static func createOppositeActionTitle(_ cellEditingState: SiteCellEditingState) -> String {
+    private static func createOppositeActionTitle(_ cellEditingState: SiteCellActionState) -> String {
         if cellEditingState == .Editing {
             return ActionStrings.done
         }

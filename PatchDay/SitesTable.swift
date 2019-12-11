@@ -16,23 +16,34 @@ class SitesTable: TableViewWrapper<SiteCell> {
         self.sites = sites
         self.stylist = stylist
         super.init(table, primaryCellReuseId: CellReuseIds.Site)
+        table.backgroundColor = stylist?.theme[.bg]
+        table.separatorColor = stylist?.theme[.border]
     }
 
     convenience init(_ table: UITableView) {
-        self.init(table, sites: app?.sdk.sites, appTheme: app?.styles.theme)
+        self.init(table, sites: app?.sdk.sites, stylist: app?.styles)
     }
 
-    func getCell(at index: Index, isEditing: Bool)-> SiteCell {
-        let props = createCellProps(index, isEditing)
+    func reloadCells() {
+        reloadData()
+        table.isEditing = false
+        let range = 0..<(sites?.count ?? 0)
+        let indexPathsToReload = range.map({ (value: Int) -> IndexPath in IndexPath(row: value, section: 0)})
+        table.reloadRows(at: indexPathsToReload, with: .automatic)
+        resetCellColors(startIndex: 0)
+    }
+
+    func getCell(at index: Index)-> SiteCell {
+        let props = createCellProps(index)
         return dequeueCell()?.configure(props: props) ?? SiteCell()
     }
 
-    func prepareCellsForEditMode(editingState: SiteCellEditingState) {
+    func prepareCellsForEditMode(editingState: SiteCellActionState) {
         table.isEditing = editingState == .Editing
         for i in 0..<cellCount {
             let indexPath = IndexPath(row: i, section: 0)
-            let cell = getCell(at: indexPath.row, isEditing: table.isEditing)
-            cell.handleEditingStateChange(cellIndex: i, editingState: editingState)
+            let cell = getCell(at: indexPath.row)
+            cell.reflectActionState(cellIndex: i, actionState: editingState)
         }
     }
 
@@ -44,8 +55,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
         }
     }
 
-    private func createCellProps(_ siteIndex: Index, _ isEditing: Bool) -> SiteCellProperties {
-        var props = SiteCellProperties(nextSiteIndex: siteIndex, isEditing: isEditing)
+    private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
+        var props = SiteCellProperties(nextSiteIndex: siteIndex)
         if let sites = sites {
             props.nextSiteIndex = sites.nextIndex
             props.totalSiteCount = sites.count
@@ -62,7 +73,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
     private func resetCellColors(startIndex: Index) {
         for i in startIndex..<cellCount {
             let nextIndexPath = IndexPath(row: i, section: 0)
-            let cell = getCell(at: nextIndexPath.row, isEditing: false)
+            let cell = getCell(at: nextIndexPath.row)
             cell.backgroundColor = stylist?.getCellColor(at: i)
         }
     }

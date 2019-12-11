@@ -15,6 +15,8 @@ class SitesViewModel: CodeBehindDependencies {
 
     init(sitesTable: SitesTable) {
         self.sitesTable = sitesTable
+        super.init()
+
     }
 
     var sites: HormoneSiteScheduling? {
@@ -29,6 +31,10 @@ class SitesViewModel: CodeBehindDependencies {
         sdk?.sites.names.count ?? 0
     }
 
+    func createDeleteRowActionAsList(indexPath: IndexPath) -> [UITableViewRowAction] {
+        [SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: deleteSite)]
+    }
+
     func isValidSiteIndex(_ index: Index) -> Bool {
         sdk?.sites.at(index) != nil
     }
@@ -37,6 +43,12 @@ class SitesViewModel: CodeBehindDependencies {
         if let sites = sdk?.sites {
             sites.reset()
         }
+        sitesTable.reloadCells()
+    }
+
+    func reorderSites(sourceRow: Index, destinationRow: Index) {
+        sdk?.sites.reorder(at: sourceRow, to: destinationRow)
+        sitesTable.reloadData()
     }
 
     func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
@@ -51,21 +63,27 @@ class SitesViewModel: CodeBehindDependencies {
     }
 
     func handleEditSite(editBarItemProps props: BarItemInitializationProperties) {
-        sitesTable.prepareCellsForEditMode(editingState: props.cellEditingState)
+        sitesTable.prepareCellsForEditMode(editingState: props.cellActionState)
+    }
+
+    func tryDeleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
+        if style == .delete {
+            deleteSite(at: indexPath)
+        }
     }
 
     @objc func deleteSite(at indexPath: IndexPath) {
         if let sites = sdk?.sites {
             sites.delete(at: indexPath.row)
         }
-        sitesTable.deleteRows(at: [indexPath], with: .fade)
-        sitesTable.reloadData()
-        if indexPath.row < viewModel.sitesCount {
-            resetCellColors(startIndex: indexPath.row)
-        }
+        sitesTable.deleteCell(indexPath: indexPath)
     }
 
-    func getSitesTitle() -> String {
+    func getSitesTitle(_ siteCellActionState: SiteCellActionState) -> String {
+        if siteCellActionState == .Editing {
+            return ""
+        }
+
         if let method = sdk?.defaults.deliveryMethod.value {
             return VCTitleStrings.getSitesTitle(for: method)
         }
@@ -73,8 +91,8 @@ class SitesViewModel: CodeBehindDependencies {
     }
 
     func createBarItems(insertAction: Selector, editAction: Selector, sitesViewController: UIViewController) -> [UIBarButtonItem] {
-        let insert = SiteViewFactory.createInsertItem(insertAction: insertAction, sitesViewController: sitesViewController)
-        let edit = SiteViewFactory.createEditItem(editAction: editAction, sitesViewController: sitesViewController)
+        let insert = SiteViewFactory.createInsertItem(insert: insertAction, sitesViewController: sitesViewController)
+        let edit = SiteViewFactory.createEditItem(edit: editAction, sitesViewController: sitesViewController)
         return [insert, edit]
     }
 

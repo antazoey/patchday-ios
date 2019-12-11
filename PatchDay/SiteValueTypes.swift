@@ -16,7 +16,6 @@ struct SiteCellProperties {
     var rowIndex: Index = 0
     var totalSiteCount: Int = 0
     var nextSiteIndex: Int = 0
-    var isEditing: Bool = false
     var theme: AppTheme? = nil
 }
 
@@ -27,14 +26,14 @@ struct SiteSelectionState {
 
 struct BarItemInitializationProperties {
     var sitesViewController: UIViewController
-    var cellEditingState: SiteCellEditingState
+    var cellActionState: SiteCellActionState
     var oppositeActionTitle: String
     var reset: Selector
     var insert: Selector
 }
 
-enum SiteCellEditingState {
+enum SiteCellActionState {
     case Editing
-    case Done
+    case Reading
     case Unknown
 }

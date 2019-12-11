@@ -19,7 +19,7 @@ class TableViewWrapper<T> where T: TableCell {
         table.numberOfRows(inSection: 0)
     }
 
-    @objc func reload() {
+    @objc func reloadData() {
         table.reloadData()
     }
 

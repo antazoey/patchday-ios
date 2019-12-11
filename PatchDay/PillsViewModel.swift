@@ -42,7 +42,7 @@ class PillsViewModel: CodeBehindDependencies {
     }
 
     @objc func handleInsertNewPill(pillsViewController: UIViewController) {
-        if let pill = pills?.insertNew(completion: pillsTable.reload) {
+        if let pill = pills?.insertNew(completion: pillsTable.reloadData) {
             nav?.goToPillDetails(pill, source: pillsViewController)
         }
     }
@@ -50,7 +50,7 @@ class PillsViewModel: CodeBehindDependencies {
     private func addObserverForUpdatingPillTableWhenEnteringForeground() {
         let name = UIApplication.willEnterForegroundNotification
         NotificationCenter.default.addObserver(
-            self, selector: #selector(pillsTable.reload), name: name, object: nil
+            self, selector: #selector(pillsTable.reloadData), name: name, object: nil
         )
     }
 }
