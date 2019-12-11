@@ -72,13 +72,13 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         applyTheme()
     }
 
-    func initWithSite(_ site: Bodily, index: Index) -> SiteDetailVC {
+    fileprivate func initWithSite(_ site: Bodily, index: Index) -> SiteDetailVC {
         let relatedViews = SiteImagePickerDelegateRelatedViews(picker: imagePicker, imageView: siteImage, saveButton: saveButton)
         let vm = SiteDetailViewModel(site, siteIndex: index, siteImagePickerRelatedViews: relatedViews)
         return initWithViewModel(vm)
     }
 
-    func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailVC {
+    fileprivate func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailVC {
         self.viewModel = viewModel
         return self
     }

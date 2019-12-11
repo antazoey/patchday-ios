@@ -38,19 +38,20 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         loadTitle()
     }
 
-    public func initWithPill(_ pill: Swallowable) -> PillDetailVC {
-        viewModel = PillDetailViewModel(pill)
-        return self
-    }
-    
-    public static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
+    static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
         let id = ViewControllerIds.Pill
         if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailVC {
             return vc.initWithPill(pill)
         }
         return nil
     }
-    
+
+    fileprivate func initWithPill(_ pill: Swallowable) -> PillDetailVC {
+        viewModel = PillDetailViewModel(pill)
+        return self
+    }
+
+
     // MARK: -- Pill actions
     
     @objc func selectNameTapped() {

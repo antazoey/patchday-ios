@@ -48,11 +48,6 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         loadExpirationText()
         loadSiteControls()
     }
-
-    public func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailVC {
-        self.viewModel = viewModel
-        return self
-    }
     
     static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailVC? {
         createHormoneDetailVC(source: source, hormoneDetailsCodeBehind: HormoneDetailViewModel(hormone))
@@ -64,6 +59,11 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             return hormoneVC.initWithViewModel(viewModel)
         }
         return nil
+    }
+
+    fileprivate func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailVC {
+        self.viewModel = viewModel
+        return self
     }
 
     // MARK: TextField delegate functions
