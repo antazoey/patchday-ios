@@ -27,4 +27,7 @@ public protocol Bodily: PDPbjectifiable {
     
     /// Whether there are the specified amount of hormones here or not.
     func isOccupied(byAtLeast many: Int) -> Bool
+    
+    /// Whether the system considers this site to be equal to the given other site.
+    func isEqualTo(_ otherSite: Bodily) -> Bool
 }

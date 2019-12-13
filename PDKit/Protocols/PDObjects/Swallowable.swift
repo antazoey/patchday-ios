@@ -53,4 +53,7 @@ public protocol Swallowable: PDPbjectifiable {
     
     /// Configures properties that depend on a day-to-day basis, such as timesTakenToday.
     func awaken()
+    
+    /// Whether the system considers this pill to be equal to the given other pill.
+    func isEqualTo(_ otherPill: Swallowable) -> Bool
 }

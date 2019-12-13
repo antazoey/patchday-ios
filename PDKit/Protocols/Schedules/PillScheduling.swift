@@ -49,8 +49,8 @@ public protocol PillScheduling: Schedule, Deleting {
     /// Swallows the pills
     func swallow(_ pill: Swallowable)
     
-    /// Gets the index of the given pill.
-    func indexOf(_ pill: Swallowable) -> Index?
+    /// Gets the first index of the given pill.
+    func firstIndexOf(_ pill: Swallowable) -> Index?
     
     /// Makes data available for other local apps, such as the Today widget.
     func broadcastData()

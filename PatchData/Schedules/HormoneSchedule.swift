@@ -124,10 +124,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func get(for id: UUID) -> Hormonal? {
-        return hormones.filter(
-            {(mone: Hormonal) -> Bool in
-                return mone.id == id
-            }).tryGet(at: 0)
+        if let index = hormones.firstIndex(where: { $0.id == id }) {
+            return at(index)
+        }
+        return nil
     }
 
     public func set(for id: UUID, date: Date, site: Bodily) {
@@ -184,15 +184,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         }
     }
 
-    public func indexOf(_ hormone: Hormonal) -> Index? {
-        var i = -1
-        for mone in hormones {
-            i += 1
-            if mone.id == hormone.id {
-                return i
-            }
-        }
-        return nil
+    public func firstIndexOf(_ hormone: Hormonal) -> Index? {
+        hormones.firstIndex { (_ h: Hormonal) -> Bool in h.isEqualTo(hormone) }
     }
 
     public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
@@ -215,15 +208,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     // MARK: - Private
     
     private var hasNoDates: Bool {
-        isEmpty || (hormones.filter() {
-            !$0.date.isDefault()
-        }).count == 0
+        isEmpty || (hormones.filter { !$0.date.isDefault() }).count == 0
     }
     
     private var hasNoSites: Bool {
-        isEmpty || (hormones.filter() {
-            $0.site != nil || $0.siteNameBackUp != nil
-        }).count == 0
+        isEmpty || (hormones.filter { $0.site != nil || $0.siteNameBackUp != nil }).count == 0
     }
     
     private static func createHormones(_ store: PDCoreDataDelegate, _ data: HormoneScheduleData) -> [Hormonal] {

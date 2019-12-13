@@ -85,10 +85,8 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func get(for id: UUID) -> Swallowable? {
-        for pill in pills {
-            if pill.id == id {
-                return pill
-            }
+        if let index = pills.firstIndex(where: { $0.id == id }) {
+            return at(index)
         }
         return nil
     }
@@ -131,11 +129,8 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
     
-    public func indexOf(_ pill: Swallowable) -> Index? {
-        pills.firstIndex { (_ p: Swallowable) ->
-            Bool in
-            pill.id == p.id
-        }
+    public func firstIndexOf(_ pill: Swallowable) -> Index? {
+        pills.firstIndex { (_ p: Swallowable) -> Bool in p.isEqualTo(pill) }
     }
     
     public func broadcastData() {
@@ -150,12 +145,11 @@ public class PillSchedule: NSObject, PillScheduling {
         for pill in pills {
             pill.awaken()
         }
-
         store.save()
     }
     
     private func deleteAll() {
-        for pill in pills { pill.delete() }
+        pills.forEach { (_ p: Swallowable) -> () in p.delete() }
         pills = []
     }
 }

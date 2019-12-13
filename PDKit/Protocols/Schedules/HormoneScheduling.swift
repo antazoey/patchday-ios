@@ -64,8 +64,8 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     /// Sets the backup site name for the hormone at given index.
     func setBackUpSiteName(at index: Index, with name: String)
     
-    /// Gets the index of the given hormone.
-    func indexOf(_ hormone: Hormonal) -> Index?
+    /// Gets the first index of the given hormone.
+    func firstIndexOf(_ hormone: Hormonal) -> Index?
     
     /// Fills in hormones from the current quantity to the given one.
     func fillIn(newQuantity: Int)
