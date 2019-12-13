@@ -36,16 +36,14 @@ class CodeBehindDependencies {
         self.nav = nav
         self.badge = badge
     }
-    
-    convenience init() {
-        self.init(
-            sdk: app?.sdk,
-            tabs: app?.tabs,
-            notifications: app?.notifications,
-            alerts: app?.alerts,
-            styles: app?.styles,
-            nav: app?.nav,
-            badge: app?.badge
-        )
+
+    init() {
+        self.sdk = app?.sdk
+        self.tabs = app?.tabs
+        self.notifications = app?.notifications
+        self.alerts = app?.alerts
+        self.styles = app?.styles
+        self.nav = app?.nav
+        self.badge = app?.badge
     }
 }

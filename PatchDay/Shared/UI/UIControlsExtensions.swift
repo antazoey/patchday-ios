@@ -9,6 +9,20 @@
 import UIKit
 import PDKit
 
+
+extension UIControl {
+
+    func showAsEnabled() {
+        isEnabled = true
+        isHidden = false
+    }
+
+    func hideAsDisabled() {
+        isEnabled = false
+        isHidden = true
+    }
+}
+
 extension UIPickerView {
 
     func selectRow(_ row: Int) {
@@ -16,7 +30,7 @@ extension UIPickerView {
     }
     
     func getSelectedRow() -> Int {
-        return selectedRow(inComponent: 0)
+        selectedRow(inComponent: 0)
     }
 }
 

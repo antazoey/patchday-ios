@@ -13,7 +13,7 @@ import PDKit
 struct PickerActivationProperties {
     var picker: UIPickerView
     var activator: UIButton
-    var choices: [String]
+    var options: [String]
     var startRow: Index
     var propertyKey: PDDefault
 }

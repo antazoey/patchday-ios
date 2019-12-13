@@ -17,9 +17,16 @@ class TimesadaySliderDefinition {
     /// ---- | ------ | ----
     ///     1.0      3.0
     /// --------------------
-    static func convertToSliderValue(timesaday: Int) -> Float {
+    static func convertTimesadayToSliderValue(timesaday: Int) -> Float {
         let timesadayFloat = Float(timesaday)
         return timesadayFloat == 1.0 ? timesadayFloat : timesadayFloat  + 2.0
+    }
+
+    static func convertSliderValueToTimesaday(sliderValue: Float) -> Int {
+        if sliderValue >= 2 {
+            return 2
+        }
+        return 1
     }
 
     static func valueIsGreaterThanOne(timesday: Float) -> Bool {

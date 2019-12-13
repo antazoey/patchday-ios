@@ -13,6 +13,10 @@ class HormonesViewModel: CodeBehindDependencies {
     
     public let HormoneMaxCount = 4
 
+    private var isFirstLaunch: Bool {
+        !(sdk?.defaults.mentionedDisclaimer.value ?? false)
+    }
+
     var hormones: HormoneScheduling? { sdk?.hormones }
     
     var mainViewControllerTitle: String {
@@ -30,16 +34,23 @@ class HormonesViewModel: CodeBehindDependencies {
     }
 
     func presentDisclaimerAlert() {
-        if let app = app, app.isFirstLaunch() {
-            app.alerts.presentDisclaimerAlert()
-            app.sdk.defaults.setMentionedDisclaimer(to: true)
+        if isFirstLaunch {
+            alerts?.presentDisclaimerAlert()
+            sdk?.defaults.setMentionedDisclaimer(to: true)
+        }
+    }
+
+    func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
+        if let hormone = hormones?.at(hormoneIndex) {
+            nav?.goToHormoneDetails(hormone, source: hormonesViewController)
         }
     }
     
     func loadAppTabs(source: UIViewController) {
         if let tabs = source.navigationController?.tabBarController,
             let vcs = source.navigationController?.viewControllers {
-            app?.setTabs(tabBarController: tabs, appViewControllers: vcs)
+            
+            setTabs(tabBarController: tabs, appViewControllers: vcs)
         }
     }
     
@@ -58,7 +69,11 @@ class HormonesViewModel: CodeBehindDependencies {
         }
     }
 
-    func presentNewSiteAlert(from source: UIViewController, newSiteName: String) {
-        alerts.presentNewSiteAlert(with: newSiteName, at: siteIndexSelected, hormoneVC: source)
+    func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
+        viewHeight * 0.24
+    }
+
+    private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
+        app?.tabs = TabReflector(tabBarController: tabBarController, viewControllers: appViewControllers)
     }
 }

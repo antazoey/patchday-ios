@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol DataMeting  {
+public protocol DataShareDelegate {
     var defaults: UserDefaults? { get }
     
     /// Sets hormone data for other apps and widgets, such as the PatchDay Today widget.

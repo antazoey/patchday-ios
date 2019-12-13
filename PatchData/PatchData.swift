@@ -18,7 +18,7 @@ public class PatchData: NSObject, PatchDataDelegate {
         "Root object for developing with PatchData."
     }
 
-    let dataMeter: DataMeting
+    let dataMeter: DataShareDelegate
     let coreData: PDCoreDataDelegate
     let hormoneDataBroadcaster: HormoneDataBroadcasting
 
@@ -30,7 +30,7 @@ public class PatchData: NSObject, PatchDataDelegate {
     
     public init(
         defaults: UserDefaultsManaging,
-        dataMeter: DataMeting,
+        dataMeter: DataShareDelegate,
         hormones: HormoneScheduling,
         pills: PillScheduling,
         sites: HormoneSiteScheduling,
@@ -51,7 +51,7 @@ public class PatchData: NSObject, PatchDataDelegate {
     
     public override convenience init() {
         let store = CoreDataWrapper()
-        let dataMeter = DataMeter()
+        let dataMeter = DataShare()
         let state = PDState()
         let defaultsStore = PDDefaultsStore(
             state: state, handler: PDDefaultsStorageHandler(meter: dataMeter)

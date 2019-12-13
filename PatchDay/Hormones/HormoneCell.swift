@@ -10,19 +10,13 @@ import UIKit
 import PDKit
 
 
-private enum HormoneCellState {
-    case Occupied
-    case Waiting
-    case Empty
-}
-
-class HormoneCell: UITableViewCell {
+class HormoneCell: TableCell {
     
     @IBOutlet weak var stateImage: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
-    public func load(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) {
+    @discardableResult public func configure(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) -> HormoneCell {
         backgroundColor = app?.styles.theme[.bg]
         setThemeColors(at: hormoneIndex)
         if let sdk = app?.sdk {
@@ -32,6 +26,7 @@ class HormoneCell: UITableViewCell {
             )
             handleHormoneFromState(hormoneCellState, sdk, hormone, hormoneIndex)
         }
+        return self
     }
 
     private static func convertHormoneIndexToCellState(_ index: Index, hormoneLimit: Int) -> HormoneCellState {

@@ -11,12 +11,28 @@ import PDKit
 
 class SitesViewModel: CodeBehindDependencies {
 
+    let sitesTable: SitesTable
+
+    init(sitesTable: SitesTable) {
+        self.sitesTable = sitesTable
+        super.init()
+
+    }
+
+    var sites: HormoneSiteScheduling? {
+        sdk?.sites
+    }
+
     var sitesCount: Int {
         sdk?.sites.count ?? 0
     }
 
     var sitesOptionsCount: Int {
         sdk?.sites.names.count ?? 0
+    }
+
+    func createDeleteRowActionAsList(indexPath: IndexPath) -> [UITableViewRowAction] {
+        [SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: deleteSite)]
     }
 
     func isValidSiteIndex(_ index: Index) -> Bool {
@@ -27,32 +43,61 @@ class SitesViewModel: CodeBehindDependencies {
         if let sites = sdk?.sites {
             sites.reset()
         }
+        sitesTable.reloadCells()
     }
 
-    func deleteSite(at index: Index) {
-        if let sites = sdk?.sites {
-            sites.delete(at: index)
+    func reorderSites(sourceRow: Index, destinationRow: Index) {
+        sdk?.sites.reorder(at: sourceRow, to: destinationRow)
+        sitesTable.reloadData()
+    }
+
+    func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
+        SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
+        if let site = sdk?.sites.at(siteIndex) {
+            nav?.goToSiteDetails(site, source: sitesViewController)
         }
     }
-    
-    func getSitesTitle() -> String {
+
+    func handleSiteInsert(sitesViewController: UIViewController) {
+        goToSiteDetails(siteIndex: sitesCount, sitesViewController: sitesViewController)
+    }
+
+    func handleEditSite(editBarItemProps props: BarItemInitializationProperties) {
+        sitesTable.prepareCellsForEditMode(editingState: props.cellActionState)
+    }
+
+    func tryDeleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
+        if style == .delete {
+            deleteSite(at: indexPath)
+        }
+    }
+
+    @objc func deleteSite(at indexPath: IndexPath) {
+        if let sites = sdk?.sites {
+            sites.delete(at: indexPath.row)
+        }
+        sitesTable.deleteCell(indexPath: indexPath)
+    }
+
+    func getSitesTitle(_ siteCellActionState: SiteCellActionState) -> String {
+        if siteCellActionState == .Editing {
+            return ""
+        }
+
         if let method = sdk?.defaults.deliveryMethod.value {
             return VCTitleStrings.getSitesTitle(for: method)
         }
         return VCTitleStrings.siteTitle
     }
 
-    func createCellProps(_ siteIndex: Index, _ isEditing: Bool) -> SiteCellProperties {
-        var props = SiteCellProperties(nextSiteIndex: siteIndex, isEditing: isEditing)
-        if let sites = sdk?.sites {
-            props.nextSiteIndex = sites.nextIndex
-            props.totalSiteCount = sites.count
-            if let site = sites.at(siteIndex) {
-                props.site = site
-            }
-            if let theme = styles?.theme {
-                props.theme = theme
-            }
-        }
+    func createBarItems(insertAction: Selector, editAction: Selector, sitesViewController: UIViewController) -> [UIBarButtonItem] {
+        let insert = SiteViewFactory.createInsertItem(insert: insertAction, sitesViewController: sitesViewController)
+        let edit = SiteViewFactory.createEditItem(edit: editAction, sitesViewController: sitesViewController)
+        return [insert, edit]
+    }
+
+    private static func prepareBackButtonForNavigation(_ sitesViewController: UIViewController) {
+        let backItem = SiteViewFactory.createBackItem()
+        sitesViewController.navigationItem.backBarButtonItem = backItem
     }
 }

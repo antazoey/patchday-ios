@@ -71,10 +71,24 @@ class PillDetailViewModel: CodeBehindDependencies {
         }
     }
 
+    /// Sets the selected name with the name at the given index and optionally returns the name.
+    @discardableResult func selectNameFromRow(_ row: Index) -> String {
+        selections.name = providedPillNameSelection[row]
+        return providedPillNameSelection[row]
+    }
+
     func createTimeNumberTypeFromButton(_ button: UIButton) -> TimeNumber {
         if let id = button.restorationIdentifier, let numType = TimeNumber(rawValue: id) {
             return numType
         }
         return TimeNumber.Time1
+    }
+
+    func setSelectedTimesadayFromSliderValue(sliderValue: Float) {
+        selections.timesaday = TimesadaySliderDefinition.convertSliderValueToTimesaday(sliderValue: slider.value)
+    }
+
+    func sliderValueRepresentsPlurality(sliderValue: Float) -> Bool {
+        sliderValue >= 2.0
     }
 }

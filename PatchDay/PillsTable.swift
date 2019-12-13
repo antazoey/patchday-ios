@@ -6,30 +6,32 @@
 import UIKit
 import PDKit
 
-class PillsTable {
+class PillsTable: TableViewWrapper<PillCell> {
 
-    private let table: UITableView
+    private let pills: PillScheduling?
 
-    init(_ table: UITableView) {
-        self.table = table
+    init(_ table: UITableView, pills: PillScheduling?) {
+        self.pills = pills
+        super.init(table, primaryCellReuseId: CellReuseIds.Pill)
     }
 
-    func getCellForRowAt(_ index: Index) -> PillCell? {
-        table.dequeuePillCell()
+    func getCell(at index: Index)-> PillCell {
+        if let pill = pills?.at(index) {
+            return dequeueCell()?.configure(pill, pillIndex: index) ?? PillCell()
+        }
+        return PillCell()
     }
 
     func deleteCell(at indexPath: IndexPath, pillsCount: Int) {
-        //viewModel.pills?.delete(at: indexPath.row)
         table.deleteRows(at: [indexPath], with: .fade)
-        table.reloadData()
-        //setBadge()
         let start = indexPath.row
-        let count = pillsCount ?? (start + 1)
+        let count = pillsCount
         let end = count - 1
         if start <= end {
             for i in start...end {
-                getCellForRowAt(i)?.loadBackground()
+                getCell(at: i).loadBackground()
             }
         }
+        table.reloadData()
     }
 }

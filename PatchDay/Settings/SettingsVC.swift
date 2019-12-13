@@ -20,7 +20,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         """
     }
     
-    private let viewModel = SettingsCodeBehind()
+    private let viewModel = SettingsViewModel()
     private var reflector: SettingsReflector!
     private var saver: SettingsSaveController!
 
@@ -87,9 +87,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         applyTheme()
     }
     
-    static func createSettingsVC(source: UIViewController) -> SettingsVC? {
+    static func createSettingsVC(_ source: UIViewController) -> SettingsVC? {
         let sb = UIStoryboard.createSettingsStoryboard()
-        return sb.instantiateViewController(withIdentifier: "SettingsVC_id") as? SettingsVC
+        return sb.instantiateViewController(withIdentifier: ViewControllerIds.Settings) as? SettingsVC
     }
     
     // MARK: - Actions
@@ -150,7 +150,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func createPickerActivationProps(for key: PDDefault, activator: UIButton) -> PickerActivationProperties? {
-        let choices = PickerOptions.getStrings(for: key)
+        let options = PickerOptions.getStrings(for: key)
         let pickers = SettingsPickers(
             quantityPicker: quantityPicker,
             deliveryMethodPicker: deliveryMethodPicker,
@@ -159,11 +159,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         )
         let pickerSelector = SettingsPickerSelector(pickers: pickers)
         if let picker = pickerSelector.selectPicker(key: key) {
-            let startRow = choices.tryGetIndex(item: activator.titleLabel?.text) ?? 0
+            let startRow = options.tryGetIndex(item: activator.titleLabel?.text) ?? 0
             return PickerActivationProperties(
                 picker: picker,
                 activator: activator,
-                choices: choices,
+                options: options,
                 startRow: startRow,
                 propertyKey: key
             )

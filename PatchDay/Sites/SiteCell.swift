@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class SiteCell: UITableViewCell {
+class SiteCell: TableCell {
 
     private var props: SiteCellProperties?
     
@@ -20,18 +20,19 @@ class SiteCell: UITableViewCell {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
 
-    func configure(props: SiteCellProperties) -> SiteCell {
+    @discardableResult func configure(props: SiteCellProperties) -> SiteCell {
         self.props = props
         orderLabel.text = "\(props.rowIndex + 1)."
         nextLabel.isHidden = nextTitleShouldHide(at: props.rowIndex, isEditing: isEditing)
         loadSiteProperties()
         reflectTheme()
         prepareBackgroundSelectedView()
+        reflectActionState(cellIndex: props.rowIndex, actionState: .Reading)
         return self
     }
 
-    // Hides labels in the table cells for edit mode.
-    public func swapVisibilityOfCellFeatures(cellIndex: Index, shouldHide: Bool) {
+    public func reflectActionState(cellIndex: Index, actionState: SiteCellActionState) {
+        let shouldHide = actionState == .Editing
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
         siteIndexImage.isHidden = shouldHide

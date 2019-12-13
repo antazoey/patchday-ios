@@ -23,18 +23,20 @@ public class Navigation: NavigationDelegate {
         }
     }
 
-    func goToHormoneDetails(_ mone: Hormonal, source: UIViewController) {
-        source.navigationController?.goToHormoneDetails(source: source, hormone: mone)
+    func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController) {
+        source.navigationController?.goToHormoneDetails(hormone, source)
     }
     
     func goToPillDetails(_ pill: Swallowable, source: UIViewController) {
-        if let sdk = app?.sdk {
-            source.navigationController?.goToPillDetails(source: source, sdk: sdk, pill: pill)
-        }
+        source.navigationController?.goToPillDetails(pill, source)
+    }
+
+    func goToSiteDetails(_ site: Bodily, source: UIViewController) {
+        source.navigationController?.goToSiteDetails(site, source)
     }
     
     func goToSettings(source: UIViewController) {
-        source.navigationController?.goToSettings(source: source)
+        source.navigationController?.goToSettings(source)
     }
 
     func pop(source: UIViewController) {
@@ -46,20 +48,26 @@ public class Navigation: NavigationDelegate {
 
 extension UINavigationController {
     
-    func goToHormoneDetails(source: UIViewController, hormone: Hormonal) {
-        if let vc = HormoneDetailVC.createHormoneDetailVC(source: source, hormone: hormone) {
+    func goToHormoneDetails(_ hormone: Hormonal, _ source: UIViewController) {
+        if let vc = HormoneDetailVC.createHormoneDetailVC(source, hormone) {
             pushViewController(vc, animated: true)
         }
     }
     
-    func goToPillDetails(source: UIViewController, sdk: PatchDataDelegate, pill: Swallowable) {
-        if let vc = PillDetailVC.createPillDetailVC(source: source, sdk: sdk, pill: pill) {
+    func goToPillDetails(_ pill: Swallowable, _ source: UIViewController) {
+        if let vc = PillDetailVC.createPillDetailVC(source, pill) {
+            pushViewController(vc, animated: true)
+        }
+    }
+
+    func goToSiteDetails(_ site: Bodily, _ source: UIViewController) {
+        if let vc = SiteDetailVC.createSiteDetailVC(source, site) {
             pushViewController(vc, animated: true)
         }
     }
     
-    func goToSettings(source: UIViewController) {
-        if let vc = SettingsVC.createSettingsVC(source: source),
+    func goToSettings(_ source: UIViewController) {
+        if let vc = SettingsVC.createSettingsVC(source),
             let n = navigationController {
             n.pushViewController(vc, animated: true)
         }
@@ -70,9 +78,5 @@ extension UIStoryboard {
     
     static func createSettingsStoryboard() -> UIStoryboard {
         UIStoryboard(name: "SettingsAndSites", bundle: nil)
-    }
-
-    static func createHormoneDetailStoryboard() -> UIStoryboard {
-
     }
 }

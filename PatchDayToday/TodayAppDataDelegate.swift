@@ -6,5 +6,15 @@
 import Foundation
 
 protocol TodayAppDataDelegate {
-    func getStoredDeliveryMethod() -> String?
+
+    /// Gets the stored delivery method from the PatchDay App.
+    func getDeliveryMethod() -> String?
+
+    /// Gets the name of the displayed hormone site.
+    func getNextHormoneSiteName() -> String?
+
+    /// Gets
+    func getNextHormoneExpirationDate() -> Date?
+    func getNextPillName() -> String?
+    func getNextPillDate() -> Date?
 }

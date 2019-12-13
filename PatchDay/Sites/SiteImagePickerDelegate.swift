@@ -11,98 +11,62 @@ import PDKit
 
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    private var sdk: PatchDataDelegate?
-
-    public var images: [UIImage]
-    public var picker: UIPickerView
-    public var imageView: UIImageView
-    public var saveButton: UIBarButtonItem
-    public var selectedSite: Bodily
-    public var selectedImage: UIImage?
+    private var props: SiteImagePickerDelegateProperties
     
-    convenience init(
-        with picker: UIPickerView,
-        and imageView: UIImageView,
-        saveButton: UIBarButtonItem,
-        selectedSite: Bodily,
-        deliveryMethod: DeliveryMethod
-    ) {
-        self.init(
-            with: picker,
-            and: imageView,
-            saveButton: saveButton,
-            selectedSite: selectedSite,
-            deliveryMethod: deliveryMethod,
-            sdk: app?.sdk
-        )
-    }
-    
-    init(
-        with picker: UIPickerView,
-        and imageView: UIImageView,
-        saveButton: UIBarButtonItem,
-        selectedSite: Bodily,
-        deliveryMethod: DeliveryMethod,
-        sdk: PatchDataDelegate?
-    ) {
-        self.imageView = imageView
-        self.images = PDImages.siteImages(
-            theme: sdk?.defaults.theme.value,
-            deliveryMethod: deliveryMethod
-        )
-        self.picker = picker
-        self.saveButton = saveButton
-        self.selectedSite = selectedSite
-        self.sdk = sdk
+    init(props: SiteImagePickerDelegateProperties) {
+        self.props = props
+        props.views.picker.delegate = self
+        props.views.picker.dataSource = self
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return images.count
+        props.imageOptions.count
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        DefaultNumberOfPickerComponents
     }
     
     func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
-        return 100
+        SiteDetailConstants.SiteImageRowHeight
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
-        return 180
+        SiteDetailConstants.SiteImageRowWidth
     }
     
-    func pickerView(_ pickerView: UIPickerView,
-                    viewForRow row: Int,
-                    forComponent component: Int,
-                    reusing view: UIView?) -> UIView {
-        let size = CGSize(width: 330.1375, height: 462.0)
-        let img = ModiiImageResizer.resizeImage(images[row], targetSize: size)
-        let imgView = (row < images.count) ? UIImageView(image: img) : UIView()
-        return imgView
+    func pickerView(
+        _ pickerView: UIPickerView,
+        viewForRow row: Int,
+        forComponent component: Int,
+        reusing view: UIView?
+    ) -> UIView {
+        let size = SiteDetailConstants.SiteImageResizedSize
+
+        if let image = props.imageOptions.tryGet(at: row) {
+            let resizedImage = ModiiImageResizer.resizeImage(image, targetSize: size)
+            return UIImageView(image: resizedImage)
+        }
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let image = images.tryGet(at: row) {
-            selectedImage = image
-        }
+        props.selectedImageIndex = row
     }
  
     public func openPicker(closure: @escaping () -> ()) {
+        showPicker()
+        if let image = props.views.imageView.image, let index = props.imageOptions.firstIndex(of: image) {
+            props.views.picker.selectRow(index, inComponent: index, animated: false)
+        }
+        closure()
+    }
+
+    private func showPicker() {
         UIView.transition(
-            with: picker as UIView,
+            with: props.views.picker as UIView,
             duration: 0.4,
             options: .transitionFlipFromTop,
-            animations: {
-                self.picker.isHidden = false;
-                self.imageView.isHidden = true
-            })
-        closure()
-        
-        selectedImage = imageView.image
-        if let i = images.firstIndex(of: selectedImage!) {
-            picker.selectRow(i, inComponent: 0, animated: false)
-            sdk?.stateManager.markSiteForImageMutation(site: selectedSite)
-        }
+            animations: { self.props.views.picker.showAsEnabled() }
+        )
     }
 }

@@ -12,10 +12,10 @@ import PDKit
 
 class SettingsSaveController {
     
-    private let viewModel: SettingsCodeBehind
+    private let viewModel: SettingsViewModel
     private let controls: SettingsControls
     
-    init(viewModel: SettingsCodeBehind, controls: SettingsControls) {
+    init(viewModel: SettingsViewModel, controls: SettingsControls) {
         self.controls = controls
         self.viewModel = viewModel
     }
@@ -23,16 +23,11 @@ class SettingsSaveController {
     public func save(_ key: PDDefault, for row: Int) {
         viewModel.notifications?.cancelAllExpiredHormoneNotifications()
         switch key {
-        case .DeliveryMethod :
-            saveDeliveryMethodChange(row)
-        case .Quantity :
-            saveQuantityChange(row)
-        case .ExpirationInterval :
-            saveIntervalChange(row)
-        case .Theme :
-            saveThemeChange(row)
-        default:
-            print("Error: No picker for key \(key)")
+        case .DeliveryMethod: saveDeliveryMethodChange(row)
+        case .Quantity: saveQuantityChange(row)
+        case .ExpirationInterval: saveIntervalChange(row)
+        case .Theme: saveThemeChange(row)
+        default: print("Error: No picker for key \(key)")
         }
         viewModel.notifications?.resendAllExpiredHormoneNotifications()
     }

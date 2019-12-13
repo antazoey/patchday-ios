@@ -12,10 +12,10 @@ import PDKit
 /// Reflects stored settings in some UIControls.
 class SettingsReflector {
     
-    private let viewModel: SettingsCodeBehind
+    private let viewModel: SettingsViewModel
     private let controls: SettingsControls
     
-    init(viewModel: SettingsCodeBehind, controls: SettingsControls) {
+    init(viewModel: SettingsViewModel, controls: SettingsControls) {
         self.viewModel = viewModel
         self.controls = controls
     }

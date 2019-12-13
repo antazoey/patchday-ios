@@ -16,9 +16,9 @@ public class PillSchedule: NSObject, PillScheduling {
     
     private var pills: [Swallowable]
     private let store: PDCoreDataDelegate
-    private let meter: DataMeting
+    private let meter: DataShareDelegate
     
-    init(store: PDCoreDataDelegate, pillDataMeter: DataMeting, isFirstInit: Bool) {
+    init(store: PDCoreDataDelegate, pillDataMeter: DataShareDelegate, isFirstInit: Bool) {
         self.store = store
         self.meter = pillDataMeter
         self.pills = store.createPillList()

@@ -49,7 +49,7 @@ class QuantityMutator: QuantityMutating {
     private func makeResetClosure(oldQuantity: Int) -> ((Int) -> ()) {
         let reset: (Int) -> () = {
             newQuantity in
-            self.tabs?.reflectExpiredHormoneBadgeValue()
+            self.tabs?.reflectHormoneCharacteristics()
             self.notifications?.cancelExpiredHormoneNotifications(
                 from: newQuantity,to: oldQuantity
             )
