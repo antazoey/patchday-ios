@@ -46,4 +46,7 @@ public protocol Hormonal: PDPbjectifiable {
     
     /// Sets the date to now.
     func stamp()
+    
+    /// Whether the system considers this hormone to be equal to the given other hormone.
+    func isEqualTo(_ otherHormone: Hormonal) -> Bool
 }

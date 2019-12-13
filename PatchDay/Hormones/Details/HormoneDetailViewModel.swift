@@ -50,7 +50,7 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     }
 
     var hormoneIndex: Index {
-        sdk?.hormones.indexOf(hormone) ?? -1
+        sdk?.hormones.firstIndexOf(hormone) ?? -1
     }
 
     var siteIndexStartRow: Index {

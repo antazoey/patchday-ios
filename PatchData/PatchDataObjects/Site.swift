@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class Site: PDObject, Bodily, Comparable, Equatable {
+public class Site: PDObject, Bodily, Comparable {
 
     private let globalExpirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
@@ -81,6 +81,10 @@ public class Site: PDObject, Bodily, Comparable, Equatable {
         moSite.name = nil
         moSite.imageIdentifier = nil
         moSite.hormoneRelationship = nil
+    }
+    
+    public func isEqualTo(_ otherSite: Bodily) -> Bool {
+        name == otherSite.name && order == otherSite.order
     }
     
     /* Note: In MOSites, we want negative orders and nil orders

@@ -21,14 +21,14 @@ class SiteDetailViewModel: CodeBehindDependencies {
         self.init(site, siteIndex: siteIndex, imageSelections: images, siteImagePickerRelatedViews: siteImagePickerRelatedViews)
     }
 
-    convenience init(_ site: Bodily, siteIndex: Index, imageSelections: [UIImage], siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
+    private convenience init(_ site: Bodily, siteIndex: Index, imageSelections: [UIImage], siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
         let pickerDelegateProps = SiteImagePickerDelegateProperties(
             selectedSite: site, imageOptions: imageSelections, views: siteImagePickerRelatedViews
         )
         self.init(site, siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
     }
 
-    convenience init(_ site: Bodily, siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties) {
+    private convenience init(_ site: Bodily, siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties) {
         let imagePickerDelegate = SiteImagePickerDelegate(props: imagePickerProps, sdk: sdk)
         self.init(site, siteIndex: siteIndex, imagePickerDelegate: imagePickerDelegate)
     }
@@ -53,5 +53,40 @@ class SiteDetailViewModel: CodeBehindDependencies {
         let image = images[selectedRow]
         let imageKey = PDImages.imageToSiteName(image)
         return SiteImageStruct(image: image, name: imageKey)
+    }
+
+    private func determineSiteImage(from siteName: SiteName, imageId: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) -> UIImage {
+        if siteName == SiteStrings.newSite {
+            return PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
+        } else if let site = sdk?.sites.all.firstIndex(of: imageId), let  {
+            return PDImages.siteNameToImage(
+                sitesWithImages[i],
+                theme: theme,
+                deliveryMethod: method
+            )
+        }
+    }
+
+    func getSiteImage(siteName: SiteName) {
+        if let defaults = sdk?.defaults {
+            let method = defaults.deliveryMethod.value
+            let theme = defaults.theme.value
+            let sitesWithImages = SiteStrings.getSiteNames(for: method)
+
+
+        }
+        if name == SiteStrings.newSite {
+            image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
+        } else if let site = sdk.sites.at(siteScheduleIndex),
+                  let i = sitesWithImages.firstIndex(of: site.imageId) {
+
+            image = PDImages.siteNameToImage(
+                sitesWithImages[i],
+                theme: theme,
+                deliveryMethod: method
+            )
+        } else {
+            image = PDImages.getCustomHormoneImage(theme: theme, deliveryMethod: method)
+        }
     }
 }

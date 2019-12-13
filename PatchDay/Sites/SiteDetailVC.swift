@@ -28,7 +28,6 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     // TODO: Rename to siteImageView
     @IBOutlet weak var siteImage: UIImageView!
 
-
     @IBOutlet weak var imagePicker: UIPickerView!
     @IBOutlet weak var bottomLine: UIView!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
@@ -120,10 +119,8 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             let i = siteScheduleIndex
             let count = sdk.sites.count
             switch i {
-            case 0..<count :
-                sdk.sites.rename(at: i, to: name)
-            case count :
-                sdk.sites.insertNew(name: name)
+            case 0..<count: sdk.sites.rename(at: i, to: name)
+            case count: sdk.sites.insertNew(name: name)
             default : break
             }
         }
@@ -179,14 +176,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     // MARK: - Picker functions
     
     @objc private func openPicker(_ picker: UIPickerView) {
-        UIView.transition(
-            with: picker as UIView,
-            duration: 0.4,
-            options: .transitionFlipFromTop, animations: {
-                picker.isHidden = false;
-                self.bottomLine.isHidden = true;
-                self.siteImage.isHidden = true
-            })
+        showPicker()
         if let n = nameText.text, let i = sdk?.sites.names.firstIndex(of: n) {
             namePicker.selectRow(i, inComponent: 0, animated: true)
         }
@@ -273,14 +263,18 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             } else {
                 image = PDImages.getCustomHormoneImage(theme: theme, deliveryMethod: method)
             }
-            UIView.transition(
-                with: siteImage,
-                duration: 0.5,
-                options: .transitionCrossDissolve,
-                animations: { self.siteImage.image = image },
-                completion: nil
-            )
+            showSiteImage(image)
         }
+    }
+
+    private func showSiteImage(_ image: UIImage) {
+        UIView.transition(
+            with: siteImage,
+            duration: 0.5,
+            options: .transitionCrossDissolve,
+            animations: { self.siteImage.image = image },
+            completion: nil
+        )
     }
     
     private func loadSave() {
@@ -299,6 +293,17 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     private func disableSave() {
         navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+
+    private func showPicker() {
+        UIView.transition(
+            with: picker as UIView,
+            duration: 0.4,
+            options: .transitionFlipFromTop, animations: {
+            picker.isHidden = false;
+            self.bottomLine.isHidden = true;
+            self.siteImage.isHidden = true
+        })
     }
     
     private func applyTheme() {

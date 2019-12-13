@@ -76,7 +76,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     public var occupiedSitesIndices: [Index] {
         var indices: [Index] = []
         for site in occupiedSites {
-            if let i = indexOf(site) {
+            if let i = firstIndexOf(site) {
                 indices.append(i)
             }
         }
@@ -176,8 +176,12 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         if let site = at(index) {
             site.delete()
             site.reset()
-            if index + 1 < sites.count - 1 {
-                for i in index + 1..<sites.count {
+            
+            let start = index + 1
+            let end = count - 1
+            
+            if start < end {
+                for i in start...end {
                     sites[i].order -= 1
                 }
             }
@@ -199,8 +203,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     public func get(for name: String) -> Bodily? {
-        if let i = names.firstIndex(of: name) {
-            return sites[i]
+        if let index = names.firstIndex(of: name) {
+            return at(index)
         }
         return nil
     }
@@ -241,15 +245,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         store.save()
     }
     
-    public func indexOf(_ site: Bodily) -> Index? {
-        var i = -1
-        for s in sites {
-            i += 1
-            if site.name == s.name && site.order == s.order {
-                return i
-            }
-        }
-        return nil
+    public func firstIndexOf(_ site: Bodily) -> Index? {
+        sites.firstIndex { (_ s: Bodily) -> Bool in s.isEqualTo(site) }
     }
 
     @discardableResult private func updateIndex() -> Index {

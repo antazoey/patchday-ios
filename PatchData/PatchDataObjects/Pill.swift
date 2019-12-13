@@ -175,6 +175,10 @@ public class Pill: PDObject, Swallowable, Comparable {
         moPill.lastTaken = nil
     }
     
+    public func isEqualTo(_ otherPill: Swallowable) -> Bool {
+        id == otherPill.id
+    }
+    
     // MARK: - Comparable, nil is always at the end of a sort
     
     public static func < (lhs: Pill, rhs: Pill) -> Bool {
