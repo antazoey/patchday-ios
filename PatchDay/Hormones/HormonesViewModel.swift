@@ -10,15 +10,14 @@ import Foundation
 import PDKit
 
 class HormonesViewModel: CodeBehindDependencies {
-    
-    public let HormoneMaxCount = 4
-    public let hormonesTable: HormonesTable
 
+    let hormonesTable: HormonesTable
     var hormones: HormoneScheduling? { sdk?.hormones }
 
     init(table: UITableView, source: HormonesVC) {
         self.hormonesTable = HormonesTable(table, primaryCellReuseId: CellReuseIds.Hormone, hormonesVC: source)
         super.init()
+        hormonesTable.applyTheme(theme: styles?.theme)
         loadAppTabs(source: source)
         reflectThemeInTabBar()
     }
@@ -44,6 +43,14 @@ class HormonesViewModel: CodeBehindDependencies {
         }
     }
 
+    func getCell(at row: Index) -> UITableViewCell {
+        if let hormone = hormones?.at(row),
+           let cell = hormonesTable.dequeueCell() {
+            return cell.configure(viewModel: self, hormone: hormone, hormoneIndex: row)
+        }
+        return UITableViewCell()
+    }
+
     func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
         if let hormone = hormones?.at(hormoneIndex) {
             nav?.goToHormoneDetails(hormone, source: hormonesViewController)
@@ -58,10 +65,10 @@ class HormonesViewModel: CodeBehindDependencies {
         }
     }
     
-    func watchHormonesForChanges(selector: Selector) {
+    func watchHormonesForChanges() {
         NotificationCenter.default.addObserver(
             self,
-            selector: selector,
+            selector: #selector(hormonesTable.reloadData),
             name: UIApplication.willEnterForegroundNotification,
             object: nil
         )

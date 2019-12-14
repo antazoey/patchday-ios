@@ -13,4 +13,9 @@ class HormonesTable: TableViewWrapper<HormoneCell> {
         table.dataSource = hormonesVC
         table.delegate = hormonesVC
     }
+
+    func applyTheme(theme: AppTheme?) {
+        table.backgroundColor = theme?[.bg]
+        table.separatorColor = theme?[.border]
+    }
 }

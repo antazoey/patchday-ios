@@ -39,38 +39,33 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        viewModel.tabs?.reflectHormoneCharacteristics()
+        viewModel?.tabs?.reflectHormoneCharacteristics()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        viewModel.getCellRowHeight(viewHeight: view.frame.height)
+        viewModel?.getCellRowHeight(viewHeight: view.frame.height) ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.HormoneMaxCount
+        HormonesConstants.HormoneMaxCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let hormone = viewModel.hormones?.at(indexPath.row),
-            let cell = hormonalTable.dequeueCell() {
-
-            return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: indexPath.row)
-        }
-        return UITableViewCell()
+        viewModel?.getCell(at: indexPath.row) ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.goToHormoneDetails(hormoneIndex: indexPath.row, hormonesViewController: self)
+        viewModel?.goToHormoneDetails(hormoneIndex: indexPath.row, hormonesViewController: self)
     }
     
     // MARK: - Actions
     
     @objc func settingsTapped() {
-        viewModel.nav?.goToSettings(source: self)
+        viewModel?.nav?.goToSettings(source: self)
     }
 
     func updateFromBackground() {
-        viewModel.watchHormonesForChanges(selector: #selector(hormonalTable.reloadData))
+        viewModel?.watchHormonesForChanges()
     }
     
     // MARK: - Private
@@ -84,15 +79,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     private func loadTitle() {
-        title = viewModel.mainViewControllerTitle
-    }
-    
-    private func applyTheme() {
-        if let theme = viewModel.styles?.theme {
-            hormonesView.backgroundColor = theme[.bg]
-            hormonalTable.backgroundColor = theme[.bg]
-            hormonalTable.separatorColor = theme[.border]
-        }
+        title = viewModel?.mainViewControllerTitle
     }
 
     private func fadeInView() {
@@ -102,5 +89,11 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             animations: { self.view.alpha = 1.0 },
             completion: nil
         )
+    }
+
+    private func applyTheme() {
+        if let theme = viewModel?.styles?.theme {
+            hormonesView.backgroundColor = theme[.bg]
+        }
     }
 }
