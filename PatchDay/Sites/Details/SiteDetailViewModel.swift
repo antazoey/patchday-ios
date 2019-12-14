@@ -17,10 +17,17 @@ class SiteDetailViewModel: CodeBehindDependencies {
     // MARK: - CTOR
 
     convenience init(_ site: Bodily, siteIndex: Index, siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
-        let images = PDImages.siteImages(
-            theme: sdk?.defaults.theme.value,
-            deliveryMethod: sdk?.defaults.deliveryMethod.value
+        let params = SiteImageDeterminationParameters(
+            siteIndex: site.order,
+            siteName: site.name,
+            deliveryMethod: sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod,
+            theme: sdk?.defaults.theme.value ?? DefaultTheme
         )
+        self.init(site, imageSelectionParams: params, siteImagePickerRelatedViews: siteImagePickerRelatedViews)
+    }
+
+    private convenience init(_ site: Bodily, imageSelectionParams: SiteImageDeterminationParameters, siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
+        let images = PDImages.getAvailableSiteImages(imageSelectionParams)
         self.init(site, siteIndex: siteIndex, imageSelections: images, siteImagePickerRelatedViews: siteImagePickerRelatedViews)
     }
 
@@ -32,7 +39,7 @@ class SiteDetailViewModel: CodeBehindDependencies {
     }
 
     private convenience init(_ site: Bodily, siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties) {
-        let imagePickerDelegate = SiteImagePickerDelegate(props: imagePickerProps, sdk: sdk)
+        let imagePickerDelegate = SiteImagePickerDelegate(props: imagePickerProps)
         self.init(site, siteIndex: siteIndex, imagePickerDelegate: imagePickerDelegate)
     }
 
@@ -61,7 +68,7 @@ class SiteDetailViewModel: CodeBehindDependencies {
                 deliveryMethod: defaults.deliveryMethod.value,
                 theme: defaults.theme.value
             )
-            return PDImages.getSiteImage(params)
+            return PDImages.getSpecificSiteImage(params)
         }
         return UIImage()
     }
@@ -75,11 +82,12 @@ class SiteDetailViewModel: CodeBehindDependencies {
     // MARK: - Private
 
     private func createImageStruct(selectedRow: Index) -> SiteImageStruct {
-        let theme = sdk?.defaults.theme.value
-        let method = sdk?.defaults.deliveryMethod.value
-        let images = PDImages.siteImages(theme: theme, deliveryMethod: method)
+        let method = sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod
+        let theme = sdk?.defaults.theme.value ?? DefaultTheme
+        let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
+        let images = PDImages.getAvailableSiteImages(params)
         let image = images[selectedRow]
-        let imageKey = PDImages.imageToSiteName(image)
+        let imageKey = PDImages.convertImageToSiteName(image)
         return SiteImageStruct(image: image, name: imageKey)
     }
 }

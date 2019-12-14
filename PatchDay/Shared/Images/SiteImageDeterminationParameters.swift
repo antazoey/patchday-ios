@@ -5,8 +5,6 @@
 
 import PDKit
 
-// `SiteImageDeterminationParameters` is a class instead of a struct to make it easier to mutate during the
-// determination process.
 
 class SiteImageDeterminationParameters {
     var siteIndex: Index?
@@ -28,5 +26,14 @@ class SiteImageDeterminationParameters {
         }
         self.deliveryMethod = deliveryMethod
         self.theme = theme
+    }
+
+    init(deliveryMethod: DeliveryMethod, theme: PDTheme) {
+        self.deliveryMethod = deliveryMethod
+        self.theme = theme
+    }
+
+    var imageType: SiteImageTypeAdapter.SiteImageType {
+        SiteImageTypeAdapter.convertToSiteImageType(deliveryMethod: deliveryMethod, theme: theme)
     }
 }
