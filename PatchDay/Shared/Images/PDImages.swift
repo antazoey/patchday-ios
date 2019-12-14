@@ -162,13 +162,13 @@ public class PDImages: NSObject {
     }
     
     /// Converts patch image to SiteName a.k.a String
-    static func convertImageToSiteName(_ image: UIImage) -> SiteName {
+    static func getSiteName(from image: UIImage) -> SiteName {
         imageToSiteNameDict[image] ?? SiteStrings.newSite
     }
 
     /// Coverts SiteName a.k.a String to corresponding hormone image.
-    static func convertSiteNameToImage(_ params: SiteImageDeterminationParameters) -> UIImage {
-        tryConvertSiteNameToSiteImage(params) ?? getPlaceholderHormoneImage(params)
+    static func getSiteImage(from params: SiteImageDeterminationParameters) -> UIImage {
+        tryGetSystemImage(from: params) ?? getPlaceholderHormoneImage(params)
     }
 
     // MARK: - Private
@@ -182,32 +182,32 @@ public class PDImages: NSObject {
         }
     }
 
-    private static func tryConvertSiteNameToSiteImage(_ params: SiteImageDeterminationParameters) -> UIImage? {
-        if let siteImage = tryConvertSiteNameToSystemSiteImage(params) {
+    private static func tryGetSystemImage(from params: SiteImageDeterminationParameters) -> UIImage? {
+        if let siteImage = tryGetSystemSiteImage(from: params) {
             return siteImage
         }
-        return tryConvertSiteNameToCustomSiteImage(params)
+        return tryGetCustomImage(from: params)
     }
 
-    private static func tryConvertSiteNameToCustomSiteImage(_ params: SiteImageDeterminationParameters) -> UIImage? {
-        if let _ = params.siteName {
-            switch params.imageType {
-            case .LightPatch: return lightCustomPatch
-            case .DarkPatch: return darkCustomPatch
-            case .LightInjection: return lightCustomInjection
-            case .DarkInjection: return darkCustomInjection
-            }
-        }
-        return nil
-    }
-
-    private static func tryConvertSiteNameToSystemSiteImage(_ params: SiteImageDeterminationParameters) -> UIImage? {
+    private static func tryGetSystemSiteImage(from params: SiteImageDeterminationParameters) -> UIImage? {
         if let siteName = params.siteName {
             switch params.imageType {
             case .LightPatch: return siteNameToLightPatchImageDict[siteName]
             case .DarkPatch: return siteNameToDarkPatchImageDict[siteName]
             case .LightInjection: return siteNameToLightInjectionImageDict[siteName]
             case .DarkInjection: return siteNameToDarkInjectionImageDict[siteName]
+            }
+        }
+        return nil
+    }
+
+    private static func tryGetCustomImage(from params: SiteImageDeterminationParameters) -> UIImage? {
+        if let _ = params.siteName {
+            switch params.imageType {
+            case .LightPatch: return lightCustomPatch
+            case .DarkPatch: return darkCustomPatch
+            case .LightInjection: return lightCustomInjection
+            case .DarkInjection: return darkCustomInjection
             }
         }
         return nil

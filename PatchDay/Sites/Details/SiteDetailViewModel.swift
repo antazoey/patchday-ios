@@ -87,7 +87,7 @@ class SiteDetailViewModel: CodeBehindDependencies {
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         let images = PDImages.getAvailableSiteImages(params)
         let image = images[selectedRow]
-        let imageKey = PDImages.convertImageToSiteName(image)
+        let imageKey = PDImages.getSiteName(image)
         return SiteImageStruct(image: image, name: imageKey)
     }
 }

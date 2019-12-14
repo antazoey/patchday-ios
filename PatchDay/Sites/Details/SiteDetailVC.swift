@@ -245,7 +245,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     private func createImageStruct(images: [UIImage]) -> SiteImageStruct {
         let image = images[imagePicker.getSelectedRow()]
-        let imageKey = PDImages.convertImageToSiteName(image)
+        let imageKey = PDImages.getSiteName(image)
         return SiteImageStruct(image: image, name: imageKey)
     }
 
