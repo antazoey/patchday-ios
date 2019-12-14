@@ -50,7 +50,6 @@ class HormoneCell: TableCell {
     }
 
     private func appearAsOccupiedState(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
-        let theme = sdk.defaults.theme.value
         let method = sdk.defaults.deliveryMethod.value
         loadDateLabel(when: hormone.isExpired)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
@@ -100,7 +99,10 @@ class HormoneCell: TableCell {
     private func loadSiteComponents(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
         let theme = sdk.defaults.theme.value
         let method = sdk.defaults.deliveryMethod.value
-        let siteImage = PDImages.getImage(for: hormone, theme: theme, deliveryMethod: method)
+        let siteImageDeterminationParams = SiteImageDeterminationParameters(
+            hormone: hormone, deliveryMethod: method, theme: theme
+        )
+        let siteImage = PDImages.getSiteImage(siteImageDeterminationParams)
         let cellTitle = ColonedStrings.getDateTitle(for: hormone, method: method)
         if sdk.stateManager.hormoneRecentlyMutated(at: hormoneIndex) {
             animate(at: hormoneIndex, theme: theme, newImage: siteImage, newTitle: cellTitle)
@@ -110,12 +112,7 @@ class HormoneCell: TableCell {
         stateImage.isHidden = false
     }
 
-    private func animate(
-        at index: Index,
-        theme: PDTheme,
-        newImage: UIImage?=nil,
-        newTitle: String?=nil
-    ) {
+    private func animate(at index: Index, theme: PDTheme, newImage: UIImage?=nil, newTitle: String?=nil) {
         UIView.transition(
             with: stateImage as UIView,
             duration: 0.75,

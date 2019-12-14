@@ -20,7 +20,7 @@ public class PDState: NSObject {
     public var bodilyChanged = false
     public var onlySiteChanged = false
     public var deliveryMethodChanged = false
-    public var isCerebral = false
+    public var isPlaceholder = false
     public var oldQuantity = 1
     
     /// List of ids that are affected by mutated data in a session.

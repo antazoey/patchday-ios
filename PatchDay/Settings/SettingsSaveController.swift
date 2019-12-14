@@ -29,7 +29,7 @@ class SettingsSaveController {
         case .Theme: saveThemeChange(row)
         default: print("Error: No picker for key \(key)")
         }
-        viewModel.notifications?.resendAllExpiredHormoneNotifications()
+        viewModel.notifications?.requestAllExpiredHormoneNotifications()
     }
     
     private func saveDeliveryMethodChange(_ row: Int) {

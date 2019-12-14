@@ -50,7 +50,7 @@ class QuantityMutator: QuantityMutating {
         let reset: (Int) -> () = {
             newQuantity in
             self.tabs?.reflectHormoneCharacteristics()
-            self.notifications?.cancelExpiredHormoneNotifications(
+            self.notifications?.cancelRangeOfExpiredHormoneNotifications(
                 from: newQuantity,to: oldQuantity
             )
         }

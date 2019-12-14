@@ -45,21 +45,15 @@ class Notifications: NSObject, NotificationScheduling {
     
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
-        if let sdk = sdk {
-            let method = sdk.defaults.deliveryMethod.value
-            let interval = sdk.defaults.expirationInterval
-            let notify = sdk.defaults.notifications.value
-            let notifyMinBefore = Double(sdk.defaults.notificationsMinutesBefore.value)
-            let totalExpired = sdk.hormones.totalExpired
-            if sendingNotifications, notify {
-                factory.createExpiredHormoneNotification(
-                    hormone,
-                    deliveryMethod: method,
-                    expiration: interval,
-                    notifyMinutesBefore: notifyMinBefore,
-                    totalDue: totalExpired
-                ).request()
-            }
+        if let sdk = sdk, sendingNotifications, sdk.defaults.notifications.value {
+            let params = ExpiredHormoneNotificationCreationParams(
+                hormone: hormone,
+                deliveryMethod: sdk.defaults.deliveryMethod.value,
+                expiration: sdk.defaults.expirationInterval,
+                notificationMinutesBefore: Double(sdk.defaults.notificationsMinutesBefore.value),
+                totalHormonesExpired: sdk.hormones.totalExpired
+            )
+            factory.createExpiredHormoneNotification(params).request()
         }
     }
 
@@ -77,11 +71,11 @@ class Notifications: NSObject, NotificationScheduling {
 
     func cancelAllExpiredHormoneNotifications() {
         let end = (sdk?.defaults.quantity.rawValue ?? 1) - 1
-        cancelExpiredHormoneNotifications(from: 0, to: end)
+        cancelRangeOfExpiredHormoneNotifications(from: 0, to: end)
     }
     
     /// Cancels all the hormone notifications in the given indices.
-    func cancelExpiredHormoneNotifications(from begin: Index, to end: Index) {
+    func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
         var ids: [String] = []
         for i in begin...end {
             appendHormoneIdToList(at: i, lst: &ids)
@@ -91,8 +85,8 @@ class Notifications: NSObject, NotificationScheduling {
         }
     }
     
-    /// Resends all the hormone notifications between the given indices.
-    func resendExpiredHormoneNotifications(from begin: Index = 0, to end: Index = -1) {
+    /// Requests all the hormone notifications between the given indices.
+    func requestRangeOfExpiredHormoneNotifications(from begin: Index = 0, to end: Index = -1) {
         if let hormones = sdk?.hormones {
             let e = end >= 0 ? end : hormones.count - 1
             if e < begin { return }
@@ -106,9 +100,9 @@ class Notifications: NSObject, NotificationScheduling {
         }
     }
     
-    func resendAllExpiredHormoneNotifications() {
+    func requestAllExpiredHormoneNotifications() {
         let end = (sdk?.defaults.quantity.rawValue ?? 1) - 1
-        resendExpiredHormoneNotifications(from: 0, to: end)
+        requestRangeOfExpiredHormoneNotifications(from: 0, to: end)
     }
     
     // MARK: - Pills
@@ -133,16 +127,15 @@ class Notifications: NSObject, NotificationScheduling {
     }
     
     /// Request a hormone notification that occurs when it's due overnight.
-    func requestOvernightExpirationNotification(_ hormone: Hormonal) {
-        if let sdk = sdk,
-            let exp = hormone.expiration,
-            let triggerDate = DateHelper.dateBefore(overNightDate: exp) {
-            
-            factory.createOvernightExpiredHormoneNotification(
-                triggerDate: triggerDate,
+    func requestOvernightExpirationNotification(for hormone: Hormonal) {
+        if let sdk = sdk, let expiration = hormone.expiration,
+           let notificationTime = DateHelper.dateBefore(overNightDate: expiration) {
+            let params = ExpiredHormoneOvernightNotificationCreationParams(
+                triggerDate: notificationTime,
                 deliveryMethod: sdk.defaults.deliveryMethod.value,
-                totalDue: sdk.totalAlerts
-            ).request()
+                totalHormonesExpired: sdk.hormones.totalExpired
+            )
+            factory.createOvernightExpiredHormoneNotification(params).request()
         }
     }
     

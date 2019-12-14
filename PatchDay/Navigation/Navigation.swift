@@ -15,7 +15,7 @@ public class Navigation: NavigationDelegate {
     func reflectTheme(theme: AppTheme) {
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.tintColor = theme[.button]
-        navigationBarAppearance.barTintColor = theme[.navbar]
+        navigationBarAppearance.barTintColor = theme[.navBar]
         if let textColor = theme[.text] {
             navigationBarAppearance.titleTextAttributes = [
                 NSAttributedString.Key.foregroundColor : textColor

@@ -42,7 +42,7 @@ public protocol Hormonal: PDPbjectifiable {
     var isEmpty: Bool { get }
     
     /// If this hormone is without a site.
-    var isCerebral: Bool { get }
+    var isPlaceholder: Bool { get }
     
     /// Sets the date to now.
     func stamp()

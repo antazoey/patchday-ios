@@ -42,7 +42,7 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     }
 
     var selectSiteTextFieldStartText: String {
-        hormone.isCerebral ? ActionStrings.select : hormone.siteName
+        hormone.isPlaceholder ? ActionStrings.select : hormone.siteName
     }
 
     var expirationDateText: String {

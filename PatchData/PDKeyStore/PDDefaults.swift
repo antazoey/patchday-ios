@@ -9,6 +9,7 @@
 import Foundation
 import PDKit
 
+
 public class PDDefaults: UserDefaultsManaging {
 
     private let store: UserDefaultsStoring
@@ -78,7 +79,7 @@ public class PDDefaults: UserDefaultsManaging {
     }
 
     @discardableResult public func setSiteIndex(to newIndex: Index) -> Index {
-        return store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
+        store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
     }
     
     public func setNotifications(to newValue: Bool) {

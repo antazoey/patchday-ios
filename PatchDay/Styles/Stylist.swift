@@ -1,5 +1,5 @@
 //
-//  ThemeManager.swift
+//  Stylist.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 4/14/19.
@@ -10,13 +10,14 @@ import Foundation
 import UIKit
 import PDKit
 
+
 enum ThemedAsset {
     case bg
     case border
     case button
     case evenCell
     case green
-    case navbar
+    case navBar
     case oddCell
     case purple
     case selected
@@ -30,25 +31,25 @@ class Stylist: NSObject, Styling {
 
     var theme: AppTheme
     
-    public init(theme: PDTheme) {
-        applyTheme(theme)
+    init(theme: PDTheme) {
+        self.theme = Stylist.createAppTheme(theme)
     }
 
-    public func getCellColor(at index: Int) -> UIColor {
+    func getCellColor(at index: Int) -> UIColor {
         let color = index % 2 == 0 ? theme[.evenCell] : theme[.oddCell]
         return color ?? UIColor()
     }
     
-    public func applyTheme(_ theme: PDTheme) {
+    static func createAppTheme(_ theme: PDTheme) -> AppTheme {
         switch theme {
         case .Light:
-            self.theme = [
+            return [
                 .bg : UIColor.white,
                 .border : PDColors.get(.LightGray),
                 .button : UIColor.blue,
                 .evenCell : PDColors.get(.LightBlue),
                 .green : PDColors.get(.Green),
-                .navbar : UIColor.white,
+                .navBar : UIColor.white,
                 .oddCell : UIColor.white,
                 .purple : PDColors.get(.Purple),
                 .selected : PDColors.get(.Pink),
@@ -56,13 +57,13 @@ class Stylist: NSObject, Styling {
                 .unselected : UIColor.darkGray
             ]
         case .Dark:
-            self.theme = [
+            return [
                 .bg : UIColor.black,
                 .border : UIColor.white,
                 .button : UIColor.white,
                 .evenCell : UIColor.black,
                 .green : UIColor.white,
-                .navbar : UIColor.white,
+                .navBar : UIColor.white,
                 .oddCell : UIColor.black,
                 .purple : PDColors.get(.Purple),
                 .selected : PDColors.get(.Black),
@@ -70,6 +71,5 @@ class Stylist: NSObject, Styling {
                 .unselected : UIColor.lightGray
             ]
         }
-
     }
 }

@@ -10,18 +10,7 @@ import Foundation
 import PDKit
 
 protocol NotificationProducing {
-    
-    func createExpiredHormoneNotification(
-        _ hormone: Hormonal,
-        deliveryMethod: DeliveryMethod,
-        expiration: ExpirationIntervalUD,
-        notifyMinutesBefore: Double,
-        totalDue: Int
-    ) -> ExpiredHormoneNotifying
-    
+    func createExpiredHormoneNotification(_ params: ExpiredHormoneNotificationCreationParams) -> ExpiredHormoneNotifying
     func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> DuePillNotifying
-    
-    func createOvernightExpiredHormoneNotification(
-        triggerDate: Date, deliveryMethod: DeliveryMethod, totalDue: Int
-    ) -> ExpiredHormoneOvernightNotifying
+    func createOvernightExpiredHormoneNotification(_ params: ExpiredHormoneOvernightNotificationCreationParams) -> ExpiredHormoneOvernightNotifying
 }

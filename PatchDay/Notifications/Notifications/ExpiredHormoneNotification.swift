@@ -10,32 +10,29 @@ import Foundation
 import UserNotifications
 import PDKit
 
+
 public class ExpiredHormoneNotification : Notification, ExpiredHormoneNotifying {
     
     private let hormone: Hormonal
     private let expiration: ExpirationIntervalUD
     private let notificationsMinutesBefore: Double
 
-    public static var actionId = { return "estroActionId" }()
-    public static let categoryId = { return "estroCategoryId" }()
+    public static let actionId = "estroActionId"
+    public static let categoryId = "estroCategoryId"
     
-    public init(for hormone: Hormonal,
-                deliveryMethod method: DeliveryMethod,
-                expiration: ExpirationIntervalUD,
-                notifyMinutesBefore minutes: Double,
-                totalDue: Int) {
-        self.hormone = hormone
-        self.expiration = expiration
-        self.notificationsMinutesBefore = minutes
+    init(_ params: ExpiredHormoneNotificationCreationParams) {
+        self.hormone = params.hormone
+        self.expiration = params.expiration
+        self.notificationsMinutesBefore = params.notificationMinutesBefore
         let expName = hormone.siteName
-        let strs = NotificationStrings.getHormoneNotificationStrings(
-            method: method,
-            minutesBefore: minutes,expiringSiteName: expName
+        let strings = NotificationStrings.getHormoneNotificationStrings(
+            method: params.deliveryMethod,
+            minutesBefore: params.notificationMinutesBefore, expiringSiteName: expName
         )
-        super.init(title: strs.0, body: strs.1, badge: totalDue)
+        super.init(title: strings.0, body: strings.1, badge: params.totalHormonesExpired)
     }
     
-    public func request() {
+    func request() {
         let hours = expiration.hours
         if var timeIntervalUntilExpire = DateHelper.calculateExpirationTimeInterval(hours, date: hormone.date) {
             timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)

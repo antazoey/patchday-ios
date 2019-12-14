@@ -16,7 +16,6 @@ public struct HormoneScheduleData {
     var expirationInterval: ExpirationIntervalUD
 }
 
-
 public class HormoneSchedule: NSObject, HormoneScheduling {
     
     override public var description: String { "Schedule for hormones." }

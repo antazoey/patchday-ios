@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 public class Hormone: PDObject, Hormonal, Comparable {
-    
+
     private let expirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
@@ -80,6 +80,10 @@ public class Hormone: PDObject, Hormonal, Comparable {
         return false
     }
 
+    public func isEqualTo(_ otherHormone: Hormonal) -> Bool {
+        id == otherHormone.id
+    }
+
     public var isPastNotificationTime: Bool {
         if let expDate = expiration {
             let hours = 0 - expirationInterval.hours
@@ -110,7 +114,7 @@ public class Hormone: PDObject, Hormonal, Comparable {
         date.isDefault() && site == nil && siteNameBackUp == nil
     }
 
-    public var isCerebral: Bool {
+    public var isPlaceholder: Bool {
         siteName == SiteStrings.newSite
     }
     

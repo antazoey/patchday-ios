@@ -99,7 +99,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let newMinutesBeforeValue = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
         viewModel.sdk?.defaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
-        viewModel.notifications?.resendAllExpiredHormoneNotifications()
+        viewModel.notifications?.requestAllExpiredHormoneNotifications()
     }
     
     /// For any default who's UI opens a UIPickerView

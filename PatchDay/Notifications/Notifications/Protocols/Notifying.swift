@@ -8,6 +8,6 @@
 
 import Foundation
 
-public protocol Notifying {
+protocol Notifying {
     func request()
 }

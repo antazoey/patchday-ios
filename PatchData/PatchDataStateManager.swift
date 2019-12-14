@@ -39,7 +39,7 @@ public class PatchDataStateManager: PDStateManaging {
         state.bodilyChanged = false
         state.onlySiteChanged = false
         state.deliveryMethodChanged = false
-        state.isCerebral = false
+        state.isPlaceholder = false
         state.mutatedHormoneIds = [nil]
     }
 
@@ -54,7 +54,7 @@ public class PatchDataStateManager: PDStateManaging {
     /// Whether the current state reflects an update-worthy mutation
     private func hormoneHasStateChanges(_ hormone: Hormonal, at index: Index, quantity: Int) -> Bool {
         var hormoneChanged = false
-        state.isCerebral = hormone.isCerebral
+        state.isPlaceholder = hormone.isPlaceholder
         if index < quantity {
             hormoneChanged = checkHormoneMutationStatus(for: hormone.id)
         }
@@ -68,6 +68,6 @@ public class PatchDataStateManager: PDStateManaging {
     }
     
     private func checkHormoneMutationStatus(for id: UUID) -> Bool {
-        state.mutatedHormoneIds.contains(id) && state.bodilyChanged && !state.isCerebral
+        state.mutatedHormoneIds.contains(id) && state.bodilyChanged && !state.isPlaceholder
     }
 }

@@ -15,11 +15,11 @@ public class ExpiredHormoneOvernightNotification: Notification, ExpiredHormoneOv
     private let dateBeforeOvernightExpiration: Date
     private let deliveryMethod: DeliveryMethod
     
-    init(triggerDate: Date, deliveryMethod: DeliveryMethod, totalDue: Int) {
-        self.dateBeforeOvernightExpiration = triggerDate
-        self.deliveryMethod = deliveryMethod
+    init(_ params: ExpiredHormoneOvernightNotificationCreationParams) {
+        self.dateBeforeOvernightExpiration = params.triggerDate
+        self.deliveryMethod = params.deliveryMethod
         let title = NotificationStrings.getOvernightString(for: deliveryMethod)
-        super.init(title: title, body: nil, badge: totalDue)
+        super.init(title: title, body: nil, badge: params.totalHormonesExpired)
     }
     
     public func request() {

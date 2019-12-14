@@ -9,6 +9,7 @@
 import Foundation
 import UserNotifications
 
+
 public class Notification {
     
     public var content: UNMutableNotificationContent
@@ -27,10 +28,10 @@ public class Notification {
         let center = UNUserNotificationCenter.current()
         center.add(request) { (error : Error?) in
             if let e = error {
-                let msg = "Unable to Add Notification Request "
-                let emsg = "(\(String(describing: e)), "
+                let message = "Unable to Add Notification Request "
+                let errorMessage = "(\(String(describing: e)), "
                 let desc = "\(String(describing: e.localizedDescription)))"
-                print(msg + emsg + desc)
+                print(message + errorMessage + desc)
             }
         }
     }
