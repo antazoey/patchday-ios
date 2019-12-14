@@ -50,11 +50,11 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailVC? {
-        createHormoneDetailVC(source: source, hormoneDetailsCodeBehind: HormoneDetailViewModel(hormone))
+        createHormoneDetailVC(source: source, viewModel: HormoneDetailViewModel(hormone))
     }
 
     static func createHormoneDetailVC(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailVC? {
-        let id = HormoneDetailViewModel.viewControllerId
+        let id = ViewControllerIds.HormoneDetail
         if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
             return hormoneVC.initWithViewModel(viewModel)
         }
@@ -72,7 +72,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selectSiteTextField.isUserInteractionEnabled = true
         chooseDateButton.isEnabled = false
         autofillButton.isHidden = true
-        typeSiteButton.setTitle(ActionStrings.done, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.done)
 
         if let senderType = TextFieldButtonSenderType(rawValue: textField.restorationIdentifier ?? "") {
             handleSenderType(senderType, textFieldSender: textField)
@@ -82,7 +82,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     @objc func closeTextField() {
         if let viewModel = viewModel {
             let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
-            typeSiteButton.setTitle(ActionStrings.type, for: .normal)
+            typeSiteButton.setTitle(ActionStrings.type)
             selectSiteTextField.endEditing(true)
             selectSiteTextField.isEnabled = true
             chooseDateButton.isEnabled = true
@@ -124,7 +124,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selectSiteTextField.isHidden = false
         autofillButton.isHidden = false
         saveButton.isEnabled = true
-        typeSiteButton.setTitle(ActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.type)
         typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
     }
 
@@ -216,7 +216,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         sitePicker.delegate = self
         sitePicker.dataSource = self
         verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
-        typeSiteButton.setTitle(ActionStrings.type, for: .normal)
+        typeSiteButton.setTitle(ActionStrings.type)
     }
 
     private func loadSaveButton() {
@@ -264,7 +264,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     
     private func autoSetDateText() {
         if let viewModel = viewModel {
-            chooseDateButton.setTitle(viewModel.autoPickedDateText, for: .normal)
+            chooseDateButton.setTitle(viewModel.autoPickedDateText)
             expirationDateLabel.text = viewModel.autoPickedExpirationDateText
         }
     }

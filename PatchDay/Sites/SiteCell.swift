@@ -31,7 +31,7 @@ class SiteCell: TableCell {
         return self
     }
 
-    public func reflectActionState(cellIndex: Index, actionState: SiteCellActionState) {
+    public func reflectActionState(cellIndex: Index, actionState: SiteTableActionState) {
         let shouldHide = actionState == .Editing
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide

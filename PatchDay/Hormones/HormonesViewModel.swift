@@ -12,12 +12,16 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies {
     
     public let HormoneMaxCount = 4
-
-    private var isFirstLaunch: Bool {
-        !(sdk?.defaults.mentionedDisclaimer.value ?? false)
-    }
+    public let hormonesTable: HormonesTable
 
     var hormones: HormoneScheduling? { sdk?.hormones }
+
+    init(table: UITableView, source: HormonesVC) {
+        self.hormonesTable = HormonesTable(table, primaryCellReuseId: CellReuseIds.Hormone, hormonesVC: source)
+        super.init()
+        loadAppTabs(source: source)
+        reflectThemeInTabBar()
+    }
     
     var mainViewControllerTitle: String {
         if let method = sdk?.defaults.deliveryMethod.value {
@@ -71,6 +75,10 @@ class HormonesViewModel: CodeBehindDependencies {
 
     func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
         viewHeight * 0.24
+    }
+
+    private var isFirstLaunch: Bool {
+        !(sdk?.defaults.mentionedDisclaimer.value ?? false)
     }
 
     private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {

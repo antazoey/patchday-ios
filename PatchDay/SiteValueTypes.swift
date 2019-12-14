@@ -26,13 +26,13 @@ struct SiteSelectionState {
 
 struct BarItemInitializationProperties {
     var sitesViewController: UIViewController
-    var cellActionState: SiteCellActionState
+    var tableActionState: SiteTableActionState
     var oppositeActionTitle: String
     var reset: Selector
     var insert: Selector
 }
 
-enum SiteCellActionState {
+enum SiteTableActionState {
     case Editing
     case Reading
     case Unknown

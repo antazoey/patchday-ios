@@ -10,8 +10,11 @@ class SiteDetailViewModel: CodeBehindDependencies {
 
     private var site: Bodily
     private let siteIndex: Index
-    private var imagePickerDelegate: SiteImagePickerDelegate
     private var selections = SiteSelectionState()
+
+    let imagePickerDelegate: SiteImagePickerDelegate
+
+    // MARK: - CTOR
 
     convenience init(_ site: Bodily, siteIndex: Index, siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
         let images = PDImages.siteImages(
@@ -40,11 +43,36 @@ class SiteDetailViewModel: CodeBehindDependencies {
         super.init()
     }
 
+    // MARK: - Public
+
+    var siteDetailViewControllerTitle: String {
+        siteName
+    }
+
+    var siteName: String {
+        site.name
+    }
+
+    var siteImage: UIImage {
+        if let defaults = sdk?.defaults {
+            let params = SiteImageDeterminationParameters(
+                siteIndex: siteIndex,
+                siteName: siteName,
+                deliveryMethod: defaults.deliveryMethod.value,
+                theme: defaults.theme.value
+            )
+            return PDImages.getSiteImage(params)
+        }
+        return UIImage()
+    }
+
     @discardableResult func saveSiteImageChanges() -> UIImage {
         let image = createImageStruct(selectedRow: selections.siteScheduleIndex)
         sdk?.sites.setImageId(at: selections.siteScheduleIndex, to: image.name)
         return image.image
     }
+
+    // MARK: - Private
 
     private func createImageStruct(selectedRow: Index) -> SiteImageStruct {
         let theme = sdk?.defaults.theme.value
@@ -53,40 +81,5 @@ class SiteDetailViewModel: CodeBehindDependencies {
         let image = images[selectedRow]
         let imageKey = PDImages.imageToSiteName(image)
         return SiteImageStruct(image: image, name: imageKey)
-    }
-
-    private func determineSiteImage(from siteName: SiteName, imageId: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) -> UIImage {
-        if siteName == SiteStrings.newSite {
-            return PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
-        } else if let site = sdk?.sites.all.firstIndex(of: imageId), let  {
-            return PDImages.siteNameToImage(
-                sitesWithImages[i],
-                theme: theme,
-                deliveryMethod: method
-            )
-        }
-    }
-
-    func getSiteImage(siteName: SiteName) {
-        if let defaults = sdk?.defaults {
-            let method = defaults.deliveryMethod.value
-            let theme = defaults.theme.value
-            let sitesWithImages = SiteStrings.getSiteNames(for: method)
-
-
-        }
-        if name == SiteStrings.newSite {
-            image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
-        } else if let site = sdk.sites.at(siteScheduleIndex),
-                  let i = sitesWithImages.firstIndex(of: site.imageId) {
-
-            image = PDImages.siteNameToImage(
-                sitesWithImages[i],
-                theme: theme,
-                deliveryMethod: method
-            )
-        } else {
-            image = PDImages.getCustomHormoneImage(theme: theme, deliveryMethod: method)
-        }
     }
 }

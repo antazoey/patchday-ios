@@ -250,7 +250,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             settingsStack.backgroundColor = styles.theme[.bg]
             deliveryMethodButton.setTitleColor(styles.theme[.text]!)
             expirationIntervalButton.setTitleColor(styles.theme[.text]!)
-            quantityButton.setTitleColor(styles.theme[.text], for: .normal)
+            quantityButton.setTitleColor(styles.theme[.text])
             notificationsSwitch.backgroundColor = styles.theme[.bg]
             notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
             deliveryMethodSideView.backgroundColor = styles.theme[.bg]

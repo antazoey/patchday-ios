@@ -103,7 +103,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @objc func editTapped() {
         let props = createBarItemProps()
         viewModel?.handleEditSite(editBarItemProps: props)
-        loadTitle(cellActionState: props.cellActionState)
+        loadTitle(actionState: props.tableActionState)
         switchNavItems(barItemEditProps: props)
     }
 
@@ -124,9 +124,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     private func switchNavItems(barItemEditProps props: BarItemInitializationProperties) {
-        if var barItems = navigationItem.rightBarButtonItems, barItems.count >= 2 {
-            barItems[0] = SiteViewFactory.createItemFromEditingState(props)
-            barItems[1].title = props.oppositeActionTitle
+        if var barItems = navigationItem.rightBarButtonItems {
+            viewModel?.switchBarItems(items: &barItems, barItemEditProps: props)
         }
     }
 
@@ -136,8 +135,8 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         )
     }
     
-    private func loadTitle(cellActionState: SiteCellActionState = .Unknown) {
-        title = viewModel?.getSitesTitle(cellActionState)
+    private func loadTitle(actionState: SiteTableActionState = .Unknown) {
+        title = viewModel?.getSitesViewControllerTitle(actionState)
     }
 
     private func applyTheme() {

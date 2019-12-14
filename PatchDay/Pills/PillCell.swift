@@ -69,11 +69,11 @@ class PillCell: TableCell {
         takeButton.restorationIdentifier = "t \(index)"
         takeButton.isEnabled = !pill.isDone
         if stateImageView.tintColor == UIColor.lightGray {
-            takeButton.setTitle(ActionStrings.taken, for: .normal)
+            takeButton.setTitle(ActionStrings.taken)
             takeButton.isEnabled = false
             stateImageButton.isEnabled = false
         } else {
-            takeButton.setTitle(ActionStrings.take, for: .normal)
+            takeButton.setTitle(ActionStrings.take)
             takeButton.isEnabled = true
             stateImageButton.isEnabled = true
         }
@@ -108,7 +108,7 @@ class PillCell: TableCell {
         let textColor = app?.styles.theme[.text] ?? UIColor.black
         stateImageView.tintColor = app?.styles.theme[.button]
         nameLabel.textColor = textColor
-        takeButton.setTitleColor(textColor, for: .normal)
+        takeButton.setTitleColor(textColor)
         lastTakenLabel.textColor = textColor
         nextDueDate.textColor = textColor
         let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)

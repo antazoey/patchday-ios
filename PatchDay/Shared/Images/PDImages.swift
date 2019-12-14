@@ -66,9 +66,9 @@ public class PDImages: NSObject {
     
     
     // Pills
-    public static let pill = { UIImage(named: "Pill")! }()
+    static let pill = { UIImage(named: "Pill")! }()
     
-    public static func siteImages(
+    static func siteImages(
         theme: PDTheme?, deliveryMethod: DeliveryMethod?) -> [UIImage] {
 
         if let theme = theme, let deliveryMethod = deliveryMethod {
@@ -115,69 +115,30 @@ public class PDImages: NSObject {
         }
     }
     
-    public static func getDeliveryIcon(_ method: DeliveryMethod) -> UIIcon {
+    static func getDeliveryIcon(_ method: DeliveryMethod) -> UIIcon {
         switch method {
-        case .Patches:
-            return patchIcon
-        case .Injections:
-            return injectionIcon
+        case .Patches: return patchIcon
+        case .Injections: return injectionIcon
         }
     }
     
-    public static func getCustomHormoneImage(
-        theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
-
-        switch (theme, deliveryMethod) {
-        case (.Light, .Patches):
-            return customPatch
-        case (.Dark, .Patches):
-            return darkCustomPatch
-        case (.Light, .Injections):
-            return customInjection
-        case (.Dark, .Injections):
-            return darkCustomInjection
-        }
+    static func representsCerebral(_ img: UIImage) -> Bool {
+        img == cerebralPatch || img == cerebralInjection
     }
 
-    // MARK: - Functions
-    
-    public static func getCerebralHormoneImage(
-        theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
-
-        switch (theme, deliveryMethod) {
-        case (.Dark, .Patches):
-            return darkCerebralPatch
-        case(.Light, .Patches):
-            return cerebralPatch
-        case (.Light, .Injections):
-            return cerebralInjection
-        case (.Dark, .Injections):
-            return darkCerebralInjection
+    static func getSiteImage(_ params: SiteImageDeterminationParameters) -> UIImage {
+        let sitesWithImages = SiteStrings.getSiteNames(for: params.deliveryMethod)
+        if params.siteName == SiteStrings.newSite {
+            return PDImages.getCerebralHormoneImage(params)
+        } else if let imageName = sitesWithImages.tryGet(at: params.siteIndex) {
+            params.siteName = imageName
+            return PDImages.siteNameToImage(params)
         }
-    }
-    
-    public static func representsCerebral(_ img: UIImage) -> Bool {
-        return img == cerebralPatch || img == cerebralInjection
-    }
-    
-    /// Coverts SiteName a.k.a String to corresponding patch image.
-    public static func siteNameToImage(
-        _ siteName: SiteName, theme: PDTheme, deliveryMethod: DeliveryMethod) -> UIImage {
-
-        let stringToImageDict = getStringToImageDict(theme: theme, deliveryMethod: deliveryMethod)
-        let siteNames = SiteStrings.getSiteNames(for: deliveryMethod)
-        if (siteNames.contains(siteName)), let siteImage = stringToImageDict[siteName] {
-            return siteImage
-        }
-        if siteName != SiteStrings.unplaced {
-            let customSiteImage = getCustomHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
-            return customSiteImage
-        }
-        return getCerebralHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
+        return PDImages.getCustomHormoneImage(params)
     }
     
     /// Converts patch image to SiteName a.k.a String
-    public static func imageToSiteName(_ image: UIImage) -> String {
+    static func imageToSiteName(_ image: UIImage) -> String {
         let imageToStringDict = [
             patchRightGlute : SiteStrings.SiteNames.rightGlute,
             darkPatchRightGlute : SiteStrings.SiteNames.rightGlute,
@@ -204,7 +165,7 @@ public class PDImages: NSObject {
     }
     
     /// Returns a site icon representing the site index
-    public static func getSiteIndexIcon(for site: Bodily) -> UIIcon {
+    static func getSiteIndexIcon(for site: Bodily) -> UIIcon {
         switch site.hormones.count {
         case 1: return siteIndexIconOne
         case 2: return siteIndexIconTwo
@@ -213,30 +174,44 @@ public class PDImages: NSObject {
         default: return siteIndexIcon
         }
     }
-    
-    public static func getImage(
-        for hormone: Hormonal,
-        theme: PDTheme,
-        deliveryMethod: DeliveryMethod) -> UIImage {
-
-        if let site = hormone.site {
-            return siteNameToImage(
-                site.name,
-                theme: theme,
-                deliveryMethod: deliveryMethod
-            )
-        }
-        return getCerebralHormoneImage(theme: theme, deliveryMethod: deliveryMethod)
-    }
 
     // MARK: - Private
 
-    private static func getStringToImageDict(
-        theme: PDTheme,
-        deliveryMethod: DeliveryMethod) -> Dictionary<String, UIImage> {
+    private static func getCerebralHormoneImage(_ params: SiteImageDeterminationParameters) -> UIImage {
+        switch (params.theme, params.deliveryMethod) {
+        case (.Dark, .Patches): return darkCerebralPatch
+        case(.Light, .Patches): return cerebralPatch
+        case (.Light, .Injections): return cerebralInjection
+        case (.Dark, .Injections): return darkCerebralInjection
+        }
+    }
 
-        let newImg = getCerebralHormoneImage(theme: theme, deliveryMethod: .Patches);
-        switch (theme, deliveryMethod) {
+    /// Coverts SiteName a.k.a String to corresponding patch image.
+    private static func siteNameToImage(_ params: SiteImageDeterminationParameters) -> UIImage {
+        let stringToImageDict = getStringToImageDict(params)
+        let siteNames = SiteStrings.getSiteNames(for: params.deliveryMethod)
+        if siteNames.contains(params.siteName), let siteImage = stringToImageDict[params.siteName] {
+            return siteImage
+        }
+        if params.siteName != SiteStrings.unplaced {
+            let customSiteImage = getCustomHormoneImage(params)
+            return customSiteImage
+        }
+        return getCerebralHormoneImage(params)
+    }
+
+    private static func getCustomHormoneImage(_ params: SiteImageDeterminationParameters) -> UIImage {
+        switch (params.theme, params.deliveryMethod) {
+        case (.Light, .Patches): return customPatch
+        case (.Dark, .Patches): return darkCustomPatch
+        case (.Light, .Injections): return customInjection
+        case (.Dark, .Injections): return darkCustomInjection
+        }
+    }
+
+    private static func getStringToImageDict(_ params: SiteImageDeterminationParameters) -> Dictionary<String, UIImage> {
+        let newImg = getCerebralHormoneImage(params)
+        switch (params.theme, params.deliveryMethod) {
         case (.Light, .Patches):
             return [
                 SiteStrings.unplaced: newImg,

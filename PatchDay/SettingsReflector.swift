@@ -90,7 +90,7 @@ class SettingsReflector {
     private func loadTheme() {
         if let theme = viewModel.sdk?.defaults.theme.value {
             let title = PickerOptions.getTheme(for: theme)
-            controls.themeButton.setTitle(title, for: .normal)
+            controls.themeButton.setTitle(title)
         }
     }
 }

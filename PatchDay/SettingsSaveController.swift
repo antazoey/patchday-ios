@@ -52,7 +52,7 @@ class SettingsSaveController {
     private func createCancelSaveQuantityButtonClosure() -> (Int) -> () {
         let cancel: (Int) -> () = {
             oldQuantity in
-            self.controls.quantityButton.setTitle("\(oldQuantity)", for: .normal)
+            self.controls.quantityButton.setTitle("\(oldQuantity)")
         }
         return cancel
     }

@@ -14,33 +14,26 @@ import PDKit
 class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var hormonesView: UIView!
-    @IBOutlet weak var hormonalTable: UITableView!
+    @IBOutlet weak var hormonesTable: UITableView!
     
-    let viewModel = HormonesViewModel()
+    var viewModel: HormonesViewModel?
     
     // MARK: - Main
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel.loadAppTabs(source: self)
-        viewModel.reflectThemeInTabBar()
-        setDelegates()
+        viewModel = HormonesViewModel(table: hormonesTable, source: self)
         loadTitle()
         loadBarButtons()
         updateFromBackground()
     }
     
-    private func setDelegates() {
-        hormonalTable.dataSource = self
-        hormonalTable.delegate = self
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         fadeInView()
         applyTheme()
-        viewModel.presentDisclaimerAlert()
+        viewModel?.presentDisclaimerAlert()
         loadTitle()
-        hormonalTable.reloadData()
+        viewModel?.hormonesTable.reloadData()
         super.viewDidAppear(false)
     }
 
@@ -59,7 +52,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let hormone = viewModel.hormones?.at(indexPath.row),
-            let cell = hormonalTable.dequeueHormoneCell() {
+            let cell = hormonalTable.dequeueCell() {
 
             return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: indexPath.row)
         }

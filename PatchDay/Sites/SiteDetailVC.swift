@@ -38,28 +38,17 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if AppDelegate.isPad {
-            topConstraint.constant = 100
-        }
-        nameText.autocapitalizationType = .words
-        loadSave()
-        disableSave()
-        nameText.borderStyle = .none
-        nameText.delegate = self
-        namePicker.delegate = self
-        namePicker.isHidden = true
-        typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        setRuntimeViewProps()
+        applyDelegates()
         loadTitle()
+        loadName()
         loadImage()
-        typeNameButton.setTitle(ActionStrings.type, for: .normal)
-        verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
-        nameText.restorationIdentifier = SiteDetailConstants.SelectId
+        loadSave()
         applyTheme()
     }
 
     static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, index: Index) -> SiteDetailVC? {
-        let id = ViewControllerIds.Site
+        let id = ViewControllerIds.SiteDetail
         if let siteVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailVC {
             return siteVC.initWithSite(site, index: index)
         }
@@ -99,7 +88,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func imageButtonTapped(_ sender: Any) {
         siteImage.isHidden = true
         imageButton.isEnabled = false
-        viewModel?.imagePickerDelegate?.openPicker() {
+        viewModel?.imagePickerDelegate.openPicker() {
             self.typeNameButton.isEnabled = false
             self.imageButton.isEnabled = false
             self.nameText.isEnabled = false
@@ -135,11 +124,11 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         
         var newAction: Selector?
         switch textField.restorationIdentifier {
-        case "type" :
+        case SiteDetailConstants.TypeId:
             nameText.isEnabled = true
-            textField.restorationIdentifier = "select"
+            textField.restorationIdentifier = SiteDetailConstants.SelectId
             newAction = #selector(closeTextField)
-        case "select" :
+        case SiteDetailConstants.SelectId:
             view.endEditing(true)
             nameText.isEnabled = false
             openPicker(namePicker)
@@ -223,51 +212,48 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     // MARK: - Private
+
+    private func applyDelegates() {
+        nameText.delegate = self
+        namePicker.delegate = self
+    }
+
+    private func setRuntimeViewProps() {
+        if AppDelegate.isPad {
+            topConstraint.constant = 100
+        }
+        verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
+    }
     
+    private func loadTitle() {
+        title = viewModel?.siteDetailViewControllerTitle
+    }
+
+    private func loadName() {
+        nameText.text = viewModel?.siteName
+        nameText.autocapitalizationType = .words
+        nameText.borderStyle = .none
+        nameText.restorationIdentifier = SiteDetailConstants.SelectId
+        typeNameButton.setTitle(ActionStrings.type)
+        typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
+        namePicker.isHidden = true
+    }
+    
+    private func loadImage() {
+        showSiteImage(viewModel?.siteImage)
+    }
+
     private func createImageStruct(images: [UIImage]) -> SiteImageStruct {
         let image = images[imagePicker.getSelectedRow()]
         let imageKey = PDImages.imageToSiteName(image)
         return SiteImageStruct(image: image, name: imageKey)
     }
-    
+
     private func segueToSitesVC() {
         navigationController?.popViewController(animated: true)
     }
-    
-    private func loadTitle() {
-        if siteScheduleIndex >= 0, let site = sdk?.sites.at(siteScheduleIndex) {
-            title = "\(VCTitleStrings.siteTitle) \(siteScheduleIndex + 1)"
-            nameText.text = site.name
-        } else {
-            let indexSuffix = (sdk?.sites.count ?? 0) + 1
-            title = "\(VCTitleStrings.siteTitle) \(indexSuffix)"
-        }
-    }
-    
-    private func loadImage() {
-        if let name = nameText.text, let sdk = sdk {
-            var image: UIImage
-            let method = sdk.defaults.deliveryMethod.value
-            let theme = sdk.defaults.theme.value
-            let sitesWithImages = SiteStrings.getSiteNames(for: method)
-            if name == SiteStrings.newSite {
-                image = PDImages.getCerebralHormoneImage(theme: theme, deliveryMethod: method)
-            } else if let site = sdk.sites.at(siteScheduleIndex),
-                let i = sitesWithImages.firstIndex(of: site.imageId) {
 
-                image = PDImages.siteNameToImage(
-                    sitesWithImages[i],
-                    theme: theme,
-                    deliveryMethod: method
-                )
-            } else {
-                image = PDImages.getCustomHormoneImage(theme: theme, deliveryMethod: method)
-            }
-            showSiteImage(image)
-        }
-    }
-
-    private func showSiteImage(_ image: UIImage) {
+    private func showSiteImage(_ image: UIImage?) {
         UIView.transition(
             with: siteImage,
             duration: 0.5,
@@ -285,6 +271,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
                 target: self,
                 action: #selector(saveButtonTapped(_:))
             )
+        disableSave()
     }
     
     private func enableSave() {

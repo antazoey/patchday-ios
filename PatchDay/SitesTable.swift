@@ -38,7 +38,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
         return dequeueCell()?.configure(props: props) ?? SiteCell()
     }
 
-    func prepareCellsForEditMode(editingState: SiteCellActionState) {
+    func prepareCellsForEditMode(editingState: SiteTableActionState) {
         table.isEditing = editingState == .Editing
         for i in 0..<cellCount {
             let indexPath = IndexPath(row: i, section: 0)

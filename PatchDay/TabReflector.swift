@@ -59,7 +59,7 @@ class TabReflector: TabReflective {
         for i in 0..<viewControllers.count {
             let font = UIFont.systemFont(ofSize: size)
             let fontKey = [NSAttributedString.Key.font: font]
-            viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
+            viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey)
         }
     }
 }

@@ -39,7 +39,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
-        let id = ViewControllerIds.Pill
+        let id = ViewControllerIds.PillDetail
         if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailVC {
             return vc.initWithPill(pill)
         }
@@ -56,13 +56,13 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @objc func selectNameTapped() {
         openPicker()
-        selectNameButton.setTitle(ActionStrings.done, for: .normal)
+        selectNameButton.setTitle(ActionStrings.done)
         selectNameButton.replaceTarget(self, newAction: #selector(doneWithSelectNameTapped))
     }
 
     @objc func doneWithSelectNameTapped() {
         closePicker()
-        selectNameButton.setTitle(ActionStrings.select, for: .normal)
+        selectNameButton.setTitle(ActionStrings.select)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
         if viewModel?.selections.name != nil {
             enableSaveButton()
@@ -219,11 +219,11 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTime1(from pill: Swallowable) {
-        time1Button.setTitle(viewModel?.time1Text, for: .normal)
+        time1Button.setTitle(viewModel?.time1Text ?? "")
     }
     
     private func loadTime2(from pill: Swallowable) {
-        time2Button.setTitle(viewModel?.time2Text, for: .normal)
+        time2Button.setTitle(viewModel?.time2Text ?? "")
     }
 
     private func disableNonTimeInteractions() {

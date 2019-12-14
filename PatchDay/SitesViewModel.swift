@@ -63,7 +63,7 @@ class SitesViewModel: CodeBehindDependencies {
     }
 
     func handleEditSite(editBarItemProps props: BarItemInitializationProperties) {
-        sitesTable.prepareCellsForEditMode(editingState: props.cellActionState)
+        sitesTable.prepareCellsForEditMode(editingState: props.tableActionState)
     }
 
     func tryDeleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
@@ -79,15 +79,12 @@ class SitesViewModel: CodeBehindDependencies {
         sitesTable.deleteCell(indexPath: indexPath)
     }
 
-    func getSitesTitle(_ siteCellActionState: SiteCellActionState) -> String {
+    func getSitesViewControllerTitle(_ siteCellActionState: SiteTableActionState) -> String {
         if siteCellActionState == .Editing {
             return ""
         }
 
-        if let method = sdk?.defaults.deliveryMethod.value {
-            return VCTitleStrings.getSitesTitle(for: method)
-        }
-        return VCTitleStrings.siteTitle
+        return getViewControllerTitleFromDeliveryMethod()
     }
 
     func createBarItems(insertAction: Selector, editAction: Selector, sitesViewController: UIViewController) -> [UIBarButtonItem] {
@@ -96,8 +93,22 @@ class SitesViewModel: CodeBehindDependencies {
         return [insert, edit]
     }
 
+    func switchBarItems(items: inout [UIBarButtonItem], barItemEditProps props: BarItemInitializationProperties) {
+        if items.count >= 2 {
+            items[0] = SiteViewFactory.createItemFromActionState(props)
+            items[1].title = props.oppositeActionTitle
+        }
+    }
+
     private static func prepareBackButtonForNavigation(_ sitesViewController: UIViewController) {
         let backItem = SiteViewFactory.createBackItem()
         sitesViewController.navigationItem.backBarButtonItem = backItem
+    }
+
+    private func getViewControllerTitleFromDeliveryMethod() -> String {
+        if let method = sdk?.defaults.deliveryMethod.value {
+            return VCTitleStrings.getSitesTitle(for: method)
+        }
+        return VCTitleStrings.siteTitle
     }
 }

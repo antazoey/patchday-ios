@@ -12,9 +12,9 @@ let DefaultNumberOfPickerComponents = 1
 
 
 class ViewControllerIds {
-    static let Hormone = "HormoneDetailVC_id"
-    static let Pill = "PillDetailVC_id"
-    static let Site = "SiteDetailVC_id"
+    static let HormoneDetail = "HormoneDetailVC_id"
+    static let PillDetail = "PillDetailVC_id"
+    static let SiteDetail = "SiteDetailVC_id"
     static let Settings = "SettingsVC_id"
 }
 

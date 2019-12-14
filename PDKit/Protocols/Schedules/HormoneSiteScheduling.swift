@@ -52,9 +52,6 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     /// The site at the given index.
     func at(_ index: Index) -> Bodily?
     
-    /// Gets the site for the given name.
-    func get(for name: String) -> Bodily?
-    
     /// Changes the name of a site.
     func rename(at index: Index, to name: String)
     

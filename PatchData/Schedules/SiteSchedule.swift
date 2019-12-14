@@ -202,13 +202,6 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         sites.tryGet(at: index)
     }
 
-    public func get(for name: String) -> Bodily? {
-        if let index = names.firstIndex(of: name) {
-            return at(index)
-        }
-        return nil
-    }
-
     public func rename(at index: Index, to name: String) {
         if var site = at(index) {
             site.name = name
