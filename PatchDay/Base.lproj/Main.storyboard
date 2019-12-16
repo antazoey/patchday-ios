@@ -11,7 +11,7 @@
         <!--Estrogen-->
         <scene sceneID="Vbb-Cl-B4g">
             <objects>
-                <viewController storyboardIdentifier="HormoneDetailVC_id" title="Estrogen" modalTransitionStyle="crossDissolve" id="UrJ-qX-o3J" customClass="HormoneDetailVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HormoneDetailVC_id" title="Hormone" modalTransitionStyle="crossDissolve" id="UrJ-qX-o3J" customClass="HormoneDetailVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hEG-HB-nmT">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

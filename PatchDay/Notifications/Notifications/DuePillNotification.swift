@@ -1,5 +1,5 @@
 //
-//  PillNotification.swift
+//  DuePillNotification.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/15/19.

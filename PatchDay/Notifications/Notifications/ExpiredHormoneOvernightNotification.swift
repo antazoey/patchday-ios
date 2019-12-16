@@ -1,5 +1,5 @@
 //
-//  EstrogenOvernightNotification.swift
+//  ExpiredHormoneOvernightNotification.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/15/19.
