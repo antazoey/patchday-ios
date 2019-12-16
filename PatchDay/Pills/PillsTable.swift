@@ -9,15 +9,18 @@ import PDKit
 class PillsTable: TableViewWrapper<PillCell> {
 
     private let pills: PillScheduling?
+    private let theme: AppTheme?
 
-    init(_ table: UITableView, pills: PillScheduling?) {
+    init(_ table: UITableView, pills: PillScheduling?, theme: AppTheme?) {
         self.pills = pills
+        self.theme = theme
         super.init(table, primaryCellReuseId: CellReuseIds.Pill)
     }
 
     func getCell(at index: Index)-> PillCell {
         if let pill = pills?.at(index) {
-            return dequeueCell()?.configure(pill, pillIndex: index) ?? PillCell()
+            let params = PillCellConfigurationParameters(pill: pill, index: index, theme: theme)
+            return dequeueCell()?.configure(params) ?? PillCell()
         }
         return PillCell()
     }
@@ -29,7 +32,7 @@ class PillsTable: TableViewWrapper<PillCell> {
         let end = count - 1
         if start <= end {
             for i in start...end {
-                getCell(at: i).loadBackground()
+                getCell(at: i).loadBackground(theme)
             }
         }
         table.reloadData()

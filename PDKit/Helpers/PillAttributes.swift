@@ -40,12 +40,6 @@ public struct PillAttributes {
     }
 
     public init() {
-        self.name = nil
-        self.timesaday = nil
-        self.time1 = nil
-        self.time2 = nil
         self.notify = true
-        self.timesTakenToday = nil
-        self.lastTaken = nil
     }
 }

@@ -140,7 +140,7 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     private func applyTheme() {
-        if let theme = app?.styles.theme {
+        if let theme = viewModel?.styles?.theme {
             sitesView.backgroundColor = theme[.bg]
         }
     }

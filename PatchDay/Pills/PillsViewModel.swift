@@ -25,7 +25,8 @@ class PillsViewModel: CodeBehindDependencies {
             pills.swallow(pill)
             tabs?.reflectDuePillBadgeValue()
             notifications?.requestDuePillNotification(pill)
-            pillsTable.dequeueCell()?.stamp().configure(pill, pillIndex: index)
+            let params = PillCellConfigurationParameters(pill: pill, index: index, theme: styles?.theme)
+            pillsTable.dequeueCell()?.stamp().configure(params)
         }
     }
 

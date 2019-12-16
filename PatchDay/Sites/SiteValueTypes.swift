@@ -6,22 +6,23 @@
 import Foundation
 import PDKit
 
+
 struct SiteImageStruct {
     let image: UIImage
     let name: SiteName
 }
 
 struct SiteCellProperties {
-    var site: Bodily? = nil
+    var site: Bodily?
     var rowIndex: Index = 0
     var totalSiteCount: Int = 0
     var nextSiteIndex: Int = 0
-    var theme: AppTheme? = nil
+    var theme: AppTheme?
 }
 
 struct SiteSelectionState {
-    var selectedSiteImageRow: Index? = nil
-    var selectedSiteName: SiteName? = nil
+    var selectedSiteImageRow: Index?
+    var selectedSiteName: SiteName?
 }
 
 struct BarItemInitializationProperties {

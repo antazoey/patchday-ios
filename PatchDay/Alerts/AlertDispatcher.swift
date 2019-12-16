@@ -27,10 +27,6 @@ class AlertDispatcher: NSObject, AlertDispatching {
         return nil
     }()
 
-    convenience override init() {
-        self.init(sdk: app?.sdk)
-    }
-
     init(sdk: PatchDataDelegate?) {
         self.sdk = sdk
     }

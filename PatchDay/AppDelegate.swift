@@ -7,10 +7,8 @@
 //
 
 import UIKit
-import PDKit
-
-// Mock these for testing
 import UserNotifications
+import PDKit
 import PatchData
 
 @UIApplicationMain
@@ -19,21 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var notifications: NotificationScheduling = Notifications()
     var sdk: PatchDataDelegate = PatchData()
-    var alerts: AlertDispatching = AlertDispatcher()
+    var alerts: AlertDispatching?
     var tabs: TabReflective?
     var nav: NavigationDelegate = Navigation()
-    var styles: Styling!
+    var styles: Styling?
     var badge: PDBadgeDelegate = PDBadge()
 
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         if isResetMode {
             sdk.nuke()
             return false
         }
 
+        self.alerts = AlertDispatcher(sdk: sdk)
         self.styles = Stylist(theme: self.sdk.defaults.theme.value)
         self.setBadgeToTotalAlerts()
         self.setNavigationAppearance()
@@ -53,8 +50,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setNavigationAppearance() {
-        nav.reflectTheme(theme: styles.theme)
-        tabs?.reflectTheme(theme: styles.theme)
+        if let styles = styles {
+            nav.reflectTheme(theme: styles.theme)
+            tabs?.reflectTheme(theme: styles.theme)
+        }
     }
 
     func setTheme() {

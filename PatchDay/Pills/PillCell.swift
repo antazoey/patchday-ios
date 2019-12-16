@@ -12,8 +12,6 @@ import PDKit
 
 class PillCell: TableCell {
 
-    private var pill: Swallowable!
-
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var stateImageView: UIImageView!
     @IBOutlet weak var stateImageButton: PDBadgeButton!
@@ -24,15 +22,15 @@ class PillCell: TableCell {
 
     static let RowHeight: CGFloat = 170.0
     
-    @discardableResult public func configure(_ pill: Swallowable, pillIndex: Index) -> PillCell {
-        loadNameLabel(pill)
-        loadStateImage(pill, index: pillIndex)
-        loadLastTakenText(pill)
-        loadDueDateText(pill)
-        loadTakeButton(pill, index: pillIndex)
-        loadBackground()
-        setImageBadge(pill)
-        applyTheme()
+    @discardableResult public func configure(_ params: PillCellConfigurationParameters) -> PillCell {
+        loadNameLabel(params.pill)
+        loadStateImage(params.pill, index: params.index)
+        loadLastTakenText(params.pill)
+        loadDueDateText(params.pill)
+        loadTakeButton(params.pill, index: params.index)
+        loadBackground(params.theme)
+        setImageBadge(params.pill)
+        applyTheme(params.theme)
         return self
     }
     
@@ -80,15 +78,13 @@ class PillCell: TableCell {
         return self
     }
     
-    @discardableResult func loadBackground() -> PillCell {
+    @discardableResult func loadBackground(_ theme: AppTheme?) -> PillCell {
         imageViewView.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        backgroundColor = app?.styles.theme[.bg]
-        
+        backgroundColor = theme?[.bg]
         let backgroundView = UIView()
         backgroundView.backgroundColor = PDColors.get(.Pink)
         selectedBackgroundView = backgroundView
-        
         return self
     }
     
@@ -104,15 +100,17 @@ class PillCell: TableCell {
         return self
     }
     
-    @discardableResult private func applyTheme() -> PillCell {
-        let textColor = app?.styles.theme[.text] ?? UIColor.black
-        stateImageView.tintColor = app?.styles.theme[.button]
-        nameLabel.textColor = textColor
-        takeButton.setTitleColor(textColor)
-        lastTakenLabel.textColor = textColor
-        nextDueDate.textColor = textColor
-        let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
-        stateImageView.image = stateImage
+    @discardableResult private func applyTheme(_ theme: AppTheme?) -> PillCell {
+        if let theme = theme {
+            let textColor = theme[.text] ?? UIColor.black
+            stateImageView.tintColor = theme[.button]
+            nameLabel.textColor = textColor
+            takeButton.setTitleColor(textColor)
+            lastTakenLabel.textColor = textColor
+            nextDueDate.textColor = textColor
+            let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
+            stateImageView.image = stateImage
+        }
         return self
     }
 }

@@ -73,7 +73,7 @@ class SiteCell: TableCell {
     
     private func prepareBackgroundSelectedView() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = app?.styles.theme[.selected]
+        backgroundView.backgroundColor = props?.theme?[.selected]
         selectedBackgroundView = backgroundView
     }
 }

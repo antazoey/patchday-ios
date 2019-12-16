@@ -21,7 +21,8 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = PillsViewModel(pillsTable: PillsTable(pillsTable, pills: viewModel?.pills))
+        let tableWrapper = PillsTable(pillsTable, pills: viewModel?.pills, theme: viewModel?.styles?.theme)
+        viewModel = PillsViewModel(pillsTable: tableWrapper)
         applyTheme()
         title = VCTitleStrings.pillsTitle
         pillsTable.delegate = self

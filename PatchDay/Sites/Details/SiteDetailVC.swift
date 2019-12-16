@@ -261,7 +261,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func applyTheme() {
-        if let theme = app?.styles.theme {
+        if let theme = app?.styles?.theme {
             view.backgroundColor = theme[.bg]
             nameStackVertical.backgroundColor = theme[.bg]
             nameStackHorizontal.backgroundColor = theme[.bg]
