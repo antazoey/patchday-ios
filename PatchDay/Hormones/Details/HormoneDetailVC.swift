@@ -34,7 +34,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     @IBOutlet private weak var siteLabel: UILabel!
     @IBOutlet private weak var verticalLineInSiteStack: UIView!
     @IBOutlet private weak var typeSiteButton: UIButton!
-    @IBOutlet private weak var sitePicker: UIPickerView!
+    @IBOutlet weak var sitePicker: UIPickerView!
     @IBOutlet private weak var horizontalLineBelowSite: UIView!
     @IBOutlet private weak var autofillButton: UIButton!
 
@@ -141,7 +141,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let siteName = viewModel?.selectSite(at: row) {
+        if let siteName = viewModel?.trySelectSite(at: row) {
             selectSiteTextField.text = siteName
             closeSitePicker()
         }

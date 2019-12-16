@@ -1,5 +1,5 @@
 //
-//  AlertForNewSite.swift
+//  NewSiteAlert.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/16/19.
@@ -9,24 +9,25 @@
 import UIKit
 import PDKit
 
+
 class NewSiteAlert: Alert {
     
     private var appendActionHandler: () -> ()
     
     private var appendSiteAction: UIAlertAction {
-        return UIAlertAction(title: AlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
+        UIAlertAction(title: AlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
             void in self.appendActionHandler()
         }
     }
     
     private var declineAction: UIAlertAction {
-        return UIAlertAction(title: ActionStrings.decline, style: .default)
+        UIAlertAction(title: ActionStrings.decline, style: .default)
     }
     
     init(parent: UIViewController, style: UIAlertController.Style, appendActionHandler: @escaping () -> ()) {
         self.appendActionHandler = appendActionHandler
-        let strs = AlertStrings.newSiteAlertStrings
-        super.init(parent: parent, title: strs.title, message: "", style: style)
+        let strings = AlertStrings.newSiteAlertStrings
+        super.init(parent: parent, title: strings.title, message: "", style: style)
     }
     
     override func present() {

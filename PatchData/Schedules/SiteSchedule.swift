@@ -202,7 +202,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         sites.tryGet(at: index)
     }
 
-    public func rename(at index: Index, to name: String) {
+    public func rename(at index: Index, to name: SiteName) {
         if var site = at(index) {
             site.name = name
             store.save()

@@ -37,7 +37,6 @@ class SettingsViewModel : CodeBehindDependencies {
         if let themeName = PickerOptions.getTheme(at: themeIndex) {
             let theme = PickerOptions.getTheme(for: themeName)
             sdk?.defaults.setTheme(to: theme)
-            styles?.applyTheme(theme)
         }
     }
     

@@ -72,7 +72,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private func loadBarButtons() {
         let settingsButton = UIBarButtonItem()
-        settingsButton.image = PDImages.settingsIcon
+        settingsButton.image = PDIcons.settingsIcon
         settingsButton.target = self
         settingsButton.action = #selector(settingsTapped)
         navigationItem.rightBarButtonItems = [settingsButton]

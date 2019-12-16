@@ -9,15 +9,15 @@
 import UIKit
 import PDKit
 
+
 class DisclaimerAlert: Alert {
     
     private var dismissAction: UIAlertAction {
-        return UIAlertAction(title: ActionStrings.dismiss, style: UIAlertAction.Style.cancel)
+        UIAlertAction(title: ActionStrings.dismiss, style: UIAlertAction.Style.cancel)
     }
     
     private var goToUrlAction: UIAlertAction {
-        return UIAlertAction(title: AlertStrings.disclaimerAlertStrings.supportPageActionTitle,
-                             style: .default) {
+        UIAlertAction(title: AlertStrings.disclaimerAlertStrings.supportPageActionTitle, style: .default) {
             void in
             if let url = URL(string: "http://www.patchdayhrt.com") {
                 if #available(iOS 10.0, *) {
@@ -30,12 +30,11 @@ class DisclaimerAlert: Alert {
     }
     
     public init(parent: UIViewController, style: UIAlertController.Style) {
-        let strs = AlertStrings.disclaimerAlertStrings
-        super.init(parent: parent, title: strs.title, message: strs.message, style: style)
+        let strings = AlertStrings.disclaimerAlertStrings
+        super.init(parent: parent, title: strings.title, message: strings.message, style: style)
     }
     
     override func present() {
         super.present(actions: [dismissAction, goToUrlAction])
     }
-    
 }

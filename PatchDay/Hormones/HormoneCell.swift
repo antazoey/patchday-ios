@@ -16,10 +16,13 @@ class HormoneCell: TableCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
+    private var styles: Styling?
+
     @discardableResult public func configure(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) -> HormoneCell {
-        backgroundColor = app?.styles.theme[.bg]
+        styles = viewModel.styles
+        backgroundColor = styles?.theme[.bg]
         setThemeColors(at: hormoneIndex)
-        if let sdk = app?.sdk {
+        if let sdk = viewModel.sdk {
             let quantity = sdk.defaults.quantity
             let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
                 hormoneIndex, hormoneLimit: quantity.rawValue
@@ -62,7 +65,7 @@ class HormoneCell: TableCell {
     }
     
     private func setDateLabel(_ title: String?) {
-        self.dateLabel.textColor = app?.styles.theme[.text]
+        self.dateLabel.textColor =  styles?.theme[.text]
         self.dateLabel.text = title
     }
 
@@ -77,7 +80,7 @@ class HormoneCell: TableCell {
 
     private func setThemeColors(at index: Int) {
         selectedBackgroundView = UIView()
-        if let styles = app?.styles {
+        if let styles = styles {
             selectedBackgroundView?.backgroundColor = styles.theme[.selected]
             backgroundColor = styles.getCellColor(at: index)
         }
@@ -102,7 +105,7 @@ class HormoneCell: TableCell {
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
             hormone: hormone, deliveryMethod: method, theme: theme
         )
-        let siteImage = PDImages.getSpecificSiteImage(siteImageDeterminationParams)
+        let siteImage = PDImages.getSiteImage(from: siteImageDeterminationParams)
         let cellTitle = ColonedStrings.getDateTitle(for: hormone, method: method)
         if sdk.stateManager.hormoneRecentlyMutated(at: hormoneIndex) {
             animate(at: hormoneIndex, theme: theme, newImage: siteImage, newTitle: cellTitle)

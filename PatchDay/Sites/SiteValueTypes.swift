@@ -20,8 +20,8 @@ struct SiteCellProperties {
 }
 
 struct SiteSelectionState {
-    var siteScheduleIndex: Int = -1
-    var hasChanged: Bool = false
+    var selectedSiteImageRow: Index? = nil
+    var selectedSiteName: SiteName? = nil
 }
 
 struct BarItemInitializationProperties {

@@ -3,8 +3,9 @@
 // Copyright (c) 2019 Juliya Smith. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import PDKit
+
 
 class SiteDetailViewModel: CodeBehindDependencies {
 
@@ -16,19 +17,14 @@ class SiteDetailViewModel: CodeBehindDependencies {
 
     // MARK: - CTOR
 
-    convenience init(_ site: Bodily, siteIndex: Index, siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
-        let params = SiteImageDeterminationParameters(
-            siteIndex: site.order,
-            siteName: site.name,
-            deliveryMethod: sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod,
-            theme: sdk?.defaults.theme.value ?? DefaultTheme
+    convenience init(_ params: SiteDetailViewModelConstructorParams) {
+        let images = PDImages.getAvailableSiteImages(params.imageSelectionParams)
+        self.init(
+            params.site,
+            siteIndex: params.site.order,
+            imageSelections: images,
+            siteImagePickerRelatedViews: params.relatedViews
         )
-        self.init(site, imageSelectionParams: params, siteImagePickerRelatedViews: siteImagePickerRelatedViews)
-    }
-
-    private convenience init(_ site: Bodily, imageSelectionParams: SiteImageDeterminationParameters, siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
-        let images = PDImages.getAvailableSiteImages(imageSelectionParams)
-        self.init(site, siteIndex: siteIndex, imageSelections: images, siteImagePickerRelatedViews: siteImagePickerRelatedViews)
     }
 
     private convenience init(_ site: Bodily, siteIndex: Index, imageSelections: [UIImage], siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
@@ -56,8 +52,21 @@ class SiteDetailViewModel: CodeBehindDependencies {
         siteName
     }
 
-    var siteName: String {
+    var siteName: SiteName {
         site.name
+    }
+
+    var sitesCount: Int {
+        sdk?.sites.count ?? 0
+    }
+
+    var siteNameSelections: [SiteName] {
+        sdk?.sites.names ?? []
+    }
+
+    var siteNamePickerStartIndex: Index {
+        let startName = selections.selectedSiteName ?? siteName
+        return siteNameSelections.firstIndex(of: startName) ?? 0
     }
 
     var siteImage: UIImage {
@@ -68,15 +77,37 @@ class SiteDetailViewModel: CodeBehindDependencies {
                 deliveryMethod: defaults.deliveryMethod.value,
                 theme: defaults.theme.value
             )
-            return PDImages.getSpecificSiteImage(params)
+            return PDImages.getSiteImage(from: params)
         }
         return UIImage()
     }
 
-    @discardableResult func saveSiteImageChanges() -> UIImage {
-        let image = createImageStruct(selectedRow: selections.siteScheduleIndex)
-        sdk?.sites.setImageId(at: selections.siteScheduleIndex, to: image.name)
-        return image.image
+    @discardableResult func saveSiteImageChanges() -> UIImage? {
+        if let row = selections.selectedSiteImageRow {
+            let image = createImageStruct(selectedRow: row)
+            sdk?.sites.setImageId(at: row, to: image.name)
+            return image.image
+        }
+        return nil
+    }
+
+    func handleSave(siteNameText: SiteName?, siteDetailViewController: SiteDetailVC) {
+        if let name = siteNameText {
+            saveSiteNameChanges(siteName: name)
+        }
+        nav?.pop(source: siteDetailViewController)
+    }
+
+    func getSiteName(at index: Index) -> SiteName? {
+        siteNameSelections.tryGet(at: index)
+    }
+
+    func getAttributedSiteName(at index: Index) -> NSAttributedString? {
+        if let siteRowName = getSiteName(at: index), let color = styles?.theme[.text] {
+            let attributes = [NSAttributedString.Key.foregroundColor : color as Any]
+            return NSAttributedString(string: siteRowName, attributes: attributes)
+        }
+        return nil
     }
 
     // MARK: - Private
@@ -87,7 +118,17 @@ class SiteDetailViewModel: CodeBehindDependencies {
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         let images = PDImages.getAvailableSiteImages(params)
         let image = images[selectedRow]
-        let imageKey = PDImages.getSiteName(image)
+        let imageKey = PDImages.getSiteName(from: image)
         return SiteImageStruct(image: image, name: imageKey)
+    }
+
+    private func saveSiteNameChanges(siteName: SiteName) {
+        if let sites = sdk?.sites {
+            if siteIndex >= 0 && siteIndex < sites.count {
+                sites.rename(at: siteIndex, to: siteName)
+            } else if siteIndex == sites.count {
+                sites.insertNew(name: siteName)
+            }
+        }
     }
 }

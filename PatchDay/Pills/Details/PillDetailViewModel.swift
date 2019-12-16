@@ -20,6 +20,7 @@ class PillDetailViewModel: CodeBehindDependencies {
 
     init(_ pill: Swallowable) {
         self.pill = pill
+        super.init()
     }
 
     var isNewPill: Bool {
@@ -85,7 +86,7 @@ class PillDetailViewModel: CodeBehindDependencies {
     }
 
     func setSelectedTimesadayFromSliderValue(sliderValue: Float) {
-        selections.timesaday = TimesadaySliderDefinition.convertSliderValueToTimesaday(sliderValue: slider.value)
+        selections.timesaday = TimesadaySliderDefinition.convertSliderValueToTimesaday(sliderValue: sliderValue)
     }
 
     func sliderValueRepresentsPlurality(sliderValue: Float) -> Bool {

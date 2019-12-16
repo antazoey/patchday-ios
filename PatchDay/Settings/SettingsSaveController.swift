@@ -14,10 +14,12 @@ class SettingsSaveController {
     
     private let viewModel: SettingsViewModel
     private let controls: SettingsControls
+    private let applyTheme: () -> ()
     
-    init(viewModel: SettingsViewModel, controls: SettingsControls) {
+    init(viewModel: SettingsViewModel, controls: SettingsControls, themeChangeHandler: @escaping () -> ()) {
         self.controls = controls
         self.viewModel = viewModel
+        self.applyTheme = themeChangeHandler
     }
     
     public func save(_ key: PDDefault, for row: Int) {
@@ -47,6 +49,7 @@ class SettingsSaveController {
     
     private func saveThemeChange(_ row: Int) {
         viewModel.saveTheme(themeIndex: row)
+        applyTheme()
     }
     
     private func createCancelSaveQuantityButtonClosure() -> (Int) -> () {

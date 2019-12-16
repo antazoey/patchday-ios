@@ -60,7 +60,7 @@ class SiteCell: TableCell {
     }
 
     private func loadSiteIndexImage(for site: Bodily) -> UIImage? {
-        PDImages.getSiteIndexIcon(for: site)
+        PDIcons.getSiteIndexIcon(for: site)
     }
     
     /// Should hide if not the the next index.

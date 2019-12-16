@@ -19,6 +19,6 @@ protocol AlertDispatching {
         cancel: @escaping (_ oldQuantity: Int) -> ()
     )
     func presentDisclaimerAlert()
-    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneVC: HormoneDetailVC)
+    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneDetailVC: HormoneDetailVC)
     func presentGenericAlert()
 }

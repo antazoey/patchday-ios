@@ -1,5 +1,5 @@
 //
-//  PDCoreDataAlert.swift
+//  PDGenericAlert.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 8/6/19.
@@ -9,16 +9,17 @@
 import UIKit
 import PDKit
 
+
 class PDGenericAlert: Alert {
     
     init(parent: UIViewController, style: UIAlertController.Style) {
-        let strs = AlertStrings.genericAlertStrings
-        super.init(parent: parent, title: strs.title, message: strs.message, style: style)
+        let strings = AlertStrings.genericAlertStrings
+        super.init(parent: parent, title: strings.title, message: strings.message, style: style)
     }
     
     override func present() {
-        super.present(actions: [UIAlertAction(title: ActionStrings.dismiss,
-                                              style: UIAlertAction.Style.cancel,
-                                              handler: nil)])
+        super.present(actions: [UIAlertAction(
+            title: ActionStrings.dismiss, style: UIAlertAction.Style.cancel, handler: nil)]
+        )
     }
 }

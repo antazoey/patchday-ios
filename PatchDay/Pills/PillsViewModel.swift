@@ -8,7 +8,7 @@ import PDKit
 
 class PillsViewModel: CodeBehindDependencies {
 
-    private var pillsTable: PillsTable
+    var pillsTable: PillsTable
 
     init(pillsTable: PillsTable) {
         self.pillsTable = pillsTable

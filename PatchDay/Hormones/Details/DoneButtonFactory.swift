@@ -10,7 +10,7 @@ import PDKit
 class DoneButtonFactory {
 
     func createDoneButton(doneAction: Selector, mainView: UIView) -> UIButton {
-        let donePoint = CGPoint(x: configureDoneButtonStartX(), y: 0)
+        let donePoint = CGPoint(x: configureDoneButtonStartX(mainView: mainView), y: 0)
         let doneSize = CGSize(width: 100, height: 50)
         let doneRect = CGRect(origin: donePoint, size: doneSize)
         let doneButton = UIButton(frame: doneRect)

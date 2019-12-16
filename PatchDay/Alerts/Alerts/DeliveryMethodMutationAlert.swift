@@ -1,5 +1,5 @@
 //
-//  ChangeDeliveryMethodAlert.swift
+//  DeliveryMethodMutationAlert.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/16/19.
@@ -12,7 +12,7 @@ import PDKit
 class DeliveryMethodMutationAlert: Alert {
     
     private var sdk: PatchDataDelegate?
-    private let tabs: PDTabReflective?
+    private let tabs: TabReflective?
     
     private let oldQuantity: Int
     private let oldDeliveryMethod: DeliveryMethod
@@ -20,15 +20,15 @@ class DeliveryMethodMutationAlert: Alert {
     private let decline: ((Int) -> ())
     
     private var continueAction: UIAlertAction {
-        return UIAlertAction(title: ActionStrings.cont, style: .destructive) {
+        UIAlertAction(title: ActionStrings.cont, style: .destructive) {
             void in
             self.sdk?.defaults.setDeliveryMethod(to: self.newDeliveryMethod)
-            self.tabs?.reflectHormone()
+            self.tabs?.reflectHormoneCharacteristics()
         }
     }
     
     private var declineAction: UIAlertAction {
-        return UIAlertAction(title: ActionStrings.decline, style: .cancel) {
+        UIAlertAction(title: ActionStrings.decline, style: .cancel) {
             void in self.decline(self.oldQuantity)
         }
     }
@@ -57,7 +57,7 @@ class DeliveryMethodMutationAlert: Alert {
         parent: UIViewController,
         style: UIAlertController.Style,
         sdk: PatchDataDelegate?,
-        tabs: PDTabReflective?,
+        tabs: TabReflective?,
         oldDeliveryMethod: DeliveryMethod,
         newDeliveryMethod: DeliveryMethod,
         oldQuantity: Int,
@@ -67,11 +67,11 @@ class DeliveryMethodMutationAlert: Alert {
         self.tabs = tabs
         self.oldQuantity = oldQuantity
         self.decline = decline
-        let strs = AlertStrings.loseDataAlertStrings
+        let strings = AlertStrings.loseDataAlertStrings
         self.oldDeliveryMethod = oldDeliveryMethod
         self.newDeliveryMethod = newDeliveryMethod
         super.init(
-            parent: parent, title: strs.title, message: strs.message, style: style
+            parent: parent, title: strings.title, message: strings.message, style: style
         )
     }
     

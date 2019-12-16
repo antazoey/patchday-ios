@@ -10,6 +10,17 @@ import UIKit
 import PDKit
 
 
+extension UIView {
+
+    func tryGetKeyFromButtonMetadata() -> String? {
+        if let key = restorationIdentifier?.dropLast() {
+            return String(key)
+        }
+        return nil
+    }
+}
+
+
 extension UIControl {
 
     func showAsEnabled() {
@@ -20,6 +31,19 @@ extension UIControl {
     func hideAsDisabled() {
         isEnabled = false
         isHidden = true
+    }
+
+    func replaceTarget(_ baseTarget: Any?, newAction: Selector, for event: UIControl.Event = .touchUpInside) {
+        removeTarget(nil, action: nil, for: .allEvents)
+        addTarget(baseTarget, action: newAction, for: event)
+    }
+
+    func removeTarget(_ source: Any, action: Selector) {
+        removeTarget(source, action: action, for: .allEditingEvents)
+    }
+
+    func addTarget(_ source: Any, action: Selector) {
+        addTarget(source, action: action, for: .touchUpInside)
     }
 }
 
@@ -42,36 +66,24 @@ extension UISwitch {
 }
 
 extension UIButton {
-    
+
     func setTitleForNormalAndDisabled(_ title: String) {
         setTitle(title, for: .normal)
         setTitle(title, for: .disabled)
     }
-    
+
     func setTitle(_ title: String) {
         setTitle(title, for: .normal)
     }
-    
-    func setTitleColor(_ color: UIColor) {
+
+    func setTitleColor(_ color: UIColor?) {
         setTitleColor(color, for: .normal)
     }
-    
+
     func restoreSuffix() -> Int? {
         if let restoreId = restorationIdentifier {
             return Int("\(restoreId.suffix(1))")
         }
         return -1
-    }
-    
-    func replaceTarget(_ baseTarget: Any?, newAction: Selector, for event: UIControl.Event = .touchUpInside) {
-        removeTarget(nil, action: nil, for: .allEvents)
-        addTarget(baseTarget, action: newAction, for: event)
-    }
-    
-    func tryGetKeyFromButtonMetadata() -> String? {
-        if let key = restorationIdentifier?.dropLast() {
-            return String(key)
-        }
-        return nil
     }
 }

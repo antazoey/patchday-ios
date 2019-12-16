@@ -26,15 +26,12 @@ class HormoneDetailViewModel: CodeBehindDependencies {
 
     init(_ hormone: Hormonal) {
         self.hormone = hormone
+        super.init()
     }
 
     var dateSelected: Date {
-        get {
-            selectionState.selectedDate ?? hormone.date
-        }
-        set {
-            selectionState.selectedDate = newValue
-        }
+        get { selectionState.selectedDate ?? hormone.date }
+        set { selectionState.selectedDate = newValue }
     }
 
     var dateSelectedText: String {
@@ -84,11 +81,12 @@ class HormoneDetailViewModel: CodeBehindDependencies {
         return ColonedStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
     }
 
-    func selectSite(at row: Index) -> String {
+    @discardableResult func trySelectSite(at row: Index) -> String? {
         if let name = sdk?.sites.names.tryGet(at: row) {
             selectionState.siteIndexSelected = row
             return name
         }
+        return nil
     }
 
     func saveFromSelectionState() {
@@ -109,7 +107,7 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     }
 
     func presentNewSiteAlert(source: HormoneDetailVC, newSiteName: String) {
-        alerts?.presentNewSiteAlert(with: newSiteName, at: selectionState.siteIndexSelected, hormoneVC: source)
+        alerts?.presentNewSiteAlert(with: newSiteName, at: selectionState.siteIndexSelected, hormoneDetailVC: source)
     }
 
     private func createInitialExpirationState(from hormone: Hormonal) -> HormoneExpirationState {

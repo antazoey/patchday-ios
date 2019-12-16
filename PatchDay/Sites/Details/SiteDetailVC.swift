@@ -47,10 +47,10 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         applyTheme()
     }
 
-    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, index: Index) -> SiteDetailVC? {
+    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters) -> SiteDetailVC? {
         let id = ViewControllerIds.SiteDetail
-        if let siteVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailVC {
-            return siteVC.initWithSite(site, index: index)
+        if let detailVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailVC {
+            return detailVC.initWithSite(site, imageParams: params)
         }
         return nil
     }
@@ -60,10 +60,15 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         applyTheme()
     }
 
-    fileprivate func initWithSite(_ site: Bodily, index: Index) -> SiteDetailVC {
-        let relatedViews = SiteImagePickerDelegateRelatedViews(picker: imagePicker, imageView: siteImage, saveButton: saveButton)
-        let vm = SiteDetailViewModel(site, siteIndex: index, siteImagePickerRelatedViews: relatedViews)
-        return initWithViewModel(vm)
+    fileprivate func initWithSite(_ site: Bodily, imageParams: SiteImageDeterminationParameters) -> SiteDetailVC {
+        let relatedViews = SiteImagePickerDelegateRelatedViews(
+            picker: imagePicker, imageView: siteImage, saveButton: saveButton
+        )
+        return initWithParams(SiteDetailViewModelConstructorParams(site, imageParams, relatedViews))
+    }
+
+    fileprivate func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailVC {
+        initWithViewModel(SiteDetailViewModel(params))
     }
 
     fileprivate func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailVC {
@@ -103,17 +108,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @objc func saveButtonTapped(_ sender: Any) {
-        if let name = nameText.text, let sdk = sdk {
-            // Updating existing site
-            let i = siteScheduleIndex
-            let count = sdk.sites.count
-            switch i {
-            case 0..<count: sdk.sites.rename(at: i, to: name)
-            case count: sdk.sites.insertNew(name: name)
-            default : break
-            }
-        }
-        segueToSitesVC()
+        viewModel?.handleSave(siteNameText: nameText.text, siteDetailViewController: self)
     }
     
     // MARK: - Text field
@@ -121,22 +116,15 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
         typeNameButton.setTitle(ActionStrings.done)
-        
-        var newAction: Selector?
-        switch textField.restorationIdentifier {
-        case SiteDetailConstants.TypeId:
+        if textField.restorationIdentifier == SiteDetailConstants.TypeId {
             nameText.isEnabled = true
             textField.restorationIdentifier = SiteDetailConstants.SelectId
-            newAction = #selector(closeTextField)
-        case SiteDetailConstants.SelectId:
+            typeNameButton.replaceTarget(self, newAction: #selector(closeTextField))
+        } else if textField.restorationIdentifier == SiteDetailConstants.SelectId {
             view.endEditing(true)
             nameText.isEnabled = false
             openPicker(namePicker)
-            newAction = #selector(closePicker)
-        default : break
-        }
-        if let new = newAction {
-            typeNameButton.replaceTarget(self, newAction: new)
+            typeNameButton.replaceTarget(self, newAction: #selector(closePicker))
         }
     }
     
@@ -147,28 +135,26 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @objc func closeTextField() {
         view.endEditing(true)
-        nameText.restorationIdentifier = "select"
-        switch nameText.text {
-        case "" :
+        nameText.restorationIdentifier = SiteDetailConstants.SelectId
+
+        if nameText.text == "" {
             nameText.text = SiteStrings.newSite
-        case let name :
-            if let n = name {
-                sdk?.sites.rename(at: siteScheduleIndex, to: n)
-            }
         }
+
         loadImage()
         typeNameButton.setTitle(ActionStrings.type, for: .normal)
-        nameText.removeTarget(self, action: #selector(closeTextField), for: .touchUpInside)
-        typeNameButton.addTarget(self, action: #selector(typeTapped(_:)), for: .touchUpInside)
+
+        nameText.removeTarget(self, action: #selector(closeTextField))
+        typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
     }
     
     // MARK: - Picker functions
     
     @objc private func openPicker(_ picker: UIPickerView) {
-        showPicker()
-        if let n = nameText.text, let i = sdk?.sites.names.firstIndex(of: n) {
-            namePicker.selectRow(i, inComponent: 0, animated: true)
+        if let startRow = viewModel?.siteNamePickerStartIndex {
+            namePicker.selectRow(startRow, inComponent: 0, animated: true)
         }
+        showPicker(picker)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -176,34 +162,25 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        sdk?.sites.names.count ?? 0
+        viewModel?.sitesCount ?? 0
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-
-        if let sdk = sdk,
-            let name = sdk.sites.names.tryGet(at: row),
-            let textColor = app?.styles.theme[.text] {
-    
-            let attrs = [NSAttributedString.Key.foregroundColor : textColor as Any]
-            let attributedString = NSAttributedString(string: name, attributes: attrs)
-            return attributedString
-        }
-        return nil
+        viewModel?.getAttributedSiteName(at: row)
     }
  
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let sdk = sdk, let name = sdk.sites.names.tryGet(at: row) {
+        if let name = viewModel?.getSiteName(at: row) {
             self.nameText.text = name
-            closePicker()
         }
+        closePicker()
     }
     
     @objc func closePicker() {
         self.namePicker.isHidden = true;
         self.bottomLine.isHidden = false;
         self.siteImage.isHidden = false;
-        nameText.restorationIdentifier = "select"
+        nameText.restorationIdentifier = SiteDetailConstants.SelectId
         typeNameButton.setTitle(ActionStrings.type, for: .normal)
         nameText.removeTarget(self, action: #selector(closePicker), for: .touchUpInside)
         self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
@@ -243,16 +220,6 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         showSiteImage(viewModel?.siteImage)
     }
 
-    private func createImageStruct(images: [UIImage]) -> SiteImageStruct {
-        let image = images[imagePicker.getSelectedRow()]
-        let imageKey = PDImages.getSiteName(image)
-        return SiteImageStruct(image: image, name: imageKey)
-    }
-
-    private func segueToSitesVC() {
-        navigationController?.popViewController(animated: true)
-    }
-
     private func showSiteImage(_ image: UIImage?) {
         UIView.transition(
             with: siteImage,
@@ -282,7 +249,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
-    private func showPicker() {
+    private func showPicker(_ picker: UIPickerView) {
         UIView.transition(
             with: picker as UIView,
             duration: 0.4,

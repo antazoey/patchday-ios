@@ -31,16 +31,11 @@ class SettingsReflector {
     
     public func reflectNewButtonTitle(key: PDDefault, newTitle: String) {
         switch key {
-        case .DeliveryMethod:
-            controls.deliveryMethodButton.setTitle(newTitle)
-        case .ExpirationInterval:
-            controls.expirationIntervalButton.setTitle(newTitle)
-        case .Quantity:
-            controls.quantityButton.setTitle(newTitle)
-        case .Theme:
-            controls.themeButton.setTitle(newTitle)
-        default:
-            break
+        case .DeliveryMethod: controls.deliveryMethodButton.setTitle(newTitle)
+        case .ExpirationInterval: controls.expirationIntervalButton.setTitle(newTitle)
+        case .Quantity: controls.quantityButton.setTitle(newTitle)
+        case .Theme: controls.themeButton.setTitle(newTitle)
+        default: break
         }
     }
     

@@ -59,7 +59,7 @@ class TabReflector: TabReflective {
         for i in 0..<viewControllers.count {
             let font = UIFont.systemFont(ofSize: size)
             let fontKey = [NSAttributedString.Key.font: font]
-            viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey)
+            viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
         }
     }
 }
@@ -83,7 +83,7 @@ extension UITabBarItem {
     }
 
     private func reflectHormoneTabBarItemIcon(deliveryMethod: DeliveryMethod) {
-        let icon = PDImages.getDeliveryIcon(deliveryMethod)
+        let icon = PDIcons.getDeliveryIcon(deliveryMethod)
         image = icon
         selectedImage = icon
     }

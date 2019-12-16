@@ -19,3 +19,20 @@ struct SiteImagePickerDelegateRelatedViews {
     var imageView: UIImageView
     var saveButton: UIBarButtonItem
 }
+
+struct SiteDetailViewModelConstructorParams {
+    var site: Bodily
+    var imageSelectionParams: SiteImageDeterminationParameters
+    var relatedViews: SiteImagePickerDelegateRelatedViews
+
+    init(
+        _ site: Bodily,
+        _ imageParams: SiteImageDeterminationParameters,
+        _ relateViews: SiteImagePickerDelegateRelatedViews
+    ) {
+        self.site = site
+        self.imageSelectionParams = imageParams
+        self.relatedViews = relateViews
+    }
+}
+

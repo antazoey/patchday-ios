@@ -20,9 +20,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         """
     }
     
-    private let viewModel = SettingsViewModel()
-    private var reflector: SettingsReflector!
-    private var saver: SettingsSaveController!
+    private let viewModel: SettingsViewModel = SettingsViewModel()
+    var reflector: SettingsReflector?
+    var saver: SettingsSaveController?
 
     // Containers
     @IBOutlet weak var scrollView: UIScrollView!
@@ -78,7 +78,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         let controlsStruct = createControlsStruct()
         loadReflector(controls: controlsStruct)
         loadSaveController(controls: controlsStruct)
-        reflector.reflectStoredSettings()
+        reflector?.reflectStoredSettings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,11 +117,11 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     // MARK: - Picker Delegate Functions
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
+        DefaultNumberOfPickerComponents
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PickerOptions.getOptionsCount(for: selectedDefault)
+        PickerOptions.getOptionsCount(for: selectedDefault)
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -133,14 +133,13 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let key = selectedDefault,
-            let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
-
-            reflector.reflectNewButtonTitle(key: key, newTitle: chosenItem)
+           let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
+            reflector?.reflectNewButtonTitle(key: key, newTitle: chosenItem)
         }
     }
 
     private func handlePickerActivation(_ key: PDDefault, activator: UIButton) {
-        if let props = createPickerActivationProps(for: key, activator: activator) {
+        if let props = createPickerActivationProps(for: key, activator: activator), let saver = saver {
             props.picker.reloadAllComponents()
             deselectEverything(except: key)
             handleBottomPickerViewRequirements(for: key)
@@ -248,8 +247,8 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
             view.backgroundColor = styles.theme[.bg]
             settingsView.backgroundColor = styles.theme[.bg]
             settingsStack.backgroundColor = styles.theme[.bg]
-            deliveryMethodButton.setTitleColor(styles.theme[.text]!)
-            expirationIntervalButton.setTitleColor(styles.theme[.text]!)
+            deliveryMethodButton.setTitleColor(styles.theme[.text])
+            expirationIntervalButton.setTitleColor(styles.theme[.text])
             quantityButton.setTitleColor(styles.theme[.text])
             notificationsSwitch.backgroundColor = styles.theme[.bg]
             notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
@@ -280,7 +279,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
     
     private func loadSaveController(controls: SettingsControls) {
-        self.saver = SettingsSaveController(viewModel: self.viewModel, controls: controls)
+        self.saver = SettingsSaveController(
+            viewModel: self.viewModel, controls: controls, themeChangeHandler: { () -> () in self.applyTheme() }
+        )
     }
     
     private func delegatePickers() {
@@ -292,6 +293,5 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
 }
 
 extension SettingsVC: UIScrollViewDelegate {
-    
     func viewForZooming(in scrollView: UIScrollView) -> UIView? { settingsStack }
 }

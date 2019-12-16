@@ -31,8 +31,8 @@ public class Navigation: NavigationDelegate {
         source.navigationController?.goToPillDetails(pill, source)
     }
 
-    func goToSiteDetails(_ site: Bodily, source: UIViewController) {
-        source.navigationController?.goToSiteDetails(site, source)
+    func goToSiteDetails(_ site: Bodily, source: UIViewController, params: SiteImageDeterminationParameters) {
+        source.navigationController?.goToSiteDetails(site, source, params: params)
     }
     
     func goToSettings(source: UIViewController) {
@@ -60,8 +60,8 @@ extension UINavigationController {
         }
     }
 
-    func goToSiteDetails(_ site: Bodily, _ source: UIViewController) {
-        if let vc = SiteDetailVC.createSiteDetailVC(source, site) {
+    func goToSiteDetails(_ site: Bodily, _ source: UIViewController, params: SiteImageDeterminationParameters) {
+        if let vc = SiteDetailVC.createSiteDetailVC(source, site, params: params) {
             pushViewController(vc, animated: true)
         }
     }

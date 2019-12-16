@@ -1,5 +1,5 @@
 //
-//  AlertDispatchswift
+//  AlertDispatcher.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/20/17.
@@ -9,6 +9,7 @@
 import UIKit
 import PDKit
 
+
 class AlertDispatcher: NSObject, AlertDispatching {
 
     override var description: String { "Controls alerts." }
@@ -16,7 +17,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
     private let sdk: PatchDataDelegate?
 
     private var style: UIAlertController.Style = {
-        return AppDelegate.isPad ? .alert : .actionSheet
+        AppDelegate.isPad ? .alert : .actionSheet
     }()
 
     private var rootViewController: UIViewController? = {
@@ -93,11 +94,11 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }
 
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneVC: HormoneDetailVC) {
+    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneDetailVC: HormoneDetailVC) {
         if let root = rootViewController {
             let handler: () -> () = {
                 () in
-                self.sdk?.sites.insertNew(name: name, completion: hormoneVC.sitePicker.reloadAllComponents)
+                self.sdk?.sites.insertNew(name: name, completion: hormoneDetailVC.sitePicker.reloadAllComponents)
             }
             NewSiteAlert(parent: root, style: style, appendActionHandler: handler).present()
         }
@@ -111,10 +112,8 @@ class AlertDispatcher: NSObject, AlertDispatching {
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(
-    _ input: [String: Any]
-) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map {
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+	Dictionary(uniqueKeysWithValues: input.map {
         key, value in
         (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)
     })

@@ -9,12 +9,14 @@
 import UIKit
 import PDKit
 
+
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
     private var props: SiteImagePickerDelegateProperties
     
     init(props: SiteImagePickerDelegateProperties) {
         self.props = props
+        super.init()
         props.views.picker.delegate = self
         props.views.picker.dataSource = self
     }
@@ -47,6 +49,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
             let resizedImage = ModiiImageResizer.resizeImage(image, targetSize: size)
             return UIImageView(image: resizedImage)
         }
+        return UIImageView()
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -66,7 +69,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
             with: props.views.picker as UIView,
             duration: 0.4,
             options: .transitionFlipFromTop,
-            animations: { self.props.views.picker.showAsEnabled() }
+            animations: { self.props.views.picker.isHidden = false; self.props.views.saveButton.isEnabled = true }
         )
     }
 }
