@@ -12,29 +12,29 @@ import PDKit
 
 class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    private var viewModel: HormoneDetailViewModel?
+    var viewModel: HormoneDetailViewModel?
 
     private var saveButton: UIBarButtonItem!
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var dateAndTimePlaced: UILabel!
+    @IBOutlet private weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var dateAndTimeAppliedLabel: UILabel!
     @IBOutlet private weak var selectSiteTextField: UITextField!
     @IBOutlet private weak var chooseDateButton: UIButton!
     @IBOutlet private weak var datePickerInputView: UIView!
     @IBOutlet private weak var datePicker: UIDatePicker!
     @IBOutlet private weak var lineUnderScheduleDate: UIView!
-    @IBOutlet private weak var lineUnderDate: UIView!
-    @IBOutlet private weak var lineUnderDateAndTimePlaced: UIView!
-    @IBOutlet private weak var bigGap: UIView!
-    @IBOutlet private weak var expLabel: UILabel!
+    @IBOutlet private weak var lineUnderDateViews: UIView!
+    @IBOutlet private weak var lineUnderDateAndTimeAppliedLabel: UIView!
+    @IBOutlet private weak var bigGapUnderDateAppliedViews: UIView!
+    @IBOutlet private weak var expirationDateLabelHeader: UILabel!
     @IBOutlet private weak var expirationDateLabel: UILabel!
-    @IBOutlet private weak var lineUnderExpires: UIView!
-    @IBOutlet private weak var bigGap2: UIView!
+    @IBOutlet private weak var lineUnderExpirationDate: UIView!
+    @IBOutlet private weak var bigGapUnderExpirationDateViews: UIView!
     @IBOutlet private weak var horizontalLineAboveSite: UIView!
     @IBOutlet private weak var siteStackView: UIStackView!
     @IBOutlet private weak var siteLabel: UILabel!
     @IBOutlet private weak var verticalLineInSiteStack: UIView!
     @IBOutlet private weak var typeSiteButton: UIButton!
-    @IBOutlet weak var sitePicker: UIPickerView!
+    @IBOutlet private weak var sitePicker: UIPickerView!
     @IBOutlet private weak var horizontalLineBelowSite: UIView!
     @IBOutlet private weak var autofillButton: UIButton!
 
@@ -50,7 +50,11 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailVC? {
-        createHormoneDetailVC(source: source, viewModel: HormoneDetailViewModel(hormone))
+        let id = ViewControllerIds.HormoneDetail
+        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
+            return hormoneVC.initWithHormone(hormone)
+        }
+        return nil
     }
 
     static func createHormoneDetailVC(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailVC? {
@@ -59,6 +63,11 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             return hormoneVC.initWithViewModel(viewModel)
         }
         return nil
+    }
+    
+    fileprivate func initWithHormone(_ hormone: Hormonal) -> HormoneDetailVC {
+        let viewModel = HormoneDetailViewModel(hormone, { () in self.sitePicker.reloadAllComponents() })
+        return initWithViewModel(viewModel)
     }
 
     fileprivate func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailVC {
@@ -201,8 +210,8 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
 
     private func loadExpirationText() {
         if let viewStrings = viewModel?.createHormoneViewStrings() {
-            expLabel.text = viewStrings.expirationText
-            dateAndTimePlaced.text = viewStrings.dateAndTimePlacedText
+            expirationDateLabelHeader.text = viewStrings.expirationText
+            dateAndTimeAppliedLabel.text = viewStrings.dateAndTimePlacedText
             siteLabel.text = viewStrings.siteLabelText
             expirationDateLabel.text  = viewModel?.expirationDateText
         }
@@ -215,7 +224,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selectSiteTextField.delegate = self
         sitePicker.delegate = self
         sitePicker.dataSource = self
-        verticalLineInSiteStack.backgroundColor = lineUnderDate.backgroundColor
+        verticalLineInSiteStack.backgroundColor = lineUnderDateViews.backgroundColor
         typeSiteButton.setTitle(ActionStrings.type)
     }
 
@@ -294,21 +303,21 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
 
     private func hideLines() {
         lineUnderScheduleDate.isHidden = true
-        lineUnderDateAndTimePlaced.isHidden = true
-        lineUnderExpires.isHidden = true
+        lineUnderDateAndTimeAppliedLabel.isHidden = true
+        lineUnderExpirationDate.isHidden = true
         horizontalLineAboveSite.isHidden = true
         horizontalLineBelowSite.isHidden = true
-        lineUnderDate.isHidden = true
+        lineUnderDateViews.isHidden = true
         verticalLineInSiteStack.isHidden = true
     }
     
     private func unhideLines() {
         lineUnderScheduleDate.isHidden = false
-        lineUnderDateAndTimePlaced.isHidden = false
-        lineUnderExpires.isHidden = false
+        lineUnderDateAndTimeAppliedLabel.isHidden = false
+        lineUnderExpirationDate.isHidden = false
         horizontalLineAboveSite.isHidden = false
         horizontalLineBelowSite.isHidden = false
-        lineUnderDate.isHidden = false
+        lineUnderDateViews.isHidden = false
         verticalLineInSiteStack.isHidden = false
     }
 }

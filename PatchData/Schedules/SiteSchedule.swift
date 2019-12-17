@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
+
 public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     override public var description: String { "Schedule for sites." }

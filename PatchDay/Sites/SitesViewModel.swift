@@ -16,7 +16,6 @@ class SitesViewModel: CodeBehindDependencies {
     init(sitesTable: SitesTable) {
         self.sitesTable = sitesTable
         super.init()
-
     }
 
     var sites: HormoneSiteScheduling? {
@@ -30,7 +29,7 @@ class SitesViewModel: CodeBehindDependencies {
     var sitesOptionsCount: Int {
         sdk?.sites.names.count ?? 0
     }
-
+    
     func createDeleteRowActionAsList(indexPath: IndexPath) -> [UITableViewRowAction] {
         [SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: deleteSite)]
     }

@@ -1,5 +1,5 @@
 //
-//  PDSwallower.swift
+//  SwallowPillNotificationActionHandler.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 10/8/19.
@@ -8,6 +8,7 @@
 
 import Foundation
 import PDKit
+
 
 class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandling {
     

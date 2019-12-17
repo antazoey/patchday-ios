@@ -23,9 +23,11 @@ class HormoneDetailViewModel: CodeBehindDependencies {
 
     var hormone: Hormonal
     var selectionState = HormoneSelectionState()
+    let handleNewSite: () -> ()
 
-    init(_ hormone: Hormonal) {
+    init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> ()) {
         self.hormone = hormone
+        self.handleNewSite = newSiteHandler
         super.init()
     }
 

@@ -1,5 +1,5 @@
 //
-//  EstrogenChangeEffect.swift
+//  PDState.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 8/4/18.
@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+@available(macCatalyst 13.0, *)
 public class PDState: NSObject {
 
     override public var description: String {

@@ -1,5 +1,5 @@
 //
-//  NotificationController.swift
+//  Notifications.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/6/17.
@@ -17,7 +17,7 @@ class Notifications: NSObject, NotificationScheduling {
     private let center: PDNotificationCenter
     private let factory: NotificationProducing
 
-    var currentEstrogenIndex = 0
+    var currentHormoneIndex = 0
     var currentPillIndex = 0
     var sendingNotifications = true
     

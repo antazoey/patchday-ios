@@ -35,4 +35,3 @@ struct SiteDetailViewModelConstructorParams {
         self.relatedViews = relateViews
     }
 }
-

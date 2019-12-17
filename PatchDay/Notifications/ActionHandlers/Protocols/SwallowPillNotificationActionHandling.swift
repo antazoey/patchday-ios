@@ -1,5 +1,5 @@
 //
-//  PillSwallowHandling.swift
+//  SwallowPillNotificationActionHandling.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 10/7/19.
@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 
 public protocol SwallowPillNotificationActionHandling {
     

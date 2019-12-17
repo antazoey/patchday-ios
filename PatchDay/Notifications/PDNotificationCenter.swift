@@ -1,5 +1,5 @@
 //
-//  NotificationCenter.swift
+//  PDNotificationCenter.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 9/24/19.

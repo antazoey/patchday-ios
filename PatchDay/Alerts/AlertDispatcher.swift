@@ -94,7 +94,8 @@ class AlertDispatcher: NSObject, AlertDispatching {
         if let root = rootViewController {
             let handler: () -> () = {
                 () in
-                self.sdk?.sites.insertNew(name: name, completion: hormoneDetailVC.sitePicker.reloadAllComponents)
+                let handler = hormoneDetailVC.viewModel?.handleNewSite ?? { }
+                self.sdk?.sites.insertNew(name: name, completion: handler)
             }
             NewSiteAlert(parent: root, style: style, appendActionHandler: handler).present()
         }

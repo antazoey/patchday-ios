@@ -9,6 +9,7 @@ let isResetMode = false  // Change this to true to nuke the database
 let app: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
 
 let DefaultNumberOfPickerComponents = 1
+let DefaultNumberOfTableSections = 1
 
 
 class ViewControllerIds {
