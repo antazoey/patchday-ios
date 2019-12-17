@@ -1,5 +1,5 @@
 //
-//  EstrogenManaged.swift
+//  Hormonal.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 8/10/19.
@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 
 public protocol Hormonal: PDPbjectifiable {
     var id: UUID { get set }

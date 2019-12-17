@@ -23,7 +23,9 @@ public class PillSchedule: NSObject, PillScheduling {
         self.meter = pillDataMeter
         self.pills = store.createPillList()
         super.init()
-        if isFirstInit { self.reset() }
+        if isFirstInit {
+            self.reset()
+        }
         awaken()
     }
     

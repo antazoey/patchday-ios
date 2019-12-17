@@ -1,5 +1,5 @@
 //
-//  PDSchedule.swift
+//  PatchData.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/13/17.
@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import PDKit
+
 
 public typealias SiteSet = [String]
 
