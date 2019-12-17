@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 import PDKit
 
+
 public class PillSchedule: NSObject, PillScheduling {
     
     override public var description: String { "Schedule for pills." }
@@ -18,12 +19,17 @@ public class PillSchedule: NSObject, PillScheduling {
     private let store: PDCoreDataDelegate
     private let meter: DataShareDelegate
     
-    init(store: PDCoreDataDelegate, pillDataMeter: DataShareDelegate, isFirstInit: Bool) {
+    enum PillScheduleState {
+        case Initial
+        case Working
+    }
+    
+    init(store: PDCoreDataDelegate, pillDataMeter: DataShareDelegate, state: PillScheduleState) {
         self.store = store
         self.meter = pillDataMeter
         self.pills = store.createPillList()
         super.init()
-        if isFirstInit {
+        if state == .Initial {
             self.reset()
         }
         awaken()

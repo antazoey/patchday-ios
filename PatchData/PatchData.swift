@@ -57,8 +57,8 @@ public class PatchData: NSObject, PatchDataDelegate {
         let defaultsStore = PDDefaultsStore(
             state: state, handler: PDDefaultsStorageHandler(meter: dataMeter)
         )
-        let isNew = !defaultsStore.mentionedDisclaimer.value
-        let pills = PillSchedule(store: store, pillDataMeter: dataMeter, isFirstInit: isNew)
+        let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
+        let pills = PillSchedule(store: store, pillDataMeter: dataMeter, state: pillScheduleState)
         let method = defaultsStore.deliveryMethod
         let interval = defaultsStore.expirationInterval
         let indexer = SiteIndexer(defaults: defaultsStore)
@@ -122,5 +122,11 @@ public class PatchData: NSObject, PatchDataDelegate {
         pills.reset()
         let newSiteCount = sites.reset()
         defaults.reset(defaultSiteCount: newSiteCount)
+    }
+    
+    private static func determinePillScheduleState(defaults: UserDefaultsStoring) -> PillSchedule.PillScheduleState {
+        !defaults.mentionedDisclaimer.value
+            ? PillSchedule.PillScheduleState.Initial
+            : PillSchedule.PillScheduleState.Working
     }
 }
