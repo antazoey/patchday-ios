@@ -17,23 +17,22 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var viewModel: PillsViewModel?
     
     @IBOutlet var pillsView: UIView!
-    @IBOutlet weak var pillsTable: UITableView!
+    @IBOutlet weak var pillsTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tableWrapper = PillsTable(pillsTable, pills: viewModel?.pills, theme: viewModel?.styles?.theme)
+        let tableWrapper = PillsTable(pillsTableView, pills: viewModel?.pills, theme: viewModel?.styles?.theme)
         viewModel = PillsViewModel(pillsTable: tableWrapper)
         applyTheme()
         title = VCTitleStrings.pillsTitle
-        pillsTable.delegate = self
-        pillsTable.dataSource = self
+        pillsTableView.delegate = self
+        pillsTableView.dataSource = self
         insertInsertButton()
-        pillsTable.allowsSelectionDuringEditing = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        pillsTable.reloadData()
+        viewModel?.pillsTable.reloadData()
         reloadInputViews()
     }
     
@@ -82,11 +81,7 @@ class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     private func applyTheme() {
         if let theme = viewModel?.styles?.theme {
-            let bgColor = theme[.bg]
-            let borderColor = theme[.border]
-            pillsView.backgroundColor = bgColor
-            pillsTable.backgroundColor = bgColor
-            pillsTable.separatorColor = borderColor
+            pillsView.backgroundColor = theme[.bg]
         }
     }
 }

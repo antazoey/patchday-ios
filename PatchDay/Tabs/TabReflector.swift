@@ -16,10 +16,6 @@ class TabReflector: TabReflective {
     private let tabBarController: UITabBarController
     private let viewControllers: [UIViewController]
     private let sdk: PatchDataDelegate?
-    
-    convenience init(tabBarController: UITabBarController, viewControllers: [UIViewController]) {
-        self.init(tabBarController: tabBarController, viewControllers: viewControllers, sdk: app?.sdk)
-    }
 
     init(
         tabBarController: UITabBarController,

@@ -24,7 +24,7 @@ struct EntityKey {
 
 public class PDCoreData: NSObject {
     
-    static let persistantContainerKey = "patchData"
+    static let persistentContainerKey = "patchData"
     static let testContainerKey = "patchDataTest"
     static let hormoneEntityName = "Hormone"
     static let hormoneProps = ["date", "id", "siteNameBackUp"]
@@ -56,7 +56,7 @@ public class PDCoreData: NSObject {
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer {
-        pdContainer(persistantContainerKey)
+        pdContainer(persistentContainerKey)
     }
 
     /// The current view context
@@ -70,8 +70,11 @@ public class PDCoreData: NSObject {
             do {
                 try persistentContainer.viewContext.save()
             } catch {
+                print("Failed saving changed to persistent container")
                 return
             }
+        } else {
+            print("Save was called when there were no changed.")
         }
     }
     
@@ -91,7 +94,7 @@ public class PDCoreData: NSObject {
                 return mos
             }
         } catch {
-            print("Data Fetch Request Failed")
+            print("Data Fetch Request Failed for entity \(entity.rawValue)")
             
         }
         return nil
@@ -142,6 +145,6 @@ public class PDCoreData: NSObject {
 
 extension NSManagedObject {
     public func name() -> String? {
-        return objectID.entity.name
+        objectID.entity.name
     }
 }

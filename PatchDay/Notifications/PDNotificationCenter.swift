@@ -14,15 +14,16 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
     private let root: UNUserNotificationCenter
     private let hormoneApplicant: ApplyHormoneNotificationActionHandling
-    private let pillSwallower: SwallowPillNotificationActionHandling
+
+    var swallowPillNotificationActionHandler: SwallowPillNotificationActionHandling
     
     init(
         root: UNUserNotificationCenter,
         applyHormoneHandler: ApplyHormoneNotificationActionHandling,
-        swallowPillHandler: SwallowPillNotificationActionHandling
+        swallowPillNotificationActionHandler: SwallowPillNotificationActionHandling
     ) {
         self.hormoneApplicant = applyHormoneHandler
-        self.pillSwallower = swallowPillHandler
+        self.swallowPillNotificationActionHandler = swallowPillNotificationActionHandler
         self.root = root
         super.init()
         self.root.delegate = self
@@ -80,7 +81,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         case ExpiredHormoneNotification.actionId :
             hormoneApplicant.applyHormone(hormoneUid: uid)
         case DuePillNotification.actionId :
-            pillSwallower.swallow(pillUid: uid)
+            swallowPillNotificationActionHandler.swallow(pillUid: uid)
         default : return
         }
     }

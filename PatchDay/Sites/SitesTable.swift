@@ -9,19 +9,14 @@ import PDKit
 
 class SitesTable: TableViewWrapper<SiteCell> {
 
-    private let sites: HormoneSiteScheduling?
-    private let stylist: Styling?
+    var sites: HormoneSiteScheduling?
+    var stylist: Styling?
 
-    init(_ table: UITableView, sites: HormoneSiteScheduling?, stylist: Styling?) {
-        self.sites = sites
-        self.stylist = stylist
+    init(_ table: UITableView) {
         super.init(table, primaryCellReuseId: CellReuseIds.Site)
         table.backgroundColor = stylist?.theme[.bg]
         table.separatorColor = stylist?.theme[.border]
-    }
-
-    convenience init(_ table: UITableView) {
-        self.init(table, sites: app?.sdk.sites, stylist: app?.styles)
+        table.allowsSelectionDuringEditing = true
     }
 
     func reloadCells() {

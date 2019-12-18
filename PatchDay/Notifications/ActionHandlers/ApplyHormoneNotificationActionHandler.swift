@@ -15,8 +15,8 @@ class ApplyHormoneNotificationActionHandler: ApplyHormoneNotificationActionHandl
     private let sdk: PatchDataDelegate?
     private let badge: PDBadgeDelegate
     
-    convenience init() {
-        self.init(sdk: app?.sdk, appBadge: PDBadge())
+    convenience init(sdk: PatchDataDelegate?) {
+        self.init(sdk: sdk, appBadge: PDBadge())
     }
     
     init(sdk: PatchDataDelegate?, appBadge: PDBadgeDelegate) {
@@ -26,8 +26,8 @@ class ApplyHormoneNotificationActionHandler: ApplyHormoneNotificationActionHandl
     
     func applyHormone(hormoneUid: String) {
         if let id = UUID(uuidString: hormoneUid),
-            let suggestedsite = sdk?.sites.suggested {
-            sdk?.hormones.set(for: id, date: Date(), site: suggestedsite)
+            let suggestedSite = sdk?.sites.suggested {
+            sdk?.hormones.set(for: id, date: Date(), site: suggestedSite)
             badge.decrement()
         }
     }

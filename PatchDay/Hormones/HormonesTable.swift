@@ -8,13 +8,11 @@ import UIKit
 
 class HormonesTable: TableViewWrapper<HormoneCell> {
 
-    init(_ table: UIKit.UITableView, primaryCellReuseId: String, hormonesVC: HormonesVC) {
-        super.init(table, primaryCellReuseId: primaryCellReuseId)
-        table.dataSource = hormonesVC
-        table.delegate = hormonesVC
+    init(_ table: UIKit.UITableView) {
+        super.init(table, primaryCellReuseId: CellReuseIds.Hormone)
     }
 
-    func applyTheme(theme: AppTheme?) {
+    func applyTheme(_ theme: AppTheme?) {
         table.backgroundColor = theme?[.bg]
         table.separatorColor = theme?[.border]
     }

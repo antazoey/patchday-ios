@@ -9,10 +9,11 @@
 import Foundation
 import PDKit
 
+
 class CodeBehindDependencies {
-    
+
+    var tabs: TabReflective?
     let sdk: PatchDataDelegate?
-    let tabs: TabReflective?
     let notifications: NotificationScheduling?
     let alerts: AlertDispatching?
     let styles: Styling?
@@ -38,6 +39,7 @@ class CodeBehindDependencies {
     }
 
     init() {
+        let app = AppDelegate.current
         self.sdk = app?.sdk
         self.tabs = app?.tabs
         self.notifications = app?.notifications

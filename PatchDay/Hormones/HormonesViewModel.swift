@@ -9,15 +9,16 @@
 import Foundation
 import PDKit
 
+
 class HormonesViewModel: CodeBehindDependencies {
 
     let hormonesTable: HormonesTable
     var hormones: HormoneScheduling? { sdk?.hormones }
 
-    init(table: UITableView, source: HormonesVC) {
-        self.hormonesTable = HormonesTable(table, primaryCellReuseId: CellReuseIds.Hormone, hormonesVC: source)
+    init(hormonesTableView: UITableView, source: HormonesVC) {
+        self.hormonesTable = HormonesTable(hormonesTableView)
         super.init()
-        hormonesTable.applyTheme(theme: styles?.theme)
+        hormonesTable.applyTheme(styles?.theme)
         loadAppTabs(source: source)
         reflectThemeInTabBar()
     }
@@ -89,6 +90,8 @@ class HormonesViewModel: CodeBehindDependencies {
     }
 
     private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
-        app?.tabs = TabReflector(tabBarController: tabBarController, viewControllers: appViewControllers)
+        tabs = TabReflector(tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk)
+        AppDelegate.current?.tabs = tabs
+        self.tabs = tabs
     }
 }

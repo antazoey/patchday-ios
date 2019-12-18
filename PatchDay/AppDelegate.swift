@@ -11,11 +11,12 @@ import UserNotifications
 import PDKit
 import PatchData
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var notifications: NotificationScheduling = Notifications()
+    var notifications: NotificationScheduling?
     var sdk: PatchDataDelegate = PatchData()
     var alerts: AlertDispatching?
     var tabs: TabReflective?
@@ -29,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             sdk.nuke()
             return false
         }
-
+        self.notifications = Notifications(sdk: sdk, appBadge: badge)
         self.alerts = AlertDispatcher(sdk: sdk)
         self.styles = Stylist(theme: self.sdk.defaults.theme.value)
         self.setBadgeToTotalAlerts()
@@ -39,6 +40,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     static var isPad: Bool {
         UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
+    }
+
+    static var current: AppDelegate? {
+        UIApplication.shared.delegate as? AppDelegate
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

@@ -28,13 +28,17 @@ class Notifications: NSObject, NotificationScheduling {
         super.init()
     }
     
-    convenience override init() {
+    convenience init(sdk: PatchDataDelegate?, appBadge: PDBadgeDelegate) {
         let center = PDNotificationCenter(
             root: UNUserNotificationCenter.current(),
-            applyHormoneHandler: ApplyHormoneNotificationActionHandler(),
-            swallowPillHandler: SwallowPillNotificationActionHandler()
+            applyHormoneHandler: ApplyHormoneNotificationActionHandler(sdk: sdk),
+            swallowPillNotificationActionHandler: SwallowPillNotificationActionHandler(
+                pills: sdk?.pills,
+                appBadge: appBadge
+            )
         )
-        self.init(sdk: app?.sdk, center: center, factory: NotificationFactory())
+        self.init(sdk: sdk, center: center, factory: NotificationFactory())
+        center.swallowPillNotificationActionHandler.requestPillNotification = self.requestDuePillNotification
     }
     
     // MARK: - Hormones

@@ -453,7 +453,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Pills" id="Jvz-nd-goC"/>
                     <connections>
-                        <outlet property="pillsTable" destination="Qga-3N-qSw" id="lue-X5-E5k"/>
+                        <outlet property="pillsTableView" destination="Qga-3N-qSw" id="1H3-i0-7FD"/>
                         <outlet property="pillsView" destination="5Gp-UE-xbC" id="9ax-di-XtU"/>
                     </connections>
                 </viewController>
@@ -783,7 +783,8 @@
                     <navigationItem key="navigationItem" title="Hormones" id="sdl-A0-hNe"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="hormonesTable" destination="UET-BI-a1o" id="b3G-jL-9ZS"/>
+                        <outlet property="hormonesTableView" destination="UET-BI-a1o" id="a8u-jU-UVl"/>
+                        <outlet property="hormonesView" destination="8bC-Xf-vdC" id="nji-fg-IgF"/>
                         <segue destination="rQo-Wb-Mbl" kind="show" identifier="ShowPills" id="mpM-BR-8sz"/>
                         <segue destination="PWr-WB-ijl" kind="show" identifier="ShowDetails" id="Byc-0i-cgQ"/>
                     </connections>
@@ -935,7 +936,7 @@
         <image name="Site Icon" width="50" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uH0-Pp-56s"/>
+        <segue reference="mpM-BR-8sz"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1005799463190184" colorSpace="calibratedRGB"/>
 </document>

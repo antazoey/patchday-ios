@@ -14,7 +14,7 @@ import PDKit
 class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var hormonesView: UIView!
-    @IBOutlet weak var hormonesTable: UITableView!
+    @IBOutlet weak var hormonesTableView: UITableView!
     
     var viewModel: HormonesViewModel?
     
@@ -22,7 +22,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = HormonesViewModel(table: hormonesTable, source: self)
+        viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
         loadTitle()
         loadBarButtons()
         updateFromBackground()

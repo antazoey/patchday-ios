@@ -11,20 +11,16 @@ import PDKit
 
 
 class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandling {
-    
-    let notifications: NotificationScheduling?
+
     let pills: PillScheduling?
     let badge: PDBadgeDelegate
     
-    convenience init() {
-        self.init(notifications: app?.notifications, pills: app?.sdk.pills, appBadge: PDBadge())
-    }
-    
-    init(notifications: NotificationScheduling?, pills: PillScheduling?, appBadge: PDBadgeDelegate) {
-        self.notifications = notifications
+    init(pills: PillScheduling?, appBadge: PDBadgeDelegate) {
         self.pills = pills
         self.badge = appBadge
     }
+
+    var requestPillNotification: ((_ pill: Swallowable) -> ())?
 
     func swallow(pillUid: String) {
         if let pills = pills,
@@ -32,7 +28,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
             let pill = pills.get(for: uuid) {
             
             pills.swallow(pill) {
-                self.notifications?.requestDuePillNotification(pill)
+                self.requestPillNotification?(pill)
                 self.badge.decrement()
             }
         }

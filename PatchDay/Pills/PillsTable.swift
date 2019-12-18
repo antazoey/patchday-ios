@@ -15,6 +15,8 @@ class PillsTable: TableViewWrapper<PillCell> {
         self.pills = pills
         self.theme = theme
         super.init(table, primaryCellReuseId: CellReuseIds.Pill)
+        applyTheme()
+        table.allowsSelectionDuringEditing = true
     }
 
     func getCell(at index: Index)-> PillCell {
@@ -36,5 +38,12 @@ class PillsTable: TableViewWrapper<PillCell> {
             }
         }
         table.reloadData()
+    }
+    
+    private func applyTheme() {
+        if let theme = theme {
+            table.backgroundColor = theme[.bg]
+            table.separatorColor = theme[.border]
+        }
     }
 }

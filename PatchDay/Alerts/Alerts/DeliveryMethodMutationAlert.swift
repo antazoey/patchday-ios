@@ -9,6 +9,7 @@
 import UIKit
 import PDKit
 
+
 class DeliveryMethodMutationAlert: Alert {
     
     private var sdk: PatchDataDelegate?
@@ -31,26 +32,6 @@ class DeliveryMethodMutationAlert: Alert {
         UIAlertAction(title: ActionStrings.decline, style: .cancel) {
             void in self.decline(self.oldQuantity)
         }
-    }
-    
-    convenience init(
-        parent: UIViewController,
-        style: UIAlertController.Style,
-        oldDeliveryMethod: DeliveryMethod,
-        newDeliveryMethod: DeliveryMethod,
-        oldQuantity: Int,
-        decline: @escaping ((_ oldQuantity: Int) -> ())
-    ) {
-        self.init(
-            parent: parent,
-            style: style,
-            sdk: app?.sdk,
-            tabs: app?.tabs,
-            oldDeliveryMethod: oldDeliveryMethod,
-            newDeliveryMethod: newDeliveryMethod,
-            oldQuantity: oldQuantity,
-            decline: decline
-        )
     }
     
     init(

@@ -12,7 +12,7 @@ import PDKit
 class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var sitesView: UIView!
-    @IBOutlet weak var sitesTable: UITableView!
+    @IBOutlet weak var sitesTableView: UITableView!
     @IBOutlet weak var orderTitle: UILabel!
     
     private var viewModel: SitesViewModel?
@@ -20,17 +20,16 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        sitesTable.delegate = self
-        sitesTable.dataSource = self
+        sitesTableView.delegate = self
+        sitesTableView.dataSource = self
         loadBarButtons()
-        sitesTable.allowsSelectionDuringEditing = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel = SitesViewModel(sitesTable: SitesTable(sitesTable))
+        viewModel = SitesViewModel(sitesTableView: sitesTableView)
         applyTheme()
-        sitesTable.reloadData()
+        viewModel?.sitesTable.reloadData()
         loadTitle()
     }
     

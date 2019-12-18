@@ -15,6 +15,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
     override var description: String { "Controls alerts." }
 
     private let sdk: PatchDataDelegate?
+    private let tabs: TabReflective?
 
     private var style: UIAlertController.Style = {
         AppDelegate.isPad ? .alert : .actionSheet
@@ -27,20 +28,22 @@ class AlertDispatcher: NSObject, AlertDispatching {
         return nil
     }()
 
-    init(sdk: PatchDataDelegate?) {
+    init(sdk: PatchDataDelegate?, tabs: TabReflective?=nil) {
         self.sdk = sdk
+        self.tabs = tabs
     }
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    func presentDeliveryMethodMutationAlert(
-        newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())
-    ) {
+    func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
         if let root = rootViewController, let sdk = sdk {
             let oldQuantity = sdk.defaults.quantity.rawValue
             let oldMethod = sdk.defaults.deliveryMethod.value
+            let tabs = self.tabs ?? AppDelegate.current?.tabs
             DeliveryMethodMutationAlert(
                 parent: root,
                 style: self.style,
+                sdk: sdk,
+                tabs: tabs,
                 oldDeliveryMethod: oldMethod,
                 newDeliveryMethod: newMethod,
                 oldQuantity: oldQuantity,

@@ -6,16 +6,18 @@
 //  Copyright © 2019 Juliya Smith. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import PDKit
 
 class SitesViewModel: CodeBehindDependencies {
 
     let sitesTable: SitesTable
 
-    init(sitesTable: SitesTable) {
-        self.sitesTable = sitesTable
+    init(sitesTableView: UITableView) {
+        self.sitesTable = SitesTable(sitesTableView)
         super.init()
+        self.sitesTable.sites = sdk?.sites
+        self.sitesTable.stylist = styles
     }
 
     var sites: HormoneSiteScheduling? {
