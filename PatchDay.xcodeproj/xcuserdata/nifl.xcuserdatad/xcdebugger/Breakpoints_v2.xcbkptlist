@@ -55,5 +55,98 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "148D3B44-89E5-46C7-8EE9-33FEBE526DE8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PatchDay/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "AppDelegate"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "148D3B44-89E5-46C7-8EE9-33FEBE526DE8 - c7f153f95c6b8df1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PatchDay.AppDelegate.alerts.getter : Swift.Optional&lt;PatchDay.AlertDispatching&gt;"
+                  moduleName = "PatchDay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nifl/AppCodeProjects/patchday-ios/PatchDay/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "91">
+               </Location>
+               <Location
+                  uuid = "148D3B44-89E5-46C7-8EE9-33FEBE526DE8 - 84b2938d3684d9e5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PatchDay.AppDelegate.alerts.setter : Swift.Optional&lt;PatchDay.AlertDispatching&gt;"
+                  moduleName = "PatchDay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nifl/AppCodeProjects/patchday-ios/PatchDay/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "134">
+               </Location>
+               <Location
+                  uuid = "148D3B44-89E5-46C7-8EE9-33FEBE526DE8 - b7e2ff92bf1948f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PatchDay.AppDelegate.alerts.modify : Swift.Optional&lt;PatchDay.AlertDispatching&gt;"
+                  moduleName = "PatchDay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nifl/AppCodeProjects/patchday-ios/PatchDay/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "18">
+               </Location>
+               <Location
+                  uuid = "148D3B44-89E5-46C7-8EE9-33FEBE526DE8 - daf2412b170ee64f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PatchDay.AppDelegate.alerts.modify : Swift.Optional&lt;PatchDay.AlertDispatching&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "PatchDay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nifl/AppCodeProjects/patchday-ios/PatchDay/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "4">
+               </Location>
+               <Location
+                  uuid = "148D3B44-89E5-46C7-8EE9-33FEBE526DE8 - 1b673175d7b198bf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PatchDay.AppDelegate.init() -&gt; PatchDay.AppDelegate"
+                  moduleName = "PatchDay"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nifl/AppCodeProjects/patchday-ios/PatchDay/AppDelegate.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
+                  offsetFromSymbolStart = "529">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

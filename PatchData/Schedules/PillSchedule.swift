@@ -61,6 +61,7 @@ public class PillSchedule: NSObject, PillScheduling {
                 comp()
             }
             meter.broadcastRelevantPillData(nextPill: pill)
+            store.save()
             return pill
         }
         return nil
@@ -69,8 +70,8 @@ public class PillSchedule: NSObject, PillScheduling {
     public func delete(at index: Index) {
         if let pill = at(index) {
             pill.delete()
-            store.save()
             meter.broadcastRelevantPillData(nextPill: pill)
+            store.save()
         }
     }
 
@@ -101,7 +102,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func set(at index: Index, with attributes: PillAttributes) {
         if let pill = at(index) {
-            set(for: pill, with: attributes)
+            set(for: pill, with: attributes)  // Saves
             meter.broadcastRelevantPillData(nextPill: pill)
         }
     }
@@ -113,12 +114,12 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func swallow(at index: Index, completion: (() -> ())?) {
         if let pill = at(index) {
-            swallow(pill, completion: completion)
+            swallow(pill, completion: completion) // Saves
         }
     }
 
     public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
-        swallow(pill)
+        swallow(pill) // Saves
         if let comp = completion {
             comp()
         }
@@ -143,8 +144,8 @@ public class PillSchedule: NSObject, PillScheduling {
     
     public func broadcastData() {
         if let next = nextDue {
-               meter.broadcastRelevantPillData(nextPill: next)
-           }
+            meter.broadcastRelevantPillData(nextPill: next)
+        }
     }
     
     // MARK: - Private

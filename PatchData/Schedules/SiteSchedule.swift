@@ -28,18 +28,26 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
     
     private var siteIndexWithOldestHormone: Index {
-        var date = Date()
-        var oldestHormoneSiteIndex = -1
-        for i in 0..<count {
-            let site = sites[i]
-            for mone in site.hormones {
-                if mone.date < date {
-                    date = mone.date
-                    oldestHormoneSiteIndex = i
-                }
+        sites.reduce((Date(), -1, 0), {
+            ( sitesIterator, site) in
+            let oldestDateInThisSitesHormones = SiteSchedule.getOldestDateApplied(from: site.hormones)
+            
+            let newSiteIndex = sitesIterator.2 + 1
+            if oldestDateInThisSitesHormones < sitesIterator.0 {
+                return (oldestDateInThisSitesHormones, newSiteIndex, newSiteIndex)
             }
-        }
-        return oldestHormoneSiteIndex
+            return (sitesIterator.0, -1, newSiteIndex)
+        }).1
+    }
+    
+    private static func getOldestDateApplied(from hormones: [Hormonal]) -> Date {
+        hormones.reduce(Date(), {
+            (oldestDateThusFar, hormone) in
+            if hormone.date < oldestDateThusFar {
+                return hormone.date
+            }
+            return oldestDateThusFar
+        })
     }
     
     init(store: CoreDataWrapper, defaults: UserDefaultsStoring, siteIndexRebounder: PDIndexRebounce) {
