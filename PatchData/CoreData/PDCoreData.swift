@@ -74,7 +74,7 @@ public class PDCoreData: NSObject {
                 return
             }
         } else {
-            print("Save was called when there were no changed.")
+            print("PDCoreData: save() called without changes..")
         }
     }
     
