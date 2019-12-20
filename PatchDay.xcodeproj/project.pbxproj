@@ -73,6 +73,7 @@
 		3397CC13D997D7B96EB62086 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C5BF42C6720C632A84B3 /* SettingsVC.swift */; };
 		3397CC76D6B4617AC3B7EAED /* SitesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CFFF305F5543E4A156A3 /* SitesVC.swift */; };
 		3397CC810E05BDFD576A44A2 /* DataShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C39C0009B86CC213E55D /* DataShare.swift */; };
+		3397CD4791AB7C2F067E0805 /* PillDueDateFinderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C12186B32044AD4D89F9 /* PillDueDateFinderParams.swift */; };
 		3397CD50B68A709FE8FB657F /* SettingPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C56F787C32F4FA168103 /* SettingPickerController.swift */; };
 		3397CD53A1B819D15AD8ED7B /* QuantityMutating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98C912D77BEE430431A /* QuantityMutating.swift */; };
 		3397CDAE4FC02595240206EA /* SiteImageTypeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CCB521481AA2231D040F /* SiteImageTypeAdapter.swift */; };
@@ -311,6 +312,7 @@
 		3397C028FEBC9309364A98C0 /* PatchDataStateManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDataStateManager.swift; sourceTree = "<group>"; };
 		3397C0A09251F19ABD646FD4 /* TodayAppDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayAppDataDelegate.swift; sourceTree = "<group>"; };
 		3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewWrapper.swift; sourceTree = "<group>"; };
+		3397C12186B32044AD4D89F9 /* PillDueDateFinderParams.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillDueDateFinderParams.swift; sourceTree = "<group>"; };
 		3397C15569EB6EC92C438D45 /* PDBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDBadge.swift; sourceTree = "<group>"; };
 		3397C1700FB67189DA4EA40C /* PillDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillDetailViewModel.swift; sourceTree = "<group>"; };
 		3397C188BBF8844E19D270D0 /* PDImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDImages.swift; sourceTree = "<group>"; };
@@ -713,6 +715,14 @@
 				3397C77E250B8AB380F1A555 /* PDMockTests.swift */,
 			);
 			path = PDMockTests;
+			sourceTree = "<group>";
+		};
+		3397C4033EEE1D82B924FD15 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				3397C12186B32044AD4D89F9 /* PillDueDateFinderParams.swift */,
+			);
+			path = DTOs;
 			sourceTree = "<group>";
 		};
 		3397C45AFE80B6E86213E63C /* Pills */ = {
@@ -1220,6 +1230,7 @@
 				9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */,
 				9D913BA723065676001FC03C /* PDError.swift */,
 				9D78A9E02386354F00058AD9 /* PDConstants.swift */,
+				3397C4033EEE1D82B924FD15 /* DTOs */,
 			);
 			path = PDKit;
 			sourceTree = "<group>";
@@ -1801,6 +1812,7 @@
 				9D003E9D232737D30070C964 /* DateShareDelegate.swift in Sources */,
 				9D99785F236D17DD009679FB /* ThemeUD.swift in Sources */,
 				B440110E21DF3E5D00C94B76 /* DateExtension.swift in Sources */,
+				3397CD4791AB7C2F067E0805 /* PillDueDateFinderParams.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

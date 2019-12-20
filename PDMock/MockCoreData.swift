@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import PDKit
+
+
+public class MockCoreData: PDCoreDataDelegate {
+
+}

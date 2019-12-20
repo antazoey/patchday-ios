@@ -105,10 +105,7 @@ public class Pill: PDObject, Swallowable, Comparable {
 
     public var due: Date {
         do {
-            let nextDueDate = try PillHelper.nextDueDate(
-                timesTakenToday: timesTakenToday, timesaday: timesaday, times: times
-            )
-            return nextDueDate ?? Date()
+            return try PillHelper.nextDueDate(pillDueDateFinderParams) ?? Date()
         } catch PillHelper.NextDueDateError.notEnoughTimes {
             return handleNotEnoughTimesError()
         } catch {
@@ -194,6 +191,10 @@ public class Pill: PDObject, Swallowable, Comparable {
     }
     public static func != (lhs: Pill, rhs: Pill) -> Bool {
         lhs.due != rhs.due
+    }
+
+    private var pillDueDateFinderParams: PillDueDateFinderParams {
+        PillDueDateFinderParams(timesTakenToday, timesaday, times)
     }
 
     private func ensureTimeOrdering() {
