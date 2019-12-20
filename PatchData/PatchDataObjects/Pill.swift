@@ -122,43 +122,28 @@ public class Pill: PDObject, Swallowable, Comparable {
     }
     
     public func set(attributes: PillAttributes) {
-        if let n = attributes.name {
-            name = n
-        }
-        if let times = attributes.timesaday {
-            timesaday = times
-        }
-        if let t1 = attributes.time1 {
-            time1 = t1
-        }
-        if let t2 = attributes.time2 {
-            time2 = t2
-        }
-        if let n = attributes.notify {
-            notify = n
-        }
-        if let timesTaken = attributes.timesTakenToday {
-            timesTakenToday = timesTaken
-        }
-        if let last = attributes.lastTaken {
-            lastTaken = last
-        }
-        id = UUID()
+        name = attributes.name ?? name
+        timesaday = attributes.timesaday ?? timesaday
+        time1 = attributes.time1 ?? time1
+        time2 = attributes.time2 ?? time2
+        notify = attributes.notify ?? notify
+        timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
+        lastTaken = attributes.lastTaken ?? lastTaken
     }
 
     public func swallow() {
-        if moPill.timesTakenToday < moPill.timesaday {
-            moPill.timesTakenToday += 1
-            moPill.lastTaken = NSDate()
+        if timesTakenToday < timesaday {
+            timesTakenToday += 1
+            lastTaken = Date()
         }
     }
 
     public func awaken() {
         if timesTakenToday > 0,
-            let lastDate = moPill.lastTaken as Date?,
+            let lastDate = lastTaken as Date?,
             !lastDate.isInToday() {
     
-            moPill.timesTakenToday = 0
+            timesTakenToday = 0
         }
     }
 
@@ -233,7 +218,7 @@ public class Pill: PDObject, Swallowable, Comparable {
 
     private func addMissingTime(timeIndex: Index) {
         if timeIndex == 0 {
-            self.moPill.time1 = NSDate()
+            time1 = Date()
         } else if timeIndex == 1 {
             addMissingTimeTwo()
         }
