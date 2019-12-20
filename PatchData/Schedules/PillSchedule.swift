@@ -27,7 +27,7 @@ public class PillSchedule: NSObject, PillScheduling {
     init(store: PDCoreDataDelegate, pillDataMeter: DataShareDelegate, state: PillScheduleState) {
         self.store = store
         self.meter = pillDataMeter
-        self.pills = store.createPillList()
+        self.pills = store.createPills()
         super.init()
         if state == .Initial {
             self.reset()
@@ -55,7 +55,7 @@ public class PillSchedule: NSObject, PillScheduling {
     // MARK: - Override base class
 
     public func insertNew(completion: (() -> ())?) -> Swallowable? {
-        if let pill = store.createPill() {
+        if let pill = store.createNewPill() {
             pills.append(pill)
             if let comp = completion {
                 comp()
@@ -80,7 +80,7 @@ public class PillSchedule: NSObject, PillScheduling {
         let names = PDStrings.PillTypes.defaultPills
         pills = []
         for i in 0..<names.count {
-            if let pill = store.createPill(named: names[i]) {
+            if let pill = store.createNewPill(named: names[i]) {
                 pills.append(pill)
             }
         }

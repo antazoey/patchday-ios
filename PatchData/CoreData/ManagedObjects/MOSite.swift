@@ -11,23 +11,24 @@ import Foundation
 import CoreData
 import PDKit
 
+
 @objc(MOSite)
 public class MOSite: NSManagedObject {
     
-    @NSManaged public var hormoneRelationship: NSSet?
-    @NSManaged public var imageIdentifier: String?
-    @NSManaged public var name: String?
-    @NSManaged public var order: Int16
+    @NSManaged var hormoneRelationship: NSSet?
+    @NSManaged var imageIdentifier: String?
+    @NSManaged var name: String?
+    @NSManaged var order: Int16
     
     @objc(addHormoneRelationshipObject:)
-    @NSManaged public func addToHormoneRelationship(_ value: MOHormone)
+    @NSManaged func addToHormoneRelationship(_ value: MOHormone)
     
     @objc(removeHormoneRelationshipObject:)
-    @NSManaged public func removeFromHormoneRelationship(_ value: MOHormone)
+    @NSManaged func removeFromHormoneRelationship(_ value: MOHormone)
     
     @objc(addHormoneRelationship:)
-    @NSManaged public func addToHormoneRelationship(_ values: NSSet)
+    @NSManaged func addToHormoneRelationship(_ values: NSSet)
     
     @objc(removeHormoneRelationship:)
-    @NSManaged public func removeFromHormoneRelationship(_ values: NSSet)
+    @NSManaged func removeFromHormoneRelationship(_ values: NSSet)
 }

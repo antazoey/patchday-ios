@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public struct PillAttributes {
 
     private let defaultName = PDStrings.PlaceholderStrings.newPill

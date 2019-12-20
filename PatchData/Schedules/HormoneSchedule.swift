@@ -66,7 +66,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     @discardableResult public func insertNew() -> Hormonal? {
         let method = defaults.deliveryMethod.value
         let exp = defaults.expirationInterval
-        if let mone = store.createHormone(expiration: exp, deliveryMethod: method) {
+        if let mone = store.createNewHormone(expiration: exp, deliveryMethod: method) {
             hormones.append(mone)
             sort()
             return mone
@@ -215,7 +215,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     private static func createHormones(_ store: PDCoreDataDelegate, _ data: HormoneScheduleData) -> [Hormonal] {
-        store.createHormoneList(
+        store.loadHormones(
             expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value
         )
     }

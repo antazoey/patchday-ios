@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+
 public class PDObject {
     
     init(mo: NSManagedObject) {

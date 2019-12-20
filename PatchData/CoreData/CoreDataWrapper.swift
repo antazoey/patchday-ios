@@ -16,31 +16,31 @@ class CoreDataWrapper: PDCoreDataDelegate {
         PDCoreData.save()
     }
     
-    public func createPill() -> Swallowable? {
+    public func createNewPill() -> Swallowable? {
         PDCoreData.createPill(name: SiteStrings.newSite)
     }
 
-    public func createPill(named name: String) -> Swallowable? {
+    public func createNewPill(named name: String) -> Swallowable? {
         PDCoreData.createPill(name: name)
     }
 
-    public func createHormoneList(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal] {
+    public func loadHormones(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal] {
         PDCoreData.createHormones(expirationInterval: expiration, deliveryMethod: deliveryMethod)
     }
 
-    public func createHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
+    public func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
         PDCoreData.createHormone(expirationInterval: expiration, deliveryMethod: deliveryMethod)
     }
 
-    public func createSiteList(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Bodily] {
+    public func loadSites(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Bodily] {
         PDCoreData.createSites(expirationIntervalUD: expiration, deliveryMethod: deliveryMethod)
     }
 
-    public func createSite(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Bodily? {
+    public func createNewSite(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Bodily? {
         PDCoreData.createSite(expirationIntervalUD: expiration, deliveryMethod: deliveryMethod)
     }
 
-    public func createPillList() -> [Swallowable] {
+    public func createPills() -> [Swallowable] {
         PDCoreData.createPills()
     }
 

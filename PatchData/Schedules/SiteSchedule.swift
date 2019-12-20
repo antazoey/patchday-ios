@@ -55,7 +55,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         self.defaults = defaults
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
-        self.sites = store.createSiteList(expiration: exp, deliveryMethod: method)
+        self.sites = store.loadSites(expiration: exp, deliveryMethod: method)
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
         if sites.count == 0 {
@@ -262,6 +262,6 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private func createSite() -> Bodily? {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
-        return store.createSite(expiration: exp, deliveryMethod: method)
+        return store.createNewSite(expiration: exp, deliveryMethod: method)
     }
 }
