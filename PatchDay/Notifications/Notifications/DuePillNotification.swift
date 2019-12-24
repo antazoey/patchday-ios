@@ -12,14 +12,14 @@ import PDKit
 
 public class DuePillNotification: Notification, DuePillNotifying {
     
-    private let pill: Swallowable
+    private let pill: PillStruct
     
     public var title: String
     public var body: String?
     public static var actionId = { return "takeActionId" }()
     public static var categoryId = { return "pillCategoryId" }()
     
-    init(for pill: Swallowable, totalDue: Int) {
+    init(for pill: PillStruct, totalDue: Int) {
         self.pill = pill
         self.title = NotificationStrings.takePill + pill.name
         super.init(title: self.title, body: self.body, badge: totalDue)

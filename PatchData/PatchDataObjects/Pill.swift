@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-public class Pill: PDObject, Swallowable, Comparable {
+public class Pill: PDObject, PillStruct, Comparable {
     
     private var moPill: MOPill { mo as! MOPill }
 
@@ -158,7 +158,7 @@ public class Pill: PDObject, Swallowable, Comparable {
         moPill.lastTaken = nil
     }
     
-    public func isEqualTo(_ otherPill: Swallowable) -> Bool {
+    public func isEqualTo(_ otherPill: PillStruct) -> Bool {
         id == otherPill.id
     }
     

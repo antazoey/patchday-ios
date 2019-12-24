@@ -1,5 +1,5 @@
 //
-//  PatchData.swift
+//  CoreDataStack.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 12/21/18.
@@ -11,19 +11,9 @@ import CoreData
 import PDKit
 
 
-enum PDEntity: String, CaseIterable {
-    case hormone = "Hormone"
-    case pill = "Pill"
-    case site = "Site"
-}
+public class CoreDataStack: NSObject {
 
-struct EntityKey {
-    public var type: PDEntity
-    public var name: String
-    public var props: [String]
-}
-
-public class PDCoreData: NSObject {
+    private static let log = PDLog<CoreDataStack>()
     
     static let persistentContainerKey = "patchData"
     static let testContainerKey = "patchDataTest"
@@ -57,7 +47,7 @@ public class PDCoreData: NSObject {
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer {
-        pdContainer(persistentContainerKey)
+        getPatchDataContainer(for: persistentContainerKey)
     }
 
     /// The current view context
@@ -71,11 +61,11 @@ public class PDCoreData: NSObject {
             do {
                 try persistentContainer.viewContext.save()
             } catch {
-                print("Failed saving changed to persistent container")
+                print("ERROR: Failed saving changed to persistent container.")
                 return
             }
         } else {
-            print("PDCoreData: save() called without changes..")
+            log.warn("PDCoreData: save called without changes")
         }
     }
     
@@ -84,8 +74,8 @@ public class PDCoreData: NSObject {
         NSEntityDescription.insertNewObject(forEntityName: entity.rawValue, into: context)
     }
     
-    static func loadMOs(for entity: PDEntity) -> [NSManagedObject]? {
-        let keys = entityKey(for: entity)
+    static func getManagedObjects(entity: PDEntity) -> [NSManagedObject]? {
+        let keys = getEntityKey(for: entity)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: keys.name)
         fetchRequest.propertiesToFetch = keys.props
         do {
@@ -95,8 +85,7 @@ public class PDCoreData: NSObject {
                 return mos
             }
         } catch {
-            print("Data Fetch Request Failed for entity \(entity.rawValue)")
-            
+            log.error("Data Fetch Request Failed for entity \(entity.rawValue)")
         }
         return nil
     }
@@ -104,7 +93,7 @@ public class PDCoreData: NSObject {
     /// Deletes all the managed objects in the context
     static func nuke() {
         PDEntity.allCases.forEach {e in
-            if let mos = loadMOs(for: e) {
+            if let mos = getManagedObjects(for: e) {
                 for mo: NSManagedObject in mos {
                     context.delete(mo)
                 }
@@ -115,7 +104,7 @@ public class PDCoreData: NSObject {
     
     // MARK: - Private
     
-    private static func pdContainer(_ name: String) -> NSPersistentContainer {
+    private static func getPatchDataContainer(for name: String) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: name)
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
@@ -126,7 +115,7 @@ public class PDCoreData: NSObject {
         return container
     }
     
-    private static func entityKey(for entity: PDEntity) -> EntityKey {
+    private static func getEntityKey(for entity: PDEntity) -> EntityKey {
         var n: String
         var props: [String]
         switch entity {

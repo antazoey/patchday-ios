@@ -21,6 +21,6 @@ public class PDObject {
     
     /// Delete the object from Core Date.
     public func delete() {
-         PDCoreData.context.delete(mo)
+         CoreDataStack.context.delete(mo)
     }
 }

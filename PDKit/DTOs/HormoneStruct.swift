@@ -6,9 +6,16 @@
 import Foundation
 
 
-struct HormoneStruct {
-    var siteRelationship: Bodily?
-    var id: UUID?
-    var date: NSDate?
-    var siteNameBackUp: String?
+public struct HormoneStruct {
+    public var siteRelationshipOrder: Int?
+    public var id: UUID?
+    public var date: Date?
+    public var siteNameBackUp: String?
+
+    public init(_ siteRelationshipOrder: Int?, _ id: UUID?, _ date: Date?, _ siteNameBackUp: String?) {
+        self.siteRelationshipOrder = siteRelationshipOrder
+        self.id = id
+        self.date = date
+        self.siteNameBackUp = siteNameBackUp
+    }
 }

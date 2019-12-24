@@ -29,7 +29,7 @@ protocol NotificationScheduling {
 
     func requestDuePillNotification(forPillAt index: Index)
 
-    func cancelDuePillNotification(_ pill: Swallowable)
+    func cancelDuePillNotification(_ pill: PillStruct)
 
-    func requestDuePillNotification(_ pill: Swallowable)
+    func requestDuePillNotification(_ pill: PillStruct)
 }

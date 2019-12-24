@@ -11,7 +11,13 @@ import Foundation
 
 public protocol Hormonal: PDPbjectifiable {
     var id: UUID { get set }
-    
+
+    /// The way in which the hormone is delivered to the body, usually set from User Defaults.
+    var deliveryMethod: DeliveryMethod { get set }
+
+    /// The user default representing the length of time until the hormone expired.
+    var expirationInterval: ExpirationIntervalUD { get set }
+
     /// The site you applied this hormones to.
     var site: Bodily? { get set }
     

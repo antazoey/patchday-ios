@@ -38,7 +38,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         loadTitle()
     }
 
-    static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
+    static func createPillDetailVC(_ source: UIViewController, _ pill: PillStruct) -> PillDetailVC? {
         let id = ViewControllerIds.PillDetail
         if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailVC {
             return vc.initWithPill(pill)
@@ -46,7 +46,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         return nil
     }
 
-    fileprivate func initWithPill(_ pill: Swallowable) -> PillDetailVC {
+    fileprivate func initWithPill(_ pill: PillStruct) -> PillDetailVC {
         viewModel = PillDetailViewModel(pill)
         return self
     }
@@ -204,25 +204,25 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
-    private func loadName(from pill: Swallowable) {
+    private func loadName(from pill: PillStruct) {
         nameTextField.text = pill.name
     }
     
-    private func loadNotify(from pill: Swallowable) {
+    private func loadNotify(from pill: PillStruct) {
         notificationSwitch.isOn = pill.notify
     }
     
-    private func loadTimesaday(from pill: Swallowable) {
+    private func loadTimesaday(from pill: PillStruct) {
         let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(timesaday: pill.timesaday)
         timesadaySlider.setValue(sliderValue, animated: false)
         time2Button.isEnabled = pill.timesaday == 2
     }
     
-    private func loadTime1(from pill: Swallowable) {
+    private func loadTime1(from pill: PillStruct) {
         time1Button.setTitle(viewModel?.time1Text ?? "")
     }
     
-    private func loadTime2(from pill: Swallowable) {
+    private func loadTime2(from pill: PillStruct) {
         time2Button.setTitle(viewModel?.time2Text ?? "")
     }
 

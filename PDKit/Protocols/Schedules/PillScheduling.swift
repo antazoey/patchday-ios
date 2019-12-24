@@ -11,28 +11,28 @@ import Foundation
 public protocol PillScheduling: Schedule, Deleting {
     
     /// All the pills.
-    var all: [Swallowable] { get }
+    var all: [PillStruct] { get }
     
     /// The next pill due.
-    var nextDue: Swallowable? { get }
+    var nextDue: PillStruct? { get }
     
     /// The due count.
     var totalDue: Int { get }
     
     /// Insert a new pill into the schedule.
-    func insertNew(completion: (() -> ())?) -> Swallowable?
+    func insertNew(completion: (() -> ())?) -> PillStruct?
 
     /// The pill at the given index.
-    func at(_ index: Index) -> Swallowable?
+    func at(_ index: Index) -> PillStruct?
     
     /// Gets the pill for the given ID.
-    func get(for id: UUID) -> Swallowable?
+    func get(for id: UUID) -> PillStruct?
     
     /// Sets the pill at the given index with the given attributes.
     func set(at index: Index, with attributes: PillAttributes)
     
     /// Sets the pill with the given attributes.
-    func set(for pill: Swallowable, with attributes: PillAttributes)
+    func set(for pill: PillStruct, with attributes: PillAttributes)
     
     /// Resets all pill attributes to their default.
     func reset()
@@ -41,16 +41,16 @@ public protocol PillScheduling: Schedule, Deleting {
     func swallow(at index: Index, completion: (() -> ())?)
     
     /// Swallows the pill.
-    func swallow(_ pill: Swallowable, completion: (() -> ())?)
+    func swallow(_ pill: PillStruct, completion: (() -> ())?)
     
     /// Swallows the next pill due.
     func swallow(completion: (() -> ())?)
 
     /// Swallows the pills
-    func swallow(_ pill: Swallowable)
+    func swallow(_ pill: PillStruct)
     
     /// Gets the first index of the given pill.
-    func firstIndexOf(_ pill: Swallowable) -> Index?
+    func firstIndexOf(_ pill: PillStruct) -> Index?
     
     /// Makes data available for other local apps, such as the Today widget.
     func broadcastData()

@@ -20,7 +20,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
         self.badge = appBadge
     }
 
-    var requestPillNotification: ((_ pill: Swallowable) -> ())?
+    var requestPillNotification: ((_ pill: PillStruct) -> ())?
 
     func swallow(pillUid: String) {
         if let pills = pills,

@@ -119,14 +119,14 @@ class Notifications: NSObject, NotificationScheduling {
     }
     
     /// Request a pill notification.
-    func requestDuePillNotification(_ pill: Swallowable) {
+    func requestDuePillNotification(_ pill: PillStruct) {
         if Date() < pill.due, let totalDue = sdk?.totalAlerts {
             factory.createDuePillNotification(pill, totalDue: totalDue).request()
         }
     }
     
     /// Cancels a pill notification.
-    func cancelDuePillNotification(_ pill: Swallowable) {
+    func cancelDuePillNotification(_ pill: PillStruct) {
         center.removeNotifications(with: [pill.id.uuidString])
     }
     

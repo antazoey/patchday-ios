@@ -20,5 +20,5 @@ public protocol DataShareDelegate {
     )
     
     /// Sets pill data for other apps and widgets, such as the PatchDay Today widget.
-    func broadcastRelevantPillData(nextPill: Swallowable)
+    func broadcastRelevantPillData(nextPill: PillStruct)
 }

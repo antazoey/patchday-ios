@@ -29,11 +29,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     init(
         data: HormoneScheduleData,
         hormoneDataBroadcaster: HormoneDataBroadcasting,
-        store: CoreDataWrapper,
+        store: CoreDataStackWrapper,
         state: PDState,
         defaults: UserDefaultsStoring
     ) {
-        self.hormones = HormoneSchedule.createHormones(store, data)
+        self.hormones = HormoneSchedule.loadStoredHormones(store, data)
         self.dataBroadcaster = hormoneDataBroadcaster
         self.store = store
         self.state = state
@@ -214,10 +214,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         isEmpty || (hormones.filter { $0.site != nil || $0.siteNameBackUp != nil }).count == 0
     }
     
-    private static func createHormones(_ store: PDCoreDataDelegate, _ data: HormoneScheduleData) -> [Hormonal] {
-        store.loadHormones(
-            expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value
-        )
+    private static func loadStoredHormones(_ store: PDCoreDataDelegate, _ data: HormoneScheduleData) -> [Hormonal] {
+        store.loadHormones(expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value)
     }
     
     private func broadcastHormones() {

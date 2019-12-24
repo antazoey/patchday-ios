@@ -51,7 +51,7 @@ public class PatchData: NSObject, PatchDataDelegate {
     }
     
     public override convenience init() {
-        let store = CoreDataWrapper()
+        let store = CoreDataStackWrapper()
         let dataMeter = DataShare()
         let state = PDState()
         let defaultsStore = PDDefaultsStore(

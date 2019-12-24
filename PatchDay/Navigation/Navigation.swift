@@ -27,7 +27,7 @@ public class Navigation: NavigationDelegate {
         source.navigationController?.goToHormoneDetails(hormone, source)
     }
     
-    func goToPillDetails(_ pill: Swallowable, source: UIViewController) {
+    func goToPillDetails(_ pill: PillStruct, source: UIViewController) {
         source.navigationController?.goToPillDetails(pill, source)
     }
 
@@ -54,7 +54,7 @@ extension UINavigationController {
         }
     }
     
-    func goToPillDetails(_ pill: Swallowable, _ source: UIViewController) {
+    func goToPillDetails(_ pill: PillStruct, _ source: UIViewController) {
         if let vc = PillDetailVC.createPillDetailVC(source, pill) {
             pushViewController(vc, animated: true)
         }

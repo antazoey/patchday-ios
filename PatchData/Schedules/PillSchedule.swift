@@ -15,7 +15,7 @@ public class PillSchedule: NSObject, PillScheduling {
     
     override public var description: String { "Schedule for pills." }
     
-    private var pills: [Swallowable]
+    private var pills: [PillStruct]
     private let store: PDCoreDataDelegate
     private let meter: DataShareDelegate
     
@@ -27,7 +27,7 @@ public class PillSchedule: NSObject, PillScheduling {
     init(store: PDCoreDataDelegate, pillDataMeter: DataShareDelegate, state: PillScheduleState) {
         self.store = store
         self.meter = pillDataMeter
-        self.pills = store.createPills()
+        self.pills = store.loadPills()
         super.init()
         if state == .Initial {
             self.reset()
@@ -35,11 +35,11 @@ public class PillSchedule: NSObject, PillScheduling {
         awaken()
     }
     
-    public var all: [Swallowable] { pills }
+    public var all: [PillStruct] { pills }
 
     public var count: Int { pills.count }
     
-    public var nextDue: Swallowable? {
+    public var nextDue: PillStruct? {
         if let pills = pills as? [Pill] {
             return pills.min(by: <)
         }
@@ -48,13 +48,13 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public var totalDue: Int {
         pills.reduce(0, {
-            (count: Int, pill: Swallowable) -> Int in pill.isDue ? 1 + count : count
+            (count: Int, pill: PillStruct) -> Int in pill.isDue ? 1 + count : count
         })
     }
     
     // MARK: - Override base class
 
-    public func insertNew(completion: (() -> ())?) -> Swallowable? {
+    public func insertNew(completion: (() -> ())?) -> PillStruct? {
         if let pill = store.createNewPill() {
             pills.append(pill)
             if let comp = completion {
@@ -89,11 +89,11 @@ public class PillSchedule: NSObject, PillScheduling {
 
     // MARK: - Public
 
-    public func at(_ index: Index) -> Swallowable? {
+    public func at(_ index: Index) -> PillStruct? {
         pills.tryGet(at: index)
     }
 
-    public func get(for id: UUID) -> Swallowable? {
+    public func get(for id: UUID) -> PillStruct? {
         if let index = pills.firstIndex(where: { $0.id == id }) {
             return at(index)
         }
@@ -107,7 +107,7 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
 
-    public func set(for pill: Swallowable, with attributes: PillAttributes) {
+    public func set(for pill: PillStruct, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
         store.save()
     }
@@ -118,14 +118,14 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
 
-    public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
+    public func swallow(_ pill: PillStruct, completion: (() -> ())?) {
         swallow(pill) // Saves
         if let comp = completion {
             comp()
         }
     }
 
-    public func swallow(_ pill: Swallowable) {
+    public func swallow(_ pill: PillStruct) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
             store.save()
@@ -138,8 +138,8 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
     
-    public func firstIndexOf(_ pill: Swallowable) -> Index? {
-        pills.firstIndex { (_ p: Swallowable) -> Bool in p.isEqualTo(pill) }
+    public func firstIndexOf(_ pill: PillStruct) -> Index? {
+        pills.firstIndex { (_ p: PillStruct) -> Bool in p.isEqualTo(pill) }
     }
     
     public func broadcastData() {
@@ -158,7 +158,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
     
     private func deleteAll() {
-        pills.forEach { (_ p: Swallowable) -> () in p.delete() }
+        pills.forEach { (_ p: PillStruct) -> () in p.delete() }
         pills = []
     }
 }

@@ -55,5 +55,5 @@ public protocol Swallowable: PDPbjectifiable {
     func awaken()
     
     /// Whether the system considers this pill to be equal to the given other pill.
-    func isEqualTo(_ otherPill: Swallowable) -> Bool
+    func isEqualTo(_ otherPill: PillStruct) -> Bool
 }

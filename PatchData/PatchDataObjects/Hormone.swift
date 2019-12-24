@@ -9,10 +9,8 @@
 import Foundation
 import PDKit
 
-public class Hormone: PDObject, Hormonal, Comparable {
 
-    private let expirationInterval: ExpirationIntervalUD
-    private let deliveryMethod: DeliveryMethod
+public class Hormone: PDObject, Hormonal, Comparable {
     
     private var moHormone: MOHormone { self.mo as! MOHormone }
     
@@ -21,6 +19,10 @@ public class Hormone: PDObject, Hormonal, Comparable {
         self.deliveryMethod = deliveryMethod
         super.init(mo: hormone)
     }
+
+    public var deliveryMethod: DeliveryMethod
+
+    public var expirationInterval: ExpirationIntervalUD
 
     public var id: UUID {
         get {
@@ -38,7 +40,7 @@ public class Hormone: PDObject, Hormonal, Comparable {
             if let site = moHormone.siteRelationship {
                 return Site(
                     moSite: site,
-                    globalExpirationInterval: expirationInterval,
+                    expirationInterval: expirationInterval,
                     deliveryMethod: deliveryMethod
                 )
             }

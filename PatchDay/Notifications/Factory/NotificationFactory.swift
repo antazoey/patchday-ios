@@ -19,7 +19,7 @@ class NotificationFactory: NotificationProducing {
         ExpiredHormoneNotification(params)
     }
     
-    func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> DuePillNotifying {
+    func createDuePillNotification(_ pill: PillStruct, totalDue: Int) -> DuePillNotifying {
         DuePillNotification(for: pill, totalDue: totalDue)
     }
     

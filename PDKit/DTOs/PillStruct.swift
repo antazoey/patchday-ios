@@ -6,7 +6,12 @@
 import Foundation
 
 
-struct PillStruct {
-    var id: UUID
-    var attributes: PillAttributes
+public struct PillStruct {
+    public var id: UUID
+    public var attributes: PillAttributes
+
+    public init(_ id: UUID, _ attributes: PillAttributes = PillAttributes()) {
+        self.id = id
+        self.attributes = attributes
+    }
 }

@@ -15,6 +15,7 @@ import PDKit
 @objc(MOSite)
 public class MOSite: NSManagedObject {
     
+    @NSManaged var id: UUID?
     @NSManaged var hormoneRelationship: NSSet?
     @NSManaged var imageIdentifier: String?
     @NSManaged var name: String?

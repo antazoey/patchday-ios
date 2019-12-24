@@ -9,21 +9,18 @@
 import Foundation
 import PDKit
 
+
 public class Site: PDObject, Bodily, Comparable {
 
-    private let globalExpirationInterval: ExpirationIntervalUD
+    private let expirationInterval: ExpirationIntervalUD
     private let deliveryMethod: DeliveryMethod
     
     private var moSite: MOSite {
         self.mo as! MOSite
     }
     
-    public init(
-        moSite: MOSite,
-        globalExpirationInterval: ExpirationIntervalUD,
-        deliveryMethod: DeliveryMethod
-    ) {
-        self.globalExpirationInterval = globalExpirationInterval
+    public init(moSite: MOSite, expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+        self.expirationInterval = expirationInterval
         self.deliveryMethod = deliveryMethod
         super.init(mo: moSite)
     }
@@ -39,7 +36,7 @@ public class Site: PDObject, Bodily, Comparable {
             for mone in moneSet {
                 let pdEstro = Hormone(
                     hormone: mone as! MOHormone,
-                    interval: globalExpirationInterval,
+                    interval: expirationInterval,
                     deliveryMethod: deliveryMethod
                 )
                 hormones.append(pdEstro)
