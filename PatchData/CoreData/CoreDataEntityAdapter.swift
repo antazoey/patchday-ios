@@ -10,7 +10,11 @@ import PDKit
 class CoreDataEntityAdapter {
 
     static func convertToHormoneStruct(_ hormone: MOHormone) -> HormoneStruct {
-        HormoneStruct(hormone.siteRelationship?.id, hormone.id, hormone.date, hormone.siteNameBackUp)
+        HormoneStruct(hormone.siteRelationship?.id, hormone.id, hormone.date as Date?, hormone.siteNameBackUp)
+    }
+
+    static func convertToHormoneStruct(_ hormone: Hormonal) -> HormoneStruct {
+        HormoneStruct(hormone.site?.id, hormone.id, hormone.date, hormone.siteNameBackUp)
     }
 
     static func convertToPillStruct(_ pill: MOPill) -> PillStruct {
@@ -26,6 +30,10 @@ class CoreDataEntityAdapter {
         return PillStruct(pill.id ?? UUID(), attributes)
     }
 
+    static func convertToPillStruct(_ pill: Swallowable) -> PillStruct {
+        PillStruct(pill.id, pill.attributes)
+    }
+
     static func convertToSiteStruct(_ site: MOSite) -> SiteStruct {
         var ids: [UUID] = []
         for element in site.hormoneRelationship ?? NSSet() {
@@ -33,6 +41,10 @@ class CoreDataEntityAdapter {
                 ids.append(id)
             }
         }
-        return SiteStruct(ids, site.imageIdentifier, site.name, Int(site.order))
+        return SiteStruct(site.id, ids, site.imageIdentifier, site.name, Int(site.order))
+    }
+
+    static func convertToSiteStruct(_ site: Bodily) -> SiteStruct {
+        SiteStruct(site.id, site.hormoneIds, site.imageId, site.name, site.order)
     }
 }

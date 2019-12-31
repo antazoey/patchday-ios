@@ -19,8 +19,4 @@ public class EntityStore {
         self.stack = stack
         self.entities = CoreDataEntities(coreDataStack: stack)
     }
-
-    func save() {
-        self.stack.save()
-    }
 }

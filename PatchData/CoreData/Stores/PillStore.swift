@@ -34,4 +34,18 @@ class PillStore: EntityStore {
         }
         return nil
     }
+
+    func save(_ pills: [Swallowable]) {
+        let pillData = pills.map { p in CoreDataEntityAdapter.convertToPillStruct(p) }
+        self.save(pillData)
+    }
+
+    func save(_ pill: Swallowable) {
+        self.save([CoreDataEntityAdapter.convertToPillStruct(pill)])
+    }
+
+    private func save(_ pillData: [PillStruct]) {
+        entities.pushPillData(pillData)
+        stack.save()
+    }
 }

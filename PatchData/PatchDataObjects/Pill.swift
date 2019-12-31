@@ -39,6 +39,17 @@ public class Pill: Swallowable {
         set { pillData.id = newValue }
     }
 
+    public var attributes: PillAttributes {
+        PillAttributes(name: name,
+            timesaday: timesaday,
+            time1: time1,
+            time2: time2,
+            notify: notify,
+            timesTakenToday: timesTakenToday,
+            lastTaken: lastTaken
+        )
+    }
+
     public var name: String {
         get { pillData.attributes.name ?? SiteStrings.unplaced }
         set { pillData.attributes.name = newValue }

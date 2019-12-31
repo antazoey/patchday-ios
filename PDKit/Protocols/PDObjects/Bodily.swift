@@ -9,6 +9,7 @@
 import Foundation
 
 public protocol Bodily: PDObjectified {
+    var id: UUID { get }
     
     /// The hormones in the schedule that you have applied to this site.
     var hormoneIds: [UUID] { get }

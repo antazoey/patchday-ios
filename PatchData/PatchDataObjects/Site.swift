@@ -25,6 +25,15 @@ public class Site: Bodily {
     public var hormoneIds: [UUID] {
         siteData.hormoneRelationshipIds ?? []
     }
+
+    public var id: UUID {
+        if let id = siteData.id {
+            return id
+        }
+        let id = UUID()
+        siteData.id = id
+        return id
+    }
     
     public var imageId: String {
         get { siteData.imageIdentifier ?? "" }

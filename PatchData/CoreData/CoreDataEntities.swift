@@ -26,7 +26,9 @@ class CoreDataEntities {
         self.coreDataStack = coreDataStack
     }
 
-    func getStoredHormoneData(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [HormoneStruct] {
+    func getStoredHormoneData(
+        expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod
+    ) -> [HormoneStruct] {
         if !hormonesInitialized {
             loadStoredHormones()
         }
@@ -45,6 +47,19 @@ class CoreDataEntities {
             return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
         }
         return nil
+    }
+
+    func pushHormoneData(_ hormoneData: [HormoneStruct]) {
+        for data in hormoneData {
+            if let managedHormone = hormoneMOs.first(where: { h in h.id == data.id }) {
+                managedHormone.date = data.date as NSDate?
+                managedHormone.siteNameBackUp = data.siteNameBackUp
+
+                // Set the site
+                let managedSiteRelationship = siteMOs.first(where: { s in s.id == data.siteRelationshipId })
+                managedHormone.siteRelationship = managedSiteRelationship
+            }
+        }
     }
 
     func getStoredPillData() -> [PillStruct] {
@@ -72,6 +87,20 @@ class CoreDataEntities {
         return nil
     }
 
+    func pushPillData(_ pillData: [PillStruct]) {
+        for data in pillData {
+            if let managedPill = pillMOs.first(where: { p in p.id == data.id }) {
+                managedPill.name = data.attributes.name
+                managedPill.lastTaken = data.attributes.lastTaken as NSDate?
+                managedPill.notify = data.attributes.notify ?? managedPill.notify
+                managedPill.timesaday = Int16(data.attributes.timesaday ?? DefaultPillTimesaday)
+                managedPill.time1 = data.attributes.time1 as NSDate?
+                managedPill.time2 = data.attributes.time2 as NSDate?
+                managedPill.timesTakenToday = Int16(data.attributes.timesTakenToday ?? 0)
+            }
+        }
+    }
+
     func getStoredSiteData(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [SiteStruct] {
         if !sitesInitialized {
             loadStoredSites()
@@ -92,6 +121,26 @@ class CoreDataEntities {
         }
         return nil
     }
+
+    func pushSiteData(_ siteData: [SiteStruct]) {
+        for data in siteData {
+            if let site = siteMOs.first(where: { s in s.id == data.id }) {
+                site.name = data.name
+                site.imageIdentifier = data.imageIdentifier
+
+                var hormones: [MOHormone] = []
+                for hormoneId in data.hormoneRelationshipIds ?? [] {
+                    if let hormone = hormoneMOs.first(where: { h in h.id == hormoneId }) {
+                        hormones.append(hormone)
+                    }
+                }
+
+                site.hormoneRelationship = Set(hormones) as NSSet
+            }
+        }
+    }
+
+    // MARK: - Private
 
     private func loadStoredHormones() {
         if let hormones = coreDataStack.getManagedObjects(entity: .hormone) as? [MOHormone] {

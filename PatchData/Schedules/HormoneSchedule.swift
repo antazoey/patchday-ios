@@ -80,9 +80,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public func sort() {
-        if var hormones = hormones {
-            hormones.sort(by: <)
-        }
+        hormones.sort(by: HormoneComparator.lessThan)
     }
 
     @discardableResult public func reset() -> Int {
@@ -99,7 +97,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if let comp = completion {
             comp()
         }
-        store.save()
+        store.save(hormones)
         return hormones.count
     }
 
@@ -111,7 +109,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
                     hormone.delete()
                 }
             }
-            store.save()
+            store.save(hormones)
         }
     }
     
@@ -135,7 +133,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
             hormone.site = site
             hormone.date = date
             sort()
-            saveFromDateAndSiteChange()
+            saveFromDateAndSiteChange(hormone)
         }
     }
 
@@ -144,7 +142,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
             hormone.site = site
             hormone.date = date
             sort()
-            saveFromDateAndSiteChange()
+            saveFromDateAndSiteChange(hormone)
         }
     }
 
@@ -156,7 +154,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     public func setSite(for hormone: inout Hormonal, with site: Bodily) {
         hormone.site = site
-        store.save()
+        store.save(hormone)
         state.bodilyChanged = true
         state.onlySiteChanged = true
         state.bodilyChanged = true
@@ -172,7 +170,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     public func setDate(for hormone: inout Hormonal, with date: Date) {
         hormone.date = date
         sort()
-        store.save()
+        store.save(hormone)
         broadcastHormones()
         state.onlySiteChanged = false
     }
@@ -180,7 +178,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     public func setBackUpSiteName(at index: Index, with name: String) {
         if var hormone = at(index) {
             hormone.siteNameBackUp = name
-            store.save()
+            store.save(hormone)
         }
     }
 
@@ -219,8 +217,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         dataBroadcaster.broadcast(nextHormone: next)
     }
     
-    private func saveFromDateAndSiteChange() {
-        store.save()
+    private func saveFromDateAndSiteChange(_ hormone: Hormonal) {
+        store.save(hormone)
         broadcastHormones()
         state.onlySiteChanged = false
         state.bodilyChanged = true

@@ -11,7 +11,10 @@ import Foundation
 public protocol Swallowable: PDObjectified {
     
     var id: UUID { get set }
-    
+
+    /// The pill attributes DTO formed from this pill's attributes.
+    var attributes: PillAttributes { get }
+
     /// The name of the pill.
     var name: String { get set }
     

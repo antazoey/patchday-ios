@@ -235,23 +235,20 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     private var firstEmptyIndex: Index? {
-        sites.firstIndex {
-            (_ site: Bodily) -> Bool in
-            site.hormoneIds.count == 0
-        }
+        sites.firstIndex { (_ site: Bodily) -> Bool in site.hormoneIds.count == 0 }
     }
 
     private var siteIndexWithOldestHormone: Index {
-        sites.reduce((Date(), -1, 0), {
+        sites.reduce((oldestDate: Date(), oldestIndex: -1, iterator: 0), {
             ( sitesIterator, site) in
             let oldestDateInThisSitesHormones = getOldestDateApplied(from: site.hormoneIds)
 
-            let newSiteIndex = sitesIterator.2 + 1
-            if oldestDateInThisSitesHormones < sitesIterator.0 {
+            let newSiteIndex = sitesIterator.iterator + 1
+            if oldestDateInThisSitesHormones < sitesIterator.oldestDate {
                 return (oldestDateInThisSitesHormones, newSiteIndex, newSiteIndex)
             }
-            return (sitesIterator.0, -1, newSiteIndex)
-        }).1
+            return (sitesIterator.oldestDate, -1, newSiteIndex)
+        }).oldestIndex
     }
 
     private func getOldestDateApplied(from hormoneIds: [UUID]) -> Date {
@@ -269,7 +266,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private func createSite() -> Bodily? {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
-        return store.createNewSite(expiration: exp, deliveryMethod: method)
+        return store.createNewSite(expirationInterval: exp, deliveryMethod: method)
     }
 
     // TODO: When deleting a site, must call this!!! fix it first

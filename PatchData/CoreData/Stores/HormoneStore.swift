@@ -31,4 +31,18 @@ class HormoneStore: EntityStore {
         }
         return nil
     }
+
+    func save(_ hormones: [Hormonal]) {
+        let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
+        self.save(hormoneData)
+    }
+
+    func save(_ hormone: Hormonal) {
+        self.save([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
+    }
+
+    private func save(_ hormoneData: [HormoneStruct]) {
+        entities.pushHormoneData(hormoneData)
+        stack.save()
+    }
 }
