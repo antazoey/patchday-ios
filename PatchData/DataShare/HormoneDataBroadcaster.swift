@@ -9,6 +9,7 @@
 import Foundation
 import PDKit
 
+
 public class HormoneDataBroadcaster: HormoneDataBroadcasting {
     
     private let sites: HormoneSiteScheduling
@@ -22,10 +23,10 @@ public class HormoneDataBroadcaster: HormoneDataBroadcasting {
     }
     
     public func broadcast(nextHormone: Hormonal?) {
-        if let mone = nextHormone {
+        if let nextHormone = nextHormone {
             let name = sites.suggested?.name ?? SiteStrings.newSite
             siteDataMeter.broadcastRelevantHormoneData(
-                oldestHormone: mone,
+                oldestHormone: nextHormone,
                 nextSuggestedSite: name,
                 interval: defaults.expirationInterval,
                 deliveryMethod: defaults.deliveryMethod

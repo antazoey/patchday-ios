@@ -15,47 +15,24 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     override public var description: String { "Schedule for sites." }
     
-    private let store: CoreDataStackWrapper
+    private let store: SiteStore
     private let defaults: UserDefaultsStoring
+    private let hormones: HormoneScheduling
     private var sites: [Bodily]
     let siteIndexRebounder: PDIndexRebounce
     
-    private var firstEmptyIndex: Index? {
-        sites.firstIndex {
-            (_ site: Bodily) -> Bool in
-            site.hormones.count == 0
-        }
-    }
-    
-    private var siteIndexWithOldestHormone: Index {
-        sites.reduce((Date(), -1, 0), {
-            ( sitesIterator, site) in
-            let oldestDateInThisSitesHormones = SiteSchedule.getOldestDateApplied(from: site.hormones)
-            
-            let newSiteIndex = sitesIterator.2 + 1
-            if oldestDateInThisSitesHormones < sitesIterator.0 {
-                return (oldestDateInThisSitesHormones, newSiteIndex, newSiteIndex)
-            }
-            return (sitesIterator.0, -1, newSiteIndex)
-        }).1
-    }
-    
-    private static func getOldestDateApplied(from hormones: [Hormonal]) -> Date {
-        hormones.reduce(Date(), {
-            (oldestDateThusFar, hormone) in
-            if hormone.date < oldestDateThusFar {
-                return hormone.date
-            }
-            return oldestDateThusFar
-        })
-    }
-    
-    init(store: CoreDataStackWrapper, defaults: UserDefaultsStoring, siteIndexRebounder: PDIndexRebounce) {
-        self.store = store
+    init(
+        coreDataStack: CoreDataStackWrapper,
+        defaults: UserDefaultsStoring,
+        hormones: HormoneScheduling,
+        siteIndexRebounder: PDIndexRebounce
+    ) {
+        let store = SiteStore(coreDataStack)
         self.defaults = defaults
+        self.hormones = hormones
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
-        self.sites = store.loadSites(expiration: exp, deliveryMethod: method)
+        self.sites = store.getStoredSites(expirationInterval: exp, deliveryMethod: method)
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
         if sites.count == 0 {
@@ -200,9 +177,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
     
     public func sort() {
-        if var sites = self.sites as? [Site] {
-            sites.sort()
-        }
+        sites.sort(by: SiteComparator.lessThan)
     }
 
     // MARK: - Other Public
@@ -258,10 +233,54 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     @discardableResult private func updateIndex(focus: Index) -> Index {
         siteIndexRebounder.rebound(upon: focus, lessThan: count)
     }
+
+    private var firstEmptyIndex: Index? {
+        sites.firstIndex {
+            (_ site: Bodily) -> Bool in
+            site.hormoneIds.count == 0
+        }
+    }
+
+    private var siteIndexWithOldestHormone: Index {
+        sites.reduce((Date(), -1, 0), {
+            ( sitesIterator, site) in
+            let oldestDateInThisSitesHormones = getOldestDateApplied(from: site.hormoneIds)
+
+            let newSiteIndex = sitesIterator.2 + 1
+            if oldestDateInThisSitesHormones < sitesIterator.0 {
+                return (oldestDateInThisSitesHormones, newSiteIndex, newSiteIndex)
+            }
+            return (sitesIterator.0, -1, newSiteIndex)
+        }).1
+    }
+
+    private func getOldestDateApplied(from hormoneIds: [UUID]) -> Date {
+        hormoneIds.reduce(Date(), {
+            (oldestDateThusFar, hormoneId) in
+            if let hormone = hormones.get(for: hormoneId) {
+                if hormone.date < oldestDateThusFar {
+                    return hormone.date
+                }
+            }
+            return oldestDateThusFar
+        })
+    }
     
     private func createSite() -> Bodily? {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
         return store.createNewSite(expiration: exp, deliveryMethod: method)
+    }
+
+    // TODO: When deleting a site, must call this!!! fix it first
+    private func pushBackupSiteNameToHormones(deletedSite: Bodily) {
+        if deletedSite.isOccupied, letd hormoneData = deletedSite.hormones {
+            let hormones = Array(hormoneData)
+            for hormone in hormones {
+                if let mo = mone as? MOHormone {
+                    mo.siteNameBackUp = moSite.name
+                }
+            }
+        }
     }
 }

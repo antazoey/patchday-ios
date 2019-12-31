@@ -9,6 +9,7 @@ import UIKit
 import NotificationCenter
 import PDKit
 
+
 class TodayViewController: UIViewController, NCWidgetProviding {
     
     @IBOutlet weak var nextEstrogenLabel: UILabel!
@@ -16,6 +17,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBOutlet weak var estrogenDateLabel: UILabel!
     @IBOutlet weak var nextPillNameLabel: UILabel!
     @IBOutlet weak var nextPillTakeDateLabel: UILabel!
+
+    private let log = PDLog<TodayViewController>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         extensionContext?.open(myAppUrl as URL, completionHandler: {
             (success) in
             if (!success) {
-                print("Failure to open PatchDayToday")
+                self.log.warn("Failure to open PatchDay")
             }
         })
     }

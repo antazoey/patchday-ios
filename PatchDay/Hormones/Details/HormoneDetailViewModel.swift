@@ -41,7 +41,7 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     }
 
     var selectSiteTextFieldStartText: String {
-        hormone.isPlaceholder ? ActionStrings.select : hormone.siteName
+        hormone.hasNoSite ? ActionStrings.select : hormone.siteName
     }
 
     var expirationDateText: String {

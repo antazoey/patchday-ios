@@ -10,10 +10,12 @@ import Foundation
 import UserNotifications
 import PDKit
 
+
 class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
     private let root: UNUserNotificationCenter
     private let hormoneApplicant: ApplyHormoneNotificationActionHandling
+    private let log = PDLog<PDNotificationCenter>()
 
     var swallowPillNotificationActionHandler: SwallowPillNotificationActionHandling
     
@@ -29,8 +31,8 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         self.root.delegate = self
         self.root.requestAuthorization(options: [.alert, .sound, .badge]) {
             (granted, error) in
-            if (error != nil) {
-                print(error as Any)
+            if let e = error {
+                self.log.error(e)
             }
         }
         self.root.setNotificationCategories(categories)

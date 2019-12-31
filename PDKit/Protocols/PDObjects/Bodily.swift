@@ -8,10 +8,10 @@
 
 import Foundation
 
-public protocol Bodily: PDPbjectifiable {
+public protocol Bodily: PDObjectified {
     
     /// The hormones in the schedule that you have applied to this site.
-    var hormones: [Hormonal] { get }
+    var hormoneIds: [UUID] { get }
     
     /// The ID associated with the image representation of this site.
     var imageId: String { get set }

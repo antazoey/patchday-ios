@@ -9,9 +9,11 @@
 import UIKit
 import PDKit
 
+
 class SettingsPickerSelector {
     
     private let pickers: SettingsPickers
+    private let log = PDLog<SettingsPickerSelector>()
     
     public init(pickers: SettingsPickers) {
         self.pickers = pickers
@@ -24,7 +26,7 @@ class SettingsPickerSelector {
         case .ExpirationInterval: return pickers.expirationIntervalPicker
         case .Theme: return pickers.themePicker
         default:
-            print("No picker for given key \(key)")
+            log.error("No picker for given key \(key)")
             return nil
         }
     }

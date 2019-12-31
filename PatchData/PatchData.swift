@@ -58,11 +58,10 @@ public class PatchData: NSObject, PatchDataDelegate {
             state: state, handler: PDDefaultsStorageHandler(meter: dataMeter)
         )
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
-        let pills = PillSchedule(store: store, pillDataMeter: dataMeter, state: pillScheduleState)
+        let pills = PillSchedule(coreDataStack: store, pillDataMeter: dataMeter, state: pillScheduleState)
         let method = defaultsStore.deliveryMethod
         let interval = defaultsStore.expirationInterval
         let indexer = SiteIndexer(defaults: defaultsStore)
-        let sites = SiteSchedule(store: store, defaults: defaultsStore, siteIndexRebounder: indexer)
         
         let hormoneData = HormoneScheduleData(
             deliveryMethod: method, expirationInterval: interval
@@ -77,9 +76,16 @@ public class PatchData: NSObject, PatchDataDelegate {
         let hormones = HormoneSchedule(
             data: hormoneData,
             hormoneDataBroadcaster: hormoneDataBroadcaster,
-            store: store,
+            coreDataStack: store,
             state: state,
             defaults: defaultsStore
+        )
+
+        let sites = SiteSchedule(
+            coreDataStack: store,
+            defaults: defaultsStore,
+            hormones: hormones,
+            siteIndexRebounder: indexer
         )
         
         let defaults = PDDefaults(

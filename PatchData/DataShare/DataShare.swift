@@ -33,7 +33,7 @@ public class DataShare: DataShareDelegate {
     }
 
     /// Sets MOPill data for PatchDay Today widget.
-    public func broadcastRelevantPillData(nextPill: PillStruct) {
+    public func broadcastRelevantPillData(nextPill: Swallowable) {
         if let defs = defaults {
             defs.set(nextPill.name, forKey: PDStrings.TodayKey.nextPillToTake.rawValue)
             defs.set(nextPill.due, forKey: PDStrings.TodayKey.nextPillTakeTime.rawValue)

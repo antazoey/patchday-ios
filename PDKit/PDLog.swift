@@ -38,6 +38,14 @@ public class PDLog<T> {
         printMessage(message, status: .ERROR)
     }
 
+    public func error(_ message: String, _ error: Error) {
+        printMessage("message. \(String(describing: error))", status: .ERROR)
+    }
+
+    public func error(_ error: Error) {
+        printMessage(String(describing: error), status: .ERROR)
+    }
+
     private func printMessage(_ message: String, status: LogStatus) {
         let symbol = symbolMap[status] ?? ""
         print("\(symbol) \(status.rawValue) (\(context)) \(symbol) - \(message).")

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol Hormonal: PDPbjectifiable {
+public protocol Hormonal: PDObjectified {
     var id: UUID { get set }
 
     /// The way in which the hormone is delivered to the body, usually set from User Defaults.
@@ -39,9 +39,6 @@ public protocol Hormonal: PDPbjectifiable {
     /// Whether the hormone expires between the hours of midnight and 6 am.
     var expiresOvernight: Bool { get }
     
-    /// The name of the site that you applied this hormone to.
-    var siteName: String { get }
-    
     /// For preserving site data in case you delete the related Site.
     var siteNameBackUp: String? { get set }
     
@@ -49,7 +46,7 @@ public protocol Hormonal: PDPbjectifiable {
     var isEmpty: Bool { get }
     
     /// If this hormone is without a site.
-    var isPlaceholder: Bool { get }
+    var hasNoSite: Bool { get }
     
     /// Sets the date to now.
     func stamp()

@@ -61,11 +61,11 @@ public class CoreDataStack: NSObject {
             do {
                 try persistentContainer.viewContext.save()
             } catch {
-                print("ERROR: Failed saving changed to persistent container.")
+                self.log.error("Failed saving core data")
                 return
             }
         } else {
-            log.warn("PDCoreData: save called without changes")
+            log.warn("Save was called without changes")
         }
     }
     
@@ -93,7 +93,7 @@ public class CoreDataStack: NSObject {
     /// Deletes all the managed objects in the context
     static func nuke() {
         PDEntity.allCases.forEach {e in
-            if let mos = getManagedObjects(for: e) {
+            if let mos = getManagedObjects(entity: e) {
                 for mo: NSManagedObject in mos {
                     context.delete(mo)
                 }
@@ -109,7 +109,7 @@ public class CoreDataStack: NSObject {
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
             if let error = error as NSError? {
-                print(error)
+                self.log.error(error)
             }
         })
         return container

@@ -15,6 +15,7 @@ class SettingsSaveController {
     private let viewModel: SettingsViewModel
     private let controls: SettingsControls
     private let applyTheme: () -> ()
+    private let log = PDLog<SettingsSaveController>()
     
     init(viewModel: SettingsViewModel, controls: SettingsControls, themeChangeHandler: @escaping () -> ()) {
         self.controls = controls
@@ -29,7 +30,7 @@ class SettingsSaveController {
         case .Quantity: saveQuantityChange(row)
         case .ExpirationInterval: saveIntervalChange(row)
         case .Theme: saveThemeChange(row)
-        default: print("Error: No picker for key \(key)")
+        default: log.error("Error: No picker for key \(key)")
         }
         viewModel.notifications?.requestAllExpiredHormoneNotifications()
     }

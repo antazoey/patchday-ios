@@ -8,11 +8,8 @@
 
 import Foundation
 
-public protocol PDPbjectifiable {
-    
-    /// Delete object from storage.
-    func delete()
-    
+public protocol PDObjectified {
+
     /// Set all attributes to default values.
     func reset()
 }

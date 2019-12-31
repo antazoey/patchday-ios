@@ -12,9 +12,9 @@ import PDKit
 
 class CoreDataEntities {
 
-    private var hormoneMOs: [MOHormone]
-    private var siteMOs: [MOSite]
-    private var pillMOs: [MOPill]
+    private var hormoneMOs: [MOHormone] = []
+    private var siteMOs: [MOSite] = []
+    private var pillMOs: [MOPill] = []
 
     private var hormonesInitialized = false
     private var pillsInitialized = false
@@ -26,7 +26,7 @@ class CoreDataEntities {
         self.coreDataStack = coreDataStack
     }
 
-    func getStoredHormones(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [HormoneStruct] {
+    func getStoredHormoneData(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [HormoneStruct] {
         if !hormonesInitialized {
             loadStoredHormones()
         }
@@ -40,24 +40,22 @@ class CoreDataEntities {
     }
 
     func createNewHormone(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> HormoneStruct? {
-        if let hormone = coreDataStack.insert(.hormone) as? MOHormone {
-            hormoneMOs.append(hormone)
-            return CoreDataEntityAdapter.convertToHormoneStruct(hormone)
+        if let newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone {
+            hormoneMOs.append(newManagedHormone)
+            return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
         }
         return nil
     }
 
-    func getStoredPills() -> [PillStruct] {
+    func getStoredPillData() -> [PillStruct] {
         if !pillsInitialized {
             loadStoredPills()
         }
 
         var pillStructs: [PillStruct] = []
         for managedPill in pillMOs {
-            let name = managedPill.name ?? PDStrings.PlaceholderStrings.newPill
-            let pill = PillStruct(name)
-                pillStructs.append(pdPill)
-            }
+            let pill = CoreDataEntityAdapter.convertToPillStruct(managedPill)
+            pillStructs.append(pill)
         }
         return pillStructs
     }
@@ -67,36 +65,30 @@ class CoreDataEntities {
     }
 
     func createNewPill(name: String) -> PillStruct? {
-        if let pill = coreDataStack.insert(.pill) as? MOPill {
-            return Pill(pill: pill, name: name)
+        if let newManagedPill = coreDataStack.insert(.pill) as? MOPill {
+            self.pillMOs.append(newManagedPill)
+            return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
         }
         return nil
     }
 
-    func getStoredSites(expirationIntervalUD: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [SiteStruct] {
-        var sites: [Bodily] = []
-        if let mos = coreDataStack.getManagedObjects(for: .site) {
-            for mo in mos {
-                if let moSite = mo as? MOSite {
-                    let pdSite = Site(
-                        moSite: moSite,
-                        expirationInterval: expirationIntervalUD,
-                        deliveryMethod: deliveryMethod
-                    )
-                    sites.append(pdSite)
-                }
-            }
+    func getStoredSiteData(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [SiteStruct] {
+        if !sitesInitialized {
+            loadStoredSites()
         }
-        return sites
+
+        var siteStructs: [SiteStruct] = []
+        for managedSite in siteMOs {
+            let siteStruct = CoreDataEntityAdapter.convertToSiteStruct(managedSite)
+            siteStructs.append(siteStruct)
+        }
+        return siteStructs
     }
 
-    func createNewSite(expirationIntervalUD: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> SiteStruct? {
-        if let site = coreDataStack.insert(.site) as? MOSite {
-            return Site(
-                moSite: site,
-                expirationInterval: expirationIntervalUD,
-                deliveryMethod: deliveryMethod
-            )
+    func createNewSite(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> SiteStruct? {
+        if let newManagedSite = coreDataStack.insert(.site) as? MOSite {
+            siteMOs.append(newManagedSite)
+            return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
         }
         return nil
     }

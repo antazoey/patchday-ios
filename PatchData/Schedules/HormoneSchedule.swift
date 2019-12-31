@@ -21,7 +21,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     override public var description: String { "Schedule for hormones." }
 
     private let dataBroadcaster: HormoneDataBroadcasting
-    private var store: PDCoreDataDelegate
+    private var store: HormoneStore
     private var state: PDState
     private let defaults: UserDefaultsStoring
     private var hormones: [Hormonal]
@@ -29,13 +29,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     init(
         data: HormoneScheduleData,
         hormoneDataBroadcaster: HormoneDataBroadcasting,
-        store: CoreDataStackWrapper,
+        coreDataStack: CoreDataStackWrapper,
         state: PDState,
         defaults: UserDefaultsStoring
     ) {
-        self.hormones = HormoneSchedule.loadStoredHormones(store, data)
-        self.dataBroadcaster = hormoneDataBroadcaster
+        let store = HormoneStore(coreDataStack)
         self.store = store
+        self.hormones = store.getStoredHormones(expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value)
+        self.dataBroadcaster = hormoneDataBroadcaster
         self.state = state
         self.defaults = defaults
         super.init()
@@ -57,8 +58,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     public var totalExpired: Int {
         hormones.reduce(0, {
-            count, mone in
-            let c = mone.isExpired ? 1 : 0
+            count, hormone in
+            let c = hormone.isExpired ? 1 : 0
             return c + count
         })
     }
@@ -66,10 +67,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     @discardableResult public func insertNew() -> Hormonal? {
         let method = defaults.deliveryMethod.value
         let exp = defaults.expirationInterval
-        if let mone = store.createNewHormone(expiration: exp, deliveryMethod: method) {
-            hormones.append(mone)
+        if let hormone = store.createNewHormone(expiration: exp, deliveryMethod: method) {
+            hormones.append(hormone)
             sort()
-            return mone
+            return hormone
         }
         return nil
     }
@@ -79,8 +80,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public func sort() {
-        if var mones = hormones as? [Hormone] {
-            mones.sort(by: <)
+        if var hormones = hormones {
+            hormones.sort(by: <)
         }
     }
 
@@ -106,8 +107,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         let start = i >= -1 ? i + 1 : 0
         if count >= start {
             for _ in start..<count {
-                if let mone = hormones.popLast() {
-                    mone.delete()
+                if let hormone = hormones.popLast() {
+                    hormone.delete()
                 }
             }
             store.save()
@@ -213,11 +214,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private var hasNoSites: Bool {
         isEmpty || (hormones.filter { $0.site != nil || $0.siteNameBackUp != nil }).count == 0
     }
-    
-    private static func loadStoredHormones(_ store: PDCoreDataDelegate, _ data: HormoneScheduleData) -> [Hormonal] {
-        store.loadHormones(expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value)
-    }
-    
+
     private func broadcastHormones() {
         dataBroadcaster.broadcast(nextHormone: next)
     }

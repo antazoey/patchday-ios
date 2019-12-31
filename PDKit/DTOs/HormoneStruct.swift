@@ -7,13 +7,13 @@ import Foundation
 
 
 public struct HormoneStruct {
-    public var siteRelationshipOrder: Int?
+    public var siteRelationshipId: UUID??
     public var id: UUID?
     public var date: Date?
     public var siteNameBackUp: String?
 
-    public init(_ siteRelationshipOrder: Int?, _ id: UUID?, _ date: Date?, _ siteNameBackUp: String?) {
-        self.siteRelationshipOrder = siteRelationshipOrder
+    public init(_ siteRelationshipId: UUID?, _ id: UUID?, _ date: Date?, _ siteNameBackUp: String?) {
+        self.siteRelationshipId = siteRelationshipId
         self.id = id
         self.date = date
         self.siteNameBackUp = siteNameBackUp

@@ -8,11 +8,13 @@
 
 import Foundation
 import UserNotifications
+import PDKit
 
 
 public class Notification {
     
     public var content: UNMutableNotificationContent
+    private let log = PDLog<Notifications>()
     
     init(title: String, body: String?, badge: Int) {
         content = UNMutableNotificationContent()
@@ -28,10 +30,7 @@ public class Notification {
         let center = UNUserNotificationCenter.current()
         center.add(request) { (error : Error?) in
             if let e = error {
-                let message = "Unable to Add Notification Request "
-                let errorMessage = "(\(String(describing: e)), "
-                let desc = "\(String(describing: e.localizedDescription)))"
-                print(message + errorMessage + desc)
+                self.log.error("Unable to add notification request", e)
             }
         }
     }

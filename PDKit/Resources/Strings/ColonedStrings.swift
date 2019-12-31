@@ -64,16 +64,16 @@ public class ColonedStrings {
         NSLocalizedString("Site injected: ", comment: c2)
     }()
     
-    public static func getDateTitle(for mone: Hormonal, method: DeliveryMethod) -> String {
+    public static func getDateTitle(for hormone: Hormonal, method: DeliveryMethod) -> String {
         var title = ""
         switch method {
         case .Patches:
-            if let exp = mone.expiration {
-                let intro = mone.isExpired ? self.expired : self.expires
+            if let exp = hormone.expiration {
+                let intro = hormone.isExpired ? self.expired : self.expires
                 title += intro + DateHelper.dayOfWeekString(date: exp)
             }
         case .Injections:
-            let day = DateHelper.dayOfWeekString(date: mone.date)
+            let day = DateHelper.dayOfWeekString(date: hormone.date)
             title += self.lastInjected + day
         }
         return title

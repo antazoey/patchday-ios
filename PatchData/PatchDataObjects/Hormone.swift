@@ -10,14 +10,14 @@ import Foundation
 import PDKit
 
 
-public class Hormone: PDObject, Hormonal, Comparable {
+public class Hormone: Hormonal {
     
-    private var moHormone: MOHormone { self.mo as! MOHormone }
+    private var hormoneData: HormoneStruct
     
-    public init(hormone: MOHormone, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+    public init(hormoneData: HormoneStruct, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+        self.hormoneData = hormoneData
         self.expirationInterval = interval
         self.deliveryMethod = deliveryMethod
-        super.init(mo: hormone)
     }
 
     public var deliveryMethod: DeliveryMethod
@@ -26,36 +26,28 @@ public class Hormone: PDObject, Hormonal, Comparable {
 
     public var id: UUID {
         get {
-            moHormone.id ?? {
-                moHormone.id = UUID()
-                return moHormone.id!
+            hormoneData.id ?? {
+                hormoneData.id = UUID()
+                return hormoneData.id!
             }()
         } set {
-            moHormone.id = newValue
+            hormoneData.id = newValue
         }
     }
     
-    public var site: Bodily? {
-        get {
-            if let site = moHormone.siteRelationship {
-                return Site(
-                    moSite: site,
-                    expirationInterval: expirationInterval,
-                    deliveryMethod: deliveryMethod
-                )
-            }
-            return nil
-        } set {
-            if let newSite = newValue as? Site, let newMOSite = newSite.mo as? MOSite {
-                moHormone.siteRelationship = newMOSite
-                moHormone.siteNameBackUp = nil
+    public var siteId: UUID? {
+        get { hormoneData.siteRelationshipId ?? nil }
+        set {
+            if let newSiteId = newValue {
+                hormoneData.siteRelationshipId = newSiteId
+                hormoneData.siteNameBackUp = nil
             }
         }
     }
 
     public var date: Date {
-        get { (moHormone.date as Date?) ?? Date.createDefaultDate() }
-        set { moHormone.date = newValue as NSDate }
+        get { (hormoneData.date as Date?) ?? Date.createDefaultDate() }
+        set { hormoneData.date = newValue }
     }
 
     public var expiration: Date? {
@@ -83,7 +75,7 @@ public class Hormone: PDObject, Hormonal, Comparable {
     }
 
     public func isEqualTo(_ otherHormone: Hormonal) -> Bool {
-        id == otherHormone.id
+        HormoneComparator.equalTo(lhs: self, rhs: otherHormone)
     }
 
     public var isPastNotificationTime: Bool {
@@ -100,72 +92,32 @@ public class Hormone: PDObject, Hormonal, Comparable {
         expiration?.isOvernight() ?? false
     }
 
-    public var siteName: String {
-        moHormone.siteRelationship?.name ?? siteNameBackUp ?? ""
-    }
-
     public var siteNameBackUp: String? {
-        get { site == nil ? moHormone.siteNameBackUp : nil }
+        get {
+            // Only give a back up name if needed
+            siteId == nil ? hormoneData.siteNameBackUp : nil
+        }
         set {
-            moHormone.siteNameBackUp = newValue
-            moHormone.siteRelationship = nil
+            hormoneData.siteNameBackUp = newValue
         }
     }
 
     public var isEmpty: Bool {
-        date.isDefault() && site == nil && siteNameBackUp == nil
+        date.isDefault() && hasNoSite
     }
 
-    public var isPlaceholder: Bool {
-        siteName == SiteStrings.newSite
+    public var hasNoSite: Bool {
+        siteId == nil && siteNameBackUp == nil
     }
     
     public func stamp() {
-        moHormone.date = NSDate()
+        hormoneData.date = Date()
     }
 
     public func reset() {
-        moHormone.id = nil
-        moHormone.date = nil
-        moHormone.siteRelationship = nil
-        moHormone.siteNameBackUp = nil
-    }
-    
-    // MARK: - Comparable. nil > all.
-    
-    public static func < (lhs: Hormone, rhs: Hormone) -> Bool {
-        switch(lhs.date, rhs.date) {
-        case (nil, nil) : return false
-        case (nil, _) : return false
-        case (_, nil) : return true
-        default : return (lhs.date as Date?)! < (rhs.date as Date?)!
-        }
-    }
-    
-    public static func > (lhs: Hormone, rhs: Hormone) -> Bool {
-        switch(lhs.date, rhs.date) {
-        case (nil, nil) : return false
-        case (nil, _) : return true
-        case (_, nil) : return false
-        default : return (lhs.date as Date?)! > (rhs.date as Date?)!
-        }
-    }
-    
-    public static func == (lhs: Hormone, rhs: Hormone) -> Bool {
-        switch(lhs.date, rhs.date) {
-        case (nil, nil) : return true
-        case (nil, _) : return false
-        case (_, nil) : return false
-        default : return (lhs.date as Date?)! == (rhs.date as Date?)!
-        }
-    }
-    
-    public static func != (lhs: Hormone, rhs: Hormone) -> Bool {
-        switch(lhs.date, rhs.date) {
-        case (nil, nil) : return false
-        case (nil, _) : return true
-        case (_, nil) : return true
-        default : return (lhs.date as Date?)! != (rhs.date as Date?)!
-        }
+        hormoneData.id = nil
+        hormoneData.date = nil
+        hormoneData.siteRelationshipId = nil
+        hormoneData.siteNameBackUp = nil
     }
 }
