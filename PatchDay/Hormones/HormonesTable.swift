@@ -4,12 +4,24 @@
 //
 
 import UIKit
+import PDKit
 
 
 class HormonesTable: TableViewWrapper<HormoneCell> {
 
-    init(_ table: UIKit.UITableView) {
+    init(_ table: UITableView) {
         super.init(table, primaryCellReuseId: CellReuseIds.Hormone)
+    }
+
+    func getCell(for hormone: Hormonal, at index: Index, viewModel: HormonesViewModel) -> HormoneCell {
+        if let cell = dequeueCell() {
+            return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: index)
+        }
+        return HormoneCell()
+    }
+
+    func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
+        viewHeight * 0.24
     }
 
     func applyTheme(_ theme: AppTheme?) {

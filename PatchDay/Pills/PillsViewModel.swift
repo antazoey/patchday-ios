@@ -6,7 +6,7 @@
 import Foundation
 import PDKit
 
-class PillsViewModel: CodeBehindDependencies {
+class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
     var pillsTable: PillsTable
 

@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-class HormonesViewModel: CodeBehindDependencies {
+class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
     let hormonesTable: HormonesTable
     var hormones: HormoneScheduling? { sdk?.hormones }
@@ -45,9 +45,8 @@ class HormonesViewModel: CodeBehindDependencies {
     }
 
     func getCell(at row: Index) -> UITableViewCell {
-        if let hormone = hormones?.at(row),
-           let cell = hormonesTable.dequeueCell() {
-            return cell.configure(viewModel: self, hormone: hormone, hormoneIndex: row)
+        if let hormone = hormones?.at(row) {
+            return hormonesTable.getCell(for: hormone, at: row, viewModel: self)
         }
         return UITableViewCell()
     }
@@ -60,8 +59,7 @@ class HormonesViewModel: CodeBehindDependencies {
     
     func loadAppTabs(source: UIViewController) {
         if let tabs = source.navigationController?.tabBarController,
-            let vcs = source.navigationController?.viewControllers {
-            
+           let vcs = source.navigationController?.viewControllers {
             setTabs(tabBarController: tabs, appViewControllers: vcs)
         }
     }
@@ -79,10 +77,6 @@ class HormonesViewModel: CodeBehindDependencies {
         if let theme = styles?.theme {
             tabs?.reflectTheme(theme: theme)
         }
-    }
-
-    func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
-        viewHeight * 0.24
     }
 
     private var isFirstLaunch: Bool {

@@ -10,15 +10,18 @@ import Foundation
 import PDKit
 
 
-class CodeBehindDependencies {
+class CodeBehindDependencies<T> {
 
-    var tabs: TabReflective?
     let sdk: PatchDataDelegate?
+    var tabs: TabReflective?
     let notifications: NotificationScheduling?
     let alerts: AlertDispatching?
     let styles: Styling?
     let nav: NavigationDelegate?
     let badge: PDBadgeDelegate?
+    let log = PDLog<CodeBehindDependencies>()
+
+    let childContext = String(describing: T.self)
     
     init(
         sdk: PatchDataDelegate?,
@@ -39,13 +42,24 @@ class CodeBehindDependencies {
     }
 
     init() {
-        let app = AppDelegate.current
-        self.sdk = app?.sdk
-        self.tabs = app?.tabs
-        self.notifications = app?.notifications
-        self.alerts = app?.alerts
-        self.styles = app?.styles
-        self.nav = app?.nav
-        self.badge = app?.badge
+        if let app = AppDelegate.current {
+            self.sdk = app.sdk
+            self.tabs = app.tabs
+            self.notifications = app.notifications
+            self.alerts = app.alerts
+            self.styles = app.styles
+            self.nav = app.nav
+            self.badge = app.badge
+        } else {
+            log.error("App is not yet initialized before \(childContext)")
+
+            self.sdk = nil
+            self.tabs = nil
+            self.notifications = nil
+            self.alerts = nil
+            self.styles = nil
+            self.nav = nil
+            self.badge = nil
+        }
     }
 }

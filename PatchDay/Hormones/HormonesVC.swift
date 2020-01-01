@@ -22,7 +22,8 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
+        initViewModel()
+        setTableDelegate()
         loadTitle()
         loadBarButtons()
         updateFromBackground()
@@ -43,7 +44,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        viewModel?.getCellRowHeight(viewHeight: view.frame.height) ?? 0
+        viewModel?.hormonesTable.getCellRowHeight(viewHeight: view.frame.height) ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,6 +70,15 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     // MARK: - Private
+
+    private func initViewModel() {
+        viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
+    }
+
+    private func setTableDelegate() {
+        hormonesTableView.dataSource = self
+        hormonesTableView.delegate = self
+    }
 
     private func loadBarButtons() {
         let settingsButton = UIBarButtonItem()

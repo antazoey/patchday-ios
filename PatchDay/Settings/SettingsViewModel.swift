@@ -9,7 +9,8 @@
 import Foundation
 import PDKit
 
-class SettingsViewModel : CodeBehindDependencies {
+
+class SettingsViewModel : CodeBehindDependencies<SettingsViewModel> {
     
     func saveQuantity(quantityIndex: Index, cancelAction: @escaping (_ originalQuantity: Int) -> ()) {
         let newQuantity = PickerOptions.getQuantity(at: quantityIndex).rawValue

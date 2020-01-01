@@ -72,7 +72,7 @@ public class Hormone: Hormonal {
     }
 
     public var isExpired: Bool {
-        if let date = date as Date? {
+        if let date = date as Date?, !date.isDefault() {
             let timeInterval = DateHelper.calculateExpirationTimeInterval(expirationInterval.hours, date: date)
             return (timeInterval ?? 1) <= 0
         }

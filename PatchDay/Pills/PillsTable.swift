@@ -6,6 +6,7 @@
 import UIKit
 import PDKit
 
+
 class PillsTable: TableViewWrapper<PillCell> {
 
     private let pills: PillScheduling?

@@ -12,7 +12,7 @@ enum TimeNumber: String {
     case Time2 = "time2"
 }
 
-class PillDetailViewModel: CodeBehindDependencies {
+class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     let pill: Swallowable
     static let DefaultViewControllerTitle = VCTitleStrings.pillTitle

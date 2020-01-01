@@ -15,7 +15,7 @@ enum TextFieldButtonSenderType: String {
     case DefaultTextFieldEditor = "type"
 }
 
-class HormoneDetailViewModel: CodeBehindDependencies {
+class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private var expirationIntervalHours: Int{
         sdk?.defaults.expirationInterval.hours ?? DefaultExpirationIntervalHours
@@ -45,7 +45,7 @@ class HormoneDetailViewModel: CodeBehindDependencies {
             return ActionStrings.select
         }
 
-        if let id = hormone.siteId, let siteName = getSite()?.name {
+        if let siteName = getSite()?.name {
             return siteName
         }
 
