@@ -10,16 +10,17 @@ import Foundation
 import UserNotifications
 import PDKit
 
+
 public class DuePillNotification: Notification, DuePillNotifying {
     
-    private let pill: PillStruct
+    private let pill: Swallowable
     
     public var title: String
     public var body: String?
-    public static var actionId = { return "takeActionId" }()
-    public static var categoryId = { return "pillCategoryId" }()
+    public static var actionId = { "takeActionId" }()
+    public static var categoryId = { "pillCategoryId" }()
     
-    init(for pill: PillStruct, totalDue: Int) {
+    init(for pill: Swallowable, totalDue: Int) {
         self.pill = pill
         self.title = NotificationStrings.takePill + pill.name
         super.init(title: self.title, body: self.body, badge: totalDue)

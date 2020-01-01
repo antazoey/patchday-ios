@@ -40,12 +40,12 @@ class PillCell: TableCell {
         return self
     }
     
-    @discardableResult func loadDueDateText(_ pill: PillStruct) -> PillCell {
+    @discardableResult func loadDueDateText(_ pill: Swallowable) -> PillCell {
         nextDueDate.text = DateHelper.format(date: pill.due, useWords: true)
         return self
     }
     
-    @discardableResult func loadLastTakenText(_ pill: PillStruct) -> PillCell {
+    @discardableResult func loadLastTakenText(_ pill: Swallowable) -> PillCell {
         if let lastTaken = pill.lastTaken {
             lastTakenLabel.text = DateHelper.format(date: lastTaken as Date, useWords: true)
         } else {
@@ -54,7 +54,7 @@ class PillCell: TableCell {
         return self
     }
     
-    @discardableResult func loadStateImage(_ pill: PillStruct, index: Index) -> PillCell {
+    @discardableResult func loadStateImage(_ pill: Swallowable, index: Index) -> PillCell {
         stateImageButton.type = .pills
         stateImageButton.restorationIdentifier = "i \(index)"
         stateImageView.image = PDImages.pill
@@ -62,7 +62,7 @@ class PillCell: TableCell {
         return self
     }
     
-    @discardableResult func loadTakeButton(_ pill: PillStruct, index: Index) -> PillCell {
+    @discardableResult func loadTakeButton(_ pill: Swallowable, index: Index) -> PillCell {
         takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
         takeButton.restorationIdentifier = "t \(index)"
         takeButton.isEnabled = !pill.isDone
@@ -90,12 +90,12 @@ class PillCell: TableCell {
     
     // MARK: - Private
     
-    @discardableResult private func loadNameLabel(_ pill: PillStruct) -> PillCell {
+    @discardableResult private func loadNameLabel(_ pill: Swallowable) -> PillCell {
         nameLabel.text = pill.name
         return self
     }
     
-    @discardableResult private func setImageBadge(_ pill: PillStruct) -> PillCell {
+    @discardableResult private func setImageBadge(_ pill: Swallowable) -> PillCell {
         stateImageButton.badgeValue = pill.isDue ? "!" : nil
         return self
     }

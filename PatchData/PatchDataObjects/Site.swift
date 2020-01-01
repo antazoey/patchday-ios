@@ -26,6 +26,10 @@ public class Site: Bodily {
         siteData.hormoneRelationshipIds ?? []
     }
 
+    public var hormoneCount: Int {
+        hormoneIds.count
+    }
+
     public var id: UUID {
         if let id = siteData.id {
             return id

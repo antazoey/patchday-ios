@@ -66,6 +66,8 @@ public class PatchData: NSObject, PatchDataDelegate {
         let hormoneData = HormoneScheduleData(
             deliveryMethod: method, expirationInterval: interval
         )
+
+        let sites = SiteSchedule(coreDataStack: store, defaults: defaultsStore, siteIndexRebounder: indexer)
         
         let hormoneDataBroadcaster = HormoneDataBroadcaster(
             sites: sites,
@@ -79,13 +81,6 @@ public class PatchData: NSObject, PatchDataDelegate {
             coreDataStack: store,
             state: state,
             defaults: defaultsStore
-        )
-
-        let sites = SiteSchedule(
-            coreDataStack: store,
-            defaults: defaultsStore,
-            hormones: hormones,
-            siteIndexRebounder: indexer
         )
         
         let defaults = PDDefaults(

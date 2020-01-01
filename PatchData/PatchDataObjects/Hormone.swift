@@ -45,6 +45,11 @@ public class Hormone: Hormonal {
         }
     }
 
+    public var siteName: SiteName? {
+        get { hormoneData.siteName }
+        set { hormoneData.siteName = newValue }
+    }
+
     public var date: Date {
         get { (hormoneData.date as Date?) ?? Date.createDefaultDate() }
         set { hormoneData.date = newValue }

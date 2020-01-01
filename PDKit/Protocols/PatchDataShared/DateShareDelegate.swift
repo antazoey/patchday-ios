@@ -14,7 +14,7 @@ public protocol DataShareDelegate {
     /// Sets hormone data for other apps and widgets, such as the PatchDay Today widget.
     func broadcastRelevantHormoneData(
         oldestHormone: Hormonal,
-        nextSuggestedSite: SiteName,
+        displayedSiteName: SiteName,
         interval: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethodUD
     )

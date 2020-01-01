@@ -9,6 +9,7 @@
 import Foundation
 import PDKit
 
+
 public protocol HormoneDataBroadcasting {
     func broadcast(nextHormone: Hormonal?)
 }

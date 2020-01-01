@@ -34,6 +34,10 @@ class SiteStore: EntityStore {
         return nil
     }
 
+    func delete(_ site: Bodily) {
+        entities.deleteSiteData([CoreDataEntityAdapter.convertToSiteStruct(site)])
+    }
+
     func save(_ sites: [Bodily]) {
         let siteData = sites.map { s in CoreDataEntityAdapter.convertToSiteStruct(s) }
         self.save(siteData)
@@ -45,6 +49,5 @@ class SiteStore: EntityStore {
 
     private func save(_ siteData: [SiteStruct]) {
         entities.pushSiteData(siteData)
-        stack.save()
     }
 }

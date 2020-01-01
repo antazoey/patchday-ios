@@ -10,11 +10,17 @@ import PDKit
 class CoreDataEntityAdapter {
 
     static func convertToHormoneStruct(_ hormone: MOHormone) -> HormoneStruct {
-        HormoneStruct(hormone.siteRelationship?.id, hormone.id, hormone.date as Date?, hormone.siteNameBackUp)
+        HormoneStruct(
+            hormone.siteRelationship?.id,
+            hormone.id,
+            hormone.siteRelationship?.name,
+            hormone.date as Date?,
+            hormone.siteNameBackUp
+        )
     }
 
     static func convertToHormoneStruct(_ hormone: Hormonal) -> HormoneStruct {
-        HormoneStruct(hormone.site?.id, hormone.id, hormone.date, hormone.siteNameBackUp)
+        HormoneStruct(hormone.siteId, hormone.id, hormone.siteName, hormone.date, hormone.siteNameBackUp)
     }
 
     static func convertToPillStruct(_ pill: MOPill) -> PillStruct {

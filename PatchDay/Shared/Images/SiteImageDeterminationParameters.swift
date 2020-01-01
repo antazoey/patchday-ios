@@ -7,23 +7,18 @@ import PDKit
 
 
 class SiteImageDeterminationParameters {
-    var siteIndex: Index?
     var siteName: SiteName?
     var deliveryMethod: DeliveryMethod
     var theme: PDTheme
 
-    init(siteIndex: Index, siteName: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) {
-        self.siteIndex = siteIndex
+    init(siteName: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) {
         self.siteName = siteName
         self.deliveryMethod = deliveryMethod
         self.theme = theme
     }
 
     init(hormone: Hormonal, deliveryMethod: DeliveryMethod, theme: PDTheme) {
-        if let site = hormone.site {
-            self.siteIndex = site.order
-            self.siteName = site.name
-        }
+        self.siteName = hormone.siteName
         self.deliveryMethod = deliveryMethod
         self.theme = theme
     }

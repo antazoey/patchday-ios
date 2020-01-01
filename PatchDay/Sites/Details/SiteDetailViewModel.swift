@@ -72,7 +72,6 @@ class SiteDetailViewModel: CodeBehindDependencies {
     var siteImage: UIImage {
         if let defaults = sdk?.defaults {
             let params = SiteImageDeterminationParameters(
-                siteIndex: siteIndex,
                 siteName: siteName,
                 deliveryMethod: defaults.deliveryMethod.value,
                 theme: defaults.theme.value

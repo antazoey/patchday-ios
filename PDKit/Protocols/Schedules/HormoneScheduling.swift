@@ -30,6 +30,9 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     
     /// Resets all hormone properties to their default values.
     @discardableResult func reset(completion: (() -> ())?) -> Int
+
+    /// Persists all the changes to the hormones.
+    func saveAll()
     
     /// Deletes a hormone from the schedule.
     func delete(after i: Index)
@@ -37,11 +40,11 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     /// Deletes all the hormones in the schedule.
     func deleteAll()
     
-    /// The hormone at the given index.
+    /// Returns the hormone at the given index.
     func at(_ index: Index) -> Hormonal?
     
-    /// Gets the hormone for the given ID.
-    func get(for id: UUID) -> Hormonal?
+    /// Returns the hormone for the given ID.
+    func get(by id: UUID) -> Hormonal?
     
     /// Sets the date and site for the hormone with the given ID.
     func set(for id: UUID, date: Date, site: Bodily)

@@ -14,11 +14,11 @@ enum TimeNumber: String {
 
 class PillDetailViewModel: CodeBehindDependencies {
 
-    let pill: PillStruct
+    let pill: Swallowable
     static let DefaultViewControllerTitle = VCTitleStrings.pillTitle
     var selections = PillAttributes()
 
-    init(_ pill: PillStruct) {
+    init(_ pill: Swallowable) {
         self.pill = pill
         super.init()
     }

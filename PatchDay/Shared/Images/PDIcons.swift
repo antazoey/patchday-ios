@@ -35,7 +35,7 @@ class PDIcons {
 
     /// Returns a site icon representing the site index
     static func getSiteIndexIcon(for site: Bodily) -> UIIcon {
-        switch site.hormones.count {
+        switch site.hormoneCount {
         case 1: return siteIndexIconOne
         case 2: return siteIndexIconTwo
         case 3: return siteIndexIconThree

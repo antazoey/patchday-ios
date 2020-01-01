@@ -49,8 +49,14 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     /// Inserts a new site into the schedule with the given name.
     @discardableResult func insertNew(name: String, completion: @escaping () -> ()) -> Bodily?
     
-    /// The site at the given index.
+    /// Returns the site at the given index.
     func at(_ index: Index) -> Bodily?
+
+    /// Returns the site for the given ID.
+    func get(by id: UUID) -> Bodily?
+
+    /// Returns the site name for the given ID.
+    func getName(by id: UUID) -> SiteName?
     
     /// Changes the name of a site.
     func rename(at index: Index, to name: SiteName)

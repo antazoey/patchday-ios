@@ -32,6 +32,10 @@ class HormoneStore: EntityStore {
         return nil
     }
 
+    func delete(_ hormone: Hormonal) {
+        entities.deleteHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
+    }
+
     func save(_ hormones: [Hormonal]) {
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
         self.save(hormoneData)
@@ -43,6 +47,5 @@ class HormoneStore: EntityStore {
 
     private func save(_ hormoneData: [HormoneStruct]) {
         entities.pushHormoneData(hormoneData)
-        stack.save()
     }
 }

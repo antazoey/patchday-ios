@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreData
 import PDKit
 
 
@@ -35,7 +34,9 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     ) {
         let store = HormoneStore(coreDataStack)
         self.store = store
-        self.hormones = store.getStoredHormones(expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value)
+        self.hormones = store.getStoredHormones(
+            expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value
+        )
         self.dataBroadcaster = hormoneDataBroadcaster
         self.state = state
         self.defaults = defaults
@@ -53,7 +54,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     public var next: Hormonal? {
         sort()
-        return count > 0 ? hormones[0] : nil
+        return hormones.tryGet(at: 0)
     }
     
     public var totalExpired: Int {
@@ -97,7 +98,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if let comp = completion {
             comp()
         }
-        store.save(hormones)
+        saveAll()
         return hormones.count
     }
 
@@ -106,11 +107,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if count >= start {
             for _ in start..<count {
                 if let hormone = hormones.popLast() {
-                    hormone.delete()
+                    store.delete(hormone)
                 }
             }
-            store.save(hormones)
         }
+    }
+
+    public func saveAll() {
+        store.save(hormones)
     }
     
     public func deleteAll() {
@@ -121,16 +125,13 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.tryGet(at: index)
     }
 
-    public func get(for id: UUID) -> Hormonal? {
-        if let index = hormones.firstIndex(where: { $0.id == id }) {
-            return at(index)
-        }
-        return nil
+    public func get(by id: UUID) -> Hormonal? {
+        hormones.first(where: { h in h.id == id })
     }
 
     public func set(for id: UUID, date: Date, site: Bodily) {
-        if var hormone = get(for: id) {
-            hormone.site = site
+        if var hormone = get(by: id) {
+            hormone.siteId = site.id
             hormone.date = date
             sort()
             saveFromDateAndSiteChange(hormone)
@@ -139,7 +140,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     public func set(at index: Index, date: Date, site: Bodily) {
         if var hormone = at(index) {
-            hormone.site = site
+            hormone.siteId = site.id
             hormone.date = date
             sort()
             saveFromDateAndSiteChange(hormone)
@@ -153,7 +154,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func setSite(for hormone: inout Hormonal, with site: Bodily) {
-        hormone.site = site
+        hormone.siteId = site.id
+        hormone.siteName = site.name
         store.save(hormone)
         state.bodilyChanged = true
         state.onlySiteChanged = true
@@ -210,7 +212,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     private var hasNoSites: Bool {
-        isEmpty || (hormones.filter { $0.site != nil || $0.siteNameBackUp != nil }).count == 0
+        isEmpty || (hormones.filter { $0.siteId != nil || $0.siteNameBackUp != nil }).count == 0
     }
 
     private func broadcastHormones() {

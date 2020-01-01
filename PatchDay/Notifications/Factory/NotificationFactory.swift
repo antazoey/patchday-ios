@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-// This class mainly exists to increase testability in other notifications classes
+
 class NotificationFactory: NotificationProducing {
 
     typealias ExpParams = ExpiredHormoneNotificationCreationParams
@@ -19,7 +19,7 @@ class NotificationFactory: NotificationProducing {
         ExpiredHormoneNotification(params)
     }
     
-    func createDuePillNotification(_ pill: PillStruct, totalDue: Int) -> DuePillNotifying {
+    func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> DuePillNotifying {
         DuePillNotification(for: pill, totalDue: totalDue)
     }
     

@@ -38,7 +38,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         loadTitle()
     }
 
-    static func createPillDetailVC(_ source: UIViewController, _ pill: PillStruct) -> PillDetailVC? {
+    static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
         let id = ViewControllerIds.PillDetail
         if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailVC {
             return vc.initWithPill(pill)
@@ -46,11 +46,10 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         return nil
     }
 
-    fileprivate func initWithPill(_ pill: PillStruct) -> PillDetailVC {
+    fileprivate func initWithPill(_ pill: Swallowable) -> PillDetailVC {
         viewModel = PillDetailViewModel(pill)
         return self
     }
-
 
     // MARK: -- Pill actions
     
@@ -204,25 +203,25 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         }
     }
     
-    private func loadName(from pill: PillStruct) {
+    private func loadName(from pill: Swallowable) {
         nameTextField.text = pill.name
     }
     
-    private func loadNotify(from pill: PillStruct) {
+    private func loadNotify(from pill: Swallowable) {
         notificationSwitch.isOn = pill.notify
     }
     
-    private func loadTimesaday(from pill: PillStruct) {
+    private func loadTimesaday(from pill: Swallowable) {
         let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(timesaday: pill.timesaday)
         timesadaySlider.setValue(sliderValue, animated: false)
         time2Button.isEnabled = pill.timesaday == 2
     }
     
-    private func loadTime1(from pill: PillStruct) {
+    private func loadTime1(from pill: Swallowable) {
         time1Button.setTitle(viewModel?.time1Text ?? "")
     }
     
-    private func loadTime2(from pill: PillStruct) {
+    private func loadTime2(from pill: Swallowable) {
         time2Button.setTitle(viewModel?.time2Text ?? "")
     }
 

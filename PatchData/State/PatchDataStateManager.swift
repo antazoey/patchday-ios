@@ -46,8 +46,8 @@ public class PatchDataStateManager: PDStateManaging {
     /// Prepares the state to represent a proposed site image mutation for a site
     public func markSiteForImageMutation(site: Bodily) {
         state.bodilyChanged = true
-        for hormone in site.hormones {
-            state.mutatedHormoneIds.append(hormone.id)
+        for hormoneId in site.hormoneIds {
+            state.mutatedHormoneIds.append(hormoneId)
         }
     }
 

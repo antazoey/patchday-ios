@@ -22,11 +22,11 @@ public protocol PillScheduling: Schedule, Deleting {
     /// Insert a new pill into the schedule.
     func insertNew(completion: (() -> ())?) -> Swallowable?
 
-    /// The pill at the given index.
+    /// Returns the pill at the given index.
     func at(_ index: Index) -> Swallowable?
     
-    /// Gets the pill for the given ID.
-    func get(for id: UUID) -> Swallowable?
+    /// Returns the pill for the given ID.
+    func get(by id: UUID) -> Swallowable?
     
     /// Sets the pill at the given index with the given attributes.
     func set(at index: Index, with attributes: PillAttributes)

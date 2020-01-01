@@ -26,6 +26,10 @@ class CoreDataEntities {
         self.coreDataStack = coreDataStack
     }
 
+    func getHormoneById(_ id: UUID?) -> MOHormone? {
+        hormoneMOs.first(where: { h in h.id == id })
+    }
+
     func getStoredHormoneData(
         expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod
     ) -> [HormoneStruct] {
@@ -51,15 +55,33 @@ class CoreDataEntities {
 
     func pushHormoneData(_ hormoneData: [HormoneStruct]) {
         for data in hormoneData {
-            if let managedHormone = hormoneMOs.first(where: { h in h.id == data.id }) {
+            if let managedHormone = getHormoneById(data.id) {
                 managedHormone.date = data.date as NSDate?
                 managedHormone.siteNameBackUp = data.siteNameBackUp
 
                 // Set the site
-                let managedSiteRelationship = siteMOs.first(where: { s in s.id == data.siteRelationshipId })
+                let managedSiteRelationship = getSiteById(data.siteRelationshipId ?? nil)
                 managedHormone.siteRelationship = managedSiteRelationship
             }
         }
+        coreDataStack.save()
+    }
+
+    func deleteHormoneData(_ hormoneData: [HormoneStruct]) {
+        for data in hormoneData {
+            if let managedHormone = getHormoneById(data.id) {
+                managedHormone.id = nil
+                managedHormone.date = nil
+                managedHormone.siteNameBackUp = nil
+                managedHormone.siteRelationship = nil
+                coreDataStack.tryDelete(managedHormone)
+                coreDataStack.save()
+            }
+        }
+    }
+
+    func getPillById(_ id: UUID?) -> MOPill? {
+        pillMOs.first(where: { p in p.id == id })
     }
 
     func getStoredPillData() -> [PillStruct] {
@@ -89,7 +111,7 @@ class CoreDataEntities {
 
     func pushPillData(_ pillData: [PillStruct]) {
         for data in pillData {
-            if let managedPill = pillMOs.first(where: { p in p.id == data.id }) {
+            if let managedPill = getPillById(data.id) {
                 managedPill.name = data.attributes.name
                 managedPill.lastTaken = data.attributes.lastTaken as NSDate?
                 managedPill.notify = data.attributes.notify ?? managedPill.notify
@@ -99,6 +121,20 @@ class CoreDataEntities {
                 managedPill.timesTakenToday = Int16(data.attributes.timesTakenToday ?? 0)
             }
         }
+        coreDataStack.save()
+    }
+
+    func deletePillData(_ pillData: [PillStruct]) {
+        for data in pillData {
+            if let managedPill = getPillById(data.id) {
+                coreDataStack.tryDelete(managedPill)
+                coreDataStack.save()
+            }
+        }
+    }
+
+    func getSiteById(_ id: UUID?) -> MOSite? {
+        siteMOs.first(where: { s in s.id == id })
     }
 
     func getStoredSiteData(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [SiteStruct] {
@@ -124,18 +160,33 @@ class CoreDataEntities {
 
     func pushSiteData(_ siteData: [SiteStruct]) {
         for data in siteData {
-            if let site = siteMOs.first(where: { s in s.id == data.id }) {
+            if let site = getSiteById(data.id) {
                 site.name = data.name
                 site.imageIdentifier = data.imageIdentifier
 
                 var hormones: [MOHormone] = []
                 for hormoneId in data.hormoneRelationshipIds ?? [] {
-                    if let hormone = hormoneMOs.first(where: { h in h.id == hormoneId }) {
+                    if let hormone = getHormoneById(hormoneId) {
                         hormones.append(hormone)
                     }
                 }
 
                 site.hormoneRelationship = Set(hormones) as NSSet
+            }
+        }
+        coreDataStack.save()
+    }
+
+    func deleteSiteData(_ siteData: [SiteStruct]) {
+        for data in siteData {
+            if let managedSite = getSiteById(data.id) {
+                managedSite.name = nil
+                managedSite.id = nil
+                managedSite.imageIdentifier = nil
+                managedSite.order = -1
+                pushBackupSiteNameToHormones(deletedSite: managedSite)
+                coreDataStack.tryDelete(managedSite)
+                coreDataStack.save()
             }
         }
     }
@@ -161,5 +212,15 @@ class CoreDataEntities {
             siteMOs = sites
         }
         sitesInitialized = true
+    }
+
+    private func pushBackupSiteNameToHormones(deletedSite: MOSite) {
+        if let hormoneSet = deletedSite.hormoneRelationship,
+           let hormones = Array(hormoneSet) as? [MOHormone] {
+            for hormone in hormones {
+                hormone.siteNameBackUp = deletedSite.name
+            }
+        }
+        coreDataStack.save()
     }
 }

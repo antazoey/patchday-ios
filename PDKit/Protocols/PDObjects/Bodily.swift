@@ -13,6 +13,9 @@ public protocol Bodily: PDObjectified {
     
     /// The hormones in the schedule that you have applied to this site.
     var hormoneIds: [UUID] { get }
+
+    /// The number of hormones on this site.
+    var hormoneCount: Int { get }
     
     /// The ID associated with the image representation of this site.
     var imageId: String { get set }

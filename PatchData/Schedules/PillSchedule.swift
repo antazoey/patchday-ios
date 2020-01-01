@@ -62,7 +62,7 @@ public class PillSchedule: NSObject, PillScheduling {
                 comp()
             }
             meter.broadcastRelevantPillData(nextPill: pill)
-            store.save()
+            store.save(pill)
             return pill
         }
         return nil
@@ -70,9 +70,8 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func delete(at index: Index) {
         if let pill = at(index) {
-            pill.delete()
+            store.delete(pill)
             meter.broadcastRelevantPillData(nextPill: pill)
-            store.save()
         }
     }
 
@@ -85,7 +84,7 @@ public class PillSchedule: NSObject, PillScheduling {
                 pills.append(pill)
             }
         }
-        store.save()
+        store.save(pills)
     }
 
     // MARK: - Public
@@ -94,11 +93,8 @@ public class PillSchedule: NSObject, PillScheduling {
         pills.tryGet(at: index)
     }
 
-    public func get(for id: UUID) -> Swallowable? {
-        if let index = pills.firstIndex(where: { $0.id == id }) {
-            return at(index)
-        }
-        return nil
+    public func get(by id: UUID) -> Swallowable? {
+        pills.first(where: { p in p.id == id })
     }
 
     public func set(at index: Index, with attributes: PillAttributes) {
@@ -110,7 +106,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func set(for pill: Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
-        store.save()
+        store.save(pill)
     }
 
     public func swallow(at index: Index, completion: (() -> ())?) {
@@ -129,7 +125,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func swallow(_ pill: Swallowable) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
-            store.save()
+            store.save(pill)
         }
     }
 
@@ -155,11 +151,11 @@ public class PillSchedule: NSObject, PillScheduling {
         for pill in pills {
             pill.awaken()
         }
-        store.save()
+        store.save(pills)
     }
     
     private func deleteAll() {
-        pills.forEach { (_ p: Swallowable) -> () in p.delete() }
+        pills.forEach { (_ p: Swallowable) -> () in store.delete(p) }
         pills = []
     }
 }

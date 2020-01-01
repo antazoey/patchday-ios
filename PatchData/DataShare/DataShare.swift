@@ -9,6 +9,7 @@
 import Foundation
 import PDKit
 
+
 public class DataShare: DataShareDelegate {
     
     public var defaults: UserDefaults? {
@@ -17,17 +18,12 @@ public class DataShare: DataShareDelegate {
 
     public func broadcastRelevantHormoneData(
         oldestHormone: Hormonal,
-        nextSuggestedSite: SiteName,
+        displayedSiteName: SiteName,
         interval: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethodUD
     ) {
-        var siteName: SiteName
-        switch deliveryMethod.value {
-        case .Patches: siteName = oldestHormone.siteName
-        case .Injections: siteName = nextSuggestedSite
-        }
         if let defs = defaults {
-            defs.set(siteName, forKey: PDStrings.TodayKey.nextHormoneSiteName.rawValue)
+            defs.set(displayedSiteName, forKey: PDStrings.TodayKey.nextHormoneSiteName.rawValue)
             defs.set(oldestHormone.date, forKey: PDStrings.TodayKey.nextHormoneDate.rawValue)
         }
     }

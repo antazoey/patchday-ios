@@ -41,7 +41,15 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     }
 
     var selectSiteTextFieldStartText: String {
-        hormone.hasNoSite ? ActionStrings.select : hormone.siteName
+        if hormone.hasNoSite {
+            return ActionStrings.select
+        }
+
+        if let id = hormone.siteId, let siteName = getSite()?.name {
+            return siteName
+        }
+
+        return SiteStrings.newSite
     }
 
     var expirationDateText: String {
@@ -55,7 +63,7 @@ class HormoneDetailViewModel: CodeBehindDependencies {
     var siteIndexStartRow: Index {
         if selectionState.siteIndexSelected > -1 {
             return selectionState.siteIndexSelected
-        } else if let site = hormone.site {
+        } else if let site = getSite() {
             let order = site.order
             let end = sitesCount
             if order >= 1 && order <= end {
@@ -169,5 +177,12 @@ class HormoneDetailViewModel: CodeBehindDependencies {
             return DateHelper.format(date: expDate, useWords: true)
         }
         return ""
+    }
+
+    private func getSite() -> Bodily? {
+        if let id = hormone.siteId {
+            return sdk?.sites.get(by: id)
+        }
+        return nil
     }
 }

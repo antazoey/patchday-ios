@@ -13,4 +13,5 @@ public protocol PDCoreDataDelegate: Saving {
     func getManagedObjects(entity: PDEntity) -> [Any]?
     func insert(_ entity: PDEntity) -> Any?
     func nuke()
+    func tryDelete(_ managedObject: Any)
 }

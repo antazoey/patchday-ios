@@ -35,6 +35,10 @@ class PillStore: EntityStore {
         return nil
     }
 
+    func delete(_ pill: Swallowable) {
+        entities.deletePillData([CoreDataEntityAdapter.convertToPillStruct(pill)])
+    }
+
     func save(_ pills: [Swallowable]) {
         let pillData = pills.map { p in CoreDataEntityAdapter.convertToPillStruct(p) }
         self.save(pillData)
@@ -46,6 +50,5 @@ class PillStore: EntityStore {
 
     private func save(_ pillData: [PillStruct]) {
         entities.pushPillData(pillData)
-        stack.save()
     }
 }

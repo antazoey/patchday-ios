@@ -49,9 +49,12 @@ class Notifications: NSObject, NotificationScheduling {
     
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
-        if let sdk = sdk, sendingNotifications, sdk.defaults.notifications.value {
+        if let sdk = sdk, sendingNotifications, sdk.defaults.notifications.value,
+           let siteId = hormone.siteId,
+           let siteName = sdk.sites.getName(by: siteId) {
             let params = ExpiredHormoneNotificationCreationParams(
                 hormone: hormone,
+                expiringSiteName: siteName,
                 deliveryMethod: sdk.defaults.deliveryMethod.value,
                 expiration: sdk.defaults.expirationInterval,
                 notificationMinutesBefore: Double(sdk.defaults.notificationsMinutesBefore.value),
@@ -126,7 +129,7 @@ class Notifications: NSObject, NotificationScheduling {
     }
     
     /// Cancels a pill notification.
-    func cancelDuePillNotification(_ pill: Swallowable {
+    func cancelDuePillNotification(_ pill: Swallowable) {
         center.removeNotifications(with: [pill.id.uuidString])
     }
     
