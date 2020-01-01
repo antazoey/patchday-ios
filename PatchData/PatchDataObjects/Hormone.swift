@@ -108,11 +108,15 @@ public class Hormone: Hormonal {
     }
 
     public var isEmpty: Bool {
-        date.isDefault() && hasNoSite
+        date.isDefault() && !hasSite
     }
 
-    public var hasNoSite: Bool {
-        siteId == nil && siteNameBackUp == nil
+    public var hasSite: Bool {
+        siteId != nil || siteNameBackUp != nil
+    }
+
+    public var hasDate: Bool {
+        !date.isDefault()
     }
     
     public func stamp() {

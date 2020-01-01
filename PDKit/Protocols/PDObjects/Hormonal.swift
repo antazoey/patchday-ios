@@ -48,8 +48,11 @@ public protocol Hormonal: PDObjectified {
     /// If this hormone without a site and date placed.
     var isEmpty: Bool { get }
     
-    /// If this hormone is without a site.
-    var hasNoSite: Bool { get }
+    /// If this hormone has a site.
+    var hasSite: Bool { get }
+
+    /// If this hormone has a date.
+    var hasDate: Bool { get }
     
     /// Sets the date to now.
     func stamp()

@@ -30,7 +30,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -53,7 +53,7 @@
                                                     <color key="titleColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="chooseDateTextTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="SJe-Qb-zIN"/>
+                                                    <action selector="selectDateTextTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="nRI-Ca-6qf"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -99,7 +99,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -151,7 +151,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -215,7 +215,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -240,7 +240,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="smallSystem"/>
+                                            <font key="NSFont" metaFont="message" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -269,8 +269,7 @@
                         <outlet property="autofillButton" destination="ynp-FM-Qea" id="p6a-DJ-tSw"/>
                         <outlet property="bigGapUnderDateAppliedViews" destination="KTZ-2V-ijz" id="qhi-9j-chE"/>
                         <outlet property="bigGapUnderExpirationDateViews" destination="nz8-r5-Kzo" id="ZTI-Bx-15n"/>
-                        <outlet property="chooseDateButton" destination="tNJ-il-X3d" id="xiX-wL-sVr"/>
-                        <outlet property="dateAndTimeAppliedLabel" destination="1DI-qg-8qA" id="Y3U-dW-IKx"/>
+                        <outlet property="dateAndTimeAppliedHeader" destination="1DI-qg-8qA" id="FiL-ET-lZr"/>
                         <outlet property="datePicker" destination="QuF-JW-mey" id="YOK-wC-9vj"/>
                         <outlet property="datePickerInputView" destination="9JP-Ip-SdW" id="SaG-mL-9WA"/>
                         <outlet property="expirationDateLabel" destination="vei-Lg-bch" id="zbQ-5a-go0"/>
@@ -280,13 +279,14 @@
                         <outlet property="lineUnderDateAndTimeAppliedLabel" destination="foS-VQ-Nyg" id="BOB-2o-eRQ"/>
                         <outlet property="lineUnderExpirationDate" destination="RTx-3W-wfr" id="l9v-id-Yyh"/>
                         <outlet property="lineUnderScheduleDate" destination="WkF-j9-qHW" id="X3V-fV-bUg"/>
+                        <outlet property="selectDateButton" destination="tNJ-il-X3d" id="0p7-Fs-7IG"/>
                         <outlet property="selectSiteTextField" destination="ptS-v2-B6E" id="iwc-cq-wQ1"/>
                         <outlet property="siteLabel" destination="2sx-PL-C2B" id="kPa-cJ-5tU"/>
                         <outlet property="sitePicker" destination="dlM-ae-RCE" id="sqy-XR-KjU"/>
                         <outlet property="siteStackView" destination="aYp-qX-JWk" id="uCi-fB-toA"/>
                         <outlet property="topConstraint" destination="tVn-fM-3ni" id="00O-Jj-ls7"/>
                         <outlet property="typeSiteButton" destination="suw-Ai-Pxz" id="7ja-7P-Z5r"/>
-                        <outlet property="verticalLineInSiteStack" destination="Jlx-Ur-1Gi" id="TTC-SZ-rgg"/>
+                        <outlet property="verticalLineInSiteStack" destination="Jlx-Ur-1Gi" id="AZl-U4-bIE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JX4-78-f30" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -544,7 +544,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="smallSystem"/>
+                                                            <font key="NSFont" metaFont="message" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>

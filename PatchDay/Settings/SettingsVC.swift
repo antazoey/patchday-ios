@@ -68,7 +68,7 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         title = VCTitleStrings.settingsTitle
-        quantityLabel.text = ColonedStrings.count
+        quantityLabel.text = ColonStrings.count
         quantityButton.tag = 10
         setTopConstraint()
         loadButtonSelectedStates()

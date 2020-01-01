@@ -9,13 +9,7 @@
 import Foundation
 
 
-public struct HormoneViewStrings {
-    public var expirationText: String
-    public var dateAndTimePlacedText: String
-    public var siteLabelText: String
-}
-
-public class ColonedStrings {
+public class ColonStrings {
 
     private static let c1 = "Displayed on a label, plenty of room."
     private static let c2 = "Label next to date. Easy on room."

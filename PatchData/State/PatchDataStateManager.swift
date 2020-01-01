@@ -54,7 +54,7 @@ public class PatchDataStateManager: PDStateManaging {
     /// Whether the current state reflects an update-worthy mutation
     private func hormoneHasStateChanges(_ hormone: Hormonal, at index: Index, quantity: Int) -> Bool {
         var hormoneChanged = false
-        state.isPlaceholder = hormone.hasNoSite
+        state.isPlaceholder = !hormone.hasSite
         if index < quantity {
             hormoneChanged = checkHormoneMutationStatus(for: hormone.id)
         }

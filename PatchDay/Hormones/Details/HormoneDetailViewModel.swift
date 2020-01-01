@@ -40,8 +40,16 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         DateHelper.format(date: dateSelected, useWords: true)
     }
 
+    var selectDateButtonStartText: String {
+        if !hormone.hasDate {
+            return ActionStrings.select
+        }
+
+        return DateHelper.format(date: hormone.date, useWords: true)
+    }
+
     var selectSiteTextFieldStartText: String {
-        if hormone.hasNoSite {
+        if !hormone.hasSite {
             return ActionStrings.select
         }
 
@@ -88,7 +96,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     func createHormoneViewStrings() -> HormoneViewStrings {
         let method = sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod
-        return ColonedStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
+        return ColonStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
     }
 
     @discardableResult func trySelectSite(at row: Index) -> String? {
