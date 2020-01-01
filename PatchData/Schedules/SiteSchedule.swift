@@ -19,6 +19,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private let defaults: UserDefaultsStoring
     private var sites: [Bodily]
     let siteIndexRebounder: PDIndexRebounce
+
+    let log = PDLog<SiteSchedule>()
     
     init(
         coreDataStack: CoreDataStackWrapper,
@@ -32,9 +34,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         self.sites = store.getStoredSites(expirationInterval: exp, deliveryMethod: method)
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
-        if sites.count == 0 {
-            reset()
-        }
+        handleSiteCount()
         sort()
     }
     
@@ -97,7 +97,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
                 return false
             }
         }
-        return true
+        return false  // if there are no sites, than it is not default
     }
     
     public func insertNew() -> Bodily? {
@@ -130,6 +130,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     @discardableResult public func reset() -> Int {
         let method = defaults.deliveryMethod.value
         if isDefault {
+            log.warn("Resetting sites unnecessary because already default")
             return sites.count
         }
         let resetNames = SiteStrings.getSiteNames(for: method)
@@ -269,5 +270,12 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
         return store.createNewSite(expirationInterval: exp, deliveryMethod: method)
+    }
+
+    private func handleSiteCount() {
+        if sites.count == 0 {
+            log.info("No stored sites - resetting to default")
+            reset()
+        }
     }
 }
