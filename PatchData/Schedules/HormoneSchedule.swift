@@ -43,7 +43,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         self.state = state
         self.defaults = defaults
         super.init()
-        handleHormoneCount()
+        reset()
         sort()
         broadcastHormones()
     }
@@ -86,7 +86,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.sort(by: HormoneComparator.lessThan)
     }
 
-    @discardableResult public func handleHormoneCount() -> Int {
+    @discardableResult public func reset() -> Int {
         if hormones.count == 0 {
             log.info("No stored hormones - resetting to default")
             return reset(completion: nil)

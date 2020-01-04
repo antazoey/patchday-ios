@@ -52,6 +52,13 @@ public class PatchData: NSObject, PatchDataDelegate {
     
     public override convenience init() {
         let store = CoreDataStackWrapper()
+
+        // ******************************************************
+        // Uncomment out to nuke the databases
+        // ******************************************************
+        store.nuke()
+        // ******************************************************
+
         let dataMeter = DataShare()
         let state = PDState()
         let defaultsStore = PDDefaultsStore(
@@ -119,9 +126,9 @@ public class PatchData: NSObject, PatchDataDelegate {
 
     public func nuke() {
         coreData.nuke()
-        hormones.handleHormoneCount()
+        hormones.reset()
         pills.reset()
-        let newSiteCount = sites.handleHormoneCount()
+        let newSiteCount = sites.reset()
         defaults.reset(defaultSiteCount: newSiteCount)
     }
     

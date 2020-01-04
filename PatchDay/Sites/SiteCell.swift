@@ -12,7 +12,7 @@ import PDKit
 
 class SiteCell: TableCell {
 
-    private var props: SiteCellProperties?
+    private var props: SiteCellProperties!
     
     @IBOutlet weak var orderLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -22,12 +22,10 @@ class SiteCell: TableCell {
 
     @discardableResult func configure(props: SiteCellProperties) -> SiteCell {
         self.props = props
-        orderLabel.text = "\(props.rowIndex + 1)."
-        nextLabel.isHidden = nextTitleShouldHide(at: props.rowIndex, isEditing: isEditing)
+        loadOrderDependentViews()
         loadSiteProperties()
         reflectTheme()
         prepareBackgroundSelectedView()
-        reflectActionState(cellIndex: props.rowIndex, actionState: .Reading)
         return self
     }
 
@@ -41,15 +39,23 @@ class SiteCell: TableCell {
         }
     }
 
+    private func loadOrderDependentViews() {
+        if let order = props.site?.order {
+            orderLabel.text = "\(order + 1)."
+            nextLabel.isHidden = nextTitleShouldHide(at: order, isEditing: isEditing)
+            reflectActionState(cellIndex: order, actionState: .Reading)
+        }
+    }
+
     private func loadSiteProperties() {
-        if let site = props?.site {
-            nameLabel.text = site.name
+        nameLabel.text = props.site?.name
+        if let site = props.site {
             siteIndexImageView.image = loadSiteIndexImage(for: site)?.withRenderingMode(.alwaysTemplate)
         }
     }
 
     private func reflectTheme() {
-        if let theme = props?.theme {
+        if let theme = props.theme {
             orderLabel.textColor = theme[.text]
             arrowLabel.textColor = theme[.text]
             nameLabel.textColor = theme[.purple]
@@ -65,15 +71,12 @@ class SiteCell: TableCell {
     
     /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        if let rowIndex = props?.rowIndex {
-            return rowIndex != index || isEditing
-        }
-        return isEditing
+        props.site?.order != index || isEditing
     }
     
     private func prepareBackgroundSelectedView() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = props?.theme?[.selected]
+        backgroundView.backgroundColor = props.theme?[.selected]
         selectedBackgroundView = backgroundView
     }
 }

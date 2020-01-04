@@ -50,6 +50,13 @@ public class PDLog<T> {
 
     private func printMessage(_ message: String, status: LogStatus) {
         let symbol = symbolMap[status] ?? ""
-        print("\(symbol) \(status.rawValue) (\(context)) \(symbol) - \(message).")
+        print("\(symbol) \(status.rawValue) \(bundle).\(context) \(symbol) ::: \(message).")
+    }
+
+    private var bundle: String {
+        if let type = T.self as? AnyClass.Type {
+            return Bundle(for: type).bundleIdentifier ?? ""
+        }
+        return ""
     }
 }

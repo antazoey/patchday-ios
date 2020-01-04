@@ -14,9 +14,10 @@ class SiteStore: EntityStore {
 
     func getStoredSites(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Bodily] {
         var sites: [Bodily] = []
-        for siteData in entities.getStoredSiteData(
+        let siteDataEntries = entities.getStoredSiteData(
             expirationInterval: expirationInterval, deliveryMethod: deliveryMethod
-        ) {
+        )
+        for siteData in siteDataEntries {
             let site = Site(siteData: siteData, expirationInterval: expirationInterval, deliveryMethod: deliveryMethod)
             sites.append(site)
         }

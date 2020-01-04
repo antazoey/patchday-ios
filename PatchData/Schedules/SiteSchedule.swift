@@ -127,31 +127,11 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return site
     }
 
-    @discardableResult public func handleHormoneCount() -> Int {
-        let method = defaults.deliveryMethod.value
+    @discardableResult public func reset() -> Int {
         if isDefault {
-            log.warn("Resetting sites unnecessary because already default")
-            return sites.count
+            return handleDefaultStateDuringReset()
         }
-        let resetNames = SiteStrings.getSiteNames(for: method)
-        let oldCount = sites.count
-        let newCount = resetNames.count
-        for i in 0..<newCount {
-            if i < oldCount {
-                sites[i].order = i
-                sites[i].name = resetNames[i]
-                sites[i].imageId = resetNames[i]
-            } else if var site = insertNew() {
-                site.name = resetNames[i]
-                site.imageId = resetNames[i]
-            }
-        }
-        if oldCount > resetNames.count {
-            for i in resetNames.count..<oldCount {
-                sites[i].reset()
-            }
-        }
-        sort()
+        resetSitesToDefault()
         store.save(sites)
         return sites.count
     }
@@ -276,7 +256,55 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private func handleSiteCount() {
         if sites.count == 0 {
             log.info("No stored sites - resetting to default")
-            handleHormoneCount()
+            reset()
+            logSites()
+        }
+    }
+
+    @discardableResult private func handleDefaultStateDuringReset() -> Int {
+        log.warn("Resetting sites unnecessary because already default")
+        return sites.count
+    }
+
+    private func resetSitesToDefault() {
+        let defaultSiteNames = SiteStrings.getSiteNames(for: defaults.deliveryMethod.value)
+        let previousCount = sites.count
+        assignDefaultSiteProperties(options: defaultSiteNames, previousCount: previousCount)
+        handleExtraSitesFromReset(previousCount: previousCount, defaultSiteNamesCount: defaultSiteNames.count)
+    }
+
+    private func assignDefaultSiteProperties(options: [String], previousCount: Int) {
+        for i in 0..<options.count {
+            if i < previousCount {
+                setSite(&sites[i], index: i, name: options[i])
+            } else if var site = insertNew() {
+                setSite(&site, index: i, name: options[i])
+            }
+        }
+    }
+
+    private func setSite(_ site: inout Bodily, index: Index, name: String) {
+        site.order = index
+        site.name = name
+        site.imageId = name
+    }
+
+    private func handleExtraSitesFromReset(previousCount: Int, defaultSiteNamesCount: Int) {
+        if previousCount > defaultSiteNamesCount {
+            resetSites(start: defaultSiteNamesCount, end: previousCount - 1)
+        }
+    }
+
+    private func resetSites(start: Index, end: Index) {
+        for i in start...end {
+            sites[i].reset()
+        }
+    }
+
+    private func logSites() {
+        log.info("Logging sites...")
+        for site in sites {
+            log.info("Site. Id=\(site.id), Order=\(site.order), Name=\(site.name)")
         }
     }
 }

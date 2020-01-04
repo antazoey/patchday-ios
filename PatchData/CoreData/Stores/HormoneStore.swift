@@ -12,11 +12,14 @@ import PDKit
 
 class HormoneStore: EntityStore {
 
+    private let log = PDLog<HormoneStore>()
+
     func getStoredHormones(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal] {
         var hormones: [Hormonal] = []
-        for hormoneData in entities.getStoredHormoneData(
+        let hormoneDataEntries = entities.getStoredHormoneData(
             expirationInterval: expiration, deliveryMethod: deliveryMethod
-        ) {
+        )
+        for hormoneData in hormoneDataEntries {
             let hormone = Hormone(hormoneData: hormoneData, interval: expiration, deliveryMethod: deliveryMethod)
             hormones.append(hormone)
         }

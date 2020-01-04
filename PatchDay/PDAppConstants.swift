@@ -6,8 +6,6 @@
 import UIKit
 
 
-let isResetMode = false  // Change this to true to nuke the database
-
 let DefaultNumberOfPickerComponents = 1
 let DefaultNumberOfTableSections = 1
 

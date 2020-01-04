@@ -25,11 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var badge: PDBadgeDelegate = PDBadge()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        if isResetMode {
-            sdk.nuke()
-            return false
-        }
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
         self.alerts = AlertDispatcher(sdk: sdk)
         self.styles = Stylist(theme: self.sdk.defaults.theme.value)

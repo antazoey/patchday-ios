@@ -220,6 +220,7 @@ class CoreDataEntities {
             if let site = getSiteById(data.id) {
                 site.name = data.name
                 site.imageIdentifier = data.imageIdentifier
+                site.order = Int16(data.order)
 
                 var hormones: [MOHormone] = []
                 for hormoneId in data.hormoneRelationshipIds ?? [] {

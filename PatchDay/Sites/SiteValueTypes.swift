@@ -14,7 +14,6 @@ struct SiteImageStruct {
 
 struct SiteCellProperties {
     var site: Bodily?
-    var rowIndex: Index = 0
     var totalSiteCount: Int = 0
     var nextSiteIndex: Int = 0
     var theme: AppTheme?

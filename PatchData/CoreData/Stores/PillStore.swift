@@ -14,7 +14,8 @@ class PillStore: EntityStore {
 
     func getStoredPills() -> [Swallowable] {
         var pills: [Swallowable] = []
-        for pillData in entities.getStoredPillData() {
+        let pillDataEntries = entities.getStoredPillData()
+        for pillData in pillDataEntries {
             let pill = Pill(pillData: pillData)
             pills.append(pill)
         }
