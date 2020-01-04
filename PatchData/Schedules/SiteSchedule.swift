@@ -127,7 +127,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return site
     }
 
-    @discardableResult public func reset() -> Int {
+    @discardableResult public func handleHormoneCount() -> Int {
         let method = defaults.deliveryMethod.value
         if isDefault {
             log.warn("Resetting sites unnecessary because already default")
@@ -158,6 +158,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     public func delete(at index: Index) {
         if let site = at(index) {
+            log.info("Deleting site at index \(index)")
             store.delete(site)
             
             let start = index + 1
@@ -275,7 +276,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private func handleSiteCount() {
         if sites.count == 0 {
             log.info("No stored sites - resetting to default")
-            reset()
+            handleHormoneCount()
         }
     }
 }

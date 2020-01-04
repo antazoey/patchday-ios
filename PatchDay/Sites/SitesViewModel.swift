@@ -43,7 +43,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
     func resetSites() {
         if let sites = sdk?.sites {
-            sites.reset()
+            sites.handleHormoneCount()
         }
         sitesTable.reloadCells()
     }

@@ -1,5 +1,5 @@
 //
-//  PDDateSharing.swift
+//  DataShareDelegate.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 9/9/19.
@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 
 public protocol DataShareDelegate {
     var defaults: UserDefaults? { get }

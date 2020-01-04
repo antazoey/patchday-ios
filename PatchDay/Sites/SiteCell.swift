@@ -16,7 +16,7 @@ class SiteCell: TableCell {
     
     @IBOutlet weak var orderLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var siteIndexImage: UIImageView!
+    @IBOutlet weak var siteIndexImageView: UIImageView!
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
 
@@ -35,7 +35,7 @@ class SiteCell: TableCell {
         let shouldHide = actionState == .Editing
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
-        siteIndexImage.isHidden = shouldHide
+        siteIndexImageView.isHidden = shouldHide
         if cellIndex == props?.nextSiteIndex {
             nextLabel.isHidden = shouldHide
         }
@@ -44,7 +44,7 @@ class SiteCell: TableCell {
     private func loadSiteProperties() {
         if let site = props?.site {
             nameLabel.text = site.name
-            siteIndexImage.image = loadSiteIndexImage(for: site)?.withRenderingMode(.alwaysTemplate)
+            siteIndexImageView.image = loadSiteIndexImage(for: site)?.withRenderingMode(.alwaysTemplate)
         }
     }
 
@@ -54,7 +54,7 @@ class SiteCell: TableCell {
             arrowLabel.textColor = theme[.text]
             nameLabel.textColor = theme[.purple]
             nextLabel.textColor = theme[.green]
-            siteIndexImage.tintColor = theme[.text]
+            siteIndexImageView.tintColor = theme[.text]
             backgroundColor = theme[.bg]
         }
     }

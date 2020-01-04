@@ -31,12 +31,7 @@ public class Site: Bodily {
     }
 
     public var id: UUID {
-        if let id = siteData.id {
-            return id
-        }
-        let id = UUID()
-        siteData.id = id
-        return id
+        siteData.id
     }
     
     public var imageId: String {

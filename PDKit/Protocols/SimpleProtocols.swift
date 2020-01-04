@@ -27,6 +27,6 @@ public protocol Deleting {
 public protocol Resetting {
  
     /// Reset all properties to their default values and returns the new count.
-    @discardableResult func reset() -> Int
+    @discardableResult func handleHormoneCount() -> Int
 
 }

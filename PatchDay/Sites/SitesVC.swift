@@ -13,7 +13,6 @@ class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var sitesView: UIView!
     @IBOutlet weak var sitesTableView: UITableView!
-    @IBOutlet weak var orderTitle: UILabel!
     
     private var viewModel: SitesViewModel?
     private let RowHeight: CGFloat = 55.0

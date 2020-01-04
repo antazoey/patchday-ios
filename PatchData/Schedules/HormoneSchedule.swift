@@ -24,6 +24,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private var state: PDState
     private let defaults: UserDefaultsStoring
     private var hormones: [Hormonal]
+
+    private let log = PDLog<HormoneSchedule>()
     
     init(
         data: HormoneScheduleData,
@@ -41,7 +43,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         self.state = state
         self.defaults = defaults
         super.init()
-        reset()
+        handleHormoneCount()
         sort()
         broadcastHormones()
     }
@@ -84,8 +86,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.sort(by: HormoneComparator.lessThan)
     }
 
-    @discardableResult public func reset() -> Int {
-        reset(completion: nil)
+    @discardableResult public func handleHormoneCount() -> Int {
+        if hormones.count == 0 {
+            log.info("No stored hormones - resetting to default")
+            return reset(completion: nil)
+        }
+        return hormones.count
     }
 
     @discardableResult public func reset(completion: (() -> ())?) -> Int {

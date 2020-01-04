@@ -119,9 +119,9 @@ public class PatchData: NSObject, PatchDataDelegate {
 
     public func nuke() {
         coreData.nuke()
-        hormones.reset()
+        hormones.handleHormoneCount()
         pills.reset()
-        let newSiteCount = sites.reset()
+        let newSiteCount = sites.handleHormoneCount()
         defaults.reset(defaultSiteCount: newSiteCount)
     }
     

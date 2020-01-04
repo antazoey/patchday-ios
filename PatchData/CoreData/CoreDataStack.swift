@@ -13,41 +13,34 @@ import PDKit
 
 public class CoreDataStack: NSObject {
 
+    private static var container: NSPersistentContainer?
     private static let log = PDLog<CoreDataStack>()
-    
+
     static let persistentContainerKey = "patchData"
-    static let testContainerKey = "patchDataTest"
+    static let testContainerKey = "patchDataTest"  // For experimental purposes
     static let hormoneEntityName = "Hormone"
     static let hormoneProps = ["date", "id", "siteNameBackUp"]
     static let siteEntityName = "Site"
     static let siteProps = ["order", "name"]
     static let pillEntityName = "Pill"
-    static let pillProps = [
-            "name",
-            "timesaday",
-            "time1",
-            "time2",
-            "notify",
-            "timesTakenToday",
-            "lastTaken"
-    ]
+    static let pillProps = ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"]
     
     // MARK: - Public
     
     override public var description: String {
-        """
-        PatchData is home of the Core Data stack
-        and static methods for Core Data calls.
-        In the PatchData package, the schedules
-        use the PatchData object to create their
-        managed object arrays.
-        """
+        "Implements the Core Data stack"
     }
 
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer {
-        getPatchDataContainer(for: persistentContainerKey)
+        if let container = container {
+            return container
+        } else {
+            let newContainer = getPersistentContainer(for: persistentContainerKey)
+            container = newContainer
+            return newContainer
+        }
     }
 
     /// The current view context
@@ -56,7 +49,7 @@ public class CoreDataStack: NSObject {
     }
     
     /// Saves the all changed data in the persistentContainer.
-    static func save() {
+    static func save(saverName: String) {
         if persistentContainer.viewContext.hasChanges {
             do {
                 try persistentContainer.viewContext.save()
@@ -65,7 +58,7 @@ public class CoreDataStack: NSObject {
                 return
             }
         } else {
-            log.warn("Save was called without changes")
+            log.info("\(saverName) - save was called without changes")
         }
     }
     
@@ -74,42 +67,39 @@ public class CoreDataStack: NSObject {
         NSEntityDescription.insertNewObject(forEntityName: entity.rawValue, into: context)
     }
     
-    static func getManagedObjects(entity: PDEntity) -> [NSManagedObject]? {
+    static func getManagedObjects(entity: PDEntity) -> [NSManagedObject] {
         let keys = getEntityKey(for: entity)
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: keys.name)
         fetchRequest.propertiesToFetch = keys.props
         do {
-            // Load user data if it exists
-            let mos = try context.fetch(fetchRequest)
-            if mos.count > 0 {
-                return mos
-            }
+            return try context.fetch(fetchRequest)
         } catch {
-            log.error("Data Fetch Request Failed for entity \(entity.rawValue)")
+            log.error("Data fetch request failed for entity \(entity.rawValue)")
         }
-        return nil
+        return []
     }
     
     /// Deletes all the managed objects in the context
     static func nuke() {
         PDEntity.allCases.forEach {e in
-            if let mos = getManagedObjects(entity: e) {
-                for mo: NSManagedObject in mos {
-                    context.delete(mo)
-                }
+            let managedObjects = getManagedObjects(entity: e)
+            for obj: NSManagedObject in managedObjects {
+                context.delete(obj)
             }
         }
-        save()
+        save(saverName: "Nuke function")
     }
     
     // MARK: - Private
     
-    private static func getPatchDataContainer(for name: String) -> NSPersistentContainer {
+    private static func getPersistentContainer(for name: String) -> NSPersistentContainer {
         let container = NSPersistentContainer(name: name)
         container.loadPersistentStores(completionHandler: {
             (storeDescription, error) in
+            self.log.info("Loaded persistent store '\(name)' of type \(storeDescription.type)")
             if let error = error as NSError? {
                 self.log.error(error)
+                fatalError()
             }
         })
         return container

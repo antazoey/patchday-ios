@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public protocol PDStateManaging {
     func stampQuantity()
     func reset()

@@ -26,8 +26,10 @@ public class PDLog<T> {
         self.context = String(describing: T.self)
     }
 
-    public func info(_ message: String) {
-        printMessage(message, status: .INFO)
+    public func info(_ message: String, silence: Bool=false) {
+        if (!silence) {
+            printMessage(message, status: .INFO)
+        }
     }
 
     public func warn(_ message: String) {

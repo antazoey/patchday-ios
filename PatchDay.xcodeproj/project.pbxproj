@@ -106,7 +106,7 @@
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
 		9D003EB3233330CE0070C964 /* PDSiteIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EB2233330CE0070C964 /* PDSiteIndexer.swift */; };
 		9D003EC1233599A90070C964 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC0233599A90070C964 /* Schedule.swift */; };
-		9D003EC323359B2D0070C964 /* CoreDataCalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* CoreDataCalling.swift */; };
+		9D003EC323359B2D0070C964 /* PDCoreDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* PDCoreDataDelegate.swift */; };
 		9D003EC523359E990070C964 /* KeyStorableHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC423359E990070C964 /* KeyStorableHelper.swift */; };
 		9D1BC57E2277F45F00552BC1 /* PickerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* PickerOptions.swift */; };
 		9D1C2999236D2CB800488564 /* Storing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* Storing.swift */; };
@@ -422,7 +422,7 @@
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
 		9D003EB2233330CE0070C964 /* PDSiteIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSiteIndexer.swift; sourceTree = "<group>"; };
 		9D003EC0233599A90070C964 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
-		9D003EC223359B2D0070C964 /* CoreDataCalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCalling.swift; sourceTree = "<group>"; };
+		9D003EC223359B2D0070C964 /* PDCoreDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataDelegate.swift; sourceTree = "<group>"; };
 		9D003EC423359E990070C964 /* KeyStorableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorableHelper.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* PickerOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerOptions.swift; sourceTree = "<group>"; };
@@ -935,7 +935,7 @@
 			children = (
 				9D003E9C232737D30070C964 /* DateShareDelegate.swift */,
 				9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */,
-				9D003EC223359B2D0070C964 /* CoreDataCalling.swift */,
+				9D003EC223359B2D0070C964 /* PDCoreDataDelegate.swift */,
 			);
 			path = PatchDataShared;
 			sourceTree = "<group>";
@@ -1850,7 +1850,7 @@
 				9D913BA42304ED7B001FC03C /* PillScheduling.swift in Sources */,
 				9DDF47E3234D6EE2005AA467 /* ColonStrings.swift in Sources */,
 				9D003EC523359E990070C964 /* KeyStorableHelper.swift in Sources */,
-				9D003EC323359B2D0070C964 /* CoreDataCalling.swift in Sources */,
+				9D003EC323359B2D0070C964 /* PDCoreDataDelegate.swift in Sources */,
 				9D72A9172342FB8F0030D460 /* PDState.swift in Sources */,
 				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
 				9D003EC1233599A90070C964 /* Schedule.swift in Sources */,

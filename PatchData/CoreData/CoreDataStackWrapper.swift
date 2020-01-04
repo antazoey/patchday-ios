@@ -15,8 +15,8 @@ class CoreDataStackWrapper: PDCoreDataDelegate {
 
     private let log = PDLog<CoreDataStackWrapper>()
 
-    func save() {
-        CoreDataStack.save()
+    func save(saverName: String) {
+        CoreDataStack.save(saverName: saverName)
     }
 
     func getManagedObjects(entity: PDEntity) -> [Any]? {

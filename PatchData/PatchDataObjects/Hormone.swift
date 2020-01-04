@@ -26,10 +26,7 @@ public class Hormone: Hormonal {
 
     public var id: UUID {
         get {
-            hormoneData.id ?? {
-                hormoneData.id = UUID()
-                return hormoneData.id!
-            }()
+            hormoneData.id
         } set {
             hormoneData.id = newValue
         }
@@ -124,7 +121,6 @@ public class Hormone: Hormonal {
     }
 
     public func reset() {
-        hormoneData.id = nil
         hormoneData.date = nil
         hormoneData.siteRelationshipId = nil
         hormoneData.siteNameBackUp = nil

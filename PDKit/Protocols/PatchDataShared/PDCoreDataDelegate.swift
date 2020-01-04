@@ -1,5 +1,5 @@
 //
-//  PatchDataCalling.swift
+//  PDCoreDataDelegate.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 9/20/19.
@@ -9,7 +9,8 @@
 import Foundation
 
 
-public protocol PDCoreDataDelegate: Saving {
+public protocol PDCoreDataDelegate {
+    func save(saverName: String)
     func getManagedObjects(entity: PDEntity) -> [Any]?
     func insert(_ entity: PDEntity) -> Any?
     func nuke()

@@ -8,14 +8,14 @@ import Foundation
 
 public struct HormoneStruct {
     public var siteRelationshipId: UUID?
-    public var id: UUID?
+    public var id: UUID
     public var siteName: SiteName?
     public var date: Date?
     public var siteNameBackUp: String?
 
     public init(
         _ siteRelationshipId: UUID?,
-        _ id: UUID?,
+        _ id: UUID,
         _ siteName: SiteName?,
         _ date: Date?,
         _ siteNameBackUp: String?
