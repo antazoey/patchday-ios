@@ -12,6 +12,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
     var sites: HormoneSiteScheduling?
     var stylist: Styling?
 
+    let RowHeight: CGFloat = 55.0
+
     init(_ table: UITableView) {
         super.init(table, primaryCellReuseId: CellReuseIds.Site)
         table.backgroundColor = stylist?.theme[.bg]

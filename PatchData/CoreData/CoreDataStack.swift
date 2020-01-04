@@ -43,16 +43,14 @@ public class CoreDataStack: NSObject {
         }
     }
 
-    /// The current view context
     static var context: NSManagedObjectContext {
         persistentContainer.viewContext
     }
-    
-    /// Saves the all changed data in the persistentContainer.
+
     static func save(saverName: String) {
-        if persistentContainer.viewContext.hasChanges {
+        if context.hasChanges {
             do {
-                try persistentContainer.viewContext.save()
+                try context.save()
             } catch {
                 self.log.error("Failed saving core data")
                 return
@@ -61,9 +59,9 @@ public class CoreDataStack: NSObject {
             log.info("\(saverName) - save was called without changes")
         }
     }
-    
+
     /// Insert a Core Data entity into the view context
-    static func insert(_ entity: PDEntity) -> NSManagedObject? {
+    static func insertIntoContext(_ entity: PDEntity) -> NSManagedObject? {
         NSEntityDescription.insertNewObject(forEntityName: entity.rawValue, into: context)
     }
     

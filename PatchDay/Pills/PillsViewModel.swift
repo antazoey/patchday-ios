@@ -6,13 +6,15 @@
 import Foundation
 import PDKit
 
+
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
-    var pillsTable: PillsTable
+    var pillsTable: PillsTable! = nil
 
-    init(pillsTable: PillsTable) {
-        self.pillsTable = pillsTable
+    init(pillsTableView: UITableView) {
         super.init()
+        let tableWrapper = PillsTable(pillsTableView, pills: pills, theme: styles?.theme)
+        self.pillsTable = tableWrapper
         addObserverForUpdatingPillTableWhenEnteringForeground()
     }
 

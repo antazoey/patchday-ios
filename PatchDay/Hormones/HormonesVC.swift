@@ -16,13 +16,13 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonesTableView: UITableView!
     
-    var viewModel: HormonesViewModel?
+    var viewModel: HormonesViewModel!
     
     // MARK: - Main
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initViewModel()
+        initViewModelIfNil()
         setTableDelegate()
         loadTitle()
         loadBarButtons()
@@ -30,21 +30,22 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        initViewModelIfNil()
         fadeInView()
         applyTheme()
-        viewModel?.presentDisclaimerAlert()
+        viewModel.presentDisclaimerAlert()
         loadTitle()
-        viewModel?.hormonesTable.reloadData()
+        viewModel.hormonesTable.reloadData()
         super.viewDidAppear(false)
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        viewModel?.tabs?.reflectHormoneCharacteristics()
+        viewModel.tabs?.reflectHormoneCharacteristics()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        viewModel?.hormonesTable.getCellRowHeight(viewHeight: view.frame.height) ?? 0
+        viewModel.hormonesTable.getCellRowHeight(viewHeight: view.frame.height)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -52,27 +53,29 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel?.getCell(at: indexPath.row) ?? UITableViewCell()
+        viewModel.getCell(at: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel?.goToHormoneDetails(hormoneIndex: indexPath.row, hormonesViewController: self)
+        viewModel.goToHormoneDetails(hormoneIndex: indexPath.row, hormonesViewController: self)
     }
     
     // MARK: - Actions
     
     @objc func settingsTapped() {
-        viewModel?.nav?.goToSettings(source: self)
+        viewModel.nav?.goToSettings(source: self)
     }
 
     func updateFromBackground() {
-        viewModel?.watchHormonesForChanges()
+        viewModel.watchHormonesForChanges()
     }
     
     // MARK: - Private
 
-    private func initViewModel() {
-        viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
+    private func initViewModelIfNil() {
+        if viewModel == nil {
+            viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
+        }
     }
 
     private func setTableDelegate() {
@@ -89,7 +92,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     private func loadTitle() {
-        title = viewModel?.mainViewControllerTitle
+        title = viewModel.mainViewControllerTitle
     }
 
     private func fadeInView() {
@@ -102,7 +105,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
 
     private func applyTheme() {
-        if let theme = viewModel?.styles?.theme {
+        if let theme = viewModel.styles?.theme {
             hormonesView.backgroundColor = theme[.bg]
         }
     }

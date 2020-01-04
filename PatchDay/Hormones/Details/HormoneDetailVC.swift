@@ -12,7 +12,7 @@ import PDKit
 
 class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    var viewModel: HormoneDetailViewModel?
+    var viewModel: HormoneDetailViewModel!
 
     private var saveButton: UIBarButtonItem!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
@@ -121,7 +121,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     
     @IBAction func openSitePicker(_ sender: Any) {
         showSitePicker()
-        sitePicker.selectRow(viewModel?.siteIndexStartRow ?? 0, inComponent: 0, animated: false)
+        sitePicker.selectRow(viewModel.siteIndexStartRow, inComponent: 0, animated: false)
         autofillButton.isHidden = true
         autofillButton.isEnabled = false
         selectSiteTextField.isEnabled = false
@@ -145,15 +145,15 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        viewModel?.sitesCount ?? 0
+        viewModel.sitesCount
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        viewModel?.sdk?.sites.names.tryGet(at: row) ?? ""
+        viewModel.sdk?.sites.names.tryGet(at: row) ?? ""
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let siteName = viewModel?.trySelectSite(at: row) {
+        if let siteName = viewModel.trySelectSite(at: row) {
             selectSiteTextField.text = siteName
             closeSitePicker()
         }
@@ -162,7 +162,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     // MARK: - Date Picker funcs
     
     @IBAction func selectDateTextTapped(_ sender: Any) {
-        datePicker.date = viewModel?.dateSelected ?? datePicker.date
+        datePicker.date = viewModel.dateSelected
         let doneButtonFactory = DoneButtonFactory()
         let doneButton = doneButtonFactory.createDoneButton(doneAction: #selector(datePickerDone), mainView: view)
         datePickerInputView.addSubview(doneButton)
@@ -177,9 +177,9 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         let doneButton = sender as! UIButton
         doneButton.removeFromSuperview()
         datePickerInputView.isHidden = true
-        viewModel?.dateSelected = datePicker.date
-        selectDateButton.setTitle(viewModel?.dateSelectedText, for: UIControl.State.normal)
-        expirationDateLabel.text = viewModel?.expirationDateText
+        viewModel.dateSelected = datePicker.date
+        selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)
+        expirationDateLabel.text = viewModel.expirationDateText
         saveButton.isEnabled = true
         selectDateButton.isEnabled = true
         typeSiteButton.isEnabled = true
@@ -207,7 +207,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     // MARK: - Private
 
     private func loadTitle() {
-        title = VCTitleStrings.getTitle(for: viewModel?.sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod)
+        title = VCTitleStrings.getTitle(for: viewModel.sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod)
     }
 
     private func loadDateControls() {
@@ -270,9 +270,9 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     private func autoSetSiteText() {
-        if let nextSite = viewModel?.sdk?.sites.suggested {
+        if let nextSite = viewModel.sdk?.sites.suggested {
             selectSiteTextField.text = nextSite.name
-            viewModel?.selectionState.siteIndexSelected = nextSite.order
+            viewModel.selectionState.siteIndexSelected = nextSite.order
         }
     }
     
@@ -325,7 +325,7 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
 
     private func applyTheme() {
-        if let theme = viewModel?.styles?.theme {
+        if let theme = viewModel.styles?.theme {
             view.backgroundColor = theme[.bg]
             selectSiteTextField.textColor = theme[.purple]
             selectDateButton.setTitleColor(theme[.purple])

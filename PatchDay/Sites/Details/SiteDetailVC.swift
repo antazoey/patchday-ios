@@ -9,9 +9,10 @@
 import UIKit
 import PDKit
 
+
 class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    var viewModel: SiteDetailViewModel?
+    var viewModel: SiteDetailViewModel!
     
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var nameStackVertical: UIStackView!
@@ -80,7 +81,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
 
     // TODO: RENAME THIS - Done button to what? Be specific.
     @IBAction func doneButtonTapped(_ sender: Any) {
-        siteImage.image = viewModel?.saveSiteImageChanges()
+        siteImage.image = viewModel.saveSiteImageChanges()
         imagePicker.isHidden = true
         imageButton.isEnabled = true
         nameText.isEnabled = true
@@ -93,7 +94,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     @IBAction func imageButtonTapped(_ sender: Any) {
         siteImage.isHidden = true
         imageButton.isEnabled = false
-        viewModel?.imagePickerDelegate.openPicker() {
+        viewModel.imagePickerDelegate.openPicker() {
             self.typeNameButton.isEnabled = false
             self.imageButton.isEnabled = false
             self.nameText.isEnabled = false
@@ -108,7 +109,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     @objc func saveButtonTapped(_ sender: Any) {
-        viewModel?.handleSave(siteNameText: nameText.text, siteDetailViewController: self)
+        viewModel.handleSave(siteNameText: nameText.text, siteDetailViewController: self)
     }
     
     // MARK: - Text field
@@ -151,9 +152,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     // MARK: - Picker functions
     
     @objc private func openPicker(_ picker: UIPickerView) {
-        if let startRow = viewModel?.siteNamePickerStartIndex {
-            namePicker.selectRow(startRow, inComponent: 0, animated: true)
-        }
+        namePicker.selectRow(viewModel.siteNamePickerStartIndex, inComponent: 0, animated: true)
         showPicker(picker)
     }
     
@@ -162,15 +161,15 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        viewModel?.sitesCount ?? 0
+        viewModel.sitesCount
     }
     
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        viewModel?.getAttributedSiteName(at: row)
+        viewModel.getAttributedSiteName(at: row)
     }
  
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let name = viewModel?.getSiteName(at: row) {
+        if let name = viewModel.getSiteName(at: row) {
             self.nameText.text = name
         }
         closePicker()
@@ -203,11 +202,11 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTitle() {
-        title = viewModel?.siteDetailViewControllerTitle
+        title = viewModel.siteDetailViewControllerTitle
     }
 
     private func loadName() {
-        nameText.text = viewModel?.siteName
+        nameText.text = viewModel.siteName
         nameText.autocapitalizationType = .words
         nameText.borderStyle = .none
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
@@ -217,7 +216,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadImage() {
-        showSiteImage(viewModel?.siteImage)
+        showSiteImage(viewModel.siteImage)
     }
 
     private func showSiteImage(_ image: UIImage?) {
@@ -261,7 +260,7 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func applyTheme() {
-        if let theme = viewModel?.styles?.theme {
+        if let theme = viewModel.styles?.theme {
             view.backgroundColor = theme[.bg]
             nameStackVertical.backgroundColor = theme[.bg]
             nameStackHorizontal.backgroundColor = theme[.bg]

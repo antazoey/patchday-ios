@@ -24,7 +24,7 @@ class CoreDataStackWrapper: PDCoreDataDelegate {
     }
 
     func insert(_ entity: PDEntity) -> Any? {
-        CoreDataStack.insert(entity)
+        CoreDataStack.insertIntoContext(entity)
     }
 
     func tryDelete(_ managedObject: Any) {

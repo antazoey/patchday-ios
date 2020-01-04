@@ -12,7 +12,7 @@ import PDKit
 
 class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    private var viewModel: PillDetailViewModel? = nil
+    private var viewModel: PillDetailViewModel!
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -63,13 +63,13 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         closePicker()
         selectNameButton.setTitle(ActionStrings.select)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
-        if viewModel?.selections.name != nil {
+        if viewModel.selections.name != nil {
             enableSaveButton()
         }
     }
     
     @IBAction func saveButtonTapped() {
-        viewModel?.save()
+        viewModel.save()
         segueToPillsVC()
     }
     
@@ -79,23 +79,21 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
         let slider = sender as! UISlider
-        viewModel?.setSelectedTimesadayFromSliderValue(sliderValue: slider.value)
-        time2Button.isEnabled = viewModel?.sliderValueRepresentsPlurality(sliderValue: slider.value) ?? false
+        viewModel.setSelectedTimesadayFromSliderValue(sliderValue: slider.value)
+        time2Button.isEnabled = viewModel.sliderValueRepresentsPlurality(sliderValue: slider.value)
         enableSaveButton()
     }
     
     // MARK: - Time picker actions
 
     @objc func time1ButtonTapped(_ sender: Any) {
-        if let pill = viewModel?.pill {
-            timePicker.isHidden = false
-            timePicker.minimumDate = nil
-            transformIntoDoneButton(time1Button)
-            disableNonTimeInteractions()
-            timePicker.date = viewModel?.selections.time1 ?? pill.time1
-            timePicker.maximumDate = time2Button.isEnabled ? viewModel?.selections.time2 ?? pill.time2 : nil
-            time2Button.isEnabled = false
-        }
+        timePicker.isHidden = false
+        timePicker.minimumDate = nil
+        transformIntoDoneButton(time1Button)
+        disableNonTimeInteractions()
+        timePicker.date = viewModel.selections.time1 ?? viewModel.pill.time1
+        timePicker.maximumDate = time2Button.isEnabled ? viewModel.selections.time2 : nil
+        time2Button.isEnabled = false
     }
     
     @objc func time2ButtonTapped(_ sender: Any) {
@@ -105,18 +103,14 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         transformIntoDoneButton(time2Button)
         disableNonTimeInteractions()
         time1Button.isEnabled = false
-        timePicker.minimumDate = viewModel?.startMinimumTimePickerTwoTime
-        if let startTime = viewModel?.startTimePickerTwoTime {
-            timePicker.date = startTime
-        }
+        timePicker.minimumDate = viewModel.startMinimumTimePickerTwoTime
+        timePicker.date = viewModel.startTimePickerTwoTime
     }
     
     @objc func timePickerDone(sender: Any) {
         if let timeButton = sender as? UIButton {
             setControlsFromTimePickerDone(timeButton: timeButton)
-            if let numType = viewModel?.createTimeNumberTypeFromButton(timeButton) {
-                handleTimeNumberTypeDone(numType)
-            }
+            handleTimeNumberTypeDone(viewModel.createTimeNumberTypeFromButton(timeButton))
         }
     }
     
@@ -127,15 +121,15 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        viewModel?.pillSelectionCount ?? 0
+        viewModel.pillSelectionCount
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        viewModel?.providedPillNameSelection[row]
+        viewModel.providedPillNameSelection[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        nameTextField.text = viewModel?.selectNameFromRow(row)
+        nameTextField.text = viewModel.selectNameFromRow(row)
     }
     
     // MARK: - Text field
@@ -150,7 +144,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
             nameTextField.text = PDStrings.PlaceholderStrings.newPill
         }
         selectNameButton.isEnabled = true
-        viewModel?.selections.name = nameTextField.text
+        viewModel.selections.name = nameTextField.text
         enableSaveButton()
         return true
     }
@@ -190,17 +184,15 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTitle() {
-        title = viewModel?.title ?? PillDetailViewModel.DefaultViewControllerTitle
+        title = viewModel.title
     }
 
     private func reflectPillAttributes() {
-        if let pill = viewModel?.pill {
-            loadName(from: pill)
-            loadTimesaday(from: pill)
-            loadTime1(from: pill)
-            loadTime2(from: pill)
-            loadNotify(from: pill)
-        }
+        loadName(from: viewModel.pill)
+        loadTimesaday(from: viewModel.pill)
+        loadTime1(from: viewModel.pill)
+        loadTime2(from: viewModel.pill)
+        loadNotify(from: viewModel.pill)
     }
     
     private func loadName(from pill: Swallowable) {
@@ -218,11 +210,11 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
     
     private func loadTime1(from pill: Swallowable) {
-        time1Button.setTitle(viewModel?.time1Text ?? "")
+        time1Button.setTitle(viewModel.time1Text)
     }
     
     private func loadTime2(from pill: Swallowable) {
-        time2Button.setTitle(viewModel?.time2Text ?? "")
+        time2Button.setTitle(viewModel.time2Text)
     }
 
     private func disableNonTimeInteractions() {
@@ -261,7 +253,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     private func startPickerActivation() {
-        let nameIndex = viewModel?.namePickerStartIndex ?? 0
+        let nameIndex = viewModel.namePickerStartIndex
         self.namePicker.selectRow(nameIndex, inComponent: 0, animated: false)
     }
 
@@ -289,7 +281,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     private func handleTimeNumberOneDone() {
-        viewModel?.selections.time1 = timePicker.date
+        viewModel.selections.time1 = timePicker.date
         time1Button.replaceTarget(self, newAction: #selector(time1ButtonTapped(_:)))
         if sliderSaysMoreThanOne() {
             time2Button.isEnabled = true
@@ -297,7 +289,7 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
     }
 
     private func handleTimeNumberTwoDone() {
-        viewModel?.selections.time2 = timePicker.date
+        viewModel.selections.time2 = timePicker.date
         time2Button.replaceTarget(self, newAction: #selector(time2ButtonTapped(_:)))
         time1Button.isEnabled = true
     }

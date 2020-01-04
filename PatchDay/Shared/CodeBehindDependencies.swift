@@ -52,7 +52,6 @@ class CodeBehindDependencies<T> {
             self.badge = app.badge
         } else {
             log.error("App is not yet initialized before \(childContext)")
-
             self.sdk = nil
             self.tabs = nil
             self.notifications = nil
