@@ -29,8 +29,12 @@ class CoreDataEntitiesLogger {
         log.info("Loading \(count) \(entity.rawValue)(s) from Core Data")
     }
 
-    func logSave(_ entity: PDEntity, id: String) {
+    func logCreate(_ entity: PDEntity, id: String) {
         log.info("Creating new \(entity.rawValue) with ID \(id)")
+    }
+
+    func logSave(_ entity: PDEntity) {
+        log.info("Saving \(entity.rawValue)s changes")
     }
 
     func warnForNonExistence(_ entity: PDEntity, id: String) {

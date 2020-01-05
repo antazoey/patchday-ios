@@ -16,16 +16,19 @@ class EntitiesSaver {
         self.stack = stack
     }
 
-    func saveCreateNewEntity(_ entity: PDEntity, id: String) {
-        stack.save(saverName: "Create new \(entity.rawValue)")
-        logger.logSave(entity, id: id)
+    func saveCreateNewEntity(_ entity: PDEntity) {
+        save(entity, from: "Create new \(entity.rawValue)")
     }
 
     func saveFromPush(_ entity: PDEntity) {
-        stack.save(saverName: "\(entity.rawValue) save")
+        save(entity, from: "\(entity.rawValue) save")
     }
 
     func saveFromDelete(_ entity: PDEntity) {
-        stack.save(saverName: "\(entity.rawValue) delete")
+        save(entity, from: "\(entity.rawValue) delete")
+    }
+
+    private func save(_ entity: PDEntity, from name: String) {
+        logger.logSave(entity)
     }
 }

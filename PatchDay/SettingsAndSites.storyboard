@@ -11,7 +11,7 @@
         <!--Settings-->
         <scene sceneID="YxB-TW-Vwr">
             <objects>
-                <viewController storyboardIdentifier="SettingsVC_id" title="Settings" modalTransitionStyle="crossDissolve" id="KTV-H2-f0o" customClass="SettingsVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsVC_id" title="Settings" modalTransitionStyle="crossDissolve" id="KTV-H2-f0o" customClass="SettingsViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fVr-dg-9JY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -525,7 +525,7 @@
         <!--Sites-->
         <scene sceneID="O43-d3-r7l">
             <objects>
-                <viewController storyboardIdentifier="SitesVC_id" title="Sites" id="UDH-RR-zqh" customClass="SitesVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SitesVC_id" title="Sites" id="UDH-RR-zqh" customClass="SitesViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TKf-x0-b1B">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -632,7 +632,7 @@
         <!--Site-->
         <scene sceneID="I4f-79-gJg">
             <objects>
-                <viewController storyboardIdentifier="SiteDetailVC_id" title="Site" id="7TT-v0-hbb" customClass="SiteDetailVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SiteDetailVC_id" title="Site" id="7TT-v0-hbb" customClass="SiteDetailViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cxN-PF-nCH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

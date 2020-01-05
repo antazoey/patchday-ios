@@ -10,10 +10,10 @@ import UIKit
 import PDKit
 
 
-class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     var viewModel: HormoneDetailViewModel!
-    var log = PDLog<HormoneDetailVC>()
+    var log = PDLog<HormoneDetailViewController>()
 
     private var saveButton: UIBarButtonItem!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
@@ -53,28 +53,28 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         super.viewDidAppear(animated)
     }
 
-    static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailVC? {
+    static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailViewController? {
         let id = ViewControllerIds.HormoneDetail
-        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
+        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController {
             return hormoneVC.initWithHormone(hormone)
         }
         return nil
     }
 
-    static func createHormoneDetailVC(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailVC? {
+    static func createHormoneDetailVC(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailViewController? {
         let id = ViewControllerIds.HormoneDetail
-        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailVC {
+        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController {
             return hormoneVC.initWithViewModel(viewModel)
         }
         return nil
     }
     
-    fileprivate func initWithHormone(_ hormone: Hormonal) -> HormoneDetailVC {
+    fileprivate func initWithHormone(_ hormone: Hormonal) -> HormoneDetailViewController {
         let viewModel = HormoneDetailViewModel(hormone, { () in self.sitePicker.reloadAllComponents() })
         return initWithViewModel(viewModel)
     }
 
-    fileprivate func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailVC {
+    fileprivate func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailViewController {
         self.viewModel = viewModel
         return self
     }

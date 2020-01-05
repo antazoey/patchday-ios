@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class SitesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SitesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var sitesView: UIView!
     @IBOutlet weak var sitesTableView: UITableView!

@@ -90,7 +90,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
         return nil
     }
 
-    func handleSave(siteNameText: SiteName?, siteDetailViewController: SiteDetailVC) {
+    func handleSave(siteNameText: SiteName?, siteDetailViewController: SiteDetailViewController) {
         if let name = siteNameText {
             saveSiteNameChanges(siteName: name)
         }
@@ -126,7 +126,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
             if siteIndex >= 0 && siteIndex < sites.count {
                 sites.rename(at: siteIndex, to: siteName)
             } else if siteIndex == sites.count {
-                sites.insertNew(name: siteName)
+                sites.insertNew(name: siteName, save: true)
             }
         }
     }

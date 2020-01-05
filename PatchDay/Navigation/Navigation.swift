@@ -36,47 +36,12 @@ public class Navigation: NavigationDelegate {
     }
     
     func goToSettings(source: UIViewController) {
-        source.navigationController?.goToSettings(source)
+        source.navigationController?.goToSettings()
     }
 
     func pop(source: UIViewController) {
         if let navCon = source.navigationController {
             navCon.popViewController(animated: true)
         }
-    }
-}
-
-extension UINavigationController {
-    
-    func goToHormoneDetails(_ hormone: Hormonal, _ source: UIViewController) {
-        if let vc = HormoneDetailVC.createHormoneDetailVC(source, hormone) {
-            pushViewController(vc, animated: true)
-        }
-    }
-    
-    func goToPillDetails(_ pill: Swallowable, _ source: UIViewController) {
-        if let vc = PillDetailVC.createPillDetailVC(source, pill) {
-            pushViewController(vc, animated: true)
-        }
-    }
-
-    func goToSiteDetails(_ site: Bodily, _ source: UIViewController, params: SiteImageDeterminationParameters) {
-        if let vc = SiteDetailVC.createSiteDetailVC(source, site, params: params) {
-            pushViewController(vc, animated: true)
-        }
-    }
-    
-    func goToSettings(_ source: UIViewController) {
-        if let vc = SettingsVC.createSettingsVC(source),
-            let n = navigationController {
-            n.pushViewController(vc, animated: true)
-        }
-    }
-}
-
-extension UIStoryboard {
-    
-    static func createSettingsStoryboard() -> UIStoryboard {
-        UIStoryboard(name: "SettingsAndSites", bundle: nil)
     }
 }

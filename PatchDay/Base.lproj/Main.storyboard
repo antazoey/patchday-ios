@@ -11,7 +11,7 @@
         <!--HormoneDetail-->
         <scene sceneID="Vbb-Cl-B4g">
             <objects>
-                <viewController storyboardIdentifier="HormoneDetailVC_id" title="Hormone" modalTransitionStyle="crossDissolve" id="UrJ-qX-o3J" userLabel="HormoneDetail" customClass="HormoneDetailVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HormoneDetailVC_id" title="Hormone" modalTransitionStyle="crossDissolve" id="UrJ-qX-o3J" userLabel="HormoneDetail" customClass="HormoneDetailViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hEG-HB-nmT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -296,7 +296,7 @@
         <!--Pills-->
         <scene sceneID="O0o-dt-i2G">
             <objects>
-                <viewController storyboardIdentifier="PillsVC_id" title="Pills" id="55H-Ew-68p" customClass="PillsVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PillsVC_id" title="Pills" id="55H-Ew-68p" customClass="PillsViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Gp-UE-xbC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -464,7 +464,7 @@
         <!--PillDetail-->
         <scene sceneID="S0I-Ui-2lt">
             <objects>
-                <viewController storyboardIdentifier="PillDetailVC_id" title="Pill" id="9mn-Be-MMV" userLabel="PillDetail" customClass="PillDetailVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PillDetailVC_id" title="Pill" id="9mn-Be-MMV" userLabel="PillDetail" customClass="PillDetailViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MMA-J0-UE1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -717,7 +717,7 @@
         <!--Hormones-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="HormonesVC_id" title="Estrogens" modalTransitionStyle="crossDissolve" id="BYZ-38-t0r" userLabel="Hormones" customClass="HormonesVC" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HormonesVC_id" title="Estrogens" modalTransitionStyle="crossDissolve" id="BYZ-38-t0r" userLabel="Hormones" customClass="HormonesViewController" customModule="PatchDay" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

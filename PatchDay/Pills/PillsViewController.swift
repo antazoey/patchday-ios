@@ -12,7 +12,7 @@ import PDKit
 
 typealias PillName = String
 
-class PillsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class PillsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var viewModel: PillsViewModel!
     

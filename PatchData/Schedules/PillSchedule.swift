@@ -14,6 +14,8 @@ import PDKit
 public class PillSchedule: NSObject, PillScheduling {
     
     override public var description: String { "Schedule for pills." }
+
+    private let log = PDLog<PillSchedule>()
     
     private var pills: [Swallowable]
     private let store: PillStore
@@ -31,6 +33,7 @@ public class PillSchedule: NSObject, PillScheduling {
         self.pills = store.getStoredPills()
         super.init()
         if state == .Initial {
+            log.info("Pill state is initial - Setting up default Pills")
             self.reset()
         }
         awaken()
@@ -62,7 +65,7 @@ public class PillSchedule: NSObject, PillScheduling {
                 comp()
             }
             meter.broadcastRelevantPillData(nextPill: pill)
-            store.save(pill)
+            store.pushLocalChangesToBeSaved(pill)
             return pill
         }
         return nil
@@ -76,6 +79,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func reset() {
+        log
         deleteAll()
         let names = PDStrings.PillTypes.defaultPills
         pills = []
@@ -84,7 +88,7 @@ public class PillSchedule: NSObject, PillScheduling {
                 pills.append(pill)
             }
         }
-        store.save(pills)
+        store.pushLocalChangesToBeSaved(pills)
     }
 
     // MARK: - Public
@@ -106,7 +110,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func set(for pill: Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
-        store.save(pill)
+        store.pushLocalChangesToBeSaved(pill)
     }
 
     public func swallow(at index: Index, completion: (() -> ())?) {
@@ -125,7 +129,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func swallow(_ pill: Swallowable) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
-            store.save(pill)
+            store.pushLocalChangesToBeSaved(pill)
         }
     }
 
@@ -151,7 +155,7 @@ public class PillSchedule: NSObject, PillScheduling {
         for pill in pills {
             pill.awaken()
         }
-        store.save(pills)
+        store.pushLocalChangesToBeSaved(pills)
     }
     
     private func deleteAll() {

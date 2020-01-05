@@ -9,11 +9,7 @@ import Foundation
 public class HormoneComparator {
     
     public static func lessThan(lhs: Hormonal, rhs: Hormonal) -> Bool {
-        lhs.date < rhs.date && !lhs.date.isDefault()
-    }
-
-    public static func greaterThan(lhs: Hormonal, rhs: Hormonal) -> Bool {
-        lhs.date > rhs.date
+        lhs.date < rhs.date && !lhs.date.isDefault() || rhs.date.isDefault()
     }
 
     public static func equalTo(lhs: Hormonal, rhs: Hormonal) -> Bool {

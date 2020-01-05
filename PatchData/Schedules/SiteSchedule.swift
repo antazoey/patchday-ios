@@ -31,7 +31,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         self.defaults = defaults
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
-        self.sites = store.getStoredSites(expirationInterval: exp, deliveryMethod: method)
+        self.sites = store.getStoredSites(expiration: exp, method: method)
         self.siteIndexRebounder = siteIndexRebounder
         super.init()
         handleSiteCount()
@@ -100,29 +100,28 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return false  // if there are no sites, than it is not default
     }
     
-    public func insertNew() -> Bodily? {
-        if let site = createSite() {
+    public func insertNew(save: Bool) -> Bodily? {
+        if let site = createSite(save: save) {
             sites.append(site)
-            store.save(site)
             return site
         }
         return nil
     }
 
-    public func insertNew(completion: @escaping () -> ()) -> Bodily? {
-        let site = insertNew()
+    public func insertNew(save: Bool, completion: @escaping () -> ()) -> Bodily? {
+        let site = insertNew(save: save)
         completion()
         return site
     }
 
-    public func insertNew(name: String) -> Bodily? {
-        var site = insertNew()
+    public func insertNew(name: String, save: Bool) -> Bodily? {
+        var site = insertNew(save: save)
         site?.name = name
         return site
     }
 
-    public func insertNew(name: String, completion: @escaping () -> ()) -> Bodily? {
-        let site = insertNew(name: name)
+    public func insertNew(name: String, save: Bool, completion: @escaping () -> ()) -> Bodily? {
+        let site = insertNew(name: name, save: save)
         completion()
         return site
     }
@@ -132,7 +131,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             return handleDefaultStateDuringReset()
         }
         resetSitesToDefault()
-        store.save(sites)
+        store.pushLocalChangesToBeSaved(sites)
         return sites.count
     }
 
@@ -170,7 +169,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     public func rename(at index: Index, to name: SiteName) {
         if var site = at(index) {
             site.name = name
-            store.save(site)
+            store.pushLocalChangesToBeSaved(site)
         }
     }
 
@@ -182,7 +181,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
                 site.order = newOrder
                 originalSiteAtOrder.order = index + 1
                 sort()
-                store.save(originalSiteAtOrder)
+                store.pushLocalChangesToBeSaved(originalSiteAtOrder)
             } else {
                 site.order = newOrder
             }
@@ -199,7 +198,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             } else {
                 sites[index].imageId = SiteStrings.CustomSiteId
             }
-            store.save(site)
+            store.pushLocalChangesToBeSaved(site)
         }
     }
     
@@ -245,10 +244,10 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         })
     }
     
-    private func createSite() -> Bodily? {
+    private func createSite(save: Bool) -> Bodily? {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
-        return store.createNewSite(expirationInterval: exp, deliveryMethod: method)
+        return store.createNewSite(expiration: exp, method: method, doSave: save)
     }
 
     private func handleSiteCount() {
@@ -274,8 +273,9 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private func assignDefaultSiteProperties(options: [String], previousCount: Int) {
         for i in 0..<options.count {
             if i < previousCount {
+                log.info("Assigning existing site default properties")
                 setSite(&sites[i], index: i, name: options[i])
-            } else if var site = insertNew() {
+            } else if var site = insertNew(save: false) {
                 setSite(&site, index: i, name: options[i])
             }
         }

@@ -15,7 +15,7 @@ class HormonesTable: TableViewWrapper<HormoneCell> {
 
     func getCell(for hormone: Hormonal, at index: Index, viewModel: HormonesViewModel) -> HormoneCell {
         if let cell = dequeueCell() {
-            return cell.configure(viewModel: viewModel, hormone: hormone, hormoneIndex: index)
+            return cell.configure(viewModel: viewModel, hormone: hormone, row: index)
         }
         return HormoneCell()
     }

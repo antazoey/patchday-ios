@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     private var viewModel: PillDetailViewModel!
 
@@ -38,15 +38,15 @@ class PillDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         loadTitle()
     }
 
-    static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailVC? {
+    static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailViewController? {
         let id = ViewControllerIds.PillDetail
-        if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailVC {
+        if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailViewController {
             return vc.initWithPill(pill)
         }
         return nil
     }
 
-    fileprivate func initWithPill(_ pill: Swallowable) -> PillDetailVC {
+    fileprivate func initWithPill(_ pill: Swallowable) -> PillDetailViewController {
         viewModel = PillDetailViewModel(pill)
         return self
     }

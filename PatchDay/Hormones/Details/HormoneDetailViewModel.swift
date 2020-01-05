@@ -126,7 +126,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         return siteTextField.text!
     }
 
-    func presentNewSiteAlert(source: HormoneDetailVC, newSiteName: String) {
+    func presentNewSiteAlert(source: HormoneDetailViewController, newSiteName: String) {
         alerts?.presentNewSiteAlert(with: newSiteName, at: selectionState.selectedSiteIndex, hormoneDetailVC: source)
     }
 

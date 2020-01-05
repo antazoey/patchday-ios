@@ -27,9 +27,7 @@ class HormoneStore: EntityStore {
     }
 
     func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormone? {
-        if let newHormoneDataFromStore = entities.createNewHormone(
-            expiration: expiration, method: deliveryMethod
-        ) {
+        if let newHormoneDataFromStore = entities.createNewHormone(expiration: expiration, method: deliveryMethod) {
             return Hormone(hormoneData: newHormoneDataFromStore, interval: expiration, deliveryMethod: deliveryMethod)
         }
         return nil
@@ -39,16 +37,19 @@ class HormoneStore: EntityStore {
         entities.deleteHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
     }
 
-    func save(_ hormones: [Hormonal]) {
+    func pushLocalChangesToBeSaved(_ hormones: [Hormonal]) {
+        if hormones.count == 0 {
+
+        }
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
-        self.save(hormoneData)
+        self.pushLocalChangesToBeSaved(hormoneData)
     }
 
-    func save(_ hormone: Hormonal) {
-        self.save([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
+    func pushLocalChangesToBeSaved(_ hormone: Hormonal) {
+        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
     }
 
-    private func save(_ hormoneData: [HormoneStruct]) {
+    private func pushLocalChangesToBeSaved(_ hormoneData: [HormoneStruct]) {
         entities.pushHormoneData(hormoneData)
     }
 }

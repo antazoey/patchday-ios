@@ -55,12 +55,15 @@ class CoreDataEntities {
         return hormoneStructs
     }
 
-    func createNewHormone(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> HormoneStruct? {
+    func createNewHormone(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool=true) -> HormoneStruct? {
         if let newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone {
             let id = UUID()
+            logger.logCreate(.hormone, id: id.uuidString)
             newManagedHormone.id = id
             hormoneMOs.append(newManagedHormone)
-            saver.saveCreateNewEntity(.hormone, id: id.uuidString)
+            if doSave {
+                saver.saveCreateNewEntity(.hormone)
+            }
             return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
         }
         logger.errorOnCreation(.hormone)
@@ -124,16 +127,19 @@ class CoreDataEntities {
         return pillStructs
     }
 
-    func createNewPill() -> PillStruct? {
-        createNewPill(name: SiteStrings.newSite)
+    func createNewPill(save: Bool=true) -> PillStruct? {
+        createNewPill(name: SiteStrings.newSite, save: save)
     }
 
-    func createNewPill(name: String) -> PillStruct? {
+    func createNewPill(name: String, save: Bool=true) -> PillStruct? {
         if let newManagedPill = coreDataStack.insert(.pill) as? MOPill {
             let id = UUID()
+            logger.logCreate(.pill, id: id.uuidString)
             newManagedPill.id = id
             self.pillMOs.append(newManagedPill)
-            saver.saveCreateNewEntity(.pill, id: id.uuidString)
+            if save {
+                saver.saveCreateNewEntity(.pill)
+            }
             return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
         }
         logger.errorOnCreation(.pill)
@@ -181,7 +187,7 @@ class CoreDataEntities {
         return nil
     }
 
-    func getStoredSiteData(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [SiteStruct] {
+    func getStoredSiteData(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [SiteStruct] {
         if !sitesInitialized {
             loadStoredSites()
         }
@@ -195,12 +201,15 @@ class CoreDataEntities {
         return siteStructs
     }
 
-    func createNewSite(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> SiteStruct? {
+    func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool=true) -> SiteStruct? {
         if let newManagedSite = coreDataStack.insert(.site) as? MOSite {
             let id = UUID()
+            logger.logCreate(.site, id: id.uuidString)
             newManagedSite.id = id
             siteMOs.append(newManagedSite)
-            saver.saveCreateNewEntity(.site, id: id.uuidString)
+            if doSave {
+                saver.saveCreateNewEntity(.site)
+            }
             return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
         }
         logger.errorOnCreation(.site)

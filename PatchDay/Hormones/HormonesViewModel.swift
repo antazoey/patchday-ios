@@ -15,7 +15,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     let hormonesTable: HormonesTable
     var hormones: HormoneScheduling? { sdk?.hormones }
 
-    init(hormonesTableView: UITableView, source: HormonesVC) {
+    init(hormonesTableView: UITableView, source: HormonesViewController) {
         self.hormonesTable = HormonesTable(hormonesTableView)
         super.init()
         hormonesTable.applyTheme(styles?.theme)

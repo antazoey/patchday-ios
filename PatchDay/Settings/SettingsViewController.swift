@@ -12,14 +12,9 @@ import PDKit
 
 typealias UITimePicker = UIDatePicker
 
-class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    override public var description: String {
-        """
-        The view controller for the Settings View.
-        The Settings View is where the user may configure stuff like how many patches there are, or what theme is.
-        """
-    }
+    override public var description: String { "Settings View Controllers - a place to configure Application settings" }
     
     private let viewModel: SettingsViewModel = SettingsViewModel()
     var reflector: SettingsReflector?
@@ -88,9 +83,9 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
         applyTheme()
     }
     
-    static func createSettingsVC(_ source: UIViewController) -> SettingsVC? {
+    static func createSettingsVC() -> UIViewController {
         let sb = UIStoryboard.createSettingsStoryboard()
-        return sb.instantiateViewController(withIdentifier: ViewControllerIds.Settings) as? SettingsVC
+        return sb.instantiateViewController(withIdentifier: ViewControllerIds.Settings)
     }
     
     // MARK: - Actions
@@ -293,6 +288,6 @@ class SettingsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource
     }
 }
 
-extension SettingsVC: UIScrollViewDelegate {
+extension SettingsViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? { settingsStack }
 }

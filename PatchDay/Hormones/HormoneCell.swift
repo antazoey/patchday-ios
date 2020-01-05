@@ -18,16 +18,16 @@ class HormoneCell: TableCell {
 
     private var styles: Styling?
 
-    @discardableResult public func configure(viewModel: HormonesViewModel, hormone: Hormonal, hormoneIndex: Index) -> HormoneCell {
+    @discardableResult public func configure(viewModel: HormonesViewModel, hormone: Hormonal, row: Index) -> HormoneCell {
         styles = viewModel.styles
         backgroundColor = styles?.theme[.bg]
-        setThemeColors(at: hormoneIndex)
+        setThemeColors(at: row)
         if let sdk = viewModel.sdk {
             let quantity = sdk.defaults.quantity
             let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
-                hormoneIndex, hormoneLimit: quantity.rawValue
+                row, hormoneLimit: quantity.rawValue
             )
-            handleHormoneFromState(hormoneCellState, sdk, hormone, hormoneIndex)
+            handleHormoneFromState(hormoneCellState, sdk, hormone, row)
         }
         return self
     }

@@ -11,7 +11,7 @@ import Foundation
 import PDKit
 
 
-class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HormonesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonesTableView: UITableView!

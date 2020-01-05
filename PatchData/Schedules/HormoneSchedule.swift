@@ -120,10 +120,16 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func saveAll() {
-        store.save(hormones)
+        if count == 0 {
+            return
+        }
+        store.pushLocalChangesToBeSaved(hormones)
     }
     
     public func deleteAll() {
+        if count == 0 {
+            return
+        }
         delete(after: -1)
     }
 
@@ -163,7 +169,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormone.siteId = site.id
         hormone.siteName = site.name
         sort()
-        store.save(hormone)
+        store.pushLocalChangesToBeSaved(hormone)
         state.bodilyChanged = true
         state.onlySiteChanged = true
         state.bodilyChanged = true
@@ -179,7 +185,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     public func setDate(for hormone: inout Hormonal, with date: Date) {
         hormone.date = date
         sort()
-        store.save(hormone)
+        store.pushLocalChangesToBeSaved(hormone)
         broadcastHormones()
         state.onlySiteChanged = false
     }
@@ -188,7 +194,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if var hormone = at(index) {
             hormone.siteNameBackUp = name
             sort()
-            store.save(hormone)
+            store.pushLocalChangesToBeSaved(hormone)
         }
     }
 
@@ -228,7 +234,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     private func saveFromDateAndSiteChange(_ hormone: Hormonal) {
-        store.save(hormone)
+        store.pushLocalChangesToBeSaved(hormone)
         broadcastHormones()
         state.onlySiteChanged = false
         state.bodilyChanged = true

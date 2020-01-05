@@ -93,12 +93,12 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }
 
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneDetailVC: HormoneDetailVC) {
+    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneDetailVC: HormoneDetailViewController) {
         if let root = rootViewController {
             let handler: () -> () = {
                 () in
-                let handler = hormoneDetailVC.viewModel.handleNewSite ?? { }
-                self.sdk?.sites.insertNew(name: name, completion: handler)
+                let handler = hormoneDetailVC.viewModel.handleNewSite
+                self.sdk?.sites.insertNew(name: name, save: true, completion: handler)
             }
             NewSiteAlert(parent: root, style: style, appendActionHandler: handler).present()
         }

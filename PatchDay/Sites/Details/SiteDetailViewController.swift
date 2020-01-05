@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     var viewModel: SiteDetailViewModel!
     
@@ -48,9 +48,9 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         applyTheme()
     }
 
-    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters) -> SiteDetailVC? {
+    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters) -> SiteDetailViewController? {
         let id = ViewControllerIds.SiteDetail
-        if let detailVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailVC {
+        if let detailVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController {
             return detailVC.initWithSite(site, imageParams: params)
         }
         return nil
@@ -61,18 +61,18 @@ class SiteDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         applyTheme()
     }
 
-    fileprivate func initWithSite(_ site: Bodily, imageParams: SiteImageDeterminationParameters) -> SiteDetailVC {
+    fileprivate func initWithSite(_ site: Bodily, imageParams: SiteImageDeterminationParameters) -> SiteDetailViewController {
         let relatedViews = SiteImagePickerDelegateRelatedViews(
             picker: imagePicker, imageView: siteImage, saveButton: saveButton
         )
         return initWithParams(SiteDetailViewModelConstructorParams(site, imageParams, relatedViews))
     }
 
-    fileprivate func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailVC {
+    fileprivate func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailViewController {
         initWithViewModel(SiteDetailViewModel(params))
     }
 
-    fileprivate func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailVC {
+    fileprivate func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailViewController {
         self.viewModel = viewModel
         return self
     }

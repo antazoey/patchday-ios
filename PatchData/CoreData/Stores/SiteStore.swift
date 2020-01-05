@@ -12,25 +12,21 @@ import PDKit
 
 class SiteStore: EntityStore {
 
-    func getStoredSites(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Bodily] {
+    func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily] {
         var sites: [Bodily] = []
         let siteDataEntries = entities.getStoredSiteData(
-            expirationInterval: expirationInterval, deliveryMethod: deliveryMethod
+            expiration: expiration, method: method
         )
         for siteData in siteDataEntries {
-            let site = Site(siteData: siteData, expirationInterval: expirationInterval, deliveryMethod: deliveryMethod)
+            let site = Site(siteData: siteData, expirationInterval: expiration, deliveryMethod: method)
             sites.append(site)
         }
         return sites
     }
 
-    func createNewSite(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Bodily? {
-        if let newSiteDataFromStore = entities.createNewSite(
-            expirationInterval: expirationInterval, deliveryMethod: deliveryMethod
-        ) {
-            return Site(
-                siteData: newSiteDataFromStore, expirationInterval: expirationInterval, deliveryMethod: deliveryMethod
-            )
+    func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool) -> Bodily? {
+        if let newSiteDataFromStore = entities.createNewSite(expiration: expiration, method: method, doSave: doSave) {
+            return Site(siteData: newSiteDataFromStore, expirationInterval: expiration, deliveryMethod: method)
         }
         return nil
     }
@@ -39,16 +35,19 @@ class SiteStore: EntityStore {
         entities.deleteSiteData([CoreDataEntityAdapter.convertToSiteStruct(site)])
     }
 
-    func save(_ sites: [Bodily]) {
+    func pushLocalChangesToBeSaved(_ sites: [Bodily]) {
+        if sites.count == 0 {
+            return
+        }
         let siteData = sites.map { s in CoreDataEntityAdapter.convertToSiteStruct(s) }
-        self.save(siteData)
+        self.pushLocalChangesToBeSaved(siteData)
     }
 
-    func save(_ site: Bodily) {
-        self.save([CoreDataEntityAdapter.convertToSiteStruct(site)])
+    func pushLocalChangesToBeSaved(_ site: Bodily) {
+        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToSiteStruct(site)])
     }
 
-    private func save(_ siteData: [SiteStruct]) {
+    private func pushLocalChangesToBeSaved(_ siteData: [SiteStruct]) {
         entities.pushSiteData(siteData)
     }
 }

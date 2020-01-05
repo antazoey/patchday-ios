@@ -40,16 +40,19 @@ class PillStore: EntityStore {
         entities.deletePillData([CoreDataEntityAdapter.convertToPillStruct(pill)])
     }
 
-    func save(_ pills: [Swallowable]) {
+    func pushLocalChangesToBeSaved(_ pills: [Swallowable]) {
+        if pills.count == 0 {
+            return
+        }
         let pillData = pills.map { p in CoreDataEntityAdapter.convertToPillStruct(p) }
-        self.save(pillData)
+        self.pushLocalChangesToBeSaved(pillData)
     }
 
-    func save(_ pill: Swallowable) {
-        self.save([CoreDataEntityAdapter.convertToPillStruct(pill)])
+    func pushLocalChangesToBeSaved(_ pill: Swallowable) {
+        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToPillStruct(pill)])
     }
 
-    private func save(_ pillData: [PillStruct]) {
+    private func pushLocalChangesToBeSaved(_ pillData: [PillStruct]) {
         entities.pushPillData(pillData)
     }
 }
