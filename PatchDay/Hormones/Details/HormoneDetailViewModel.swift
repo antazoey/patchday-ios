@@ -69,13 +69,13 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     var siteIndexStartRow: Index {
-        if selectionState.siteIndexSelected > -1 {
-            return selectionState.siteIndexSelected
+        if selectionState.selectedSiteIndex > -1 {
+            return selectionState.selectedSiteIndex
         } else if let site = getSite() {
             let order = site.order
             let end = sitesCount
             if order >= 1 && order <= end {
-                selectionState.siteIndexSelected = order
+                selectionState.selectedSite = site
                 return order
             }
         }
@@ -87,7 +87,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     var autoPickedDateText: String {
-        DateHelper.format(date: Date(), useWords: true)
+        let date = Date()
+        selectionState.selectedDate = date
+        return DateHelper.format(date: date, useWords: true)
     }
     
     var autoPickedExpirationDateText: String {
@@ -100,9 +102,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     @discardableResult func trySelectSite(at row: Index) -> String? {
-        if let name = sdk?.sites.names.tryGet(at: row) {
-            selectionState.siteIndexSelected = row
-            return name
+        if let site = sdk?.sites.at(row) {
+            selectionState.selectedSite = site
+            return site.name
         }
         return nil
     }
@@ -125,7 +127,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     func presentNewSiteAlert(source: HormoneDetailVC, newSiteName: String) {
-        alerts?.presentNewSiteAlert(with: newSiteName, at: selectionState.siteIndexSelected, hormoneDetailVC: source)
+        alerts?.presentNewSiteAlert(with: newSiteName, at: selectionState.selectedSiteIndex, hormoneDetailVC: source)
     }
 
     private func createInitialExpirationState(from hormone: Hormonal) -> HormoneExpirationState {
@@ -138,18 +140,24 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         if let sdk = sdk {
             trySaveDate(sdk.hormones, selectionState.selectedDate)
             trySaveSite(sdk.hormones, selectionState.selectedSite)
+        } else {
+            log.error("Save failed - PatchData SDK is nil")
         }
     }
 
     private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?) {
         if let date = selectedDate {
             hormones.setDate(for: &hormone, with: date)
+        } else {
+            log.info("Tried saving date but none was selected")
         }
     }
 
     private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?) {
         if let site = selectedSite {
             hormones.setSite(for: &hormone, with: site)
+        } else {
+            log.info("Tried saving site but none was selected")
         }
     }
 

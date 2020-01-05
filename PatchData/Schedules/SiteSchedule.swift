@@ -140,10 +140,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         if let site = at(index) {
             log.info("Deleting site at index \(index)")
             store.delete(site)
-            
             let start = index + 1
             let end = count - 1
-            
             if start < end {
                 for i in start...end {
                     sites[i].order -= 1
@@ -199,7 +197,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             if siteSet.contains(newId) {
                 site.imageId = newId
             } else {
-                sites[index].imageId = "custom"
+                sites[index].imageId = SiteStrings.CustomSiteId
             }
             store.save(site)
         }

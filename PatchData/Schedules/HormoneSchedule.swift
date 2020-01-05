@@ -162,6 +162,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     public func setSite(for hormone: inout Hormonal, with site: Bodily) {
         hormone.siteId = site.id
         hormone.siteName = site.name
+        sort()
         store.save(hormone)
         state.bodilyChanged = true
         state.onlySiteChanged = true
@@ -186,6 +187,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     public func setBackUpSiteName(at index: Index, with name: String) {
         if var hormone = at(index) {
             hormone.siteNameBackUp = name
+            sort()
             store.save(hormone)
         }
     }

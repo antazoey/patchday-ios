@@ -21,6 +21,8 @@ public class SiteStrings {
     public static let newSite = {
         NSLocalizedString("New Site", comment: commonComment)
     }()
+
+    public static let CustomSiteId = "custom"
     
     public struct SiteNames {
         

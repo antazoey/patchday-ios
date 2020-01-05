@@ -20,29 +20,27 @@ class CoreDataEntities {
     private var pillsInitialized = false
     private var sitesInitialized = false
 
-    var coreDataStack: PDCoreDataDelegate
+    private let logger = CoreDataEntitiesLogger()
+    private let saver: EntitiesSaver
 
-    private let log = PDLog<CoreDataEntities>()
+    var coreDataStack: PDCoreDataDelegate
 
     init(coreDataStack: PDCoreDataDelegate) {
         self.coreDataStack = coreDataStack
+        saver = EntitiesSaver(coreDataStack)
     }
 
     func getHormoneById(_ id: UUID?) -> MOHormone? {
-        if id == nil {
-            return nil
+        if let id = id {
+            if let hormone = hormoneMOs.first(where: { h in h.id == id }) {
+                return hormone
+            }
+            logger.warnForNonExistence(.hormone, id: id.uuidString)
         }
-
-        if let hormone = hormoneMOs.first(where: { h in h.id == id }) {
-            return hormone
-        }
-        log.warn("No managed \(PDEntity.hormone.rawValue) exists for ID \(id!)")
         return nil
     }
 
-    func getStoredHormoneData(
-        expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod
-    ) -> [HormoneStruct] {
+    func getStoredHormoneData(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [HormoneStruct] {
         if !hormonesInitialized {
             loadStoredHormones()
         }
@@ -57,21 +55,22 @@ class CoreDataEntities {
         return hormoneStructs
     }
 
-    func createNewHormone(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> HormoneStruct? {
+    func createNewHormone(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> HormoneStruct? {
         if let newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone {
-            coreDataStack.save(saverName: "Create new \(PDEntity.hormone.rawValue)")
             let id = UUID()
             newManagedHormone.id = id
-            log.info("Creating new \(PDEntity.hormone.rawValue) with ID \(id)")
             hormoneMOs.append(newManagedHormone)
+            saver.saveCreateNewEntity(.hormone, id: id.uuidString)
             return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
         }
-        log.error("Failed creating new \(PDEntity.hormone.rawValue)")
+        logger.errorOnCreation(.hormone)
         return nil
     }
 
     func pushHormoneData(_ hormoneData: [HormoneStruct]) {
+        logger.logPush(.hormone)
         if hormoneData.count == 0 {
+            logger.warnForEmptyPush(.hormone)
             return
         }
 
@@ -85,7 +84,7 @@ class CoreDataEntities {
                 managedHormone.siteRelationship = managedSiteRelationship
             }
         }
-        coreDataStack.save(saverName: "Hormone save")
+        saver.saveFromPush(.hormone)
     }
 
     func deleteHormoneData(_ hormoneData: [HormoneStruct]) {
@@ -96,20 +95,18 @@ class CoreDataEntities {
                 managedHormone.siteNameBackUp = nil
                 managedHormone.siteRelationship = nil
                 coreDataStack.tryDelete(managedHormone)
-                coreDataStack.save(saverName: "Hormone delete")
+                saver.saveFromDelete(.hormone)
             }
         }
     }
 
     func getPillById(_ id: UUID?) -> MOPill? {
-        if id == nil {
-            return nil
+        if let id = id {
+            if let pill = pillMOs.first(where: { p in p.id == id }) {
+                return pill
+            }
+            logger.warnForNonExistence(.pill, id: id.uuidString)
         }
-        if let pill = pillMOs.first(where: { p in p.id == id }) {
-            return pill
-        }
-
-        log.warn("No managed \(PDEntity.pill.rawValue) exists for ID \(id!)")
         return nil
     }
 
@@ -133,19 +130,20 @@ class CoreDataEntities {
 
     func createNewPill(name: String) -> PillStruct? {
         if let newManagedPill = coreDataStack.insert(.pill) as? MOPill {
-            coreDataStack.save(saverName: "Create new \(PDEntity.pill.rawValue)")
             let id = UUID()
             newManagedPill.id = id
-            log.info("Creating new \(PDEntity.pill.rawValue) with ID \(id)")
             self.pillMOs.append(newManagedPill)
+            saver.saveCreateNewEntity(.pill, id: id.uuidString)
             return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
         }
-        log.error("Failed creating new \(PDEntity.pill.rawValue)")
+        logger.errorOnCreation(.pill)
         return nil
     }
 
     func pushPillData(_ pillData: [PillStruct]) {
+        logger.logPush(.pill)
         if pillData.count == 0 {
+            logger.warnForEmptyPush(.pill)
             return
         }
 
@@ -160,27 +158,26 @@ class CoreDataEntities {
                 managedPill.timesTakenToday = Int16(data.attributes.timesTakenToday ?? 0)
             }
         }
-        coreDataStack.save(saverName: "Pill save")
+        saver.saveFromPush(.pill)
     }
 
     func deletePillData(_ pillData: [PillStruct]) {
         for data in pillData {
             if let managedPill = getPillById(data.id) {
                 coreDataStack.tryDelete(managedPill)
-                coreDataStack.save(saverName: "Pill delete")
+                saver.saveFromDelete(.pill)
             }
         }
     }
 
     func getSiteById(_ id: UUID?) -> MOSite? {
-        if id == nil {
-            return nil
+        if let id = id {
+            if let site = siteMOs.first(where: { s in s.id == id }) {
+                return site
+            }
+            logger.warnForNonExistence(.site, id: id.uuidString)
+            logger.logSites(siteMOs)
         }
-
-        if let site = siteMOs.first(where: { s in s.id == id }) {
-            return site
-        }
-        log.warn("No managed \(PDEntity.site.rawValue) exists for ID \(id!)")
         return nil
     }
 
@@ -200,19 +197,20 @@ class CoreDataEntities {
 
     func createNewSite(expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> SiteStruct? {
         if let newManagedSite = coreDataStack.insert(.site) as? MOSite {
-            coreDataStack.save(saverName: "Create new \(PDEntity.site.rawValue)")
             let id = UUID()
             newManagedSite.id = id
-            log.info("Creating new \(PDEntity.site.rawValue) with ID \(id)")
             siteMOs.append(newManagedSite)
+            saver.saveCreateNewEntity(.site, id: id.uuidString)
             return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
         }
-        log.error("Failed creating new \(PDEntity.site.rawValue)")
+        logger.errorOnCreation(.site)
         return nil
     }
 
     func pushSiteData(_ siteData: [SiteStruct]) {
+        logger.logPush(.site)
         if siteData.count == 0 {
+            logger.warnForEmptyPush(.site)
             return
         }
 
@@ -232,7 +230,7 @@ class CoreDataEntities {
                 site.hormoneRelationship = Set(hormones) as NSSet
             }
         }
-        coreDataStack.save(saverName: "Site save")
+        saver.saveFromPush(.site)
     }
 
     func deleteSiteData(_ siteData: [SiteStruct]) {
@@ -244,7 +242,7 @@ class CoreDataEntities {
                 managedSite.order = -1
                 pushBackupSiteNameToHormones(deletedSite: managedSite)
                 coreDataStack.tryDelete(managedSite)
-                coreDataStack.save(saverName: "Site delete")
+                saver.saveFromDelete(.site)
             }
         }
     }
@@ -253,33 +251,33 @@ class CoreDataEntities {
 
     private func loadStoredHormones() {
         if let hormones = coreDataStack.getManagedObjects(entity: .hormone) as? [MOHormone] {
-            logEntityCount(hormones.count, for: .hormone)
+            logger.logEntityCount(hormones.count, for: .hormone)
             hormoneMOs = hormones
             fixHormoneIds()
         } else {
-            log.error("Failed to load hormones from Core Data")
+            logger.errorOnCreation(.hormone)
         }
         hormonesInitialized = true
     }
 
     private func loadStoredPills() {
         if let pills = coreDataStack.getManagedObjects(entity: .pill) as? [MOPill] {
-            logEntityCount(pills.count, for: .pill)
+            logger.logEntityCount(pills.count, for: .pill)
             pillMOs = pills
             fixPillIds()
         } else {
-            log.error("Failed to load pills from Core Data")
+            logger.errorOnLoad(.pill)
         }
         pillsInitialized = true
     }
 
     private func loadStoredSites() {
         if let sites = coreDataStack.getManagedObjects(entity: .site) as? [MOSite] {
-            logEntityCount(sites.count, for: .site)
+            logger.logEntityCount(sites.count, for: .site)
             siteMOs = sites
             fixSiteIds()
         } else {
-            log.error("Failed to load sites from Core Data")
+            logger.errorOnLoad(.site)
         }
         sitesInitialized = true
     }
@@ -315,10 +313,6 @@ class CoreDataEntities {
                 hormone.siteNameBackUp = deletedSite.name
             }
         }
-        coreDataStack.save(saverName: "Saving from pushing backup site names to hormones")
-    }
-
-    private func logEntityCount(_ count: Int, for entity: PDEntity) {
-        log.info("Loading \(count) \(entity.rawValue)(s) from Core Data")
+        saver.saveFromPush(.hormone)
     }
 }

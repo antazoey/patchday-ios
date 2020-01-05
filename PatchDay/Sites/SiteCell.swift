@@ -33,7 +33,12 @@ class SiteCell: TableCell {
         let shouldHide = actionState == .Editing
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
-        siteIndexImageView.isHidden = shouldHide
+
+        // Don't show it if it's already hidden
+        if !siteIndexImageView.isHidden {
+            siteIndexImageView.isHidden = shouldHide
+        }
+
         if cellIndex == props?.nextSiteIndex {
             nextLabel.isHidden = shouldHide
         }
@@ -42,8 +47,15 @@ class SiteCell: TableCell {
     private func loadOrderDependentViews() {
         if let order = props.site?.order {
             orderLabel.text = "\(order + 1)."
-            nextLabel.isHidden = nextTitleShouldHide(at: order, isEditing: isEditing)
+            loadNextLabel(order)
             reflectActionState(cellIndex: order, actionState: .Reading)
+        }
+    }
+
+    private func loadNextLabel(_ index: Index) {
+        nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
+        if !nextLabel.isHidden {
+            siteIndexImageView.isHidden = true
         }
     }
 
@@ -71,7 +83,7 @@ class SiteCell: TableCell {
     
     /// Should hide if not the the next index.
     private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        props.site?.order != index || isEditing
+        props.nextSiteIndex != index || isEditing
     }
     
     private func prepareBackgroundSelectedView() {

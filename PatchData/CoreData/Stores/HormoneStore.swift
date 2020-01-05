@@ -17,7 +17,7 @@ class HormoneStore: EntityStore {
     func getStoredHormones(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal] {
         var hormones: [Hormonal] = []
         let hormoneDataEntries = entities.getStoredHormoneData(
-            expirationInterval: expiration, deliveryMethod: deliveryMethod
+            expiration: expiration, method: deliveryMethod
         )
         for hormoneData in hormoneDataEntries {
             let hormone = Hormone(hormoneData: hormoneData, interval: expiration, deliveryMethod: deliveryMethod)
@@ -28,7 +28,7 @@ class HormoneStore: EntityStore {
 
     func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormone? {
         if let newHormoneDataFromStore = entities.createNewHormone(
-            expirationInterval: expiration, deliveryMethod: deliveryMethod
+            expiration: expiration, method: deliveryMethod
         ) {
             return Hormone(hormoneData: newHormoneDataFromStore, interval: expiration, deliveryMethod: deliveryMethod)
         }

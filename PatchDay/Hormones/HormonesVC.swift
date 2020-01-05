@@ -33,7 +33,7 @@ class HormonesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         initViewModelIfNil()
         fadeInView()
         applyTheme()
-        viewModel.presentDisclaimerAlert()
+        viewModel.presentDisclaimerAlertIfFirstLaunch()
         loadTitle()
         viewModel.hormonesTable.reloadData()
         super.viewDidAppear(false)

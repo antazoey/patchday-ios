@@ -13,6 +13,7 @@ import PDKit
 class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     var viewModel: HormoneDetailViewModel!
+    var log = PDLog<HormoneDetailVC>()
 
     private var saveButton: UIBarButtonItem!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
@@ -102,7 +103,6 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             selectSiteTextField.isHidden = false
             saveButton.isEnabled = true
             typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
-            viewModel.selectionState.siteIndexSelected = viewModel.sitesCount
             viewModel.presentNewSiteAlert(source: self, newSiteName: siteNameTyped)
         }
     }
@@ -272,7 +272,9 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     private func autoSetSiteText() {
         if let nextSite = viewModel.sdk?.sites.suggested {
             selectSiteTextField.text = nextSite.name
-            viewModel.selectionState.siteIndexSelected = nextSite.order
+            viewModel.selectionState.selectedSite = nextSite
+        } else {
+            log.error("Failed auto picking next site.")
         }
     }
     
@@ -280,6 +282,8 @@ class HormoneDetailVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         if let viewModel = viewModel {
             selectDateButton.setTitle(viewModel.autoPickedDateText)
             expirationDateLabel.text = viewModel.autoPickedExpirationDateText
+        } else {
+            log.error("Failed auto picking next date.")
         }
     }
 

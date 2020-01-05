@@ -54,7 +54,7 @@ class HormoneCell: TableCell {
 
     private func appearAsOccupiedState(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
         let method = sdk.defaults.deliveryMethod.value
-        loadDateLabel(when: hormone.isExpired)
+        loadDateLabel(for: hormone)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
         loadSiteComponents(sdk, hormone, hormoneIndex)
         selectionStyle = .default
@@ -86,10 +86,13 @@ class HormoneCell: TableCell {
         }
     }
 
-    private func loadDateLabel(when isExpired: Bool) {
-        dateLabel.textColor = isExpired ? UIColor.red : UIColor.black
+    private func loadDateLabel(for hormone: Hormonal) {
+        dateLabel.textColor = hormone.isExpired ? UIColor.red : UIColor.black
         let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
         dateLabel.font = UIFont.systemFont(ofSize: size)
+        if !hormone.date.isDefault() {
+            setDateLabel(DateHelper.format(date: hormone.date, useWords: true))
+        }
     }
 
     private func loadBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {

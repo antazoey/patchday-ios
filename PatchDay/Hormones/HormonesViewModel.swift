@@ -37,7 +37,11 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         return nil
     }
 
-    func presentDisclaimerAlert() {
+    func sortHormones() {
+        hormones?.sort()
+    }
+
+    func presentDisclaimerAlertIfFirstLaunch() {
         if isFirstLaunch {
             alerts?.presentDisclaimerAlert()
             sdk?.defaults.setMentionedDisclaimer(to: true)

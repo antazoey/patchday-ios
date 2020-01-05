@@ -54,13 +54,15 @@ class CoreDataEntityAdapter {
 
     static func convertToSiteStruct(_ site: MOSite) -> SiteStruct? {
         if let id = site.id {
-            var ids: [UUID] = []
-            for element in site.hormoneRelationship ?? NSSet() {
-                if let hormone = element as? MOHormone, let id = hormone.id {
-                    ids.append(id)
+            var relatedHormoneIds: [UUID] = []
+            if let relationship = site.hormoneRelationship {
+                for element in relationship {
+                    if let hormone = element as? MOHormone, let hormoneId = hormone.id {
+                        relatedHormoneIds.append(hormoneId)
+                    }
                 }
             }
-            return SiteStruct(id, ids, site.imageIdentifier, site.name, Int(site.order))
+            return SiteStruct(id, relatedHormoneIds, site.imageIdentifier, site.name, Int(site.order))
         } else {
             log.error("Failure converting managed \(PDEntity.site.rawValue) to DTO struct. Missing ID.")
             return nil
