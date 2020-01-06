@@ -138,24 +138,24 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private func trySave() {
         if let sdk = sdk {
-            trySaveDate(sdk.hormones, selectionState.selectedDate)
+            trySaveDate(sdk.hormones, selectionState.selectedDate, doSave: false)
             trySaveSite(sdk.hormones, selectionState.selectedSite)
         } else {
             log.error("Save failed - PatchData SDK is nil")
         }
     }
 
-    private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?) {
+    private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?, doSave: Bool=true) {
         if let date = selectedDate {
-            hormones.setDate(for: &hormone, with: date)
+            hormones.setDate(for: &hormone, with: date, doSave: doSave)
         } else {
             log.info("Tried saving date but none was selected")
         }
     }
 
-    private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?) {
+    private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool=true) {
         if let site = selectedSite {
-            hormones.setSite(for: &hormone, with: site)
+            hormones.setSite(for: &hormone, with: site, doSave: doSave)
         } else {
             log.info("Tried saving site but none was selected")
         }

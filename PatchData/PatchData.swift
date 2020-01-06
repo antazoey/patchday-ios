@@ -11,8 +11,6 @@ import UIKit
 import PDKit
 
 
-public typealias SiteSet = [String]
-
 public class PatchData: NSObject, PatchDataDelegate {
 
     override public var description: String {

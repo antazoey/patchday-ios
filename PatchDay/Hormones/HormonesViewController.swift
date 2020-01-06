@@ -18,8 +18,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     var viewModel: HormonesViewModel!
     
-    // MARK: - Main
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         initViewModelIfNil()

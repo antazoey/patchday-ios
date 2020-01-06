@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     
     /// All the hormones.
@@ -47,25 +48,25 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     func get(by id: UUID) -> Hormonal?
     
     /// Sets the date and site for the hormone with the given ID.
-    func set(for id: UUID, date: Date, site: Bodily)
+    func set(for id: UUID, date: Date, site: Bodily, doSave: Bool)
     
     /// Sets the date and site for the hormone at given index.
-    func set(at index: Index, date: Date, site: Bodily)
+    func set(at index: Index, date: Date, site: Bodily, doSave: Bool)
     
     /// Sets the site for the hormone at the given index.
-    func setSite(at index: Index, with site: Bodily)
+    func setSite(at index: Index, with site: Bodily, doSave: Bool)
 
     /// Sets the site for the give hormone.
-    func setSite(for hormone: inout Hormonal, with site: Bodily)
+    func setSite(for hormone: inout Hormonal, with site: Bodily, doSave: Bool)
     
     /// Sets the date for the hormone at the given index.
-    func setDate(at index: Index, with date: Date)
+    func setDate(at index: Index, with date: Date, doSave: Bool)
 
     /// Sets the date for the give hormone.
-    func setDate(for hormone: inout Hormonal, with date: Date)
+    func setDate(for hormone: inout Hormonal, with date: Date, doSave: Bool)
 
     /// Sets the backup site name for the hormone at given index.
-    func setBackUpSiteName(at index: Index, with name: String)
+    func setBackUpSiteName(at index: Index, with name: String, doSave: Bool)
     
     /// Gets the first index of the given hormone.
     func firstIndexOf(_ hormone: Hormonal) -> Index?

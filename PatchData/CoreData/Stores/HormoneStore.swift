@@ -37,19 +37,19 @@ class HormoneStore: EntityStore {
         entities.deleteHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
     }
 
-    func pushLocalChangesToBeSaved(_ hormones: [Hormonal]) {
+    func pushLocalChangesToBeSaved(_ hormones: [Hormonal], doSave: Bool=true) {
         if hormones.count == 0 {
 
         }
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
-        self.pushLocalChangesToBeSaved(hormoneData)
+        self.pushLocalChangesToBeSaved(hormoneData, doSave: doSave)
     }
 
-    func pushLocalChangesToBeSaved(_ hormone: Hormonal) {
-        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
+    func pushLocalChangesToBeSaved(_ hormone: Hormonal, doSave: Bool=true) {
+        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToHormoneStruct(hormone)], doSave: doSave)
     }
 
-    private func pushLocalChangesToBeSaved(_ hormoneData: [HormoneStruct]) {
-        entities.pushHormoneData(hormoneData)
+    private func pushLocalChangesToBeSaved(_ hormoneData: [HormoneStruct], doSave: Bool) {
+        entities.pushHormoneData(hormoneData, doSave: doSave)
     }
 }

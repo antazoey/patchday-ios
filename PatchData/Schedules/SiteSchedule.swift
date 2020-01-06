@@ -235,7 +235,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         hormoneIds.reduce(Date(), {
             (oldestDateThusFar, hormoneId) in
 
-            if let hormone = store.entities.getHormoneById(hormoneId) {
+            if let hormone = store.entities.getHormone(by: hormoneId) {
                 if let date = hormone.date as Date?, date < oldestDateThusFar {
                     return date
                 }

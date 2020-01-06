@@ -141,60 +141,73 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.first(where: { h in h.id == id })
     }
 
-    public func set(for id: UUID, date: Date, site: Bodily) {
+    public func set(for id: UUID, date: Date, site: Bodily, doSave: Bool) {
         if var hormone = get(by: id) {
             hormone.siteId = site.id
             hormone.date = date
             sort()
-            saveFromDateAndSiteChange(hormone)
+            if doSave {
+                saveFromDateAndSiteChange(hormone)
+            }
         }
     }
 
-    public func set(at index: Index, date: Date, site: Bodily) {
+    public func set(at index: Index, date: Date, site: Bodily, doSave: Bool) {
         if var hormone = at(index) {
             hormone.siteId = site.id
             hormone.date = date
             sort()
-            saveFromDateAndSiteChange(hormone)
+            if doSave {
+                saveFromDateAndSiteChange(hormone)
+            }
         }
     }
 
-    public func setSite(at index: Index, with site: Bodily) {
+    public func setSite(at index: Index, with site: Bodily, doSave: Bool=true) {
         if var hormone = at(index) {
-            setSite(for: &hormone, with: site)
+            setSite(for: &hormone, with: site, doSave: doSave)
         }
     }
 
-    public func setSite(for hormone: inout Hormonal, with site: Bodily) {
+    public func setSite(for hormone: inout Hormonal, with site: Bodily, doSave: Bool=true) {
         hormone.siteId = site.id
         hormone.siteName = site.name
         sort()
-        store.pushLocalChangesToBeSaved(hormone)
         state.bodilyChanged = true
         state.onlySiteChanged = true
         state.bodilyChanged = true
         broadcastHormones()
+
+        if doSave {
+            store.pushLocalChangesToBeSaved(hormone)
+        }
     }
 
-    public func setDate(at index: Index, with date: Date) {
+    public func setDate(at index: Index, with date: Date, doSave: Bool=true) {
         if var hormone = at(index) {
             setDate(for: &hormone, with: date)
         }
     }
 
-    public func setDate(for hormone: inout Hormonal, with date: Date) {
+    public func setDate(for hormone: inout Hormonal, with date: Date, doSave: Bool=true) {
         hormone.date = date
         sort()
-        store.pushLocalChangesToBeSaved(hormone)
         broadcastHormones()
         state.onlySiteChanged = false
+
+        if doSave {
+            store.pushLocalChangesToBeSaved(hormone)
+        }
     }
 
-    public func setBackUpSiteName(at index: Index, with name: String) {
+    public func setBackUpSiteName(at index: Index, with name: String, doSave: Bool) {
         if var hormone = at(index) {
             hormone.siteNameBackUp = name
             sort()
-            store.pushLocalChangesToBeSaved(hormone)
+
+            if doSave {
+                store.pushLocalChangesToBeSaved(hormone)
+            }
         }
     }
 

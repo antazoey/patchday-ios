@@ -12,9 +12,9 @@ import PDKit
 
 class CoreDataEntities {
 
-    private var hormoneMOs: [MOHormone] = []
-    private var siteMOs: [MOSite] = []
-    private var pillMOs: [MOPill] = []
+    private static var hormoneMOs: [MOHormone] = []
+    private static var siteMOs: [MOSite] = []
+    private static var pillMOs: [MOPill] = []
 
     private var hormonesInitialized = false
     private var pillsInitialized = false
@@ -30,13 +30,11 @@ class CoreDataEntities {
         saver = EntitiesSaver(coreDataStack)
     }
 
-    func getHormoneById(_ id: UUID?) -> MOHormone? {
-        if let id = id {
-            if let hormone = hormoneMOs.first(where: { h in h.id == id }) {
-                return hormone
-            }
-            logger.warnForNonExistence(.hormone, id: id.uuidString)
+    func getHormone(by id: UUID) -> MOHormone? {
+        if let hormone = CoreDataEntities.hormoneMOs.first(where: { h in h.id == id }) {
+            return hormone
         }
+        logger.warnForNonExistence(.hormone, id: id.uuidString)
         return nil
     }
 
@@ -46,7 +44,7 @@ class CoreDataEntities {
         }
 
         var hormoneStructs: [HormoneStruct] = []
-        for managedHormone in hormoneMOs {
+        for managedHormone in CoreDataEntities.hormoneMOs {
             if let hormone = CoreDataEntityAdapter.convertToHormoneStruct(managedHormone) {
                 hormoneStructs.append(hormone)
             }
@@ -60,7 +58,7 @@ class CoreDataEntities {
             let id = UUID()
             logger.logCreate(.hormone, id: id.uuidString)
             newManagedHormone.id = id
-            hormoneMOs.append(newManagedHormone)
+            CoreDataEntities.hormoneMOs.append(newManagedHormone)
             if doSave {
                 saver.saveCreateNewEntity(.hormone)
             }
@@ -70,7 +68,7 @@ class CoreDataEntities {
         return nil
     }
 
-    func pushHormoneData(_ hormoneData: [HormoneStruct]) {
+    func pushHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
         logger.logPush(.hormone)
         if hormoneData.count == 0 {
             logger.warnForEmptyPush(.hormone)
@@ -78,38 +76,42 @@ class CoreDataEntities {
         }
 
         for data in hormoneData {
-            if let managedHormone = getHormoneById(data.id) {
+            if let managedHormone = getHormone(by: data.id) {
                 managedHormone.date = data.date as NSDate?
                 managedHormone.siteNameBackUp = data.siteNameBackUp
 
                 // Set the site
-                let managedSiteRelationship = getSiteById(data.siteRelationshipId ?? nil)
-                managedHormone.siteRelationship = managedSiteRelationship
+                if let siteId = data.siteRelationshipId {
+                    let managedSiteRelationship = getSite(by: siteId)
+                    managedHormone.siteRelationship = managedSiteRelationship
+                }
             }
         }
-        saver.saveFromPush(.hormone)
+        if doSave {
+            saver.saveFromPush(.hormone)
+        }
     }
 
-    func deleteHormoneData(_ hormoneData: [HormoneStruct]) {
+    func deleteHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
         for data in hormoneData {
-            if let managedHormone = getHormoneById(data.id) {
+            if let managedHormone = getHormone(by: data.id) {
                 managedHormone.id = nil
                 managedHormone.date = nil
                 managedHormone.siteNameBackUp = nil
                 managedHormone.siteRelationship = nil
                 coreDataStack.tryDelete(managedHormone)
-                saver.saveFromDelete(.hormone)
+                if doSave {
+                    saver.saveFromDelete(.hormone)
+                }
             }
         }
     }
 
-    func getPillById(_ id: UUID?) -> MOPill? {
-        if let id = id {
-            if let pill = pillMOs.first(where: { p in p.id == id }) {
-                return pill
-            }
-            logger.warnForNonExistence(.pill, id: id.uuidString)
+    func getPill(by id: UUID) -> MOPill? {
+        if let pill = CoreDataEntities.pillMOs.first(where: { p in p.id == id }) {
+            return pill
         }
+        logger.warnForNonExistence(.pill, id: id.uuidString)
         return nil
     }
 
@@ -119,7 +121,7 @@ class CoreDataEntities {
         }
 
         var pillStructs: [PillStruct] = []
-        for managedPill in pillMOs {
+        for managedPill in CoreDataEntities.pillMOs {
             if let pill = CoreDataEntityAdapter.convertToPillStruct(managedPill) {
                 pillStructs.append(pill)
             }
@@ -127,17 +129,17 @@ class CoreDataEntities {
         return pillStructs
     }
 
-    func createNewPill(save: Bool=true) -> PillStruct? {
-        createNewPill(name: SiteStrings.newSite, save: save)
+    func createNewPill(doSave: Bool=true) -> PillStruct? {
+        createNewPill(name: SiteStrings.newSite, doSave: doSave)
     }
 
-    func createNewPill(name: String, save: Bool=true) -> PillStruct? {
+    func createNewPill(name: String, doSave: Bool=true) -> PillStruct? {
         if let newManagedPill = coreDataStack.insert(.pill) as? MOPill {
             let id = UUID()
             logger.logCreate(.pill, id: id.uuidString)
             newManagedPill.id = id
-            self.pillMOs.append(newManagedPill)
-            if save {
+            CoreDataEntities.pillMOs.append(newManagedPill)
+            if doSave {
                 saver.saveCreateNewEntity(.pill)
             }
             return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
@@ -146,7 +148,7 @@ class CoreDataEntities {
         return nil
     }
 
-    func pushPillData(_ pillData: [PillStruct]) {
+    func pushPillData(_ pillData: [PillStruct], doSave: Bool=true) {
         logger.logPush(.pill)
         if pillData.count == 0 {
             logger.warnForEmptyPush(.pill)
@@ -154,7 +156,7 @@ class CoreDataEntities {
         }
 
         for data in pillData {
-            if let managedPill = getPillById(data.id) {
+            if let managedPill = getPill(by: data.id) {
                 managedPill.name = data.attributes.name
                 managedPill.lastTaken = data.attributes.lastTaken as NSDate?
                 managedPill.notify = data.attributes.notify ?? managedPill.notify
@@ -164,26 +166,28 @@ class CoreDataEntities {
                 managedPill.timesTakenToday = Int16(data.attributes.timesTakenToday ?? 0)
             }
         }
-        saver.saveFromPush(.pill)
+        if doSave {
+            saver.saveFromPush(.pill)
+        }
     }
 
-    func deletePillData(_ pillData: [PillStruct]) {
+    func deletePillData(_ pillData: [PillStruct], doSave: Bool=true) {
         for data in pillData {
-            if let managedPill = getPillById(data.id) {
+            if let managedPill = getPill(by: data.id) {
                 coreDataStack.tryDelete(managedPill)
-                saver.saveFromDelete(.pill)
+                if doSave {
+                    saver.saveFromDelete(.pill)
+                }
             }
         }
     }
 
-    func getSiteById(_ id: UUID?) -> MOSite? {
-        if let id = id {
-            if let site = siteMOs.first(where: { s in s.id == id }) {
-                return site
-            }
-            logger.warnForNonExistence(.site, id: id.uuidString)
-            logger.logSites(siteMOs)
+    func getSite(by id: UUID) -> MOSite? {
+        if let site = CoreDataEntities.siteMOs.first(where: { s in s.id == id }) {
+            return site
         }
+        logger.warnForNonExistence(.site, id: id.uuidString)
+        logger.logSites(CoreDataEntities.siteMOs)
         return nil
     }
 
@@ -193,7 +197,7 @@ class CoreDataEntities {
         }
 
         var siteStructs: [SiteStruct] = []
-        for managedSite in siteMOs {
+        for managedSite in CoreDataEntities.siteMOs {
             if let site = CoreDataEntityAdapter.convertToSiteStruct(managedSite) {
                 siteStructs.append(site)
             }
@@ -206,7 +210,7 @@ class CoreDataEntities {
             let id = UUID()
             logger.logCreate(.site, id: id.uuidString)
             newManagedSite.id = id
-            siteMOs.append(newManagedSite)
+            CoreDataEntities.siteMOs.append(newManagedSite)
             if doSave {
                 saver.saveCreateNewEntity(.site)
             }
@@ -216,7 +220,7 @@ class CoreDataEntities {
         return nil
     }
 
-    func pushSiteData(_ siteData: [SiteStruct]) {
+    func pushSiteData(_ siteData: [SiteStruct], doSave: Bool=true) {
         logger.logPush(.site)
         if siteData.count == 0 {
             logger.warnForEmptyPush(.site)
@@ -224,14 +228,14 @@ class CoreDataEntities {
         }
 
         for data in siteData {
-            if let site = getSiteById(data.id) {
+            if let site = getSite(by: data.id) {
                 site.name = data.name
                 site.imageIdentifier = data.imageIdentifier
                 site.order = Int16(data.order)
 
                 var hormones: [MOHormone] = []
                 for hormoneId in data.hormoneRelationshipIds ?? [] {
-                    if let hormone = getHormoneById(hormoneId) {
+                    if let hormone = getHormone(by: hormoneId) {
                         hormones.append(hormone)
                     }
                 }
@@ -239,19 +243,23 @@ class CoreDataEntities {
                 site.hormoneRelationship = Set(hormones) as NSSet
             }
         }
-        saver.saveFromPush(.site)
+        if doSave {
+            saver.saveFromPush(.site)
+        }
     }
 
-    func deleteSiteData(_ siteData: [SiteStruct]) {
+    func deleteSiteData(_ siteData: [SiteStruct], doSave: Bool=true) {
         for data in siteData {
-            if let managedSite = getSiteById(data.id) {
+            if let managedSite = getSite(by: data.id) {
                 managedSite.name = nil
                 managedSite.id = nil
                 managedSite.imageIdentifier = nil
                 managedSite.order = -1
                 pushBackupSiteNameToHormones(deletedSite: managedSite)
                 coreDataStack.tryDelete(managedSite)
-                saver.saveFromDelete(.site)
+                if doSave {
+                    saver.saveFromDelete(.site)
+                }
             }
         }
     }
@@ -261,7 +269,7 @@ class CoreDataEntities {
     private func loadStoredHormones() {
         if let hormones = coreDataStack.getManagedObjects(entity: .hormone) as? [MOHormone] {
             logger.logEntityCount(hormones.count, for: .hormone)
-            hormoneMOs = hormones
+            CoreDataEntities.hormoneMOs = hormones
             fixHormoneIds()
         } else {
             logger.errorOnCreation(.hormone)
@@ -272,7 +280,7 @@ class CoreDataEntities {
     private func loadStoredPills() {
         if let pills = coreDataStack.getManagedObjects(entity: .pill) as? [MOPill] {
             logger.logEntityCount(pills.count, for: .pill)
-            pillMOs = pills
+            CoreDataEntities.pillMOs = pills
             fixPillIds()
         } else {
             logger.errorOnLoad(.pill)
@@ -283,7 +291,7 @@ class CoreDataEntities {
     private func loadStoredSites() {
         if let sites = coreDataStack.getManagedObjects(entity: .site) as? [MOSite] {
             logger.logEntityCount(sites.count, for: .site)
-            siteMOs = sites
+            CoreDataEntities.siteMOs = sites
             fixSiteIds()
         } else {
             logger.errorOnLoad(.site)
@@ -292,7 +300,7 @@ class CoreDataEntities {
     }
 
     private func fixHormoneIds() {
-        for hormone in hormoneMOs {
+        for hormone in CoreDataEntities.hormoneMOs {
             if hormone.id == nil {
                 hormone.id = UUID()
             }
@@ -300,7 +308,7 @@ class CoreDataEntities {
     }
 
     private func fixPillIds() {
-        for pill in pillMOs {
+        for pill in CoreDataEntities.pillMOs {
             if pill.id == nil {
                 pill.id = UUID()
             }
@@ -308,7 +316,7 @@ class CoreDataEntities {
     }
 
     private func fixSiteIds() {
-        for site in siteMOs {
+        for site in CoreDataEntities.siteMOs {
             if site.id == nil {
                 site.id = UUID()
             }
