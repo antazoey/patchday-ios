@@ -8,6 +8,7 @@
 
 import XCTest
 import PDKit
+import PDMock
 
 @testable
 import PatchData
@@ -15,12 +16,15 @@ import PatchData
 
 class hormoneScheduleTests: XCTestCase {
 
-    //private var hormones: HormoneSchedule
+    private var broadcaster: HormoneDataBroadcasting
+    private var hormones: HormoneSchedule
 
 
 
     override func setUp() {
         super.setUp()
+        var mockData = MockPatchData()
+        hormones = HormoneSchedule(hormoneDataBroadcaster: <#T##HormoneDataBroadcasting##PatchData.HormoneDataBroadcasting#>, coreDataStack: <#T##CoreDataStackWrapper##PatchData.CoreDataStackWrapper#>, state: <#T##PDState##PDKit.PDState#>, defaults: <#T##UserDefaultsStoring##PDKit.UserDefaultsStoring#>)
     }
 }
 //    
