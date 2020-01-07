@@ -52,9 +52,9 @@ public class PatchData: NSObject, PatchDataDelegate {
         let store = CoreDataStackWrapper()
 
         // ******************************************************
-        // Uncomment out to nuke the databases
-        // ******************************************************
-        store.nuke()
+        if CommandLine.arguments.contains("-n") {
+            store.nuke()
+        }
         // ******************************************************
 
         let dataMeter = DataShare()
@@ -64,13 +64,7 @@ public class PatchData: NSObject, PatchDataDelegate {
         )
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
         let pills = PillSchedule(coreDataStack: store, pillDataMeter: dataMeter, state: pillScheduleState)
-        let method = defaultsStore.deliveryMethod
-        let interval = defaultsStore.expirationInterval
         let indexer = SiteIndexer(defaults: defaultsStore)
-        
-        let hormoneData = HormoneScheduleData(
-            deliveryMethod: method, expirationInterval: interval
-        )
 
         let sites = SiteSchedule(coreDataStack: store, defaults: defaultsStore, siteIndexRebounder: indexer)
         
@@ -81,7 +75,6 @@ public class PatchData: NSObject, PatchDataDelegate {
         )
         
         let hormones = HormoneSchedule(
-            data: hormoneData,
             hormoneDataBroadcaster: hormoneDataBroadcaster,
             coreDataStack: store,
             state: state,

@@ -10,11 +10,6 @@ import Foundation
 import PDKit
 
 
-public struct HormoneScheduleData {
-    var deliveryMethod: DeliveryMethodUD
-    var expirationInterval: ExpirationIntervalUD
-}
-
 public class HormoneSchedule: NSObject, HormoneScheduling {
     
     override public var description: String { "Schedule for hormones." }
@@ -28,7 +23,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private let log = PDLog<HormoneSchedule>()
     
     init(
-        data: HormoneScheduleData,
         hormoneDataBroadcaster: HormoneDataBroadcasting,
         coreDataStack: CoreDataStackWrapper,
         state: PDState,
@@ -36,12 +30,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     ) {
         let store = HormoneStore(coreDataStack)
         self.store = store
-        self.hormones = store.getStoredHormones(
-            expiration: data.expirationInterval, deliveryMethod: data.deliveryMethod.value
-        )
         self.dataBroadcaster = hormoneDataBroadcaster
         self.state = state
         self.defaults = defaults
+        self.hormones = HormoneSchedule.getHormoneList(from: store, defaults: defaults)
         super.init()
         reset()
         sort()
@@ -240,6 +232,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     private var hasNoSites: Bool {
         isEmpty || (hormones.filter { $0.siteId != nil || $0.siteNameBackUp != nil }).count == 0
+    }
+
+    private static func getHormoneList(from store: HormoneStore, defaults: UserDefaultsStoring) -> [Hormonal] {
+        store.getStoredHormones(expiration: defaults.expirationInterval, deliveryMethod: defaults.deliveryMethod.value)
     }
 
     private func broadcastHormones() {

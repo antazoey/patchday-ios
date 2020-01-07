@@ -36,6 +36,7 @@ class CoreDataStackWrapper: PDCoreDataDelegate {
     }
 
     func nuke() {
+        log.warn("Nuke called - purging all data")
         CoreDataStack.nuke()
     }
 }

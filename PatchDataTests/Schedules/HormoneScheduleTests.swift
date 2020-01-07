@@ -1,16 +1,28 @@
 //
-//  EstrogenScheduleTests.swift
+//  HormoneScheduleTests.swift
 //  PatchDataTests
 //
 //  Created by Juliya Smith on 1/1/19.
 //  Copyright © 2019 Juliya Smith. All rights reserved.
-//
 
-//import XCTest
-//import PDKit
-//@testable 
-//
-//class EstrogenScheduleTests: XCTestCase {
+
+import XCTest
+import PDKit
+
+@testable
+import PatchData
+
+
+class hormoneScheduleTests: XCTestCase {
+
+    //private var hormones: HormoneSchedule
+
+
+
+    override func setUp() {
+        super.setUp()
+    }
+}
 //    
 //    private var estrogenSchedule: EstrogenSchedule!
 //    private var siteSchedule: SiteSchedule!
