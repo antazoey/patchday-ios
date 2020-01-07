@@ -26,11 +26,11 @@ class CoreDataEntitiesLogger {
     }
 
     func logEntityCount(_ count: Int, for entity: PDEntity) {
-        log.info("Loading \(count) \(entity.rawValue)(s) from Core Data")
+        log.info("There are \(count) entities of type \(entity.rawValue) in Core Data")
     }
 
     func logCreate(_ entity: PDEntity, id: String) {
-        log.info("Creating new \(entity.rawValue) with ID \(id)")
+        log.info("Creating new managed \(entity.rawValue) with ID \(id)")
     }
 
     func logSave(_ entity: PDEntity) {

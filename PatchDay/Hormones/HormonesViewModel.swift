@@ -71,7 +71,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     func watchHormonesForChanges() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(hormonesTable.reloadData),
+            selector: #selector(reloadHormoneCellData),
             name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
@@ -92,4 +92,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         AppDelegate.current?.tabs = tabs
         self.tabs = tabs
     }
+
+    @objc private func reloadHormoneCellData() {hormonesTable.reloadData() }
 }

@@ -30,5 +30,6 @@ class EntitiesSaver {
 
     private func save(_ entity: PDEntity, from name: String) {
         logger.logSave(entity)
+        stack.save(saverName: name)
     }
 }

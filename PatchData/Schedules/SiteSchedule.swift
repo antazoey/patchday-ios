@@ -300,9 +300,12 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     private func logSites() {
-        log.info("Logging sites...")
+        var sitesDescription = "The Site Schedule contains:"
         for site in sites {
-            log.info("Site. Id=\(site.id), Order=\(site.order), Name=\(site.name)")
+            sitesDescription.append("\nSite. Id=\(site.id), Order=\(site.order), Name=\(site.name)")
+        }
+        if sitesDescription.last != ":" {
+            log.info(sitesDescription)
         }
     }
 }
