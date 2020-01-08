@@ -21,18 +21,16 @@ public class HormoneDataBroadcaster: HormoneDataBroadcasting {
         self.defaults = defaults
     }
     
-    public func broadcast(nextHormone: Hormonal?) {
-        if let hormone = nextHormone {
-            let method = defaults.deliveryMethod
-            let interval = defaults.expirationInterval
-            let nextSite = sites.suggested
-            let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
-            siteDataMeter.broadcastRelevantHormoneData(
-                oldestHormone: hormone,
-                displayedSiteName: name ?? SiteStrings.newSite,
-                interval: interval,
-                deliveryMethod: method
-            )
-        }
+    public func broadcast(nextHormone: Hormonal) {
+        let method = defaults.deliveryMethod
+        let interval = defaults.expirationInterval
+        let nextSite = sites.suggested
+        let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
+        siteDataMeter.broadcastRelevantHormoneData(
+            oldestHormone: nextHormone,
+            displayedSiteName: name ?? SiteStrings.newSite,
+            interval: interval,
+            deliveryMethod: method
+        )
     }
 }

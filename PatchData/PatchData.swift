@@ -84,8 +84,7 @@ public class PatchData: NSObject, PatchDataDelegate {
             store: defaultsStore,
             state: state,
             hormones: hormones,
-            sites: sites,
-            hormoneBroadcaster: hormoneDataBroadcaster
+            sites: sites
         )
         
         let stateManager = PatchDataStateManager(

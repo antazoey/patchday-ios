@@ -21,6 +21,17 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     var pills: PillScheduling? {
         sdk?.pills
     }
+    
+    var insertBarButtonItem: UIBarButtonItem {
+        PillsViewFactory.createInsertButton(action: #selector(handleInsertNewPill))
+    }
+    
+    func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
+        let delete = PillsViewFactory.createSiteCellDeleteSwipeAction {
+            self.deletePill(at: index)
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
 
     func takePill(at index: Index) {
         if let pills = pills, let pill = pills.at(index) {
@@ -43,8 +54,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
             nav?.goToPillDetails(pill, source: pillsViewModel)
         }
     }
+    
+    // MARK: - Private
 
-    @objc func handleInsertNewPill(pillsViewController: UIViewController) {
+    @objc private func handleInsertNewPill(pillsViewController: UIViewController) {
         if let pill = pills?.insertNew(completion: pillsTable.reloadData) {
             nav?.goToPillDetails(pill, source: pillsViewController)
         }

@@ -75,4 +75,7 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     
     /// Fills in hormones from the current quantity to the given one.
     func fillIn(newQuantity: Int)
+    
+    /// Share hormone data with other applications that have permission, such as PatchDayToday.
+    func broadcastData()
 }

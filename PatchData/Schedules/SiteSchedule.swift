@@ -120,7 +120,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return site
     }
 
-    @discardableResult public func reset() -> Int {
+    @discardableResult
+    public func reset() -> Int {
         if isDefault {
             return handleDefaultStateDuringReset()
         }
@@ -254,7 +255,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         }
     }
 
-    @discardableResult private func handleDefaultStateDuringReset() -> Int {
+    @discardableResult
+    private func handleDefaultStateDuringReset() -> Int {
         log.warn("Resetting sites unnecessary because already default")
         return sites.count
     }

@@ -26,7 +26,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         title = VCTitleStrings.pillsTitle
         pillsTableView.delegate = self
         pillsTableView.dataSource = self
-        insertInsertButton()
+        insertInsertBarButtonItem()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,13 +52,8 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         PillCell.RowHeight
     }
     
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-        let title = ActionStrings.delete
-        let delete = UITableViewRowAction(style: .normal, title: title) {
-            (action, index) in self.deleteCell(at: indexPath)
-        }
-        delete.backgroundColor = UIColor.red
-        return [delete]
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        viewModel.createPillCellSwipeActions(index: indexPath)
     }
     
     @IBAction func takeButtonTapped(_ sender: Any) {
@@ -75,14 +70,9 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
             viewModel = PillsViewModel(pillsTableView: pillsTableView)
         }
     }
-
-    private func deleteCell(at indexPath: IndexPath) {
-        viewModel.deletePill(at: indexPath)
-    }
     
-    private func insertInsertButton() {
-        let insertButton = PillsViewFactory.createInsertButton(action: #selector(viewModel.handleInsertNewPill))
-        navigationItem.rightBarButtonItems = [insertButton]
+    private func insertInsertBarButtonItem() {
+        navigationItem.rightBarButtonItems = [viewModel.insertBarButtonItem]
     }
     
     private func applyTheme() {

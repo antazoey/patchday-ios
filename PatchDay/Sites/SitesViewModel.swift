@@ -33,8 +33,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         sdk?.sites.names.count ?? 0
     }
     
-    func createDeleteRowActionAsList(indexPath: IndexPath) -> [UITableViewRowAction] {
-        [SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: deleteSite)]
+    func createSiteCellSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration {
+        let delete = SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: deleteSite)
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 
     func isValidSiteIndex(_ index: Index) -> Bool {

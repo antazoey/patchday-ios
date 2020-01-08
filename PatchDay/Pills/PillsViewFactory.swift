@@ -15,4 +15,13 @@ class PillsViewFactory {
         insertButton.tintColor = PDColors.get(.Green)
         return insertButton
     }
+    
+    static func createSiteCellDeleteSwipeAction(delete: @escaping () -> ()) -> UIContextualAction {
+        let title = ActionStrings.delete
+        let delete = UIContextualAction(style: .normal, title: title) {
+             _, _, _ in delete()
+        }
+        delete.backgroundColor = UIColor.red
+        return delete
+    }
 }

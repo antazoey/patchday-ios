@@ -64,7 +64,7 @@ public class PillSchedule: NSObject, PillScheduling {
             if let comp = completion {
                 comp()
             }
-            meter.broadcastRelevantPillData(nextPill: pill)
+            broadcastData()
             store.pushLocalChangesToBeSaved(pill)
             return pill
         }
@@ -74,12 +74,11 @@ public class PillSchedule: NSObject, PillScheduling {
     public func delete(at index: Index) {
         if let pill = at(index) {
             store.delete(pill)
-            meter.broadcastRelevantPillData(nextPill: pill)
+            broadcastData()
         }
     }
 
     public func reset() {
-        log
         deleteAll()
         let names = PDStrings.PillTypes.defaultPills
         pills = []
@@ -104,7 +103,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func set(at index: Index, with attributes: PillAttributes) {
         if let pill = at(index) {
             set(for: pill, with: attributes)  // Saves
-            meter.broadcastRelevantPillData(nextPill: pill)
+            broadcastData()
         }
     }
 

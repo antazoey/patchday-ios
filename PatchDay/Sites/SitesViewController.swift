@@ -38,11 +38,11 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     func numberOfSections(in tableView: UITableView) -> Int {
         DefaultNumberOfPickerComponents
     }
-
-    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         viewModel.createDeleteRowActionAsList(indexPath: indexPath)
     }
-    
+
     // Row select action
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.goToSiteDetails(siteIndex: indexPath.row, sitesViewController: self)

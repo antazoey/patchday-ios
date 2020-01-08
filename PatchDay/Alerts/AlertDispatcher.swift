@@ -22,10 +22,22 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }()
 
     private var rootViewController: UIViewController? = {
-        if let window = UIApplication.shared.keyWindow {
-            return window.rootViewController
-        }
-        return nil
+        UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first?.rootViewController
+    }()
+    
+    private var keyWindow: UIWindow? = {
+        // https://stackoverflow.com/questions/57134259/how-to-resolve-keywindow-was-deprecated-in-ios-13-0
+        UIApplication.shared.connectedScenes
+            .filter({$0.activationState == .foregroundActive})
+            .map({$0 as? UIWindowScene})
+            .compactMap({$0})
+            .first?.windows
+            .filter({$0.isKeyWindow}).first
     }()
 
     init(sdk: PatchDataDelegate?, tabs: TabReflective?=nil) {

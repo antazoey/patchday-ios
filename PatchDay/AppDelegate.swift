@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     static var isPad: Bool {
-        UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad
+        UIDevice.current.userInterfaceIdiom == .pad
     }
 
     static var current: AppDelegate? {
