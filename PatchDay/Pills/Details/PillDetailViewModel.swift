@@ -73,7 +73,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     /// Sets the selected name with the name at the given index and optionally returns the name.
-    @discardableResult func selectNameFromRow(_ row: Index) -> String {
+    @discardableResult
+    func selectNameFromRow(_ row: Index) -> String {
         selections.name = providedPillNameSelection[row]
         return providedPillNameSelection[row]
     }

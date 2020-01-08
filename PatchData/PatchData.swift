@@ -64,9 +64,8 @@ public class PatchData: NSObject, PatchDataDelegate {
         )
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
         let pills = PillSchedule(coreDataStack: store, pillDataMeter: dataMeter, state: pillScheduleState)
-        let indexer = SiteIndexer(defaults: defaultsStore)
 
-        let sites = SiteSchedule(coreDataStack: store, defaults: defaultsStore, siteIndexRebounder: indexer)
+        let sites = SiteSchedule(coreDataStack: store, defaults: defaultsStore)
         
         let hormoneDataBroadcaster = HormoneDataBroadcaster(
             sites: sites,

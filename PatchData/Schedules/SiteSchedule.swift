@@ -18,21 +18,15 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private let store: SiteStore
     private let defaults: UserDefaultsWriting
     private var sites: [Bodily]
-    let siteIndexRebounder: PDIndexRebounce
 
     let log = PDLog<SiteSchedule>()
     
-    init(
-        coreDataStack: CoreDataStackWrapper,
-        defaults: UserDefaultsWriting,
-        siteIndexRebounder: PDIndexRebounce
-    ) {
+    init(coreDataStack: CoreDataStackWrapper, defaults: UserDefaultsWriting) {
         store = SiteStore(coreDataStack)
         self.defaults = defaults
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
         self.sites = store.getStoredSites(expiration: exp, method: method)
-        self.siteIndexRebounder = siteIndexRebounder
         super.init()
         handleSiteCount()
         sort()
@@ -79,7 +73,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             return -1
         }
         if let siteIndex = firstEmptyIndex {
-            return updateIndex(focus: siteIndex)
+            return updateIndex(to: siteIndex)
         }
         return siteIndexWithOldestHormone
     }
@@ -206,12 +200,14 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         sites.firstIndex { (_ s: Bodily) -> Bool in s.isEqualTo(site) }
     }
 
-    @discardableResult private func updateIndex() -> Index {
-        siteIndexRebounder.rebound(upon: nextIndex, lessThan: count)
+    @discardableResult
+    private func updateIndex() -> Index {
+        defaults.replaceStoredSiteIndex(to: nextIndex, siteCount: count)
     }
     
-    @discardableResult private func updateIndex(focus: Index) -> Index {
-        siteIndexRebounder.rebound(upon: focus, lessThan: count)
+    @discardableResult
+    private func updateIndex(to newIndex: Index) -> Index {
+        defaults.replaceStoredSiteIndex(to: newIndex, siteCount: count)
     }
 
     private var firstEmptyIndex: Index? {

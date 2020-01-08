@@ -18,7 +18,8 @@ class HormoneCell: TableCell {
 
     private var styles: Styling?
 
-    @discardableResult public func configure(viewModel: HormonesViewModel, hormone: Hormonal, row: Index) -> HormoneCell {
+    @discardableResult
+    public func configure(viewModel: HormonesViewModel, hormone: Hormonal, row: Index) -> HormoneCell {
         styles = viewModel.styles
         backgroundColor = styles?.theme[.bg]
         setThemeColors(at: row)

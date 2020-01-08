@@ -20,7 +20,8 @@ class SiteCell: TableCell {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
 
-    @discardableResult func configure(props: SiteCellProperties) -> SiteCell {
+    @discardableResult
+    func configure(props: SiteCellProperties) -> SiteCell {
         self.props = props
         loadOrderDependentViews()
         loadSiteProperties()

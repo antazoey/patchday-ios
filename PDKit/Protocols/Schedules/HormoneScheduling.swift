@@ -27,10 +27,12 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     var totalExpired: Int { get }
     
     /// Inserts a new hormone into the schedule.
-    @discardableResult func insertNew() -> Hormonal?
+    @discardableResult
+    func insertNew() -> Hormonal?
     
     /// Resets all hormone properties to their default values.
-    @discardableResult func reset(completion: (() -> ())?) -> Int
+    @discardableResult
+    func reset(completion: (() -> ())?) -> Int
 
     /// Persists all the changes to the hormones.
     func saveAll()

@@ -33,7 +33,8 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     func replaceStoredMentionedDisclaimer(to b: Bool)
     
     /// Replaces the value of 'site index' with the given one. Accepts 0..<siteCount. Returns the index after trying to set.
-    @discardableResult func replaceStoredSiteIndex(to i: Int, siteCount: Int) -> Index
+    @discardableResult
+    func replaceStoredSiteIndex(to i: Int, siteCount: Int) -> Index
 
     /// Replaces the value of 'theme' with the given one.
     func replaceStoredTheme(to t: PDTheme)

@@ -115,7 +115,6 @@
 		9D003E9D232737D30070C964 /* DateShareDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9C232737D30070C964 /* DateShareDelegate.swift */; };
 		9D003E9F232878CE0070C964 /* PatchDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003E9E232878CE0070C964 /* PatchDataDelegate.swift */; };
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
-		9D003EB3233330CE0070C964 /* PDSiteIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EB2233330CE0070C964 /* PDSiteIndexer.swift */; };
 		9D003EC1233599A90070C964 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC0233599A90070C964 /* Schedule.swift */; };
 		9D003EC323359B2D0070C964 /* PDCoreDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* PDCoreDataDelegate.swift */; };
 		9D003EC523359E990070C964 /* KeyStorableHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC423359E990070C964 /* KeyStorableHelper.swift */; };
@@ -169,7 +168,6 @@
 		9D9946D22377271C00CF3C96 /* DuePillNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9946D12377271C00CF3C96 /* DuePillNotifying.swift */; };
 		9D9946D42377274100CF3C96 /* ExpiredHormoneOvernightNotifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9946D32377274100CF3C96 /* ExpiredHormoneOvernightNotifying.swift */; };
 		9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978462367B01C009679FB /* SimpleProtocols.swift */; };
-		9D9978492367B0E5009679FB /* PDIndexRebounce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978482367B0E5009679FB /* PDIndexRebounce.swift */; };
 		9D99784D2369265B009679FB /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D99784C2369265B009679FB /* ArrayExtension.swift */; };
 		9DA3A901233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
@@ -425,7 +423,6 @@
 		9D003E9C232737D30070C964 /* DateShareDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateShareDelegate.swift; sourceTree = "<group>"; };
 		9D003E9E232878CE0070C964 /* PatchDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDataDelegate.swift; sourceTree = "<group>"; };
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
-		9D003EB2233330CE0070C964 /* PDSiteIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSiteIndexer.swift; sourceTree = "<group>"; };
 		9D003EC0233599A90070C964 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		9D003EC223359B2D0070C964 /* PDCoreDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataDelegate.swift; sourceTree = "<group>"; };
 		9D003EC423359E990070C964 /* KeyStorableHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorableHelper.swift; sourceTree = "<group>"; };
@@ -470,7 +467,6 @@
 		9D9946D12377271C00CF3C96 /* DuePillNotifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuePillNotifying.swift; sourceTree = "<group>"; };
 		9D9946D32377274100CF3C96 /* ExpiredHormoneOvernightNotifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneOvernightNotifying.swift; sourceTree = "<group>"; };
 		9D9978462367B01C009679FB /* SimpleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleProtocols.swift; sourceTree = "<group>"; };
-		9D9978482367B0E5009679FB /* PDIndexRebounce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDIndexRebounce.swift; sourceTree = "<group>"; };
 		9D99784C2369265B009679FB /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
@@ -969,7 +965,6 @@
 		9D1BC56A2275FAC800552BC1 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
-				9D003EB2233330CE0070C964 /* PDSiteIndexer.swift */,
 				9D7B0A78226CCB9B0089E1CD /* PDUserDefaultsWriteHandler.swift */,
 				13C746D01ED781DD00067A67 /* PDUserDefaultsWriter.swift */,
 				9D9397BC2379444300FDF290 /* PDDefaults.swift */,
@@ -1059,7 +1054,6 @@
 				9D003EB8233467E20070C964 /* PatchDataShared */,
 				9D003EB7233467D20070C964 /* Schedules */,
 				9D003EB6233467C00070C964 /* UserDefaults */,
-				9D9978482367B0E5009679FB /* PDIndexRebounce.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1747,7 +1741,6 @@
 				9D8A97F723AFCA8B004E20FE /* CoreDataValueTypes.swift in Sources */,
 				9D8A97FF23B290BC004E20FE /* PillStore.swift in Sources */,
 				9D9397BD2379444300FDF290 /* PDDefaults.swift in Sources */,
-				9D003EB3233330CE0070C964 /* PDSiteIndexer.swift in Sources */,
 				9D913BAC230CD5C9001FC03C /* Hormone.swift in Sources */,
 				B480EE4A21CC7D76002C2238 /* PillSchedule.swift in Sources */,
 				B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */,
@@ -1804,7 +1797,6 @@
 				9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				B49A4A5C20DB2D5A00F24FC0 /* PillHelper.swift in Sources */,
-				9D9978492367B0E5009679FB /* PDIndexRebounce.swift in Sources */,
 				9D9397C02379473B00FDF290 /* UserDefaultsManaging.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */,

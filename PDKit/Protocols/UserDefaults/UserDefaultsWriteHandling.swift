@@ -13,7 +13,5 @@ public protocol UserDefaultsWriteHandling {
 
     @discardableResult func replace<T>(_ v: inout T, to new: T.Value) -> UserDefaultsWriteHandling where T: KeyStorable
 
-    func find<T>(_ v: inout T) -> Bool where T: KeyStorable
-
     @discardableResult func load<T>(_ v: inout T) -> UserDefaultsWriteHandling where T: KeyStorable
 }

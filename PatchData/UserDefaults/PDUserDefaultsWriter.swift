@@ -78,7 +78,8 @@ public class PDUserDefaultsWriter: UserDefaultsWriting {
         handler.replace(&mentionedDisclaimer, to: b)
     }
     
-    @discardableResult public func replaceStoredSiteIndex(to i: Index, siteCount: Int) -> Index {
+    @discardableResult
+    public func replaceStoredSiteIndex(to i: Index, siteCount: Int) -> Index {
         if i < siteCount && i >= 0 {
             handler.replace(&siteIndex, to: i)
             return i
