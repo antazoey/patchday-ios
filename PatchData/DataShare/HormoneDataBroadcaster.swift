@@ -13,9 +13,9 @@ public class HormoneDataBroadcaster: HormoneDataBroadcasting {
     
     private let sites: HormoneSiteScheduling
     private let siteDataMeter: DataShareDelegate
-    private let defaults: UserDefaultsStoring
+    private let defaults: UserDefaultsWriting
     
-    init(sites: HormoneSiteScheduling, siteDataMeter: DataShareDelegate, defaults: UserDefaultsStoring) {
+    init(sites: HormoneSiteScheduling, siteDataMeter: DataShareDelegate, defaults: UserDefaultsWriting) {
         self.sites = sites
         self.siteDataMeter = siteDataMeter
         self.defaults = defaults

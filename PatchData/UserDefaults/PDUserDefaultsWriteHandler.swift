@@ -9,13 +9,10 @@
 import Foundation
 import PDKit
 
-public class PDDefaultsStorageHandler: NSObject, Storing {
 
-    override open var description: String {
-        """
-        Handles pushing and pulling from UserDefaults.
-        """
-    }
+public class PDUserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
+
+    override open var description: String { "Handles pushing and pulling from UserDefaults." }
     
     private let stdDefaults = UserDefaults.standard
     private var meter: DataShareDelegate? = nil
@@ -24,7 +21,7 @@ public class PDDefaultsStorageHandler: NSObject, Storing {
         self.meter = meter
     }
 
-     @discardableResult public func replace<T>(_ v: inout T, to new: T.Value) -> Storing where T : KeyStorable {
+     @discardableResult public func replace<T>(_ v: inout T, to new: T.Value) -> UserDefaultsWriteHandling where T : KeyStorable {
         v.value = new
         meter?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
         stdDefaults.set(v.rawValue, forKey: T.key.rawValue)
@@ -39,7 +36,7 @@ public class PDDefaultsStorageHandler: NSObject, Storing {
         return def1 != nil || def2 != nil
     }
     
-    @discardableResult public func load<T>(_ v: inout T) -> Storing where T : KeyStorable {
+    @discardableResult public func load<T>(_ v: inout T) -> UserDefaultsWriteHandling where T : KeyStorable {
         let found = find(&v)
         if !found {
             self.replace(&v, to: v.value)

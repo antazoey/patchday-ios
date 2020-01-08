@@ -9,15 +9,12 @@
 import UIKit
 import PDKit
 
-public class PDDefaultsConstants {
-    public static let maxQuantity = 4
-}
 
-public class PDDefaultsStore: UserDefaultsStoring {
+public class PDUserDefaultsWriter: UserDefaultsWriting {
 
     // Dependencies
     private var state: PDState
-    private var handler: PDDefaultsStorageHandler
+    private var handler: PDUserDefaultsWriteHandler
 
     // Defaults
     public var deliveryMethod = DeliveryMethodUD()
@@ -28,10 +25,8 @@ public class PDDefaultsStore: UserDefaultsStoring {
     public var mentionedDisclaimer = MentionedDisclaimerUD()
     public var siteIndex = SiteIndexUD()
     public var theme = PDThemeUD()
-
-    // MARK: - initializer
     
-    init(state: PDState, handler: PDDefaultsStorageHandler) {
+    init(state: PDState, handler: PDUserDefaultsWriteHandler) {
         self.state = state
         self.handler = handler
         handler.load(&deliveryMethod)

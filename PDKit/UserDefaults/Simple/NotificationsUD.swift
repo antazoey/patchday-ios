@@ -8,19 +8,8 @@
 
 import Foundation
 
-public class NotificationsUD: KeyStorable {
-    
-    public typealias Value = Bool
-    
-    public typealias RawValue = Bool
-    
+public class NotificationsUD: SimpleUserDefault<Bool>, BooleanKeyStorable {
+
     public convenience required init() { self.init(with: false) }
-    
-    public required init(with val: Bool) { value = val }
-    
-    public var value: Bool
-    
-    public var rawValue: Bool { value }
-    
     public static var key = PDDefault.Notifications
 }

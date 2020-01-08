@@ -59,8 +59,8 @@ public class PatchData: NSObject, PatchDataDelegate {
 
         let dataMeter = DataShare()
         let state = PDState()
-        let defaultsStore = PDDefaultsStore(
-            state: state, handler: PDDefaultsStorageHandler(meter: dataMeter)
+        let defaultsStore = PDUserDefaultsWriter(
+            state: state, handler: PDUserDefaultsWriteHandler(meter: dataMeter)
         )
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
         let pills = PillSchedule(coreDataStack: store, pillDataMeter: dataMeter, state: pillScheduleState)
@@ -123,7 +123,7 @@ public class PatchData: NSObject, PatchDataDelegate {
         defaults.reset(defaultSiteCount: newSiteCount)
     }
     
-    private static func determinePillScheduleState(defaults: UserDefaultsStoring) -> PillSchedule.PillScheduleState {
+    private static func determinePillScheduleState(defaults: UserDefaultsWriting) -> PillSchedule.PillScheduleState {
         !defaults.mentionedDisclaimer.value
             ? PillSchedule.PillScheduleState.Initial
             : PillSchedule.PillScheduleState.Working

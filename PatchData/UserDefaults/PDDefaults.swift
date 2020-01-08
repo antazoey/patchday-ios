@@ -12,14 +12,14 @@ import PDKit
 
 public class PDDefaults: UserDefaultsManaging {
 
-    private let store: UserDefaultsStoring
+    private let store: UserDefaultsWriting
     private var state: PDState
     private let hormoneBroadcaster: HormoneDataBroadcasting
     private let hormones: HormoneScheduling
     private let sites: HormoneSiteScheduling
 
     init(
-        store: UserDefaultsStoring,
+        store: UserDefaultsWriting,
         state: PDState,
         hormones: HormoneScheduling,
         sites: HormoneSiteScheduling,

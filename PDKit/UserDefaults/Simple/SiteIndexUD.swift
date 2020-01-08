@@ -8,19 +8,9 @@
 
 import Foundation
 
-public class SiteIndexUD: KeyStorable {
-    
-    public typealias Value = Int
-    
-    public typealias RawValue = Int
-    
-    public required init(with val: Int) { value = val }
-    
+
+public class SiteIndexUD: SimpleUserDefault<Int>, IntKeyStorable {
+
     public convenience required init() { self.init(with: 0) }
-    
-    public var value: Int
-    
-    public var rawValue: Int { value }
-    
     public static var key = PDDefault.SiteIndex
 }

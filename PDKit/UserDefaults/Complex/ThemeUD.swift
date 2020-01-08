@@ -8,10 +8,11 @@
 
 import Foundation
 
+
 public class PDThemeValueHolder: ComplexValueHolding {
     
-    static let lkey = { "Light" }()
-    static let dkey = { "Dark" }()
+    private static let lightThemeKey = { "Light" }()
+    private static let darkThemeKey = { "Dark" }()
     
     var indexer: PDTheme
     
@@ -21,17 +22,15 @@ public class PDThemeValueHolder: ComplexValueHolding {
     
     public convenience init(raw: String) {
         switch raw {
-        case PDThemeValueHolder.dkey:
-            self.init(indexer: .Dark)
-        default:
-            self.init(indexer: .Light)
+        case PDThemeValueHolder.darkThemeKey: self.init(indexer: .Dark)
+        default: self.init(indexer: .Light)
         }
     }
     
     public var heldValue: String {
         switch indexer {
-        case .Light: return PDThemeValueHolder.lkey
-        case .Dark: return PDThemeValueHolder.dkey
+        case .Light: return PDThemeValueHolder.lightThemeKey
+        case .Dark: return PDThemeValueHolder.darkThemeKey
         }
     }
 }

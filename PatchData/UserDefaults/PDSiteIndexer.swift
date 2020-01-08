@@ -11,9 +11,9 @@ import PDKit
 
 class SiteIndexer: PDIndexRebounce  {
     
-    let defaults: UserDefaultsStoring
+    let defaults: UserDefaultsWriting
     
-    public init(defaults: UserDefaultsStoring) {
+    public init(defaults: UserDefaultsWriting) {
         self.defaults = defaults
     }
 

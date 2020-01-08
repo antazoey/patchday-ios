@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public protocol UserDefaultsManaging: UserDefaultsReading {
 
     func setDeliveryMethod(to newMethod: DeliveryMethod)

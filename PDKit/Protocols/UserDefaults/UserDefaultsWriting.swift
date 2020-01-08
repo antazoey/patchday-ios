@@ -8,7 +8,8 @@
 
 import Foundation
 
-public protocol UserDefaultsStoring : UserDefaultsReading {
+
+public protocol UserDefaultsWriting: UserDefaultsReading {
     
     /// Resets all values back to their default.
     func reset(defaultSiteCount: Int)

@@ -17,16 +17,16 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private let dataBroadcaster: HormoneDataBroadcasting
     private var store: HormoneStore
     private var state: PDState
-    private let defaults: UserDefaultsStoring
+    private let defaults: UserDefaultsWriting
     private var hormones: [Hormonal]
 
     private let log = PDLog<HormoneSchedule>()
     
     init(
         hormoneDataBroadcaster: HormoneDataBroadcasting,
-        coreDataStack: CoreDataStackWrapper,
+        coreDataStack: PDCoreDataDelegate,
         state: PDState,
-        defaults: UserDefaultsStoring
+        defaults: UserDefaultsWriting
     ) {
         let store = HormoneStore(coreDataStack)
         self.store = store
@@ -234,7 +234,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         isEmpty || (hormones.filter { $0.siteId != nil || $0.siteNameBackUp != nil }).count == 0
     }
 
-    private static func getHormoneList(from store: HormoneStore, defaults: UserDefaultsStoring) -> [Hormonal] {
+    private static func getHormoneList(from store: HormoneStore, defaults: UserDefaultsWriting) -> [Hormonal] {
         store.getStoredHormones(expiration: defaults.expirationInterval, deliveryMethod: defaults.deliveryMethod.value)
     }
 

@@ -16,7 +16,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     override public var description: String { "Schedule for sites." }
     
     private let store: SiteStore
-    private let defaults: UserDefaultsStoring
+    private let defaults: UserDefaultsWriting
     private var sites: [Bodily]
     let siteIndexRebounder: PDIndexRebounce
 
@@ -24,7 +24,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     
     init(
         coreDataStack: CoreDataStackWrapper,
-        defaults: UserDefaultsStoring,
+        defaults: UserDefaultsWriting,
         siteIndexRebounder: PDIndexRebounce
     ) {
         store = SiteStore(coreDataStack)

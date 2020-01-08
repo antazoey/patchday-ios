@@ -8,19 +8,9 @@
 
 import Foundation
 
-public class MentionedDisclaimerUD: KeyStorable {
-    
-    public typealias Value = Bool
-    
-    public typealias RawValue = Bool
-    
-    public required init(with val: Bool) { value = val }
-    
+
+public class MentionedDisclaimerUD: SimpleUserDefault<Bool>, BooleanKeyStorable {
+
     public convenience required init() { self.init(with: false) }
-    
-    public var value: Bool
-    
-    public var rawValue: Bool { value }
-    
     public static var key = PDDefault.MentionedDisclaimer
 }
