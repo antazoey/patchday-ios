@@ -31,7 +31,8 @@ class HormoneScheduleTests: XCTestCase {
         setUpHormones()
     }
     
-    private func setUpHormones() {
+    private func setUpHormones(_ mockHormones: [MockHormone]=[]) {
+        mockStore.getStoredHormonesReturnValues = [mockHormones]
         hormones = HormoneSchedule(
             hormoneDataBroadcaster: mockBroadcaster,
             store: mockStore,
@@ -44,20 +45,96 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertNil(hormones.next)
     }
     
-    func testNext_WhenThereAreHormones_ReturnsHormonesWithOldestDate() {
-        let hormone1 = MockHormone()
-        let hormone2 = MockHormone()
-        let hormone3 = MockHormone()
+    func testNext_whenThereAreHormones_returnsHormonesWithOldestDate() {
+        let mockHormones = MockHormone.createList(count: 3)
+        mockHormones[0].date = Date()
+        mockHormones[1].date = Date(timeIntervalSinceNow: -5000)  // Oldest
+        mockHormones[2].date = Date(timeIntervalSinceNow: -1000)
         
-        hormone1.date = Date()
-        hormone2.date = Date(timeIntervalSinceNow: -5000)  // Oldest
-        hormone3.date = Date(timeIntervalSinceNow: -1000)
+        setUpHormones(mockHormones)
         
-        mockStore.getStoredHormonesReturnValues = [[hormone1, hormone2, hormone3]]
-        setUpHormones()
-        
+        let expected = mockHormones[1]
         let actual = hormones.next
-        let expected = hormone2
         XCTAssertEqual(expected.id, actual?.id)
+    }
+    
+    func testTotalExpired_returnsCountOfHormonesExpired() {
+        let mockHormones = MockHormone.createList(count: 3)
+        mockHormones[0].isExpired = true
+        mockHormones[1].isExpired = true
+        mockHormones[2].isExpired = false
+        
+        setUpHormones(mockHormones)
+        
+        let expected = 2
+        let actual = hormones.totalExpired
+        XCTAssertEqual(expected, actual)
+    }
+    
+    func testInsertNew_whenStoreReturnsNil_doesNotIncreaseHormoneCount() {
+        let mockHormones = MockHormone.createList(count: 3)
+        setUpHormones(mockHormones)
+        
+        hormones.insertNew()
+        
+        let expected = 3
+        let actual = hormones.count
+        XCTAssertEqual(expected, actual)
+    }
+    
+    func testInsertNew_whenStoreReturnsHormone_increasesCount() {
+        let mockHormones = MockHormone.createList(count: 3)
+        let newHormone = MockHormone()
+        setUpHormones(mockHormones)
+        mockStore.createNewHormoneReturnValues = [newHormone]
+        hormones.insertNew()
+        
+        let expected = 4
+        let actual = hormones.count
+        XCTAssertEqual(expected, actual)
+    }
+    
+    func testInsertNew_whenStoreReturnsHormone_appendsNewSite() {
+        let mockHormones = MockHormone.createList(count: 3)
+        let newHormone = MockHormone()
+        setUpHormones(mockHormones)
+        mockStore.createNewHormoneReturnValues = [newHormone]
+        hormones.insertNew()
+        
+        XCTAssertTrue(hormones.all.contains(where: { $0.id == newHormone.id }))
+    }
+    
+    func testInsertNew_whenStoreReturnsHormone_maintainsOrder() {
+        let mockHormones = MockHormone.createList(count: 3)
+        mockHormones[0].date = Date()
+        mockHormones[1].date = Date(timeIntervalSinceNow: -5000)  // Original oldest
+        mockHormones[2].date = Date(timeIntervalSinceNow: -1000)
+        
+        let newHormone = MockHormone()
+        newHormone.date = Date(timeIntervalSinceNow: -999999)  // New oldest
+        
+        setUpHormones(mockHormones)
+        mockStore.createNewHormoneReturnValues = [newHormone]
+        hormones.insertNew()
+        
+        let expected = newHormone
+        let actual = hormones.all.first
+        XCTAssertEqual(expected.id, actual?.id)
+    }
+    
+    func testSort_sortsHormones() {
+        let mockHormones = MockHormone.createList(count: 3)
+        mockHormones[0].date = Date()
+        mockHormones[1].date = Date(timeIntervalSinceNow: -5000)  // Original oldest
+        mockHormones[2].date = Date(timeIntervalSinceNow: -1000)
+        
+        setUpHormones(mockHormones)
+        hormones.sort()
+        
+        XCTAssertTrue(
+            hormones.all[0].date == mockHormones[1].date &&
+            hormones.all[1].date == mockHormones[2].date &&
+            hormones.all[2].date == mockHormones[0].date
+        )
     }
 }

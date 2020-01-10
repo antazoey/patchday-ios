@@ -44,6 +44,15 @@ public class MockHormone: Hormonal, PDMocking {
         resetCallCount = 0
     }
     
+    @discardableResult
+    public static func createList(count: Int) -> [MockHormone] {
+        var hormoneList: [MockHormone] = []
+        for _ in 0..<count {
+            hormoneList.append(MockHormone())
+        }
+        return hormoneList
+    }
+    
     public func stamp() {
         stampCallCount += 1
     }
