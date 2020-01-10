@@ -8,11 +8,12 @@
 
 import UIKit
 
+
 extension UITabBar {
     
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
         super.sizeThatFits(size)
-        guard let window = UIApplication.shared.keyWindow else {
+        guard let window = KeyWindowFinder.keyWindw else {
             return super.sizeThatFits(size)
         }
         var sizeThatFits = super.sizeThatFits(size)

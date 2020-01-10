@@ -10,8 +10,8 @@ import Foundation
 import PDKit
 
 
-class HormoneStore: EntityStore {
-
+class HormoneStore: EntityStore, HormoneStoring {
+    
     private let log = PDLog<HormoneStore>()
 
     func getStoredHormones(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal] {
@@ -25,8 +25,8 @@ class HormoneStore: EntityStore {
         }
         return hormones
     }
-
-    func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormone? {
+    
+    func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
         if let newHormoneDataFromStore = entities.createNewHormone(expiration: expiration, method: deliveryMethod) {
             return Hormone(hormoneData: newHormoneDataFromStore, interval: expiration, deliveryMethod: deliveryMethod)
         }
@@ -37,19 +37,15 @@ class HormoneStore: EntityStore {
         entities.deleteHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
     }
 
-    func pushLocalChangesToBeSaved(_ hormones: [Hormonal], doSave: Bool=true) {
+    func pushLocalChanges(_ hormones: [Hormonal], doSave: Bool=true) {
         if hormones.count == 0 {
-
+            return
         }
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
-        self.pushLocalChangesToBeSaved(hormoneData, doSave: doSave)
+        self.pushLocalChanges(hormoneData, doSave: doSave)
     }
 
-    func pushLocalChangesToBeSaved(_ hormone: Hormonal, doSave: Bool=true) {
-        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToHormoneStruct(hormone)], doSave: doSave)
-    }
-
-    private func pushLocalChangesToBeSaved(_ hormoneData: [HormoneStruct], doSave: Bool) {
+    private func pushLocalChanges(_ hormoneData: [HormoneStruct], doSave: Bool) {
         entities.pushHormoneData(hormoneData, doSave: doSave)
     }
 }

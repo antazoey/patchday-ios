@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol PDBadgeDelegate {
+public protocol PDBadgeDelegate {
     var hasValue: Bool { get }
     func increment()
     func decrement()

@@ -75,7 +75,7 @@ public class PatchData: NSObject, PatchDataDelegate {
         
         let hormones = HormoneSchedule(
             hormoneDataBroadcaster: hormoneDataBroadcaster,
-            coreDataStack: store,
+            store: HormoneStore(store),
             state: state,
             defaults: defaultsStore
         )

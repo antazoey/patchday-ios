@@ -7,7 +7,7 @@ import Foundation
 import PDKit
 
 
-class MockUserDefaultsWriter: UserDefaultsWriting, PDMocking {
+public class MockUserDefaultsWriter: UserDefaultsWriting, PDMocking {
     
     public var deliveryMethod = DeliveryMethodUD()
     public var expirationInterval = ExpirationIntervalUD()
@@ -21,7 +21,9 @@ class MockUserDefaultsWriter: UserDefaultsWriting, PDMocking {
     public var resetCallArgs: [Int] = []
     public var replaceSiteIndexMockReturnValue = 0
     
-    func resetMock() {
+    public init() {}
+    
+    public func resetMock() {
         resetCallArgs = []
         self.deliveryMethod = DeliveryMethodUD()
         self.expirationInterval = ExpirationIntervalUD()

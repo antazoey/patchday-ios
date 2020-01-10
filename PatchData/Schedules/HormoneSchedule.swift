@@ -15,7 +15,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     override public var description: String { "Schedule for hormones." }
 
     private let dataBroadcaster: HormoneDataBroadcasting
-    private var store: HormoneStore
+    private var store: HormoneStoring
     private var state: PDState
     private let defaults: UserDefaultsWriting
     private var hormones: [Hormonal]
@@ -24,11 +24,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     init(
         hormoneDataBroadcaster: HormoneDataBroadcasting,
-        coreDataStack: PDCoreDataDelegate,
+        store: HormoneStoring,
         state: PDState,
         defaults: UserDefaultsWriting
     ) {
-        let store = HormoneStore(coreDataStack)
+        let store = store
         self.store = store
         self.dataBroadcaster = hormoneDataBroadcaster
         self.state = state
@@ -118,7 +118,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if count == 0 {
             return
         }
-        store.pushLocalChangesToBeSaved(hormones)
+        store.pushLocalChanges(hormones, doSave: true)
     }
     
     public func deleteAll() {
@@ -141,6 +141,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
             hormone.siteId = site.id
             hormone.date = date
             sort()
+            
             if doSave {
                 saveFromDateAndSiteChange(hormone)
             }
@@ -152,19 +153,20 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
             hormone.siteId = site.id
             hormone.date = date
             sort()
+            
             if doSave {
                 saveFromDateAndSiteChange(hormone)
             }
         }
     }
 
-    public func setSite(at index: Index, with site: Bodily, doSave: Bool=true) {
+    public func setSite(at index: Index, with site: Bodily, doSave: Bool) {
         if var hormone = at(index) {
             setSite(for: &hormone, with: site, doSave: doSave)
         }
     }
 
-    public func setSite(for hormone: inout Hormonal, with site: Bodily, doSave: Bool=true) {
+    public func setSite(for hormone: inout Hormonal, with site: Bodily, doSave: Bool) {
         hormone.siteId = site.id
         hormone.siteName = site.name
         sort()
@@ -172,37 +174,28 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         state.onlySiteChanged = true
         state.bodilyChanged = true
         broadcastData()
-
-        if doSave {
-            store.pushLocalChangesToBeSaved(hormone, doSave: true)
-        }
+        store.pushLocalChanges([hormone], doSave: true)
     }
 
-    public func setDate(at index: Index, with date: Date, doSave: Bool=true) {
+    public func setDate(at index: Index, with date: Date, doSave: Bool) {
         if var hormone = at(index) {
-            setDate(for: &hormone, with: date)
+            setDate(for: &hormone, with: date, doSave: doSave)
         }
     }
 
-    public func setDate(for hormone: inout Hormonal, with date: Date, doSave: Bool=true) {
+    public func setDate(for hormone: inout Hormonal, with date: Date, doSave: Bool) {
         hormone.date = date
         sort()
         broadcastData()
         state.onlySiteChanged = false
-
-        if doSave {
-            store.pushLocalChangesToBeSaved(hormone)
-        }
+        store.pushLocalChanges([hormone], doSave: doSave)
     }
 
     public func setBackUpSiteName(at index: Index, with name: String, doSave: Bool) {
         if var hormone = at(index) {
             hormone.siteNameBackUp = name
             sort()
-
-            if doSave {
-                store.pushLocalChangesToBeSaved(hormone)
-            }
+            store.pushLocalChanges([hormone], doSave: doSave)
         }
     }
 
@@ -211,11 +204,13 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
-        if fromThisIndexOnward <= lastIndex {
-            for i in fromThisIndexOnward...lastIndex {
-                if let mone = at(i), mone.isEmpty {
-                    return false
-                }
+        if fromThisIndexOnward > lastIndex {
+            return false
+        }
+        
+        for i in fromThisIndexOnward...lastIndex {
+            if let hormone = at(i), hormone.isEmpty {
+                return false
             }
         }
         return true
@@ -243,12 +238,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         isEmpty || (hormones.filter { $0.siteId != nil || $0.siteNameBackUp != nil }).count == 0
     }
 
-    private static func getHormoneList(from store: HormoneStore, defaults: UserDefaultsWriting) -> [Hormonal] {
+    private static func getHormoneList(from store: HormoneStoring, defaults: UserDefaultsWriting) -> [Hormonal] {
         store.getStoredHormones(expiration: defaults.expirationInterval, deliveryMethod: defaults.deliveryMethod.value)
     }
 
     private func saveFromDateAndSiteChange(_ hormone: Hormonal) {
-        store.pushLocalChangesToBeSaved(hormone)
+        store.pushLocalChanges([hormone], doSave: true)
         broadcastData()
         state.onlySiteChanged = false
         state.bodilyChanged = true

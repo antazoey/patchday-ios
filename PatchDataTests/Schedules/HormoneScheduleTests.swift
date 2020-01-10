@@ -14,26 +14,50 @@ import PDMock
 import PatchData
 
 
-public class hormoneScheduleTests: XCTestCase {
+class HormoneScheduleTests: XCTestCase {
 
-    private var mockBroadcaster: MockHormoneDataBroadcaster
-    private var mockData: MockPatchData
-    private var state: PDState
-    private var mockDefaults: MockUserDefaultsWriter
-    private var hormones: HormoneSchedule
+    private var mockBroadcaster: MockHormoneDataBroadcaster!
+    private var mockStore: MockHormoneStore!
+    private var state: PDState!
+    private var mockDefaults: MockUserDefaultsWriter!
+    private var hormones: HormoneSchedule!
 
     override func setUp() {
         super.setUp()
-        broadcaster = MockHormoneDataBroadcaster()
-        mockData = MockPatchData()
+        mockBroadcaster = MockHormoneDataBroadcaster()
+        mockStore = MockHormoneStore()
         state = PDState()
-        mockDefaults = MockUserDefaultsWriteR()
+        mockDefaults = MockUserDefaultsWriter()
+        setUpHormones()
+    }
+    
+    private func setUpHormones() {
         hormones = HormoneSchedule(
-            hormoneDataBroadcaster: broadcaster, coreDataStack: mockData, state: state, defaults: mockDefaults
+            hormoneDataBroadcaster: mockBroadcaster,
+            store: mockStore,
+            state: state,
+            defaults: mockDefaults
         )
     }
     
-    func testTest() {
-        XCTAssertTrue(true)
+    func testNext_WhenThereAreNoHormones_ReturnsNil() {
+        XCTAssertNil(hormones.next)
+    }
+    
+    func testNext_WhenThereAreHormones_ReturnsHormonesWithOldestDate() {
+        let hormone1 = MockHormone()
+        let hormone2 = MockHormone()
+        let hormone3 = MockHormone()
+        
+        hormone1.date = Date()
+        hormone2.date = Date(timeIntervalSinceNow: -5000)  // Oldest
+        hormone3.date = Date(timeIntervalSinceNow: -1000)
+        
+        mockStore.getStoredHormonesReturnValues = [[hormone1, hormone2, hormone3]]
+        setUpHormones()
+        
+        let actual = hormones.next
+        let expected = hormone2
+        XCTAssertEqual(expected.id, actual?.id)
     }
 }
