@@ -13,15 +13,15 @@ import PDKit
 public class MockHormoneStore: HormoneStoring, PDMocking {
     
     public var getStoredHormonesReturnValues: [[Hormonal]] = []
-    public var createNewHormoneReturnValues: [Hormonal] = []
-    private var deleteCallArgs: [Hormonal] = []
-    private var pushLocalChangesCallArgs: [([Hormonal], Bool)] = []
+    public var createNewHormoneReturnValue: Hormonal? = MockHormone()
+    public var deleteCallArgs: [Hormonal] = []
+    public var pushLocalChangesCallArgs: [([Hormonal], Bool)] = []
     
     public init() {}
     
     public func resetMock() {
         getStoredHormonesReturnValues = []
-        createNewHormoneReturnValues = []
+        createNewHormoneReturnValue = MockHormone()
         deleteCallArgs = []
     }
     
@@ -34,11 +34,7 @@ public class MockHormoneStore: HormoneStoring, PDMocking {
     }
     
     public func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
-        if let hormone = createNewHormoneReturnValues.first {
-            createNewHormoneReturnValues.remove(at: 0)
-            return hormone
-        }
-        return nil
+        return createNewHormoneReturnValue
     }
     
     public func delete(_ hormone: Hormonal) {

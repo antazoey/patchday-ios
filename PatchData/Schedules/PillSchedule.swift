@@ -61,11 +61,9 @@ public class PillSchedule: NSObject, PillScheduling {
     public func insertNew(completion: (() -> ())?) -> Swallowable? {
         if let pill = store.createNewPill() {
             pills.append(pill)
-            if let comp = completion {
-                comp()
-            }
-            broadcastData()
             store.pushLocalChangesToBeSaved(pill)
+            completion?()
+            broadcastData()
             return pill
         }
         return nil
@@ -120,9 +118,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
         swallow(pill) // Saves
-        if let comp = completion {
-            comp()
-        }
+        completion?()
     }
 
     public func swallow(_ pill: Swallowable) {

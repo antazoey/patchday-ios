@@ -44,7 +44,11 @@ class HormoneStore: EntityStore, HormoneStoring {
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
         self.pushLocalChanges(hormoneData, doSave: doSave)
     }
-
+    
+    func save() {
+        stack.save(saverName: "Hormone Store")
+    }
+    
     private func pushLocalChanges(_ hormoneData: [HormoneStruct], doSave: Bool) {
         entities.pushHormoneData(hormoneData, doSave: doSave)
     }

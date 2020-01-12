@@ -35,7 +35,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         self.defaults = defaults
         self.hormones = HormoneSchedule.getHormoneList(from: store, defaults: defaults)
         super.init()
-        reset()
+        resetIfEmpty()
         sort()
         broadcastData()
     }
@@ -80,12 +80,17 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     @discardableResult
-    public func reset() -> Int {
-        if hormones.count == 0 {
+    public func resetIfEmpty() -> Int {
+        if count == 0 {
             log.info("No stored hormones - resetting to default")
-            return reset(completion: nil)
+            return reset()
         }
-        return hormones.count
+        return count
+    }
+    
+    @discardableResult
+    public func reset() -> Int {
+        reset(completion: nil)
     }
 
     @discardableResult
@@ -96,17 +101,15 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         for _ in 0..<quantity {
             insertNew()
         }
-        if let comp = completion {
-            comp()
-        }
+        completion?()
         saveAll()
         return hormones.count
     }
 
     public func delete(after i: Index) {
         let start = i >= -1 ? i + 1 : 0
-        if count >= start {
-            for _ in start..<count {
+        if hormones.count >= start {
+            for _ in start..<hormones.count {
                 if let hormone = hormones.popLast() {
                     store.delete(hormone)
                 }
@@ -141,10 +144,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
             hormone.siteId = site.id
             hormone.date = date
             sort()
-            
-            if doSave {
-                saveFromDateAndSiteChange(hormone)
-            }
+            pushFromDateAndSiteChange(hormone, doSave: doSave)
         }
     }
 
@@ -153,10 +153,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
             hormone.siteId = site.id
             hormone.date = date
             sort()
-            
-            if doSave {
-                saveFromDateAndSiteChange(hormone)
-            }
+            pushFromDateAndSiteChange(hormone, doSave: doSave)
         }
     }
 
@@ -174,7 +171,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         state.onlySiteChanged = true
         state.bodilyChanged = true
         broadcastData()
-        store.pushLocalChanges([hormone], doSave: true)
+        store.pushLocalChanges([hormone], doSave: doSave)
     }
 
     public func setDate(at index: Index, with date: Date, doSave: Bool) {
@@ -242,8 +239,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         store.getStoredHormones(expiration: defaults.expirationInterval, deliveryMethod: defaults.deliveryMethod.value)
     }
 
-    private func saveFromDateAndSiteChange(_ hormone: Hormonal) {
-        store.pushLocalChanges([hormone], doSave: true)
+    private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {
+        store.pushLocalChanges([hormone], doSave: doSave)
         broadcastData()
         state.onlySiteChanged = false
         state.bodilyChanged = true

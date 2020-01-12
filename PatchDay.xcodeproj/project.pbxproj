@@ -154,6 +154,7 @@
 		9D8A983223C7F74F004E20FE /* KeyWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983123C7F74F004E20FE /* KeyWindowFinder.swift */; };
 		9D8A983523C7F8A9004E20FE /* MockHormoneStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */; };
 		9D8A983A23C7FD1F004E20FE /* MockHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983923C7FD1F004E20FE /* MockHormone.swift */; };
+		9D8A983C23CBC071004E20FE /* MockSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983B23CBC071004E20FE /* MockSite.swift */; };
 		9D913B7A22FF3A0B001FC03C /* UserDefaultsWriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */; };
 		9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */; };
 		9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */; };
@@ -463,6 +464,7 @@
 		9D8A983123C7F74F004E20FE /* KeyWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyWindowFinder.swift; sourceTree = "<group>"; };
 		9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneStore.swift; sourceTree = "<group>"; };
 		9D8A983923C7FD1F004E20FE /* MockHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormone.swift; sourceTree = "<group>"; };
+		9D8A983B23CBC071004E20FE /* MockSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSite.swift; sourceTree = "<group>"; };
 		9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriting.swift; sourceTree = "<group>"; };
 		9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduling.swift; sourceTree = "<group>"; };
 		9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDStateManaging.swift; sourceTree = "<group>"; };
@@ -1101,6 +1103,7 @@
 			isa = PBXGroup;
 			children = (
 				9D8A983923C7FD1F004E20FE /* MockHormone.swift */,
+				9D8A983B23CBC071004E20FE /* MockSite.swift */,
 			);
 			path = MockPatchDataObjects;
 			sourceTree = "<group>";
@@ -1760,6 +1763,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8A983C23CBC071004E20FE /* MockSite.swift in Sources */,
 				9D8A983523C7F8A9004E20FE /* MockHormoneStore.swift in Sources */,
 				9D8A981F23C57473004E20FE /* MockHormoneDataBroadcaster.swift in Sources */,
 				9D8A982723C574F5004E20FE /* MockUserDefaultsWriter.swift in Sources */,
