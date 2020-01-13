@@ -24,7 +24,7 @@ public class MockHormone: Hormonal, PDMocking {
     public var expirationInterval: ExpirationIntervalUD = ExpirationIntervalUD()
     public var siteId: UUID? = nil
     public var siteName: SiteName? = nil
-    public var date: Date = Date()
+    public var date: Date = Date(timeIntervalSince1970: 0)
     public var expiration: Date? = nil
     public var expirationString: String = ""
     public var isExpired: Bool = false

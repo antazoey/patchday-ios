@@ -55,7 +55,7 @@ public class PDDefaults: UserDefaultsManaging {
                 hormones.delete(after: newQuantity - 1)
             } else if newQuantity > oldQuantity {
                 state.decreasedQuantity = false
-                hormones.fillIn(newQuantity: newQuantity)
+                hormones.fillIn(to: newQuantity)
             }
             store.replaceStoredQuantity(to: newQuantity)
         }

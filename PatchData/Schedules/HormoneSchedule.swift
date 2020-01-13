@@ -44,7 +44,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     public var all: [Hormonal] { hormones }
     
-    public var isEmpty: Bool { hormones.count == 0 || (hasNoDates && hasNoSites) }
+    public var isEmpty: Bool {
+        let hasNoDates = !hasDates
+        let hasNoSites = !hasSites
+        return hormones.count == 0 || (hasNoDates && hasNoSites)
+    }
     
     public var next: Hormonal? {
         sort()
@@ -139,82 +143,48 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.first(where: { h in h.id == id })
     }
 
-    public func set(for id: UUID, date: Date, site: Bodily, doSave: Bool) {
+    public func set(by id: UUID, date: Date, site: Bodily, doSave: Bool) {
         if var hormone = get(by: id) {
-            hormone.siteId = site.id
-            hormone.date = date
-            sort()
-            pushFromDateAndSiteChange(hormone, doSave: doSave)
+            set(&hormone, date: date, site: site, doSave: doSave)
         }
     }
 
     public func set(at index: Index, date: Date, site: Bodily, doSave: Bool) {
         if var hormone = at(index) {
-            hormone.siteId = site.id
-            hormone.date = date
-            sort()
-            pushFromDateAndSiteChange(hormone, doSave: doSave)
+            set(&hormone, date: date, site: site, doSave: doSave)
         }
     }
 
     public func setSite(at index: Index, with site: Bodily, doSave: Bool) {
         if var hormone = at(index) {
-            setSite(for: &hormone, with: site, doSave: doSave)
+            setSite(&hormone, with: site, doSave: doSave)
         }
     }
 
-    public func setSite(for hormone: inout Hormonal, with site: Bodily, doSave: Bool) {
-        hormone.siteId = site.id
-        hormone.siteName = site.name
-        sort()
-        state.bodilyChanged = true
-        state.onlySiteChanged = true
-        state.bodilyChanged = true
-        broadcastData()
-        store.pushLocalChanges([hormone], doSave: doSave)
+    public func setSite(by id: UUID, with site: Bodily, doSave: Bool) {
+        if var hormone = get(by: id) {
+            setSite(&hormone, with: site, doSave: doSave)
+        }
     }
 
     public func setDate(at index: Index, with date: Date, doSave: Bool) {
         if var hormone = at(index) {
-            setDate(for: &hormone, with: date, doSave: doSave)
+            setDate(&hormone, with: date, doSave: doSave)
         }
     }
 
-    public func setDate(for hormone: inout Hormonal, with date: Date, doSave: Bool) {
-        hormone.date = date
-        sort()
-        broadcastData()
-        state.onlySiteChanged = false
-        store.pushLocalChanges([hormone], doSave: doSave)
-    }
-
-    public func setBackUpSiteName(at index: Index, with name: String, doSave: Bool) {
-        if var hormone = at(index) {
-            hormone.siteNameBackUp = name
-            sort()
-            store.pushLocalChanges([hormone], doSave: doSave)
+    public func setDate(by id: UUID, with date: Date, doSave: Bool) {
+        if var hormone = get(by: id) {
+            setDate(&hormone, with: date, doSave: doSave)
         }
     }
 
     public func firstIndexOf(_ hormone: Hormonal) -> Index? {
-        hormones.firstIndex { (_ h: Hormonal) -> Bool in h.isEqualTo(hormone) }
+        hormones.firstIndex { (_ h: Hormonal) -> Bool in h.id == hormone.id }
     }
-
-    public func isEmpty(fromThisIndexOnward: Index, lastIndex: Index) -> Bool {
-        if fromThisIndexOnward > lastIndex {
-            return false
-        }
-        
-        for i in fromThisIndexOnward...lastIndex {
-            if let hormone = at(i), hormone.isEmpty {
-                return false
-            }
-        }
-        return true
-    }
-
-    public func fillIn(newQuantity: Int) {
-        for _ in count..<newQuantity {
+    
+    public func fillIn(to stopCount: Int) {
+        for _ in count..<stopCount {
             insertNew()
         }
     }
@@ -227,12 +197,41 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     // MARK: - Private
     
-    private var hasNoDates: Bool {
-        isEmpty || (hormones.filter { !$0.date.isDefault() }).count == 0
+    private var hasDates: Bool {
+        let dateCount = hormones.filter { !$0.date.isDefault() }.count
+        return dateCount > 0
     }
     
-    private var hasNoSites: Bool {
-        isEmpty || (hormones.filter { $0.siteId != nil || $0.siteNameBackUp != nil }).count == 0
+    private var hasSites: Bool {
+        let siteCount = hormones.filter {
+            $0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "")
+        }.count
+        return siteCount > 0
+    }
+    
+    private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, doSave: Bool) {
+        hormone.siteId = site.id
+        hormone.date = date
+        sort()
+        pushFromDateAndSiteChange(hormone, doSave: doSave)
+    }
+    
+    private func setSite(_ hormone: inout Hormonal, with site: Bodily, doSave: Bool) {
+        hormone.siteId = site.id
+        hormone.siteName = site.name
+        state.bodilyChanged = true
+        state.onlySiteChanged = true
+        state.bodilyChanged = true
+        broadcastData()
+        store.pushLocalChanges([hormone], doSave: doSave)
+    }
+    
+    private func setDate(_ hormone: inout Hormonal, with date: Date, doSave: Bool) {
+        hormone.date = date
+        sort()
+        broadcastData()
+        state.onlySiteChanged = false
+        store.pushLocalChanges([hormone], doSave: doSave)
     }
 
     private static func getHormoneList(from store: HormoneStoring, defaults: UserDefaultsWriting) -> [Hormonal] {

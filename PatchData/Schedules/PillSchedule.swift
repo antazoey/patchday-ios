@@ -99,15 +99,15 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func set(at index: Index, with attributes: PillAttributes) {
-        if let pill = at(index) {
-            set(for: pill, with: attributes)  // Saves
-            broadcastData()
+        if var pill = at(index) {
+            set(&pill, with: attributes)
         }
     }
 
-    public func set(for pill: Swallowable, with attributes: PillAttributes) {
-        pill.set(attributes: attributes)
-        store.pushLocalChangesToBeSaved(pill)
+    public func set(by id: UUID, with attributes: PillAttributes) {
+        if var pill = get(by: id) {
+            set(&pill, with: attributes)
+        }
     }
 
     public func swallow(at index: Index, completion: (() -> ())?) {
@@ -145,6 +145,12 @@ public class PillSchedule: NSObject, PillScheduling {
     }
     
     // MARK: - Private
+    
+    private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {
+        pill.set(attributes: attributes)
+        store.pushLocalChangesToBeSaved(pill)
+        broadcastData()
+    }
 
     private func awaken() {
         for pill in pills {

@@ -31,8 +31,8 @@ public protocol PillScheduling: Schedule, Deleting {
     /// Sets the pill at the given index with the given attributes.
     func set(at index: Index, with attributes: PillAttributes)
     
-    /// Sets the pill with the given attributes.
-    func set(for pill: Swallowable, with attributes: PillAttributes)
+    /// Sets the pill for the givne ID with the given attributes.
+    func set(by id: UUID, with attributes: PillAttributes)
     
     /// Resets all pill attributes to their default.
     func reset()

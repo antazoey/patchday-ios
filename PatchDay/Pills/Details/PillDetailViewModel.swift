@@ -66,7 +66,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     func save() {
         if let notifications = notifications {
             notifications.cancelDuePillNotification(pill)
-            sdk?.pills.set(for: pill, with: selections)
+            sdk?.pills.set(by: pill.id, with: selections)
             notifications.requestDuePillNotification(pill)
             tabs?.reflectDuePillBadgeValue()
         }
