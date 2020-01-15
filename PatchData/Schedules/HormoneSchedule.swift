@@ -65,9 +65,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     @discardableResult
     public func insertNew() -> Hormonal? {
-        let method = defaults.deliveryMethod.value
-        let exp = defaults.expirationInterval
-        if let hormone = store.createNewHormone(expiration: exp, deliveryMethod: method) {
+        if let hormone = store.createNewHormone(HormoneScheduleProperties(defaults)) {
             hormones.append(hormone)
             sort()
             return hormone
@@ -112,24 +110,26 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     public func delete(after i: Index) {
         let start = i >= -1 ? i + 1 : 0
-        if hormones.count >= start {
-            for _ in start..<hormones.count {
-                if let hormone = hormones.popLast() {
-                    store.delete(hormone)
-                }
+        guard count >= start else {
+            log.error("Attempted to delete hormones after index \(i) when the count is only \(count)")
+            return
+        }
+        for _ in start..<count {
+            if let hormone = hormones.popLast() {
+                store.delete(hormone)
             }
         }
     }
 
     public func saveAll() {
-        if count == 0 {
+        guard count > 0 else {
             return
         }
         store.pushLocalChanges(hormones, doSave: true)
     }
     
     public func deleteAll() {
-        if count == 0 {
+        guard count > 0 else {
             return
         }
         delete(after: -1)
@@ -234,8 +234,9 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         store.pushLocalChanges([hormone], doSave: doSave)
     }
 
-    private static func getHormoneList(from store: HormoneStoring, defaults: UserDefaultsWriting) -> [Hormonal] {
-        store.getStoredHormones(expiration: defaults.expirationInterval, deliveryMethod: defaults.deliveryMethod.value)
+    private static func getHormoneList(from store: HormoneStoring, defaults: UserDefaultsReading) -> [Hormonal] {
+        let props = HormoneScheduleProperties(defaults)
+        return store.getStoredHormones(props)
     }
 
     private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {

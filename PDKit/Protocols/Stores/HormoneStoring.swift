@@ -12,10 +12,10 @@ import Foundation
 public protocol HormoneStoring {
     
     /// Retrieve the stored hormones
-    func getStoredHormones(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal]
+    func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal]
     
     /// Create a new hormone to keep in storage and return it.
-    func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal?
+    func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal?
     
     /// Delete the given stored hormone from storage.
     func delete(_ hormone: Hormonal)

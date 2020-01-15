@@ -14,31 +14,29 @@ class HormoneStore: EntityStore, HormoneStoring {
     
     private let log = PDLog<HormoneStore>()
 
-    func getStoredHormones(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> [Hormonal] {
+    func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
         var hormones: [Hormonal] = []
-        let hormoneDataEntries = entities.getStoredHormoneData(
-            expiration: expiration, method: deliveryMethod
-        )
+        let hormoneDataEntries = entities.getManagedHormoneData()
         for hormoneData in hormoneDataEntries {
-            let hormone = Hormone(hormoneData: hormoneData, interval: expiration, deliveryMethod: deliveryMethod)
+            let hormone = Hormone(hormoneData: hormoneData, scheduleProperties: scheduleProperties)
             hormones.append(hormone)
         }
         return hormones
     }
     
-    func createNewHormone(expiration: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) -> Hormonal? {
-        if let newHormoneDataFromStore = entities.createNewHormone(expiration: expiration, method: deliveryMethod) {
-            return Hormone(hormoneData: newHormoneDataFromStore, interval: expiration, deliveryMethod: deliveryMethod)
+    func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
+        if let newHormoneDataFromStore = entities.createNewManagedHormone() {
+            return Hormone(hormoneData: newHormoneDataFromStore, scheduleProperties: scheduleProperties)
         }
         return nil
     }
 
     func delete(_ hormone: Hormonal) {
-        entities.deleteHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
+        entities.deleteManagedHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
     }
 
     func pushLocalChanges(_ hormones: [Hormonal], doSave: Bool=true) {
-        if hormones.count == 0 {
+        guard hormones.count > 0 else {
             return
         }
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
@@ -50,6 +48,6 @@ class HormoneStore: EntityStore, HormoneStoring {
     }
     
     private func pushLocalChanges(_ hormoneData: [HormoneStruct], doSave: Bool) {
-        entities.pushHormoneData(hormoneData, doSave: doSave)
+        entities.pushHormoneDataToManagedContext(hormoneData, doSave: doSave)
     }
 }

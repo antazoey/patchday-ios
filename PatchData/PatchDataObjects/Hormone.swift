@@ -14,22 +14,20 @@ public class Hormone: Hormonal {
     
     private var hormoneData: HormoneStruct
     
-    public init(hormoneData: HormoneStruct, interval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+    public var deliveryMethod: DeliveryMethod
+    public var expirationInterval: ExpirationIntervalUD
+    public var notificationMinutesBefore: NotificationsMinutesBeforeUD
+    
+    public init(hormoneData: HormoneStruct, scheduleProperties: HormoneScheduleProperties) {
         self.hormoneData = hormoneData
-        self.expirationInterval = interval
-        self.deliveryMethod = deliveryMethod
+        self.deliveryMethod = scheduleProperties.deliveryMethod
+        self.expirationInterval = scheduleProperties.expirationInterval
+        self.notificationMinutesBefore = scheduleProperties.notificationMinutesBefore
     }
 
-    public var deliveryMethod: DeliveryMethod
-
-    public var expirationInterval: ExpirationIntervalUD
-
     public var id: UUID {
-        get {
-            hormoneData.id
-        } set {
-            hormoneData.id = newValue
-        }
+        get { hormoneData.id }
+        set { hormoneData.id = newValue }
     }
     
     public var siteId: UUID? {
@@ -53,27 +51,25 @@ public class Hormone: Hormonal {
     }
 
     public var expiration: Date? {
-        if let date = date as Date?,
-            let expires = DateHelper.calculateExpirationDate(from: date, expirationInterval.hours) {
-            return expires
+        if let date = date as Date?, !date.isDefault() {
+            let hoursUntilExpires = expirationInterval.hours
+            return DateHelper.calculateExpirationDate(from: date, hoursUntilExpires)
         }
         return nil
     }
 
     public var expirationString: String {
-        if let date = date as Date?,
-            let expires = DateHelper.calculateExpirationDate(from: date, expirationInterval.hours) {
-            return DateHelper.format(date: expires, useWords: true)
+        guard let expDate = expiration else {
+            return PDStrings.PlaceholderStrings.dotDotDot
         }
-        return PDStrings.PlaceholderStrings.dotDotDot
+        return DateHelper.format(date: expDate, useWords: true)
     }
 
     public var isExpired: Bool {
-        if let date = date as Date?, !date.isDefault() {
-            let timeInterval = DateHelper.calculateExpirationTimeInterval(expirationInterval.hours, date: date)
-            return (timeInterval ?? 1) <= 0
+        guard let expDate = expiration else {
+            return false
         }
-        return false
+        return expDate < Date()
     }
 
     public func isEqualTo(_ otherHormone: Hormonal) -> Bool {
@@ -81,13 +77,11 @@ public class Hormone: Hormonal {
     }
 
     public var isPastNotificationTime: Bool {
-        if let expDate = expiration {
-            let hours = 0 - expirationInterval.hours
-            if let notifyDate = expDate.createNewDateFromAddingHours(hours) {
-                return Date() > notifyDate
-            }
+        let hours = 0 - expirationInterval.hours
+        guard let expDate = expiration, let notificationTime = expDate.createNewDateFromAddingHours(hours) else {
+            return false
         }
-        return false
+        return Date() > notificationTime
     }
     
     public var expiresOvernight: Bool {
@@ -95,13 +89,9 @@ public class Hormone: Hormonal {
     }
 
     public var siteNameBackUp: String? {
-        get {
-            // Only give a back up name if needed
-            siteId == nil ? hormoneData.siteNameBackUp : nil
-        }
-        set {
-            hormoneData.siteNameBackUp = newValue
-        }
+        // Ignore backup name if there is a site relationship.
+        get { siteId == nil ? hormoneData.siteNameBackUp : nil }
+        set { hormoneData.siteNameBackUp = newValue }
     }
 
     public var isEmpty: Bool {

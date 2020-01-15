@@ -18,4 +18,7 @@ public class MOHormone: NSManagedObject {
     @NSManaged var id: UUID?
     @NSManaged var date: NSDate?
     @NSManaged var siteNameBackUp: String?
+    
+    @objc(addSiteRelationshipObject:)
+    @NSManaged func addToSiteRelationship(_ value: MOSite)
 }

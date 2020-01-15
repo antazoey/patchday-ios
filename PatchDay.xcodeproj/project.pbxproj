@@ -155,6 +155,8 @@
 		9D8A983523C7F8A9004E20FE /* MockHormoneStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */; };
 		9D8A983A23C7FD1F004E20FE /* MockHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983923C7FD1F004E20FE /* MockHormone.swift */; };
 		9D8A983C23CBC071004E20FE /* MockSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983B23CBC071004E20FE /* MockSite.swift */; };
+		9D8A983F23CBF384004E20FE /* HormoneTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983E23CBF384004E20FE /* HormoneTest.swift */; };
+		9D8A984123CD5096004E20FE /* HormoneScheduleProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A984023CD5096004E20FE /* HormoneScheduleProperties.swift */; };
 		9D913B7A22FF3A0B001FC03C /* UserDefaultsWriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */; };
 		9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */; };
 		9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */; };
@@ -465,6 +467,8 @@
 		9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneStore.swift; sourceTree = "<group>"; };
 		9D8A983923C7FD1F004E20FE /* MockHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormone.swift; sourceTree = "<group>"; };
 		9D8A983B23CBC071004E20FE /* MockSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSite.swift; sourceTree = "<group>"; };
+		9D8A983E23CBF384004E20FE /* HormoneTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneTest.swift; sourceTree = "<group>"; };
+		9D8A984023CD5096004E20FE /* HormoneScheduleProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduleProperties.swift; sourceTree = "<group>"; };
 		9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriting.swift; sourceTree = "<group>"; };
 		9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduling.swift; sourceTree = "<group>"; };
 		9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDStateManaging.swift; sourceTree = "<group>"; };
@@ -729,6 +733,7 @@
 				3397C04CA4C5DFC156FB06E3 /* HormoneStruct.swift */,
 				3397CB2E2533C70179037EBD /* SiteStruct.swift */,
 				3397CF46DE0F3DDE91856410 /* SharedCoreDataValueTypes.swift */,
+				9D8A984023CD5096004E20FE /* HormoneScheduleProperties.swift */,
 			);
 			path = DTOs;
 			sourceTree = "<group>";
@@ -1108,6 +1113,14 @@
 			path = MockPatchDataObjects;
 			sourceTree = "<group>";
 		};
+		9D8A983D23CBF368004E20FE /* PatchDataObjects */ = {
+			isa = PBXGroup;
+			children = (
+				9D8A983E23CBF384004E20FE /* HormoneTest.swift */,
+			);
+			path = PatchDataObjects;
+			sourceTree = "<group>";
+		};
 		9D913B7B22FF3BD6001FC03C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -1272,6 +1285,7 @@
 		B480EE2A21CC7554002C2238 /* PatchDataTests */ = {
 			isa = PBXGroup;
 			children = (
+				9D8A983D23CBF368004E20FE /* PatchDataObjects */,
 				B4E12EA421D018E80068AD2E /* Schedules */,
 				B480EE2D21CC7554002C2238 /* Info.plist */,
 			);
@@ -1834,6 +1848,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8A983F23CBF384004E20FE /* HormoneTest.swift in Sources */,
 				B468414221DC815A00A0BE73 /* HormoneScheduleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1856,6 +1871,7 @@
 				9D3E4C9622B730B500C82DAE /* ActionStrings.swift in Sources */,
 				9D913B8622FF43AB001FC03C /* ComplexValueHolding.swift in Sources */,
 				9D003E9A23231E880070C964 /* PDObjectified.swift in Sources */,
+				9D8A984123CD5096004E20FE /* HormoneScheduleProperties.swift in Sources */,
 				9D003E9F232878CE0070C964 /* PatchDataDelegate.swift in Sources */,
 				9D913BA42304ED7B001FC03C /* PillScheduling.swift in Sources */,
 				9DDF47E3234D6EE2005AA467 /* ColonStrings.swift in Sources */,

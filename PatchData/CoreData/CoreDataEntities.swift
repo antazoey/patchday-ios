@@ -29,8 +29,10 @@ class CoreDataEntities {
         self.coreDataStack = coreDataStack
         saver = EntitiesSaver(coreDataStack)
     }
+    
+    // MARK: - Public Getters
 
-    func getHormone(by id: UUID) -> MOHormone? {
+    func getManagedHormone(by id: UUID) -> MOHormone? {
         if let hormone = CoreDataEntities.hormoneMOs.first(where: { h in h.id == id }) {
             return hormone
         }
@@ -38,151 +40,31 @@ class CoreDataEntities {
         return nil
     }
 
-    func getStoredHormoneData(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [HormoneStruct] {
+    func getManagedHormoneData() -> [HormoneStruct] {
         if !hormonesInitialized {
             loadStoredHormones()
         }
-
-        var hormoneStructs: [HormoneStruct] = []
-        for managedHormone in CoreDataEntities.hormoneMOs {
-            if let hormone = CoreDataEntityAdapter.convertToHormoneStruct(managedHormone) {
-                hormoneStructs.append(hormone)
-            }
-        }
-
-        return hormoneStructs
+        
+        return getCurrentMananagedHormones()
     }
-
-    func createNewHormone(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool=true) -> HormoneStruct? {
-        if let newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone {
-            let id = UUID()
-            logger.logCreate(.hormone, id: id.uuidString)
-            newManagedHormone.id = id
-            CoreDataEntities.hormoneMOs.append(newManagedHormone)
-            if doSave {
-                saver.saveCreateNewEntity(.hormone)
-            }
-            return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
-        }
-        logger.errorOnCreation(.hormone)
-        return nil
-    }
-
-    func pushHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
-        logger.logPush(.hormone)
-        if hormoneData.count == 0 {
-            logger.warnForEmptyPush(.hormone)
-            return
-        }
-
-        for data in hormoneData {
-            if let managedHormone = getHormone(by: data.id) {
-                managedHormone.date = data.date as NSDate?
-                managedHormone.siteNameBackUp = data.siteNameBackUp
-
-                // Set the site
-                if let siteId = data.siteRelationshipId {
-                    let managedSiteRelationship = getSite(by: siteId)
-                    managedHormone.siteRelationship = managedSiteRelationship
-                }
-            }
-        }
-        if doSave {
-            saver.saveFromPush(.hormone)
-        }
-    }
-
-    func deleteHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
-        for data in hormoneData {
-            if let managedHormone = getHormone(by: data.id) {
-                managedHormone.id = nil
-                managedHormone.date = nil
-                managedHormone.siteNameBackUp = nil
-                managedHormone.siteRelationship = nil
-                coreDataStack.tryDelete(managedHormone)
-                if doSave {
-                    saver.saveFromDelete(.hormone)
-                }
-            }
-        }
-    }
-
-    func getPill(by id: UUID) -> MOPill? {
+    
+    func getManagedPill(by id: UUID) -> MOPill? {
         if let pill = CoreDataEntities.pillMOs.first(where: { p in p.id == id }) {
             return pill
         }
         logger.warnForNonExistence(.pill, id: id.uuidString)
         return nil
     }
-
-    func getStoredPillData() -> [PillStruct] {
+    
+    func getManagedPillData() -> [PillStruct] {
         if !pillsInitialized {
             loadStoredPills()
         }
 
-        var pillStructs: [PillStruct] = []
-        for managedPill in CoreDataEntities.pillMOs {
-            if let pill = CoreDataEntityAdapter.convertToPillStruct(managedPill) {
-                pillStructs.append(pill)
-            }
-        }
-        return pillStructs
+        return getCurrentManagedPills()
     }
-
-    func createNewPill(doSave: Bool=true) -> PillStruct? {
-        createNewPill(name: SiteStrings.newSite, doSave: doSave)
-    }
-
-    func createNewPill(name: String, doSave: Bool=true) -> PillStruct? {
-        if let newManagedPill = coreDataStack.insert(.pill) as? MOPill {
-            let id = UUID()
-            logger.logCreate(.pill, id: id.uuidString)
-            newManagedPill.id = id
-            CoreDataEntities.pillMOs.append(newManagedPill)
-            if doSave {
-                saver.saveCreateNewEntity(.pill)
-            }
-            return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
-        }
-        logger.errorOnCreation(.pill)
-        return nil
-    }
-
-    func pushPillData(_ pillData: [PillStruct], doSave: Bool=true) {
-        logger.logPush(.pill)
-        if pillData.count == 0 {
-            logger.warnForEmptyPush(.pill)
-            return
-        }
-
-        for data in pillData {
-            if let managedPill = getPill(by: data.id) {
-                managedPill.name = data.attributes.name
-                managedPill.lastTaken = data.attributes.lastTaken as NSDate?
-                managedPill.notify = data.attributes.notify ?? managedPill.notify
-                managedPill.timesaday = Int16(data.attributes.timesaday ?? DefaultPillTimesaday)
-                managedPill.time1 = data.attributes.time1 as NSDate?
-                managedPill.time2 = data.attributes.time2 as NSDate?
-                managedPill.timesTakenToday = Int16(data.attributes.timesTakenToday ?? 0)
-            }
-        }
-        if doSave {
-            saver.saveFromPush(.pill)
-        }
-    }
-
-    func deletePillData(_ pillData: [PillStruct], doSave: Bool=true) {
-        for data in pillData {
-            if let managedPill = getPill(by: data.id) {
-                coreDataStack.tryDelete(managedPill)
-                if doSave {
-                    saver.saveFromDelete(.pill)
-                }
-            }
-        }
-    }
-
-    func getSite(by id: UUID) -> MOSite? {
+    
+    func getManagedSite(by id: UUID) -> MOSite? {
         if let site = CoreDataEntities.siteMOs.first(where: { s in s.id == id }) {
             return site
         }
@@ -191,80 +73,130 @@ class CoreDataEntities {
         return nil
     }
 
-    func getStoredSiteData(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [SiteStruct] {
+    func getManagedSiteData() -> [SiteStruct] {
         if !sitesInitialized {
             loadStoredSites()
         }
+        
+        return getCurrentManagedSites()
+    }
+    
+    // MARK: - Public Creators
 
-        var siteStructs: [SiteStruct] = []
-        for managedSite in CoreDataEntities.siteMOs {
-            if let site = CoreDataEntityAdapter.convertToSiteStruct(managedSite) {
-                siteStructs.append(site)
+    func createNewManagedHormone(doSave: Bool=true) -> HormoneStruct? {
+        if let newHormone = createNewHormone() {
+            if doSave {
+                saver.saveCreateNewEntity(.hormone)
             }
+            return newHormone
         }
-        return siteStructs
+        logger.errorOnCreation(.hormone)
+        return nil
+    }
+    
+    func createNewManagedPill(doSave: Bool=true) -> PillStruct? {
+        createNewManagedPill(name: SiteStrings.newSite, doSave: doSave)
     }
 
-    func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool=true) -> SiteStruct? {
-        if let newManagedSite = coreDataStack.insert(.site) as? MOSite {
-            let id = UUID()
-            logger.logCreate(.site, id: id.uuidString)
-            newManagedSite.id = id
-            CoreDataEntities.siteMOs.append(newManagedSite)
+    func createNewManagedPill(name: String, doSave: Bool=true) -> PillStruct? {
+        if let newPill = createNewPill() {
+            if doSave {
+                saver.saveCreateNewEntity(.pill)
+            }
+            return newPill
+        }
+        logger.errorOnCreation(.pill)
+        return nil
+    }
+    
+    func createNewManagedSite(doSave: Bool=true) -> SiteStruct? {
+        if let newSite = createNewSite() {
             if doSave {
                 saver.saveCreateNewEntity(.site)
             }
-            return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
+            return newSite
         }
-        logger.errorOnCreation(.site)
         return nil
     }
+    
+    // MARK: - Public Pushers
 
-    func pushSiteData(_ siteData: [SiteStruct], doSave: Bool=true) {
-        logger.logPush(.site)
-        if siteData.count == 0 {
+    func pushHormoneDataToManagedContext(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
+        guard hormoneData.count > 0 else {
+            logger.warnForEmptyPush(.hormone)
+            return
+        }
+
+        logger.logPush(.hormone)
+        for data in hormoneData {
+            pushHormoneData(data)
+        }
+        if doSave {
+            saver.saveFromPush(.hormone)
+        }
+    }
+    
+    func pushPillDataToManagedContext(_ pillData: [PillStruct], doSave: Bool=true) {
+        guard pillData.count > 0 else {
+            logger.warnForEmptyPush(.pill)
+            return
+        }
+
+        logger.logPush(.pill)
+        for data in pillData {
+            pushPillData(data)
+        }
+        if doSave {
+            saver.saveFromPush(.pill)
+        }
+    }
+    
+    func pushSiteDataToManagedContext(_ siteData: [SiteStruct], doSave: Bool=true) {
+        guard siteData.count > 0 else {
             logger.warnForEmptyPush(.site)
             return
         }
 
+        logger.logPush(.site)
         for data in siteData {
-            if let site = getSite(by: data.id) {
-                site.name = data.name
-                site.imageIdentifier = data.imageIdentifier
-                site.order = Int16(data.order)
-
-                var hormones: [MOHormone] = []
-                for hormoneId in data.hormoneRelationshipIds ?? [] {
-                    if let hormone = getHormone(by: hormoneId) {
-                        hormones.append(hormone)
-                    }
-                }
-
-                site.hormoneRelationship = Set(hormones) as NSSet
-            }
+            pushSiteData(data)
         }
         if doSave {
             saver.saveFromPush(.site)
         }
     }
+    
+    // MARK: - Public Deleters
 
-    func deleteSiteData(_ siteData: [SiteStruct], doSave: Bool=true) {
+    func deleteManagedHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
+        for data in hormoneData {
+            deleteHormone(data)
+        }
+        if doSave {
+             saver.saveFromDelete(.hormone)
+         }
+    }
+
+    func deleteManagedPillData(_ pillData: [PillStruct], doSave: Bool=true) {
+        for data in pillData {
+            deletePill(data)
+        }
+        if doSave {
+            saver.saveFromDelete(.pill)
+        }
+    }
+    
+    func deleteManagedSiteData(_ siteData: [SiteStruct], doSave: Bool=true) {
         for data in siteData {
-            if let managedSite = getSite(by: data.id) {
-                managedSite.name = nil
-                managedSite.id = nil
-                managedSite.imageIdentifier = nil
-                managedSite.order = -1
-                pushBackupSiteNameToHormones(deletedSite: managedSite)
-                coreDataStack.tryDelete(managedSite)
-                if doSave {
-                    saver.saveFromDelete(.site)
-                }
-            }
+            deleteSite(data)
+        }
+        
+        if doSave {
+            saver.saveFromDelete(.site)
         }
     }
 
-    // MARK: - Private
+    // MARK: - Private Loaders
 
     private func loadStoredHormones() {
         if let hormones = coreDataStack.getManagedObjects(entity: .hormone) as? [MOHormone] {
@@ -298,6 +230,41 @@ class CoreDataEntities {
         }
         sitesInitialized = true
     }
+    
+    // MARK: - Private Getters
+    
+    private func getCurrentMananagedHormones() -> [HormoneStruct] {
+        var hormoneStructs: [HormoneStruct] = []
+        for managedHormone in CoreDataEntities.hormoneMOs {
+            if let hormone = CoreDataEntityAdapter.convertToHormoneStruct(managedHormone) {
+                hormoneStructs.append(hormone)
+            }
+        }
+
+        return hormoneStructs
+    }
+    
+    private func getCurrentManagedPills() -> [PillStruct] {
+        var pillStructs: [PillStruct] = []
+        for managedPill in CoreDataEntities.pillMOs {
+            if let pill = CoreDataEntityAdapter.convertToPillStruct(managedPill) {
+                pillStructs.append(pill)
+            }
+        }
+        return pillStructs
+    }
+    
+    private func getCurrentManagedSites() -> [SiteStruct] {
+        var siteStructs: [SiteStruct] = []
+        for managedSite in CoreDataEntities.siteMOs {
+            if let site = CoreDataEntityAdapter.convertToSiteStruct(managedSite) {
+                siteStructs.append(site)
+            }
+        }
+        return siteStructs
+    }
+    
+    // MARK: - Private Fixers
 
     private func fixHormoneIds() {
         for hormone in CoreDataEntities.hormoneMOs {
@@ -322,6 +289,57 @@ class CoreDataEntities {
             }
         }
     }
+    
+    // MARK: - Private Creators
+    
+    func createNewHormone() -> HormoneStruct? {
+        if var newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone {
+            initHormone(&newManagedHormone)
+            return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
+        }
+        return nil
+    }
+    
+    func createNewPill() -> PillStruct? {
+        if var newManagedPill = coreDataStack.insert(.pill) as? MOPill {
+            initPill(&newManagedPill)
+            return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
+        }
+        return nil
+    }
+    
+    func createNewSite() -> SiteStruct? {
+        if var newManagedSite = coreDataStack.insert(.site) as? MOSite {
+            initSite(&newManagedSite)
+            return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
+        }
+        return nil
+    }
+    
+    // MARK: - Private Initializers
+    
+    private func initHormone(_ managedHormone: inout MOHormone) {
+        let id = UUID()
+        logger.logCreate(.hormone, id: id.uuidString)
+        managedHormone.id = id
+        CoreDataEntities.hormoneMOs.append(managedHormone)
+    }
+    
+    private func initPill(_ managedPill: inout MOPill) {
+        let id = UUID()
+        logger.logCreate(.pill, id: id.uuidString)
+        managedPill.id = id
+        CoreDataEntities.pillMOs.append(managedPill)
+    }
+    
+    private func initSite(_ managedSite: inout MOSite) {
+        let id = UUID()
+        logger.logCreate(.site, id: id.uuidString)
+        managedSite.id = id
+        CoreDataEntities.siteMOs.append(managedSite)
+    }
+    
+    // MARK: - Private Pushers
 
     private func pushBackupSiteNameToHormones(deletedSite: MOSite) {
         if let hormoneSet = deletedSite.hormoneRelationship,
@@ -331,5 +349,109 @@ class CoreDataEntities {
             }
         }
         saver.saveFromPush(.hormone)
+    }
+    
+    private func pushHormoneData(_ hormoneData: HormoneStruct) {
+        if var managedHormone = getManagedHormone(by: hormoneData.id) {
+            applyHormoneDataToManagedHormone(hormoneData, &managedHormone)
+        }
+    }
+    
+    private func pushPillData(_ pillData: PillStruct) {
+        if var managedPill = getManagedPill(by: pillData.id) {
+            CoreDataEntityAdapter.applyPillData(pillData, to: &managedPill)
+        }
+    }
+    
+    private func pushSiteData(_ siteData: SiteStruct) {
+        if var managedSite = getManagedSite(by: siteData.id) {
+            applySiteDataToManagedSite(siteData, &managedSite)
+        }
+    }
+
+    // MARK: - Private Appliers
+    
+    private func applySiteDataToManagedSite(_ siteData: SiteStruct, _ managedSite: inout MOSite) {
+        CoreDataEntityAdapter.applySiteData(siteData, to: &managedSite)
+        if let hormoneIds = siteData.hormoneRelationshipIds {
+            relateHormonesToSite(hormoneIds: hormoneIds, managedSite)
+        }
+    }
+    
+    private func applyHormoneDataToManagedHormone(_ hormoneData: HormoneStruct, _ managedHormone: inout MOHormone) {
+        CoreDataEntityAdapter.applyHormoneData(hormoneData, to: &managedHormone)
+        if let siteId = hormoneData.siteRelationshipId {
+            relateSiteToHormone(siteId: siteId, managedHormone)
+        }
+    }
+    
+    // MARK: - Private Relators
+    
+    private func relateSiteToHormone(siteId: UUID, _ managedHormone: MOHormone) {
+        if let managedSite = getManagedSite(by: siteId) {
+            managedHormone.addToSiteRelationship(managedSite)
+        }
+    }
+    
+    private func relateHormonesToSite(hormoneIds: [UUID], _ managedSite: MOSite) {
+        for hormoneId in hormoneIds {
+            relateHormoneToSite(hormoneId: hormoneId, managedSite)
+        }
+    }
+    
+    private func relateHormoneToSite(hormoneId: UUID, _ managedSite: MOSite) {
+        if let managedHormone = getManagedHormone(by: hormoneId) {
+            managedSite.addToHormoneRelationship(managedHormone)
+        }
+    }
+    
+    // MARK: - Private Deleters
+    
+    private func deleteHormone(_ hormoneData: HormoneStruct) {
+        if let managedHormone = getManagedHormone(by: hormoneData.id) {
+            resetHormone(managedHormone)
+            coreDataStack.tryDelete(managedHormone)
+        }
+    }
+    
+    private func deletePill(_ pillData: PillStruct) {
+        if var managedPill = getManagedPill(by: pillData.id) {
+            resetPill(&managedPill)
+            coreDataStack.tryDelete(managedPill)
+        }
+    }
+    
+    private func deleteSite(_ siteData: SiteStruct) {
+        if var managedSite = getManagedSite(by: siteData.id) {
+            resetSite(&managedSite)
+            pushBackupSiteNameToHormones(deletedSite: managedSite)
+            coreDataStack.tryDelete(managedSite)
+        }
+    }
+    
+    // MARK: - Private Resetters
+    
+    private func resetHormone(_ managedHormone: inout MOHormone) {
+        managedHormone.id = nil
+        managedHormone.date = nil
+        managedHormone.siteNameBackUp = nil
+        managedHormone.siteRelationship = nil
+    }
+    
+    private func resetPill(_ managedPill: inout MOPill) {
+        managedPill.time1 = nil
+        managedPill.time2 = nil
+        managedPill.id = nil
+        managedPill.lastTaken = nil
+        managedPill.timesTakenToday = -1
+        managedPill.notify = false
+        managedPill.timesaday = -1
+    }
+    
+    private func resetSite(_ managedSite: inout MOSite) {
+        managedSite.name = nil
+        managedSite.id = nil
+        managedSite.imageIdentifier = nil
+        managedSite.order = -1
     }
 }

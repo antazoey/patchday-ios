@@ -14,7 +14,7 @@ class PillStore: EntityStore {
 
     func getStoredPills() -> [Swallowable] {
         var pills: [Swallowable] = []
-        let pillDataEntries = entities.getStoredPillData()
+        let pillDataEntries = entities.getManagedPillData()
         for pillData in pillDataEntries {
             let pill = Pill(pillData: pillData)
             pills.append(pill)
@@ -23,21 +23,21 @@ class PillStore: EntityStore {
     }
 
     func createNewPill(name: String) -> Swallowable? {
-        if let newPillDataFromStore = entities.createNewPill(name: name) {
+        if let newPillDataFromStore = entities.createNewManagedPill(name: name) {
             return Pill(pillData: newPillDataFromStore)
         }
         return nil
     }
 
     func createNewPill() -> Swallowable? {
-        if let newPillDataFromStore = entities.createNewPill() {
+        if let newPillDataFromStore = entities.createNewManagedPill() {
             return Pill(pillData: newPillDataFromStore)
         }
         return nil
     }
 
     func delete(_ pill: Swallowable) {
-        entities.deletePillData([CoreDataEntityAdapter.convertToPillStruct(pill)])
+        entities.deleteManagedPillData([CoreDataEntityAdapter.convertToPillStruct(pill)])
     }
 
     func pushLocalChangesToBeSaved(_ pills: [Swallowable]) {
@@ -53,6 +53,6 @@ class PillStore: EntityStore {
     }
 
     private func pushLocalChangesToBeSaved(_ pillData: [PillStruct]) {
-        entities.pushPillData(pillData)
+        entities.pushPillDataToManagedContext(pillData)
     }
 }

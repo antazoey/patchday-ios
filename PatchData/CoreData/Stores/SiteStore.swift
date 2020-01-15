@@ -14,9 +14,7 @@ class SiteStore: EntityStore {
 
     func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily] {
         var sites: [Bodily] = []
-        let siteDataEntries = entities.getStoredSiteData(
-            expiration: expiration, method: method
-        )
+        let siteDataEntries = entities.getManagedSiteData()
         for siteData in siteDataEntries {
             let site = Site(siteData: siteData, expirationInterval: expiration, deliveryMethod: method)
             sites.append(site)
@@ -25,14 +23,14 @@ class SiteStore: EntityStore {
     }
 
     func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool) -> Bodily? {
-        if let newSiteDataFromStore = entities.createNewSite(expiration: expiration, method: method, doSave: doSave) {
+        if let newSiteDataFromStore = entities.createNewManagedSite(doSave: doSave) {
             return Site(siteData: newSiteDataFromStore, expirationInterval: expiration, deliveryMethod: method)
         }
         return nil
     }
 
     func delete(_ site: Bodily) {
-        entities.deleteSiteData([CoreDataEntityAdapter.convertToSiteStruct(site)])
+        entities.deleteManagedSiteData([CoreDataEntityAdapter.convertToSiteStruct(site)])
     }
 
     func pushLocalChangesToBeSaved(_ sites: [Bodily]) {
@@ -48,6 +46,6 @@ class SiteStore: EntityStore {
     }
 
     private func pushLocalChangesToBeSaved(_ siteData: [SiteStruct]) {
-        entities.pushSiteData(siteData)
+        entities.pushSiteDataToManagedContext(siteData)
     }
 }

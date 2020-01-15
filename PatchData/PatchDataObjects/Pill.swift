@@ -62,10 +62,10 @@ public class Pill: Swallowable {
 
     public var time2: Date {
         get {
-            if let t2 = pillData.attributes.time2 {
-                return t2 as Date
+            guard let t2 = pillData.attributes.time2 else {
+                return Date.createDefaultDate()
             }
-            return Date.createDefaultDate()
+            return t2 as Date
         } set {
             if let time1 = pillData.attributes.time1 as Date? {
                 if newValue < time1 {
@@ -96,7 +96,7 @@ public class Pill: Swallowable {
     public var timesTakenToday: Int {
         get { pillData.attributes.timesTakenToday ?? 0 }
         set {
-            if let oldTimesTakenToday = pillData.attributes.timesTakenToday, newValue <=  oldTimesTakenToday {
+            if let oldTimesTakenToday = pillData.attributes.timesTakenToday, newValue <= oldTimesTakenToday {
                 pillData.attributes.timesTakenToday = newValue
             } else {
                 pillData.attributes.timesTakenToday = newValue
