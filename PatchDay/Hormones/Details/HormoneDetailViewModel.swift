@@ -149,16 +149,15 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         if let date = selectedDate {
             hormones.setDate(by: hormone.id, with: date, doSave: doSave)
         } else {
-            log.info("Tried saving date but none was selected")
+            log.info("There are no changes to the \(PDEntity.hormone) date")
         }
     }
 
     private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool=true) {
         if let site = selectedSite {
-            
             hormones.setSite(by: hormone.id, with: site, doSave: doSave)
         } else {
-            log.info("Tried saving site but none was selected")
+            log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
         }
     }
 
