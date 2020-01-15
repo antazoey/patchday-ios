@@ -122,16 +122,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func saveAll() {
-        guard count > 0 else {
-            return
-        }
+        guard count > 0 else { return }
         store.pushLocalChanges(hormones, doSave: true)
     }
     
     public func deleteAll() {
-        guard count > 0 else {
-            return
-        }
+        guard count > 0 else { return }
         delete(after: -1)
     }
 

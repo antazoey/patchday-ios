@@ -202,7 +202,7 @@ class CoreDataEntities {
         if let hormones = coreDataStack.getManagedObjects(entity: .hormone) as? [MOHormone] {
             logger.logEntityCount(hormones.count, for: .hormone)
             CoreDataEntities.hormoneMOs = hormones
-            fixHormoneIds()
+            fixHormoneIdsIfNeeded()
         } else {
             logger.errorOnCreation(.hormone)
         }
@@ -213,7 +213,7 @@ class CoreDataEntities {
         if let pills = coreDataStack.getManagedObjects(entity: .pill) as? [MOPill] {
             logger.logEntityCount(pills.count, for: .pill)
             CoreDataEntities.pillMOs = pills
-            fixPillIds()
+            fixPillIdsIfNeeded()
         } else {
             logger.errorOnLoad(.pill)
         }
@@ -224,7 +224,7 @@ class CoreDataEntities {
         if let sites = coreDataStack.getManagedObjects(entity: .site) as? [MOSite] {
             logger.logEntityCount(sites.count, for: .site)
             CoreDataEntities.siteMOs = sites
-            fixSiteIds()
+            fixSiteIdsIfNeeded()
         } else {
             logger.errorOnLoad(.site)
         }
@@ -266,7 +266,7 @@ class CoreDataEntities {
     
     // MARK: - Private Fixers
 
-    private func fixHormoneIds() {
+    private func fixHormoneIdsIfNeeded() {
         for hormone in CoreDataEntities.hormoneMOs {
             if hormone.id == nil {
                 hormone.id = UUID()
@@ -274,7 +274,7 @@ class CoreDataEntities {
         }
     }
 
-    private func fixPillIds() {
+    private func fixPillIdsIfNeeded() {
         for pill in CoreDataEntities.pillMOs {
             if pill.id == nil {
                 pill.id = UUID()
@@ -282,7 +282,7 @@ class CoreDataEntities {
         }
     }
 
-    private func fixSiteIds() {
+    private func fixSiteIdsIfNeeded() {
         for site in CoreDataEntities.siteMOs {
             if site.id == nil {
                 site.id = UUID()
@@ -388,7 +388,13 @@ class CoreDataEntities {
     // MARK: - Private Relators
     
     private func relateSiteToHormone(siteId: UUID, _ managedHormone: MOHormone) {
-        if let managedSite = getManagedSite(by: siteId) {
+        guard let hormoneId = managedHormone.id else {
+            logger.errorOnMissingId(.hormone)
+            return
+        }
+        
+        if let managedSite = getManagedSite(by: siteId), managedSite.id != siteId {
+            logger.logRelateSiteToHormone(siteId: siteId, hormoneId: hormoneId)
             managedHormone.addToSiteRelationship(managedSite)
         }
     }
@@ -401,6 +407,12 @@ class CoreDataEntities {
     
     private func relateHormoneToSite(hormoneId: UUID, _ managedSite: MOSite) {
         if let managedHormone = getManagedHormone(by: hormoneId) {
+            if let relationship = managedSite.hormoneRelationship {
+                if relationship.contains(managedHormone) {
+                    return
+                }
+            }
+            
             managedSite.addToHormoneRelationship(managedHormone)
         }
     }
@@ -408,8 +420,8 @@ class CoreDataEntities {
     // MARK: - Private Deleters
     
     private func deleteHormone(_ hormoneData: HormoneStruct) {
-        if let managedHormone = getManagedHormone(by: hormoneData.id) {
-            resetHormone(managedHormone)
+        if var managedHormone = getManagedHormone(by: hormoneData.id) {
+            resetHormone(&managedHormone)
             coreDataStack.tryDelete(managedHormone)
         }
     }

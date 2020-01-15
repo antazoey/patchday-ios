@@ -32,6 +32,10 @@ class CoreDataEntitiesLogger {
     func logCreate(_ entity: PDEntity, id: String) {
         log.info("Creating new managed \(entity.rawValue) with ID \(id)")
     }
+    
+    func logRelateSiteToHormone(siteId: UUID, hormoneId: UUID) {
+        log.info("Relating site \(siteId) to hormone \(hormoneId).")
+    }
 
     func logSave(_ entity: PDEntity) {
         log.info("Saving \(entity.rawValue)s changes")
@@ -51,5 +55,9 @@ class CoreDataEntitiesLogger {
 
     func errorOnLoad(_ entity: PDEntity) {
         log.error("Failed to load \(entity.rawValue)s from Core Data")
+    }
+    
+    func errorOnMissingId(_ entity: PDEntity) {
+        log.error("There exists a \(entity.rawValue) that is missing an ID.")
     }
 }
