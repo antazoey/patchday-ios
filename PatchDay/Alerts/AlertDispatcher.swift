@@ -14,7 +14,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
 
     override var description: String { "Controls alerts." }
 
-    private let sdk: PatchDataDelegate?
+    private let sdk: PatchDataSDK?
     private let tabs: TabReflective?
 
     private var style: UIAlertController.Style = {
@@ -25,7 +25,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
         return KeyWindowFinder.keyWindw?.rootViewController
     }()
 
-    init(sdk: PatchDataDelegate?, tabs: TabReflective?=nil) {
+    init(sdk: PatchDataSDK?, tabs: TabReflective?=nil) {
         self.sdk = sdk
         self.tabs = tabs
     }

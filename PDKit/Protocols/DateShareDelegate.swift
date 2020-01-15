@@ -9,11 +9,11 @@
 import Foundation
 
 
-public protocol DataShareDelegate {
+public protocol DataSharing {
     var defaults: UserDefaults? { get }
     
     /// Sets hormone data for other apps and widgets, such as the PatchDay Today widget.
-    func broadcastRelevantHormoneData(
+    func shareRelevantHormoneData(
         oldestHormone: Hormonal,
         displayedSiteName: SiteName,
         interval: ExpirationIntervalUD,
@@ -21,5 +21,5 @@ public protocol DataShareDelegate {
     )
     
     /// Sets pill data for other apps and widgets, such as the PatchDay Today widget.
-    func broadcastRelevantPillData(nextPill: Swallowable)
+    func shareRelevantPillData(nextPill: Swallowable)
 }

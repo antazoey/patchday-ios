@@ -10,10 +10,6 @@ import Foundation
 
 extension Date {
 
-    public func createNewDateFromAddingHours(_ hours: Int) -> Date? {
-        Calendar.current.date(bySetting: .hour, value: hours, of: self)
-    }
-
     public func isWithin(minutes: Int, of date: Date) -> Bool {
         let earlier = min(self, date)
         let later = max(self, date)

@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -535,14 +534,14 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="siteCellReuseId" id="YaI-Qz-V3T" customClass="SiteCell" customModule="PatchDay" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="343" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="343" height="43"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="YaI-Qz-V3T" id="9qY-fn-d1c">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tJb-uW-EGL">
-                                                    <rect key="frame" x="15" y="11" width="32" height="21.5"/>
+                                                    <rect key="frame" x="15" y="11" width="32" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="eiS-mt-O6S"/>
                                                     </constraints>
@@ -551,25 +550,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Site" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7B-ad-5lB">
-                                                    <rect key="frame" x="58" y="11" width="203" height="21.5"/>
+                                                    <rect key="frame" x="58" y="11" width="203" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="highlightedColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BhY-Z1-713">
-                                                    <rect key="frame" x="269" y="3" width="47" height="37.5"/>
+                                                    <rect key="frame" x="269" y="3" width="47" height="37"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="AXx-g2-FU4"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="〉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VT2-jt-DtX">
-                                                    <rect key="frame" x="331" y="11" width="18" height="21.5"/>
+                                                    <rect key="frame" x="331" y="11" width="18" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Next" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn1-zJ-VDw">
-                                                    <rect key="frame" x="269" y="13.5" width="47" height="17"/>
+                                                    <rect key="frame" x="269" y="13" width="47" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="Zsl-KA-T2K"/>
                                                     </constraints>
@@ -621,8 +620,8 @@
                     <navigationItem key="navigationItem" id="Axs-sI-5Zg"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="sitesTableView" destination="HMu-AA-84D" id="wCv-FZ-eIh"/>
-                        <outlet property="sitesView" destination="TKf-x0-b1B" id="Xda-sf-3Cz"/>
+                        <outlet property="sitesTableView" destination="HMu-AA-84D" id="Sz0-TC-Tim"/>
+                        <outlet property="sitesView" destination="TKf-x0-b1B" id="WDk-KH-hhS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Clp-Fv-rJu" userLabel="First Responder" sceneMemberID="firstResponder"/>

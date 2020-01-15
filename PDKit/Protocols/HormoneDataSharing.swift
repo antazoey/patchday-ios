@@ -9,6 +9,6 @@
 import Foundation
 
 
-public protocol HormoneDataBroadcasting {
-    func broadcast(nextHormone: Hormonal)
+public protocol HormoneDataSharing {
+    func share(nextHormone: Hormonal)
 }

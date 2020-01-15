@@ -16,13 +16,13 @@ public class Hormone: Hormonal {
     
     public var deliveryMethod: DeliveryMethod
     public var expirationInterval: ExpirationIntervalUD
-    public var notificationMinutesBefore: NotificationsMinutesBeforeUD
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
     
     public init(hormoneData: HormoneStruct, scheduleProperties: HormoneScheduleProperties) {
         self.hormoneData = hormoneData
         self.deliveryMethod = scheduleProperties.deliveryMethod
         self.expirationInterval = scheduleProperties.expirationInterval
-        self.notificationMinutesBefore = scheduleProperties.notificationMinutesBefore
+        self.notificationsMinutesBefore = scheduleProperties.notificationsMinutesBefore
     }
 
     public var id: UUID {
@@ -77,11 +77,14 @@ public class Hormone: Hormonal {
     }
 
     public var isPastNotificationTime: Bool {
-        let hours = 0 - expirationInterval.hours
-        guard let expDate = expiration, let notificationTime = expDate.createNewDateFromAddingHours(hours) else {
-            return false
+        if let expirationDate = expiration,
+            let notificationTime = DateHelper.createDate(
+                byAddingMinutes: -notificationsMinutesBefore.value, to: expirationDate
+            ) {
+            
+            return notificationTime < Date()
         }
-        return Date() > notificationTime
+        return false
     }
     
     public var expiresOvernight: Bool {

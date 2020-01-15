@@ -12,24 +12,24 @@ import PDKit
 
 class CodeBehindDependencies<T> {
 
-    let sdk: PatchDataDelegate?
+    let sdk: PatchDataSDK?
     var tabs: TabReflective?
     let notifications: NotificationScheduling?
     let alerts: AlertDispatching?
     let styles: Styling?
-    let nav: NavigationDelegate?
+    let nav: NavigationHandling?
     let badge: PDBadgeDelegate?
     let log = PDLog<CodeBehindDependencies>()
 
     let childContext = String(describing: T.self)
     
     init(
-        sdk: PatchDataDelegate?,
+        sdk: PatchDataSDK?,
         tabs: TabReflective?,
         notifications: NotificationScheduling?,
         alerts: AlertDispatching?,
         styles: Styling?,
-        nav: NavigationDelegate?,
+        nav: NavigationHandling?,
         badge: PDBadgeDelegate?
     ) {
         self.sdk = sdk

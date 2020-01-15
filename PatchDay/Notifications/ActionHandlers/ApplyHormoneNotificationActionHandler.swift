@@ -12,14 +12,14 @@ import PDKit
 
 class ApplyHormoneNotificationActionHandler: ApplyHormoneNotificationActionHandling {
     
-    private let sdk: PatchDataDelegate?
+    private let sdk: PatchDataSDK?
     private let badge: PDBadgeDelegate
     
-    convenience init(sdk: PatchDataDelegate?) {
+    convenience init(sdk: PatchDataSDK?) {
         self.init(sdk: sdk, appBadge: PDBadge())
     }
     
-    init(sdk: PatchDataDelegate?, appBadge: PDBadgeDelegate) {
+    init(sdk: PatchDataSDK?, appBadge: PDBadgeDelegate) {
         self.sdk = sdk
         self.badge = appBadge
     }

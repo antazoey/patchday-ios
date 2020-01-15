@@ -7,7 +7,7 @@ import Foundation
 
 
 public class SimpleUserDefault<T> {
-    public required init(with val: T) { value = val }
+    public required init(_ val: T) { value = val }
     public var value: T
     public var rawValue: T { value }
 }

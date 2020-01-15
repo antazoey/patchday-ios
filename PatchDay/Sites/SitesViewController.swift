@@ -13,7 +13,7 @@ import PDKit
 class SitesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet var sitesView: UIView!
-    @IBOutlet weak var sitesTableView: UITableView!
+    @IBOutlet var sitesTableView: UITableView!
     
     private var viewModel: SitesViewModel!
     
@@ -40,7 +40,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        viewModel.createDeleteRowActionAsList(indexPath: indexPath)
+        viewModel.createSiteCellSwipeActions(indexPath: indexPath)
     }
 
     // Row select action

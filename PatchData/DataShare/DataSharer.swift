@@ -10,13 +10,13 @@ import Foundation
 import PDKit
 
 
-public class DataShare: DataShareDelegate {
+public class DataSharer: DataSharing {
     
     public var defaults: UserDefaults? {
         UserDefaults(suiteName: "group.com.patchday.todaydata")
     }
 
-    public func broadcastRelevantHormoneData(
+    public func shareRelevantHormoneData(
         oldestHormone: Hormonal,
         displayedSiteName: SiteName,
         interval: ExpirationIntervalUD,
@@ -29,7 +29,7 @@ public class DataShare: DataShareDelegate {
     }
 
     /// Sets MOPill data for PatchDay Today widget.
-    public func broadcastRelevantPillData(nextPill: Swallowable) {
+    public func shareRelevantPillData(nextPill: Swallowable) {
         if let defs = defaults {
             defs.set(nextPill.name, forKey: PDStrings.TodayKey.nextPillToTake.rawValue)
             defs.set(nextPill.due, forKey: PDStrings.TodayKey.nextPillTakeTime.rawValue)

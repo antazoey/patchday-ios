@@ -44,18 +44,18 @@ public class DeliveryMethodUD: KeyStorable {
     public typealias Value = DeliveryMethod
     public typealias RawValue = String
     
-    public required init(with val: String) {
+    public required init(_ val: String) {
         valueHolder = DeliveryMethodValueHolder(raw: val)
         v = valueHolder.indexer
     }
     
-    public required init(with val: DeliveryMethod) {
+    public required init(_ val: DeliveryMethod) {
         v = val
         valueHolder = DeliveryMethodValueHolder(indexer: v)
     }
     
     public convenience required init() {
-        self.init(with: .Patches)
+        self.init(.Patches)
     }
     
     public var value: DeliveryMethod {

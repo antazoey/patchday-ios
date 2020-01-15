@@ -16,7 +16,7 @@ import PatchData
 
 class HormoneScheduleTests: XCTestCase {
 
-    private var mockBroadcaster: MockHormoneDataBroadcaster!
+    private var mockSharer: MockHormoneDataSharer!
     private var mockStore: MockHormoneStore!
     private var state: PDState!
     private var mockDefaults: MockUserDefaultsWriter!
@@ -24,7 +24,7 @@ class HormoneScheduleTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        mockBroadcaster = MockHormoneDataBroadcaster()
+        mockSharer = MockHormoneDataSharer()
         mockStore = MockHormoneStore()
         state = PDState()
         mockDefaults = MockUserDefaultsWriter()
@@ -33,7 +33,7 @@ class HormoneScheduleTests: XCTestCase {
     private func setUpHormones(_ mockHormones: [MockHormone]=[]) {
         mockStore.getStoredHormonesReturnValues = [mockHormones]
         hormones = HormoneSchedule(
-            hormoneDataBroadcaster: mockBroadcaster,
+            hormoneDataSharer: mockSharer,
             store: mockStore,
             state: state,
             defaults: mockDefaults
@@ -181,35 +181,35 @@ class HormoneScheduleTests: XCTestCase {
     }
     
     func testReset_ifDeliveryMethodIsPatches_resetsHormonesCountToThree() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(with: .Patches)
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Patches)
         setUpHormones()
         hormones.reset()
         XCTAssertEqual(3, hormones.count)
     }
     
     func testReset_ifDeliveryMethodIsPatches_returnsThree() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(with: .Patches)
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Patches)
         setUpHormones()
         let actual = hormones.reset()
         XCTAssertEqual(3, actual)
     }
     
     func testReset_ifDeliveryMethodIsInjections_resetsHormonesCountToOne() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(with: .Injections)
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
         setUpHormones()
         hormones.reset()
         XCTAssertEqual(1, hormones.count)
     }
     
     func testReset_ifDeliveryMethodIsInjections_returnsOnes() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(with: .Injections)
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
         setUpHormones()
         let actual = hormones.reset()
         XCTAssertEqual(1, actual)
     }
     
     func testReset_ifGivenClosure_callsClosure() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(with: .Injections)
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
         setUpHormones()
         
         var closureWasCalled = false
@@ -422,14 +422,14 @@ class HormoneScheduleTests: XCTestCase {
     
     func testBroadcastData_whenEmptySchedule_doesNotCallBroadcaster() {
         setUpEmptyHormones()
-        hormones.broadcastData()
-        XCTAssert(mockBroadcaster.broadcastedHormoneIds.count == 0)
+        hormones.shareData()
+        XCTAssert(mockSharer.shareedHormoneIds.count == 0)
     }
     
     func testBroadcastData_callBroadcasterWithExpectedArg() {
         let testId = UUID()
         setUpDefaultHormones(1)[0].id = testId
-        hormones.broadcastData()
-        XCTAssert(mockBroadcaster.broadcastedHormoneIds.contains(testId.uuidString))
+        hormones.shareData()
+        XCTAssert(mockSharer.shareedHormoneIds.contains(testId.uuidString))
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-protocol NavigationDelegate {
+protocol NavigationHandling {
     func reflectTheme(theme: AppTheme)
     func goToHormoneDetails(_ mone: Hormonal, source: UIViewController)
     func goToPillDetails(_ pill: Swallowable, source: UIViewController)

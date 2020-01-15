@@ -23,6 +23,10 @@ public class DateHelper: NSObject {
         return dateFormatter.string(from: date)
     }
     
+    public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
+        calendar.date(byAdding: .minute, value: minutes, to: date)
+    }
+    
     /// Returns word of date, such as "Tomorrow"
     public static func dateWord(from date: Date) -> String? {
         if calendar.isDateInToday(date) {

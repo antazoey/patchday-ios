@@ -15,16 +15,16 @@ public class PDUserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
     override open var description: String { "Handles pushing and pulling from UserDefaults." }
     
     private let stdDefaults = UserDefaults.standard
-    private var meter: DataShareDelegate? = nil
+    private var dataSharer: DataSharing? = nil
 
-    public init(meter: DataShareDelegate) {
-        self.meter = meter
+    public init(dataSharer: DataSharing) {
+        self.dataSharer = dataSharer
     }
 
      @discardableResult
      public func replace<T>(_ v: inout T, to new: T.Value) -> UserDefaultsWriteHandling where T : KeyStorable {
         v.value = new
-        meter?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
+        dataSharer?.defaults?.set(v.rawValue, forKey: T.key.rawValue)
         stdDefaults.set(v.rawValue, forKey: T.key.rawValue)
         return self
     }
@@ -41,10 +41,10 @@ public class PDUserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
     // MARK: - Private
 
     private func find<T>(_ v: inout T) -> Bool where T: KeyStorable {
-        let def1 = meter?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
+        let def1 = dataSharer?.defaults?.object(forKey: T.key.rawValue) as? T.RawValue
         let def2 = stdDefaults.object(forKey: T.key.rawValue) as? T.RawValue
         let fv = def1 ?? def2 ?? v.rawValue
-        v = T(with: fv)
+        v = T(fv)
         return def1 != nil || def2 != nil
     }
 }

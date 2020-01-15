@@ -52,18 +52,18 @@ public class ExpirationIntervalUD: KeyStorable {
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
     
-    public required init(with val: String) {
+    public required init(_ val: String) {
         valueHolder = ExpirationIntervalValueHolder(raw: val)
         v = valueHolder.indexer
     }
     
-    public required init(with val: ExpirationInterval) {
+    public required init(_ val: ExpirationInterval) {
         v = val
         valueHolder = ExpirationIntervalValueHolder(indexer: v)
     }
     
     public convenience required init() {
-        self.init(with: .TwiceAWeek)
+        self.init(.TwiceAWeek)
     }
     
     public var value: ExpirationInterval {

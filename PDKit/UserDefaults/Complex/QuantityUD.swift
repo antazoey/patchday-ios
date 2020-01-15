@@ -37,23 +37,23 @@ public class QuantityUD: KeyStorable {
     public typealias Value = Quantity
     public typealias RawValue = Int
     
-    public required convenience init(with val: Int) {
+    public required convenience init(_ val: Int) {
         var count: Quantity;
         if let q = Quantity.init(rawValue: val) {
             count = q
         } else {
             count = Quantity.Four
         }
-        self.init(with: count)
+        self.init(count)
     }
     
-    public required init(with val: Quantity) {
+    public required init(_ val: Quantity) {
         v = val
         valueHolder = QuantityValueHolder(indexer: v)
     }
     
     public convenience required init() {
-        self.init(with: .Four)
+        self.init(.Four)
     }
     
     public var value: Quantity {

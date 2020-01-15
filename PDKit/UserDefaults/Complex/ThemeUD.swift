@@ -43,18 +43,18 @@ public class PDThemeUD: KeyStorable {
     public typealias Value = PDTheme
     public typealias RawValue = String
     
-    public required init(with val: String) {
+    public required init(_ val: String) {
         valueHolder = PDThemeValueHolder(raw: val)
         v = valueHolder.indexer
     }
     
-    public required init(with val: PDTheme) {
+    public required init(_ val: PDTheme) {
         v = val
         valueHolder = PDThemeValueHolder(indexer: v)
     }
     
     public convenience required init() {
-        self.init(with: .Light)
+        self.init(.Light)
     }
     
     public var value: PDTheme {

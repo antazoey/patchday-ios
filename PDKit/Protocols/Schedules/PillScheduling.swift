@@ -53,5 +53,5 @@ public protocol PillScheduling: Schedule, Deleting {
     func firstIndexOf(_ pill: Swallowable) -> Index?
     
     /// Share pill data with other applications that have permission, such as PatchDayToday.
-    func broadcastData()
+    func shareData()
 }

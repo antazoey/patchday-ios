@@ -19,17 +19,17 @@ public class PillSchedule: NSObject, PillScheduling {
     
     private var pills: [Swallowable]
     private let store: PillStore
-    private let meter: DataShareDelegate
+    private let sharer: DataSharing
     
     enum PillScheduleState {
         case Initial
         case Working
     }
     
-    init(coreDataStack: PDCoreDataDelegate, pillDataMeter: DataShareDelegate, state: PillScheduleState) {
+    init(coreDataStack: PDCoreDataDelegate, pillDataSharer: DataSharing, state: PillScheduleState) {
         let store = PillStore(coreDataStack)
         self.store = store
-        self.meter = pillDataMeter
+        self.sharer = pillDataSharer
         self.pills = store.getStoredPills()
         super.init()
         if state == .Initial {
@@ -63,7 +63,7 @@ public class PillSchedule: NSObject, PillScheduling {
             pills.append(pill)
             store.pushLocalChangesToBeSaved(pill)
             completion?()
-            broadcastData()
+            shareData()
             return pill
         }
         return nil
@@ -72,7 +72,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func delete(at index: Index) {
         if let pill = at(index) {
             store.delete(pill)
-            broadcastData()
+            shareData()
         }
     }
 
@@ -138,9 +138,9 @@ public class PillSchedule: NSObject, PillScheduling {
         pills.firstIndex { (_ p: Swallowable) -> Bool in p.isEqualTo(pill) }
     }
     
-    public func broadcastData() {
+    public func shareData() {
         if let next = nextDue {
-            meter.broadcastRelevantPillData(nextPill: next)
+            sharer.shareRelevantPillData(nextPill: next)
         }
     }
     
@@ -149,7 +149,7 @@ public class PillSchedule: NSObject, PillScheduling {
     private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
         store.pushLocalChangesToBeSaved(pill)
-        broadcastData()
+        shareData()
     }
 
     private func awaken() {

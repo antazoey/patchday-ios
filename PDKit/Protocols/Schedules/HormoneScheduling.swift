@@ -71,5 +71,5 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     func fillIn(to stopCount: Int)
     
     /// Share hormone data with other applications that have permission, such as PatchDayToday.
-    func broadcastData()
+    func shareData()
 }

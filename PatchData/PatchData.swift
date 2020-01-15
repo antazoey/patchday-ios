@@ -11,15 +11,15 @@ import UIKit
 import PDKit
 
 
-public class PatchData: NSObject, PatchDataDelegate {
+public class PatchData: NSObject, PatchDataSDK {
 
     override public var description: String {
         "Root object for developing with PatchData."
     }
 
-    let dataMeter: DataShareDelegate
+    let dataSharer: DataSharing
     let coreData: PDCoreDataDelegate
-    let hormoneDataBroadcaster: HormoneDataBroadcasting
+    let hormoneDataSharer: HormoneDataSharing
 
     public var defaults: UserDefaultsManaging
     public var hormones: HormoneScheduling
@@ -29,22 +29,22 @@ public class PatchData: NSObject, PatchDataDelegate {
     
     public init(
         defaults: UserDefaultsManaging,
-        dataMeter: DataShareDelegate,
+        dataSharer: DataSharing,
         hormones: HormoneScheduling,
         pills: PillScheduling,
         sites: HormoneSiteScheduling,
         stateManager: PDStateManaging,
         coreData: PDCoreDataDelegate,
-        hormoneDataBroadcaster: HormoneDataBroadcasting
+        hormoneDataSharer: HormoneDataSharing
     ) {
         self.defaults = defaults
-        self.dataMeter = dataMeter
+        self.dataSharer = dataSharer
         self.hormones = hormones
         self.pills = pills
         self.sites = sites
         self.stateManager = stateManager
         self.coreData = coreData
-        self.hormoneDataBroadcaster = hormoneDataBroadcaster
+        self.hormoneDataSharer = hormoneDataSharer
         super.init()
     }
     
@@ -57,24 +57,24 @@ public class PatchData: NSObject, PatchDataDelegate {
         }
         // ******************************************************
 
-        let dataMeter = DataShare()
+        let dataSharer = DataSharer()
         let state = PDState()
         let defaultsStore = PDUserDefaultsWriter(
-            state: state, handler: PDUserDefaultsWriteHandler(meter: dataMeter)
+            state: state, handler: PDUserDefaultsWriteHandler(dataSharer: dataSharer)
         )
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
-        let pills = PillSchedule(coreDataStack: store, pillDataMeter: dataMeter, state: pillScheduleState)
+        let pills = PillSchedule(coreDataStack: store, pillDataSharer: dataSharer, state: pillScheduleState)
 
         let sites = SiteSchedule(coreDataStack: store, defaults: defaultsStore)
         
-        let hormoneDataBroadcaster = HormoneDataBroadcaster(
+        let hormoneDataSharer = HormoneDataSharer(
             sites: sites,
-            siteDataMeter: dataMeter,
+            siteDataSharer: dataSharer,
             defaults: defaultsStore
         )
         
         let hormones = HormoneSchedule(
-            hormoneDataBroadcaster: hormoneDataBroadcaster,
+            hormoneDataSharer: hormoneDataSharer,
             store: HormoneStore(store),
             state: state,
             defaults: defaultsStore
@@ -95,13 +95,13 @@ public class PatchData: NSObject, PatchDataDelegate {
         
         self.init(
             defaults: defaults,
-            dataMeter: dataMeter,
+            dataSharer: dataSharer,
             hormones: hormones,
             pills: pills,
             sites: sites,
             stateManager: stateManager,
             coreData: store,
-            hormoneDataBroadcaster: hormoneDataBroadcaster
+            hormoneDataSharer: hormoneDataSharer
         )
     }
 

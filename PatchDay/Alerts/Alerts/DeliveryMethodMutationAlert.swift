@@ -12,7 +12,7 @@ import PDKit
 
 class DeliveryMethodMutationAlert: Alert {
     
-    private var sdk: PatchDataDelegate?
+    private var sdk: PatchDataSDK?
     private let tabs: TabReflective?
     
     private let oldQuantity: Int
@@ -37,7 +37,7 @@ class DeliveryMethodMutationAlert: Alert {
     init(
         parent: UIViewController,
         style: UIAlertController.Style,
-        sdk: PatchDataDelegate?,
+        sdk: PatchDataSDK?,
         tabs: TabReflective?,
         oldDeliveryMethod: DeliveryMethod,
         newDeliveryMethod: DeliveryMethod,

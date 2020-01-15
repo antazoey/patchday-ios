@@ -14,7 +14,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     override public var description: String { "Schedule for hormones." }
 
-    private let dataBroadcaster: HormoneDataBroadcasting
+    private let dataSharer: HormoneDataSharing
     private var store: HormoneStoring
     private var state: PDState
     private let defaults: UserDefaultsWriting
@@ -23,21 +23,21 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private let log = PDLog<HormoneSchedule>()
     
     init(
-        hormoneDataBroadcaster: HormoneDataBroadcasting,
+        hormoneDataSharer: HormoneDataSharing,
         store: HormoneStoring,
         state: PDState,
         defaults: UserDefaultsWriting
     ) {
         let store = store
         self.store = store
-        self.dataBroadcaster = hormoneDataBroadcaster
+        self.dataSharer = hormoneDataSharer
         self.state = state
         self.defaults = defaults
         self.hormones = HormoneSchedule.getHormoneList(from: store, defaults: defaults)
         super.init()
         resetIfEmpty()
         sort()
-        broadcastData()
+        shareData()
     }
 
     public var count: Int { hormones.count }
@@ -185,9 +185,9 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         }
     }
     
-    public func broadcastData() {
+    public func shareData() {
         if let nextHormone = next {
-            dataBroadcaster.broadcast(nextHormone: nextHormone)
+            dataSharer.share(nextHormone: nextHormone)
         }
     }
     
@@ -218,14 +218,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         state.bodilyChanged = true
         state.onlySiteChanged = true
         state.bodilyChanged = true
-        broadcastData()
+        shareData()
         store.pushLocalChanges([hormone], doSave: doSave)
     }
     
     private func setDate(_ hormone: inout Hormonal, with date: Date, doSave: Bool) {
         hormone.date = date
         sort()
-        broadcastData()
+        shareData()
         state.onlySiteChanged = false
         store.pushLocalChanges([hormone], doSave: doSave)
     }
@@ -237,7 +237,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {
         store.pushLocalChanges([hormone], doSave: doSave)
-        broadcastData()
+        shareData()
         state.onlySiteChanged = false
         state.bodilyChanged = true
     }

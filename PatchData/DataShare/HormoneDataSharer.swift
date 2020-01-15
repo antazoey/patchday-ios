@@ -9,24 +9,24 @@
 import Foundation
 import PDKit
 
-public class HormoneDataBroadcaster: HormoneDataBroadcasting {
+public class HormoneDataSharer: HormoneDataSharing {
     
     private let sites: HormoneSiteScheduling
-    private let siteDataMeter: DataShareDelegate
+    private let siteDataSharer: DataSharing
     private let defaults: UserDefaultsWriting
     
-    init(sites: HormoneSiteScheduling, siteDataMeter: DataShareDelegate, defaults: UserDefaultsWriting) {
+    init(sites: HormoneSiteScheduling, siteDataSharer: DataSharing, defaults: UserDefaultsWriting) {
         self.sites = sites
-        self.siteDataMeter = siteDataMeter
+        self.siteDataSharer = siteDataSharer
         self.defaults = defaults
     }
     
-    public func broadcast(nextHormone: Hormonal) {
+    public func share(nextHormone: Hormonal) {
         let method = defaults.deliveryMethod
         let interval = defaults.expirationInterval
         let nextSite = sites.suggested
         let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
-        siteDataMeter.broadcastRelevantHormoneData(
+        siteDataSharer.shareRelevantHormoneData(
             oldestHormone: nextHormone,
             displayedSiteName: name ?? SiteStrings.newSite,
             interval: interval,

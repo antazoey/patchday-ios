@@ -44,7 +44,7 @@ class HormoneCell: TableCell {
     }
 
     private func handleHormoneFromState(
-        _ state: HormoneCellState, _ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index
+        _ state: HormoneCellState, _ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index
     ) {
         switch state {
         case .Occupied: appearAsOccupiedState(sdk, hormone, hormoneIndex)
@@ -53,7 +53,7 @@ class HormoneCell: TableCell {
         }
     }
 
-    private func appearAsOccupiedState(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
+    private func appearAsOccupiedState(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
         let method = sdk.defaults.deliveryMethod.value
         loadDateLabel(for: hormone)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
@@ -61,7 +61,7 @@ class HormoneCell: TableCell {
         selectionStyle = .default
     }
 
-    private func appearAsWaitingState(_ sdk: PatchDataDelegate, _ hormoneIndex: Index) {
+    private func appearAsWaitingState(_ sdk: PatchDataSDK, _ hormoneIndex: Index) {
         animate(at: hormoneIndex, theme: sdk.defaults.theme.value)
     }
     
@@ -103,7 +103,7 @@ class HormoneCell: TableCell {
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
 
-    private func loadSiteComponents(_ sdk: PatchDataDelegate, _ hormone: Hormonal, _ hormoneIndex: Index) {
+    private func loadSiteComponents(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
         let theme = sdk.defaults.theme.value
         let method = sdk.defaults.deliveryMethod.value
         let siteImageDeterminationParams = SiteImageDeterminationParameters(

@@ -11,13 +11,13 @@ import PDKit
 
 class QuantityMutator: QuantityMutating {
     
-    var sdk: PatchDataDelegate?
+    var sdk: PatchDataSDK?
     let alerts: AlertDispatching?
     let tabs: TabReflective?
     let notifications: NotificationScheduling?
     let cancel: (_ originalQuantity: Int) -> ()
     
-    init(sdk: PatchDataDelegate?,
+    init(sdk: PatchDataSDK?,
          alerts: AlertDispatching?,
          tabs: TabReflective?,
          notifications: NotificationScheduling?,

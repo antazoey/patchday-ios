@@ -17,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var notifications: NotificationScheduling?
-    var sdk: PatchDataDelegate = PatchData()
+    var sdk: PatchDataSDK = PatchData()
     var alerts: AlertDispatching?
     var tabs: TabReflective?
-    var nav: NavigationDelegate = Navigation()
+    var nav: NavigationHandling = Navigation()
     var styles: Styling?
     var badge: PDBadgeDelegate = PDBadge()
 

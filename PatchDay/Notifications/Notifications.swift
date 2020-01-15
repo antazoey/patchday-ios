@@ -13,7 +13,7 @@ import PDKit
 
 class Notifications: NSObject, NotificationScheduling {
 
-    private let sdk: PatchDataDelegate?
+    private let sdk: PatchDataSDK?
     private let center: PDNotificationCenter
     private let factory: NotificationProducing
 
@@ -21,14 +21,14 @@ class Notifications: NSObject, NotificationScheduling {
     var currentPillIndex = 0
     var sendingNotifications = true
     
-    init(sdk: PatchDataDelegate?, center: PDNotificationCenter, factory: NotificationProducing) {
+    init(sdk: PatchDataSDK?, center: PDNotificationCenter, factory: NotificationProducing) {
         self.sdk = sdk
         self.center = center
         self.factory = factory
         super.init()
     }
     
-    convenience init(sdk: PatchDataDelegate?, appBadge: PDBadgeDelegate) {
+    convenience init(sdk: PatchDataSDK?, appBadge: PDBadgeDelegate) {
         let center = PDNotificationCenter(
             root: UNUserNotificationCenter.current(),
             applyHormoneHandler: ApplyHormoneNotificationActionHandler(sdk: sdk),

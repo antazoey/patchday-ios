@@ -23,19 +23,20 @@ class HormoneTests: XCTestCase {
     private func createEmptyHormone(useDefaultDate: Bool=false) -> Hormone {
         let date = useDefaultDate ? Date(timeIntervalSince1970: 0) : nil
         let data = HormoneStruct(nil, testSiteId, nil, date, nil)
-        return Hormone(hormoneData: data, interval: ExpirationIntervalUD(), deliveryMethod: .Patches)
+        let props = HormoneScheduleProperties(ExpirationIntervalUD(), .Patches, NotificationsMinutesBeforeUD())
+        return Hormone(hormoneData: data, scheduleProperties: props)
     }
     
     private func createHormoneForExpirationTesting(_ expiration: ExpirationInterval) -> Hormone {
         let hormone = createEmptyHormone()
         hormone.date = testDateThatIsNow
-        hormone.expirationInterval = ExpirationIntervalUD(with: expiration)
+        hormone.expirationInterval = ExpirationIntervalUD(expiration)
         return hormone
     }
     
     private func createTwiceAWeekHormoneThatIsExpiredByOneDay() -> Hormone {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(with: .TwiceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
         hormone.date = Date(timeIntervalSinceNow: -388800)
         return hormone
     }
@@ -99,7 +100,7 @@ class HormoneTests: XCTestCase {
     
     func testIsExpired_whenExpirationDateIsAfterNow_returnsFalse() {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(with: .TwiceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
         hormone.date = Date()
         XCTAssertFalse(hormone.isExpired)
     }
@@ -125,5 +126,25 @@ class HormoneTests: XCTestCase {
         XCTAssert(!hormoneOne.isEqualTo(hormoneTwo) && !hormoneTwo.isEqualTo(hormoneOne))
     }
     
-    func testIsPastNotificationTime_whenExpiration
+    func testIsPastNotificationTime_whenNowIsBeforeNotificationTime_returnsFalse() {
+        let notExpiredHormone = createHormoneForExpirationTesting(.EveryTwoWeeks)
+        XCTAssertFalse(notExpiredHormone.isPastNotificationTime)
+    }
+    
+    func testIsPastNotificationTime_whenNowIsAfterNotificationTime_returnsTrue() {
+        let expiredHormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        XCTAssertTrue(expiredHormone.isPastNotificationTime)
+    }
+    
+    func testIsPastNotificationTime_whenIsPastNotificationTimeButBeforeExpirationTime_returnsTrue() {
+        let hormone = createEmptyHormone()
+        hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
+        hormone.notificationsMinutesBefore = NotificationsMinutesBeforeUD(30)
+        
+        // 10 minutes past notification time and 20 minutes before expiration
+        let calendar = Calendar.current
+        hormone.date = calendar.date(byAdding: .minute, value: -5020, to: Date())!
+        
+        XCTAssertTrue(hormone.isPastNotificationTime)
+    }
 }

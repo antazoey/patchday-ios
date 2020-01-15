@@ -42,7 +42,7 @@ public class PDDefaults: UserDefaultsManaging {
         store.replaceStoredDeliveryMethod(to: newMethod)
         let newIndex = KeyStorableHelper.defaultQuantity(for: newMethod)
         store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
-        hormones.broadcastData()
+        hormones.shareData()
         state.deliveryMethodChanged = true
     }
 

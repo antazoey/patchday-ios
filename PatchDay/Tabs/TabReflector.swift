@@ -15,12 +15,12 @@ class TabReflector: TabReflective {
     
     private let tabBarController: UITabBarController
     private let viewControllers: [UIViewController]
-    private let sdk: PatchDataDelegate?
+    private let sdk: PatchDataSDK?
 
     init(
         tabBarController: UITabBarController,
         viewControllers: [UIViewController],
-        sdk: PatchDataDelegate?
+        sdk: PatchDataSDK?
     ) {
         self.tabBarController = tabBarController
         self.viewControllers = viewControllers
@@ -58,34 +58,5 @@ class TabReflector: TabReflective {
             let fontKey = [NSAttributedString.Key.font: font]
             viewControllers[i].tabBarItem.setTitleTextAttributes(fontKey, for: .normal)
         }
-    }
-}
-
-extension UITabBarItem {
-
-    func reflectHormonesCharacteristics(sdk: PatchDataDelegate) {
-        let method = sdk.defaults.deliveryMethod.value
-        reflectExpiredHormoneBadgeValue(sdk: sdk)
-        reflectHormoneTabBarItemTitle(deliveryMethod: method)
-        reflectHormoneTabBarItemIcon(deliveryMethod: method)
-    }
-
-    private func reflectExpiredHormoneBadgeValue(sdk: PatchDataDelegate?) {
-        let expCount = sdk?.hormones.totalExpired ?? 0
-        setHormoneTabBarItemBadge(expiredCount: expCount)
-    }
-
-    private func reflectHormoneTabBarItemTitle(deliveryMethod: DeliveryMethod) {
-        title = VCTitleStrings.getTitle(for: deliveryMethod)
-    }
-
-    private func reflectHormoneTabBarItemIcon(deliveryMethod: DeliveryMethod) {
-        let icon = PDIcons.getDeliveryIcon(deliveryMethod)
-        image = icon
-        selectedImage = icon
-    }
-
-    private func setHormoneTabBarItemBadge(expiredCount: Int) {
-        badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-public class Navigation: NavigationDelegate {
+public class Navigation: NavigationHandling {
 
     func reflectTheme(theme: AppTheme) {
         let navigationBarAppearance = UINavigationBar.appearance()

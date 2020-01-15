@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol PatchDataDelegate {
+public protocol PatchDataSDK {
     
     /// If this is the first initialization.
     var isFresh: Bool { get }
