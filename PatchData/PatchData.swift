@@ -63,9 +63,9 @@ public class PatchData: NSObject, PatchDataSDK {
             state: state, handler: PDUserDefaultsWriteHandler(dataSharer: dataSharer)
         )
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
-        let pills = PillSchedule(coreDataStack: store, pillDataSharer: dataSharer, state: pillScheduleState)
+        let pills = PillSchedule(store: PillStore(store), pillDataSharer: dataSharer, state: pillScheduleState)
 
-        let sites = SiteSchedule(coreDataStack: store, defaults: defaultsStore)
+        let sites = SiteSchedule(store: SiteStore(store), defaults: defaultsStore)
         
         let hormoneDataSharer = HormoneDataSharer(
             sites: sites,
@@ -74,8 +74,8 @@ public class PatchData: NSObject, PatchDataSDK {
         )
         
         let hormones = HormoneSchedule(
-            hormoneDataSharer: hormoneDataSharer,
             store: HormoneStore(store),
+            hormoneDataSharer: hormoneDataSharer,
             state: state,
             defaults: defaultsStore
         )

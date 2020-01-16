@@ -14,8 +14,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     
     override public var description: String { "Schedule for hormones." }
 
-    private let dataSharer: HormoneDataSharing
     private var store: HormoneStoring
+    private let dataSharer: HormoneDataSharing
     private var state: PDState
     private let defaults: UserDefaultsWriting
     private var hormones: [Hormonal]
@@ -23,8 +23,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private let log = PDLog<HormoneSchedule>()
     
     init(
-        hormoneDataSharer: HormoneDataSharing,
         store: HormoneStoring,
+        hormoneDataSharer: HormoneDataSharing,
         state: PDState,
         defaults: UserDefaultsWriting
     ) {

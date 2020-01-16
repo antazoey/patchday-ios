@@ -14,15 +14,15 @@ public struct HormoneStruct {
     public var siteNameBackUp: String?
 
     public init(
-        _ siteRelationshipId: UUID?,
         _ id: UUID,
+        _ siteRelationshipId: UUID?,
         _ siteName: SiteName?,
         _ date: Date?,
         _ siteNameBackUp: String?
     ) {
+        self.id = id
         self.siteRelationshipId = siteRelationshipId
         self.siteName = siteName
-        self.id = id
         self.date = date
         self.siteNameBackUp = siteNameBackUp
     }

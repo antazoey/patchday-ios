@@ -11,7 +11,7 @@ import CoreData
 import PDKit
 
 
-public class CoreDataStack: NSObject {
+class CoreDataStack: NSObject {
 
     private static var container: NSPersistentContainer?
     private static let log = PDLog<CoreDataStack>()

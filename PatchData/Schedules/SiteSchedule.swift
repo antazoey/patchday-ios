@@ -15,14 +15,14 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     override public var description: String { "Schedule for sites." }
     
-    private let store: SiteStore
+    private let store: SiteStoring
     private let defaults: UserDefaultsWriting
     private var sites: [Bodily]
 
     let log = PDLog<SiteSchedule>()
     
-    init(coreDataStack: CoreDataStackWrapper, defaults: UserDefaultsWriting) {
-        store = SiteStore(coreDataStack)
+    init(store: SiteStoring, defaults: UserDefaultsWriting) {
+        self.store = store
         self.defaults = defaults
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
@@ -164,7 +164,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     public func rename(at index: Index, to name: SiteName) {
         if var site = at(index) {
             site.name = name
-            store.pushLocalChangesToBeSaved(site)
+            store.pushLocalChangesToBeSaved([site])
         }
     }
 
@@ -176,7 +176,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
                 site.order = newOrder
                 originalSiteAtOrder.order = index + 1
                 sort()
-                store.pushLocalChangesToBeSaved(originalSiteAtOrder)
+                store.pushLocalChangesToBeSaved([originalSiteAtOrder])
             } else {
                 site.order = newOrder
             }
@@ -193,7 +193,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             } else {
                 sites[index].imageId = SiteStrings.CustomSiteId
             }
-            store.pushLocalChangesToBeSaved(site)
+            store.pushLocalChangesToBeSaved([site])
         }
     }
     
@@ -218,7 +218,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private var siteIndexWithOldestHormone: Index {
         sites.reduce((oldestDate: Date(), oldestIndex: -1, iterator: 0), {
             ( sitesIterator, site) in
-            let oldestDateInThisSitesHormones = getOldestDateApplied(from: site.hormoneIds)
+            let oldestDateInThisSitesHormones = getOldestHormone(from: site.id)
 
             let newSiteIndex = sitesIterator.iterator + 1
             if oldestDateInThisSitesHormones < sitesIterator.oldestDate {
@@ -228,14 +228,12 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         }).oldestIndex
     }
 
-    private func getOldestDateApplied(from hormoneIds: [UUID]) -> Date {
-        hormoneIds.reduce(Date(), {
-            (oldestDateThusFar, hormoneId) in
-
-            if let hormone = store.entities.getManagedHormone(by: hormoneId) {
-                if let date = hormone.date as Date?, date < oldestDateThusFar {
-                    return date
-                }
+    private func getOldestHormone(from siteId: UUID) -> Date {
+        return store.getSiteHormones(siteId: siteId)
+            .reduce(Date(), { (oldestDateThusFar, hormone) in
+                
+            if let date = hormone.date, date < oldestDateThusFar {
+                return date
             }
             return oldestDateThusFar
         })

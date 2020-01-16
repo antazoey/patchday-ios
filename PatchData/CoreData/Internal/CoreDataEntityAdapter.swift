@@ -22,7 +22,7 @@ class CoreDataEntityAdapter {
     }
 
     static func convertToHormoneStruct(_ hormone: Hormonal) -> HormoneStruct {
-        HormoneStruct(hormone.siteId, hormone.id, hormone.siteName, hormone.date, hormone.siteNameBackUp)
+        HormoneStruct(hormone.id, hormone.siteId, hormone.siteName, hormone.date, hormone.siteNameBackUp)
     }
     
     static func applyHormoneData(_ hormoneData: HormoneStruct, to hormone: inout MOHormone) {
@@ -105,8 +105,8 @@ class CoreDataEntityAdapter {
     
     private static func createHormoneStruct(_ hormone: MOHormone, id: UUID) -> HormoneStruct {
         HormoneStruct(
-            hormone.siteRelationship?.id,
             id,
+            hormone.siteRelationship?.id,
             hormone.siteRelationship?.name,
             hormone.date as Date?,
             hormone.siteNameBackUp

@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-class SiteStore: EntityStore {
+class SiteStore: EntityStore, SiteStoring {
 
     func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily] {
         var sites: [Bodily] = []
@@ -34,15 +34,32 @@ class SiteStore: EntityStore {
     }
 
     func pushLocalChangesToBeSaved(_ sites: [Bodily]) {
-        if sites.count == 0 {
-            return
-        }
+        guard sites.count > 0 else { return }
         let siteData = sites.map { s in CoreDataEntityAdapter.convertToSiteStruct(s) }
         self.pushLocalChangesToBeSaved(siteData)
     }
-
-    func pushLocalChangesToBeSaved(_ site: Bodily) {
-        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToSiteStruct(site)])
+    
+    func getSiteHormones(siteId: UUID) -> [HormoneStruct] {
+        if let site = entities.getManagedSite(by: siteId) {
+            var hormones: [HormoneStruct] = []
+            guard let relatedHormones = site.hormoneRelationship else {
+                return hormones
+            }
+            for ele in relatedHormones {
+                if let managedHormone = ele as? MOHormone, let hormoneId = managedHormone.id {
+                    let hormoneData = HormoneStruct(
+                        hormoneId,
+                        site.id,
+                        site.name,
+                        managedHormone.date as Date?,
+                        managedHormone.siteNameBackUp
+                    )
+                    hormones.append(hormoneData)
+                }
+            }
+            return hormones
+        }
+        return []
     }
 
     private func pushLocalChangesToBeSaved(_ siteData: [SiteStruct]) {

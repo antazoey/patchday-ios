@@ -18,7 +18,7 @@ public class PillSchedule: NSObject, PillScheduling {
     private let log = PDLog<PillSchedule>()
     
     private var pills: [Swallowable]
-    private let store: PillStore
+    private let store: PillStoring
     private let sharer: DataSharing
     
     enum PillScheduleState {
@@ -26,8 +26,7 @@ public class PillSchedule: NSObject, PillScheduling {
         case Working
     }
     
-    init(coreDataStack: PDCoreDataDelegate, pillDataSharer: DataSharing, state: PillScheduleState) {
-        let store = PillStore(coreDataStack)
+    init(store: PillStoring, pillDataSharer: DataSharing, state: PillScheduleState) {
         self.store = store
         self.sharer = pillDataSharer
         self.pills = store.getStoredPills()
@@ -61,7 +60,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func insertNew(completion: (() -> ())?) -> Swallowable? {
         if let pill = store.createNewPill() {
             pills.append(pill)
-            store.pushLocalChangesToBeSaved(pill)
+            store.pushLocalChangesToBeSaved([pill])
             completion?()
             shareData()
             return pill
@@ -124,7 +123,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func swallow(_ pill: Swallowable) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
-            store.pushLocalChangesToBeSaved(pill)
+            store.pushLocalChangesToBeSaved([pill])
         }
     }
 
@@ -148,7 +147,7 @@ public class PillSchedule: NSObject, PillScheduling {
     
     private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
-        store.pushLocalChangesToBeSaved(pill)
+        store.pushLocalChangesToBeSaved([pill])
         shareData()
     }
 

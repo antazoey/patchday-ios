@@ -11,15 +11,15 @@ import Foundation
 
 public protocol HormoneStoring {
     
-    /// Retrieve the stored hormones
+    /// Fetches all the hormones from storage.
     func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal]
     
-    /// Create a new hormone to keep in storage and return it.
+    /// Creates a new stored hormone and returns it.
     func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal?
     
-    /// Delete the given stored hormone from storage.
+    /// Deletes the given hormone from storage.
     func delete(_ hormone: Hormonal)
     
-    /// Send the hormones to have their changes staged for saving and optionally write-through.
+    /// Pushes the given hormones to the managed context to stage changes for saving.
     func pushLocalChanges(_ hormones: [Hormonal], doSave: Bool)
 }

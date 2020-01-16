@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-class PillStore: EntityStore {
+class PillStore: EntityStore, PillStoring {
 
     func getStoredPills() -> [Swallowable] {
         var pills: [Swallowable] = []
@@ -41,15 +41,9 @@ class PillStore: EntityStore {
     }
 
     func pushLocalChangesToBeSaved(_ pills: [Swallowable]) {
-        if pills.count == 0 {
-            return
-        }
+        guard pills.count > 0 else { return }
         let pillData = pills.map { p in CoreDataEntityAdapter.convertToPillStruct(p) }
         self.pushLocalChangesToBeSaved(pillData)
-    }
-
-    func pushLocalChangesToBeSaved(_ pill: Swallowable) {
-        self.pushLocalChangesToBeSaved([CoreDataEntityAdapter.convertToPillStruct(pill)])
     }
 
     private func pushLocalChangesToBeSaved(_ pillData: [PillStruct]) {
