@@ -147,4 +147,114 @@ class HormoneTests: XCTestCase {
         
         XCTAssertTrue(hormone.isPastNotificationTime)
     }
+    
+    func testExpiresOvernight_whenExpired_returnsFalse() {
+        let expiredHormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        XCTAssertFalse(expiredHormone.expiresOvernight)
+    }
+    
+    func testExpiresOvernight_whenExpirationTimeIsBetweenSixAMAndMidnight_returnsTrue() {
+        let hormone = createEmptyHormone()
+        hormone.expirationInterval = ExpirationIntervalUD(.OnceAWeek)
+
+        let calendar = Calendar.current
+        
+        // Make the hormone date applied at 3am.
+        hormone.date = calendar.date(bySettingHour: 3, minute: 0, second: 0, of: Date())!
+        
+        XCTAssertTrue(hormone.expiresOvernight)
+    }
+    
+    func testExpiresOvernight_whenExpirationTimeIsAtNoon_returnsFalse() {
+        let hormone = createEmptyHormone()
+        hormone.expirationInterval = ExpirationIntervalUD(.OnceAWeek)
+
+        let calendar = Calendar.current
+        
+        // Make the hormone date applied at 3am.
+        hormone.date = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
+        
+        XCTAssertFalse(hormone.expiresOvernight)
+    }
+    
+    func testSiteNameBackUp_whenHasSiteIdAndSiteNameBackUp_returnsNil() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = UUID()
+        hormone.siteNameBackUp = "Right Ass Cheek"
+        XCTAssertNil(hormone.siteNameBackUp)
+    }
+    
+    func testIsEmpty_whenHasDefaultDateAndNilSiteIdAndNilSiteNameBackUp_returnsTrue() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = nil
+        hormone.date = Date(timeIntervalSince1970: 0)
+        hormone.siteNameBackUp = nil
+        XCTAssert(hormone.isEmpty)
+    }
+    
+    func testIsEmpty_whenHasDefaultDateAndSiteIdAndNilSiteNameBackUp_returnsFalse() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = UUID()
+        hormone.date = Date(timeIntervalSince1970: 0)
+        hormone.siteNameBackUp = nil
+        XCTAssertFalse(hormone.isEmpty)
+    }
+    
+    func testIsEmpty_whenHasRecentDateAndNilSiteIdAndNilSiteNameBackUp_returnsFalse() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = nil
+        hormone.date = Date()
+        hormone.siteNameBackUp = nil
+        XCTAssertFalse(hormone.isEmpty)
+    }
+    
+    func testIsEmpty_whenHasRecentDateAndNilSiteIdAndSiteNameBackUp_returnsFalse() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = nil
+        hormone.date = Date(timeIntervalSince1970: 0)
+        hormone.siteNameBackUp = "Right Ass Cheek"
+        XCTAssertFalse(hormone.isEmpty)
+    }
+    
+    func testHasDate_whenHasNilSiteIdAndSiteNameBackUp_returnsTrue() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = nil
+        hormone.siteNameBackUp = "Right Ass Cheek"
+        XCTAssertTrue(hormone.hasSite)
+    }
+    
+    func testHasDate_whenHasSiteIdAndNilSiteNameBackUp_returnsTrue() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = UUID()
+        hormone.siteNameBackUp = nil
+        XCTAssertTrue(hormone.hasSite)
+    }
+    
+    func testHasDate_whenDateIsDefault_returnsFalse() {
+        let hormone = createEmptyHormone()
+        hormone.date = Date(timeIntervalSince1970: 0)
+        XCTAssertFalse(hormone.hasDate)
+    }
+    
+    func testHasDate_whenDateIsRecent_returnsTrue() {
+        let hormone = createEmptyHormone()
+        hormone.date = Date()
+        XCTAssertTrue(hormone.hasDate)
+    }
+    
+    func testStamp_setsDateToNow() {
+        let hormone = createEmptyHormone()
+        hormone.stamp()
+        XCTAssert(hormone.date.timeIntervalSince(Date()) < 0.1)
+    }
+    
+    func testReset_setsAllPropsToNil() {
+        let hormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        hormone.reset()
+        XCTAssert(
+            hormone.date == Date(timeIntervalSince1970: 0)
+            && hormone.siteId == nil
+            && hormone.siteNameBackUp == nil
+        )
+    }
 }

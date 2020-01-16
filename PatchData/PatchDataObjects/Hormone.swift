@@ -88,7 +88,10 @@ public class Hormone: Hormonal {
     }
     
     public var expiresOvernight: Bool {
-        expiration?.isOvernight() ?? false
+        guard let exp = expiration, !isExpired else {
+            return false
+        }
+        return exp.isOvernight()
     }
 
     public var siteNameBackUp: String? {
