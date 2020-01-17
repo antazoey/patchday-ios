@@ -11,7 +11,7 @@ import PDKit
 import CoreData
 
 
-class CoreDataStackWrapper: PDCoreDataDelegate {
+class CoreDataStackWrapper: PDCoreDataWrapping {
 
     private let log = PDLog<CoreDataStackWrapper>()
 

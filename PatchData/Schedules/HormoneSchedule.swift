@@ -123,7 +123,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     public func saveAll() {
         guard count > 0 else { return }
-        store.pushLocalChanges(hormones, doSave: true)
+        store.pushLocalChangesToManagedContext(hormones, doSave: true)
     }
     
     public func deleteAll() {
@@ -191,6 +191,15 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         }
     }
     
+    public static func getOldestHormoneDate(from hormones: [HormoneStruct]) -> Date {
+        return hormones.reduce(Date(), { (oldestDateThusFar, hormone) in
+            if let date = hormone.date, date < oldestDateThusFar {
+                return date
+            }
+            return oldestDateThusFar
+        })
+    }
+    
     // MARK: - Private
     
     private var hasDates: Bool {
@@ -219,7 +228,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         state.onlySiteChanged = true
         state.bodilyChanged = true
         shareData()
-        store.pushLocalChanges([hormone], doSave: doSave)
+        store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
     
     private func setDate(_ hormone: inout Hormonal, with date: Date, doSave: Bool) {
@@ -227,7 +236,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         sort()
         shareData()
         state.onlySiteChanged = false
-        store.pushLocalChanges([hormone], doSave: doSave)
+        store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
 
     private static func getHormoneList(from store: HormoneStoring, defaults: UserDefaultsReading) -> [Hormonal] {
@@ -236,7 +245,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {
-        store.pushLocalChanges([hormone], doSave: doSave)
+        store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
         shareData()
         state.onlySiteChanged = false
         state.bodilyChanged = true

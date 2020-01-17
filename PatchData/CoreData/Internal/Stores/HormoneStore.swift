@@ -11,7 +11,7 @@ import PDKit
 
 
 class HormoneStore: EntityStore, HormoneStoring {
-    
+
     private let log = PDLog<HormoneStore>()
 
     func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
@@ -35,17 +35,17 @@ class HormoneStore: EntityStore, HormoneStoring {
         entities.deleteManagedHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
     }
 
-    func pushLocalChanges(_ hormones: [Hormonal], doSave: Bool=true) {
+    func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool=true) {
         guard hormones.count > 0 else { return }
         let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
-        self.pushLocalChanges(hormoneData, doSave: doSave)
+        self.pushLocalChangesToManagedContext(hormoneData, doSave: doSave)
     }
     
     func save() {
         stack.save(saverName: "Hormone Store")
     }
     
-    private func pushLocalChanges(_ hormoneData: [HormoneStruct], doSave: Bool) {
+    private func pushLocalChangesToManagedContext(_ hormoneData: [HormoneStruct], doSave: Bool) {
         entities.pushHormoneDataToManagedContext(hormoneData, doSave: doSave)
     }
 }

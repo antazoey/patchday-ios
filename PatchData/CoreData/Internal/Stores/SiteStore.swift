@@ -33,36 +33,53 @@ class SiteStore: EntityStore, SiteStoring {
         entities.deleteManagedSiteData([CoreDataEntityAdapter.convertToSiteStruct(site)])
     }
 
-    func pushLocalChangesToBeSaved(_ sites: [Bodily]) {
+    func pushLocalChangesToManagedContext(_ sites: [Bodily], doSave: Bool) {
         guard sites.count > 0 else { return }
         let siteData = sites.map { s in CoreDataEntityAdapter.convertToSiteStruct(s) }
-        self.pushLocalChangesToBeSaved(siteData)
+        self.pushLocalChangesToManagedContext(siteData, doSave: doSave)
     }
-    
-    func getSiteHormones(siteId: UUID) -> [HormoneStruct] {
+
+    func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct] {
         if let site = entities.getManagedSite(by: siteId) {
-            var hormones: [HormoneStruct] = []
-            guard let relatedHormones = site.hormoneRelationship else {
-                return hormones
-            }
-            for ele in relatedHormones {
-                if let managedHormone = ele as? MOHormone, let hormoneId = managedHormone.id {
-                    let hormoneData = HormoneStruct(
-                        hormoneId,
-                        site.id,
-                        site.name,
-                        managedHormone.date as Date?,
-                        managedHormone.siteNameBackUp
-                    )
-                    hormones.append(hormoneData)
-                }
-            }
-            return hormones
+            return getRelatedHormones(site)
         }
         return []
     }
 
-    private func pushLocalChangesToBeSaved(_ siteData: [SiteStruct]) {
-        entities.pushSiteDataToManagedContext(siteData)
+    private func pushLocalChangesToManagedContext(_ siteData: [SiteStruct], doSave: Bool) {
+        entities.pushSiteDataToManagedContext(siteData, doSave: doSave)
+    }
+
+    private func getRelatedHormones(_ site: MOSite) -> [HormoneStruct] {
+        var hormones: [HormoneStruct] = []
+        guard let relatedHormones = site.hormoneRelationship else {
+            return hormones
+        }
+        return constructHormoneData(relatedHormones, site, &hormones)
+    }
+    
+    private func constructHormoneData(
+        _ hormoneRelationship: NSSet, _ site: MOSite, _ hormoneList: inout [HormoneStruct]
+    ) -> [HormoneStruct] {
+
+        for ele in hormoneRelationship {
+            if let hormone = ele as? MOHormone, let hormoneData = createHormoneData(hormone, site) {
+                hormoneList.append(hormoneData)
+            }
+        }
+        return hormoneList
+    }
+    
+    private func createHormoneData(_ hormone: MOHormone, _ site: MOSite) -> HormoneStruct? {
+        guard let hormoneId = hormone.id else {
+            return nil
+        }
+        return HormoneStruct(
+            hormoneId,
+            site.id,
+            site.name,
+            hormone.date as Date?,
+            hormone.siteNameBackUp
+        )
     }
 }

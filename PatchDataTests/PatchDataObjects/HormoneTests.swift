@@ -44,7 +44,7 @@ class HormoneTests: XCTestCase {
     func testSetSiteId_setSiteBackUpNameToNil() {
         let hormone = createEmptyHormone()
         hormone.siteNameBackUp = "start"
-        hormone.siteId = UUID()
+        hormone.siteId = testSiteId
         XCTAssertNil(hormone.siteNameBackUp)
     }
     
@@ -101,7 +101,7 @@ class HormoneTests: XCTestCase {
     func testIsExpired_whenExpirationDateIsAfterNow_returnsFalse() {
         let hormone = createEmptyHormone()
         hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
-        hormone.date = Date()
+        hormone.date = testDateThatIsNow
         XCTAssertFalse(hormone.isExpired)
     }
     

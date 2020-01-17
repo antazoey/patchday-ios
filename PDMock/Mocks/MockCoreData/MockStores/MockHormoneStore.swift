@@ -10,38 +10,26 @@ import Foundation
 import PDKit
 
 
-public class MockHormoneStore: HormoneStoring, PDMocking {
-
-    public var getStoredHormonesReturnValues: [[Hormonal]] = []
-    public var createNewHormoneReturnValue: Hormonal? = MockHormone()
-    public var deleteCallArgs: [Hormonal] = []
-    public var pushLocalChangesCallArgs: [([Hormonal], Bool)] = []
+public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
     
-    public init() {}
-    
-    public func resetMock() {
-        getStoredHormonesReturnValues = []
-        createNewHormoneReturnValue = MockHormone()
-        deleteCallArgs = []
+    public override init() {
+        super.init()
+        createNewObjectReturnValue = MockHormone()
     }
-    
+
     public func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
-        if let mockHormoneList = getStoredHormonesReturnValues.first {
-            getStoredHormonesReturnValues.remove(at: 0)
-            return mockHormoneList
-        }
-        return []
+        getNextMockStoredObjects()
     }
     
     public func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
-        return createNewHormoneReturnValue
+        createNewObjectReturnValue
     }
     
     public func delete(_ hormone: Hormonal) {
         deleteCallArgs.append(hormone)
     }
     
-    public func pushLocalChanges(_ hormones: [Hormonal], doSave: Bool) {
+    public func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool) {
         pushLocalChangesCallArgs.append((hormones, doSave))
     }
 }

@@ -40,13 +40,13 @@ class PillStore: EntityStore, PillStoring {
         entities.deleteManagedPillData([CoreDataEntityAdapter.convertToPillStruct(pill)])
     }
 
-    func pushLocalChangesToBeSaved(_ pills: [Swallowable]) {
+    func pushLocalChangesToManagedContext(_ pills: [Swallowable], doSave: Bool) {
         guard pills.count > 0 else { return }
         let pillData = pills.map { p in CoreDataEntityAdapter.convertToPillStruct(p) }
-        self.pushLocalChangesToBeSaved(pillData)
+        self.pushLocalChangesToManagedContext(pillData, doSave: doSave)
     }
 
-    private func pushLocalChangesToBeSaved(_ pillData: [PillStruct]) {
-        entities.pushPillDataToManagedContext(pillData)
+    private func pushLocalChangesToManagedContext(_ pillData: [PillStruct], doSave: Bool) {
+        entities.pushPillDataToManagedContext(pillData, doSave: doSave)
     }
 }

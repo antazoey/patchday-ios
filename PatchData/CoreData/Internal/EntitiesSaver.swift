@@ -9,10 +9,10 @@ import PDKit
 
 class EntitiesSaver {
 
-    private let stack: PDCoreDataDelegate
+    private let stack: PDCoreDataWrapping
     private let logger = CoreDataEntitiesLogger()
 
-    init(_ stack: PDCoreDataDelegate) {
+    init(_ stack: PDCoreDataWrapping) {
         self.stack = stack
     }
 

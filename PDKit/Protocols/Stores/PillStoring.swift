@@ -7,3 +7,22 @@
 //
 
 import Foundation
+
+
+public protocol PillStoring {
+
+    /// Fetches all the pills from storage.
+    func getStoredPills() -> [Swallowable]
+
+    /// Creates a new stored pill with the given name and returns it.
+    func createNewPill(name: String) -> Swallowable?
+    
+    /// Creates a new stored pill and returns it.
+    func createNewPill() -> Swallowable?
+    
+    /// Deletes the given pill from storage.
+    func delete(_ pill: Swallowable)
+    
+    /// Pushes the given pills to the managed context to stage changes for saving and optionally writes-through.
+    func pushLocalChangesToManagedContext(_ pills: [Swallowable], doSave: Bool)
+}

@@ -19,10 +19,10 @@ class PillScheduleTests: XCTestCase {
     private var pills: PillSchedule!
     
     override func setUp() {
+        let mockStore = MockPillStore()
+        
         pills = PillSchedule(
-            coreDataStack: <#T##PDCoreDataDelegate#>,
-            pillDataSharer: <#T##DataSharing#>,
-            state: PillSchedule.PillScheduleState
+            store: mockStore, pillDataSharer: <#T##DataSharing#>, state: <#T##PillSchedule.PillScheduleState#>
         )
     }
 }

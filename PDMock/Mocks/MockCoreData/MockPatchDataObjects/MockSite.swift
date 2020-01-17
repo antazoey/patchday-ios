@@ -12,15 +12,14 @@ import PDKit
 
 public class MockSite: Bodily, PDMocking {
     
-    // Mock variables
+    // Mock-related properties
     public var isOccupiedCallArgs: [Int] = []
     public var isOccupiedReturnValues: [Bool] = []
     public var isEqualToCallArgs: [Bodily] = []
     public var isEqualToReturnValues: [Bool] = []
     public var resetCallCount = 0
     
-    // Class viarables
-    
+    // Bodily properties
     public var id: UUID = UUID()
     public var hormoneIds: [UUID] = []
     public var hormoneCount: Int = 0

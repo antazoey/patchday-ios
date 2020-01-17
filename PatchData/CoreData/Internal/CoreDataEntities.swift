@@ -23,29 +23,21 @@ class CoreDataEntities {
     private let logger = CoreDataEntitiesLogger()
     private let saver: EntitiesSaver
 
-    var coreDataStack: PDCoreDataDelegate
+    var coreDataStack: PDCoreDataWrapping
 
-    init(coreDataStack: PDCoreDataDelegate) {
+    init(coreDataStack: PDCoreDataWrapping) {
         self.coreDataStack = coreDataStack
         saver = EntitiesSaver(coreDataStack)
     }
     
-    // MARK: - Public Getters
-
+    // MARK: Internal Getters (single)
+    
     func getManagedHormone(by id: UUID) -> MOHormone? {
         if let hormone = CoreDataEntities.hormoneMOs.first(where: { h in h.id == id }) {
             return hormone
         }
         logger.warnForNonExistence(.hormone, id: id.uuidString)
         return nil
-    }
-
-    func getManagedHormoneData() -> [HormoneStruct] {
-        if !hormonesInitialized {
-            loadStoredHormones()
-        }
-        
-        return getCurrentMananagedHormones()
     }
     
     func getManagedPill(by id: UUID) -> MOPill? {
@@ -54,6 +46,24 @@ class CoreDataEntities {
         }
         logger.warnForNonExistence(.pill, id: id.uuidString)
         return nil
+    }
+
+    func getManagedSite(by id: UUID) -> MOSite? {
+        if let site = CoreDataEntities.siteMOs.first(where: { s in s.id == id }) {
+            return site
+        }
+        logger.warnForNonExistence(.site, id: id.uuidString)
+        return nil
+    }
+    
+    // MARK: - Internal Getters (collection)
+    
+    func getManagedHormoneData() -> [HormoneStruct] {
+        if !hormonesInitialized {
+            loadStoredHormones()
+        }
+        
+        return getCurrentMananagedHormones()
     }
     
     func getManagedPillData() -> [PillStruct] {
@@ -64,15 +74,6 @@ class CoreDataEntities {
         return getCurrentManagedPills()
     }
     
-    func getManagedSite(by id: UUID) -> MOSite? {
-        if let site = CoreDataEntities.siteMOs.first(where: { s in s.id == id }) {
-            return site
-        }
-        logger.warnForNonExistence(.site, id: id.uuidString)
-        logger.logSites(CoreDataEntities.siteMOs)
-        return nil
-    }
-
     func getManagedSiteData() -> [SiteStruct] {
         if !sitesInitialized {
             loadStoredSites()
@@ -81,7 +82,7 @@ class CoreDataEntities {
         return getCurrentManagedSites()
     }
     
-    // MARK: - Public Creators
+    // MARK: - Internal Creators
 
     func createNewManagedHormone(doSave: Bool=true) -> HormoneStruct? {
         if let newHormone = createNewHormone() {
@@ -119,7 +120,7 @@ class CoreDataEntities {
         return nil
     }
     
-    // MARK: - Public Pushers
+    // MARK: - Internal Pushers
 
     func pushHormoneDataToManagedContext(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
         guard hormoneData.count > 0 else {
@@ -166,7 +167,7 @@ class CoreDataEntities {
         }
     }
     
-    // MARK: - Public Deleters
+    // MARK: - Internal Deleters
 
     func deleteManagedHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool=true) {
         for data in hormoneData {
@@ -231,7 +232,7 @@ class CoreDataEntities {
         sitesInitialized = true
     }
     
-    // MARK: - Private Getters
+    // MARK: - Private Getters (collection)
     
     private func getCurrentMananagedHormones() -> [HormoneStruct] {
         var hormoneStructs: [HormoneStruct] = []

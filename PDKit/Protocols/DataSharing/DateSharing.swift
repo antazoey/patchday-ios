@@ -10,6 +10,7 @@ import Foundation
 
 
 public protocol DataSharing {
+
     var defaults: UserDefaults? { get }
     
     /// Sets hormone data for other apps and widgets, such as the PatchDay Today widget.

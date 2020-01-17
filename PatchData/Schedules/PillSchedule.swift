@@ -60,7 +60,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func insertNew(completion: (() -> ())?) -> Swallowable? {
         if let pill = store.createNewPill() {
             pills.append(pill)
-            store.pushLocalChangesToBeSaved([pill])
+            store.pushLocalChangesToManagedContext([pill], doSave: true)
             completion?()
             shareData()
             return pill
@@ -84,7 +84,7 @@ public class PillSchedule: NSObject, PillScheduling {
                 pills.append(pill)
             }
         }
-        store.pushLocalChangesToBeSaved(pills)
+        store.pushLocalChangesToManagedContext(pills, doSave: true)
     }
 
     // MARK: - Public
@@ -123,7 +123,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public func swallow(_ pill: Swallowable) {
         if pill.timesTakenToday < pill.timesaday {
             pill.swallow()
-            store.pushLocalChangesToBeSaved([pill])
+            store.pushLocalChangesToManagedContext([pill], doSave: true)
         }
     }
 
@@ -147,7 +147,7 @@ public class PillSchedule: NSObject, PillScheduling {
     
     private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
-        store.pushLocalChangesToBeSaved([pill])
+        store.pushLocalChangesToManagedContext([pill], doSave: true)
         shareData()
     }
 
@@ -155,7 +155,7 @@ public class PillSchedule: NSObject, PillScheduling {
         for pill in pills {
             pill.awaken()
         }
-        store.pushLocalChangesToBeSaved(pills)
+        store.pushLocalChangesToManagedContext(pills, doSave: true)
     }
     
     private func deleteAll() {
