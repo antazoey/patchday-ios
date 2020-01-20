@@ -34,7 +34,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
         createNewObjectReturnValue
     }
     
-    public func getRelatedHormones(siteId: UUID) -> [HormoneStruct] {
+    public func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct] {
         getRelatedHormonesReturnValue
     }
     

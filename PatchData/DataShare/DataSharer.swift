@@ -1,9 +1,9 @@
 //
-//  PDSharedData.swift
+//  DataSharer.swift
 //  PatchData
 //
-//  Created by Juliya Smith on 12/21/18.
-//  Copyright © 2018 Juliya Smith. All rights reserved.
+//  Created by Juliya Smith on 1/18/20.
+//  Copyright © 2020 Juliya Smith. All rights reserved.
 //
 
 import Foundation
@@ -12,27 +12,15 @@ import PDKit
 
 public class DataSharer: DataSharing {
     
-    public var defaults: UserDefaults? {
+    private var sharedDefaults: UserDefaults? {
         UserDefaults(suiteName: "group.com.patchday.todaydata")
     }
-
-    public func shareRelevantHormoneData(
-        oldestHormone: Hormonal,
-        displayedSiteName: SiteName,
-        interval: ExpirationIntervalUD,
-        deliveryMethod: DeliveryMethodUD
-    ) {
-        if let defs = defaults {
-            defs.set(displayedSiteName, forKey: PDStrings.TodayKey.nextHormoneSiteName.rawValue)
-            defs.set(oldestHormone.date, forKey: PDStrings.TodayKey.nextHormoneDate.rawValue)
-        }
+    
+    public func share(_ value: Any?, forKey key: String) {
+        sharedDefaults?.set(value, forKey: key)
     }
-
-    /// Sets MOPill data for PatchDay Today widget.
-    public func shareRelevantPillData(nextPill: Swallowable) {
-        if let defs = defaults {
-            defs.set(nextPill.name, forKey: PDStrings.TodayKey.nextPillToTake.rawValue)
-            defs.set(nextPill.due, forKey: PDStrings.TodayKey.nextPillTakeTime.rawValue)
-        }
+    
+    public func object(forKey key: String) -> Any? {
+        sharedDefaults?.object(forKey: key)
     }
 }

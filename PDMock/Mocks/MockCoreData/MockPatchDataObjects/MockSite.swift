@@ -20,13 +20,13 @@ public class MockSite: Bodily, PDMocking {
     public var resetCallCount = 0
     
     // Bodily properties
-    public var id: UUID = UUID()
+    public var id = UUID()
     public var hormoneIds: [UUID] = []
-    public var hormoneCount: Int = 0
-    public var imageId: String = ""
+    public var hormoneCount = 0
+    public var imageId = ""
     public var name: SiteName = ""
-    public var order: Int = -1
-    public var isOccupied: Bool = false
+    public var order = -1
+    public var isOccupied = false
     
     public init() {}
     

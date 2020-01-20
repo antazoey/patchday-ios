@@ -21,7 +21,7 @@ public class SiteTests: XCTestCase {
     
     let testId = UUID()
     
-    override func setUp() {
+    override public func setUp() {
         
     }
 }

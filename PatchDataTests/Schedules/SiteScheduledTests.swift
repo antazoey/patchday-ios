@@ -16,10 +16,14 @@ import PatchData
 
 class SiteScheduleTests: XCTestCase {
 
+    private var mockStore: MockSiteStore!
+    private var mockDefaults: MockUserDefaultsWriter!
     private var sites: SiteSchedule!
     
     override func setUp() {
-        sites = SiteSchedule(store: <#T##SiteStoring#>, defaults: <#T##UserDefaultsWriting#>)
+        mockStore = MockSiteStore()
+        mockDefaults = MockUserDefaultsWriter()
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
     }
 }
 

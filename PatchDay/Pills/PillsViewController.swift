@@ -15,6 +15,7 @@ typealias PillName = String
 class PillsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var viewModel: PillsViewModel!
+    private var viewFactory: PillsViewFactory!
     
     @IBOutlet var pillsView: UIView!
     @IBOutlet weak var pillsTableView: UITableView!
@@ -45,7 +46,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.goToPillDetails(pillIndex: indexPath.row, pillsViewModel: self)
+        viewModel.goToPillDetails(pillIndex: indexPath.row, pillsViewController: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -67,17 +68,23 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     private func initViewModelIfNil() {
         if viewModel == nil {
-            viewModel = PillsViewModel(pillsTableView: pillsTableView)
+            viewFactory = PillsViewFactory(insertButtonAction: handleInsertNewPill)
+            viewModel = PillsViewModel(pillsTableView: pillsTableView, viewFactory: viewFactory)
         }
     }
     
     private func insertInsertBarButtonItem() {
-        navigationItem.rightBarButtonItems = [viewModel.insertBarButtonItem]
+        let insertButton = viewFactory.createInsertButton()
+        navigationItem.rightBarButtonItems = [insertButton]
     }
     
     private func applyTheme() {
         if let theme = viewModel.styles?.theme {
             pillsView.backgroundColor = theme[.bg]
         }
+    }
+    
+    @objc private func handleInsertNewPill() {
+        viewModel.goToNewPillDetails(pillsViewController: self)
     }
 }

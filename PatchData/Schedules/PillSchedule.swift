@@ -19,14 +19,14 @@ public class PillSchedule: NSObject, PillScheduling {
     
     private var pills: [Swallowable]
     private let store: PillStoring
-    private let sharer: DataSharing
+    private let sharer: PillDataSharing
     
     enum PillScheduleState {
         case Initial
         case Working
     }
     
-    init(store: PillStoring, pillDataSharer: DataSharing, state: PillScheduleState) {
+    init(store: PillStoring, pillDataSharer: PillDataSharing, state: PillScheduleState) {
         self.store = store
         self.sharer = pillDataSharer
         self.pills = store.getStoredPills()
@@ -43,10 +43,7 @@ public class PillSchedule: NSObject, PillScheduling {
     public var count: Int { pills.count }
     
     public var nextDue: Swallowable? {
-        if let pills = pills as? [Pill] {
-            return pills.min(by: PillComparator.lessThan)
-        }
-        return nil
+        pills.min(by: PillComparator.lessThan)
     }
 
     public var totalDue: Int {
@@ -139,7 +136,7 @@ public class PillSchedule: NSObject, PillScheduling {
     
     public func shareData() {
         if let next = nextDue {
-            sharer.shareRelevantPillData(nextPill: next)
+            sharer.share(nextPill: next)
         }
     }
     

@@ -58,20 +58,13 @@ public class PatchData: NSObject, PatchDataSDK {
         // ******************************************************
 
         let dataSharer = DataSharer()
+        let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
         let state = PDState()
-        let defaultsStore = PDUserDefaultsWriter(
-            state: state, handler: PDUserDefaultsWriteHandler(dataSharer: dataSharer)
-        )
+        let defaultsStore = PDUserDefaultsWriter(state: state, handler: PDUserDefaultsWriteHandler(dataSharer: dataSharer))
         let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
-        let pills = PillSchedule(store: PillStore(store), pillDataSharer: dataSharer, state: pillScheduleState)
-
+        let pills = PillSchedule(store: PillStore(store), pillDataSharer: pillDataSharer, state: pillScheduleState)
         let sites = SiteSchedule(store: SiteStore(store), defaults: defaultsStore)
-        
-        let hormoneDataSharer = HormoneDataSharer(
-            sites: sites,
-            siteDataSharer: dataSharer,
-            defaults: defaultsStore
-        )
+        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer, sites: sites, defaults: defaultsStore)
         
         let hormones = HormoneSchedule(
             store: HormoneStore(store),
@@ -80,18 +73,8 @@ public class PatchData: NSObject, PatchDataSDK {
             defaults: defaultsStore
         )
         
-        let defaults = PDDefaults(
-            store: defaultsStore,
-            state: state,
-            hormones: hormones,
-            sites: sites
-        )
-        
-        let stateManager = PatchDataStateManager(
-            state: state,
-            defaults: defaults,
-            hormones: hormones
-        )
+        let defaults = PDDefaults(store: defaultsStore, state: state, hormones: hormones, sites: sites)
+        let stateManager = PatchDataStateManager(state: state, defaults: defaults, hormones: hormones)
         
         self.init(
             defaults: defaults,
@@ -122,8 +105,8 @@ public class PatchData: NSObject, PatchDataSDK {
     }
     
     private static func determinePillScheduleState(defaults: UserDefaultsWriting) -> PillSchedule.PillScheduleState {
-        !defaults.mentionedDisclaimer.value
-            ? PillSchedule.PillScheduleState.Initial
-            : PillSchedule.PillScheduleState.Working
+        defaults.mentionedDisclaimer.value
+            ? PillSchedule.PillScheduleState.Working
+            : PillSchedule.PillScheduleState.Initial
     }
 }

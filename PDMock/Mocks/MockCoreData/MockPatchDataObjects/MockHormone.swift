@@ -19,21 +19,21 @@ public class MockHormone: Hormonal, PDMocking {
     public var resetCallCount = 0
     
     // Hormonal properties
-    public var id: UUID = UUID()
-    public var deliveryMethod: DeliveryMethod = .Patches
-    public var expirationInterval: ExpirationIntervalUD = ExpirationIntervalUD()
+    public var id = UUID()
+    public var deliveryMethod = DeliveryMethod.Patches
+    public var expirationInterval = ExpirationIntervalUD()
     public var siteId: UUID? = nil
     public var siteName: SiteName? = nil
     public var date: Date = Date(timeIntervalSince1970: 0)
     public var expiration: Date? = nil
-    public var expirationString: String = ""
-    public var isExpired: Bool = false
-    public var isPastNotificationTime: Bool = false
-    public var expiresOvernight: Bool = false
+    public var expirationString = ""
+    public var isExpired = false
+    public var isPastNotificationTime = false
+    public var expiresOvernight = false
     public var siteNameBackUp: String? = ""
-    public var isEmpty: Bool = false
-    public var hasSite: Bool = false
-    public var hasDate: Bool = false
+    public var isEmpty = false
+    public var hasSite = false
+    public var hasDate = false
     
     public init() {}
     

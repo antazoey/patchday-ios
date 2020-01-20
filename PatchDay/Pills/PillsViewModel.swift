@@ -10,8 +10,10 @@ import PDKit
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
     var pillsTable: PillsTable! = nil
+    var viewFactory: PillsViewFactory
 
-    init(pillsTableView: UITableView) {
+    init(pillsTableView: UITableView, viewFactory: PillsViewFactory) {
+        self.viewFactory = viewFactory
         super.init()
         let tableWrapper = PillsTable(pillsTableView, pills: pills, theme: styles?.theme)
         self.pillsTable = tableWrapper
@@ -21,13 +23,9 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     var pills: PillScheduling? {
         sdk?.pills
     }
-    
-    var insertBarButtonItem: UIBarButtonItem {
-        PillsViewFactory.createInsertButton(action: #selector(handleInsertNewPill))
-    }
-    
+
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
-        let delete = PillsViewFactory.createSiteCellDeleteSwipeAction {
+        let delete = viewFactory.createSiteCellDeleteSwipeAction {
             self.deletePill(at: index)
         }
         return UISwipeActionsConfiguration(actions: [delete])
@@ -48,20 +46,21 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
         let pillsCount = pills?.count ?? 0
         pillsTable.deleteCell(at: index, pillsCount: pillsCount)
     }
-
-    func goToPillDetails(pillIndex: Index, pillsViewModel: UIViewController) {
-        if let pill = pills?.at(pillIndex) {
-            nav?.goToPillDetails(pill, source: pillsViewModel)
-        }
-    }
     
-    // MARK: - Private
+    func goToNewPillDetails(pillsViewController: UIViewController) {
+        guard let pill = pills?.insertNew(completion: nil) else {
+            return
+        }
+        nav?.goToPillDetails(pill, source: pillsViewController)
+    }
 
-    @objc private func handleInsertNewPill(pillsViewController: UIViewController) {
-        if let pill = pills?.insertNew(completion: pillsTable.reloadData) {
+    func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
+        if let pill = pills?.at(pillIndex) {
             nav?.goToPillDetails(pill, source: pillsViewController)
         }
     }
+
+    // MARK: - Private
 
     private func addObserverForUpdatingPillTableWhenEnteringForeground() {
         let name = UIApplication.willEnterForegroundNotification

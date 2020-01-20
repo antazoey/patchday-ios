@@ -11,13 +11,13 @@ import PDKit
 
 public class HormoneDataSharer: HormoneDataSharing {
     
+    private let baseSharer: DataSharing
     private let sites: HormoneSiteScheduling
-    private let siteDataSharer: DataSharing
-    private let defaults: UserDefaultsWriting
+    private let defaults: UserDefaultsReading
     
-    init(sites: HormoneSiteScheduling, siteDataSharer: DataSharing, defaults: UserDefaultsWriting) {
+    init(baseSharer: DataSharing, sites: HormoneSiteScheduling, defaults: UserDefaultsReading) {
+        self.baseSharer = baseSharer
         self.sites = sites
-        self.siteDataSharer = siteDataSharer
         self.defaults = defaults
     }
     
@@ -26,11 +26,21 @@ public class HormoneDataSharer: HormoneDataSharing {
         let interval = defaults.expirationInterval
         let nextSite = sites.suggested
         let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
-        siteDataSharer.shareRelevantHormoneData(
+        shareRelevantHormoneData(
             oldestHormone: nextHormone,
             displayedSiteName: name ?? SiteStrings.newSite,
             interval: interval,
             deliveryMethod: method
         )
+    }
+    
+    private func shareRelevantHormoneData(
+        oldestHormone: Hormonal,
+        displayedSiteName: SiteName,
+        interval: ExpirationIntervalUD,
+        deliveryMethod: DeliveryMethodUD
+    ) {
+        baseSharer.share(displayedSiteName, forKey: PDStrings.TodayKey.nextHormoneSiteName.rawValue)
+        baseSharer.share(oldestHormone.date, forKey: PDStrings.TodayKey.nextHormoneDate.rawValue)
     }
 }
