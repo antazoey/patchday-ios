@@ -84,7 +84,7 @@ public class Pill: Swallowable {
     }
     
     public var timesaday: Int {
-        get { pillData.attributes.timesaday ?? DefaultPillTimesaday }
+        get { pillData.attributes.timesaday ?? DefaultPillAttributes.timesaday }
         set {
             if newValue >= 0 {
                 pillData.attributes.timesaday = newValue
@@ -157,11 +157,11 @@ public class Pill: Swallowable {
 
     public func reset() {
         pillData.attributes.name = nil
-        pillData.attributes.timesaday = 1
-        pillData.attributes.time1 = nil
+        pillData.attributes.timesaday = DefaultPillAttributes.timesaday
+        pillData.attributes.time1 = DefaultPillAttributes.time
         pillData.attributes.time2 = nil
-        pillData.attributes.notify = false
-        pillData.attributes.timesTakenToday = 0
+        pillData.attributes.notify = DefaultPillAttributes.notify
+        pillData.attributes.timesTakenToday = DefaultPillAttributes.timesTakenToday
         pillData.attributes.lastTaken = nil
     }
     

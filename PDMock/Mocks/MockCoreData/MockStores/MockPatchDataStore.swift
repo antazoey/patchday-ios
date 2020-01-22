@@ -12,7 +12,7 @@ import Foundation
 public class MockPatchDataStore<T>: PDMocking {
 
     public var getStoredCollectionReturnValues: [[T]] = []
-    public var createNewObjectReturnValue: T? = nil
+    public var newObjectFactory: (() -> T)? = nil
     public var deleteCallArgs: [T] = []
     public var pushLocalChangesCallArgs: [([T], Bool)] = []
     
@@ -20,7 +20,7 @@ public class MockPatchDataStore<T>: PDMocking {
     
     public func resetMock() {
         getStoredCollectionReturnValues = []
-        createNewObjectReturnValue = nil
+        newObjectFactory = nil
         deleteCallArgs = []
         pushLocalChangesCallArgs = []
     }

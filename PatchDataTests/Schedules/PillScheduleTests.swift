@@ -50,10 +50,21 @@ class PillScheduleTests: XCTestCase {
         return mockPills
     }
     
-    public func testInit_whenGivenInitialState_resetsToDefault() {
+    private func assertPillsAreDefault() {
+        XCTAssert(pills.count == 2)
         
+        let pillOne = pills.at(0)! as! MockPill
+        let pillTwo = pills.at(1)! as! MockPill
+        
+        XCTAssert(pillOne.resetCallCount == 1)
+        XCTAssert(pillTwo.resetCallCount == 1)
     }
     
+    public func testInit_whenGivenInitialState_resetsToDefaultPills() {
+        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Initial)
+        assertPillsAreDefault()
+    }
+
     public func testNextDue_returnsPillThatIsNextDue() {
         let mockPills = setUpPills()  // The first pill from here is due
         let expected = mockPills[0].id

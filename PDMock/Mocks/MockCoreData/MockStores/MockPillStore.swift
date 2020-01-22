@@ -14,7 +14,7 @@ public class MockPillStore: MockPatchDataStore<Swallowable>, PillStoring {
 
     public override init() {
         super.init()
-        createNewObjectReturnValue = MockPill()
+        newObjectFactory = { () in MockPill() }
     }
 
     public func getStoredPills() -> [Swallowable] {
@@ -22,13 +22,13 @@ public class MockPillStore: MockPatchDataStore<Swallowable>, PillStoring {
     }
     
     public func createNewPill(name: String) -> Swallowable? {
-        var pill = createNewObjectReturnValue
+        var pill = newObjectFactory?()
         pill?.name = name
         return pill
     }
     
     public func createNewPill() -> Swallowable? {
-        createNewObjectReturnValue
+        newObjectFactory?()
     }
     
     public func delete(_ hormone: Swallowable) {

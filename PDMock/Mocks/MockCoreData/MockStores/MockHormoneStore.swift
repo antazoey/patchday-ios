@@ -14,7 +14,7 @@ public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
     
     public override init() {
         super.init()
-        createNewObjectReturnValue = MockHormone()
+        newObjectFactory = { () in MockHormone() }
     }
 
     public func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
@@ -22,7 +22,7 @@ public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
     }
     
     public func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
-        createNewObjectReturnValue
+        newObjectFactory?()
     }
     
     public func delete(_ hormone: Hormonal) {

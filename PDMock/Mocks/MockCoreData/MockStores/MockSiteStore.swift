@@ -17,7 +17,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
 
     public override init() {
         super.init()
-        createNewObjectReturnValue = MockSite()
+        newObjectFactory = { () in MockSite() }
     }
     
     public override func resetMock() {
@@ -31,7 +31,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
     }
     
     public func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool) -> Bodily? {
-        createNewObjectReturnValue
+        newObjectFactory?()
     }
     
     public func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct] {

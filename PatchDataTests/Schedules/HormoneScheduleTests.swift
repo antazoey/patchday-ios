@@ -41,7 +41,7 @@ class HormoneScheduleTests: XCTestCase {
     }
     
     private func setUpEmptyHormones() {
-        mockStore.createNewObjectReturnValue = nil
+        mockStore.newObjectFactory = nil
         setUpHormones()
     }
     
@@ -109,7 +109,7 @@ class HormoneScheduleTests: XCTestCase {
     
     func testInsertNew_whenStoreReturnsNil_doesNotIncreaseHormoneCount() {
         setUpDefaultHormones(3)
-        mockStore.createNewObjectReturnValue = nil
+        mockStore.newObjectFactory = nil
         hormones.insertNew()
         let expected = 3
         let actual = hormones.count
@@ -119,7 +119,7 @@ class HormoneScheduleTests: XCTestCase {
     func testInsertNew_whenStoreReturnsHormone_increasesCount() {
         setUpDefaultHormones(3)
         let newHormone = MockHormone()
-        mockStore.createNewObjectReturnValue = newHormone
+        mockStore.newObjectFactory = { () in newHormone }
         hormones.insertNew()
         let expected = 4
         let actual = hormones.count
@@ -129,7 +129,7 @@ class HormoneScheduleTests: XCTestCase {
     func testInsertNew_whenStoreReturnsHormone_appendsNewSite() {
         setUpDefaultHormones(3)
         let newHormone = MockHormone()
-        mockStore.createNewObjectReturnValue = newHormone
+        mockStore.newObjectFactory = { () in newHormone }
         hormones.insertNew()
         XCTAssertTrue(hormones.all.contains(where: { $0.id == newHormone.id }))
     }
@@ -142,7 +142,7 @@ class HormoneScheduleTests: XCTestCase {
         let newHormone = MockHormone()
         newHormone.date = Date(timeIntervalSinceNow: -999999)  // New oldest
         setUpHormones(mockHormones)
-        mockStore.createNewObjectReturnValue = newHormone
+        mockStore.newObjectFactory = { () in newHormone }
         hormones.insertNew()
         let expected = newHormone
         let actual = hormones.all.first
@@ -235,14 +235,14 @@ class HormoneScheduleTests: XCTestCase {
     }
     
     func testSaveAll_whenCountIsZero_doesNotCallSave() {
-        mockStore.createNewObjectReturnValue = nil
+        mockStore.newObjectFactory = nil
         setUpHormones()
         hormones.saveAll()
         XCTAssert(mockStore.pushLocalChangesCallArgs.count == 0)
     }
     
     func testDeleteAll_whenCountIsZero_doesNotCallStoreDelete() {
-        mockStore.createNewObjectReturnValue = nil
+        mockStore.newObjectFactory = nil
         setUpHormones()
         hormones.deleteAll()
         XCTAssert(mockStore.deleteCallArgs.count == 0)

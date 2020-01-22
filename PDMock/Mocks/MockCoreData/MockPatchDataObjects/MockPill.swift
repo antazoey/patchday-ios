@@ -21,19 +21,19 @@ public class MockPill: PDMocking, Swallowable {
     public var resetCallCount = 0
     
     // Swallowable properties
-    public var id = UUID()
-    public var attributes = PillAttributes()
-    public var name = ""
-    public var time1 = Date()
-    public var time2 = Date()
-    public var notify = false
-    public var timesaday = -1
-    public var timesTakenToday = -1
+    public var id: UUID = UUID()
+    public var attributes: PillAttributes = PillAttributes()
+    public var name: String = ""
+    public var time1: Date = Date()
+    public var time2: Date = Date()
+    public var notify: Bool = false
+    public var timesaday: Int = -1
+    public var timesTakenToday: Int = -1
     public var lastTaken: Date? = nil
-    public var due = Date()
-    public var isDue = false
-    public var isNew = false
-    public var isDone = false
+    public var due: Date = Date()
+    public var isDue: Bool = false
+    public var isNew: Bool = false
+    public var isDone: Bool = false
     
     public init() {}
     

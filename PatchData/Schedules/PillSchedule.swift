@@ -78,6 +78,7 @@ public class PillSchedule: NSObject, PillScheduling {
         pills = []
         for i in 0..<names.count {
             if let pill = store.createNewPill(name: names[i]) {
+                pill.reset()
                 pills.append(pill)
             }
         }
