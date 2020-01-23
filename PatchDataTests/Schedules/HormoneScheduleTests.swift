@@ -126,7 +126,7 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func testInsertNew_whenStoreReturnsHormone_appendsNewSite() {
+    func testInsertNew_whenStoreReturnsHormone_containsHormoneInAll() {
         setUpDefaultHormones(3)
         let newHormone = MockHormone()
         mockStore.newObjectFactory = { () in newHormone }

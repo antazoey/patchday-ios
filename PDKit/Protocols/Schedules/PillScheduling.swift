@@ -20,7 +20,8 @@ public protocol PillScheduling: Schedule, Deleting {
     var totalDue: Int { get }
     
     /// Insert a new pill into the schedule.
-    func insertNew(completion: (() -> ())?) -> Swallowable?
+    @discardableResult
+    func insertNew(onSuccess: (() -> ())?) -> Swallowable?
 
     /// Returns the pill at the given index.
     func at(_ index: Index) -> Swallowable?

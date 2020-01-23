@@ -192,7 +192,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public static func getOldestHormoneDate(from hormones: [HormoneStruct]) -> Date {
-        return hormones.reduce(Date(), { (oldestDateThusFar, hormone) in
+        hormones.reduce(Date(), { (oldestDateThusFar, hormone) in
             if let date = hormone.date, date < oldestDateThusFar {
                 return date
             }
@@ -203,8 +203,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     // MARK: - Private
     
     private var hasDates: Bool {
-        let dateCount = hormones.filter { !$0.date.isDefault() }.count
-        return dateCount > 0
+        hormones.filter { !$0.date.isDefault() }.count > 0
     }
     
     private var hasSites: Bool {

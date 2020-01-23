@@ -48,7 +48,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     }
     
     func goToNewPillDetails(pillsViewController: UIViewController) {
-        guard let pill = pills?.insertNew(completion: nil) else {
+        guard let pill = pills?.insertNew(onSuccess: nil) else {
             return
         }
         nav?.goToPillDetails(pill, source: pillsViewController)

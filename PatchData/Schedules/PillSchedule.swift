@@ -47,18 +47,20 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public var totalDue: Int {
-        pills.reduce(0, {
-            (count: Int, pill: Swallowable) -> Int in pill.isDue ? 1 + count : count
-        })
+        pills.reduce(0) {
+            (count: Int, pill: Swallowable) -> Int in
+            pill.isDue ? 1 + count : count
+        }
     }
     
     // MARK: - Override base class
 
-    public func insertNew(completion: (() -> ())?) -> Swallowable? {
+    @discardableResult
+    public func insertNew(onSuccess: (() -> ())?) -> Swallowable? {
         if let pill = store.createNewPill() {
             pills.append(pill)
             store.pushLocalChangesToManagedContext([pill], doSave: true)
-            completion?()
+            onSuccess?()
             shareData()
             return pill
         }
@@ -67,6 +69,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func delete(at index: Index) {
         if let pill = at(index) {
+            pills.remove(at: index)
             store.delete(pill)
             shareData()
         }
@@ -75,12 +78,13 @@ public class PillSchedule: NSObject, PillScheduling {
     public func reset() {
         deleteAll()
         let names = PDStrings.PillTypes.defaultPills
-        pills = []
-        for i in 0..<names.count {
-            if let pill = store.createNewPill(name: names[i]) {
+        pills = names.reduce([]) {
+            (currentPills: [Swallowable], name: String) -> [Swallowable] in
+            if let pill = store.createNewPill(name: name) {
                 pill.reset()
-                pills.append(pill)
+                return currentPills + [pill]
             }
+            return currentPills
         }
         store.pushLocalChangesToManagedContext(pills, doSave: true)
     }

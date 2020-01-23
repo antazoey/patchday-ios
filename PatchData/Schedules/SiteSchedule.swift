@@ -94,6 +94,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return false  // if there are no sites, than it is not default
     }
     
+    @discardableResult
     public func insertNew(save: Bool) -> Bodily? {
         if let site = createSite(save: save) {
             sites.append(site)
@@ -102,18 +103,21 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return nil
     }
 
+    @discardableResult
     public func insertNew(save: Bool, completion: @escaping () -> ()) -> Bodily? {
         let site = insertNew(save: save)
         completion()
         return site
     }
 
+    @discardableResult
     public func insertNew(name: String, save: Bool) -> Bodily? {
         var site = insertNew(save: save)
         site?.name = name
         return site
     }
 
+    @discardableResult
     public func insertNew(name: String, save: Bool, completion: @escaping () -> ()) -> Bodily? {
         let site = insertNew(name: name, save: save)
         completion()

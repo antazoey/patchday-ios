@@ -38,16 +38,20 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     var isDefault: Bool { get }
     
     /// Inserts a new site into the schedule.
+    @discardableResult
     func insertNew(save: Bool) -> Bodily?
     
     /// Inserts a new site into the schedule with the given name.
-    @discardableResult func insertNew(name: SiteName, save: Bool) -> Bodily?
+    @discardableResult
+    func insertNew(name: SiteName, save: Bool) -> Bodily?
 
     /// Inserts a new site into the schedule.
-    @discardableResult func insertNew(save: Bool, completion: @escaping () -> ()) -> Bodily?
+    @discardableResult
+    func insertNew(save: Bool, completion: @escaping () -> ()) -> Bodily?
 
     /// Inserts a new site into the schedule with the given name.
-    @discardableResult func insertNew(name: String, save: Bool, completion: @escaping () -> ()) -> Bodily?
+    @discardableResult
+    func insertNew(name: String, save: Bool, completion: @escaping () -> ()) -> Bodily?
     
     /// Returns the site at the given index.
     func at(_ index: Index) -> Bodily?
