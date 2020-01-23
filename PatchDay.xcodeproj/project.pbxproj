@@ -170,6 +170,7 @@
 		9D8A985F23D3B9EC004E20FE /* PillDataSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A985E23D3B9EC004E20FE /* PillDataSharing.swift */; };
 		9D8A986123D3BAF3004E20FE /* DataSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986023D3BAF3004E20FE /* DataSharer.swift */; };
 		9D8A986323D3BAFE004E20FE /* DataSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986223D3BAFE004E20FE /* DataSharing.swift */; };
+		9D8A986523D95941004E20FE /* PillScheduleTestsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986423D95941004E20FE /* PillScheduleTestsUtil.swift */; };
 		9D913B7A22FF3A0B001FC03C /* UserDefaultsWriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */; };
 		9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */; };
 		9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */; };
@@ -494,6 +495,7 @@
 		9D8A985E23D3B9EC004E20FE /* PillDataSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDataSharing.swift; sourceTree = "<group>"; };
 		9D8A986023D3BAF3004E20FE /* DataSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSharer.swift; sourceTree = "<group>"; };
 		9D8A986223D3BAFE004E20FE /* DataSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSharing.swift; sourceTree = "<group>"; };
+		9D8A986423D95941004E20FE /* PillScheduleTestsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillScheduleTestsUtil.swift; sourceTree = "<group>"; };
 		9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriting.swift; sourceTree = "<group>"; };
 		9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduling.swift; sourceTree = "<group>"; };
 		9D913B7F22FF3E43001FC03C /* PDStateManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDStateManaging.swift; sourceTree = "<group>"; };
@@ -1415,6 +1417,7 @@
 				B468414121DC815A00A0BE73 /* HormoneScheduleTests.swift */,
 				9D8A984323CFFA6D004E20FE /* PillScheduleTests.swift */,
 				9D8A984623D13052004E20FE /* SiteScheduledTests.swift */,
+				9D8A986423D95941004E20FE /* PillScheduleTestsUtil.swift */,
 			);
 			path = Schedules;
 			sourceTree = "<group>";
@@ -1918,6 +1921,7 @@
 			files = (
 				9D8A984723D13052004E20FE /* SiteScheduledTests.swift in Sources */,
 				9D8A983F23CBF384004E20FE /* HormoneTests.swift in Sources */,
+				9D8A986523D95941004E20FE /* PillScheduleTestsUtil.swift in Sources */,
 				B468414221DC815A00A0BE73 /* HormoneScheduleTests.swift in Sources */,
 				9D8A985323D1682E004E20FE /* SiteTests.swift in Sources */,
 				9D8A985523D1683A004E20FE /* PillTests.swift in Sources */,

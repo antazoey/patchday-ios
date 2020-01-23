@@ -19,12 +19,14 @@ class PillScheduleTests: XCTestCase {
     private var mockStore: MockPillStore!
     private var mockDataSharer: MockPillDataSharer!
     private var pills: PillSchedule!
+    private var util: PillScheduleTestsUtil!
     
     private let newPill = MockPill()
     
     override func setUp() {
         mockStore = MockPillStore()
         mockDataSharer = MockPillDataSharer()
+        util = PillScheduleTestsUtil(mockStore, mockDataSharer)
     }
     
     // MARK: - Setup helpers
@@ -42,11 +44,7 @@ class PillScheduleTests: XCTestCase {
         mockStore.newObjectFactory = insertPillFactory
         setUpPills()
     }
-    
-    private func createThreePills() -> [MockPill] {
-        [MockPill(), MockPill(), MockPill()]
-    }
-    
+
     // MARK: - Tests
 
     public func testInit_resetsToPillCountToTwo() {
@@ -62,7 +60,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testNextDue_returnsPillsWithOldestDueDate() {
-        let mockPills = createThreePills()
+        let mockPills = util.createThreePills()
         
         mockPills[0].due = Date()
         mockPills[1].due = Date(timeInterval: -10000, since: mockPills[0].due)
@@ -81,7 +79,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testTotalDue_returnsTotalPillsDue() {
-        let mockPills = createThreePills()
+        let mockPills = util.createThreePills()
         
         mockPills[0].isDue = true
         mockPills[1].isDue = true
@@ -127,13 +125,7 @@ class PillScheduleTests: XCTestCase {
     public func testInsertNew_whenStoreReturnsPills_savesChanges() {
         setUpPills(insertPillFactory: { () in self.newPill })
         pills.insertNew(onSuccess: nil)
-        
-        let expectedId = newPill.id
-        let actualId = mockStore.pushLocalChangesCallArgs[1].0[0].id
-        XCTAssert(
-            actualId == expectedId
-            && mockStore.pushLocalChangesCallArgs[0].1 == true
-        )
+        XCTAssert(util.didSave(with: [newPill]))
     }
     
     public func testInsertNew_whenStoreReturnsPills_callsCompletion() {
@@ -148,14 +140,11 @@ class PillScheduleTests: XCTestCase {
         self.newPill.id = UUID()
         setUpPills(insertPillFactory: { () in self.newPill })
         pills.insertNew(onSuccess: nil)
-        
-        let expected = pills.nextDue?.id
-        let actual = mockDataSharer.shareCallArgs[0].id
-        XCTAssertEqual(expected, actual)
+        XCTAssert(util.nextPillDueWasShared(pills))
     }
     
     public func testDelete_whenPillExists_removesPill() {
-        let mockPills = createThreePills()
+        let mockPills = util.createThreePills()
         let testId = UUID()
         mockPills[0].id = testId
         setUpPills(mockPills)
@@ -164,7 +153,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testDelete_whenPillExists_sharesDataForNextDue() {
-        let mockPills = createThreePills()
+        let mockPills = util.createThreePills()
         setUpPills(mockPills)
         pills.delete(at: 0)
         let expected = pills.nextDue?.id
@@ -173,7 +162,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testDelete_deletesThePillFromTheStore() {
-        let mockPills = createThreePills()
+        let mockPills = util.createThreePills()
         let testId = UUID()
         mockPills[0].id = testId
         setUpPills(mockPills)
@@ -184,13 +173,13 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testReset_resetsToPillCountToTwo() {
-        setUpPills(createThreePills())
+        setUpPills(util.createThreePills())
         pills.reset()
         XCTAssertEqual(2, pills.count)
     }
     
     public func testReset_whenGivenInitialState_resetsPills() {
-        setUpPills(createThreePills())
+        setUpPills(util.createThreePills())
         pills.reset()
         let pillOne = pills.at(0)! as! MockPill
         let pillTwo = pills.at(1)! as! MockPill
@@ -206,30 +195,97 @@ class PillScheduleTests: XCTestCase {
             i += 1
             return r
         }
-        setUpPills(createThreePills())
+        setUpPills(util.createThreePills())
         pills.reset()
-        let args = mockStore.pushLocalChangesCallArgs
-        XCTAssert(args[1].0[0].id == mockPillOne.id && args[1].0[1].id == mockPillTwo.id)
+        
+        // The most recent call
+        XCTAssert(util.didSave(with: [mockPillOne, mockPillTwo]))
     }
     
     public func testAt_whenPillExists_returnsPill() {
-        setUpPills(createThreePills())
+        setUpPills(util.createThreePills())
         XCTAssertNotNil(pills.at(0))
     }
     
     public func testAt_whenPillDoesNotExist_returnsNil() {
-        setUpPills(createThreePills())
+        setUpPills(util.createThreePills())
         XCTAssertNil(pills.at(3))
     }
     
     public func testGet_whenPillExists_returnsPill() {
-        let mockPills = createThreePills()
+        let mockPills = util.createThreePills()
         setUpPills(mockPills)
         XCTAssertNotNil(pills.get(by: mockPills[0].id))
     }
     
     public func testGet_whenPillDoesNotExist_returnsNil() {
-        setUpPills(createThreePills())
+        setUpPills(util.createThreePills())
         XCTAssertNil(pills.get(by: UUID()))
+    }
+    
+    public func testSet_whenPillExistsAndSettingByIndex_updatesPill() {
+        var attributes = PillAttributes()
+        let testDate = Date()
+        attributes.name = "New Name"
+        attributes.time1 = testDate
+        setUpPills(util.createThreePills())
+        pills.set(at: 0, with: attributes)
+        let pill = pills.at(0) as! MockPill
+
+        XCTAssert(pill.setCallArgs.contains(where:
+            { (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate
+        }))
+    }
+    
+    public func testSet_whenPillExistsAndSettingByIndex_savesChanges() {
+        var attributes = PillAttributes()
+        let testDate = Date()
+        attributes.name = "New Name"
+        attributes.time1 = testDate
+        let mockPills = util.createThreePills()
+        setUpPills(mockPills)
+        pills.set(at: 0, with: attributes)
+        XCTAssert(util.didSave(with: [mockPills[0]]))
+    }
+    
+    public func testSet_whenPillExistsAndSettingByIndex_sharedNextPillDue() {
+        var attributes = PillAttributes()
+        let testDate = Date()
+        attributes.name = "New Name"
+        attributes.time1 = testDate
+        let mockPills = util.createThreePills()
+        setUpPills(mockPills)
+        pills.set(at: 0, with: attributes)
+        XCTAssert(util.didSave(with: [mockPills[0]]))
+    }
+    
+    public func testSet_whenPillExistsAndSettingById_updatesPill() {
+        var attributes = PillAttributes()
+        let testDate = Date()
+        attributes.name = "New Name"
+        attributes.time1 = testDate
+        let mockPills = util.createThreePills()
+        let idToSet = mockPills[0].id
+        setUpPills(mockPills)
+        
+        pills.set(by: idToSet, with: attributes)
+        let pill = pills.get(by: idToSet) as! MockPill
+
+        XCTAssert(pill.setCallArgs.contains(where:
+            { (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate
+        }))
+    }
+    
+    public func testSet_whenPillExistsAndSettingById_savesChanges() {
+        var attributes = PillAttributes()
+        let testDate = Date()
+        attributes.name = "New Name"
+        attributes.time1 = testDate
+        let mockPills = util.createThreePills()
+        let idToSet = mockPills[0].id
+        setUpPills(mockPills)
+        
+        pills.set(by: idToSet, with: attributes)
+        XCTAssert(util.didSave(with: [mockPills[0]]))
     }
 }
