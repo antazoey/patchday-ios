@@ -33,7 +33,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
     func takePill(at index: Index) {
         if let pills = pills, let pill = pills.at(index) {
-            pills.swallow(pill)
+            pills.swallow(pill.id, onSuccess: nil)
             tabs?.reflectDuePillBadgeValue()
             notifications?.requestDuePillNotification(pill)
             let params = PillCellConfigurationParameters(pill: pill, index: index, theme: styles?.theme)

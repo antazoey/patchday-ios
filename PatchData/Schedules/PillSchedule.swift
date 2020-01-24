@@ -111,27 +111,15 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
 
-    public func swallow(at index: Index, completion: (() -> ())?) {
-        if let pill = at(index) {
-            swallow(pill, completion: completion) // Saves
+    public func swallow(_ pillId: UUID, onSuccess: (() -> ())?) {
+        if let pill = get(by: pillId) {
+            swallow(pill, onSuccess) // Saves
         }
     }
 
-    public func swallow(_ pill: Swallowable, completion: (() -> ())?) {
-        swallow(pill) // Saves
-        completion?()
-    }
-
-    public func swallow(_ pill: Swallowable) {
-        if pill.timesTakenToday < pill.timesaday {
-            pill.swallow()
-            store.pushLocalChangesToManagedContext([pill], doSave: true)
-        }
-    }
-
-    public func swallow(completion: (() -> ())? = nil) {
-        if let next = nextDue {
-            swallow(next, completion: completion)
+    public func swallow(onSuccess: (() -> ())?) {
+        if let pill = nextDue {
+            swallow(pill, onSuccess)
         }
     }
     
@@ -158,6 +146,14 @@ public class PillSchedule: NSObject, PillScheduling {
             pill.awaken()
         }
         store.pushLocalChangesToManagedContext(pills, doSave: true)
+    }
+    
+    private func swallow(_ pill: Swallowable, _ onSuccess: (() -> ())?) {
+        if pill.timesTakenToday < pill.timesaday {
+            pill.swallow()
+            store.pushLocalChangesToManagedContext([pill], doSave: true)
+            onSuccess?()
+        }
     }
     
     private func deleteAll() {

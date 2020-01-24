@@ -27,7 +27,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
             let uuid = UUID(uuidString: pillUid),
             let pill = pills.get(by: uuid) {
             
-            pills.swallow(pill) {
+            pills.swallow(uuid) {
                 self.requestPillNotification?(pill)
                 self.badge.decrement()
             }

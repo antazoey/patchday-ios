@@ -37,18 +37,12 @@ public protocol PillScheduling: Schedule, Deleting {
     
     /// Resets all pill attributes to their default.
     func reset()
-    
-    /// Swallows the pill at the given index.
-    func swallow(at index: Index, completion: (() -> ())?)
-    
+
     /// Swallows the pill.
-    func swallow(_ pill: Swallowable, completion: (() -> ())?)
+    func swallow(_ pillId: UUID, onSuccess: (() -> ())?)
     
     /// Swallows the next pill due.
-    func swallow(completion: (() -> ())?)
-
-    /// Swallows the pills
-    func swallow(_ pill: Swallowable)
+    func swallow(onSuccess: (() -> ())?)
     
     /// Gets the first index of the given pill.
     func firstIndexOf(_ pill: Swallowable) -> Index?

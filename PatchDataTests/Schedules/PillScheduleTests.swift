@@ -35,6 +35,13 @@ class PillScheduleTests: XCTestCase {
         pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Working)
     }
     
+    @discardableResult
+    private func setUpThreePills() -> [MockPill] {
+        let mockPills = util.createThreePills()
+        setUpPills(mockPills)
+        return mockPills
+    }
+    
     private func setUpPills(_ mockPills: [MockPill]) {
         mockStore.getStoredCollectionReturnValues = [mockPills]
         pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Working)
@@ -43,6 +50,15 @@ class PillScheduleTests: XCTestCase {
     private func setUpPills(insertPillFactory: (() -> MockPill)?) {
         mockStore.newObjectFactory = insertPillFactory
         setUpPills()
+    }
+    
+    @discardableResult
+    private func setUpThreePillsWithMiddleOneNextDue() -> [MockPill] {
+        let mockPills = setUpThreePills()
+        mockPills[0].due = Date(timeInterval: 1000, since: Date())
+        mockPills[1].due = Date()  // next due
+        mockPills[2].due = Date(timeInterval: 10000, since: Date())
+        return mockPills
     }
 
     // MARK: - Tests
@@ -60,13 +76,11 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testNextDue_returnsPillsWithOldestDueDate() {
-        let mockPills = util.createThreePills()
+        let mockPills = setUpThreePills()
         
         mockPills[0].due = Date()
         mockPills[1].due = Date(timeInterval: -10000, since: mockPills[0].due)
         mockPills[2].due = Date()
-        
-        setUpPills(mockPills)
         
         let expected = mockPills[1].id
         let actual = pills.nextDue!.id
@@ -153,8 +167,7 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testDelete_whenPillExists_sharesDataForNextDue() {
-        let mockPills = util.createThreePills()
-        setUpPills(mockPills)
+        setUpThreePills()
         pills.delete(at: 0)
         let expected = pills.nextDue?.id
         let actual = mockDataSharer.shareCallArgs[0].id
@@ -173,13 +186,13 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testReset_resetsToPillCountToTwo() {
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         pills.reset()
         XCTAssertEqual(2, pills.count)
     }
     
     public func testReset_whenGivenInitialState_resetsPills() {
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         pills.reset()
         let pillOne = pills.at(0)! as! MockPill
         let pillTwo = pills.at(1)! as! MockPill
@@ -195,7 +208,7 @@ class PillScheduleTests: XCTestCase {
             i += 1
             return r
         }
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         pills.reset()
         
         // The most recent call
@@ -203,23 +216,22 @@ class PillScheduleTests: XCTestCase {
     }
     
     public func testAt_whenPillExists_returnsPill() {
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         XCTAssertNotNil(pills.at(0))
     }
     
     public func testAt_whenPillDoesNotExist_returnsNil() {
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         XCTAssertNil(pills.at(3))
     }
     
     public func testGet_whenPillExists_returnsPill() {
-        let mockPills = util.createThreePills()
-        setUpPills(mockPills)
+        let mockPills = setUpThreePills()
         XCTAssertNotNil(pills.get(by: mockPills[0].id))
     }
     
     public func testGet_whenPillDoesNotExist_returnsNil() {
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         XCTAssertNil(pills.get(by: UUID()))
     }
     
@@ -228,7 +240,7 @@ class PillScheduleTests: XCTestCase {
         let testDate = Date()
         attributes.name = "New Name"
         attributes.time1 = testDate
-        setUpPills(util.createThreePills())
+        setUpThreePills()
         pills.set(at: 0, with: attributes)
         let pill = pills.at(0) as! MockPill
 
@@ -242,8 +254,7 @@ class PillScheduleTests: XCTestCase {
         let testDate = Date()
         attributes.name = "New Name"
         attributes.time1 = testDate
-        let mockPills = util.createThreePills()
-        setUpPills(mockPills)
+        let mockPills = setUpThreePills()
         pills.set(at: 0, with: attributes)
         XCTAssert(util.didSave(with: [mockPills[0]]))
     }
@@ -253,10 +264,11 @@ class PillScheduleTests: XCTestCase {
         let testDate = Date()
         attributes.name = "New Name"
         attributes.time1 = testDate
-        let mockPills = util.createThreePills()
-        setUpPills(mockPills)
+        let mockPills = setUpThreePills()
+        mockPills[1].due = Date(timeInterval: -10000, since: Date())
+        mockPills[1].name = "Next Pill Due"
         pills.set(at: 0, with: attributes)
-        XCTAssert(util.didSave(with: [mockPills[0]]))
+        XCTAssert(mockDataSharer.shareCallArgs[0].name == "Next Pill Due")
     }
     
     public func testSet_whenPillExistsAndSettingById_updatesPill() {
@@ -264,9 +276,8 @@ class PillScheduleTests: XCTestCase {
         let testDate = Date()
         attributes.name = "New Name"
         attributes.time1 = testDate
-        let mockPills = util.createThreePills()
+        let mockPills = setUpThreePills()
         let idToSet = mockPills[0].id
-        setUpPills(mockPills)
         
         pills.set(by: idToSet, with: attributes)
         let pill = pills.get(by: idToSet) as! MockPill
@@ -281,11 +292,121 @@ class PillScheduleTests: XCTestCase {
         let testDate = Date()
         attributes.name = "New Name"
         attributes.time1 = testDate
-        let mockPills = util.createThreePills()
+        let mockPills = setUpThreePills()
         let idToSet = mockPills[0].id
-        setUpPills(mockPills)
         
         pills.set(by: idToSet, with: attributes)
         XCTAssert(util.didSave(with: [mockPills[0]]))
+    }
+    
+    public func testSet_whenPillExistsAndSettingById_sharedNextPillDue() {
+        var attributes = PillAttributes()
+        let testDate = Date()
+        attributes.name = "New Name"
+        attributes.time1 = testDate
+        let mockPills = setUpThreePills()
+        let idToSet = mockPills[0].id
+
+        pills.set(by: idToSet, with: attributes)
+        XCTAssert(util.didSave(with: [mockPills[0]]))
+    }
+    
+    public func testSwallow_whenGivenPillIdForNonCompletedPill_swallowPillForGivenId() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 0
+        mockPills[1].timesaday = 10
+        
+        pills.swallow(mockPills[1].id, onSuccess: nil)
+        XCTAssert(mockPills[1].swallowCallCount == 1)
+    }
+    
+    public func testSwallow_whenGivenPillIdForCompletedPill_doesNotSwallowPillForGivenId() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        
+        pills.swallow(mockPills[1].id, onSuccess: nil)
+        XCTAssert(mockPills[1].swallowCallCount == 0)
+    }
+    
+    public func testSwallow_whenGivenIdForExistentNonCompletedPill_callsOnSuccess() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 0
+        mockPills[1].timesaday = 10
+        
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.swallow(mockPills[1].id, onSuccess: comp)
+        XCTAssertTrue(didCall)
+    }
+    
+    public func testSwallow_whenGivenIdForNonExistentPill_doesNotCallOnSuccess() {
+        setUpThreePills()
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.swallow(UUID(), onSuccess: comp)
+        XCTAssertFalse(didCall)
+    }
+    
+    public func testSwallow_whenGivenIdForCompletedPill_doesNotCallOnSuccess() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 0
+        mockPills[1].timesaday = 10
+        
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.swallow(UUID(), onSuccess: comp)
+        XCTAssertFalse(didCall)
+    }
+    
+    public func testSwallow_withNoArgsAndNextPillDueIsNonCompleted_swallowsNextPill() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 0
+        mockPills[1].timesaday = 10
+        
+        pills.swallow(onSuccess: nil)
+        XCTAssert(mockPills[1].swallowCallCount == 1)
+    }
+    
+    public func testSwallow_withNoArgsAndNextPillDueIsCompleted_doesNotSwallowPill() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        
+        pills.swallow(onSuccess: nil)
+        XCTAssert(mockPills[1].swallowCallCount == 0)
+    }
+    
+    public func testSwallow_whenGivenNoArgsAndPillDueIsNonCompleted_callsOnSuccess() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        // Pill is not done unless timesTakenToday == timesaday
+        mockPills[1].timesTakenToday = 0
+        mockPills[1].timesaday = 10
+        
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.swallow(mockPills[1].id, onSuccess: comp)
+        XCTAssertTrue(didCall)
+    }
+    
+    public func testSwallow_whenNotGivenArgsForNonExistentPill_doesNotCallOnSuccess() {
+        setUpThreePills()
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.swallow(UUID(), onSuccess: comp)
+        XCTAssertFalse(didCall)
     }
 }
