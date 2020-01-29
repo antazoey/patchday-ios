@@ -409,4 +409,12 @@ class PillScheduleTests: XCTestCase {
         pills.swallow(UUID(), onSuccess: comp)
         XCTAssertFalse(didCall)
     }
+    
+    public func testFirstIndexOf_returnsFirstIndexOfPillThatIsEqual() {
+        let mockPills = setUpThreePills()
+        mockPills[2].isEqualToReturnValue = true
+        let expected = 2
+        let actual = pills.firstIndexOf(mockPills[2])
+        XCTAssertEqual(expected, actual)
+    }
 }

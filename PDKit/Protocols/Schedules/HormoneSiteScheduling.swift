@@ -68,7 +68,7 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     /// Changes the order of the site at the given index and adjusts the order of the other sites.
     func reorder(at index: Index, to newOrder: Int)
     
-    /// Sets  the image ID of the site at the given index. 
+    /// Sets the image ID of the site at the given index. 
     func setImageId(at index: Index, to newId: String)
     
     /// Returns the first first index of the given site.

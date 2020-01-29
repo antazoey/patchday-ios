@@ -12,6 +12,14 @@ public struct HormoneStruct {
     public var siteName: SiteName?
     public var date: Date?
     public var siteNameBackUp: String?
+    
+    public init(_ id: UUID) {
+        self.id = id
+        self.siteRelationshipId = nil
+        self.siteName = nil
+        self.date = nil
+        self.siteNameBackUp = nil
+    }
 
     public init(
         _ id: UUID,

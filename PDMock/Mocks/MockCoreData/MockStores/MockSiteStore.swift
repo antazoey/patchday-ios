@@ -13,7 +13,7 @@ import PDKit
 public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
     
     public var getRelatedHormonesCallArgs: [UUID] = []
-    public var getRelatedHormonesReturnValue: [HormoneStruct] = []
+    public var getRelatedHormonesFactory: ((UUID) -> [HormoneStruct])?
 
     public override init() {
         super.init()
@@ -23,7 +23,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
     public override func resetMock() {
         super.resetMock()
         getRelatedHormonesCallArgs = []
-        getRelatedHormonesReturnValue = []
+        getRelatedHormonesFactory = nil
     }
 
     public func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily] {
@@ -35,7 +35,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
     }
     
     public func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct] {
-        getRelatedHormonesReturnValue
+        getRelatedHormonesFactory?(siteId) ?? []
     }
     
     public func delete(_ site: Bodily) {

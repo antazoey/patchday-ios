@@ -197,7 +197,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
                 return date
             }
             return oldestDateThusFar
-        })
+       })
     }
     
     // MARK: - Private

@@ -14,6 +14,7 @@ import PDKit
 public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     override public var description: String { "Schedule for sites." }
+    private var resetWhenEmpty: Bool
     
     private let store: SiteStoring
     private let defaults: UserDefaultsWriting
@@ -21,9 +22,10 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     let log = PDLog<SiteSchedule>()
     
-    init(store: SiteStoring, defaults: UserDefaultsWriting) {
+    init(store: SiteStoring, defaults: UserDefaultsWriting, resetWhenEmpty: Bool = true) {
         self.store = store
         self.defaults = defaults
+        self.resetWhenEmpty = resetWhenEmpty
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
         self.sites = store.getStoredSites(expiration: exp, method: method)
@@ -37,7 +39,22 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     public var all: [Bodily] { sites }
 
     public var suggested: Bodily? {
-        sites.tryGet(at: nextIndex)
+        guard count > 0 else { return nil }
+        if let trySite = siteIndexSuggested {
+            return trySite
+        } else if let trySite = firstEmptyFromSiteIndex {
+            return trySite
+        }
+        return siteWithOldestHormone
+    }
+    
+    public var nextIndex: Index {
+        sites.firstIndex(where: { b in
+            if let suggestedSite = suggested {
+                return suggestedSite.id == b.id
+            }
+            return false
+        }) ?? -1
     }
     
     public var occupiedSites: [Bodily] {
@@ -66,16 +83,6 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     public var imageIds: [String] {
         sites.map({ (site: Bodily) -> String in site.imageId })
-    }
-
-    public var nextIndex: Index {
-        if sites.count <= 0 {
-            return -1
-        }
-        if let siteIndex = firstEmptyIndex {
-            return updateIndex(to: siteIndex)
-        }
-        return siteIndexWithOldestHormone
     }
 
     public var unionWithDefaults: [SiteName] {
@@ -214,22 +221,34 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     private func updateIndex(to newIndex: Index) -> Index {
         defaults.replaceStoredSiteIndex(to: newIndex, siteCount: count)
     }
-
-    private var firstEmptyIndex: Index? {
-        sites.firstIndex { (_ site: Bodily) -> Bool in site.hormoneCount == 0 }
+    
+    private var siteIndexSuggested: Bodily? {
+        if let site = at(defaults.siteIndex.value), site.hormoneCount == 0 {
+            return site
+        }
+        return nil
     }
 
-    private var siteIndexWithOldestHormone: Index {
-        sites.reduce((oldestDate: Date(), oldestIndex: -1, iterator: 0), {
-            ( sitesIterator, site) in
-            let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id)
-
-            let newSiteIndex = sitesIterator.iterator + 1
-            if oldestDateInThisSitesHormones < sitesIterator.oldestDate {
-                return (oldestDateInThisSitesHormones, newSiteIndex, newSiteIndex)
+    private var firstEmptyFromSiteIndex: Bodily? {
+        var siteIterator = defaults.siteIndex.value
+        for _ in 0..<count {
+            if let site = at(siteIterator), site.hormoneCount == 0 {
+                return site
             }
-            return (sitesIterator.oldestDate, -1, newSiteIndex)
-        }).oldestIndex
+            siteIterator = (siteIterator + 1) % count
+        }
+        return nil
+    }
+
+    private var siteWithOldestHormone: Bodily? {
+        sites.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
+            (sitesIterator, site) in
+            let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id)
+            if oldestDateInThisSitesHormones < sitesIterator.oldestDate, let site = at(sitesIterator.2) {
+                return (oldestDateInThisSitesHormones, site, sitesIterator.2 + 1)
+            }
+            return (sitesIterator.0, sitesIterator.1, sitesIterator.2 + 1)
+        }).1
     }
 
     private func getOldestHormoneDate(from siteId: UUID) -> Date {
@@ -243,7 +262,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     private func handleSiteCount() {
-        if sites.count == 0 {
+        if resetWhenEmpty && sites.count == 0 {
             log.info("No stored sites - resetting to default")
             reset()
             logSites()
