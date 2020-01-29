@@ -56,49 +56,21 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             return false
         }) ?? -1
     }
-    
-    public var occupiedSites: [Bodily] {
-        var occupiedList: [Bodily] = []
-        for site in sites {
-            if site.isOccupied {
-                occupiedList.append(site)
-            }
-        }
-        return occupiedList
-    }
-    
-    public var occupiedSitesIndices: [Index] {
-        var indices: [Index] = []
-        for site in occupiedSites {
-            if let i = firstIndexOf(site) {
-                indices.append(i)
-            }
-        }
-        return indices
-    }
 
     public var names: [SiteName] {
         sites.map({ (site: Bodily) -> SiteName in site.name })
     }
 
-    public var imageIds: [String] {
-        sites.map({ (site: Bodily) -> String in site.imageId })
-    }
-
-    public var unionWithDefaults: [SiteName] {
-        let method = defaults.deliveryMethod.value
-        return Array(Set<String>(SiteStrings.getSiteNames(for: method)).union(names))
-    }
-
     public var isDefault: Bool {
+        guard count > 0 else { return false }
         let method = defaults.deliveryMethod.value
         let defaultSites = SiteStrings.getSiteNames(for: method)
-        for i in 0..<sites.count {
-            if !defaultSites.contains(sites[i].name) {
+        for name in names {
+            if !defaultSites.contains(name) {
                 return false
             }
         }
-        return false  // if there are no sites, than it is not default
+        return true
     }
     
     @discardableResult

@@ -19,20 +19,8 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     /// The index of suggested site or -1 if there are no sites.
     var nextIndex: Index { get }
     
-    /// The list of all sites containing hormones.
-    var occupiedSites: [Bodily] { get }
-    
-    /// The indices of all the sites containing hormones.
-    var occupiedSitesIndices: [Index] { get }
-    
     /// All names.
     var names: [SiteName] { get }
-    
-    /// All image IDs.
-    var imageIds: [String] { get }
-    
-    /// The set of current site names union with the default ones.
-    var unionWithDefaults: [SiteName] { get }
     
     /// If the sites use the default scheme for the given delivery method.
     var isDefault: Bool { get }
