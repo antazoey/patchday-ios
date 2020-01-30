@@ -191,15 +191,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         }
     }
     
-    public static func getOldestHormoneDate(from hormones: [HormoneStruct]) -> Date {
-        hormones.reduce(Date(), { (oldestDateThusFar, hormone) in
-            if let date = hormone.date, date < oldestDateThusFar {
-                return date
-            }
-            return oldestDateThusFar
-       })
-    }
-    
     // MARK: - Private
     
     private var hasDates: Bool {

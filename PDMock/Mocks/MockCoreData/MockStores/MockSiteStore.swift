@@ -14,6 +14,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
     
     public var getRelatedHormonesCallArgs: [UUID] = []
     public var getRelatedHormonesFactory: ((UUID) -> [HormoneStruct])?
+    public var createNewSiteCallArgs: [(ExpirationIntervalUD, DeliveryMethod, Bool)] = []
 
     public override init() {
         super.init()
@@ -24,6 +25,7 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
         super.resetMock()
         getRelatedHormonesCallArgs = []
         getRelatedHormonesFactory = nil
+        createNewSiteCallArgs = []
     }
 
     public func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily] {
@@ -31,7 +33,8 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
     }
     
     public func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool) -> Bodily? {
-        newObjectFactory?()
+        createNewSiteCallArgs.append((expiration, method, doSave))
+        return newObjectFactory?()
     }
     
     public func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct] {

@@ -174,6 +174,11 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
+    public func testIsDefault_whenSiteCountIsZero_returnsFalse() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        XCTAssertFalse(sites.isDefault)
+    }
+    
     public func testIsDefault_whenIsDefault_returnsTrue() {
         sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         XCTAssertTrue(sites.isDefault)
@@ -184,5 +189,84 @@ class SiteScheduleTests: XCTestCase {
         mockStore.getStoredCollectionReturnValues = [mockSites]
         sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         XCTAssertFalse(sites.isDefault)
+    }
+    
+    public func testInsertNew_callsSiteStoreCreateNewSiteWithExpectedArgs() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
+        mockDefaults.expirationInterval = ExpirationIntervalUD(.OnceAWeek)
+        let testSite = MockSite()
+        mockStore.newObjectFactory = { testSite }
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites.insertNew(name: "Doesn't matter", save: true, onSuccess: nil)
+        let args = mockStore.createNewSiteCallArgs[0]
+        
+        XCTAssert(
+            ExpirationInterval.OnceAWeek == args.0.value
+                && DeliveryMethod.Injections == args.1
+                && true
+        )
+    }
+    
+    public func testInsertNew_whenSuccessful_increaseCount() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // starts with 4 sites
+        sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
+        let expected = 5
+        let actual = sites.count
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testInsertNew_whenSuccessful_insertsSiteWithGivenName() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.insertNew(name: "Ok, now it matters I guess", save: false, onSuccess: nil)
+        XCTAssert(sites.all.contains(where: { $0.name == "Ok, now it matters I guess" }))
+    }
+    
+    public func testInsertNew_whenSuccessful_returnsNewlyInsertedSite() {
+        let expected = MockSite()
+        mockStore.newObjectFactory = { expected }
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        let actual = sites.insertNew(name: "Doesn't matter again.", save: false, onSuccess: nil)
+        XCTAssertEqual(expected.id, actual!.id)
+    }
+    
+    public func testInsertNew_whenSuccessful_callsOnSuccess() {
+        var called = false
+        let testClosure = { called = true }
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
+        XCTAssert(called)
+    }
+    
+    public func testInsertNew_whenUnsuccessful_doesNotAffectCount() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // starts with 4 sites
+        mockStore.newObjectFactory = nil
+        sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
+        let expected = 4
+        let actual = sites.count
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testInsertNew_whenUnsuccessful_returnsNil() {
+        mockStore.newObjectFactory = nil
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
+        XCTAssertNil(sites.insertNew(name: "Doesn't matter again.", save: false, onSuccess: nil))
+    }
+    
+    public func testInsertNew_whenUnsuccessful_doesNotCallOnSuccess() {
+        mockStore.newObjectFactory = nil
+        var called = false
+        let testClosure = { called = true }
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
+        XCTAssertFalse(called)
+    }
+    
+    public func testReset_whenAlreadyDefault_returnsSameCount() {
+        let expected = sites.count
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.reset()
+        let actual = sites.count
+        XCTAssertEqual(expected, actual)
     }
 }

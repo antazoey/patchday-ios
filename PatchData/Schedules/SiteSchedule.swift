@@ -72,41 +72,23 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         }
         return true
     }
-    
+
     @discardableResult
-    public func insertNew(save: Bool) -> Bodily? {
-        if let site = createSite(save: save) {
+    public func insertNew(name: String, save: Bool, onSuccess: (() -> ())?) -> Bodily? {
+        if var site = createSite(save) {
+            site.name = name
             sites.append(site)
+            onSuccess?()
             return site
         }
         return nil
     }
 
     @discardableResult
-    public func insertNew(save: Bool, completion: @escaping () -> ()) -> Bodily? {
-        let site = insertNew(save: save)
-        completion()
-        return site
-    }
-
-    @discardableResult
-    public func insertNew(name: String, save: Bool) -> Bodily? {
-        var site = insertNew(save: save)
-        site?.name = name
-        return site
-    }
-
-    @discardableResult
-    public func insertNew(name: String, save: Bool, completion: @escaping () -> ()) -> Bodily? {
-        let site = insertNew(name: name, save: save)
-        completion()
-        return site
-    }
-
-    @discardableResult
     public func reset() -> Int {
         if isDefault {
-            return handleDefaultStateDuringReset()
+            log.warn("Resetting sites unnecessary because already default")
+            return sites.count
         }
         resetSitesToDefault()
         store.pushLocalChangesToManagedContext(sites, doSave: true)
@@ -214,20 +196,29 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     private var siteWithOldestHormone: Bodily? {
         sites.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
-            (sitesIterator, site) in
-            let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id)
-            if oldestDateInThisSitesHormones < sitesIterator.oldestDate, let site = at(sitesIterator.2) {
-                return (oldestDateInThisSitesHormones, site, sitesIterator.2 + 1)
+            (b, site) in
+
+            if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
+               oldestDateInThisSitesHormones < b.oldestDate, let site = at(b.iterator) {
+
+                return (oldestDateInThisSitesHormones, site, b.iterator + 1)
             }
-            return (sitesIterator.0, sitesIterator.1, sitesIterator.2 + 1)
-        }).1
+            return (b.oldestDate, b.oldest, b.iterator + 1)
+        }).oldest
     }
 
-    private func getOldestHormoneDate(from siteId: UUID) -> Date {
-        HormoneSchedule.getOldestHormoneDate(from: store.getRelatedHormones(siteId))
+    private func getOldestHormoneDate(from siteId: UUID) -> Date? {
+        var hormones = store.getRelatedHormones(siteId)
+        hormones.sort(by: {
+            if let d1 = $0.date, let d2 = $1.date {
+                return d1 < d2
+            }
+            return false
+        })
+        return hormones.tryGet(at: 0)?.date
     }
     
-    private func createSite(save: Bool) -> Bodily? {
+    private func createSite(_ save: Bool) -> Bodily? {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
         return store.createNewSite(expiration: exp, method: method, doSave: save)
@@ -241,27 +232,27 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         }
     }
 
-    @discardableResult
-    private func handleDefaultStateDuringReset() -> Int {
-        log.warn("Resetting sites unnecessary because already default")
-        return sites.count
-    }
-
     private func resetSitesToDefault() {
         let defaultSiteNames = SiteStrings.getSiteNames(for: defaults.deliveryMethod.value)
         let previousCount = sites.count
-        assignDefaultSiteProperties(options: defaultSiteNames, previousCount: previousCount)
-        handleExtraSitesFromReset(previousCount: previousCount, defaultSiteNamesCount: defaultSiteNames.count)
+        assignDefaultProperties(options: defaultSiteNames)
+        deleteExtraSitesIfNeeded(previousCount: previousCount, newCount: defaultSiteNames.count)
     }
 
-    private func assignDefaultSiteProperties(options: [String], previousCount: Int) {
+    private func assignDefaultProperties(options: [String]) {
         for i in 0..<options.count {
-            if i < previousCount {
-                log.info("Assigning existing site default properties")
-                setSite(&sites[i], index: i, name: options[i])
-            } else if var site = insertNew(save: false) {
-                setSite(&site, index: i, name: options[i])
+            let name = options[i]
+            if var site = at(i) {
+                setSite(&site, index: i, name: name)
+            } else {
+                insertNew(name: name, save: false, onSuccess: nil)
             }
+        }
+    }
+    
+    private func deleteExtraSitesIfNeeded(previousCount: Int, newCount: Int) {
+        if newCount < previousCount {
+            deleteSites(start: newCount, end: previousCount - 1)
         }
     }
 
@@ -271,15 +262,12 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         site.imageId = name
     }
 
-    private func handleExtraSitesFromReset(previousCount: Int, defaultSiteNamesCount: Int) {
-        if previousCount > defaultSiteNamesCount {
-            resetSites(start: defaultSiteNamesCount, end: previousCount - 1)
-        }
-    }
-
-    private func resetSites(start: Index, end: Index) {
+    private func deleteSites(start: Index, end: Index) {
         for i in start...end {
-            sites[i].reset()
+            if let site = sites.tryGet(at: i) {
+                site.reset()
+                store.delete(site)
+            }
         }
     }
 

@@ -126,7 +126,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
             if siteIndex >= 0 && siteIndex < sites.count {
                 sites.rename(at: siteIndex, to: siteName)
             } else if siteIndex == sites.count {
-                sites.insertNew(name: siteName, save: true)
+                sites.insertNew(name: siteName, save: true, onSuccess: nil)
             }
         }
     }

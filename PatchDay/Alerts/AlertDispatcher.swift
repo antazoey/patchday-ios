@@ -95,7 +95,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
             let handler: () -> () = {
                 () in
                 let handler = hormoneDetailVC.viewModel.handleNewSite
-                self.sdk?.sites.insertNew(name: name, save: true, completion: handler)
+                self.sdk?.sites.insertNew(name: name, save: true, onSuccess: handler)
             }
             NewSiteAlert(parent: root, style: style, appendActionHandler: handler).present()
         }
