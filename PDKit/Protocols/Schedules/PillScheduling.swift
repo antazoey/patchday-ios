@@ -45,7 +45,7 @@ public protocol PillScheduling: Schedule, Deleting {
     func swallow(onSuccess: (() -> ())?)
     
     /// Gets the first index of the given pill.
-    func firstIndexOf(_ pill: Swallowable) -> Index?
+    func indexOf(_ pill: Swallowable) -> Index?
     
     /// Share pill data with other applications that have permission, such as PatchDayToday.
     func shareData()

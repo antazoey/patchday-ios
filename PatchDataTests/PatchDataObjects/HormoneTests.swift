@@ -41,11 +41,25 @@ class HormoneTests: XCTestCase {
         return hormone
     }
     
-    func testSetSiteId_setSiteBackUpNameToNil() {
+    func testSetSiteId_setsSiteBackUpNameToNil() {
         let hormone = createEmptyHormone()
         hormone.siteNameBackUp = "start"
         hormone.siteId = testSiteId
         XCTAssertNil(hormone.siteNameBackUp)
+    }
+    
+    func testSetSiteId_whenSettingToNil_doesNotClearSiteBackUpName() {
+        let hormone = createEmptyHormone()
+        hormone.siteNameBackUp = "Test"
+        hormone.siteId = nil
+        XCTAssertEqual("Test", hormone.siteNameBackUp)
+    }
+    
+    func testSetSiteId_whenSettingToNil_setsToNil() {
+        let hormone = createEmptyHormone()
+        hormone.siteId = UUID()
+        hormone.siteId = nil
+        XCTAssertNil(hormone.siteId)
     }
     
     func testExpiration_whenExpirationIntervalIsEveryTwoWeeks_returnsExpectedDate() {
@@ -109,23 +123,7 @@ class HormoneTests: XCTestCase {
         let hormone = createEmptyHormone(useDefaultDate: true)
         XCTAssertFalse(hormone.isExpired)
     }
-    
-    func testIsEqualTo_whenHormoneHasSameIdAsOtherHormone_returnsTrue() {
-        let hormoneOne = createEmptyHormone()
-        let hormoneTwo = createEmptyHormone()
-        hormoneOne.id = testId
-        hormoneTwo.id = testId
-        XCTAssert(hormoneOne.isEqualTo(hormoneTwo) && hormoneTwo.isEqualTo(hormoneOne))
-    }
-    
-    func testIsEqualTo_whenHormoneHasDifferentIdThanOtherHormone_returnsFalse() {
-        let hormoneOne = createEmptyHormone()
-        let hormoneTwo = createEmptyHormone()
-        hormoneOne.id = testId
-        hormoneTwo.id = UUID()
-        XCTAssert(!hormoneOne.isEqualTo(hormoneTwo) && !hormoneTwo.isEqualTo(hormoneOne))
-    }
-    
+
     func testIsPastNotificationTime_whenNowIsBeforeNotificationTime_returnsFalse() {
         let notExpiredHormone = createHormoneForExpirationTesting(.EveryTwoWeeks)
         XCTAssertFalse(notExpiredHormone.isPastNotificationTime)

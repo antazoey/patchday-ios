@@ -30,6 +30,17 @@ class SiteScheduleTests: XCTestCase {
         mockDefaults.resetMock()
     }
     
+    @discardableResult
+    private func setUpSites(count: Int) -> [MockSite] {
+        var mockSites: [MockSite] = []
+        for _ in 0..<count {
+            mockSites.append(MockSite())
+        }
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        return mockSites
+    }
+    
     private func createMockOccupiedSite(hormoneCount: Int) -> MockSite {
         let site = MockSite()
         site.hormoneCount = hormoneCount
@@ -392,10 +403,8 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testAt_whenIndexInBounds_returnsSiteAtGivenIndex() {
-        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let mockSites = setUpSites(count: 3)
         let expected = mockSites[1].id
-        mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         let actual = sites.at(1)!.id
         XCTAssertEqual(expected, actual)
     }
@@ -421,19 +430,16 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testRename_whenSiteExists_saves() {
-        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let mockSites = setUpSites(count: 3)
         let expected = mockSites[1].id
-        mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         sites.rename(at: 1, to: "New Name")
         let args = mockStore.pushLocalChangesCallArgs[1]
         XCTAssert(args.0[0].id == expected && args.1)
     }
     
     public func testRename_whenSiteDoesNotExist_doesNotSave() {
-        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let mockSites = setUpSites(count: 3)
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         let newName = "New Name UHh"
         sites.rename(at: 5, to: newName)
         let args = mockStore.pushLocalChangesCallArgs
@@ -441,41 +447,88 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testReorder_whenFromIndexOutOfBounds_doesNotReorder() {
-        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let mockSites = setUpSites(count: 3)
         let expected = mockSites[1].id
-        mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         sites.reorder(at: 4, to: 1)
         let actual = sites.at(1)!.id  // Id didn't change at index
         XCTAssertEqual(expected, actual)
     }
     
     public func testReorder_whenToIndexOutOfBounds_doesNotReorder() {
-        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let mockSites = setUpSites(count: 3)
         let expected = mockSites[0].id
-        mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         sites.reorder(at: 0, to: 3)
         let actual = sites.at(0)!.id  // Id didn't change at index
         XCTAssertEqual(expected, actual)
     }
     
     public func testReorder_whenIndexesAreValid_swaps() {
-        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let mockSites = setUpSites(count: 3)
         let expected = mockSites[0].id
-        mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         sites.reorder(at: 0, to: 2)
         let actual = sites.at(2)!.id  // Id is now at index 1.
         XCTAssertEqual(expected, actual)
     }
     
     public func testReorder_whenArgumentsAreValid_saves() {
-        let mockSites = [MockSite(), MockSite()]
-        mockStore.getStoredCollectionReturnValues = [mockSites]
         sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
         sites.reorder(at: 0, to: 1)
         let args = mockStore.pushLocalChangesCallArgs[1]
         XCTAssert(sites.at(0)!.id == args.0[0].id && sites.at(1)!.id == args.0[1].id && args.1)
+    }
+    
+    public func testSetImageId_whenDeliveryMethodIsPatchesAndGivenADefaultSiteName_setsImageIdToSiteName() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Patches)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.setImageId(at: 0, to: "Right Glute")
+        let expected = "Right Glute"
+        let actual = sites.at(0)!.imageId
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testSetImageId_whenDeliveryMethodIsInjectionsAndGivenADefaultSiteName_setsImageIdToSiteName() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.setImageId(at: 0, to: "Right Delt")
+        let expected = "Right Delt"
+        let actual = sites.at(0)!.imageId
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testSetImageId_whenGivenACustomString_setsImageIdToWordCustom() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.setImageId(at: 0, to: "Right Eyeball")
+        let expected = "custom"
+        let actual = sites.at(0)!.imageId
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testSetImageId_whenSiteAtIndexExists_saves() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.setImageId(at: 0, to: "Right Delt")
+        let args = mockStore.pushLocalChangesCallArgs[1]
+        XCTAssert(args.0[0].imageId == "Right Delt" && args.1)
+    }
+    
+    public func testSetImageId_whenSiteAtIndexDoesNotExist_doesNotSave() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.setImageId(at: 11, to: "Right Eyeball")
+        let args = mockStore.pushLocalChangesCallArgs
+        XCTAssertFalse(args.contains(where: { $0.0.contains(where: { $0.imageId == "custom" }) }))
+    }
+    
+    public func testFirstIndexOf_whenSiteExists_returnsFirstIndexOfSite() {
+        let mockSites = setUpSites(count: 3)
+        let testSite = mockSites[2]
+        let expected = 2
+        let actual = sites.indexOf(testSite)
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testFirstIndexOf_whenSiteDoesNotExist_returnsNil() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        XCTAssertNil(sites.indexOf(MockSite()))
     }
 }

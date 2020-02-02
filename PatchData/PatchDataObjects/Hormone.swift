@@ -33,8 +33,10 @@ public class Hormone: Hormonal {
     public var siteId: UUID? {
         get { hormoneData.siteRelationshipId ?? nil }
         set {
-            if let newSiteId = newValue {
-                hormoneData.siteRelationshipId = newSiteId
+            hormoneData.siteRelationshipId = newValue
+            
+            // Only clear back up if not explicitly setting to nil
+            if let _ = newValue {
                 hormoneData.siteNameBackUp = nil
             }
         }
@@ -72,10 +74,6 @@ public class Hormone: Hormonal {
         return expDate < Date()
     }
 
-    public func isEqualTo(_ otherHormone: Hormonal) -> Bool {
-        HormoneComparator.equalTo(lhs: self, rhs: otherHormone)
-    }
-
     public var isPastNotificationTime: Bool {
         if let expirationDate = expiration,
             let notificationTime = DateHelper.createDate(
@@ -101,7 +99,7 @@ public class Hormone: Hormonal {
     }
 
     public var isEmpty: Bool {
-        date.isDefault() && !hasSite
+        !hasDate && !hasSite
     }
 
     public var hasSite: Bool {

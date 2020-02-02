@@ -393,14 +393,14 @@ class HormoneScheduleTests: XCTestCase {
     func testFirstIndexOf_whenGiveHormoneIsInSchedule_returnsIndexOfGivenHormone() {
         let mockHormones = setUpDefaultHormones(2)
         let expected = 1
-        let actual = hormones.firstIndexOf(mockHormones[1])
+        let actual = hormones.indexOf(mockHormones[1])
         XCTAssertEqual(expected, actual)
     }
     
     func testFirstIndexOf_whenGivenHormoneThatIsNotInSchedule_returnsNil() {
         setUpDefaultHormones(2)
         let testHormone = MockHormone()
-        let actual = hormones.firstIndexOf(testHormone)
+        let actual = hormones.indexOf(testHormone)
         XCTAssertNil(actual)
     }
     

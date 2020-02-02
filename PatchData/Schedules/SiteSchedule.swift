@@ -112,7 +112,17 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
     
     public func sort() {
-        sites.sort(by: SiteComparator.lessThan)
+        sites.sort() {
+            // keep negative orders at the end
+            if $0.order < 0 {
+                return false
+            }
+            
+            if $1.order < 0 {
+                return true
+            }
+            return $0.order < $1.order
+        }
     }
 
     public func at(_ index: Index) -> Bodily? {
@@ -133,32 +143,25 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     public func reorder(at index: Index, to newOrder: Int) {
         guard sites.count > 0 else { return }
         if var site = at(index), var originalSiteAtOrder = at(newOrder) {
-            // Make sure index is correct both before and after swap
-            sort()
-            let originalOrder = site.order
-            site.order = newOrder
-            originalSiteAtOrder.order = originalOrder
+            site.order = site.order + originalSiteAtOrder.order
+            originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
+            site.order = site.order - originalSiteAtOrder.order
             sort()
             store.pushLocalChangesToManagedContext(sites, doSave: true)
         }
     }
 
     public func setImageId(at index: Index, to newId: String) {
-        var siteSet: [String]
-        let method = defaults.deliveryMethod.value
-        siteSet = SiteStrings.getSiteNames(for: method)
+        guard sites.count > 0 else { return }
+        let siteSet = SiteStrings.getSiteNames(for: defaults.deliveryMethod.value)
         if var site = at(index) {
-            if siteSet.contains(newId) {
-                site.imageId = newId
-            } else {
-                sites[index].imageId = SiteStrings.CustomSiteId
-            }
+            site.imageId = siteSet.contains(newId) ? newId : SiteStrings.CustomSiteId
             store.pushLocalChangesToManagedContext([site], doSave: true)
         }
     }
     
-    public func firstIndexOf(_ site: Bodily) -> Index? {
-        sites.firstIndex { (_ s: Bodily) -> Bool in s.isEqualTo(site) }
+    public func indexOf(_ site: Bodily) -> Index? {
+        sites.firstIndex { (_ s: Bodily) -> Bool in s.id == site.id }
     }
 
     @discardableResult

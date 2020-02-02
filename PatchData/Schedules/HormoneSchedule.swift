@@ -78,7 +78,9 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public func sort() {
-        hormones.sort(by: HormoneComparator.lessThan)
+        hormones.sort() {
+            $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault()
+        }
     }
 
     @discardableResult
@@ -175,7 +177,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         }
     }
 
-    public func firstIndexOf(_ hormone: Hormonal) -> Index? {
+    public func indexOf(_ hormone: Hormonal) -> Index? {
         hormones.firstIndex { (_ h: Hormonal) -> Bool in h.id == hormone.id }
     }
     

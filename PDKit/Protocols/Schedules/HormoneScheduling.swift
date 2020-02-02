@@ -65,7 +65,7 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     func setDate(at index: Index, with date: Date, doSave: Bool)
     
     /// Gets the first index of the given hormone.
-    func firstIndexOf(_ hormone: Hormonal) -> Index?
+    func indexOf(_ hormone: Hormonal) -> Index?
     
     /// Fills in hormones from the current quantity to the given one.
     func fillIn(to stopCount: Int)

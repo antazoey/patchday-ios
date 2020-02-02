@@ -68,8 +68,4 @@ public class Site: Bodily {
         siteData.imageIdentifier = nil
         siteData.hormoneRelationshipIds = nil
     }
-    
-    public func isEqualTo(_ otherSite: Bodily) -> Bool {
-        name == otherSite.name && order == otherSite.order
-    }
 }

@@ -45,5 +45,5 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
     func setImageId(at index: Index, to newId: String)
     
     /// Returns the first first index of the given site.
-    func firstIndexOf(_ site: Bodily) -> Index?
+    func indexOf(_ site: Bodily) -> Index?
 }

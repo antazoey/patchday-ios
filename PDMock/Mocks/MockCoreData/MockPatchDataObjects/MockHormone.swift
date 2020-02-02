@@ -14,8 +14,6 @@ public class MockHormone: Hormonal, PDMocking {
 
     // Mock-related properties
     public var stampCallCount: Int = 0
-    public var isEqualToCallArgs: [Hormonal] = []
-    public var isEqualToReturnValues: [Bool] = []
     public var resetCallCount = 0
     
     // Hormonal properties
@@ -39,8 +37,6 @@ public class MockHormone: Hormonal, PDMocking {
     
     public func resetMock() {
         stampCallCount = 0
-        isEqualToCallArgs = []
-        isEqualToReturnValues = []
         resetCallCount = 0
     }
     
@@ -55,15 +51,6 @@ public class MockHormone: Hormonal, PDMocking {
     
     public func stamp() {
         stampCallCount += 1
-    }
-    
-    public func isEqualTo(_ otherHormone: Hormonal) -> Bool {
-        isEqualToCallArgs.append(otherHormone)
-        if let t = isEqualToReturnValues.first {
-            isEqualToReturnValues.remove(at: 0)
-            return t
-        }
-        return false
     }
     
     public func reset() {

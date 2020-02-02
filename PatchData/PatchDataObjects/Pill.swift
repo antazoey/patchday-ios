@@ -164,10 +164,6 @@ public class Pill: Swallowable {
         pillData.attributes.timesTakenToday = DefaultPillAttributes.timesTakenToday
         pillData.attributes.lastTaken = nil
     }
-    
-    public func isEqualTo(_ otherPill: Swallowable) -> Bool {
-        id == otherPill.id
-    }
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {
         PillDueDateFinderParams(timesTakenToday, timesaday, times)

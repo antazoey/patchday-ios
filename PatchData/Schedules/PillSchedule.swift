@@ -43,7 +43,14 @@ public class PillSchedule: NSObject, PillScheduling {
     public var count: Int { pills.count }
     
     public var nextDue: Swallowable? {
-        pills.min(by: PillComparator.lessThan)
+        pills.min() {
+            switch($0.due, $1.due) {
+            case (nil, nil) : return false
+            case (nil, _) : return false
+            case (_, nil) : return true
+            default : return $0.due < $1.due
+            }
+        }
     }
 
     public var totalDue: Int {
@@ -123,8 +130,8 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
     
-    public func firstIndexOf(_ pill: Swallowable) -> Index? {
-        pills.firstIndex { (_ p: Swallowable) -> Bool in p.isEqualTo(pill) }
+    public func indexOf(_ pill: Swallowable) -> Index? {
+        pills.firstIndex { (_ p: Swallowable) -> Bool in p.id == pill.id }
     }
     
     public func shareData() {
