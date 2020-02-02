@@ -34,9 +34,6 @@ public protocol HormoneSiteScheduling: Schedule, Sorting, Deleting, Resetting {
 
     /// Returns the site for the given ID.
     func get(by id: UUID) -> Bodily?
-
-    /// Returns the site name for the given ID.
-    func getName(by id: UUID) -> SiteName?
     
     /// Changes the name of a site.
     func rename(at index: Index, to name: SiteName)

@@ -261,12 +261,221 @@ class SiteScheduleTests: XCTestCase {
         sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
         XCTAssertFalse(called)
     }
-    
+
     public func testReset_whenAlreadyDefault_returnsSameCount() {
-        let expected = sites.count
         sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        let expected = sites.count
+        let actual = sites.reset()
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReset_whenAlreadyDefault_doesNotChangeCount() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        let expected = sites.count
         sites.reset()
         let actual = sites.count
         XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReset_whenNotDefault_returnsExpectedCount() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)  // Count = 0
+        let expected = 4
+        let actual = sites.reset()
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReset_whenNotDefault_changesCountToExpected() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        let expected = 4
+        sites.reset()
+        let actual = sites.count
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReset_whenNotDefault_savesWithExpectedArgs() {
+        let mockSites = [MockSite(), MockSite()]
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.reset()
+        let args = mockStore.pushLocalChangesCallArgs[1]
+        XCTAssert(args.0.count == 4 && args.0[0].id == mockSites[0].id && args.0[1].id == mockSites[1].id && args.1)
+    }
+    
+    public func testReset_whenDeliveryMethodIsPatches_resetsToExpectedProperties() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Patches)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites.reset()
+        let siteOne = sites.at(0)!
+        let siteTwo = sites.at(1)!
+        let siteThree = sites.at(2)!
+        let siteFour = sites.at(3)!
+        XCTAssert(siteOne.name == "Right Glute" && siteOne.order == 0)
+        XCTAssert(siteTwo.name == "Left Glute" && siteTwo.order == 1)
+        XCTAssert(siteThree.name == "Right Abdomen" && siteThree.order == 2)
+        XCTAssert(siteFour.name == "Left Abdomen" && siteFour.order == 3)
+    }
+    
+    public func testReset_whenDeliveryMethodIsInjections_resetsToExpectedProperties() {
+        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites.reset()
+        let siteOne = sites.at(0)!
+        let siteTwo = sites.at(1)!
+        let siteThree = sites.at(2)!
+        let siteFour = sites.at(3)!
+        let siteFive = sites.at(4)!
+        let siteSix = sites.at(5)!
+        XCTAssert(siteOne.name == "Right Quad" && siteOne.order == 0)
+        XCTAssert(siteTwo.name == "Left Quad" && siteTwo.order == 1)
+        XCTAssert(siteThree.name == "Right Glute" && siteThree.order == 2)
+        XCTAssert(siteFour.name == "Left Glute" && siteFour.order == 3)
+        XCTAssert(siteFive.name == "Right Delt" && siteFive.order == 4)
+        XCTAssert(siteSix.name == "Left Delt" && siteSix.order == 5)
+    }
+    
+    public func testDelete_decreasesCount() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // Starts with 4
+        sites.delete(at: 1)
+        let expected = 3
+        let actual = sites.count
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testDelete_callsStoredDeleteWithExpectedArgs() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // Starts with 4
+        let expected = sites.at(1)!.id
+        sites.delete(at: 1)
+        let actual = mockStore.deleteCallArgs[0].id
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testDelete_maintainsOrder() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.delete(at: 1)
+        XCTAssert(sites.at(0)!.order == 0 && sites.at(1)!.order == 1 && sites.at(2)!.order == 2)
+    }
+    
+    public func testSort_keepsNegativeNumbersAtTheEnd() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        var site = sites.at(1)!
+        site.order = -5
+        sites.sort()
+        let siteAgain = sites.at(3)!  // Last
+        XCTAssertEqual(-5, siteAgain.order)
+    }
+    
+    public func testSort_putsLowerPositiveNumbersAtBeginning() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        var siteOne = sites.at(0)!
+        var siteTwo = sites.at(1)!
+        var siteThree = sites.at(2)!
+        var siteFour = sites.at(3)!
+        
+        siteOne.order = 6
+        siteTwo.order = -9
+        siteThree.order = 1
+        siteFour.order = 4
+        sites.sort()
+        
+        // Puts order 6 at end and order 1 becomes new first.
+        XCTAssertTrue(
+            sites.at(0)!.order == 1
+            && sites.at(1)!.order == 4
+            && sites.at(2)!.order == 6
+            && sites.at(3)!.order == -9
+        )
+    }
+    
+    public func testAt_whenIndexOutOfBounds_returnsNil() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        XCTAssertNil(sites.at(5))
+    }
+    
+    public func testAt_whenIndexInBounds_returnsSiteAtGivenIndex() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let expected = mockSites[1].id
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        let actual = sites.at(1)!.id
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testGet_whenSiteDoesNotExist_returnsNil() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        XCTAssertNil(sites.get(by: UUID()))
+    }
+    
+    public func testGet_whenSiteExists_returnsSite() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let testId = mockSites[1].id
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        XCTAssertNotNil(sites.get(by: testId))
+    }
+    
+    public func testRename_whenSiteExists_renamesSite() {
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.rename(at: 1, to: "New Name")
+        let actual = sites.at(1)!.name
+        XCTAssertEqual("New Name", actual)
+    }
+    
+    public func testRename_whenSiteExists_saves() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let expected = mockSites[1].id
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.rename(at: 1, to: "New Name")
+        let args = mockStore.pushLocalChangesCallArgs[1]
+        XCTAssert(args.0[0].id == expected && args.1)
+    }
+    
+    public func testRename_whenSiteDoesNotExist_doesNotSave() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        let newName = "New Name UHh"
+        sites.rename(at: 5, to: newName)
+        let args = mockStore.pushLocalChangesCallArgs
+        XCTAssertFalse(args.contains(where: { $0.0.contains(where: { $0.name == newName }) }))
+    }
+    
+    public func testReorder_whenFromIndexOutOfBounds_doesNotReorder() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let expected = mockSites[1].id
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.reorder(at: 4, to: 1)
+        let actual = sites.at(1)!.id  // Id didn't change at index
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReorder_whenToIndexOutOfBounds_doesNotReorder() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let expected = mockSites[0].id
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.reorder(at: 0, to: 3)
+        let actual = sites.at(0)!.id  // Id didn't change at index
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReorder_whenIndexesAreValid_swaps() {
+        let mockSites = [MockSite(), MockSite(), MockSite()]
+        let expected = mockSites[0].id
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.reorder(at: 0, to: 2)
+        let actual = sites.at(2)!.id  // Id is now at index 1.
+        XCTAssertEqual(expected, actual)
+    }
+    
+    public func testReorder_whenArgumentsAreValid_saves() {
+        let mockSites = [MockSite(), MockSite()]
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites.reorder(at: 0, to: 1)
+        let args = mockStore.pushLocalChangesCallArgs[1]
+        XCTAssert(sites.at(0)!.id == args.0[0].id && sites.at(1)!.id == args.0[1].id && args.1)
     }
 }

@@ -32,6 +32,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         super.init()
         handleSiteCount()
         sort()
+        ensureValidOrdering()
     }
     
     public var count: Int { sites.count }
@@ -99,14 +100,14 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         if let site = at(index) {
             log.info("Deleting site at index \(index)")
             store.delete(site)
-            let start = index + 1
-            let end = count - 1
-            if start < end {
-                for i in start...end {
-                    sites[i].order -= 1
+            sites.remove(at: index)
+            
+            // index now refers to index - 1
+            for i in index...count - 1 {
+                if var site = at(i) {
+                    site.order -= 1
                 }
             }
-            sort()
         }
     }
     
@@ -122,10 +123,6 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         sites.first(where: { s in s.id == id })
     }
 
-    public func getName(by id: UUID) -> SiteName? {
-        get(by: id)?.name
-    }
-
     public func rename(at index: Index, to name: SiteName) {
         if var site = at(index) {
             site.name = name
@@ -134,17 +131,15 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
     }
 
     public func reorder(at index: Index, to newOrder: Int) {
-        if var site = at(index) {
-            if var originalSiteAtOrder = at(newOrder) {
-                // Make sure index is correct both before and after swap
-                sort()
-                site.order = newOrder
-                originalSiteAtOrder.order = index + 1
-                sort()
-                store.pushLocalChangesToManagedContext([originalSiteAtOrder], doSave: true)
-            } else {
-                site.order = newOrder
-            }
+        guard sites.count > 0 else { return }
+        if var site = at(index), var originalSiteAtOrder = at(newOrder) {
+            // Make sure index is correct both before and after swap
+            sort()
+            let originalOrder = site.order
+            site.order = newOrder
+            originalSiteAtOrder.order = originalOrder
+            sort()
+            store.pushLocalChangesToManagedContext(sites, doSave: true)
         }
     }
 
@@ -218,6 +213,20 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         return hormones.tryGet(at: 0)?.date
     }
     
+    private func ensureValidOrdering() {
+        var shouldSave = false
+        for i in 0..<count {
+            var site = sites[i]
+            if site.order != i {
+                site.order = i
+                shouldSave = true
+            }
+        }
+        if shouldSave {
+            store.pushLocalChangesToManagedContext(sites, doSave: true)
+        }
+    }
+    
     private func createSite(_ save: Bool) -> Bodily? {
         let exp = defaults.expirationInterval
         let method = defaults.deliveryMethod.value
@@ -245,7 +254,8 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
             if var site = at(i) {
                 setSite(&site, index: i, name: name)
             } else {
-                insertNew(name: name, save: false, onSuccess: nil)
+                var site = insertNew(name: name, save: false, onSuccess: nil)
+                site?.order = i
             }
         }
     }
