@@ -15,7 +15,7 @@ class TodayAppViewModel: NSObject {
     private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
 
     private let placeholderText = {
-        PDStrings.PlaceholderStrings.dotDotDot
+        PDStrings.PlaceholderStrings.DotDotDot
     }()
 
     init(dataDelegate: TodayAppDataDelegate) {
@@ -47,7 +47,7 @@ class TodayAppViewModel: NSObject {
     var hormoneDateText: String {
         let hormone = PDTStructFactory.createHormone(data)
         if let date = hormone.date {
-            return DateHelper.format(date: date, useWords: true)
+            return PDDateFormatter.formatDate(date)
         }
         return placeholderText
     }
@@ -60,7 +60,7 @@ class TodayAppViewModel: NSObject {
     var nextPillDateText: String {
         let pill = PDTStructFactory.createPill(data)
         if let date = pill.nextTakeDate {
-            return DateHelper.format(date: date, useWords: true)
+            return PDDateFormatter.formatDate(date)
         }
         return placeholderText
     }

@@ -37,27 +37,27 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     var dateSelectedText: String {
-        DateHelper.format(date: dateSelected, useWords: true)
+        PDDateFormatter.formatDate(dateSelected)
     }
 
     var selectDateButtonStartText: String {
         if !hormone.hasDate {
-            return ActionStrings.select
+            return ActionStrings.Select
         }
 
-        return DateHelper.format(date: hormone.date, useWords: true)
+        return PDDateFormatter.formatDate(hormone.date)
     }
 
     var selectSiteTextFieldStartText: String {
         if !hormone.hasSite {
-            return ActionStrings.select
+            return ActionStrings.Select
         }
 
         if let siteName = getSite()?.name {
             return siteName
         }
 
-        return SiteStrings.newSite
+        return SiteStrings.NewSite
     }
 
     var expirationDateText: String {
@@ -89,7 +89,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     var autoPickedDateText: String {
         let date = Date()
         selectionState.selectedDate = date
-        return DateHelper.format(date: date, useWords: true)
+        return PDDateFormatter.formatDate(date)
     }
     
     var autoPickedExpirationDateText: String {
@@ -121,7 +121,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {
         if siteTextField.text == nil || siteTextField.text == "" {
-            siteTextField.text = SiteStrings.newSite
+            siteTextField.text = SiteStrings.NewSite
         }
         return siteTextField.text!
     }
@@ -190,7 +190,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private func createExpirationDateString(from startDate: Date) -> String {
         if let expDate = DateHelper.calculateExpirationDate(from: startDate, expirationIntervalHours) {
-            return DateHelper.format(date: expDate, useWords: true)
+            return PDDateFormatter.formatDate(expDate)
         }
         return ""
     }

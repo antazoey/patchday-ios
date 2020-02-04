@@ -36,13 +36,13 @@ public class PDStrings: NSObject {
         private static let c3 = "Probably won't be seen by users, so don't worry too much."
         private static let c4 = "Displayed under a button with medium room."
         
-        public static let nothingYet = {
+        public static let NothingYet = {
             NSLocalizedString("Nothing yet", comment: c1)
         }()
-        public static let dotDotDot = {
+        public static let DotDotDot = {
             NSLocalizedString("...", comment: c2)
         }()
-        public static let newPill = {
+        public static let NewPill = {
             NSLocalizedString("New Pill", comment: c4)
         }()
     }

@@ -21,7 +21,7 @@ class NewSiteAlert: Alert {
     }
     
     private var declineAction: UIAlertAction {
-        UIAlertAction(title: ActionStrings.decline, style: .default)
+        UIAlertAction(title: ActionStrings.Decline, style: .default)
     }
     
     init(parent: UIViewController, style: UIAlertController.Style, appendActionHandler: @escaping () -> ()) {

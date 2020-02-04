@@ -23,7 +23,7 @@ class PillsViewFactory {
     }
     
     func createSiteCellDeleteSwipeAction(delete: @escaping () -> ()) -> UIContextualAction {
-        let title = ActionStrings.delete
+        let title = ActionStrings.Delete
         let delete = UIContextualAction(style: .normal, title: title) {
              _, _, _ in delete()
         }

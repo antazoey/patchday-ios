@@ -15,7 +15,7 @@ enum TimeNumber: String {
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     let pill: Swallowable
-    static let DefaultViewControllerTitle = VCTitleStrings.pillTitle
+    static let DefaultViewControllerTitle = VCTitleStrings.PillTitle
     var selections = PillAttributes()
 
     init(_ pill: Swallowable) {
@@ -24,11 +24,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var isNewPill: Bool {
-        pill.name == PDStrings.PlaceholderStrings.newPill
+        pill.name == PDStrings.PlaceholderStrings.NewPill
     }
 
     var title: String {
-        isNewPill ? VCTitleStrings.newPillTitle : VCTitleStrings.editPillTitle
+        isNewPill ? VCTitleStrings.NewPillTitle : VCTitleStrings.EditPillTitle
     }
 
     var startTimePickerTwoTime: Time {
@@ -40,11 +40,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var time1Text: String {
-        DateHelper.format(time: pill.time1)
+        PDDateFormatter.formatTime(pill.time1)
     }
 
     var time2Text: String {
-        DateHelper.format(time: pill.time2)
+        PDDateFormatter.formatTime(pill.time2)
     }
 
     var namePickerStartIndex: Index {

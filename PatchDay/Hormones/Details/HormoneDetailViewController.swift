@@ -85,7 +85,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         selectSiteTextField.isUserInteractionEnabled = true
         selectDateButton.isEnabled = false
         autofillButton.isHidden = true
-        typeSiteButton.setTitle(ActionStrings.done)
+        typeSiteButton.setTitle(ActionStrings.Done)
 
         if let senderType = TextFieldButtonSenderType(rawValue: textField.restorationIdentifier ?? "") {
             handleSenderType(senderType, textFieldSender: textField)
@@ -95,7 +95,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     @objc func closeTextField() {
         if let viewModel = viewModel {
             let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
-            typeSiteButton.setTitle(ActionStrings.type)
+            typeSiteButton.setTitle(ActionStrings._Type)
             selectSiteTextField.endEditing(true)
             selectSiteTextField.isEnabled = true
             selectDateButton.isEnabled = true
@@ -136,7 +136,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         selectSiteTextField.isHidden = false
         autofillButton.isHidden = false
         saveButton.isEnabled = true
-        typeSiteButton.setTitle(ActionStrings.type)
+        typeSiteButton.setTitle(ActionStrings._Type)
         typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
     }
 
@@ -230,11 +230,11 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         selectSiteTextField.delegate = self
         sitePicker.delegate = self
         sitePicker.dataSource = self
-        typeSiteButton.setTitle(ActionStrings.type)
+        typeSiteButton.setTitle(ActionStrings._Type)
     }
 
     private func loadSaveButton() {
-        let save = ActionStrings.save
+        let save = ActionStrings.Save
         let handleSave = #selector(saveButtonTapped(_:))
         saveButton = UIBarButtonItem(title: save, style: .plain, target: self, action: handleSave)
         navigationItem.rightBarButtonItem = saveButton

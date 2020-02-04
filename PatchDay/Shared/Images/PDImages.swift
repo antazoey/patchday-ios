@@ -163,7 +163,7 @@ public class PDImages: NSObject {
     
     /// Converts patch image to SiteName a.k.a String
     static func getSiteName(from image: UIImage) -> SiteName {
-        imageToSiteNameDict[image] ?? SiteStrings.newSite
+        imageToSiteNameDict[image] ?? SiteStrings.NewSite
     }
 
     /// Coverts SiteName a.k.a String to corresponding hormone image.

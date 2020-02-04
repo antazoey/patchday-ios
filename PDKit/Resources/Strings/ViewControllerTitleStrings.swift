@@ -10,82 +10,35 @@ import Foundation
 
 public class VCTitleStrings {
     
-    private static let comment = "Title of a view controller. Keep it brief please."
+    private static let c = "Title of a view controller. Keep it brief please."
 
-    public static let patchesTitle = {
-        NSLocalizedString("Patches", comment: comment)
-    }()
-
-    public static let injectionsTitle = {
-        NSLocalizedString("Injections", comment: comment)
-    }()
-    
-    public static let hormonesTitle = {
-        NSLocalizedString("Hormones", comment: comment)
-    }()
-
-    public static let settingsTitle = {
-        NSLocalizedString("Settings", comment: comment)
-    }()
-
-    public static let pillsTitle = {
-        NSLocalizedString("Pills", comment: comment)
-    }()
-
-    public static let pillTitle = {
-        NSLocalizedString("Pill", comment: comment)
-    }()
-
-    public static let editPillTitle = {
-        NSLocalizedString("Edit Pill", comment: comment)
-    }()
-
-    public static let newPillTitle = {
-        NSLocalizedString("New Pill", comment: comment)
-    }()
-
-    public static let sitesTitle = {
-        NSLocalizedString("Sites", comment: comment)
-    }()
-
-    public static let patchSitesTitle = {
-        NSLocalizedString("Patch Sites", comment: comment)
-    }()
-
-    public static let injectionSitesTitle = {
-        NSLocalizedString("Injection Sites", comment: comment)
-    }()
-
-    public static let editSiteTitle = {
-        NSLocalizedString("Edit Site", comment: comment)
-    }()
-    
-    public static let patchTitle = {
-        NSLocalizedString("Patch", comment: comment)
-    }()
-    public static let injectionTitle = {
-        NSLocalizedString("Injection", comment: comment)
-    }()
-    
-    public static let siteTitle = {
-        NSLocalizedString("Site", comment: comment)
-    }()
+    public static let PatchesTitle = { NSLocalizedString("Patches", comment: c) }()
+    public static let InjectionsTitle = { NSLocalizedString("Injections", comment: c) }()
+    public static let HormonesTitle = { NSLocalizedString("Hormones", comment: c) }()
+    public static let SettingsTitle = { NSLocalizedString("Settings", comment: c) }()
+    public static let PillsTitle = { NSLocalizedString("Pills", comment: c) }()
+    public static let PillTitle = { NSLocalizedString("Pill", comment: c) }()
+    public static let EditPillTitle = { NSLocalizedString("Edit Pill", comment: c) }()
+    public static let NewPillTitle = { NSLocalizedString("New Pill", comment: c) }()
+    public static let SitesTitle = { NSLocalizedString("Sites", comment: c) }()
+    public static let PatchSitesTitle = { NSLocalizedString("Patch Sites", comment: c) }()
+    public static let InjectionSitesTitle = { NSLocalizedString("Injection Sites", comment: c) }()
+    public static let EditSiteTitle = { NSLocalizedString("Edit Site", comment: c) }()
+    public static let PatchTitle = { NSLocalizedString("Patch", comment: c) }()
+    public static let InjectionTitle = { NSLocalizedString("Injection", comment: c) }()
+    public static let SiteTitle = { NSLocalizedString("Site", comment: c) }()
 
     public static func getTitle(for method: DeliveryMethod) -> String {
         switch method {
-        case .Patches:
-            return patchesTitle
-        case .Injections:
-            return injectionsTitle
+        case .Patches: return PatchesTitle
+        case .Injections: return InjectionsTitle
         }
     }
     
     public static func getSitesTitle(for method: DeliveryMethod) -> String {
         switch method {
-        case .Patches:
-            return patchSitesTitle
-        case .Injections:
-            return injectionSitesTitle
+        case .Patches: return PatchSitesTitle
+        case .Injections: return InjectionSitesTitle
         }
     }
 }

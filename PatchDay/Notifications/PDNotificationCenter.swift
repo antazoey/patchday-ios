@@ -42,7 +42,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         let hormoneActionId = ExpiredHormoneNotification.actionId
         let hormoneAction = UNNotificationAction(
             identifier: hormoneActionId,
-            title: ActionStrings.autofill,
+            title: ActionStrings.Autofill,
             options: []
         )
         let hormoneCatId = ExpiredHormoneNotification.categoryId
@@ -55,7 +55,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         let pillActionId = DuePillNotification.actionId
         let pillAction = UNNotificationAction(
             identifier: pillActionId,
-            title: ActionStrings.take,
+            title: ActionStrings.Take,
             options: []
         )
         let pillCatId = DuePillNotification.categoryId

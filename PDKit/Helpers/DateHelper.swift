@@ -11,38 +11,7 @@ public typealias Time = Date
 public class DateHelper: NSObject {
     
     private static var calendar = Calendar.current
-    
-    /// Returns the day of the week, such as "Tuesday"
-    public class func dayOfWeekString(date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        if let word = dateWord(from: date) {
-            dateFormatter.dateFormat = "h:mm a"
-            return word + ", " + dateFormatter.string(from: date)
-        }
-        dateFormatter.dateFormat = "EEEE, h:mm a"
-        return dateFormatter.string(from: date)
-    }
-    
-    public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
-        calendar.date(byAdding: .minute, value: minutes, to: date)
-    }
-    
-    /// Returns word of date, such as "Tomorrow"
-    public static func dateWord(from date: Date) -> String? {
-        if calendar.isDateInToday(date) {
-            return PDStrings.DayStrings.today
-        } else if let yesterday = getDate(at: Date(), daysFromNow: -1),
-            calendar.isDate(date, inSameDayAs: yesterday) {
 
-            return PDStrings.DayStrings.yesterday
-        } else if let tomorrow = getDate(at: Date(), daysFromNow: 1),
-            calendar.isDate(date, inSameDayAs: tomorrow) {
-
-            return PDStrings.DayStrings.tomorrow
-        }
-        return nil
-    }
-    
     /// Creates a new Date from given Date at the given Time.
     public static func getDate(on date: Date, at time: Time) -> Date? {
         let components = DateComponents(
@@ -91,22 +60,8 @@ public class DateHelper: NSObject {
         return nil
     }
     
-    /// Gives String for the given Time.
-    public static func format(time: Time) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "h:mm a"
-        return dateFormatter.string(from: time)
-    }
-    
-    /// Gives String for the given Date.
-    public static func format(date: Date, useWords: Bool) -> String {
-        let dateFormatter = DateFormatter()
-        if useWords, let word = dateWord(from: date) {
-            dateFormatter.dateFormat = "h:mm a"
-            return word + ", " + dateFormatter.string(from: date)
-        }
-        dateFormatter.dateFormat = "MMM d, h:mm a"
-        return dateFormatter.string(from: date)
+    public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
+        calendar.date(byAdding: .minute, value: minutes, to: date)
     }
     
     private static func getEightPM(of date: Date) -> Date? {

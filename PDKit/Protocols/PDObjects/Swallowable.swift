@@ -31,7 +31,7 @@ public protocol Swallowable: PDObjectified {
     var timesaday: Int { get set }
     
     /// The number of times you took this pill today.
-    var timesTakenToday: Int { get set }
+    var timesTakenToday: Int { get }
     
     /// The date when you last took this pill.
     var lastTaken: Date? { get set }

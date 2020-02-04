@@ -96,7 +96,7 @@ class CoreDataEntities {
     }
     
     func createNewManagedPill(doSave: Bool=true) -> PillStruct? {
-        createNewManagedPill(name: SiteStrings.newSite, doSave: doSave)
+        createNewManagedPill(name: SiteStrings.NewSite, doSave: doSave)
     }
 
     func createNewManagedPill(name: String, doSave: Bool=true) -> PillStruct? {

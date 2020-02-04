@@ -127,7 +127,7 @@ class CoreDataEntityAdapter {
     
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
         return PillAttributes(
-            name: pill.name ?? PDStrings.PlaceholderStrings.newPill,
+            name: pill.name ?? PDStrings.PlaceholderStrings.NewPill,
             timesaday: Int(pill.timesaday),
             time1: pill.time1 as Date?,
             time2: pill.time2 as Date?,

@@ -116,7 +116,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         enableSave()
-        typeNameButton.setTitle(ActionStrings.done)
+        typeNameButton.setTitle(ActionStrings.Done)
         if textField.restorationIdentifier == SiteDetailConstants.TypeId {
             nameText.isEnabled = true
             textField.restorationIdentifier = SiteDetailConstants.SelectId
@@ -139,11 +139,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
 
         if nameText.text == "" {
-            nameText.text = SiteStrings.newSite
+            nameText.text = SiteStrings.NewSite
         }
 
         loadImage()
-        typeNameButton.setTitle(ActionStrings.type, for: .normal)
+        typeNameButton.setTitle(ActionStrings._Type, for: .normal)
 
         nameText.removeTarget(self, action: #selector(closeTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
@@ -180,7 +180,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.bottomLine.isHidden = false;
         self.siteImage.isHidden = false;
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
-        typeNameButton.setTitle(ActionStrings.type, for: .normal)
+        typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closePicker), for: .touchUpInside)
         self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
         self.nameText.isEnabled = true
@@ -210,7 +210,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.autocapitalizationType = .words
         nameText.borderStyle = .none
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
-        typeNameButton.setTitle(ActionStrings.type)
+        typeNameButton.setTitle(ActionStrings._Type)
         typeNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         namePicker.isHidden = true
     }
@@ -232,7 +232,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadSave() {
         navigationItem.rightBarButtonItem =
             UIBarButtonItem(
-                title: ActionStrings.save,
+                title: ActionStrings.Save,
                 style: .plain,
                 target: self,
                 action: #selector(saveButtonTapped(_:))

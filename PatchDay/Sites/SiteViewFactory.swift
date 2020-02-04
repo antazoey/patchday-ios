@@ -10,7 +10,7 @@ class SiteViewFactory {
 
     static func createBackItem() -> UIBarButtonItem {
         let backItem = UIBarButtonItem()
-        backItem.title = VCTitleStrings.sitesTitle
+        backItem.title = VCTitleStrings.SitesTitle
         return backItem
     }
 
@@ -34,7 +34,7 @@ class SiteViewFactory {
 
     static func createEditItem(edit: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
         UIBarButtonItem(
-            title: ActionStrings.edit,
+            title: ActionStrings.Edit,
             style: .plain,
             target: sitesViewController,
             action: edit
@@ -43,7 +43,7 @@ class SiteViewFactory {
 
     static func createResetItem(reset: Selector) -> UIBarButtonItem {
         let item = UIBarButtonItem(
-            title: ActionStrings.reset,
+            title: ActionStrings.Reset,
             style: .plain,
             target: self,
             action: reset
@@ -54,7 +54,7 @@ class SiteViewFactory {
 
     /// Create a delete row action. Row actions are the buttons that appear in TableViews when you swipe them.
     static func createDeleteRowTableAction(indexPath: IndexPath, delete: @escaping (IndexPath) -> ()) -> UIContextualAction {
-        let title = ActionStrings.delete
+        let title = ActionStrings.Delete
         let deleteRowAction = UIContextualAction(style: .normal, title: title) { _, _, _  in delete(indexPath)}
         deleteRowAction.backgroundColor = UIColor.red
         return deleteRowAction

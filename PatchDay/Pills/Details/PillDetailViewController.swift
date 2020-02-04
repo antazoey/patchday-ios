@@ -55,13 +55,13 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     @objc func selectNameTapped() {
         openPicker()
-        selectNameButton.setTitle(ActionStrings.done)
+        selectNameButton.setTitle(ActionStrings.Done)
         selectNameButton.replaceTarget(self, newAction: #selector(doneWithSelectNameTapped))
     }
 
     @objc func doneWithSelectNameTapped() {
         closePicker()
-        selectNameButton.setTitle(ActionStrings.select)
+        selectNameButton.setTitle(ActionStrings.Select)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
         if viewModel.selections.name != nil {
             enableSaveButton()
@@ -141,7 +141,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         if nameTextField.text == "" {
-            nameTextField.text = PDStrings.PlaceholderStrings.newPill
+            nameTextField.text = PDStrings.PlaceholderStrings.NewPill
         }
         selectNameButton.isEnabled = true
         viewModel.selections.name = nameTextField.text
@@ -177,8 +177,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         time2Button.setTitleColor(UIColor.lightGray, for: .disabled)
         time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
         time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
-        time1Button.setTitle(ActionStrings.done, for: .selected)
-        time2Button.setTitle(ActionStrings.done, for: .selected)
+        time1Button.setTitle(ActionStrings.Done, for: .selected)
+        time2Button.setTitle(ActionStrings.Done, for: .selected)
         time1Button.setTitleColor(UIColor.blue, for: .selected)
         time2Button.setTitleColor(UIColor.blue, for: .selected)
     }
@@ -264,7 +264,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func setControlsFromTimePickerDone(timeButton: UIButton) {
-        timeButton.setTitle(DateHelper.format(time: timePicker.date))
+        timeButton.setTitle(PDDateFormatter.formatTime(timePicker.date))
         enableSaveButton()
         timeButton.isSelected = false
         timePicker.isHidden = true

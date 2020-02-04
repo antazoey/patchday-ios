@@ -63,8 +63,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = VCTitleStrings.settingsTitle
-        quantityLabel.text = ColonStrings.count
+        title = VCTitleStrings.SettingsTitle
+        quantityLabel.text = ColonStrings.Count
         quantityButton.tag = 10
         setTopConstraint()
         loadButtonSelectedStates()
@@ -219,7 +219,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func loadButtonSelectedStates() {
-        let save = ActionStrings.save
+        let save = ActionStrings.Save
         deliveryMethodButton.setTitle(save, for: .selected)
         expirationIntervalButton.setTitle(save, for: .selected)
         quantityButton.setTitle(save, for: .selected)

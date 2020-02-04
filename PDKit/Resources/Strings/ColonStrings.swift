@@ -14,47 +14,43 @@ public class ColonStrings {
     private static let c1 = "Displayed on a label, plenty of room."
     private static let c2 = "Label next to date. Easy on room."
 
-    public static let count = {
+    public static let Count = {
         NSLocalizedString("Count:", comment: c1)
     }()
 
-    public static let time = {
+    public static let Time = {
         NSLocalizedString("Time:", comment: c1)
-    }()
-
-    public static let firstTime = {
-        NSLocalizedString("First time:", comment: c1)
     }()
 
     public static let expires = {
         NSLocalizedString("Expires: ", comment: c2)
     }()
 
-    public static let expired = {
+    public static let Expired = {
         NSLocalizedString("Expired: ", comment: c2)
     }()
 
-    public static let lastInjected = {
+    public static let LastInjected = {
         NSLocalizedString("Injected: ", comment: c2)
     }()
 
-    public static let nextDue = {
+    public static let NextDue = {
         NSLocalizedString("Next due: ", comment: c2)
     }()
 
-    public static let dateAndTimeApplied = {
+    public static let DateAndTimeApplied = {
         NSLocalizedString("Date and time applied: ", comment: c2)
     }()
 
-    public static let dateAndTimeInjected = {
+    public static let DateAndTimeInjected = {
         NSLocalizedString("Date and time injected: ", comment: c2)
     }()
 
-    public static let site = {
+    public static let Site = {
         NSLocalizedString("Site: ", comment: c2)
     }()
 
-    public static let lastSiteInjected = {
+    public static let LastSiteInjected = {
         NSLocalizedString("Site injected: ", comment: c2)
     }()
     
@@ -63,12 +59,12 @@ public class ColonStrings {
         switch method {
         case .Patches:
             if let exp = hormone.expiration {
-                let intro = hormone.isExpired ? self.expired : self.expires
-                title += intro + DateHelper.dayOfWeekString(date: exp)
+                let intro = hormone.isExpired ? self.Expired : self.expires
+                title += intro + PDDateFormatter.formatDate(exp)
             }
         case .Injections:
-            let day = DateHelper.dayOfWeekString(date: hormone.date)
-            title += self.lastInjected + day
+            let day = PDDateFormatter.formatDate(hormone.date)
+            title += self.LastInjected + day
         }
         return title
     }
@@ -76,17 +72,17 @@ public class ColonStrings {
     public static func createHormoneViewStrings(deliveryMethod: DeliveryMethod, hormone: Hormonal) -> HormoneViewStrings {
         switch deliveryMethod {
         case .Patches :
-            let expText = hormone.isExpired ? expired : expires
+            let expText = hormone.isExpired ? Expired : expires
             return HormoneViewStrings(
                 expirationText: expText,
-                dateAndTimePlacedText: dateAndTimeApplied,
-                siteLabelText: site
+                dateAndTimePlacedText: DateAndTimeApplied,
+                siteLabelText: Site
             )
         case .Injections:
             return HormoneViewStrings(
-                expirationText: nextDue,
-                dateAndTimePlacedText: dateAndTimeInjected,
-                siteLabelText: lastSiteInjected
+                expirationText: NextDue,
+                dateAndTimePlacedText: DateAndTimeInjected,
+                siteLabelText: LastSiteInjected
             )
         }
     }

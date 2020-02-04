@@ -92,7 +92,7 @@ class HormoneCell: TableCell {
         let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
         dateLabel.font = UIFont.systemFont(ofSize: size)
         if !hormone.date.isDefault() {
-            setDateLabel(DateHelper.format(date: hormone.date, useWords: true))
+            setDateLabel(PDDateFormatter.formatDate(hormone.date))
         }
     }
 

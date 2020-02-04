@@ -15,17 +15,6 @@ public class Pill: Swallowable {
     private var pillData: PillStruct
     private let log = PDLog<Pill>()
 
-    private var times: [Time] {
-        var _times: [Time] = []
-        if let t1 = pillData.attributes.time1 {
-            _times.append(t1 as Time)
-        }
-        if let t2 = pillData.attributes.time2 {
-            _times.append(t2 as Time)
-        }
-        return _times
-    }
-    
     public init(pillData: PillStruct) {
         self.pillData = pillData
     }
@@ -51,7 +40,7 @@ public class Pill: Swallowable {
     }
 
     public var name: String {
-        get { pillData.attributes.name ?? SiteStrings.unplaced }
+        get { pillData.attributes.name ?? SiteStrings.Unplaced }
         set { pillData.attributes.name = newValue }
     }
 
@@ -88,20 +77,15 @@ public class Pill: Swallowable {
         set {
             if newValue >= 0 {
                 pillData.attributes.timesaday = newValue
-                pillData.attributes.time2 = nil
+                if newValue < 2 {
+                    pillData.attributes.time2 = nil
+                }
             }
         }
     }
 
     public var timesTakenToday: Int {
         get { pillData.attributes.timesTakenToday ?? 0 }
-        set {
-            if let oldTimesTakenToday = pillData.attributes.timesTakenToday, newValue <= oldTimesTakenToday {
-                pillData.attributes.timesTakenToday = newValue
-            } else {
-                pillData.attributes.timesTakenToday = newValue
-            }
-        }
     }
 
     public var lastTaken: Date? {
@@ -135,13 +119,12 @@ public class Pill: Swallowable {
         time1 = attributes.time1 ?? time1
         time2 = attributes.time2 ?? time2
         notify = attributes.notify ?? notify
-        timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
         lastTaken = attributes.lastTaken ?? lastTaken
     }
 
     public func swallow() {
         if timesTakenToday < timesaday {
-            timesTakenToday += 1
+            pillData.attributes.timesTakenToday = (pillData.attributes.timesTakenToday ?? 0) + 1
             lastTaken = Date()
         }
     }
@@ -151,7 +134,7 @@ public class Pill: Swallowable {
             let lastDate = lastTaken as Date?,
             !lastDate.isInToday() {
     
-            timesTakenToday = 0
+            pillData.attributes.timesTakenToday = 0
         }
     }
 
@@ -167,6 +150,17 @@ public class Pill: Swallowable {
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {
         PillDueDateFinderParams(timesTakenToday, timesaday, times)
+    }
+
+    private var times: [Time] {
+        var _times: [Time] = []
+        if let t1 = pillData.attributes.time1 {
+            _times.append(t1 as Time)
+        }
+        if let t2 = pillData.attributes.time2 {
+            _times.append(t2 as Time)
+        }
+        return _times
     }
 
     private func ensureTimeOrdering() {

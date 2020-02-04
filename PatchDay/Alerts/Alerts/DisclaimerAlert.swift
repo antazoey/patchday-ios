@@ -13,7 +13,7 @@ import PDKit
 class DisclaimerAlert: Alert {
     
     private var dismissAction: UIAlertAction {
-        UIAlertAction(title: ActionStrings.dismiss, style: UIAlertAction.Style.cancel)
+        UIAlertAction(title: ActionStrings.Dismiss, style: UIAlertAction.Style.cancel)
     }
     
     private var goToUrlAction: UIAlertAction {

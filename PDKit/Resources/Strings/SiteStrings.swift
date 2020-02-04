@@ -14,11 +14,11 @@ public class SiteStrings {
         "Displayed all over the app. Abbreviate if it is more than 2x as long."
     }()
     
-    public static let unplaced = {
-        return NSLocalizedString("unplaced", comment: commonComment)
+    public static let Unplaced = {
+        NSLocalizedString("unplaced", comment: commonComment)
     }()
     
-    public static let newSite = {
+    public static let NewSite = {
         NSLocalizedString("New Site", comment: commonComment)
     }()
 

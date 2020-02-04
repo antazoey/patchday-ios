@@ -21,7 +21,7 @@ class DeliveryMethodMutationAlert: Alert {
     private let decline: ((Int) -> ())
     
     private var continueAction: UIAlertAction {
-        UIAlertAction(title: ActionStrings.cont, style: .destructive) {
+        UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
             void in
             self.sdk?.defaults.setDeliveryMethod(to: self.newDeliveryMethod)
             self.tabs?.reflectHormoneCharacteristics()
@@ -29,7 +29,7 @@ class DeliveryMethodMutationAlert: Alert {
     }
     
     private var declineAction: UIAlertAction {
-        UIAlertAction(title: ActionStrings.decline, style: .cancel) {
+        UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
             void in self.decline(self.oldQuantity)
         }
     }

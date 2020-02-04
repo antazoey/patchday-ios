@@ -36,20 +36,20 @@ class PillCell: TableCell {
     
     /// Set the "last taken" label to the current date as a string.
     @discardableResult func stamp() -> PillCell {
-        lastTakenLabel.text = DateHelper.format(date: Date(), useWords: true)
+        lastTakenLabel.text = PDDateFormatter.formatDate(Date())
         return self
     }
     
     @discardableResult func loadDueDateText(_ pill: Swallowable) -> PillCell {
-        nextDueDate.text = DateHelper.format(date: pill.due, useWords: true)
+        nextDueDate.text = PDDateFormatter.formatDate(pill.due)
         return self
     }
     
     @discardableResult func loadLastTakenText(_ pill: Swallowable) -> PillCell {
         if let lastTaken = pill.lastTaken {
-            lastTakenLabel.text = DateHelper.format(date: lastTaken as Date, useWords: true)
+            lastTakenLabel.text = PDDateFormatter.formatDate(lastTaken)
         } else {
-            lastTakenLabel.text = PDStrings.PlaceholderStrings.dotDotDot
+            lastTakenLabel.text = PDStrings.PlaceholderStrings.DotDotDot
         }
         return self
     }
@@ -67,11 +67,11 @@ class PillCell: TableCell {
         takeButton.restorationIdentifier = "t \(index)"
         takeButton.isEnabled = !pill.isDone
         if stateImageView.tintColor == UIColor.lightGray {
-            takeButton.setTitle(ActionStrings.taken)
+            takeButton.setTitle(ActionStrings.Taken)
             takeButton.isEnabled = false
             stateImageButton.isEnabled = false
         } else {
-            takeButton.setTitle(ActionStrings.take)
+            takeButton.setTitle(ActionStrings.Take)
             takeButton.isEnabled = true
             stateImageButton.isEnabled = true
         }

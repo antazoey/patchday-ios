@@ -17,14 +17,14 @@ class QuantityMutationAlert: Alert {
     private let handler: QuantityMutationActionHandler
     
     private var continueAction: UIAlertAction {
-        let contStr = ActionStrings.cont
+        let contStr = ActionStrings.Continue
         return UIAlertAction(title: contStr, style: .destructive) {
             void in self.handler.cont(self.newQuantity)
         }
     }
     
     private var cancelAction: UIAlertAction {
-        let title = ActionStrings.decline
+        let title = ActionStrings.Decline
         return UIAlertAction(title: title, style: .cancel) {
             void in self.handler.cancel(self.oldQuantity)
         }

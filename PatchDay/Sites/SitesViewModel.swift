@@ -115,6 +115,6 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         if let method = sdk?.defaults.deliveryMethod.value {
             return VCTitleStrings.getSitesTitle(for: method)
         }
-        return VCTitleStrings.siteTitle
+        return VCTitleStrings.SiteTitle
     }
 }

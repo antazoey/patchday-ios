@@ -28,7 +28,7 @@ public class HormoneDataSharer: HormoneDataSharing {
         let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
         shareRelevantHormoneData(
             oldestHormone: nextHormone,
-            displayedSiteName: name ?? SiteStrings.newSite,
+            displayedSiteName: name ?? SiteStrings.NewSite,
             interval: interval,
             deliveryMethod: method
         )

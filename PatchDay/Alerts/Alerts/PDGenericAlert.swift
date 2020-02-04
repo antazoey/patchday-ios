@@ -19,7 +19,7 @@ class PDGenericAlert: Alert {
     
     override func present() {
         super.present(actions: [UIAlertAction(
-            title: ActionStrings.dismiss, style: UIAlertAction.Style.cancel, handler: nil)]
+            title: ActionStrings.Dismiss, style: UIAlertAction.Style.cancel, handler: nil)]
         )
     }
 }

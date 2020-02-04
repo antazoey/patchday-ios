@@ -28,8 +28,8 @@ class SiteValueTypeFactory {
     private static func createEditingState(_ sitesViewController: UIViewController) -> SiteTableActionState {
         if let items = sitesViewController.navigationItem.rightBarButtonItems {
             switch items[1].title {
-            case ActionStrings.edit: return .Editing
-            case ActionStrings.done: return .Reading
+            case ActionStrings.Edit: return .Editing
+            case ActionStrings.Done: return .Reading
             default: break
             }
         }
@@ -38,8 +38,8 @@ class SiteValueTypeFactory {
 
     private static func createOppositeActionTitle(_ cellEditingState: SiteTableActionState) -> String {
         if cellEditingState == .Editing {
-            return ActionStrings.done
+            return ActionStrings.Done
         }
-        return ActionStrings.edit
+        return ActionStrings.Edit
     }
 }
