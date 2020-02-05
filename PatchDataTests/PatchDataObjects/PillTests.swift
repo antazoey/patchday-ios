@@ -131,4 +131,13 @@ public class PillTests: XCTestCase {
         let actual = pill.timesTakenToday
         XCTAssertEqual(expected, actual)
     }
+    
+    public func testTimesTakenToday_whenNotNilInAttributes_returnsValueFromAttributes() {
+        var attrs = PillAttributes()
+        attrs.timesTakenToday = 19
+        let pill = createPill(attrs)
+        let expected = 19
+        let actual = pill.timesTakenToday
+        XCTAssertEqual(expected, actual)
+    }
 }

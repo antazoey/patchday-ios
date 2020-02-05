@@ -18,6 +18,12 @@ class PDDateFormatterTests: XCTestCase {
     override func setUp() {
         formatter = DateFormatter()
     }
+    
+    func testFormatTime_returnsExpectedString() {
+        let expected = "7:46 AM"
+        let actual = PDDateFormatter.formatTime(Date(timeIntervalSince1970: 1000000))
+        XCTAssertEqual(expected, actual)
+    }
 
     func testFormatDate_whenNotTodayYesterdayOrTomorrow_returnsExpectedString() {
         let expected = "Monday, 7:46 AM"

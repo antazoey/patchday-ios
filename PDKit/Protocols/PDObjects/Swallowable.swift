@@ -37,7 +37,7 @@ public protocol Swallowable: PDObjectified {
     var lastTaken: Date? { get set }
     
     /// The date when you should take this pill next.
-    var due: Date { get }
+    var due: Date? { get }
     
     /// Whether it is past the due date.
     var isDue: Bool { get }

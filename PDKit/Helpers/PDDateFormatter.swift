@@ -13,7 +13,7 @@ public class PDDateFormatter {
     
     private static let timeFormatter: DateFormatter = { createFormatter("h:mm a") }()
     private static let dateFormatter: DateFormatter = { createFormatter("EEEE, h:mm a") }()
-    private static var calendar = Calendar.current
+    private static var calendar = { Calendar.current }()
 
     /// Gives String for the given Time.
     public static func formatTime(_ time: Time) -> String {
@@ -32,13 +32,11 @@ public class PDDateFormatter {
     private static func dateWord(from date: Date) -> String? {
         if calendar.isDateInToday(date) {
             return PDStrings.DayStrings.today
-        } else if let yesterday = DateHelper.getDate(at: Date(), daysFromNow: -1),
-            calendar.isDate(date, inSameDayAs: yesterday) {
-
+        } else if let yesterdayAtThisTime = DateHelper.getDate(daysFromNow: -1),
+            calendar.isDate(date, inSameDayAs: yesterdayAtThisTime) {
             return PDStrings.DayStrings.yesterday
-        } else if let tomorrow = DateHelper.getDate(at: Date(), daysFromNow: 1),
-            calendar.isDate(date, inSameDayAs: tomorrow) {
-
+        } else if let tomorrowAtThisTime = DateHelper.getDate(daysFromNow: 1),
+            calendar.isDate(date, inSameDayAs: tomorrowAtThisTime) {
             return PDStrings.DayStrings.tomorrow
         }
         return nil

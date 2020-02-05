@@ -85,7 +85,7 @@ public class Pill: Swallowable {
     }
 
     public var timesTakenToday: Int {
-        get { pillData.attributes.timesTakenToday ?? 0 }
+        pillData.attributes.timesTakenToday ?? 0
     }
 
     public var lastTaken: Date? {
@@ -93,19 +93,24 @@ public class Pill: Swallowable {
         set { pillData.attributes.lastTaken = newValue }
     }
 
-    public var due: Date {
-        do {
-            return try PillHelper.nextDueDate(pillDueDateFinderParams) ?? Date()
-        } catch PillHelper.NextDueDateError.notEnoughTimes {
-            log.warn("Pill \(name) did not have enough times to calculate due date. System will correct.")
-            return handleNotEnoughTimesError()
-        } catch {
-            log.error("Unknown error when calculating due date for pill \(name)")
-            return Date()
+    public var due: Date? {
+        guard timesTakenToday <= timesaday else { return nil }
+
+        if timesTakenToday == 0 {
+            return DateHelper.getDate(at: time1)
+        } else if timesTakenToday == 1 {
+            return DateHelper.getDate(at: time2)
+        } else {
+            return DateHelper.getDate(at: time1, daysFromToday: 1)
         }
     }
 
-    public var isDue: Bool { Date() > due }
+    public var isDue: Bool {
+        if let dueDate = due {
+            return Date() > dueDate
+        }
+        return false
+    }
     
     public var isNew: Bool { pillData.attributes.lastTaken == nil }
     
@@ -167,14 +172,6 @@ public class Pill: Swallowable {
         if self.time2 < time1 || self.time1 > time2{
             self.time2 = time1
         }
-    }
-
-    private func handleNotEnoughTimesError() -> Date {
-        if times.count < timesaday {
-            addMissingTimes()
-            return due
-        }
-        return Date()
     }
 
     private func addMissingTimes() {

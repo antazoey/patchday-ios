@@ -11,6 +11,10 @@ public typealias Time = Date
 public class DateHelper: NSObject {
     
     private static var calendar = Calendar.current
+    
+    public static func getDate(at time: Time) -> Date? {
+        getDate(on: Date(), at: time)
+    }
 
     /// Creates a new Date from given Date at the given Time.
     public static func getDate(on date: Date, at time: Time) -> Date? {
@@ -26,10 +30,15 @@ public class DateHelper: NSObject {
         return calendar.date(from: components)
     }
     
-    /// Creates a Date calculated by adding days from today.
-    public static func getDate(at time: Time, daysFromNow: Int) -> Date? {
+    /// Create a Date by adding days from right now.
+    public static func getDate(daysFromNow: Int) -> Date? {
+        getDate(at: Date(), daysFromToday: daysFromNow)
+    }
+    
+    /// Creates a Date at the given time calculated by adding days from today.
+    public static func getDate(at time: Time, daysFromToday: Int) -> Date? {
         var addComponents = DateComponents()
-        addComponents.day = daysFromNow
+        addComponents.day = daysFromToday
         if let newDate = calendar.date(byAdding: addComponents, to: Date()) {
             return getDate(on: newDate, at: time)
         }

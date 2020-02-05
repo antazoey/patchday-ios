@@ -48,7 +48,7 @@ public class PillSchedule: NSObject, PillScheduling {
             case (nil, nil) : return false
             case (nil, _) : return false
             case (_, nil) : return true
-            default : return $0.due < $1.due
+            default : return $0.due! < $1.due!
             }
         }
     }
