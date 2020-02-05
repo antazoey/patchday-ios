@@ -123,7 +123,7 @@ class Notifications: NSObject, NotificationScheduling {
     
     /// Request a pill notification.
     func requestDuePillNotification(_ pill: Swallowable) {
-        if Date() < pill.due, let totalDue = sdk?.totalAlerts {
+        if let dueDate = pill.due, Date() < dueDate, let totalDue = sdk?.totalAlerts {
             factory.createDuePillNotification(pill, totalDue: totalDue).request()
         }
     }

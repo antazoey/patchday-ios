@@ -29,7 +29,8 @@ public class DuePillNotification: Notification, DuePillNotifying {
     public func request() {
         let now = Date()
         super.content.categoryIdentifier = DuePillNotification.categoryId
-        let interval = self.pill.due.timeIntervalSince(now)
-        super.request(when: interval, requestId: self.pill.id.uuidString)
+        if let interval = self.pill.due?.timeIntervalSince(now) {
+            super.request(when: interval, requestId: self.pill.id.uuidString)
+        }
     }
 }
