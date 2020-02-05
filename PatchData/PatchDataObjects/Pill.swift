@@ -115,7 +115,7 @@ public class Pill: Swallowable {
     public var isNew: Bool { pillData.attributes.lastTaken == nil }
     
     public var isDone: Bool {
-        PillHelper.isDone(timesTakenToday: timesTakenToday, timesaday: timesaday)
+        timesTakenToday >= timesaday
     }
     
     public func set(attributes: PillAttributes) {

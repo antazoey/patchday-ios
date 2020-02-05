@@ -233,13 +233,11 @@
 		B49A4A5320DB2D4C00F24FC0 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		B49A4A5420DB2D4C00F24FC0 /* PDKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B49A4A5B20DB2D5A00F24FC0 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49A4A2F20DAE8A200F24FC0 /* DateHelper.swift */; };
-		B49A4A5C20DB2D5A00F24FC0 /* PillHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49A4A2D20DAE14000F24FC0 /* PillHelper.swift */; };
 		B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754B41ED8EE27006C82B8 /* PDColors.swift */; };
 		B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1340A9E71EE4D4220003EFFA /* PDStrings.swift */; };
 		B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4355D9320ED6F250048D466 /* MOPill.swift */; };
 		B4C69F0C21E56CD7004EABC4 /* MOSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458993B20F8822700D36B06 /* MOSite.swift */; };
 		B4C69F0E21E56CD7004EABC4 /* MOHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = B458994120F8865C00D36B06 /* MOHormone.swift */; };
-		B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -555,12 +553,10 @@
 		B480EE1F21CC7553002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B480EE2421CC7554002C2238 /* PatchDataTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PatchDataTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B480EE2D21CC7554002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B49A4A2D20DAE14000F24FC0 /* PillHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillHelper.swift; sourceTree = "<group>"; };
 		B49A4A2F20DAE8A200F24FC0 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B49A4A4020DB2D4C00F24FC0 /* PDKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDKit.h; sourceTree = "<group>"; };
 		B49A4A4120DB2D4C00F24FC0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDPillHelperTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1268,7 +1264,6 @@
 				9D003EC423359E990070C964 /* KeyStorableHelper.swift */,
 				B40531BC21CD845800BD64CE /* PillAttributes.swift */,
 				B49A4A2F20DAE8A200F24FC0 /* DateHelper.swift */,
-				B49A4A2D20DAE14000F24FC0 /* PillHelper.swift */,
 				9D8A986623E79D93004E20FE /* PDDateFormatter.swift */,
 			);
 			path = Helpers;
@@ -1289,7 +1284,6 @@
 			children = (
 				B40CC9B121CCE614002364BB /* DateHelperTests.swift */,
 				B440110F21DF3F2E00C94B76 /* DateExtensionTests.swift */,
-				B4E12EA221CFFDA40068AD2E /* PDPillHelperTests.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1851,7 +1845,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4E12EA321CFFDA40068AD2E /* PDPillHelperTests.swift in Sources */,
 				B440111021DF3F2E00C94B76 /* DateExtensionTests.swift in Sources */,
 				B40CC9B221CCE614002364BB /* DateHelperTests.swift in Sources */,
 				3397CEE87867B95645C16C14 /* PDDateFormatterTests.swift in Sources */,
@@ -1953,7 +1946,6 @@
 				B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */,
 				9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
-				B49A4A5C20DB2D5A00F24FC0 /* PillHelper.swift in Sources */,
 				9D9397C02379473B00FDF290 /* UserDefaultsManaging.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */,

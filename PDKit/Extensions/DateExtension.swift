@@ -13,8 +13,8 @@ extension Date {
     public func isWithin(minutes: Int, of date: Date) -> Bool {
         let earlier = min(self, date)
         let later = max(self, date)
-        let t = abs(later.timeIntervalSince(earlier))
-        return t < Double(minutes * 60)
+        let interval = abs(later.timeIntervalSince(earlier))
+        return interval < Double(minutes * 60) || interval == 0
     }
 
     public func isInPast() -> Bool {

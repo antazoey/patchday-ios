@@ -10,6 +10,8 @@ import Foundation
 
 public typealias Index = Int
 public typealias SiteName = String
+public typealias Stamp = Date
+public typealias Stamps = [Stamp?]?
 
 public enum DeliveryMethod {
     case Patches
