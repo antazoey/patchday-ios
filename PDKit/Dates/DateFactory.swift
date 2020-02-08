@@ -46,19 +46,18 @@ public class DateHelper: NSObject {
     }
 
     /// Gives the future date from the given one based on the given interval string.
-    public static func calculateExpirationDate(from date: Date, _ hours: Int) -> Date? {
+    public static func getDate(byAddingHours hours: Int, to date: Date) -> Date? {
         calendar.date(byAdding: .hour, value: hours, to: date)
     }
-    
-    /// Returns the TimeInterval until expiration based on given
-    public static func calculateExpirationTimeInterval(_ hours: Int, date: Date) -> TimeInterval? {
-        if let expDate = calculateExpirationDate(from: date, hours) {
-            let now = Date()
-            return expDate >= now ?
-                DateInterval(start: now, end: expDate).duration
-                : -DateInterval(start: expDate, end: now).duration
+
+    public static func getTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
+        guard !date.isDefault(), let dateWithAddedHours = getDate(byAddingHours: hours, to: date) else {
+            return nil
         }
-        return nil
+        var range = [Date(), dateWithAddedHours]
+        range.sort()
+        let interval = DateInterval(start: range[0], end: range[1]).duration
+        return range[1] == dateWithAddedHours ? interval : -interval
     }
     
     /// Gets 8 pm before an overnight date.

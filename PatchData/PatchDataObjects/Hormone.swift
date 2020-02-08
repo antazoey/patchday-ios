@@ -48,14 +48,14 @@ public class Hormone: Hormonal {
     }
 
     public var date: Date {
-        get { (hormoneData.date as Date?) ?? Date.createDefaultDate() }
+        get { (hormoneData.date as Date?) ?? DateFactory.createDefaultDate() }
         set { hormoneData.date = newValue }
     }
 
     public var expiration: Date? {
         if let date = date as Date?, !date.isDefault() {
             let hoursUntilExpires = expirationInterval.hours
-            return DateHelper.calculateExpirationDate(from: date, hoursUntilExpires)
+            return DateFactory.createDate(byAddingHours: hoursUntilExpires, to: date)
         }
         return nil
     }
@@ -76,7 +76,7 @@ public class Hormone: Hormonal {
 
     public var isPastNotificationTime: Bool {
         if let expirationDate = expiration,
-            let notificationTime = DateHelper.createDate(
+            let notificationTime = DateFactory.createDate(
                 byAddingMinutes: -notificationsMinutesBefore.value, to: expirationDate
             ) {
             

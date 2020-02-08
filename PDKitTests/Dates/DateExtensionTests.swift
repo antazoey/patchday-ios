@@ -9,7 +9,8 @@
 import Foundation
 
 import XCTest
-@testable import PDKit
+@testable
+import PDKit
 
 class DateExtensionTests: XCTestCase {
     
@@ -64,5 +65,14 @@ class DateExtensionTests: XCTestCase {
     func testIsOvernight_whenGivenThreePM_returnsFalse() {
         let threePM = Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: Date())!
         XCTAssertFalse(threePM.isOvernight())
+    }
+    
+    func testIsDefault_whenIsDefault_returnsTrue() {
+        let defaultDate = Date(timeIntervalSince1970: 0)
+        XCTAssertTrue(defaultDate.isDefault())
+    }
+
+    func testIsDefault_whenIsNotDefault_returnsFalse() {
+        XCTAssertFalse(Date().isDefault())
     }
 }

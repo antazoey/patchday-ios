@@ -45,14 +45,14 @@ public class Pill: Swallowable {
     }
 
     public var time1: Date {
-        get { pillData.attributes.time1 as Date? ?? Date.createDefaultDate() }
+        get { pillData.attributes.time1 as Date? ?? DateFactory.createDefaultDate() }
         set { pillData.attributes.time1 = newValue }
     }
 
     public var time2: Date {
         get {
             guard let t2 = pillData.attributes.time2 else {
-                return Date.createDefaultDate()
+                return DateFactory.createDefaultDate()
             }
             return t2 as Date
         } set {
@@ -97,11 +97,11 @@ public class Pill: Swallowable {
         guard timesTakenToday <= timesaday else { return nil }
 
         if timesTakenToday == 0 {
-            return DateHelper.getDate(at: time1)
+            return DateFactory.createDate(at: time1)
         } else if timesTakenToday == 1 {
-            return DateHelper.getDate(at: time2)
+            return DateFactory.createDate(at: time2)
         } else {
-            return DateHelper.getDate(at: time1, daysFromToday: 1)
+            return DateFactory.createDate(at: time1, daysFromToday: 1)
         }
     }
 
