@@ -94,14 +94,12 @@ public class Pill: Swallowable {
     }
 
     public var due: Date? {
-        guard timesTakenToday <= timesaday else { return nil }
-
         if timesTakenToday == 0 {
-            return DateFactory.createDate(at: time1)
-        } else if timesTakenToday == 1 {
-            return DateFactory.createDate(at: time2)
+            return DateFactory.createTodayDate(at: time1)
+        } else if timesTakenToday == 1 && timesaday == 2 {
+            return DateFactory.createTodayDate(at: time2)
         } else {
-            return DateFactory.createDate(at: time1, daysFromToday: 1)
+            return DateFactory.createDate(at: time1, daysFromToday: 1)  // Tomorrow at time one
         }
     }
 
@@ -128,8 +126,10 @@ public class Pill: Swallowable {
     }
 
     public func swallow() {
+        guard timesaday > 0 else { return }
         if timesTakenToday < timesaday {
-            pillData.attributes.timesTakenToday = (pillData.attributes.timesTakenToday ?? 0) + 1
+            let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
+            pillData.attributes.timesTakenToday = currentTimesTaken + 1
             lastTaken = Date()
         }
     }
