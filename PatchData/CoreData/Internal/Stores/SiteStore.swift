@@ -12,19 +12,19 @@ import PDKit
 
 class SiteStore: EntityStore, SiteStoring {
 
-    func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily] {
+    func getStoredSites() -> [Bodily] {
         var sites: [Bodily] = []
         let siteDataEntries = entities.getManagedSiteData()
         for siteData in siteDataEntries {
-            let site = Site(siteData: siteData, expirationInterval: expiration, deliveryMethod: method)
+            let site = Site(siteData: siteData)
             sites.append(site)
         }
         return sites
     }
 
-    func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool) -> Bodily? {
+    func createNewSite(doSave: Bool) -> Bodily? {
         if let newSiteDataFromStore = entities.createNewManagedSite(doSave: doSave) {
-            return Site(siteData: newSiteDataFromStore, expirationInterval: expiration, deliveryMethod: method)
+            return Site(siteData: newSiteDataFromStore)
         }
         return nil
     }

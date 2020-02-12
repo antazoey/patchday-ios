@@ -26,9 +26,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         self.store = store
         self.defaults = defaults
         self.resetWhenEmpty = resetWhenEmpty
-        let exp = defaults.expirationInterval
-        let method = defaults.deliveryMethod.value
-        self.sites = store.getStoredSites(expiration: exp, method: method)
+        self.sites = store.getStoredSites()
         super.init()
         handleSiteCount()
         sort()
@@ -76,7 +74,7 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
 
     @discardableResult
     public func insertNew(name: String, save: Bool, onSuccess: (() -> ())?) -> Bodily? {
-        if var site = createSite(save) {
+        if var site = store.createNewSite(doSave: save) {
             site.name = name
             sites.append(site)
             onSuccess?()
@@ -228,12 +226,6 @@ public class SiteSchedule: NSObject, HormoneSiteScheduling {
         if shouldSave {
             store.pushLocalChangesToManagedContext(sites, doSave: true)
         }
-    }
-    
-    private func createSite(_ save: Bool) -> Bodily? {
-        let exp = defaults.expirationInterval
-        let method = defaults.deliveryMethod.value
-        return store.createNewSite(expiration: exp, method: method, doSave: save)
     }
 
     private func handleSiteCount() {

@@ -13,13 +13,9 @@ import PDKit
 public class Site: Bodily {
 
     private var siteData: SiteStruct
-    private let expirationInterval: ExpirationIntervalUD
-    private let deliveryMethod: DeliveryMethod
     
-    public init(siteData: SiteStruct, expirationInterval: ExpirationIntervalUD, deliveryMethod: DeliveryMethod) {
+    public init(siteData: SiteStruct) {
         self.siteData = siteData
-        self.expirationInterval = expirationInterval
-        self.deliveryMethod = deliveryMethod
     }
 
     public var hormoneIds: [UUID] {
@@ -35,6 +31,8 @@ public class Site: Bodily {
     }
     
     public var imageId: String {
+        // `siteData.imageIdentifier` should never be nil, but it wouldn't be catastrophic if it was..
+        // Therefore, treat it like it's not (without force-unwrapping).
         get { siteData.imageIdentifier ?? "" }
         set { siteData.imageIdentifier = newValue }
     }
