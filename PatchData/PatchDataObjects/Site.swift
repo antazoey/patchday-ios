@@ -50,16 +50,7 @@ public class Site: Bodily {
             }
         }
     }
-    
-    public var isOccupied: Bool { isOccupied() }
 
-    public func isOccupied(byAtLeast many: Int = 1) -> Bool {
-        if let r = siteData.hormoneRelationshipIds {
-            return r.count >= many
-        }
-        return false
-    }
-    
     public func reset() {
         siteData.order = -1
         siteData.name = nil
