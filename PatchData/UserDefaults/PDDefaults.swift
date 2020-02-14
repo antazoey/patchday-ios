@@ -43,7 +43,7 @@ public class PDDefaults: UserDefaultsManaging {
         let newIndex = KeyStorableHelper.defaultQuantity(for: newMethod)
         writer.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
         hormones.shareData()
-        state.deliveryMethodChanged = true
+        state.theDeliveryMethodHasMutated = true
     }
 
     public func setQuantity(to newQuantity: Int) {
@@ -51,10 +51,12 @@ public class PDDefaults: UserDefaultsManaging {
         if newQuantity < endRange && newQuantity > 0 {
             let oldQuantity = writer.quantity.rawValue
             if newQuantity < oldQuantity {
-                state.decreasedQuantity = true
                 hormones.delete(after: newQuantity - 1)
+                state.theQuantityHasDecreased = true
+                state.theQuantityHasIncreased = false
             } else if newQuantity > oldQuantity {
-                state.decreasedQuantity = false
+                state.theQuantityHasIncreased = true
+                state.theQuantityHasDecreased = false
                 hormones.fillIn(to: newQuantity)
             }
             writer.replaceStoredQuantity(to: newQuantity)

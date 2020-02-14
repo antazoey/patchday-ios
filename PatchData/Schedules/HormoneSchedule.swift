@@ -217,9 +217,9 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private func setSite(_ hormone: inout Hormonal, with site: Bodily, doSave: Bool) {
         hormone.siteId = site.id
         hormone.siteName = site.name
-        state.bodilyChanged = true
-        state.onlySiteChanged = true
-        state.bodilyChanged = true
+        state.bodilyMutationsOccurred = true
+        state.siteChangedButDateDidNotMutated = true
+        state.bodilyMutationsOccurred = true
         shareData()
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
@@ -228,7 +228,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormone.date = date
         sort()
         shareData()
-        state.onlySiteChanged = false
+        state.siteChangedButDateDidNotMutated = false
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
 
@@ -240,7 +240,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
         shareData()
-        state.onlySiteChanged = false
-        state.bodilyChanged = true
+        state.siteChangedButDateDidNotMutated = false
+        state.bodilyMutationsOccurred = true
     }
 }

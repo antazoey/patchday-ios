@@ -34,35 +34,33 @@ public class PDStateManager: PDStateManaging {
     }
 
     public func markSiteAsHavingImageMutation(site: Bodily) {
-        state.bodilyChanged = true
+        state.bodilyMutationsOccurred = true
         for hormoneId in site.hormoneIds {
             state.mutatedHormoneIds.append(hormoneId)
         }
     }
 
     public func reset() {
-        state.wereHormonalChanges = false
-        state.increasedQuantity = false
-        state.decreasedQuantity = false
-        state.bodilyChanged = false
-        state.onlySiteChanged = false
-        state.deliveryMethodChanged = false
-        state.isPlaceholder = false
+        state.hormonalMutationsOccurred = false
+        state.theQuantityHasIncreased = false
+        state.theQuantityHasDecreased = false
+        state.bodilyMutationsOccurred = false
+        state.siteChangedButDateDidNotMutated = false
+        state.theDeliveryMethodHasMutated = false
         state.mutatedHormoneIds = [nil]
     }
 
     /// Whether the current state reflects an update-worthy mutation
     private func hormoneHasStateChanges(_ hormone: Hormonal, at index: Index, quantity: Int) -> Bool {
         var hormoneChanged = false
-        state.isPlaceholder = !hormone.hasSite
         if index < quantity {
-            hormoneChanged = checkHormoneMutationStatus(for: hormone.id)
+            hormoneChanged = checkHormoneMutationStatus(for: hormone.id, isPlaceholder: hormone.hasSite)
         }
-        let isGone = state.decreasedQuantity && index >= quantity
-        return state.bodilyChanged || hormoneChanged || isGone
+        let isGone = state.theQuantityHasDecreased && index >= quantity
+        return state.bodilyMutationsOccurred || hormoneChanged || isGone
     }
     
-    private func checkHormoneMutationStatus(for id: UUID) -> Bool {
-        state.mutatedHormoneIds.contains(id) && state.bodilyChanged && !state.isPlaceholder
+    private func checkHormoneMutationStatus(for id: UUID, isPlaceholder: Bool) -> Bool {
+        state.mutatedHormoneIds.contains(id) && state.bodilyMutationsOccurred && !isPlaceholder
     }
 }

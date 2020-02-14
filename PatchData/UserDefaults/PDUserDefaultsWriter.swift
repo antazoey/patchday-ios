@@ -53,7 +53,7 @@ public class PDUserDefaultsWriter: UserDefaultsWriting {
         handler.replace(&deliveryMethod, to: method)
         let q = method == .Injections ? Quantity.One : Quantity.Three
         handler.replace(&quantity, to: q)
-        state.deliveryMethodChanged = true
+        state.theDeliveryMethodHasMutated = true
     }
     
     @objc public func replaceStoredQuantity(to newQuantity: Int) {
