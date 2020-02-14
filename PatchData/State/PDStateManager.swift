@@ -1,5 +1,5 @@
 //
-//  PatchDataStateManager.swift
+//  PDStateManager.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 11/12/19.
@@ -9,7 +9,8 @@
 import Foundation
 import PDKit
 
-public class PatchDataStateManager: PDStateManaging {
+
+public class PDStateManager: PDStateManaging {
     
     private let state: PDState
     private let defaults: UserDefaultsManaging
@@ -21,17 +22,24 @@ public class PatchDataStateManager: PDStateManaging {
         self.hormones = hormones
     }
     
-    public func stampQuantity() {
-        state.oldQuantity = defaults.quantity.value.rawValue
-    }
-    
-    public func hormoneRecentlyMutated(at index: Index) -> Bool {
+    public func checkHormoneForStateChanges(at index: Index) -> Bool {
         if let hormone = hormones.at(index) {
             return hormoneHasStateChanges(hormone, at: index, quantity: hormones.count)
         }
         return false
     }
-    
+
+    public func markQuantityAsOld() {
+        state.oldQuantity = defaults.quantity.value.rawValue
+    }
+
+    public func markSiteAsHavingImageMutation(site: Bodily) {
+        state.bodilyChanged = true
+        for hormoneId in site.hormoneIds {
+            state.mutatedHormoneIds.append(hormoneId)
+        }
+    }
+
     public func reset() {
         state.wereHormonalChanges = false
         state.increasedQuantity = false
@@ -43,14 +51,6 @@ public class PatchDataStateManager: PDStateManaging {
         state.mutatedHormoneIds = [nil]
     }
 
-    /// Prepares the state to represent a proposed site image mutation for a site
-    public func markSiteForImageMutation(site: Bodily) {
-        state.bodilyChanged = true
-        for hormoneId in site.hormoneIds {
-            state.mutatedHormoneIds.append(hormoneId)
-        }
-    }
-
     /// Whether the current state reflects an update-worthy mutation
     private func hormoneHasStateChanges(_ hormone: Hormonal, at index: Index, quantity: Int) -> Bool {
         var hormoneChanged = false
@@ -59,12 +59,7 @@ public class PatchDataStateManager: PDStateManaging {
             hormoneChanged = checkHormoneMutationStatus(for: hormone.id)
         }
         let isGone = state.decreasedQuantity && index >= quantity
-
-        return (
-            state.bodilyChanged
-            || hormoneChanged
-            || isGone
-        )
+        return state.bodilyChanged || hormoneChanged || isGone
     }
     
     private func checkHormoneMutationStatus(for id: UUID) -> Bool {

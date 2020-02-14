@@ -23,7 +23,7 @@ public class PatchData: NSObject, PatchDataSDK {
 
     public var defaults: UserDefaultsManaging
     public var hormones: HormoneScheduling
-    public var sites: HormoneSiteScheduling
+    public var sites: SiteScheduling
     public var pills: PillScheduling
     public var stateManager: PDStateManaging
     
@@ -32,7 +32,7 @@ public class PatchData: NSObject, PatchDataSDK {
         dataSharer: DataSharing,
         hormones: HormoneScheduling,
         pills: PillScheduling,
-        sites: HormoneSiteScheduling,
+        sites: SiteScheduling,
         stateManager: PDStateManaging,
         coreData: PDCoreDataWrapping,
         hormoneDataSharer: HormoneDataSharing
@@ -73,8 +73,8 @@ public class PatchData: NSObject, PatchDataSDK {
             defaults: defaultsStore
         )
         
-        let defaults = PDDefaults(store: defaultsStore, state: state, hormones: hormones, sites: sites)
-        let stateManager = PatchDataStateManager(state: state, defaults: defaults, hormones: hormones)
+        let defaults = PDDefaults(writer: defaultsStore, state: state, hormones: hormones, sites: sites)
+        let stateManager = PDStateManager(state: state, defaults: defaults, hormones: hormones)
         
         self.init(
             defaults: defaults,

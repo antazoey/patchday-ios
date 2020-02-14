@@ -182,6 +182,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public func fillIn(to stopCount: Int) {
+        guard count < stopCount else { return }
         for _ in count..<stopCount {
             insertNew()
         }

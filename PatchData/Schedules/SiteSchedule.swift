@@ -11,7 +11,7 @@ import CoreData
 import PDKit
 
 
-public class SiteSchedule: NSObject, HormoneSiteScheduling {
+public class SiteSchedule: NSObject, SiteScheduling {
 
     override public var description: String { "Schedule for sites." }
     private var resetWhenEmpty: Bool

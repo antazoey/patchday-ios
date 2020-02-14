@@ -12,10 +12,10 @@ import PDKit
 public class HormoneDataSharer: HormoneDataSharing {
     
     private let baseSharer: DataSharing
-    private let sites: HormoneSiteScheduling
+    private let sites: SiteScheduling
     private let defaults: UserDefaultsReading
     
-    init(baseSharer: DataSharing, sites: HormoneSiteScheduling, defaults: UserDefaultsReading) {
+    init(baseSharer: DataSharing, sites: SiteScheduling, defaults: UserDefaultsReading) {
         self.baseSharer = baseSharer
         self.sites = sites
         self.defaults = defaults

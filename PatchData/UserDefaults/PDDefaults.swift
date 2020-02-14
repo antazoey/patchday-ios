@@ -12,44 +12,44 @@ import PDKit
 
 public class PDDefaults: UserDefaultsManaging {
 
-    private let store: UserDefaultsWriting
+    private let writer: UserDefaultsWriting
     private var state: PDState
     private let hormones: HormoneScheduling
-    private let sites: HormoneSiteScheduling
+    private let sites: SiteScheduling
 
     init(
-        store: UserDefaultsWriting,
+        writer: UserDefaultsWriting,
         state: PDState,
         hormones: HormoneScheduling,
-        sites: HormoneSiteScheduling
+        sites: SiteScheduling
     ) {
-        self.store = store
+        self.writer = writer
         self.state = state
         self.hormones = hormones
         self.sites = sites
     }
 
-    public var deliveryMethod: DeliveryMethodUD { store.deliveryMethod }
-    public var expirationInterval: ExpirationIntervalUD { store.expirationInterval }
-    public var quantity: QuantityUD { store.quantity }
-    public var notifications: NotificationsUD { store.notifications }
-    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD { store.notificationsMinutesBefore }
-    public var mentionedDisclaimer: MentionedDisclaimerUD { store.mentionedDisclaimer }
-    public var siteIndex: SiteIndexUD { store.siteIndex }
-    public var theme: PDThemeUD { store.theme }
+    public var deliveryMethod: DeliveryMethodUD { writer.deliveryMethod }
+    public var expirationInterval: ExpirationIntervalUD { writer.expirationInterval }
+    public var quantity: QuantityUD { writer.quantity }
+    public var notifications: NotificationsUD { writer.notifications }
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD { writer.notificationsMinutesBefore }
+    public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
+    public var siteIndex: SiteIndexUD { writer.siteIndex }
+    public var theme: PDThemeUD { writer.theme }
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
-        store.replaceStoredDeliveryMethod(to: newMethod)
+        writer.replaceStoredDeliveryMethod(to: newMethod)
         let newIndex = KeyStorableHelper.defaultQuantity(for: newMethod)
-        store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
+        writer.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
         hormones.shareData()
         state.deliveryMethodChanged = true
     }
 
     public func setQuantity(to newQuantity: Int) {
-        let endRange = PickerOptions.quantities.count
+        let endRange = PickerOptions.quantities.count + 1
         if newQuantity < endRange && newQuantity > 0 {
-            let oldQuantity = store.quantity.rawValue
+            let oldQuantity = writer.quantity.rawValue
             if newQuantity < oldQuantity {
                 state.decreasedQuantity = true
                 hormones.delete(after: newQuantity - 1)
@@ -57,42 +57,42 @@ public class PDDefaults: UserDefaultsManaging {
                 state.decreasedQuantity = false
                 hormones.fillIn(to: newQuantity)
             }
-            store.replaceStoredQuantity(to: newQuantity)
+            writer.replaceStoredQuantity(to: newQuantity)
         }
     }
 
     public func setExpirationInterval(to newInterval: String) {
         let exp = PickerOptions.getExpirationInterval(for: newInterval)
-        store.replaceStoredExpirationInterval(to: exp)
+        writer.replaceStoredExpirationInterval(to: exp)
     }
 
     public func setTheme(to newTheme: String) {
         let theme = PickerOptions.getTheme(for: newTheme)
-        store.replaceStoredTheme(to: theme)
+        writer.replaceStoredTheme(to: theme)
     }
     
     public func setTheme(to newTheme: PDTheme) {
-        store.replaceStoredTheme(to: newTheme)
+        writer.replaceStoredTheme(to: newTheme)
     }
 
     @discardableResult
     public func setSiteIndex(to newIndex: Index) -> Index {
-        store.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
+        writer.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
     }
     
     public func setNotifications(to newValue: Bool) {
-        store.replaceStoredNotifications(to: newValue)
+        writer.replaceStoredNotifications(to: newValue)
     }
     
     public func setNotificationsMinutesBefore(to newMinutes: Int) {
-        store.replaceStoredNotificationsMinutesBefore(to: newMinutes)
+        writer.replaceStoredNotificationsMinutesBefore(to: newMinutes)
     }
     
     public func setMentionedDisclaimer(to newValue: Bool) {
-        store.replaceStoredMentionedDisclaimer(to: newValue)
+        writer.replaceStoredMentionedDisclaimer(to: newValue)
     }
     
     public func reset(defaultSiteCount: Int) {
-        store.reset(defaultSiteCount: defaultSiteCount)
+        writer.reset(defaultSiteCount: defaultSiteCount)
     }
 }
