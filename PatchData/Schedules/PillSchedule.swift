@@ -156,7 +156,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
     
     private func swallow(_ pill: Swallowable, _ onSuccess: (() -> ())?) {
-        if pill.timesTakenToday < pill.timesaday {
+        if pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil {
             pill.swallow()
             store.pushLocalChangesToManagedContext([pill], doSave: true)
             onSuccess?()

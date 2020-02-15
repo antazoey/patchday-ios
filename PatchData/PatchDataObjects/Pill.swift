@@ -113,7 +113,7 @@ public class Pill: Swallowable {
     public var isNew: Bool { pillData.attributes.lastTaken == nil }
     
     public var isDone: Bool {
-        timesTakenToday >= timesaday
+        timesTakenToday >= timesaday && lastTaken != nil
     }
     
     public func set(attributes: PillAttributes) {

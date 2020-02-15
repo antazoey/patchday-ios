@@ -10,7 +10,7 @@ import PDKit
 
 class TodayAppViewModel: NSObject {
 
-    private let data: TodayAppDataDelegate
+    private let data: TodayDataDelegate
     private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
     private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
 
@@ -18,12 +18,12 @@ class TodayAppViewModel: NSObject {
         PDStrings.PlaceholderStrings.DotDotDot
     }()
 
-    init(dataDelegate: TodayAppDataDelegate) {
+    init(dataDelegate: TodayDataDelegate) {
         self.data = dataDelegate
     }
 
     convenience override init() {
-        self.init(dataDelegate: TodayAppData())
+        self.init(dataDelegate: TodayData())
     }
     
     // MARK: - Public

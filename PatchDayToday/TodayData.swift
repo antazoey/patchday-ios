@@ -6,7 +6,7 @@
 import Foundation
 import PDKit
 
-class TodayAppData: TodayAppDataDelegate {
+class TodayAppData: TodayDataDelegate {
 
     private let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
 

@@ -47,7 +47,7 @@ public class PDStateManager: PDStateManaging {
         state.bodilyMutationsOccurred = false
         state.siteChangedButDateDidNotMutated = false
         state.theDeliveryMethodHasMutated = false
-        state.mutatedHormoneIds = [nil]
+        state.mutatedHormoneIds = []
     }
 
     /// Whether the current state reflects an update-worthy mutation
