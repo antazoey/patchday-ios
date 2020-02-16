@@ -5,7 +5,8 @@
 
 import Foundation
 
-protocol TodayAppDataDelegate {
+
+protocol TodayDataDelegate {
 
     /// Gets the stored delivery method from the PatchDay App.
     func getDeliveryMethod() -> String?

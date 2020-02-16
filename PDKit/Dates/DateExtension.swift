@@ -23,28 +23,19 @@ extension Date {
     
     /// Whether this date happened on the same day as today.
     public func isInToday() -> Bool {
-        Calendar.current.isDate(self, inSameDayAs: Date())
+        Calendar.current.isDateInToday(self)
     }
     
     /// Whether this date is between the hours of midnight and 6 am.
     public func isOvernight() -> Bool {
-        if let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: self),
-            let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self) {
-
-            return self < sixAM && self > midnight
+        guard let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: self),
+              let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self) else {
+            return false
         }
-        return false
+        return self < sixAM && self > midnight
     }
     
     public func isDefault() -> Bool {
-        self == Date.createDefaultDate()
-    }
-    
-    public static func createDefaultDate() -> Date {
-        Date(timeIntervalSince1970: 0)
-    }
-    
-    public func dayBefore() -> Date? {
-        Calendar.current.date(byAdding: .day, value: -1, to: self)
+        self == DateFactory.createDefaultDate()
     }
 }

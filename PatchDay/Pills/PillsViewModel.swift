@@ -15,7 +15,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     init(pillsTableView: UITableView, viewFactory: PillsViewFactory) {
         self.viewFactory = viewFactory
         super.init()
-        let tableWrapper = PillsTable(pillsTableView, pills: pills, theme: styles?.theme)
+        let tableWrapper = PillsTable(pillsTableView, pills: pills, styles: styles)
         self.pillsTable = tableWrapper
         addObserverForUpdatingPillTableWhenEnteringForeground()
     }
@@ -33,11 +33,14 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
     func takePill(at index: Index) {
         if let pills = pills, let pill = pills.at(index) {
-            pills.swallow(pill.id, onSuccess: nil)
-            tabs?.reflectDuePillBadgeValue()
-            notifications?.requestDuePillNotification(pill)
-            let params = PillCellConfigurationParameters(pill: pill, index: index, theme: styles?.theme)
-            pillsTable.dequeueCell()?.stamp().configure(params)
+            pills.swallow(pill.id) {
+                self.tabs?.reflectDuePillBadgeValue()
+                self.notifications?.requestDuePillNotification(pill)
+                let params = PillCellConfigurationParameters(pill: pill, index: index, styles: self.styles)
+                self.pillsTable.dequeueCell()?.stamp().configure(params)
+            }
+            let cell = pillsTable.getCell(at: index)
+            cell.reloadInputViews()
         }
     }
 

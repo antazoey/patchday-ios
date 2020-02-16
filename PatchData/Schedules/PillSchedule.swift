@@ -84,7 +84,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public func reset() {
         deleteAll()
-        let names = PDStrings.PillTypes.defaultPills
+        let names = PillStrings.PillTypes.defaultPills
         pills = names.reduce([]) {
             (currentPills: [Swallowable], name: String) -> [Swallowable] in
             if let pill = store.createNewPill(name: name) {

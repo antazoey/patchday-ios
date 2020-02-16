@@ -1,5 +1,5 @@
 //
-//  EstrogenScheduling.swift
+//  HormoneScheduling.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 8/10/19.

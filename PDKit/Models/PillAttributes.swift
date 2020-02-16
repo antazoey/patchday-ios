@@ -11,7 +11,7 @@ import Foundation
 
 public struct PillAttributes {
 
-    private let defaultName = PDStrings.PlaceholderStrings.NewPill
+    private let defaultName = PillStrings.NewPill
     
     public var description: String { "Pill DTO" }
     

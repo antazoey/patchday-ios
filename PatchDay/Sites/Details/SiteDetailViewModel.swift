@@ -112,8 +112,8 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     // MARK: - Private
 
     private func createImageStruct(selectedRow: Index) -> SiteImageStruct {
-        let method = sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod
-        let theme = sdk?.defaults.theme.value ?? DefaultTheme
+        let method = sdk?.defaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        let theme = sdk?.defaults.theme.value ?? DefaultSettings.DefaultTheme
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         let images = PDImages.getAvailableSiteImages(params)
         let image = images[selectedRow]

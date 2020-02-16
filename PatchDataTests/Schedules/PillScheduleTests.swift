@@ -79,7 +79,7 @@ class PillScheduleTests: XCTestCase {
         let mockPills = setUpThreePills()
         
         mockPills[0].due = Date()
-        mockPills[1].due = Date(timeInterval: -10000, since: mockPills[0].due)
+        mockPills[1].due = Date(timeInterval: -10000, since: mockPills[0].due!)
         mockPills[2].due = Date()
         
         let expected = mockPills[1].id
@@ -328,6 +328,7 @@ class PillScheduleTests: XCTestCase {
         // Pill is not done unless timesTakenToday == timesaday
         mockPills[1].timesTakenToday = 10
         mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = Date()
         
         pills.swallow(mockPills[1].id, onSuccess: nil)
         XCTAssert(mockPills[1].swallowCallCount == 0)
@@ -384,6 +385,7 @@ class PillScheduleTests: XCTestCase {
         // Pill is not done unless timesTakenToday == timesaday
         mockPills[1].timesTakenToday = 10
         mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = Date()
         
         pills.swallow(onSuccess: nil)
         XCTAssert(mockPills[1].swallowCallCount == 0)
@@ -402,12 +404,36 @@ class PillScheduleTests: XCTestCase {
         XCTAssertTrue(didCall)
     }
     
-    public func testSwallow_whenNotGivenArgsForNonExistentPill_doesNotCallOnSuccess() {
+    public func testSwallow_whenGivenArgsForNonExistentPill_doesNotCallOnSuccess() {
         setUpThreePills()
         var didCall = false
         let comp = { () in didCall = true }
         pills.swallow(UUID(), onSuccess: comp)
         XCTAssertFalse(didCall)
+    }
+    
+    public func testSwallow_whenLastTakenIsNil_swallowsPill() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = nil  // Key to test
+        
+        pills.swallow(mockPills[1].id, onSuccess: nil)
+        XCTAssert(mockPills[1].swallowCallCount == 1)
+    }
+    
+    public func testSwallow_whenLastTakenIsNil_callsOnSuccess() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = nil  // Key to test
+        
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.swallow(mockPills[1].id, onSuccess: comp)
+        XCTAssertTrue(didCall)
     }
     
     public func testFirstIndexOf_returnsFirstIndexOfPillThatIsEqual() {

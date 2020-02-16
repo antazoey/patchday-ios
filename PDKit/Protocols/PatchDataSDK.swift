@@ -20,7 +20,7 @@ public protocol PatchDataSDK {
     var hormones: HormoneScheduling { get }
     
     /// The Sites schedule.
-    var sites: HormoneSiteScheduling { get }
+    var sites: SiteScheduling { get }
     
     /// The Pills schedule.
     var pills: PillScheduling { get }
@@ -30,7 +30,4 @@ public protocol PatchDataSDK {
     
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
-    
-    /// Resets all data to default values.
-    func nuke()
 }

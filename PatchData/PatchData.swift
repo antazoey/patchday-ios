@@ -48,15 +48,9 @@ public class PatchData: NSObject, PatchDataSDK {
         super.init()
     }
     
+    // Run
     public override convenience init() {
         let store = CoreDataStackWrapper()
-
-        // ******************************************************
-        if CommandLine.arguments.contains("-n") {
-            store.nuke()
-        }
-        // ******************************************************
-
         let dataSharer = DataSharer()
         let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
         let state = PDState()
@@ -76,6 +70,18 @@ public class PatchData: NSObject, PatchDataSDK {
         let defaults = PDDefaults(writer: defaultsStore, state: state, hormones: hormones, sites: sites)
         let stateManager = PDStateManager(state: state, defaults: defaults, hormones: hormones)
         
+        // ******************************************************
+        // Nuke mode: Resets app like it's fresh
+        // ******************************************************
+        if CommandLine.arguments.contains("-n") {
+            store.nuke()
+            hormones.reset()
+            pills.reset()
+            let newSiteCount = sites.reset()
+            defaults.reset(defaultSiteCount: newSiteCount)
+        }
+        // ******************************************************
+        
         self.init(
             defaults: defaults,
             dataSharer: dataSharer,
@@ -94,14 +100,6 @@ public class PatchData: NSObject, PatchDataSDK {
 
     public var totalAlerts: Int {
         hormones.totalExpired + pills.totalDue
-    }
-
-    public func nuke() {
-        coreData.nuke()
-        hormones.reset()
-        pills.reset()
-        let newSiteCount = sites.reset()
-        defaults.reset(defaultSiteCount: newSiteCount)
     }
     
     private static func determinePillScheduleState(defaults: UserDefaultsWriting) -> PillSchedule.PillScheduleState {

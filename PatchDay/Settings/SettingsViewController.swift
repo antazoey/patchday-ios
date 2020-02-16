@@ -79,7 +79,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.sdk?.stateManager.stampQuantity()
+        viewModel.sdk?.stateManager.markQuantityAsOld()
         applyTheme()
     }
     

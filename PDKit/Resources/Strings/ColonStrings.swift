@@ -1,5 +1,5 @@
 //
-//  ColonedStrings.swift
+//  ColonStrings.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 10/8/19.
@@ -22,7 +22,7 @@ public class ColonStrings {
         NSLocalizedString("Time:", comment: c1)
     }()
 
-    public static let expires = {
+    public static let Expires = {
         NSLocalizedString("Expires: ", comment: c2)
     }()
 
@@ -54,12 +54,12 @@ public class ColonStrings {
         NSLocalizedString("Site injected: ", comment: c2)
     }()
     
-    public static func getDateTitle(for hormone: Hormonal, method: DeliveryMethod) -> String {
+    public static func getDateTitle(for hormone: Hormonal) -> String {
         var title = ""
-        switch method {
+        switch hormone.deliveryMethod {
         case .Patches:
             if let exp = hormone.expiration {
-                let intro = hormone.isExpired ? self.Expired : self.expires
+                let intro = hormone.isExpired ? self.Expired : self.Expires
                 title += intro + PDDateFormatter.formatDate(exp)
             }
         case .Injections:
@@ -72,7 +72,7 @@ public class ColonStrings {
     public static func createHormoneViewStrings(deliveryMethod: DeliveryMethod, hormone: Hormonal) -> HormoneViewStrings {
         switch deliveryMethod {
         case .Patches :
-            let expText = hormone.isExpired ? Expired : expires
+            let expText = hormone.isExpired ? Expired : Expires
             return HormoneViewStrings(
                 expirationText: expText,
                 dateAndTimePlacedText: DateAndTimeApplied,

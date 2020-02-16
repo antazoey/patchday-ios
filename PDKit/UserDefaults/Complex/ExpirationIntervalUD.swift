@@ -1,5 +1,5 @@
 //
-//  ExpirationIntervalUD.swift
+//  ExpirationIntervalUDTests.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 4/28/19.
@@ -10,9 +10,9 @@ import Foundation
 
 public class ExpirationIntervalValueHolder: ComplexValueHolding {
     
-    static var tawKey = { "One half-week" }()
-    static var oawKey = { "One week" } ()
-    static var etwKey = { "Two weeks" }()
+    static var twiceAWeekKey = { "One half-week" }()
+    static var onceAWeekKey = { "One week" } ()
+    static var everyTwoWeeksKey = { "Two weeks" }()
     
     public typealias KeyIndex = ExpirationInterval
     
@@ -26,9 +26,9 @@ public class ExpirationIntervalValueHolder: ComplexValueHolding {
     
     public convenience init(raw: String) {
         switch raw {
-        case ExpirationIntervalValueHolder.etwKey:
+        case ExpirationIntervalValueHolder.everyTwoWeeksKey:
             self.init(indexer: .EveryTwoWeeks)
-        case ExpirationIntervalValueHolder.oawKey:
+        case ExpirationIntervalValueHolder.onceAWeekKey:
             self.init(indexer: .OnceAWeek)
         default:
             self.init(indexer: .TwiceAWeek)
@@ -37,9 +37,9 @@ public class ExpirationIntervalValueHolder: ComplexValueHolding {
     
     public var heldValue: String {
         switch indexer {
-        case .TwiceAWeek: return ExpirationIntervalValueHolder.tawKey
-        case .OnceAWeek: return ExpirationIntervalValueHolder.oawKey
-        case .EveryTwoWeeks: return ExpirationIntervalValueHolder.etwKey
+        case .TwiceAWeek: return ExpirationIntervalValueHolder.twiceAWeekKey
+        case .OnceAWeek: return ExpirationIntervalValueHolder.onceAWeekKey
+        case .EveryTwoWeeks: return ExpirationIntervalValueHolder.everyTwoWeeksKey
         }
     }
 }
@@ -63,7 +63,7 @@ public class ExpirationIntervalUD: KeyStorable {
     }
     
     public convenience required init() {
-        self.init(.TwiceAWeek)
+        self.init(DefaultSettings.DefaultExpirationInterval)
     }
     
     public var value: ExpirationInterval {
@@ -80,12 +80,9 @@ public class ExpirationIntervalUD: KeyStorable {
     
     public var hours: Int {
         switch value {
-        case .TwiceAWeek:
-            return 84
-        case .OnceAWeek:
-            return 168
-        case .EveryTwoWeeks:
-            return 336
+        case .TwiceAWeek: return 84
+        case .OnceAWeek: return 168
+        case .EveryTwoWeeks: return 336
         }
     }
     
@@ -109,9 +106,9 @@ public class ExpirationIntervalUD: KeyStorable {
     private static func getHumanPresentableValue(from v: String) -> String? {
         let strs = PickerOptions.expirationIntervals
         let strDict = [
-            ExpirationIntervalValueHolder.tawKey : strs[0],
-            ExpirationIntervalValueHolder.oawKey : strs[1],
-            ExpirationIntervalValueHolder.etwKey : strs[2]
+            ExpirationIntervalValueHolder.twiceAWeekKey : strs[0],
+            ExpirationIntervalValueHolder.onceAWeekKey : strs[1],
+            ExpirationIntervalValueHolder.everyTwoWeeksKey : strs[2]
         ]
         return strDict[v]
     }

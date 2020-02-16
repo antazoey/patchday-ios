@@ -40,7 +40,7 @@ public class Pill: Swallowable {
     }
 
     public var name: String {
-        get { pillData.attributes.name ?? SiteStrings.Unplaced }
+        get { pillData.attributes.name ?? PillStrings.NewPill }
         set { pillData.attributes.name = newValue }
     }
 
@@ -127,7 +127,7 @@ public class Pill: Swallowable {
 
     public func swallow() {
         guard timesaday > 0 else { return }
-        if timesTakenToday < timesaday {
+        if timesTakenToday < timesaday || lastTaken == nil {
             let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
             pillData.attributes.timesTakenToday = currentTimesTaken + 1
             lastTaken = Date()

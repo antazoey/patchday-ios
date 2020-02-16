@@ -34,13 +34,14 @@ public class ExpiredHormoneNotification : Notification, ExpiredHormoneNotifying 
     
     func request() {
         let hours = expiration.hours
-        if var timeIntervalUntilExpire = DateHelper.calculateExpirationTimeInterval(hours, date: hormone.date) {
-            timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)
-            if timeIntervalUntilExpire > 0 {
-                let id = self.hormone.id.uuidString
-                super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
-                super.request(when: timeIntervalUntilExpire, requestId: id)
-            }
+        guard var timeIntervalUntilExpire = DateFactory.createTimeInterval(fromAddingHours: hours, to: hormone.date) else {
+            return
+        }
+        timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)
+        if timeIntervalUntilExpire > 0 {
+            let id = self.hormone.id.uuidString
+            super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
+            super.request(when: timeIntervalUntilExpire, requestId: id)
         }
     }
 }

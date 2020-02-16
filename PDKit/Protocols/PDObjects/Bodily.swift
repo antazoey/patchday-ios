@@ -25,10 +25,4 @@ public protocol Bodily: PDObjectified {
     
     /// The order when this site will be suggested next.
     var order: Int { get set }
-    
-    /// Whether any hormones in the schedule have been applied to this site.
-    var isOccupied: Bool { get }
-    
-    /// Whether there are the specified amount of hormones here or not.
-    func isOccupied(byAtLeast thisMany: Int) -> Bool
 }

@@ -9,7 +9,7 @@ import PDKit
 
 class SitesTable: TableViewWrapper<SiteCell> {
 
-    var sites: HormoneSiteScheduling?
+    var sites: SiteScheduling?
     var stylist: Styling?
 
     let RowHeight: CGFloat = 55.0

@@ -10,8 +10,8 @@ import Foundation
 
 public class DeliveryMethodValueHolder: ComplexValueHolding {
     
-    static let pkey = { "Patches" }()
-    static let ikey = { "Injections" }()
+    private static let patchesKey = { "Patches" }()
+    private static let injectionsKey = { "Injections" }()
     
     var indexer: DeliveryMethod
     
@@ -21,7 +21,7 @@ public class DeliveryMethodValueHolder: ComplexValueHolding {
     
     public convenience init(raw: String) {
         switch raw {
-        case DeliveryMethodValueHolder.ikey:
+        case DeliveryMethodValueHolder.injectionsKey:
             self.init(indexer: .Injections)
         default:
             self.init(indexer: .Patches)
@@ -30,8 +30,8 @@ public class DeliveryMethodValueHolder: ComplexValueHolding {
     
     public var heldValue: String {
         switch indexer {
-        case .Patches: return DeliveryMethodValueHolder.pkey
-        case .Injections: return DeliveryMethodValueHolder.ikey
+        case .Patches: return DeliveryMethodValueHolder.patchesKey
+        case .Injections: return DeliveryMethodValueHolder.injectionsKey
         }
     }
 }
@@ -55,7 +55,7 @@ public class DeliveryMethodUD: KeyStorable {
     }
     
     public convenience required init() {
-        self.init(.Patches)
+        self.init(DefaultSettings.DefaultDeliveryMethod)
     }
     
     public var value: DeliveryMethod {

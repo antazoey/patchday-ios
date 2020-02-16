@@ -110,8 +110,8 @@ class HormoneCell: TableCell {
             hormone: hormone, deliveryMethod: method, theme: theme
         )
         let siteImage = PDImages.getSiteImage(from: siteImageDeterminationParams)
-        let cellTitle = ColonStrings.getDateTitle(for: hormone, method: method)
-        if sdk.stateManager.hormoneRecentlyMutated(at: hormoneIndex) {
+        let cellTitle = ColonStrings.getDateTitle(for: hormone)
+        if sdk.stateManager.checkHormoneForStateChanges(at: hormoneIndex) {
             animate(at: hormoneIndex, theme: theme, newImage: siteImage, newTitle: cellTitle)
         } else {
             stateImage.image = siteImage

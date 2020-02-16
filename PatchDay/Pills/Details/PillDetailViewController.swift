@@ -141,7 +141,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         if nameTextField.text == "" {
-            nameTextField.text = PDStrings.PlaceholderStrings.NewPill
+            nameTextField.text = PillStrings.NewPill
         }
         selectNameButton.isEnabled = true
         viewModel.selections.name = nameTextField.text

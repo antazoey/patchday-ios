@@ -20,6 +20,48 @@
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9D8A981023C573B3004E20FE"
+               BuildableName = "PDMock.framework"
+               BlueprintName = "PDMock"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B49A4A3D20DB2D4C00F24FC0"
+               BuildableName = "PDKit.framework"
+               BlueprintName = "PDKit"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B480EE1B21CC7553002C2238"
+               BuildableName = "PatchData.framework"
+               BlueprintName = "PatchData"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -67,6 +109,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "B49A4A3D20DB2D4C00F24FC0"
+            BuildableName = "PDKit.framework"
+            BlueprintName = "PDKit"
+            ReferencedContainer = "container:PatchDay.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

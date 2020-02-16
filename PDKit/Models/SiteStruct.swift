@@ -14,6 +14,14 @@ public struct SiteStruct {
     public var name: String?
     public var order: Int
 
+    public init(_ id: UUID) {
+        self.id = id
+        self.hormoneRelationshipIds = nil
+        self.imageIdentifier = nil
+        self.name = nil
+        self.order = -1
+    }
+
     public init(
         _ id: UUID,
         _ hormoneRelationship: [UUID]?,

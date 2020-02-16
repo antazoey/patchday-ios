@@ -17,39 +17,39 @@ struct PillStruct {
 
 class PDTStructFactory {
 
-    static func createHormone(_ data: TodayAppDataDelegate) -> HormoneStruct {
+    static func createHormone(_ data: TodayDataDelegate) -> HormoneStruct {
         var hormone = HormoneStruct()
         trySetHormoneSiteName(data, hormone: &hormone)
         trySetHormoneDate(data, hormone: &hormone)
         return hormone
     }
 
-    static func createPill(_ data: TodayAppDataDelegate) -> PillStruct {
+    static func createPill(_ data: TodayDataDelegate) -> PillStruct {
         var pill = PillStruct()
         trySetPillNextName(data, pill: &pill)
         trySetPillNextDate(data, pill: &pill)
         return pill
     }
 
-    private static func trySetHormoneSiteName(_ data: TodayAppDataDelegate, hormone: inout HormoneStruct) {
+    private static func trySetHormoneSiteName(_ data: TodayDataDelegate, hormone: inout HormoneStruct) {
         if let siteName = data.getNextHormoneSiteName() {
             hormone.siteName = siteName
         }
     }
 
-    private static func trySetHormoneDate(_ data: TodayAppDataDelegate, hormone: inout HormoneStruct) {
+    private static func trySetHormoneDate(_ data: TodayDataDelegate, hormone: inout HormoneStruct) {
         if let expirationDate = data.getNextHormoneExpirationDate() {
             hormone.date = expirationDate
         }
     }
 
-    private static func trySetPillNextName(_ data: TodayAppDataDelegate, pill: inout PillStruct) {
+    private static func trySetPillNextName(_ data: TodayDataDelegate, pill: inout PillStruct) {
         if let name = data.getNextPillName() {
             pill.name = name
         }
     }
 
-    private static func trySetPillNextDate(_ data: TodayAppDataDelegate, pill: inout PillStruct) {
+    private static func trySetPillNextDate(_ data: TodayDataDelegate, pill: inout PillStruct) {
         if let date = data.getNextPillDate() {
             pill.nextTakeDate = date
         }

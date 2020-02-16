@@ -30,7 +30,7 @@ public class MockPill: PDMocking, Swallowable {
     public var timesaday: Int = -1
     public var timesTakenToday: Int = -1
     public var lastTaken: Date? = nil
-    public var due: Date = Date()
+    public var due: Date? = Date()
     public var isDue: Bool = false
     public var isNew: Bool = false
     public var isDone: Bool = false

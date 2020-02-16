@@ -24,7 +24,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var isNewPill: Bool {
-        pill.name == PDStrings.PlaceholderStrings.NewPill
+        pill.name == PillStrings.NewPill
     }
 
     var title: String {
@@ -56,11 +56,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var providedPillNameSelection: [String] {
-        PDStrings.PillTypes.defaultPills + PDStrings.PillTypes.extraPills
+        PillStrings.PillTypes.defaultPills + PillStrings.PillTypes.extraPills
     }
 
     var pillSelectionCount: Int {
-        PDStrings.PillTypes.defaultPills.count + PDStrings.PillTypes.extraPills.count
+        PillStrings.PillTypes.defaultPills.count + PillStrings.PillTypes.extraPills.count
     }
 
     func save() {

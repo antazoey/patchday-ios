@@ -13,24 +13,26 @@ import PDKit
 class PillCell: TableCell {
 
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var stateImageView: UIImageView!
-    @IBOutlet weak var stateImageButton: PDBadgeButton!
     @IBOutlet weak var takeButton: UIButton!
     @IBOutlet weak var lastTakenLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!
-    @IBOutlet weak var imageViewView: UIView!
+    @IBOutlet weak var imageViewContainer: UIView!
+    @IBOutlet weak var stateImageView: UIImageView!
+    @IBOutlet weak var stateImageButton: PDBadgeButton!
 
     static let RowHeight: CGFloat = 170.0
+    private var styles: Styling? = nil
     
     @discardableResult public func configure(_ params: PillCellConfigurationParameters) -> PillCell {
+        self.styles = params.styles
         loadNameLabel(params.pill)
         loadStateImage(params.pill, index: params.index)
         loadLastTakenText(params.pill)
         loadDueDateText(params.pill)
         loadTakeButton(params.pill, index: params.index)
-        loadBackground(params.theme)
+        loadBackground()
         setImageBadge(params.pill)
-        applyTheme(params.theme)
+        applyTheme(at: params.index)
         return self
     }
     
@@ -65,25 +67,25 @@ class PillCell: TableCell {
     }
     
     @discardableResult func loadTakeButton(_ pill: Swallowable, index: Index) -> PillCell {
-        takeButton.setTitleColor(UIColor.lightGray, for: .disabled)
         takeButton.restorationIdentifier = "t \(index)"
-        takeButton.isEnabled = !pill.isDone
-        if stateImageView.tintColor == UIColor.lightGray {
-            takeButton.setTitle(ActionStrings.Taken)
-            takeButton.isEnabled = false
-            stateImageButton.isEnabled = false
-        } else {
-            takeButton.setTitle(ActionStrings.Take)
+        if !pill.isDone {
+            takeButton.setTitleColor(styles?.theme[.button])
             takeButton.isEnabled = true
+            takeButton.setTitle(ActionStrings.Take)
             stateImageButton.isEnabled = true
+        } else {
+            takeButton.setTitleColor(styles?.theme[.unselected], for: .disabled)
+            takeButton.isEnabled = false
+            takeButton.setTitle(ActionStrings.Taken)
+            stateImageButton.isEnabled = false
         }
         return self
     }
     
-    @discardableResult func loadBackground(_ theme: AppTheme?) -> PillCell {
-        imageViewView.backgroundColor = nil
+    @discardableResult func loadBackground() -> PillCell {
+        imageViewContainer.backgroundColor = nil
         stateImageButton.backgroundColor = nil
-        backgroundColor = theme?[.bg]
+        backgroundColor = styles?.theme[.bg]
         let backgroundView = UIView()
         backgroundView.backgroundColor = PDColors.get(.Pink)
         selectedBackgroundView = backgroundView
@@ -102,16 +104,16 @@ class PillCell: TableCell {
         return self
     }
     
-    @discardableResult private func applyTheme(_ theme: AppTheme?) -> PillCell {
-        if let theme = theme {
-            let textColor = theme[.text] ?? UIColor.black
-            stateImageView.tintColor = theme[.button]
+    @discardableResult private func applyTheme(at index: Index) -> PillCell {
+        if let styles = styles {
+            let textColor = styles.theme[.text] ?? UIColor.black
+            stateImageView.tintColor = styles.theme[.button]
             nameLabel.textColor = textColor
-            takeButton.setTitleColor(textColor)
             lastTakenLabel.textColor = textColor
             nextDueDate.textColor = textColor
             let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
             stateImageView.image = stateImage
+            backgroundColor = styles.getCellColor(at: index)
         }
         return self
     }

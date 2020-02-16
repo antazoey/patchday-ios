@@ -10,8 +10,10 @@ import Foundation
 
 
 public protocol PDStateManaging {
-    func stampQuantity()
     func reset()
-    func hormoneRecentlyMutated(at index: Index) -> Bool 
-    func markSiteForImageMutation(site: Bodily)
+    func checkHormoneForStateChanges(at index: Index) -> Bool
+    func markQuantityAsOld()
+
+    /// Records the given site as having changed its image, useful for reflecting state in UIs.
+    func markSiteAsHavingImageMutation(site: Bodily)
 }

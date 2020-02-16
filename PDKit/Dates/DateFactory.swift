@@ -1,23 +1,21 @@
 //
-//  DateHelper.swift
+//  DateFactory.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 6/20/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
-public typealias Time = Date
-
-public class DateHelper: NSObject {
+public class DateFactory: NSObject {
     
     private static var calendar = Calendar.current
     
-    public static func getDate(at time: Time) -> Date? {
-        getDate(on: Date(), at: time)
+    public static func createTodayDate(at time: Time) -> Date? {
+        createDate(on: Date(), at: time)
     }
 
     /// Creates a new Date from given Date at the given Time.
-    public static func getDate(on date: Date, at time: Time) -> Date? {
+    public static func createDate(on date: Date, at time: Time) -> Date? {
         let components = DateComponents(
             calendar: calendar,
             timeZone: calendar.timeZone,
@@ -31,27 +29,31 @@ public class DateHelper: NSObject {
     }
     
     /// Create a Date by adding days from right now.
-    public static func getDate(daysFromNow: Int) -> Date? {
-        getDate(at: Date(), daysFromToday: daysFromNow)
+    public static func createDate(daysFromNow: Int) -> Date? {
+        createDate(at: Date(), daysFromToday: daysFromNow)
     }
     
     /// Creates a Date at the given time calculated by adding days from today.
-    public static func getDate(at time: Time, daysFromToday: Int) -> Date? {
-        var addComponents = DateComponents()
-        addComponents.day = daysFromToday
-        if let newDate = calendar.date(byAdding: addComponents, to: Date()) {
-            return getDate(on: newDate, at: time)
+    public static func createDate(at time: Time, daysFromToday: Int) -> Date? {
+        var componentsToAdd = DateComponents()
+        componentsToAdd.day = daysFromToday
+        if let newDate = calendar.date(byAdding: componentsToAdd, to: Date()) {
+            return createDate(on: newDate, at: time)
         }
         return nil
     }
 
     /// Gives the future date from the given one based on the given interval string.
-    public static func getDate(byAddingHours hours: Int, to date: Date) -> Date? {
+    public static func createDate(byAddingHours hours: Int, to date: Date) -> Date? {
         calendar.date(byAdding: .hour, value: hours, to: date)
     }
 
-    public static func getTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
-        guard !date.isDefault(), let dateWithAddedHours = getDate(byAddingHours: hours, to: date) else {
+    public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
+        calendar.date(byAdding: .minute, value: minutes, to: date)
+    }
+
+    public static func createTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
+        guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {
             return nil
         }
         var range = [Date(), dateWithAddedHours]
@@ -60,19 +62,23 @@ public class DateHelper: NSObject {
         return range[1] == dateWithAddedHours ? interval : -interval
     }
     
-    /// Gets 8 pm before an overnight date.
-    public static func dateBefore(overNightDate: Date) -> Date? {
-        if let eightPM = getEightPM(of: overNightDate) {
-            return eightPM.dayBefore()
+    /// Creates date
+    public static func createDateBeforeAtEightPM(of date: Date) -> Date? {
+        if let eightPM = createEightPM(of: date) {
+            return createDayBefore(eightPM)
         }
         return nil
     }
-    
-    public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
-        calendar.date(byAdding: .minute, value: minutes, to: date)
+
+    public static func createDefaultDate() -> Date {
+        Date(timeIntervalSince1970: 0)
     }
-    
-    private static func getEightPM(of date: Date) -> Date? {
+
+    private static func createEightPM(of date: Date) -> Date? {
         calendar.date(bySettingHour: 20, minute: 0, second: 0, of: date)
+    }
+
+    private static func createDayBefore(_ date: Date) -> Date? {
+        calendar.date(byAdding: .day, value: -1, to: date)
     }
 }

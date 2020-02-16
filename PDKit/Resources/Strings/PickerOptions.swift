@@ -13,8 +13,8 @@ public class PickerOptions {
     public static var deliveryMethods: [String] {
         let comment = "Displayed on a button and in a picker."
         return [
-            NSLocalizedString("Patches", tableName: nil, comment: comment),
-            NSLocalizedString("Injections", tableName: nil, comment: comment)
+            NSLocalizedString("Patches", comment: comment),
+            NSLocalizedString("Injections", comment: comment)
         ]
     }
     

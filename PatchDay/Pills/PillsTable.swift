@@ -10,11 +10,11 @@ import PDKit
 class PillsTable: TableViewWrapper<PillCell> {
 
     private let pills: PillScheduling?
-    private let theme: AppTheme?
+    private let styles: Styling?
 
-    init(_ table: UITableView, pills: PillScheduling?, theme: AppTheme?) {
+    init(_ table: UITableView, pills: PillScheduling?, styles: Styling?) {
         self.pills = pills
-        self.theme = theme
+        self.styles = styles
         super.init(table, primaryCellReuseId: CellReuseIds.Pill)
         applyTheme()
         table.allowsSelectionDuringEditing = true
@@ -22,7 +22,7 @@ class PillsTable: TableViewWrapper<PillCell> {
 
     func getCell(at index: Index)-> PillCell {
         if let pill = pills?.at(index) {
-            let params = PillCellConfigurationParameters(pill: pill, index: index, theme: theme)
+            let params = PillCellConfigurationParameters(pill: pill, index: index, styles: styles)
             return dequeueCell()?.configure(params) ?? PillCell()
         }
         return PillCell()
@@ -35,16 +35,16 @@ class PillsTable: TableViewWrapper<PillCell> {
         let end = count - 1
         if start <= end {
             for i in start...end {
-                getCell(at: i).loadBackground(theme)
+                getCell(at: i).loadBackground()
             }
         }
         table.reloadData()
     }
     
     private func applyTheme() {
-        if let theme = theme {
-            table.backgroundColor = theme[.bg]
-            table.separatorColor = theme[.border]
+        if let styles = styles {
+            table.backgroundColor = styles.theme[.bg]
+            table.separatorColor = styles.theme[.border]
         }
     }
 }

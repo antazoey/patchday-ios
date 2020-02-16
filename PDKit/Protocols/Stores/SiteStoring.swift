@@ -12,10 +12,10 @@ import Foundation
 public protocol SiteStoring: PDObjectStoring {
 
     /// Fetches all the sites from storage.
-    func getStoredSites(expiration: ExpirationIntervalUD, method: DeliveryMethod) -> [Bodily]
+    func getStoredSites() -> [Bodily]
     
     /// Creates a new stored site and returns it.
-    func createNewSite(expiration: ExpirationIntervalUD, method: DeliveryMethod, doSave: Bool) -> Bodily?
+    func createNewSite(doSave: Bool) -> Bodily?
     
     /// Gets the related hormones to site with the given ID.
     func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct]

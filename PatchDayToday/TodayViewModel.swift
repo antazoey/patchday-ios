@@ -8,7 +8,7 @@
 
 import PDKit
 
-class TodayAppViewModel: NSObject {
+class TodayViewModel: NSObject {
 
     private let data: TodayDataDelegate
     private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
@@ -30,7 +30,7 @@ class TodayAppViewModel: NSObject {
 
     var usingPatches: Bool {
         if let method = data.getDeliveryMethod() {
-            return method == NSLocalizedString("Patches", comment: "duplicate")
+            return method == PickerOptions.getDeliveryMethodString(for: .Patches)
         }
         return false
     }

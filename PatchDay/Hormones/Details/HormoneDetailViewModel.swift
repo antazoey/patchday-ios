@@ -18,7 +18,7 @@ enum TextFieldButtonSenderType: String {
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private var expirationIntervalHours: Int{
-        sdk?.defaults.expirationInterval.hours ?? DefaultExpirationIntervalHours
+        sdk?.defaults.expirationInterval.hours ?? DefaultSettings.DefaultExpirationIntervalHours
     }
 
     var hormone: Hormonal
@@ -97,7 +97,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     func createHormoneViewStrings() -> HormoneViewStrings {
-        let method = sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod
+        let method = sdk?.defaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
         return ColonStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
     }
 
@@ -189,7 +189,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     private func createExpirationDateString(from startDate: Date) -> String {
-        if let expDate = DateHelper.calculateExpirationDate(from: startDate, expirationIntervalHours) {
+        if let expDate = DateFactory.createDate(byAddingHours: expirationIntervalHours, to: startDate) {
             return PDDateFormatter.formatDate(expDate)
         }
         return ""

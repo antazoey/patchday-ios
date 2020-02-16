@@ -419,6 +419,14 @@ class HormoneScheduleTests: XCTestCase {
         let actual = hormones.count
         XCTAssertEqual(expected, actual)
     }
+
+    func testFillIn_whenStopCountIsLessThanCurrentCount_doesNotCreateMoreHormones() {
+        setUpDefaultHormones(4)
+        hormones.fillIn(to: 2)
+        let expected = 4
+        let actual = hormones.count
+        XCTAssertEqual(expected, actual)
+    }
     
     func testBroadcastData_whenEmptySchedule_doesNotCallBroadcaster() {
         setUpEmptyHormones()

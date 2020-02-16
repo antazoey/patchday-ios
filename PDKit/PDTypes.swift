@@ -10,6 +10,7 @@ import Foundation
 
 public typealias Index = Int
 public typealias SiteName = String
+public typealias Time = Date
 public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
 
@@ -36,6 +37,7 @@ public enum PDTheme {
     case Dark
 }
 
+// These strings cannot change - they are for retrieving from Core Data
 public enum PDDefault: String {
     case DeliveryMethod = "delivMethod"
     case ExpirationInterval = "patchChangeInterval"
@@ -45,4 +47,10 @@ public enum PDDefault: String {
     case MentionedDisclaimer = "mentioned"
     case SiteIndex = "site_i"
     case Theme = "theme"
+}
+
+public enum PDEntity: String, CaseIterable {
+    case hormone = "Hormone"
+    case pill = "Pill"
+    case site = "Site"
 }

@@ -26,8 +26,7 @@ public class PDColors: NSObject {
         ]
         return colorDict[key]!
     }
-    
-    
+
     // MAR: - Raw colors
     
     private static let pdBlack = {

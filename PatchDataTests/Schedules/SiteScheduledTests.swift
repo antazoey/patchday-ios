@@ -209,13 +209,7 @@ class SiteScheduleTests: XCTestCase {
         mockStore.newObjectFactory = { testSite }
         sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
         sites.insertNew(name: "Doesn't matter", save: true, onSuccess: nil)
-        let args = mockStore.createNewSiteCallArgs[0]
-        
-        XCTAssert(
-            ExpirationInterval.OnceAWeek == args.0.value
-                && DeliveryMethod.Injections == args.1
-                && true
-        )
+        XCTAssertTrue(mockStore.createNewSiteCallArgs[0])
     }
     
     public func testInsertNew_whenSuccessful_increaseCount() {

@@ -54,7 +54,7 @@ public class PDThemeUD: KeyStorable {
     }
     
     public convenience required init() {
-        self.init(.Light)
+        self.init(DefaultSettings.DefaultTheme)
     }
     
     public var value: PDTheme {

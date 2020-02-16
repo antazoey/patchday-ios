@@ -136,7 +136,7 @@ class Notifications: NSObject, NotificationScheduling {
     /// Request a hormone notification that occurs when it's due overnight.
     func requestOvernightExpirationNotification(for hormone: Hormonal) {
         if let sdk = sdk, let expiration = hormone.expiration,
-           let notificationTime = DateHelper.dateBefore(overNightDate: expiration) {
+           let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) {
             let params = ExpiredHormoneOvernightNotificationCreationParams(
                 triggerDate: notificationTime,
                 deliveryMethod: sdk.defaults.deliveryMethod.value,

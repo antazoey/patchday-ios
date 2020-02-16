@@ -53,7 +53,7 @@ public class QuantityUD: KeyStorable {
     }
     
     public convenience required init() {
-        self.init(.Four)
+        self.init(DefaultSettings.DefaultQuantity)
     }
     
     public var value: Quantity {

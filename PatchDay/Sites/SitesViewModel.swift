@@ -21,7 +21,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         self.sitesTable.stylist = styles
     }
 
-    var sites: HormoneSiteScheduling? {
+    var sites: SiteScheduling? {
         sdk?.sites
     }
 
@@ -56,8 +56,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
     func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
         SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
-        let method = sdk?.defaults.deliveryMethod.value ?? DefaultDeliveryMethod
-        let theme = sdk?.defaults.theme.value ?? DefaultTheme
+        let method = sdk?.defaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        let theme = sdk?.defaults.theme.value ?? DefaultSettings.DefaultTheme
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         if let site = sdk?.sites.at(siteIndex) {
             nav?.goToSiteDetails(site, source: sitesViewController, params: params)

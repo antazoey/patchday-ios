@@ -42,9 +42,6 @@ public class PDStrings: NSObject {
         public static let DotDotDot = {
             NSLocalizedString("...", comment: c2)
         }()
-        public static let NewPill = {
-            NSLocalizedString("New Pill", comment: c4)
-        }()
     }
 
     // MARK: - User default keys
@@ -54,11 +51,6 @@ public class PDStrings: NSObject {
         case nextHormoneDate = "nextEstroDate"
         case nextPillToTake = "nextPillToTake"
         case nextPillTakeTime = "nextPillTakeTime"
-    }
-    
-    public struct PillTypes {
-        public static let defaultPills = { ["T-Blocker", "Progesterone"] }()
-        public static let extraPills = { ["Estrogen", "Prolactin"] }()
     }
     
     // MARK: - Color keys

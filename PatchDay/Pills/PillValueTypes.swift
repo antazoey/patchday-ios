@@ -9,5 +9,5 @@ import PDKit
 struct PillCellConfigurationParameters {
     var pill: Swallowable
     var index: Index
-    var theme: AppTheme?
+    var styles: Styling?
 }

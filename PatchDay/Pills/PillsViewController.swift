@@ -60,7 +60,6 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBAction func takeButtonTapped(_ sender: Any) {
         if let pillIndex = (sender as? UIButton)?.restoreSuffix() {
             viewModel.takePill(at: pillIndex)
-            self.reloadInputViews()
         }
     }
 
