@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class PDGenericAlert: Alert {
+class PDGenericAlert: PDAlert {
     
     init(parent: UIViewController, style: UIAlertController.Style) {
         let strings = AlertStrings.genericAlertStrings

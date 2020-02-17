@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Swallowable: PDObjectified {
+public protocol Swallowable {
     
     var id: UUID { get set }
 

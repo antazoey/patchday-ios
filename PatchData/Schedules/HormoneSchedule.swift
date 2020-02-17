@@ -141,27 +141,33 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.first(where: { h in h.id == id })
     }
 
-    public func set(by id: UUID, date: Date, site: Bodily, doSave: Bool) {
+    public func set(by id: UUID, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
         if var hormone = get(by: id) {
-            set(&hormone, date: date, site: site, doSave: doSave)
+            set(&hormone, date: date, site: site, bumpSiteIndex: bumpSiteIndex, doSave: doSave)
         }
     }
 
-    public func set(at index: Index, date: Date, site: Bodily, doSave: Bool) {
+    public func set(at index: Index, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
         if var hormone = at(index) {
-            set(&hormone, date: date, site: site, doSave: doSave)
+            set(&hormone, date: date, site: site, bumpSiteIndex: bumpSiteIndex, doSave: doSave)
         }
     }
 
-    public func setSite(at index: Index, with site: Bodily, doSave: Bool) {
+    public func setSite(at index: Index, with site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
         if var hormone = at(index) {
             setSite(&hormone, with: site, doSave: doSave)
+            if bumpSiteIndex {
+                defaults.incrementStoredSiteIndex()
+            }
         }
     }
 
-    public func setSite(by id: UUID, with site: Bodily, doSave: Bool) {
+    public func setSite(by id: UUID, with site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
         if var hormone = get(by: id) {
             setSite(&hormone, with: site, doSave: doSave)
+            if bumpSiteIndex {
+                defaults.incrementStoredSiteIndex()
+            }
         }
     }
 
@@ -207,11 +213,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         return siteCount > 0
     }
     
-    private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, doSave: Bool) {
+    private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
         hormone.siteId = site.id
         hormone.date = date
         sort()
         pushFromDateAndSiteChange(hormone, doSave: doSave)
+        if bumpSiteIndex {
+            defaults.incrementStoredSiteIndex()
+        }
     }
     
     private func setSite(_ hormone: inout Hormonal, with site: Bodily, doSave: Bool) {

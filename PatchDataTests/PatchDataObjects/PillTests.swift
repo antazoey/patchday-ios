@@ -129,11 +129,11 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    func testSetTimesaday_whenNewValueLessThanZero_doesNotSet() {
+    func testSetTimesaday_whenNewValueLessThanOne_doesNotSet() {
         var attrs = PillAttributes()
         attrs.timesaday = 3
         let pill = createPill(attrs)
-        pill.timesaday = -4
+        pill.timesaday = 0
         let expected = 3
         let actual = pill.timesaday
         XCTAssertEqual(expected, actual)
@@ -333,28 +333,6 @@ public class PillTests: XCTestCase {
         )
     }
 
-    func testSwallow_whenTimesadayIsZero_doesNotIncreaseTimesTakenToday() {
-        var attrs = PillAttributes()
-        attrs.timesaday = 0
-        attrs.timesTakenToday = 0
-        attrs.lastTaken = Date()
-        let pill = createPill(attrs)
-        pill.swallow()
-        XCTAssertEqual(0, pill.timesTakenToday)
-    }
-
-    func testSwallow_whenTimesadayIsZero_doesNotSetLastTaken() {
-        var attrs = PillAttributes()
-        attrs.timesaday = 0
-        attrs.timesTakenToday = 0
-        
-        let originalDate = Date()
-        attrs.lastTaken = originalDate
-        let pill = createPill(attrs)
-        pill.swallow()
-        XCTAssertEqual(originalDate, pill.lastTaken!)
-    }
-
     func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotIncreaseTimesTakenToday() {
         var attrs = PillAttributes()
         attrs.timesaday = 1
@@ -433,27 +411,5 @@ public class PillTests: XCTestCase {
         let pill = createPill(attrs)
         pill.awaken()
         XCTAssertEqual(0, pill.timesTakenToday)
-    }
-
-    func testReset_resetsPillProperties() {
-        var attrs = PillAttributes()
-        let originalLastTaken = Date()
-        attrs.timesTakenToday = 16
-        attrs.timesaday = 3
-        attrs.notify = true
-        attrs.lastTaken = originalLastTaken
-        attrs.time1 = Date()
-        attrs.time2 = Date()
-        attrs.name = "Pill Name"
-        let pill = createPill(attrs)
-        pill.reset()
-        XCTAssert(
-            pill.name == PillStrings.NewPill
-            && pill.timesaday == DefaultPillAttributes.timesaday
-            && pill.time1 == DefaultPillAttributes.time!
-            && pill.time2 == Date(timeIntervalSince1970: 0)
-            && pill.timesTakenToday == 0
-            && pill.lastTaken == nil
-        )
     }
 }

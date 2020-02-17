@@ -8,7 +8,7 @@ import PDKit
 
 
 public class MockUserDefaultsWriter: UserDefaultsWriting, PDMocking {
-    
+
     public var deliveryMethod = DeliveryMethodUD()
     public var expirationInterval = ExpirationIntervalUD()
     public var quantity = QuantityUD()
@@ -20,6 +20,8 @@ public class MockUserDefaultsWriter: UserDefaultsWriting, PDMocking {
     
     public var resetCallArgs: [Int] = []
     public var replaceSiteIndexMockReturnValue = 0
+    
+    public var incrementSiteIndexCallCount = 0
     
     public init() {}
     
@@ -65,9 +67,14 @@ public class MockUserDefaultsWriter: UserDefaultsWriting, PDMocking {
         self.mentionedDisclaimer.value = newMentionedDisclaimer
     }
     
-    public func replaceStoredSiteIndex(to newSiteIndex: Int, siteCount: Int) -> Index {
-        self.siteIndex.value = newSiteIndex
-        return replaceSiteIndexMockReturnValue
+    public func replaceStoredSiteIndex(to i: Index) -> Index {
+        self.siteIndex.value = i
+        return i
+    }
+    
+    public func incrementStoredSiteIndex() -> Index {
+        incrementSiteIndexCallCount += 1
+        return incrementSiteIndexCallCount
     }
     
     public func replaceStoredTheme(to newTheme: PDTheme) {

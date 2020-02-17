@@ -15,6 +15,10 @@ public class PillStrings {
         NSLocalizedString("New Pill", comment: "Displayed under a button with medium room.")
     }()
     
+    public static let NotYetTaken = {
+        NSLocalizedString("Not yet taken", comment: "Short as possible. Replace with just ... if too long.")
+    }()
+    
     public struct PillTypes {
         public static let defaultPills = { ["T-Blocker", "Progesterone"] }()
         public static let extraPills = { ["Estrogen", "Prolactin"] }()

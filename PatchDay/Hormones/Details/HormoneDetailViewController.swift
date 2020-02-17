@@ -103,7 +103,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
             selectSiteTextField.isHidden = false
             saveButton.isEnabled = true
             typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
-            viewModel.presentNewSiteAlert(source: self, newSiteName: siteNameTyped)
+            viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
         }
     }
  

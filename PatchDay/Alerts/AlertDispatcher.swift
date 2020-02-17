@@ -22,7 +22,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }()
 
     private var rootViewController: UIViewController? = {
-        return KeyWindowFinder.keyWindw?.rootViewController
+        KeyWindowFinder.keyWindw?.rootViewController
     }()
 
     init(sdk: PatchDataSDK?, tabs: TabReflective?=nil) {
@@ -31,9 +31,10 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
-    func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, decline: @escaping ((Int) -> ())) {
+    func presentDeliveryMethodMutationAlert(
+        newMethod: DeliveryMethod, handler: DeliveryMethodMutationAlertActionHandling
+    ) {
         if let root = rootViewController, let sdk = sdk {
-            let oldQuantity = sdk.defaults.quantity.rawValue
             let oldMethod = sdk.defaults.deliveryMethod.value
             let tabs = self.tabs ?? AppDelegate.current?.tabs
             DeliveryMethodMutationAlert(
@@ -43,35 +44,20 @@ class AlertDispatcher: NSObject, AlertDispatching {
                 tabs: tabs,
                 oldDeliveryMethod: oldMethod,
                 newDeliveryMethod: newMethod,
-                oldQuantity: oldQuantity,
-                decline: decline
+                handler: handler
             ).present()
         }
     }
 
     /// Alert for changing the count of hormones causing a loss of data.
     func presentQuantityMutationAlert(
-        oldQuantity: Int,
-        newQuantity: Int,
-        setter: @escaping (_ newQuantity: Int) -> (),
-        reset: @escaping (_ newQuantity: Int) -> (),
-        cancel: @escaping (_ oldQuantity: Int) -> ()
+        oldQuantity: Int, newQuantity: Int, handler: QuantityMutationAlertActionHandling
     ) {
         if newQuantity > oldQuantity {
-            setter(newQuantity)
+            handler.handleSetQuantityWithoutAlert(newQuantity: newQuantity)
             return
         }
         if let root = rootViewController {
-            let continueAction: (_ newQuantity: Int) -> () = {
-                (newQuantity) in
-                self.sdk?.hormones.delete(after: newQuantity)
-                setter(newQuantity)
-                reset(newQuantity)
-            }
-            let handler = QuantityMutationActionHandler(
-                cont: continueAction,
-                cancel: cancel
-            )
             QuantityMutationAlert(
                 parent: root,
                 style: self.style,
@@ -79,6 +65,12 @@ class AlertDispatcher: NSObject, AlertDispatching {
                 oldQuantity: oldQuantity,
                 newQuantity: newQuantity
             ).present()
+        }
+    }
+    
+    func presentPillActions() {
+        if let root = rootViewController {
+            PillCellActionAlert(parent: root).present()
         }
     }
 
@@ -90,14 +82,9 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }
 
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    func presentNewSiteAlert(with name: SiteName, at index: Index, hormoneDetailVC: HormoneDetailViewController) {
+    func presentNewSiteAlert(handler: NewSiteAlertActionHandling) {
         if let root = rootViewController {
-            let handler: () -> () = {
-                () in
-                let handler = hormoneDetailVC.viewModel.handleNewSite
-                self.sdk?.sites.insertNew(name: name, save: true, onSuccess: handler)
-            }
-            NewSiteAlert(parent: root, style: style, appendActionHandler: handler).present()
+            NewSiteAlert(parent: root, style: style, handler: handler).present()
         }
     }
     
@@ -109,7 +96,9 @@ class AlertDispatcher: NSObject, AlertDispatching {
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
+fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(
+    _ input: [String: Any]
+) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 	Dictionary(uniqueKeysWithValues: input.map {
         key, value in
         (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)

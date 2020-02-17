@@ -23,6 +23,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     var pills: PillScheduling? {
         sdk?.pills
     }
+    
+    var pillsCount: Int {
+        pills?.count ?? 0
+    }
 
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
         let delete = viewFactory.createSiteCellDeleteSwipeAction {
@@ -37,10 +41,9 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
                 self.tabs?.reflectDuePillBadgeValue()
                 self.notifications?.requestDuePillNotification(pill)
                 let params = PillCellConfigurationParameters(pill: pill, index: index, styles: self.styles)
-                self.pillsTable.dequeueCell()?.stamp().configure(params)
+                self.pillsTable.getCell(at: index).stamp().configure(params)
+                self.pillsTable.reloadData()
             }
-            let cell = pillsTable.getCell(at: index)
-            cell.reloadInputViews()
         }
     }
 
@@ -48,6 +51,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
         pills?.delete(at: index.row)
         let pillsCount = pills?.count ?? 0
         pillsTable.deleteCell(at: index, pillsCount: pillsCount)
+    }
+    
+    func presentPillActions() {
+        //alerts?.presentPillAction()
     }
     
     func goToNewPillDetails(pillsViewController: UIViewController) {

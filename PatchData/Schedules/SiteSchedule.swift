@@ -39,12 +39,16 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     public var suggested: Bodily? {
         guard count > 0 else { return nil }
-        if let trySite = siteIndexSuggested {
-            return trySite
-        } else if let trySite = firstEmptyFromSiteIndex {
-            return trySite
+        if let shouldBeSuggestedSite = firstEmptyFromSiteIndex ?? siteWithOldestHormone {
+            // If the current siteIndex is not actually pointing to the correct 'suggested',
+            // fix it here before giving the correct suggested site.
+            if shouldBeSuggestedSite.id != suggestedSite?.id {
+                defaults.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
+            }
+            
+            return shouldBeSuggestedSite
         }
-        return siteWithOldestHormone
+        return suggestedSite
     }
     
     public var nextIndex: Index {
@@ -164,16 +168,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     @discardableResult
     private func updateIndex() -> Index {
-        defaults.replaceStoredSiteIndex(to: nextIndex, siteCount: count)
+        defaults.incrementStoredSiteIndex()
     }
     
-    @discardableResult
-    private func updateIndex(to newIndex: Index) -> Index {
-        defaults.replaceStoredSiteIndex(to: newIndex, siteCount: count)
-    }
-    
-    private var siteIndexSuggested: Bodily? {
-        if let site = at(defaults.siteIndex.value), site.hormoneCount == 0 {
+    private var suggestedSite: Bodily? {
+        if let site = at(defaults.siteIndex.value) {
             return site
         }
         return nil

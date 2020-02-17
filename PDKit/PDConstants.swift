@@ -39,5 +39,12 @@ public class KeyStorableHelper {
         case .Patches: return 3
         }
     }
+    
+    public static func defaultSiteCount(for deliveryMethod: DeliveryMethod) -> Int {
+        switch deliveryMethod {
+        case .Injections: return 1
+        case .Patches: return 4
+        }
+    }
 }
 

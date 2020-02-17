@@ -49,35 +49,35 @@
 			<key>orderHint</key>
 			<integer>8</integer>
 		</dict>
-		<key>PDDefaultsTests.testSetDeliveryMethod_replacesMethod.xcscheme</key>
+		<key>PDDefaultsTests.testSetDeliveryMethod_sharedData.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false />
 			<key>orderHint</key>
 			<integer>9</integer>
 		</dict>
-		<key>PDDefaultsTests.testSetDeliveryMethod_sharedData.xcscheme</key>
+		<key>PDDefaultsTests.testSetDeliveryMethod_updatesState.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false />
 			<key>orderHint</key>
 			<integer>10</integer>
 		</dict>
-		<key>PDDefaultsTests.testSetDeliveryMethod_updatesState.xcscheme</key>
+		<key>All in PillTests.swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false />
 			<key>orderHint</key>
 			<integer>11</integer>
 		</dict>
-		<key>All in PillTests.swift.xcscheme</key>
+		<key>PillTests.testSwallow_whenLastTakenIsNil_increasesTimesTakenToday.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false />
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
-		<key>PillTests.testSwallow_whenLastTakenIsNil_increasesTimesTakenToday.xcscheme</key>
+		<key>PillScheduleTests.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false />

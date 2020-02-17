@@ -10,7 +10,7 @@ import UIKit
 import PDKit
 
 
-class DisclaimerAlert: Alert {
+class DisclaimerAlert: PDAlert {
     
     private var dismissAction: UIAlertAction {
         UIAlertAction(title: ActionStrings.Dismiss, style: UIAlertAction.Style.cancel)

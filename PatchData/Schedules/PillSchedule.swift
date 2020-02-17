@@ -87,8 +87,8 @@ public class PillSchedule: NSObject, PillScheduling {
         let names = PillStrings.PillTypes.defaultPills
         pills = names.reduce([]) {
             (currentPills: [Swallowable], name: String) -> [Swallowable] in
-            if let pill = store.createNewPill(name: name) {
-                pill.reset()
+            if var pill = store.createNewPill(name: name) {
+                pill.timesaday = 1
                 return currentPills + [pill]
             }
             return currentPills

@@ -14,8 +14,13 @@ class SettingsViewModel : CodeBehindDependencies<SettingsViewModel> {
     
     func saveQuantity(quantityIndex: Index, cancelAction: @escaping (_ originalQuantity: Int) -> ()) {
         let newQuantity = PickerOptions.getQuantity(at: quantityIndex).rawValue
-        QuantityMutator(sdk: sdk, alerts: alerts, tabs: tabs, notifications: notifications, cancel: cancelAction)
-            .setQuantity(to: newQuantity)
+        QuantityMutator(
+            sdk: sdk,
+            alerts: alerts,
+            tabs: tabs,
+            notifications: notifications,
+            cancel: cancelAction
+        ).setQuantity(to: newQuantity)
     }
     
     func saveDeliveryMethod(deliveryMethodIndex: Index, controls: SettingsControls) {
@@ -49,8 +54,8 @@ class SettingsViewModel : CodeBehindDependencies<SettingsViewModel> {
     }
     
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
-        alerts?.presentDeliveryMethodMutationAlert(newMethod: choice) {
-            void in
+        let decline = {
+            (_ method: DeliveryMethod) -> () in
             let methodTitle = PickerOptions.getDeliveryMethodString(for: choice)
             switch choice {
             case .Patches:
@@ -63,5 +68,7 @@ class SettingsViewModel : CodeBehindDependencies<SettingsViewModel> {
                 controls.quantityArrowButton.isEnabled = false
             }
         }
+        let handler = DeliveryMethodMutationAlertActionHandler(decline: decline)
+        alerts?.presentDeliveryMethodMutationAlert(newMethod: choice, handler: handler)
     }
 }

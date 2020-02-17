@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-public class PDUserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
+public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
 
     override open var description: String { "Handles pushing and pulling from UserDefaults." }
     

@@ -40,8 +40,7 @@ public class PDDefaults: UserDefaultsManaging {
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         writer.replaceStoredDeliveryMethod(to: newMethod)
-        let newIndex = KeyStorableHelper.defaultQuantity(for: newMethod)
-        writer.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
+        writer.incrementStoredSiteIndex()
         hormones.shareData()
         state.theDeliveryMethodHasMutated = true
     }
@@ -79,7 +78,7 @@ public class PDDefaults: UserDefaultsManaging {
 
     @discardableResult
     public func setSiteIndex(to newIndex: Index) -> Index {
-        writer.replaceStoredSiteIndex(to: newIndex, siteCount: sites.count)
+        writer.replaceStoredSiteIndex(to: newIndex)
     }
     
     public func setNotifications(to newValue: Bool) {

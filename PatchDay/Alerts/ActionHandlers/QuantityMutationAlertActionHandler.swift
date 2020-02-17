@@ -1,5 +1,5 @@
 //
-//  ChangeQuantityAlertHandler.swift
+//  QuantityMutationAlertActionHandler.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/17/19.
@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-class QuantityMutationAlertHandler: QuantityMutationAlertActionHandling {
+class QuantityMutationAlertActionHandler: QuantityMutationAlertActionHandling {
 
     private let continueAction: (_ newQuantity: Int) -> ()
     private let cancelAction: (_ oldQuantity: Int) -> ()

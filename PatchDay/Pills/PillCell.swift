@@ -53,7 +53,7 @@ class PillCell: TableCell {
         if let lastTaken = pill.lastTaken {
             lastTakenLabel.text = PDDateFormatter.formatDate(lastTaken)
         } else {
-            lastTakenLabel.text = PDStrings.PlaceholderStrings.DotDotDot
+            lastTakenLabel.text = PillStrings.NotYetTaken
         }
         return self
     }

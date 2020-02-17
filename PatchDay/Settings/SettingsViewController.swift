@@ -14,7 +14,9 @@ typealias UITimePicker = UIDatePicker
 
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    override public var description: String { "Settings View Controllers - a place to configure Application settings" }
+    override public var description: String {
+        "Settings View Controllers - a place to configure Application settings"
+    }
     
     private let viewModel: SettingsViewModel = SettingsViewModel()
     var reflector: SettingsReflector?
@@ -98,7 +100,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         viewModel.notifications?.requestAllExpiredHormoneNotifications()
     }
     
-    /// For any default who's UI opens a UIPickerView
+    /// Opens UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
         if let def = viewModel.createDefaultFromButton(sender) {
             handlePickerActivation(def, activator: sender)

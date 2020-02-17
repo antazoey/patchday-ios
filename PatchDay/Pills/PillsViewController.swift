@@ -38,7 +38,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.pills?.count ?? 0
+        viewModel.pillsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -46,7 +46,8 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.goToPillDetails(pillIndex: indexPath.row, pillsViewController: self)
+        //viewModel.goToPillDetails(pillIndex: indexPath.row, pillsViewController: self)
+        viewModel.presentPillActions()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

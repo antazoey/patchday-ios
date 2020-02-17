@@ -101,6 +101,17 @@ class SiteScheduleTests: XCTestCase {
         let actual = sites.suggested!.id
         XCTAssertEqual(expected, actual)
     }
+    
+    public func testSuggested_whenDefaultsSiteIndexIsOccupied_updatesSiteIndexToNextOne() {
+        let mockSites = setUpSites(count: 2)
+        mockSites[0].hormoneIds = [UUID()]
+        mockSites[0].hormoneCount = 1
+        mockDefaults.siteIndex = SiteIndexUD(0)
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        _ = sites.suggested
+        XCTAssertEqual(1, mockDefaults.siteIndex.value)
+    }
      
     public func testSuggested_whenDefaultsSiteIndexIsOccupied_returnsNextSiteAfterIndexWithNoHormones() {
         let mockSites = [MockSite(), MockSite(), createMockOccupiedSite(hormoneCount: 2), MockSite()]
@@ -134,6 +145,29 @@ class SiteScheduleTests: XCTestCase {
         let expected = mockSites[3].id
         let actual = sites.suggested!.id
         XCTAssertEqual(expected, actual)
+    }
+    
+    public func testSuggested_whenAllSitesAreOccupied_updatesSiteIndexToSiteIndexWithOldestHormone() {
+        let mockSites = createOccupiedSites(hormoneCounts: [2, 3, 1, 3])
+        let oldestDate = Date(timeInterval: -100000, since: Date())
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        let hormonesOne = createTestHormoneStructs(from: mockSites[0])
+        let hormonesTwo = createTestHormoneStructs(from: mockSites[1])
+        let hormonesThree = createTestHormoneStructs(from: mockSites[2])
+        
+        // This hormone list contains the hormone with the oldest date at index 1
+        // The site that is occpied by this list is located at index 3.
+        let hormonesFour = [
+            createTestHormoneStruct(mockSites[3].hormoneIds[0]),
+            createTestHormoneStruct(mockSites[3].hormoneIds[1], oldestDate),
+            createTestHormoneStruct(mockSites[3].hormoneIds[2])
+        ]
+        let hormonesOptions = [hormonesOne, hormonesTwo, hormonesThree, hormonesFour]
+        setUpRelatedHormonesFactory(sites: mockSites, hormonesOptions:hormonesOptions)
+        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+
+        _ = sites.suggested
+        XCTAssertEqual(3, mockDefaults.siteIndex.value)
     }
     
     public func testNextIndex_whenSitesCountIsZero_returnsNegativeOne() {

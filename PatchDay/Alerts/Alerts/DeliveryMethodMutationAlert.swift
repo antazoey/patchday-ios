@@ -10,15 +10,14 @@ import UIKit
 import PDKit
 
 
-class DeliveryMethodMutationAlert: Alert {
+class DeliveryMethodMutationAlert: PDAlert {
     
     private var sdk: PatchDataSDK?
     private let tabs: TabReflective?
     
-    private let oldQuantity: Int
     private let oldDeliveryMethod: DeliveryMethod
     private let newDeliveryMethod: DeliveryMethod
-    private let decline: ((Int) -> ())
+    private let handler: DeliveryMethodMutationAlertActionHandling
     
     private var continueAction: UIAlertAction {
         UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
@@ -30,7 +29,7 @@ class DeliveryMethodMutationAlert: Alert {
     
     private var declineAction: UIAlertAction {
         UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
-            void in self.decline(self.oldQuantity)
+            void in self.handler.handleDecline(oldMethod: self.oldDeliveryMethod)
         }
     }
     
@@ -41,13 +40,11 @@ class DeliveryMethodMutationAlert: Alert {
         tabs: TabReflective?,
         oldDeliveryMethod: DeliveryMethod,
         newDeliveryMethod: DeliveryMethod,
-        oldQuantity: Int,
-        decline: @escaping ((_ oldQuantity: Int) -> ())
+        handler: DeliveryMethodMutationAlertActionHandling
     ) {
         self.sdk = sdk
         self.tabs = tabs
-        self.oldQuantity = oldQuantity
-        self.decline = decline
+        self.handler = handler
         let strings = AlertStrings.loseDataAlertStrings
         self.oldDeliveryMethod = oldDeliveryMethod
         self.newDeliveryMethod = newDeliveryMethod

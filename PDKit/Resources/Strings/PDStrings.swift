@@ -31,16 +31,11 @@ public class PDStrings: NSObject {
     
     public class PlaceholderStrings {
         
-        private static let c1 = "On buttons with plenty of room"
-        private static let c2 = "Instruction for empty patch"
-        private static let c3 = "Probably won't be seen by users, so don't worry too much."
-        private static let c4 = "Displayed under a button with medium room."
-        
         public static let NothingYet = {
-            NSLocalizedString("Nothing yet", comment: c1)
+            NSLocalizedString("Nothing yet", comment: "On buttons with plenty of room")
         }()
         public static let DotDotDot = {
-            NSLocalizedString("...", comment: c2)
+            NSLocalizedString("...", comment: "Instruction for empty patch")
         }()
     }
 

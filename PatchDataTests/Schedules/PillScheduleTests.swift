@@ -68,13 +68,6 @@ class PillScheduleTests: XCTestCase {
         XCTAssertEqual(2, pills.count)
     }
     
-    public func testInit_whenGivenInitialState_resetsPills() {
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Initial)
-        let pillOne = pills.at(0)! as! MockPill
-        let pillTwo = pills.at(1)! as! MockPill
-        XCTAssert(pillOne.resetCallCount == 1 && pillTwo.resetCallCount == 1)  // a.k.a pills are default
-    }
-
     public func testNextDue_returnsPillsWithOldestDueDate() {
         let mockPills = setUpThreePills()
         
@@ -191,12 +184,10 @@ class PillScheduleTests: XCTestCase {
         XCTAssertEqual(2, pills.count)
     }
     
-    public func testReset_whenGivenInitialState_resetsPills() {
+    public func testReset_resetsPillTimesadays() {
         setUpThreePills()
         pills.reset()
-        let pillOne = pills.at(0)! as! MockPill
-        let pillTwo = pills.at(1)! as! MockPill
-        XCTAssert(pillOne.resetCallCount == 1 && pillTwo.resetCallCount == 1)  // a.k.a pills are default
+        XCTAssert(pills.at(0)!.timesaday == 1 && pills.at(1)!.timesaday == 1)
     }
     
     public func testReset_savesChanges() {
@@ -434,13 +425,5 @@ class PillScheduleTests: XCTestCase {
         let comp = { () in didCall = true }
         pills.swallow(mockPills[1].id, onSuccess: comp)
         XCTAssertTrue(didCall)
-    }
-    
-    public func testFirstIndexOf_returnsFirstIndexOfPillThatIsEqual() {
-        let mockPills = setUpThreePills()
-        mockPills[2].isEqualToReturnValue = true
-        let expected = 2
-        let actual = pills.indexOf(mockPills[2])
-        XCTAssertEqual(expected, actual)
     }
 }

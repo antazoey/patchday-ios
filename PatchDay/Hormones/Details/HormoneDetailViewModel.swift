@@ -23,11 +23,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     var hormone: Hormonal
     var selectionState = HormoneSelectionState()
-    let handleNewSite: () -> ()
+    let handleInterfaceUpdatesFromNewSite: () -> ()
 
     init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> ()) {
         self.hormone = hormone
-        self.handleNewSite = newSiteHandler
+        self.handleInterfaceUpdatesFromNewSite = newSiteHandler
         super.init()
     }
 
@@ -126,8 +126,16 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         return siteTextField.text!
     }
 
-    func presentNewSiteAlert(source: HormoneDetailViewController, newSiteName: String) {
-        alerts?.presentNewSiteAlert(with: newSiteName, at: selectionState.selectedSiteIndex, hormoneDetailVC: source)
+    func presentNewSiteAlert(newSiteName: String) {
+        guard let alerts = alerts else {
+            return
+        }
+        let handler = NewSiteAlertActionHandler() {
+            self.sdk?.sites.insertNew(name: newSiteName, save: true) {
+                self.handleInterfaceUpdatesFromNewSite()
+            }
+        }
+        alerts.presentNewSiteAlert(handler: handler)
     }
 
     private func createInitialExpirationState(from hormone: Hormonal) -> HormoneExpirationState {
@@ -139,7 +147,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     private func trySave() {
         if let sdk = sdk {
             trySaveDate(sdk.hormones, selectionState.selectedDate, doSave: false)
-            trySaveSite(sdk.hormones, selectionState.selectedSite)
+            trySaveSite(sdk.hormones, selectionState.selectedSite, doSave: true)
         } else {
             log.error("Save failed - PatchData SDK is nil")
         }
@@ -155,7 +163,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool=true) {
         if let site = selectedSite {
-            hormones.setSite(by: hormone.id, with: site, doSave: doSave)
+            let isSuggested = site.id == sdk?.sites.suggested?.id
+            hormones.setSite(by: hormone.id, with: site, bumpSiteIndex: isSuggested, doSave: doSave)
         } else {
             log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
         }

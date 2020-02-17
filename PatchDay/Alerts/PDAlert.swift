@@ -1,5 +1,5 @@
 //
-//  Alert.swift
+//  PDAlert.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/16/19.
@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import PDKit
 
-public class Alert: Alerting {
+
+public class PDAlert: PDAlerting {
     
     let controller: UIAlertController
     let parent: UIViewController

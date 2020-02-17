@@ -100,7 +100,8 @@ class CoreDataEntities {
     }
 
     func createNewManagedPill(name: String, doSave: Bool=true) -> PillStruct? {
-        if let newPill = createNewPill() {
+        if var newPill = createNewPill() {
+            newPill.attributes.name = name
             if doSave {
                 saver.saveCreateNewEntity(.pill)
             }

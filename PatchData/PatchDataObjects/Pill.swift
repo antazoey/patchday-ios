@@ -17,12 +17,18 @@ public class Pill: Swallowable {
 
     public init(pillData: PillStruct) {
         self.pillData = pillData
+        if pillData.attributes.name == nil {
+            self.pillData.attributes.name = PillStrings.NewPill
+        }
+        if let timesaday = pillData.attributes.timesaday {
+            if timesaday <= 0 {
+                self.pillData.attributes.timesaday = 1
+            }
+        } else {
+            self.pillData.attributes.timesaday = 1
+        }
     }
     
-    public init(pillData: PillStruct, name: String) {
-        self.pillData = pillData
-    }
-
     public var id: UUID {
         get { pillData.id }
         set { pillData.id = newValue }
@@ -73,9 +79,14 @@ public class Pill: Swallowable {
     }
     
     public var timesaday: Int {
-        get { pillData.attributes.timesaday ?? DefaultPillAttributes.timesaday }
+        get {
+            if let timesaday = pillData.attributes.timesaday, timesaday > 0 {
+                return timesaday
+            }
+            return DefaultPillAttributes.timesaday
+        }
         set {
-            if newValue >= 0 {
+            if newValue >= 1 {
                 pillData.attributes.timesaday = newValue
                 if newValue < 2 {
                     pillData.attributes.time2 = nil
@@ -126,7 +137,6 @@ public class Pill: Swallowable {
     }
 
     public func swallow() {
-        guard timesaday > 0 else { return }
         if timesTakenToday < timesaday || lastTaken == nil {
             let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
             pillData.attributes.timesTakenToday = currentTimesTaken + 1
@@ -141,16 +151,6 @@ public class Pill: Swallowable {
     
             pillData.attributes.timesTakenToday = 0
         }
-    }
-
-    public func reset() {
-        pillData.attributes.name = nil
-        pillData.attributes.timesaday = DefaultPillAttributes.timesaday
-        pillData.attributes.time1 = DefaultPillAttributes.time
-        pillData.attributes.time2 = nil
-        pillData.attributes.notify = DefaultPillAttributes.notify
-        pillData.attributes.timesTakenToday = DefaultPillAttributes.timesTakenToday
-        pillData.attributes.lastTaken = nil
     }
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {

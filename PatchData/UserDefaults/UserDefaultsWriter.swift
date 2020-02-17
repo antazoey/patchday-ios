@@ -10,11 +10,11 @@ import UIKit
 import PDKit
 
 
-public class PDUserDefaultsWriter: UserDefaultsWriting {
+public class UserDefaultsWriter: UserDefaultsWriting {
 
     // Dependencies
-    private var state: PDState
-    private var handler: PDUserDefaultsWriteHandler
+    private let state: PDState
+    private let handler: UserDefaultsWriteHandler
 
     // Defaults
     public var deliveryMethod = DeliveryMethodUD()
@@ -26,7 +26,9 @@ public class PDUserDefaultsWriter: UserDefaultsWriting {
     public var siteIndex = SiteIndexUD()
     public var theme = PDThemeUD()
     
-    init(state: PDState, handler: PDUserDefaultsWriteHandler) {
+    public var getSiteCount: (() -> Int)?
+    
+    init(state: PDState, handler: UserDefaultsWriteHandler) {
         self.state = state
         self.handler = handler
         handler.load(&deliveryMethod)
@@ -43,7 +45,6 @@ public class PDUserDefaultsWriter: UserDefaultsWriting {
         replaceStoredQuantity(to: 3)
         replaceStoredExpirationInterval(to: .TwiceAWeek)
         replaceStoredNotifications(to: true)
-        replaceStoredSiteIndex(to: 3, siteCount: defaultSiteCount)
         replaceStoredNotificationsMinutesBefore(to: 0)
         replaceStoredMentionedDisclaimer(to: false)
         replaceStoredTheme(to: .Light)
@@ -79,15 +80,25 @@ public class PDUserDefaultsWriter: UserDefaultsWriting {
     }
     
     @discardableResult
-    public func replaceStoredSiteIndex(to i: Index, siteCount: Int) -> Index {
-        if i < siteCount && i >= 0 {
-            handler.replace(&siteIndex, to: i)
-            return i
-        }
-        return 0
+    public func replaceStoredSiteIndex(to i: Index) -> Index {
+        handler.replace(&siteIndex, to: i)
+        return i
+    }
+    
+    @discardableResult
+    public func incrementStoredSiteIndex() -> Index {
+        let currentIndex = siteIndex.value
+        let siteCount = getSiteCount?() ?? getDefaultQuantity()
+        let newIndex = (currentIndex + 1) % siteCount
+        handler.replace(&siteIndex, to: newIndex)
+        return newIndex
     }
     
     public func replaceStoredTheme(to t: PDTheme) {
         handler.replace(&theme, to: t)
+    }
+    
+    private func getDefaultQuantity() -> Int {
+        KeyStorableHelper.defaultSiteCount(for: deliveryMethod.value)
     }
 }
