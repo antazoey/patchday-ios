@@ -395,9 +395,9 @@ class CoreDataEntities {
             return
         }
         
-        if let managedSite = getManagedSite(by: siteId), managedSite.id != siteId {
+        if let managedSite = getManagedSite(by: siteId) {
             logger.logRelateSiteToHormone(siteId: siteId, hormoneId: hormoneId)
-            managedHormone.addToSiteRelationship(managedSite)
+            managedHormone.siteRelationship = managedSite
         }
     }
     
@@ -409,12 +409,12 @@ class CoreDataEntities {
     
     private func relateHormoneToSite(hormoneId: UUID, _ managedSite: MOSite) {
         if let managedHormone = getManagedHormone(by: hormoneId) {
+            // Check if already related
             if let relationship = managedSite.hormoneRelationship {
                 if relationship.contains(managedHormone) {
                     return
                 }
             }
-            
             managedSite.addToHormoneRelationship(managedHormone)
         }
     }
