@@ -14,7 +14,7 @@ public protocol PatchDataSDK {
     var isFresh: Bool { get }
     
     /// The UserDefaults manager.
-    var defaults: UserDefaultsManaging { get }
+    var userDefaults: UserDefaultsManaging { get }
     
     /// Hormones schedule.
     var hormones: HormoneScheduling { get }

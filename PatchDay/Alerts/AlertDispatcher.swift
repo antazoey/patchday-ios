@@ -35,7 +35,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
         newMethod: DeliveryMethod, handler: DeliveryMethodMutationAlertActionHandling
     ) {
         if let root = rootViewController, let sdk = sdk {
-            let oldMethod = sdk.defaults.deliveryMethod.value
+            let oldMethod = sdk.userDefaults.deliveryMethod.value
             let tabs = self.tabs ?? AppDelegate.current?.tabs
             DeliveryMethodMutationAlert(
                 parent: root,

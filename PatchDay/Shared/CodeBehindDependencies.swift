@@ -21,7 +21,7 @@ class CodeBehindDependencies<T> {
     let badge: PDBadgeDelegate?
     let log = PDLog<CodeBehindDependencies>()
 
-    let childContext = String(describing: T.self)
+    let contextClass = String(describing: T.self)
     
     init(
         sdk: PatchDataSDK?,
@@ -51,7 +51,7 @@ class CodeBehindDependencies<T> {
             self.nav = app.nav
             self.badge = app.badge
         } else {
-            log.error("App is not yet initialized before \(childContext)")
+            log.error("App is not yet initialized before \(contextClass)")
             self.sdk = nil
             self.tabs = nil
             self.notifications = nil

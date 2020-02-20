@@ -59,18 +59,16 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func takeButtonTapped(_ sender: Any) {
-        if let pillIndex = (sender as? UIButton)?.restoreSuffix() {
-            viewModel.takePill(at: pillIndex)
-        }
+        guard let pillIndex = (sender as? UIButton)?.restoreSuffix() else  { return }
+        viewModel.takePill(at: pillIndex)
     }
 
     // MARK: - Private / Helpers
 
     private func initViewModelIfNil() {
-        if viewModel == nil {
-            viewFactory = PillsViewFactory(insertButtonAction: handleInsertNewPill)
-            viewModel = PillsViewModel(pillsTableView: pillsTableView, viewFactory: viewFactory)
-        }
+        guard viewModel == nil else { return }
+        viewFactory = PillsViewFactory(insertButtonAction: handleInsertNewPill)
+        viewModel = PillsViewModel(pillsTableView: pillsTableView, viewFactory: viewFactory)
     }
     
     private func insertInsertBarButtonItem() {
@@ -79,9 +77,8 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     private func applyTheme() {
-        if let theme = viewModel.styles?.theme {
-            pillsView.backgroundColor = theme[.bg]
-        }
+        guard let styles = viewModel.styles else { return }
+        pillsView.backgroundColor = styles.theme[.bg]
     }
     
     @objc private func handleInsertNewPill() {

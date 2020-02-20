@@ -22,14 +22,13 @@ class HormoneCell: TableCell {
     public func configure(viewModel: HormonesViewModel, hormone: Hormonal, row: Index) -> HormoneCell {
         styles = viewModel.styles
         backgroundColor = styles?.theme[.bg]
-        setThemeColors(at: row)
-        if let sdk = viewModel.sdk {
-            let quantity = sdk.defaults.quantity
-            let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
-                row, hormoneLimit: quantity.rawValue
-            )
-            handleHormoneFromState(hormoneCellState, sdk, hormone, row)
-        }
+        applyTheme(at: row)
+        guard let sdk = viewModel.sdk else { return self }
+        let quantity = sdk.userDefaults.quantity
+        let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
+            row, hormoneLimit: quantity.rawValue
+        )
+        handleHormoneFromState(hormoneCellState, sdk, hormone, row)
         return self
     }
 
@@ -54,7 +53,7 @@ class HormoneCell: TableCell {
     }
 
     private func appearAsOccupiedState(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
-        let method = sdk.defaults.deliveryMethod.value
+        let method = sdk.userDefaults.deliveryMethod.value
         loadDateLabel(for: hormone)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
         loadSiteComponents(sdk, hormone, hormoneIndex)
@@ -62,7 +61,7 @@ class HormoneCell: TableCell {
     }
 
     private func appearAsWaitingState(_ sdk: PatchDataSDK, _ hormoneIndex: Index) {
-        animate(at: hormoneIndex, theme: sdk.defaults.theme.value)
+        animate(at: hormoneIndex, theme: sdk.userDefaults.theme.value)
     }
     
     private func setDateLabel(_ title: String?) {
@@ -79,12 +78,11 @@ class HormoneCell: TableCell {
         badgeButton.badgeValue = nil
     }
 
-    private func setThemeColors(at index: Int) {
+    private func applyTheme(at index: Int) {
+        guard let styles = styles else { return }
         selectedBackgroundView = UIView()
-        if let styles = styles {
-            selectedBackgroundView?.backgroundColor = styles.theme[.selected]
-            backgroundColor = styles.getCellColor(at: index)
-        }
+        selectedBackgroundView?.backgroundColor = styles.theme[.selected]
+        backgroundColor = styles.getCellColor(at: index)
     }
 
     private func loadDateLabel(for hormone: Hormonal) {
@@ -104,8 +102,8 @@ class HormoneCell: TableCell {
     }
 
     private func loadSiteComponents(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
-        let theme = sdk.defaults.theme.value
-        let method = sdk.defaults.deliveryMethod.value
+        let theme = sdk.userDefaults.theme.value
+        let method = sdk.userDefaults.deliveryMethod.value
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
             hormone: hormone, deliveryMethod: method, theme: theme
         )

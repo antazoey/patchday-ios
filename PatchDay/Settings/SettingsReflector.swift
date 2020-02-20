@@ -1,5 +1,5 @@
 //
-//  SettingsLoadController.swift
+//  SettingsReflector.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/20/19.
@@ -9,15 +9,14 @@
 import Foundation
 import PDKit
 
-/// Reflects stored settings in some UIControls.
-class SettingsReflector {
-    
-    private let viewModel: SettingsViewModel
+
+class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
+
     private let controls: SettingsControls
     
-    init(viewModel: SettingsViewModel, controls: SettingsControls) {
-        self.viewModel = viewModel
+    init(controls: SettingsControls) {
         self.controls = controls
+        super.init()
     }
     
     public func reflectStoredSettings() {
@@ -40,19 +39,19 @@ class SettingsReflector {
     }
     
     private func loadDeliveryMethod() {
-        if let method = viewModel.sdk?.defaults.deliveryMethod.rawValue {
+        if let method = sdk?.userDefaults.deliveryMethod.rawValue {
             controls.deliveryMethodButton.setTitle(method)
         }
     }
     
     private func loadExpirationInterval() {
-        if let interval = viewModel.sdk?.defaults.expirationInterval.humanPresentableValue {
+        if let interval = sdk?.userDefaults.expirationInterval.humanPresentableValue {
             controls.expirationIntervalButton.setTitle(interval)
         }
     }
     
     private func loadQuantity() {
-        if let defaults = viewModel.sdk?.defaults {
+        if let defaults = sdk?.userDefaults {
             let quantity = defaults.quantity.rawValue
             let method = defaults.deliveryMethod.value
             controls.quantityButton.setTitle("\(quantity)")
@@ -67,12 +66,12 @@ class SettingsReflector {
     }
     
     private func loadNotifications() {
-        let isOn = viewModel.sdk?.defaults.notifications.value
+        let isOn = sdk?.userDefaults.notifications.value
         controls.notificationsSwitch.setOn(isOn ?? false)
     }
     
     private func loadNotificationsMinutesBefore() {
-        if let defaults = viewModel.sdk?.defaults, controls.notificationsSwitch.isOn {
+        if let defaults = sdk?.userDefaults, controls.notificationsSwitch.isOn {
             let minutesBefore = defaults.notificationsMinutesBefore.value
             controls.notificationsMinutesBeforeSlider.value = Float(minutesBefore)
             controls.notificationsMinutesBeforeValueLabel.text = String(minutesBefore)
@@ -83,7 +82,7 @@ class SettingsReflector {
     }
     
     private func loadTheme() {
-        if let theme = viewModel.sdk?.defaults.theme.value {
+        if let theme = sdk?.userDefaults.theme.value {
             let title = PickerOptions.getTheme(for: theme)
             controls.themeButton.setTitle(title)
         }

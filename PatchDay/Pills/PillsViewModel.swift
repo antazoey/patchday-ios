@@ -54,7 +54,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     }
     
     func presentPillActions() {
-        //alerts?.presentPillAction()
+        alerts?.presentPillActions()
     }
     
     func goToNewPillDetails(pillsViewController: UIViewController) {

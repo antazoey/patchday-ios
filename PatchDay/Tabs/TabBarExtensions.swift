@@ -27,7 +27,7 @@ extension UITabBar {
 extension UITabBarItem {
 
     func reflectHormonesCharacteristics(sdk: PatchDataSDK) {
-        let method = sdk.defaults.deliveryMethod.value
+        let method = sdk.userDefaults.deliveryMethod.value
         reflectExpiredHormoneBadgeValue(sdk: sdk)
         reflectHormoneTabBarItemTitle(deliveryMethod: method)
         reflectHormoneTabBarItemIcon(deliveryMethod: method)

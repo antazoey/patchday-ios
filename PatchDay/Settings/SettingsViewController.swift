@@ -18,9 +18,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         "Settings View Controllers - a place to configure Application settings"
     }
     
-    private let viewModel: SettingsViewModel = SettingsViewModel()
-    var reflector: SettingsReflector?
-    var saver: SettingsSaveController?
+    private var viewModel: SettingsViewModel? = nil
 
     // Containers
     @IBOutlet weak var scrollView: UIScrollView!
@@ -65,6 +63,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadViewModelIfNil()
         title = VCTitleStrings.SettingsTitle
         quantityLabel.text = ColonStrings.Count
         quantityButton.tag = 10
@@ -72,16 +71,13 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         loadButtonSelectedStates()
         loadButtonDisabledStates()
         delegatePickers()
-        
-        let controlsStruct = createControlsStruct()
-        loadReflector(controls: controlsStruct)
-        loadSaveController(controls: controlsStruct)
-        reflector?.reflectStoredSettings()
+        viewModel?.reflector.reflectStoredSettings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        loadViewModelIfNil()
         super.viewWillAppear(animated)
-        viewModel.sdk?.stateManager.markQuantityAsOld()
+        viewModel?.sdk?.stateManager.markQuantityAsOld()
         applyTheme()
     }
     
@@ -93,23 +89,24 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
+        guard let viewModel = viewModel else { return }
         viewModel.notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
-        viewModel.sdk?.defaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        viewModel.sdk?.userDefaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
         viewModel.notifications?.requestAllExpiredHormoneNotifications()
     }
     
     /// Opens UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
-        if let def = viewModel.createDefaultFromButton(sender) {
+        if let def = viewModel?.createDefaultFromButton(sender) {
             handlePickerActivation(def, activator: sender)
         }
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
         reflectNotificationSwitchInNotificationButtons()
-        viewModel.sdk?.defaults.setNotifications(to: notificationsSwitch.isOn)
+        viewModel?.sdk?.userDefaults.setNotifications(to: notificationsSwitch.isOn)
     }
 
     // MARK: - Picker Delegate Functions
@@ -132,40 +129,31 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let key = selectedDefault,
            let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
-            reflector?.reflectNewButtonTitle(key: key, newTitle: chosenItem)
-        }
-    }
-
-    private func handlePickerActivation(_ key: PDDefault, activator: UIButton) {
-        if let props = createPickerActivationProps(for: key, activator: activator), let saver = saver {
-            props.picker.reloadAllComponents()
-            deselectEverything(except: key)
-            handleBottomPickerViewRequirements(for: key)
-            selectedDefault = key  // Must set for use by picker delegate methods
-            SettingsPickerController(pickerActivationProperties: props, saver: saver).activate()
+            viewModel?.reflector.reflectNewButtonTitle(key: key, newTitle: chosenItem)
         }
     }
     
-    private func createPickerActivationProps(for key: PDDefault, activator: UIButton) -> PickerActivationProperties? {
-        let options = PickerOptions.getStrings(for: key)
+    private func loadViewModelIfNil() {
+        guard viewModel == nil else { return }
+        let controls = createControlsStruct()
+        let reflector = SettingsReflector(controls: controls)
+        let saver = SettingsStateSaver(controls: controls, themeChangeHook: { self.applyTheme() })
+        self.viewModel = SettingsViewModel(reflector: reflector, saver: saver)
+    }
+
+    private func handlePickerActivation(_ key: PDDefault, activator: UIButton) {
+        guard let viewModel = viewModel else { return }
+        viewModel.selectedDefault = key
         let pickers = SettingsPickers(
             quantityPicker: quantityPicker,
             deliveryMethodPicker: deliveryMethodPicker,
             expirationIntervalPicker: expirationIntervalPicker,
             themePicker: themePicker
         )
-        let pickerSelector = SettingsPickerSelector(pickers: pickers)
-        if let picker = pickerSelector.selectPicker(key: key) {
-            let startRow = options.tryGetIndex(item: activator.titleLabel?.text) ?? 0
-            return PickerActivationProperties(
-                picker: picker,
-                activator: activator,
-                options: options,
-                startRow: startRow,
-                propertyKey: key
-            )
+        viewModel.activatePicker(pickers: pickers, activator: activator) {
+            deselectEverything(except: key)
+            handleBottomPickerViewRequirements(for: key)
         }
-        return nil
     }
 
     private func handleBottomPickerViewRequirements(for pickerKey: PDDefault) {
@@ -191,7 +179,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func disableNotificationButtons() {
-        viewModel.sdk?.defaults.setNotificationsMinutesBefore(to: 0)
+        viewModel?.sdk?.userDefaults.setNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
@@ -240,23 +228,22 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func applyTheme() {
-        if let styles = viewModel.styles {
-            settingsView.backgroundColor = styles.theme[.bg]
-            view.backgroundColor = styles.theme[.bg]
-            settingsView.backgroundColor = styles.theme[.bg]
-            settingsStack.backgroundColor = styles.theme[.bg]
-            deliveryMethodButton.setTitleColor(styles.theme[.text])
-            expirationIntervalButton.setTitleColor(styles.theme[.text])
-            quantityButton.setTitleColor(styles.theme[.text])
-            notificationsSwitch.backgroundColor = styles.theme[.bg]
-            notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
-            deliveryMethodSideView.backgroundColor = styles.theme[.bg]
-            deliveryMethodSideView.backgroundColor = styles.theme[.bg]
-            quantitySideView.backgroundColor = styles.theme[.bg]
-            notificationsSideView.backgroundColor = styles.theme[.bg]
-            notificationsMinutesBeforeSideView.backgroundColor = styles.theme[.bg]
-            themeSideView.backgroundColor = styles.theme[.bg]
-        }
+        guard let styles = viewModel?.styles else { return }
+        settingsView.backgroundColor = styles.theme[.bg]
+        view.backgroundColor = styles.theme[.bg]
+        settingsView.backgroundColor = styles.theme[.bg]
+        settingsStack.backgroundColor = styles.theme[.bg]
+        deliveryMethodButton.setTitleColor(styles.theme[.text])
+        expirationIntervalButton.setTitleColor(styles.theme[.text])
+        quantityButton.setTitleColor(styles.theme[.text])
+        notificationsSwitch.backgroundColor = styles.theme[.bg]
+        notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
+        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
+        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
+        quantitySideView.backgroundColor = styles.theme[.bg]
+        notificationsSideView.backgroundColor = styles.theme[.bg]
+        notificationsMinutesBeforeSideView.backgroundColor = styles.theme[.bg]
+        themeSideView.backgroundColor = styles.theme[.bg]
     }
     
     private func createControlsStruct() -> SettingsControls {
@@ -269,16 +256,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             notificationsMinutesBeforeSlider: self.notificationsMinutesBeforeSlider,
             notificationsMinutesBeforeValueLabel: self.notificationsMinutesBeforeValueLabel,
             themeButton: self.themeButton
-        )
-    }
-    
-    private func loadReflector(controls: SettingsControls) {
-        self.reflector = SettingsReflector(viewModel: self.viewModel, controls: controls)
-    }
-    
-    private func loadSaveController(controls: SettingsControls) {
-        self.saver = SettingsSaveController(
-            viewModel: self.viewModel, controls: controls, themeChangeHandler: { () -> () in self.applyTheme() }
         )
     }
     

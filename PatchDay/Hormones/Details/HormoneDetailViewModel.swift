@@ -18,7 +18,7 @@ enum TextFieldButtonSenderType: String {
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private var expirationIntervalHours: Int{
-        sdk?.defaults.expirationInterval.hours ?? DefaultSettings.DefaultExpirationIntervalHours
+        sdk?.userDefaults.expirationInterval.hours ?? DefaultSettings.DefaultExpirationIntervalHours
     }
 
     var hormone: Hormonal
@@ -97,7 +97,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     func createHormoneViewStrings() -> HormoneViewStrings {
-        let method = sdk?.defaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        let method = sdk?.userDefaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
         return ColonStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
     }
 

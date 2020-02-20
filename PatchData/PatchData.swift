@@ -21,7 +21,7 @@ public class PatchData: NSObject, PatchDataSDK {
     let coreData: PDCoreDataWrapping
     let hormoneDataSharer: HormoneDataSharing
 
-    public var defaults: UserDefaultsManaging
+    public var userDefaults: UserDefaultsManaging
     public var hormones: HormoneScheduling
     public var sites: SiteScheduling
     public var pills: PillScheduling
@@ -37,7 +37,7 @@ public class PatchData: NSObject, PatchDataSDK {
         coreData: PDCoreDataWrapping,
         hormoneDataSharer: HormoneDataSharing
     ) {
-        self.defaults = defaults
+        self.userDefaults = defaults
         self.dataSharer = dataSharer
         self.hormones = hormones
         self.pills = pills

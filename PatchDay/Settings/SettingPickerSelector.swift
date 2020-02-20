@@ -15,7 +15,7 @@ class SettingsPickerSelector {
     private let pickers: SettingsPickers
     private let log = PDLog<SettingsPickerSelector>()
     
-    public init(pickers: SettingsPickers) {
+    public init(_ pickers: SettingsPickers) {
         self.pickers = pickers
     }
     

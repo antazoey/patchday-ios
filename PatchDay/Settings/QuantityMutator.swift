@@ -31,18 +31,18 @@ class QuantityMutator: QuantityMutating {
     
     func setQuantity(to newQuantity: Int) {
         if let sdk = sdk {
-            let oldQuantity = sdk.defaults.quantity.rawValue
+            let oldQuantity = sdk.userDefaults.quantity.rawValue
             if newQuantity < oldQuantity {
                 let continueAction: (_ newQuantity: Int) -> () = {
                     (newQuantity) in
                     sdk.hormones.delete(after: newQuantity)
-                    sdk.defaults.setQuantity(to: newQuantity)
+                    sdk.userDefaults.setQuantity(to: newQuantity)
                     self.makeResetClosure(oldQuantity: oldQuantity)(oldQuantity)
                 }
                 let handler = QuantityMutationAlertActionHandler(
                     cont: continueAction,
                     cancel: self.cancel,
-                    setQuantity: sdk.defaults.setQuantity)
+                    setQuantity: sdk.userDefaults.setQuantity)
                 
                 alerts?.presentQuantityMutationAlert(
                     oldQuantity: oldQuantity,
@@ -50,7 +50,7 @@ class QuantityMutator: QuantityMutating {
                     handler: handler
                 )
             } else {
-                sdk.defaults.setQuantity(to: newQuantity)
+                sdk.userDefaults.setQuantity(to: newQuantity)
                 cancel(oldQuantity)
             }
         }

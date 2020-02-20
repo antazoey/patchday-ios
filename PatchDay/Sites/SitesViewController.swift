@@ -39,7 +39,9 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
         DefaultNumberOfPickerComponents
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(
+        _ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
         viewModel.createSiteCellSwipeActions(indexPath: indexPath)
     }
 
@@ -74,7 +76,9 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     // Editing style
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    func tableView(
+        _ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath
+    ) -> UITableViewCell.EditingStyle {
         .delete
     }
     
@@ -84,12 +88,16 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     // Delete cell (deletes MOSite)
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath
+    ) {
         viewModel.tryDeleteFromEditingStyle(style: editingStyle, at: indexPath)
     }
     
     // Reorder cell
-    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath
+    ) {
         viewModel.reorderSites(sourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row)
     }
     
@@ -119,9 +127,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - Private
 
     private func initViewModelIfNil() {
-        if viewModel == nil {
-            viewModel = SitesViewModel(sitesTableView: sitesTableView)
-        }
+        guard viewModel == nil else { return }
+        viewModel = SitesViewModel(sitesTableView: sitesTableView)
     }
 
     private func createBarItemProps() -> BarItemInitializationProperties {
@@ -129,15 +136,17 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func switchNavItems(barItemEditProps props: BarItemInitializationProperties) {
-        if var barItems = navigationItem.rightBarButtonItems {
-            viewModel.switchBarItems(items: &barItems, barItemEditProps: props)
-        }
+        guard var barItems = navigationItem.rightBarButtonItems else { return }
+        viewModel.switchBarItems(items: &barItems, barItemEditProps: props)
     }
 
     private func loadBarButtons() {
-        navigationItem.rightBarButtonItems = viewModel.createBarItems(
-            insertAction: #selector(insertTapped), editAction: #selector(editTapped), sitesViewController: self
+        let sitesBarItems = viewModel.createBarItems(
+            insertAction: #selector(insertTapped),
+            editAction: #selector(editTapped),
+            sitesViewController: self
         )
+        navigationItem.rightBarButtonItems = sitesBarItems
     }
     
     private func loadTitle(actionState: SiteTableActionState = .Unknown) {
@@ -145,8 +154,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func applyTheme() {
-        if let theme = viewModel.styles?.theme {
-            sitesView.backgroundColor = theme[.bg]
-        }
+        guard let styles = viewModel.styles else { return }
+        sitesView.backgroundColor = styles.theme[.bg]
     }
 }

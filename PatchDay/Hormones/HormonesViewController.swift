@@ -71,9 +71,8 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: - Private
 
     private func initViewModelIfNil() {
-        if viewModel == nil {
-            viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
-        }
+        guard viewModel == nil else { return }
+        viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
     }
 
     private func setTableDelegate() {
@@ -103,8 +102,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     private func applyTheme() {
-        if let theme = viewModel.styles?.theme {
-            hormonesView.backgroundColor = theme[.bg]
-        }
+        guard let styles = viewModel.styles else { return }
+        hormonesView.backgroundColor = styles.theme[.bg]
     }
 }

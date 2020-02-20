@@ -1,5 +1,5 @@
 //
-//  SettingPickerController.swift
+//  SettingPicker.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/21/19.
@@ -8,12 +8,12 @@
 
 import UIKit
 
-class SettingsPickerController {
+class SettingsPicker {
     
     private let props: PickerActivationProperties
-    private let saver: SettingsSaveController
+    private let saver: SettingsStateSaver
     
-    init(pickerActivationProperties: PickerActivationProperties, saver: SettingsSaveController) {
+    init(pickerActivationProperties: PickerActivationProperties, saver: SettingsStateSaver) {
         self.props = pickerActivationProperties
         self.saver = saver
     }
@@ -41,6 +41,6 @@ class SettingsPickerController {
     private func close() {
         props.activator.isSelected = false
         props.picker.isHidden = true
-        saver.save(props.propertyKey, for: props.startRow)
+        saver.save(props.propertyKey, selectedRow: props.startRow)
     }
 }

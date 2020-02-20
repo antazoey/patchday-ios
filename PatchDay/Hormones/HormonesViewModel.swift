@@ -24,17 +24,13 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
     
     var mainViewControllerTitle: String {
-        if let method = sdk?.defaults.deliveryMethod.value {
-            return VCTitleStrings.getTitle(for: method)
-        }
-        return VCTitleStrings.HormonesTitle
+        guard let method = sdk?.userDefaults.deliveryMethod.value else { return VCTitleStrings.HormonesTitle }
+        return VCTitleStrings.getTitle(for: method)
     }
     
     var expiredHormoneBadgeValue: String? {
-        if let numExpired = hormones?.totalExpired, numExpired > 0 {
-            return "\(numExpired)"
-        }
-        return nil
+        guard let numExpired = hormones?.totalExpired, numExpired > 0  else { return nil }
+        return "\(numExpired)"
     }
 
     func sortHormones() {
@@ -42,30 +38,26 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     func presentDisclaimerAlertIfFirstLaunch() {
-        if isFirstLaunch {
-            alerts?.presentDisclaimerAlert()
-            sdk?.defaults.setMentionedDisclaimer(to: true)
-        }
+        guard isFirstLaunch else { return }
+        alerts?.presentDisclaimerAlert()
+        sdk?.userDefaults.setMentionedDisclaimer(to: true)
     }
 
     func getCell(at row: Index) -> UITableViewCell {
-        if let hormone = hormones?.at(row) {
-            return hormonesTable.getCell(for: hormone, at: row, viewModel: self)
-        }
-        return UITableViewCell()
+        guard let hormone = hormones?.at(row) else { return UITableViewCell() }
+        return hormonesTable.getCell(for: hormone, at: row, viewModel: self)
     }
 
     func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
-        if let hormone = hormones?.at(hormoneIndex) {
-            nav?.goToHormoneDetails(hormone, source: hormonesViewController)
-        }
+        guard let hormone = hormones?.at(hormoneIndex) else { return }
+        nav?.goToHormoneDetails(hormone, source: hormonesViewController)
     }
     
     func loadAppTabs(source: UIViewController) {
-        if let tabs = source.navigationController?.tabBarController,
-           let vcs = source.navigationController?.viewControllers {
-            setTabs(tabBarController: tabs, appViewControllers: vcs)
-        }
+        guard let navigationController = source.navigationController else { return }
+        guard let tabs = navigationController.tabBarController else { return }
+        let vcs = navigationController.viewControllers
+        setTabs(tabBarController: tabs, appViewControllers: vcs)
     }
     
     func watchHormonesForChanges() {
@@ -78,13 +70,12 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
     
     func reflectThemeInTabBar() {
-        if let theme = styles?.theme {
-            tabs?.reflectTheme(theme: theme)
-        }
+        guard let styles = styles else { return }
+        tabs?.reflectTheme(theme: styles.theme)
     }
 
     private var isFirstLaunch: Bool {
-        !(sdk?.defaults.mentionedDisclaimer.value ?? false)
+        !(sdk?.userDefaults.mentionedDisclaimer.value ?? false)
     }
 
     private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {

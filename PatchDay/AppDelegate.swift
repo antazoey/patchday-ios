@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
         self.alerts = AlertDispatcher(sdk: sdk)
-        self.styles = Stylist(theme: self.sdk.defaults.theme.value)
+        self.styles = Stylist(theme: self.sdk.userDefaults.theme.value)
         self.setBadgeToTotalAlerts()
         self.setNavigationAppearance()
         return true
@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setTheme() {
-        let t = sdk.defaults.theme.value
+        let t = sdk.userDefaults.theme.value
         self.styles = Stylist(theme: t)
         setNavigationAppearance()
     }

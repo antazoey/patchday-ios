@@ -22,7 +22,7 @@ class DeliveryMethodMutationAlert: PDAlert {
     private var continueAction: UIAlertAction {
         UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
             void in
-            self.sdk?.defaults.setDeliveryMethod(to: self.newDeliveryMethod)
+            self.sdk?.userDefaults.setDeliveryMethod(to: self.newDeliveryMethod)
             self.tabs?.reflectHormoneCharacteristics()
         }
     }

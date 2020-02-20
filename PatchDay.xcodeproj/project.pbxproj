@@ -75,7 +75,7 @@
 		3397C8BC572ADE0631DBFC1B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9AF85534D3884106598 /* DateExtension.swift */; };
 		3397C8E9529A4E6AFD74C7FA /* NotificationsMinutesBefore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C399DFEEE432E1384A9A /* NotificationsMinutesBefore.swift */; };
 		3397C8FDF0447D23136C68C4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C7DB5907E297804FE42B /* SettingsViewModel.swift */; };
-		3397C9103C3BF3CE2A887203 /* SettingsSaveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CBAEECDFB0997BB88263 /* SettingsSaveController.swift */; };
+		3397C9103C3BF3CE2A887203 /* SettingsStateSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CBAEECDFB0997BB88263 /* SettingsStateSaver.swift */; };
 		3397C93B7F180AADB95B65C9 /* QuantityMutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C45C47949C6C2CF07287 /* QuantityMutator.swift */; };
 		3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */; };
 		3397C9F0797A3112A1D3C473 /* SiteImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C77F4C999C35C9771AFC /* SiteImagePickerDelegate.swift */; };
@@ -99,7 +99,7 @@
 		3397CCC4A8B699A80C7FD5A7 /* HormoneStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C04CA4C5DFC156FB06E3 /* HormoneStruct.swift */; };
 		3397CCD131DBDF43FB2B0A5B /* ExpirationIntervalUDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C155FE16DE4D7AFF6ECE /* ExpirationIntervalUDTests.swift */; };
 		3397CD4791AB7C2F067E0805 /* PillDueDateFinderParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C12186B32044AD4D89F9 /* PillDueDateFinderParams.swift */; };
-		3397CD50B68A709FE8FB657F /* SettingPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C56F787C32F4FA168103 /* SettingPickerController.swift */; };
+		3397CD50B68A709FE8FB657F /* SettingPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C56F787C32F4FA168103 /* SettingPicker.swift */; };
 		3397CD53A1B819D15AD8ED7B /* QuantityMutating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98C912D77BEE430431A /* QuantityMutating.swift */; };
 		3397CDA5B6056A68141649EF /* PDDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CF33CEB0E43BBF273BDB /* PDDefaultsTests.swift */; };
 		3397CDAE4FC02595240206EA /* SiteImageTypeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CCB521481AA2231D040F /* SiteImageTypeAdapter.swift */; };
@@ -391,7 +391,7 @@
 		3397C53545234920B507958D /* SettingsStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStructs.swift; sourceTree = "<group>"; };
 		3397C54DDFA7DF1E9C1EDECA /* PatchDataLoggingPlayground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDataLoggingPlayground.swift; sourceTree = "<group>"; };
 		3397C5601EE716D5A8F80786 /* SiteImageDeterminationParameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteImageDeterminationParameters.swift; sourceTree = "<group>"; };
-		3397C56F787C32F4FA168103 /* SettingPickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPickerController.swift; sourceTree = "<group>"; };
+		3397C56F787C32F4FA168103 /* SettingPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingPicker.swift; sourceTree = "<group>"; };
 		3397C57BEA067330611A888C /* PDIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDIcons.swift; sourceTree = "<group>"; };
 		3397C5BF42C6720C632A84B3 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		3397C5E1286D48758418CA9A /* PillsTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsTable.swift; sourceTree = "<group>"; };
@@ -439,7 +439,7 @@
 		3397CB2E2533C70179037EBD /* SiteStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteStruct.swift; sourceTree = "<group>"; };
 		3397CB4BB5AA9C4FB0948A47 /* UIControlsExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIControlsExtensions.swift; sourceTree = "<group>"; };
 		3397CB53F54E67EA5276E7CD /* SettingsAndSites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsAndSites.storyboard; sourceTree = "<group>"; };
-		3397CBAEECDFB0997BB88263 /* SettingsSaveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSaveController.swift; sourceTree = "<group>"; };
+		3397CBAEECDFB0997BB88263 /* SettingsStateSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStateSaver.swift; sourceTree = "<group>"; };
 		3397CC73DBC50CB53940CA1B /* PDDateFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDDateFormatterTests.swift; sourceTree = "<group>"; };
 		3397CC81AF588180667148E6 /* PillsViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsViewFactory.swift; sourceTree = "<group>"; };
 		3397CCB521481AA2231D040F /* SiteImageTypeAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteImageTypeAdapter.swift; sourceTree = "<group>"; };
@@ -769,9 +769,9 @@
 			isa = PBXGroup;
 			children = (
 				3397C7DB5907E297804FE42B /* SettingsViewModel.swift */,
-				3397C56F787C32F4FA168103 /* SettingPickerController.swift */,
+				3397C56F787C32F4FA168103 /* SettingPicker.swift */,
 				3397C98C912D77BEE430431A /* QuantityMutating.swift */,
-				3397CBAEECDFB0997BB88263 /* SettingsSaveController.swift */,
+				3397CBAEECDFB0997BB88263 /* SettingsStateSaver.swift */,
 				3397C53545234920B507958D /* SettingsStructs.swift */,
 				3397CCFC4390C27999BE949A /* SettingPickerSelector.swift */,
 				3397C45C47949C6C2CF07287 /* QuantityMutator.swift */,
@@ -1895,9 +1895,9 @@
 				3397CE40E3408814C3FB181E /* NavigationHandling.swift in Sources */,
 				3397C428EABB25D9695B2973 /* Navigation.swift in Sources */,
 				3397C8FDF0447D23136C68C4 /* SettingsViewModel.swift in Sources */,
-				3397CD50B68A709FE8FB657F /* SettingPickerController.swift in Sources */,
+				3397CD50B68A709FE8FB657F /* SettingPicker.swift in Sources */,
 				3397CD53A1B819D15AD8ED7B /* QuantityMutating.swift in Sources */,
-				3397C9103C3BF3CE2A887203 /* SettingsSaveController.swift in Sources */,
+				3397C9103C3BF3CE2A887203 /* SettingsStateSaver.swift in Sources */,
 				3397C270073E6E9F1E9E1E6D /* SettingsStructs.swift in Sources */,
 				3397C1CAA35F72227D4F05B2 /* SettingPickerSelector.swift in Sources */,
 				3397C93B7F180AADB95B65C9 /* QuantityMutator.swift in Sources */,
