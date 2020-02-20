@@ -16,13 +16,19 @@ class AlertDispatcher: NSObject, AlertDispatching {
 
     private let sdk: PatchDataSDK?
     private let tabs: TabReflective?
+    private let log = PDLog<AlertDispatcher>()
 
-    private var style: UIAlertController.Style = {
+    private lazy var style: UIAlertController.Style = {
         AppDelegate.isPad ? .alert : .actionSheet
     }()
 
-    private var rootViewController: UIViewController? = {
-        KeyWindowFinder.keyWindw?.rootViewController
+    private lazy var rootViewController: UIViewController? = {
+        guard let window = KeyWindowFinder.keyWindow else {
+            let log = PDLog<AlertDispatcher>()
+            log.error("Unable to get root view controller")
+            return nil
+        }
+        return window.rootViewController
     }()
 
     init(sdk: PatchDataSDK?, tabs: TabReflective?=nil) {
@@ -34,19 +40,19 @@ class AlertDispatcher: NSObject, AlertDispatching {
     func presentDeliveryMethodMutationAlert(
         newMethod: DeliveryMethod, handler: DeliveryMethodMutationAlertActionHandling
     ) {
-        if let root = rootViewController, let sdk = sdk {
-            let oldMethod = sdk.userDefaults.deliveryMethod.value
-            let tabs = self.tabs ?? AppDelegate.current?.tabs
-            DeliveryMethodMutationAlert(
-                parent: root,
-                style: self.style,
-                sdk: sdk,
-                tabs: tabs,
-                oldDeliveryMethod: oldMethod,
-                newDeliveryMethod: newMethod,
-                handler: handler
-            ).present()
-        }
+        guard let root = rootViewController else { return }
+        guard let sdk = sdk else { return }
+        let oldMethod = sdk.userDefaults.deliveryMethod.value
+        let tabs = self.tabs ?? AppDelegate.current?.tabs
+        DeliveryMethodMutationAlert(
+            parent: root,
+            style: self.style,
+            sdk: sdk,
+            tabs: tabs,
+            oldDeliveryMethod: oldMethod,
+            newDeliveryMethod: newMethod,
+            handler: handler
+        ).present()
     }
 
     /// Alert for changing the count of hormones causing a loss of data.
@@ -57,41 +63,36 @@ class AlertDispatcher: NSObject, AlertDispatching {
             handler.handleSetQuantityWithoutAlert(newQuantity: newQuantity)
             return
         }
-        if let root = rootViewController {
-            QuantityMutationAlert(
-                parent: root,
-                style: self.style,
-                actionHandler: handler,
-                oldQuantity: oldQuantity,
-                newQuantity: newQuantity
-            ).present()
-        }
+        guard let root = rootViewController else { return }
+        QuantityMutationAlert(
+            parent: root,
+            style: self.style,
+            actionHandler: handler,
+            oldQuantity: oldQuantity,
+            newQuantity: newQuantity
+        ).present()
     }
     
     func presentPillActions() {
-        if let root = rootViewController {
-            PillCellActionAlert(parent: root).present()
-        }
+        guard let root = rootViewController else { return }
+        PillCellActionAlert(parent: root).present()
     }
 
     /// Alert that displays a quick tutorial and disclaimer on installation.
     func presentDisclaimerAlert() {
-        if let root = rootViewController {
-            DisclaimerAlert(parent: root, style: style).present()
-        }
+        guard let root = rootViewController else { return }
+        DisclaimerAlert(parent: root, style: style).present()
     }
 
     /// Alert that gives the user the option to add a new site they typed out in the UI.
     func presentNewSiteAlert(handler: NewSiteAlertActionHandling) {
-        if let root = rootViewController {
-            NewSiteAlert(parent: root, style: style, handler: handler).present()
-        }
+        guard let root = rootViewController else { return }
+        NewSiteAlert(parent: root, style: style, handler: handler).present()
     }
     
     func presentGenericAlert() {
-        if let root = rootViewController {
-            PDGenericAlert(parent: root, style: style).present()
-        }
+        guard let root = rootViewController else { return }
+        PDGenericAlert(parent: root, style: style).present()
     }
 }
 

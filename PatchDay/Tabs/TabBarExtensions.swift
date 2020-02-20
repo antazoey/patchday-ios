@@ -14,7 +14,9 @@ extension UITabBar {
     
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
         super.sizeThatFits(size)
-        guard let window = KeyWindowFinder.keyWindw else {
+        guard let window = KeyWindowFinder.keyWindow else {
+            let log = PDLog<UITabBar>()
+            log.error("Unable to override sizeThatFits")
             return super.sizeThatFits(size)
         }
         var sizeThatFits = super.sizeThatFits(size)

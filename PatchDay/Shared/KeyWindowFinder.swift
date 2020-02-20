@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import PDKit
 
 
 class KeyWindowFinder {
-    
-    static var keyWindw: UIWindow? {
-        // https://stackoverflow.com/questions/57134259/how-to-resolve-keywindow-was-deprecated-in-ios-13-0
-        UIApplication.shared.connectedScenes
-            .filter({$0.activationState == .foregroundActive})
-            .map({$0 as? UIWindowScene})
-            .compactMap({$0})
-            .first?.windows
-            .filter({$0.isKeyWindow}).first
-    }
+
+    static let keyWindow: UIWindow? = {
+        let window = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
+        guard let _ = window else {
+            let log = PDLog<KeyWindowFinder>()
+            log.error("Unable to find key window")
+            return nil
+        }
+        return window
+    }()
 }

@@ -99,17 +99,16 @@ public class PatchData: NSObject, PatchDataSDK {
         )
     }
 
-    public var isFresh: Bool {
+    public lazy var isFresh: Bool = {
         hormones.isEmpty && sites.isDefault
-    }
+    }()
 
-    public var totalAlerts: Int {
+    public lazy var totalAlerts: Int = {
         hormones.totalExpired + pills.totalDue
-    }
+    }()
     
     private static func determinePillScheduleState(defaults: UserDefaultsWriting) -> PillSchedule.PillScheduleState {
-        defaults.mentionedDisclaimer.value
-            ? PillSchedule.PillScheduleState.Working
-            : PillSchedule.PillScheduleState.Initial
+        typealias PSS = PillSchedule.PillScheduleState
+        return defaults.mentionedDisclaimer.value ? PSS.Working : PSS.Initial
     }
 }

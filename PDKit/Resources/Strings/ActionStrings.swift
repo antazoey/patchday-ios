@@ -8,8 +8,8 @@
 
 import Foundation
 
-public class ActionStrings {
 
+public class ActionStrings {
     private static let c1 = "Button title.  Could you keep it short?"
     private static let c2 = "Notification action. Used all over app, so please keep it short."
     private static let c3 = "Title for button, not too much room left for a really long word."
@@ -17,7 +17,6 @@ public class ActionStrings {
     private static let c5 = "Button title.  Could you keep it short?"
     private static let c6 = "Alert action. Room is not an issue."
     private static let c7 = "Nav bar item title.  Could you keep it short?"
-
     public static let Done = { NSLocalizedString("Done", comment: c1) }()
     public static let Delete = { NSLocalizedString("Delete", comment: c1) }()
     public static let Take = { NSLocalizedString("Take", comment: c2) }()

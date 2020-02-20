@@ -24,7 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var styles: Styling?
     var badge: PDBadgeDelegate = PDBadge()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
         self.alerts = AlertDispatcher(sdk: sdk)
         self.styles = Stylist(theme: self.sdk.userDefaults.theme.value)
@@ -50,10 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setNavigationAppearance() {
-        if let styles = styles {
-            nav.reflectTheme(theme: styles.theme)
-            tabs?.reflectTheme(theme: styles.theme)
-        }
+        guard let styles = styles else { return }
+        nav.reflectTheme(theme: styles.theme)
+        tabs?.reflectTheme(theme: styles.theme)
     }
 
     func setTheme() {

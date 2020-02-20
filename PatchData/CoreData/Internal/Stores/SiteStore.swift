@@ -23,10 +23,8 @@ class SiteStore: EntityStore, SiteStoring {
     }
 
     func createNewSite(doSave: Bool) -> Bodily? {
-        if let newSiteDataFromStore = entities.createNewManagedSite(doSave: doSave) {
-            return Site(siteData: newSiteDataFromStore)
-        }
-        return nil
+        guard let newSiteDataFromStore = entities.createNewManagedSite(doSave: doSave) else { return nil }
+        return Site(siteData: newSiteDataFromStore)
     }
 
     func delete(_ site: Bodily) {
@@ -40,10 +38,8 @@ class SiteStore: EntityStore, SiteStoring {
     }
 
     func getRelatedHormones(_ siteId: UUID) -> [HormoneStruct] {
-        if let site = entities.getManagedSite(by: siteId) {
-            return getRelatedHormones(site)
-        }
-        return []
+        guard let site = entities.getManagedSite(by: siteId) else { return [] }
+        return getRelatedHormones(site)
     }
 
     private func pushLocalChangesToManagedContext(_ siteData: [SiteStruct], doSave: Bool) {

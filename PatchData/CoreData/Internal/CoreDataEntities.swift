@@ -62,7 +62,6 @@ class CoreDataEntities {
         if !hormonesInitialized {
             loadStoredHormones()
         }
-        
         return getCurrentMananagedHormones()
     }
     
@@ -70,7 +69,6 @@ class CoreDataEntities {
         if !pillsInitialized {
             loadStoredPills()
         }
-
         return getCurrentManagedPills()
     }
     
@@ -78,21 +76,20 @@ class CoreDataEntities {
         if !sitesInitialized {
             loadStoredSites()
         }
-        
         return getCurrentManagedSites()
     }
     
     // MARK: - Internal Creators
 
     func createNewManagedHormone(doSave: Bool=true) -> HormoneStruct? {
-        if let newHormone = createNewHormone() {
-            if doSave {
-                saver.saveCreateNewEntity(.hormone)
-            }
-            return newHormone
+        guard let newHormone = createNewHormone() else {
+            logger.errorOnCreation(.hormone)
+            return nil
         }
-        logger.errorOnCreation(.hormone)
-        return nil
+        if doSave {
+            saver.saveCreateNewEntity(.hormone)
+        }
+        return newHormone
     }
     
     func createNewManagedPill(doSave: Bool=true) -> PillStruct? {
@@ -100,25 +97,26 @@ class CoreDataEntities {
     }
 
     func createNewManagedPill(name: String, doSave: Bool=true) -> PillStruct? {
-        if var newPill = createNewPill() {
-            newPill.attributes.name = name
-            if doSave {
-                saver.saveCreateNewEntity(.pill)
-            }
-            return newPill
+        guard var newPill = createNewPill() else {
+            logger.errorOnCreation(.pill)
+            return nil
         }
-        logger.errorOnCreation(.pill)
-        return nil
+        newPill.attributes.name = name
+        if doSave {
+            saver.saveCreateNewEntity(.pill)
+        }
+        return newPill
     }
     
     func createNewManagedSite(doSave: Bool=true) -> SiteStruct? {
-        if let newSite = createNewSite() {
-            if doSave {
-                saver.saveCreateNewEntity(.site)
-            }
-            return newSite
+        guard let newSite = createNewSite() else {
+            logger.errorOnCreation(.site)
+            return nil
         }
-        return nil
+        if doSave {
+            saver.saveCreateNewEntity(.site)
+        }
+        return newSite
     }
     
     // MARK: - Internal Pushers
@@ -128,7 +126,6 @@ class CoreDataEntities {
             logger.warnForEmptyPush(.hormone)
             return
         }
-
         logger.logPush(.hormone)
         for data in hormoneData {
             pushHormoneData(data)
@@ -143,7 +140,6 @@ class CoreDataEntities {
             logger.warnForEmptyPush(.pill)
             return
         }
-
         logger.logPush(.pill)
         for data in pillData {
             pushPillData(data)
@@ -158,7 +154,6 @@ class CoreDataEntities {
             logger.warnForEmptyPush(.site)
             return
         }
-
         logger.logPush(.site)
         for data in siteData {
             pushSiteData(data)
@@ -192,7 +187,6 @@ class CoreDataEntities {
         for data in siteData {
             deleteSite(data)
         }
-        
         if doSave {
             saver.saveFromDelete(.site)
         }
@@ -295,27 +289,21 @@ class CoreDataEntities {
     // MARK: - Private Creators
     
     func createNewHormone() -> HormoneStruct? {
-        if var newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone {
-            initHormone(&newManagedHormone)
-            return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
-        }
-        return nil
+        guard var newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone else { return nil }
+        initHormone(&newManagedHormone)
+        return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
     }
     
     func createNewPill() -> PillStruct? {
-        if var newManagedPill = coreDataStack.insert(.pill) as? MOPill {
-            initPill(&newManagedPill)
-            return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
-        }
-        return nil
+        guard var newManagedPill = coreDataStack.insert(.pill) as? MOPill else { return nil }
+        initPill(&newManagedPill)
+        return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
     }
     
     func createNewSite() -> SiteStruct? {
-        if var newManagedSite = coreDataStack.insert(.site) as? MOSite {
-            initSite(&newManagedSite)
-            return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
-        }
-        return nil
+        guard var newManagedSite = coreDataStack.insert(.site) as? MOSite else { return nil }
+        initSite(&newManagedSite)
+        return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
     }
     
     // MARK: - Private Initializers
@@ -354,21 +342,18 @@ class CoreDataEntities {
     }
     
     private func pushHormoneData(_ hormoneData: HormoneStruct) {
-        if var managedHormone = getManagedHormone(by: hormoneData.id) {
-            applyHormoneDataToManagedHormone(hormoneData, &managedHormone)
-        }
+        guard var managedHormone = getManagedHormone(by: hormoneData.id) else { return }
+        applyHormoneDataToManagedHormone(hormoneData, &managedHormone)
     }
     
     private func pushPillData(_ pillData: PillStruct) {
-        if var managedPill = getManagedPill(by: pillData.id) {
-            CoreDataEntityAdapter.applyPillData(pillData, to: &managedPill)
-        }
+        guard var managedPill = getManagedPill(by: pillData.id) else { return }
+        CoreDataEntityAdapter.applyPillData(pillData, to: &managedPill)
     }
     
     private func pushSiteData(_ siteData: SiteStruct) {
-        if var managedSite = getManagedSite(by: siteData.id) {
-            applySiteDataToManagedSite(siteData, &managedSite)
-        }
+        guard var managedSite = getManagedSite(by: siteData.id) else { return }
+        applySiteDataToManagedSite(siteData, &managedSite)
     }
 
     // MARK: - Private Appliers
@@ -408,39 +393,35 @@ class CoreDataEntities {
     }
     
     private func relateHormoneToSite(hormoneId: UUID, _ managedSite: MOSite) {
-        if let managedHormone = getManagedHormone(by: hormoneId) {
-            // Check if already related
-            if let relationship = managedSite.hormoneRelationship {
-                if relationship.contains(managedHormone) {
-                    return
-                }
+        guard let managedHormone = getManagedHormone(by: hormoneId) else { return }
+        // Check if already related
+        if let relationship = managedSite.hormoneRelationship {
+            if relationship.contains(managedHormone) {
+                return
             }
-            managedSite.addToHormoneRelationship(managedHormone)
         }
+        managedSite.addToHormoneRelationship(managedHormone)
     }
     
     // MARK: - Private Deleters
     
     private func deleteHormone(_ hormoneData: HormoneStruct) {
-        if var managedHormone = getManagedHormone(by: hormoneData.id) {
-            resetHormone(&managedHormone)
-            coreDataStack.tryDelete(managedHormone)
-        }
+        guard var managedHormone = getManagedHormone(by: hormoneData.id) else { return }
+        resetHormone(&managedHormone)
+        coreDataStack.tryDelete(managedHormone)
     }
     
     private func deletePill(_ pillData: PillStruct) {
-        if var managedPill = getManagedPill(by: pillData.id) {
-            resetPill(&managedPill)
-            coreDataStack.tryDelete(managedPill)
-        }
+        guard var managedPill = getManagedPill(by: pillData.id) else { return }
+        resetPill(&managedPill)
+        coreDataStack.tryDelete(managedPill)
     }
     
     private func deleteSite(_ siteData: SiteStruct) {
-        if var managedSite = getManagedSite(by: siteData.id) {
-            resetSite(&managedSite)
-            pushBackupSiteNameToHormones(deletedSite: managedSite)
-            coreDataStack.tryDelete(managedSite)
-        }
+        guard var managedSite = getManagedSite(by: siteData.id) else { return }
+        resetSite(&managedSite)
+        pushBackupSiteNameToHormones(deletedSite: managedSite)
+        coreDataStack.tryDelete(managedSite)
     }
     
     // MARK: - Private Resetters

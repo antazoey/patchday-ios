@@ -41,7 +41,6 @@ class CoreDataEntityAdapter {
             log.error("Failure converting managed \(PDEntity.pill.rawValue) to DTO struct. Missing ID.")
             return nil
         }
-        
         let attributes = createPillAttributes(pill)
         return PillStruct(pillId, attributes)
     }
@@ -55,7 +54,7 @@ class CoreDataEntityAdapter {
             pill.name = name
         }
         if let lastTaken = pillData.attributes.lastTaken as NSDate?, lastTaken != pill.lastTaken {
-               pill.lastTaken = lastTaken
+            pill.lastTaken = lastTaken
         }
         if let notify = pillData.attributes.notify, notify != pill.notify {
             pill.notify = notify

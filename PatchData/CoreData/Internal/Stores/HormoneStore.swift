@@ -25,10 +25,8 @@ class HormoneStore: EntityStore, HormoneStoring {
     }
     
     func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
-        if let newHormoneDataFromStore = entities.createNewManagedHormone() {
-            return Hormone(hormoneData: newHormoneDataFromStore, scheduleProperties: scheduleProperties)
-        }
-        return nil
+        guard let newHormoneDataFromStore = entities.createNewManagedHormone() else { return nil }
+        return Hormone(hormoneData: newHormoneDataFromStore, scheduleProperties: scheduleProperties)
     }
 
     func delete(_ hormone: Hormonal) {

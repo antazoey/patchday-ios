@@ -9,7 +9,7 @@ import UIKit
 class PillCellActionAlert: PDAlert {
     
     init(parent: UIViewController) {
-        super.init(parent: parent, title: "Choose an option", message: "", style: .actionSheet)
+        super.init(parent: parent, title: "Choose an option", message: "Test", style: .actionSheet)
     }
     
     private var pillDetailsAction: UIAlertAction {

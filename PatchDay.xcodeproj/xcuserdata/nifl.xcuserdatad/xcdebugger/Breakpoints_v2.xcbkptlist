@@ -58,16 +58,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "1D73CAC3-13F5-4F1D-AF96-62F0E677BFAC"
+            uuid = "36EB9E39-6BAD-4E49-9B47-CFD97BCC703E"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PatchData/CoreData/Internal/CoreDataEntities.swift"
+            filePath = "PatchDay/Alerts/Alerts/PillCellActionAlert.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "418"
-            endingLineNumber = "418"
-            landmarkName = "relateHormoneToSite(hormoneId:_:)"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "present()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7379005D-B140-460F-AE31-169FD497DA9D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PatchDay/Pills/PillsViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "presentPillActions()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

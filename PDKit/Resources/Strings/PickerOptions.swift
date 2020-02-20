@@ -101,16 +101,14 @@ public class PickerOptions {
     }
     
     public static func getOptionsCount(for def: PDDefault?) -> Int {
-        if let d = def {
-            switch (d) {
-            case .DeliveryMethod: return deliveryMethods.count
-            case .ExpirationInterval: return expirationIntervals.count
-            case .Quantity: return quantities.count
-            case .Theme: return themes.count
-            default: return 0
-            }
+        guard let d = def else { return 0 }
+        switch (d) {
+        case .DeliveryMethod: return deliveryMethods.count
+        case .ExpirationInterval: return expirationIntervals.count
+        case .Quantity: return quantities.count
+        case .Theme: return themes.count
+        default: return 0
         }
-        return 0
     }
     
     public static let quantities: [String] = {

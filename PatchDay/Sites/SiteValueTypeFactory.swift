@@ -14,7 +14,6 @@ class SiteValueTypeFactory {
         _ insert: Selector,
         _ sitesViewController: UIViewController
     ) -> BarItemInitializationProperties {
-
         let cellEditingState = SiteValueTypeFactory.createEditingState(sitesViewController)
         return BarItemInitializationProperties(
             sitesViewController: sitesViewController,
@@ -37,9 +36,6 @@ class SiteValueTypeFactory {
     }
 
     private static func createOppositeActionTitle(_ cellEditingState: SiteTableActionState) -> String {
-        if cellEditingState == .Editing {
-            return ActionStrings.Done
-        }
-        return ActionStrings.Edit
+        cellEditingState == .Editing ? ActionStrings.Done : ActionStrings.Edit
     }
 }

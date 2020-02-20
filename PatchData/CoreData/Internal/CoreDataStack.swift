@@ -33,7 +33,7 @@ class CoreDataStack: NSObject {
 
     // MARK: - Internal
 
-    static var persistentContainer: NSPersistentContainer {
+    static var persistentContainer: NSPersistentContainer = {
         if let container = container {
             return container
         } else {
@@ -41,7 +41,7 @@ class CoreDataStack: NSObject {
             container = newContainer
             return newContainer
         }
-    }
+    }()
 
     static var context: NSManagedObjectContext {
         persistentContainer.viewContext

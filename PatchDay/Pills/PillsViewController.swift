@@ -54,7 +54,9 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         PillCell.RowHeight
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(
+        _ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
         viewModel.createPillCellSwipeActions(index: indexPath)
     }
     
