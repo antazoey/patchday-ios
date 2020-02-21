@@ -4,20 +4,21 @@
 //
 
 import UIKit
+import PDKit
 
 
 class PillCellActionAlert: PDAlert {
     
-    init(parent: UIViewController) {
-        super.init(parent: parent, title: "Choose an option", message: "Test", style: .actionSheet)
+    init(parent: UIViewController, handlers: PillCellActionHandling) {
+        super.init(parent: parent, title: "Pill Actions", message: "", style: .actionSheet)
     }
     
     private var pillDetailsAction: UIAlertAction {
-        UIAlertAction(title: "View / Edit", style: .default)
+        UIAlertAction(title: "Edit Details", style: .default)
     }
     
     private var takeAction: UIAlertAction {
-        UIAlertAction(title: "Take pill", style: .default)
+        UIAlertAction(title: "Take Pill", style: .default)
     }
     
     override func present() {

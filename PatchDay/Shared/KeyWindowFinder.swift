@@ -12,7 +12,7 @@ import PDKit
 
 class KeyWindowFinder {
 
-    static let keyWindow: UIWindow? = {
+    static var keyWindow: UIWindow? {
         let window = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
         guard let _ = window else {
             let log = PDLog<KeyWindowFinder>()
@@ -20,5 +20,5 @@ class KeyWindowFinder {
             return nil
         }
         return window
-    }()
+    }
 }

@@ -20,7 +20,6 @@ class CodeBehindDependencies<T> {
     let nav: NavigationHandling?
     let badge: PDBadgeDelegate?
     let log = PDLog<CodeBehindDependencies>()
-
     let contextClass = String(describing: T.self)
     
     init(

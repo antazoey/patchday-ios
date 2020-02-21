@@ -18,8 +18,8 @@ class PDDefaultsTests: XCTestCase {
     private let mockHormones = MockHormoneSchedule()
     private let mockSites = MockSiteSchedule()
 
-    private func createDefaults() -> PDDefaults {
-        PDDefaults(writer: mockDefaultsWriter, state: state, hormones: mockHormones, sites: mockSites)
+    private func createDefaults() -> PDSettings {
+        PDSettings(writer: mockDefaultsWriter, state: state, hormones: mockHormones, sites: mockSites)
     }
 
     func testSetDeliveryMethod_replacesMethod() {

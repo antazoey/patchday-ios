@@ -1,5 +1,5 @@
 //
-//  PDDefaults.swift
+//  UserDefaultsWriter.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/25/17.
@@ -25,12 +25,13 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     public var mentionedDisclaimer = MentionedDisclaimerUD()
     public var siteIndex = SiteIndexUD()
     public var theme = PDThemeUD()
+
+    private var getSiteCount: () -> Int
     
-    public var getSiteCount: (() -> Int)?
-    
-    init(state: PDState, handler: UserDefaultsWriteHandler) {
+    init(state: PDState, handler: UserDefaultsWriteHandler, getSiteCount: @escaping () -> Int) {
         self.state = state
         self.handler = handler
+        self.getSiteCount = getSiteCount
         handler.load(&deliveryMethod)
             .load(&expirationInterval)
             .load(&quantity)
@@ -88,7 +89,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     @discardableResult
     public func incrementStoredSiteIndex() -> Index {
         let currentIndex = siteIndex.value
-        let siteCount = getSiteCount?() ?? getDefaultQuantity()
+        let siteCount = getSiteCount()
         let newIndex = (currentIndex + 1) % siteCount
         handler.replace(&siteIndex, to: newIndex)
         return newIndex
@@ -96,9 +97,5 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     
     public func replaceStoredTheme(to t: PDTheme) {
         handler.replace(&theme, to: t)
-    }
-    
-    private func getDefaultQuantity() -> Int {
-        KeyStorableHelper.defaultSiteCount(for: deliveryMethod.value)
     }
 }

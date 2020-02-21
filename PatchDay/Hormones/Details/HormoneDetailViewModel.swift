@@ -15,10 +15,11 @@ enum TextFieldButtonSenderType: String {
     case DefaultTextFieldEditor = "type"
 }
 
+
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private var expirationIntervalHours: Int{
-        sdk?.userDefaults.expirationInterval.hours ?? DefaultSettings.DefaultExpirationIntervalHours
+        sdk?.settings.expirationInterval.hours ?? DefaultSettings.DefaultExpirationIntervalHours
     }
 
     var hormone: Hormonal
@@ -44,7 +45,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         if !hormone.hasDate {
             return ActionStrings.Select
         }
-
         return PDDateFormatter.formatDate(hormone.date)
     }
 
@@ -52,11 +52,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         if !hormone.hasSite {
             return ActionStrings.Select
         }
-
         if let siteName = getSite()?.name {
             return siteName
         }
-
         return SiteStrings.NewSite
     }
 
@@ -69,17 +67,17 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     var siteIndexStartRow: Index {
-        if selectionState.selectedSiteIndex > -1 {
-            return selectionState.selectedSiteIndex
-        } else if let site = getSite() {
+        guard selectionState.selectedSiteIndex >= 0 else {
+            guard let site = getSite() else { return 0 }
             let order = site.order
             let end = sitesCount
             if order >= 1 && order <= end {
                 selectionState.selectedSite = site
                 return order
             }
+            return 0
         }
-        return 0
+        return selectionState.selectedSiteIndex
     }
 
     var sitesCount: Int {
@@ -97,16 +95,14 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     func createHormoneViewStrings() -> HormoneViewStrings {
-        let method = sdk?.userDefaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        let method = sdk?.settings.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
         return ColonStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
     }
 
     @discardableResult func trySelectSite(at row: Index) -> String? {
-        if let site = sdk?.sites.at(row) {
-            selectionState.selectedSite = site
-            return site.name
-        }
-        return nil
+        guard let site = sdk?.sites.at(row) else { return nil }
+        selectionState.selectedSite = site
+        return site.name
     }
 
     func saveFromSelectionState() {
@@ -120,22 +116,18 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {
-        if siteTextField.text == nil || siteTextField.text == "" {
-            siteTextField.text = SiteStrings.NewSite
-        }
-        return siteTextField.text!
+        guard let text = siteTextField.text else { return SiteStrings.NewSite }
+        return text != "" ? text : SiteStrings.NewSite
     }
 
     func presentNewSiteAlert(newSiteName: String) {
-        guard let alerts = alerts else {
-            return
-        }
-        let handler = NewSiteAlertActionHandler() {
+        guard let alerts = alerts else { return }
+        let handlers = NewSiteAlertActionHandler() {
             self.sdk?.sites.insertNew(name: newSiteName, save: true) {
                 self.handleInterfaceUpdatesFromNewSite()
             }
         }
-        alerts.presentNewSiteAlert(handler: handler)
+        alerts.presentNewSiteAlert(handlers: handlers)
     }
 
     private func createInitialExpirationState(from hormone: Hormonal) -> HormoneExpirationState {
@@ -148,26 +140,26 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         if let sdk = sdk {
             trySaveDate(sdk.hormones, selectionState.selectedDate, doSave: false)
             trySaveSite(sdk.hormones, selectionState.selectedSite, doSave: true)
-        } else {
-            log.error("Save failed - PatchData SDK is nil")
+            return
         }
+        log.error("Save failed - PatchData SDK is nil")
     }
 
     private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?, doSave: Bool=true) {
         if let date = selectedDate {
             hormones.setDate(by: hormone.id, with: date, doSave: doSave)
-        } else {
-            log.info("There are no changes to the \(PDEntity.hormone) date")
+            return
         }
+        log.info("There are no changes to the \(PDEntity.hormone) date")
     }
 
     private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool=true) {
         if let site = selectedSite {
             let isSuggested = site.id == sdk?.sites.suggested?.id
             hormones.setSite(by: hormone.id, with: site, bumpSiteIndex: isSuggested, doSave: doSave)
-        } else {
-            log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
+            return
         }
+        log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
     }
 
     private func handleExpirationState(state: HormoneExpirationState) {
@@ -175,39 +167,35 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     private func reflectExpirationInAppBadge(state: HormoneExpirationState) {
-        if !state.isExpiredAfterSave && (badge?.hasValue ?? false) {
+        if !state.isExpiredAfterSave {
             badge?.decrement()
         } else if !state.wasExpiredBeforeSave && state.isExpiredAfterSave {
+            // ^ Don't increment if already incremented (already was expired)
             badge?.increment()
         }
     }
 
     private func handleExpirationStateInNotifications(state: HormoneExpirationState) {
-        if !state.wasPastAlertTimeAfterSave {
-            notifications?.cancelExpiredHormoneNotification(for: hormone)
-        }
+        guard !state.wasPastAlertTimeAfterSave else { return }
+        notifications?.cancelExpiredHormoneNotification(for: hormone)
     }
 
     private func requestNewNotifications() {
-        if let notifications = notifications {
-            notifications.requestExpiredHormoneNotification(for: hormone)
-            if hormone.expiresOvernight {
-                notifications.requestOvernightExpirationNotification(for: hormone)
-            }
+        guard let notifications = notifications else { return }
+        notifications.requestExpiredHormoneNotification(for: hormone)
+        if hormone.expiresOvernight {
+            notifications.requestOvernightExpirationNotification(for: hormone)
         }
     }
 
     private func createExpirationDateString(from startDate: Date) -> String {
-        if let expDate = DateFactory.createDate(byAddingHours: expirationIntervalHours, to: startDate) {
-            return PDDateFormatter.formatDate(expDate)
-        }
-        return ""
+        let hours = expirationIntervalHours
+        guard let expDate = DateFactory.createDate(byAddingHours: hours, to: startDate) else { return "" }
+        return PDDateFormatter.formatDate(expDate)
     }
 
     private func getSite() -> Bodily? {
-        if let id = hormone.siteId {
-            return sdk?.sites.get(by: id)
-        }
-        return nil
+        guard let id = hormone.siteId else { return nil }
+        return sdk?.sites.get(by: id)
     }
 }

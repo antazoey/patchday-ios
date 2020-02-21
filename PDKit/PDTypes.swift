@@ -8,11 +8,13 @@
 
 import Foundation
 
+
 public typealias Index = Int
 public typealias SiteName = String
 public typealias Time = Date
 public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
+public typealias AppTheme = Dictionary<ThemedAsset, UIColor>
 
 public enum DeliveryMethod {
     case Patches
@@ -38,7 +40,7 @@ public enum PDTheme {
 }
 
 // These strings cannot change - they are for retrieving from Core Data
-public enum PDDefault: String {
+public enum PDSetting: String {
     case DeliveryMethod = "delivMethod"
     case ExpirationInterval = "patchChangeInterval"
     case Quantity = "numberOfPatches"
@@ -53,4 +55,18 @@ public enum PDEntity: String, CaseIterable {
     case hormone = "Hormone"
     case pill = "Pill"
     case site = "Site"
+}
+
+public enum ThemedAsset {
+    case bg
+    case border
+    case button
+    case evenCell
+    case green
+    case navBar
+    case oddCell
+    case purple
+    case selected
+    case text
+    case unselected
 }

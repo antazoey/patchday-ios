@@ -24,7 +24,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
     
     var mainViewControllerTitle: String {
-        guard let method = sdk?.userDefaults.deliveryMethod.value else { return VCTitleStrings.HormonesTitle }
+        guard let method = sdk?.settings.deliveryMethod.value else { return VCTitleStrings.HormonesTitle }
         return VCTitleStrings.getTitle(for: method)
     }
     
@@ -40,7 +40,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     func presentDisclaimerAlertIfFirstLaunch() {
         guard isFirstLaunch else { return }
         alerts?.presentDisclaimerAlert()
-        sdk?.userDefaults.setMentionedDisclaimer(to: true)
+        sdk?.settings.setMentionedDisclaimer(to: true)
     }
 
     func getCell(at row: Index) -> UITableViewCell {
@@ -75,7 +75,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     private var isFirstLaunch: Bool {
-        !(sdk?.userDefaults.mentionedDisclaimer.value ?? false)
+        !(sdk?.settings.mentionedDisclaimer.value ?? false)
     }
 
     private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {

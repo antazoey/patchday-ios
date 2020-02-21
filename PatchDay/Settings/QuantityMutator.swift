@@ -30,30 +30,29 @@ class QuantityMutator: QuantityMutating {
     }
     
     func setQuantity(to newQuantity: Int) {
-        if let sdk = sdk {
-            let oldQuantity = sdk.userDefaults.quantity.rawValue
-            if newQuantity < oldQuantity {
-                let continueAction: (_ newQuantity: Int) -> () = {
-                    (newQuantity) in
-                    sdk.hormones.delete(after: newQuantity)
-                    sdk.userDefaults.setQuantity(to: newQuantity)
-                    self.makeResetClosure(oldQuantity: oldQuantity)(oldQuantity)
-                }
-                let handler = QuantityMutationAlertActionHandler(
-                    cont: continueAction,
-                    cancel: self.cancel,
-                    setQuantity: sdk.userDefaults.setQuantity)
-                
-                alerts?.presentQuantityMutationAlert(
-                    oldQuantity: oldQuantity,
-                    newQuantity: newQuantity,
-                    handler: handler
-                )
-            } else {
-                sdk.userDefaults.setQuantity(to: newQuantity)
-                cancel(oldQuantity)
-            }
+        guard let sdk = sdk else { return }
+        let oldQuantity = sdk.settings.quantity.rawValue
+        if newQuantity >= oldQuantity {
+            sdk.settings.setQuantity(to: newQuantity)
+            cancel(oldQuantity)
+            return
         }
+        let continueAction: (_ newQuantity: Int) -> () = {
+            (newQuantity) in
+            sdk.hormones.delete(after: newQuantity)
+            sdk.settings.setQuantity(to: newQuantity)
+            self.makeResetClosure(oldQuantity: oldQuantity)(oldQuantity)
+        }
+        let handler = QuantityMutationAlertActionHandler(
+            cont: continueAction,
+            cancel: self.cancel,
+            setQuantity: sdk.settings.setQuantity
+        )
+        alerts?.presentQuantityMutationAlert(
+            oldQuantity: oldQuantity,
+            newQuantity: newQuantity,
+            handlers: handler
+        )
     }
     
     private func makeResetClosure(oldQuantity: Int) -> ((Int) -> ()) {

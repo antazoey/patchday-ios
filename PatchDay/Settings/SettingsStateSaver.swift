@@ -21,7 +21,7 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
         super.init()
     }
     
-    public func save(_ key: PDDefault, selectedRow: Index) {
+    public func save(_ key: PDSetting, selectedRow: Index) {
         notifications?.cancelAllExpiredHormoneNotifications()
         switch key {
         case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
@@ -37,7 +37,7 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
         if let sdk = sdk {
             let newMethod = PickerOptions.getDeliveryMethod(at: selectedRow)
             if sdk.isFresh {
-                sdk.userDefaults.setDeliveryMethod(to: newMethod)
+                sdk.settings.setDeliveryMethod(to: newMethod)
             } else {
                 presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
             }
@@ -59,8 +59,8 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
                 controls.quantityArrowButton.isEnabled = false
             }
         }
-        let handler = DeliveryMethodMutationAlertActionHandler(decline: decline)
-        alerts?.presentDeliveryMethodMutationAlert(newMethod: choice, handler: handler)
+        let handlers = DeliveryMethodMutationAlertActionHandler(decline: decline)
+        alerts?.presentDeliveryMethodMutationAlert(newMethod: choice, handlers: handlers)
     }
     
     private func saveQuantity(_ selectedRow: Index) {
@@ -85,14 +85,14 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
     
     private func saveExpirationInterval(_ selectedRow: Index) {
         if let newInterval = PickerOptions.expirationIntervals.tryGet(at: selectedRow) {
-            sdk?.userDefaults.setExpirationInterval(to: newInterval)
+            sdk?.settings.setExpirationInterval(to: newInterval)
         }
     }
     
     private func saveTheme(_ selectedRow: Int) {
         if let themeName = PickerOptions.getTheme(at: selectedRow) {
             let theme = PickerOptions.getTheme(for: themeName)
-            sdk?.userDefaults.setTheme(to: theme)
+            sdk?.settings.setTheme(to: theme)
         }
         applyTheme()
     }

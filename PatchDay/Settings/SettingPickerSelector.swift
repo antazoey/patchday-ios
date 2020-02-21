@@ -19,7 +19,7 @@ class SettingsPickerSelector {
         self.pickers = pickers
     }
     
-    func selectPicker(key: PDDefault) -> UIPickerView? {
+    func selectPicker(key: PDSetting) -> UIPickerView? {
         switch key {
         case.Quantity: return pickers.quantityPicker
         case .DeliveryMethod: return pickers.deliveryMethodPicker

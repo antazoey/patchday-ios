@@ -67,5 +67,5 @@ public class PDThemeUD: KeyStorable {
     
     public var rawValue: String { valueHolder.heldValue }
     
-    public static var key = PDDefault.Theme
+    public static var key = PDSetting.Theme
 }

@@ -36,14 +36,14 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     }
 
     func takePill(at index: Index) {
-        if let pills = pills, let pill = pills.at(index) {
-            pills.swallow(pill.id) {
-                self.tabs?.reflectDuePillBadgeValue()
-                self.notifications?.requestDuePillNotification(pill)
-                let params = PillCellConfigurationParameters(pill: pill, index: index, styles: self.styles)
-                self.pillsTable.getCell(at: index).stamp().configure(params)
-                self.pillsTable.reloadData()
-            }
+        guard let pills = pills else { return }
+        guard let pill = pills.at(index) else { return }
+        pills.swallow(pill.id) {
+            self.tabs?.reflectDuePillBadgeValue()
+            self.notifications?.requestDuePillNotification(pill)
+            let params = PillCellConfigurationParameters(pill: pill, index: index, styles: self.styles)
+            self.pillsTable.getCell(at: index).stamp().configure(params)
+            self.pillsTable.reloadData()
         }
     }
 
@@ -53,21 +53,21 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
         pillsTable.deleteCell(at: index, pillsCount: pillsCount)
     }
     
-    func presentPillActions() {
-        alerts?.presentPillActions()
+    func presentPillActions(at index: Index, viewController: UIViewController) {
+        let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
+        let takePill = { self.takePill(at: index) }
+        let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
+        alerts?.presentPillActions(handlers: handlers)
     }
     
     func goToNewPillDetails(pillsViewController: UIViewController) {
-        guard let pill = pills?.insertNew(onSuccess: nil) else {
-            return
-        }
+        guard let pill = pills?.insertNew(onSuccess: nil) else { return }
         nav?.goToPillDetails(pill, source: pillsViewController)
     }
 
     func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
-        if let pill = pills?.at(pillIndex) {
-            nav?.goToPillDetails(pill, source: pillsViewController)
-        }
+        guard let pill = pills?.at(pillIndex) else { return }
+        nav?.goToPillDetails(pill, source: pillsViewController)
     }
 
     // MARK: - Private

@@ -25,7 +25,6 @@ public class SiteStrings {
     public static let CustomSiteId = "custom"
     
     public struct SiteNames {
-        
         static let patchSiteNames: [String] = {
             let comment = commonComment
             return [

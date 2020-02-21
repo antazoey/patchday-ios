@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
         self.alerts = AlertDispatcher(sdk: sdk)
-        self.styles = Stylist(theme: self.sdk.userDefaults.theme.value)
+        self.styles = Stylist(theme: self.sdk.settings.theme.value)
         self.setBadgeToTotalAlerts()
         self.setNavigationAppearance()
         return true
@@ -59,8 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setTheme() {
-        let t = sdk.userDefaults.theme.value
-        self.styles = Stylist(theme: t)
+        let theme = sdk.settings.theme.value
+        self.styles = Stylist(theme: theme)
         setNavigationAppearance()
     }
 

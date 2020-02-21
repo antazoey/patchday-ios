@@ -21,14 +21,14 @@ public class PatchData: NSObject, PatchDataSDK {
     let coreData: PDCoreDataWrapping
     let hormoneDataSharer: HormoneDataSharing
 
-    public var userDefaults: UserDefaultsManaging
+    public var settings: PDSettingsManaging
     public var hormones: HormoneScheduling
     public var sites: SiteScheduling
     public var pills: PillScheduling
     public var stateManager: PDStateManaging
     
     public init(
-        defaults: UserDefaultsManaging,
+        settings: PDSettingsManaging,
         dataSharer: DataSharing,
         hormones: HormoneScheduling,
         pills: PillScheduling,
@@ -37,7 +37,7 @@ public class PatchData: NSObject, PatchDataSDK {
         coreData: PDCoreDataWrapping,
         hormoneDataSharer: HormoneDataSharing
     ) {
-        self.userDefaults = defaults
+        self.settings = settings
         self.dataSharer = dataSharer
         self.hormones = hormones
         self.pills = pills
@@ -50,51 +50,52 @@ public class PatchData: NSObject, PatchDataSDK {
     
     // Run
     public override convenience init() {
-        let store = CoreDataStackWrapper()
+        let storeDataStackWrapper = CoreDataStackWrapper()
+        let hormoneStore = HormoneStore(storeDataStackWrapper)
+        let pillStore = PillStore(storeDataStackWrapper)
+        let siteStore = SiteStore(storeDataStackWrapper)
+
         let dataSharer = DataSharer()
         let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
         let state = PDState()
-        let defaultsStore = UserDefaultsWriter(
-            state: state, handler: UserDefaultsWriteHandler(dataSharer: dataSharer)
+        let userDefaultsWriter = UserDefaultsWriter(
+            state: state,
+            handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
+            getSiteCount: { siteStore.siteCount }
         )
-        let pillScheduleState = PatchData.determinePillScheduleState(defaults: defaultsStore)
-        let pills = PillSchedule(store: PillStore(store), pillDataSharer: pillDataSharer, state: pillScheduleState)
-        let sites = SiteSchedule(store: SiteStore(store), defaults: defaultsStore)
-        
-        defaultsStore.getSiteCount = { sites.count }
-        
-        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer, sites: sites, defaults: defaultsStore)
-        
+        let pillScheduleState = PatchData.determinePillScheduleState(settings: userDefaultsWriter)
+        let pills = PillSchedule(store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState)
+        let sites = SiteSchedule(store: siteStore, defaults: userDefaultsWriter)
+        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer, sites: sites, defaults: userDefaultsWriter)
         let hormones = HormoneSchedule(
-            store: HormoneStore(store),
+            store: hormoneStore,
             hormoneDataSharer: hormoneDataSharer,
             state: state,
-            defaults: defaultsStore
+            defaults: userDefaultsWriter
         )
-        
-        let defaults = PDDefaults(writer: defaultsStore, state: state, hormones: hormones, sites: sites)
-        let stateManager = PDStateManager(state: state, defaults: defaults, hormones: hormones)
+        let settings = PDSettings(writer: userDefaultsWriter, state: state, hormones: hormones, sites: sites)
+        let stateManager = PDStateManager(state: state, defaults: settings, hormones: hormones)
         
         // ******************************************************
         // Nuke mode: Resets app like it's fresh
         // ******************************************************
         if CommandLine.arguments.contains("-n") {
-            store.nuke()
+            storeDataStackWrapper.nuke()
             hormones.reset()
             pills.reset()
             let newSiteCount = sites.reset()
-            defaults.reset(defaultSiteCount: newSiteCount)
+            settings.reset(defaultSiteCount: newSiteCount)
         }
         // ******************************************************
         
         self.init(
-            defaults: defaults,
+            settings: settings,
             dataSharer: dataSharer,
             hormones: hormones,
             pills: pills,
             sites: sites,
             stateManager: stateManager,
-            coreData: store,
+            coreData: storeDataStackWrapper,
             hormoneDataSharer: hormoneDataSharer
         )
     }
@@ -107,8 +108,8 @@ public class PatchData: NSObject, PatchDataSDK {
         hormones.totalExpired + pills.totalDue
     }()
     
-    private static func determinePillScheduleState(defaults: UserDefaultsWriting) -> PillSchedule.PillScheduleState {
+    private static func determinePillScheduleState(settings: UserDefaultsWriting) -> PillSchedule.PillScheduleState {
         typealias PSS = PillSchedule.PillScheduleState
-        return defaults.mentionedDisclaimer.value ? PSS.Working : PSS.Initial
+        return settings.mentionedDisclaimer.value ? PSS.Working : PSS.Initial
     }
 }

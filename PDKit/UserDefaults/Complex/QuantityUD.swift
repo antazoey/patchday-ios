@@ -66,5 +66,5 @@ public class QuantityUD: KeyStorable {
     
     public var rawValue: Int { valueHolder.heldValue }
     
-    public static var key = PDDefault.Quantity
+    public static var key = PDSetting.Quantity
 }

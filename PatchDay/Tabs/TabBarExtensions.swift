@@ -10,26 +10,10 @@ import UIKit
 import PDKit
 
 
-extension UITabBar {
-    
-    override open func sizeThatFits(_ size: CGSize) -> CGSize {
-        super.sizeThatFits(size)
-        guard let window = KeyWindowFinder.keyWindow else {
-            let log = PDLog<UITabBar>()
-            log.error("Unable to override sizeThatFits")
-            return super.sizeThatFits(size)
-        }
-        var sizeThatFits = super.sizeThatFits(size)
-        let h: CGFloat = AppDelegate.isPad ? 100 : 44
-        sizeThatFits.height = window.safeAreaInsets.bottom + h
-        return sizeThatFits
-    }
-}
-
 extension UITabBarItem {
 
     func reflectHormonesCharacteristics(sdk: PatchDataSDK) {
-        let method = sdk.userDefaults.deliveryMethod.value
+        let method = sdk.settings.deliveryMethod.value
         reflectExpiredHormoneBadgeValue(sdk: sdk)
         reflectHormoneTabBarItemTitle(deliveryMethod: method)
         reflectHormoneTabBarItemIcon(deliveryMethod: method)

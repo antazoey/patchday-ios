@@ -105,16 +105,15 @@ class PillCell: TableCell {
     }
     
     @discardableResult private func applyTheme(at index: Index) -> PillCell {
-        if let styles = styles {
-            let textColor = styles.theme[.text] ?? UIColor.black
-            stateImageView.tintColor = styles.theme[.button]
-            nameLabel.textColor = textColor
-            lastTakenLabel.textColor = textColor
-            nextDueDate.textColor = textColor
-            let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
-            stateImageView.image = stateImage
-            backgroundColor = styles.getCellColor(at: index)
-        }
+        guard let styles = styles else { return self }
+        let textColor = styles.theme[.text] ?? UIColor.black
+        stateImageView.tintColor = styles.theme[.button]
+        nameLabel.textColor = textColor
+        lastTakenLabel.textColor = textColor
+        nextDueDate.textColor = textColor
+        let stateImage = stateImageView.image?.withRenderingMode(.alwaysTemplate)
+        stateImageView.image = stateImage
+        backgroundColor = styles.getCellColor(at: index)
         return self
     }
 }

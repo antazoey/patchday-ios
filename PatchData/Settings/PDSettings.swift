@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-public class PDDefaults: UserDefaultsManaging {
+public class PDSettings: PDSettingsManaging {
 
     private let writer: UserDefaultsWriting
     private var state: PDState

@@ -11,7 +11,7 @@ import Foundation
 
 public protocol UserDefaultsWriting: UserDefaultsReading {
     
-    /// Resets all values back to their default. The defaultSiteCount depends on the DeliveryMethod.
+    /// Resets all values back to their default values. The defaultSiteCount depends on the DeliveryMethod.
     func reset(defaultSiteCount: Int)
 
     /// Replaces the value of 'delivery method' with the given one.

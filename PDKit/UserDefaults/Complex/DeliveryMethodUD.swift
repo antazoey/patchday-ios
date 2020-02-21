@@ -68,5 +68,5 @@ public class DeliveryMethodUD: KeyStorable {
     
     public var rawValue: String { valueHolder.heldValue }
     
-    public static var key = PDDefault.DeliveryMethod
+    public static var key = PDSetting.DeliveryMethod
 }

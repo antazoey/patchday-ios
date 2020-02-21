@@ -1,5 +1,5 @@
 //
-//  SettingsVC.swift
+//  SettingsViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/20/17.
@@ -10,8 +10,6 @@ import UIKit
 import PDKit
 
 
-typealias UITimePicker = UIDatePicker
-
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     override public var description: String {
@@ -21,45 +19,45 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     private var viewModel: SettingsViewModel? = nil
 
     // Containers
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
-    @IBOutlet fileprivate weak var settingsStack: UIStackView!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var settingsStack: UIStackView!
     @IBOutlet private weak var settingsView: UIView!
     
     // Labels
-    @IBOutlet weak var deliveryMethodLabel: UILabel!
-    @IBOutlet weak var expirationIntervalLabel: UILabel!
-    @IBOutlet weak var quantityLabel: UILabel!
-    @IBOutlet weak var notificationsLabel: UILabel!
-    @IBOutlet weak var notificationsMinutesBeforeLabel: UILabel!
-    @IBOutlet weak var notificationsMinutesBeforeValueLabel: UILabel!
+    @IBOutlet private weak var deliveryMethodLabel: UILabel!
+    @IBOutlet private weak var expirationIntervalLabel: UILabel!
+    @IBOutlet private weak var quantityLabel: UILabel!
+    @IBOutlet private weak var notificationsLabel: UILabel!
+    @IBOutlet private weak var notificationsMinutesBeforeLabel: UILabel!
+    @IBOutlet private weak var notificationsMinutesBeforeValueLabel: UILabel!
     
     // Pickers
-    @IBOutlet weak var deliveryMethodPicker: UIPickerView!
+    @IBOutlet private weak var deliveryMethodPicker: UIPickerView!
     @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
     @IBOutlet private weak var quantityPicker: UIPickerView!
-    @IBOutlet weak var themePicker: UIPickerView!
+    @IBOutlet private weak var themePicker: UIPickerView!
 
     // Buttons
-    @IBOutlet weak var deliveryMethodButton: UIButton!
+    @IBOutlet private weak var deliveryMethodButton: UIButton!
     @IBOutlet private weak var expirationIntervalButton: UIButton!
     @IBOutlet private weak var quantityButton: UIButton!
-    @IBOutlet weak var quantityArrowButton: UIButton!
-    @IBOutlet weak var themeButton: UIButton!
+    @IBOutlet private weak var quantityArrowButton: UIButton!
+    @IBOutlet private weak var themeButton: UIButton!
     
     // Other Controls
-    @IBOutlet weak var notificationsSwitch: UISwitch!
-    @IBOutlet weak var notificationsMinutesBeforeSlider: UISlider!
+    @IBOutlet private weak var notificationsSwitch: UISwitch!
+    @IBOutlet private weak var notificationsMinutesBeforeSlider: UISlider!
     
     // Views
-    @IBOutlet weak var deliveryMethodSideView: UIView!
-    @IBOutlet weak var quantitySideView: UIView!
-    @IBOutlet weak var notificationsSideView: UIView!
-    @IBOutlet weak var notificationsMinutesBeforeSideView: UIView!
-    @IBOutlet weak var themeSideView: UIView!
+    @IBOutlet private weak var deliveryMethodSideView: UIView!
+    @IBOutlet private weak var quantitySideView: UIView!
+    @IBOutlet private weak var notificationsSideView: UIView!
+    @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
+    @IBOutlet private weak var themeSideView: UIView!
     
     // Trackers
-    private var selectedDefault: PDDefault?
+    private var selectedDefault: PDSetting?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +68,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         setTopConstraint()
         loadButtonSelectedStates()
         loadButtonDisabledStates()
-        delegatePickers()
+        assignSelfAsDelegateForPickers()
         viewModel?.reflector.reflectStoredSettings()
     }
     
@@ -93,20 +91,20 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         viewModel.notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(notificationsMinutesBeforeSlider.value.rounded())
         notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
-        viewModel.sdk?.userDefaults.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        viewModel.sdk?.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
         viewModel.notifications?.requestAllExpiredHormoneNotifications()
     }
     
     /// Opens UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
-        if let def = viewModel?.createDefaultFromButton(sender) {
-            handlePickerActivation(def, activator: sender)
+        if let setting = viewModel?.getSettingFromButton(sender) {
+            handlePickerActivation(setting, activator: sender)
         }
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
         reflectNotificationSwitchInNotificationButtons()
-        viewModel?.sdk?.userDefaults.setNotifications(to: notificationsSwitch.isOn)
+        viewModel?.sdk?.settings.setNotifications(to: notificationsSwitch.isOn)
     }
 
     // MARK: - Picker Delegate Functions
@@ -120,10 +118,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if let key = selectedDefault {
-            return PickerOptions.getStrings(for: key).tryGet(at: row)
-        }
-        return nil
+        guard let key = selectedDefault else { return nil }
+        return PickerOptions.getStrings(for: key).tryGet(at: row)
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -141,9 +137,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.viewModel = SettingsViewModel(reflector: reflector, saver: saver)
     }
 
-    private func handlePickerActivation(_ key: PDDefault, activator: UIButton) {
+    private func handlePickerActivation(_ key: PDSetting, activator: UIButton) {
         guard let viewModel = viewModel else { return }
-        viewModel.selectedDefault = key
+        viewModel.selectedSettings = key
         let pickers = SettingsPickers(
             quantityPicker: quantityPicker,
             deliveryMethodPicker: deliveryMethodPicker,
@@ -156,7 +152,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         }
     }
 
-    private func handleBottomPickerViewRequirements(for pickerKey: PDDefault) {
+    private func handleBottomPickerViewRequirements(for pickerKey: PDSetting) {
         if pickerKey == .Theme {
             let y = themePicker!.frame.origin.y / 2.0
             scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
@@ -179,14 +175,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func disableNotificationButtons() {
-        viewModel?.sdk?.userDefaults.setNotificationsMinutesBefore(to: 0)
+        viewModel?.sdk?.settings.setNotificationsMinutesBefore(to: 0)
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = "0"
         notificationsMinutesBeforeSlider.value = 0
     }
     
-    private func deselectEverything(except: PDDefault) {
+    private func deselectEverything(except: PDSetting) {
         switch except {
         case let def where def != .DeliveryMethod:
             deliveryMethodPicker.isHidden = true
@@ -259,11 +255,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         )
     }
     
-    private func delegatePickers() {
+    private func assignSelfAsDelegateForPickers() {
         deliveryMethodPicker.delegate = self
+        deliveryMethodPicker.dataSource = self
         expirationIntervalPicker.delegate = self
+        expirationIntervalPicker.dataSource = self
         quantityPicker.delegate = self
+        quantityPicker.dataSource = self
         themePicker.delegate = self
+        themePicker.dataSource = self
     }
 }
 

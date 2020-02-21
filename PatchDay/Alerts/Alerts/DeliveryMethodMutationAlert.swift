@@ -17,21 +17,21 @@ class DeliveryMethodMutationAlert: PDAlert {
     
     private let oldDeliveryMethod: DeliveryMethod
     private let newDeliveryMethod: DeliveryMethod
-    private let handler: DeliveryMethodMutationAlertActionHandling
+    private let handlers: DeliveryMethodMutationAlertActionHandling
     
-    private var continueAction: UIAlertAction {
+    private lazy var continueAction: UIAlertAction = {
         UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
             void in
-            self.sdk?.userDefaults.setDeliveryMethod(to: self.newDeliveryMethod)
+            self.sdk?.settings.setDeliveryMethod(to: self.newDeliveryMethod)
             self.tabs?.reflectHormoneCharacteristics()
         }
-    }
+    }()
     
-    private var declineAction: UIAlertAction {
+    private lazy var declineAction: UIAlertAction = {
         UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
-            void in self.handler.handleDecline(oldMethod: self.oldDeliveryMethod)
+            void in self.handlers.handleDecline(oldMethod: self.oldDeliveryMethod)
         }
-    }
+    }()
     
     init(
         parent: UIViewController,
@@ -40,11 +40,11 @@ class DeliveryMethodMutationAlert: PDAlert {
         tabs: TabReflective?,
         oldDeliveryMethod: DeliveryMethod,
         newDeliveryMethod: DeliveryMethod,
-        handler: DeliveryMethodMutationAlertActionHandling
+        handlers: DeliveryMethodMutationAlertActionHandling
     ) {
         self.sdk = sdk
         self.tabs = tabs
-        self.handler = handler
+        self.handlers = handlers
         let strings = AlertStrings.loseDataAlertStrings
         self.oldDeliveryMethod = oldDeliveryMethod
         self.newDeliveryMethod = newDeliveryMethod

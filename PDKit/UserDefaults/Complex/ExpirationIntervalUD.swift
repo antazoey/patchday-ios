@@ -76,7 +76,7 @@ public class ExpirationIntervalUD: KeyStorable {
     
     public var rawValue: String { return valueHolder.heldValue }
     
-    public static var key = PDDefault.ExpirationInterval
+    public static var key = PDSetting.ExpirationInterval
     
     public var hours: Int {
         switch value {

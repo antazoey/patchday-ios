@@ -10,12 +10,12 @@ import UIKit
 import PDKit
 
 
-struct PickerActivationProperties {
+struct PickerActivation {
     var picker: UIPickerView
     var activator: UIButton
     var options: [String]
     var startRow: Index
-    var propertyKey: PDDefault
+    var propertyKey: PDSetting
 }
 
 struct SettingsControls {

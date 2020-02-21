@@ -54,7 +54,7 @@ public class PickerOptions {
         }
     }
 
-    public static func getStrings(for key: PDDefault) -> [String] {
+    public static func getStrings(for key: PDSetting) -> [String] {
         switch key {
         case .DeliveryMethod: return deliveryMethods
         case .ExpirationInterval: return expirationIntervals
@@ -64,7 +64,7 @@ public class PickerOptions {
         }
     }
     
-    public static func getPickerOption(key: PDDefault, row: Index) -> String? {
+    public static func getPickerOption(key: PDSetting, row: Index) -> String? {
         switch key {
         case .DeliveryMethod: return deliveryMethods.tryGet(at: row)
         case .Quantity: return quantities.tryGet(at: row)
@@ -100,7 +100,7 @@ public class PickerOptions {
         }
     }
     
-    public static func getOptionsCount(for def: PDDefault?) -> Int {
+    public static func getOptionsCount(for def: PDSetting?) -> Int {
         guard let d = def else { return 0 }
         switch (d) {
         case .DeliveryMethod: return deliveryMethods.count

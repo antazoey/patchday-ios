@@ -22,6 +22,11 @@ class SiteStore: EntityStore, SiteStoring {
         return sites
     }
 
+    var siteCount: Int {
+        let sites = getStoredSites()
+        return sites.count
+    }
+
     func createNewSite(doSave: Bool) -> Bodily? {
         guard let newSiteDataFromStore = entities.createNewManagedSite(doSave: doSave) else { return nil }
         return Site(siteData: newSiteDataFromStore)

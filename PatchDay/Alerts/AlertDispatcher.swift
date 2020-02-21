@@ -22,14 +22,14 @@ class AlertDispatcher: NSObject, AlertDispatching {
         AppDelegate.isPad ? .alert : .actionSheet
     }()
 
-    private lazy var rootViewController: UIViewController? = {
+    private var rootViewController: UIViewController? {
         guard let window = KeyWindowFinder.keyWindow else {
             let log = PDLog<AlertDispatcher>()
             log.error("Unable to get root view controller")
             return nil
         }
         return window.rootViewController
-    }()
+    }
 
     init(sdk: PatchDataSDK?, tabs: TabReflective?=nil) {
         self.sdk = sdk
@@ -38,11 +38,11 @@ class AlertDispatcher: NSObject, AlertDispatching {
 
     /// Alert that occurs when the delivery method has changed because data could now be lost.
     func presentDeliveryMethodMutationAlert(
-        newMethod: DeliveryMethod, handler: DeliveryMethodMutationAlertActionHandling
+        newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
     ) {
         guard let root = rootViewController else { return }
         guard let sdk = sdk else { return }
-        let oldMethod = sdk.userDefaults.deliveryMethod.value
+        let oldMethod = sdk.settings.deliveryMethod.value
         let tabs = self.tabs ?? AppDelegate.current?.tabs
         DeliveryMethodMutationAlert(
             parent: root,
@@ -51,31 +51,31 @@ class AlertDispatcher: NSObject, AlertDispatching {
             tabs: tabs,
             oldDeliveryMethod: oldMethod,
             newDeliveryMethod: newMethod,
-            handler: handler
+            handlers: handlers
         ).present()
     }
 
     /// Alert for changing the count of hormones causing a loss of data.
     func presentQuantityMutationAlert(
-        oldQuantity: Int, newQuantity: Int, handler: QuantityMutationAlertActionHandling
+        oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
     ) {
         if newQuantity > oldQuantity {
-            handler.handleSetQuantityWithoutAlert(newQuantity: newQuantity)
+            handlers.handleSetQuantityWithoutAlert(newQuantity: newQuantity)
             return
         }
         guard let root = rootViewController else { return }
         QuantityMutationAlert(
             parent: root,
             style: self.style,
-            actionHandler: handler,
+            actionHandler: handlers,
             oldQuantity: oldQuantity,
             newQuantity: newQuantity
         ).present()
     }
     
-    func presentPillActions() {
+    func presentPillActions(handlers: PillCellActionHandling) {
         guard let root = rootViewController else { return }
-        PillCellActionAlert(parent: root).present()
+        PillCellActionAlert(parent: root, handlers: handlers).present()
     }
 
     /// Alert that displays a quick tutorial and disclaimer on installation.
@@ -85,9 +85,9 @@ class AlertDispatcher: NSObject, AlertDispatching {
     }
 
     /// Alert that gives the user the option to add a new site they typed out in the UI.
-    func presentNewSiteAlert(handler: NewSiteAlertActionHandling) {
+    func presentNewSiteAlert(handlers: NewSiteAlertActionHandling) {
         guard let root = rootViewController else { return }
-        NewSiteAlert(parent: root, style: style, handler: handler).present()
+        NewSiteAlert(parent: root, style: style, handlers: handlers).present()
     }
     
     func presentGenericAlert() {

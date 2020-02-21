@@ -3,19 +3,17 @@
 // Copyright (c) 2019 Juliya Smith. All rights reserved.
 //
 
-import PDKit
 
+public class SiteImageTypeAdapter {
 
-class SiteImageTypeAdapter {
-
-    enum SiteImageType {
+    public enum SiteImageType {
         case LightPatch
         case DarkPatch
         case LightInjection
         case DarkInjection
     }
 
-    static func convertToSiteImageType(deliveryMethod: DeliveryMethod, theme: PDTheme) -> SiteImageType {
+    public static func convertToSiteImageType(deliveryMethod: DeliveryMethod, theme: PDTheme) -> SiteImageType {
         switch (deliveryMethod, theme) {
         case (.Patches, .Light): return .LightPatch
         case (.Patches, .Dark): return .DarkPatch

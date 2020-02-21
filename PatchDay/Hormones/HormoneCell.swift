@@ -24,7 +24,7 @@ class HormoneCell: TableCell {
         backgroundColor = styles?.theme[.bg]
         applyTheme(at: row)
         guard let sdk = viewModel.sdk else { return self }
-        let quantity = sdk.userDefaults.quantity
+        let quantity = sdk.settings.quantity
         let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
             row, hormoneLimit: quantity.rawValue
         )
@@ -53,7 +53,7 @@ class HormoneCell: TableCell {
     }
 
     private func appearAsOccupiedState(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
-        let method = sdk.userDefaults.deliveryMethod.value
+        let method = sdk.settings.deliveryMethod.value
         loadDateLabel(for: hormone)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
         loadSiteComponents(sdk, hormone, hormoneIndex)
@@ -61,7 +61,7 @@ class HormoneCell: TableCell {
     }
 
     private func appearAsWaitingState(_ sdk: PatchDataSDK, _ hormoneIndex: Index) {
-        animate(at: hormoneIndex, theme: sdk.userDefaults.theme.value)
+        animate(at: hormoneIndex, theme: sdk.settings.theme.value)
     }
     
     private func setDateLabel(_ title: String?) {
@@ -102,8 +102,8 @@ class HormoneCell: TableCell {
     }
 
     private func loadSiteComponents(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
-        let theme = sdk.userDefaults.theme.value
-        let method = sdk.userDefaults.deliveryMethod.value
+        let theme = sdk.settings.theme.value
+        let method = sdk.settings.deliveryMethod.value
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
             hormone: hormone, deliveryMethod: method, theme: theme
         )

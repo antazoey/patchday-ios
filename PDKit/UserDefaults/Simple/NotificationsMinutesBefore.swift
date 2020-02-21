@@ -12,5 +12,5 @@ import Foundation
 public class NotificationsMinutesBeforeUD: SimpleUserDefault<Int>, IntKeyStorable {
 
     public convenience required init() { self.init(DefaultSettings.DefaultNotificationsMinutesBefore) }
-    public static var key = PDDefault.NotificationsMinutesBefore
+    public static var key = PDSetting.NotificationsMinutesBefore
 }

@@ -11,22 +11,6 @@ import UIKit
 import PDKit
 
 
-enum ThemedAsset {
-    case bg
-    case border
-    case button
-    case evenCell
-    case green
-    case navBar
-    case oddCell
-    case purple
-    case selected
-    case text
-    case unselected
-}
-
-typealias AppTheme = Dictionary<ThemedAsset, UIColor>
-
 class Stylist: NSObject, Styling {
 
     var theme: AppTheme

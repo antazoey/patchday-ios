@@ -3,32 +3,31 @@
 // Copyright (c) 2019 Juliya Smith. All rights reserved.
 //
 
-import PDKit
 
+public class SiteImageDeterminationParameters {
 
-class SiteImageDeterminationParameters {
-    var siteName: SiteName?
-    var deliveryMethod: DeliveryMethod
-    var theme: PDTheme
+    public var siteName: SiteName?
+    public var deliveryMethod: DeliveryMethod
+    public var theme: PDTheme
 
-    init(siteName: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) {
+    public init(siteName: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) {
         self.siteName = siteName
         self.deliveryMethod = deliveryMethod
         self.theme = theme
     }
 
-    init(hormone: Hormonal, deliveryMethod: DeliveryMethod, theme: PDTheme) {
+    public init(hormone: Hormonal, deliveryMethod: DeliveryMethod, theme: PDTheme) {
         self.siteName = hormone.siteName
         self.deliveryMethod = deliveryMethod
         self.theme = theme
     }
 
-    init(deliveryMethod: DeliveryMethod, theme: PDTheme) {
+    public init(deliveryMethod: DeliveryMethod, theme: PDTheme) {
         self.deliveryMethod = deliveryMethod
         self.theme = theme
     }
 
-    var imageType: SiteImageTypeAdapter.SiteImageType {
+    public var imageType: SiteImageTypeAdapter.SiteImageType {
         SiteImageTypeAdapter.convertToSiteImageType(deliveryMethod: deliveryMethod, theme: theme)
     }
 }

@@ -15,10 +15,10 @@ public struct HormoneScheduleProperties {
     public var deliveryMethod: DeliveryMethod
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
     
-    public init(_ defaults: UserDefaultsReading) {
-        self.expirationInterval = defaults.expirationInterval
-        self.deliveryMethod = defaults.deliveryMethod.value
-        self.notificationsMinutesBefore = defaults.notificationsMinutesBefore
+    public init(_ settings: UserDefaultsReading) {
+        self.expirationInterval = settings.expirationInterval
+        self.deliveryMethod = settings.deliveryMethod.value
+        self.notificationsMinutesBefore = settings.notificationsMinutesBefore
     }
     
     public init(

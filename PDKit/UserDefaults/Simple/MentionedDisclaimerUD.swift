@@ -12,5 +12,5 @@ import Foundation
 public class MentionedDisclaimerUD: SimpleUserDefault<Bool>, BooleanKeyStorable {
 
     public convenience required init() { self.init(false) }
-    public static var key = PDDefault.MentionedDisclaimer
+    public static var key = PDSetting.MentionedDisclaimer
 }

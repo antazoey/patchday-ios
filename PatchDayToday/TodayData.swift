@@ -12,7 +12,7 @@ class TodayData: TodayDataDelegate {
     private let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
 
     func getDeliveryMethod() -> String? {
-        let key = PDDefault.DeliveryMethod.rawValue
+        let key = PDSetting.DeliveryMethod.rawValue
         return  defaults?.string(forKey: key)
     }
 

@@ -49,15 +49,15 @@ class Notifications: NSObject, NotificationScheduling {
     
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
-        if let sdk = sdk, sendingNotifications, sdk.userDefaults.notifications.value,
+        if let sdk = sdk, sendingNotifications, sdk.settings.notifications.value,
            let siteId = hormone.siteId,
             let siteName = sdk.sites.get(by: siteId)?.name {
             let params = ExpiredHormoneNotificationCreationParams(
                 hormone: hormone,
                 expiringSiteName: siteName,
-                deliveryMethod: sdk.userDefaults.deliveryMethod.value,
-                expiration: sdk.userDefaults.expirationInterval,
-                notificationMinutesBefore: Double(sdk.userDefaults.notificationsMinutesBefore.value),
+                deliveryMethod: sdk.settings.deliveryMethod.value,
+                expiration: sdk.settings.expirationInterval,
+                notificationMinutesBefore: Double(sdk.settings.notificationsMinutesBefore.value),
                 totalHormonesExpired: sdk.hormones.totalExpired
             )
             factory.createExpiredHormoneNotification(params).request()
@@ -77,7 +77,7 @@ class Notifications: NSObject, NotificationScheduling {
     }
 
     func cancelAllExpiredHormoneNotifications() {
-        let end = (sdk?.userDefaults.quantity.rawValue ?? 1) - 1
+        let end = (sdk?.settings.quantity.rawValue ?? 1) - 1
         cancelRangeOfExpiredHormoneNotifications(from: 0, to: end)
     }
     
@@ -108,7 +108,7 @@ class Notifications: NSObject, NotificationScheduling {
     }
     
     func requestAllExpiredHormoneNotifications() {
-        let end = (sdk?.userDefaults.quantity.rawValue ?? 1) - 1
+        let end = (sdk?.settings.quantity.rawValue ?? 1) - 1
         requestRangeOfExpiredHormoneNotifications(from: 0, to: end)
     }
     
@@ -139,7 +139,7 @@ class Notifications: NSObject, NotificationScheduling {
            let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) {
             let params = ExpiredHormoneOvernightNotificationCreationParams(
                 triggerDate: notificationTime,
-                deliveryMethod: sdk.userDefaults.deliveryMethod.value,
+                deliveryMethod: sdk.settings.deliveryMethod.value,
                 totalHormonesExpired: sdk.hormones.totalExpired
             )
             factory.createOvernightExpiredHormoneNotification(params).request()

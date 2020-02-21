@@ -11,6 +11,9 @@ import Foundation
 
 public protocol SiteStoring: PDObjectStoring {
 
+    /// Get the count of stored sites.
+    var siteCount: Int { get }
+
     /// Fetches all the sites from storage.
     func getStoredSites() -> [Bodily]
     

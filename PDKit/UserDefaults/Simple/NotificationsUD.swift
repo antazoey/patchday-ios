@@ -11,5 +11,5 @@ import Foundation
 public class NotificationsUD: SimpleUserDefault<Bool>, BooleanKeyStorable {
 
     public convenience required init() { self.init(false) }
-    public static var key = PDDefault.Notifications
+    public static var key = PDSetting.Notifications
 }

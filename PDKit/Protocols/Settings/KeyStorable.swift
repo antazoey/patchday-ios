@@ -15,5 +15,5 @@ public protocol KeyStorable {
     init(_ val: RawValue)
     var value: Value { get set }
     var rawValue: RawValue { get }
-    static var key: PDDefault { get }
+    static var key: PDSetting { get }
 }

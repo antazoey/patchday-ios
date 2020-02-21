@@ -70,7 +70,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     }
 
     var siteImage: UIImage {
-        if let defaults = sdk?.userDefaults {
+        if let defaults = sdk?.settings {
             let params = SiteImageDeterminationParameters(
                 siteName: siteName,
                 deliveryMethod: defaults.deliveryMethod.value,
@@ -112,8 +112,8 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     // MARK: - Private
 
     private func createImageStruct(selectedRow: Index) -> SiteImageStruct {
-        let method = sdk?.userDefaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
-        let theme = sdk?.userDefaults.theme.value ?? DefaultSettings.DefaultTheme
+        let method = sdk?.settings.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        let theme = sdk?.settings.theme.value ?? DefaultSettings.DefaultTheme
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         let images = PDImages.getAvailableSiteImages(params)
         let image = images[selectedRow]

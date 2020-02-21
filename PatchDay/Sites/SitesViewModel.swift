@@ -56,8 +56,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
     func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
         SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
-        let method = sdk?.userDefaults.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
-        let theme = sdk?.userDefaults.theme.value ?? DefaultSettings.DefaultTheme
+        let method = sdk?.settings.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        let theme = sdk?.settings.theme.value ?? DefaultSettings.DefaultTheme
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         if let site = sdk?.sites.at(siteIndex) {
             nav?.goToSiteDetails(site, source: sitesViewController, params: params)
@@ -105,7 +105,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
 
     private func getViewControllerTitleFromDeliveryMethod() -> String {
-        if let method = sdk?.userDefaults.deliveryMethod.value {
+        if let method = sdk?.settings.deliveryMethod.value {
             return VCTitleStrings.getSitesTitle(for: method)
         }
         return VCTitleStrings.SiteTitle

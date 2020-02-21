@@ -30,7 +30,6 @@ public class PDStrings: NSObject {
     // MARK: - PlaceHolders
     
     public class PlaceholderStrings {
-        
         public static let NothingYet = {
             NSLocalizedString("Nothing yet", comment: "On buttons with plenty of room")
         }()

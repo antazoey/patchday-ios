@@ -28,7 +28,7 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
         loadTheme()
     }
     
-    public func reflectNewButtonTitle(key: PDDefault, newTitle: String) {
+    public func reflectNewButtonTitle(key: PDSetting, newTitle: String) {
         switch key {
         case .DeliveryMethod: controls.deliveryMethodButton.setTitle(newTitle)
         case .ExpirationInterval: controls.expirationIntervalButton.setTitle(newTitle)
@@ -39,39 +39,37 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
     }
     
     private func loadDeliveryMethod() {
-        if let method = sdk?.userDefaults.deliveryMethod.rawValue {
-            controls.deliveryMethodButton.setTitle(method)
-        }
+        guard let method = sdk?.settings.deliveryMethod.rawValue else { return }
+        controls.deliveryMethodButton.setTitle(method)
     }
     
     private func loadExpirationInterval() {
-        if let interval = sdk?.userDefaults.expirationInterval.humanPresentableValue {
-            controls.expirationIntervalButton.setTitle(interval)
-        }
+        guard let interval = sdk?.settings.expirationInterval.humanPresentableValue else { return }
+        controls.expirationIntervalButton.setTitle(interval)
     }
     
     private func loadQuantity() {
-        if let defaults = sdk?.userDefaults {
-            let quantity = defaults.quantity.rawValue
-            let method = defaults.deliveryMethod.value
-            controls.quantityButton.setTitle("\(quantity)")
-            if method == .Injections {
-                controls.quantityButton.isEnabled = false
-                controls.quantityArrowButton.isEnabled = false
-                if quantity != OnlySupportedInjectionsQuantity {
-                    defaults.setQuantity(to: OnlySupportedInjectionsQuantity)
-                }
+        guard let settings = sdk?.settings else { return }
+        let quantity = settings.quantity.rawValue
+        let method = settings.deliveryMethod.value
+        controls.quantityButton.setTitle("\(quantity)")
+        if method == .Injections {
+            controls.quantityButton.isEnabled = false
+            controls.quantityArrowButton.isEnabled = false
+            if quantity != OnlySupportedInjectionsQuantity {
+                settings.setQuantity(to: OnlySupportedInjectionsQuantity)
             }
         }
     }
     
     private func loadNotifications() {
-        let isOn = sdk?.userDefaults.notifications.value
-        controls.notificationsSwitch.setOn(isOn ?? false)
+        guard let notifications = sdk?.settings.notifications.value else { return }
+        controls.notificationsSwitch.setOn(notifications)
     }
     
     private func loadNotificationsMinutesBefore() {
-        if let defaults = sdk?.userDefaults, controls.notificationsSwitch.isOn {
+        guard let defaults = sdk?.settings else { return }
+        if controls.notificationsSwitch.isOn {
             let minutesBefore = defaults.notificationsMinutesBefore.value
             controls.notificationsMinutesBeforeSlider.value = Float(minutesBefore)
             controls.notificationsMinutesBeforeValueLabel.text = String(minutesBefore)
@@ -82,9 +80,8 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
     }
     
     private func loadTheme() {
-        if let theme = sdk?.userDefaults.theme.value {
-            let title = PickerOptions.getTheme(for: theme)
-            controls.themeButton.setTitle(title)
-        }
+        guard let theme = sdk?.settings.theme.value else { return }
+        let title = PickerOptions.getTheme(for: theme)
+        controls.themeButton.setTitle(title)
     }
 }

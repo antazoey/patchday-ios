@@ -12,7 +12,7 @@ import PDKit
 
 class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     
-    var selectedDefault: PDDefault? = nil
+    var selectedSettings: PDSetting? = nil
     var reflector: SettingsReflector
     var saver: SettingsStateSaver
     
@@ -22,36 +22,30 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         super.init()
     }
     
-    func createDefaultFromButton(_ button: UIButton) -> PDDefault? {
-        if let key = button.tryGetKeyFromButtonMetadata() {
-            return PDDefault(rawValue: key)
-        }
-        return nil
+    func getSettingFromButton(_ button: UIButton) -> PDSetting? {
+        guard let key = button.tryGetKeyFromButtonMetadata() else { return nil }
+        return PDSetting(rawValue: key)
     }
     
     func activatePicker(pickers: SettingsPickers, activator: UIButton, onSuccess: () -> ()) {
-        if let def = selectedDefault,
-            let props = createPickerActivationProps(for: def, activator: activator, pickers: pickers) {
-            SettingsPicker(pickerActivationProperties: props, saver: saver).activate()
+        if let settings = selectedSettings,
+            let props = createPickerActivation(key: settings, activator: activator, pickers: pickers) {
+            SettingsPickerActivator(activation: props, saver: saver).activate()
             onSuccess()
         }
     }
     
-    private func createPickerActivationProps(
-        for key: PDDefault, activator: UIButton, pickers: SettingsPickers
-    ) -> PickerActivationProperties? {
-        let options = PickerOptions.getStrings(for: key)
+    private func createPickerActivation(key: PDSetting, activator: UIButton, pickers: SettingsPickers) -> PickerActivation? {
         let pickerSelector = SettingsPickerSelector(pickers)
-        if let picker = pickerSelector.selectPicker(key: key) {
-            let startRow = options.tryGetIndex(item: activator.titleLabel?.text) ?? 0
-            return PickerActivationProperties(
-                picker: picker,
-                activator: activator,
-                options: options,
-                startRow: startRow,
-                propertyKey: key
-            )
-        }
-        return nil
+        guard let picker = pickerSelector.selectPicker(key: key) else { return nil }
+        let options = PickerOptions.getStrings(for: key)
+        let startRow = options.tryGetIndex(item: activator.titleLabel?.text) ?? 0
+        return PickerActivation(
+            picker: picker,
+            activator: activator,
+            options: options,
+            startRow: startRow,
+            propertyKey: key
+        )
     }
 }

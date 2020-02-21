@@ -46,8 +46,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //viewModel.goToPillDetails(pillIndex: indexPath.row, pillsViewController: self)
-        viewModel.presentPillActions()
+        viewModel.presentPillActions(at: indexPath.row, viewController: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
