@@ -53,16 +53,6 @@ public class PickerOptions {
         case .Injections: return quantities[0]
         }
     }
-
-    public static func getStrings(for key: PDSetting) -> [String] {
-        switch key {
-        case .DeliveryMethod: return deliveryMethods
-        case .ExpirationInterval: return expirationIntervals
-        case .Quantity: return quantities
-        case .Theme: return themes
-        default: return []
-        }
-    }
     
     public static func getPickerOption(key: PDSetting, row: Index) -> String? {
         switch key {
@@ -78,36 +68,36 @@ public class PickerOptions {
         let comment1 = "Displayed on a button and in a picker."
         let comment2 = "Displayed in a picker."
         return [
-            NSLocalizedString("Twice a week", tableName: nil, comment: comment1),
-            NSLocalizedString("Once a week", tableName: nil, comment: comment2),
+            NSLocalizedString("Twice weekly", tableName: nil, comment: comment1),
+            NSLocalizedString("Once weekly", tableName: nil, comment: comment2),
             NSLocalizedString("Once every two weeks", comment: comment1)
         ]
     }()
     
     public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
         switch interval {
-        case .TwiceAWeek: return expirationIntervals[0]
-        case .OnceAWeek: return expirationIntervals[1]
+        case .TwiceWeekly: return expirationIntervals[0]
+        case .OnceWeekly: return expirationIntervals[1]
         case .EveryTwoWeeks: return expirationIntervals[2]
         }
     }
     
     public static func getExpirationInterval(for pickerString: String) -> ExpirationInterval {
         switch pickerString {
-        case expirationIntervals[1]: return .OnceAWeek
+        case expirationIntervals[1]: return .OnceWeekly
         case expirationIntervals[2]: return .EveryTwoWeeks
-        default: return .TwiceAWeek
+        default: return .TwiceWeekly
         }
     }
     
-    public static func getOptionsCount(for def: PDSetting?) -> Int {
-        guard let d = def else { return 0 }
-        switch (d) {
-        case .DeliveryMethod: return deliveryMethods.count
-        case .ExpirationInterval: return expirationIntervals.count
-        case .Quantity: return quantities.count
-        case .Theme: return themes.count
-        default: return 0
+    public static func get(for setting: PDSetting?) -> [String] {
+        guard let setting = setting else { return [] }
+        switch (setting) {
+        case .DeliveryMethod: return deliveryMethods
+        case .ExpirationInterval: return expirationIntervals
+        case .Quantity: return quantities
+        case .Theme: return themes
+        default: return []
         }
     }
     

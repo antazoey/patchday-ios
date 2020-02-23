@@ -29,16 +29,16 @@ public class ExpirationIntervalValueHolder: ComplexValueHolding {
         case ExpirationIntervalValueHolder.everyTwoWeeksKey:
             self.init(indexer: .EveryTwoWeeks)
         case ExpirationIntervalValueHolder.onceAWeekKey:
-            self.init(indexer: .OnceAWeek)
+            self.init(indexer: .OnceWeekly)
         default:
-            self.init(indexer: .TwiceAWeek)
+            self.init(indexer: .TwiceWeekly)
         }
     }
     
     public var heldValue: String {
         switch indexer {
-        case .TwiceAWeek: return ExpirationIntervalValueHolder.twiceAWeekKey
-        case .OnceAWeek: return ExpirationIntervalValueHolder.onceAWeekKey
+        case .TwiceWeekly: return ExpirationIntervalValueHolder.twiceAWeekKey
+        case .OnceWeekly: return ExpirationIntervalValueHolder.onceAWeekKey
         case .EveryTwoWeeks: return ExpirationIntervalValueHolder.everyTwoWeeksKey
         }
     }
@@ -80,8 +80,8 @@ public class ExpirationIntervalUD: KeyStorable {
     
     public var hours: Int {
         switch value {
-        case .TwiceAWeek: return 84
-        case .OnceAWeek: return 168
+        case .TwiceWeekly: return 84
+        case .OnceWeekly: return 168
         case .EveryTwoWeeks: return 336
         }
     }
@@ -93,9 +93,9 @@ public class ExpirationIntervalUD: KeyStorable {
     public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {
         switch humanReadableStr {
         case PickerOptions.expirationIntervals[0]:
-            return ExpirationInterval.TwiceAWeek
+            return ExpirationInterval.TwiceWeekly
         case PickerOptions.expirationIntervals[1]:
-            return ExpirationInterval.OnceAWeek
+            return ExpirationInterval.OnceWeekly
         case PickerOptions.expirationIntervals[2]:
             return ExpirationInterval.EveryTwoWeeks
         default:

@@ -34,9 +34,9 @@ class HormoneTests: XCTestCase {
         return hormone
     }
     
-    private func createTwiceAWeekHormoneThatIsExpiredByOneDay() -> Hormone {
+    private func createTwiceWeeklyHormoneThatIsExpiredByOneDay() -> Hormone {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.TwiceWeekly)
         hormone.date = Date(timeIntervalSinceNow: -388800)
         return hormone
     }
@@ -63,14 +63,14 @@ class HormoneTests: XCTestCase {
     }
     
     func testExpiration_whenExpirationIntervalIsEveryTwoWeeks_returnsExpectedDate() {
-        let hormone = createHormoneForExpirationTesting(.TwiceAWeek)
+        let hormone = createHormoneForExpirationTesting(.TwiceWeekly)
         let expected = Calendar.current.date(byAdding: .hour, value: 84, to: testDateThatIsNow)
         let actual = hormone.expiration
         XCTAssertEqual(expected, actual)
     }
     
     func testExpiration_whenExpirationIntervalIsOnceAWeek_returnsExpectedDate() {
-        let hormone = createHormoneForExpirationTesting(.OnceAWeek)
+        let hormone = createHormoneForExpirationTesting(.OnceWeekly)
         let expected = Calendar.current.date(byAdding: .hour, value: 168, to: testDateThatIsNow)
         let actual = hormone.expiration
         XCTAssertEqual(expected, actual)
@@ -103,18 +103,18 @@ class HormoneTests: XCTestCase {
     }
     
     func testExpirationString_whenExpirationIsYesterday_includesWordYesterday() {
-        let hormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        let hormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
         XCTAssert(hormone.expirationString.contains("Yesterday"))
     }
     
     func testIsExpired_whenExpirationDateIsBeforeNow_returnsTrue() {
-        let hormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        let hormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
         XCTAssert(hormone.isExpired)
     }
     
     func testIsExpired_whenExpirationDateIsAfterNow_returnsFalse() {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.TwiceWeekly)
         hormone.date = testDateThatIsNow
         XCTAssertFalse(hormone.isExpired)
     }
@@ -130,13 +130,13 @@ class HormoneTests: XCTestCase {
     }
     
     func testIsPastNotificationTime_whenNowIsAfterNotificationTime_returnsTrue() {
-        let expiredHormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        let expiredHormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
         XCTAssertTrue(expiredHormone.isPastNotificationTime)
     }
     
     func testIsPastNotificationTime_whenIsPastNotificationTimeButBeforeExpirationTime_returnsTrue() {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.TwiceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.TwiceWeekly)
         hormone.notificationsMinutesBefore = NotificationsMinutesBeforeUD(30)
         
         // 10 minutes past notification time and 20 minutes before expiration
@@ -147,13 +147,13 @@ class HormoneTests: XCTestCase {
     }
     
     func testExpiresOvernight_whenExpired_returnsFalse() {
-        let expiredHormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        let expiredHormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
         XCTAssertFalse(expiredHormone.expiresOvernight)
     }
     
     func testExpiresOvernight_whenExpirationTimeIsBetweenSixAMAndMidnight_returnsTrue() {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.OnceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
 
         let calendar = Calendar.current
         
@@ -165,7 +165,7 @@ class HormoneTests: XCTestCase {
     
     func testExpiresOvernight_whenExpirationTimeIsAtNoon_returnsFalse() {
         let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.OnceAWeek)
+        hormone.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
 
         let calendar = Calendar.current
         
@@ -247,7 +247,7 @@ class HormoneTests: XCTestCase {
     }
     
     func testReset_setsAllPropsToNil() {
-        let hormone = createTwiceAWeekHormoneThatIsExpiredByOneDay()
+        let hormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
         hormone.reset()
         XCTAssert(
             hormone.date == Date(timeIntervalSince1970: 0)

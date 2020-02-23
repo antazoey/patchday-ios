@@ -44,7 +44,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     public func reset(defaultSiteCount: Int=4) {
         replaceStoredDeliveryMethod(to: .Patches)
         replaceStoredQuantity(to: 3)
-        replaceStoredExpirationInterval(to: .TwiceAWeek)
+        replaceStoredExpirationInterval(to: .TwiceWeekly)
         replaceStoredNotifications(to: true)
         replaceStoredNotificationsMinutesBefore(to: 0)
         replaceStoredMentionedDisclaimer(to: false)

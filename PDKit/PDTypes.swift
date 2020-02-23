@@ -29,8 +29,8 @@ public enum Quantity: Int {
 }
 
 public enum ExpirationInterval {
-    case TwiceAWeek
-    case OnceAWeek
+    case TwiceWeekly
+    case OnceWeekly
     case EveryTwoWeeks
 }
 

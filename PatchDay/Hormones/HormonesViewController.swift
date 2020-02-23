@@ -21,7 +21,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         initViewModelIfNil()
-        setTableDelegate()
+        assignSelfAsTableDelegate()
         loadTitle()
         loadBarButtons()
         updateFromBackground()
@@ -75,7 +75,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
         viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
     }
 
-    private func setTableDelegate() {
+    private func assignSelfAsTableDelegate() {
         hormonesTableView.dataSource = self
         hormonesTableView.delegate = self
     }

@@ -34,19 +34,15 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
     }
     
     private func saveDeliveryMethodChange(_ selectedRow: Index) {
-        if let sdk = sdk {
-            let newMethod = PickerOptions.getDeliveryMethod(at: selectedRow)
-            if sdk.isFresh {
-                sdk.settings.setDeliveryMethod(to: newMethod)
-            } else {
-                presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
-            }
-        }
+        guard let sdk = sdk else { return }
+        let newMethod = PickerOptions.getDeliveryMethod(at: selectedRow)
+        sdk.isFresh
+            ? sdk.settings.setDeliveryMethod(to: newMethod)
+            : presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
     }
     
     private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
-        let decline = {
-            (_ method: DeliveryMethod) -> () in
+        let decline = { (_ method: DeliveryMethod) -> () in
             let methodTitle = PickerOptions.getDeliveryMethodString(for: choice)
             switch choice {
             case .Patches:
@@ -76,24 +72,18 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
     }
     
     private func createCancelSaveQuantityButtonClosure() -> (Int) -> () {
-        let cancel: (Int) -> () = {
-            oldQuantity in
-            self.controls.quantityButton.setTitle("\(oldQuantity)")
-        }
-        return cancel
+        { oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)") }
     }
     
     private func saveExpirationInterval(_ selectedRow: Index) {
-        if let newInterval = PickerOptions.expirationIntervals.tryGet(at: selectedRow) {
-            sdk?.settings.setExpirationInterval(to: newInterval)
-        }
+        guard let newInterval = PickerOptions.expirationIntervals.tryGet(at: selectedRow) else { return }
+        sdk?.settings.setExpirationInterval(to: newInterval)
     }
     
     private func saveTheme(_ selectedRow: Int) {
-        if let themeName = PickerOptions.getTheme(at: selectedRow) {
-            let theme = PickerOptions.getTheme(for: themeName)
-            sdk?.settings.setTheme(to: theme)
-        }
+        guard let themeName = PickerOptions.getTheme(at: selectedRow) else { return }
+        let theme = PickerOptions.getTheme(for: themeName)
+        sdk?.settings.setTheme(to: theme)
         applyTheme()
     }
 }

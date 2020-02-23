@@ -45,7 +45,6 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         loadSaveButton()
         loadAutofillButton()
         loadDateControls()
-        loadSiteControls()
     }
 
     override func viewWillAppear(_ animated: Bool) {

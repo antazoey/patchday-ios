@@ -56,19 +56,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
     @IBOutlet private weak var themeSideView: UIView!
     
-    // Trackers
-    private var selectedDefault: PDSetting?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        assignSelfAsDelegateForPickers()
         loadViewModelIfNil()
         title = VCTitleStrings.SettingsTitle
-        quantityLabel.text = ColonStrings.Count
-        quantityButton.tag = 10
         setTopConstraint()
         loadButtonSelectedStates()
         loadButtonDisabledStates()
-        assignSelfAsDelegateForPickers()
         viewModel?.reflector.reflectStoredSettings()
     }
     
@@ -80,26 +75,21 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     static func createSettingsVC() -> UIViewController {
-        let sb = UIStoryboard.createSettingsStoryboard()
-        return sb.instantiateViewController(withIdentifier: ViewControllerIds.Settings)
+        let storyboard = UIStoryboard.createSettingsStoryboard()
+        return storyboard.instantiateViewController(withIdentifier: ViewControllerIds.Settings)
     }
     
     // MARK: - Actions
     
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        guard let viewModel = viewModel else { return }
-        viewModel.notifications?.cancelAllExpiredHormoneNotifications()
-        let newMinutesBeforeValue = Int(notificationsMinutesBeforeSlider.value.rounded())
-        notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
-        viewModel.sdk?.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
-        viewModel.notifications?.requestAllExpiredHormoneNotifications()
+        let newValue = notificationsMinutesBeforeSlider.value.rounded()
+        viewModel?.handleNewNotificationsValue(newValue)
     }
     
     /// Opens UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
-        if let setting = viewModel?.getSettingFromButton(sender) {
-            handlePickerActivation(setting, activator: sender)
-        }
+        guard let setting = viewModel?.getSettingFromButton(sender) else { return }
+        handlePickerActivation(setting, activator: sender)
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
@@ -114,19 +104,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        PickerOptions.getOptionsCount(for: selectedDefault)
+        viewModel?.getCurrentPickerOptions().count ?? 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        guard let key = selectedDefault else { return nil }
-        return PickerOptions.getStrings(for: key).tryGet(at: row)
+        viewModel?.getRowTitle(at: row)
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let key = selectedDefault,
-           let chosenItem = self.pickerView(pickerView, titleForRow: row, forComponent: component) {
-            viewModel?.reflector.reflectNewButtonTitle(key: key, newTitle: chosenItem)
-        }
+        viewModel?.selectRow(row: row)
     }
     
     private func loadViewModelIfNil() {
@@ -139,12 +125,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     private func handlePickerActivation(_ key: PDSetting, activator: UIButton) {
         guard let viewModel = viewModel else { return }
-        viewModel.selectedSettings = key
+        viewModel.selectedSetting = key
         let pickers = SettingsPickers(
-            quantityPicker: quantityPicker,
-            deliveryMethodPicker: deliveryMethodPicker,
-            expirationIntervalPicker: expirationIntervalPicker,
-            themePicker: themePicker
+            quantityPicker, deliveryMethodPicker, expirationIntervalPicker, themePicker
         )
         viewModel.activatePicker(pickers: pickers, activator: activator) {
             deselectEverything(except: key)
@@ -153,20 +136,16 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     private func handleBottomPickerViewRequirements(for pickerKey: PDSetting) {
-        if pickerKey == .Theme {
-            let y = themePicker!.frame.origin.y / 2.0
-            scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
-        }
+        guard pickerKey == .Theme else { return }
+        guard let themePicker = themePicker else { return }
+        let y = themePicker.frame.origin.y / 2.0
+        scrollView.setContentOffset(CGPoint(x: 0, y: y), animated: true)
     }
     
     // MARK: - View loading and altering
     
     private func reflectNotificationSwitchInNotificationButtons() {
-        if notificationsSwitch.isOn {
-            enableNotificationButtons()
-        } else {
-            disableNotificationButtons()
-        }
+        notificationsSwitch.isOn ? enableNotificationButtons() : disableNotificationButtons()
     }
     
     private func enableNotificationButtons() {
@@ -184,19 +163,19 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     private func deselectEverything(except: PDSetting) {
         switch except {
-        case let def where def != .DeliveryMethod:
+        case let setting where setting != .DeliveryMethod:
             deliveryMethodPicker.isHidden = true
             deliveryMethodButton.isSelected = false
             fallthrough
-        case let def where def != .ExpirationInterval:
+        case let setting where setting != .ExpirationInterval:
             expirationIntervalPicker.isHidden = true
             expirationIntervalButton.isSelected = false
             fallthrough
-        case let def where def != .Quantity:
+        case let setting where setting != .Quantity:
             quantityPicker.isHidden = true
             quantityButton.isSelected = false
             fallthrough
-        case let def where def != .Theme:
+        case let setting where setting != .Theme:
             themeButton.isHidden = true
             themeButton.isSelected = false
         default:

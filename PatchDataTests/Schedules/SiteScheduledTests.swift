@@ -238,7 +238,7 @@ class SiteScheduleTests: XCTestCase {
     
     public func testInsertNew_callsSiteStoreCreateNewSiteWithExpectedArgs() {
         mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
-        mockDefaults.expirationInterval = ExpirationIntervalUD(.OnceAWeek)
+        mockDefaults.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
         let testSite = MockSite()
         mockStore.newObjectFactory = { testSite }
         sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)

@@ -12,7 +12,7 @@ import PDKit
 
 class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     
-    var selectedSettings: PDSetting? = nil
+    var selectedSetting: PDSetting? = nil
     var reflector: SettingsReflector
     var saver: SettingsStateSaver
     
@@ -28,17 +28,38 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     }
     
     func activatePicker(pickers: SettingsPickers, activator: UIButton, onSuccess: () -> ()) {
-        if let settings = selectedSettings,
-            let props = createPickerActivation(key: settings, activator: activator, pickers: pickers) {
-            SettingsPickerActivator(activation: props, saver: saver).activate()
-            onSuccess()
-        }
+        guard let key = selectedSetting else { return }
+        guard let props = createPickerActivation(key: key, activator: activator, pickers: pickers) else { return }
+        SettingsPickerActivator(activation: props, saver: saver).activate()
+        onSuccess()
+    }
+    
+    func getCurrentPickerOptions() -> [String] {
+        PickerOptions.get(for: selectedSetting)
+    }
+    
+    func getRowTitle(at row: Int) -> String? {
+        getCurrentPickerOptions().tryGet(at: row)
+    }
+    
+    func selectRow(row: Int) {
+        guard let key = selectedSetting else { return }
+        guard let selectedRowTitle = getRowTitle(at: row) else { return }
+        reflector.reflectNewButtonTitle(key: key, newTitle: selectedRowTitle)
+    }
+    
+    func handleNewNotificationsValue(_ newValue: Float) {
+        notifications?.cancelAllExpiredHormoneNotifications()
+        let newMinutesBeforeValue = Int(newValue)
+        notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
+        sdk?.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        notifications?.requestAllExpiredHormoneNotifications()
     }
     
     private func createPickerActivation(key: PDSetting, activator: UIButton, pickers: SettingsPickers) -> PickerActivation? {
         let pickerSelector = SettingsPickerSelector(pickers)
         guard let picker = pickerSelector.selectPicker(key: key) else { return nil }
-        let options = PickerOptions.getStrings(for: key)
+        let options = PickerOptions.get(for: key)
         let startRow = options.tryGetIndex(item: activator.titleLabel?.text) ?? 0
         return PickerActivation(
             picker: picker,

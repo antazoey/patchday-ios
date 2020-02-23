@@ -34,4 +34,16 @@ struct SettingsPickers {
     let deliveryMethodPicker: UIPickerView
     let expirationIntervalPicker: UIPickerView
     let themePicker: UIPickerView
+    
+    init(
+        _ quantityPicker: UIPickerView,
+        _ deliveryMethodPicker: UIPickerView,
+        _ expirationIntervalPicker: UIPickerView,
+        _ themePicker: UIPickerView
+    ) {
+        self.quantityPicker = quantityPicker
+        self.deliveryMethodPicker = deliveryMethodPicker
+        self.expirationIntervalPicker = expirationIntervalPicker
+        self.themePicker = themePicker
+    }
 }

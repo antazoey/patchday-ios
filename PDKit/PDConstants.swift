@@ -13,7 +13,7 @@ public let OnlySupportedInjectionsQuantity = 1
 public let SupportedHormoneUpperQuantityLimit = 4
 
 public class DefaultSettings {
-    public static let DefaultExpirationInterval = ExpirationInterval.TwiceAWeek
+    public static let DefaultExpirationInterval = ExpirationInterval.TwiceWeekly
     public static let DefaultExpirationIntervalHours = 84
 
     public static let DefaultQuantity = Quantity.Four
