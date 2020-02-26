@@ -36,7 +36,7 @@ public class DeliveryMethodValueHolder: ComplexValueHolding {
     }
 }
 
-public class DeliveryMethodUD: KeyStorable {
+public class DeliveryMethodUD: PDUserDefault<DeliveryMethod, String>, KeyStorable {
     
     private var v: DeliveryMethod
     private var valueHolder: DeliveryMethodValueHolder

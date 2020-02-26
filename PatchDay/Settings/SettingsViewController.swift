@@ -33,7 +33,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var notificationsMinutesBeforeValueLabel: UILabel!
     
     // Pickers
-    @IBOutlet private weak var deliveryMethodPicker: UIPickerView!
+    @IBOutlet private weak var deliveryMethodPicker: SettingPickerView!
     @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
     @IBOutlet private weak var quantityPicker: UIPickerView!
     @IBOutlet private weak var themePicker: UIPickerView!

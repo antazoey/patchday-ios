@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+
+class SettingsPickerView: UIPickerView {
+    
+    public var setting: PDSetting?
+    public var choices: [String] = []
+    public var startIndex = 0
+}

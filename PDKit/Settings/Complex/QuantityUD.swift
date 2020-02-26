@@ -8,28 +8,28 @@
 
 import Foundation
 
-public class QuantityValueHolder: ComplexValueHolding {
-    
-    public typealias KeyIndex = Quantity
-    public typealias RawValue = Int
-    
-    var indexer: Quantity
-    
-    required public init(indexer: Quantity) {
-        self.indexer = indexer
-    }
-    
-    public var heldValue: Int {
-        switch indexer {
-        case .One: return 1
-        case .Two: return 2
-        case .Three: return 3
-        case .Four: return 4
-        }
-    }
-}
+//public class QuantityValueHolder: ComplexValueHolding {
+//
+//    public typealias KeyIndex = Quantity
+//    public typealias RawValue = Int
+//
+//    var indexer: Quantity
+//
+//    required public init(indexer: Quantity) {
+//        self.indexer = indexer
+//    }
+//
+//    public var heldValue: Int {
+//        switch indexer {
+//        case .One: return 1
+//        case .Two: return 2
+//        case .Three: return 3
+//        case .Four: return 4
+//        }
+//    }
+//}
 
-public class QuantityUD: KeyStorable {
+public class QuantityUD: PDUserDefault<Quantity, Int>, KeyStorable {
     
     private var v: Quantity
     private var valueHolder: QuantityValueHolder
@@ -37,19 +37,8 @@ public class QuantityUD: KeyStorable {
     public typealias Value = Quantity
     public typealias RawValue = Int
     
-    public required convenience init(_ val: Int) {
-        var count: Quantity;
-        if let q = Quantity.init(rawValue: val) {
-            count = q
-        } else {
-            count = Quantity.Four
-        }
-        self.init(count)
-    }
-    
-    public required init(_ val: Quantity) {
-        v = val
-        valueHolder = QuantityValueHolder(indexer: v)
+    public required convenience init(_ rawValue: Int) {
+        
     }
     
     public convenience required init() {
@@ -57,14 +46,15 @@ public class QuantityUD: KeyStorable {
     }
     
     public var value: Quantity {
-        get { v }
-        set {
-            v = newValue
-            valueHolder = QuantityValueHolder(indexer: value)
+        switch rawValue {
+        case <#pattern#>:
+            <#code#>
+        default:
+            <#code#>
         }
     }
     
-    public var rawValue: Int { valueHolder.heldValue }
+    public var rawValue: Int
     
     public static var key = PDSetting.Quantity
 }
