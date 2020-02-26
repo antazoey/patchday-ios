@@ -37,6 +37,19 @@ public class PDSettings: PDSettingsManaging {
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
     public var theme: PDThemeUD { writer.theme }
+    
+    public func getCurrentAsString(for setting: PDSetting) -> String {
+        switch setting {
+        case .DeliveryMethod: return deliveryMethod.string
+        case .ExpirationInterval: return expirationInterval.string
+        case .Quantity: return quantity.string
+        case .Notifications: return notifications.string
+        case .NotificationsMinutesBefore: return notificationsMinutesBefore.string
+        case .MentionedDisclaimer: return mentionedDisclaimer.string
+        case .SiteIndex: return siteIndex.string
+        case .Theme: return theme.string
+        }
+    }
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         writer.replaceStoredDeliveryMethod(to: newMethod)

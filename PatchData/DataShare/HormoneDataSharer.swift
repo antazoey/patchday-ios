@@ -13,17 +13,17 @@ public class HormoneDataSharer: HormoneDataSharing {
     
     private let baseSharer: DataSharing
     private let sites: SiteScheduling
-    private let defaults: UserDefaultsReading
+    private let settings: UserDefaultsReading
     
-    init(baseSharer: DataSharing, sites: SiteScheduling, defaults: UserDefaultsReading) {
+    init(baseSharer: DataSharing, sites: SiteScheduling, settings: UserDefaultsReading) {
         self.baseSharer = baseSharer
         self.sites = sites
-        self.defaults = defaults
+        self.settings = settings
     }
     
     public func share(nextHormone: Hormonal) {
-        let method = defaults.deliveryMethod
-        let interval = defaults.expirationInterval
+        let method = settings.deliveryMethod
+        let interval = settings.expirationInterval
         let nextSite = sites.suggested
         let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
         shareRelevantHormoneData(

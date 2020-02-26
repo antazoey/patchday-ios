@@ -65,13 +65,13 @@ public class PatchData: NSObject, PatchDataSDK {
         )
         let pillScheduleState = PatchData.determinePillScheduleState(settings: userDefaultsWriter)
         let pills = PillSchedule(store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState)
-        let sites = SiteSchedule(store: siteStore, defaults: userDefaultsWriter)
-        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer, sites: sites, defaults: userDefaultsWriter)
+        let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
+        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter)
         let hormones = HormoneSchedule(
             store: hormoneStore,
             hormoneDataSharer: hormoneDataSharer,
             state: state,
-            defaults: userDefaultsWriter
+            settings: userDefaultsWriter
         )
         let settings = PDSettings(writer: userDefaultsWriter, state: state, hormones: hormones, sites: sites)
         let stateManager = PDStateManager(state: state, defaults: settings, hormones: hormones)

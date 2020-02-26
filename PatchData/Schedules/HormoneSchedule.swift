@@ -17,7 +17,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private var store: HormoneStoring
     private let dataSharer: HormoneDataSharing
     private var state: PDState
-    private let defaults: UserDefaultsWriting
+    private let settings: UserDefaultsWriting
     private var hormones: [Hormonal]
 
     private let log = PDLog<HormoneSchedule>()
@@ -26,14 +26,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         store: HormoneStoring,
         hormoneDataSharer: HormoneDataSharing,
         state: PDState,
-        defaults: UserDefaultsWriting
+        settings: UserDefaultsWriting
     ) {
         let store = store
         self.store = store
         self.dataSharer = hormoneDataSharer
         self.state = state
-        self.defaults = defaults
-        self.hormones = HormoneSchedule.getHormoneList(from: store, defaults: defaults)
+        self.settings = settings
+        self.hormones = HormoneSchedule.getHormoneList(from: store, settings: settings)
         super.init()
         resetIfEmpty()
         sort()
@@ -65,7 +65,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     @discardableResult
     public func insertNew() -> Hormonal? {
-        if let hormone = store.createNewHormone(HormoneScheduleProperties(defaults)) {
+        if let hormone = store.createNewHormone(HormoneScheduleProperties(settings)) {
             hormones.append(hormone)
             sort()
             return hormone
@@ -100,7 +100,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     @discardableResult
     public func reset(completion: (() -> ())?) -> Int {
         deleteAll()
-        let method = defaults.deliveryMethod.value
+        let method = settings.deliveryMethod.value
         let quantity = KeyStorableHelper.defaultQuantity(for: method)
         for _ in 0..<quantity {
             insertNew()
@@ -157,7 +157,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if var hormone = at(index) {
             setSite(&hormone, with: site, doSave: doSave)
             if bumpSiteIndex {
-                defaults.incrementStoredSiteIndex()
+                settings.incrementStoredSiteIndex()
             }
         }
     }
@@ -166,7 +166,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         if var hormone = get(by: id) {
             setSite(&hormone, with: site, doSave: doSave)
             if bumpSiteIndex {
-                defaults.incrementStoredSiteIndex()
+                settings.incrementStoredSiteIndex()
             }
         }
     }
@@ -219,7 +219,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         sort()
         pushFromDateAndSiteChange(hormone, doSave: doSave)
         if bumpSiteIndex {
-            defaults.incrementStoredSiteIndex()
+            settings.incrementStoredSiteIndex()
         }
     }
     
@@ -241,9 +241,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
 
-    private static func getHormoneList(from store: HormoneStoring, defaults: UserDefaultsReading) -> [Hormonal] {
-        let props = HormoneScheduleProperties(defaults)
-        return store.getStoredHormones(props)
+    private static func getHormoneList(from store: HormoneStoring, settings: UserDefaultsReading) -> [Hormonal] {
+        store.getStoredHormones(HormoneScheduleProperties(settings))
     }
 
     private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {

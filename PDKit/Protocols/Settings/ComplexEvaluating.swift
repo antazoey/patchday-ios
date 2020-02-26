@@ -9,8 +9,7 @@
 import Foundation
 
 public protocol ComplexValueHolding {
-    associatedtype KeyIndex
     associatedtype RawValue
-    init(indexer: KeyIndex)
+    init(complexValueType: PDSetting)
     var heldValue: RawValue { get }
 }

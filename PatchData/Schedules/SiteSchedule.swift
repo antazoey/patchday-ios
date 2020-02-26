@@ -17,14 +17,14 @@ public class SiteSchedule: NSObject, SiteScheduling {
     private var resetWhenEmpty: Bool
     
     private let store: SiteStoring
-    private let defaults: UserDefaultsWriting
+    private let settings: UserDefaultsWriting
     private var sites: [Bodily]
 
     let log = PDLog<SiteSchedule>()
     
-    init(store: SiteStoring, defaults: UserDefaultsWriting, resetWhenEmpty: Bool = true) {
+    init(store: SiteStoring, settings: UserDefaultsWriting, resetWhenEmpty: Bool = true) {
         self.store = store
-        self.defaults = defaults
+        self.settings = settings
         self.resetWhenEmpty = resetWhenEmpty
         self.sites = store.getStoredSites()
         super.init()
@@ -43,7 +43,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             // If the current siteIndex is not actually pointing to the correct 'suggested',
             // fix it here before giving the correct suggested site.
             if shouldBeSuggestedSite.id != suggestedSite?.id {
-                defaults.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
+                settings.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
             }
             
             return shouldBeSuggestedSite
@@ -66,7 +66,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     public var isDefault: Bool {
         guard count > 0 else { return false }
-        let method = defaults.deliveryMethod.value
+        let method = settings.deliveryMethod.value
         let defaultSites = SiteStrings.getSiteNames(for: method)
         for name in names {
             if !defaultSites.contains(name) {
@@ -155,7 +155,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     public func setImageId(at index: Index, to newId: String) {
         guard sites.count > 0 else { return }
-        let siteSet = SiteStrings.getSiteNames(for: defaults.deliveryMethod.value)
+        let siteSet = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
         if var site = at(index) {
             site.imageId = siteSet.contains(newId) ? newId : SiteStrings.CustomSiteId
             store.pushLocalChangesToManagedContext([site], doSave: true)
@@ -168,18 +168,18 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     @discardableResult
     private func updateIndex() -> Index {
-        defaults.incrementStoredSiteIndex()
+        settings.incrementStoredSiteIndex()
     }
     
     private var suggestedSite: Bodily? {
-        if let site = at(defaults.siteIndex.value) {
+        if let site = at(settings.siteIndex.value) {
             return site
         }
         return nil
     }
 
     private var firstEmptyFromSiteIndex: Bodily? {
-        var siteIterator = defaults.siteIndex.value
+        var siteIterator = settings.siteIndex.value
         for _ in 0..<count {
             if let site = at(siteIterator), site.hormoneCount == 0 {
                 return site
@@ -236,7 +236,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     private func resetSitesToDefault() {
-        let defaultSiteNames = SiteStrings.getSiteNames(for: defaults.deliveryMethod.value)
+        let defaultSiteNames = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
         let previousCount = sites.count
         assignDefaultProperties(options: defaultSiteNames)
         deleteExtraSitesIfNeeded(previousCount: previousCount, newCount: defaultSiteNames.count)
