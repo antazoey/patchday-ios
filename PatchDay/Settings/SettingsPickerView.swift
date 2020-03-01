@@ -6,12 +6,10 @@
 //  Copyright © 2020 Juliya Smith. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import PDKit
 
 
 class SettingsPickerView: UIPickerView {
-    
-    public var setting: PDSetting?
-    public var choices: [String] = []
-    public var startIndex = 0
+    public var setting: PDSetting!
 }

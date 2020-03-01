@@ -56,8 +56,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
     func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
         SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
-        let method = sdk?.settings.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
-        let theme = sdk?.settings.theme.value ?? DefaultSettings.DefaultTheme
+        guard let settings = sdk?.settings else { return }
+        let method = settings.deliveryMethod.value
+        let theme = settings.theme.value
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         if let site = sdk?.sites.at(siteIndex) {
             nav?.goToSiteDetails(site, source: sitesViewController, params: params)

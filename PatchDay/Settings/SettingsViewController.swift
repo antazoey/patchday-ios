@@ -33,10 +33,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var notificationsMinutesBeforeValueLabel: UILabel!
     
     // Pickers
-    @IBOutlet private weak var deliveryMethodPicker: SettingPickerView!
-    @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
-    @IBOutlet private weak var quantityPicker: UIPickerView!
-    @IBOutlet private weak var themePicker: UIPickerView!
+    @IBOutlet private weak var deliveryMethodPicker: SettingsPickerView!
+    @IBOutlet private weak var expirationIntervalPicker: SettingsPickerView!
+    @IBOutlet private weak var quantityPicker: SettingsPickerView!
+    @IBOutlet private weak var themePicker: SettingsPickerView!
 
     // Buttons
     @IBOutlet private weak var deliveryMethodButton: UIButton!
@@ -84,6 +84,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
         let newValue = notificationsMinutesBeforeSlider.value.rounded()
         viewModel?.handleNewNotificationsValue(newValue)
+        notificationsMinutesBeforeValueLabel.text = String(newValue)
     }
     
     /// Opens UIPickerView

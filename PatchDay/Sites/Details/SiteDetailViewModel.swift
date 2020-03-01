@@ -70,24 +70,20 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     }
 
     var siteImage: UIImage {
-        if let defaults = sdk?.settings {
-            let params = SiteImageDeterminationParameters(
-                siteName: siteName,
-                deliveryMethod: defaults.deliveryMethod.value,
-                theme: defaults.theme.value
-            )
-            return PDImages.getSiteImage(from: params)
-        }
-        return UIImage()
+        guard let defaults = sdk?.settings else { return UIImage() }
+        let params = SiteImageDeterminationParameters(
+            siteName: siteName,
+            deliveryMethod: defaults.deliveryMethod.value,
+            theme: defaults.theme.value
+        )
+        return PDImages.getSiteImage(from: params)
     }
 
     @discardableResult func saveSiteImageChanges() -> UIImage? {
-        if let row = selections.selectedSiteImageRow {
-            let image = createImageStruct(selectedRow: row)
-            sdk?.sites.setImageId(at: row, to: image.name)
-            return image.image
-        }
-        return nil
+        guard let row = selections.selectedSiteImageRow else { return nil }
+        let image = createImageStruct(selectedRow: row)
+        sdk?.sites.setImageId(at: row, to: image.name)
+        return image.image
     }
 
     func handleSave(siteNameText: SiteName?, siteDetailViewController: SiteDetailViewController) {
@@ -102,18 +98,28 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     }
 
     func getAttributedSiteName(at index: Index) -> NSAttributedString? {
-        if let siteRowName = getSiteName(at: index), let color = styles?.theme[.text] {
-            let attributes = [NSAttributedString.Key.foregroundColor : color as Any]
-            return NSAttributedString(string: siteRowName, attributes: attributes)
-        }
-        return nil
+        guard let siteRowName = getSiteName(at: index) else { return nil }
+        guard let color = styles?.theme[.text] else { return nil }
+        let attributes = [NSAttributedString.Key.foregroundColor : color as Any]
+        return NSAttributedString(string: siteRowName, attributes: attributes)
     }
 
     // MARK: - Private
 
     private func createImageStruct(selectedRow: Index) -> SiteImageStruct {
-        let method = sdk?.settings.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
-        let theme = sdk?.settings.theme.value ?? DefaultSettings.DefaultTheme
+        guard let settings = sdk?.settings else {
+            return createImageStruct(
+                selectedRow: selectedRow,
+                method: DefaultSettings.DeliveryMethodValue,
+                theme: DefaultSettings.ThemeValue
+            )
+        }
+        let method = settings.deliveryMethod.value
+        let theme = settings.theme.value
+        return createImageStruct(selectedRow: selectedRow, method: method, theme: theme)
+    }
+    
+    private func createImageStruct(selectedRow: Index, method: DeliveryMethod, theme: PDTheme) -> SiteImageStruct {
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         let images = PDImages.getAvailableSiteImages(params)
         let image = images[selectedRow]
@@ -122,12 +128,11 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     }
 
     private func saveSiteNameChanges(siteName: SiteName) {
-        if let sites = sdk?.sites {
-            if siteIndex >= 0 && siteIndex < sites.count {
-                sites.rename(at: siteIndex, to: siteName)
-            } else if siteIndex == sites.count {
-                sites.insertNew(name: siteName, save: true, onSuccess: nil)
-            }
+        guard let sites = sdk?.sites else { return }
+        if siteIndex >= 0 && siteIndex < sites.count {
+            sites.rename(at: siteIndex, to: siteName)
+        } else if siteIndex == sites.count {
+            sites.insertNew(name: siteName, save: true, onSuccess: nil)
         }
     }
 }

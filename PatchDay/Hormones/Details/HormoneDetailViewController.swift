@@ -206,7 +206,8 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: - Private
 
     private func loadTitle() {
-        let method = viewModel.sdk?.settings.deliveryMethod.value ?? DefaultSettings.DefaultDeliveryMethod
+        guard let settings = viewModel.sdk?.settings else { return }
+        let method = settings.deliveryMethod.value
         title = VCTitleStrings.getTitle(for: method)
     }
 

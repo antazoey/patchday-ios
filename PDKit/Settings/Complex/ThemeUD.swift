@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class PDThemeUD: PDUserDefault<PDTheme, String>, KeyStorable {
+public class PDThemeUD: ComplexSetting<PDTheme, String>, KeyStorable {
 
     public static let LightThemeKey = { "Light" }()
     public static let DarkThemeKey = { "Dark" }()
@@ -18,10 +18,22 @@ public class PDThemeUD: PDUserDefault<PDTheme, String>, KeyStorable {
     public typealias RawValue = String
     public let setting: PDSetting = .Theme
     
+    public required init(_ rawValue: String) {
+        super.init(rawValue)
+        self.choices = PickerOptions.themes
+    }
+    
     public override var value: PDTheme {
         switch rawValue {
         case PDThemeUD.DarkThemeKey: return .Dark
         default: return .Light
+        }
+    }
+    
+    public static func getRawValue(for value: PDTheme) -> String {
+        switch value {
+        case .Light: return LightThemeKey
+        case.Dark: return DarkThemeKey
         }
     }
 }

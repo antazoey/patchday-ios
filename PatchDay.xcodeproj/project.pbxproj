@@ -138,6 +138,7 @@
 		9D72A9172342FB8F0030D460 /* PDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* PDState.swift */; };
 		9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A9E02386354F00058AD9 /* PDConstants.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
+		9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F1443240C4486001577A1 /* ComplexSetting.swift */; };
 		9D8A97F723AFCA8B004E20FE /* CoreDataValueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C196720C92604C2FEAA4 /* CoreDataValueTypes.swift */; };
 		9D8A97F823AFCCE5004E20FE /* CoreDataEntityAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9489AA2464C530A78F2 /* CoreDataEntityAdapter.swift */; };
 		9D8A97FA23B28EAA004E20FE /* EntityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A97F923B28EAA004E20FE /* EntityStore.swift */; };
@@ -479,6 +480,7 @@
 		9D72A909233DA2CE0030D460 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		9D78A9E02386354F00058AD9 /* PDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDConstants.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
+		9D7F1443240C4486001577A1 /* ComplexSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexSetting.swift; sourceTree = "<group>"; };
 		9D8A97F923B28EAA004E20FE /* EntityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityStore.swift; sourceTree = "<group>"; };
 		9D8A97FC23B28F6E004E20FE /* HormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStore.swift; sourceTree = "<group>"; };
 		9D8A97FE23B290BC004E20FE /* PillStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStore.swift; sourceTree = "<group>"; };
@@ -1106,6 +1108,7 @@
 				9D6DB7D62405FEEB00C00711 /* Complex */,
 				9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */,
 				9D6DB7D12405FED600C00711 /* PDUserDefault.swift */,
+				9D7F1443240C4486001577A1 /* ComplexSetting.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2059,6 +2062,7 @@
 				B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */,
 				9D913B8022FF3E43001FC03C /* PDStateManaging.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
+				9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */,
 				9D9397C02379473B00FDF290 /* PDSettingsManaging.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */,

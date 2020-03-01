@@ -9,11 +9,16 @@
 import Foundation
 
 
-public class QuantityUD: PDUserDefault<Quantity, Int>, KeyStorable {
+public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
 
     public typealias Value = Quantity
     public typealias RawValue = Int
     public let setting: PDSetting = .Quantity
+    
+    public required init(_ rawValue: Int) {
+        super.init(rawValue)
+        self.choices = PickerOptions.quantities
+    }
 
     public override var value: Quantity {
         return Quantity(rawValue: rawValue) ?? Quantity.Four

@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class ExpirationIntervalUD: PDUserDefault<ExpirationInterval, String>, KeyStorable {
+public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
     
     public static var TwiceWeeklyKey = { "One half-week" }()
     public static var OnceWeeklyKey = { "One week" } ()
@@ -18,6 +18,11 @@ public class ExpirationIntervalUD: PDUserDefault<ExpirationInterval, String>, Ke
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
     public let setting: PDSetting = .ExpirationInterval
+    
+    public required init(_ rawValue: String) {
+        super.init(rawValue)
+        self.choices = PickerOptions.expirationIntervals
+    }
 
     public override var value: ExpirationInterval {
         switch rawValue {
@@ -45,13 +50,12 @@ public class ExpirationIntervalUD: PDUserDefault<ExpirationInterval, String>, Ke
         }
         return str
     }
-    
-    public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {
-        switch humanReadableStr {
-        case PickerOptions.expirationIntervals[0]: return ExpirationInterval.TwiceWeekly
-        case PickerOptions.expirationIntervals[1]: return ExpirationInterval.OnceWeekly
-        case PickerOptions.expirationIntervals[2]: return ExpirationInterval.EveryTwoWeeks
-        default: return nil
+
+    public static func getRawValue(for value: ExpirationInterval) -> String {
+        switch value {
+        case .TwiceWeekly: return TwiceWeeklyKey
+        case .OnceWeekly: return OnceWeeklyKey
+        case .EveryTwoWeeks: return EveryTwoWeeksKey
         }
     }
 }

@@ -51,7 +51,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     func handleNewNotificationsValue(_ newValue: Float) {
         notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(newValue)
-        notificationsMinutesBeforeValueLabel.text = String(newMinutesBeforeValue)
         sdk?.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
         notifications?.requestAllExpiredHormoneNotifications()
     }
