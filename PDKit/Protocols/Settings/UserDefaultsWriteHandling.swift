@@ -10,8 +10,6 @@ import Foundation
 
 
 public protocol UserDefaultsWriteHandling {
-
-    @discardableResult func replace<T>(_ v: inout T, to new: T.Value) -> UserDefaultsWriteHandling where T: KeyStorable
-
-    @discardableResult func load<T>(_ v: inout T) -> UserDefaultsWriteHandling where T: KeyStorable
+    func replace<T>(_ v: inout T, to newValue: T.RawValue) where T: KeyStorable
+    func load<T>(setting: PDSetting, defaultValue: T) -> T
 }

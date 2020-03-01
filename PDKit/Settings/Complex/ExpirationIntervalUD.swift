@@ -1,5 +1,5 @@
 //
-//  ExpirationIntervalUDTests.swift
+//  ExpirationIntervalUD.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 4/28/19.
@@ -8,108 +8,50 @@
 
 import Foundation
 
-public class ExpirationIntervalValueHolder: ComplexValueHolding {
-    
-    static var twiceAWeekKey = { "One half-week" }()
-    static var onceAWeekKey = { "One week" } ()
-    static var everyTwoWeeksKey = { "Two weeks" }()
-    
-    public typealias KeyIndex = ExpirationInterval
-    
-    public typealias RawValue = String
-    
-    var indexer: ExpirationInterval
-    
-    required public init(indexer: ExpirationInterval) {
-        self.indexer = indexer
-    }
-    
-    public convenience init(raw: String) {
-        switch raw {
-        case ExpirationIntervalValueHolder.everyTwoWeeksKey:
-            self.init(indexer: .EveryTwoWeeks)
-        case ExpirationIntervalValueHolder.onceAWeekKey:
-            self.init(indexer: .OnceWeekly)
-        default:
-            self.init(indexer: .TwiceWeekly)
-        }
-    }
-    
-    public var heldValue: String {
-        switch indexer {
-        case .TwiceWeekly: return ExpirationIntervalValueHolder.twiceAWeekKey
-        case .OnceWeekly: return ExpirationIntervalValueHolder.onceAWeekKey
-        case .EveryTwoWeeks: return ExpirationIntervalValueHolder.everyTwoWeeksKey
-        }
-    }
-}
 
-public class ExpirationIntervalUD: KeyStorable {
+public class ExpirationIntervalUD: PDUserDefault<ExpirationInterval, String>, KeyStorable {
     
-    private var v: ExpirationInterval
-    private var valueHolder: ExpirationIntervalValueHolder
+    public static var TwiceWeeklyKey = { "One half-week" }()
+    public static var OnceWeeklyKey = { "One week" } ()
+    public static var EveryTwoWeeksKey = { "Two weeks" }()
     
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
-    
-    public required init(_ val: String) {
-        valueHolder = ExpirationIntervalValueHolder(raw: val)
-        v = valueHolder.indexer
-    }
-    
-    public required init(_ val: ExpirationInterval) {
-        v = val
-        valueHolder = ExpirationIntervalValueHolder(indexer: v)
-    }
-    
-    public convenience required init() {
-        self.init(DefaultSettings.DefaultExpirationInterval)
-    }
-    
-    public var value: ExpirationInterval {
-        get { v }
-        set {
-            v = newValue
-            valueHolder = ExpirationIntervalValueHolder(indexer: v)
+    public let setting: PDSetting = .ExpirationInterval
+
+    public override var value: ExpirationInterval {
+        switch rawValue {
+        case ExpirationIntervalUD.OnceWeeklyKey: return .OnceWeekly
+        case ExpirationIntervalUD.EveryTwoWeeksKey: return .EveryTwoWeeks
+        default: return .TwiceWeekly
         }
     }
-    
-    public var rawValue: String { return valueHolder.heldValue }
-    
-    public static var key = PDSetting.ExpirationInterval
     
     public var hours: Int {
         switch value {
-        case .TwiceWeekly: return 84
-        case .OnceWeekly: return 168
-        case .EveryTwoWeeks: return 336
+        case .TwiceWeekly: return HoursInHalfWeek
+        case .OnceWeekly: return HoursInWeek
+        case .EveryTwoWeeks: return HoursInTwoWeeks
         }
     }
     
-    public var humanPresentableValue: String {
-        ExpirationIntervalUD.getHumanPresentableValue(from: rawValue)!
+    public override var displayableString: String {
+        let options = PickerOptions.expirationIntervals
+        var str = ""
+        switch value {
+        case .TwiceWeekly: str = options.tryGet(at: 0) ?? str
+        case .OnceWeekly: str = options.tryGet(at: 1) ?? str
+        case .EveryTwoWeeks: str = options.tryGet(at: 2) ?? str
+        }
+        return str
     }
     
     public static func makeExpirationInterval(from humanReadableStr: String) -> ExpirationInterval? {
         switch humanReadableStr {
-        case PickerOptions.expirationIntervals[0]:
-            return ExpirationInterval.TwiceWeekly
-        case PickerOptions.expirationIntervals[1]:
-            return ExpirationInterval.OnceWeekly
-        case PickerOptions.expirationIntervals[2]:
-            return ExpirationInterval.EveryTwoWeeks
-        default:
-            return nil
+        case PickerOptions.expirationIntervals[0]: return ExpirationInterval.TwiceWeekly
+        case PickerOptions.expirationIntervals[1]: return ExpirationInterval.OnceWeekly
+        case PickerOptions.expirationIntervals[2]: return ExpirationInterval.EveryTwoWeeks
+        default: return nil
         }
-    }
-    
-    private static func getHumanPresentableValue(from v: String) -> String? {
-        let strs = PickerOptions.expirationIntervals
-        let strDict = [
-            ExpirationIntervalValueHolder.twiceAWeekKey : strs[0],
-            ExpirationIntervalValueHolder.onceAWeekKey : strs[1],
-            ExpirationIntervalValueHolder.everyTwoWeeksKey : strs[2]
-        ]
-        return strDict[v]
     }
 }

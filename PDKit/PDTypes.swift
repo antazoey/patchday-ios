@@ -16,10 +16,12 @@ public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
 public typealias AppTheme = Dictionary<ThemedAsset, UIColor>
 
+
 public enum DeliveryMethod {
     case Patches
     case Injections
 }
+
 
 public enum Quantity: Int {
     case One = 1
@@ -28,16 +30,19 @@ public enum Quantity: Int {
     case Four = 4
 }
 
+
 public enum ExpirationInterval {
     case TwiceWeekly
     case OnceWeekly
     case EveryTwoWeeks
 }
 
+
 public enum PDTheme {
     case Light
     case Dark
 }
+
 
 // These strings cannot change - they are for retrieving from Core Data
 public enum PDSetting: String {
@@ -51,11 +56,13 @@ public enum PDSetting: String {
     case Theme = "theme"
 }
 
+
 public enum PDEntity: String, CaseIterable {
     case hormone = "Hormone"
     case pill = "Pill"
     case site = "Site"
 }
+
 
 public enum ThemedAsset {
     case bg

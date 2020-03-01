@@ -8,12 +8,13 @@
 
 import Foundation
 
+
 public protocol KeyStorable {
     associatedtype Value
     associatedtype RawValue
-    init(_ val: Value)
-    init(_ val: RawValue)
-    var value: Value { get set }
-    var rawValue: RawValue { get }
-    static var key: PDSetting { get }
+    init(_ rawValue: RawValue)
+    var value: Value { get }
+    var rawValue: RawValue { get set }
+    var setting: PDSetting { get }
+    var displayableString: String { get }
 }

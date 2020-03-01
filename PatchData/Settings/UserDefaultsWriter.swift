@@ -17,14 +17,14 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     private let handler: UserDefaultsWriteHandler
 
     // Defaults
-    public var deliveryMethod = DeliveryMethodUD()
-    public var expirationInterval = ExpirationIntervalUD()
-    public var quantity = QuantityUD()
-    public var notifications = NotificationsUD()
-    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD()
-    public var mentionedDisclaimer = MentionedDisclaimerUD()
-    public var siteIndex = SiteIndexUD()
-    public var theme = PDThemeUD()
+    public var deliveryMethod: DeliveryMethodUD
+    public var expirationInterval: ExpirationIntervalUD
+    public var quantity: QuantityUD
+    public var notifications: NotificationsUD
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
+    public var mentionedDisclaimer: MentionedDisclaimerUD
+    public var siteIndex: SiteIndexUD
+    public var theme: PDThemeUD
 
     private var getSiteCount: () -> Int
     
@@ -32,13 +32,31 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         self.state = state
         self.handler = handler
         self.getSiteCount = getSiteCount
-        handler.load(&deliveryMethod)
-            .load(&expirationInterval)
-            .load(&quantity)
-            .load(&notifications)
-            .load(&notificationsMinutesBefore)
-            .load(&mentionedDisclaimer)
-            .load(&theme)
+        typealias D = DefaultSettings
+        
+        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: D.DeliveryMethodRawValue)
+        let expirationInterval = handler.load(
+            setting: .ExpirationInterval, defaultValue: D.ExpirationIntervalRawValue
+        )
+        let quantity = handler.load(setting: .Quantity, defaultValue: D.QuantityRawValue)
+        let notifications = handler.load(setting: .Notifications, defaultValue: D.NotificationsRawValue)
+        let notificationsMinutesBefore = handler.load(
+            setting: .NotificationsMinutesBefore, defaultValue: D.NotificationsMinutesBeforeRawValue
+        )
+        let mentionedDisclaimer = handler.load(
+            setting: .MentionedDisclaimer, defaultValue: D.MentionedDisclaimerRawValue
+        )
+        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: D.SiteIndexRawValue)
+        let theme = handler.load(setting: .Theme, defaultValue: D.ThemeRawValue)
+        
+        self.deliveryMethod = DeliveryMethodUD(deliveryMethod)
+        self.expirationInterval = ExpirationIntervalUD(expirationInterval)
+        self.quantity = QuantityUD(quantity)
+        self.notifications = NotificationsUD(notifications)
+        self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(notificationsMinutesBefore)
+        self.mentionedDisclaimer = MentionedDisclaimerUD(mentionedDisclaimer)
+        self.siteIndex = SiteIndexUD(siteIndex)
+        self.theme = PDThemeUD(theme)
     }
     
     public func reset(defaultSiteCount: Int=4) {

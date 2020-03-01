@@ -38,16 +38,16 @@ public class PDSettings: PDSettingsManaging {
     public var siteIndex: SiteIndexUD { writer.siteIndex }
     public var theme: PDThemeUD { writer.theme }
     
-    public func getCurrentAsString(for setting: PDSetting) -> String {
+    public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
         switch setting {
-        case .DeliveryMethod: return deliveryMethod.string
-        case .ExpirationInterval: return expirationInterval.string
-        case .Quantity: return quantity.string
-        case .Notifications: return notifications.string
-        case .NotificationsMinutesBefore: return notificationsMinutesBefore.string
-        case .MentionedDisclaimer: return mentionedDisclaimer.string
-        case .SiteIndex: return siteIndex.string
-        case .Theme: return theme.string
+        case .DeliveryMethod: return deliveryMethod.displayableString
+        case .ExpirationInterval: return expirationInterval.displayableString
+        case .Quantity: return quantity.displayableString
+        case .Notifications: return notifications.displayableString
+        case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
+        case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
+        case .SiteIndex: return siteIndex.displayableString
+        case .Theme: return theme.displayableString
         }
     }
 

@@ -12,14 +12,25 @@ import Foundation
 public let OnlySupportedInjectionsQuantity = 1
 public let SupportedHormoneUpperQuantityLimit = 4
 
-public class DefaultSettings {
-    public static let DefaultExpirationInterval = ExpirationInterval.TwiceWeekly
-    public static let DefaultExpirationIntervalHours = 84
+public let HoursInHalfWeek = 84
+public let HoursInWeek = HoursInHalfWeek * 2
+public let HoursInTwoWeeks = HoursInWeek * 2
 
-    public static let DefaultQuantity = Quantity.Four
-    public static let DefaultDeliveryMethod = DeliveryMethod.Patches
-    public static let DefaultNotificationsMinutesBefore = 0
-    public static let DefaultTheme = PDTheme.Light
+
+public class DefaultSettings {
+    public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
+    public static let ExpirationIntervalRawValue = ExpirationIntervalUD.TwiceWeeklyKey
+    public static let ExpirationIntervalHours = 84
+    public static let QuantityValue = Quantity.Four
+    public static let QuantityRawValue = 4
+    public static let DeliveryMethodValue = DeliveryMethod.Patches
+    public static let DeliveryMethodRawValue = DeliveryMethodUD.PatchesKey
+    public static let NotificationsRawValue = true
+    public static let NotificationsMinutesBeforeRawValue = 0
+    public static let MentionedDisclaimerRawValue = false
+    public static let SiteIndexRawValue = 0
+    public static let ThemeValue = PDTheme.Light
+    public static let ThemeRawValue = PDThemeUD.LightThemeKey
 }
 
 
