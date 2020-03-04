@@ -13,9 +13,9 @@ import UIKit
 // https://iosdevcenters.blogspot.com/2015/12/how-to-resize-image-in-swift-in-ios.html
 /// Resizes an image to the target size.
 
-public class ModiiImageResizer {
+public class ImageResizer {
     
-    public static func resizeImage(_ image: UIImage, targetSize: CGSize) -> UIImage {
+    public static func resize(_ image: UIImage, targetSize: CGSize) -> UIImage {
         let size = image.size
         
         let widthRatio  = targetSize.width  / size.width

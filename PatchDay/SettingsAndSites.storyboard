@@ -45,7 +45,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -87,7 +87,7 @@
                                             <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajI-Up-RPe" customClass="SettingsPickerView" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="61" width="359" height="180"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="180" id="ev5-LR-JHl"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="ev5-LR-JHl"/>
                                                 </constraints>
                                             </pickerView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLk-5k-32E">
@@ -114,7 +114,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -148,7 +148,7 @@
                                             <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzl-1c-YdT" customClass="SettingsPickerView" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="121" width="359" height="180"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="180" id="AzK-7v-qfK"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="AzK-7v-qfK"/>
                                                 </constraints>
                                             </pickerView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piD-fG-4Oe">
@@ -183,7 +183,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for a nearby button for choosing the number of patches">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -192,7 +192,7 @@
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="numberOfPatches0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
                                                         <rect key="frame" x="107.5" y="0.0" width="221.5" height="60"/>
                                                         <state key="normal" title="                     ">
-                                                            <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <connections>
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nyj-NO-gws"/>
@@ -223,11 +223,70 @@
                                             <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PiM-fd-ASD" customClass="SettingsPickerView" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="183" width="359" height="180"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="180" id="mvB-eo-MD5"/>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="mvB-eo-MD5"/>
+                                                </constraints>
+                                            </pickerView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dr6-N7-EdF">
+                                                <rect key="frame" x="0.0" y="183" width="359" height="60"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Theme Icon" translatesAutoresizingMaskIntoConstraints="NO" id="hrX-UM-tW5">
+                                                        <rect key="frame" x="0.0" y="0.0" width="35" height="60"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="35" id="g9f-5R-7Qk"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpl-eW-vim">
+                                                        <rect key="frame" x="35" y="0.0" width="10" height="60"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="10" id="j2T-8X-0Ng"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Theme:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="anm-eN-KqC">
+                                                        <rect key="frame" x="45" y="0.0" width="52" height="60"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                        <attributedString key="userComments">
+                                                            <fragment content="title for a nearby button for choosing the number of patches">
+                                                                <attributes>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                                </attributes>
+                                                            </fragment>
+                                                        </attributedString>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="theme0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-qW-gtq">
+                                                        <rect key="frame" x="97" y="0.0" width="232" height="60"/>
+                                                        <state key="normal" title="                     ">
+                                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="R9m-U2-zIo"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="theme1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-jC-q0h">
+                                                        <rect key="frame" x="329" y="0.0" width="30" height="60"/>
+                                                        <state key="normal" title="   〉">
+                                                            <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Zg1-dl-bP0"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="60" id="P71-Jb-BJZ"/>
+                                                </constraints>
+                                            </stackView>
+                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaS-8e-dXu" customClass="SettingsPickerView" customModule="PatchDay" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="243" width="359" height="180"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="yg7-7J-wfN"/>
                                                 </constraints>
                                             </pickerView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uD-9B-lcc">
-                                                <rect key="frame" x="0.0" y="183" width="359" height="60"/>
+                                                <rect key="frame" x="0.0" y="243" width="359" height="60"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notify Icon" translatesAutoresizingMaskIntoConstraints="NO" id="hAO-8d-7s4">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="60"/>
@@ -250,7 +309,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="label next to switch for indicating whether the user wants to receive a reminder before their patch expires.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -280,14 +339,14 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQC-JP-otW">
-                                                <rect key="frame" x="0.0" y="243" width="359" height="1"/>
+                                                <rect key="frame" x="0.0" y="303" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="ilu-Gi-uLO"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fz5-nK-gEh">
-                                                <rect key="frame" x="0.0" y="244" width="359" height="60"/>
+                                                <rect key="frame" x="0.0" y="304" width="359" height="60"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Time Icon" translatesAutoresizingMaskIntoConstraints="NO" id="sOy-rN-CTv">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="60"/>
@@ -302,7 +361,7 @@
                                                             <constraint firstAttribute="width" constant="10" id="Btd-YV-IS2"/>
                                                         </constraints>
                                                     </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Notify x minutes before expiration:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvS-Oc-7gL">
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="255" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Notify minutes before:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DvS-Oc-7gL">
                                                         <rect key="frame" x="45" y="0.0" width="264" height="60"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                         <nil key="textColor"/>
@@ -310,7 +369,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="this title is for a button that lets the user choose how many minutes before they are receiving the reminder.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -331,7 +390,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aVY-I8-lmp">
-                                                <rect key="frame" x="0.0" y="304" width="359" height="80"/>
+                                                <rect key="frame" x="0.0" y="364" width="359" height="80"/>
                                                 <subviews>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="120" translatesAutoresizingMaskIntoConstraints="NO" id="DLV-bL-uBa">
                                                         <rect key="frame" x="43" y="0.0" width="288" height="81"/>
@@ -394,72 +453,19 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0o-3m-Mfa">
-                                                <rect key="frame" x="0.0" y="384" width="359" height="10"/>
+                                                <rect key="frame" x="0.0" y="444" width="359" height="10"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="giu-aN-C55"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DTi-Vg-FzV">
-                                                <rect key="frame" x="0.0" y="394" width="359" height="1"/>
+                                                <rect key="frame" x="0.0" y="454" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="5gt-lq-ARK"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dr6-N7-EdF">
-                                                <rect key="frame" x="0.0" y="395" width="359" height="60"/>
-                                                <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpl-eW-vim">
-                                                        <rect key="frame" x="0.0" y="0.0" width="45" height="60"/>
-                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="45" id="j2T-8X-0Ng"/>
-                                                        </constraints>
-                                                    </view>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Theme:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="anm-eN-KqC">
-                                                        <rect key="frame" x="45" y="0.0" width="52" height="60"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                        <attributedString key="userComments">
-                                                            <fragment content="title for a nearby button for choosing the number of patches">
-                                                                <attributes>
-                                                                    <font key="NSFont" metaFont="message" size="11"/>
-                                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                                </attributes>
-                                                            </fragment>
-                                                        </attributedString>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="theme0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-qW-gtq">
-                                                        <rect key="frame" x="97" y="0.0" width="232" height="60"/>
-                                                        <state key="normal" title="                     ">
-                                                            <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="R9m-U2-zIo"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="theme1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-jC-q0h">
-                                                        <rect key="frame" x="329" y="0.0" width="30" height="60"/>
-                                                        <state key="normal" title="   〉">
-                                                            <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Zg1-dl-bP0"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="60" id="P71-Jb-BJZ"/>
-                                                </constraints>
-                                            </stackView>
-                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaS-8e-dXu" customClass="SettingsPickerView" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="455" width="359" height="180"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="yg7-7J-wfN"/>
-                                                </constraints>
-                                            </pickerView>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="vYX-vA-hfJ" firstAttribute="width" secondItem="TIv-4M-a4n" secondAttribute="width" id="Z9g-Hl-CYb"/>
@@ -826,6 +832,7 @@
         <image name="Delivery Icon" width="50" height="50"/>
         <image name="Notify Icon" width="50" height="50"/>
         <image name="Quantity Icon" width="50" height="50"/>
+        <image name="Theme Icon" width="50" height="50"/>
         <image name="Time Icon" width="50" height="50"/>
     </resources>
 </document>

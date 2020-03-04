@@ -46,7 +46,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
         let size = SiteDetailConstants.SiteImageResizedSize
 
         if let image = props.imageOptions.tryGet(at: row) {
-            let resizedImage = ModiiImageResizer.resizeImage(image, targetSize: size)
+            let resizedImage = ImageResizer.resize(image, targetSize: size)
             return UIImageView(image: resizedImage)
         }
         return UIImageView()

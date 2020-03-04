@@ -22,15 +22,34 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         super.init()
     }
     
+    var deliveryMethodStartIndex: Index {
+        sdk?.settings.deliveryMethod.currentIndex ?? 0
+    }
+    
+    var quantityStartIndex: Index {
+        sdk?.settings.quantity.currentIndex ?? 0
+    }
+    
+    var expirationIntervalStartIndex: Index {
+        sdk?.settings.expirationInterval.currentIndex ?? 0
+    }
+    
+    var themeStartIndex: Index {
+        sdk?.settings.theme.currentIndex ?? 0
+    }
+    
     func getSettingFromButton(_ button: UIButton) -> PDSetting? {
         guard let key = button.tryGetKeyFromButtonMetadata() else { return nil }
         return PDSetting(rawValue: key)
     }
     
-    func activatePicker(pickers: SettingsPickers, activator: UIButton, onSuccess: () -> ()) {
-        guard let key = selectedSetting else { return }
-        guard let props = createPickerActivation(key: key, activator: activator, pickers: pickers) else { return }
-        SettingsPickerActivator(activation: props, saver: saver).activate()
+    func activatePicker(_ picker: SettingsPickerView, onSuccess: () -> ()) {
+        if picker.isHidden {
+            picker.open()
+        } else {
+            picker.close()
+            saver.save(picker.setting, selectedRow: picker.getStartRow())
+        }
         onSuccess()
     }
     
@@ -53,19 +72,5 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         let newMinutesBeforeValue = Int(newValue)
         sdk?.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
         notifications?.requestAllExpiredHormoneNotifications()
-    }
-    
-    private func createPickerActivation(key: PDSetting, activator: UIButton, pickers: SettingsPickers) -> PickerActivation? {
-        let pickerSelector = SettingsPickerSelector(pickers)
-        guard let picker = pickerSelector.selectPicker(key: key) else { return nil }
-        let options = PickerOptions.get(for: key)
-        let startRow = options.tryGetIndex(item: activator.titleLabel?.text) ?? 0
-        return PickerActivation(
-            picker: picker,
-            activator: activator,
-            options: options,
-            startRow: startRow,
-            propertyKey: key
-        )
     }
 }

@@ -13,10 +13,11 @@ import PDKit
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     override public var description: String {
-        "Settings View Controllers - a place to configure Application settings"
+        "The view controller for configuring Application settings."
     }
     
     private var viewModel: SettingsViewModel? = nil
+    private let log = PDLog<SettingsViewController>()
 
     // Containers
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -65,6 +66,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         loadButtonSelectedStates()
         loadButtonDisabledStates()
         viewModel?.reflector.reflectStoredSettings()
+        setPickers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,7 +92,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     /// Opens UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
         guard let setting = viewModel?.getSettingFromButton(sender) else { return }
-        handlePickerActivation(setting, activator: sender)
+        handlePickerActivation(setting)
     }
     
     @IBAction func notificationsSwitched(_ sender: Any) {
@@ -124,15 +126,13 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.viewModel = SettingsViewModel(reflector: reflector, saver: saver)
     }
 
-    private func handlePickerActivation(_ key: PDSetting, activator: UIButton) {
+    private func handlePickerActivation(_ setting: PDSetting) {
         guard let viewModel = viewModel else { return }
-        viewModel.selectedSetting = key
-        let pickers = SettingsPickers(
-            quantityPicker, deliveryMethodPicker, expirationIntervalPicker, themePicker
-        )
-        viewModel.activatePicker(pickers: pickers, activator: activator) {
-            deselectEverything(except: key)
-            handleBottomPickerViewRequirements(for: key)
+        guard let picker = selectPicker(setting: setting) else { return }
+        viewModel.selectedSetting = setting
+        viewModel.activatePicker(picker) {
+            deselectEverything(except: setting)
+            handleBottomPickerViewRequirements(for: setting)
         }
     }
 
@@ -155,11 +155,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func disableNotificationButtons() {
-        viewModel?.sdk?.settings.setNotificationsMinutesBefore(to: 0)
+        let disabledValue = 0
+        viewModel?.sdk?.settings.setNotificationsMinutesBefore(to: disabledValue)
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
-        notificationsMinutesBeforeValueLabel.text = "0"
-        notificationsMinutesBeforeSlider.value = 0
+        notificationsMinutesBeforeValueLabel.text = String(disabledValue)
+        notificationsMinutesBeforeSlider.value = Float(disabledValue)
     }
     
     private func deselectEverything(except: PDSetting) {
@@ -193,14 +194,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private func loadButtonDisabledStates() {
-        // Add more disabled states here as they arise
         quantityButton.setTitleColor(UIColor.lightGray, for: .disabled)
     }
     
     private func setTopConstraint() {
-        if AppDelegate.isPad {
-            topConstraint.constant = 100
-        }
+        guard AppDelegate.isPad else { return }
+        topConstraint.constant = 100
     }
     
     private func applyTheme() {
@@ -244,6 +243,35 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         quantityPicker.dataSource = self
         themePicker.delegate = self
         themePicker.dataSource = self
+    }
+    
+    
+    private func selectPicker(setting: PDSetting) -> SettingsPickerView? {
+        switch setting {
+        case.Quantity: return quantityPicker
+        case .DeliveryMethod: return deliveryMethodPicker
+        case .ExpirationInterval: return expirationIntervalPicker
+        case .Theme: return themePicker
+        default:
+            log.error("No picker for given setting \(setting)")
+            return nil
+        }
+    }
+    
+    private func setPickers() {
+        guard let viewModel = self.viewModel else { return }
+        deliveryMethodPicker.setting = PDSetting.DeliveryMethod
+        deliveryMethodPicker.activator = deliveryMethodButton
+        deliveryMethodPicker.getStartRow = { viewModel.deliveryMethodStartIndex }
+        quantityPicker.setting = PDSetting.Quantity
+        quantityPicker.activator = quantityButton
+        quantityPicker.getStartRow = { viewModel.quantityStartIndex }
+        expirationIntervalPicker.setting = PDSetting.ExpirationInterval
+        expirationIntervalPicker.activator = expirationIntervalButton
+        expirationIntervalPicker.getStartRow = { viewModel.expirationIntervalStartIndex }
+        themePicker.setting = PDSetting.Theme
+        themePicker.activator = themeButton
+        themePicker.getStartRow = { viewModel.themeStartIndex }
     }
 }
 
