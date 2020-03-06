@@ -72,7 +72,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         loadViewModelIfNil()
         title = VCTitleStrings.SettingsTitle
         setTopConstraint()
-        loadButtonSelectedStates()
         loadButtonDisabledStates()
         viewModel?.reflector.reflectStoredSettings()
         setPickers()
@@ -187,19 +186,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             quantityButton.isSelected = false
             fallthrough
         case let setting where setting != .Theme:
-            themeButton.isHidden = true
+            themePicker.isHidden = true
             themeButton.isSelected = false
         default:
             break
         }
-    }
-    
-    private func loadButtonSelectedStates() {
-        let save = ActionStrings.Save
-        deliveryMethodButton.setTitle(save, for: .selected)
-        expirationIntervalButton.setTitle(save, for: .selected)
-        quantityButton.setTitle(save, for: .selected)
-        themeButton.setTitle(save, for: .selected)
     }
     
     private func loadButtonDisabledStates() {
@@ -272,12 +263,15 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         deliveryMethodPicker.setting = PDSetting.DeliveryMethod
         deliveryMethodPicker.activator = deliveryMethodButton
         deliveryMethodPicker.getStartRow = { viewModel.deliveryMethodStartIndex }
-        quantityPicker.setting = PDSetting.Quantity
-        quantityPicker.activator = quantityButton
-        quantityPicker.getStartRow = { viewModel.quantityStartIndex }
+        
         expirationIntervalPicker.setting = PDSetting.ExpirationInterval
         expirationIntervalPicker.activator = expirationIntervalButton
         expirationIntervalPicker.getStartRow = { viewModel.expirationIntervalStartIndex }
+        
+        quantityPicker.setting = PDSetting.Quantity
+        quantityPicker.activator = quantityButton
+        quantityPicker.getStartRow = { viewModel.quantityStartIndex }
+        
         themePicker.setting = PDSetting.Theme
         themePicker.activator = themeButton
         themePicker.getStartRow = { viewModel.themeStartIndex }

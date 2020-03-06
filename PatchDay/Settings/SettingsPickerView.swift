@@ -11,19 +11,27 @@ import PDKit
 
 
 class SettingsPickerView: UIPickerView {
+    
+    private var _activator: UIButton?
 
     public var setting: PDSetting!
-    public var activator: UIButton?
+    public var activator: UIButton {
+        get { _activator ?? UIButton() }
+        set {
+            newValue.setTitle(ActionStrings.Save, for: .selected)
+            _activator = newValue
+        }
+    }
     public var getStartRow: () -> Index = { 0 }
     
     public func open() {
-        activator?.isSelected = true
+        _activator?.isSelected = true
         selectStartRow()
         show()
     }
     
     public func close() {
-        activator?.isSelected = false
+        _activator?.isSelected = false
         isHidden = true
     }
     
