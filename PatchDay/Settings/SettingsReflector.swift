@@ -14,7 +14,7 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 
     private let controls: SettingsControls
     
-    init(controls: SettingsControls) {
+    init(_ controls: SettingsControls) {
         self.controls = controls
         super.init()
     }
@@ -28,8 +28,8 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
         loadTheme()
     }
     
-    public func reflectNewButtonTitle(key: PDSetting, newTitle: String) {
-        switch key {
+    public func reflectNewButtonTitle(setting: PDSetting, newTitle: String) {
+        switch setting {
         case .DeliveryMethod: controls.deliveryMethodButton.setTitle(newTitle)
         case .ExpirationInterval: controls.expirationIntervalButton.setTitle(newTitle)
         case .Quantity: controls.quantityButton.setTitle(newTitle)
@@ -68,9 +68,8 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
     }
     
     private func loadNotificationsMinutesBefore() {
-        guard let defaults = sdk?.settings else { return }
+        guard let minutesBefore = sdk?.settings.notificationsMinutesBefore.value else { return }
         if controls.notificationsSwitch.isOn {
-            let minutesBefore = defaults.notificationsMinutesBefore.value
             controls.notificationsMinutesBeforeSlider.value = Float(minutesBefore)
             controls.notificationsMinutesBeforeValueLabel.text = String(minutesBefore)
             controls.notificationsMinutesBeforeValueLabel.textColor = UIColor.black

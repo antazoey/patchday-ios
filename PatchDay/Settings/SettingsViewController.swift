@@ -25,10 +25,19 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var settingsStack: UIStackView!
     @IBOutlet private weak var settingsView: UIView!
     
+    // StackViews
+    @IBOutlet private weak var deliveryMethodStack: UIStackView!
+    @IBOutlet private weak var expirationIntervalStack: UIStackView!
+    @IBOutlet private weak var quantityStack: UIStackView!
+    @IBOutlet private weak var themeStack: UIStackView!
+    @IBOutlet private weak var notificationsStack: UIStackView!
+    @IBOutlet private weak var notificationsMinutesBeforeStack: UIStackView!
+    
     // Labels
     @IBOutlet private weak var deliveryMethodLabel: UILabel!
     @IBOutlet private weak var expirationIntervalLabel: UILabel!
     @IBOutlet private weak var quantityLabel: UILabel!
+    @IBOutlet private weak var themeLabel: UILabel!
     @IBOutlet private weak var notificationsLabel: UILabel!
     @IBOutlet private weak var notificationsMinutesBeforeLabel: UILabel!
     @IBOutlet private weak var notificationsMinutesBeforeValueLabel: UILabel!
@@ -45,6 +54,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var quantityButton: UIButton!
     @IBOutlet private weak var quantityArrowButton: UIButton!
     @IBOutlet private weak var themeButton: UIButton!
+    @IBOutlet private weak var themeArrowButton: UIButton!
     
     // Other Controls
     @IBOutlet private weak var notificationsSwitch: UISwitch!
@@ -59,7 +69,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        assignSelfAsDelegateForPickers()
         loadViewModelIfNil()
         title = VCTitleStrings.SettingsTitle
         setTopConstraint()
@@ -70,6 +79,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        assignSelfAsDelegateForPickers()
         loadViewModelIfNil()
         super.viewWillAppear(animated)
         viewModel?.sdk?.stateManager.markQuantityAsOld()
@@ -91,7 +101,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     /// Opens UIPickerView
     @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
-        guard let setting = viewModel?.getSettingFromButton(sender) else { return }
+        guard let setting = sender.tryGetSettingFromButtonMetadata() else { return }
         handlePickerActivation(setting)
     }
     
@@ -121,9 +131,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     private func loadViewModelIfNil() {
         guard viewModel == nil else { return }
         let controls = createControlsStruct()
-        let reflector = SettingsReflector(controls: controls)
         let saver = SettingsStateSaver(controls: controls, themeChangeHook: { self.applyTheme() })
-        self.viewModel = SettingsViewModel(reflector: reflector, saver: saver)
+        self.viewModel = SettingsViewModel(reflector: SettingsReflector(controls), saver: saver)
     }
 
     private func handlePickerActivation(_ setting: PDSetting) {

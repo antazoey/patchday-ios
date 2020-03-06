@@ -45,13 +45,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="toolTip"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="delivMethod0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="deliveryMethodButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
                                                         <rect key="frame" x="161.5" y="0.0" width="167.5" height="60"/>
                                                         <state key="normal">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -61,7 +61,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="oBy-3W-0e3"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="delivMethod1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -114,13 +114,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="toolTip"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="patchChangeInterval0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="expirationIntervalButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
                                                         <rect key="frame" x="113.5" y="0.0" width="215.5" height="60"/>
                                                         <state key="normal">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -130,7 +130,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Pdl-yO-iTs"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="patchChangeInterval1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="expirationIntervalArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -183,13 +183,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for a nearby button for choosing the number of patches">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="toolTip"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="numberOfPatches0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="quantityButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
                                                         <rect key="frame" x="107.5" y="0.0" width="221.5" height="60"/>
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -198,7 +198,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nyj-NO-gws"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="numberOfPatches1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="quantityArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -250,13 +250,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for a nearby button for choosing the number of patches">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="toolTip"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="theme0" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-qW-gtq">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="themeButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKQ-qW-gtq">
                                                         <rect key="frame" x="97" y="0.0" width="232" height="60"/>
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -265,7 +265,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="R9m-U2-zIo"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="theme1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-jC-q0h">
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="themeArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-jC-q0h">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -279,14 +279,21 @@
                                                     <constraint firstAttribute="height" constant="60" id="P71-Jb-BJZ"/>
                                                 </constraints>
                                             </stackView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DTi-Vg-FzV">
+                                                <rect key="frame" x="0.0" y="243" width="359" height="1"/>
+                                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="5gt-lq-ARK"/>
+                                                </constraints>
+                                            </view>
                                             <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HaS-8e-dXu" customClass="SettingsPickerView" customModule="PatchDay" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="243" width="359" height="180"/>
+                                                <rect key="frame" x="0.0" y="244" width="359" height="180"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="yg7-7J-wfN"/>
                                                 </constraints>
                                             </pickerView>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8uD-9B-lcc">
-                                                <rect key="frame" x="0.0" y="243" width="359" height="60"/>
+                                                <rect key="frame" x="0.0" y="244" width="359" height="60"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notify Icon" translatesAutoresizingMaskIntoConstraints="NO" id="hAO-8d-7s4">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="60"/>
@@ -309,7 +316,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="label next to switch for indicating whether the user wants to receive a reminder before their patch expires.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="toolTip"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -339,14 +346,14 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQC-JP-otW">
-                                                <rect key="frame" x="0.0" y="303" width="359" height="1"/>
+                                                <rect key="frame" x="0.0" y="304" width="359" height="1"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="ilu-Gi-uLO"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fz5-nK-gEh">
-                                                <rect key="frame" x="0.0" y="304" width="359" height="60"/>
+                                                <rect key="frame" x="0.0" y="305" width="359" height="60"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Time Icon" translatesAutoresizingMaskIntoConstraints="NO" id="sOy-rN-CTv">
                                                         <rect key="frame" x="0.0" y="0.0" width="35" height="60"/>
@@ -369,7 +376,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="this title is for a button that lets the user choose how many minutes before they are receiving the reminder.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="toolTip"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -390,7 +397,7 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aVY-I8-lmp">
-                                                <rect key="frame" x="0.0" y="364" width="359" height="80"/>
+                                                <rect key="frame" x="0.0" y="365" width="359" height="80"/>
                                                 <subviews>
                                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="120" translatesAutoresizingMaskIntoConstraints="NO" id="DLV-bL-uBa">
                                                         <rect key="frame" x="43" y="0.0" width="288" height="81"/>
@@ -453,17 +460,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0o-3m-Mfa">
-                                                <rect key="frame" x="0.0" y="444" width="359" height="10"/>
+                                                <rect key="frame" x="0.0" y="445" width="359" height="10"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="10" id="giu-aN-C55"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DTi-Vg-FzV">
-                                                <rect key="frame" x="0.0" y="454" width="359" height="1"/>
-                                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="1" id="5gt-lq-ARK"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -499,27 +499,35 @@
                         <outlet property="deliveryMethodLabel" destination="rtX-lG-6b0" id="3Cu-yK-vO6"/>
                         <outlet property="deliveryMethodPicker" destination="ajI-Up-RPe" id="kPk-dA-YO7"/>
                         <outlet property="deliveryMethodSideView" destination="4Bl-Xs-uyl" id="3Ki-F7-H9Y"/>
+                        <outlet property="deliveryMethodStack" destination="Lwe-nF-qqW" id="AmW-w6-Ngd"/>
                         <outlet property="expirationIntervalButton" destination="dZo-Ez-aXA" id="ETU-dy-Gw6"/>
                         <outlet property="expirationIntervalLabel" destination="AU8-7c-vIO" id="qDy-FH-L2x"/>
                         <outlet property="expirationIntervalPicker" destination="bzl-1c-YdT" id="J6d-ht-Vd9"/>
+                        <outlet property="expirationIntervalStack" destination="gLk-5k-32E" id="G3Y-cX-l9P"/>
                         <outlet property="notificationsLabel" destination="5Zu-BE-Jh8" id="X8y-mk-lOY"/>
                         <outlet property="notificationsMinutesBeforeLabel" destination="DvS-Oc-7gL" id="biW-7O-nAo"/>
                         <outlet property="notificationsMinutesBeforeSideView" destination="onX-vA-iNv" id="aEy-r2-LmL"/>
                         <outlet property="notificationsMinutesBeforeSlider" destination="DLV-bL-uBa" id="iGf-Sn-1rg"/>
+                        <outlet property="notificationsMinutesBeforeStack" destination="fz5-nK-gEh" id="tUB-Nv-p2N"/>
                         <outlet property="notificationsMinutesBeforeValueLabel" destination="cNG-oD-Cfr" id="7NT-p3-c3Q"/>
                         <outlet property="notificationsSideView" destination="bAq-e1-NTx" id="orY-gC-r3h"/>
+                        <outlet property="notificationsStack" destination="8uD-9B-lcc" id="zFV-E2-HRA"/>
                         <outlet property="notificationsSwitch" destination="d5M-4a-RjZ" id="qiS-e8-sBA"/>
                         <outlet property="quantityArrowButton" destination="vYX-vA-hfJ" id="ens-ZU-9RK"/>
                         <outlet property="quantityButton" destination="XiV-is-g5n" id="qBf-ro-0u5"/>
                         <outlet property="quantityLabel" destination="7kW-w6-KcV" id="YuN-Wf-WTK"/>
                         <outlet property="quantityPicker" destination="PiM-fd-ASD" id="tRq-c6-jyq"/>
                         <outlet property="quantitySideView" destination="Eev-UO-6j6" id="0Ec-yd-dJ3"/>
+                        <outlet property="quantityStack" destination="Izm-E1-kh4" id="KMY-xX-Wa5"/>
                         <outlet property="scrollView" destination="Q1X-on-Iny" id="tv8-iH-JfS"/>
                         <outlet property="settingsStack" destination="kgF-Vl-aPW" id="Lez-Zg-QGN"/>
                         <outlet property="settingsView" destination="fVr-dg-9JY" id="iOO-FV-94v"/>
+                        <outlet property="themeArrowButton" destination="FG1-jC-q0h" id="d96-iv-YB5"/>
                         <outlet property="themeButton" destination="SKQ-qW-gtq" id="Oye-iL-wnL"/>
+                        <outlet property="themeLabel" destination="anm-eN-KqC" id="T2k-xF-LLa"/>
                         <outlet property="themePicker" destination="HaS-8e-dXu" id="a3r-Lq-xyR"/>
                         <outlet property="themeSideView" destination="wpl-eW-vim" id="CkC-wT-5YA"/>
+                        <outlet property="themeStack" destination="Dr6-N7-EdF" id="sto-5t-v4W"/>
                         <outlet property="topConstraint" destination="hNz-xM-aAM" id="tIs-ak-Vph"/>
                     </connections>
                 </viewController>

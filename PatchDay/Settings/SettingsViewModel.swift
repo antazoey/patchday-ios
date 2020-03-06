@@ -38,11 +38,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         sdk?.settings.theme.currentIndex ?? 0
     }
     
-    func getSettingFromButton(_ button: UIButton) -> PDSetting? {
-        guard let key = button.tryGetKeyFromButtonMetadata() else { return nil }
-        return PDSetting(rawValue: key)
-    }
-    
     func activatePicker(_ picker: SettingsPickerView, onSuccess: () -> ()) {
         if picker.isHidden {
             picker.open()
@@ -64,7 +59,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     func selectRow(row: Int) {
         guard let key = selectedSetting else { return }
         guard let selectedRowTitle = getRowTitle(at: row) else { return }
-        reflector.reflectNewButtonTitle(key: key, newTitle: selectedRowTitle)
+        reflector.reflectNewButtonTitle(setting: key, newTitle: selectedRowTitle)
     }
     
     func handleNewNotificationsValue(_ newValue: Float) {
