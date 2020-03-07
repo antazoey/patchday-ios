@@ -45,7 +45,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // Pickers
     @IBOutlet private weak var deliveryMethodPicker: SettingsPickerView!
     @IBOutlet private weak var expirationIntervalPicker: SettingsPickerView!
-    @IBOutlet private weak var quantityPicker: SettingsPickerView!
+    @IBOutlet weak var quantityPicker: SettingsPickerView!
     @IBOutlet private weak var themePicker: SettingsPickerView!
 
     // Buttons
@@ -78,6 +78,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        quantityPicker.isHidden = true
         assignSelfAsDelegateForPickers()
         loadViewModelIfNil()
         super.viewWillAppear(animated)
@@ -138,10 +139,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         guard let viewModel = viewModel else { return }
         guard let picker = selectPicker(setting: setting) else { return }
         viewModel.selectedSetting = setting
-        viewModel.activatePicker(picker) {
-            deselectEverything(except: setting)
-            handleBottomPickerViewRequirements(for: setting)
-        }
+        handleBottomPickerViewRequirements(for: setting)
+        viewModel.activatePicker(picker)
     }
 
     private func handleBottomPickerViewRequirements(for pickerKey: PDSetting) {

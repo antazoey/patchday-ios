@@ -38,14 +38,13 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         sdk?.settings.theme.currentIndex ?? 0
     }
     
-    func activatePicker(_ picker: SettingsPickerView, onSuccess: () -> ()) {
+    func activatePicker(_ picker: SettingsPickerView) {
         if picker.isHidden {
             picker.open()
         } else {
             picker.close()
             saver.save(picker.setting, selectedRow: picker.getStartRow())
         }
-        onSuccess()
     }
     
     func getCurrentPickerOptions() -> [String] {

@@ -85,6 +85,6 @@ extension UIButton {
         if setting.substring(from: setting.count - 5) == "Arrow" {
             setting = setting.substring(to: setting.count - 5)
         }
-        return GetNameToPDSettingMap[setting.lowercased()]
+        return NameToSettingMap[setting.lowercased()]
     }
 }

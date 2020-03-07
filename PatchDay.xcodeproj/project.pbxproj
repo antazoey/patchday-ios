@@ -200,6 +200,7 @@
 		9DA3A901233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DA3A905233C4B6300DAF350 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
+		9DB1A4AE241448100072E91B /* SettingStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1A4AD241448100072E91B /* SettingStrings.swift */; };
 		9DC5135923973C1400A5138B /* TodayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayData.swift */; };
 		9DC5135A23973C1700A5138B /* TodayDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
@@ -537,6 +538,7 @@
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationScheduling.swift; sourceTree = "<group>"; };
+		9DB1A4AD241448100072E91B /* SettingStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingStrings.swift; sourceTree = "<group>"; };
 		9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDayToday.entitlements; sourceTree = "<group>"; };
 		9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTypes.swift; sourceTree = "<group>"; };
 		9DD5C2FA228111F9009BAA25 /* SiteStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStrings.swift; sourceTree = "<group>"; };
@@ -1000,6 +1002,7 @@
 				9D3E4C8322B5DD9F00C82DAE /* ViewTitleStrings.swift */,
 				9DDF47E2234D6EE2005AA467 /* ColonStrings.swift */,
 				9DDAB02B23F8D84D00E6EEF6 /* PillStrings.swift */,
+				9DB1A4AD241448100072E91B /* SettingStrings.swift */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -2018,6 +2021,7 @@
 				9D6DB7DB2405FEF200C00711 /* QuantityUD.swift in Sources */,
 				9DDAB03723FAE61300E6EEF6 /* QuantityMutationAlertActionHandling.swift in Sources */,
 				9D6DB7DE2405FEF200C00711 /* ExpirationIntervalUD.swift in Sources */,
+				9DB1A4AE241448100072E91B /* SettingStrings.swift in Sources */,
 				9D913BA222FF7B56001FC03C /* Hormonal.swift in Sources */,
 				9D8A982A23C7EED0004E20FE /* HormoneStoring.swift in Sources */,
 				9D6DB7E02405FFD300C00711 /* SimpleSettings.swift in Sources */,

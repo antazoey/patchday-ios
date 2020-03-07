@@ -57,21 +57,6 @@ public enum PDSetting: String {
 }
 
 
-// Useful since the above does has legacy strings
-public var GetNameToPDSettingMap: [String: PDSetting] {
-    [
-        "deliverymethod": .DeliveryMethod,
-        "expirationinterval": .ExpirationInterval,
-        "quantity": .Quantity,
-        "notifications": .Notifications,
-        "notificationsminutesbefore": .NotificationsMinutesBefore,
-        "mentioneddisclaimer": .MentionedDisclaimer,
-        "siteIndex": .SiteIndex,
-        "theme": .Theme
-    ]
-}
-
-
 public enum PDEntity: String, CaseIterable {
     case hormone = "Hormone"
     case pill = "Pill"
