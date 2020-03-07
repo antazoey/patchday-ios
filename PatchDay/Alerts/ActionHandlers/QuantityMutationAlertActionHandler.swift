@@ -34,7 +34,7 @@ class QuantityMutationAlertActionHandler: QuantityMutationAlertActionHandling {
         cancelAction(oldQuantity)
     }
     
-    func handleSetQuantityWithoutAlert(newQuantity: Int) {
+    func setQuantityWithoutAlert(newQuantity: Int) {
         setQuantity(newQuantity)
     }
 }

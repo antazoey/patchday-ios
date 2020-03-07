@@ -70,7 +70,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     override func viewDidLoad() {
         super.viewDidLoad()
         loadViewModelIfNil()
-        title = VCTitleStrings.SettingsTitle
+        title = ViewTitleStrings.SettingsTitle
         setTopConstraint()
         loadButtonDisabledStates()
         viewModel?.reflector.reflectStoredSettings()

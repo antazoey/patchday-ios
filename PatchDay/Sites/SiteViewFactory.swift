@@ -10,7 +10,7 @@ class SiteViewFactory {
 
     static func createBackItem() -> UIBarButtonItem {
         let backItem = UIBarButtonItem()
-        backItem.title = VCTitleStrings.SitesTitle
+        backItem.title = ViewTitleStrings.SitesTitle
         return backItem
     }
 

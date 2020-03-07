@@ -20,11 +20,11 @@ class PillCellActionHandlers: PillCellActionHandling {
         self.takePillAction = takePill
     }
 
-    public func handleGoToDetails() {
+    public func goToDetails() {
         goToDetailsAction()
     }
     
-    public func handleTakePill() {
+    public func takePill() {
         takePillAction()
     }
 }

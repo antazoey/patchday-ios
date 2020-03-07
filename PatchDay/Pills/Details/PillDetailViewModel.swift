@@ -15,7 +15,7 @@ enum TimeNumber: String {
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     let pill: Swallowable
-    static let DefaultViewControllerTitle = VCTitleStrings.PillTitle
+    static let DefaultViewControllerTitle = ViewTitleStrings.PillTitle
     var selections = PillAttributes()
 
     init(_ pill: Swallowable) {
@@ -28,7 +28,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var title: String {
-        isNewPill ? VCTitleStrings.NewPillTitle : VCTitleStrings.EditPillTitle
+        isNewPill ? ViewTitleStrings.NewPillTitle : ViewTitleStrings.EditPillTitle
     }
 
     var startTimePickerTwoTime: Time {

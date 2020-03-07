@@ -1,5 +1,5 @@
 //
-//  VCTitleStrings.swift
+//  ViewTitleStrings.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/15/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class VCTitleStrings {
+public class ViewTitleStrings {
     
     private static let c = "Title of a view controller. Keep it brief please."
 

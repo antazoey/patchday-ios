@@ -107,8 +107,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
     private func getViewControllerTitleFromDeliveryMethod() -> String {
         if let method = sdk?.settings.deliveryMethod.value {
-            return VCTitleStrings.getSitesTitle(for: method)
+            return ViewTitleStrings.getSitesTitle(for: method)
         }
-        return VCTitleStrings.SiteTitle
+        return ViewTitleStrings.SiteTitle
     }
 }

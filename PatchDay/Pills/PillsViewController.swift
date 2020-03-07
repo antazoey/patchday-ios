@@ -24,7 +24,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidLoad()
         initViewModelIfNil()
         applyTheme()
-        title = VCTitleStrings.PillsTitle
+        title = ViewTitleStrings.PillsTitle
         pillsTableView.delegate = self
         pillsTableView.dataSource = self
         insertInsertBarButtonItem()

@@ -60,7 +60,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
         oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
     ) {
         if newQuantity > oldQuantity {
-            handlers.handleSetQuantityWithoutAlert(newQuantity: newQuantity)
+            handlers.setQuantityWithoutAlert(newQuantity: newQuantity)
             return
         }
         guard let root = rootViewController else { return }
@@ -73,9 +73,9 @@ class AlertDispatcher: NSObject, AlertDispatching {
         ).present()
     }
     
-    func presentPillActions(handlers: PillCellActionHandling) {
+    func presentPillActions(for pillName: String, handlers: PillCellActionHandling) {
         guard let root = rootViewController else { return }
-        PillCellActionAlert(parent: root, handlers: handlers).present()
+        PillCellActionAlert(parent: root, pillName: pillName, handlers: handlers).present()
     }
 
     /// Alert that displays a quick tutorial and disclaimer on installation.
