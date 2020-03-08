@@ -12,20 +12,16 @@ import Foundation
 public extension Array {
 
     func tryGet(at index: Index) -> Element? {
-        if index < count && index >= 0 {
-            return self[index]
-        }
-        return nil
+        guard index < count && index >= 0 else { return nil }
+        return self[index]
     }
 }
 
 public extension Array where Element: Equatable {
 
     func tryGetIndex(item: Element?) -> Index? {
-        if let item = item, let i = firstIndex(of: item) {
-            return i
-        }
-        return nil
+        guard let item = item else { return nil }
+        return firstIndex(of: item)
     }
 }
 
@@ -33,7 +29,7 @@ public extension Array where Element: Equatable {
 // https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift
 public extension String {
     func index(from: Int) -> Index {
-        return self.index(startIndex, offsetBy: from)
+        self.index(startIndex, offsetBy: from)
     }
 
     func substring(from: Int) -> String {

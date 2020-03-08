@@ -28,8 +28,8 @@ class SettingsPickerView: UIPickerView {
     
     public func open() {
         _activator?.isSelected = true
-        selectStartRow()
         show()
+        selectStartRow()
     }
     
     public func close() {
@@ -41,8 +41,7 @@ class SettingsPickerView: UIPickerView {
     }
     
     private func selectStartRow() {
-        let startRow = getStartRow()
-        selectRow(startRow, inComponent: 0, animated: false)
+        selectRow(getStartRow(), inComponent: 0, animated: true)
     }
     
     private func show() {
