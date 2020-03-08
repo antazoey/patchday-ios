@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
+class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
     private let controls: SettingsControls
     private let applyTheme: () -> ()
@@ -60,18 +60,18 @@ class SettingsStateSaver: CodeBehindDependencies<SettingsStateSaver> {
     }
     
     private func saveQuantity(_ selectedRow: Index) {
-        let cancel = createCancelSaveQuantityButtonClosure()
+        let decline = createDeclineSaveQuantityButtonClosure()
         let newQuantity = PickerOptions.getQuantity(at: selectedRow).rawValue
         QuantityMutator(
             sdk: sdk,
             alerts: alerts,
             tabs: tabs,
             notifications: notifications,
-            cancel: cancel
+            decline: decline
         ).setQuantity(to: newQuantity)
     }
     
-    private func createCancelSaveQuantityButtonClosure() -> (Int) -> () {
+    private func createDeclineSaveQuantityButtonClosure() -> (Int) -> () {
         { oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)") }
     }
     

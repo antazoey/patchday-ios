@@ -23,10 +23,10 @@ class QuantityMutationAlert: PDAlert {
         }
     }
     
-    private var cancelAction: UIAlertAction {
+    private var declineAction: UIAlertAction {
         let title = ActionStrings.Decline
         return UIAlertAction(title: title, style: .cancel) {
-            void in self.handler.handleCancel(oldQuantity: self.oldQuantity)
+            void in self.handler.handleDecline(oldQuantity: self.oldQuantity)
         }
     }
     
@@ -43,6 +43,6 @@ class QuantityMutationAlert: PDAlert {
     }
     
     override func present() {
-        super.present(actions: [continueAction, cancelAction])
+        super.present(actions: [continueAction, declineAction])
     }
 }

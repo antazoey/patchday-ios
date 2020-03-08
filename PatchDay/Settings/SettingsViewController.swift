@@ -131,7 +131,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     private func loadViewModelIfNil() {
         guard viewModel == nil else { return }
         let controls = createControlsStruct()
-        let saver = SettingsStateSaver(controls: controls, themeChangeHook: { self.applyTheme() })
+        let saver = SettingsSavePoint(controls: controls, themeChangeHook: { self.applyTheme() })
         self.viewModel = SettingsViewModel(reflector: SettingsReflector(controls), saver: saver)
     }
 
@@ -259,21 +259,34 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     private func setPickers() {
         guard let viewModel = self.viewModel else { return }
-        deliveryMethodPicker.setting = PDSetting.DeliveryMethod
-        deliveryMethodPicker.activator = deliveryMethodButton
-        deliveryMethodPicker.getStartRow = { viewModel.deliveryMethodStartIndex }
-        
-        expirationIntervalPicker.setting = PDSetting.ExpirationInterval
-        expirationIntervalPicker.activator = expirationIntervalButton
-        expirationIntervalPicker.getStartRow = { viewModel.expirationIntervalStartIndex }
-        
-        quantityPicker.setting = PDSetting.Quantity
-        quantityPicker.activator = quantityButton
-        quantityPicker.getStartRow = { viewModel.quantityStartIndex }
-        
-        themePicker.setting = PDSetting.Theme
-        themePicker.activator = themeButton
-        themePicker.getStartRow = { viewModel.themeStartIndex }
+        setPicker(
+            deliveryMethodPicker,
+            .DeliveryMethod,
+            deliveryMethodButton,
+            { viewModel.deliveryMethodStartIndex }
+        )
+        setPicker(
+            expirationIntervalPicker,
+            .ExpirationInterval,
+            expirationIntervalButton,
+            { viewModel.expirationIntervalStartIndex }
+        )
+        setPicker(
+            quantityPicker, .Quantity, quantityButton, { viewModel.quantityStartIndex }
+        )
+        setPicker(themePicker, .Theme, themeButton, { viewModel.themeStartIndex })
+    }
+
+    private func setPicker(
+        _ picker: SettingsPickerView,
+        _ setting: PDSetting,
+        _ button: UIButton,
+        _ getStartRow: @escaping () -> (Index)
+    ) {
+        picker.setting = setting
+        picker.activator = button
+        picker.getStartRow = getStartRow
+        picker.options = PickerOptions.get(for: setting)
     }
 }
 

@@ -14,9 +14,9 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     
     var selectedSetting: PDSetting? = nil
     var reflector: SettingsReflector
-    var saver: SettingsStateSaver
+    var saver: SettingsSavePoint
     
-    init(reflector: SettingsReflector, saver: SettingsStateSaver) {
+    init(reflector: SettingsReflector, saver: SettingsSavePoint) {
         self.reflector = reflector
         self.saver = saver
         super.init()
@@ -39,12 +39,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     }
     
     func activatePicker(_ picker: SettingsPickerView) {
-        if picker.isHidden {
-            picker.open()
-        } else {
-            picker.close()
-            saver.save(picker.setting, selectedRow: picker.getStartRow())
-        }
+        picker.isHidden ? picker.open() : close(picker)
     }
     
     func getCurrentPickerOptions() -> [String] {
@@ -66,5 +61,10 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         let newMinutesBeforeValue = Int(newValue)
         sdk?.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
         notifications?.requestAllExpiredHormoneNotifications()
+    }
+    
+    private func close(_ picker: SettingsPickerView) {
+        picker.close()
+        saver.save(picker.setting, selectedRow: picker.selectedRow(inComponent: 0))
     }
 }

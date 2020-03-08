@@ -24,6 +24,8 @@ class SettingsPickerView: UIPickerView {
     }
     public var getStartRow: () -> Index = { 0 }
     
+    public var options: [String]?
+    
     public func open() {
         _activator?.isSelected = true
         selectStartRow()
@@ -32,6 +34,9 @@ class SettingsPickerView: UIPickerView {
     
     public func close() {
         _activator?.isSelected = false
+        if let selectedTitle = options?.tryGet(at: selectedRow(inComponent: 0)) {
+            _activator?.setTitle(selectedTitle)
+        }
         isHidden = true
     }
     

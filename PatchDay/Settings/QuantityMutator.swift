@@ -16,18 +16,18 @@ class QuantityMutator: QuantityMutating {
     let alerts: AlertDispatching?
     let tabs: TabReflective?
     let notifications: NotificationScheduling?
-    let cancel: (_ originalQuantity: Int) -> ()
+    let decline: (_ originalQuantity: Int) -> ()
     
     init(sdk: PatchDataSDK?,
          alerts: AlertDispatching?,
          tabs: TabReflective?,
          notifications: NotificationScheduling?,
-         cancel: @escaping (_ originalQunatity: Int) -> ()) {
+         decline: @escaping (_ originalQunatity: Int) -> ()) {
         self.sdk = sdk
         self.alerts = alerts
         self.tabs = tabs
         self.notifications = notifications
-        self.cancel = cancel
+        self.decline = decline
     }
     
     func setQuantity(to newQuantity: Int) {
@@ -35,7 +35,7 @@ class QuantityMutator: QuantityMutating {
         let oldQuantity = sdk.settings.quantity.rawValue
         if newQuantity >= oldQuantity {
             sdk.settings.setQuantity(to: newQuantity)
-            cancel(oldQuantity)
+            decline(oldQuantity)
             return
         }
         let continueAction: (_ newQuantity: Int) -> () = {
@@ -46,7 +46,7 @@ class QuantityMutator: QuantityMutating {
         }
         let handler = QuantityMutationAlertActionHandler(
             cont: continueAction,
-            cancel: self.cancel,
+            decline: self.decline,
             setQuantity: sdk.settings.setQuantity
         )
         alerts?.presentQuantityMutationAlert(

@@ -13,16 +13,16 @@ import PDKit
 class QuantityMutationAlertActionHandler: QuantityMutationAlertActionHandling {
 
     private let continueAction: (_ newQuantity: Int) -> ()
-    private let cancelAction: (_ oldQuantity: Int) -> ()
+    private let declineAction: (_ oldQuantity: Int) -> ()
     private let setQuantity: (_ newQuantity: Int) -> ()
     
     init(
         cont: @escaping (_ newQuantity: Int) -> (),
-        cancel: @escaping (_ oldQuantity: Int) -> (),
+        decline: @escaping (_ oldQuantity: Int) -> (),
         setQuantity: @escaping (_ newQuantity: Int) -> ()
     ) {
         self.continueAction = cont
-        self.cancelAction = cancel
+        self.declineAction = decline
         self.setQuantity = setQuantity
     }
     
@@ -30,8 +30,8 @@ class QuantityMutationAlertActionHandler: QuantityMutationAlertActionHandling {
         continueAction(newQuantity)
     }
     
-    func handleCancel(oldQuantity: Int) {
-        cancelAction(oldQuantity)
+    func handleDecline(oldQuantity: Int) {
+        declineAction(oldQuantity)
     }
     
     func setQuantityWithoutAlert(newQuantity: Int) {
