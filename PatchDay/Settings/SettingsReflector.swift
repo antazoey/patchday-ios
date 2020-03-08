@@ -28,16 +28,6 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
         loadTheme()
     }
     
-    public func reflectNewButtonTitle(setting: PDSetting, newTitle: String) {
-        switch setting {
-        case .DeliveryMethod: controls.deliveryMethodButton.setTitle(newTitle)
-        case .ExpirationInterval: controls.expirationIntervalButton.setTitle(newTitle)
-        case .Quantity: controls.quantityButton.setTitle(newTitle)
-        case .Theme: controls.themeButton.setTitle(newTitle)
-        default: break
-        }
-    }
-    
     private func loadDeliveryMethod() {
         guard let method = sdk?.settings.deliveryMethod.rawValue else { return }
         controls.deliveryMethodButton.setTitle(method)

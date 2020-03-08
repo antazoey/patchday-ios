@@ -117,15 +117,19 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        viewModel?.getCurrentPickerOptions().count ?? 0
+        guard let settingsPicker = pickerView as? SettingsPickerView else { return 0 }
+        return settingsPicker.options?.count ?? 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        viewModel?.getRowTitle(at: row)
+        guard let settingsPicker = pickerView as? SettingsPickerView else { return nil }
+        return settingsPicker.options?.tryGet(at: row)
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        viewModel?.selectRow(row: row)
+        guard let settingsPicker = pickerView as? SettingsPickerView else { return }
+        let title = settingsPicker.options?.tryGet(at: row) ?? ""
+        settingsPicker.activator.setTitle(title)
     }
     
     private func loadViewModelIfNil() {
@@ -138,7 +142,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     private func handlePickerActivation(_ setting: PDSetting) {
         guard let viewModel = viewModel else { return }
         guard let picker = selectPicker(setting: setting) else { return }
-        viewModel.selectedSetting = setting
         handleBottomPickerViewRequirements(for: setting)
         viewModel.activatePicker(picker)
     }
@@ -169,29 +172,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         notificationsMinutesBeforeValueLabel.text = String(disabledValue)
         notificationsMinutesBeforeSlider.value = Float(disabledValue)
     }
-    
-    private func deselectEverything(except: PDSetting) {
-        switch except {
-        case let setting where setting != .DeliveryMethod:
-            deliveryMethodPicker.isHidden = true
-            deliveryMethodButton.isSelected = false
-            fallthrough
-        case let setting where setting != .ExpirationInterval:
-            expirationIntervalPicker.isHidden = true
-            expirationIntervalButton.isSelected = false
-            fallthrough
-        case let setting where setting != .Quantity:
-            quantityPicker.isHidden = true
-            quantityButton.isSelected = false
-            fallthrough
-        case let setting where setting != .Theme:
-            themePicker.isHidden = true
-            themeButton.isSelected = false
-        default:
-            break
-        }
-    }
-    
+
     private func loadButtonDisabledStates() {
         quantityButton.setTitleColor(UIColor.lightGray, for: .disabled)
     }

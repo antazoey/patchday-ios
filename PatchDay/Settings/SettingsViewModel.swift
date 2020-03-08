@@ -11,8 +11,7 @@ import PDKit
 
 
 class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
-    
-    var selectedSetting: PDSetting? = nil
+
     var reflector: SettingsReflector
     var saver: SettingsSavePoint
     
@@ -40,20 +39,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     
     func activatePicker(_ picker: SettingsPickerView) {
         picker.isHidden ? picker.open() : close(picker)
-    }
-    
-    func getCurrentPickerOptions() -> [String] {
-        PickerOptions.get(for: selectedSetting)
-    }
-    
-    func getRowTitle(at row: Int) -> String? {
-        getCurrentPickerOptions().tryGet(at: row)
-    }
-    
-    func selectRow(row: Int) {
-        guard let key = selectedSetting else { return }
-        guard let selectedRowTitle = getRowTitle(at: row) else { return }
-        reflector.reflectNewButtonTitle(setting: key, newTitle: selectedRowTitle)
     }
     
     func handleNewNotificationsValue(_ newValue: Float) {
