@@ -19,7 +19,7 @@ public class MockHormone: Hormonal, PDMocking {
     // Hormonal properties
     public var id = UUID()
     public var deliveryMethod = DeliveryMethod.Patches
-    public var expirationInterval = ExpirationIntervalUD()
+    public var expirationInterval = ExpirationIntervalUD(DefaultSettings.ExpirationIntervalRawValue)
     public var siteId: UUID? = nil
     public var siteName: SiteName? = nil
     public var date: Date = Date(timeIntervalSince1970: 0)

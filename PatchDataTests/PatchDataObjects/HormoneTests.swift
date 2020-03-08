@@ -23,7 +23,9 @@ class HormoneTests: XCTestCase {
     private func createEmptyHormone(useDefaultDate: Bool=false) -> Hormone {
         let date = useDefaultDate ? Date(timeIntervalSince1970: 0) : nil
         let data = HormoneStruct(testId, testSiteId, nil, date, nil)
-        let props = HormoneScheduleProperties(ExpirationIntervalUD(), .Patches, NotificationsMinutesBeforeUD())
+        let props = HormoneScheduleProperties(
+            ExpirationIntervalUD(.TwiceWeekly), .Patches, NotificationsMinutesBeforeUD(0)
+        )
         return Hormone(hormoneData: data, scheduleProperties: props)
     }
     

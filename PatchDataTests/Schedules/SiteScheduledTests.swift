@@ -17,17 +17,17 @@ import PatchData
 class SiteScheduleTests: XCTestCase {
 
     private var mockStore: MockSiteStore!
-    private var mockDefaults: MockUserDefaultsWriter!
+    private var mockSettings: MockUserDefaultsWriter!
     private var sites: SiteSchedule!
     
     override func setUp() {
         mockStore = MockSiteStore()
-        mockDefaults = MockUserDefaultsWriter()
+        mockSettings = MockUserDefaultsWriter()
     }
     
     override func tearDown() {
         mockStore.resetMock()
-        mockDefaults.resetMock()
+        mockSettings.resetMock()
     }
     
     @discardableResult
@@ -37,7 +37,7 @@ class SiteScheduleTests: XCTestCase {
             mockSites.append(MockSite())
         }
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         return mockSites
     }
     
@@ -90,13 +90,13 @@ class SiteScheduleTests: XCTestCase {
     // MARK: - Tests
     
     public func testSuggested_whenSitesCountIsZero_returnsNil() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         XCTAssertNil(sites.suggested)
     }
 
     public func testSuggested_whenDefaultsSiteIndexIsUnoccupied_returnsSiteAtDefaultsSiteIndex() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
-        mockDefaults.siteIndex = SiteIndexUD(2)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
+        mockSettings.siteIndex = SiteIndexUD(2)
         let expected = sites.at(2)!.id
         let actual = sites.suggested!.id
         XCTAssertEqual(expected, actual)
@@ -106,18 +106,18 @@ class SiteScheduleTests: XCTestCase {
         let mockSites = setUpSites(count: 2)
         mockSites[0].hormoneIds = [UUID()]
         mockSites[0].hormoneCount = 1
-        mockDefaults.siteIndex = SiteIndexUD(0)
+        mockSettings.siteIndex = SiteIndexUD(0)
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         _ = sites.suggested
-        XCTAssertEqual(1, mockDefaults.siteIndex.value)
+        XCTAssertEqual(1, mockSettings.siteIndex.value)
     }
      
     public func testSuggested_whenDefaultsSiteIndexIsOccupied_returnsNextSiteAfterIndexWithNoHormones() {
         let mockSites = [MockSite(), MockSite(), createMockOccupiedSite(hormoneCount: 2), MockSite()]
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
-        mockDefaults.siteIndex = SiteIndexUD(2)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
+        mockSettings.siteIndex = SiteIndexUD(2)
         let expected = mockSites[3].id
         let actual = sites.suggested!.id
         XCTAssertEqual(expected, actual)
@@ -140,7 +140,7 @@ class SiteScheduleTests: XCTestCase {
         ]
         let hormonesOptions = [hormonesOne, hormonesTwo, hormonesThree, hormonesFour]
         setUpRelatedHormonesFactory(sites: mockSites, hormonesOptions:hormonesOptions)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
          
         let expected = mockSites[3].id
         let actual = sites.suggested!.id
@@ -164,22 +164,22 @@ class SiteScheduleTests: XCTestCase {
         ]
         let hormonesOptions = [hormonesOne, hormonesTwo, hormonesThree, hormonesFour]
         setUpRelatedHormonesFactory(sites: mockSites, hormonesOptions:hormonesOptions)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
 
         _ = sites.suggested
-        XCTAssertEqual(3, mockDefaults.siteIndex.value)
+        XCTAssertEqual(3, mockSettings.siteIndex.value)
     }
     
     public func testNextIndex_whenSitesCountIsZero_returnsNegativeOne() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         let expected = -1
         let actual = sites.nextIndex
         XCTAssertEqual(expected, actual)
     }
     
     public func testNextIndex_whenDefaultsSiteIndexIsUnoccupied_returnsDefaultsSiteIndex() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
-        mockDefaults.siteIndex = SiteIndexUD(2)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
+        mockSettings.siteIndex = SiteIndexUD(2)
         let expected = 2
         let actual = sites.nextIndex
         XCTAssertEqual(expected, actual)
@@ -188,8 +188,8 @@ class SiteScheduleTests: XCTestCase {
     public func testNextIndex_whenDefaultsSiteIndexIsOccupied_returnsFirstSiteAfterDefaultsSiteIndexWithNoHormones() {
         let mockSites = [MockSite(), MockSite(), createMockOccupiedSite(hormoneCount: 2), MockSite()]
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
-        mockDefaults.siteIndex = SiteIndexUD(2)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
+        mockSettings.siteIndex = SiteIndexUD(2)
         let expected = 3
         let actual = sites.nextIndex
         XCTAssertEqual(expected, actual)
@@ -212,7 +212,7 @@ class SiteScheduleTests: XCTestCase {
         ]
         let hormonesOptions = [hormonesOne, hormonesTwo, hormonesThree, hormonesFour]
         setUpRelatedHormonesFactory(sites: mockSites, hormonesOptions:hormonesOptions)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         
         let expected = 3
         let actual = sites.nextIndex
@@ -220,34 +220,34 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testIsDefault_whenSiteCountIsZero_returnsFalse() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         XCTAssertFalse(sites.isDefault)
     }
     
     public func testIsDefault_whenIsDefault_returnsTrue() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertTrue(sites.isDefault)
     }
     
     public func testIsDefault_whenIsNotDefault_returnsFalse() {
         let mockSites = createOccupiedSites(hormoneCounts: [2, 3, 1, 3])
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertFalse(sites.isDefault)
     }
     
     public func testInsertNew_callsSiteStoreCreateNewSiteWithExpectedArgs() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
-        mockDefaults.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
+        mockSettings.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
         let testSite = MockSite()
         mockStore.newObjectFactory = { testSite }
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         sites.insertNew(name: "Doesn't matter", save: true, onSuccess: nil)
         XCTAssertTrue(mockStore.createNewSiteCallArgs[0])
     }
     
     public func testInsertNew_whenSuccessful_increaseCount() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // starts with 4 sites
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)  // starts with 4 sites
         sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
         let expected = 5
         let actual = sites.count
@@ -255,7 +255,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testInsertNew_whenSuccessful_insertsSiteWithGivenName() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.insertNew(name: "Ok, now it matters I guess", save: false, onSuccess: nil)
         XCTAssert(sites.all.contains(where: { $0.name == "Ok, now it matters I guess" }))
     }
@@ -263,7 +263,7 @@ class SiteScheduleTests: XCTestCase {
     public func testInsertNew_whenSuccessful_returnsNewlyInsertedSite() {
         let expected = MockSite()
         mockStore.newObjectFactory = { expected }
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         let actual = sites.insertNew(name: "Doesn't matter again.", save: false, onSuccess: nil)
         XCTAssertEqual(expected.id, actual!.id)
     }
@@ -271,13 +271,13 @@ class SiteScheduleTests: XCTestCase {
     public func testInsertNew_whenSuccessful_callsOnSuccess() {
         var called = false
         let testClosure = { called = true }
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
         XCTAssert(called)
     }
     
     public func testInsertNew_whenUnsuccessful_doesNotAffectCount() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // starts with 4 sites
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)  // starts with 4 sites
         mockStore.newObjectFactory = nil
         sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
         let expected = 4
@@ -287,7 +287,7 @@ class SiteScheduleTests: XCTestCase {
     
     public func testInsertNew_whenUnsuccessful_returnsNil() {
         mockStore.newObjectFactory = nil
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
         XCTAssertNil(sites.insertNew(name: "Doesn't matter again.", save: false, onSuccess: nil))
     }
@@ -296,20 +296,20 @@ class SiteScheduleTests: XCTestCase {
         mockStore.newObjectFactory = nil
         var called = false
         let testClosure = { called = true }
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
         XCTAssertFalse(called)
     }
 
     public func testReset_whenAlreadyDefault_returnsSameCount() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         let expected = sites.count
         let actual = sites.reset()
         XCTAssertEqual(expected, actual)
     }
     
     public func testReset_whenAlreadyDefault_doesNotChangeCount() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         let expected = sites.count
         sites.reset()
         let actual = sites.count
@@ -317,14 +317,14 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testReset_whenNotDefault_returnsExpectedCount() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)  // Count = 0
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)  // Count = 0
         let expected = 4
         let actual = sites.reset()
         XCTAssertEqual(expected, actual)
     }
     
     public func testReset_whenNotDefault_changesCountToExpected() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         let expected = 4
         sites.reset()
         let actual = sites.count
@@ -334,15 +334,15 @@ class SiteScheduleTests: XCTestCase {
     public func testReset_whenNotDefault_savesWithExpectedArgs() {
         let mockSites = [MockSite(), MockSite()]
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.reset()
         let args = mockStore.pushLocalChangesCallArgs[1]
         XCTAssert(args.0.count == 4 && args.0[0].id == mockSites[0].id && args.0[1].id == mockSites[1].id && args.1)
     }
     
     public func testReset_whenDeliveryMethodIsPatches_resetsToExpectedProperties() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Patches)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Patches)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         sites.reset()
         let siteOne = sites.at(0)!
         let siteTwo = sites.at(1)!
@@ -355,8 +355,8 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testReset_whenDeliveryMethodIsInjections_resetsToExpectedProperties() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults, resetWhenEmpty: false)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         sites.reset()
         let siteOne = sites.at(0)!
         let siteTwo = sites.at(1)!
@@ -373,7 +373,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testDelete_decreasesCount() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // Starts with 4
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)  // Starts with 4
         sites.delete(at: 1)
         let expected = 3
         let actual = sites.count
@@ -381,7 +381,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testDelete_callsStoredDeleteWithExpectedArgs() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)  // Starts with 4
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)  // Starts with 4
         let expected = sites.at(1)!.id
         sites.delete(at: 1)
         let actual = mockStore.deleteCallArgs[0].id
@@ -389,13 +389,13 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testDelete_maintainsOrder() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.delete(at: 1)
         XCTAssert(sites.at(0)!.order == 0 && sites.at(1)!.order == 1 && sites.at(2)!.order == 2)
     }
     
     public func testSort_keepsNegativeNumbersAtTheEnd() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         var site = sites.at(1)!
         site.order = -5
         sites.sort()
@@ -404,7 +404,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testSort_putsLowerPositiveNumbersAtBeginning() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         var siteOne = sites.at(0)!
         var siteTwo = sites.at(1)!
         var siteThree = sites.at(2)!
@@ -426,7 +426,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testAt_whenIndexOutOfBounds_returnsNil() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertNil(sites.at(5))
     }
     
@@ -438,7 +438,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testGet_whenSiteDoesNotExist_returnsNil() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertNil(sites.get(by: UUID()))
     }
     
@@ -446,12 +446,12 @@ class SiteScheduleTests: XCTestCase {
         let mockSites = [MockSite(), MockSite(), MockSite()]
         let testId = mockSites[1].id
         mockStore.getStoredCollectionReturnValues = [mockSites]
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertNotNil(sites.get(by: testId))
     }
     
     public func testRename_whenSiteExists_renamesSite() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.rename(at: 1, to: "New Name")
         let actual = sites.at(1)!.name
         XCTAssertEqual("New Name", actual)
@@ -499,15 +499,15 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testReorder_whenArgumentsAreValid_saves() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.reorder(at: 0, to: 1)
         let args = mockStore.pushLocalChangesCallArgs[1]
         XCTAssert(sites.at(0)!.id == args.0[0].id && sites.at(1)!.id == args.0[1].id && args.1)
     }
     
     public func testSetImageId_whenDeliveryMethodIsPatchesAndGivenADefaultSiteName_setsImageIdToSiteName() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Patches)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Patches)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Glute")
         let expected = "Right Glute"
         let actual = sites.at(0)!.imageId
@@ -515,8 +515,8 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testSetImageId_whenDeliveryMethodIsInjectionsAndGivenADefaultSiteName_setsImageIdToSiteName() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Delt")
         let expected = "Right Delt"
         let actual = sites.at(0)!.imageId
@@ -524,7 +524,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testSetImageId_whenGivenACustomString_setsImageIdToWordCustom() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Eyeball")
         let expected = "custom"
         let actual = sites.at(0)!.imageId
@@ -532,16 +532,16 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testSetImageId_whenSiteAtIndexExists_saves() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Delt")
         let args = mockStore.pushLocalChangesCallArgs[1]
         XCTAssert(args.0[0].imageId == "Right Delt" && args.1)
     }
     
     public func testSetImageId_whenSiteAtIndexDoesNotExist_doesNotSave() {
-        mockDefaults.deliveryMethod = DeliveryMethodUD(.Injections)
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 11, to: "Right Eyeball")
         let args = mockStore.pushLocalChangesCallArgs
         XCTAssertFalse(args.contains(where: { $0.0.contains(where: { $0.imageId == "custom" }) }))
@@ -556,7 +556,7 @@ class SiteScheduleTests: XCTestCase {
     }
     
     public func testFirstIndexOf_whenSiteDoesNotExist_returnsNil() {
-        sites = SiteSchedule(store: mockStore, defaults: mockDefaults)
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
         XCTAssertNil(sites.indexOf(MockSite()))
     }
 }

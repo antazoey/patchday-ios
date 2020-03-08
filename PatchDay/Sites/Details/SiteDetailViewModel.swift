@@ -70,11 +70,11 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     }
 
     var siteImage: UIImage {
-        guard let defaults = sdk?.settings else { return UIImage() }
+        guard let settings = sdk?.settings else { return UIImage() }
         let params = SiteImageDeterminationParameters(
             siteName: siteName,
-            deliveryMethod: defaults.deliveryMethod.value,
-            theme: defaults.theme.value
+            deliveryMethod: settings.deliveryMethod.value,
+            theme: settings.theme.value
         )
         return PDImages.getSiteImage(from: params)
     }

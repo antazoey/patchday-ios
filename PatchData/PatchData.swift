@@ -63,18 +63,28 @@ public class PatchData: NSObject, PatchDataSDK {
             handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
             getSiteCount: { siteStore.siteCount }
         )
-        let pillScheduleState = PatchData.determinePillScheduleState(settings: userDefaultsWriter)
-        let pills = PillSchedule(store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState)
+        let pillScheduleState = PatchData.determinePillScheduleState(
+            settings: userDefaultsWriter
+        )
+        let pills = PillSchedule(
+            store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState
+        )
         let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
-        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter)
+        let hormoneDataSharer = HormoneDataSharer(
+            baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter
+        )
         let hormones = HormoneSchedule(
             store: hormoneStore,
             hormoneDataSharer: hormoneDataSharer,
             state: state,
             settings: userDefaultsWriter
         )
-        let settings = PDSettings(writer: userDefaultsWriter, state: state, hormones: hormones, sites: sites)
-        let stateManager = PDStateManager(state: state, defaults: settings, hormones: hormones)
+        let settings = PDSettings(
+            writer: userDefaultsWriter, state: state, hormones: hormones, sites: sites
+        )
+        let stateManager = PDStateManager(
+            state: state, settings: settings, hormones: hormones
+        )
         
         // ******************************************************
         // Nuke mode: Resets app like it's fresh
@@ -108,7 +118,9 @@ public class PatchData: NSObject, PatchDataSDK {
         hormones.totalExpired + pills.totalDue
     }()
     
-    private static func determinePillScheduleState(settings: UserDefaultsWriting) -> PillSchedule.PillScheduleState {
+    private static func determinePillScheduleState(
+        settings: UserDefaultsWriting
+    ) -> PillSchedule.PillScheduleState {
         typealias PSS = PillSchedule.PillScheduleState
         return settings.mentionedDisclaimer.value ? PSS.Working : PSS.Initial
     }

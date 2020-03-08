@@ -33,5 +33,5 @@ public protocol UserDefaultsReading {
     var siteIndex: SiteIndexUD { get }
     
     /// The desired theme for user interfaces. Supports dark and light.
-    var theme: PDThemeUD { get }
+    var theme: ThemeUD { get }
 }

@@ -21,6 +21,8 @@ public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
         newObjectFactory = { () in MockSite() }
     }
     
+    public var siteCount: Int = 0
+    
     public override func resetMock() {
         super.resetMock()
         getRelatedHormonesCallArgs = []

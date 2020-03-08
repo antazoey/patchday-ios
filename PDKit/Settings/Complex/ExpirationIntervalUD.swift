@@ -19,6 +19,11 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     public typealias RawValue = String
     public let setting: PDSetting = .ExpirationInterval
     
+    public convenience init(_ value: ExpirationInterval) {
+        let rv = ExpirationIntervalUD.getRawValue(for: value)
+        self.init(rv)
+    }
+    
     public required init(_ rawValue: String) {
         super.init(rawValue)
         self.choices = PickerOptions.expirationIntervals

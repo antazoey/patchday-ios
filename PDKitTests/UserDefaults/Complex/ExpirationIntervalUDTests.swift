@@ -13,17 +13,20 @@ import PDKit
 class ExpirationIntervalUDTests: XCTestCase {
 
     func testHours_whenIsEveryTwoWeeks_returnsExpectedHours() {
-        let expiration = ExpirationIntervalUD(.EveryTwoWeeks)
+        let rv = ExpirationIntervalUD.getRawValue(for: .EveryTwoWeeks)
+        let expiration = ExpirationIntervalUD(rv)
         XCTAssertEqual(336, expiration.hours)
     }
 
     func testHours_whenIsOnceWeekly_returnsExpectedHours() {
-        let expiration = ExpirationIntervalUD(.OnceWeekly)
+        let rv = ExpirationIntervalUD.getRawValue(for: .OnceWeekly)
+        let expiration = ExpirationIntervalUD(rv)
         XCTAssertEqual(168, expiration.hours)
     }
 
     func testHours_whenIsTwiceWeekly_returnsExpectedHours() {
-        let expiration = ExpirationIntervalUD(.TwiceWeekly)
+        let rv = ExpirationIntervalUD.getRawValue(for: .TwiceWeekly)
+        let expiration = ExpirationIntervalUD(rv)
         XCTAssertEqual(84, expiration.hours)
     }
 }

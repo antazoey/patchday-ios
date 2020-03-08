@@ -24,7 +24,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
     public var mentionedDisclaimer: MentionedDisclaimerUD
     public var siteIndex: SiteIndexUD
-    public var theme: PDThemeUD
+    public var theme: ThemeUD
 
     private var getSiteCount: () -> Int
     
@@ -56,7 +56,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(notificationsMinutesBefore)
         self.mentionedDisclaimer = MentionedDisclaimerUD(mentionedDisclaimer)
         self.siteIndex = SiteIndexUD(siteIndex)
-        self.theme = PDThemeUD(theme)
+        self.theme = ThemeUD(theme)
     }
     
     public func reset(defaultSiteCount: Int=4) {
@@ -114,7 +114,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
     
     public func replaceStoredTheme(to newValue: PDTheme) {
-        let rawValue = PDThemeUD.getRawValue(for: newValue)
+        let rawValue = ThemeUD.getRawValue(for: newValue)
         handler.replace(&theme, to: rawValue)
     }
 }

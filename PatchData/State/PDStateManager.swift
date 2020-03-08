@@ -13,12 +13,12 @@ import PDKit
 public class PDStateManager: PDStateManaging {
     
     private let state: PDState
-    private let defaults: PDSettingsManaging
+    private let settings: PDSettingsManaging
     private let hormones: HormoneScheduling
     
-    init(state: PDState, defaults: PDSettingsManaging, hormones: HormoneScheduling) {
+    init(state: PDState, settings: PDSettingsManaging, hormones: HormoneScheduling) {
         self.state = state
-        self.defaults = defaults
+        self.settings = settings
         self.hormones = hormones
     }
     
@@ -30,7 +30,7 @@ public class PDStateManager: PDStateManaging {
     }
 
     public func markQuantityAsOld() {
-        state.oldQuantity = defaults.quantity.value.rawValue
+        state.oldQuantity = settings.quantity.value.rawValue
     }
 
     public func markSiteAsHavingImageMutation(site: Bodily) {

@@ -36,7 +36,7 @@ public class PDSettings: PDSettingsManaging {
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD { writer.notificationsMinutesBefore }
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
-    public var theme: PDThemeUD { writer.theme }
+    public var theme: ThemeUD { writer.theme }
     
     public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
         switch setting {
@@ -59,8 +59,8 @@ public class PDSettings: PDSettingsManaging {
     }
 
     public func setQuantity(to newQuantity: Int) {
-        let endRange = PickerOptions.quantities.count + 1
-        if newQuantity < endRange && newQuantity > 0 {
+        let endRange = PickerOptions.quantities.count
+        if newQuantity <= endRange && newQuantity > 0 {
             let oldQuantity = writer.quantity.rawValue
             if newQuantity < oldQuantity {
                 hormones.delete(after: newQuantity - 1)
