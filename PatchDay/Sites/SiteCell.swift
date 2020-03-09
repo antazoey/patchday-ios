@@ -59,7 +59,8 @@ class SiteCell: TableCell {
     private func loadSiteProperties() {
         nameLabel.text = props.site?.name
         if let site = props.site {
-            siteIndexImageView.image = loadSiteIndexImage(for: site)?.withRenderingMode(.alwaysTemplate)
+            let icon = PDIcons.siteIndexIcon
+            siteIndexImageView.image = icon.withRenderingMode(.alwaysTemplate)
         }
     }
 
@@ -72,10 +73,6 @@ class SiteCell: TableCell {
             siteIndexImageView.tintColor = theme[.text]
             backgroundColor = theme[.bg]
         }
-    }
-
-    private func loadSiteIndexImage(for site: Bodily) -> UIImage? {
-        PDIcons.getSiteIndexIcon(for: site)
     }
     
     /// Should hide if not the the next index.

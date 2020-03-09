@@ -12,13 +12,7 @@ public typealias UIIcon = UIImage
 
 class PDIcons {
 
-    // Site Index Icons
-    private static let calendarIcon = { UIIcon(named: "Calendar Icon")! }()
-    private static let siteIndexIcon = { UIIcon(named: "Site Index Icon")! }()
-    private static let siteIndexIconOne = { UIIcon(named: "Site Index Icon 1")! }()
-    private static let siteIndexIconTwo = { UIIcon(named: "Site Index Icon 2")! }()
-    private static let siteIndexIconThree = { UIIcon(named: "Site Index Icon 3")! }()
-    private static let siteIndexIconFour = { UIIcon(named: "Site Index Icon 4")! }()
+    static let siteIndexIcon = { UIIcon(named: "Site Index Icon")! }()
 
     // Delivery Method icons
     private static let patchIcon = { UIIcon(named: "Patch Icon")! }()
@@ -30,17 +24,6 @@ class PDIcons {
         switch method {
         case .Patches: return patchIcon
         case .Injections: return injectionIcon
-        }
-    }
-
-    /// Returns a site icon representing the site index
-    static func getSiteIndexIcon(for site: Bodily) -> UIIcon {
-        switch site.order {
-        case 0: return siteIndexIconOne
-        case 1: return siteIndexIconTwo
-        case 2: return siteIndexIconThree
-        case 3: return siteIndexIconFour
-        default: return siteIndexIcon
         }
     }
 }

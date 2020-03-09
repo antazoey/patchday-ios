@@ -113,13 +113,13 @@ public class PatchData: NSObject, PatchDataSDK {
         )
     }
 
-    public lazy var isFresh: Bool = {
+    public var isFresh: Bool {
         hormones.isEmpty && sites.isDefault
-    }()
+    }
 
-    public lazy var totalAlerts: Int = {
+    public var totalAlerts: Int {
         hormones.totalExpired + pills.totalDue
-    }()
+    }
     
     private static func determinePillScheduleState(
         settings: UserDefaultsWriting

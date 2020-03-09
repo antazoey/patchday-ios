@@ -109,6 +109,7 @@
 		9D1BC57E2277F45F00552BC1 /* PickerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* PickerOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
 		9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */; };
+		9D21E6022415D59B00CAEEF4 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D72A909233DA2CE0030D460 /* Styling.swift */; };
 		9D226984237506BF00828B5F /* PDNotificationProducing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D226983237506BF00828B5F /* PDNotificationProducing.swift */; };
 		9D22698623750CCD00828B5F /* SwallowPillNotificationActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47DE234C329F005AA467 /* SwallowPillNotificationActionHandling.swift */; };
 		9D22698823750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D22698723750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift */; };
@@ -131,7 +132,6 @@
 		9D6DB7DE2405FEF200C00711 /* ExpirationIntervalUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */; };
 		9D6DB7E02405FFD300C00711 /* SimpleSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */; };
 		9D6DB7E22406002B00C00711 /* SettingsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7E12406002B00C00711 /* SettingsPickerView.swift */; };
-		9D72A90A233DA2CE0030D460 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D72A909233DA2CE0030D460 /* Styling.swift */; };
 		9D72A9172342FB8F0030D460 /* PDState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B463E1AA211640E90099DE36 /* PDState.swift */; };
 		9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A9E02386354F00058AD9 /* PDConstants.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
@@ -674,16 +674,16 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
-				9D22698B23750E5300828B5F /* Notifications */,
+				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
-				9D72A908233DA2030030D460 /* Styles */,
+				9D43DB0922639893008F56AE /* Stylist.swift */,
+				9D22698B23750E5300828B5F /* Notifications */,
 				9D0177F92251983C00A24E48 /* Storyboards */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
 				13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */,
 				B480EE4221CC79DD002C2238 /* Shared */,
 				B480EE4521CC7A09002C2238 /* Hormones */,
 				137330F81E22BA3E0048F91E /* Info.plist */,
-				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
 				3397C45AFE80B6E86213E63C /* Pills */,
 				3397CB13E4C554A7E1BA95B1 /* Alerts */,
 				3397CFF6B8CD884660E2BBFF /* Navigation */,
@@ -1120,15 +1120,6 @@
 			path = Complex;
 			sourceTree = "<group>";
 		};
-		9D72A908233DA2030030D460 /* Styles */ = {
-			isa = PBXGroup;
-			children = (
-				9D43DB0922639893008F56AE /* Stylist.swift */,
-				9D72A909233DA2CE0030D460 /* Styling.swift */,
-			);
-			path = Styles;
-			sourceTree = "<group>";
-		};
 		9D72A9142342F3D00030D460 /* State */ = {
 			isa = PBXGroup;
 			children = (
@@ -1203,6 +1194,7 @@
 		9D8A982F23C7F72B004E20FE /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9D72A909233DA2CE0030D460 /* Styling.swift */,
 				3397C98C912D77BEE430431A /* QuantityMutating.swift */,
 				9DDAB03323FAE5EA00E6EEF6 /* Alerts */,
 				9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */,
@@ -1840,7 +1832,6 @@
 				9D3E4C8022B5AFC500C82DAE /* Notification.swift in Sources */,
 				9D43DB0A22639893008F56AE /* Stylist.swift in Sources */,
 				9DA3A901233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift in Sources */,
-				9D72A90A233DA2CE0030D460 /* Styling.swift in Sources */,
 				9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* Notifications.swift in Sources */,
 				139754BE1EDA8C4D006C82B8 /* HormonesViewController.swift in Sources */,
@@ -2048,6 +2039,7 @@
 				9D003E9F232878CE0070C964 /* PatchDataSDK.swift in Sources */,
 				9D913BA42304ED7B001FC03C /* PillScheduling.swift in Sources */,
 				9DDF47E3234D6EE2005AA467 /* ColonStrings.swift in Sources */,
+				9D21E6022415D59B00CAEEF4 /* Styling.swift in Sources */,
 				9D003EC323359B2D0070C964 /* PDCoreDataWrapping.swift in Sources */,
 				9D8A982E23C7EEE4004E20FE /* SiteStoring.swift in Sources */,
 				9D72A9172342FB8F0030D460 /* PDState.swift in Sources */,
