@@ -88,7 +88,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     static func createSettingsVC() -> UIViewController {
         let storyboard = UIStoryboard.createSettingsStoryboard()
-        return storyboard.instantiateViewController(withIdentifier: ViewControllerIds.Settings)
+        return storyboard.instantiateViewController(
+            withIdentifier: ViewControllerIds.Settings
+        )
     }
     
     // MARK: - Actions

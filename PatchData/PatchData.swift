@@ -61,7 +61,7 @@ public class PatchData: NSObject, PatchDataSDK {
         let userDefaultsWriter = UserDefaultsWriter(
             state: state,
             handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
-            getSiteCount: { siteStore.siteCount }
+            getSiteCount: { () in siteStore.siteCount }
         )
         let pillScheduleState = PatchData.determinePillScheduleState(
             settings: userDefaultsWriter
@@ -90,11 +90,11 @@ public class PatchData: NSObject, PatchDataSDK {
         // Nuke mode: Resets app like it's fresh
         // ******************************************************
         if CommandLine.arguments.contains("-n") {
-            storeDataStackWrapper.nuke()
             hormones.reset()
             pills.reset()
             let newSiteCount = sites.reset()
             settings.reset(defaultSiteCount: newSiteCount)
+            storeDataStackWrapper.nuke()
         }
         // ******************************************************
         

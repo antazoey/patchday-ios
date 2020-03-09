@@ -60,13 +60,14 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
     
     public func reset(defaultSiteCount: Int=4) {
-        replaceStoredDeliveryMethod(to: .Patches)
-        replaceStoredQuantity(to: 3)
-        replaceStoredExpirationInterval(to: .TwiceWeekly)
-        replaceStoredNotifications(to: true)
-        replaceStoredNotificationsMinutesBefore(to: 0)
-        replaceStoredMentionedDisclaimer(to: false)
-        replaceStoredTheme(to: .Light)
+        replaceStoredDeliveryMethod(to: DefaultSettings.DeliveryMethodValue)
+        replaceStoredQuantity(to: DefaultSettings.QuantityRawValue)
+        replaceStoredExpirationInterval(to: DefaultSettings.ExpirationIntervalValue)
+        replaceStoredNotifications(to: DefaultSettings.NotificationsRawValue)
+        replaceStoredNotificationsMinutesBefore(to: DefaultSettings.NotificationsMinutesBeforeRawValue)
+        replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
+        replaceStoredTheme(to: DefaultSettings.ThemeValue)
+        replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
     }
     
     public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
@@ -108,6 +109,9 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     public func incrementStoredSiteIndex() -> Index {
         let currentIndex = siteIndex.value
         let siteCount = getSiteCount()
+        if siteCount == 0 {
+            return currentIndex
+        }
         let newIndex = (currentIndex + 1) % siteCount
         handler.replace(&siteIndex, to: newIndex)
         return newIndex

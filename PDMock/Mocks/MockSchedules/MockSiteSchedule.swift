@@ -14,6 +14,8 @@ public class MockSiteSchedule: SiteScheduling {
     public var nextIndex: Index = -1
     public var names: [SiteName] = []
     public var isDefault: Bool = false
+    
+    public var resetCallCount = 0
 
     public init() { }
 
@@ -54,6 +56,7 @@ public class MockSiteSchedule: SiteScheduling {
     }
 
     public func reset() -> Int {
-        -1
+        resetCallCount += 1
+        return 0
     }
 }

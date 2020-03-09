@@ -49,6 +49,10 @@ public class PDLog<T> {
     }
 
     private func printMessage(_ message: String, status: LogStatus) {
+        var m = message
+        if m.last == "." {
+            m.removeLast()
+        }
         let symbol = symbolMap[status] ?? ""
         print("\(symbol) \(status.rawValue) \(contextString) \(symbol) ::: \(message).")
     }

@@ -15,7 +15,7 @@ class CoreDataEntityAdapter {
 
     static func convertToHormoneStruct(_ hormone: MOHormone) -> HormoneStruct? {
         guard let hormoneId = hormone.id else {
-            log.error("Failure converting managed \(PDEntity.hormone.rawValue) to DTO struct. Missing ID.")
+            log.error("Failure converting managed \(PDEntity.hormone.rawValue) to DTO struct. Missing ID")
             return nil
         }
         return createHormoneStruct(hormone, id: hormoneId)
@@ -38,7 +38,7 @@ class CoreDataEntityAdapter {
 
     static func convertToPillStruct(_ pill: MOPill) -> PillStruct? {
         guard let pillId = pill.id else {
-            log.error("Failure converting managed \(PDEntity.pill.rawValue) to DTO struct. Missing ID.")
+            log.error("Failure converting managed \(PDEntity.pill.rawValue) to DTO struct. Missing ID")
             return nil
         }
         let attributes = createPillAttributes(pill)
@@ -77,7 +77,7 @@ class CoreDataEntityAdapter {
 
     static func convertToSiteStruct(_ site: MOSite) -> SiteStruct? {
         guard let siteId = site.id else {
-            log.error("Failure converting managed \(PDEntity.site.rawValue) to DTO struct. Missing ID.")
+            log.error("Failure converting managed \(PDEntity.site.rawValue) to DTO struct. Missing ID")
             return nil
         }
         let relatedHormoneIds = extractHormoneIds(site)

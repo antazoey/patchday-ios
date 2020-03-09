@@ -43,6 +43,12 @@ class PDSettingsTests: XCTestCase {
         settings.setDeliveryMethod(to: .Injections)
         XCTAssertTrue(state.theDeliveryMethodHasMutated)
     }
+    
+    func testSetDeliveryMethod_resetsSites() {
+        let settings = createSettings()
+        settings.setDeliveryMethod(to: .Injections)
+        XCTAssert(mockSites.resetCallCount == 1)
+    }
 
     func testSetQuantity_whenQuantityNotInSupportedRange_doesNotReplaceQuantity() {
         let settings = createSettings()

@@ -371,7 +371,16 @@ class SiteScheduleTests: XCTestCase {
         XCTAssert(siteFive.name == "Right Delt" && siteFive.order == 4)
         XCTAssert(siteSix.name == "Left Delt" && siteSix.order == 5)
     }
-    
+
+    public func testReset_deletesExtrasIfNeeded() {
+        let mockSites = [MockSite(), MockSite(), MockSite(), MockSite(), MockSite(), MockSite(), MockSite()]
+        mockStore.getStoredCollectionReturnValues = [mockSites]
+        sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
+        mockSettings.deliveryMethod = DeliveryMethodUD(.Patches)
+        sites.reset()
+        XCTAssertEqual(4, sites.count)
+    }
+
     public func testDelete_decreasesCount() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)  // Starts with 4
         sites.delete(at: 1)
@@ -379,7 +388,7 @@ class SiteScheduleTests: XCTestCase {
         let actual = sites.count
         XCTAssertEqual(expected, actual)
     }
-    
+
     public func testDelete_callsStoredDeleteWithExpectedArgs() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)  // Starts with 4
         let expected = sites.at(1)!.id
@@ -387,13 +396,13 @@ class SiteScheduleTests: XCTestCase {
         let actual = mockStore.deleteCallArgs[0].id
         XCTAssertEqual(expected, actual)
     }
-    
+
     public func testDelete_maintainsOrder() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.delete(at: 1)
         XCTAssert(sites.at(0)!.order == 0 && sites.at(1)!.order == 1 && sites.at(2)!.order == 2)
     }
-    
+
     public func testSort_keepsNegativeNumbersAtTheEnd() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         var site = sites.at(1)!
@@ -402,7 +411,7 @@ class SiteScheduleTests: XCTestCase {
         let siteAgain = sites.at(3)!  // Last
         XCTAssertEqual(-5, siteAgain.order)
     }
-    
+
     public func testSort_putsLowerPositiveNumbersAtBeginning() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         var siteOne = sites.at(0)!

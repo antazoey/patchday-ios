@@ -35,13 +35,9 @@ class SiteCell: TableCell {
         orderLabel.isHidden = shouldHide
         arrowLabel.isHidden = shouldHide
 
-        // Don't show it if it's already hidden
-        if !siteIndexImageView.isHidden {
-            siteIndexImageView.isHidden = shouldHide
-        }
-
         if cellIndex == props?.nextSiteIndex {
-            nextLabel.isHidden = shouldHide
+            nextLabel.isHidden = false
+            siteIndexImageView.isHidden = true
         }
     }
 

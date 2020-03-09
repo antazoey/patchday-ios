@@ -236,7 +236,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     private func resetSitesToDefault() {
-        let defaultSiteNames = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
+        let method = settings.deliveryMethod.value
+        let defaultSiteNames = SiteStrings.getSiteNames(for: method)
         let previousCount = sites.count
         assignDefaultProperties(options: defaultSiteNames)
         deleteExtraSitesIfNeeded(previousCount: previousCount, newCount: defaultSiteNames.count)
@@ -267,11 +268,16 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     private func deleteSites(start: Index, end: Index) {
+        var deleteCount = 0
         for i in start...end {
             if let site = sites.tryGet(at: i) {
+                deleteCount += 1
                 site.reset()
                 store.delete(site)
             }
+        }
+        for _ in 0...deleteCount - 1 {
+            _ = sites.popLast()
         }
     }
 

@@ -53,7 +53,7 @@ public class PDSettings: PDSettingsManaging {
 
     public func setDeliveryMethod(to newMethod: DeliveryMethod) {
         writer.replaceStoredDeliveryMethod(to: newMethod)
-        writer.incrementStoredSiteIndex()
+        sites.reset()
         hormones.shareData()
         state.theDeliveryMethodHasMutated = true
     }

@@ -53,7 +53,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
     }
 
     private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
-        var props = SiteCellProperties(nextSiteIndex: siteIndex)
+        var props = SiteCellProperties()
         if let sites = sites {
             props.nextSiteIndex = sites.nextIndex
             props.totalSiteCount = sites.count

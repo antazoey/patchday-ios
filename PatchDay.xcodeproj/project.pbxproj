@@ -804,12 +804,12 @@
 			path = Pills;
 			sourceTree = "<group>";
 		};
-		3397C534CF3A3A5AE69CFE11 /* UserDefaults */ = {
+		3397C534CF3A3A5AE69CFE11 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				3397CF33CEB0E43BBF273BDB /* PDSettingsTests.swift */,
 			);
-			path = UserDefaults;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		3397C589C6DAE61092F94067 /* Badge */ = {
@@ -1432,7 +1432,7 @@
 				B480EE2D21CC7554002C2238 /* Info.plist */,
 				3397C54DDFA7DF1E9C1EDECA /* PatchDataLoggingPlayground.swift */,
 				3397CC25AD5BEFB697A8D103 /* State */,
-				3397C534CF3A3A5AE69CFE11 /* UserDefaults */,
+				3397C534CF3A3A5AE69CFE11 /* Settings */,
 			);
 			path = PatchDataTests;
 			sourceTree = "<group>";
