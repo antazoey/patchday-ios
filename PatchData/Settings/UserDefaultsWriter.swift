@@ -61,13 +61,13 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     
     public func reset(defaultSiteCount: Int=4) {
         replaceStoredDeliveryMethod(to: DefaultSettings.DeliveryMethodValue)
-        replaceStoredQuantity(to: DefaultSettings.QuantityRawValue)
         replaceStoredExpirationInterval(to: DefaultSettings.ExpirationIntervalValue)
+        replaceStoredQuantity(to: DefaultSettings.QuantityRawValue)
         replaceStoredNotifications(to: DefaultSettings.NotificationsRawValue)
         replaceStoredNotificationsMinutesBefore(to: DefaultSettings.NotificationsMinutesBeforeRawValue)
         replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
-        replaceStoredTheme(to: DefaultSettings.ThemeValue)
         replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
+        replaceStoredTheme(to: DefaultSettings.ThemeValue)
     }
     
     public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {

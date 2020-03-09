@@ -95,6 +95,9 @@ public class PatchData: NSObject, PatchDataSDK {
             let newSiteCount = sites.reset()
             settings.reset(defaultSiteCount: newSiteCount)
             storeDataStackWrapper.nuke()
+            CommandLine.arguments.removeAll()
+            self.init()
+            return
         }
         // ******************************************************
         
