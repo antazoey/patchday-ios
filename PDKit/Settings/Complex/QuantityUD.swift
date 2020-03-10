@@ -25,6 +25,6 @@ public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
     }
 
     public override var value: Quantity {
-        return Quantity(rawValue: rawValue) ?? Quantity.Four
+        return Quantity(rawValue: rawValue) ?? DefaultSettings.QuantityValue
     }
 }

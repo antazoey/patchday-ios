@@ -1,5 +1,5 @@
 //
-//  PDScheduling.swift
+//  PatchDataSDK.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 9/10/19.

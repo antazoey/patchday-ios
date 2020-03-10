@@ -9,15 +9,11 @@ import PDKit
 
 public typealias UIIcon = UIImage
 
-
 class PDIcons {
 
-    static let siteIndexIcon = { UIIcon(named: "Site Index Icon")! }()
-
-    // Delivery Method icons
     private static let patchIcon = { UIIcon(named: "Patch Icon")! }()
     private static let injectionIcon = { UIIcon(named: "Injection Icon")! }()
-
+    static let siteIndexIcon = { UIIcon(named: "Site Index Icon")! }()
     static let settingsIcon = { UIIcon(named: "Settings Icon")! }()
 
     static func getDeliveryIcon(_ method: DeliveryMethod) -> UIIcon {

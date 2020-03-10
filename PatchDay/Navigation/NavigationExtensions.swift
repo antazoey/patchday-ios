@@ -34,7 +34,7 @@ extension UINavigationController {
     }
 
     func goToSettings() {
-        pushViewController(SettingsViewController.createSettingsVC(), animated: true)
+        pushViewController(SettingsViewController.create(), animated: true)
     }
 
     private func errorOnViewControllerCreationFailure(name: String) {

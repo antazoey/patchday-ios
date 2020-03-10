@@ -21,8 +21,8 @@ public class DefaultSettings {
     public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
     public static let ExpirationIntervalRawValue = ExpirationIntervalUD.TwiceWeeklyKey
     public static let ExpirationIntervalHours = 84
-    public static let QuantityValue = Quantity.Four
-    public static let QuantityRawValue = 4
+    public static let QuantityValue = Quantity.Three
+    public static let QuantityRawValue = 3
     public static let DeliveryMethodValue = DeliveryMethod.Patches
     public static let DeliveryMethodRawValue = DeliveryMethodUD.PatchesKey
     public static let NotificationsRawValue = true

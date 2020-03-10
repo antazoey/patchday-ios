@@ -85,8 +85,21 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         viewModel?.sdk?.stateManager.markQuantityAsOld()
         applyTheme()
     }
+
+    private var controlsStruct: SettingsControls {
+        SettingsControls(
+            deliveryMethodButton: self.deliveryMethodButton,
+            quantityButton: self.quantityButton,
+            quantityArrowButton: self.quantityArrowButton,
+            expirationIntervalButton: self.expirationIntervalButton,
+            notificationsSwitch: self.notificationsSwitch,
+            notificationsMinutesBeforeSlider: self.notificationsMinutesBeforeSlider,
+            notificationsMinutesBeforeValueLabel: self.notificationsMinutesBeforeValueLabel,
+            themeButton: self.themeButton
+        )
+    }
     
-    static func createSettingsVC() -> UIViewController {
+    static func create() -> UIViewController {
         let storyboard = UIStoryboard.createSettingsStoryboard()
         return storyboard.instantiateViewController(
             withIdentifier: ViewControllerIds.Settings
@@ -136,9 +149,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     private func loadViewModelIfNil() {
         guard viewModel == nil else { return }
-        let controls = createControlsStruct()
-        let saver = SettingsSavePoint(controls: controls, themeChangeHook: { self.applyTheme() })
-        self.viewModel = SettingsViewModel(reflector: SettingsReflector(controls), saver: saver)
+        let saver = SettingsSavePoint(controls: controlsStruct, themeChangeHook: { self.applyTheme() })
+        self.viewModel = SettingsViewModel(reflector: SettingsReflector(controlsStruct), saver: saver)
     }
 
     private func handlePickerActivation(_ setting: PDSetting) {
@@ -188,32 +200,24 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         guard let styles = viewModel?.styles else { return }
         settingsView.backgroundColor = styles.theme[.bg]
         view.backgroundColor = styles.theme[.bg]
-        settingsView.backgroundColor = styles.theme[.bg]
         settingsStack.backgroundColor = styles.theme[.bg]
+        
         deliveryMethodButton.setTitleColor(styles.theme[.text])
+        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
+        
         expirationIntervalButton.setTitleColor(styles.theme[.text])
+        
         quantityButton.setTitleColor(styles.theme[.text])
-        notificationsSwitch.backgroundColor = styles.theme[.bg]
-        notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
-        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
-        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
         quantitySideView.backgroundColor = styles.theme[.bg]
+        
+        notificationsSwitch.backgroundColor = styles.theme[.bg]
         notificationsSideView.backgroundColor = styles.theme[.bg]
+        
+        notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
         notificationsMinutesBeforeSideView.backgroundColor = styles.theme[.bg]
+        
         themeSideView.backgroundColor = styles.theme[.bg]
-    }
-    
-    private func createControlsStruct() -> SettingsControls {
-        SettingsControls(
-            deliveryMethodButton: self.deliveryMethodButton,
-            quantityButton: self.quantityButton,
-            quantityArrowButton: self.quantityArrowButton,
-            expirationIntervalButton: self.expirationIntervalButton,
-            notificationsSwitch: self.notificationsSwitch,
-            notificationsMinutesBeforeSlider: self.notificationsMinutesBeforeSlider,
-            notificationsMinutesBeforeValueLabel: self.notificationsMinutesBeforeValueLabel,
-            themeButton: self.themeButton
-        )
+        themeButton.setTitleColor(styles.theme[.text])
     }
     
     private func assignSelfAsDelegateForPickers() {

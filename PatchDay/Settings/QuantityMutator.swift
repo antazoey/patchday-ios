@@ -35,7 +35,6 @@ class QuantityMutator: QuantityMutating {
         let oldQuantity = sdk.settings.quantity.rawValue
         if newQuantity >= oldQuantity {
             sdk.settings.setQuantity(to: newQuantity)
-            decline(oldQuantity)
             return
         }
         let continueAction: (_ newQuantity: Int) -> () = {

@@ -24,7 +24,8 @@ class SiteCell: TableCell {
     func configure(props: SiteCellProperties) -> SiteCell {
         self.props = props
         loadOrderDependentViews()
-        loadSiteProperties()
+        nameLabel.text = props.site?.name
+        siteIndexImageView.image = PDIcons.siteIndexIcon.withRenderingMode(.alwaysTemplate)
         reflectTheme()
         prepareBackgroundSelectedView()
         return self
@@ -42,37 +43,25 @@ class SiteCell: TableCell {
     }
 
     private func loadOrderDependentViews() {
-        if let order = props.site?.order {
-            orderLabel.text = "\(order + 1)."
-            loadNextLabel(order)
-            reflectActionState(cellIndex: order, actionState: .Reading)
-        }
+        guard let order = props.site?.order else { return }
+        orderLabel.text = "\(order + 1)."
+        loadNextLabel(order)
+        reflectActionState(cellIndex: order, actionState: .Reading)
     }
 
     private func loadNextLabel(_ index: Index) {
         nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
-        if !nextLabel.isHidden {
-            siteIndexImageView.isHidden = true
-        }
-    }
-
-    private func loadSiteProperties() {
-        nameLabel.text = props.site?.name
-        if let site = props.site {
-            let icon = PDIcons.siteIndexIcon
-            siteIndexImageView.image = icon.withRenderingMode(.alwaysTemplate)
-        }
+        siteIndexImageView.isHidden = !nextLabel.isHidden
     }
 
     private func reflectTheme() {
-        if let theme = props.theme {
-            orderLabel.textColor = theme[.text]
-            arrowLabel.textColor = theme[.text]
-            nameLabel.textColor = theme[.purple]
-            nextLabel.textColor = theme[.green]
-            siteIndexImageView.tintColor = theme[.text]
-            backgroundColor = theme[.bg]
-        }
+        guard let theme = props.theme else { return }
+        orderLabel.textColor = theme[.text]
+        arrowLabel.textColor = theme[.text]
+        nameLabel.textColor = theme[.purple]
+        nextLabel.textColor = theme[.green]
+        siteIndexImageView.tintColor = theme[.text]
+        backgroundColor = theme[.bg]
     }
     
     /// Should hide if not the the next index.
