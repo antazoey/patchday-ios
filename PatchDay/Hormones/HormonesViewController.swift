@@ -33,7 +33,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
         applyTheme()
         viewModel.presentDisclaimerAlertIfFirstLaunch()
         loadTitle()
-        viewModel.hormonesTable.reloadData()
+        viewModel.table.reloadData()
         super.viewDidAppear(false)
     }
 
@@ -43,7 +43,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        viewModel.hormonesTable.getCellRowHeight(viewHeight: view.frame.height)
+        viewModel.table.getCellRowHeight(viewHeight: view.frame.height)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,5 +104,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     private func applyTheme() {
         guard let styles = viewModel.styles else { return }
         hormonesView.backgroundColor = styles.theme[.bg]
+        self.view.backgroundColor = styles.theme[.bg]
     }
 }

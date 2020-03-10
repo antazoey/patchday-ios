@@ -19,8 +19,9 @@ class CodeBehindDependencies<T> {
     let styles: Styling?
     let nav: NavigationHandling?
     let badge: PDBadgeDelegate?
-    let log = PDLog<CodeBehindDependencies>()
-    let contextClass = String(describing: T.self)
+    
+    lazy var log = PDLog<CodeBehindDependencies>()
+    lazy var contextClass = String(describing: T.self)
     
     init(
         sdk: PatchDataSDK?,
@@ -50,7 +51,6 @@ class CodeBehindDependencies<T> {
             self.nav = app.nav
             self.badge = app.badge
         } else {
-            log.error("App is not yet initialized before \(contextClass)")
             self.sdk = nil
             self.tabs = nil
             self.notifications = nil
@@ -58,6 +58,7 @@ class CodeBehindDependencies<T> {
             self.styles = nil
             self.nav = nil
             self.badge = nil
+            log.error("App is not yet initialized before \(contextClass)")
         }
     }
 }

@@ -15,7 +15,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
     private let root: UNUserNotificationCenter
     private let hormoneApplicant: ApplyHormoneNotificationActionHandling
-    private let log = PDLog<PDNotificationCenter>()
+    private lazy var log = PDLog<PDNotificationCenter>()
 
     var swallowPillNotificationActionHandler: SwallowPillNotificationActionHandling
     

@@ -14,7 +14,7 @@ import PDKit
 class CoreDataStack: NSObject {
 
     private static var container: NSPersistentContainer?
-    private static let log = PDLog<CoreDataStack>()
+    private static var log = PDLog<CoreDataStack>()
 
     static let persistentContainerKey = "patchData"
     static let testContainerKey = "patchDataTest"  // For experimental purposes

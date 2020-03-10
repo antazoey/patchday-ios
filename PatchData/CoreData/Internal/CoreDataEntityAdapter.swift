@@ -9,7 +9,7 @@ import PDKit
 
 class CoreDataEntityAdapter {
 
-    private static let log = PDLog<CoreDataEntityAdapter>()
+    private static var log = PDLog<CoreDataEntityAdapter>()
     
     // MARK: - Hormones
 

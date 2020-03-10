@@ -14,7 +14,7 @@ import PDKit
 public class Notification {
     
     public var content: UNMutableNotificationContent
-    private let log = PDLog<Notifications>()
+    private lazy var log = PDLog<Notifications>()
     
     init(title: String, body: String?, badge: Int) {
         content = UNMutableNotificationContent()

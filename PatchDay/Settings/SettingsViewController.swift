@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
     
     private var viewModel: SettingsViewModel? = nil
-    private let log = PDLog<SettingsViewController>()
+    private lazy var log = PDLog<SettingsViewController>()
 
     // Containers
     @IBOutlet private weak var scrollView: UIScrollView!

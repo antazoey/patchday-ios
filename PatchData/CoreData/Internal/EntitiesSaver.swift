@@ -10,7 +10,7 @@ import PDKit
 class EntitiesSaver {
 
     private let stack: PDCoreDataWrapping
-    private let logger = CoreDataEntitiesLogger()
+    private lazy var logger = CoreDataEntitiesLogger()
 
     init(_ stack: PDCoreDataWrapping) {
         self.stack = stack

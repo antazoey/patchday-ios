@@ -1,5 +1,5 @@
 //
-//  SitesVC.swift
+//  SitesViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/10/18.
@@ -29,7 +29,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
         super.viewDidAppear(animated)
         initViewModelIfNil()
         applyTheme()
-        viewModel.sitesTable.reloadData()
+        viewModel.table.reloadData()
         loadTitle()
     }
     
@@ -40,7 +40,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(
-        _ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         viewModel.createSiteCellSwipeActions(indexPath: indexPath)
     }
@@ -57,15 +58,17 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     // Highlightable
     func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
-        true
+        viewModel.isValidSiteIndex(indexPath.row)
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.sitesOptionsCount
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.sitesTable.getCell(at: indexPath.row)
+    func tableView(
+        _ tableView: UITableView, cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        viewModel.table.getCell(at: indexPath.row)
     }
     
     // MARK: - Editing cells in the table
@@ -83,26 +86,34 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     // Indentation for edit mode
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
-        true
+    func tableView(_ tableView: UITableView,
+                   shouldIndentWhileEditingRowAt indexPath: IndexPath
+    ) -> Bool {
+        viewModel.isValidSiteIndex(indexPath.row)
     }
     
     // Delete cell (deletes MOSite)
     func tableView(
-        _ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
     ) {
         viewModel.tryDeleteFromEditingStyle(style: editingStyle, at: indexPath)
     }
     
     // Reorder cell
     func tableView(
-        _ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath
+        _ tableView: UITableView,
+        moveRowAt sourceIndexPath: IndexPath,
+        to destinationIndexPath: IndexPath
     ) {
-        viewModel.reorderSites(sourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row)
+        viewModel.reorderSites(
+            sourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row
+        )
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        viewModel.sitesTable.RowHeight
+        viewModel.table.RowHeight
     }
     
     // MARK: - Actions
@@ -132,7 +143,9 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func createBarItemProps() -> BarItemInitializationProperties {
-        SiteValueTypeFactory.createBarItemInitProps(#selector(resetTapped), #selector(insertTapped), self)
+        SiteValueTypeFactory.createBarItemInitProps(
+            #selector(resetTapped), #selector(insertTapped), self
+        )
     }
 
     private func switchNavItems(barItemEditProps props: BarItemInitializationProperties) {

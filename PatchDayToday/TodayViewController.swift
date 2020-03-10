@@ -19,7 +19,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     @IBOutlet weak var nextPillNameLabel: UILabel!
     @IBOutlet weak var nextPillTakeDateLabel: UILabel!
 
-    private let log = PDLog<TodayViewController>()
+    private lazy var log = PDLog<TodayViewController>()
     
     override func viewDidLoad() {
         super.viewDidLoad()

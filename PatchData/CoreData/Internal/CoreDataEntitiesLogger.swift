@@ -9,7 +9,7 @@ import PDKit
 
 class CoreDataEntitiesLogger {
 
-    private let log = PDLog<CoreDataEntities>()
+    private lazy var log = PDLog<CoreDataEntities>()
 
     func logSites(_ siteMOs: [MOSite]) {
         if siteMOs.count == 0 {

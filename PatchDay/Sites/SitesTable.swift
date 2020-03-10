@@ -11,6 +11,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
 
     var sites: SiteScheduling?
     var stylist: Styling?
+    private lazy var log = PDLog<SitesTable>()
 
     let RowHeight: CGFloat = 55.0
 
@@ -32,16 +33,16 @@ class SitesTable: TableViewWrapper<SiteCell> {
 
     func getCell(at index: Index)-> SiteCell {
         let props = createCellProps(index)
-        return dequeueCell()?.configure(props: props) ?? SiteCell()
+        guard let cell = dequeueCell()?.configure(props: props) else {
+            log.error("Unable to dequeue cell")
+            return SiteCell()
+        }
+        return cell
     }
 
     func prepareCellsForEditMode(editingState: SiteTableActionState) {
         table.isEditing = editingState == .Editing
-        for i in 0..<cellCount {
-            let indexPath = IndexPath(row: i, section: 0)
-            let cell = getCell(at: indexPath.row)
-            cell.reflectActionState(cellIndex: i, actionState: editingState)
-        }
+        reloadData()
     }
 
     func deleteCell(indexPath: IndexPath) {

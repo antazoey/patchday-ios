@@ -20,7 +20,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private let settings: UserDefaultsWriting
     private var hormones: [Hormonal]
 
-    private let log = PDLog<HormoneSchedule>()
+    private lazy var log = PDLog<HormoneSchedule>()
     
     init(
         store: HormoneStoring,

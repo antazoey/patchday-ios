@@ -13,7 +13,7 @@ import PDKit
 public class Pill: Swallowable {
 
     private var pillData: PillStruct
-    private let log = PDLog<Pill>()
+    private lazy var log = PDLog<Pill>()
 
     public init(pillData: PillStruct) {
         self.pillData = pillData

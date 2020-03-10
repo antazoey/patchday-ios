@@ -12,7 +12,7 @@ import PDKit
 
 public class Navigation: NavigationHandling {
     
-    private let log = PDLog<Navigation>()
+    private lazy var log = PDLog<Navigation>()
 
     public func reflectTheme(theme: AppTheme) {
         let navigationBarAppearance = UINavigationBar.appearance()

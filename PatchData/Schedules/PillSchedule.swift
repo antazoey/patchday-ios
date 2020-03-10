@@ -15,7 +15,7 @@ public class PillSchedule: NSObject, PillScheduling {
     
     override public var description: String { "Schedule for pills." }
 
-    private let log = PDLog<PillSchedule>()
+    private lazy var log = PDLog<PillSchedule>()
     
     private var pills: [Swallowable]
     private let store: PillStoring

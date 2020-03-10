@@ -12,13 +12,13 @@ import PDKit
 
 class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
-    let sitesTable: SitesTable
+    let table: SitesTable
 
     init(sitesTableView: UITableView) {
-        self.sitesTable = SitesTable(sitesTableView)
+        self.table = SitesTable(sitesTableView)
         super.init()
-        self.sitesTable.sites = sdk?.sites
-        self.sitesTable.stylist = styles
+        self.table.sites = sdk?.sites
+        self.table.stylist = styles
     }
 
     var sites: SiteScheduling? {
@@ -34,7 +34,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
     
     func createSiteCellSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration {
-        let delete = SiteViewFactory.createDeleteRowTableAction(indexPath: indexPath, delete: deleteSite)
+        let delete = SiteViewFactory.createDeleteRowTableAction(
+            indexPath: indexPath, delete: deleteSite
+        )
         return UISwipeActionsConfiguration(actions: [delete])
     }
 
@@ -46,12 +48,12 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         if let sites = sdk?.sites {
             sites.reset()
         }
-        sitesTable.reloadCells()
+        table.reloadCells()
     }
 
     func reorderSites(sourceRow: Index, destinationRow: Index) {
         sdk?.sites.reorder(at: sourceRow, to: destinationRow)
-        sitesTable.reloadData()
+        table.reloadData()
     }
 
     func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
@@ -70,7 +72,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
 
     func handleEditSite(editBarItemProps props: BarItemInitializationProperties) {
-        sitesTable.prepareCellsForEditMode(editingState: props.tableActionState)
+        table.prepareCellsForEditMode(editingState: props.tableActionState)
     }
 
     func tryDeleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
@@ -79,7 +81,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
 
     @objc func deleteSite(at indexPath: IndexPath) {
-        sitesTable.deleteCell(indexPath: indexPath)
+        table.deleteCell(indexPath: indexPath)
         guard let sites = sdk?.sites else { return }
         sites.delete(at: indexPath.row)
     }
@@ -88,13 +90,21 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         siteCellActionState == .Editing ? "" : getViewControllerTitleFromDeliveryMethod()
     }
 
-    func createBarItems(insertAction: Selector, editAction: Selector, sitesViewController: UIViewController) -> [UIBarButtonItem] {
-        let insert = SiteViewFactory.createInsertItem(insert: insertAction, sitesViewController: sitesViewController)
-        let edit = SiteViewFactory.createEditItem(edit: editAction, sitesViewController: sitesViewController)
+    func createBarItems(
+        insertAction: Selector, editAction: Selector, sitesViewController: UIViewController
+    ) -> [UIBarButtonItem] {
+        let insert = SiteViewFactory.createInsertItem(
+            insert: insertAction, sitesViewController: sitesViewController
+        )
+        let edit = SiteViewFactory.createEditItem(
+            edit: editAction, sitesViewController: sitesViewController
+        )
         return [insert, edit]
     }
 
-    func switchBarItems(items: inout [UIBarButtonItem], barItemEditProps props: BarItemInitializationProperties) {
+    func switchBarItems(
+        items: inout [UIBarButtonItem], barItemEditProps props: BarItemInitializationProperties
+    ) {
         guard items.count >= 2 else { return }
         items[0] = SiteViewFactory.createItemFromActionState(props)
         items[1].title = props.oppositeActionTitle

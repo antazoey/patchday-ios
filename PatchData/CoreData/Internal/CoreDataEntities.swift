@@ -20,7 +20,7 @@ class CoreDataEntities {
     private var pillsInitialized = false
     private var sitesInitialized = false
 
-    private let logger = CoreDataEntitiesLogger()
+    private lazy var logger = CoreDataEntitiesLogger()
     private let saver: EntitiesSaver
 
     var coreDataStack: PDCoreDataWrapping

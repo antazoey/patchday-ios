@@ -12,7 +12,7 @@ import PDKit
 
 class HormoneStore: EntityStore, HormoneStoring {
 
-    private let log = PDLog<HormoneStore>()
+    private lazy var log = PDLog<HormoneStore>()
 
     func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
         var hormones: [Hormonal] = []

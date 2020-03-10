@@ -20,7 +20,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     private let settings: UserDefaultsWriting
     private var sites: [Bodily]
 
-    let log = PDLog<SiteSchedule>()
+    private lazy var log = PDLog<SiteSchedule>()
     
     init(store: SiteStoring, settings: UserDefaultsWriting, resetWhenEmpty: Bool = true) {
         self.store = store

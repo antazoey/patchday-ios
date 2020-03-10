@@ -10,7 +10,7 @@ import PDKit
 extension UINavigationController {
 
     func goToHormoneDetails(_ hormone: Hormonal, _ source: UIViewController) {
-        if let vc = HormoneDetailViewController.createHormoneDetailVC(source, hormone) {
+        if let vc = HormoneDetailViewController.create(source, hormone) {
             pushViewController(vc, animated: true)
         } else {
             errorOnViewControllerCreationFailure(name: "Hormone Details")

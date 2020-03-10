@@ -13,7 +13,7 @@ import PDKit
 class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     var viewModel: HormoneDetailViewModel!
-    var log = PDLog<HormoneDetailViewController>()
+    private lazy var log = PDLog<HormoneDetailViewController>()
 
     private var saveButton: UIBarButtonItem!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
@@ -52,7 +52,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         super.viewDidAppear(animated)
     }
 
-    static func createHormoneDetailVC(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailViewController? {
+    static func create(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailViewController? {
         let id = ViewControllerIds.HormoneDetail
         if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController {
             return hormoneVC.initWithHormone(hormone)
@@ -60,7 +60,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         return nil
     }
 
-    static func createHormoneDetailVC(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailViewController? {
+    static func create(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailViewController? {
         let id = ViewControllerIds.HormoneDetail
         if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController {
             return hormoneVC.initWithViewModel(viewModel)

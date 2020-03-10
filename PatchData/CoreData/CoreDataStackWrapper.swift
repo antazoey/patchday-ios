@@ -13,7 +13,7 @@ import CoreData
 
 class CoreDataStackWrapper: PDCoreDataWrapping {
 
-    private let log = PDLog<CoreDataStackWrapper>()
+    private lazy var log = PDLog<CoreDataStackWrapper>()
 
     func save(saverName: String) {
         CoreDataStack.save(saverName: saverName)

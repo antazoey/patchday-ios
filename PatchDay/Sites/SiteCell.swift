@@ -31,24 +31,29 @@ class SiteCell: TableCell {
         return self
     }
 
+    private func loadOrderDependentViews() {
+        guard let order = props.site?.order else { return }
+        orderLabel.text = "\(order + 1)."
+        loadNextLabel(order)
+        let state: SiteTableActionState = isEditing ? .Editing : .Reading
+        reflectActionState(cellIndex: order, actionState: state)
+    }
+    
     public func reflectActionState(cellIndex: Index, actionState: SiteTableActionState) {
-        let shouldHide = actionState == .Editing
-        orderLabel.isHidden = shouldHide
-        arrowLabel.isHidden = shouldHide
-
-        if cellIndex == props?.nextSiteIndex {
+        let isEditing = actionState == .Editing
+        reflectEditingState(isEditing)
+        if !isEditing, cellIndex == props?.nextSiteIndex {
             nextLabel.isHidden = false
             siteIndexImageView.isHidden = true
         }
     }
 
-    private func loadOrderDependentViews() {
-        guard let order = props.site?.order else { return }
-        orderLabel.text = "\(order + 1)."
-        loadNextLabel(order)
-        reflectActionState(cellIndex: order, actionState: .Reading)
+    private func reflectEditingState(_ editing: Bool) {
+        orderLabel.isHidden = editing
+        arrowLabel.isHidden = editing
+        siteIndexImageView.isHidden = editing
     }
-
+    
     private func loadNextLabel(_ index: Index) {
         nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
         siteIndexImageView.isHidden = !nextLabel.isHidden

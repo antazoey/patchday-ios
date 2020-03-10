@@ -12,13 +12,13 @@ import PDKit
 
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
-    let hormonesTable: HormonesTable
+    let table: HormonesTable
     var hormones: HormoneScheduling? { sdk?.hormones }
 
     init(hormonesTableView: UITableView, source: HormonesViewController) {
-        self.hormonesTable = HormonesTable(hormonesTableView)
+        self.table = HormonesTable(hormonesTableView)
         super.init()
-        hormonesTable.applyTheme(styles?.theme)
+        table.applyTheme(styles?.theme)
         loadAppTabs(source: source)
         reflectThemeInTabBar()
     }
@@ -45,7 +45,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
     func getCell(at row: Index) -> UITableViewCell {
         guard let hormone = hormones?.at(row) else { return UITableViewCell() }
-        return hormonesTable.getCell(for: hormone, at: row, viewModel: self)
+        return table.getCell(for: hormone, at: row, viewModel: self)
     }
 
     func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
@@ -75,7 +75,8 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     private var isFirstLaunch: Bool {
-        !(sdk?.settings.mentionedDisclaimer.value ?? false)
+        guard let sdk = sdk else { return false }
+        return !sdk.settings.mentionedDisclaimer.value
     }
 
     private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
@@ -84,5 +85,5 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         self.tabs = tabs
     }
 
-    @objc private func reloadHormoneCellData() {hormonesTable.reloadData() }
+    @objc private func reloadHormoneCellData() { table.reloadData() }
 }
