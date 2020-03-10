@@ -1,6 +1,6 @@
 //
 //  SiteSchedule.swift
-//  PatchDay
+//  PatchData
 //
 //  Created by Juliya Smith on 7/4/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -10,304 +10,284 @@ import Foundation
 import CoreData
 import PDKit
 
-public typealias SiteNameSet = Set<SiteName>
 
-public class SiteSchedule: NSObject, PDScheduling {
+public class SiteSchedule: NSObject, SiteScheduling {
+
+    override public var description: String { "Schedule for sites." }
+    private var resetWhenEmpty: Bool
     
-    override public var description: String {
-        return """
-               Schedule for maintaining sites
-               for estrogen patches or injections.
-               """
-    }
+    private let store: SiteStoring
+    private let settings: UserDefaultsWriting
+    private var sites: [Bodily]
+
+    private lazy var log = PDLog<SiteSchedule>()
     
-    public var sites: [MOSite] = []
-    internal var next: Index = 0
-    internal var usingPatches: Bool = true
-    
-    override init() {
+    init(store: SiteStoring, settings: UserDefaultsWriting, resetWhenEmpty: Bool = true) {
+        self.store = store
+        self.settings = settings
+        self.resetWhenEmpty = resetWhenEmpty
+        self.sites = store.getStoredSites()
         super.init()
-        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .site)
-        if let mos = mos_opt {
-            sites = mos as! [MOSite]
-        }
-        if sites.count == 0 {
-            new()
-        }
-        filterEmpty()
+        handleSiteCount()
         sort()
+        ensureValidOrdering()
     }
     
-    // MARK: - Overrides
+    public var count: Int { sites.count }
     
-    public func count() -> Int {
-        return sites.count
-    }
-    
-    /// Appends the the new site to the sites and returns it.
-   public func insert(completion: (() -> ())? = nil) -> NSManagedObject? {
-    let type = PDEntity.site.rawValue
-        if let site = PatchData.insert(type) as? MOSite {
-            site.setOrder(Int16(sites.count))
-            sites.append(site)
-            PatchData.save()
-            return site
-        }
-        return nil
-    }
+    public var all: [Bodily] { sites }
 
-    /// Resets the site array a default list of sites.
-    public func reset(completion: (() -> ())? = nil) {
-        if (isDefault(usingPatches: usingPatches)) {
-            return
-        }
-        let resetNames: [String] = (usingPatches) ?
-            PDStrings.SiteNames.patchSiteNames :
-            PDStrings.SiteNames.injectionSiteNames
-        let oldCount = sites.count
-        let newcount = resetNames.count
-        for i in 0..<newcount {
-            if i < oldCount {
-                sites[i].setOrder(Int16(i))
-                sites[i].setName(resetNames[i])
-                sites[i].setImageIdentifier(resetNames[i])
-            } else if let site = insert() as? MOSite {
-                site.setName(resetNames[i])
-                site.setImageIdentifier(resetNames[i])
+    public var suggested: Bodily? {
+        guard count > 0 else { return nil }
+        if let shouldBeSuggestedSite = firstEmptyFromSiteIndex ?? siteWithOldestHormone {
+            // If the current siteIndex is not actually pointing to the correct 'suggested',
+            // fix it here before giving the correct suggested site.
+            if shouldBeSuggestedSite.id != suggestedSite?.id {
+                settings.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
             }
+            
+            return shouldBeSuggestedSite
         }
-        if oldCount > resetNames.count {
-            for i in resetNames.count..<oldCount {
-                sites[i].reset()
+        return suggestedSite
+    }
+    
+    public var nextIndex: Index {
+        sites.firstIndex(where: { b in
+            if let suggestedSite = suggested {
+                return suggestedSite.id == b.id
             }
-        }
-        filterEmpty()
-        sort()
-        PatchData.save()
-        if let comp = completion {
-            comp()
-        }
-    }
-    
-    /// Deletes the site at the given index.
-    public func delete(at index: Index) {
-        switch (index) {
-        case 0..<sites.count :
-            loadBackupSiteName(from: sites[index])
-            PatchData.getContext().delete(sites[index])
-            sites[index].reset()
-            if (index + 1) < (sites.count - 1) {
-                for i in (index+1)..<sites.count {
-                    sites[i].decrement()
-                }
-            }
-            filterEmpty()
-            sort()
-            PatchData.save()
-        default : return
-        }
-    }
-    
-    /// Generates a generic list of MOSites when there are none in store.
-    public func new() {
-        var sites: [MOSite] = []
-        typealias SiteNames = PDStrings.SiteNames
-        var names = (usingPatches) ?
-            SiteNames.patchSiteNames :
-            SiteNames.injectionSiteNames
-        for i in 0..<names.count {
-            if let site = insert() as? MOSite {
-                site.setName(names[i])
-                site.setImageIdentifier(names[i])
-                sites.append(site)
-            }
-        }
-        PatchData.save()
-        sort()
-        self.sites = sites
-    }
-    
-    /// Removes all sites with empty or nil names from the sites.
-    public func filterEmpty() {
-        var sites_new: [MOSite] = []
-        sites.forEach() {
-            if $0.getName() == ""
-                || $0.getName() == nil
-                || $0.getOrder() < 0 {
-                PatchData.getContext().delete($0)
-            } else {
-                sites_new.append($0)
-            }
-        }
-        sites = sites_new
-        PatchData.save()
-    }
-    
-    public func sort() {
-        sites.sort(by: <)
-    }
-
-    // MARK: - Other Public
-
-    /// Returns the site at the given index.
-    public func getSite(at index: Index) -> MOSite? {
-        if index >= 0 && index < sites.count {
-            return sites[index]
-        }
-        return nil
-    }
-    
-    /// Returns the MOSite for the given name. Appends new site with given name if doesn't exist.
-    public func getSite(for name: String) -> MOSite? {
-        if let index = getNames().index(of: name) {
-            return sites[index]
-        }
-        // Append new site
-        let site = insert() as? MOSite
-        site?.setName(name)
-        site?.setImageIdentifier(name)
-        return site
-    }
-    
-    /// Sets a the siteName for the site at the given index.
-    public func setName(at index: Index, to name: String) {
-        if index >= 0 && index < sites.count {
-            sites[index].setName(name)
-            PatchData.save()
-        }
-    }
-    
-    /// Swaps the indices of two sites by setting the order.
-    public func setOrder(at index: Index, to newOrder: Int16) {
-        let newIndex = Index(newOrder)
-        if index >= 0 && index < sites.count && newIndex < sites.count && newIndex >= 0 {
-            // Make sure index is correct both before and after swap
-            sort()
-            sites[index].setOrder(newOrder)
-            sites[newIndex].setOrder(Int16(index))
-            sort()
-            PatchData.save()
-        }
-    }
-    
-    /// Sets the site image Id for the site at the given index.
-    public func setImageId(at index: Index, to newId: String, usingPatches: Bool) {
-        let site_set = usingPatches ?
-            PDStrings.SiteNames.patchSiteNames :
-            PDStrings.SiteNames.injectionSiteNames
-        if site_set.contains(newId), index >= 0 && index < sites.count {
-            sites[index].setImageIdentifier(newId)
-        } else {
-            sites[index].setImageIdentifier("custom")
-        }
-        PatchData.save()
-    }
-    
-    /// Returns the next site for scheduling in the site schedule.
-    public func nextIndex(changeIndex: (Int) -> ()) -> Index? {
-        if next < 0 {
-            changeIndex(0)
-            next = 0
-        }
-        if sites.count <= 0 {
-            return nil
-        }
-        for i in 0..<sites.count {
-            // Return site that has no estros
-            if let estros = sites[i].estrogenRelationship,
-                estros.count == 0 {
-                changeIndex(i)
-                next = i
-                return i
-            }
-        }
-        return next
-    }
-    
-    /// Returns the next site in the site schedule as a suggestion of where to relocate.
-    // Suggested changeIndex function: Defaults.setSiteIndex
-    public func suggest(changeIndex: (Int) -> ()) -> MOSite? {
-        if let i = nextIndex(changeIndex: changeIndex) {
-            return sites[i]
-        }
-        return nil
-    }
-
-    /// Returns an array of a siteNames for each site in the schedule.
-    public func getNames() -> [SiteName] {
-        return sites.map({
-            (site: MOSite) -> SiteName? in
-            return site.getName()
-        }).filter() { $0 != nil } as! [SiteName]
-    }
-    
-    /// Returns array of image Ids from array of MOSites.
-    public func getImageIds() -> [String] {
-        return sites.map({
-            (site: MOSite) -> String? in
-            return site.getImageIdentifer()
-        }).filter() {
-            $0 != nil
-            } as! [String]
-    }
-    
-    /// Returns the set of sites on record union with the set of default sites
-    public func unionDefault(usingPatches: Bool) -> SiteNameSet {
-        let defaultSitesSet = (usingPatches) ? Set(PDStrings.SiteNames.patchSiteNames) : Set(PDStrings.SiteNames.injectionSiteNames)
-        let siteSet = Set(getNames())
-        return siteSet.union(defaultSitesSet)
-    }
-    
-    /// Returns if the sites in the site schedule are the same as the default sites.
-    public func isDefault(usingPatches: Bool) -> Bool {
-        let defaultSites = (usingPatches) ?
-            PDStrings.SiteNames.patchSiteNames :
-            PDStrings.SiteNames.injectionSiteNames
-        let def_c = defaultSites.count
-        let sites_c = count()
-        if sites_c != def_c {
             return false
-        }
-        for i in 0..<def_c {
-            if let n = sites[i].getName() {
-                if n != defaultSites[i] {
-                    return false
-                }
-            } else {
+        }) ?? -1
+    }
+
+    public var names: [SiteName] {
+        sites.map({ (site: Bodily) -> SiteName in site.name })
+    }
+
+    public var isDefault: Bool {
+        guard count > 0 else { return false }
+        let method = settings.deliveryMethod.value
+        let defaultSites = SiteStrings.getSiteNames(for: method)
+        for name in names {
+            if !defaultSites.contains(name) {
                 return false
             }
         }
         return true
     }
 
-    /// Prints the every site and order (for debugging).
-    public func printSites() {
-        print("PRINTING SITES")
-        print("--------------")
-        for site in sites {
-            print("Order: " + String(site.getOrder()))
-            if let n = site.getName() {
-                print("Name: " + n)
-            } else {
-                print("Unnamed")
-            }
-            print("---------")
+    @discardableResult
+    public func insertNew(name: String, save: Bool, onSuccess: (() -> ())?) -> Bodily? {
+        if var site = store.createNewSite(doSave: save) {
+            site.name = name
+            sites.append(site)
+            onSuccess?()
+            return site
         }
-        print("*************")
+        return nil
     }
-    
-    // MARK: Private
-    
-    /// Set the siteBackUpName in every estrogen.
-    private func loadBackupSiteName(from site: MOSite) {
-        if site.isOccupied(),
-            let estroSet = site.estrogenRelationship {
-            for estro in Array(estroSet) {
-                let e = estro as! MOEstrogen
-                if let n = site.getName() {
-                    e.setSiteBackup(to: n)
+
+    @discardableResult
+    public func reset() -> Int {
+        if isDefault {
+            log.warn("Resetting sites unnecessary because already default")
+            return sites.count
+        }
+        resetSitesToDefault()
+        store.pushLocalChangesToManagedContext(sites, doSave: true)
+        return sites.count
+    }
+
+    public func delete(at index: Index) {
+        if let site = at(index) {
+            log.info("Deleting site at index \(index)")
+            store.delete(site)
+            sites.remove(at: index)
+            
+            // index now refers to index - 1
+            for i in index...count - 1 {
+                if var site = at(i) {
+                    site.order -= 1
                 }
             }
+        }
+    }
+    
+    public func sort() {
+        sites.sort() {
+            // keep negative orders at the end
+            if $0.order < 0 {
+                return false
+            }
+            
+            if $1.order < 0 {
+                return true
+            }
+            return $0.order < $1.order
+        }
+    }
+
+    public func at(_ index: Index) -> Bodily? {
+        sites.tryGet(at: index)
+    }
+
+    public func get(by id: UUID) -> Bodily? {
+        sites.first(where: { s in s.id == id })
+    }
+
+    public func rename(at index: Index, to name: SiteName) {
+        if var site = at(index) {
+            site.name = name
+            store.pushLocalChangesToManagedContext([site], doSave: true)
+        }
+    }
+
+    public func reorder(at index: Index, to newOrder: Int) {
+        guard sites.count > 0 else { return }
+        if var site = at(index), var originalSiteAtOrder = at(newOrder) {
+            site.order = site.order + originalSiteAtOrder.order
+            originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
+            site.order = site.order - originalSiteAtOrder.order
+            sort()
+            store.pushLocalChangesToManagedContext(sites, doSave: true)
+        }
+    }
+
+    public func setImageId(at index: Index, to newId: String) {
+        guard sites.count > 0 else { return }
+        let siteSet = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
+        if var site = at(index) {
+            site.imageId = siteSet.contains(newId) ? newId : SiteStrings.CustomSiteId
+            store.pushLocalChangesToManagedContext([site], doSave: true)
+        }
+    }
+    
+    public func indexOf(_ site: Bodily) -> Index? {
+        sites.firstIndex { (_ s: Bodily) -> Bool in s.id == site.id }
+    }
+
+    @discardableResult
+    private func updateIndex() -> Index {
+        settings.incrementStoredSiteIndex()
+    }
+    
+    private var suggestedSite: Bodily? {
+        if let site = at(settings.siteIndex.value) {
+            return site
+        }
+        return nil
+    }
+
+    private var firstEmptyFromSiteIndex: Bodily? {
+        var siteIterator = settings.siteIndex.value
+        for _ in 0..<count {
+            if let site = at(siteIterator), site.hormoneCount == 0 {
+                return site
+            }
+            siteIterator = (siteIterator + 1) % count
+        }
+        return nil
+    }
+
+    private var siteWithOldestHormone: Bodily? {
+        sites.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
+            (b, site) in
+
+            if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
+               oldestDateInThisSitesHormones < b.oldestDate, let site = at(b.iterator) {
+
+                return (oldestDateInThisSitesHormones, site, b.iterator + 1)
+            }
+            return (b.oldestDate, b.oldest, b.iterator + 1)
+        }).oldest
+    }
+
+    private func getOldestHormoneDate(from siteId: UUID) -> Date? {
+        var hormones = store.getRelatedHormones(siteId)
+        hormones.sort(by: {
+            if let d1 = $0.date, let d2 = $1.date {
+                return d1 < d2
+            }
+            return false
+        })
+        return hormones.tryGet(at: 0)?.date
+    }
+    
+    private func ensureValidOrdering() {
+        var shouldSave = false
+        for i in 0..<count {
+            var site = sites[i]
+            if site.order != i {
+                site.order = i
+                shouldSave = true
+            }
+        }
+        if shouldSave {
+            store.pushLocalChangesToManagedContext(sites, doSave: true)
+        }
+    }
+
+    private func handleSiteCount() {
+        if resetWhenEmpty && sites.count == 0 {
+            log.info("No stored sites - resetting to default")
+            reset()
+            logSites()
+        }
+    }
+
+    private func resetSitesToDefault() {
+        let method = settings.deliveryMethod.value
+        let defaultSiteNames = SiteStrings.getSiteNames(for: method)
+        let previousCount = sites.count
+        assignDefaultProperties(options: defaultSiteNames)
+        deleteExtraSitesIfNeeded(previousCount: previousCount, newCount: defaultSiteNames.count)
+    }
+
+    private func assignDefaultProperties(options: [String]) {
+        for i in 0..<options.count {
+            let name = options[i]
+            if var site = at(i) {
+                setSite(&site, index: i, name: name)
+            } else {
+                var site = insertNew(name: name, save: false, onSuccess: nil)
+                site?.order = i
+            }
+        }
+    }
+    
+    private func deleteExtraSitesIfNeeded(previousCount: Int, newCount: Int) {
+        if newCount < previousCount {
+            deleteSites(start: newCount, end: previousCount - 1)
+        }
+    }
+
+    private func setSite(_ site: inout Bodily, index: Index, name: String) {
+        site.order = index
+        site.name = name
+        site.imageId = name
+    }
+
+    private func deleteSites(start: Index, end: Index) {
+        var deleteCount = 0
+        for i in start...end {
+            if let site = sites.tryGet(at: i) {
+                deleteCount += 1
+                site.reset()
+                store.delete(site)
+            }
+        }
+        for _ in 0...deleteCount - 1 {
+            _ = sites.popLast()
+        }
+    }
+
+    private func logSites() {
+        var sitesDescription = "The Site Schedule contains:"
+        for site in sites {
+            sitesDescription.append("\nSite. Id=\(site.id), Order=\(site.order), Name=\(site.name)")
+        }
+        if sitesDescription.last != ":" {
+            log.info(sitesDescription)
         }
     }
 }

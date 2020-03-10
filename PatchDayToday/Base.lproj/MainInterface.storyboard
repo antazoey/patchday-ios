@@ -125,9 +125,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="110"/>
                     <connections>
-                        <outlet property="estrogenDateLabel" destination="gRS-YN-vKK" id="ieM-OU-pfD"/>
-                        <outlet property="estrogenSiteLabel" destination="TWy-Tl-3f6" id="dId-3G-H5R"/>
-                        <outlet property="nextEstrogenLabel" destination="fUW-Uh-LDy" id="arT-zN-iyv"/>
+                        <outlet property="hormoneDateLabel" destination="gRS-YN-vKK" id="ieM-OU-pfD"/>
+                        <outlet property="hormoneSiteLabel" destination="TWy-Tl-3f6" id="dId-3G-H5R"/>
+                        <outlet property="nextHormoneLabel" destination="fUW-Uh-LDy" id="arT-zN-iyv"/>
                         <outlet property="nextPillNameLabel" destination="W6F-jV-7bu" id="dl2-Hi-C1b"/>
                         <outlet property="nextPillTakeDateLabel" destination="O1U-OB-eRq" id="Op6-bE-1Zd"/>
                     </connections>

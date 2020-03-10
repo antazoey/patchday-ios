@@ -1,54 +1,34 @@
 //
 //  TodayViewController.swift
-//  patchdayToday
+//  PatchDayToday
 //
 //  Created by Juliya Smith on 6/19/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
+
 import UIKit
 import NotificationCenter
 import PDKit
 
+
 class TodayViewController: UIViewController, NCWidgetProviding {
     
-    @IBOutlet weak var nextEstrogenLabel: UILabel!
-    @IBOutlet weak var estrogenSiteLabel: UILabel!
-    @IBOutlet weak var estrogenDateLabel: UILabel!
+    @IBOutlet weak var nextHormoneLabel: UILabel!
+    @IBOutlet weak var hormoneSiteLabel: UILabel!
+    @IBOutlet weak var hormoneDateLabel: UILabel!
     @IBOutlet weak var nextPillNameLabel: UILabel!
     @IBOutlet weak var nextPillTakeDateLabel: UILabel!
+
+    private lazy var log = PDLog<TodayViewController>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let nextEstro: EstrogenStruct = PDSharedDataController.getNextEstrogen()
-        let nextPill: PillStruct = PDSharedDataController.getNextPill()
-        let usingPatches = PDSharedDataController.usingPatches()
-        let comment = "Short label on Today App"
-        let title = usingPatches ? "Change:" : "Inject:"
-        let dots = PDStrings.PlaceholderStrings.dotdotdot
-        nextEstrogenLabel.text = NSLocalizedString(title, comment: comment)
-        
-        if let n = nextEstro.siteName {
-            estrogenSiteLabel.text = n
-        } else {
-            estrogenSiteLabel.text = dots
-        }
-        if let d = nextEstro.date {
-            estrogenDateLabel.text = PDDateHelper.format(date: d,
-                                                         useWords: true)
-        } else {
-            estrogenDateLabel.text = dots
-        }
-        if let n = nextPill.name {
-            nextPillNameLabel.text = n
-        } else {
-            nextPillNameLabel.text = dots
-        }
-        if let d = nextPill.nextTakeDate {
-            nextPillTakeDateLabel.text = PDDateHelper.format(date: d,
-                                                             useWords: true)
-        } else {
-            nextPillTakeDateLabel.text = dots
-        }
+        let viewModel = TodayViewModel()
+        hormoneSiteLabel.text = viewModel.hormoneSiteName
+        nextHormoneLabel.text = viewModel.hormoneTitle
+        hormoneDateLabel.text = viewModel.hormoneDateText
+        nextPillNameLabel.text = viewModel.nextPillName
+        nextPillTakeDateLabel.text = viewModel.nextPillDateText
     }
     
     @IBAction func widgetTapped(_ sender: Any) {
@@ -56,7 +36,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         extensionContext?.open(myAppUrl as URL, completionHandler: {
             (success) in
             if (!success) {
-                print("Failure to open PatchDay")
+                self.log.warn("Failure to open PatchDay")
             }
         })
     }

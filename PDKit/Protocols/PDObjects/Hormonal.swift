@@ -1,0 +1,59 @@
+//
+//  Hormonal.swift
+//  PDKit
+//
+//  Created by Juliya Smith on 8/10/19.
+//  Copyright © 2019 Juliya Smith. All rights reserved.
+//
+
+import Foundation
+
+
+public protocol Hormonal: PDObjectified {
+    var id: UUID { get set }
+
+    /// The way in which the hormone is delivered to the body, usually set from User Defaults.
+    var deliveryMethod: DeliveryMethod { get set }
+
+    /// The user default representing the length of time until the hormone expired.
+    var expirationInterval: ExpirationIntervalUD { get set }
+
+    /// The ID of the site this hormone applies to.
+    var siteId: UUID? { get set }
+
+    /// The name of the site this hormone applies to.
+    var siteName: SiteName? { get set }
+    
+    /// The date you applied this hormone to a site.
+    var date: Date { get set }
+    
+    /// The date that this hormone runs out of juice.
+    var expiration: Date? { get }
+    
+    /// The string representation of the expiration date.
+    var expirationString: String { get }
+    
+    /// Whether it is past this hormone's expiration date.
+    var isExpired: Bool { get }
+
+    // Whether it is past the time to alert for this hormone's expiration date.
+    var isPastNotificationTime: Bool { get }
+    
+    /// Whether the hormone expires between the hours of midnight and 6 am.
+    var expiresOvernight: Bool { get }
+    
+    /// For preserving site data in case you delete the related Site.
+    var siteNameBackUp: String? { get set }
+    
+    /// If this hormone without a site and date placed.
+    var isEmpty: Bool { get }
+    
+    /// If this hormone has a site.
+    var hasSite: Bool { get }
+
+    /// If this hormone has a date.
+    var hasDate: Bool { get }
+    
+    /// Sets the date to now.
+    func stamp()
+}

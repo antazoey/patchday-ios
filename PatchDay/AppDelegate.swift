@@ -8,64 +8,64 @@
 
 import UIKit
 import UserNotifications
-import PatchData
 import PDKit
+import PatchData
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    // How to get reference: "let appDelegate = UIApplication.shared.delegate as! AppDelegate"
-    
-    internal var window: UIWindow?
-    internal var notificationsController = PDNotificationController()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    var window: UIWindow?
+    var notifications: NotificationScheduling?
+    var sdk: PatchDataSDK = PatchData()
+    var alerts: AlertDispatching?
+    var tabs: TabReflective?
+    var nav: NavigationHandling = Navigation()
+    var styles: Styling?
+    var badge: PDBadgeDelegate = PDBadge()
 
-        // Set default Pills only on the first launch.
-        if isFirstLaunch() {
-            PillScheduleRef.reset()
-        }
-        let interval = Defaults.getTimeInterval()
-        let index = Defaults.getSiteIndex()
-        let usingPatches = Defaults.usingPatches()
-        let setSiteIndex = Defaults.setSiteIndex
-        
-        // Uncomment to nuke the db
-        // Schedule.nuke()
-        // Then re-comment, run again, and PatchDay resets to default.
-
-        // Load data for the Today widget.
-        Schedule.sharedData.setDataForTodayApp(interval: interval,
-                                               index: index,
-                                               usingPatches: usingPatches,
-                                               setSiteIndex: setSiteIndex)
-        
-        // Set the correct app badge value.
-        setBadge(with: Schedule.totalDue(interval: interval))
-
-        // Set the nav bar appearance.
-        let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor.blue
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        self.notifications = Notifications(sdk: sdk, appBadge: badge)
+        self.alerts = AlertDispatcher(sdk: sdk)
+        self.styles = Stylist(theme: self.sdk.settings.theme.value)
+        self.setBadgeToTotalAlerts()
+        self.setNavigationAppearance()
         return true
     }
     
-    func isFirstLaunch() -> Bool {
-        return !Defaults.mentionedDisclaimer()
+    static var isPad: Bool {
+        UIDevice.current.userInterfaceIdiom == .pad
     }
-    
+
+    static var current: AppDelegate? {
+        UIApplication.shared.delegate as? AppDelegate
+    }
+
     func applicationWillTerminate(_ application: UIApplication) {
-        let interval = Defaults.getTimeInterval()
-        setBadge(with: Schedule.totalDue(interval: interval))
+        setBadgeToTotalAlerts()
     }
-    
+
     func applicationWillResignActive(_ application: UIApplication) {
-        let interval = Defaults.getTimeInterval()
-        setBadge(with: Schedule.totalDue(interval: interval))
+        setBadgeToTotalAlerts()
     }
-    
-    /** Sets the App badge number to the expired
-    estrogen count + the total pills due for taking. */
-    private func setBadge(with newBadgeNumber: Int) {
-        UIApplication.shared.applicationIconBadgeNumber = newBadgeNumber
+
+    func setNavigationAppearance() {
+        guard let styles = styles else { return }
+        nav.reflectTheme(theme: styles.theme)
+        tabs?.reflectTheme(theme: styles.theme)
+    }
+
+    func setTheme() {
+        let theme = sdk.settings.theme.value
+        self.styles = Stylist(theme: theme)
+        setNavigationAppearance()
+    }
+
+    /// Sets the App badge number to the expired count + the total pills due for taking.
+    private func setBadgeToTotalAlerts() {
+        badge.set(to: sdk.totalAlerts)
     }
 }

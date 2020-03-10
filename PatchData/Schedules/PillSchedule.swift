@@ -1,6 +1,6 @@
 //
 //  PillSchedule.swift
-//  PatchDay
+//  PatchData
 //
 //  Created by Juliya Smith on 7/4/18.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
@@ -10,229 +10,161 @@ import Foundation
 import CoreData
 import PDKit
 
-public class PillSchedule: NSObject, PDScheduling {
+
+public class PillSchedule: NSObject, PillScheduling {
     
-    override public var description: String {
-        return "Singleton for reading, writing, and querying the MOPill array."
+    override public var description: String { "Schedule for pills." }
+
+    private lazy var log = PDLog<PillSchedule>()
+    
+    private var pills: [Swallowable]
+    private let store: PillStoring
+    private let sharer: PillDataSharing
+    
+    enum PillScheduleState {
+        case Initial
+        case Working
     }
     
-    public var pills: [MOPill] = []
-    private var pillMap = [UUID: MOPill]()
-    
-    override init() {
+    init(store: PillStoring, pillDataSharer: PillDataSharing, state: PillScheduleState) {
+        self.store = store
+        self.sharer = pillDataSharer
+        self.pills = store.getStoredPills()
         super.init()
-        let mos_opt: [NSManagedObject]? = PatchData.loadMOs(for: .pill)
-        if let mos = mos_opt {
-            pills = mos as! [MOPill]
+        if state == .Initial {
+            log.info("Pill state is initial - Setting up default Pills")
+            self.reset()
         }
-        loadTakenTodays(for: pills)
-        filterEmpty()
-        loadMap()
+        awaken()
+    }
+    
+    public var all: [Swallowable] { pills }
+
+    public var count: Int { pills.count }
+    
+    public var nextDue: Swallowable? {
+        pills.min() {
+            switch($0.due, $1.due) {
+            case (nil, nil) : return false
+            case (nil, _) : return false
+            case (_, nil) : return true
+            default : return $0.due! < $1.due!
+            }
+        }
+    }
+
+    public var totalDue: Int {
+        pills.reduce(0) {
+            (count: Int, pill: Swallowable) -> Int in
+            pill.isDue ? 1 + count : count
+        }
     }
     
     // MARK: - Override base class
-    
-    public func count() -> Int {
-        return pills.count
-    }
 
-    /// Creates a new MOPill and inserts it in to the pills.
-    public func insert(completion: (() -> ())?) -> NSManagedObject? {
-        let attributes = PillAttributes()
-        let pill = append(using: attributes)
-        if let comp = completion {
-            comp()
-        }
-        return pill
-    }
-    
-    /// Sets the pills and map to a generic list of MOPills.
-    public func reset(completion: (() -> ())? = nil) {
-        new()
-        loadMap()
-        if let comp = completion {
-            comp()
-        }
-    }
-    
-    /// Deletes the pill at the given index from the schedule.
-    public func delete(at index: Index) {
-        switch index {
-        case 0..<pills.count :
-            let pill = pills.remove(at: index)
-            PatchData.getContext().delete(pill)
-            PatchData.save()
-        default : return
-        }
-    }
-    
-    /// Generates a generic list of MOPills when there are none in store.
-    public func new() {
-        let names = PDStrings.PillTypes.defaultPills
-        pills = []
-        for i in 0..<names.count {
-            let type = PDEntity.pill.rawValue
-            if let pill = PatchData.insert(type) as? MOPill {
-                pill.initAttributes(name: names[i])
-                pills.append(pill)
-            }
-        }
-        PatchData.save()
-    }
-    
-    public func filterEmpty() {
-        pills = pills.filter() { $0.getName() != nil }
-    }
-    
-    // MARK: - Public
-
-    /// Returns the MOPill for the given index.
-    public func getPill(at index: Index) -> MOPill? {
-        if index >= 0 && index < pills.count {
-            return pills[index]
-        }
-        return nil
-    }
-    
-    /// Returns the MOPill for the given Id.
-    public func getPill(for id: UUID) -> MOPill? {
-        return pillMap[id]
-    }
-    
-    /// Sets a given MOPill with the given PillAttributes.
-    public func setPill(at index: Index, with attributes: PillAttributes) {
-        if let pill = getPill(at: index) {
-            setPill(for: pill, with: attributes)
-        }
-    }
-    
-    /// Sets a given MOPill with the given PillAttributes.
-    public func setPill(for pill: MOPill, with attributes: PillAttributes) {
-        if let name = attributes.name {
-            pill.setName(with: name)
-        }
-        if let timesaday = attributes.timesaday {
-            pill.setTimesaday(with: Int16(timesaday))
-        }
-        if let t1 = attributes.time1 {
-            pill.setTime1(with: t1 as NSDate)
-        }
-        if let t2 = attributes.time2 {
-            pill.setTime2(with: t2 as NSDate)
-        }
-        if let notify = attributes.notify {
-            pill.setNotify(with: notify)
-        }
-        if let timesTakenToday = attributes.timesTakenToday {
-            pill.setTimesTakenToday(with: Int16(timesTakenToday))
-        }
-        if let lastTaken = attributes.lastTaken {
-            pill.setLastTaken(with: lastTaken as NSDate)
-        }
-        let id = pill.setId()
-        pillMap[id] = pill
-        PatchData.save()
-    }
-    
-    /** Sets the pill's last date-taken at the given index to now,
-    and increments how many times it was taken today. */
-    public func takePill(at index: Index, setPDSharedData: (() -> ())?) {
-        if let pill = getPill(at: index),
-            let timesTaken = pill.getTimesTakenToday(),
-            let timesaday = pill.getTimesday() {
-            let t = Int(timesTaken)
-            let max = Int(timesaday)
-            if t < max {
-                pill.take()
-                PatchData.save()
-                // Reflect in Today widget
-                if let setToday = setPDSharedData {
-                    setToday()
-                }
-            }
-        }
-    }
-    
-    /** Sets the given pill's last date taken to now,
-    and increments how many times it was taken today. */
-    public func take(_ pill: MOPill, setPDSharedData: (() -> ())?) {
-        if let timesTaken = pill.getTimesTakenToday(),
-            let timesaday = pill.getTimesday() {
-            let t = Int(timesTaken)
-            let max = Int(timesaday)
-            if t < max {
-                pill.take()
-                PatchData.save()
-                // Reflect in the Today widget
-                if let setToday = setPDSharedData {
-                    setToday()
-                }
-            }
-        }
-    }
-    
-    /// Takes the pills that is next due.
-    public func take(setPDSharedData: (() -> ())? = nil) {
-        if let next = nextDue() {
-            take(next, setPDSharedData: setPDSharedData)
-        }
-    }
-    
-    /// Returns the next pill that needs to be taken.
-    public func nextDue() -> MOPill? {
-        return pills.min(by: <)
-    }
-    
-    public func totalDue() -> Int {
-        return pills.reduce(0, {
-            (count: Int, pill: MOPill) -> Int in
-            let r = pill.isExpired() ? 1 + count : count
-            return r
-        })
-    }
-    
-    public func printPills() {
-        for pill in pills {
-            print(pill)
-        }
-    }
-    
-    // MARK: - Private
-
-    /// Resets "taken today" if it is a new day. Else, does nothing.
-    private func loadTakenTodays(for pills: [MOPill]) {
-        for pill in pills {
-            pill.fixTakenToday()
-        }
-        PatchData.save()
-    }
-    
-    /// Creates a new Pill with the given attributes and appends it to the schedule.
-    private func append(using attributes: PillAttributes) -> MOPill? {
-        let type = PDEntity.pill.rawValue
-        if let pill = PatchData.insert(type) as? MOPill {
-            setPill(for: pill, with: attributes)
+    @discardableResult
+    public func insertNew(onSuccess: (() -> ())?) -> Swallowable? {
+        if let pill = store.createNewPill() {
             pills.append(pill)
-            let id = pill.setId()
-            pillMap[id] = pill
+            store.pushLocalChangesToManagedContext([pill], doSave: true)
+            onSuccess?()
+            shareData()
             return pill
         }
         return nil
     }
 
-    /// Load estrogen Id map after changes occur to the schedule.
-    private func loadMap() {
-        pillMap.removeAll()
-        pillMap = pills.reduce([UUID: MOPill]()) {
-            (pillDict, pill) -> [UUID: MOPill] in
-            var dict = pillDict
-            if let id = pill.getId() {
-                dict[id] = pill
-            } else {
-                let id = pill.setId()
-                dict[id] = pill
-            }
-            return dict
+    public func delete(at index: Index) {
+        if let pill = at(index) {
+            pills.remove(at: index)
+            store.delete(pill)
+            shareData()
         }
+    }
+
+    public func reset() {
+        deleteAll()
+        let names = PillStrings.PillTypes.defaultPills
+        pills = names.reduce([]) {
+            (currentPills: [Swallowable], name: String) -> [Swallowable] in
+            if var pill = store.createNewPill(name: name) {
+                pill.timesaday = 1
+                return currentPills + [pill]
+            }
+            return currentPills
+        }
+        store.pushLocalChangesToManagedContext(pills, doSave: true)
+    }
+
+    // MARK: - Public
+
+    public func at(_ index: Index) -> Swallowable? {
+        pills.tryGet(at: index)
+    }
+
+    public func get(by id: UUID) -> Swallowable? {
+        pills.first(where: { p in p.id == id })
+    }
+
+    public func set(at index: Index, with attributes: PillAttributes) {
+        if var pill = at(index) {
+            set(&pill, with: attributes)
+        }
+    }
+
+    public func set(by id: UUID, with attributes: PillAttributes) {
+        if var pill = get(by: id) {
+            set(&pill, with: attributes)
+        }
+    }
+
+    public func swallow(_ pillId: UUID, onSuccess: (() -> ())?) {
+        if let pill = get(by: pillId) {
+            swallow(pill, onSuccess) // Saves
+        }
+    }
+
+    public func swallow(onSuccess: (() -> ())?) {
+        if let pill = nextDue {
+            swallow(pill, onSuccess)
+        }
+    }
+    
+    public func indexOf(_ pill: Swallowable) -> Index? {
+        pills.firstIndex { (_ p: Swallowable) -> Bool in p.id == pill.id }
+    }
+    
+    public func shareData() {
+        if let next = nextDue {
+            sharer.share(nextPill: next)
+        }
+    }
+    
+    // MARK: - Private
+    
+    private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {
+        pill.set(attributes: attributes)
+        store.pushLocalChangesToManagedContext([pill], doSave: true)
+        shareData()
+    }
+
+    private func awaken() {
+        for pill in pills {
+            pill.awaken()
+        }
+        store.pushLocalChangesToManagedContext(pills, doSave: true)
+    }
+    
+    private func swallow(_ pill: Swallowable, _ onSuccess: (() -> ())?) {
+        if pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil {
+            pill.swallow()
+            store.pushLocalChangesToManagedContext([pill], doSave: true)
+            onSuccess?()
+        }
+    }
+    
+    private func deleteAll() {
+        pills.forEach { (_ p: Swallowable) -> () in store.delete(p) }
+        pills = []
     }
 }
