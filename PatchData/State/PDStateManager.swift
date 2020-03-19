@@ -15,6 +15,7 @@ public class PDStateManager: PDStateManaging {
     private let state: PDState
     private let settings: PDSettingsManaging
     private let hormones: HormoneScheduling
+    private lazy var log = PDLog<PDStateManager>()
     
     init(state: PDState, settings: PDSettingsManaging, hormones: HormoneScheduling) {
         self.state = state
@@ -23,10 +24,10 @@ public class PDStateManager: PDStateManaging {
     }
     
     public func checkHormoneForStateChanges(at index: Index) -> Bool {
-        if let hormone = hormones.at(index) {
-            return hormoneHasStateChanges(hormone, at: index, quantity: hormones.count)
-        }
-        return false
+        guard let hormone = hormones.at(index) else { return false }
+        let hasChanges = hormoneHasStateChanges(hormone, at: index, quantity: hormones.count)
+        log.info("Hormone at index \(index) change status: \(hasChanges)")
+        return hasChanges
     }
 
     public func markQuantityAsOld() {
@@ -52,15 +53,25 @@ public class PDStateManager: PDStateManaging {
 
     /// Whether the current state reflects an update-worthy mutation
     private func hormoneHasStateChanges(_ hormone: Hormonal, at index: Index, quantity: Int) -> Bool {
-        var hormoneChanged = false
-        if index < quantity {
-            hormoneChanged = checkHormoneMutationStatus(for: hormone.id, isPlaceholder: hormone.hasSite)
-        }
-        let isGone = state.theQuantityHasDecreased && index >= quantity
-        return state.bodilyMutationsOccurred || hormoneChanged || isGone
+        state.bodilyMutationsOccurred
+            || hormoneChangedFromRemove(index, quantity)
+            || hormoneChangedFromEdit(hormone.id, hormone.hasSite, index, quantity)
     }
     
-    private func checkHormoneMutationStatus(for id: UUID, isPlaceholder: Bool) -> Bool {
-        state.mutatedHormoneIds.contains(id) && state.bodilyMutationsOccurred && !isPlaceholder
+    private func hormoneChangedFromEdit(
+        _ id: UUID,
+        _ isPlaceholder: Bool,
+        _ index: Int,
+        _ quantity: Int
+    ) -> Bool {
+        state.mutatedHormoneIds.contains(id)
+            && state.bodilyMutationsOccurred
+            && !isPlaceholder
+            && index < quantity
+    }
+    
+    private func hormoneChangedFromRemove(_ index: Index, _ quantity: Int) -> Bool {
+        state.theQuantityHasDecreased && index >= quantity
     }
 }
+ 

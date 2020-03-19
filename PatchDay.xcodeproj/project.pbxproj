@@ -1120,14 +1120,6 @@
 			path = Complex;
 			sourceTree = "<group>";
 		};
-		9D72A9142342F3D00030D460 /* State */ = {
-			isa = PBXGroup;
-			children = (
-				B463E1AA211640E90099DE36 /* PDState.swift */,
-			);
-			path = State;
-			sourceTree = "<group>";
-		};
 		9D8A97FB23B28F5C004E20FE /* Stores */ = {
 			isa = PBXGroup;
 			children = (
@@ -1469,11 +1461,11 @@
 			isa = PBXGroup;
 			children = (
 				9D6DB7CE2405FEA900C00711 /* Settings */,
-				9D72A9142342F3D00030D460 /* State */,
 				9D913B7B22FF3BD6001FC03C /* Protocols */,
 				B40CC9A721CCE4AE002364BB /* Resources */,
 				B49A4A4020DB2D4C00F24FC0 /* PDKit.h */,
 				B49A4A4120DB2D4C00F24FC0 /* Info.plist */,
+				B463E1AA211640E90099DE36 /* PDState.swift */,
 				9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */,
 				9D913BA723065676001FC03C /* PDError.swift */,
 				9D78A9E02386354F00058AD9 /* PDConstants.swift */,
