@@ -14,14 +14,11 @@ import PatchData
 class PDSettingsTests: XCTestCase {
 
     private let mockSettingsWriter = MockUserDefaultsWriter()
-    private let state = PDState()
     private let mockHormones = MockHormoneSchedule()
     private let mockSites = MockSiteSchedule()
 
     private func createSettings() -> PDSettings {
-        PDSettings(
-            writer: mockSettingsWriter, state: state, hormones: mockHormones, sites: mockSites
-        )
+        PDSettings(writer: mockSettingsWriter, hormones: mockHormones, sites: mockSites)
     }
 
     func testSetDeliveryMethod_replacesMethod() {
@@ -38,12 +35,6 @@ class PDSettingsTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testSetDeliveryMethod_updatesState() {
-        let settings = createSettings()  // Defaults to Patches
-        settings.setDeliveryMethod(to: .Injections)
-        XCTAssertTrue(state.theDeliveryMethodHasMutated)
-    }
-    
     func testSetDeliveryMethod_resetsSites() {
         let settings = createSettings()
         settings.setDeliveryMethod(to: .Injections)
@@ -73,21 +64,5 @@ class PDSettingsTests: XCTestCase {
         let expected = 4  // fillIn takes a count as the argument (it fills in hormones to reach the new count)
         let actual = mockHormones.fillInCallArgs[0]
         XCTAssertEqual(expected, actual)
-    }
-
-    func testSetQuantity_whenQuantityIsIncreasing_updatesState() {
-        let settings = createSettings()  // Starts out at count of 4
-        settings.setQuantity(to: 2)
-        settings.setQuantity(to: 4)
-        XCTAssertTrue(state.theQuantityHasIncreased)
-        XCTAssertFalse(state.theQuantityHasDecreased)
-    }
-
-    func testSetQuantity_whenQuantityIsDecreasing_deletesHormones() {
-        state.theQuantityHasIncreased = true
-        let settings = createSettings()  // Starts out at count of 4
-        settings.setQuantity(to: 2)
-        XCTAssertFalse(state.theQuantityHasIncreased)
-        XCTAssertTrue(state.theQuantityHasDecreased)
     }
 }

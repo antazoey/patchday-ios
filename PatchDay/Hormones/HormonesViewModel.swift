@@ -13,11 +13,13 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
     let table: HormonesTable
+    static var animationCriteria: HormoneCellAnimationCriteria?
     var hormones: HormoneScheduling? { sdk?.hormones }
 
     init(hormonesTableView: UITableView, source: HormonesViewController) {
         self.table = HormonesTable(hormonesTableView)
         super.init()
+        tryInitAnimationCriteria()
         table.applyTheme(styles?.theme)
         loadAppTabs(source: source)
         reflectThemeInTabBar()
@@ -72,6 +74,12 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     func reflectThemeInTabBar() {
         guard let styles = styles else { return }
         tabs?.reflectTheme(theme: styles.theme)
+    }
+    
+    private func tryInitAnimationCriteria() {
+        guard let sdk = sdk else { return }
+        guard HormonesViewModel.animationCriteria == nil else { return }
+        HormonesViewModel.animationCriteria = HormoneCellAnimationCriteria(sdk: sdk)
     }
 
     private var isFirstLaunch: Bool {

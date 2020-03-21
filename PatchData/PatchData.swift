@@ -25,7 +25,6 @@ public class PatchData: NSObject, PatchDataSDK {
     public var hormones: HormoneScheduling
     public var sites: SiteScheduling
     public var pills: PillScheduling
-    public var stateManager: PDStateManaging
     
     public init(
         settings: PDSettingsManaging,
@@ -33,7 +32,6 @@ public class PatchData: NSObject, PatchDataSDK {
         hormones: HormoneScheduling,
         pills: PillScheduling,
         sites: SiteScheduling,
-        stateManager: PDStateManaging,
         coreData: PDCoreDataWrapping,
         hormoneDataSharer: HormoneDataSharing
     ) {
@@ -42,7 +40,6 @@ public class PatchData: NSObject, PatchDataSDK {
         self.hormones = hormones
         self.pills = pills
         self.sites = sites
-        self.stateManager = stateManager
         self.coreData = coreData
         self.hormoneDataSharer = hormoneDataSharer
         super.init()
@@ -57,9 +54,7 @@ public class PatchData: NSObject, PatchDataSDK {
 
         let dataSharer = DataSharer()
         let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
-        let state = PDState()
         let userDefaultsWriter = UserDefaultsWriter(
-            state: state,
             handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
             getSiteCount: { () in siteStore.siteCount }
         )
@@ -76,14 +71,10 @@ public class PatchData: NSObject, PatchDataSDK {
         let hormones = HormoneSchedule(
             store: hormoneStore,
             hormoneDataSharer: hormoneDataSharer,
-            state: state,
             settings: userDefaultsWriter
         )
         let settings = PDSettings(
-            writer: userDefaultsWriter, state: state, hormones: hormones, sites: sites
-        )
-        let stateManager = PDStateManager(
-            state: state, settings: settings, hormones: hormones
+            writer: userDefaultsWriter, hormones: hormones, sites: sites
         )
         
         // ******************************************************
@@ -107,7 +98,6 @@ public class PatchData: NSObject, PatchDataSDK {
             hormones: hormones,
             pills: pills,
             sites: sites,
-            stateManager: stateManager,
             coreData: storeDataStackWrapper,
             hormoneDataSharer: hormoneDataSharer
         )

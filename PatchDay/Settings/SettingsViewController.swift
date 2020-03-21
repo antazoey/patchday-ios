@@ -82,7 +82,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         assignSelfAsDelegateForPickers()
         loadViewModelIfNil()
         super.viewWillAppear(animated)
-        viewModel?.sdk?.stateManager.markQuantityAsOld()
         applyTheme()
     }
 

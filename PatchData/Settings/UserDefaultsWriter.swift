@@ -13,7 +13,6 @@ import PDKit
 public class UserDefaultsWriter: UserDefaultsWriting {
 
     // Dependencies
-    private let state: PDState
     private let handler: UserDefaultsWriteHandler
 
     // Defaults
@@ -28,8 +27,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 
     private var getSiteCount: () -> Int
     
-    init(state: PDState, handler: UserDefaultsWriteHandler, getSiteCount: @escaping () -> Int) {
-        self.state = state
+    init(handler: UserDefaultsWriteHandler, getSiteCount: @escaping () -> Int) {
         self.handler = handler
         self.getSiteCount = getSiteCount
         typealias D = DefaultSettings
@@ -75,7 +73,6 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         let newQuantity = newValue == .Injections ? Quantity.One.rawValue : Quantity.Three.rawValue
         handler.replace(&deliveryMethod, to: rawValue)
         handler.replace(&quantity, to: newQuantity)
-        state.theDeliveryMethodHasMutated = true
     }
     
     @objc public func replaceStoredQuantity(to newValue: Int) {

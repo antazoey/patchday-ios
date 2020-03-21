@@ -163,7 +163,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool=true) {
         if let site = selectedSite {
             let isSuggested = site.id == sdk?.sites.suggested?.id
-            hormones.setSite(by: hormone.id, with: site, bumpSiteIndex: isSuggested, doSave: doSave)
+            hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested, doSave: doSave)
             return
         }
         log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")

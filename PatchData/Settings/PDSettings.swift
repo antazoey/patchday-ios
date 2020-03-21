@@ -13,18 +13,15 @@ import PDKit
 public class PDSettings: PDSettingsManaging {
 
     private let writer: UserDefaultsWriting
-    private var state: PDState
     private let hormones: HormoneScheduling
     private let sites: SiteScheduling
 
     init(
         writer: UserDefaultsWriting,
-        state: PDState,
         hormones: HormoneScheduling,
         sites: SiteScheduling
     ) {
         self.writer = writer
-        self.state = state
         self.hormones = hormones
         self.sites = sites
     }
@@ -55,7 +52,6 @@ public class PDSettings: PDSettingsManaging {
         writer.replaceStoredDeliveryMethod(to: newMethod)
         sites.reset()
         hormones.shareData()
-        state.theDeliveryMethodHasMutated = true
     }
 
     public func setQuantity(to newQuantity: Int) {
@@ -64,11 +60,7 @@ public class PDSettings: PDSettingsManaging {
             let oldQuantity = writer.quantity.rawValue
             if newQuantity < oldQuantity {
                 hormones.delete(after: newQuantity - 1)
-                state.theQuantityHasDecreased = true
-                state.theQuantityHasIncreased = false
             } else if newQuantity > oldQuantity {
-                state.theQuantityHasIncreased = true
-                state.theQuantityHasDecreased = false
                 hormones.fillIn(to: newQuantity)
             }
             writer.replaceStoredQuantity(to: newQuantity)

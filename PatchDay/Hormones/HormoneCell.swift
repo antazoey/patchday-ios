@@ -25,45 +25,22 @@ class HormoneCell: TableCell {
         applyTheme(at: row)
         guard let sdk = viewModel.sdk else { return self }
         let quantity = sdk.settings.quantity
-        let hormoneCellState = HormoneCell.convertHormoneIndexToCellState(
-            row, hormoneLimit: quantity.rawValue
-        )
-        handleHormoneFromState(hormoneCellState, sdk, hormone, row)
+        if row < quantity.rawValue && row >= 0 {
+            attachToModel(sdk, hormone, row)
+        } else {
+            reset()
+        }
         return self
     }
 
-    private static func convertHormoneIndexToCellState(_ index: Index, hormoneLimit: Int) -> HormoneCellState {
-        if index < hormoneLimit && index >= 0 {
-            return .Occupied
-        } else if index >= hormoneLimit && index <= SupportedHormoneUpperQuantityLimit {
-            return .Waiting
-        } else {
-            return .Empty
-        }
-    }
-
-    private func handleHormoneFromState(
-        _ state: HormoneCellState, _ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index
-    ) {
-        switch state {
-        case .Occupied: appearAsOccupiedState(sdk, hormone, hormoneIndex)
-        case .Waiting: appearAsWaitingState(sdk, hormoneIndex)
-        case .Empty: reset()
-        }
-    }
-
-    private func appearAsOccupiedState(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
+    private func attachToModel(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
         let method = sdk.settings.deliveryMethod.value
         loadDateLabel(for: hormone)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
-        loadSiteComponents(sdk, hormone, hormoneIndex)
+        loadSiteViews(sdk, hormone, hormoneIndex)
         selectionStyle = .default
     }
 
-    private func appearAsWaitingState(_ sdk: PatchDataSDK, _ hormoneIndex: Index) {
-        animate(at: hormoneIndex, theme: sdk.settings.theme.value)
-    }
-    
     private func setDateLabel(_ title: String?) {
         self.dateLabel.textColor =  styles?.theme[.text]
         self.dateLabel.text = title
@@ -101,7 +78,7 @@ class HormoneCell: TableCell {
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
 
-    private func loadSiteComponents(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
+    private func loadSiteViews(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
         let theme = sdk.settings.theme.value
         let method = sdk.settings.deliveryMethod.value
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
@@ -109,21 +86,33 @@ class HormoneCell: TableCell {
         )
         let siteImage = PDImages.getSiteImage(from: siteImageDeterminationParams)
         let cellTitle = ColonStrings.getDateTitle(for: hormone)
-        if sdk.stateManager.checkHormoneForStateChanges(at: hormoneIndex) {
+        if checkHormoneForStateChanges(hormone, siteImage, hormoneIndex) {
             animate(at: hormoneIndex, theme: theme, newImage: siteImage, newTitle: cellTitle)
         } else {
             stateImage.image = siteImage
         }
-        stateImage.isHidden = false
+    }
+    
+    private func checkHormoneForStateChanges(_ hormone: Hormonal, _ image: UIImage, _ hormoneIndex: Index) -> Bool {
+        HormonesViewModel.animationCriteria?.shouldAnimate(
+            hormoneId: hormone.id, siteId: hormone.siteId, index: hormoneIndex
+        ) ?? false
     }
 
     private func animate(at index: Index, theme: PDTheme, newImage: UIImage?=nil, newTitle: String?=nil) {
-        UIView.transition(
-            with: stateImage as UIView,
-            duration: 0.75,
-            options: .transitionCrossDissolve,
-            animations: { self.stateImage.image = newImage },
-            completion: nil
-        )
+        self.stateImage.image = nil
+        self.stateImage.alpha = 0
+        UIView.animate(withDuration: 0.3) {
+            self.stateImage.alpha = 1
+            self.stateImage.isHidden = false
+            self.stateImage.image = newImage
+        }
+//        UIView.transition(
+//            with: stateImage as UIView,
+//            duration: 0.75,
+//            options: .transitionCrossDissolve,
+//            animations: { self.stateImage.image = newImage },
+//            completion: nil
+//        )
     }
 }

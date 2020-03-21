@@ -16,22 +16,15 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     private var store: HormoneStoring
     private let dataSharer: HormoneDataSharing
-    private var state: PDState
     private let settings: UserDefaultsWriting
     private var hormones: [Hormonal]
 
     private lazy var log = PDLog<HormoneSchedule>()
     
-    init(
-        store: HormoneStoring,
-        hormoneDataSharer: HormoneDataSharing,
-        state: PDState,
-        settings: UserDefaultsWriting
-    ) {
+    init(store: HormoneStoring, hormoneDataSharer: HormoneDataSharing, settings: UserDefaultsWriting) {
         let store = store
         self.store = store
         self.dataSharer = hormoneDataSharer
-        self.state = state
         self.settings = settings
         self.hormones = HormoneSchedule.getHormoneList(from: store, settings: settings)
         super.init()
@@ -65,12 +58,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
     @discardableResult
     public func insertNew() -> Hormonal? {
-        if let hormone = store.createNewHormone(HormoneScheduleProperties(settings)) {
-            hormones.append(hormone)
-            sort()
-            return hormone
-        }
-        return nil
+        let props = HormoneScheduleProperties(settings)
+        guard let hormone = store.createNewHormone(props) else { return nil }
+        hormones.append(hormone)
+        sort()
+        return hormone
     }
     
     public func forEach(doThis: (Hormonal) -> ()) {
@@ -78,18 +70,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public func sort() {
-        hormones.sort() {
-            $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault()
-        }
+        hormones.sort() { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
     }
 
     @discardableResult
     public func resetIfEmpty() -> Int {
-        if count == 0 {
-            log.info("No stored hormones - resetting to default")
-            return reset()
-        }
-        return count
+        guard count == 0 else { return count }
+        log.info("No stored hormones - resetting to default")
+        return reset()
     }
     
     @discardableResult
@@ -141,46 +129,40 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormones.first(where: { h in h.id == id })
     }
 
-    public func set(by id: UUID, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
-        if var hormone = get(by: id) {
-            set(&hormone, date: date, site: site, bumpSiteIndex: bumpSiteIndex, doSave: doSave)
+    public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+        guard var hormone = get(by: id) else { return }
+        set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex, doSave: doSave)
+    }
+
+    public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+        guard var hormone = at(index) else { return }
+        set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex, doSave: doSave)
+    }
+
+    public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+        guard var hormone = at(index) else { return }
+        setSite(&hormone, with: site, doSave: doSave)
+        if incrementSiteIndex {
+            settings.incrementStoredSiteIndex()
         }
     }
 
-    public func set(at index: Index, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
-        if var hormone = at(index) {
-            set(&hormone, date: date, site: site, bumpSiteIndex: bumpSiteIndex, doSave: doSave)
-        }
-    }
-
-    public func setSite(at index: Index, with site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
-        if var hormone = at(index) {
-            setSite(&hormone, with: site, doSave: doSave)
-            if bumpSiteIndex {
-                settings.incrementStoredSiteIndex()
-            }
-        }
-    }
-
-    public func setSite(by id: UUID, with site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
-        if var hormone = get(by: id) {
-            setSite(&hormone, with: site, doSave: doSave)
-            if bumpSiteIndex {
-                settings.incrementStoredSiteIndex()
-            }
+    public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+        guard var hormone = get(by: id) else { return }
+        setSite(&hormone, with: site, doSave: doSave)
+        if incrementSiteIndex {
+            settings.incrementStoredSiteIndex()
         }
     }
 
     public func setDate(at index: Index, with date: Date, doSave: Bool) {
-        if var hormone = at(index) {
-            setDate(&hormone, with: date, doSave: doSave)
-        }
+        guard var hormone = at(index) else { return }
+        setDate(&hormone, with: date, doSave: doSave)
     }
 
     public func setDate(by id: UUID, with date: Date, doSave: Bool) {
-        if var hormone = get(by: id) {
-            setDate(&hormone, with: date, doSave: doSave)
-        }
+        guard var hormone = get(by: id) else { return }
+        setDate(&hormone, with: date, doSave: doSave)
     }
 
     public func indexOf(_ hormone: Hormonal) -> Index? {
@@ -195,9 +177,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     public func shareData() {
-        if let nextHormone = next {
-            dataSharer.share(nextHormone: nextHormone)
-        }
+        guard let nextHormone = next else { return }
+        dataSharer.share(nextHormone: nextHormone)
     }
     
     // MARK: - Private
@@ -207,18 +188,15 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
     
     private var hasSites: Bool {
-        let siteCount = hormones.filter {
-            $0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "")
-        }.count
-        return siteCount > 0
+        hormones.filter {$0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "")}.count > 0
     }
     
-    private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
+    private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
         hormone.siteId = site.id
         hormone.date = date
         sort()
         pushFromDateAndSiteChange(hormone, doSave: doSave)
-        if bumpSiteIndex {
+        if incrementSiteIndex {
             settings.incrementStoredSiteIndex()
         }
     }
@@ -226,9 +204,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private func setSite(_ hormone: inout Hormonal, with site: Bodily, doSave: Bool) {
         hormone.siteId = site.id
         hormone.siteName = site.name
-        state.bodilyMutationsOccurred = true
-        state.siteChangedButDateDidNotMutated = true
-        state.bodilyMutationsOccurred = true
         shareData()
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
@@ -237,7 +212,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormone.date = date
         sort()
         shareData()
-        state.siteChangedButDateDidNotMutated = false
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
     }
 
@@ -248,7 +222,5 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {
         store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
         shareData()
-        state.siteChangedButDateDidNotMutated = false
-        state.bodilyMutationsOccurred = true
     }
 }

@@ -51,19 +51,19 @@ public class MockHormoneSchedule: HormoneScheduling {
         nil
     }
     
-    public func set(by id: UUID, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
+    public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
         
     }
     
-    public func set(at index: Index, date: Date, site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
+    public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
         
     }
     
-    public func setSite(by id: UUID, with site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
+    public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
         
     }
     
-    public func setSite(at index: Index, with site: Bodily, bumpSiteIndex: Bool, doSave: Bool) {
+    public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
         
     }
 

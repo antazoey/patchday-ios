@@ -25,9 +25,6 @@ public protocol PatchDataSDK {
     /// The Pills schedule.
     var pills: PillScheduling { get }
     
-    /// A state manager for recent mutations.
-    var stateManager: PDStateManaging { get }
-    
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
 }
