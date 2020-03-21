@@ -17,6 +17,13 @@ struct HormoneCellAnimationTrackingProperties {
 
 typealias HormoneAnimationTracker = [UUID: HormoneCellAnimationTrackingProperties]
 
+enum AnimationCheckResult {
+    case NoAnimationNeeded
+    case AnimateFromEdit
+    case AnimateFromAdd
+    case AnimateFromRemove
+}
+
 
 class HormoneCellAnimationCriteria {
     var tracker: HormoneAnimationTracker = [:]
@@ -32,8 +39,19 @@ class HormoneCellAnimationCriteria {
         }
     }
     
-    func shouldAnimate(hormoneId: UUID, siteId: UUID?, index: Index) -> Bool {
-        guard let props = tracker[hormoneId] else { return false }
-        return props.siteId != siteId || props.index != index
+    func shouldAnimate(hormone: Hormonal, siteId: UUID?, index: Index) -> AnimationCheckResult {
+        guard let props = tracker[hormone.id] else {
+            tracker[hormone.id] = HormoneCellAnimationTrackingProperties(siteId: siteId, index: index)
+            return .AnimateFromAdd
+        }
+        return shouldAnimateFromEdit(props, siteId, index)
+    }
+    
+    private func shouldAnimateFromEdit(
+        _ props: HormoneCellAnimationTrackingProperties,
+        _ siteId: UUID?,
+        _ index: Index
+    ) -> AnimationCheckResult {
+        props.siteId != siteId || props.index != index ? .AnimateFromEdit : .NoAnimationNeeded
     }
 }

@@ -12,7 +12,7 @@ import PDKit
 
 public class PDImages: NSObject {
     
-    override public var description: String { "Read-only app images." }
+    override public var description: String { "Read-only app image static accessor." }
     
     // Placeholder
     private static let lightPlaceholderPatch = { UIImage(named: "Add Patch")! }()
@@ -145,7 +145,6 @@ public class PDImages: NSObject {
         ]
     }()
 
-    // Pills
     static let pill = { UIImage(named: "Pill")! }()
     
     static func getAvailableSiteImages(_ params: SiteImageDeterminationParameters) -> [UIImage] {
@@ -168,11 +167,31 @@ public class PDImages: NSObject {
 
     /// Coverts SiteName a.k.a String to corresponding hormone image.
     static func getSiteImage(from params: SiteImageDeterminationParameters) -> UIImage {
-        tryGetSystemImage(from: params) ?? getPlaceholderHormoneImage(params)
+        tryGetSystemImage(from: params) ?? tryGetCustomImage(from: params) ?? getPlaceholderHormoneImage(params)
     }
 
     // MARK: - Private
 
+    private static func tryGetSystemImage(from params: SiteImageDeterminationParameters) -> UIImage? {
+        guard let siteName = params.siteName else { return nil }
+        switch params.imageType {
+        case .LightPatch: return siteNameToLightPatchImageDict[siteName]
+        case .DarkPatch: return siteNameToDarkPatchImageDict[siteName]
+        case .LightInjection: return siteNameToLightInjectionImageDict[siteName]
+        case .DarkInjection: return siteNameToDarkInjectionImageDict[siteName]
+        }
+    }
+
+    private static func tryGetCustomImage(from params: SiteImageDeterminationParameters) -> UIImage? {
+        guard let _ = params.siteName else { return nil }
+        switch params.imageType {
+        case .LightPatch: return lightCustomPatch
+        case .DarkPatch: return darkCustomPatch
+        case .LightInjection: return lightCustomInjection
+        case .DarkInjection: return darkCustomInjection
+        }
+    }
+    
     private static func getPlaceholderHormoneImage(_ params: SiteImageDeterminationParameters) -> UIImage {
         switch params.imageType {
         case .DarkPatch: return darkPlaceholderPatch
@@ -180,36 +199,5 @@ public class PDImages: NSObject {
         case .LightInjection: return lightPlaceholderInjection
         case .DarkInjection: return darkPlaceholderInjection
         }
-    }
-
-    private static func tryGetSystemImage(from params: SiteImageDeterminationParameters) -> UIImage? {
-        if let siteImage = tryGetSystemSiteImage(from: params) {
-            return siteImage
-        }
-        return tryGetCustomImage(from: params)
-    }
-
-    private static func tryGetSystemSiteImage(from params: SiteImageDeterminationParameters) -> UIImage? {
-        if let siteName = params.siteName {
-            switch params.imageType {
-            case .LightPatch: return siteNameToLightPatchImageDict[siteName]
-            case .DarkPatch: return siteNameToDarkPatchImageDict[siteName]
-            case .LightInjection: return siteNameToLightInjectionImageDict[siteName]
-            case .DarkInjection: return siteNameToDarkInjectionImageDict[siteName]
-            }
-        }
-        return nil
-    }
-
-    private static func tryGetCustomImage(from params: SiteImageDeterminationParameters) -> UIImage? {
-        if let _ = params.siteName {
-            switch params.imageType {
-            case .LightPatch: return lightCustomPatch
-            case .DarkPatch: return darkCustomPatch
-            case .LightInjection: return lightCustomInjection
-            case .DarkInjection: return darkCustomInjection
-            }
-        }
-        return nil
     }
 }

@@ -85,34 +85,60 @@ class HormoneCell: TableCell {
             hormone: hormone, deliveryMethod: method, theme: theme
         )
         let siteImage = PDImages.getSiteImage(from: siteImageDeterminationParams)
-        let cellTitle = ColonStrings.getDateTitle(for: hormone)
-        if checkHormoneForStateChanges(hormone, siteImage, hormoneIndex) {
-            animate(at: hormoneIndex, theme: theme, newImage: siteImage, newTitle: cellTitle)
-        } else {
-            stateImage.image = siteImage
+        let animationCheckResult = checkHormoneForStateChanges(hormone, siteImage, hormoneIndex)
+        setSiteImage(
+            at: hormoneIndex,
+            animationCheckResult: animationCheckResult,
+            newImage: siteImage
+        )
+    }
+    
+    private func checkHormoneForStateChanges(
+        _ hormone: Hormonal, _ image: UIImage, _ hormoneIndex: Index
+    ) -> AnimationCheckResult {
+        guard let criteria = HormonesViewModel.animationCriteria else { return .NoAnimationNeeded }
+        return criteria.shouldAnimate(hormone: hormone, siteId: hormone.siteId, index: hormoneIndex)
+    }
+
+    private func setSiteImage(
+        at index: Index, animationCheckResult: AnimationCheckResult, newImage: UIImage?=nil
+    ) {
+        guard let newImage = newImage else {
+            animateRemovedCell()
+            return
+        }
+        switch animationCheckResult {
+        case .AnimateFromAdd: animateNewCell(newImage)
+        case .AnimateFromEdit: animateEdittedCell(newImage)
+        case .AnimateFromRemove: animateRemovedCell()
+        case .NoAnimationNeeded: self.stateImage.image = newImage
         }
     }
     
-    private func checkHormoneForStateChanges(_ hormone: Hormonal, _ image: UIImage, _ hormoneIndex: Index) -> Bool {
-        HormonesViewModel.animationCriteria?.shouldAnimate(
-            hormoneId: hormone.id, siteId: hormone.siteId, index: hormoneIndex
-        ) ?? false
+    private func animateRemovedCell() {
+        UIView.animate(withDuration: 0.75) {
+            self.stateImage.alpha = 0
+            self.stateImage.image = nil
+        }
     }
-
-    private func animate(at index: Index, theme: PDTheme, newImage: UIImage?=nil, newTitle: String?=nil) {
-        self.stateImage.image = nil
+    
+    private func animateNewCell(_ image: UIImage) {
+        self.stateImage.isHidden = true
         self.stateImage.alpha = 0
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.75) {
             self.stateImage.alpha = 1
             self.stateImage.isHidden = false
-            self.stateImage.image = newImage
+            self.stateImage.image = image
         }
-//        UIView.transition(
-//            with: stateImage as UIView,
-//            duration: 0.75,
-//            options: .transitionCrossDissolve,
-//            animations: { self.stateImage.image = newImage },
-//            completion: nil
-//        )
+    }
+    
+    private func animateEdittedCell(_ image: UIImage) {
+        UIView.transition(
+            with: stateImage as UIView,
+            duration: 0.75,
+            options: .transitionCrossDissolve,
+            animations: { self.stateImage.image = image },
+            completion: nil
+        )
     }
 }
