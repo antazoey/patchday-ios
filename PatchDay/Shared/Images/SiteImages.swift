@@ -1,5 +1,5 @@
 //
-//  PDImages.swift
+//  SiteImages.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 6/3/17.
@@ -10,53 +10,55 @@ import UIKit
 import PDKit
 
 
-public class PDImages: NSObject {
+public class SiteImages: NSObject {
     
     override public var description: String { "Read-only app image static accessor." }
     
     // Placeholder
-    private static let lightPlaceholderPatch = { UIImage(named: "Add Patch")! }()
-    private static let darkPlaceholderPatch = { UIImage(named: "Add Patch Dark")! }()
-    private static var lightPlaceholderInjection = { UIImage(named: "Add Injection")! }()
-    private static var darkPlaceholderInjection = { UIImage(named: "Add Injection Dark")! }()
+    private static var lightPlaceholderPatch: UIImage { initImage("Add Patch") }
+    private static var darkPlaceholderPatch: UIImage { initImage("Add Patch Dark") }
+    private static var lightPlaceholderInjection: UIImage { initImage("Add Injection") }
+    private static var darkPlaceholderInjection: UIImage { initImage("Add Injection Dark") }
     
     // Patch site images
-    private static let lightPatchRightGlute = { UIImage(named: "Right Glute")! }()
-    private static let darkPatchRightGlute = { UIImage(named: "Right Glute Dark")! }()
-    private static let lightPatchLeftGlute = { UIImage(named: "Left Glute")! }()
-    private static let darkPatchLeftGlute = { UIImage(named: "Left Glute Dark")! }()
-    private static let lightPatchRightAbdomen = { UIImage(named: "Right Abdomen")! }()
-    private static let darkPatchRightAbdomen = { UIImage(named: "Right Abdomen Dark")! }()
-    private static let lightPatchLeftAbdomen = { UIImage(named: "Left Abdomen")! }()
-    private static let darkPatchLeftAbdomen = { UIImage(named: "Left Abdomen Dark")! }()
-    private static let lightCustomPatch = { UIImage(named: "Custom Patch")! }()
-    private static let darkCustomPatch = { UIImage(named: "Custom Patch Dark")! }()
+    private static var lightPatchRightGlute: UIImage { initImage("Right Glute") }
+    private static var darkPatchRightGlute: UIImage { initImage("Right Glute Dark") }
+    private static var lightPatchLeftGlute: UIImage { initImage("Left Glute") }
+    private static var darkPatchLeftGlute: UIImage { initImage("Left Glute Dark") }
+    private static var lightPatchRightAbdomen: UIImage { initImage("Right Abdomen") }
+    private static var darkPatchRightAbdomen: UIImage { initImage("Right Abdomen Dark") }
+    private static var lightPatchLeftAbdomen: UIImage { initImage("Left Abdomen") }
+    private static var darkPatchLeftAbdomen: UIImage { initImage("Left Abdomen Dark") }
+    private static var lightCustomPatch: UIImage { initImage("Custom Patch") }
+    private static var darkCustomPatch: UIImage { initImage("Custom Patch Dark") }
+    
     
     // Injection site images
-    private static let lightInjectionLeftQuad = { UIImage(named: "Left Quad")! }()
-    private static let darkInjectionLeftQuad = { UIImage(named: "Left Quad Dark")! }()
-    private static let lightInjectionRightQuad = { UIImage(named: "Right Quad")! }()
-    private static let darkInjectionRightQuad = { UIImage(named: "Right Quad Dark")! }()
-    private static let lightInjectionLeftGlute = { UIImage(named: "Left Injection Glute")! }()
-    private static let darkInjectionLeftGlute = { UIImage(named: "Left Injection Glute Dark")! }()
-    private static let lightInjectionGluteRight = { UIImage(named: "Right Injection Glute")! }()
-    private static let darkInjectionGluteRight = { UIImage(named: "Right Injection Glute Dark")! }()
-    private static let lightInjectionLeftDelt = { UIImage(named: "Left Delt")! } ()
-    private static let darkInjectionLeftDelt = { UIImage(named: "Left Delt Dark")! } ()
-    private static let lightInjectionRightDelt = { UIImage(named: "Right Delt")! }()
-    private static let darkInjectionRightDelt = { UIImage(named: "Right Delt Dark")! }()
-    private static let lightCustomInjection = { UIImage(named: "Custom Injection")! }()
-    private static let darkCustomInjection = { UIImage(named: "Custom Injection Dark")! }()
-
-    private static let lightPatchImages = {
+    
+    private static var lightInjectionLeftQuad: UIImage { initImage("Left Quad") }
+    private static var darkInjectionLeftQuad: UIImage { initImage("Left Quad Dark") }
+    private static var lightInjectionRightQuad: UIImage { initImage("Right Quad") }
+    private static var darkInjectionRightQuad: UIImage { initImage("Right Quad Dark") }
+    private static var lightInjectionLeftGlute: UIImage { initImage("Left Injection Glute") }
+    private static var darkInjectionLeftGlute: UIImage { initImage("Left Injection Glute Dark") }
+    private static var lightInjectionGluteRight: UIImage { initImage("Right Injection Glute") }
+    private static var darkInjectionGluteRight: UIImage { initImage("Right Injection Glute Dark") }
+    private static var lightInjectionLeftDelt: UIImage { initImage("Left Delt") }
+    private static var darkInjectionLeftDelt: UIImage { initImage("Left Delt Dark") }
+    private static var lightInjectionRightDelt: UIImage { initImage("Right Delt") }
+    private static var darkInjectionRightDelt: UIImage { initImage("Right Delt Dark") }
+    private static var lightCustomInjection: UIImage { initImage("Custom Injection") }
+    private static var darkCustomInjection: UIImage { initImage("Custom Injection Dark") }
+    
+    private static var lightPatchImages: [UIImage] {
         [lightPatchRightGlute, lightPatchLeftGlute, lightPatchRightAbdomen, lightPatchLeftAbdomen, lightCustomPatch]
-    }()
+    }
 
-    private static let darkPatchImages = {
+    private static var darkPatchImages: [UIImage] {
         [darkPatchRightGlute, darkPatchLeftGlute, darkPatchRightAbdomen, darkPatchLeftAbdomen, darkCustomPatch]
-    }()
+    }
 
-    private static let lightInjectionImages = {
+    private static var lightInjectionImages: [UIImage] {
         [
             lightInjectionRightQuad,
             lightInjectionLeftQuad,
@@ -66,9 +68,9 @@ public class PDImages: NSObject {
             lightInjectionRightDelt,
             lightCustomInjection
         ]
-    }()
+    }
 
-    private static let darkInjectionImages = {
+    private static var darkInjectionImages: [UIImage] {
         [
             darkInjectionRightQuad,
             darkInjectionLeftQuad,
@@ -78,9 +80,9 @@ public class PDImages: NSObject {
             darkInjectionRightDelt,
             darkCustomInjection
         ]
-    }()
+    }
 
-    private static let imageToSiteNameDict = {
+    private static var imageToSiteNameDict: [UIImage: SiteName] {
         [
             lightPatchRightGlute : SiteStrings.SiteNames.rightGlute,
             darkPatchRightGlute : SiteStrings.SiteNames.rightGlute,
@@ -103,27 +105,27 @@ public class PDImages: NSObject {
             lightInjectionLeftDelt : SiteStrings.SiteNames.leftDelt,
             darkInjectionLeftDelt : SiteStrings.SiteNames.leftDelt
         ]
-    }()
+    }
 
-    private static let siteNameToLightPatchImageDict = {
+    private static var siteNameToLightPatchImageDict: [SiteName: UIImage] {
         [
             SiteStrings.SiteNames.rightGlute: lightPatchRightGlute,
             SiteStrings.SiteNames.leftGlute: lightPatchLeftGlute,
             SiteStrings.SiteNames.rightAbdomen: lightPatchRightAbdomen,
             SiteStrings.SiteNames.leftAbdomen: lightPatchLeftAbdomen
         ]
-    }()
+    }
 
-    private static let siteNameToDarkPatchImageDict = {
+    private static var siteNameToDarkPatchImageDict: [SiteName: UIImage] {
         [
             SiteStrings.SiteNames.rightGlute: darkPatchRightGlute,
             SiteStrings.SiteNames.leftGlute: darkPatchLeftGlute,
             SiteStrings.SiteNames.rightAbdomen: darkPatchRightAbdomen,
             SiteStrings.SiteNames.leftAbdomen: darkPatchLeftAbdomen
         ]
-    }()
+    }
 
-    private static let siteNameToLightInjectionImageDict = {
+    private static var siteNameToLightInjectionImageDict: [SiteName: UIImage] {
         [
             SiteStrings.SiteNames.rightGlute: lightInjectionGluteRight,
             SiteStrings.SiteNames.leftGlute: lightInjectionLeftGlute,
@@ -132,9 +134,9 @@ public class PDImages: NSObject {
             SiteStrings.SiteNames.leftQuad: lightInjectionLeftQuad,
             SiteStrings.SiteNames.rightQuad: lightInjectionRightQuad
         ]
-    }()
+    }
 
-    private static let siteNameToDarkInjectionImageDict = {
+    private static var siteNameToDarkInjectionImageDict: [SiteName: UIImage] {
         [
             SiteStrings.SiteNames.rightGlute: darkInjectionGluteRight,
             SiteStrings.SiteNames.leftGlute: darkInjectionLeftGlute,
@@ -143,11 +145,17 @@ public class PDImages: NSObject {
             SiteStrings.SiteNames.leftQuad: darkInjectionLeftQuad,
             SiteStrings.SiteNames.rightQuad: darkInjectionRightQuad
         ]
-    }()
+    }
 
-    static let pill = { UIImage(named: "Pill")! }()
+    static var pill: UIImage { initImage("Pill") }
     
-    static func getAvailableSiteImages(_ params: SiteImageDeterminationParameters) -> [UIImage] {
+    private static func initImage(_ name: String) -> UIImage {
+        guard let image = UIImage(named: name) else { return UIImage() }
+        image.accessibilityIdentifier = name
+        return image
+    }
+    
+    static func getAllAvailable(_ params: SiteImageDeterminationParameters) -> [UIImage] {
         switch params.imageType {
         case .LightPatch: return lightPatchImages
         case .DarkPatch: return darkPatchImages
@@ -156,23 +164,22 @@ public class PDImages: NSObject {
         }
     }
     
-    static func isPlaceholderImage(_ img: UIImage) -> Bool {
+    static func isPlaceholder(_ img: UIImage) -> Bool {
         img == lightPlaceholderPatch || img == lightPlaceholderInjection
     }
     
     /// Converts patch image to SiteName a.k.a String
-    static func getSiteName(from image: UIImage) -> SiteName {
+    static func getName(from image: UIImage) -> SiteName {
         imageToSiteNameDict[image] ?? SiteStrings.NewSite
     }
 
-    /// Coverts SiteName a.k.a String to corresponding hormone image.
-    static func getSiteImage(from params: SiteImageDeterminationParameters) -> UIImage {
-        tryGetSystemImage(from: params) ?? tryGetCustomImage(from: params) ?? getPlaceholderHormoneImage(params)
+    static func get(from params: SiteImageDeterminationParameters) -> UIImage {
+        tryGetForProvided(from: params) ?? tryGetForCustom(from: params) ?? getForPlaceholderHormone(params)
     }
 
     // MARK: - Private
 
-    private static func tryGetSystemImage(from params: SiteImageDeterminationParameters) -> UIImage? {
+    private static func tryGetForProvided(from params: SiteImageDeterminationParameters) -> UIImage? {
         guard let siteName = params.siteName else { return nil }
         switch params.imageType {
         case .LightPatch: return siteNameToLightPatchImageDict[siteName]
@@ -182,7 +189,7 @@ public class PDImages: NSObject {
         }
     }
 
-    private static func tryGetCustomImage(from params: SiteImageDeterminationParameters) -> UIImage? {
+    private static func tryGetForCustom(from params: SiteImageDeterminationParameters) -> UIImage? {
         guard let _ = params.siteName else { return nil }
         switch params.imageType {
         case .LightPatch: return lightCustomPatch
@@ -192,7 +199,7 @@ public class PDImages: NSObject {
         }
     }
     
-    private static func getPlaceholderHormoneImage(_ params: SiteImageDeterminationParameters) -> UIImage {
+    private static func getForPlaceholderHormone(_ params: SiteImageDeterminationParameters) -> UIImage {
         switch params.imageType {
         case .DarkPatch: return darkPlaceholderPatch
         case .LightPatch: return lightPlaceholderPatch

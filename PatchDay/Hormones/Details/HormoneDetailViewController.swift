@@ -53,27 +53,26 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
 
     static func create(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailViewController? {
-        let id = ViewControllerIds.HormoneDetail
-        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController {
-            return hormoneVC.initWithHormone(hormone)
-        }
-        return nil
+        let vc = create(source)
+        return vc?.initWithHormone(hormone)
     }
 
     static func create(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailViewController? {
-        let id = ViewControllerIds.HormoneDetail
-        if let hormoneVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController {
-            return hormoneVC.initWithViewModel(viewModel)
-        }
-        return nil
+        let vc = create(source)
+        return vc?.initWithViewModel(viewModel)
     }
     
-    fileprivate func initWithHormone(_ hormone: Hormonal) -> HormoneDetailViewController {
+    private static func create(_ source: UIViewController) -> HormoneDetailViewController? {
+        let id = ViewControllerIds.HormoneDetail
+        return source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController
+    }
+    
+    private func initWithHormone(_ hormone: Hormonal) -> HormoneDetailViewController {
         let viewModel = HormoneDetailViewModel(hormone, { () in self.sitePicker.reloadAllComponents() })
         return initWithViewModel(viewModel)
     }
 
-    fileprivate func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailViewController {
+    private func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailViewController {
         self.viewModel = viewModel
         return self
     }
@@ -92,18 +91,17 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     @objc func closeTextField() {
-        if let viewModel = viewModel {
-            let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
-            typeSiteButton.setTitle(ActionStrings._Type)
-            selectSiteTextField.endEditing(true)
-            selectSiteTextField.isEnabled = true
-            selectDateButton.isEnabled = true
-            autofillButton.isHidden = false
-            selectSiteTextField.isHidden = false
-            saveButton.isEnabled = true
-            typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
-            viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
-        }
+        guard let viewModel = viewModel else { return }
+        let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
+        typeSiteButton.setTitle(ActionStrings._Type)
+        selectSiteTextField.endEditing(true)
+        selectSiteTextField.isEnabled = true
+        selectDateButton.isEnabled = true
+        autofillButton.isHidden = false
+        selectSiteTextField.isHidden = false
+        saveButton.isEnabled = true
+        typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
+        viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
     }
  
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -148,14 +146,13 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        viewModel.sdk?.sites.names.tryGet(at: row) ?? ""
+        viewModel.getSiteName(at: row)
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if let siteName = viewModel.trySelectSite(at: row) {
-            selectSiteTextField.text = siteName
-            closeSitePicker()
-        }
+        guard let siteName = viewModel.trySelectSite(at: row) else { return }
+        selectSiteTextField.text = siteName
+        closeSitePicker()
     }
 
     // MARK: - Date Picker funcs
@@ -191,10 +188,9 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: Other UI
 
     @objc private func saveButtonTapped(_ sender: Any) {
-        if let viewModel = viewModel {
-            viewModel.saveFromSelectionState()
-            viewModel.nav?.pop(source: self)
-        }
+        guard let viewModel = viewModel else { return }
+        viewModel.saveFromSelectionState()
+        viewModel.nav?.pop(source: self)
     }
 
     @IBAction private func autofillTapped(_ sender: Any) {
@@ -212,14 +208,13 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
 
     private func loadDateControls() {
-        if let viewModel = viewModel {
-            let viewStrings = viewModel.createHormoneViewStrings()
-            selectDateButton.setTitle(viewModel.selectDateButtonStartText)
-            expirationDateLabelHeader.text = viewStrings.expirationText
-            dateAndTimeAppliedHeader.text = viewStrings.dateAndTimePlacedText
-            siteLabel.text = viewStrings.siteLabelText
-            expirationDateLabel.text  = viewModel.expirationDateText
-        }
+        guard let viewModel = viewModel else { return }
+        let viewStrings = viewModel.createHormoneViewStrings()
+        selectDateButton.setTitle(viewModel.selectDateButtonStartText)
+        expirationDateLabelHeader.text = viewStrings.expirationText
+        dateAndTimeAppliedHeader.text = viewStrings.dateAndTimePlacedText
+        siteLabel.text = viewStrings.siteLabelText
+        expirationDateLabel.text  = viewModel.expirationDateText
     }
 
     private func loadSiteControls() {
@@ -271,29 +266,22 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     private func autoSetSiteText() {
-        if let nextSite = viewModel.sdk?.sites.suggested {
-            selectSiteTextField.text = nextSite.name
-            viewModel.selectionState.selectedSite = nextSite
-        } else {
-            log.error("Failed auto picking next site.")
-        }
+        guard let nextSite = viewModel.sdk?.sites.suggested else { return }
+        selectSiteTextField.text = nextSite.name
+        viewModel.selectionState.selectedSite = nextSite
     }
     
     private func autoSetDateText() {
-        if let viewModel = viewModel {
-            selectDateButton.setTitle(viewModel.autoPickedDateText)
-            expirationDateLabel.text = viewModel.autoPickedExpirationDateText
-        } else {
-            log.error("Failed auto picking next date.")
-        }
+        guard let viewModel = viewModel else { return }
+        selectDateButton.setTitle(viewModel.autoPickedDateText)
+        expirationDateLabel.text = viewModel.autoPickedExpirationDateText
     }
 
     private func handleSenderType(_ senderType: TextFieldButtonSenderType?, textFieldSender: UITextField) {
-        switch senderType {
-        case .PickerActivator:
+        if senderType == .PickerActivator {
             handleTextFieldButtonOpeningPicker(typeButton: typeSiteButton)
             openSitePicker(textFieldSender)
-        default:
+        } else {
             handleTextFieldBeginEditing(textFieldSender, typeButton: typeSiteButton)
         }
     }
@@ -330,10 +318,9 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
 
     private func applyTheme() {
-        if let theme = viewModel.styles?.theme {
-            view.backgroundColor = theme[.bg]
-            selectSiteTextField.textColor = theme[.purple]
-            selectDateButton.setTitleColor(theme[.purple])
-        }
+        guard let theme = viewModel.styles?.theme else { return }
+        view.backgroundColor = theme[.bg]
+        selectSiteTextField.textColor = theme[.purple]
+        selectDateButton.setTitleColor(theme[.purple])
     }
 }

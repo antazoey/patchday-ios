@@ -9,15 +9,26 @@ import PDKit
 
 class HormonesTable: TableViewWrapper<HormoneCell> {
 
+    private var _cells: [HormoneCell] = []
+
     init(_ table: UITableView) {
         super.init(table, primaryCellReuseId: CellReuseIds.Hormone)
     }
+    
+    var cells: [HormoneCell] {
+        _cells
+    }
 
-    func getCell(for hormone: Hormonal, at index: Index, viewModel: HormonesViewModel) -> HormoneCell {
-        if let cell = dequeueCell() {
-            return cell.configure(viewModel: viewModel, hormone: hormone, row: index)
+    func reflectModel(sdk: PatchDataSDK?, styles: Styling?) {
+        _cells = []
+        guard let sdk = sdk else { return }
+        guard let styles = styles else { return }
+        for row in 0..<sdk.hormones.count {
+            if let cell = dequeueCell() {
+                cell.configure(at: row, sdk: sdk, styles: styles)
+                _cells.append(cell)
+            }
         }
-        return HormoneCell()
     }
 
     func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {

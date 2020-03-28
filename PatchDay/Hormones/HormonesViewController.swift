@@ -29,6 +29,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidAppear(_ animated: Bool) {
         initViewModelIfNil()
+        viewModel.updateSiteImages()
         fadeInView()
         applyTheme()
         viewModel.presentDisclaimerAlertIfFirstLaunch()
@@ -47,7 +48,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        HormonesConstants.HormoneMaxCount
+        SupportedHormoneUpperQuantityLimit
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

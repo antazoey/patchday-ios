@@ -24,11 +24,19 @@ class SiteCell: TableCell {
     func configure(props: SiteCellProperties) -> SiteCell {
         self.props = props
         loadOrderDependentViews()
-        nameLabel.text = props.site?.name
+        loadNameLabel()
         siteIndexImageView.image = PDIcons.siteIndexIcon.withRenderingMode(.alwaysTemplate)
         reflectTheme()
         prepareBackgroundSelectedView()
         return self
+    }
+    
+    private func loadNameLabel() {
+        var name = self.props.site?.name
+        if name == "" {
+            name = SiteStrings.NewSite
+        }
+        nameLabel.text = name ?? SiteStrings.NewSite
     }
 
     private func loadOrderDependentViews() {

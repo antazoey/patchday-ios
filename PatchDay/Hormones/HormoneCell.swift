@@ -12,56 +12,71 @@ import PDKit
 
 class HormoneCell: TableCell {
     
-    @IBOutlet weak var stateImage: UIImageView!
+    @IBOutlet weak var stateImageView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
+    private var sdk: PatchDataSDK?
     private var styles: Styling?
+    private var _siteImage: UIImage? = nil
+    
+    public var siteImage: UIImage? {
+        _siteImage
+    }
 
     @discardableResult
-    public func configure(viewModel: HormonesViewModel, hormone: Hormonal, row: Index) -> HormoneCell {
-        styles = viewModel.styles
-        backgroundColor = styles?.theme[.bg]
-        applyTheme(at: row)
-        guard let sdk = viewModel.sdk else { return self }
+    public func configure(at row: Index, sdk: PatchDataSDK, styles: Styling) -> HormoneCell {
+        self.sdk = sdk
+        self.styles = styles
+        backgroundColor = styles.theme[.bg]
+        setSiteImage(at: row)
+        return reflectHormone(at: row).applyTheme(at: row)
+    }
+
+    ///  Should be called after `configure()` and only when it is known what its animation should be.
+    public func reflectSiteImage(animate: AnimationCheckResult) {
+        switch animate {
+        case .AnimateFromAdd: animateNewCell()
+        case .AnimateFromEdit: animateEdittedCell()
+        case .AnimateFromRemove: animateRemovedCell()
+        case .NoAnimationNeeded: stateImageView.image = self._siteImage
+        }
+    }
+    
+    // MARK: - Private
+
+    private func setSiteImage(at row: Index) {
+        guard let sdk = sdk else { return }
+        let quantity = sdk.settings.quantity.rawValue
+        guard row < quantity && row >= 0 else { return }
+        guard let hormone = sdk.hormones.at(row) else { return }
+        let theme = sdk.settings.theme.value
+        let method = sdk.settings.deliveryMethod.value
+        let siteImageDeterminationParams = SiteImageDeterminationParameters(
+            hormone: hormone, deliveryMethod: method, theme: theme
+        )
+        self._siteImage = SiteImages.get(from: siteImageDeterminationParams)
+    }
+    
+    private func reflectHormone(at row: Index) -> HormoneCell {
+        guard let sdk = sdk else { return self }
         let quantity = sdk.settings.quantity
-        if row < quantity.rawValue && row >= 0 {
-            attachToModel(sdk, hormone, row)
+        if let hormone = sdk.hormones.at(row), row < quantity.rawValue && row >= 0 {
+            attachToModel(hormone, row)
         } else {
             reset()
         }
         return self
     }
 
-    private func attachToModel(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
+    private func attachToModel(_ hormone: Hormonal, _ hormoneIndex: Index) {
+        guard let sdk = sdk else { return }
         let method = sdk.settings.deliveryMethod.value
         loadDateLabel(for: hormone)
         loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
-        loadSiteViews(sdk, hormone, hormoneIndex)
         selectionStyle = .default
     }
-
-    private func setDateLabel(_ title: String?) {
-        self.dateLabel.textColor =  styles?.theme[.text]
-        self.dateLabel.text = title
-    }
-
-    private func reset() {
-        selectedBackgroundView = nil
-        dateLabel.text = nil
-        badgeButton.titleLabel?.text = nil
-        stateImage.image = nil
-        selectionStyle = .none
-        badgeButton.badgeValue = nil
-    }
-
-    private func applyTheme(at index: Int) {
-        guard let styles = styles else { return }
-        selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = styles.theme[.selected]
-        backgroundColor = styles.getCellColor(at: index)
-    }
-
+    
     private func loadDateLabel(for hormone: Hormonal) {
         dateLabel.textColor = hormone.isExpired ? UIColor.red : UIColor.black
         let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
@@ -77,67 +92,54 @@ class HormoneCell: TableCell {
             ? PDBadgeButtonType.injections : PDBadgeButtonType.patches
         badgeButton.badgeValue = isExpired ? "!" : nil
     }
-
-    private func loadSiteViews(_ sdk: PatchDataSDK, _ hormone: Hormonal, _ hormoneIndex: Index) {
-        let theme = sdk.settings.theme.value
-        let method = sdk.settings.deliveryMethod.value
-        let siteImageDeterminationParams = SiteImageDeterminationParameters(
-            hormone: hormone, deliveryMethod: method, theme: theme
-        )
-        let siteImage = PDImages.getSiteImage(from: siteImageDeterminationParams)
-        let animationCheckResult = checkHormoneForStateChanges(hormone, siteImage, hormoneIndex)
-        setSiteImage(
-            at: hormoneIndex,
-            animationCheckResult: animationCheckResult,
-            newImage: siteImage
-        )
-    }
     
-    private func checkHormoneForStateChanges(
-        _ hormone: Hormonal, _ image: UIImage, _ hormoneIndex: Index
-    ) -> AnimationCheckResult {
-        guard let criteria = HormonesViewModel.animationCriteria else { return .NoAnimationNeeded }
-        return criteria.shouldAnimate(hormone: hormone, siteId: hormone.siteId, index: hormoneIndex)
+
+    private func setDateLabel(_ title: String?) {
+        self.dateLabel.textColor =  styles?.theme[.text]
+        self.dateLabel.text = title
     }
 
-    private func setSiteImage(
-        at index: Index, animationCheckResult: AnimationCheckResult, newImage: UIImage?=nil
-    ) {
-        guard let newImage = newImage else {
-            animateRemovedCell()
-            return
-        }
-        switch animationCheckResult {
-        case .AnimateFromAdd: animateNewCell(newImage)
-        case .AnimateFromEdit: animateEdittedCell(newImage)
-        case .AnimateFromRemove: animateRemovedCell()
-        case .NoAnimationNeeded: self.stateImage.image = newImage
-        }
+    private func reset() {
+        animateRemovedCell()
+        selectedBackgroundView = nil
+        dateLabel.text = nil
+        badgeButton.titleLabel?.text = nil
+        selectionStyle = .none
+        badgeButton.badgeValue = nil
+    }
+
+    private func applyTheme(at index: Int) -> HormoneCell {
+        guard let styles = styles else { return self }
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = styles.theme[.selected]
+        backgroundColor = styles.getCellColor(at: index)
+        return self
     }
     
     private func animateRemovedCell() {
+        guard self.stateImageView.alpha > 0 else { return }
         UIView.animate(withDuration: 0.75) {
-            self.stateImage.alpha = 0
-            self.stateImage.image = nil
+            self.stateImageView.alpha = 0
         }
     }
     
-    private func animateNewCell(_ image: UIImage) {
-        self.stateImage.isHidden = true
-        self.stateImage.alpha = 0
+    private func animateNewCell() {
+        stateImageView.isHidden = true
+        stateImageView.alpha = 0
         UIView.animate(withDuration: 0.75) {
-            self.stateImage.alpha = 1
-            self.stateImage.isHidden = false
-            self.stateImage.image = image
+            self.stateImageView.alpha = 1
+            self.stateImageView.isHidden = false
+            self.stateImageView.image = self._siteImage
         }
     }
     
-    private func animateEdittedCell(_ image: UIImage) {
+    private func animateEdittedCell() {
+        stateImageView.alpha = 1
         UIView.transition(
-            with: stateImage as UIView,
+            with: stateImageView as UIView,
             duration: 0.75,
             options: .transitionCrossDissolve,
-            animations: { self.stateImage.image = image },
+            animations: { self.stateImageView.image = self._siteImage },
             completion: nil
         )
     }

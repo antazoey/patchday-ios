@@ -48,31 +48,35 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         applyTheme()
     }
 
-    static func createSiteDetailVC(_ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters) -> SiteDetailViewController? {
-        let id = ViewControllerIds.SiteDetail
-        if let detailVC = source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController {
-            return detailVC.initWithSite(site, imageParams: params)
-        }
-        return nil
+    static func createSiteDetailVC(
+        _ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters
+    ) -> SiteDetailViewController? {
+        let vc = createSiteDetailsVC(source)
+        return vc?.initWithSite(site, imageParams: params)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
         applyTheme()
     }
+    
+    private static func createSiteDetailsVC(_ source: UIViewController) -> SiteDetailViewController? {
+        let id = ViewControllerIds.SiteDetail
+        return source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController
+    }
 
-    fileprivate func initWithSite(_ site: Bodily, imageParams: SiteImageDeterminationParameters) -> SiteDetailViewController {
+    private func initWithSite(_ site: Bodily, imageParams: SiteImageDeterminationParameters) -> SiteDetailViewController {
         let relatedViews = SiteImagePickerDelegateRelatedViews(
             picker: imagePicker, imageView: siteImage, saveButton: saveButton
         )
         return initWithParams(SiteDetailViewModelConstructorParams(site, imageParams, relatedViews))
     }
 
-    fileprivate func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailViewController {
+    private func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailViewController {
         initWithViewModel(SiteDetailViewModel(params))
     }
 
-    fileprivate func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailViewController {
+    private func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailViewController {
         self.viewModel = viewModel
         return self
     }
@@ -260,15 +264,14 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     private func applyTheme() {
-        if let theme = viewModel.styles?.theme {
-            view.backgroundColor = theme[.bg]
-            nameStackVertical.backgroundColor = theme[.bg]
-            nameStackHorizontal.backgroundColor = theme[.bg]
-            typeNameButton.setTitleColor(theme[.text], for: .normal)
-            nameText.textColor = theme[.text]
-            nameText.backgroundColor = theme[.bg]
-            siteImage.backgroundColor = theme[.bg]
-            gapAboveImage.backgroundColor = theme[.bg]
-        }
+        guard let theme = viewModel.styles?.theme else { return }
+        view.backgroundColor = theme[.bg]
+        nameStackVertical.backgroundColor = theme[.bg]
+        nameStackHorizontal.backgroundColor = theme[.bg]
+        typeNameButton.setTitleColor(theme[.text], for: .normal)
+        nameText.textColor = theme[.text]
+        nameText.backgroundColor = theme[.bg]
+        siteImage.backgroundColor = theme[.bg]
+        gapAboveImage.backgroundColor = theme[.bg]
     }
 }

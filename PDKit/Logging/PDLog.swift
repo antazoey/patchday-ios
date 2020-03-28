@@ -6,6 +6,16 @@
 import Foundation
 
 
+enum LogLevels {
+    case DEBUG
+    case NONE
+}
+
+
+/// Set to `LogLevel.DEBUG` to turn on loggers.
+var LogLevel = LogLevels.NONE
+
+
 public class PDLog<T> {
 
     private enum LogStatus: String {
@@ -27,9 +37,8 @@ public class PDLog<T> {
     }
 
     public func info(_ message: String, silence: Bool=false) {
-        if (!silence) {
-            printMessage(message, status: .INFO)
-        }
+        guard !silence else { return }
+        printMessage(message, status: .INFO)
     }
 
     public func warn(_ message: String) {
@@ -49,6 +58,7 @@ public class PDLog<T> {
     }
 
     private func printMessage(_ message: String, status: LogStatus) {
+        guard LogLevel == LogLevels.DEBUG else { return }
         var m = message
         if m.last == "." {
             m.removeLast()
@@ -58,16 +68,12 @@ public class PDLog<T> {
     }
 
     private var contextString: String {
-        if let bundleId = bundle {
-            return "\(bundleId).\(context)"
-        }
-        return context
+        guard let bundleId = bundle else { return context }
+        return "\(bundleId).\(context)"
     }
 
     private var bundle: String? {
-        if let type = T.self as? AnyClass.Type, let id = Bundle(for: type).bundleIdentifier {
-            return id
-        }
-        return nil
+        guard let t = T.self as? AnyClass.Type, let id = Bundle(for: t).bundleIdentifier else { return nil }
+        return id
     }
 }

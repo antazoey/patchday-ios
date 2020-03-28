@@ -20,3 +20,11 @@ struct HormoneExpirationState {
     var wasPastAlertTimeAfterSave = false
     var isExpiredAfterSave = false
 }
+
+
+enum AnimationCheckResult {
+    case AnimateFromAdd
+    case AnimateFromEdit
+    case AnimateFromRemove
+    case NoAnimationNeeded
+}

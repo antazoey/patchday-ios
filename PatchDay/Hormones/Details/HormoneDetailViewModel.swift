@@ -68,17 +68,15 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     var siteIndexStartRow: Index {
-        guard selectionState.selectedSiteIndex >= 0 else {
-            guard let site = getSite() else { return 0 }
-            let order = site.order
-            let end = sitesCount
-            if order >= 1 && order <= end {
-                selectionState.selectedSite = site
-                return order
-            }
-            return 0
+        guard selectionState.selectedSiteIndex < 0 else { return selectionState.selectedSiteIndex }
+        guard let site = getSite() else { return 0 }
+        let order = site.order
+        let end = sitesCount
+        if order >= 1 && order <= end {
+            selectionState.selectedSite = site
+            return order
         }
-        return selectionState.selectedSiteIndex
+        return 0
     }
 
     var sitesCount: Int {
@@ -93,6 +91,14 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     
     var autoPickedExpirationDateText: String {
         createExpirationDateString(from: Date())
+    }
+    
+    func getSiteName(at row: Index) -> SiteName {
+        var siteName = sdk?.sites.names.tryGet(at: row)
+        if siteName == "" {
+            siteName = SiteStrings.NewSite
+        }
+        return siteName ?? SiteStrings.NewSite
     }
 
     func createHormoneViewStrings() -> HormoneViewStrings {
@@ -144,29 +150,26 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     private func trySave() {
-        if let sdk = sdk {
-            trySaveDate(sdk.hormones, selectionState.selectedDate, doSave: false)
-            trySaveSite(sdk.hormones, selectionState.selectedSite, doSave: true)
-            return
-        }
-        log.error("Save failed - PatchData SDK is nil")
+        guard  let sdk = sdk else { return }
+        trySaveDate(sdk.hormones, selectionState.selectedDate, doSave: false)
+        trySaveSite(sdk.hormones, selectionState.selectedSite, doSave: true)
     }
 
     private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?, doSave: Bool=true) {
-        if let date = selectedDate {
-            hormones.setDate(by: hormone.id, with: date, doSave: doSave)
+        guard let date = selectedDate else {
+            log.info("There are no changes to the \(PDEntity.hormone) date")
             return
         }
-        log.info("There are no changes to the \(PDEntity.hormone) date")
+        hormones.setDate(by: hormone.id, with: date, doSave: doSave)
     }
 
     private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool=true) {
-        if let site = selectedSite {
-            let isSuggested = site.id == sdk?.sites.suggested?.id
-            hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested, doSave: doSave)
+        guard let site = selectedSite else {
+            log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
             return
         }
-        log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
+        let isSuggested = site.id == sdk?.sites.suggested?.id
+        hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested, doSave: doSave)
     }
 
     private func handleExpirationState(state: HormoneExpirationState) {

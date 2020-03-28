@@ -18,7 +18,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     // MARK: - CTOR
 
     convenience init(_ params: SiteDetailViewModelConstructorParams) {
-        let images = PDImages.getAvailableSiteImages(params.imageSelectionParams)
+        let images = SiteImages.getAllAvailable(params.imageSelectionParams)
         self.init(
             params.site,
             siteIndex: params.site.order,
@@ -76,7 +76,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
             deliveryMethod: settings.deliveryMethod.value,
             theme: settings.theme.value
         )
-        return PDImages.getSiteImage(from: params)
+        return SiteImages.get(from: params)
     }
 
     @discardableResult func saveSiteImageChanges() -> UIImage? {
@@ -121,9 +121,9 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     
     private func createImageStruct(selectedRow: Index, method: DeliveryMethod, theme: PDTheme) -> SiteImageStruct {
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
-        let images = PDImages.getAvailableSiteImages(params)
+        let images = SiteImages.getAllAvailable(params)
         let image = images[selectedRow]
-        let imageKey = PDImages.getSiteName(from: image)
+        let imageKey = SiteImages.getName(from: image)
         return SiteImageStruct(image: image, name: imageKey)
     }
 

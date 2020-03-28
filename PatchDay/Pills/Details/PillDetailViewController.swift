@@ -39,14 +39,16 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailViewController? {
+        let vc = createPillDetailVC(source)
+        return vc?.initWithPill(pill)
+    }
+    
+    private static func createPillDetailVC(_ source: UIViewController) -> PillDetailViewController? {
         let id = ViewControllerIds.PillDetail
-        if let vc = source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailViewController {
-            return vc.initWithPill(pill)
-        }
-        return nil
+        return source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailViewController
     }
 
-    fileprivate func initWithPill(_ pill: Swallowable) -> PillDetailViewController {
+    private func initWithPill(_ pill: Swallowable) -> PillDetailViewController {
         viewModel = PillDetailViewModel(pill)
         return self
     }

@@ -409,12 +409,14 @@ class CoreDataEntities {
         guard var managedHormone = getManagedHormone(by: hormoneData.id) else { return }
         resetHormone(&managedHormone)
         coreDataStack.tryDelete(managedHormone)
+        CoreDataEntities.hormoneMOs.removeAll(where: { $0.id == hormoneData.id })
     }
     
     private func deletePill(_ pillData: PillStruct) {
         guard var managedPill = getManagedPill(by: pillData.id) else { return }
         resetPill(&managedPill)
         coreDataStack.tryDelete(managedPill)
+        CoreDataEntities.pillMOs.removeAll(where: { $0.id == pillData.id })
     }
     
     private func deleteSite(_ siteData: SiteStruct) {
@@ -422,6 +424,7 @@ class CoreDataEntities {
         resetSite(&managedSite)
         pushBackupSiteNameToHormones(deletedSite: managedSite)
         coreDataStack.tryDelete(managedSite)
+        CoreDataEntities.siteMOs.removeAll(where: { $0.id == managedSite.id })
     }
     
     // MARK: - Private Resetters

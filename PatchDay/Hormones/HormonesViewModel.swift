@@ -13,26 +13,46 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
     let table: HormonesTable
-    static var animationCriteria: HormoneCellAnimationCriteria?
     var hormones: HormoneScheduling? { sdk?.hormones }
+
+    private var histories: [SiteImageHistory] = [
+        SiteImageHistory(),
+        SiteImageHistory(),
+        SiteImageHistory(),
+        SiteImageHistory()
+    ]
 
     init(hormonesTableView: UITableView, source: HormonesViewController) {
         self.table = HormonesTable(hormonesTableView)
         super.init()
-        tryInitAnimationCriteria()
-        table.applyTheme(styles?.theme)
         loadAppTabs(source: source)
         reflectThemeInTabBar()
+        initTable()
     }
     
     var mainViewControllerTitle: String {
-        guard let method = sdk?.settings.deliveryMethod.value else { return ViewTitleStrings.HormonesTitle }
+        guard let method = sdk?.settings.deliveryMethod.value else {
+            return ViewTitleStrings.HormonesTitle
+        }
         return ViewTitleStrings.getTitle(for: method)
     }
     
     var expiredHormoneBadgeValue: String? {
-        guard let numExpired = hormones?.totalExpired, numExpired > 0  else { return nil }
+        guard let numExpired = hormones?.totalExpired, numExpired > 0 else { return nil }
         return "\(numExpired)"
+    }
+    
+    func updateSiteImages() {
+        var i = 0
+        table.reflectModel(sdk: self.sdk, styles: self.styles)
+        table.cells.forEach() {
+            cell in
+            let history = histories[i]
+            history.push(cell.siteImage)
+            let animate = history.checkForChanges()
+            cell.reflectSiteImage(animate: animate)
+            i += 1
+        }
     }
 
     func sortHormones() {
@@ -46,8 +66,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     func getCell(at row: Index) -> UITableViewCell {
-        guard let hormone = hormones?.at(row) else { return UITableViewCell() }
-        return table.getCell(for: hormone, at: row, viewModel: self)
+        table.cells.tryGet(at: row) ?? HormoneCell()
     }
 
     func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
@@ -76,10 +95,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         tabs?.reflectTheme(theme: styles.theme)
     }
     
-    private func tryInitAnimationCriteria() {
-        guard let sdk = sdk else { return }
-        guard HormonesViewModel.animationCriteria == nil else { return }
-        HormonesViewModel.animationCriteria = HormoneCellAnimationCriteria(sdk: sdk)
+    private func initTable() {
+        table.reflectModel(sdk: self.sdk, styles: self.styles)
+        table.applyTheme(styles?.theme)
+        updateSiteImages()
     }
 
     private var isFirstLaunch: Bool {
@@ -88,7 +107,9 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
-        tabs = TabReflector(tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk)
+        tabs = TabReflector(
+            tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk
+        )
         AppDelegate.current?.tabs = tabs
         self.tabs = tabs
     }

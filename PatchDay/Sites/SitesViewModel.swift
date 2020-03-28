@@ -81,9 +81,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
 
     @objc func deleteSite(at indexPath: IndexPath) {
-        table.deleteCell(indexPath: indexPath)
         guard let sites = sdk?.sites else { return }
         sites.delete(at: indexPath.row)
+        table.deleteCell(indexPath: indexPath)
     }
 
     func getSitesViewControllerTitle(_ siteCellActionState: SiteTableActionState) -> String {

@@ -80,7 +80,7 @@ public class PatchData: NSObject, PatchDataSDK {
         // ******************************************************
         // Nuke mode: Resets app like it's fresh
         // ******************************************************
-        if CommandLine.arguments.contains("-n") {
+        if PDCli.isNukeMode() {
             hormones.reset()
             pills.reset()
             let newSiteCount = sites.reset()
@@ -91,6 +91,12 @@ public class PatchData: NSObject, PatchDataSDK {
             return
         }
         // ******************************************************
+        
+        
+        if PDCli.isNukeMode() {
+            
+        }
+        
         
         self.init(
             settings: settings,
