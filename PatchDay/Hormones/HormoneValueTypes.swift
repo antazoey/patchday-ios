@@ -22,9 +22,10 @@ struct HormoneExpirationState {
 }
 
 
-enum AnimationCheckResult {
-    case AnimateFromAdd
-    case AnimateFromEdit
-    case AnimateFromRemove
-    case NoAnimationNeeded
+enum HormoneMutation {
+    case Add
+    case Edit
+    case Remove
+    case None
+    case Empty
 }

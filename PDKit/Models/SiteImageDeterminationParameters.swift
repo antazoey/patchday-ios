@@ -16,8 +16,8 @@ public class SiteImageDeterminationParameters {
         self.theme = theme
     }
 
-    public init(hormone: Hormonal, deliveryMethod: DeliveryMethod, theme: PDTheme) {
-        self.siteName = hormone.siteName
+    public init(hormone: Hormonal?, deliveryMethod: DeliveryMethod, theme: PDTheme) {
+        self.siteName = hormone?.siteName
         self.deliveryMethod = deliveryMethod
         self.theme = theme
     }

@@ -10,6 +10,11 @@ import UIKit
 import PDKit
 
 
+enum SiteImageReflectionError: Error {
+    case AddWithoutGivenPlaceholderImage
+}
+
+
 class HormoneCell: TableCell {
     
     @IBOutlet weak var stateImageView: UIImageView!
@@ -18,45 +23,32 @@ class HormoneCell: TableCell {
 
     private var sdk: PatchDataSDK?
     private var styles: Styling?
-    private var _siteImage: UIImage? = nil
-    
-    public var siteImage: UIImage? {
-        _siteImage
-    }
 
     @discardableResult
     public func configure(at row: Index, sdk: PatchDataSDK, styles: Styling) -> HormoneCell {
         self.sdk = sdk
         self.styles = styles
         backgroundColor = styles.theme[.bg]
-        setSiteImage(at: row)
         return reflectHormone(at: row).applyTheme(at: row)
     }
 
     ///  Should be called after `configure()` and only when it is known what its animation should be.
-    public func reflectSiteImage(animate: AnimationCheckResult) {
-        switch animate {
-        case .AnimateFromAdd: animateNewCell()
-        case .AnimateFromEdit: animateEdittedCell()
-        case .AnimateFromRemove: animateRemovedCell()
-        case .NoAnimationNeeded: stateImageView.image = self._siteImage
+    public func reflectSiteImage(_ history: SiteImageHistory) throws {
+        let mutation = history.differentiate()
+        switch mutation {
+        case .Add:
+            guard let image = history.current else {
+                throw SiteImageReflectionError.AddWithoutGivenPlaceholderImage
+            }
+            animateAdd(image)
+        case .Edit: animateSetSiteImage(history.current)
+        case .Remove: animateRemove()
+        case .Empty: self.stateImageView.alpha = 0; self.stateImageView.image = nil
+        case .None: stateImageView.image = history.current; self.stateImageView.alpha = 1
         }
     }
     
     // MARK: - Private
-
-    private func setSiteImage(at row: Index) {
-        guard let sdk = sdk else { return }
-        let quantity = sdk.settings.quantity.rawValue
-        guard row < quantity && row >= 0 else { return }
-        guard let hormone = sdk.hormones.at(row) else { return }
-        let theme = sdk.settings.theme.value
-        let method = sdk.settings.deliveryMethod.value
-        let siteImageDeterminationParams = SiteImageDeterminationParameters(
-            hormone: hormone, deliveryMethod: method, theme: theme
-        )
-        self._siteImage = SiteImages.get(from: siteImageDeterminationParams)
-    }
     
     private func reflectHormone(at row: Index) -> HormoneCell {
         guard let sdk = sdk else { return self }
@@ -100,7 +92,6 @@ class HormoneCell: TableCell {
     }
 
     private func reset() {
-        animateRemovedCell()
         selectedBackgroundView = nil
         dateLabel.text = nil
         badgeButton.titleLabel?.text = nil
@@ -116,31 +107,48 @@ class HormoneCell: TableCell {
         return self
     }
     
-    private func animateRemovedCell() {
-        guard self.stateImageView.alpha > 0 else { return }
-        UIView.animate(withDuration: 0.75) {
-            self.stateImageView.alpha = 0
+    private func animateRemove(completion: (() ->())?=nil) {
+        self.stateImageView.alpha = 1
+        UIView.animate(
+            withDuration: 0.75,
+            animations: { self.stateImageView.alpha = 0 }) {
+                isReady in
+                print("IsREAD \(isReady)")
+                if isReady {
+                    self.stateImageView.image = nil
+                    self.reset()
+                    completion?()
+                }
         }
     }
     
-    private func animateNewCell() {
-        stateImageView.isHidden = true
+    private func animateAdd(_ placeholderImage: UIImage?, completion: (() -> ())?=nil) {
         stateImageView.alpha = 0
-        UIView.animate(withDuration: 0.75) {
-            self.stateImageView.alpha = 1
-            self.stateImageView.isHidden = false
-            self.stateImageView.image = self._siteImage
+        stateImageView.image = placeholderImage
+        UIView.animate(
+            withDuration: 0.75,
+            animations: { self.stateImageView.alpha = 1 }) {
+                void in
+                completion?()
         }
     }
     
-    private func animateEdittedCell() {
-        stateImageView.alpha = 1
+    private func animateSetSiteImage(_ image: UIImage?) {
         UIView.transition(
             with: stateImageView as UIView,
             duration: 0.75,
             options: .transitionCrossDissolve,
-            animations: { self.stateImageView.image = self._siteImage },
+            animations: { self.stateImageView.image = image },
             completion: nil
+        )
+    }
+    
+    private func logSetSiteImageOutcome(row: Index, mutation: HormoneMutation) {
+        let log = PDLog<HormoneCell>()
+        let image = self.stateImageView.image?.accessibilityIdentifier ?? "nil"
+        let alpha = self.stateImageView.alpha
+        log.info(
+            "Logging animation outcome for row \(row) with mutation factory: \(mutation). Image: \(image). Alpha: \(alpha)"
         )
     }
 }

@@ -6,14 +6,14 @@
 import Foundation
 
 
-enum LogLevels {
+public enum PDLogLevels {
     case DEBUG
     case NONE
 }
 
 
 /// Set to `LogLevel.DEBUG` to turn on loggers.
-var LogLevel = LogLevels.NONE
+public var PDLogLevel = PDLogLevels.NONE
 
 
 public class PDLog<T> {
@@ -58,7 +58,7 @@ public class PDLog<T> {
     }
 
     private func printMessage(_ message: String, status: LogStatus) {
-        guard LogLevel == LogLevels.DEBUG else { return }
+        guard PDLogLevel == PDLogLevels.DEBUG else { return }
         var m = message
         if m.last == "." {
             m.removeLast()

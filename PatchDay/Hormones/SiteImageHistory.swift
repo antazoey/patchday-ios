@@ -13,10 +13,14 @@ import PDKit
 class SiteImageHistory {
     
     private var history: [UIImage?] = [nil, nil]
+    var row: Index
     
-    init(_ image: UIImage?=nil) {
+    init(_ row: Index, _ image: UIImage?=nil) {
+        self.row = row
         self.push(image)
     }
+    
+    var current: UIImage? { history[1] }
     
     @discardableResult
     func push(_ image: UIImage?) -> SiteImageHistory {
@@ -25,15 +29,14 @@ class SiteImageHistory {
         return self
     }
     
-    func checkForChanges() -> AnimationCheckResult {
-        logState()
-        var result: AnimationCheckResult = .NoAnimationNeeded
-        if history[0] == nil && history[1] != nil {
-            result = .AnimateFromAdd
-        } else if history[0] != nil && history[1] == nil {
-            result = .AnimateFromRemove
-        } else if history[0] != history[1] {
-            result = .AnimateFromEdit
+    func differentiate() -> HormoneMutation {
+        var result = HormoneMutation.None
+        switch (history[0], history[1]) {
+        case (nil, nil): return .Empty
+        case (nil, let h) where h != nil: result = .Add
+        case (let h, nil) where h != nil: result = .Remove
+        case (let h0, let h1) where h0 != h1: result = .Edit
+        default: break
         }
         return result
     }

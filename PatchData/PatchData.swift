@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import PDKit
 
 
@@ -88,15 +87,14 @@ public class PatchData: NSObject, PatchDataSDK {
             storeDataStackWrapper.nuke()
             CommandLine.arguments.removeAll()
             self.init()
+            PDLogLevel = PDLogLevels.DEBUG
             return
         }
         // ******************************************************
         
-        
-        if PDCli.isNukeMode() {
-            
+        if PDCli.isDebugMode() {
+            PDLogLevel = PDLogLevels.DEBUG
         }
-        
         
         self.init(
             settings: settings,

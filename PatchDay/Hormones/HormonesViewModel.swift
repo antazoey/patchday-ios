@@ -16,10 +16,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     var hormones: HormoneScheduling? { sdk?.hormones }
 
     private var histories: [SiteImageHistory] = [
-        SiteImageHistory(),
-        SiteImageHistory(),
-        SiteImageHistory(),
-        SiteImageHistory()
+        SiteImageHistory(0),
+        SiteImageHistory(1),
+        SiteImageHistory(2),
+        SiteImageHistory(3)
     ]
 
     init(hormonesTableView: UITableView, source: HormonesViewController) {
@@ -45,14 +45,32 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     func updateSiteImages() {
         var i = 0
         table.reflectModel(sdk: self.sdk, styles: self.styles)
-        table.cells.forEach() {
-            cell in
-            let history = histories[i]
-            history.push(cell.siteImage)
-            let animate = history.checkForChanges()
-            cell.reflectSiteImage(animate: animate)
-            i += 1
+        do {
+            try table.cells.forEach() {
+                cell in
+                let history = histories[i]
+                history.push(getSiteImage(at: i))
+                try cell.reflectSiteImage(history)
+                i += 1
+            }
+        } catch {
+            let log = PDLog<HormonesViewModel>()
+            log.error("Unable to update site image at row \(i)")
         }
+    }
+    
+    private func getSiteImage(at row: Index) -> UIImage? {
+        guard let sdk = sdk else { return nil }
+        let quantity = sdk.settings.quantity.rawValue
+        guard row < quantity && row >= 0 else { return nil }
+        let theme = sdk.settings.theme.value
+        let method = sdk.settings.deliveryMethod.value
+        let hormone = sdk.hormones.at(row)
+
+        let siteImageDeterminationParams = SiteImageDeterminationParameters(
+            hormone: hormone, deliveryMethod: method, theme: theme
+        )
+        return SiteImages.get(from: siteImageDeterminationParams)
     }
 
     func sortHormones() {

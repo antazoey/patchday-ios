@@ -29,12 +29,12 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidAppear(_ animated: Bool) {
         initViewModelIfNil()
-        viewModel.updateSiteImages()
         fadeInView()
         applyTheme()
         viewModel.presentDisclaimerAlertIfFirstLaunch()
         loadTitle()
         viewModel.table.reloadData()
+        viewModel.updateSiteImages()
         super.viewDidAppear(false)
     }
 
