@@ -702,7 +702,6 @@
 			isa = PBXGroup;
 			children = (
 				3397C83CA26AB9993A1C43D2 /* HormoneDetailViewController.swift */,
-				3397CDDC25322F027DE45D6A /* DoneButtonFactory.swift */,
 				3397C92B22AD98FD011DCE92 /* HormoneDetailViewModel.swift */,
 				3397C44F655B05A9959614A9 /* HormoneDetailValueTypes.swift */,
 			);
@@ -748,6 +747,7 @@
 		3397C2DC26D5587F5B3B7CDF /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				3397CDDC25322F027DE45D6A /* DoneButtonFactory.swift */,
 				3397C657E8FDF0438CBDF5E1 /* TableCell.swift */,
 				3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */,
 				3397CB4BB5AA9C4FB0948A47 /* UIControlsExtensions.swift */,

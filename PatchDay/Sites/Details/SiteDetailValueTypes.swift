@@ -15,9 +15,9 @@ struct SiteImagePickerDelegateProperties {
 }
 
 struct SiteImagePickerDelegateRelatedViews {
-    var picker: UIPickerView
-    var imageView: UIImageView
-    var saveButton: UIBarButtonItem
+    var getPicker: () -> UIPickerView
+    var getImageView: () -> UIImageView
+    var getSaveButton: () -> UIBarButtonItem
 }
 
 struct SiteDetailViewModelConstructorParams {

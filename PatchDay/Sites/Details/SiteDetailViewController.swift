@@ -24,14 +24,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var gapAboveImage: UIView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var imagePickerDoneButton: UIButton!
+    @IBOutlet weak var imageInputView: UIView!
     @IBOutlet weak var imageButton: UIButton!
-
-    // TODO: Rename to siteImageView
-    @IBOutlet weak var siteImage: UIImageView!
-
+    @IBOutlet weak var siteImageView: UIImageView!
     @IBOutlet weak var imagePicker: UIPickerView!
     @IBOutlet weak var bottomLine: UIView!
-    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
 
     private var saveButton: UIBarButtonItem {
         navigationItem.rightBarButtonItem ?? UIBarButtonItem()
@@ -51,8 +48,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     static func createSiteDetailVC(
         _ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters
     ) -> SiteDetailViewController? {
-        let vc = createSiteDetailsVC(source)
-        return vc?.initWithSite(site, imageParams: params)
+        createSiteDetailsVC(source)?.initWithSite(site, imageParams: params)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -65,9 +61,13 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController
     }
 
-    private func initWithSite(_ site: Bodily, imageParams: SiteImageDeterminationParameters) -> SiteDetailViewController {
+    private func initWithSite(
+        _ site: Bodily, imageParams: SiteImageDeterminationParameters
+    ) -> SiteDetailViewController {
         let relatedViews = SiteImagePickerDelegateRelatedViews(
-            picker: imagePicker, imageView: siteImage, saveButton: saveButton
+            getPicker: { self.imagePicker },
+            getImageView: { self.siteImageView },
+            getSaveButton: { self.saveButton }
         )
         return initWithParams(SiteDetailViewModelConstructorParams(site, imageParams, relatedViews))
     }
@@ -83,20 +83,19 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     // MARK: - Actions
 
-    // TODO: RENAME THIS - Done button to what? Be specific.
     @IBAction func doneButtonTapped(_ sender: Any) {
-        siteImage.image = viewModel.saveSiteImageChanges()
+        siteImageView.image = viewModel.saveSiteImageChanges()
         imagePicker.isHidden = true
         imageButton.isEnabled = true
         nameText.isEnabled = true
-        siteImage.isHidden = false
+        siteImageView.isHidden = false
         typeNameButton.isEnabled = true
         imagePickerDoneButton.hideAsDisabled()
         enableSave()
     }
     
     @IBAction func imageButtonTapped(_ sender: Any) {
-        siteImage.isHidden = true
+        siteImageView.isHidden = true
         imageButton.isEnabled = false
         viewModel.imagePickerDelegate.openPicker() {
             self.typeNameButton.isEnabled = false
@@ -141,14 +140,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @objc func closeTextField() {
         view.endEditing(true)
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
-
         if nameText.text == "" {
             nameText.text = SiteStrings.NewSite
         }
-
         loadImage()
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
-
         nameText.removeTarget(self, action: #selector(closeTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
     }
@@ -168,7 +164,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         viewModel.sitesCount
     }
     
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+    func pickerView(
+        _ pickerView: UIPickerView,
+        attributedTitleForRow row: Int,
+        forComponent component: Int
+    ) -> NSAttributedString? {
         viewModel.getAttributedSiteName(at: row)
     }
  
@@ -182,7 +182,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @objc func closePicker() {
         self.namePicker.isHidden = true;
         self.bottomLine.isHidden = false;
-        self.siteImage.isHidden = false;
+        self.siteImageView.isHidden = false;
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closePicker), for: .touchUpInside)
@@ -196,6 +196,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func applyDelegates() {
         nameText.delegate = self
         namePicker.delegate = self
+        namePicker.dataSource = self
+        imagePicker.delegate = viewModel.imagePickerDelegate
+        imagePicker.dataSource = viewModel.imagePickerDelegate
     }
 
     private func setRuntimeViewProps() {
@@ -225,10 +228,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func showSiteImage(_ image: UIImage?) {
         UIView.transition(
-            with: siteImage,
+            with: siteImageView,
             duration: 0.5,
             options: .transitionCrossDissolve,
-            animations: { self.siteImage.image = image },
+            animations: { self.siteImageView.image = image },
             completion: nil
         )
     }
@@ -259,7 +262,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             options: .transitionFlipFromTop, animations: {
             picker.isHidden = false;
             self.bottomLine.isHidden = true;
-            self.siteImage.isHidden = true
+            self.siteImageView.isHidden = true
         })
     }
     
@@ -268,10 +271,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         view.backgroundColor = theme[.bg]
         nameStackVertical.backgroundColor = theme[.bg]
         nameStackHorizontal.backgroundColor = theme[.bg]
-        typeNameButton.setTitleColor(theme[.text], for: .normal)
+        typeNameButton.setTitleColor(theme[.button], for: .normal)
         nameText.textColor = theme[.text]
         nameText.backgroundColor = theme[.bg]
-        siteImage.backgroundColor = theme[.bg]
+        siteImageView.backgroundColor = theme[.bg]
         gapAboveImage.backgroundColor = theme[.bg]
     }
 }

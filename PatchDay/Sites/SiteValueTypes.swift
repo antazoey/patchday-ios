@@ -20,7 +20,6 @@ struct SiteCellProperties {
 }
 
 struct SiteSelectionState {
-    var selectedSiteImageRow: Index?
     var selectedSiteName: SiteName?
 }
 

@@ -170,8 +170,9 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
     
     @objc func datePickerDone(_ sender: Any) {
-        let doneButton = sender as! UIButton
-        doneButton.removeFromSuperview()
+        if let doneButton = sender as? UIButton {
+            doneButton.removeFromSuperview()
+        }
         datePickerInputView.isHidden = true
         viewModel.dateSelected = datePicker.date
         selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)

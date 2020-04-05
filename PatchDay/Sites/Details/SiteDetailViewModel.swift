@@ -27,14 +27,21 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
         )
     }
 
-    private convenience init(_ site: Bodily, siteIndex: Index, imageSelections: [UIImage], siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews) {
+    private convenience init(
+        _ site: Bodily,
+        siteIndex: Index,
+        imageSelections: [UIImage],
+        siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews
+    ) {
         let pickerDelegateProps = SiteImagePickerDelegateProperties(
             selectedSite: site, imageOptions: imageSelections, views: siteImagePickerRelatedViews
         )
         self.init(site, siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
     }
 
-    private convenience init(_ site: Bodily, siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties) {
+    private convenience init(
+        _ site: Bodily, siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties
+    ) {
         let imagePickerDelegate = SiteImagePickerDelegate(props: imagePickerProps)
         self.init(site, siteIndex: siteIndex, imagePickerDelegate: imagePickerDelegate)
     }
@@ -80,10 +87,20 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     }
 
     @discardableResult func saveSiteImageChanges() -> UIImage? {
-        guard let row = selections.selectedSiteImageRow else { return nil }
-        let image = createImageStruct(selectedRow: row)
+        let row = imagePickerDelegate.selectedRow
+        guard let image = createImageStruct(selectedRow: row) else { return nil }
         sdk?.sites.setImageId(at: row, to: image.name)
         return image.image
+    }
+    
+    func openPicker(picker: UIPickerView, completion: @escaping () -> ()) {
+        if let image = imagePickerDelegate.imageView.image,
+            let index = imagePickerDelegate.options.firstIndex(of: image) {
+            imagePickerDelegate.picker.selectRow(index, inComponent: index, animated: false)
+        }
+        imagePickerDelegate.openPicker() {
+            completion()
+        }
     }
 
     func handleSave(siteNameText: SiteName?, siteDetailViewController: SiteDetailViewController) {
@@ -106,7 +123,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
     // MARK: - Private
 
-    private func createImageStruct(selectedRow: Index) -> SiteImageStruct {
+    private func createImageStruct(selectedRow: Index) -> SiteImageStruct? {
         guard let settings = sdk?.settings else {
             return createImageStruct(
                 selectedRow: selectedRow,
@@ -119,10 +136,10 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
         return createImageStruct(selectedRow: selectedRow, method: method, theme: theme)
     }
     
-    private func createImageStruct(selectedRow: Index, method: DeliveryMethod, theme: PDTheme) -> SiteImageStruct {
+    private func createImageStruct(selectedRow: Index, method: DeliveryMethod, theme: PDTheme) -> SiteImageStruct? {
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
         let images = SiteImages.getAllAvailable(params)
-        let image = images[selectedRow]
+        guard let image = images.tryGet(at: selectedRow) else { return nil }
         let imageKey = SiteImages.getName(from: image)
         return SiteImageStruct(image: image, name: imageKey)
     }

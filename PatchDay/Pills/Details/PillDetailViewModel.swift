@@ -49,10 +49,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     var namePickerStartIndex: Index {
         let name = selections.name ?? pill.name
-        if let i = providedPillNameSelection.firstIndex(of: name) {
-            return i
-        }
-        return 0
+        return providedPillNameSelection.firstIndex(of: name) ?? 0
     }
 
     var providedPillNameSelection: [String] {
@@ -64,26 +61,26 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     func save() {
-        if let notifications = notifications {
-            notifications.cancelDuePillNotification(pill)
-            sdk?.pills.set(by: pill.id, with: selections)
-            notifications.requestDuePillNotification(pill)
-            tabs?.reflectDuePillBadgeValue()
-        }
+        guard let notifications = notifications else { return }
+        notifications.cancelDuePillNotification(pill)
+        sdk?.pills.set(by: pill.id, with: selections)
+        notifications.requestDuePillNotification(pill)
+        tabs?.reflectDuePillBadgeValue()
     }
 
     /// Sets the selected name with the name at the given index and optionally returns the name.
     @discardableResult
     func selectNameFromRow(_ row: Index) -> String {
-        selections.name = providedPillNameSelection[row]
-        return providedPillNameSelection[row]
+        let name = providedPillNameSelection.tryGet(at: row)
+        selections.name = name
+        return name ?? ""
     }
 
     func createTimeNumberTypeFromButton(_ button: UIButton) -> TimeNumber {
-        if let id = button.restorationIdentifier, let numType = TimeNumber(rawValue: id) {
-            return numType
+        guard let id = button.restorationIdentifier, let numType = TimeNumber(rawValue: id) else {
+            return TimeNumber.Time1
         }
-        return TimeNumber.Time1
+        return numType
     }
 
     func setSelectedTimesadayFromSliderValue(sliderValue: Float) {

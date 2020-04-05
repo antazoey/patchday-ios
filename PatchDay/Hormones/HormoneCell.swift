@@ -17,7 +17,7 @@ enum SiteImageReflectionError: Error {
 
 class HormoneCell: TableCell {
     
-    @IBOutlet weak var stateImageView: UIImageView!
+    @IBOutlet weak var siteImageView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
@@ -43,8 +43,8 @@ class HormoneCell: TableCell {
             animateAdd(image)
         case .Edit: animateSetSiteImage(history.current)
         case .Remove: animateRemove()
-        case .Empty: self.stateImageView.alpha = 0; self.stateImageView.image = nil
-        case .None: stateImageView.image = history.current; self.stateImageView.alpha = 1
+        case .Empty: siteImageView.alpha = 0; siteImageView.image = nil
+        case .None: siteImageView.image = history.current; siteImageView.alpha = 1
         }
     }
     
@@ -108,14 +108,14 @@ class HormoneCell: TableCell {
     }
     
     private func animateRemove(completion: (() ->())?=nil) {
-        self.stateImageView.alpha = 1
+        self.siteImageView.alpha = 1
         UIView.animate(
             withDuration: 0.75,
-            animations: { self.stateImageView.alpha = 0 }) {
+            animations: { self.siteImageView.alpha = 0 }) {
                 isReady in
                 print("IsREAD \(isReady)")
                 if isReady {
-                    self.stateImageView.image = nil
+                    self.siteImageView.image = nil
                     self.reset()
                     completion?()
                 }
@@ -123,11 +123,11 @@ class HormoneCell: TableCell {
     }
     
     private func animateAdd(_ placeholderImage: UIImage?, completion: (() -> ())?=nil) {
-        stateImageView.alpha = 0
-        stateImageView.image = placeholderImage
+        siteImageView.alpha = 0
+        siteImageView.image = placeholderImage
         UIView.animate(
             withDuration: 0.75,
-            animations: { self.stateImageView.alpha = 1 }) {
+            animations: { self.siteImageView.alpha = 1 }) {
                 void in
                 completion?()
         }
@@ -135,18 +135,18 @@ class HormoneCell: TableCell {
     
     private func animateSetSiteImage(_ image: UIImage?) {
         UIView.transition(
-            with: stateImageView as UIView,
+            with: siteImageView as UIView,
             duration: 0.75,
             options: .transitionCrossDissolve,
-            animations: { self.stateImageView.image = image },
+            animations: { self.siteImageView.image = image },
             completion: nil
         )
     }
     
     private func logSetSiteImageOutcome(row: Index, mutation: HormoneMutation) {
         let log = PDLog<HormoneCell>()
-        let image = self.stateImageView.image?.accessibilityIdentifier ?? "nil"
-        let alpha = self.stateImageView.alpha
+        let image = siteImageView.image?.accessibilityIdentifier ?? "nil"
+        let alpha = siteImageView.alpha
         log.info(
             "Logging animation outcome for row \(row) with mutation factory: \(mutation). Image: \(image). Alpha: \(alpha)"
         )

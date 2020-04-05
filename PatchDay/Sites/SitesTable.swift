@@ -48,22 +48,20 @@ class SitesTable: TableViewWrapper<SiteCell> {
     func deleteCell(indexPath: IndexPath) {
         table.deleteRows(at: [indexPath], with: .fade)
         table.reloadData()
-        if indexPath.row < cellCount {
-            resetCellColors(startIndex: indexPath.row)
-        }
+        guard indexPath.row < cellCount else { return }
+        resetCellColors(startIndex: indexPath.row)
     }
 
     private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
         var props = SiteCellProperties()
-        if let sites = sites {
-            props.nextSiteIndex = sites.nextIndex
-            props.totalSiteCount = sites.count
-            if let site = sites.at(siteIndex) {
-                props.site = site
-            }
-            if let theme = stylist?.theme {
-                props.theme = theme
-            }
+        guard let sites = sites else { return props }
+        props.nextSiteIndex = sites.nextIndex
+        props.totalSiteCount = sites.count
+        if let site = sites.at(siteIndex) {
+            props.site = site
+        }
+        if let theme = stylist?.theme {
+            props.theme = theme
         }
         return props
     }
