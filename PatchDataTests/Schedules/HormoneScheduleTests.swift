@@ -259,11 +259,16 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(expectedId, actualId)
     }
     
-    func testGet_returnsIndexForGivenId() {
+    func testSubscript_whenHormoneDoesNotExist_returnsNil() {
+        let mockHormones = setUpDefaultHormones(2)
+        XCTAssertNil(hormones[UUID()])
+    }
+    
+    func testSubscript_returnsHormoneForGivenId() {
         let mockHormones = setUpDefaultHormones(2)
         let expectedId = UUID()
         mockHormones[1].id = expectedId
-        let actualId = hormones.get(by: expectedId)?.id
+        let actualId = hormones[expectedId]?.id
         XCTAssertEqual(expectedId, actualId)
     }
     

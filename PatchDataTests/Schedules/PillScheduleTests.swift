@@ -156,7 +156,7 @@ class PillScheduleTests: XCTestCase {
         mockPills[0].id = testId
         setUpPills(mockPills)
         pills.delete(at: 0)
-        XCTAssertNil(pills.get(by: testId))
+        XCTAssertNil(pills[testId])
     }
     
     public func testDelete_whenPillExists_sharesDataForNextDue() {
@@ -206,24 +206,24 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(util.didSave(with: [mockPillOne, mockPillTwo]))
     }
     
-    public func testSubscript_whenPillExists_returnsPill() {
+    public func testSubscript_whenIndexInRange_returnsPill() {
         setUpThreePills()
         XCTAssertNotNil(pills[0])
     }
     
-    public func testSubscript_whenPillDoesNotExist_returnsNil() {
+    public func testSubscript_whenIndexOutOfRange_returnsNil() {
         setUpThreePills()
         XCTAssertNil(pills[3])
     }
     
-    public func testGet_whenPillExists_returnsPill() {
+    public func testSubscript_whenPillExists_returnsPill() {
         let mockPills = setUpThreePills()
-        XCTAssertNotNil(pills.get(by: mockPills[0].id))
+        XCTAssertNotNil(pills[mockPills[0].id])
     }
     
-    public func testGet_whenPillDoesNotExist_returnsNil() {
+    public func testSubscript_whenPillDoesNotExist_returnsNil() {
         setUpThreePills()
-        XCTAssertNil(pills.get(by: UUID()))
+        XCTAssertNil(pills[UUID()])
     }
     
     public func testSet_whenPillExistsAndSettingByIndex_updatesPill() {
@@ -271,7 +271,7 @@ class PillScheduleTests: XCTestCase {
         let idToSet = mockPills[0].id
         
         pills.set(by: idToSet, with: attributes)
-        let pill = pills.get(by: idToSet) as! MockPill
+        let pill = pills[idToSet] as! MockPill
 
         XCTAssert(pill.setCallArgs.contains(where:
             { (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate

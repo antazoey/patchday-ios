@@ -33,7 +33,7 @@ public protocol SiteScheduling: Schedule, Sorting, Deleting, Resetting {
     subscript(index: Index) -> Bodily? { get }
 
     /// Returns the site for the given ID.
-    func get(by id: UUID) -> Bodily?
+    subscript(id: UUID) -> Bodily? { get }
     
     /// Changes the name of a site.
     func rename(at index: Index, to name: SiteName)

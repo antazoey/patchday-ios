@@ -51,7 +51,7 @@ class Notifications: NSObject, NotificationScheduling {
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
         if let sdk = sdk, sendingNotifications, sdk.settings.notifications.value,
            let siteId = hormone.siteId,
-            let siteName = sdk.sites.get(by: siteId)?.name {
+            let siteName = sdk.sites[siteId]?.name {
             let params = ExpiredHormoneNotificationCreationParams(
                 hormone: hormone,
                 expiringSiteName: siteName,

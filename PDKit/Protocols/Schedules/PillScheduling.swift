@@ -27,7 +27,7 @@ public protocol PillScheduling: Schedule, Deleting {
     subscript(index: Index) -> Swallowable? { get }
     
     /// Returns the pill for the given ID.
-    func get(by id: UUID) -> Swallowable?
+    subscript(id: UUID) -> Swallowable? { get }
     
     /// Sets the pill at the given index with the given attributes.
     func set(at index: Index, with attributes: PillAttributes)
@@ -39,7 +39,7 @@ public protocol PillScheduling: Schedule, Deleting {
     func reset()
 
     /// Swallows the pill.
-    func swallow(_ pillId: UUID, onSuccess: (() -> ())?)
+    func swallow(_ id: UUID, onSuccess: (() -> ())?)
     
     /// Swallows the next pill due.
     func swallow(onSuccess: (() -> ())?)

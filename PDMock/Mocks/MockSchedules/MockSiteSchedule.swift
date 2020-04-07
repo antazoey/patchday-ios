@@ -24,9 +24,10 @@ public class MockSiteSchedule: SiteScheduling {
         nil
     }
 
-    public func get(by id: UUID) -> Bodily? {
+    public subscript(id: UUID) -> Bodily? {
         nil
     }
+    
     
     public subscript(index: Index) -> Bodily? {
         nil

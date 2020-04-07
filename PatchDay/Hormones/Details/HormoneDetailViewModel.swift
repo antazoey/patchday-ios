@@ -206,6 +206,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
     private func getSite() -> Bodily? {
         guard let id = hormone.siteId else { return nil }
-        return sdk?.sites.get(by: id)
+        return sdk?.sites[id]
     }
 }

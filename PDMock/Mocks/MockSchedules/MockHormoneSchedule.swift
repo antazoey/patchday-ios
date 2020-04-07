@@ -47,7 +47,7 @@ public class MockHormoneSchedule: HormoneScheduling {
         nil
     }
 
-    public func get(by id: UUID) -> Hormonal? {
+    public subscript(id: UUID) -> Hormonal? {
         nil
     }
     

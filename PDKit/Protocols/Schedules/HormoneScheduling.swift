@@ -44,7 +44,7 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     subscript(index: Index) -> Hormonal? { get }
     
     /// Returns the hormone for the given ID.
-    func get(by id: UUID) -> Hormonal?
+    subscript(id: UUID) -> Hormonal? { get }
     
     /// Sets the date and site for the hormone with the given ID.
     func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool)

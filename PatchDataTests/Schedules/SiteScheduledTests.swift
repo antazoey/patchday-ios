@@ -446,17 +446,17 @@ class SiteScheduleTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
     
-    public func testGet_whenSiteDoesNotExist_returnsNil() {
+    public func testSubscript_whenSiteDoesNotExist_returnsNil() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        XCTAssertNil(sites.get(by: UUID()))
+        XCTAssertNil(sites[UUID()])
     }
     
-    public func testGet_whenSiteExists_returnsSite() {
+    public func testSubscript_whenSiteExists_returnsSite() {
         let mockSites = [MockSite(), MockSite(), MockSite()]
         let testId = mockSites[1].id
         mockStore.getStoredCollectionReturnValues = [mockSites]
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        XCTAssertNotNil(sites.get(by: testId))
+        XCTAssertNotNil(sites[testId])
     }
     
     public func testRename_whenSiteExists_renamesSite() {

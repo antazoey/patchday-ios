@@ -25,7 +25,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
     func swallow(pillUid: String) {
         if let pills = pills,
             let uuid = UUID(uuidString: pillUid),
-            let pill = pills.get(by: uuid) {
+            let pill = pills[uuid] {
             
             pills.swallow(uuid) {
                 self.requestPillNotification?(pill)

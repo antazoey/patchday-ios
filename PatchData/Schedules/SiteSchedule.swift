@@ -131,7 +131,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
         sites.tryGet(at: index)
     }
 
-    public func get(by id: UUID) -> Bodily? {
+    public subscript(id: UUID) -> Bodily? {
         sites.first(where: { s in s.id == id })
     }
 

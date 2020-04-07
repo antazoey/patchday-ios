@@ -42,6 +42,10 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public var count: Int { pills.count }
     
+    public subscript(id: UUID) -> Swallowable? {
+        pills.first(where: { p in p.id == id })
+    }
+    
     public subscript(index: Index) -> Swallowable? {
         pills.tryGet(at: index)
     }
@@ -79,7 +83,7 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func delete(at index: Index) {
-        if let pill = at(index) {
+        if let pill = self[index] {
             pills.remove(at: index)
             store.delete(pill)
             shareData()
@@ -100,30 +104,20 @@ public class PillSchedule: NSObject, PillScheduling {
         store.pushLocalChangesToManagedContext(pills, doSave: true)
     }
 
-    // MARK: - Public
-
-    public func at(_ index: Index) -> Swallowable? {
-        pills.tryGet(at: index)
-    }
-
-    public func get(by id: UUID) -> Swallowable? {
-        pills.first(where: { p in p.id == id })
-    }
-
     public func set(at index: Index, with attributes: PillAttributes) {
-        if var pill = at(index) {
+        if var pill = self[index] {
             set(&pill, with: attributes)
         }
     }
 
     public func set(by id: UUID, with attributes: PillAttributes) {
-        if var pill = get(by: id) {
+        if var pill = self[id] {
             set(&pill, with: attributes)
         }
     }
 
-    public func swallow(_ pillId: UUID, onSuccess: (() -> ())?) {
-        if let pill = get(by: pillId) {
+    public func swallow(_ id: UUID, onSuccess: (() -> ())?) {
+        if let pill = self[id] {
             swallow(pill, onSuccess) // Saves
         }
     }
