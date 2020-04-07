@@ -84,6 +84,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
         guard let themeName = PickerOptions.getTheme(at: selectedRow) else { return }
         let theme = PickerOptions.getTheme(for: themeName)
         sdk?.settings.setTheme(to: theme)
+        styles?.reset(theme: theme)
         applyTheme()
     }
 }

@@ -54,8 +54,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setNavigationAppearance() {
         guard let styles = styles else { return }
-        nav.reflectTheme(theme: styles.theme)
-        tabs?.reflectTheme(theme: styles.theme)
+        nav.reflectTheme(styles.theme)
+        tabs?.reflectTheme(styles.theme)
     }
 
     func setTheme() {

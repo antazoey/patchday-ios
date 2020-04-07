@@ -245,17 +245,17 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssert(mockStore.deleteCallArgs.count == 0)
     }
     
-    func testAt_whenIndexOutOfBound_returnsNil() {
+    func testSubscript_whenIndexOutOfBound_returnsNil() {
         setUpDefaultHormones(1)
-        let actual = hormones.at(1)
+        let actual = hormones[1]
         XCTAssertNil(actual)
     }
     
-    func testAt_whenIndexInBounds_returnsHormone() {
+    func testSubscript_whenIndexInBounds_returnsHormone() {
         let mockHormones = setUpDefaultHormones(2)
         let expectedId = UUID()
         mockHormones[1].id = expectedId
-        let actualId = hormones.at(1)?.id
+        let actualId = hormones[1]?.id
         XCTAssertEqual(expectedId, actualId)
     }
     

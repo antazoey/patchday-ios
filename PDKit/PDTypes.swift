@@ -14,7 +14,53 @@ public typealias SiteName = String
 public typealias Time = Date
 public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
-public typealias AppTheme = Dictionary<ThemedAsset, UIColor>
+
+
+public class AppTheme {
+    
+    private let colors: Dictionary<ThemedAsset, UIColor>
+    private var _setting: PDTheme
+    
+    public var setting: PDTheme { _setting }
+    
+    public init(_ theme: PDTheme) {
+        self._setting = theme
+        switch theme {
+        case .Light:
+            colors = [
+                .bg : UIColor.white,
+                .border : PDColors.get(.LightGray),
+                .button : UIColor.blue,
+                .evenCell : PDColors.get(.LightBlue),
+                .green : PDColors.get(.Green),
+                .navBar : UIColor.white,
+                .oddCell : UIColor.white,
+                .purple : PDColors.get(.Purple),
+                .selected : PDColors.get(.Pink),
+                .text : UIColor.black,
+                .unselected : UIColor.darkGray
+            ]
+        case .Dark:
+            colors = [
+                .bg : UIColor.black,
+                .border : UIColor.white,
+                .button : UIColor.white,
+                .evenCell : UIColor.black,
+                .green : UIColor.white,
+                .navBar : UIColor.black,
+                .oddCell : UIColor.black,
+                .purple : PDColors.get(.Purple),
+                .selected : PDColors.get(.Black),
+                .text : UIColor.white,
+                .unselected : UIColor.lightGray
+            ]
+        }
+    }
+    
+    public subscript(index: ThemedAsset) -> UIColor {
+        colors[index] ?? UIColor()
+    }
+}
 
 
 public enum DeliveryMethod {

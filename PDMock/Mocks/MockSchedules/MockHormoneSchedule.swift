@@ -43,7 +43,7 @@ public class MockHormoneSchedule: HormoneScheduling {
 
     }
 
-    public func at(_ index: Index) -> Hormonal? {
+    public subscript(index: Index) -> Hormonal? {
         nil
     }
 

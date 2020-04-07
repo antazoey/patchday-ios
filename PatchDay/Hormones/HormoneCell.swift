@@ -53,7 +53,7 @@ class HormoneCell: TableCell {
     private func reflectHormone(at row: Index) -> HormoneCell {
         guard let sdk = sdk else { return self }
         let quantity = sdk.settings.quantity
-        if let hormone = sdk.hormones.at(row), row < quantity.rawValue && row >= 0 {
+        if let hormone = sdk.hormones[row], row < quantity.rawValue && row >= 0 {
             attachToModel(hormone, row)
         } else {
             reset()

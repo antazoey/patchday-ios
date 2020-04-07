@@ -14,15 +14,14 @@ public class Navigation: NavigationHandling {
     
     private lazy var log = PDLog<Navigation>()
 
-    public func reflectTheme(theme: AppTheme) {
+    public func reflectTheme(_ theme: AppTheme) {
+        log.info("Reflecting theme \(theme.setting)")
         let navigationBarAppearance = UINavigationBar.appearance()
         navigationBarAppearance.tintColor = theme[.button]
         navigationBarAppearance.barTintColor = theme[.navBar]
-        if let textColor = theme[.text] {
-            navigationBarAppearance.titleTextAttributes = [
-                NSAttributedString.Key.foregroundColor : textColor
-            ]
-        }
+        navigationBarAppearance.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor : theme[.text]
+        ]
     }
 
     public func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController) {

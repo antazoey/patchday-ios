@@ -75,6 +75,8 @@ class PillCell: TableCell {
         lastTakenLabel.textColor = styles.theme[.text]
         nextDueDate.textColor = styles.theme[.button]
         backgroundColor = styles.getCellColor(at: index)
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = styles.theme[.selected]
         return self
     }
 }

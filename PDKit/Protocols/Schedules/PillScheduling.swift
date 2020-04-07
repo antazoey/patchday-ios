@@ -22,9 +22,9 @@ public protocol PillScheduling: Schedule, Deleting {
     /// Insert a new pill into the schedule.
     @discardableResult
     func insertNew(onSuccess: (() -> ())?) -> Swallowable?
-
+    
     /// Returns the pill at the given index.
-    func at(_ index: Index) -> Swallowable?
+    subscript(index: Index) -> Swallowable? { get }
     
     /// Returns the pill for the given ID.
     func get(by id: UUID) -> Swallowable?

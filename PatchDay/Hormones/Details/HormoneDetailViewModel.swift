@@ -113,7 +113,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     @discardableResult func trySelectSite(at row: Index) -> String? {
-        guard let site = sdk?.sites.at(row) else { return nil }
+        guard let site = sdk?.sites[row] else { return nil }
         selectionState.selectedSite = site
         return site.name
     }

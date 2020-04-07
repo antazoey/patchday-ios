@@ -12,4 +12,5 @@ import UIKit
 public protocol Styling {
     var theme: AppTheme { get }
     func getCellColor(at index: Int) -> UIColor
+    func reset(theme: PDTheme)
 }

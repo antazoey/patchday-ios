@@ -8,6 +8,7 @@ import PDKit
 
 
 public class MockSiteSchedule: SiteScheduling {
+
     public var all: [Bodily] = []
     public var count: Int = -1
     public var suggested: Bodily? = nil
@@ -23,11 +24,11 @@ public class MockSiteSchedule: SiteScheduling {
         nil
     }
 
-    public func at(_ index: Index) -> Bodily? {
+    public func get(by id: UUID) -> Bodily? {
         nil
     }
-
-    public func get(by id: UUID) -> Bodily? {
+    
+    public subscript(index: Index) -> Bodily? {
         nil
     }
 

@@ -30,7 +30,7 @@ public protocol SiteScheduling: Schedule, Sorting, Deleting, Resetting {
     func insertNew(name: String, save: Bool, onSuccess: (() -> ())?) -> Bodily?
     
     /// Returns the site at the given index.
-    func at(_ index: Index) -> Bodily?
+    subscript(index: Index) -> Bodily? { get }
 
     /// Returns the site for the given ID.
     func get(by id: UUID) -> Bodily?

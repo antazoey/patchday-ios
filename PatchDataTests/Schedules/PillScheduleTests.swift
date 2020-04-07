@@ -187,7 +187,7 @@ class PillScheduleTests: XCTestCase {
     public func testReset_resetsPillTimesadays() {
         setUpThreePills()
         pills.reset()
-        XCTAssert(pills.at(0)!.timesaday == 1 && pills.at(1)!.timesaday == 1)
+        XCTAssert(pills[0]!.timesaday == 1 && pills[1]!.timesaday == 1)
     }
     
     public func testReset_savesChanges() {
@@ -206,14 +206,14 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(util.didSave(with: [mockPillOne, mockPillTwo]))
     }
     
-    public func testAt_whenPillExists_returnsPill() {
+    public func testSubscript_whenPillExists_returnsPill() {
         setUpThreePills()
-        XCTAssertNotNil(pills.at(0))
+        XCTAssertNotNil(pills[0])
     }
     
-    public func testAt_whenPillDoesNotExist_returnsNil() {
+    public func testSubscript_whenPillDoesNotExist_returnsNil() {
         setUpThreePills()
-        XCTAssertNil(pills.at(3))
+        XCTAssertNil(pills[3])
     }
     
     public func testGet_whenPillExists_returnsPill() {
@@ -233,7 +233,7 @@ class PillScheduleTests: XCTestCase {
         attributes.time1 = testDate
         setUpThreePills()
         pills.set(at: 0, with: attributes)
-        let pill = pills.at(0) as! MockPill
+        let pill = pills[0] as! MockPill
 
         XCTAssert(pill.setCallArgs.contains(where:
             { (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate

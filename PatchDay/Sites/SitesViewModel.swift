@@ -41,7 +41,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
 
     func isValidSiteIndex(_ index: Index) -> Bool {
-        sdk?.sites.at(index) != nil
+        sdk?.sites[index] != nil
     }
 
     func resetSites() {
@@ -62,7 +62,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         let method = settings.deliveryMethod.value
         let theme = settings.theme.value
         let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
-        if let site = sdk?.sites.at(siteIndex) {
+        if let site = sdk?.sites[siteIndex] {
             nav?.goToSiteDetails(site, source: sitesViewController, params: params)
         }
     }

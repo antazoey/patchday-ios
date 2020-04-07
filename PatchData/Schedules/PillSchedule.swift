@@ -42,6 +42,10 @@ public class PillSchedule: NSObject, PillScheduling {
 
     public var count: Int { pills.count }
     
+    public subscript(index: Index) -> Swallowable? {
+        pills.tryGet(at: index)
+    }
+    
     public var nextDue: Swallowable? {
         pills.min() {
             switch($0.due, $1.due) {

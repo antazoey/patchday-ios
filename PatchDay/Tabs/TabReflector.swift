@@ -32,10 +32,11 @@ class TabReflector: TabReflective {
     var pillsVC: UIViewController? { viewControllers.tryGet(at: 1) }
     var sitesVC: UIViewController? { viewControllers.tryGet(at: 2) }
     
-    func reflectTheme(theme: AppTheme) {
+    func reflectTheme(_ theme: AppTheme) {
         let tabBar = tabBarController.tabBar
         tabBar.unselectedItemTintColor = theme[.unselected]
         tabBar.tintColor = theme[.purple]
+        tabBar.barTintColor = theme[.bg]
     }
     
     func reflectHormoneCharacteristics() {

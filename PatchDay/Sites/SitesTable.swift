@@ -57,7 +57,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
         guard let sites = sites else { return props }
         props.nextSiteIndex = sites.nextIndex
         props.totalSiteCount = sites.count
-        if let site = sites.at(siteIndex) {
+        if let site = sites[siteIndex] {
             props.site = site
         }
         if let theme = stylist?.theme {

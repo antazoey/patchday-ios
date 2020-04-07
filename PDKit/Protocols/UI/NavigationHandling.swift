@@ -10,8 +10,8 @@ import UIKit
 
 
 public protocol NavigationHandling {
-    func reflectTheme(theme: AppTheme)
-    func goToHormoneDetails(_ mone: Hormonal, source: UIViewController)
+    func reflectTheme(_ theme: AppTheme)
+    func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController)
     func goToPillDetails(_ pill: Swallowable, source: UIViewController)
     func goToSiteDetails(_ site: Bodily, source: UIViewController, params: SiteImageDeterminationParameters)
     func goToSettings(source: UIViewController)

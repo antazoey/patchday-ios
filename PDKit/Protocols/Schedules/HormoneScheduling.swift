@@ -41,7 +41,7 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
     func deleteAll()
     
     /// Returns the hormone at the given index.
-    func at(_ index: Index) -> Hormonal?
+    subscript(index: Index) -> Hormonal? { get }
     
     /// Returns the hormone for the given ID.
     func get(by id: UUID) -> Hormonal?

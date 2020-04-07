@@ -24,6 +24,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
     @IBOutlet private weak var settingsStack: UIStackView!
     @IBOutlet private weak var settingsView: UIView!
+    @IBOutlet private weak var expirationMinutesSliderContainer: UIView!
+    @IBOutlet private weak var notificationsSwitchContainer: UIView!
     
     // StackViews
     @IBOutlet private weak var deliveryMethodStack: UIStackView!
@@ -62,6 +64,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     // Views
     @IBOutlet private weak var deliveryMethodSideView: UIView!
+    @IBOutlet private weak var expirationIntervalSideView: UIView!
     @IBOutlet private weak var quantitySideView: UIView!
     @IBOutlet private weak var notificationsSideView: UIView!
     @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
@@ -75,6 +78,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         loadButtonDisabledStates()
         viewModel?.reflector.reflectStoredSettings()
         setPickers()
+        applyTheme()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,9 +104,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     static func create() -> UIViewController {
         let storyboard = UIStoryboard.createSettingsStoryboard()
-        return storyboard.instantiateViewController(
-            withIdentifier: ViewControllerIds.Settings
-        )
+        return storyboard.instantiateViewController(withIdentifier: ViewControllerIds.Settings)
     }
     
     // MARK: - Actions
@@ -135,9 +137,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return settingsPicker.options?.count ?? 0
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        guard let settingsPicker = pickerView as? SettingsPickerView else { return nil }
-        return settingsPicker.options?.tryGet(at: row)
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+        let settingsPicker = pickerView as? SettingsPickerView
+        let title = settingsPicker?.options?.tryGet(at: row) ?? ""
+        let textColor = viewModel?.styles?.theme[.text] ?? UIColor.black
+        return NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor : textColor])
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -148,7 +152,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     private func loadViewModelIfNil() {
         guard viewModel == nil else { return }
-        let saver = SettingsSavePoint(controls: controlsStruct, themeChangeHook: { self.applyTheme() })
+        let saver = SettingsSavePoint(controls: controlsStruct, themeChangeHook: { self.applyTheme(); self.viewDidLoad() })
         self.viewModel = SettingsViewModel(reflector: SettingsReflector(controlsStruct), saver: saver)
     }
 
@@ -197,26 +201,44 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     private func applyTheme() {
         guard let styles = viewModel?.styles else { return }
+        
+        // Labels
+        deliveryMethodLabel.textColor = styles.theme[.text]
+        expirationIntervalLabel.textColor = styles.theme[.text]
+        quantityLabel.textColor = styles.theme[.text]
+        themeLabel.textColor = styles.theme[.text]
+        notificationsLabel.textColor = styles.theme[.text]
+        notificationsMinutesBeforeLabel.textColor = styles.theme[.text]
+        notificationsMinutesBeforeValueLabel.textColor = styles.theme[.text]
+
+        // Containers
         settingsView.backgroundColor = styles.theme[.bg]
         view.backgroundColor = styles.theme[.bg]
         settingsStack.backgroundColor = styles.theme[.bg]
+        notificationsSwitchContainer.backgroundColor = styles.theme[.bg]
+        expirationMinutesSliderContainer.backgroundColor = styles.theme[.bg]
         
+        // Buttons
         deliveryMethodButton.setTitleColor(styles.theme[.text])
-        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
-        
-        expirationIntervalButton.setTitleColor(styles.theme[.text])
-        
         quantityButton.setTitleColor(styles.theme[.text])
-        quantitySideView.backgroundColor = styles.theme[.bg]
+        expirationIntervalButton.setTitleColor(styles.theme[.text])
+        themeButton.setTitleColor(styles.theme[.text])
         
+        // Side views
+        deliveryMethodSideView.backgroundColor = styles.theme[.bg]
+        expirationIntervalSideView.backgroundColor = styles.theme[.bg]
+        quantitySideView.backgroundColor = styles.theme[.bg]
+        themeSideView.backgroundColor = styles.theme[.bg]
+        
+        // Misc
         notificationsSwitch.backgroundColor = styles.theme[.bg]
         notificationsSideView.backgroundColor = styles.theme[.bg]
-        
         notificationsMinutesBeforeSlider.backgroundColor = styles.theme[.bg]
         notificationsMinutesBeforeSideView.backgroundColor = styles.theme[.bg]
-        
-        themeSideView.backgroundColor = styles.theme[.bg]
-        themeButton.setTitleColor(styles.theme[.text])
+
+        viewModel?.nav?.reflectTheme(styles.theme)
+        viewModel?.tabs?.reflectTheme(styles.theme)
+        view.setNeedsDisplay()
     }
     
     private func assignSelfAsDelegateForPickers() {
@@ -229,8 +251,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         themePicker.delegate = self
         themePicker.dataSource = self
     }
-    
-    
+
     private func selectPicker(setting: PDSetting) -> SettingsPickerView? {
         switch setting {
         case.Quantity: return quantityPicker
@@ -258,9 +279,17 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             { viewModel.expirationIntervalStartIndex }
         )
         setPicker(
-            quantityPicker, .Quantity, quantityButton, { viewModel.quantityStartIndex }
+            quantityPicker,
+            .Quantity,
+            quantityButton,
+            { viewModel.quantityStartIndex }
         )
-        setPicker(themePicker, .Theme, themeButton, { viewModel.themeStartIndex })
+        setPicker(
+            themePicker,
+            .Theme,
+            themeButton,
+            { viewModel.themeStartIndex }
+        )
     }
 
     private func setPicker(

@@ -16,44 +16,14 @@ class Stylist: NSObject, Styling {
     var theme: AppTheme
     
     init(theme: PDTheme) {
-        self.theme = Stylist.createAppTheme(theme)
+        self.theme = AppTheme(theme)
     }
 
     func getCellColor(at index: Int) -> UIColor {
-        let color = index % 2 == 0 ? theme[.evenCell] : theme[.oddCell]
-        return color ?? UIColor()
+        index % 2 == 0 ? theme[.evenCell] : theme[.oddCell]
     }
     
-    static func createAppTheme(_ theme: PDTheme) -> AppTheme {
-        switch theme {
-        case .Light:
-            return [
-                .bg : UIColor.white,
-                .border : PDColors.get(.LightGray),
-                .button : UIColor.blue,
-                .evenCell : PDColors.get(.LightBlue),
-                .green : PDColors.get(.Green),
-                .navBar : UIColor.white,
-                .oddCell : UIColor.white,
-                .purple : PDColors.get(.Purple),
-                .selected : PDColors.get(.Pink),
-                .text : UIColor.black,
-                .unselected : UIColor.darkGray
-            ]
-        case .Dark:
-            return [
-                .bg : UIColor.black,
-                .border : UIColor.white,
-                .button : UIColor.white,
-                .evenCell : UIColor.black,
-                .green : UIColor.white,
-                .navBar : UIColor.white,
-                .oddCell : UIColor.black,
-                .purple : PDColors.get(.Purple),
-                .selected : PDColors.get(.Black),
-                .text : UIColor.white,
-                .unselected : UIColor.lightGray
-            ]
-        }
+    func reset(theme: PDTheme) {
+        self.theme = AppTheme(theme)
     }
 }

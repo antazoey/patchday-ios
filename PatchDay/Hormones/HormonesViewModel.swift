@@ -26,7 +26,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         self.table = HormonesTable(hormonesTableView)
         super.init()
         loadAppTabs(source: source)
-        reflectThemeInTabBar()
         initTable()
     }
     
@@ -65,7 +64,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         guard row < quantity && row >= 0 else { return nil }
         let theme = sdk.settings.theme.value
         let method = sdk.settings.deliveryMethod.value
-        let hormone = sdk.hormones.at(row)
+        let hormone = sdk.hormones[row]
 
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
             hormone: hormone, deliveryMethod: method, theme: theme
@@ -88,7 +87,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
-        guard let hormone = hormones?.at(hormoneIndex) else { return }
+        guard let hormone = hormones?[hormoneIndex] else { return }
         nav?.goToHormoneDetails(hormone, source: hormonesViewController)
     }
     
@@ -107,12 +106,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
             object: nil
         )
     }
-    
-    func reflectThemeInTabBar() {
-        guard let styles = styles else { return }
-        tabs?.reflectTheme(theme: styles.theme)
-    }
-    
+
     private func initTable() {
         table.reflectModel(sdk: self.sdk, styles: self.styles)
         table.applyTheme(styles?.theme)

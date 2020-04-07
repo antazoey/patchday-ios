@@ -45,7 +45,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -114,7 +114,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -183,7 +183,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for a nearby button for choosing the number of patches">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -247,7 +247,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for a nearby button for choosing the number of patches">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -313,7 +313,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="label next to switch for indicating whether the user wants to receive a reminder before their patch expires.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -373,7 +373,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="this title is for a button that lets the user choose how many minutes before they are receiving the reminder.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                                    <font key="NSFont" metaFont="label" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -500,7 +500,9 @@
                         <outlet property="expirationIntervalButton" destination="dZo-Ez-aXA" id="ETU-dy-Gw6"/>
                         <outlet property="expirationIntervalLabel" destination="AU8-7c-vIO" id="qDy-FH-L2x"/>
                         <outlet property="expirationIntervalPicker" destination="bzl-1c-YdT" id="J6d-ht-Vd9"/>
+                        <outlet property="expirationIntervalSideView" destination="M1G-ig-oUg" id="iIc-ak-y1K"/>
                         <outlet property="expirationIntervalStack" destination="gLk-5k-32E" id="G3Y-cX-l9P"/>
+                        <outlet property="expirationMinutesSliderContainer" destination="aVY-I8-lmp" id="duV-lY-I9p"/>
                         <outlet property="notificationsLabel" destination="5Zu-BE-Jh8" id="X8y-mk-lOY"/>
                         <outlet property="notificationsMinutesBeforeLabel" destination="DvS-Oc-7gL" id="biW-7O-nAo"/>
                         <outlet property="notificationsMinutesBeforeSideView" destination="onX-vA-iNv" id="aEy-r2-LmL"/>
@@ -510,6 +512,7 @@
                         <outlet property="notificationsSideView" destination="bAq-e1-NTx" id="orY-gC-r3h"/>
                         <outlet property="notificationsStack" destination="8uD-9B-lcc" id="zFV-E2-HRA"/>
                         <outlet property="notificationsSwitch" destination="d5M-4a-RjZ" id="qiS-e8-sBA"/>
+                        <outlet property="notificationsSwitchContainer" destination="uek-HK-wRd" id="lDX-Ty-9LR"/>
                         <outlet property="quantityArrowButton" destination="vYX-vA-hfJ" id="ens-ZU-9RK"/>
                         <outlet property="quantityButton" destination="XiV-is-g5n" id="qBf-ro-0u5"/>
                         <outlet property="quantityLabel" destination="7kW-w6-KcV" id="YuN-Wf-WTK"/>

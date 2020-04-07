@@ -120,8 +120,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         guard count > 0 else { return }
         delete(after: -1)
     }
-
-    public func at(_ index: Index) -> Hormonal? {
+    
+    public subscript(index: Index) -> Hormonal? {
         hormones.tryGet(at: index)
     }
 
@@ -135,12 +135,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
-        guard var hormone = at(index) else { return }
+        guard var hormone = self[index] else { return }
         set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex, doSave: doSave)
     }
 
     public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
-        guard var hormone = at(index) else { return }
+        guard var hormone = self[index] else { return }
         setSite(&hormone, with: site, doSave: doSave)
         if incrementSiteIndex {
             settings.incrementStoredSiteIndex()
@@ -156,7 +156,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func setDate(at index: Index, with date: Date, doSave: Bool) {
-        guard var hormone = at(index) else { return }
+        guard var hormone = self[index] else { return }
         setDate(&hormone, with: date, doSave: doSave)
     }
 

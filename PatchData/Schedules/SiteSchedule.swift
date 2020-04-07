@@ -99,14 +99,14 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     public func delete(at index: Index) {
-        if let site = at(index) {
+        if let site = self[index] {
             log.info("Deleting site at index \(index)")
             store.delete(site)
             sites.remove(at: index)
             
             // index now refers to index - 1
             for i in index...count - 1 {
-                if var site = at(i) {
+                if var site = self[i] {
                     site.order -= 1
                 }
             }
@@ -126,8 +126,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
             return $0.order < $1.order
         }
     }
-
-    public func at(_ index: Index) -> Bodily? {
+    
+    public subscript(index: Index) -> Bodily? {
         sites.tryGet(at: index)
     }
 
@@ -136,7 +136,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     public func rename(at index: Index, to name: SiteName) {
-        if var site = at(index) {
+        if var site = self[index] {
             site.name = name
             store.pushLocalChangesToManagedContext([site], doSave: true)
         }
@@ -144,7 +144,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     public func reorder(at index: Index, to newOrder: Int) {
         guard sites.count > 0 else { return }
-        if var site = at(index), var originalSiteAtOrder = at(newOrder) {
+        if var site = self[index], var originalSiteAtOrder = self[newOrder] {
             site.order = site.order + originalSiteAtOrder.order
             originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
             site.order = site.order - originalSiteAtOrder.order
@@ -156,7 +156,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     public func setImageId(at index: Index, to newId: String) {
         guard sites.count > 0 else { return }
         let siteSet = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
-        if var site = at(index) {
+        if var site = self[index] {
             site.imageId = siteSet.contains(newId) ? newId : SiteStrings.CustomSiteId
             store.pushLocalChangesToManagedContext([site], doSave: true)
         }
@@ -172,7 +172,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
     
     private var suggestedSite: Bodily? {
-        if let site = at(settings.siteIndex.value) {
+        if let site = self[settings.siteIndex.value] {
             return site
         }
         return nil
@@ -181,7 +181,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     private var firstEmptyFromSiteIndex: Bodily? {
         var siteIterator = settings.siteIndex.value
         for _ in 0..<count {
-            if let site = at(siteIterator), site.hormoneCount == 0 {
+            if let site = self[siteIterator], site.hormoneCount == 0 {
                 return site
             }
             siteIterator = (siteIterator + 1) % count
@@ -194,7 +194,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             (b, site) in
 
             if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
-               oldestDateInThisSitesHormones < b.oldestDate, let site = at(b.iterator) {
+               oldestDateInThisSitesHormones < b.oldestDate, let site = self[b.iterator] {
 
                 return (oldestDateInThisSitesHormones, site, b.iterator + 1)
             }
@@ -246,7 +246,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     private func assignDefaultProperties(options: [String]) {
         for i in 0..<options.count {
             let name = options[i]
-            if var site = at(i) {
+            if var site = self[i] {
                 setSite(&site, index: i, name: name)
             } else {
                 var site = insertNew(name: name, save: false, onSuccess: nil)

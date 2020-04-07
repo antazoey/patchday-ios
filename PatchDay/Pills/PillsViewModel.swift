@@ -37,7 +37,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
     func takePill(at index: Index) {
         guard let pills = pills else { return }
-        guard let pill = pills.at(index) else { return }
+        guard let pill = pills[index] else { return }
         pills.swallow(pill.id) {
             self.tabs?.reflectDuePillBadgeValue()
             self.notifications?.requestDuePillNotification(pill)
@@ -54,7 +54,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     }
     
     func presentPillActions(at index: Index, viewController: UIViewController) {
-        let pillName = self.sdk?.pills.at(index)?.name ?? ViewTitleStrings.PillTitle
+        let pillName = self.sdk?.pills[index]?.name ?? ViewTitleStrings.PillTitle
         let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
         let takePill = { self.takePill(at: index) }
         let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
@@ -67,7 +67,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     }
 
     func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
-        guard let pill = pills?.at(pillIndex) else { return }
+        guard let pill = pills?[pillIndex] else { return }
         nav?.goToPillDetails(pill, source: pillsViewController)
     }
 

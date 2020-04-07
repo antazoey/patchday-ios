@@ -97,7 +97,7 @@ class SiteScheduleTests: XCTestCase {
     public func testSuggested_whenDefaultsSiteIndexIsUnoccupied_returnsSiteAtDefaultsSiteIndex() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         mockSettings.siteIndex = SiteIndexUD(2)
-        let expected = sites.at(2)!.id
+        let expected = sites[2]!.id
         let actual = sites.suggested!.id
         XCTAssertEqual(expected, actual)
     }
@@ -344,10 +344,10 @@ class SiteScheduleTests: XCTestCase {
         mockSettings.deliveryMethod = DeliveryMethodUD(.Patches)
         sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         sites.reset()
-        let siteOne = sites.at(0)!
-        let siteTwo = sites.at(1)!
-        let siteThree = sites.at(2)!
-        let siteFour = sites.at(3)!
+        let siteOne = sites[0]!
+        let siteTwo = sites[1]!
+        let siteThree = sites[2]!
+        let siteFour = sites[3]!
         XCTAssert(siteOne.name == "Right Glute" && siteOne.order == 0)
         XCTAssert(siteTwo.name == "Left Glute" && siteTwo.order == 1)
         XCTAssert(siteThree.name == "Right Abdomen" && siteThree.order == 2)
@@ -358,12 +358,12 @@ class SiteScheduleTests: XCTestCase {
         mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
         sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
         sites.reset()
-        let siteOne = sites.at(0)!
-        let siteTwo = sites.at(1)!
-        let siteThree = sites.at(2)!
-        let siteFour = sites.at(3)!
-        let siteFive = sites.at(4)!
-        let siteSix = sites.at(5)!
+        let siteOne = sites[0]!
+        let siteTwo = sites[1]!
+        let siteThree = sites[2]!
+        let siteFour = sites[3]!
+        let siteFive = sites[4]!
+        let siteSix = sites[5]!
         XCTAssert(siteOne.name == "Right Quad" && siteOne.order == 0)
         XCTAssert(siteTwo.name == "Left Quad" && siteTwo.order == 1)
         XCTAssert(siteThree.name == "Right Glute" && siteThree.order == 2)
@@ -391,7 +391,7 @@ class SiteScheduleTests: XCTestCase {
 
     public func testDelete_callsStoredDeleteWithExpectedArgs() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)  // Starts with 4
-        let expected = sites.at(1)!.id
+        let expected = sites[1]!.id
         sites.delete(at: 1)
         let actual = mockStore.deleteCallArgs[0].id
         XCTAssertEqual(expected, actual)
@@ -400,24 +400,24 @@ class SiteScheduleTests: XCTestCase {
     public func testDelete_maintainsOrder() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.delete(at: 1)
-        XCTAssert(sites.at(0)!.order == 0 && sites.at(1)!.order == 1 && sites.at(2)!.order == 2)
+        XCTAssert(sites[0]!.order == 0 && sites[1]!.order == 1 && sites[2]!.order == 2)
     }
 
     public func testSort_keepsNegativeNumbersAtTheEnd() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        var site = sites.at(1)!
+        var site = sites[1]!
         site.order = -5
         sites.sort()
-        let siteAgain = sites.at(3)!  // Last
+        let siteAgain = sites[3]!  // Last
         XCTAssertEqual(-5, siteAgain.order)
     }
 
     public func testSort_putsLowerPositiveNumbersAtBeginning() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        var siteOne = sites.at(0)!
-        var siteTwo = sites.at(1)!
-        var siteThree = sites.at(2)!
-        var siteFour = sites.at(3)!
+        var siteOne = sites[0]!
+        var siteTwo = sites[1]!
+        var siteThree = sites[2]!
+        var siteFour = sites[3]!
         
         siteOne.order = 6
         siteTwo.order = -9
@@ -427,22 +427,22 @@ class SiteScheduleTests: XCTestCase {
         
         // Puts order 6 at end and order 1 becomes new first.
         XCTAssertTrue(
-            sites.at(0)!.order == 1
-            && sites.at(1)!.order == 4
-            && sites.at(2)!.order == 6
-            && sites.at(3)!.order == -9
+            sites[0]!.order == 1
+            && sites[1]!.order == 4
+            && sites[2]!.order == 6
+            && sites[3]!.order == -9
         )
     }
     
-    public func testAt_whenIndexOutOfBounds_returnsNil() {
+    public func testSubscript_whenIndexOutOfBounds_returnsNil() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
-        XCTAssertNil(sites.at(5))
+        XCTAssertNil(sites[5])
     }
     
-    public func testAt_whenIndexInBounds_returnsSiteAtGivenIndex() {
+    public func testSubscript_whenIndexInBounds_returnsSiteAtGivenIndex() {
         let mockSites = setUpSites(count: 3)
         let expected = mockSites[1].id
-        let actual = sites.at(1)!.id
+        let actual = sites[1]!.id
         XCTAssertEqual(expected, actual)
     }
     
@@ -462,7 +462,7 @@ class SiteScheduleTests: XCTestCase {
     public func testRename_whenSiteExists_renamesSite() {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.rename(at: 1, to: "New Name")
-        let actual = sites.at(1)!.name
+        let actual = sites[1]!.name
         XCTAssertEqual("New Name", actual)
     }
     
@@ -487,7 +487,7 @@ class SiteScheduleTests: XCTestCase {
         let mockSites = setUpSites(count: 3)
         let expected = mockSites[1].id
         sites.reorder(at: 4, to: 1)
-        let actual = sites.at(1)!.id  // Id didn't change at index
+        let actual = sites[1]!.id  // Id didn't change at index
         XCTAssertEqual(expected, actual)
     }
     
@@ -495,7 +495,7 @@ class SiteScheduleTests: XCTestCase {
         let mockSites = setUpSites(count: 3)
         let expected = mockSites[0].id
         sites.reorder(at: 0, to: 3)
-        let actual = sites.at(0)!.id  // Id didn't change at index
+        let actual = sites[0]!.id  // Id didn't change at index
         XCTAssertEqual(expected, actual)
     }
     
@@ -503,7 +503,7 @@ class SiteScheduleTests: XCTestCase {
         let mockSites = setUpSites(count: 3)
         let expected = mockSites[0].id
         sites.reorder(at: 0, to: 2)
-        let actual = sites.at(2)!.id  // Id is now at index 1.
+        let actual = sites[2]!.id  // Id is now at index 1.
         XCTAssertEqual(expected, actual)
     }
     
@@ -511,7 +511,7 @@ class SiteScheduleTests: XCTestCase {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.reorder(at: 0, to: 1)
         let args = mockStore.pushLocalChangesCallArgs[1]
-        XCTAssert(sites.at(0)!.id == args.0[0].id && sites.at(1)!.id == args.0[1].id && args.1)
+        XCTAssert(sites[0]!.id == args.0[0].id && sites[1]!.id == args.0[1].id && args.1)
     }
     
     public func testSetImageId_whenDeliveryMethodIsPatchesAndGivenADefaultSiteName_setsImageIdToSiteName() {
@@ -519,7 +519,7 @@ class SiteScheduleTests: XCTestCase {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Glute")
         let expected = "Right Glute"
-        let actual = sites.at(0)!.imageId
+        let actual = sites[0]!.imageId
         XCTAssertEqual(expected, actual)
     }
     
@@ -528,7 +528,7 @@ class SiteScheduleTests: XCTestCase {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Delt")
         let expected = "Right Delt"
-        let actual = sites.at(0)!.imageId
+        let actual = sites[0]!.imageId
         XCTAssertEqual(expected, actual)
     }
     
@@ -536,7 +536,7 @@ class SiteScheduleTests: XCTestCase {
         sites = SiteSchedule(store: mockStore, settings: mockSettings)
         sites.setImageId(at: 0, to: "Right Eyeball")
         let expected = "custom"
-        let actual = sites.at(0)!.imageId
+        let actual = sites[0]!.imageId
         XCTAssertEqual(expected, actual)
     }
     

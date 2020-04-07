@@ -25,16 +25,17 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
         loadTitle()
         loadBarButtons()
         updateFromBackground()
+        applyTheme()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         initViewModelIfNil()
         fadeInView()
-        applyTheme()
         viewModel.presentDisclaimerAlertIfFirstLaunch()
         loadTitle()
         viewModel.table.reloadData()
         viewModel.updateSiteImages()
+        applyTheme()
         super.viewDidAppear(false)
     }
 
@@ -105,6 +106,8 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     private func applyTheme() {
         guard let styles = viewModel.styles else { return }
         hormonesView.backgroundColor = styles.theme[.bg]
-        self.view.backgroundColor = styles.theme[.bg]
+        view.backgroundColor = styles.theme[.bg]
+        viewModel.tabs?.reflectTheme(styles.theme)
+        viewModel.nav?.reflectTheme(styles.theme)
     }
 }

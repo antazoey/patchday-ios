@@ -21,7 +21,7 @@ class PillsTable: TableViewWrapper<PillCell> {
     }
 
     func getCell(at index: Index)-> PillCell {
-        guard let pill = pills?.at(index) else { return PillCell() }
+        guard let pill = pills?[index] else { return PillCell() }
         let params = PillCellConfigurationParameters(pill: pill, index: index, styles: styles)
         return dequeueCell()?.configure(params) ?? PillCell()
     }
@@ -40,9 +40,8 @@ class PillsTable: TableViewWrapper<PillCell> {
     }
     
     private func applyTheme() {
-        if let styles = styles {
-            table.backgroundColor = styles.theme[.bg]
-            table.separatorColor = styles.theme[.border]
-        }
+        guard let styles = styles else { return }
+        table.backgroundColor = styles.theme[.bg]
+        table.separatorColor = styles.theme[.border]
     }
 }

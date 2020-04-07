@@ -66,9 +66,8 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Cancels the hormone notification at the given index.
     func cancelExpiredHormoneNotification(at index: Index) {
-        if let hormone = sdk?.hormones.at(index) {
-            cancelExpiredHormoneNotification(for: hormone)
-        }
+        guard let hormone = sdk?.hormones[index] else { return }
+        cancelExpiredHormoneNotification(for: hormone)
     }
 
     func cancelExpiredHormoneNotification(for hormone: Hormonal) {
@@ -98,7 +97,7 @@ class Notifications: NSObject, NotificationScheduling {
             let e = end >= 0 ? end : hormones.count - 1
             if e < begin { return }
             for i in begin...e {
-                if let mone = hormones.at(i) {
+                if let mone = hormones[i] {
                     let id = mone.id.uuidString
                     center.removeNotifications(with: [id])
                     requestExpiredHormoneNotification(for: mone)
@@ -116,7 +115,7 @@ class Notifications: NSObject, NotificationScheduling {
     
     /// Request a pill notification from index.
     func requestDuePillNotification(forPillAt index: Index) {
-        if let pill = sdk?.pills.at(index) {
+        if let pill = sdk?.pills[index] {
             requestDuePillNotification(pill)
         }
     }
@@ -147,7 +146,7 @@ class Notifications: NSObject, NotificationScheduling {
     }
     
     private func appendHormoneIdToList(at i: Index, lst: inout [String]) {
-        if let mone = sdk?.hormones.at(i) {
+        if let mone = sdk?.hormones[i] {
             let id = mone.id.uuidString
             lst.append(id)
         }
