@@ -12,17 +12,17 @@ public class PDColors: NSObject {
         "Read-only PatchDay Color class."
     }
     
-    /// Returns UIColor based on key from PDStrings.
-    public static func get(_ key: PDStrings.ColorKey) -> UIColor {
-        let colorDict: [PDStrings.ColorKey: UIColor] =  [
-            PDStrings.ColorKey.OffWhite : pdOffWhite,
-            PDStrings.ColorKey.LightBlue : pdLightBlue,
-            PDStrings.ColorKey.Gray : pdCuteGray,
-            PDStrings.ColorKey.LightGray : pdLighterCuteGray,
-            PDStrings.ColorKey.Green : pdGreen,
-            PDStrings.ColorKey.Pink : pdPink,
-            PDStrings.ColorKey.Black : pdBlack,
-            PDStrings.ColorKey.Purple : pdPurple
+    /// Returns UIColor based on key from
+    public static func get(_ key: ColorKey) -> UIColor {
+        let colorDict: [ColorKey: UIColor] =  [
+            ColorKey.OffWhite : pdOffWhite,
+            ColorKey.LightBlue : pdLightBlue,
+            ColorKey.Gray : pdCuteGray,
+            ColorKey.LightGray : pdLighterCuteGray,
+            ColorKey.Green : pdGreen,
+            ColorKey.Pink : pdPink,
+            ColorKey.Black : pdBlack,
+            ColorKey.Purple : pdPurple
         ]
         return colorDict[key]!
     }

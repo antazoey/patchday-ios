@@ -84,66 +84,66 @@ public class SiteImages: NSObject {
 
     private static var imageToSiteNameDict: [UIImage: SiteName] {
         [
-            lightPatchRightGlute : SiteStrings.SiteNames.rightGlute,
-            darkPatchRightGlute : SiteStrings.SiteNames.rightGlute,
-            lightPatchLeftGlute : SiteStrings.SiteNames.leftGlute,
-            darkPatchLeftGlute : SiteStrings.SiteNames.leftGlute,
-            lightPatchRightAbdomen : SiteStrings.SiteNames.rightAbdomen,
-            darkPatchRightAbdomen : SiteStrings.SiteNames.rightAbdomen,
-            lightPatchLeftAbdomen : SiteStrings.SiteNames.leftAbdomen,
-            darkPatchLeftAbdomen : SiteStrings.SiteNames.leftAbdomen,
-            lightInjectionGluteRight : SiteStrings.SiteNames.rightGlute,
-            darkInjectionGluteRight : SiteStrings.SiteNames.rightGlute,
-            lightInjectionLeftGlute : SiteStrings.SiteNames.leftGlute,
-            darkInjectionLeftGlute : SiteStrings.SiteNames.leftGlute,
-            lightInjectionRightQuad : SiteStrings.SiteNames.rightQuad,
-            darkInjectionRightQuad : SiteStrings.SiteNames.rightQuad,
-            lightInjectionLeftQuad : SiteStrings.SiteNames.leftQuad,
-            darkInjectionLeftQuad : SiteStrings.SiteNames.leftQuad,
-            lightInjectionRightDelt : SiteStrings.SiteNames.rightDelt,
-            darkInjectionRightDelt : SiteStrings.SiteNames.rightDelt,
-            lightInjectionLeftDelt : SiteStrings.SiteNames.leftDelt,
-            darkInjectionLeftDelt : SiteStrings.SiteNames.leftDelt
+            lightPatchRightGlute : SiteStrings.rightGlute,
+            darkPatchRightGlute : SiteStrings.rightGlute,
+            lightPatchLeftGlute : SiteStrings.leftGlute,
+            darkPatchLeftGlute : SiteStrings.leftGlute,
+            lightPatchRightAbdomen : SiteStrings.rightAbdomen,
+            darkPatchRightAbdomen : SiteStrings.rightAbdomen,
+            lightPatchLeftAbdomen : SiteStrings.leftAbdomen,
+            darkPatchLeftAbdomen : SiteStrings.leftAbdomen,
+            lightInjectionGluteRight : SiteStrings.rightGlute,
+            darkInjectionGluteRight : SiteStrings.rightGlute,
+            lightInjectionLeftGlute : SiteStrings.leftGlute,
+            darkInjectionLeftGlute : SiteStrings.leftGlute,
+            lightInjectionRightQuad : SiteStrings.rightQuad,
+            darkInjectionRightQuad : SiteStrings.rightQuad,
+            lightInjectionLeftQuad : SiteStrings.leftQuad,
+            darkInjectionLeftQuad : SiteStrings.leftQuad,
+            lightInjectionRightDelt : SiteStrings.rightDelt,
+            darkInjectionRightDelt : SiteStrings.rightDelt,
+            lightInjectionLeftDelt : SiteStrings.leftDelt,
+            darkInjectionLeftDelt : SiteStrings.leftDelt
         ]
     }
 
     private static var siteNameToLightPatchImageDict: [SiteName: UIImage] {
         [
-            SiteStrings.SiteNames.rightGlute: lightPatchRightGlute,
-            SiteStrings.SiteNames.leftGlute: lightPatchLeftGlute,
-            SiteStrings.SiteNames.rightAbdomen: lightPatchRightAbdomen,
-            SiteStrings.SiteNames.leftAbdomen: lightPatchLeftAbdomen
+            SiteStrings.rightGlute: lightPatchRightGlute,
+            SiteStrings.leftGlute: lightPatchLeftGlute,
+            SiteStrings.rightAbdomen: lightPatchRightAbdomen,
+            SiteStrings.leftAbdomen: lightPatchLeftAbdomen
         ]
     }
 
     private static var siteNameToDarkPatchImageDict: [SiteName: UIImage] {
         [
-            SiteStrings.SiteNames.rightGlute: darkPatchRightGlute,
-            SiteStrings.SiteNames.leftGlute: darkPatchLeftGlute,
-            SiteStrings.SiteNames.rightAbdomen: darkPatchRightAbdomen,
-            SiteStrings.SiteNames.leftAbdomen: darkPatchLeftAbdomen
+            SiteStrings.rightGlute: darkPatchRightGlute,
+            SiteStrings.leftGlute: darkPatchLeftGlute,
+            SiteStrings.rightAbdomen: darkPatchRightAbdomen,
+            SiteStrings.leftAbdomen: darkPatchLeftAbdomen
         ]
     }
 
     private static var siteNameToLightInjectionImageDict: [SiteName: UIImage] {
         [
-            SiteStrings.SiteNames.rightGlute: lightInjectionGluteRight,
-            SiteStrings.SiteNames.leftGlute: lightInjectionLeftGlute,
-            SiteStrings.SiteNames.leftDelt: lightInjectionLeftDelt,
-            SiteStrings.SiteNames.rightDelt: lightInjectionRightDelt,
-            SiteStrings.SiteNames.leftQuad: lightInjectionLeftQuad,
-            SiteStrings.SiteNames.rightQuad: lightInjectionRightQuad
+            SiteStrings.rightGlute: lightInjectionGluteRight,
+            SiteStrings.leftGlute: lightInjectionLeftGlute,
+            SiteStrings.leftDelt: lightInjectionLeftDelt,
+            SiteStrings.rightDelt: lightInjectionRightDelt,
+            SiteStrings.leftQuad: lightInjectionLeftQuad,
+            SiteStrings.rightQuad: lightInjectionRightQuad
         ]
     }
 
     private static var siteNameToDarkInjectionImageDict: [SiteName: UIImage] {
         [
-            SiteStrings.SiteNames.rightGlute: darkInjectionGluteRight,
-            SiteStrings.SiteNames.leftGlute: darkInjectionLeftGlute,
-            SiteStrings.SiteNames.leftDelt: darkInjectionLeftDelt,
-            SiteStrings.SiteNames.rightDelt: darkInjectionRightDelt,
-            SiteStrings.SiteNames.leftQuad: darkInjectionLeftQuad,
-            SiteStrings.SiteNames.rightQuad: darkInjectionRightQuad
+            SiteStrings.rightGlute: darkInjectionGluteRight,
+            SiteStrings.leftGlute: darkInjectionLeftGlute,
+            SiteStrings.leftDelt: darkInjectionLeftDelt,
+            SiteStrings.rightDelt: darkInjectionRightDelt,
+            SiteStrings.leftQuad: darkInjectionLeftQuad,
+            SiteStrings.rightQuad: darkInjectionRightQuad
         ]
     }
 
@@ -173,7 +173,7 @@ public class SiteImages: NSObject {
         imageToSiteNameDict[image] ?? SiteStrings.NewSite
     }
 
-    static func get(from params: SiteImageDeterminationParameters) -> UIImage {
+    static subscript(params: SiteImageDeterminationParameters) -> UIImage {
         tryGetForProvided(from: params) ?? tryGetForCustom(from: params) ?? getForPlaceholderHormone(params)
     }
 

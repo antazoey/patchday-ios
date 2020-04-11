@@ -31,13 +31,13 @@ public class PDDateFormatter {
 
     private static func dateWord(from date: Date) -> String? {
         if calendar.isDateInToday(date) {
-            return PDStrings.DayStrings.today
+            return DayStrings.today
         } else if let yesterdayAtThisTime = DateFactory.createDate(daysFromNow: -1),
             calendar.isDate(date, inSameDayAs: yesterdayAtThisTime) {
-            return PDStrings.DayStrings.yesterday
+            return DayStrings.yesterday
         } else if let tomorrowAtThisTime = DateFactory.createDate(daysFromNow: 1),
             calendar.isDate(date, inSameDayAs: tomorrowAtThisTime) {
-            return PDStrings.DayStrings.tomorrow
+            return DayStrings.tomorrow
         }
         return nil
     }

@@ -19,7 +19,7 @@ class PillDataSharer: PillDataSharing {
     }
 
     public func share(nextPill: Swallowable) {
-        baseSharer.share(nextPill.name, forKey: PDStrings.TodayKey.nextPillToTake.rawValue)
-        baseSharer.share(nextPill.due, forKey: PDStrings.TodayKey.nextPillTakeTime.rawValue)
+        baseSharer.share(nextPill.name, forKey: TodayKey.nextPillToTake.rawValue)
+        baseSharer.share(nextPill.due, forKey: TodayKey.nextPillTakeTime.rawValue)
     }
 }

@@ -15,7 +15,7 @@ class TodayViewModel: NSObject {
     private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
 
     private let placeholderText = {
-        PDStrings.PlaceholderStrings.DotDotDot
+        PlaceholderStrings.DotDotDot
     }()
 
     init(dataDelegate: TodayDataDelegate) {

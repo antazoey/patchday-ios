@@ -40,7 +40,7 @@ public class HormoneDataSharer: HormoneDataSharing {
         interval: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethodUD
     ) {
-        baseSharer.share(displayedSiteName, forKey: PDStrings.TodayKey.nextHormoneSiteName.rawValue)
-        baseSharer.share(oldestHormone.date, forKey: PDStrings.TodayKey.nextHormoneDate.rawValue)
+        baseSharer.share(displayedSiteName, forKey: TodayKey.nextHormoneSiteName.rawValue)
+        baseSharer.share(oldestHormone.date, forKey: TodayKey.nextHormoneDate.rawValue)
     }
 }

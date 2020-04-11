@@ -8,60 +8,53 @@
 
 import Foundation
 
+
 public class SiteStrings {
     
     private static let commonComment = {
         "Displayed all over the app. Abbreviate if it is more than 2x as long."
     }()
     
-    public static let Unplaced = {
-        NSLocalizedString("unplaced", comment: commonComment)
-    }()
+    public static let Unplaced = { NSLocalizedString("unplaced", comment: commonComment) }()
     
-    public static let NewSite = {
-        NSLocalizedString("New Site", comment: commonComment)
-    }()
+    public static let NewSite = { NSLocalizedString("New Site", comment: commonComment) }()
 
     public static let CustomSiteId = "custom"
     
-    public struct SiteNames {
-        static let patchSiteNames: [String] = {
-            let comment = commonComment
-            return [
-                NSLocalizedString("Right Glute", tableName: nil, comment: comment),
-                NSLocalizedString("Left Glute", tableName: nil, comment: comment),
-                NSLocalizedString("Right Abdomen", tableName: nil, comment: comment),
-                NSLocalizedString("Left Abdomen", tableName: nil, comment: comment)
-            ]
-        }()
-        
-        public static let rightAbdomen = { patchSiteNames[2] }()
-        public static let leftAbdomen = { patchSiteNames[3] }()
-        public static let rightGlute = { patchSiteNames[0] }()
-        public static let leftGlute = { patchSiteNames[1] }()
-        
-        static let injectionSiteNames: [String] =  {
-            let comment = commonComment
-            return [
-                NSLocalizedString("Right Quad", comment: comment),
-                NSLocalizedString("Left Quad", comment: comment),
-                NSLocalizedString("Right Glute", comment: comment),
-                NSLocalizedString("Left Glute", comment: comment),
-                NSLocalizedString("Right Delt", comment: comment),
-                NSLocalizedString("Left Delt", comment: comment)
-            ]
-        }()
-        
-        public static let rightQuad = { injectionSiteNames[0] }()
-        public static let leftQuad = { injectionSiteNames[1] }()
-        public static let rightDelt = { injectionSiteNames[4] }()
-        public static let leftDelt = { injectionSiteNames[5] }()
+    public static var patches: [String] {
+        [
+            NSLocalizedString("Right Glute", tableName: nil, comment: commonComment),
+            NSLocalizedString("Left Glute", tableName: nil, comment: commonComment),
+            NSLocalizedString("Right Abdomen", tableName: nil, comment: commonComment),
+            NSLocalizedString("Left Abdomen", tableName: nil, comment: commonComment)
+        ]
     }
+    
+    public static var injections: [String] {
+        [
+            NSLocalizedString("Right Quad", comment: commonComment),
+            NSLocalizedString("Left Quad", comment: commonComment),
+            NSLocalizedString("Right Glute", comment: commonComment),
+            NSLocalizedString("Left Glute", comment: commonComment),
+            NSLocalizedString("Right Delt", comment: commonComment),
+            NSLocalizedString("Left Delt", comment: commonComment)
+        ]
+    }
+    
+    public static let rightAbdomen = { patches[2] }()
+    public static let leftAbdomen = { patches[3] }()
+    public static let rightGlute = { patches[0] }()
+    public static let leftGlute = { patches[1] }()
+    
+    public static let rightQuad = { injections[0] }()
+    public static let leftQuad = { injections[1] }()
+    public static let rightDelt = { injections[4] }()
+    public static let leftDelt = { injections[5] }()
     
     public static func getSiteNames(for method: DeliveryMethod) -> [String] {
         switch method {
-        case .Patches: return SiteNames.patchSiteNames
-        case .Injections: return SiteNames.injectionSiteNames
+        case .Patches: return patches
+        case .Injections: return injections
         }
     }
 }

@@ -83,7 +83,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
             deliveryMethod: settings.deliveryMethod.value,
             theme: settings.theme.value
         )
-        return SiteImages.get(from: params)
+        return SiteImages[params]
     }
 
     @discardableResult func saveSiteImageChanges() -> UIImage? {

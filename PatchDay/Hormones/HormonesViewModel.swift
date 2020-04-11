@@ -69,7 +69,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
             hormone: hormone, deliveryMethod: method, theme: theme
         )
-        return SiteImages.get(from: siteImageDeterminationParams)
+        return SiteImages[siteImageDeterminationParams]
     }
 
     func sortHormones() {

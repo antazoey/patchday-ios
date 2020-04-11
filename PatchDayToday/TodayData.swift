@@ -17,22 +17,22 @@ class TodayData: TodayDataDelegate {
     }
 
     func getNextHormoneSiteName() -> String? {
-        let siteKey = PDStrings.TodayKey.nextHormoneSiteName.rawValue
+        let siteKey = TodayKey.nextHormoneSiteName.rawValue
         return defaults?.object(forKey: siteKey) as? String
     }
 
     func getNextHormoneExpirationDate() -> Date? {
-        let dateKey = PDStrings.TodayKey.nextHormoneDate.rawValue
+        let dateKey = TodayKey.nextHormoneDate.rawValue
         return defaults?.object(forKey: dateKey) as? Date
     }
 
     func getNextPillName() -> String? {
-        let pillKey = PDStrings.TodayKey.nextPillToTake.rawValue
+        let pillKey = TodayKey.nextPillToTake.rawValue
         return defaults?.object(forKey: pillKey) as? String
     }
 
     func getNextPillDate() -> Date? {
-        let timeKey = PDStrings.TodayKey.nextPillTakeTime.rawValue
+        let timeKey = TodayKey.nextPillTakeTime.rawValue
         return defaults?.object(forKey: timeKey) as? Date
     }
 }
