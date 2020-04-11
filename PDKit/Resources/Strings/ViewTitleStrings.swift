@@ -12,21 +12,21 @@ public class ViewTitleStrings {
     
     private static let c = "Title of a view controller. Keep it brief please."
 
-    public static let PatchesTitle = { NSLocalizedString("Patches", comment: c) }()
-    public static let InjectionsTitle = { NSLocalizedString("Injections", comment: c) }()
-    public static let HormonesTitle = { NSLocalizedString("Hormones", comment: c) }()
-    public static let SettingsTitle = { NSLocalizedString("Settings", comment: c) }()
-    public static let PillsTitle = { NSLocalizedString("Pills", comment: c) }()
-    public static let PillTitle = { NSLocalizedString("Pill", comment: c) }()
-    public static let EditPillTitle = { NSLocalizedString("Edit Pill", comment: c) }()
-    public static let NewPillTitle = { NSLocalizedString("New Pill", comment: c) }()
-    public static let SitesTitle = { NSLocalizedString("Sites", comment: c) }()
-    public static let PatchSitesTitle = { NSLocalizedString("Patch Sites", comment: c) }()
-    public static let InjectionSitesTitle = { NSLocalizedString("Injection Sites", comment: c) }()
-    public static let EditSiteTitle = { NSLocalizedString("Edit Site", comment: c) }()
-    public static let PatchTitle = { NSLocalizedString("Patch", comment: c) }()
-    public static let InjectionTitle = { NSLocalizedString("Injection", comment: c) }()
-    public static let SiteTitle = { NSLocalizedString("Site", comment: c) }()
+    public static var PatchesTitle: String { NSLocalizedString("Patches", comment: c) }
+    public static var InjectionsTitle: String { NSLocalizedString("Injections", comment: c) }
+    public static var HormonesTitle: String { NSLocalizedString("Hormones", comment: c) }
+    public static var SettingsTitle: String { NSLocalizedString("Settings", comment: c) }
+    public static var PillsTitle: String { NSLocalizedString("Pills", comment: c) }
+    public static var PillTitle: String { NSLocalizedString("Pill", comment: c) }
+    public static var EditPillTitle: String { NSLocalizedString("Edit Pill", comment: c) }
+    public static var NewPillTitle: String { NSLocalizedString("New Pill", comment: c) }
+    public static var SitesTitle: String { NSLocalizedString("Sites", comment: c) }
+    public static var PatchSitesTitle: String { NSLocalizedString("Patch Sites", comment: c) }
+    public static var InjectionSitesTitle: String { NSLocalizedString("Injection Sites", comment: c) }
+    public static var EditSiteTitle: String { NSLocalizedString("Edit Site", comment: c) }
+    public static var PatchTitle: String { NSLocalizedString("Patch", comment: c) }
+    public static var InjectionTitle: String { NSLocalizedString("Injection", comment: c) }
+    public static var SiteTitle: String { NSLocalizedString("Site", comment: c) }
 
     public static func getTitle(for method: DeliveryMethod) -> String {
         switch method {

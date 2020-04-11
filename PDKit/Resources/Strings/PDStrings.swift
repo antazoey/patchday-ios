@@ -1,7 +1,4 @@
 //
-//  swift
-//  PDKit
-//
 //  Created by Juliya Smith on 6/4/17.
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
@@ -17,17 +14,17 @@ public class PlaceholderStrings {
 }
 
 
-public struct DayStrings {
+public class DayStrings {
     private static let comment = "The word 'today' displayed on a button."
-    public static let today = {
+    public static var today: String {
         NSLocalizedString("Today", comment: comment)
-    }()
-    public static let yesterday = {
+    }
+    public static var yesterday: String {
         NSLocalizedString("Yesterday", comment: comment)
-    }()
-    public static let tomorrow = {
+    }
+    public static var tomorrow: String {
         NSLocalizedString("Tomorrow", comment: comment)
-    }()
+    }
 }
 
 

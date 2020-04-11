@@ -53,11 +53,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var providedPillNameSelection: [String] {
-        PillStrings.PillTypes.defaultPills + PillStrings.PillTypes.extraPills
+        PillStrings.DefaultPills + PillStrings.ExtraPills
     }
 
     var pillSelectionCount: Int {
-        PillStrings.PillTypes.defaultPills.count + PillStrings.PillTypes.extraPills.count
+        PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
     }
 
     func save() {

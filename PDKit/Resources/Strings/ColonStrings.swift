@@ -14,76 +14,84 @@ public class ColonStrings {
     private static let c1 = "Displayed on a label, plenty of room."
     private static let c2 = "Label next to date. Easy on room."
 
-    public static let Count = {
+    public static var Count: String {
         NSLocalizedString("Count:", comment: c1)
-    }()
+    }
 
-    public static let Time = {
+    public static var Time: String {
         NSLocalizedString("Time:", comment: c1)
-    }()
+    }
 
-    public static let Expires = {
+    public static var Expires: String {
         NSLocalizedString("Expires: ", comment: c2)
-    }()
+    }
 
-    public static let Expired = {
+    public static var Expired: String {
         NSLocalizedString("Expired: ", comment: c2)
-    }()
+    }
 
-    public static let LastInjected = {
+    public static var LastInjected: String {
         NSLocalizedString("Injected: ", comment: c2)
-    }()
+    }
 
-    public static let NextDue = {
+    public static var NextDue: String {
         NSLocalizedString("Next due: ", comment: c2)
-    }()
+    }
 
-    public static let DateAndTimeApplied = {
+    public static var DateAndTimeApplied: String {
         NSLocalizedString("Date and time applied: ", comment: c2)
-    }()
+    }
 
-    public static let DateAndTimeInjected = {
+    public static var DateAndTimeInjected: String {
         NSLocalizedString("Date and time injected: ", comment: c2)
-    }()
+    }
 
-    public static let Site = {
+    public static var Site: String {
         NSLocalizedString("Site: ", comment: c2)
-    }()
+    }
 
-    public static let LastSiteInjected = {
+    public static var LastSiteInjected: String {
         NSLocalizedString("Site injected: ", comment: c2)
-    }()
+    }
     
     public static func getDateTitle(for hormone: Hormonal) -> String {
-        var title = ""
         switch hormone.deliveryMethod {
-        case .Patches:
-            if let exp = hormone.expiration {
-                let intro = hormone.isExpired ? self.Expired : self.Expires
-                title += intro + PDDateFormatter.formatDate(exp)
-            }
-        case .Injections:
-            let day = PDDateFormatter.formatDate(hormone.date)
-            title += self.LastInjected + day
+        case .Patches: return getPatchTitle(hormone)
+        case .Injections: return getInjectionTitle(hormone)
         }
-        return title
+    }
+    
+    private static func getPatchTitle(_ patch: Hormonal) -> String {
+        guard let exp = patch.expiration else { return "" }
+        let intro = patch.isExpired ? self.Expired : self.Expires
+        return intro + PDDateFormatter.formatDate(exp)
+    }
+    
+    private static func getInjectionTitle(_ injection: Hormonal) -> String {
+        let day = PDDateFormatter.formatDate(injection.date)
+        return self.LastInjected + day
     }
     
     public static func createHormoneViewStrings(deliveryMethod: DeliveryMethod, hormone: Hormonal) -> HormoneViewStrings {
         switch deliveryMethod {
-        case .Patches :
-            let expText = hormone.isExpired ? Expired : Expires
-            return HormoneViewStrings(
-                expirationText: expText,
-                dateAndTimePlacedText: DateAndTimeApplied,
-                siteLabelText: Site
-            )
-        case .Injections:
-            return HormoneViewStrings(
-                expirationText: NextDue,
-                dateAndTimePlacedText: DateAndTimeInjected,
-                siteLabelText: LastSiteInjected
-            )
+        case .Patches : return createPatchViewStrings(hormone)
+        case .Injections: return createInjectionViewStrings(hormone)
         }
+    }
+    
+    private static func createPatchViewStrings(_ patch: Hormonal) -> HormoneViewStrings {
+        HormoneViewStrings(
+            expirationText: patch.isExpired ? Expired : Expires,
+            dateAndTimePlacedText: DateAndTimeApplied,
+            siteLabelText: Site
+        )
+    }
+    
+    private static func createInjectionViewStrings(_ injection: Hormonal) -> HormoneViewStrings {
+        HormoneViewStrings(
+            expirationText: NextDue,
+            dateAndTimePlacedText: DateAndTimeInjected,
+            siteLabelText: LastSiteInjected
+        )
     }
 }

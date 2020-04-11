@@ -11,16 +11,15 @@ import Foundation
 
 public class PillStrings {
     
-    public static let NewPill = {
+    public static var NewPill: String {
         NSLocalizedString("New Pill", comment: "Displayed under a button with medium room.")
-    }()
-    
-    public static let NotYetTaken = {
-        NSLocalizedString("Not yet taken", comment: "Short as possible. Replace with just ... if too long.")
-    }()
-    
-    public struct PillTypes {
-        public static let defaultPills = { ["T-Blocker", "Progesterone"] }()
-        public static let extraPills = { ["Estrogen", "Prolactin"] }()
     }
+    
+    public static var NotYetTaken: String {
+        NSLocalizedString("Not yet taken", comment: "Short as possible. Replace with just '...' if too long.")
+    }
+    
+    public static var DefaultPills: [String] { ["T-Blocker", "Progesterone"] }
+
+    public static var ExtraPills: [String] { ["Estrogen", "Prolactin"] }
 }
