@@ -113,7 +113,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	public func saveAll() {
 		guard count > 0 else { return }
-		store.pushLocalChangesToManagedContext(hormones, doSave: true)
+        store.pushLocalChangesToManagedContext(hormones, doSave: true)
 	}
 
 	public func deleteAll() {
@@ -129,40 +129,40 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		hormones.first(where: { h in h.id == id })
 	}
 
-	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 		guard var hormone = self[id] else { return }
-		set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex, doSave: doSave)
+		set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex)
 	}
 
-	public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 		guard var hormone = self[index] else { return }
-		set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex, doSave: doSave)
+		set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex)
 	}
 
-	public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool) {
 		guard var hormone = self[index] else { return }
-		setSite(&hormone, with: site, doSave: doSave)
+		setSite(&hormone, with: site)
 		if incrementSiteIndex {
 			settings.incrementStoredSiteIndex()
 		}
 	}
 
-	public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool) {
 		guard var hormone = self[id] else { return }
-		setSite(&hormone, with: site, doSave: doSave)
+		setSite(&hormone, with: site)
 		if incrementSiteIndex {
 			settings.incrementStoredSiteIndex()
 		}
 	}
 
-	public func setDate(at index: Index, with date: Date, doSave: Bool) {
+	public func setDate(at index: Index, with date: Date) {
 		guard var hormone = self[index] else { return }
-		setDate(&hormone, with: date, doSave: doSave)
+		setDate(&hormone, with: date)
 	}
 
-	public func setDate(by id: UUID, with date: Date, doSave: Bool) {
+	public func setDate(by id: UUID, with date: Date) {
 		guard var hormone = self[id] else { return }
-		setDate(&hormone, with: date, doSave: doSave)
+		setDate(&hormone, with: date)
 	}
 
 	public func indexOf(_ hormone: Hormonal) -> Index? {
@@ -191,28 +191,28 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		hormones.filter { $0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "") }.count > 0
 	}
 
-	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 		hormone.siteId = site.id
 		hormone.date = date
 		sort()
-		pushFromDateAndSiteChange(hormone, doSave: doSave)
+		pushFromDateAndSiteChange(hormone, doSave: true)
 		if incrementSiteIndex {
 			settings.incrementStoredSiteIndex()
 		}
 	}
 
-	private func setSite(_ hormone: inout Hormonal, with site: Bodily, doSave: Bool) {
+	private func setSite(_ hormone: inout Hormonal, with site: Bodily) {
 		hormone.siteId = site.id
 		hormone.siteName = site.name
 		shareData()
-		store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
+		store.pushLocalChangesToManagedContext([hormone], doSave: true)
 	}
 
-	private func setDate(_ hormone: inout Hormonal, with date: Date, doSave: Bool) {
+	private func setDate(_ hormone: inout Hormonal, with date: Date) {
 		hormone.date = date
 		sort()
 		shareData()
-		store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
+		store.pushLocalChangesToManagedContext([hormone], doSave: true)
 	}
 
 	private static func getHormoneList(from store: HormoneStoring, settings: UserDefaultsReading) -> [Hormonal] {

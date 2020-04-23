@@ -28,7 +28,7 @@ public class MockHormoneSchedule: HormoneScheduling {
 	}
 
 	public func reset(completion: (() -> ())?) -> Int {
-			- 1
+        -1
 	}
 
 	public func saveAll() {
@@ -51,32 +51,32 @@ public class MockHormoneSchedule: HormoneScheduling {
 		nil
 	}
 
-	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 
 	}
 
-	public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 
 	}
 
-	public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool) {
 
 	}
 
-	public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool) {
+	public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool) {
 
 	}
 
-	public func setDate(by id: UUID, with date: Date, doSave: Bool) {
+	public func setDate(by id: UUID, with date: Date) {
 
 	}
 
-	public func setDate(at index: Index, with date: Date, doSave: Bool) {
+	public func setDate(at index: Index, with date: Date) {
 
 	}
 
 	public func indexOf(_ hormone: Hormonal) -> Index? {
-			- 1
+        -1
 	}
 
 	public func fillIn(to stopCount: Int) {
@@ -92,6 +92,6 @@ public class MockHormoneSchedule: HormoneScheduling {
 	}
 
 	public func reset() -> Int {
-			- 1
+        -1
 	}
 }

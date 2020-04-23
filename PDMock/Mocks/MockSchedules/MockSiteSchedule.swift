@@ -46,7 +46,7 @@ public class MockSiteSchedule: SiteScheduling {
 	}
 
 	public func indexOf(_ site: Bodily) -> Index? {
-			- 1
+        -1
 	}
 
 	public func sort() {

@@ -348,5 +348,6 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 		selectDateButton.setTitleColor(PDColors[.Purple])
 		typeSiteButton.setTitleColor(PDColors[.Button])
 		autofillButton.setTitleColor(PDColors[.Button])
+        saveButton.tintColor = PDColors[.Button]
 	}
 }

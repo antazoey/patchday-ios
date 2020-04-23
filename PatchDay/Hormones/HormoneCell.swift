@@ -60,10 +60,8 @@ class HormoneCell: TableCell {
 	}
 
 	private func attachToModel(_ hormone: Hormonal, _ hormoneIndex: Index) {
-		guard let sdk = sdk else { return }
-		let method = sdk.settings.deliveryMethod.value
 		loadDateLabel(for: hormone)
-		loadBadge(at: hormoneIndex, isExpired: hormone.isExpired, deliveryMethod: method)
+		loadBadge(hormone, at: hormoneIndex)
 		selectionStyle = .default
 	}
 
@@ -76,11 +74,11 @@ class HormoneCell: TableCell {
 		}
 	}
 
-	private func loadBadge(at index: Int, isExpired: Bool, deliveryMethod: DeliveryMethod) {
+    private func loadBadge(_ hormone: Hormonal, at index: Int) {
 		badgeButton.restorationIdentifier = String(index)
-		badgeButton.type = deliveryMethod == DeliveryMethod.Injections
-			? PDBadgeButtonType.injections : PDBadgeButtonType.patches
-		badgeButton.badgeValue = isExpired ? "!" : nil
+        badgeButton.type = hormone.deliveryMethod == .Injections ? .injections : .patches
+        let shouldShow = hormone.isPastNotificationTime
+		badgeButton.badgeValue = shouldShow ? "!" : nil
 	}
 
 

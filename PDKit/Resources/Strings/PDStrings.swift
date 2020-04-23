@@ -5,12 +5,12 @@
 
 
 public class PlaceholderStrings {
-	public static let NothingYet = {
+    public static var NothingYet: String {
 		NSLocalizedString("Nothing yet", comment: "On buttons with plenty of room")
-	}()
-	public static let DotDotDot = {
+	}
+    public static var DotDotDot: String {
 		NSLocalizedString("...", comment: "Instruction for empty patch")
-	}()
+	}
 }
 
 

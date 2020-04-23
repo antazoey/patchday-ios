@@ -12,7 +12,8 @@ import Foundation
 public class PDDateFormatter {
 
 	private static let timeFormatter: DateFormatter = { createFormatter("h:mm a") }()
-	private static let dateFormatter: DateFormatter = { createFormatter("EEEE, h:mm a") }()
+	private static let dayFormatter: DateFormatter = { createFormatter("EEEE, h:mm a") }()
+    private static let dateFormatter: DateFormatter = { createFormatter("EEEE, MMMM d, h:mm a") }()
 	private static var calendar = { Calendar.current }()
 
 	/// Gives String for the given Time.
@@ -23,11 +24,21 @@ public class PDDateFormatter {
 	/// Gives String for the given Date.
 	public static func formatDate(_ date: Date) -> String {
 		if let word = dateWord(from: date) {
-			let time = timeFormatter.string(from: date)
-			return word + ", " + time
+            return getWordedDateString(from: date, word: word)
 		}
 		return dateFormatter.string(from: date)
 	}
+    
+    public static func formatDay(_ day: Date) -> String {
+        if let word = dateWord(from: day) {
+            return getWordedDateString(from: day, word: word)
+        }
+        return dayFormatter.string(from: day)
+    }
+    
+    private static func getWordedDateString(from date: Date, word: String) -> String {
+        word + ", " + timeFormatter.string(from: date)
+    }
 
 	private static func dateWord(from date: Date) -> String? {
 		if calendar.isDateInToday(date) {

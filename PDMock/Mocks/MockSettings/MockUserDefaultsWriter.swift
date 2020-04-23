@@ -23,7 +23,6 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 		replaceStoredDeliveryMethodCallArgs = []
 		replaceStoredExpirationIntervalCallArgs = []
 		replaceStoredQuantityCallArgs = []
-		replaceStoredThemeCallArgs = []
 		resetCallArgs = []
 		replaceSiteIndexMockReturnValue = 0
 	}
@@ -31,7 +30,6 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 	public var replaceStoredDeliveryMethodCallArgs: [DeliveryMethod] = []
 	public var replaceStoredExpirationIntervalCallArgs: [ExpirationInterval] = []
 	public var replaceStoredQuantityCallArgs: [Quantity] = []
-	public var replaceStoredThemeCallArgs: [PDTheme] = []
 	public var resetCallArgs: [Int] = []
 	public var replaceSiteIndexMockReturnValue = 0
 
@@ -71,9 +69,5 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 	public func incrementStoredSiteIndex() -> Index {
 		self.siteIndex = SiteIndexUD(self.siteIndex.rawValue + 1)
 		return self.siteIndex.rawValue + 1
-	}
-
-	public func replaceStoredTheme(to newTheme: PDTheme) {
-		replaceStoredThemeCallArgs.append(newTheme)
 	}
 }

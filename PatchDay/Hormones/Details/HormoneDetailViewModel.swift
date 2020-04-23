@@ -95,14 +95,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	func createHormoneViewStrings() -> HormoneViewStrings {
-		guard let method = sdk?.settings.deliveryMethod.value else {
-			return createHormoneViewStrings(method: DefaultSettings.DeliveryMethodValue)
-		}
-		return ColonStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
-	}
-
-	func createHormoneViewStrings(method: DeliveryMethod) -> HormoneViewStrings {
-		ColonStrings.createHormoneViewStrings(deliveryMethod: method, hormone: hormone)
+		ColonStrings.createHormoneViewStrings(hormone)
 	}
 
 	@discardableResult func trySelectSite(at row: Index) -> String? {
@@ -144,25 +137,25 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	private func trySave() {
 		guard let sdk = sdk else { return }
-		trySaveDate(sdk.hormones, selectionState.selectedDate, doSave: false)
-		trySaveSite(sdk.hormones, selectionState.selectedSite, doSave: true)
+		trySaveDate(sdk.hormones, selectionState.selectedDate)
+		trySaveSite(sdk.hormones, selectionState.selectedSite)
 	}
 
-	private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?, doSave: Bool = true) {
+	private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?) {
 		guard let date = selectedDate else {
 			log.info("There are no changes to the \(PDEntity.hormone) date")
 			return
 		}
-		hormones.setDate(by: hormone.id, with: date, doSave: doSave)
+		hormones.setDate(by: hormone.id, with: date)
 	}
 
-	private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?, doSave: Bool = true) {
+	private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?) {
 		guard let site = selectedSite else {
 			log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
 			return
 		}
 		let isSuggested = site.id == sdk?.sites.suggested?.id
-		hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested, doSave: doSave)
+		hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested)
 	}
 
 	private func handleExpirationState(state: HormoneExpirationState) {
@@ -194,7 +187,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	private func createExpirationDateString(from startDate: Date) -> String {
 		let hours = expirationIntervalHours
 		guard let expDate = DateFactory.createDate(byAddingHours: hours, to: startDate) else { return "" }
-		return PDDateFormatter.formatDate(expDate)
+		return PDDateFormatter.formatDay(expDate)
 	}
 
 	private func getSite() -> Bodily? {

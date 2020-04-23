@@ -47,22 +47,22 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
 	subscript(id: UUID) -> Hormonal? { get }
 
 	/// Sets the date and site for the hormone with the given ID.
-	func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool)
+	func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool)
 
 	/// Sets the date and site for the hormone at given index.
-	func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool, doSave: Bool)
+	func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool)
 
 	/// Sets the site of the hormone with the given ID.
-	func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool)
+	func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool)
 
 	/// Sets the site for the hormone at the given index.
-	func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool, doSave: Bool)
+	func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool)
 
 	/// Sets the date of the hormone with the given ID.
-	func setDate(by id: UUID, with date: Date, doSave: Bool)
+	func setDate(by id: UUID, with date: Date)
 
 	/// Sets the date for the hormone at the given index.
-	func setDate(at index: Index, with date: Date, doSave: Bool)
+	func setDate(at index: Index, with date: Date)
 
 	/// Gets the first index of the given hormone.
 	func indexOf(_ hormone: Hormonal) -> Index?
