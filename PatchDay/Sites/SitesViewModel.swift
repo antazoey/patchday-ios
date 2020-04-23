@@ -18,7 +18,6 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         self.table = SitesTable(sitesTableView)
         super.init()
         self.table.sites = sdk?.sites
-        self.table.stylist = styles
     }
 
     var sites: SiteScheduling? {
@@ -60,8 +59,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
         guard let settings = sdk?.settings else { return }
         let method = settings.deliveryMethod.value
-        let theme = settings.theme.value
-        let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
+        let params = SiteImageDeterminationParameters(deliveryMethod: method)
         if let site = sdk?.sites[siteIndex] {
             nav?.goToSiteDetails(site, source: sitesViewController, params: params)
         }
@@ -71,8 +69,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         goToSiteDetails(siteIndex: sitesCount, sitesViewController: sitesViewController)
     }
 
-    func handleEditSite(editBarItemProps props: BarItemInitializationProperties) {
-        table.prepareCellsForEditMode(editingState: props.tableActionState)
+    func toggleEdit(_ props: BarItemInitializationProperties) {
+        table.toggleEdit(state: props.tableActionState)
     }
 
     func tryDeleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
@@ -102,23 +100,14 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         return [insert, edit]
     }
 
-    func switchBarItems(
-        items: inout [UIBarButtonItem], barItemEditProps props: BarItemInitializationProperties
-    ) {
-        guard items.count >= 2 else { return }
-        items[0] = SiteViewFactory.createItemFromActionState(props)
-        items[1].title = props.oppositeActionTitle
-    }
-
     private static func prepareBackButtonForNavigation(_ sitesViewController: UIViewController) {
         let backItem = SiteViewFactory.createBackItem()
         sitesViewController.navigationItem.backBarButtonItem = backItem
     }
 
     private func getViewControllerTitleFromDeliveryMethod() -> String {
-        if let method = sdk?.settings.deliveryMethod.value {
-            return ViewTitleStrings.getSitesTitle(for: method)
-        }
-        return ViewTitleStrings.SiteTitle
+        guard let sdk = sdk else { return ViewTitleStrings.SiteTitle }
+        let method = sdk.settings.deliveryMethod.value
+        return ViewTitleStrings.getSitesTitle(for: method)
     }
 }

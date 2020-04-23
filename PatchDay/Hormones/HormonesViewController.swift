@@ -1,5 +1,5 @@
 //
-//  HormonesVC.swift
+//  HormonesViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 1/8/17.
@@ -53,7 +53,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.getCell(at: indexPath.row)
+        viewModel[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -83,11 +83,13 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     private func loadBarButtons() {
-        let settingsButton = UIBarButtonItem()
-        settingsButton.image = PDIcons.settingsIcon
+        let settingsButton = PDViewFactory.createIconBarButtonItem(PDIcons.settingsIcon)
         settingsButton.target = self
         settingsButton.action = #selector(settingsTapped)
         navigationItem.rightBarButtonItems = [settingsButton]
+        
+        let backItem = PDViewFactory.createTextBarButtonItem(ViewTitleStrings.HormonesTitle)
+        navigationItem.backBarButtonItem = backItem
     }
 
     private func loadTitle() {
@@ -104,10 +106,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     }
 
     private func applyTheme() {
-        guard let styles = viewModel.styles else { return }
-        hormonesView.backgroundColor = styles.theme[.bg]
-        view.backgroundColor = styles.theme[.bg]
-        viewModel.tabs?.reflectTheme(styles.theme)
-        viewModel.nav?.reflectTheme(styles.theme)
+        hormonesView.backgroundColor = UIColor.systemBackground
+        view.backgroundColor = UIColor.systemBackground
     }
 }

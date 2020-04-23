@@ -57,7 +57,6 @@
 		3397C6D624DB1C16ED465839 /* ColonStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* ColonStringsTests.swift */; };
 		3397C6FCF093000DD580D593 /* DateFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C77E21A14AB79431233D /* DateFactory.swift */; };
 		3397C710366F6DF03F4C9BE7 /* PillsTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C5E1286D48758418CA9A /* PillsTable.swift */; };
-		3397C74B05F5F39146DC9CA3 /* TabReflective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CF930A5E66090BFA9C71 /* TabReflective.swift */; };
 		3397C77AC63E9C7EB9409EB4 /* TableViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */; };
 		3397C7AA5FCCF3F70851A96C /* PillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C4F5D8AADC9C5B2831CA /* PillCell.swift */; };
 		3397C7E5E191E210E1B8FA85 /* PDObjectLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEF0E64C576123005F01 /* PDObjectLogger.swift */; };
@@ -88,7 +87,7 @@
 		3397CDA5B6056A68141649EF /* PDSettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CF33CEB0E43BBF273BDB /* PDSettingsTests.swift */; };
 		3397CDCED90F1674FD98CC06 /* DateExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C1C5401F606963550A9A /* DateExtensionTests.swift */; };
 		3397CE09352C3C3013F3FBFB /* PillValueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C21846D29473CB6B3B7B /* PillValueTypes.swift */; };
-		3397CE0D3255A3D28540FD6F /* DoneButtonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDDC25322F027DE45D6A /* DoneButtonFactory.swift */; };
+		3397CE0D3255A3D28540FD6F /* PDViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDDC25322F027DE45D6A /* PDViewFactory.swift */; };
 		3397CEAA73285A8C81B07DFF /* HormoneDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C92B22AD98FD011DCE92 /* HormoneDetailViewModel.swift */; };
 		3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C49932A88441EDBC9663 /* HormonesTable.swift */; };
 		3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C3FEA855E6D94AB288AD /* AlertStrings.swift */; };
@@ -106,7 +105,6 @@
 		9D1BC57E2277F45F00552BC1 /* PickerOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* PickerOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
 		9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */; };
-		9D21E6022415D59B00CAEEF4 /* Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D72A909233DA2CE0030D460 /* Styling.swift */; };
 		9D226984237506BF00828B5F /* PDNotificationProducing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D226983237506BF00828B5F /* PDNotificationProducing.swift */; };
 		9D22698623750CCD00828B5F /* SwallowPillNotificationActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47DE234C329F005AA467 /* SwallowPillNotificationActionHandling.swift */; };
 		9D22698823750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D22698723750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift */; };
@@ -116,16 +114,13 @@
 		9D3E4C8222B5B47E00C82DAE /* DuePillNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C8122B5B47E00C82DAE /* DuePillNotification.swift */; };
 		9D3E4C8522B5DEB300C82DAE /* ViewTitleStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C8322B5DD9F00C82DAE /* ViewTitleStrings.swift */; };
 		9D3E4C9622B730B500C82DAE /* ActionStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9522B730B500C82DAE /* ActionStrings.swift */; };
-		9D43DB0A22639893008F56AE /* Stylist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D43DB0922639893008F56AE /* Stylist.swift */; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786A23FE276400FF150C /* SiteImageDeterminationParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C5601EE716D5A8F80786 /* SiteImageDeterminationParameters.swift */; };
-		9D6D786B23FE279000FF150C /* SiteImageTypeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CCB521481AA2231D040F /* SiteImageTypeAdapter.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
 		9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */; };
 		9D6DB7D22405FED600C00711 /* PDUserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D12405FED600C00711 /* PDUserDefault.swift */; };
 		9D6DB7DB2405FEF200C00711 /* QuantityUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D72405FEF200C00711 /* QuantityUD.swift */; };
 		9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */; };
-		9D6DB7DD2405FEF200C00711 /* ThemeUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D92405FEF200C00711 /* ThemeUD.swift */; };
 		9D6DB7DE2405FEF200C00711 /* ExpirationIntervalUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */; };
 		9D6DB7E02405FFD300C00711 /* SimpleSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */; };
 		9D6DB7E22406002B00C00711 /* SettingsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7E12406002B00C00711 /* SettingsPickerView.swift */; };
@@ -198,6 +193,7 @@
 		9DB1A4AE241448100072E91B /* SettingStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1A4AD241448100072E91B /* SettingStrings.swift */; };
 		9DC5135923973C1400A5138B /* TodayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayData.swift */; };
 		9DC5135A23973C1700A5138B /* TodayDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */; };
+		9DCB086B2442163E00E80486 /* TabReflective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CF930A5E66090BFA9C71 /* TabReflective.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
 		9DD5C2FB228111F9009BAA25 /* SiteStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2FA228111F9009BAA25 /* SiteStrings.swift */; };
 		9DDAB02C23F8D84D00E6EEF6 /* PillStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDAB02B23F8D84D00E6EEF6 /* PillStrings.swift */; };
@@ -426,11 +422,10 @@
 		3397CBAEECDFB0997BB88263 /* SettingsSavePoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSavePoint.swift; sourceTree = "<group>"; };
 		3397CC73DBC50CB53940CA1B /* PDDateFormatterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDDateFormatterTests.swift; sourceTree = "<group>"; };
 		3397CC81AF588180667148E6 /* PillsViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsViewFactory.swift; sourceTree = "<group>"; };
-		3397CCB521481AA2231D040F /* SiteImageTypeAdapter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteImageTypeAdapter.swift; sourceTree = "<group>"; };
 		3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayExtensionTests.swift; sourceTree = "<group>"; };
 		3397CDCB99C6BDD7B12B135C /* AlertDispatcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDispatcher.swift; sourceTree = "<group>"; };
 		3397CDD5E1C3F60EAEEFE82B /* SiteDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailViewController.swift; sourceTree = "<group>"; };
-		3397CDDC25322F027DE45D6A /* DoneButtonFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoneButtonFactory.swift; sourceTree = "<group>"; };
+		3397CDDC25322F027DE45D6A /* PDViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDViewFactory.swift; sourceTree = "<group>"; };
 		3397CDE752EBD157A3E2CDE7 /* PDBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDBadgeButton.swift; sourceTree = "<group>"; };
 		3397CE95ADAC03F0AF8D6220 /* SiteDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailViewModel.swift; sourceTree = "<group>"; };
 		3397CEC480B40360BA66C97A /* TodayData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayData.swift; sourceTree = "<group>"; };
@@ -458,17 +453,14 @@
 		9D3E4C8122B5B47E00C82DAE /* DuePillNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuePillNotification.swift; sourceTree = "<group>"; };
 		9D3E4C8322B5DD9F00C82DAE /* ViewTitleStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTitleStrings.swift; sourceTree = "<group>"; };
 		9D3E4C9522B730B500C82DAE /* ActionStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStrings.swift; sourceTree = "<group>"; };
-		9D43DB0922639893008F56AE /* Stylist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stylist.swift; sourceTree = "<group>"; };
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
 		9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlings.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7D72405FEF200C00711 /* QuantityUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantityUD.swift; path = PDKit/Settings/Complex/QuantityUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryMethodUD.swift; path = PDKit/Settings/Complex/DeliveryMethodUD.swift; sourceTree = SOURCE_ROOT; };
-		9D6DB7D92405FEF200C00711 /* ThemeUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ThemeUD.swift; path = PDKit/Settings/Complex/ThemeUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpirationIntervalUD.swift; path = PDKit/Settings/Complex/ExpirationIntervalUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSettings.swift; sourceTree = "<group>"; };
 		9D6DB7E12406002B00C00711 /* SettingsPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsPickerView.swift; sourceTree = "<group>"; };
-		9D72A909233DA2CE0030D460 /* Styling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styling.swift; sourceTree = "<group>"; };
 		9D78A9E02386354F00058AD9 /* PDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDConstants.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
 		9D7F1443240C4486001577A1 /* ComplexSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexSetting.swift; sourceTree = "<group>"; };
@@ -670,7 +662,6 @@
 			children = (
 				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
-				9D43DB0922639893008F56AE /* Stylist.swift */,
 				9D22698B23750E5300828B5F /* Notifications */,
 				9D0177F92251983C00A24E48 /* Storyboards */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
@@ -747,7 +738,7 @@
 		3397C2DC26D5587F5B3B7CDF /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				3397CDDC25322F027DE45D6A /* DoneButtonFactory.swift */,
+				3397CDDC25322F027DE45D6A /* PDViewFactory.swift */,
 				3397C657E8FDF0438CBDF5E1 /* TableCell.swift */,
 				3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */,
 				3397CB4BB5AA9C4FB0948A47 /* UIControlsExtensions.swift */,
@@ -818,7 +809,6 @@
 		3397C5FCFB55FB1F1D19DBE2 /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				3397CF930A5E66090BFA9C71 /* TabReflective.swift */,
 				3397CA45E738B3AF03E5996E /* TabBarExtensions.swift */,
 				3397CAAF145FA5B0AF1BF60F /* TabReflector.swift */,
 			);
@@ -1100,7 +1090,6 @@
 				9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */,
 				9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */,
 				9D6DB7D72405FEF200C00711 /* QuantityUD.swift */,
-				9D6DB7D92405FEF200C00711 /* ThemeUD.swift */,
 			);
 			path = Complex;
 			sourceTree = "<group>";
@@ -1171,11 +1160,11 @@
 		9D8A982F23C7F72B004E20FE /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				9D72A909233DA2CE0030D460 /* Styling.swift */,
 				3397C98C912D77BEE430431A /* QuantityMutating.swift */,
 				9DDAB03323FAE5EA00E6EEF6 /* Alerts */,
 				9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */,
 				3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */,
+				3397CF930A5E66090BFA9C71 /* TabReflective.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1336,7 +1325,6 @@
 			children = (
 				9D003EA52331D7290070C964 /* Strings */,
 				139754B41ED8EE27006C82B8 /* PDColors.swift */,
-				3397CCB521481AA2231D040F /* SiteImageTypeAdapter.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1805,7 +1793,6 @@
 				9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */,
 				9D9397B7237884DA00FDF290 /* HormonesViewModel.swift in Sources */,
 				9D3E4C8022B5AFC500C82DAE /* Notification.swift in Sources */,
-				9D43DB0A22639893008F56AE /* Stylist.swift in Sources */,
 				9DA3A901233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift in Sources */,
 				9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* Notifications.swift in Sources */,
@@ -1817,7 +1804,7 @@
 				3397CFD2225119FA626C41C0 /* HormoneValueTypes.swift in Sources */,
 				3397C3D0A67271CA2D73286D /* PDAppConstants.swift in Sources */,
 				3397CA689C9CC82D9E5BC09C /* HormoneDetailViewController.swift in Sources */,
-				3397CE0D3255A3D28540FD6F /* DoneButtonFactory.swift in Sources */,
+				3397CE0D3255A3D28540FD6F /* PDViewFactory.swift in Sources */,
 				3397CEAA73285A8C81B07DFF /* HormoneDetailViewModel.swift in Sources */,
 				3397C25AE996E55A7FA08DCC /* TableCell.swift in Sources */,
 				3397C77AC63E9C7EB9409EB4 /* TableViewWrapper.swift in Sources */,
@@ -1868,7 +1855,6 @@
 				9DDAB03A23FAEFF500E6EEF6 /* QuantityMutationAlertActionHandler.swift in Sources */,
 				9D8A984223CEAA7E004E20FE /* SitesViewController.swift in Sources */,
 				9DDAB02F23FA051500E6EEF6 /* PillCellActionAlert.swift in Sources */,
-				3397C74B05F5F39146DC9CA3 /* TabReflective.swift in Sources */,
 				3397CFFD990A03869262A428 /* TabBarExtensions.swift in Sources */,
 				3397C85BF35A4285872BE0CD /* TabReflector.swift in Sources */,
 				3397C426DA641E22F3E7EFD5 /* NotificationFactory.swift in Sources */,
@@ -2013,11 +1999,9 @@
 				9D003E9F232878CE0070C964 /* PatchDataSDK.swift in Sources */,
 				9D913BA42304ED7B001FC03C /* PillScheduling.swift in Sources */,
 				9DDF47E3234D6EE2005AA467 /* ColonStrings.swift in Sources */,
-				9D21E6022415D59B00CAEEF4 /* Styling.swift in Sources */,
 				9D003EC323359B2D0070C964 /* PDCoreDataWrapping.swift in Sources */,
 				9D8A982E23C7EEE4004E20FE /* SiteStoring.swift in Sources */,
 				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
-				9D6D786B23FE279000FF150C /* SiteImageTypeAdapter.swift in Sources */,
 				9D003EC1233599A90070C964 /* Schedule.swift in Sources */,
 				9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */,
 				B49A4A5E20DB2D5A00F24FC0 /* PDStrings.swift in Sources */,
@@ -2027,6 +2011,7 @@
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */,
 				9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */,
+				9DCB086B2442163E00E80486 /* TabReflective.swift in Sources */,
 				9DDAB02C23F8D84D00E6EEF6 /* PillStrings.swift in Sources */,
 				9D913B8722FF43AB001FC03C /* KeyStorable.swift in Sources */,
 				9D8A983023C7F736004E20FE /* PDBadgeDelegate.swift in Sources */,
@@ -2049,7 +2034,6 @@
 				3397CC5CF788FF31C6741016 /* FoundationExtensions.swift in Sources */,
 				3397CB4A7162AF682B314131 /* PillAttributes.swift in Sources */,
 				3397CCB077DDE1351B04EBBC /* PDLog.swift in Sources */,
-				9D6DB7DD2405FEF200C00711 /* ThemeUD.swift in Sources */,
 				3397C7E5E191E210E1B8FA85 /* PDObjectLogger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

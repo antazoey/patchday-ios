@@ -10,15 +10,14 @@ import PDKit
 class SitesTable: TableViewWrapper<SiteCell> {
 
     var sites: SiteScheduling?
-    var stylist: Styling?
     private lazy var log = PDLog<SitesTable>()
 
     let RowHeight: CGFloat = 55.0
 
     init(_ table: UITableView) {
         super.init(table, primaryCellReuseId: CellReuseIds.Site)
-        table.backgroundColor = stylist?.theme[.bg]
-        table.separatorColor = stylist?.theme[.border]
+        table.backgroundColor = UIColor.systemBackground
+        table.separatorColor = PDColors[.Border]
         table.allowsSelectionDuringEditing = true
     }
 
@@ -30,8 +29,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
         table.reloadRows(at: indexPathsToReload, with: .automatic)
         resetCellColors(startIndex: 0)
     }
-
-    func getCell(at index: Index)-> SiteCell {
+    
+    subscript(index: Index) -> SiteCell {
         let props = createCellProps(index)
         guard let cell = dequeueCell()?.configure(props: props) else {
             log.error("Unable to dequeue cell")
@@ -40,8 +39,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
         return cell
     }
 
-    func prepareCellsForEditMode(editingState: SiteTableActionState) {
-        table.isEditing = editingState == .Editing
+    func toggleEdit(state: SiteTableActionState) {
+        table.isEditing = state == .Editing
         reloadData()
     }
 
@@ -53,15 +52,12 @@ class SitesTable: TableViewWrapper<SiteCell> {
     }
 
     private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
-        var props = SiteCellProperties()
+        var props = SiteCellProperties(row: siteIndex)
         guard let sites = sites else { return props }
         props.nextSiteIndex = sites.nextIndex
         props.totalSiteCount = sites.count
         if let site = sites[siteIndex] {
             props.site = site
-        }
-        if let theme = stylist?.theme {
-            props.theme = theme
         }
         return props
     }
@@ -69,8 +65,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
     private func resetCellColors(startIndex: Index) {
         for i in startIndex..<cellCount {
             let nextIndexPath = IndexPath(row: i, section: 0)
-            let cell = getCell(at: nextIndexPath.row)
-            cell.backgroundColor = stylist?.getCellColor(at: i)
+            let cell = self[nextIndexPath.row]
+            cell.backgroundColor = PDColors.Cell[i]
         }
     }
 }

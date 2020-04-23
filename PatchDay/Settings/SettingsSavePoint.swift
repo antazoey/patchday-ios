@@ -13,11 +13,9 @@ import PDKit
 class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
     private let controls: SettingsControls
-    private let applyTheme: () -> ()
     
-    init(controls: SettingsControls, themeChangeHook: @escaping () -> ()) {
+    init(controls: SettingsControls) {
         self.controls = controls
-        self.applyTheme = themeChangeHook
         super.init()
     }
     
@@ -27,7 +25,6 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
         case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
         case .Quantity: saveQuantity(selectedRow)
         case .ExpirationInterval: saveExpirationInterval(selectedRow)
-        case .Theme: saveTheme(selectedRow)
         default: log.error("Error: No picker for key \(key)")
         }
         notifications?.requestAllExpiredHormoneNotifications()
@@ -78,13 +75,5 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
     private func saveExpirationInterval(_ selectedRow: Index) {
         guard let newInterval = PickerOptions.expirationIntervals.tryGet(at: selectedRow) else { return }
         sdk?.settings.setExpirationInterval(to: newInterval)
-    }
-    
-    private func saveTheme(_ selectedRow: Int) {
-        guard let themeName = PickerOptions.getTheme(at: selectedRow) else { return }
-        let theme = PickerOptions.getTheme(for: themeName)
-        sdk?.settings.setTheme(to: theme)
-        styles?.reset(theme: theme)
-        applyTheme()
     }
 }

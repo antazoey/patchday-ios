@@ -18,8 +18,7 @@ public var NameToSettingMap: [String: PDSetting] {
         "notifications": .Notifications,
         "notificationsminutesbefore": .NotificationsMinutesBefore,
         "mentioneddisclaimer": .MentionedDisclaimer,
-        "siteindex": .SiteIndex,
-        "theme": .Theme
+        "siteindex": .SiteIndex
     ]
 }
 
@@ -29,6 +28,5 @@ public var SettingToTitle: [PDSetting: String] {
         .DeliveryMethod: NSLocalizedString("Delivery Method", comment: ""),
         .ExpirationInterval: NSLocalizedString("Expiration Intervak", comment: ""),
         .Quantity: NSLocalizedString("Quantity", comment: ""),
-        .Theme: NSLocalizedString("Theme", comment: "")
     ]
 }

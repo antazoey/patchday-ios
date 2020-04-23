@@ -29,7 +29,7 @@ extension UITabBarItem {
     }
 
     private func reflectHormoneTabBarItemIcon(deliveryMethod: DeliveryMethod) {
-        let icon = PDIcons.getDeliveryIcon(deliveryMethod)
+        let icon = PDIcons[deliveryMethod]
         image = icon
         selectedImage = icon
     }

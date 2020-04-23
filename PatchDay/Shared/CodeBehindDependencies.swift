@@ -16,7 +16,6 @@ class CodeBehindDependencies<T> {
     var tabs: TabReflective?
     let notifications: NotificationScheduling?
     let alerts: AlertDispatching?
-    let styles: Styling?
     let nav: NavigationHandling?
     let badge: PDBadgeDelegate?
     
@@ -28,7 +27,6 @@ class CodeBehindDependencies<T> {
         tabs: TabReflective?,
         notifications: NotificationScheduling?,
         alerts: AlertDispatching?,
-        styles: Styling?,
         nav: NavigationHandling?,
         badge: PDBadgeDelegate?
     ) {
@@ -36,7 +34,6 @@ class CodeBehindDependencies<T> {
         self.tabs = tabs
         self.notifications = notifications
         self.alerts = alerts
-        self.styles = styles
         self.nav = nav
         self.badge = badge
     }
@@ -47,7 +44,6 @@ class CodeBehindDependencies<T> {
             self.tabs = app.tabs
             self.notifications = app.notifications
             self.alerts = app.alerts
-            self.styles = app.styles
             self.nav = app.nav
             self.badge = app.badge
         } else {
@@ -55,7 +51,6 @@ class CodeBehindDependencies<T> {
             self.tabs = nil
             self.notifications = nil
             self.alerts = nil
-            self.styles = nil
             self.nav = nil
             self.badge = nil
             log.error("App is not yet initialized before \(contextClass)")

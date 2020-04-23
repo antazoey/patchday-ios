@@ -6,55 +6,55 @@
 //  Copyright © 2018 Juliya Smith. All rights reserved.
 //
 
+import UIKit
+
+
+public enum ColorKey: String {
+    case Border
+    case Button
+    case EvenCell
+    case NewItem
+    case OddCell
+    case Purple
+    case Selected
+    case Text
+    case Unselected
+}
+
+
 public class PDColors: NSObject {
     
     override public var description: String {
         "Read-only PatchDay Color class."
     }
 
-    public static func get(_ key: ColorKey) -> UIColor {
-        let colorDict: [ColorKey: UIColor] =  [
-            ColorKey.OffWhite: offWhite,
-            ColorKey.LightBlue: lightBlue,
-            ColorKey.Gray: gray,
-            ColorKey.LightGray: lighterGray,
-            ColorKey.Green: green,
-            ColorKey.Pink: pink,
-            ColorKey.Black: black,
-            ColorKey.Purple: purple
-        ]
-        return colorDict[key]!
+    public static subscript(_ key: ColorKey) -> UIColor {
+        switch key {
+        case .Border: return border
+        case .Button: return button
+        case .EvenCell: return evenCell
+        case .NewItem: return newItem
+        case .OddCell: return oddCell
+        case .Purple: return purple
+        case .Selected: return selected
+        case .Text: return text
+        case .Unselected: return unselected
+        }
     }
     
-    private static var black: UIColor {
-        UIColor(red:0.09, green:0.09, blue:0.10, alpha:1.0)
+    public class Cell {
+        public static subscript(index: Index) -> UIColor {
+            index % 2 == 0 ? PDColors[.EvenCell] : PDColors[.OddCell]
+        }
     }
     
-    private static var gray: UIColor {
-        UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)
-    }
-    
-    private static var lighterGray: UIColor {
-        UIColor(red: 0.98,green: 0.98,blue: 0.98, alpha: 1.0)
-    }
-    
-    private static var green: UIColor {
-        UIColor(hue: 0.3306, saturation: 1, brightness: 0.81, alpha: 1.0)
-    }
-    
-    private static var lightBlue: UIColor {
-        UIColor(red: 0.86, green: 0.97, blue: 1.0, alpha: 0.25)
-    }
-
-    private static var pink: UIColor {
-        UIColor(red: 0.9923, green: 0.980036, blue: 1.0, alpha: 1.0)
-    }
-    
-    private static var purple: UIColor {
-        UIColor(red: 0.579194, green: 0.128014, blue: 0.572686, alpha:1.0)
-    }
-    
-    private static var offWhite: UIColor {
-        UIColor(red: 1.0, green: 0.99, blue: 0.99, alpha: 1.0)
-    }
+    private static var border: UIColor { UIColor(named: "Border")! }
+    private static var button: UIColor { UIColor(named: "Button")! }
+    private static var evenCell: UIColor { UIColor(named: "Even Cell")! }
+    private static var newItem: UIColor { UIColor(named: "New Item")! }
+    private static var oddCell: UIColor {UIColor(named: "Odd Cell")! }
+    private static var purple: UIColor { UIColor(named: "Purple")! }
+    private static var selected: UIColor { UIColor(named: "Selected")! }
+    private static var text: UIColor { UIColor(named: "Text")! }
+    private static var unselected: UIColor { UIColor(named: "Unselected")! }
 }

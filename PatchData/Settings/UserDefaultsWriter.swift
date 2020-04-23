@@ -23,7 +23,6 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
     public var mentionedDisclaimer: MentionedDisclaimerUD
     public var siteIndex: SiteIndexUD
-    public var theme: ThemeUD
 
     private var getSiteCount: () -> Int
     
@@ -45,7 +44,6 @@ public class UserDefaultsWriter: UserDefaultsWriting {
             setting: .MentionedDisclaimer, defaultValue: D.MentionedDisclaimerRawValue
         )
         let siteIndex = handler.load(setting: .SiteIndex, defaultValue: D.SiteIndexRawValue)
-        let theme = handler.load(setting: .Theme, defaultValue: D.ThemeRawValue)
         
         self.deliveryMethod = DeliveryMethodUD(deliveryMethod)
         self.expirationInterval = ExpirationIntervalUD(expirationInterval)
@@ -54,7 +52,6 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(notificationsMinutesBefore)
         self.mentionedDisclaimer = MentionedDisclaimerUD(mentionedDisclaimer)
         self.siteIndex = SiteIndexUD(siteIndex)
-        self.theme = ThemeUD(theme)
     }
     
     public func reset(defaultSiteCount: Int=4) {
@@ -65,7 +62,6 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         replaceStoredNotificationsMinutesBefore(to: DefaultSettings.NotificationsMinutesBeforeRawValue)
         replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
         replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
-        replaceStoredTheme(to: DefaultSettings.ThemeValue)
     }
     
     public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
@@ -112,10 +108,5 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         let newIndex = (currentIndex + 1) % siteCount
         handler.replace(&siteIndex, to: newIndex)
         return newIndex
-    }
-    
-    public func replaceStoredTheme(to newValue: PDTheme) {
-        let rawValue = ThemeUD.getRawValue(for: newValue)
-        handler.replace(&theme, to: rawValue)
     }
 }

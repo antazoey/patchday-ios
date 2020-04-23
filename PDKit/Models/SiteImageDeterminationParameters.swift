@@ -8,26 +8,18 @@ public class SiteImageDeterminationParameters {
 
     public var siteName: SiteName?
     public var deliveryMethod: DeliveryMethod
-    public var theme: PDTheme
 
-    public init(siteName: SiteName, deliveryMethod: DeliveryMethod, theme: PDTheme) {
+    public init(siteName: SiteName, deliveryMethod: DeliveryMethod) {
         self.siteName = siteName
         self.deliveryMethod = deliveryMethod
-        self.theme = theme
     }
 
-    public init(hormone: Hormonal?, deliveryMethod: DeliveryMethod, theme: PDTheme) {
+    public init(hormone: Hormonal?, deliveryMethod: DeliveryMethod) {
         self.siteName = hormone?.siteName
         self.deliveryMethod = deliveryMethod
-        self.theme = theme
     }
 
-    public init(deliveryMethod: DeliveryMethod, theme: PDTheme) {
+    public init(deliveryMethod: DeliveryMethod) {
         self.deliveryMethod = deliveryMethod
-        self.theme = theme
-    }
-
-    public var imageType: SiteImageTypeAdapter.SiteImageType {
-        SiteImageTypeAdapter.convertToSiteImageType(deliveryMethod: deliveryMethod, theme: theme)
     }
 }

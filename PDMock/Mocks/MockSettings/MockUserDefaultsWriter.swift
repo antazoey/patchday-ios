@@ -16,7 +16,6 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(DefaultSettings.NotificationsMinutesBeforeRawValue)
     public var mentionedDisclaimer = MentionedDisclaimerUD(DefaultSettings.MentionedDisclaimerRawValue)
     public var siteIndex = SiteIndexUD(DefaultSettings.SiteIndexRawValue)
-    public var theme = ThemeUD(DefaultSettings.ThemeRawValue)
     
     public init() {}
     

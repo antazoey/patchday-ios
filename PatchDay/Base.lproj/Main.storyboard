@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,7 +29,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -98,7 +98,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -150,7 +150,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -214,7 +214,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -239,7 +239,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="message" size="11"/>
+                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -492,7 +492,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="message" size="11"/>
+                                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -646,16 +646,26 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="detailStack" destination="YF0-w6-5sp" id="fOb-bB-ZyG"/>
+                        <outlet property="drugNameLabel" destination="O3N-cg-wSc" id="fi0-ab-qnF"/>
+                        <outlet property="lineUnderDrugNameLabel" destination="QWI-S9-kPR" id="EfI-0F-htd"/>
+                        <outlet property="lineUnderDrugNameStack" destination="TZC-Xk-Tph" id="UZI-jY-dr7"/>
                         <outlet property="namePicker" destination="VGT-mi-uMr" id="T9K-CN-BGh"/>
                         <outlet property="nameTextField" destination="8k4-TJ-UDN" id="DjO-NA-ob5"/>
                         <outlet property="notificationSwitch" destination="dX2-Ji-Hpr" id="kYb-bI-4R1"/>
+                        <outlet property="notificationsIcon" destination="8Ha-HG-CTB" id="zoW-Qz-ffV"/>
+                        <outlet property="notificationsLabel" destination="3vP-Sf-cjr" id="htZ-xP-ZxR"/>
+                        <outlet property="paddingAboveNotificationsSwitch" destination="P9B-j2-ovD" id="bn3-Si-Dyn"/>
+                        <outlet property="paddingBelowNotificationsSwitch" destination="uPx-d5-evg" id="vFi-qa-Uai"/>
                         <outlet property="saveButton" destination="koe-DU-BKv" id="ua4-QK-QfR"/>
                         <outlet property="selectNameButton" destination="mxZ-UI-Ia5" id="Kfy-l4-VIf"/>
                         <outlet property="time1Button" destination="D37-Eq-Epq" id="imK-Pg-lDN"/>
                         <outlet property="time2Button" destination="lK3-U3-ARB" id="0Vv-df-WKM"/>
                         <outlet property="timePicker" destination="Jng-qE-vf3" id="NRu-aq-HFU"/>
+                        <outlet property="timesadayLabel" destination="UoZ-DT-gdz" id="pm6-XK-eeA"/>
                         <outlet property="timesadaySlider" destination="DuN-cY-yDQ" id="mdj-cp-th7"/>
                         <outlet property="topConstraint" destination="IIT-Gr-dQX" id="HPx-CA-xtl"/>
+                        <outlet property="verticalLineInDrugNameStack" destination="UCx-Qm-o6m" id="C6L-gR-h9k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U0S-0K-i3E" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -27,7 +27,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         title = ViewTitleStrings.PillsTitle
         pillsTableView.delegate = self
         pillsTableView.dataSource = self
-        insertInsertBarButtonItem()
+        loadBarButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +42,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.pillsTable.getCell(at: indexPath.row)
+        viewModel.pillsTable[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -72,14 +72,15 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel = PillsViewModel(pillsTableView: pillsTableView, viewFactory: viewFactory)
     }
     
-    private func insertInsertBarButtonItem() {
+    private func loadBarButtons() {
         let insertButton = viewFactory.createInsertButton()
         navigationItem.rightBarButtonItems = [insertButton]
+        let backItem = PDViewFactory.createTextBarButtonItem(ViewTitleStrings.PillTitle)
+        navigationItem.backBarButtonItem = backItem
     }
     
     private func applyTheme() {
-        guard let styles = viewModel.styles else { return }
-        pillsView.backgroundColor = styles.theme[.bg]
+        pillsView.backgroundColor = UIColor.systemBackground
     }
     
     @objc private func handleInsertNewPill() {

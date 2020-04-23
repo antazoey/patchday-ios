@@ -43,20 +43,13 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     var selectDateButtonStartText: String {
-        if !hormone.hasDate {
-            return ActionStrings.Select
-        }
+        guard hormone.hasDate else { return ActionStrings.Select}
         return PDDateFormatter.formatDate(hormone.date)
     }
 
     var selectSiteTextFieldStartText: String {
-        if !hormone.hasSite {
-            return ActionStrings.Select
-        }
-        if let siteName = getSite()?.name {
-            return siteName
-        }
-        return SiteStrings.NewSite
+        guard hormone.hasSite else { return ActionStrings.Select }
+        return getSite()?.name ?? SiteStrings.NewSite
     }
 
     var expirationDateText: String {

@@ -33,7 +33,6 @@ public class PDSettings: PDSettingsManaging {
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD { writer.notificationsMinutesBefore }
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
-    public var theme: ThemeUD { writer.theme }
     
     public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
         switch setting {
@@ -44,7 +43,6 @@ public class PDSettings: PDSettingsManaging {
         case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
         case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
         case .SiteIndex: return siteIndex.displayableString
-        case .Theme: return theme.displayableString
         }
     }
 
@@ -70,15 +68,6 @@ public class PDSettings: PDSettingsManaging {
     public func setExpirationInterval(to newInterval: String) {
         let exp = PickerOptions.getExpirationInterval(for: newInterval)
         writer.replaceStoredExpirationInterval(to: exp)
-    }
-
-    public func setTheme(to newTheme: String) {
-        let theme = PickerOptions.getTheme(for: newTheme)
-        writer.replaceStoredTheme(to: theme)
-    }
-    
-    public func setTheme(to newTheme: PDTheme) {
-        writer.replaceStoredTheme(to: newTheme)
     }
 
     @discardableResult

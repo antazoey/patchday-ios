@@ -59,7 +59,6 @@ public class PickerOptions {
         case .DeliveryMethod: return deliveryMethods.tryGet(at: row)
         case .Quantity: return quantities.tryGet(at: row)
         case .ExpirationInterval: return expirationIntervals.tryGet(at: row)
-        case .Theme: return themes.tryGet(at: row)
         default: return nil
         }
     }
@@ -90,13 +89,12 @@ public class PickerOptions {
         }
     }
     
-    public static func get(for setting: PDSetting?) -> [String] {
+    public static subscript(setting: PDSetting?) -> [String] {
         guard let setting = setting else { return [] }
         switch (setting) {
         case .DeliveryMethod: return deliveryMethods
         case .ExpirationInterval: return expirationIntervals
         case .Quantity: return quantities
-        case .Theme: return themes
         default: return []
         }
     }
@@ -110,30 +108,4 @@ public class PickerOptions {
             NSLocalizedString("4", comment: comment)
         ]
     }()
-    
-    public static let themes: [String] = {
-        let comment = "Displayed in a picker."
-        return [
-            NSLocalizedString("Light", comment: comment),
-            NSLocalizedString("Dark", comment: comment)
-        ]
-    }()
-    
-    public static func getTheme(for theme: PDTheme) -> String {
-        switch theme {
-        case .Light: return themes[0]
-        case .Dark: return themes[1]
-        }
-    }
-    
-    public static func getTheme(for pickerString: String) -> PDTheme {
-        switch pickerString {
-        case themes[1]: return .Dark
-        default: return .Light
-        }
-    }
-    
-    public static func getTheme(at index: Index) -> String? {
-        themes.tryGet(at: index)
-    }
  }

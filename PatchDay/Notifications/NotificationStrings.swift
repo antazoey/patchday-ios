@@ -9,6 +9,7 @@
 import Foundation
 import PDKit
 
+
 class NotificationStrings {
     
     static let siteToExpiredPatchMessage =
@@ -31,46 +32,35 @@ class NotificationStrings {
             )
     ]
     
-    static func getHormoneNotificationStrings(
-        method: DeliveryMethod,
-        minutesBefore: Double,
-        expiringSiteName: String,
-        suggestedSiteName: String? = nil) -> (String, String
-        ) {
+    static subscript(params: ExpiredHormoneNotificationCreationParams) -> (String, String) {
         var titleBuilder: String
         var titleOptions: [String]
         var bodyBuilder: String
         var siteBody: String
-        switch method {
+        switch params.deliveryMethod {
         case .Patches:
-            titleOptions = [
-                patchExpired,
-                patchExpires
-            ]
+            titleOptions = [patchExpired, patchExpires]
             bodyBuilder = patchBody
             siteBody = siteForNextPatch
         case .Injections:
-            titleOptions = [
-                injectionExpired,
-                injectionExpires
-            ]
+            titleOptions = [injectionExpired, injectionExpires]
             bodyBuilder = injectionBody
             siteBody = siteForNextInjection
         }
-        titleBuilder = (minutesBefore == 0) ? titleOptions[0] : titleOptions[1]
-        bodyBuilder += siteBody + expiringSiteName
-        if let n = suggestedSiteName {
+        titleBuilder = (params.notificationMinutesBefore == 0) ? titleOptions[0] : titleOptions[1]
+        bodyBuilder += siteBody + params.expiringSiteName
+        if let n = params.suggestedSiteName {
             bodyBuilder += siteBody + n
         }
         return (titleBuilder, bodyBuilder)
     }
     
-    static func getOvernightString(for method: DeliveryMethod) -> String {
-        switch method {
-        case .Patches:
-            return overnightPatch
-        case .Injections:
-            return overnightInjection
+    class Overnight {
+        static subscript(method: DeliveryMethod) -> String {
+            switch method {
+            case .Patches: return overnightPatch
+            case .Injections: return overnightInjection
+            }
         }
     }
 

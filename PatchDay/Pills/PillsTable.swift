@@ -10,19 +10,17 @@ import PDKit
 class PillsTable: TableViewWrapper<PillCell> {
 
     private let pills: PillScheduling?
-    private let styles: Styling?
 
-    init(_ table: UITableView, pills: PillScheduling?, styles: Styling?) {
+    init(_ table: UITableView, pills: PillScheduling?) {
         self.pills = pills
-        self.styles = styles
         super.init(table, primaryCellReuseId: CellReuseIds.Pill)
         applyTheme()
         table.allowsSelectionDuringEditing = true
     }
-
-    func getCell(at index: Index)-> PillCell {
+    
+    subscript(index: Index) -> PillCell {
         guard let pill = pills?[index] else { return PillCell() }
-        let params = PillCellConfigurationParameters(pill: pill, index: index, styles: styles)
+        let params = PillCellConfigurationParameters(pill: pill, index: index)
         return dequeueCell()?.configure(params) ?? PillCell()
     }
 
@@ -33,15 +31,14 @@ class PillsTable: TableViewWrapper<PillCell> {
         let end = count - 1
         if start <= end {
             for i in start...end {
-                getCell(at: i).loadBackground()
+                self[i].loadBackground()
             }
         }
         table.reloadData()
     }
     
     private func applyTheme() {
-        guard let styles = styles else { return }
-        table.backgroundColor = styles.theme[.bg]
-        table.separatorColor = styles.theme[.border]
+        table.backgroundColor = UIColor.systemBackground
+        table.separatorColor = PDColors[.Border]
     }
 }

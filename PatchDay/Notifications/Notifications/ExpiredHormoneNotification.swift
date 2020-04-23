@@ -24,11 +24,7 @@ public class ExpiredHormoneNotification : Notification, ExpiredHormoneNotifying 
         self.hormone = params.hormone
         self.expiration = params.expiration
         self.notificationsMinutesBefore = params.notificationMinutesBefore
-        let strings = NotificationStrings.getHormoneNotificationStrings(
-            method: params.deliveryMethod,
-            minutesBefore: params.notificationMinutesBefore,
-            expiringSiteName: params.expiringSiteName
-        )
+        let strings = NotificationStrings[params]
         super.init(title: strings.0, body: strings.1, badge: params.totalHormonesExpired)
     }
     

@@ -19,10 +19,8 @@ class PillCell: TableCell {
     @IBOutlet weak var imageViewContainer: UIView!
 
     static let RowHeight: CGFloat = 170.0
-    private var styles: Styling? = nil
     
     @discardableResult public func configure(_ params: PillCellConfigurationParameters) -> PillCell {
-        self.styles = params.styles
         loadNameLabel(params.pill)
         loadLastTakenText(params.pill)
         loadDueDateText(params.pill)
@@ -54,9 +52,8 @@ class PillCell: TableCell {
     }
     
     @discardableResult func loadBackground() -> PillCell {
-        backgroundColor = styles?.theme[.bg]
+        backgroundColor = UIColor.systemBackground
         let backgroundView = UIView()
-        backgroundView.backgroundColor = PDColors.get(.Pink)
         selectedBackgroundView = backgroundView
         return self
     }
@@ -69,14 +66,13 @@ class PillCell: TableCell {
     }
     
     @discardableResult private func applyTheme(at index: Index) -> PillCell {
-        guard let styles = styles else { return self }
-        nameLabel.textColor = styles.theme[.purple]
-        arrowLabel.textColor = styles.theme[.purple]
-        lastTakenLabel.textColor = styles.theme[.text]
-        nextDueDate.textColor = styles.theme[.button]
-        backgroundColor = styles.getCellColor(at: index)
+        nameLabel.textColor = PDColors[.Purple]
+        arrowLabel.textColor = PDColors[.Purple]
+        lastTakenLabel.textColor = PDColors[.Text]
+        nextDueDate.textColor = PDColors[.Button]
+        backgroundColor = PDColors.Cell[index]
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = styles.theme[.selected]
+        selectedBackgroundView?.backgroundColor = PDColors[.Selected]
         return self
     }
 }

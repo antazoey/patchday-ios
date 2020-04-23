@@ -267,14 +267,13 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
     
     private func applyTheme() {
-        guard let theme = viewModel.styles?.theme else { return }
-        view.backgroundColor = theme[.bg]
-        nameStackVertical.backgroundColor = theme[.bg]
-        nameStackHorizontal.backgroundColor = theme[.bg]
-        typeNameButton.setTitleColor(theme[.button], for: .normal)
-        nameText.textColor = theme[.text]
-        nameText.backgroundColor = theme[.bg]
-        siteImageView.backgroundColor = theme[.bg]
-        gapAboveImage.backgroundColor = theme[.bg]
+        view.backgroundColor = UIColor.systemBackground
+        nameStackVertical.backgroundColor = UIColor.systemBackground
+        nameStackHorizontal.backgroundColor = UIColor.systemBackground
+        typeNameButton.setTitleColor(PDColors[.Button], for: .normal)
+        nameText.textColor = PDColors[.Text]
+        nameText.backgroundColor = UIColor.systemBackground
+        siteImageView.backgroundColor = UIColor.systemBackground
+        gapAboveImage.backgroundColor = UIColor.systemBackground
     }
 }

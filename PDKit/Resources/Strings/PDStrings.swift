@@ -34,15 +34,3 @@ public enum TodayKey: String {
     case nextPillToTake = "nextPillToTake"
     case nextPillTakeTime = "nextPillTakeTime"
 }
-
-
-public enum ColorKey: String {
-    case OffWhite = "whitish"
-    case LightBlue = "blue"
-    case Gray = "cute_gray"
-    case LightGray = "light_cute_gray"
-    case Green = "green"
-    case Pink = "pink"
-    case Purple = "purple"
-    case Black = "black"
-}

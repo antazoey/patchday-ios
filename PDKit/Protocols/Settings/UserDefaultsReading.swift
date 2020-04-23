@@ -31,7 +31,4 @@ public protocol UserDefaultsReading {
     
     /// The index of the next suggested site.
     var siteIndex: SiteIndexUD { get }
-    
-    /// The desired theme for user interfaces. Supports dark and light.
-    var theme: ThemeUD { get }
 }

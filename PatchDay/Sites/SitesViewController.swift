@@ -65,10 +65,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel.sitesOptionsCount
     }
 
-    func tableView(
-        _ tableView: UITableView, cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        viewModel.table.getCell(at: indexPath.row)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        viewModel.table[indexPath.row]
     }
     
     // MARK: - Editing cells in the table
@@ -120,7 +118,6 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @objc func editTapped() {
         let props = createBarItemProps()
-        viewModel.handleEditSite(editBarItemProps: props)
         loadTitle(actionState: props.tableActionState)
         switchNavItems(barItemEditProps: props)
     }
@@ -130,6 +127,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     @objc func resetTapped() {
+        viewModel.toggleEdit(createBarItemProps())
         loadTitle()
         viewModel.resetSites()
         switchNavItems(barItemEditProps: createBarItemProps())
@@ -147,10 +145,13 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
             #selector(resetTapped), #selector(insertTapped), self
         )
     }
-
+    
     private func switchNavItems(barItemEditProps props: BarItemInitializationProperties) {
         guard var barItems = navigationItem.rightBarButtonItems else { return }
-        viewModel.switchBarItems(items: &barItems, barItemEditProps: props)
+        guard barItems.count >= 2 else { return }
+        barItems[0] = SiteViewFactory.createItemFromActionState(props) 
+        barItems[1].title = props.oppositeActionTitle
+        navigationItem.rightBarButtonItems = barItems
     }
 
     private func loadBarButtons() {
@@ -167,7 +168,6 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func applyTheme() {
-        guard let styles = viewModel.styles else { return }
-        sitesView.backgroundColor = styles.theme[.bg]
+        sitesView.backgroundColor = UIColor.systemBackground
     }
 }

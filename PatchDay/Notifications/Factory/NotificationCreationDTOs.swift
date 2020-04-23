@@ -9,6 +9,7 @@ import PDKit
 struct ExpiredHormoneNotificationCreationParams {
     var hormone: Hormonal
     var expiringSiteName: String
+    var suggestedSiteName: String?
     var deliveryMethod: DeliveryMethod
     var expiration: ExpirationIntervalUD
     var notificationMinutesBefore: Double

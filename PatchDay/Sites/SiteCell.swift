@@ -26,7 +26,7 @@ class SiteCell: TableCell {
         loadOrderDependentViews()
         loadNameLabel()
         siteIndexImageView.image = PDIcons.siteIndexIcon.withRenderingMode(.alwaysTemplate)
-        reflectTheme()
+        reflectTheme(row: props.row)
         prepareBackgroundSelectedView()
         return self
     }
@@ -67,14 +67,13 @@ class SiteCell: TableCell {
         siteIndexImageView.isHidden = !nextLabel.isHidden
     }
 
-    private func reflectTheme() {
-        guard let theme = props.theme else { return }
-        orderLabel.textColor = theme[.text]
-        arrowLabel.textColor = theme[.text]
-        nameLabel.textColor = theme[.purple]
-        nextLabel.textColor = theme[.green]
-        siteIndexImageView.tintColor = theme[.text]
-        backgroundColor = theme[.bg]
+    private func reflectTheme(row: Index) {
+        orderLabel.textColor = PDColors[.Text]
+        arrowLabel.textColor = PDColors[.Text]
+        nameLabel.textColor = PDColors[.Purple]
+        nextLabel.textColor = PDColors[.NewItem]
+        siteIndexImageView.tintColor = PDColors[.Text]
+        backgroundColor = PDColors.Cell[row]
     }
     
     /// Should hide if not the the next index.
@@ -84,7 +83,7 @@ class SiteCell: TableCell {
     
     private func prepareBackgroundSelectedView() {
         let backgroundView = UIView()
-        backgroundView.backgroundColor = props.theme?[.selected]
+        backgroundView.backgroundColor = PDColors[.Selected]
         selectedBackgroundView = backgroundView
     }
 }

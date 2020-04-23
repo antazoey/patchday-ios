@@ -16,15 +16,24 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var detailStack: UIStackView!
+    @IBOutlet weak var drugNameLabel: UILabel!
+    @IBOutlet weak var lineUnderDrugNameLabel: UIView!
     @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var verticalLineInDrugNameStack: UIView!
     @IBOutlet weak var selectNameButton: UIButton!
     @IBOutlet weak var namePicker: UIPickerView!
+    @IBOutlet weak var lineUnderDrugNameStack: UIView!
+    @IBOutlet weak var notificationsIcon: UIImageView!
+    @IBOutlet weak var notificationsLabel: UILabel!
+    @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
     @IBOutlet weak var notificationSwitch: UISwitch!
+    @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
+    @IBOutlet weak var timesadayLabel: UILabel!
     @IBOutlet weak var timesadaySlider: UISlider!
     @IBOutlet weak var time1Button: UIButton!
     @IBOutlet weak var time2Button: UIButton!
     @IBOutlet weak var timePicker: UIDatePicker!
-    @IBOutlet weak var takeButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +45,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         disableSaveButton()
         reflectPillAttributes()
         loadTitle()
+        applyTheme()
     }
 
     static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailViewController? {
@@ -314,5 +324,26 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     
     private func sliderSaysMoreThanOne() -> Bool {
         TimesadaySliderDefinition.valueIsGreaterThanOne(timesday: timesadaySlider.value)
+    }
+    
+    private func applyTheme() {
+        view.backgroundColor = UIColor.systemBackground
+        saveButton.tintColor = PDColors[.Button]
+        detailStack.backgroundColor = UIColor.systemBackground
+        drugNameLabel.textColor = PDColors[.Text]
+        lineUnderDrugNameLabel.backgroundColor = PDColors[.Border]
+        nameTextField.textColor = PDColors[.Text]
+        verticalLineInDrugNameStack.backgroundColor = UIColor.systemBackground
+        selectNameButton.setTitleColor(PDColors[.Button])
+        lineUnderDrugNameStack.backgroundColor = UIColor.systemBackground
+        notificationsIcon.tintColor = PDColors[.Text]
+        notificationsIcon.image = notificationsIcon.image?.withTintColor(PDColors[.Text])        
+        notificationsLabel.textColor = PDColors[.Text]
+        paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
+        timesadaySlider.backgroundColor = UIColor.systemBackground
+        paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground
+        timesadayLabel.textColor = PDColors[.Text]
+        time1Button.setTitleColor(PDColors[.Button])
+        time2Button.setTitleColor(PDColors[.Button])
     }
 }

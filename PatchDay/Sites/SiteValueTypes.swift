@@ -13,10 +13,10 @@ struct SiteImageStruct {
 }
 
 struct SiteCellProperties {
+    var row: Index
     var site: Bodily?
     var totalSiteCount: Int = 0
     var nextSiteIndex: Int = 0
-    var theme: AppTheme?
 }
 
 struct SiteSelectionState {

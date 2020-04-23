@@ -55,6 +55,7 @@ class Notifications: NSObject, NotificationScheduling {
             let params = ExpiredHormoneNotificationCreationParams(
                 hormone: hormone,
                 expiringSiteName: siteName,
+                suggestedSiteName: sdk.sites.suggested?.name,
                 deliveryMethod: sdk.settings.deliveryMethod.value,
                 expiration: sdk.settings.expirationInterval,
                 notificationMinutesBefore: Double(sdk.settings.notificationsMinutesBefore.value),

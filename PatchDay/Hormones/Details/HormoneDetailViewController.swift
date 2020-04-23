@@ -145,8 +145,10 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
         viewModel.sitesCount
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        viewModel.getSiteName(at: row)
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString?  {
+        let title = viewModel.getSiteName(at: row)
+        let textColor = PDColors[.Text]
+        return NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor : textColor])
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -159,8 +161,9 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     @IBAction func selectDateTextTapped(_ sender: Any) {
         datePicker.date = viewModel.dateSelected
-        let doneButtonFactory = DoneButtonFactory()
-        let doneButton = doneButtonFactory.createDoneButton(doneAction: #selector(datePickerDone), mainView: view)
+        let doneButton = PDViewFactory.createDoneButton(
+            doneAction: #selector(datePickerDone), mainView: view, targetViewController: self
+        )
         datePickerInputView.addSubview(doneButton)
         autofillButton.isHidden = true
         selectDateButton.isEnabled = false
@@ -319,9 +322,31 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
 
     private func applyTheme() {
-        guard let theme = viewModel.styles?.theme else { return }
-        view.backgroundColor = theme[.bg]
-        selectSiteTextField.textColor = theme[.purple]
-        selectDateButton.setTitleColor(theme[.purple])
+        // Containers
+        view.backgroundColor = UIColor.systemBackground
+        datePickerInputView.backgroundColor = UIColor.systemBackground
+        lineUnderScheduleDate.backgroundColor = PDColors[.Border]
+        lineUnderDateAndTimeAppliedLabel.backgroundColor = PDColors[.Border]
+        bigGapUnderDateAppliedViews.backgroundColor = UIColor.systemBackground
+        lineUnderExpirationDate.backgroundColor = PDColors[.Border]
+        bigGapUnderExpirationDateViews.backgroundColor = UIColor.systemBackground
+        horizontalLineAboveSite.backgroundColor = PDColors[.Border]
+        siteStackView.backgroundColor = UIColor.systemBackground
+        verticalLineInSiteStack.backgroundColor = PDColors[.Border]
+        horizontalLineBelowSite.backgroundColor = PDColors[.Border]
+        
+        // Labels
+        dateAndTimeAppliedHeader.textColor = PDColors[.Text]
+        expirationDateLabelHeader.textColor = PDColors[.Text]
+        expirationDateLabel.textColor = PDColors[.Text]
+        siteLabel.textColor = PDColors[.Text]
+        
+        // Textfields
+        selectSiteTextField.textColor = PDColors[.Purple]
+        
+        // Buttons
+        selectDateButton.setTitleColor(PDColors[.Purple])
+        typeSiteButton.setTitleColor(PDColors[.Button])
+        autofillButton.setTitleColor(PDColors[.Button])
     }
 }

@@ -22,13 +22,11 @@ class HormoneCell: TableCell {
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
     private var sdk: PatchDataSDK?
-    private var styles: Styling?
 
     @discardableResult
-    public func configure(at row: Index, sdk: PatchDataSDK, styles: Styling) -> HormoneCell {
+    public func configure(at row: Index, _ sdk: PatchDataSDK) -> HormoneCell {
         self.sdk = sdk
-        self.styles = styles
-        backgroundColor = styles.theme[.bg]
+        backgroundColor = UIColor.systemBackground
         return reflectHormone(at: row).applyTheme(at: row)
     }
 
@@ -87,7 +85,7 @@ class HormoneCell: TableCell {
     
 
     private func setDateLabel(_ title: String?) {
-        self.dateLabel.textColor =  styles?.theme[.text]
+        self.dateLabel.textColor =  PDColors[.Text]
         self.dateLabel.text = title
     }
 
@@ -100,10 +98,9 @@ class HormoneCell: TableCell {
     }
 
     private func applyTheme(at index: Int) -> HormoneCell {
-        guard let styles = styles else { return self }
         selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = styles.theme[.selected]
-        backgroundColor = styles.getCellColor(at: index)
+        selectedBackgroundView?.backgroundColor = PDColors[.Selected]
+        backgroundColor = PDColors.Cell[index]
         return self
     }
     

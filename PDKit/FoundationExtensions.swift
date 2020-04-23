@@ -48,3 +48,11 @@ public extension String {
         return String(self[startIndex..<endIndex])
     }
 }
+
+
+public extension UIViewController {
+    
+    func getStyle() -> UIUserInterfaceStyle {
+        self.traitCollection.userInterfaceStyle
+    }
+}

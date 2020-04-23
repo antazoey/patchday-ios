@@ -29,8 +29,6 @@ public class DefaultSettings {
     public static let NotificationsMinutesBeforeRawValue = 0
     public static let MentionedDisclaimerRawValue = false
     public static let SiteIndexRawValue = 0
-    public static let ThemeValue = PDTheme.Light
-    public static let ThemeRawValue = ThemeUD.LightThemeKey
 }
 
 

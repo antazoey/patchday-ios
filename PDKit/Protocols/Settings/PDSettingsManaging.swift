@@ -16,8 +16,6 @@ public protocol PDSettingsManaging: UserDefaultsReading {
     func setNotifications(to newValue: Bool)
     func setNotificationsMinutesBefore(to newMinutes: Int)
     func setMentionedDisclaimer(to newValue: Bool)
-    func setTheme(to newTheme: String)
-    func setTheme(to newTheme: PDTheme)
     @discardableResult func setSiteIndex(to newIndex: Index) -> Index
     func reset(defaultSiteCount: Int)
 }

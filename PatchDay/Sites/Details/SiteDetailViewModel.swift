@@ -79,9 +79,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     var siteImage: UIImage {
         guard let settings = sdk?.settings else { return UIImage() }
         let params = SiteImageDeterminationParameters(
-            siteName: siteName,
-            deliveryMethod: settings.deliveryMethod.value,
-            theme: settings.theme.value
+            siteName: siteName, deliveryMethod: settings.deliveryMethod.value
         )
         return SiteImages[params]
     }
@@ -116,8 +114,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
     func getAttributedSiteName(at index: Index) -> NSAttributedString? {
         guard let siteRowName = getSiteName(at: index) else { return nil }
-        guard let color = styles?.theme[.text] else { return nil }
-        let attributes = [NSAttributedString.Key.foregroundColor : color as Any]
+        let attributes = [NSAttributedString.Key.foregroundColor : PDColors[.Text] as Any]
         return NSAttributedString(string: siteRowName, attributes: attributes)
     }
 
@@ -126,18 +123,15 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
     private func createImageStruct(selectedRow: Index) -> SiteImageStruct? {
         guard let settings = sdk?.settings else {
             return createImageStruct(
-                selectedRow: selectedRow,
-                method: DefaultSettings.DeliveryMethodValue,
-                theme: DefaultSettings.ThemeValue
+                selectedRow: selectedRow, method: DefaultSettings.DeliveryMethodValue
             )
         }
         let method = settings.deliveryMethod.value
-        let theme = settings.theme.value
-        return createImageStruct(selectedRow: selectedRow, method: method, theme: theme)
+        return createImageStruct(selectedRow: selectedRow, method: method)
     }
     
-    private func createImageStruct(selectedRow: Index, method: DeliveryMethod, theme: PDTheme) -> SiteImageStruct? {
-        let params = SiteImageDeterminationParameters(deliveryMethod: method, theme: theme)
+    private func createImageStruct(selectedRow: Index, method: DeliveryMethod) -> SiteImageStruct? {
+        let params = SiteImageDeterminationParameters(deliveryMethod: method)
         let images = SiteImages.getAllAvailable(params)
         guard let image = images.tryGet(at: selectedRow) else { return nil }
         let imageKey = SiteImages.getName(from: image)

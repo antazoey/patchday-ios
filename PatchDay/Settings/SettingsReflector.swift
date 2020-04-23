@@ -25,7 +25,6 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
         loadQuantity()
         loadNotifications()
         loadNotificationsMinutesBefore()
-        loadTheme()
     }
     
     private func loadDeliveryMethod() {
@@ -66,11 +65,5 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
         } else {
             controls.notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         }
-    }
-    
-    private func loadTheme() {
-        guard let theme = sdk?.settings.theme.value else { return }
-        let title = PickerOptions.getTheme(for: theme)
-        controls.themeButton.setTitle(title)
     }
 }

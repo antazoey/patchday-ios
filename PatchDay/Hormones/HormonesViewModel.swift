@@ -12,6 +12,7 @@ import PDKit
 
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
+    private let style: UIUserInterfaceStyle
     let table: HormonesTable
     var hormones: HormoneScheduling? { sdk?.hormones }
 
@@ -23,10 +24,11 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     ]
 
     init(hormonesTableView: UITableView, source: HormonesViewController) {
+        self.style = source.getStyle()
         self.table = HormonesTable(hormonesTableView)
         super.init()
         loadAppTabs(source: source)
-        initTable()
+        initTable(style: style)
     }
     
     var mainViewControllerTitle: String {
@@ -43,7 +45,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     
     func updateSiteImages() {
         var i = 0
-        table.reflectModel(sdk: self.sdk, styles: self.styles)
+        table.reflectModel(self.sdk, style)
         do {
             try table.cells.forEach() {
                 cell in
@@ -62,12 +64,11 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         guard let sdk = sdk else { return nil }
         let quantity = sdk.settings.quantity.rawValue
         guard row < quantity && row >= 0 else { return nil }
-        let theme = sdk.settings.theme.value
         let method = sdk.settings.deliveryMethod.value
         let hormone = sdk.hormones[row]
 
         let siteImageDeterminationParams = SiteImageDeterminationParameters(
-            hormone: hormone, deliveryMethod: method, theme: theme
+            hormone: hormone, deliveryMethod: method
         )
         return SiteImages[siteImageDeterminationParams]
     }
@@ -82,7 +83,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         sdk?.settings.setMentionedDisclaimer(to: true)
     }
 
-    func getCell(at row: Index) -> UITableViewCell {
+    subscript(row: Index) -> UITableViewCell {
         table.cells.tryGet(at: row) ?? HormoneCell()
     }
 
@@ -107,10 +108,13 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         )
     }
 
-    private func initTable() {
-        table.reflectModel(sdk: self.sdk, styles: self.styles)
-        table.applyTheme(styles?.theme)
+    private func initTable(style: UIUserInterfaceStyle) {
+        reflectTableModel()
         updateSiteImages()
+    }
+    
+    private func reflectTableModel(){
+        table.reflectModel(sdk, style)
     }
 
     private var isFirstLaunch: Bool {

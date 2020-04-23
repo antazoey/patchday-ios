@@ -18,5 +18,4 @@ struct SettingsControls {
     let notificationsSwitch: UISwitch
     let notificationsMinutesBeforeSlider: UISlider
     let notificationsMinutesBeforeValueLabel: UILabel
-    let themeButton: UIButton
 }

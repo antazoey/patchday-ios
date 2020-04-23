@@ -9,17 +9,14 @@ import PDKit
 class SiteViewFactory {
 
     static func createBackItem() -> UIBarButtonItem {
-        let backItem = UIBarButtonItem()
-        backItem.title = ViewTitleStrings.SitesTitle
-        return backItem
+        PDViewFactory.createTextBarButtonItem(ViewTitleStrings.SitesTitle)
     }
 
     static func createItemFromActionState(_ props: BarItemInitializationProperties) -> UIBarButtonItem {
+        let vc = props.sitesViewController
         switch props.tableActionState {
-        case .Editing: return SiteViewFactory.createResetItem(reset: props.reset)
-        case .Reading:
-            let vc = props.sitesViewController
-            return SiteViewFactory.createInsertItem(insert: props.insert, sitesViewController: vc)
+        case .Editing: return SiteViewFactory.createResetItem(reset: props.reset, sitesViewController: vc)
+        case .Reading: return SiteViewFactory.createInsertItem(insert: props.insert, sitesViewController: vc)
         case .Unknown: return UIBarButtonItem()
         }
     }
@@ -30,27 +27,24 @@ class SiteViewFactory {
             target: sitesViewController,
             action: insert
         )
-        insertItem.tintColor = PDColors.get(.Green)
+        insertItem.tintColor = PDColors[.NewItem]
+        insertItem.title = nil
         return insertItem
     }
 
     static func createEditItem(edit: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
-        UIBarButtonItem(
-            title: ActionStrings.Edit,
-            style: .plain,
-            target: sitesViewController,
-            action: edit
-        )
+        let item = PDViewFactory.createTextBarButtonItem(ActionStrings.Edit)
+        item.target = sitesViewController
+        item.action = edit
+        return item
     }
 
-    static func createResetItem(reset: Selector) -> UIBarButtonItem {
-        let item = UIBarButtonItem(
-            title: ActionStrings.Reset,
-            style: .plain,
-            target: self,
-            action: reset
-        )
-        item.tintColor = UIColor.red
+    static func createResetItem(reset: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {
+        let item = PDViewFactory.createTextBarButtonItem(ActionStrings.Reset, color: UIColor.red)
+        item.style = .plain
+        item.target = sitesViewController
+        item.action = reset
+        item.image = nil
         return item
     }
 

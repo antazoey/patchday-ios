@@ -32,11 +32,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
     var expirationIntervalStartIndex: Index {
         sdk?.settings.expirationInterval.currentIndex ?? 0
     }
-    
-    var themeStartIndex: Index {
-        sdk?.settings.theme.currentIndex ?? 0
-    }
-    
+
     func activatePicker(_ picker: SettingsPickerView) {
         picker.isHidden ? picker.open() : close(picker)
     }

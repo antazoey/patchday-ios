@@ -18,7 +18,7 @@ public class ExpiredHormoneOvernightNotification: Notification, ExpiredHormoneOv
     init(_ params: ExpiredHormoneOvernightNotificationCreationParams) {
         self.dateBeforeOvernightExpiration = params.triggerDate
         self.deliveryMethod = params.deliveryMethod
-        let title = NotificationStrings.getOvernightString(for: deliveryMethod)
+        let title = NotificationStrings.Overnight[params.deliveryMethod]
         super.init(title: title, body: nil, badge: params.totalHormonesExpired)
     }
     

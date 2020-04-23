@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var alerts: AlertDispatching?
     var tabs: TabReflective?
     var nav: NavigationHandling = Navigation()
-    var styles: Styling?
     var badge: PDBadgeDelegate = PDBadge()
 
     func application(
@@ -30,9 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
         self.alerts = AlertDispatcher(sdk: sdk)
-        self.styles = Stylist(theme: self.sdk.settings.theme.value)
         self.setBadgeToTotalAlerts()
-        self.setNavigationAppearance()
         return true
     }
     
@@ -50,18 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillResignActive(_ application: UIApplication) {
         setBadgeToTotalAlerts()
-    }
-
-    func setNavigationAppearance() {
-        guard let styles = styles else { return }
-        nav.reflectTheme(styles.theme)
-        tabs?.reflectTheme(styles.theme)
-    }
-
-    func setTheme() {
-        let theme = sdk.settings.theme.value
-        self.styles = Stylist(theme: theme)
-        setNavigationAppearance()
     }
 
     /// Sets the App badge number to the expired count + the total pills due for taking.

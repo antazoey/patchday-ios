@@ -18,7 +18,7 @@ class PillsViewFactory {
         let insertButton = UIBarButtonItem(
             barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(callInsertButtonAction)
         )
-        insertButton.tintColor = PDColors.get(.Green)
+        insertButton.tintColor = PDColors[.NewItem]
         return insertButton
     }
     
