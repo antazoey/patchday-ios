@@ -173,10 +173,8 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		if let name = viewModel.getSiteName(at: row) {
-			self.nameText.text = name
-		}
-		closePicker()
+        guard let name = viewModel.getSiteName(at: row) else { return }
+        self.nameText.text = name
 	}
 
 	@objc func closePicker() {
@@ -275,5 +273,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		nameText.backgroundColor = UIColor.systemBackground
 		siteImageView.backgroundColor = UIColor.systemBackground
 		gapAboveImage.backgroundColor = UIColor.systemBackground
+        imageInputView.backgroundColor = UIColor.systemBackground
+        saveButton.tintColor = PDColors[.Button]
 	}
 }

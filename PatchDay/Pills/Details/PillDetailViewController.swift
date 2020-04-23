@@ -120,10 +120,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	@objc func timePickerDone(sender: Any) {
-		if let timeButton = sender as? UIButton {
-			setControlsFromTimePickerDone(timeButton: timeButton)
-			handleTimeNumberTypeDone(viewModel.createTimeNumberTypeFromButton(timeButton))
-		}
+        guard let timeButton = sender as? UIButton else { return }
+        setControlsFromTimePickerDone(timeButton: timeButton)
+        handleTimeNumberTypeDone(viewModel.createTimeNumberTypeFromButton(timeButton))
 	}
 
 	// MARK: - Picker functions
