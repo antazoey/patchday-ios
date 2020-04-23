@@ -11,15 +11,15 @@ public typealias UIIcon = UIImage
 
 class PDIcons {
 
-    private static let patchIcon = { UIIcon(named: "Patch Icon")! }()
-    private static let injectionIcon = { UIIcon(named: "Injection Icon")! }()
-    static let siteIndexIcon = { UIIcon(named: "Site Index Icon")! }()
-    static let settingsIcon = { UIIcon(named: "Settings Icon")! }()
-    
-    static subscript(method: DeliveryMethod) -> UIIcon {
-        switch method {
-        case .Patches: return patchIcon
-        case .Injections: return injectionIcon
-        }
-    }
+	private static let patchIcon = { UIIcon(named: "Patch Icon")! }()
+	private static let injectionIcon = { UIIcon(named: "Injection Icon")! }()
+	static let siteIndexIcon = { UIIcon(named: "Site Index Icon")! }()
+	static let settingsIcon = { UIIcon(named: "Settings Icon")! }()
+
+	static subscript(method: DeliveryMethod) -> UIIcon {
+		switch method {
+		case .Patches: return patchIcon
+		case .Injections: return injectionIcon
+		}
+	}
 }

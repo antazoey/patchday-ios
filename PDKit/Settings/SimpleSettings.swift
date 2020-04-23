@@ -10,17 +10,17 @@ import Foundation
 
 
 public class MentionedDisclaimerUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
-    public var setting: PDSetting = .MentionedDisclaimer
+	public var setting: PDSetting = .MentionedDisclaimer
 }
 
 public class NotificationsMinutesBeforeUD: PDUserDefault<Int, Int>, IntKeyStorable {
-    public var setting: PDSetting = .NotificationsMinutesBefore
+	public var setting: PDSetting = .NotificationsMinutesBefore
 }
 
 public class NotificationsUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
-    public var setting: PDSetting = .Notifications
+	public var setting: PDSetting = .Notifications
 }
 
 public class SiteIndexUD: PDUserDefault<Int, Int>, IntKeyStorable {
-    public var setting: PDSetting = .SiteIndex
+	public var setting: PDSetting = .SiteIndex
 }

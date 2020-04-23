@@ -10,40 +10,40 @@ import Foundation
 import PDKit
 
 class PDDateFormatterTests: XCTestCase {
-    
-    private var formatter: DateFormatter!
-    private let timeFormat = "h:mm a"
-    private let dateFormat = "EEEE, h:mm a"
-    
-    override func setUp() {
-        formatter = DateFormatter()
-    }
-    
-    func testFormatTime_returnsExpectedString() {
-        let expected = "7:46 AM"
-        let actual = PDDateFormatter.formatTime(Date(timeIntervalSince1970: 1000000))
-        XCTAssertEqual(expected, actual)
-    }
 
-    func testFormatDate_whenNotTodayYesterdayOrTomorrow_returnsExpectedString() {
-        let expected = "Monday, 7:46 AM"
-        let actual = PDDateFormatter.formatDate(Date(timeIntervalSince1970: 1000000))
-        XCTAssertEqual(expected, actual)
-    }
+	private var formatter: DateFormatter!
+	private let timeFormat = "h:mm a"
+	private let dateFormat = "EEEE, h:mm a"
 
-    func testFormatDate_whenToday_returnsExpectedString() {
-        formatter.dateFormat = timeFormat
-        let now = Date()
-        let expected = "Today, " + formatter.string(from: now)
-        let actual = PDDateFormatter.formatDate(now)
-        XCTAssertEqual(expected, actual)
-    }
+	override func setUp() {
+		formatter = DateFormatter()
+	}
 
-    func testFormatDate_whenYesterday_returnsExpectedString() {
-        formatter.dateFormat = timeFormat
-        let yesterday = Date(timeInterval: -86499, since: Date())
-        let expected = "Yesterday, " + formatter.string(from: yesterday)
-        let actual = PDDateFormatter.formatDate(yesterday)
-        XCTAssertEqual(expected, actual)
-    }
+	func testFormatTime_returnsExpectedString() {
+		let expected = "7:46 AM"
+		let actual = PDDateFormatter.formatTime(Date(timeIntervalSince1970: 1000000))
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testFormatDate_whenNotTodayYesterdayOrTomorrow_returnsExpectedString() {
+		let expected = "Monday, 7:46 AM"
+		let actual = PDDateFormatter.formatDate(Date(timeIntervalSince1970: 1000000))
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testFormatDate_whenToday_returnsExpectedString() {
+		formatter.dateFormat = timeFormat
+		let now = Date()
+		let expected = "Today, " + formatter.string(from: now)
+		let actual = PDDateFormatter.formatDate(now)
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testFormatDate_whenYesterday_returnsExpectedString() {
+		formatter.dateFormat = timeFormat
+		let yesterday = Date(timeInterval: -86499, since: Date())
+		let expected = "Yesterday, " + formatter.string(from: yesterday)
+		let actual = PDDateFormatter.formatDate(yesterday)
+		XCTAssertEqual(expected, actual)
+	}
 }

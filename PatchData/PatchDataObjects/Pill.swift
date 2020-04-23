@@ -12,187 +12,187 @@ import PDKit
 
 public class Pill: Swallowable {
 
-    private var pillData: PillStruct
-    private lazy var log = PDLog<Pill>()
+	private var pillData: PillStruct
+	private lazy var log = PDLog<Pill>()
 
-    public init(pillData: PillStruct) {
-        self.pillData = pillData
-        if pillData.attributes.name == nil {
-            self.pillData.attributes.name = PillStrings.NewPill
-        }
-        if let timesaday = pillData.attributes.timesaday {
-            if timesaday <= 0 {
-                self.pillData.attributes.timesaday = 1
-            }
-        } else {
-            self.pillData.attributes.timesaday = 1
-        }
-    }
-    
-    public var id: UUID {
-        get { pillData.id }
-        set { pillData.id = newValue }
-    }
+	public init(pillData: PillStruct) {
+		self.pillData = pillData
+		if pillData.attributes.name == nil {
+			self.pillData.attributes.name = PillStrings.NewPill
+		}
+		if let timesaday = pillData.attributes.timesaday {
+			if timesaday <= 0 {
+				self.pillData.attributes.timesaday = 1
+			}
+		} else {
+			self.pillData.attributes.timesaday = 1
+		}
+	}
 
-    public var attributes: PillAttributes {
-        PillAttributes(name: name,
-            timesaday: timesaday,
-            time1: time1,
-            time2: time2,
-            notify: notify,
-            timesTakenToday: timesTakenToday,
-            lastTaken: lastTaken
-        )
-    }
+	public var id: UUID {
+		get { pillData.id }
+		set { pillData.id = newValue }
+	}
 
-    public var name: String {
-        get { pillData.attributes.name ?? PillStrings.NewPill }
-        set { pillData.attributes.name = newValue }
-    }
+	public var attributes: PillAttributes {
+		PillAttributes(name: name,
+			timesaday: timesaday,
+			time1: time1,
+			time2: time2,
+			notify: notify,
+			timesTakenToday: timesTakenToday,
+			lastTaken: lastTaken
+		)
+	}
 
-    public var time1: Date {
-        get { pillData.attributes.time1 as Date? ?? DateFactory.createDefaultDate() }
-        set { pillData.attributes.time1 = newValue }
-    }
+	public var name: String {
+		get { pillData.attributes.name ?? PillStrings.NewPill }
+		set { pillData.attributes.name = newValue }
+	}
 
-    public var time2: Date {
-        get {
-            guard let t2 = pillData.attributes.time2 else {
-                return DateFactory.createDefaultDate()
-            }
-            return t2 as Date
-        } set {
-            if let time1 = pillData.attributes.time1 as Date? {
-                if newValue < time1 {
-                    pillData.attributes.time2 = time1
-                    pillData.attributes.time1 = newValue
-                } else {
-                    pillData.attributes.time2 = newValue
-                }
-            }
-        }
-    }
+	public var time1: Date {
+		get { pillData.attributes.time1 as Date? ?? DateFactory.createDefaultDate() }
+		set { pillData.attributes.time1 = newValue }
+	}
 
-    public var notify: Bool {
-        get { pillData.attributes.notify ?? false }
-        set { pillData.attributes.notify = newValue }
-    }
-    
-    public var timesaday: Int {
-        get {
-            if let timesaday = pillData.attributes.timesaday, timesaday > 0 {
-                return timesaday
-            }
-            return DefaultPillAttributes.timesaday
-        }
-        set {
-            if newValue >= 1 {
-                pillData.attributes.timesaday = newValue
-                if newValue < 2 {
-                    pillData.attributes.time2 = nil
-                }
-            }
-        }
-    }
+	public var time2: Date {
+		get {
+			guard let t2 = pillData.attributes.time2 else {
+				return DateFactory.createDefaultDate()
+			}
+			return t2 as Date
+		} set {
+			if let time1 = pillData.attributes.time1 as Date? {
+				if newValue < time1 {
+					pillData.attributes.time2 = time1
+					pillData.attributes.time1 = newValue
+				} else {
+					pillData.attributes.time2 = newValue
+				}
+			}
+		}
+	}
 
-    public var timesTakenToday: Int {
-        pillData.attributes.timesTakenToday ?? 0
-    }
+	public var notify: Bool {
+		get { pillData.attributes.notify ?? false }
+		set { pillData.attributes.notify = newValue }
+	}
 
-    public var lastTaken: Date? {
-        get { pillData.attributes.lastTaken }
-        set { pillData.attributes.lastTaken = newValue }
-    }
+	public var timesaday: Int {
+		get {
+			if let timesaday = pillData.attributes.timesaday, timesaday > 0 {
+				return timesaday
+			}
+			return DefaultPillAttributes.timesaday
+		}
+		set {
+			if newValue >= 1 {
+				pillData.attributes.timesaday = newValue
+				if newValue < 2 {
+					pillData.attributes.time2 = nil
+				}
+			}
+		}
+	}
 
-    public var due: Date? {
-        if timesTakenToday == 0 {
-            return DateFactory.createTodayDate(at: time1)
-        } else if timesTakenToday == 1 && timesaday == 2 {
-            return DateFactory.createTodayDate(at: time2)
-        } else {
-            return DateFactory.createDate(at: time1, daysFromToday: 1)  // Tomorrow at time one
-        }
-    }
+	public var timesTakenToday: Int {
+		pillData.attributes.timesTakenToday ?? 0
+	}
 
-    public var isDue: Bool {
-        if let dueDate = due {
-            return Date() > dueDate
-        }
-        return false
-    }
-    
-    public var isNew: Bool { pillData.attributes.lastTaken == nil }
-    
-    public var isDone: Bool {
-        timesTakenToday >= timesaday && lastTaken != nil
-    }
-    
-    public func set(attributes: PillAttributes) {
-        name = attributes.name ?? name
-        timesaday = attributes.timesaday ?? timesaday
-        time1 = attributes.time1 ?? time1
-        time2 = attributes.time2 ?? time2
-        notify = attributes.notify ?? notify
-        lastTaken = attributes.lastTaken ?? lastTaken
-    }
+	public var lastTaken: Date? {
+		get { pillData.attributes.lastTaken }
+		set { pillData.attributes.lastTaken = newValue }
+	}
 
-    public func swallow() {
-        if timesTakenToday < timesaday || lastTaken == nil {
-            let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
-            pillData.attributes.timesTakenToday = currentTimesTaken + 1
-            lastTaken = Date()
-        }
-    }
+	public var due: Date? {
+		if timesTakenToday == 0 {
+			return DateFactory.createTodayDate(at: time1)
+		} else if timesTakenToday == 1 && timesaday == 2 {
+			return DateFactory.createTodayDate(at: time2)
+		} else {
+			return DateFactory.createDate(at: time1, daysFromToday: 1) // Tomorrow at time one
+		}
+	}
 
-    public func awaken() {
-        if timesTakenToday > 0,
-            let lastDate = lastTaken as Date?,
-            !lastDate.isInToday() {
-    
-            pillData.attributes.timesTakenToday = 0
-        }
-    }
+	public var isDue: Bool {
+		if let dueDate = due {
+			return Date() > dueDate
+		}
+		return false
+	}
 
-    private var pillDueDateFinderParams: PillDueDateFinderParams {
-        PillDueDateFinderParams(timesTakenToday, timesaday, times)
-    }
+	public var isNew: Bool { pillData.attributes.lastTaken == nil }
 
-    private var times: [Time] {
-        var _times: [Time] = []
-        if let t1 = pillData.attributes.time1 {
-            _times.append(t1 as Time)
-        }
-        if let t2 = pillData.attributes.time2 {
-            _times.append(t2 as Time)
-        }
-        return _times
-    }
+	public var isDone: Bool {
+		timesTakenToday >= timesaday && lastTaken != nil
+	}
 
-    private func ensureTimeOrdering() {
-        if self.time2 < time1 || self.time1 > time2{
-            self.time2 = time1
-        }
-    }
+	public func set(attributes: PillAttributes) {
+		name = attributes.name ?? name
+		timesaday = attributes.timesaday ?? timesaday
+		time1 = attributes.time1 ?? time1
+		time2 = attributes.time2 ?? time2
+		notify = attributes.notify ?? notify
+		lastTaken = attributes.lastTaken ?? lastTaken
+	}
 
-    private func addMissingTimes() {
-        for i in times.count..<timesaday {
-            addMissingTime(timeIndex: i)
-        }
-    }
+	public func swallow() {
+		if timesTakenToday < timesaday || lastTaken == nil {
+			let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
+			pillData.attributes.timesTakenToday = currentTimesTaken + 1
+			lastTaken = Date()
+		}
+	}
 
-    private func addMissingTime(timeIndex: Index) {
-        if timeIndex == 0 {
-            time1 = Date()
-        } else if timeIndex == 1 {
-            addMissingTimeTwo()
-        }
-    }
+	public func awaken() {
+		if timesTakenToday > 0,
+			let lastDate = lastTaken as Date?,
+			!lastDate.isInToday() {
 
-    private func addMissingTimeTwo() {
-        if let time1 = pillData.attributes.time1 {
-            pillData.attributes.time2 = Time(timeInterval: 1000, since: time1)
-        } else {
-            pillData.attributes.time2 = Time()
-        }
-    }
+			pillData.attributes.timesTakenToday = 0
+		}
+	}
+
+	private var pillDueDateFinderParams: PillDueDateFinderParams {
+		PillDueDateFinderParams(timesTakenToday, timesaday, times)
+	}
+
+	private var times: [Time] {
+		var _times: [Time] = []
+		if let t1 = pillData.attributes.time1 {
+			_times.append(t1 as Time)
+		}
+		if let t2 = pillData.attributes.time2 {
+			_times.append(t2 as Time)
+		}
+		return _times
+	}
+
+	private func ensureTimeOrdering() {
+		if self.time2 < time1 || self.time1 > time2 {
+			self.time2 = time1
+		}
+	}
+
+	private func addMissingTimes() {
+		for i in times.count..<timesaday {
+			addMissingTime(timeIndex: i)
+		}
+	}
+
+	private func addMissingTime(timeIndex: Index) {
+		if timeIndex == 0 {
+			time1 = Date()
+		} else if timeIndex == 1 {
+			addMissingTimeTwo()
+		}
+	}
+
+	private func addMissingTimeTwo() {
+		if let time1 = pillData.attributes.time1 {
+			pillData.attributes.time2 = Time(timeInterval: 1000, since: time1)
+		} else {
+			pillData.attributes.time2 = Time()
+		}
+	}
 }

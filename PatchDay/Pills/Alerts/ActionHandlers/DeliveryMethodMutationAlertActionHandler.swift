@@ -12,13 +12,13 @@ import PDKit
 
 class DeliveryMethodMutationAlertActionHandler: DeliveryMethodMutationAlertActionHandling {
 
-    private let declineAction: (_ oldMethod: DeliveryMethod) -> ()
-    
-    init(decline: @escaping (_ oldMethod: DeliveryMethod) -> ()) {
-        self.declineAction = decline
-    }
-    
-    func handleDecline(oldMethod: DeliveryMethod) {
-        self.declineAction(oldMethod)
-    }
+	private let declineAction: (_ oldMethod: DeliveryMethod) -> ()
+
+	init(decline: @escaping (_ oldMethod: DeliveryMethod) -> ()) {
+		self.declineAction = decline
+	}
+
+	func handleDecline(oldMethod: DeliveryMethod) {
+		self.declineAction(oldMethod)
+	}
 }

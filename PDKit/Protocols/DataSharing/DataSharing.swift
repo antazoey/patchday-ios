@@ -10,6 +10,6 @@ import Foundation
 
 
 public protocol DataSharing {
-    func share(_ value: Any?, forKey key: String)
-    func object(forKey key: String) -> Any?
+	func share(_ value: Any?, forKey key: String)
+	func object(forKey key: String) -> Any?
 }

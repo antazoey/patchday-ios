@@ -12,15 +12,15 @@ import PDKit
 
 public class MockPillDataSharer: PDMocking, PillDataSharing {
 
-    public var shareCallArgs: [Swallowable] = []
-    
-    public init() {}
-    
-    public func share(nextPill: Swallowable) {
-        shareCallArgs.append(nextPill)
-    }
-    
-    public func resetMock() {
-        shareCallArgs = []
-    }
+	public var shareCallArgs: [Swallowable] = []
+
+	public init() { }
+
+	public func share(nextPill: Swallowable) {
+		shareCallArgs.append(nextPill)
+	}
+
+	public func resetMock() {
+		shareCallArgs = []
+	}
 }

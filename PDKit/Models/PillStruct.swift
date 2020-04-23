@@ -7,11 +7,11 @@ import Foundation
 
 
 public struct PillStruct {
-    public var id: UUID
-    public var attributes: PillAttributes
+	public var id: UUID
+	public var attributes: PillAttributes
 
-    public init(_ id: UUID, _ attributes: PillAttributes) {
-        self.id = id
-        self.attributes = attributes
-    }
+	public init(_ id: UUID, _ attributes: PillAttributes) {
+		self.id = id
+		self.attributes = attributes
+	}
 }

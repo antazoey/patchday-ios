@@ -10,5 +10,5 @@ import Foundation
 
 
 public protocol NewSiteAlertActionHandling {
-    func handleNewSite()
+	func handleNewSite()
 }

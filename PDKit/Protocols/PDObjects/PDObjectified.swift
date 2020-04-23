@@ -10,6 +10,6 @@ import Foundation
 
 public protocol PDObjectified {
 
-    /// Set all attributes to default values.
-    func reset()
+	/// Set all attributes to default values.
+	func reset()
 }

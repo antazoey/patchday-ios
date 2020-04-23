@@ -7,7 +7,7 @@ import Foundation
 
 
 public struct HormoneViewStrings {
-    public var expirationText: String
-    public var dateAndTimePlacedText: String
-    public var siteLabelText: String
+	public var expirationText: String
+	public var dateAndTimePlacedText: String
+	public var siteLabelText: String
 }

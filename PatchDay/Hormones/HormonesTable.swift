@@ -9,34 +9,34 @@ import PDKit
 
 class HormonesTable: TableViewWrapper<HormoneCell> {
 
-    private var _cells: [HormoneCell] = []
+	private var _cells: [HormoneCell] = []
 
-    init(_ table: UITableView) {
-        super.init(table, primaryCellReuseId: CellReuseIds.Hormone)
-    }
-    
-    var cells: [HormoneCell] {
-        _cells
-    }
+	init(_ table: UITableView) {
+		super.init(table, primaryCellReuseId: CellReuseIds.Hormone)
+	}
 
-    func reflectModel(_ sdk: PatchDataSDK?, _ style: UIUserInterfaceStyle) {
-        _cells = []
-        guard let sdk = sdk else { return }
-        for row in 0..<SupportedHormoneUpperQuantityLimit {
-            if let cell = dequeueCell() {
-                cell.configure(at: row, sdk)
-                _cells.append(cell)
-            }
-        }
-        applyTheme()
-    }
+	var cells: [HormoneCell] {
+		_cells
+	}
 
-    func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
-        viewHeight * 0.24
-    }
+	func reflectModel(_ sdk: PatchDataSDK?, _ style: UIUserInterfaceStyle) {
+		_cells = []
+		guard let sdk = sdk else { return }
+		for row in 0..<SupportedHormoneUpperQuantityLimit {
+			if let cell = dequeueCell() {
+				cell.configure(at: row, sdk)
+				_cells.append(cell)
+			}
+		}
+		applyTheme()
+	}
 
-    func applyTheme() {
-        table.backgroundColor = UIColor.systemBackground
-        table.separatorColor = PDColors[.Border]
-    }
+	func getCellRowHeight(viewHeight: CGFloat) -> CGFloat {
+		viewHeight * 0.24
+	}
+
+	func applyTheme() {
+		table.backgroundColor = UIColor.systemBackground
+		table.separatorColor = PDColors[.Border]
+	}
 }

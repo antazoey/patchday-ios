@@ -5,32 +5,32 @@
 
 
 public class PlaceholderStrings {
-    public static let NothingYet = {
-        NSLocalizedString("Nothing yet", comment: "On buttons with plenty of room")
-    }()
-    public static let DotDotDot = {
-        NSLocalizedString("...", comment: "Instruction for empty patch")
-    }()
+	public static let NothingYet = {
+		NSLocalizedString("Nothing yet", comment: "On buttons with plenty of room")
+	}()
+	public static let DotDotDot = {
+		NSLocalizedString("...", comment: "Instruction for empty patch")
+	}()
 }
 
 
 public class DayStrings {
-    private static let comment = "The word 'today' displayed on a button."
-    public static var today: String {
-        NSLocalizedString("Today", comment: comment)
-    }
-    public static var yesterday: String {
-        NSLocalizedString("Yesterday", comment: comment)
-    }
-    public static var tomorrow: String {
-        NSLocalizedString("Tomorrow", comment: comment)
-    }
+	private static let comment = "The word 'today' displayed on a button."
+	public static var today: String {
+		NSLocalizedString("Today", comment: comment)
+	}
+	public static var yesterday: String {
+		NSLocalizedString("Yesterday", comment: comment)
+	}
+	public static var tomorrow: String {
+		NSLocalizedString("Tomorrow", comment: comment)
+	}
 }
 
 
 public enum TodayKey: String {
-    case nextHormoneSiteName = "nextEstroSiteName"
-    case nextHormoneDate = "nextEstroDate"
-    case nextPillToTake = "nextPillToTake"
-    case nextPillTakeTime = "nextPillTakeTime"
+	case nextHormoneSiteName = "nextEstroSiteName"
+	case nextHormoneDate = "nextEstroDate"
+	case nextPillToTake = "nextPillToTake"
+	case nextPillTakeTime = "nextPillTakeTime"
 }

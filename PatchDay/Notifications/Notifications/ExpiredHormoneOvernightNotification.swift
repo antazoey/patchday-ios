@@ -11,21 +11,21 @@ import UserNotifications
 import PDKit
 
 public class ExpiredHormoneOvernightNotification: Notification, ExpiredHormoneOvernightNotifying {
-    
-    private let dateBeforeOvernightExpiration: Date
-    private let deliveryMethod: DeliveryMethod
-    
-    init(_ params: ExpiredHormoneOvernightNotificationCreationParams) {
-        self.dateBeforeOvernightExpiration = params.triggerDate
-        self.deliveryMethod = params.deliveryMethod
-        let title = NotificationStrings.Overnight[params.deliveryMethod]
-        super.init(title: title, body: nil, badge: params.totalHormonesExpired)
-    }
-    
-    public func request() {
-        let interval = dateBeforeOvernightExpiration.timeIntervalSinceNow
-        if interval > 0 {
-            super.request(when: interval, requestId: "overnight")
-        }
-    }
+
+	private let dateBeforeOvernightExpiration: Date
+	private let deliveryMethod: DeliveryMethod
+
+	init(_ params: ExpiredHormoneOvernightNotificationCreationParams) {
+		self.dateBeforeOvernightExpiration = params.triggerDate
+		self.deliveryMethod = params.deliveryMethod
+		let title = NotificationStrings.Overnight[params.deliveryMethod]
+		super.init(title: title, body: nil, badge: params.totalHormonesExpired)
+	}
+
+	public func request() {
+		let interval = dateBeforeOvernightExpiration.timeIntervalSinceNow
+		if interval > 0 {
+			super.request(when: interval, requestId: "overnight")
+		}
+	}
 }

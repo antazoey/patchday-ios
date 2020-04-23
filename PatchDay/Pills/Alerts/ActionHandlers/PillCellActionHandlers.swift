@@ -11,20 +11,20 @@ import PDKit
 
 
 class PillCellActionHandlers: PillCellActionHandling {
-    
-    private let goToDetailsAction: () -> ()
-    private let takePillAction: () -> ()
-    
-    init(goToDetails: @escaping () -> (), takePill: @escaping () -> ()) {
-        self.goToDetailsAction = goToDetails
-        self.takePillAction = takePill
-    }
 
-    public func goToDetails() {
-        goToDetailsAction()
-    }
-    
-    public func takePill() {
-        takePillAction()
-    }
+	private let goToDetailsAction: () -> ()
+	private let takePillAction: () -> ()
+
+	init(goToDetails: @escaping () -> (), takePill: @escaping () -> ()) {
+		self.goToDetailsAction = goToDetails
+		self.takePillAction = takePill
+	}
+
+	public func goToDetails() {
+		goToDetailsAction()
+	}
+
+	public func takePill() {
+		takePillAction()
+	}
 }

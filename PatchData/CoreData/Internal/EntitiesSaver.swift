@@ -9,27 +9,27 @@ import PDKit
 
 class EntitiesSaver {
 
-    private let stack: PDCoreDataWrapping
-    private lazy var logger = CoreDataEntitiesLogger()
+	private let stack: PDCoreDataWrapping
+	private lazy var logger = CoreDataEntitiesLogger()
 
-    init(_ stack: PDCoreDataWrapping) {
-        self.stack = stack
-    }
+	init(_ stack: PDCoreDataWrapping) {
+		self.stack = stack
+	}
 
-    func saveCreateNewEntity(_ entity: PDEntity) {
-        save(entity, from: "Create new \(entity.rawValue)")
-    }
+	func saveCreateNewEntity(_ entity: PDEntity) {
+		save(entity, from: "Create new \(entity.rawValue)")
+	}
 
-    func saveFromPush(_ entity: PDEntity) {
-        save(entity, from: "\(entity.rawValue) save")
-    }
+	func saveFromPush(_ entity: PDEntity) {
+		save(entity, from: "\(entity.rawValue) save")
+	}
 
-    func saveFromDelete(_ entity: PDEntity) {
-        save(entity, from: "\(entity.rawValue) delete")
-    }
+	func saveFromDelete(_ entity: PDEntity) {
+		save(entity, from: "\(entity.rawValue) delete")
+	}
 
-    private func save(_ entity: PDEntity, from name: String) {
-        logger.logSave(entity)
-        stack.save(saverName: name)
-    }
+	private func save(_ entity: PDEntity, from name: String) {
+		logger.logSave(entity)
+		stack.save(saverName: name)
+	}
 }

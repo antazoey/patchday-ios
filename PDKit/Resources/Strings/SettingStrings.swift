@@ -11,22 +11,22 @@ import Foundation
 
 // Useful since the above does has legacy strings
 public var NameToSettingMap: [String: PDSetting] {
-    [
-        "deliverymethod": .DeliveryMethod,
-        "expirationinterval": .ExpirationInterval,
-        "quantity": .Quantity,
-        "notifications": .Notifications,
-        "notificationsminutesbefore": .NotificationsMinutesBefore,
-        "mentioneddisclaimer": .MentionedDisclaimer,
-        "siteindex": .SiteIndex
-    ]
+	[
+		"deliverymethod": .DeliveryMethod,
+		"expirationinterval": .ExpirationInterval,
+		"quantity": .Quantity,
+		"notifications": .Notifications,
+		"notificationsminutesbefore": .NotificationsMinutesBefore,
+		"mentioneddisclaimer": .MentionedDisclaimer,
+		"siteindex": .SiteIndex
+	]
 }
 
 
 public var SettingToTitle: [PDSetting: String] {
-    [
-        .DeliveryMethod: NSLocalizedString("Delivery Method", comment: ""),
-        .ExpirationInterval: NSLocalizedString("Expiration Intervak", comment: ""),
-        .Quantity: NSLocalizedString("Quantity", comment: ""),
-    ]
+	[
+			.DeliveryMethod: NSLocalizedString("Delivery Method", comment: ""),
+			.ExpirationInterval: NSLocalizedString("Expiration Intervak", comment: ""),
+			.Quantity: NSLocalizedString("Quantity", comment: ""),
+	]
 }

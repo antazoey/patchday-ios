@@ -9,24 +9,24 @@
 import Foundation
 
 public protocol Countable {
-    var count: Int { get }
+	var count: Int { get }
 }
 
 public protocol Sorting {
-    func sort()
+	func sort()
 }
 
 public protocol Saving {
-    func save()
+	func save()
 }
 
 public protocol Deleting {
-    func delete(at index: Index)
+	func delete(at index: Index)
 }
 
 public protocol Resetting {
- 
-    /// Reset all properties to their default values and returns the new count.
-    @discardableResult func reset() -> Int
+
+	/// Reset all properties to their default values and returns the new count.
+	@discardableResult func reset() -> Int
 
 }

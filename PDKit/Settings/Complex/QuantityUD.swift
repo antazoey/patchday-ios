@@ -11,20 +11,20 @@ import Foundation
 
 public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
 
-    public typealias Value = Quantity
-    public typealias RawValue = Int
-    public let setting: PDSetting = .Quantity
-    
-    public convenience init(_ value: Quantity) {
-        self.init(value.rawValue)
-    }
-    
-    public required init(_ rawValue: Int) {
-        super.init(rawValue)
-        self.choices = PickerOptions.quantities
-    }
+	public typealias Value = Quantity
+	public typealias RawValue = Int
+	public let setting: PDSetting = .Quantity
 
-    public override var value: Quantity {
-        return Quantity(rawValue: rawValue) ?? DefaultSettings.QuantityValue
-    }
+	public convenience init(_ value: Quantity) {
+		self.init(value.rawValue)
+	}
+
+	public required init(_ rawValue: Int) {
+		super.init(rawValue)
+		self.choices = PickerOptions.quantities
+	}
+
+	public override var value: Quantity {
+		return Quantity(rawValue: rawValue) ?? DefaultSettings.QuantityValue
+	}
 }

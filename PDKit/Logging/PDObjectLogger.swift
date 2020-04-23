@@ -8,22 +8,22 @@ import Foundation
 
 public class PDObjectLogger {
 
-    /// Sometimes it is just nice to see a PDObject in JSON form.
+	/// Sometimes it is just nice to see a PDObject in JSON form.
 
-    public static func logHormone(_ hormone: Hormonal) {
-        var dateStr = "null"
-        if hormone.date.isDefault() {
-            dateStr = "\"\(hormone.date)\""
-        }
-        var siteIdStr = "null"
-        if let siteId = hormone.siteId {
-            siteIdStr = "\"\(siteId.uuidString)\""
-        }
-        var expirationStr = "null"
-        if let exp = hormone.expiration {
-            expirationStr = "\"\(exp)\""
-        }
-        let hormoneInfo = """
+	public static func logHormone(_ hormone: Hormonal) {
+		var dateStr = "null"
+		if hormone.date.isDefault() {
+			dateStr = "\"\(hormone.date)\""
+		}
+		var siteIdStr = "null"
+		if let siteId = hormone.siteId {
+			siteIdStr = "\"\(siteId.uuidString)\""
+		}
+		var expirationStr = "null"
+		if let exp = hormone.expiration {
+			expirationStr = "\"\(exp)\""
+		}
+		let hormoneInfo = """
                           {
                                 \"type\": \"\(PDEntity.hormone)\",
                                 \"date\": \(dateStr),
@@ -33,15 +33,15 @@ public class PDObjectLogger {
                                 \"expiration\": \(expirationStr)
                           }
                           """
-        print(hormoneInfo)
-    }
+		print(hormoneInfo)
+	}
 
-    public static func logPill(_ pill: Swallowable) {
-        var lastTakenStr: String? = nil
-        if let lastTaken = pill.lastTaken {
-            lastTakenStr = "\"\(lastTaken)\""
-        }
-        let pillInfo = """
+	public static func logPill(_ pill: Swallowable) {
+		var lastTakenStr: String? = nil
+		if let lastTaken = pill.lastTaken {
+			lastTakenStr = "\"\(lastTaken)\""
+		}
+		let pillInfo = """
                        {
                             \"type\": \"\(PDEntity.pill)\",
                             \"name\": \"\(pill.name)\",
@@ -53,25 +53,25 @@ public class PDObjectLogger {
                             \"notify\": \(pill.notify)
                        }
                        """
-        print(pillInfo)
-    }
+		print(pillInfo)
+	}
 
-    public static func logSite(_ site: Bodily) {
-        var hormoneIdsStr = "[]"
-        for i in 0..<site.hormoneIds.count {
-            let id = site.hormoneIds[i]
-            if hormoneIdsStr == "[]" {
-                hormoneIdsStr = "["
-            }
-            hormoneIdsStr.append("\n\t\t\"" + "\(id.uuidString)\"")
-            if i < site.hormoneIds.count - 1 {
-                hormoneIdsStr.append(",")
-            }
-        }
-        if hormoneIdsStr != "[]" {
-            hormoneIdsStr.append("\n\t]")
-        }
-        let siteInfo = """
+	public static func logSite(_ site: Bodily) {
+		var hormoneIdsStr = "[]"
+		for i in 0..<site.hormoneIds.count {
+			let id = site.hormoneIds[i]
+			if hormoneIdsStr == "[]" {
+				hormoneIdsStr = "["
+			}
+			hormoneIdsStr.append("\n\t\t\"" + "\(id.uuidString)\"")
+			if i < site.hormoneIds.count - 1 {
+				hormoneIdsStr.append(",")
+			}
+		}
+		if hormoneIdsStr != "[]" {
+			hormoneIdsStr.append("\n\t]")
+		}
+		let siteInfo = """
                        {
                             \"type\": \"\(PDEntity.site)\",
                             \"name\": \"\(site.name)\",
@@ -79,6 +79,6 @@ public class PDObjectLogger {
                             \"hormoneIds\": \(hormoneIdsStr)
                        }
                        """
-        print(siteInfo)
-    }
+		print(siteInfo)
+	}
 }

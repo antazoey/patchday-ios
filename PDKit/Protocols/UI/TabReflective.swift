@@ -10,9 +10,9 @@ import UIKit
 
 
 public protocol TabReflective {
-    var hormonesVC: UIViewController? { get }
-    var pillsVC: UIViewController? { get }
-    var sitesVC: UIViewController? { get }
-    func reflectHormoneCharacteristics()
-    func reflectDuePillBadgeValue()
+	var hormonesVC: UIViewController? { get }
+	var pillsVC: UIViewController? { get }
+	var sitesVC: UIViewController? { get }
+	func reflectHormoneCharacteristics()
+	func reflectDuePillBadgeValue()
 }

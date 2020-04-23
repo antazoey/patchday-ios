@@ -10,7 +10,7 @@ import Foundation
 
 
 protocol ApplyHormoneNotificationActionHandling {
-    
-    /// A handler for an expired-hormone notification action for applying a hormone.
-    func applyHormone(hormoneUid: String)
+
+	/// A handler for an expired-hormone notification action for applying a hormone.
+	func applyHormone(hormoneUid: String)
 }

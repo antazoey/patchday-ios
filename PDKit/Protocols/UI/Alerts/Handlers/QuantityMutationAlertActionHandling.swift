@@ -10,7 +10,7 @@ import Foundation
 
 
 public protocol QuantityMutationAlertActionHandling {
-    func handleContinue(newQuantity: Int)
-    func handleDecline(oldQuantity: Int)
-    func setQuantityWithoutAlert(newQuantity: Int)
+	func handleContinue(newQuantity: Int)
+	func handleDecline(oldQuantity: Int)
+	func setQuantityWithoutAlert(newQuantity: Int)
 }

@@ -10,21 +10,21 @@ import UIKit
 import PDKit
 
 
-class PDBadge : PDBadgeDelegate {
+class PDBadge: PDBadgeDelegate {
 
-    private var badgeNumber = UIApplication.shared.applicationIconBadgeNumber
+	private var badgeNumber = UIApplication.shared.applicationIconBadgeNumber
 
-    func increment() {
-        badgeNumber += 1
-    }
+	func increment() {
+		badgeNumber += 1
+	}
 
-    func decrement() {
-        if badgeNumber > 0 {
-            badgeNumber -= 1
-        }
-    }
+	func decrement() {
+		if badgeNumber > 0 {
+			badgeNumber -= 1
+		}
+	}
 
-    func set(to newBadgeValue: Int) {
-        badgeNumber = newBadgeValue
-    }
+	func set(to newBadgeValue: Int) {
+		badgeNumber = newBadgeValue
+	}
 }

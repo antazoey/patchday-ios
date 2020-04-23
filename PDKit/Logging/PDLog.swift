@@ -7,8 +7,8 @@ import Foundation
 
 
 public enum PDLogLevels {
-    case DEBUG
-    case NONE
+	case DEBUG
+	case NONE
 }
 
 
@@ -18,62 +18,62 @@ public var PDLogLevel = PDLogLevels.NONE
 
 public class PDLog<T> {
 
-    private enum LogStatus: String {
-        case INFO = "INFO"
-        case WARN = "WARN"
-        case ERROR = "ERROR"
-    }
-    
-    private var symbolMap: [LogStatus: String] = [
-        .INFO: "🔎",
-        .WARN: "⚠️",
-        .ERROR: "🛑"
-    ]
+	private enum LogStatus: String {
+		case INFO = "INFO"
+		case WARN = "WARN"
+		case ERROR = "ERROR"
+	}
 
-    private var context: String
+	private var symbolMap: [LogStatus: String] = [
+			.INFO: "🔎",
+			.WARN: "⚠️",
+			.ERROR: "🛑"
+	]
 
-    public init() {
-        self.context = String(describing: T.self)
-    }
+	private var context: String
 
-    public func info(_ message: String, silence: Bool=false) {
-        guard !silence else { return }
-        printMessage(message, status: .INFO)
-    }
+	public init() {
+		self.context = String(describing: T.self)
+	}
 
-    public func warn(_ message: String) {
-        printMessage(message, status: .WARN)
-    }
+	public func info(_ message: String, silence: Bool = false) {
+		guard !silence else { return }
+		printMessage(message, status: .INFO)
+	}
 
-    public func error(_ message: String) {
-        printMessage(message, status: .ERROR)
-    }
+	public func warn(_ message: String) {
+		printMessage(message, status: .WARN)
+	}
 
-    public func error(_ message: String, _ error: Error) {
-        printMessage("message. \(String(describing: error))", status: .ERROR)
-    }
+	public func error(_ message: String) {
+		printMessage(message, status: .ERROR)
+	}
 
-    public func error(_ error: Error) {
-        printMessage(String(describing: error), status: .ERROR)
-    }
+	public func error(_ message: String, _ error: Error) {
+		printMessage("message. \(String(describing: error))", status: .ERROR)
+	}
 
-    private func printMessage(_ message: String, status: LogStatus) {
-        guard PDLogLevel == PDLogLevels.DEBUG else { return }
-        var m = message
-        if m.last == "." {
-            m.removeLast()
-        }
-        let symbol = symbolMap[status] ?? ""
-        print("\(symbol) \(status.rawValue) \(contextString) \(symbol) ::: \(message).")
-    }
+	public func error(_ error: Error) {
+		printMessage(String(describing: error), status: .ERROR)
+	}
 
-    private var contextString: String {
-        guard let bundleId = bundle else { return context }
-        return "\(bundleId).\(context)"
-    }
+	private func printMessage(_ message: String, status: LogStatus) {
+		guard PDLogLevel == PDLogLevels.DEBUG else { return }
+		var m = message
+		if m.last == "." {
+			m.removeLast()
+		}
+		let symbol = symbolMap[status] ?? ""
+		print("\(symbol) \(status.rawValue) \(contextString) \(symbol) ::: \(message).")
+	}
 
-    private var bundle: String? {
-        guard let t = T.self as? AnyClass.Type, let id = Bundle(for: t).bundleIdentifier else { return nil }
-        return id
-    }
+	private var contextString: String {
+		guard let bundleId = bundle else { return context }
+		return "\(bundleId).\(context)"
+	}
+
+	private var bundle: String? {
+		guard let t = T.self as? AnyClass.Type, let id = Bundle(for: t).bundleIdentifier else { return nil }
+		return id
+	}
 }

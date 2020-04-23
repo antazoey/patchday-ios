@@ -8,31 +8,31 @@ import PDKit
 
 
 struct SiteImageStruct {
-    let image: UIImage
-    let name: SiteName
+	let image: UIImage
+	let name: SiteName
 }
 
 struct SiteCellProperties {
-    var row: Index
-    var site: Bodily?
-    var totalSiteCount: Int = 0
-    var nextSiteIndex: Int = 0
+	var row: Index
+	var site: Bodily?
+	var totalSiteCount: Int = 0
+	var nextSiteIndex: Int = 0
 }
 
 struct SiteSelectionState {
-    var selectedSiteName: SiteName?
+	var selectedSiteName: SiteName?
 }
 
 struct BarItemInitializationProperties {
-    var sitesViewController: UIViewController
-    var tableActionState: SiteTableActionState
-    var oppositeActionTitle: String
-    var reset: Selector
-    var insert: Selector
+	var sitesViewController: UIViewController
+	var tableActionState: SiteTableActionState
+	var oppositeActionTitle: String
+	var reset: Selector
+	var insert: Selector
 }
 
 enum SiteTableActionState {
-    case Editing
-    case Reading
-    case Unknown
+	case Editing
+	case Reading
+	case Unknown
 }

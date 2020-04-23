@@ -10,9 +10,9 @@ import UIKit
 
 
 public protocol NavigationHandling {
-    func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController)
-    func goToPillDetails(_ pill: Swallowable, source: UIViewController)
-    func goToSiteDetails(_ site: Bodily, source: UIViewController, params: SiteImageDeterminationParameters)
-    func goToSettings(source: UIViewController)
-    func pop(source: UIViewController)
+	func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController)
+	func goToPillDetails(_ pill: Swallowable, source: UIViewController)
+	func goToSiteDetails(_ site: Bodily, source: UIViewController, params: SiteImageDeterminationParameters)
+	func goToSettings(source: UIViewController)
+	func pop(source: UIViewController)
 }

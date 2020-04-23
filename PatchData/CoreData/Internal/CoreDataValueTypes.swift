@@ -8,7 +8,7 @@ import PDKit
 
 
 struct EntityKey {
-    public var type: PDEntity
-    public var name: String
-    public var props: [String]
+	public var type: PDEntity
+	public var name: String
+	public var props: [String]
 }

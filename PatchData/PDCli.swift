@@ -10,12 +10,12 @@ import Foundation
 
 
 class PDCli {
-    
-    static func isNukeMode() -> Bool {
-        CommandLine.arguments.contains("--nuke-storage")
-    }
-    
-    static func isDebugMode() -> Bool {
-        CommandLine.arguments.contains("-d") || CommandLine.arguments.contains("--debug")
-    }
+
+	static func isNukeMode() -> Bool {
+		CommandLine.arguments.contains("--nuke-storage")
+	}
+
+	static func isDebugMode() -> Bool {
+		CommandLine.arguments.contains("-d") || CommandLine.arguments.contains("--debug")
+	}
 }

@@ -9,74 +9,74 @@ import PDKit
 
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
-    var pillsTable: PillsTable! = nil
-    var viewFactory: PillsViewFactory
+	var pillsTable: PillsTable! = nil
+	var viewFactory: PillsViewFactory
 
-    init(pillsTableView: UITableView, viewFactory: PillsViewFactory) {
-        self.viewFactory = viewFactory
-        super.init()
-        let tableWrapper = PillsTable(pillsTableView, pills: pills)
-        self.pillsTable = tableWrapper
-        addObserverForUpdatingPillTableWhenEnteringForeground()
-    }
+	init(pillsTableView: UITableView, viewFactory: PillsViewFactory) {
+		self.viewFactory = viewFactory
+		super.init()
+		let tableWrapper = PillsTable(pillsTableView, pills: pills)
+		self.pillsTable = tableWrapper
+		addObserverForUpdatingPillTableWhenEnteringForeground()
+	}
 
-    var pills: PillScheduling? {
-        sdk?.pills
-    }
-    
-    var pillsCount: Int {
-        pills?.count ?? 0
-    }
+	var pills: PillScheduling? {
+		sdk?.pills
+	}
 
-    func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
-        let delete = viewFactory.createSiteCellDeleteSwipeAction {
-            self.deletePill(at: index)
-        }
-        return UISwipeActionsConfiguration(actions: [delete])
-    }
+	var pillsCount: Int {
+		pills?.count ?? 0
+	}
 
-    func takePill(at index: Index) {
-        guard let pills = pills else { return }
-        guard let pill = pills[index] else { return }
-        pills.swallow(pill.id) {
-            self.tabs?.reflectDuePillBadgeValue()
-            self.notifications?.requestDuePillNotification(pill)
-            let params = PillCellConfigurationParameters(pill: pill, index: index)
-            self.pillsTable[index].stamp().configure(params)
-            self.pillsTable.reloadData()
-        }
-    }
+	func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
+		let delete = viewFactory.createSiteCellDeleteSwipeAction {
+			self.deletePill(at: index)
+		}
+		return UISwipeActionsConfiguration(actions: [delete])
+	}
 
-    func deletePill(at index: IndexPath) {
-        pills?.delete(at: index.row)
-        let pillsCount = pills?.count ?? 0
-        pillsTable.deleteCell(at: index, pillsCount: pillsCount)
-    }
-    
-    func presentPillActions(at index: Index, viewController: UIViewController) {
-        let pillName = self.sdk?.pills[index]?.name ?? ViewTitleStrings.PillTitle
-        let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
-        let takePill = { self.takePill(at: index) }
-        let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
-        alerts?.presentPillActions(for: pillName, handlers: handlers)
-    }
-    
-    func goToNewPillDetails(pillsViewController: UIViewController) {
-        guard let pill = pills?.insertNew(onSuccess: nil) else { return }
-        nav?.goToPillDetails(pill, source: pillsViewController)
-    }
+	func takePill(at index: Index) {
+		guard let pills = pills else { return }
+		guard let pill = pills[index] else { return }
+		pills.swallow(pill.id) {
+			self.tabs?.reflectDuePillBadgeValue()
+			self.notifications?.requestDuePillNotification(pill)
+			let params = PillCellConfigurationParameters(pill: pill, index: index)
+			self.pillsTable[index].stamp().configure(params)
+			self.pillsTable.reloadData()
+		}
+	}
 
-    func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
-        guard let pill = pills?[pillIndex] else { return }
-        nav?.goToPillDetails(pill, source: pillsViewController)
-    }
+	func deletePill(at index: IndexPath) {
+		pills?.delete(at: index.row)
+		let pillsCount = pills?.count ?? 0
+		pillsTable.deleteCell(at: index, pillsCount: pillsCount)
+	}
 
-    // MARK: - Private
+	func presentPillActions(at index: Index, viewController: UIViewController) {
+		let pillName = self.sdk?.pills[index]?.name ?? ViewTitleStrings.PillTitle
+		let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
+		let takePill = { self.takePill(at: index) }
+		let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
+		alerts?.presentPillActions(for: pillName, handlers: handlers)
+	}
 
-    private func addObserverForUpdatingPillTableWhenEnteringForeground() {
-        let name = UIApplication.willEnterForegroundNotification
-        NotificationCenter.default.addObserver(
-            self, selector: #selector(pillsTable.reloadData), name: name, object: nil
-        )
-    }
+	func goToNewPillDetails(pillsViewController: UIViewController) {
+		guard let pill = pills?.insertNew(onSuccess: nil) else { return }
+		nav?.goToPillDetails(pill, source: pillsViewController)
+	}
+
+	func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
+		guard let pill = pills?[pillIndex] else { return }
+		nav?.goToPillDetails(pill, source: pillsViewController)
+	}
+
+	// MARK: - Private
+
+	private func addObserverForUpdatingPillTableWhenEnteringForeground() {
+		let name = UIApplication.willEnterForegroundNotification
+		NotificationCenter.default.addObserver(
+			self, selector: #selector(pillsTable.reloadData), name: name, object: nil
+		)
+	}
 }

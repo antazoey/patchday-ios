@@ -12,25 +12,25 @@ import PDKit
 
 
 public class DuePillNotification: Notification, DuePillNotifying {
-    
-    private let pill: Swallowable
-    
-    public var title: String
-    public var body: String?
-    public static var actionId = { "takeActionId" }()
-    public static var categoryId = { "pillCategoryId" }()
-    
-    init(for pill: Swallowable, totalDue: Int) {
-        self.pill = pill
-        self.title = NotificationStrings.takePill + pill.name
-        super.init(title: self.title, body: self.body, badge: totalDue)
-    }
-    
-    public func request() {
-        let now = Date()
-        super.content.categoryIdentifier = DuePillNotification.categoryId
-        if let interval = self.pill.due?.timeIntervalSince(now) {
-            super.request(when: interval, requestId: self.pill.id.uuidString)
-        }
-    }
+
+	private let pill: Swallowable
+
+	public var title: String
+	public var body: String?
+	public static var actionId = { "takeActionId" }()
+	public static var categoryId = { "pillCategoryId" }()
+
+	init(for pill: Swallowable, totalDue: Int) {
+		self.pill = pill
+		self.title = NotificationStrings.takePill + pill.name
+		super.init(title: self.title, body: self.body, badge: totalDue)
+	}
+
+	public func request() {
+		let now = Date()
+		super.content.categoryIdentifier = DuePillNotification.categoryId
+		if let interval = self.pill.due?.timeIntervalSince(now) {
+			super.request(when: interval, requestId: self.pill.id.uuidString)
+		}
+	}
 }

@@ -12,8 +12,8 @@ import PDKit
 
 public protocol SwallowPillNotificationActionHandling {
 
-    var requestPillNotification: ((_ pill: Swallowable) -> ())? { get set}
-    
-    /// A handler for a due-pill notification action for swallowing a pill.
-    func swallow(pillUid: String)
+	var requestPillNotification: ((_ pill: Swallowable) -> ())? { get set }
+
+	/// A handler for a due-pill notification action for swallowing a pill.
+	func swallow(pillUid: String)
 }

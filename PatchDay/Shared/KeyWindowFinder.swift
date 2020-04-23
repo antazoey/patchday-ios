@@ -12,13 +12,13 @@ import PDKit
 
 class KeyWindowFinder {
 
-    static var keyWindow: UIWindow? {
-        let window = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
-        guard let _ = window else {
-            let log = PDLog<KeyWindowFinder>()
-            log.error("Unable to find key window")
-            return nil
-        }
-        return window
-    }
+	static var keyWindow: UIWindow? {
+		let window = UIApplication.shared.windows.filter { $0.isKeyWindow }.first
+		guard let _ = window else {
+			let log = PDLog<KeyWindowFinder>()
+			log.error("Unable to find key window")
+			return nil
+		}
+		return window
+	}
 }

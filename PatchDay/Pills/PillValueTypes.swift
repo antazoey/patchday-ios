@@ -7,6 +7,6 @@ import PDKit
 
 
 struct PillCellConfigurationParameters {
-    var pill: Swallowable
-    var index: Index
+	var pill: Swallowable
+	var index: Index
 }

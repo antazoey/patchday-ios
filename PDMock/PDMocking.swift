@@ -8,6 +8,6 @@ import Foundation
 
 public protocol PDMocking {
 
-    /// Clears the mock's invocations
-    func resetMock()
+	/// Clears the mock's invocations
+	func resetMock()
 }

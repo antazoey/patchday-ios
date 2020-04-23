@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol PDBadgeDelegate {
-    func increment()
-    func decrement()
-    func set(to newBadgeValue: Int)
+	func increment()
+	func decrement()
+	func set(to newBadgeValue: Int)
 }

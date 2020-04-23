@@ -7,13 +7,13 @@ import Foundation
 
 
 public struct PillDueDateFinderParams {
-    public var timesTakenToday: Int
-    public var timesaday: Int
-    public var times: [Time]
+	public var timesTakenToday: Int
+	public var timesaday: Int
+	public var times: [Time]
 
-    public init(_ timesTakenToday: Int, _ timesaday: Int, _ times: [Time]) {
-        self.timesTakenToday = timesTakenToday
-        self.timesaday = timesaday
-        self.times = times
-    }
+	public init(_ timesTakenToday: Int, _ timesaday: Int, _ times: [Time]) {
+		self.timesTakenToday = timesTakenToday
+		self.timesaday = timesaday
+		self.times = times
+	}
 }

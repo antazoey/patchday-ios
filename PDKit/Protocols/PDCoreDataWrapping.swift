@@ -10,9 +10,9 @@ import Foundation
 
 
 public protocol PDCoreDataWrapping {
-    func save(saverName: String)
-    func getManagedObjects(entity: PDEntity) -> [Any]?
-    func insert(_ entity: PDEntity) -> Any?
-    func nuke()
-    func tryDelete(_ managedObject: Any)
+	func save(saverName: String)
+	func getManagedObjects(entity: PDEntity) -> [Any]?
+	func insert(_ entity: PDEntity) -> Any?
+	func nuke()
+	func tryDelete(_ managedObject: Any)
 }

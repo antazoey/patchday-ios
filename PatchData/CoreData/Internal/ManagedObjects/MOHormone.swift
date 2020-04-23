@@ -14,8 +14,8 @@ import PDKit
 
 @objc(MOHormone)
 public class MOHormone: NSManagedObject {
-    @NSManaged var siteRelationship: MOSite?
-    @NSManaged var id: UUID?
-    @NSManaged var date: NSDate?
-    @NSManaged var siteNameBackUp: String?
+	@NSManaged var siteRelationship: MOSite?
+	@NSManaged var id: UUID?
+	@NSManaged var date: NSDate?
+	@NSManaged var siteNameBackUp: String?
 }

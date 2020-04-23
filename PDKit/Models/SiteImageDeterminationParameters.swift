@@ -6,20 +6,20 @@
 
 public class SiteImageDeterminationParameters {
 
-    public var siteName: SiteName?
-    public var deliveryMethod: DeliveryMethod
+	public var siteName: SiteName?
+	public var deliveryMethod: DeliveryMethod
 
-    public init(siteName: SiteName, deliveryMethod: DeliveryMethod) {
-        self.siteName = siteName
-        self.deliveryMethod = deliveryMethod
-    }
+	public init(siteName: SiteName, deliveryMethod: DeliveryMethod) {
+		self.siteName = siteName
+		self.deliveryMethod = deliveryMethod
+	}
 
-    public init(hormone: Hormonal?, deliveryMethod: DeliveryMethod) {
-        self.siteName = hormone?.siteName
-        self.deliveryMethod = deliveryMethod
-    }
+	public init(hormone: Hormonal?, deliveryMethod: DeliveryMethod) {
+		self.siteName = hormone?.siteName
+		self.deliveryMethod = deliveryMethod
+	}
 
-    public init(deliveryMethod: DeliveryMethod) {
-        self.deliveryMethod = deliveryMethod
-    }
+	public init(deliveryMethod: DeliveryMethod) {
+		self.deliveryMethod = deliveryMethod
+	}
 }

@@ -10,58 +10,58 @@ import PDKit
 
 class TodayViewModel: NSObject {
 
-    private let data: TodayDataDelegate
-    private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
-    private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
+	private let data: TodayDataDelegate
+	private let changeLabel = NSLocalizedString("Change:", comment: "Short label on Today App")
+	private let injectLabel = NSLocalizedString("Inject:", comment: "Short label on Today App")
 
-    private let placeholderText = {
-        PlaceholderStrings.DotDotDot
-    }()
+	private let placeholderText = {
+		PlaceholderStrings.DotDotDot
+	}()
 
-    init(dataDelegate: TodayDataDelegate) {
-        self.data = dataDelegate
-    }
+	init(dataDelegate: TodayDataDelegate) {
+		self.data = dataDelegate
+	}
 
-    convenience override init() {
-        self.init(dataDelegate: TodayData())
-    }
-    
-    // MARK: - Public
+	convenience override init() {
+		self.init(dataDelegate: TodayData())
+	}
 
-    var usingPatches: Bool {
-        if let method = data.getDeliveryMethod() {
-            return method == PickerOptions.getDeliveryMethodString(for: .Patches)
-        }
-        return false
-    }
+	// MARK: - Public
 
-    var hormoneTitle: String {
-        usingPatches ? changeLabel : injectLabel
-    }
+	var usingPatches: Bool {
+		if let method = data.getDeliveryMethod() {
+			return method == PickerOptions.getDeliveryMethodString(for: .Patches)
+		}
+		return false
+	}
 
-    var hormoneSiteName: String {
-        let hormone = PDTStructFactory.createHormone(data)
-        return hormone.siteName ?? placeholderText
-    }
+	var hormoneTitle: String {
+		usingPatches ? changeLabel : injectLabel
+	}
 
-    var hormoneDateText: String {
-        let hormone = PDTStructFactory.createHormone(data)
-        if let date = hormone.date {
-            return PDDateFormatter.formatDate(date)
-        }
-        return placeholderText
-    }
+	var hormoneSiteName: String {
+		let hormone = PDTStructFactory.createHormone(data)
+		return hormone.siteName ?? placeholderText
+	}
 
-    var nextPillName: String {
-        let pill = PDTStructFactory.createPill(data)
-        return pill.name ?? placeholderText
-    }
+	var hormoneDateText: String {
+		let hormone = PDTStructFactory.createHormone(data)
+		if let date = hormone.date {
+			return PDDateFormatter.formatDate(date)
+		}
+		return placeholderText
+	}
 
-    var nextPillDateText: String {
-        let pill = PDTStructFactory.createPill(data)
-        if let date = pill.nextTakeDate {
-            return PDDateFormatter.formatDate(date)
-        }
-        return placeholderText
-    }
+	var nextPillName: String {
+		let pill = PDTStructFactory.createPill(data)
+		return pill.name ?? placeholderText
+	}
+
+	var nextPillDateText: String {
+		let pill = PDTStructFactory.createPill(data)
+		if let date = pill.nextTakeDate {
+			return PDDateFormatter.formatDate(date)
+		}
+		return placeholderText
+	}
 }

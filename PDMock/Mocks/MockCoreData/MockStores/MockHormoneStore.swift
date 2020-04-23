@@ -11,25 +11,25 @@ import PDKit
 
 
 public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
-    
-    public override init() {
-        super.init()
-        newObjectFactory = { () in MockHormone() }
-    }
 
-    public func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
-        getNextMockStoredObjects()
-    }
-    
-    public func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
-        newObjectFactory?()
-    }
-    
-    public func delete(_ hormone: Hormonal) {
-        deleteCallArgs.append(hormone)
-    }
-    
-    public func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool) {
-        pushLocalChangesCallArgs.append((hormones, doSave))
-    }
+	public override init() {
+		super.init()
+		newObjectFactory = { () in MockHormone() }
+	}
+
+	public func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
+		getNextMockStoredObjects()
+	}
+
+	public func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
+		newObjectFactory?()
+	}
+
+	public func delete(_ hormone: Hormonal) {
+		deleteCallArgs.append(hormone)
+	}
+
+	public func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool) {
+		pushLocalChangesCallArgs.append((hormones, doSave))
+	}
 }

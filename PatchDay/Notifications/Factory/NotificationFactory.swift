@@ -12,18 +12,18 @@ import PDKit
 
 class NotificationFactory: NotificationProducing {
 
-    typealias ExpParams = ExpiredHormoneNotificationCreationParams
-    typealias ExpOvernightParams = ExpiredHormoneOvernightNotificationCreationParams
-    
-    func createExpiredHormoneNotification(_ params: ExpParams) -> ExpiredHormoneNotifying {
-        ExpiredHormoneNotification(params)
-    }
-    
-    func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> DuePillNotifying {
-        DuePillNotification(for: pill, totalDue: totalDue)
-    }
-    
-    func createOvernightExpiredHormoneNotification(_ params: ExpOvernightParams) -> ExpiredHormoneOvernightNotifying {
-        ExpiredHormoneOvernightNotification(params)
-    }
+	typealias ExpParams = ExpiredHormoneNotificationCreationParams
+	typealias ExpOvernightParams = ExpiredHormoneOvernightNotificationCreationParams
+
+	func createExpiredHormoneNotification(_ params: ExpParams) -> ExpiredHormoneNotifying {
+		ExpiredHormoneNotification(params)
+	}
+
+	func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> DuePillNotifying {
+		DuePillNotification(for: pill, totalDue: totalDue)
+	}
+
+	func createOvernightExpiredHormoneNotification(_ params: ExpOvernightParams) -> ExpiredHormoneOvernightNotifying {
+		ExpiredHormoneOvernightNotification(params)
+	}
 }

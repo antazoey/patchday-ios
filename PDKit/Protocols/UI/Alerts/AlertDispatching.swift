@@ -10,14 +10,14 @@ import Foundation
 
 
 public protocol AlertDispatching {
-    func presentPillActions(for PillName: String, handlers: PillCellActionHandling)
-    func presentDeliveryMethodMutationAlert(
-        newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
-    )
-    func presentQuantityMutationAlert(
-        oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
-    )
-    func presentDisclaimerAlert()
-    func presentNewSiteAlert(handlers: NewSiteAlertActionHandling)
-    func presentGenericAlert()
+	func presentPillActions(for PillName: String, handlers: PillCellActionHandling)
+	func presentDeliveryMethodMutationAlert(
+		newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
+	)
+	func presentQuantityMutationAlert(
+		oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
+	)
+	func presentDisclaimerAlert()
+	func presentNewSiteAlert(handlers: NewSiteAlertActionHandling)
+	func presentGenericAlert()
 }

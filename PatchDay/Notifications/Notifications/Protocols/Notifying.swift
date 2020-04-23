@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Notifying {
-    func request()
+	func request()
 }

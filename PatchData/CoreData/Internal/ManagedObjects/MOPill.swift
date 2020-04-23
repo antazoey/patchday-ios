@@ -14,12 +14,12 @@ import PDKit
 
 @objc(MOPill)
 public class MOPill: NSManagedObject {
-    @NSManaged var lastTaken: NSDate?
-    @NSManaged var name: String?
-    @NSManaged var notify: Bool
-    @NSManaged var time1: NSDate?
-    @NSManaged var time2: NSDate?
-    @NSManaged var timesaday: Int16
-    @NSManaged var timesTakenToday: Int16
-    @NSManaged var id: UUID?
+	@NSManaged var lastTaken: NSDate?
+	@NSManaged var name: String?
+	@NSManaged var notify: Bool
+	@NSManaged var time1: NSDate?
+	@NSManaged var time2: NSDate?
+	@NSManaged var timesaday: Int16
+	@NSManaged var timesTakenToday: Int16
+	@NSManaged var id: UUID?
 }

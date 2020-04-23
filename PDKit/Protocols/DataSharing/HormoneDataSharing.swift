@@ -10,5 +10,5 @@ import Foundation
 
 
 public protocol HormoneDataSharing {
-    func share(nextHormone: Hormonal)
+	func share(nextHormone: Hormonal)
 }

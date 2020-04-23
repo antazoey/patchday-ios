@@ -15,42 +15,42 @@ import PatchData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-    var notifications: NotificationScheduling?
-    var sdk: PatchDataSDK = PatchData()
-    var alerts: AlertDispatching?
-    var tabs: TabReflective?
-    var nav: NavigationHandling = Navigation()
-    var badge: PDBadgeDelegate = PDBadge()
+	var window: UIWindow?
+	var notifications: NotificationScheduling?
+	var sdk: PatchDataSDK = PatchData()
+	var alerts: AlertDispatching?
+	var tabs: TabReflective?
+	var nav: NavigationHandling = Navigation()
+	var badge: PDBadgeDelegate = PDBadge()
 
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        self.notifications = Notifications(sdk: sdk, appBadge: badge)
-        self.alerts = AlertDispatcher(sdk: sdk)
-        self.setBadgeToTotalAlerts()
-        return true
-    }
-    
-    static var isPad: Bool {
-        UIDevice.current.userInterfaceIdiom == .pad
-    }
+	func application(
+		_ application: UIApplication,
+		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+	) -> Bool {
+		self.notifications = Notifications(sdk: sdk, appBadge: badge)
+		self.alerts = AlertDispatcher(sdk: sdk)
+		self.setBadgeToTotalAlerts()
+		return true
+	}
 
-    static var current: AppDelegate? {
-        UIApplication.shared.delegate as? AppDelegate
-    }
+	static var isPad: Bool {
+		UIDevice.current.userInterfaceIdiom == .pad
+	}
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        setBadgeToTotalAlerts()
-    }
+	static var current: AppDelegate? {
+		UIApplication.shared.delegate as? AppDelegate
+	}
 
-    func applicationWillResignActive(_ application: UIApplication) {
-        setBadgeToTotalAlerts()
-    }
+	func applicationWillTerminate(_ application: UIApplication) {
+		setBadgeToTotalAlerts()
+	}
 
-    /// Sets the App badge number to the expired count + the total pills due for taking.
-    private func setBadgeToTotalAlerts() {
-        badge.set(to: sdk.totalAlerts)
-    }
+	func applicationWillResignActive(_ application: UIApplication) {
+		setBadgeToTotalAlerts()
+	}
+
+	/// Sets the App badge number to the expired count + the total pills due for taking.
+	private func setBadgeToTotalAlerts() {
+		badge.set(to: sdk.totalAlerts)
+	}
 }
