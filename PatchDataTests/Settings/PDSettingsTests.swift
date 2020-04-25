@@ -43,14 +43,14 @@ class PDSettingsTests: XCTestCase {
 
 	func testSetQuantity_whenQuantityNotInSupportedRange_doesNotReplaceQuantity() {
 		let settings = createSettings()
-		let badNewQuantity = PickerOptions.quantities.count + 1
+		let badNewQuantity = SettingsOptions.quantities.count + 1
 		settings.setQuantity(to: badNewQuantity)
 		XCTAssert(mockSettingsWriter.quantity.rawValue != badNewQuantity)
 	}
 
 	func testSetQuantity_whenQuantityIsInSupportedRange_replacesQuantity() {
 		let settings = createSettings()
-		let newQuantity = PickerOptions.quantities.count
+		let newQuantity = SettingsOptions.quantities.count
 		settings.setQuantity(to: newQuantity)
 		XCTAssertEqual(newQuantity, mockSettingsWriter.quantity.rawValue)
 	}

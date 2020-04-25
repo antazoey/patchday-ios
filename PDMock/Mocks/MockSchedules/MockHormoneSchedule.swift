@@ -9,8 +9,6 @@ import PDKit
 
 public class MockHormoneSchedule: HormoneScheduling {
 
-	// MARK: - HormoneScheduling
-
 	public var all: [Hormonal] = []
 	public var isEmpty: Bool = false
 	public var next: Hormonal? = nil

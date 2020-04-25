@@ -260,7 +260,7 @@ class HormoneScheduleTests: XCTestCase {
 	}
 
 	func testSubscript_whenHormoneDoesNotExist_returnsNil() {
-		let mockHormones = setUpDefaultHormones(2)
+		setUpDefaultHormones(2)
 		XCTAssertNil(hormones[UUID()])
 	}
 

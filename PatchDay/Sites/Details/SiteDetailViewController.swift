@@ -128,7 +128,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 			view.endEditing(true)
 			nameText.isEnabled = false
 			openPicker(namePicker)
-			typeNameButton.replaceTarget(self, newAction: #selector(closePicker))
+			typeNameButton.replaceTarget(self, newAction: #selector(closeNamePicker))
 		}
 	}
 
@@ -177,13 +177,13 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         self.nameText.text = name
 	}
 
-	@objc func closePicker() {
+	@objc func closeNamePicker() {
 		self.namePicker.isHidden = true;
 		self.bottomLine.isHidden = false;
 		self.siteImageView.isHidden = false;
 		nameText.restorationIdentifier = SiteDetailConstants.SelectId
 		typeNameButton.setTitle(ActionStrings._Type, for: .normal)
-		nameText.removeTarget(self, action: #selector(closePicker), for: .touchUpInside)
+		nameText.removeTarget(self, action: #selector(closeNamePicker), for: .touchUpInside)
 		self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
 		self.nameText.isEnabled = true
 		self.navigationItem.rightBarButtonItem?.isEnabled = true

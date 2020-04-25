@@ -26,7 +26,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
 
 	public required init(_ rawValue: String) {
 		super.init(rawValue)
-		self.choices = PickerOptions.expirationIntervals
+		self.choices = SettingsOptions.expirationIntervals
 	}
 
 	public override var value: ExpirationInterval {
@@ -46,7 +46,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
 	}
 
 	public override var displayableString: String {
-		let options = PickerOptions.expirationIntervals
+		let options = SettingsOptions.expirationIntervals
 		var str = ""
 		switch value {
 		case .TwiceWeekly: str = options.tryGet(at: 0) ?? str

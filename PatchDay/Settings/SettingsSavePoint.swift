@@ -32,7 +32,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private func saveDeliveryMethodChange(_ selectedRow: Index) {
 		guard let sdk = sdk else { return }
-		let newMethod = PickerOptions.getDeliveryMethod(at: selectedRow)
+		let newMethod = SettingsOptions.getDeliveryMethod(at: selectedRow)
 		sdk.isFresh
 			? sdk.settings.setDeliveryMethod(to: newMethod)
 			: presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
@@ -40,7 +40,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
 		let decline = { (_ method: DeliveryMethod) -> () in
-			let methodTitle = PickerOptions.getDeliveryMethodString(for: choice)
+			let methodTitle = SettingsOptions.getDeliveryMethodString(for: choice)
 			switch choice {
 			case .Patches:
 				controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
@@ -58,7 +58,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private func saveQuantity(_ selectedRow: Index) {
 		let decline = createDeclineSaveQuantityButtonClosure()
-		let newQuantity = PickerOptions.getQuantity(at: selectedRow).rawValue
+		let newQuantity = SettingsOptions.getQuantity(at: selectedRow).rawValue
 		QuantityMutator(
 			sdk: sdk,
 			alerts: alerts,
@@ -73,7 +73,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 	}
 
 	private func saveExpirationInterval(_ selectedRow: Index) {
-		guard let newInterval = PickerOptions.expirationIntervals.tryGet(at: selectedRow) else { return }
+		guard let newInterval = SettingsOptions.expirationIntervals.tryGet(at: selectedRow) else { return }
 		sdk?.settings.setExpirationInterval(to: newInterval)
 	}
 }

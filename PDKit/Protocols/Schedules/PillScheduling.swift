@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 public protocol PillScheduling: Schedule, Deleting {
 
 	/// All the pills.

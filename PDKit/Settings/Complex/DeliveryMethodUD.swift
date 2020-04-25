@@ -25,7 +25,7 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 
 	public required init(_ rawValue: String) {
 		super.init(rawValue)
-		self.choices = PickerOptions.deliveryMethods
+		self.choices = SettingsOptions.deliveryMethods
 	}
 
 	public override var value: DeliveryMethod {

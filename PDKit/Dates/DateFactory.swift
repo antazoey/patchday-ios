@@ -51,6 +51,10 @@ public class DateFactory: NSObject {
 	public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
 		calendar.date(byAdding: .minute, value: minutes, to: date)
 	}
+    
+    public static func createDate(byAddingMonths months: Int, to date: Date) -> Date? {
+        calendar.date(byAdding: .month, value: months, to: date)
+    }
 
 	public static func createTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
 		guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {

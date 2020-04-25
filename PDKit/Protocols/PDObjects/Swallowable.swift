@@ -17,6 +17,9 @@ public protocol Swallowable {
 
 	/// The name of the pill.
 	var name: String { get set }
+    
+    /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
+    var expirationInterval: String { get set }
 
 	/// The first time in a day to take this pill.
 	var time1: Date { get set }

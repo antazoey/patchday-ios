@@ -30,7 +30,7 @@ class TodayViewModel: NSObject {
 
 	var usingPatches: Bool {
 		if let method = data.getDeliveryMethod() {
-			return method == PickerOptions.getDeliveryMethodString(for: .Patches)
+			return method == SettingsOptions.getDeliveryMethodString(for: .Patches)
 		}
 		return false
 	}

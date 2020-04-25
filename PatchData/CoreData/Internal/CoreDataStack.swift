@@ -23,12 +23,21 @@ class CoreDataStack: NSObject {
 	static let siteEntityName = "Site"
 	static let siteProps = ["order", "name"]
 	static let pillEntityName = "Pill"
-	static let pillProps = ["name", "timesaday", "time1", "time2", "notify", "timesTakenToday", "lastTaken"]
+	static let pillProps = [
+        "name",
+        "timesaday",
+        "time1",
+        "time2",
+        "notify",
+        "timesTakenToday",
+        "lastTaken",
+        "expirationInterval",
+    ]
 
 	// MARK: - Public
 
 	override public var description: String {
-		"Implements the Core Data stack"
+		"Implements the Core Data stack."
 	}
 
 	// MARK: - Internal

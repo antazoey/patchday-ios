@@ -286,7 +286,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		picker.setting = setting
 		picker.activator = button
 		picker.getStartRow = getStartRow
-		picker.options = PickerOptions[setting]
+		picker.options = SettingsOptions[setting]
 	}
 }
 

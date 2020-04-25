@@ -26,7 +26,16 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var lineUnderDrugNameStack: UIView!
 	@IBOutlet weak var notificationsIcon: UIImageView!
 	@IBOutlet weak var notificationsLabel: UILabel!
-	@IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
+    
+    @IBOutlet weak var lineUnderNotifications: UIView!
+    @IBOutlet weak var expirationIntervalIcon: UIImageView!
+    @IBOutlet weak var expirationIntervalButton: UIButton!
+    @IBOutlet weak var expirationIntervalLabel: UILabel!
+    @IBOutlet weak var expirationIntervalArrowButton: UIButton!
+    @IBOutlet weak var lineUnderExpirationInterval: UIView!
+    
+    @IBOutlet weak var expirationIntervalPicker: UIPickerView!
+    @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
 	@IBOutlet weak var notificationSwitch: UISwitch!
 	@IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
 	@IBOutlet weak var timesadayLabel: UILabel!
@@ -34,6 +43,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var time1Button: UIButton!
 	@IBOutlet weak var time2Button: UIButton!
 	@IBOutlet weak var timePicker: UIDatePicker!
+    
+    private var selectedPicker: UIPickerView? = nil
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -66,19 +77,38 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	// MARK: -- Pill actions
 
 	@objc func selectNameTapped() {
-		openPicker()
+		openNamePicker()
 		selectNameButton.setTitle(ActionStrings.Done)
 		selectNameButton.replaceTarget(self, newAction: #selector(doneWithSelectNameTapped))
 	}
 
 	@objc func doneWithSelectNameTapped() {
-		closePicker()
+		closeNamePicker()
 		selectNameButton.setTitle(ActionStrings.Select)
 		selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
 		if viewModel.selections.name != nil {
 			enableSaveButton()
 		}
 	}
+    
+    @IBAction func expirationIntervalTapped(_ sender: Any) {
+        selectedPicker = expirationIntervalPicker
+        openExpirationIntervalPicker()
+        expirationIntervalButton.setTitle(ActionStrings.Done)
+        expirationIntervalButton.replaceTarget(self, newAction: #selector(doneWithSelectExpirationIntervalTapped))
+    }
+    
+    @objc func doneWithSelectExpirationIntervalTapped() {
+        closeExpirationIntervalPicker()
+        if let interval = viewModel.selections.expirationInterval {
+            expirationIntervalButton.setTitle(interval)
+        }
+        expirationIntervalButton.replaceTarget(self, newAction: #selector(expirationIntervalTapped))
+        if viewModel.selections.expirationInterval != nil {
+            enableSaveButton()
+        }
+    }
+    
 
 	@IBAction func saveButtonTapped() {
 		viewModel.save()
@@ -132,15 +162,25 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		viewModel.pillSelectionCount
+        if selectedPicker == namePicker {
+            return viewModel.pillSelectionCount
+        }
+        return PillStrings.Intervals.all.count
 	}
 
 	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-		viewModel.providedPillNameSelection.tryGet(at: row)
+        if selectedPicker == namePicker {
+            return viewModel.providedPillNameSelection.tryGet(at: row)
+        }
+        return PillStrings.Intervals.all.tryGet(at: row)
 	}
 
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		nameTextField.text = viewModel.selectNameFromRow(row)
+        if selectedPicker == namePicker {
+            nameTextField.text = viewModel.selectNameFromRow(row)
+        } else {
+            viewModel.selectExpirationIntervalFromRow(row)
+        }
 	}
 
 	// MARK: - Text field
@@ -151,9 +191,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		view.endEditing(true)
-		if nameTextField.text == "" {
-			nameTextField.text = PillStrings.NewPill
-		}
+        nameTextField.text = nameTextField.text == "" ? PillStrings.NewPill : nameTextField.text
 		selectNameButton.isEnabled = true
 		viewModel.selections.name = nameTextField.text
 		enableSaveButton()
@@ -165,12 +203,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	private func setPickerDelegates() {
 		namePicker.delegate = self
 		nameTextField.delegate = self
+        expirationIntervalPicker.delegate = self
 	}
 
 	private func handleHardwareConstraints() {
-		if AppDelegate.isPad {
-			topConstraint.constant = 100
-		}
+        guard AppDelegate.isPad else { return }
+        topConstraint.constant = 100
 	}
 
 	private func loadSelectNameButton() {
@@ -199,34 +237,41 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	private func reflectPillAttributes() {
-		loadName(from: viewModel.pill)
-		loadTimesaday(from: viewModel.pill)
-		loadTime1(from: viewModel.pill)
-		loadTime2(from: viewModel.pill)
-		loadNotify(from: viewModel.pill)
+		loadName()
+		loadTimesaday()
+		loadTime1()
+		loadTime2()
+		loadNotify()
+        loadExpirationInterval()
 	}
 
-	private func loadName(from pill: Swallowable) {
-		nameTextField.text = pill.name
+	private func loadName() {
+        nameTextField.text = viewModel.pill.name
 	}
 
-	private func loadNotify(from pill: Swallowable) {
-		notificationSwitch.isOn = pill.notify
+	private func loadNotify() {
+        notificationSwitch.isOn = viewModel.pill.notify
 	}
 
-	private func loadTimesaday(from pill: Swallowable) {
-		let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(timesaday: pill.timesaday)
+	private func loadTimesaday() {
+        let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(
+            timesaday: viewModel.pill.timesaday
+        )
 		timesadaySlider.setValue(sliderValue, animated: false)
-		time2Button.isEnabled = pill.timesaday == 2
+        time2Button.isEnabled = viewModel.pill.timesaday == 2
 	}
 
-	private func loadTime1(from pill: Swallowable) {
+	private func loadTime1() {
 		time1Button.setTitle(viewModel.time1Text)
 	}
 
-	private func loadTime2(from pill: Swallowable) {
+	private func loadTime2() {
 		time2Button.setTitle(viewModel.time2Text)
 	}
+    
+    private func loadExpirationInterval() {
+        expirationIntervalButton.setTitle(viewModel.pill.expirationInterval)
+    }
 
 	private func disableNonTimeInteractions() {
 		timesadaySlider.isEnabled = false
@@ -239,40 +284,58 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		button.replaceTarget(self, newAction: #selector(timePickerDone(sender:)))
 	}
 
-	private func handlePickerActivation(opening: Bool) {
-		if opening {
-			openPicker()
-		} else {
-			closePicker()
-		}
-	}
-
-	private func openPicker() {
-		startPickerActivation()
+	private func openNamePicker() {
+        selectedPicker = namePicker
+		startNamePickerActivation()
 		nameTextField.isEnabled = false
 		unhideNamePicker()
 	}
+    
+    private func openExpirationIntervalPicker() {
+        startExpirationPickerActivation()
+        expirationIntervalPicker.isHidden = false
+    }
 
 	private func unhideNamePicker() {
-		UIView.transition(
-			with: namePicker as UIView,
-			duration: 0.4,
-			options: .transitionFlipFromTop,
-			animations: { self.namePicker.isHidden = false },
-			completion: { void in }
-		)
+        PillDetailViewController.unhidePicker(namePicker)
 	}
+    
+    private func unhideExpirationIntervalPicker() {
+        PillDetailViewController.unhidePicker(expirationIntervalPicker)
+    }
+    
+    private static func unhidePicker(_ picker: UIPickerView) {
+        UIView.transition(
+            with: picker as UIView,
+            duration: 0.4,
+            options: .transitionFlipFromTop,
+            animations: { picker.isHidden = false },
+            completion: { void in }
+        )
+    }
 
-	private func startPickerActivation() {
+	private func startNamePickerActivation() {
 		let nameIndex = viewModel.namePickerStartIndex
-		self.namePicker.selectRow(nameIndex, inComponent: 0, animated: false)
+		namePicker.selectRow(nameIndex, inComponent: 0, animated: false)
 	}
+    
+    private func startExpirationPickerActivation() {
+        let index = viewModel.expirationIntervalStartIndex
+        expirationIntervalPicker.selectRow(index, inComponent: 0, animated: false)
+    }
 
-	private func closePicker() {
-		startPickerActivation()
+	private func closeNamePicker() {
+		startNamePickerActivation()
 		nameTextField.isEnabled = true
-		self.namePicker.isHidden = true
+		namePicker.isHidden = true
+        selectedPicker = nil
 	}
+    
+    private func closeExpirationIntervalPicker() {
+        startExpirationPickerActivation()
+        expirationIntervalPicker.isHidden = true
+        selectedPicker = nil
+    }
 
 	private func setControlsFromTimePickerDone(timeButton: UIButton) {
 		timeButton.setTitle(PDDateFormatter.formatTime(timePicker.date))
@@ -331,13 +394,18 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		detailStack.backgroundColor = UIColor.systemBackground
 		drugNameLabel.textColor = PDColors[.Text]
 		lineUnderDrugNameLabel.backgroundColor = PDColors[.Border]
-		nameTextField.textColor = PDColors[.Text]
+		nameTextField.textColor = PDColors[.Button]
 		verticalLineInDrugNameStack.backgroundColor = UIColor.systemBackground
 		selectNameButton.setTitleColor(PDColors[.Button])
 		lineUnderDrugNameStack.backgroundColor = UIColor.systemBackground
 		notificationsIcon.tintColor = PDColors[.Text]
 		notificationsIcon.image = notificationsIcon.image?.withTintColor(PDColors[.Text])
 		notificationsLabel.textColor = PDColors[.Text]
+        lineUnderNotifications.backgroundColor = UIColor.systemBackground
+        expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(PDColors[.Text])
+        expirationIntervalLabel.textColor = PDColors[.Text]
+        expirationIntervalButton.setTitleColor(PDColors[.Button])
+        lineUnderExpirationInterval.backgroundColor = UIColor.systemBackground
 		paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
 		timesadaySlider.backgroundColor = UIColor.systemBackground
 		paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground

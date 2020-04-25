@@ -16,6 +16,7 @@ public struct PillAttributes {
 	public var description: String { "Pill DTO" }
 
 	public var name: String?
+    public var expirationInterval: String?
 	public var timesaday: Int?
 	public var time1: Time?
 	public var time2: Time?
@@ -24,6 +25,7 @@ public struct PillAttributes {
 	public var lastTaken: Date?
 	public init(
 		name: String?,
+        expirationInterval: String?,
 		timesaday: Int?,
 		time1: Time?,
 		time2: Time?,
@@ -32,6 +34,7 @@ public struct PillAttributes {
 		lastTaken: Date?
 	) {
 		self.name = name
+        self.expirationInterval = expirationInterval
 		self.timesaday = timesaday
 		self.time1 = time1
 		self.time2 = time2

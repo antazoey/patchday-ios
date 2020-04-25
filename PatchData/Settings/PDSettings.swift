@@ -53,7 +53,7 @@ public class PDSettings: PDSettingsManaging {
 	}
 
 	public func setQuantity(to newQuantity: Int) {
-		let endRange = PickerOptions.quantities.count
+		let endRange = SettingsOptions.quantities.count
 		if newQuantity <= endRange && newQuantity > 0 {
 			let oldQuantity = writer.quantity.rawValue
 			if newQuantity < oldQuantity {
@@ -66,7 +66,7 @@ public class PDSettings: PDSettingsManaging {
 	}
 
 	public func setExpirationInterval(to newInterval: String) {
-		let exp = PickerOptions.getExpirationInterval(for: newInterval)
+		let exp = SettingsOptions.getExpirationInterval(for: newInterval)
 		writer.replaceStoredExpirationInterval(to: exp)
 	}
 

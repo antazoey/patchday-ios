@@ -37,6 +37,16 @@ public enum ExpirationInterval {
 }
 
 
+public enum PillExpirationInterval: String {
+    case EveryDay = "everyDay"
+    case EveryOtherDay = "everyOtherDay"
+    case FirstTenDays = "firstTenDays"
+    case LastTenDays = "lastTenDays"
+    case FirstTwentyDays = "firstTwentyDays"
+    case LastTwentyDays = "lastTwentyDays"
+}
+
+
 // These strings cannot change - they are for retrieving from Core Data
 public enum PDSetting: String {
 	case DeliveryMethod = "delivMethod"

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <PDKit/PDKit.h>
 
 //! Project version number for PatchData.
 FOUNDATION_EXPORT double PatchDataVersionNumber;

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PickerOptions {
+public class SettingsOptions {
 
 	public static var deliveryMethods: [String] {
 		let comment = "Displayed on a button and in a picker."

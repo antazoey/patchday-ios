@@ -21,7 +21,7 @@ public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
 
 	public required init(_ rawValue: Int) {
 		super.init(rawValue)
-		self.choices = PickerOptions.quantities
+		self.choices = SettingsOptions.quantities
 	}
 
 	public override var value: Quantity {

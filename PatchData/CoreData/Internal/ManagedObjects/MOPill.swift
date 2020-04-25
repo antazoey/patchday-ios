@@ -14,6 +14,7 @@ import PDKit
 
 @objc(MOPill)
 public class MOPill: NSManagedObject {
+    @NSManaged var expirationInterval: String?
 	@NSManaged var lastTaken: NSDate?
 	@NSManaged var name: String?
 	@NSManaged var notify: Bool
