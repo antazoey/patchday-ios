@@ -21,6 +21,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	@IBOutlet private weak var selectSiteTextField: UITextField!
 	@IBOutlet private weak var selectDateButton: UIButton!
 	@IBOutlet private weak var datePickerInputView: UIView!
+    @IBOutlet weak var lineUnderDateInputView: UIView!
 	@IBOutlet private weak var datePicker: UIDatePicker!
 	@IBOutlet private weak var lineUnderScheduleDate: UIView!
 	@IBOutlet private weak var lineUnderDateAndTimeAppliedLabel: UIView!
@@ -327,6 +328,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 		datePickerInputView.backgroundColor = UIColor.systemBackground
 		lineUnderScheduleDate.backgroundColor = PDColors[.Border]
 		lineUnderDateAndTimeAppliedLabel.backgroundColor = PDColors[.Border]
+        lineUnderDateInputView.backgroundColor = PDColors[.Border]
 		bigGapUnderDateAppliedViews.backgroundColor = UIColor.systemBackground
 		lineUnderExpirationDate.backgroundColor = PDColors[.Border]
 		bigGapUnderExpirationDateViews.backgroundColor = UIColor.systemBackground

@@ -397,15 +397,15 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		nameTextField.textColor = PDColors[.Button]
 		verticalLineInDrugNameStack.backgroundColor = UIColor.systemBackground
 		selectNameButton.setTitleColor(PDColors[.Button])
-		lineUnderDrugNameStack.backgroundColor = UIColor.systemBackground
+        lineUnderDrugNameStack.backgroundColor = PDColors[.Border]
 		notificationsIcon.tintColor = PDColors[.Text]
 		notificationsIcon.image = notificationsIcon.image?.withTintColor(PDColors[.Text])
 		notificationsLabel.textColor = PDColors[.Text]
-        lineUnderNotifications.backgroundColor = UIColor.systemBackground
+        lineUnderNotifications.backgroundColor = PDColors[.Border]
         expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(PDColors[.Text])
         expirationIntervalLabel.textColor = PDColors[.Text]
         expirationIntervalButton.setTitleColor(PDColors[.Button])
-        lineUnderExpirationInterval.backgroundColor = UIColor.systemBackground
+        lineUnderExpirationInterval.backgroundColor = PDColors[.Border]
 		paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
 		timesadaySlider.backgroundColor = UIColor.systemBackground
 		paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground

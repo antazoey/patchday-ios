@@ -39,7 +39,7 @@
       ],
       "color" : {
         "platform" : "ios",
-        "reference" : "systemGray5Color"
+        "reference" : "darkTextColor"
       },
       "idiom" : "universal"
     }

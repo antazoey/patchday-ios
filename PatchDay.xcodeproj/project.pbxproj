@@ -678,6 +678,7 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
+				3397CB13E4C554A7E1BA95B1 /* Alerts */,
 				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				9D22698B23750E5300828B5F /* Notifications */,
@@ -795,7 +796,6 @@
 		3397C45AFE80B6E86213E63C /* Pills */ = {
 			isa = PBXGroup;
 			children = (
-				3397CB13E4C554A7E1BA95B1 /* Alerts */,
 				3397C4F5D8AADC9C5B2831CA /* PillCell.swift */,
 				3397C6E2BC39EA33203730DE /* PillsViewModel.swift */,
 				3397CC81AF588180667148E6 /* PillsViewFactory.swift */,

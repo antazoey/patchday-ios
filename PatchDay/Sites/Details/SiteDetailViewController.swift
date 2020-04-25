@@ -17,18 +17,24 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var siteStack: UIStackView!
 	@IBOutlet weak var nameStackVertical: UIStackView!
 	@IBOutlet weak var nameStackHorizontal: UIStackView!
-	@IBOutlet weak var verticalLineByNameTextField: UIView!
+    @IBOutlet weak var verticalLineByNameTextField: UIView!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var lineUnderNameLabel: UIView!
 	@IBOutlet weak var typeNameButton: UIButton!
 	@IBOutlet weak var nameText: UITextField!
 	@IBOutlet weak var namePicker: UIPickerView!
 	@IBOutlet weak var gapAboveImage: UIView!
 	@IBOutlet weak var topConstraint: NSLayoutConstraint!
 	@IBOutlet weak var imagePickerDoneButton: UIButton!
-	@IBOutlet weak var imageInputView: UIView!
+    
+    @IBOutlet weak var imageLabel: UILabel!
+    @IBOutlet weak var lineUnderImageLabel: UIView!
+    @IBOutlet weak var imageInputView: UIView!
 	@IBOutlet weak var imageButton: UIButton!
 	@IBOutlet weak var siteImageView: UIImageView!
 	@IBOutlet weak var imagePicker: UIPickerView!
-	@IBOutlet weak var bottomLine: UIView!
+    @IBOutlet weak var lineUnderNameStack: UIView!
 
 	private var saveButton: UIBarButtonItem {
 		navigationItem.rightBarButtonItem ?? UIBarButtonItem()
@@ -179,7 +185,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	@objc func closeNamePicker() {
 		self.namePicker.isHidden = true;
-		self.bottomLine.isHidden = false;
+		self.lineUnderNameStack.isHidden = false;
 		self.siteImageView.isHidden = false;
 		nameText.restorationIdentifier = SiteDetailConstants.SelectId
 		typeNameButton.setTitle(ActionStrings._Type, for: .normal)
@@ -203,7 +209,6 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		if AppDelegate.isPad {
 			topConstraint.constant = 100
 		}
-		verticalLineByNameTextField.backgroundColor = bottomLine.backgroundColor
 	}
 
 	private func loadTitle() {
@@ -259,21 +264,28 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 			duration: 0.4,
 			options: .transitionFlipFromTop, animations: {
 				picker.isHidden = false;
-				self.bottomLine.isHidden = true;
+				self.lineUnderNameStack.isHidden = true;
 				self.siteImageView.isHidden = true
 			})
 	}
 
 	private func applyTheme() {
 		view.backgroundColor = UIColor.systemBackground
+        nameLabel.textColor = PDColors[.Text]
+        lineUnderNameLabel.backgroundColor = PDColors[.Border]
 		nameStackVertical.backgroundColor = UIColor.systemBackground
 		nameStackHorizontal.backgroundColor = UIColor.systemBackground
 		typeNameButton.setTitleColor(PDColors[.Button], for: .normal)
 		nameText.textColor = PDColors[.Text]
 		nameText.backgroundColor = UIColor.systemBackground
+        verticalLineByNameTextField.backgroundColor = PDColors[.Border]
+        lineUnderNameStack.backgroundColor = PDColors[.Border]
+        imageLabel.textColor = PDColors[.Text]
+        lineUnderImageLabel.backgroundColor = PDColors[.Border]
 		siteImageView.backgroundColor = UIColor.systemBackground
 		gapAboveImage.backgroundColor = UIColor.systemBackground
         imageInputView.backgroundColor = UIColor.systemBackground
         saveButton.tintColor = PDColors[.Button]
+        imagePickerDoneButton.setTitleColor(PDColors[.Button])
 	}
 }

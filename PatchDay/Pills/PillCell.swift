@@ -14,8 +14,12 @@ class PillCell: TableCell {
 
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var arrowLabel: UILabel!
-	@IBOutlet weak var lastTakenLabel: UILabel!
-	@IBOutlet weak var nextDueDate: UILabel!
+    
+    @IBOutlet weak var lastTakenHeaderLabel: UILabel!
+    @IBOutlet weak var lastTakenLabel: UILabel!
+    
+    @IBOutlet weak var nextHeaderLabel: UILabel!
+    @IBOutlet weak var nextDueDate: UILabel!
 	@IBOutlet weak var imageViewContainer: UIView!
 
 	static let RowHeight: CGFloat = 170.0
@@ -68,7 +72,9 @@ class PillCell: TableCell {
 	@discardableResult private func applyTheme(at index: Index) -> PillCell {
 		nameLabel.textColor = PDColors[.Purple]
 		arrowLabel.textColor = PDColors[.Purple]
+        lastTakenHeaderLabel.textColor = PDColors[.Text]
 		lastTakenLabel.textColor = PDColors[.Text]
+        nextHeaderLabel.textColor = PDColors[.Text]
 		nextDueDate.textColor = PDColors[.Button]
 		backgroundColor = PDColors.Cell[index]
 		selectedBackgroundView = UIView()

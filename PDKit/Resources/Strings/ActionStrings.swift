@@ -19,6 +19,7 @@ public class ActionStrings {
 	private static let c7 = "Nav bar item title.  Could you keep it short?"
 	public static let Done = { NSLocalizedString("Done", comment: c1) }()
 	public static let Delete = { NSLocalizedString("Delete", comment: c1) }()
+    public static let Cancel = { NSLocalizedString("Cancel", comment: c6) }()
 	public static let Take = { NSLocalizedString("Take", comment: c2) }()
 	public static let Taken = { NSLocalizedString("Taken", comment: c3) }()
 	public static let Save = { NSLocalizedString("Save", comment: c4) }()

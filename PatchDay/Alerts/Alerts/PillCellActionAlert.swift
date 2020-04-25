@@ -15,20 +15,24 @@ class PillCellActionAlert: PDAlert {
 		self.handlers = handlers
 		super.init(parent: parent, title: pillName, message: "", style: .actionSheet)
 	}
+    
+    private var cancelAction: UIAlertAction {
+        UIAlertAction(title: ActionStrings.Cancel, style: .default)
+    }
 
 	private var pillDetailsAction: UIAlertAction {
-		UIAlertAction(title: "Edit Details", style: .default) {
+        UIAlertAction(title: ActionStrings.Edit, style: .default) {
 			void in self.handlers.goToDetails()
 		}
 	}
 
 	private var takeAction: UIAlertAction {
-		UIAlertAction(title: "Take Pill", style: .default) {
+        UIAlertAction(title: ActionStrings.Take, style: .default) {
 			void in self.handlers.takePill()
 		}
 	}
 
 	override func present() {
-		self.present(actions: [pillDetailsAction, takeAction])
+		self.present(actions: [pillDetailsAction, takeAction, cancelAction])
 	}
 }

@@ -43,7 +43,7 @@ public class ColonStrings {
 		HormoneViewStrings(
 			expirationText: NextDue,
 			dateAndTimePlacedText: DateAndTimeInjected,
-			siteLabelText: LastSiteInjected
+            siteLabelText: LastSiteInjected
 		)
 	}
 

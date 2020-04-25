@@ -69,8 +69,10 @@ class HormoneCell: TableCell {
 		dateLabel.textColor = hormone.isExpired ? UIColor.red : UIColor.black
 		let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
 		dateLabel.font = UIFont.systemFont(ofSize: size)
-		if !hormone.date.isDefault() {
-			setDateLabel(PDDateFormatter.formatDate(hormone.date))
+        if !hormone.date.isDefault(), let expiration = hormone.expiration {
+            let prefix = ColonStrings.createHormoneViewStrings(hormone).expirationText
+            let dateString = PDDateFormatter.formatDay(expiration)
+			setDateLabel("\(prefix) \(dateString)", hormone)
 		}
 	}
 
@@ -82,9 +84,9 @@ class HormoneCell: TableCell {
 	}
 
 
-	private func setDateLabel(_ title: String?) {
-		self.dateLabel.textColor = PDColors[.Text]
-		self.dateLabel.text = title
+    private func setDateLabel(_ title: String?, _ hormone: Hormonal) {
+        dateLabel.textColor = hormone.isPastNotificationTime ? UIColor.red : PDColors[.Text]
+		dateLabel.text = title
 	}
 
 	private func reset() {

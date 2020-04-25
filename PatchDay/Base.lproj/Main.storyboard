@@ -3,6 +3,7 @@
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,7 +30,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -98,7 +99,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -150,7 +151,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -214,7 +215,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -239,7 +240,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="message" size="11"/>
+                                            <font key="NSFont" metaFont="menu" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -276,6 +277,7 @@
                         <outlet property="horizontalLineAboveSite" destination="krO-wL-XDy" id="0gG-cP-Uoa"/>
                         <outlet property="horizontalLineBelowSite" destination="G2g-Q7-iMQ" id="hsD-WZ-9DI"/>
                         <outlet property="lineUnderDateAndTimeAppliedLabel" destination="foS-VQ-Nyg" id="BOB-2o-eRQ"/>
+                        <outlet property="lineUnderDateInputView" destination="dHr-Tu-bAI" id="Wc7-pk-jTW"/>
                         <outlet property="lineUnderExpirationDate" destination="RTx-3W-wfr" id="l9v-id-Yyh"/>
                         <outlet property="lineUnderScheduleDate" destination="WkF-j9-qHW" id="X3V-fV-bUg"/>
                         <outlet property="selectDateButton" destination="tNJ-il-X3d" id="0p7-Fs-7IG"/>
@@ -344,7 +346,7 @@
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTq-fb-mxV">
                                                             <rect key="frame" x="0.0" y="35" width="300" height="35"/>
                                                             <subviews>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Take next at:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
                                                                     <rect key="frame" x="0.0" y="0.0" width="150" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -388,9 +390,11 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="arrowLabel" destination="cKy-SE-Iqe" id="pL3-dC-XIj"/>
+                                            <outlet property="lastTakenHeaderLabel" destination="PD8-YQ-00g" id="uvm-pC-ztD"/>
                                             <outlet property="lastTakenLabel" destination="cfQ-wk-dOK" id="ys4-aS-Qqh"/>
                                             <outlet property="nameLabel" destination="Eds-VZ-0h6" id="erR-Z2-KWy"/>
                                             <outlet property="nextDueDate" destination="J63-bw-Kcr" id="clM-Kf-546"/>
+                                            <outlet property="nextHeaderLabel" destination="HfE-Hn-eEY" id="4iP-IF-pCk"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -492,7 +496,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="message" size="11"/>
+                                                            <font key="NSFont" metaFont="menu" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -552,7 +556,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="message" size="11"/>
+                                                            <font key="NSFont" metaFont="menu" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -823,7 +827,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" name="Button"/>
                     </tabBar>
                     <connections>
                         <segue destination="cg3-1t-cWr" kind="relationship" relationship="viewControllers" id="5NI-AL-p6D"/>
@@ -951,7 +955,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mpM-BR-8sz"/>
+        <segue reference="uH0-Pp-56s"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1005799463190184" colorSpace="calibratedRGB"/>
     <resources>
@@ -960,5 +964,8 @@
         <image name="Patch Icon" width="50" height="50"/>
         <image name="Pill Icon" width="50" height="50"/>
         <image name="Site Icon" width="50" height="50"/>
+        <namedColor name="Button">
+            <color red="0.039000000804662704" green="0.51800000667572021" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
