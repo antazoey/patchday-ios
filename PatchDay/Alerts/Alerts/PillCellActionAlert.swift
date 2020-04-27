@@ -9,11 +9,13 @@ import PDKit
 
 class PillCellActionAlert: PDAlert {
 
-	private let handlers: PillCellActionHandling
+    private let pill: Swallowable
+    private let handlers: PillCellActionHandling
 
-	init(parent: UIViewController, pillName: String, handlers: PillCellActionHandling) {
+	init(parent: UIViewController, pill: Swallowable, handlers: PillCellActionHandling) {
+        self.pill = pill
 		self.handlers = handlers
-		super.init(parent: parent, title: pillName, message: "", style: .actionSheet)
+        super.init(parent: parent, title: pill.name, message: "", style: .actionSheet)
 	}
     
     private var cancelAction: UIAlertAction {
@@ -26,13 +28,17 @@ class PillCellActionAlert: PDAlert {
 		}
 	}
 
-	private var takeAction: UIAlertAction {
-        UIAlertAction(title: ActionStrings.Take, style: .default) {
-			void in self.handlers.takePill()
-		}
+	private var takeAction: UIAlertAction? {
+        !pill.isDone ? UIAlertAction(title: ActionStrings.Take, style: .default) {
+            void in self.handlers.takePill()
+            } : nil
 	}
 
 	override func present() {
-		self.present(actions: [pillDetailsAction, takeAction, cancelAction])
+        var actions = [pillDetailsAction, cancelAction]
+        if let take = takeAction {
+            actions.append(take)
+        }
+		self.present(actions: actions)
 	}
 }

@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import PDKit
 
-protocol NotificationScheduling {
+
+public protocol NotificationScheduling {
 
 	func cancelExpiredHormoneNotification(at index: Index)
 

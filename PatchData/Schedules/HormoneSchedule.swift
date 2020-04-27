@@ -10,6 +10,22 @@ import Foundation
 import PDKit
 
 
+public class HormoneIterator: IteratorProtocol {
+    private var cursor: Index = 0
+    var hormones: [Hormonal]
+    
+    public init(_ hormones: [Hormonal]) {
+        self.hormones = hormones
+    }
+    
+    public func next() -> Hormonal? {
+        let hormone = hormones.tryGet(at: cursor)
+        cursor += 1
+        return hormone
+    }
+}
+
+
 public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	override public var description: String { "Schedule for hormones." }
@@ -32,6 +48,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		sort()
 		shareData()
 	}
+    
+    public func makeIterator() -> HormoneIterator {
+        HormoneIterator(hormones)
+    }
 
 	public var count: Int { hormones.count }
 

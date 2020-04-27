@@ -17,7 +17,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		super.init()
 		let tableWrapper = PillsTable(pillsTableView, pills: pills)
 		self.pillsTable = tableWrapper
-		addObserverForUpdatingPillTableWhenEnteringForeground()
+		watchForPillChanges()
 	}
 
 	var pills: PillScheduling? {
@@ -54,11 +54,11 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 	}
 
 	func presentPillActions(at index: Index, viewController: UIViewController) {
-		let pillName = self.sdk?.pills[index]?.name ?? ViewTitleStrings.PillTitle
+        guard let pill = sdk?.pills[index] else { return }
 		let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
 		let takePill = { self.takePill(at: index) }
 		let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
-		alerts?.presentPillActions(for: pillName, handlers: handlers)
+		alerts?.presentPillActions(for: pill, handlers: handlers)
 	}
 
 	func goToNewPillDetails(pillsViewController: UIViewController) {
@@ -73,10 +73,14 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	// MARK: - Private
 
-	private func addObserverForUpdatingPillTableWhenEnteringForeground() {
+	private func watchForPillChanges() {
 		let name = UIApplication.willEnterForegroundNotification
 		NotificationCenter.default.addObserver(
-			self, selector: #selector(pillsTable.reloadData), name: name, object: nil
+			self, selector: #selector(reloadPillData), name: name, object: nil
 		)
 	}
+    
+    @objc private func reloadPillData() {
+        pillsTable.reloadData()
+    }
 }

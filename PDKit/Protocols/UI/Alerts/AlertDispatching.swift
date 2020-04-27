@@ -10,7 +10,7 @@ import Foundation
 
 
 public protocol AlertDispatching {
-	func presentPillActions(for PillName: String, handlers: PillCellActionHandling)
+	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling)
 	func presentDeliveryMethodMutationAlert(
 		newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
 	)

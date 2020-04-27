@@ -37,7 +37,7 @@ class NotificationStrings {
 		var titleOptions: [String]
 		var bodyBuilder: String
 		var siteBody: String
-		switch params.deliveryMethod {
+        switch params.hormone.deliveryMethod {
 		case .Patches:
 			titleOptions = [patchExpired, patchExpires]
 			bodyBuilder = patchBody
@@ -47,8 +47,8 @@ class NotificationStrings {
 			bodyBuilder = injectionBody
 			siteBody = siteForNextInjection
 		}
-		titleBuilder = (params.notificationMinutesBefore == 0) ? titleOptions[0] : titleOptions[1]
-		bodyBuilder += siteBody + params.expiringSiteName
+		titleBuilder = (params.notificationsMinutesBefore == 0) ? titleOptions[0] : titleOptions[1]
+        bodyBuilder += siteBody + (params.hormone.siteName ?? SiteStrings.NewSite)
 		if let n = params.suggestedSiteName {
 			bodyBuilder += siteBody + n
 		}

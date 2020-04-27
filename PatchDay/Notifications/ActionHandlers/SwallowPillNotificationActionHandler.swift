@@ -15,7 +15,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
 	let pills: PillScheduling?
 	let badge: PDBadgeDelegate
 
-	init(pills: PillScheduling?, appBadge: PDBadgeDelegate) {
+	init(_ pills: PillScheduling?, _ appBadge: PDBadgeDelegate) {
 		self.pills = pills
 		self.badge = appBadge
 	}

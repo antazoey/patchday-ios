@@ -1,5 +1,5 @@
 //
-//  Notification.swift
+//  Notifying.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/27/19.
@@ -8,6 +8,7 @@
 
 import Foundation
 
-protocol Notifying {
+
+public protocol PDNotificationProtocol {
 	func request()
 }

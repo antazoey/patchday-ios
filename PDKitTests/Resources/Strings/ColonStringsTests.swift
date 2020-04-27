@@ -10,6 +10,7 @@ import XCTest
 import PDKit
 import PDMock
 
+
 class ColonStringsTests: XCTestCase {
 
 	private let expiredDate = Date(timeIntervalSinceNow: -86000)

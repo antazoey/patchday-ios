@@ -19,9 +19,8 @@ class PDBadge: PDBadgeDelegate {
 	}
 
 	func decrement() {
-		if badgeNumber > 0 {
-			badgeNumber -= 1
-		}
+        guard badgeNumber > 0 else { return }
+        badgeNumber -= 1
 	}
 
 	func set(to newBadgeValue: Int) {

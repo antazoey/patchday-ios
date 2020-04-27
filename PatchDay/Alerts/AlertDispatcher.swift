@@ -73,9 +73,9 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		).present()
 	}
 
-	func presentPillActions(for pillName: String, handlers: PillCellActionHandling) {
+	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {
 		guard let root = rootViewController else { return }
-		PillCellActionAlert(parent: root, pillName: pillName, handlers: handlers).present()
+		PillCellActionAlert(parent: root, pill: pill, handlers: handlers).present()
 	}
 
 	/// Alert that displays a quick tutorial and disclaimer on installation.

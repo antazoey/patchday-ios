@@ -11,7 +11,7 @@ import UserNotifications
 import PDKit
 
 
-public class ExpiredHormoneNotification: Notification, ExpiredHormoneNotifying {
+public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 
 	private let hormone: Hormonal
 	private let expiration: ExpirationIntervalUD
@@ -23,21 +23,19 @@ public class ExpiredHormoneNotification: Notification, ExpiredHormoneNotifying {
 	init(_ params: ExpiredHormoneNotificationCreationParams) {
 		self.hormone = params.hormone
 		self.expiration = params.expiration
-		self.notificationsMinutesBefore = params.notificationMinutesBefore
+        self.notificationsMinutesBefore = params.notificationsMinutesBefore
 		let strings = NotificationStrings[params]
 		super.init(title: strings.0, body: strings.1, badge: params.totalHormonesExpired)
 	}
 
-	func request() {
+	public func request() {
 		let hours = expiration.hours
-		guard var timeIntervalUntilExpire = DateFactory.createTimeInterval(fromAddingHours: hours, to: hormone.date) else {
-			return
-		}
-		timeIntervalUntilExpire = timeIntervalUntilExpire - (self.notificationsMinutesBefore * 60.0)
-		if timeIntervalUntilExpire > 0 {
-			let id = self.hormone.id.uuidString
-			super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
-			super.request(when: timeIntervalUntilExpire, requestId: id)
-		}
+        let expirationInterval = DateFactory.createTimeInterval(fromAddingHours: hours, to: hormone.date)
+		guard var expiration = expirationInterval else { return }
+		expiration = expiration - (self.notificationsMinutesBefore * 60.0)
+        guard expiration > 0 else { return }
+        let id = self.hormone.id.uuidString
+        super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
+        super.request(when: expiration, requestId: id)
 	}
 }

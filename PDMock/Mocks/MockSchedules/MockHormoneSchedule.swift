@@ -42,7 +42,7 @@ public class MockHormoneSchedule: HormoneScheduling {
 	}
 
 	public subscript(index: Index) -> Hormonal? {
-		nil
+        all.tryGet(at: index)
 	}
 
 	public subscript(id: UUID) -> Hormonal? {

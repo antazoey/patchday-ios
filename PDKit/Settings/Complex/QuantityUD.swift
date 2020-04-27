@@ -14,6 +14,10 @@ public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
 	public typealias Value = Quantity
 	public typealias RawValue = Int
 	public let setting: PDSetting = .Quantity
+    
+    public convenience init() {
+        self.init(DefaultSettings.QuantityValue)
+    }
 
 	public convenience init(_ value: Quantity) {
 		self.init(value.rawValue)

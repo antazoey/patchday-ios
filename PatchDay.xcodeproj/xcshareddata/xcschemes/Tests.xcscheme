@@ -62,6 +62,34 @@
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9D6E9AED2456253A003BBCC9"
+               BuildableName = "PatchDayTests.xctest"
+               BlueprintName = "PatchDayTests"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "137330E81E22BA3E0048F91E"
+               BuildableName = "PatchDay.app"
+               BlueprintName = "PatchDay"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -87,6 +115,16 @@
                BlueprintIdentifier = "B40CC9AE21CCE614002364BB"
                BuildableName = "PDKitTests.xctest"
                BlueprintName = "PDKitTests"
+               ReferencedContainer = "container:PatchDay.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "9D6E9AED2456253A003BBCC9"
+               BuildableName = "PatchDayTests.xctest"
+               BlueprintName = "PatchDayTests"
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </TestableReference>

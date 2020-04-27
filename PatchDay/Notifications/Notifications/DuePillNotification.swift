@@ -11,7 +11,7 @@ import UserNotifications
 import PDKit
 
 
-public class DuePillNotification: Notification, DuePillNotifying {
+public class DuePillNotification: Notification, PDNotificationProtocol {
 
 	private let pill: Swallowable
 

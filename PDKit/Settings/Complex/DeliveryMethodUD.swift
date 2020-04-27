@@ -17,6 +17,10 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 	public typealias Value = DeliveryMethod
 	public typealias RawValue = String
 	public let setting: PDSetting = .DeliveryMethod
+    
+    public convenience init() {
+        self.init(DefaultSettings.DeliveryMethodValue)
+    }
 
 	public convenience init(_ value: DeliveryMethod) {
 		let rv = DeliveryMethodUD.getRawValue(for: value)

@@ -13,29 +13,22 @@ import PDKit
 
 class Notifications: NSObject, NotificationScheduling {
 
-	private let sdk: PatchDataSDK?
-	private let center: PDNotificationCenter
+	private let sdk: PatchDataSDK
+	private let center: NotificationCenterDelegate
 	private let factory: NotificationProducing
 
-	var currentHormoneIndex = 0
-	var currentPillIndex = 0
-	var sendingNotifications = true
-
-	init(sdk: PatchDataSDK?, center: PDNotificationCenter, factory: NotificationProducing) {
+	init(sdk: PatchDataSDK, center: NotificationCenterDelegate, factory: NotificationProducing) {
 		self.sdk = sdk
 		self.center = center
 		self.factory = factory
 		super.init()
 	}
 
-	convenience init(sdk: PatchDataSDK?, appBadge: PDBadgeDelegate) {
+	convenience init(sdk: PatchDataSDK, appBadge: PDBadgeDelegate) {
 		let center = PDNotificationCenter(
 			root: UNUserNotificationCenter.current(),
 			applyHormoneHandler: ApplyHormoneNotificationActionHandler(sdk: sdk),
-			swallowPillNotificationActionHandler: SwallowPillNotificationActionHandler(
-				pills: sdk?.pills,
-				appBadge: appBadge
-			)
+			swallowPillNotificationActionHandler: SwallowPillNotificationActionHandler(sdk.pills, appBadge)
 		)
 		self.init(sdk: sdk, center: center, factory: NotificationFactory())
 		center.swallowPillNotificationActionHandler.requestPillNotification = self.requestDuePillNotification
@@ -49,43 +42,41 @@ class Notifications: NSObject, NotificationScheduling {
 
 	/// Request a hormone notification.
 	func requestExpiredHormoneNotification(for hormone: Hormonal) {
-		if let sdk = sdk, sendingNotifications, sdk.settings.notifications.value,
-			let siteId = hormone.siteId,
-			let siteName = sdk.sites[siteId]?.name {
-			let params = ExpiredHormoneNotificationCreationParams(
-				hormone: hormone,
-				expiringSiteName: siteName,
-				suggestedSiteName: sdk.sites.suggested?.name,
-				deliveryMethod: sdk.settings.deliveryMethod.value,
-				expiration: sdk.settings.expirationInterval,
-				notificationMinutesBefore: Double(sdk.settings.notificationsMinutesBefore.value),
-				totalHormonesExpired: sdk.hormones.totalExpired
-			)
-			factory.createExpiredHormoneNotification(params).request()
-		}
+        guard sdk.settings.notifications.value else { return }
+        let params = ExpiredHormoneNotificationCreationParams(
+            hormone,
+            sdk.sites.suggested?.name,
+            sdk.settings.expirationInterval,
+            Double(sdk.settings.notificationsMinutesBefore.value),
+            sdk.hormones.totalExpired
+        )
+        factory.createExpiredHormoneNotification(params).request()
 	}
 
 	/// Cancels the hormone notification at the given index.
 	func cancelExpiredHormoneNotification(at index: Index) {
-		guard let hormone = sdk?.hormones[index] else { return }
+		guard let hormone = sdk.hormones[index] else { return }
 		cancelExpiredHormoneNotification(for: hormone)
 	}
-
+    
 	func cancelExpiredHormoneNotification(for hormone: Hormonal) {
 		let id = hormone.id.uuidString
 		center.removeNotifications(with: [id])
 	}
 
 	func cancelAllExpiredHormoneNotifications() {
-		let end = (sdk?.settings.quantity.rawValue ?? 1) - 1
+        let end = sdk.settings.quantity.rawValue - 1
 		cancelRangeOfExpiredHormoneNotifications(from: 0, to: end)
 	}
 
 	/// Cancels all the hormone notifications in the given indices.
 	func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
+        guard begin < end else { return }
 		var ids: [String] = []
 		for i in begin...end {
-			appendHormoneIdToList(at: i, lst: &ids)
+            if let hormone = sdk.hormones[i] {
+                ids.append(hormone.id.uuidString)
+            }
 		}
 		if ids.count > 0 {
 			center.removeNotifications(with: ids)
@@ -94,21 +85,18 @@ class Notifications: NSObject, NotificationScheduling {
 
 	/// Requests all the hormone notifications between the given indices.
 	func requestRangeOfExpiredHormoneNotifications(from begin: Index = 0, to end: Index = -1) {
-		if let hormones = sdk?.hormones {
-			let e = end >= 0 ? end : hormones.count - 1
-			if e < begin { return }
-			for i in begin...e {
-				if let mone = hormones[i] {
-					let id = mone.id.uuidString
-					center.removeNotifications(with: [id])
-					requestExpiredHormoneNotification(for: mone)
-				}
-			}
-		}
+        let endIndex = end >= 0 ? end : sdk.hormones.count - 1
+        if endIndex < begin { return }
+        for i in begin...endIndex {
+            guard let hormone = sdk.hormones[i] else { break }
+            let id = hormone.id.uuidString
+            center.removeNotifications(with: [id])
+            requestExpiredHormoneNotification(for: hormone)
+        }
 	}
 
 	func requestAllExpiredHormoneNotifications() {
-		let end = (sdk?.settings.quantity.rawValue ?? 1) - 1
+		let end = sdk.settings.quantity.rawValue - 1
 		requestRangeOfExpiredHormoneNotifications(from: 0, to: end)
 	}
 
@@ -116,16 +104,15 @@ class Notifications: NSObject, NotificationScheduling {
 
 	/// Request a pill notification from index.
 	func requestDuePillNotification(forPillAt index: Index) {
-		if let pill = sdk?.pills[index] {
-			requestDuePillNotification(pill)
-		}
+        guard let pill = sdk.pills[index] else { return }
+        requestDuePillNotification(pill)
 	}
 
 	/// Request a pill notification.
 	func requestDuePillNotification(_ pill: Swallowable) {
-		if let dueDate = pill.due, Date() < dueDate, let totalDue = sdk?.totalAlerts {
-			factory.createDuePillNotification(pill, totalDue: totalDue).request()
-		}
+        guard let dueDate = pill.due, Date() < dueDate else { return }
+        let totalDue = sdk.totalAlerts
+        factory.createDuePillNotification(pill, totalDue: totalDue).request()
 	}
 
 	/// Cancels a pill notification.
@@ -135,21 +122,11 @@ class Notifications: NSObject, NotificationScheduling {
 
 	/// Request a hormone notification that occurs when it's due overnight.
 	func requestOvernightExpirationNotification(for hormone: Hormonal) {
-		if let sdk = sdk, let expiration = hormone.expiration,
-			let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) {
-			let params = ExpiredHormoneOvernightNotificationCreationParams(
-				triggerDate: notificationTime,
-				deliveryMethod: sdk.settings.deliveryMethod.value,
-				totalHormonesExpired: sdk.hormones.totalExpired
-			)
-			factory.createOvernightExpiredHormoneNotification(params).request()
-		}
-	}
-
-	private func appendHormoneIdToList(at i: Index, lst: inout [String]) {
-		if let mone = sdk?.hormones[i] {
-			let id = mone.id.uuidString
-			lst.append(id)
-		}
+        guard let expiration = hormone.expiration else { return }
+        guard let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) else { return }
+        let method = sdk.settings.deliveryMethod.value
+        let totalExpired = sdk.hormones.totalExpired
+        let params = ExpiredHormoneOvernightNotificationCreationParams(notificationTime, method, totalExpired)
+        factory.createOvernightExpiredHormoneNotification(params).request()
 	}
 }

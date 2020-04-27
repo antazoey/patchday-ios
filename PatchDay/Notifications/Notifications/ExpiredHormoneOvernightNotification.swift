@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import PDKit
 
-public class ExpiredHormoneOvernightNotification: Notification, ExpiredHormoneOvernightNotifying {
+public class ExpiredHormoneOvernightNotification: Notification, PDNotificationProtocol {
 
 	private let dateBeforeOvernightExpiration: Date
 	private let deliveryMethod: DeliveryMethod

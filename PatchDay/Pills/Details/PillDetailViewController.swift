@@ -395,7 +395,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		drugNameLabel.textColor = PDColors[.Text]
 		lineUnderDrugNameLabel.backgroundColor = PDColors[.Border]
 		nameTextField.textColor = PDColors[.Button]
-		verticalLineInDrugNameStack.backgroundColor = UIColor.systemBackground
+        verticalLineInDrugNameStack.backgroundColor = PDColors[.Border]
 		selectNameButton.setTitleColor(PDColors[.Button])
         lineUnderDrugNameStack.backgroundColor = PDColors[.Border]
 		notificationsIcon.tintColor = PDColors[.Text]

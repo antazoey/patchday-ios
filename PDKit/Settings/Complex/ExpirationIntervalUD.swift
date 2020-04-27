@@ -18,6 +18,10 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
 	public typealias Value = ExpirationInterval
 	public typealias RawValue = String
 	public let setting: PDSetting = .ExpirationInterval
+    
+    public convenience init() {
+        self.init(DefaultSettings.ExpirationIntervalValue)
+    }
 
 	public convenience init(_ value: ExpirationInterval) {
 		let rv = ExpirationIntervalUD.getRawValue(for: value)
