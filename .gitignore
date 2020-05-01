@@ -1,7 +1,14 @@
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+
+
+
+
 *.cer
 *.swp
 .DS_Store
 *.p12
 *.idea
-*.xcuserdatad
+*.xcuserdata
 
