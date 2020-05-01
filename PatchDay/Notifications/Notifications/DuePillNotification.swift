@@ -15,15 +15,13 @@ public class DuePillNotification: Notification, PDNotificationProtocol {
 
 	private let pill: Swallowable
 
-	public var title: String
-	public var body: String?
 	public static var actionId = { "takeActionId" }()
 	public static var categoryId = { "pillCategoryId" }()
 
-	init(for pill: Swallowable, totalDue: Int) {
+    init(for pill: Swallowable, badge: Int, requestHandler: ((_ interval: Double, _ id: String)-> ())?=nil) {
 		self.pill = pill
-		self.title = NotificationStrings.takePill + pill.name
-		super.init(title: self.title, body: self.body, badge: totalDue)
+		let title = NotificationStrings.takePill + pill.name
+		super.init(title: title, body: nil, badge: badge, requestHandler: requestHandler)
 	}
 
 	public func request() {

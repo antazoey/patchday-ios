@@ -10,7 +10,7 @@ import Foundation
 import PDKit
 
 
-class ApplyHormoneNotificationActionHandler: ApplyHormoneNotificationActionHandling {
+class ApplyHormoneNotificationActionHandler: HormoneNotificationActionHandling {
 
 	private let sdk: PatchDataSDK?
 	private let badge: PDBadgeDelegate
@@ -24,8 +24,8 @@ class ApplyHormoneNotificationActionHandler: ApplyHormoneNotificationActionHandl
 		self.badge = appBadge
 	}
 
-	func applyHormone(hormoneUid: String) {
-		if let id = UUID(uuidString: hormoneUid),
+	func handleHormone(id: String) {
+		if let id = UUID(uuidString: id),
 			let suggestedSite = sdk?.sites.suggested {
 			sdk?.hormones.set(by: id, date: Date(), site: suggestedSite, incrementSiteIndex: true)
 			badge.decrement()

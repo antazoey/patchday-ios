@@ -22,12 +22,12 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
 
 	var requestPillNotification: ((_ pill: Swallowable) -> ())?
 
-	func swallow(pillUid: String) {
+	func handlePill(pillId: String) {
 		if let pills = pills,
-			let uuid = UUID(uuidString: pillUid),
-			let pill = pills[uuid] {
+			let id = UUID(uuidString: pillId),
+			let pill = pills[id] {
 
-			pills.swallow(uuid) {
+			pills.swallow(id) {
 				self.requestPillNotification?(pill)
 				self.badge.decrement()
 			}

@@ -32,27 +32,16 @@ class NotificationStrings {
 			)
 		]
 
-	static subscript(params: ExpiredHormoneNotificationCreationParams) -> (String, String) {
-		var titleBuilder: String
-		var titleOptions: [String]
-		var bodyBuilder: String
-		var siteBody: String
-        switch params.hormone.deliveryMethod {
-		case .Patches:
-			titleOptions = [patchExpired, patchExpires]
-			bodyBuilder = patchBody
-			siteBody = siteForNextPatch
-		case .Injections:
-			titleOptions = [injectionExpired, injectionExpires]
-			bodyBuilder = injectionBody
-			siteBody = siteForNextInjection
-		}
-		titleBuilder = (params.notificationsMinutesBefore == 0) ? titleOptions[0] : titleOptions[1]
-        bodyBuilder += siteBody + (params.hormone.siteName ?? SiteStrings.NewSite)
-		if let n = params.suggestedSiteName {
-			bodyBuilder += siteBody + n
-		}
-		return (titleBuilder, bodyBuilder)
+    static func get(
+        method: DeliveryMethod,
+        notifyMinutes: Double,
+        siteName: SiteName,
+        suggestedSite: SiteName?
+    ) -> (String, String) {
+        let titleOptions = method == .Patches ? [patchExpired, patchExpires] : [injectionExpired, injectionExpires]
+		let title = (notifyMinutes == 0) ? titleOptions[0] : titleOptions[1]
+        let body = suggestedSite != nil ? "\(suggestedNextSite) \(suggestedSite!)" : ""
+		return (title, body)
 	}
 
 	class Overnight {
@@ -66,64 +55,48 @@ class NotificationStrings {
 
 	// MARK: - User facing
 
-	static let patchBody = {
-		NSLocalizedString("Expired patch site: ", comment: comment)
-	}()
+    static var suggestedNextSite: String {
+		NSLocalizedString("Suggested next site:", comment: comment)
+    }
 
-	static let injectionBody = {
-		NSLocalizedString("Your last injection site: ", comment: comment)
-	}()
-
-	static let siteForNextPatch = {
-		NSLocalizedString("Site for next patch: ", comment: comment)
-	}()
-
-	static let siteForNextInjection = {
-		NSLocalizedString("Site for next injection: ", comment: comment)
-	}()
-
-	static let autofill = {
+    static var autofill: String {
 		NSLocalizedString(
 			"Change to suggested site?",
 			comment: "Notification action label."
 		)
-	}()
+	}
 
-	static let patchExpired = {
+    static var patchExpired: String {
 		NSLocalizedString("Time for your next patch", comment: comment)
-	}()
+	}
 
-	static let patchExpires = {
+    static var patchExpires: String {
 		NSLocalizedString("Almost time for your next patch", comment: comment)
-	}()
+	}
 
-	static let injectionExpired = {
+    static var injectionExpired: String {
 		NSLocalizedString("Time for your next injection", comment: comment)
-	}()
+	}
 
-	static let injectionExpires = {
+    static var injectionExpires: String {
 		NSLocalizedString(
 			"Almost time for your next injection",
 			comment: comment
 		)
-	}()
+	}
 
-	static let takePill = {
+    static var takePill: String {
 		NSLocalizedString("Time to take pill: ", comment: comment)
-	}()
+	}
 
-	static let overnightPatch = {
+    static var overnightPatch: String {
 		NSLocalizedString("Patch expires overnight.", comment: comment)
-	}()
+	}
 
-	static let overnightInjection = {
-		NSLocalizedString("Injection due overnight", comment: comment)
-	}()
+    static var overnightInjection: String {
+		NSLocalizedString("Injection due overnight.", comment: comment)
+	}
 
-	// MARK: - Comments
-
-	private static let comment = { "Notification telling you where and " +
-			"when to change your patch." }()
-
-	private static let titleComment = { "Title of notification." }()
+    private static let comment = "Notification telling you where and when to change your patch."
+	private static let titleComment = "Title of notification."
 }

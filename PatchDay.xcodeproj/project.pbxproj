@@ -115,7 +115,7 @@
 		9D6E9AD824562192003BBCC9 /* PDNotificationCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */; };
 		9D6E9AD924562194003BBCC9 /* PDNotificationScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */; };
 		9D6E9ADA2456219A003BBCC9 /* PDNotificationProducing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D226983237506BF00828B5F /* PDNotificationProducing.swift */; };
-		9D6E9ADB24562264003BBCC9 /* ApplyHormoneNotificationActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D22698723750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift */; };
+		9D6E9ADB24562264003BBCC9 /* hormoneNotificationActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D22698723750D8400828B5F /* hormoneNotificationActionHandler.swift */; };
 		9D6E9ADC24562264003BBCC9 /* SwallowPillNotificationActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47DE234C329F005AA467 /* SwallowPillNotificationActionHandling.swift */; };
 		9D6E9ADF24562272003BBCC9 /* PDNotificationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF13D0229CC601001E8A8A /* PDNotificationProtocol.swift */; };
 		9D6E9AE42456231C003BBCC9 /* NotificationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C3F89940959F98971EA3 /* NotificationFactory.swift */; };
@@ -127,6 +127,9 @@
 		9D6E9B00245643B7003BBCC9 /* MockHormoneSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C3158191BB31BFA38310 /* MockHormoneSchedule.swift */; };
 		9D6E9B0224564501003BBCC9 /* MockBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B0124564501003BBCC9 /* MockBadge.swift */; };
 		9D6E9B1824564A2F003BBCC9 /* MockNotificationFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B1724564A2F003BBCC9 /* MockNotificationFactory.swift */; };
+		9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B202457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift */; };
+		9D6E9B23245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B22245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift */; };
+		9D6E9B27245CDAF8003BBCC9 /* DuePillNotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B26245CDAF8003BBCC9 /* DuePillNotificationTests.swift */; };
 		9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A9E02386354F00058AD9 /* PDConstants.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
 		9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7F1443240C4486001577A1 /* ComplexSetting.swift */; };
@@ -481,7 +484,7 @@
 		9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandling.swift; sourceTree = "<group>"; };
 		9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBehindDependencies.swift; sourceTree = "<group>"; };
 		9D226983237506BF00828B5F /* PDNotificationProducing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationProducing.swift; sourceTree = "<group>"; };
-		9D22698723750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyHormoneNotificationActionHandling.swift; sourceTree = "<group>"; };
+		9D22698723750D8400828B5F /* hormoneNotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hormoneNotificationActionHandler.swift; sourceTree = "<group>"; };
 		9D22698923750DB100828B5F /* ApplyHormoneNotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplyHormoneNotificationActionHandler.swift; sourceTree = "<group>"; };
 		9D3E4C7D22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneOvernightNotification.swift; sourceTree = "<group>"; };
 		9D3E4C7F22B5AFC500C82DAE /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -506,6 +509,9 @@
 		9D6E9AFE2456376B003BBCC9 /* MockPillSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPillSchedule.swift; sourceTree = "<group>"; };
 		9D6E9B0124564501003BBCC9 /* MockBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockBadge.swift; sourceTree = "<group>"; };
 		9D6E9B1724564A2F003BBCC9 /* MockNotificationFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationFactory.swift; sourceTree = "<group>"; };
+		9D6E9B202457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneNotificationTests.swift; sourceTree = "<group>"; };
+		9D6E9B22245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneOvernightNotificationTests.swift; sourceTree = "<group>"; };
+		9D6E9B26245CDAF8003BBCC9 /* DuePillNotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuePillNotificationTests.swift; sourceTree = "<group>"; };
 		9D78A9E02386354F00058AD9 /* PDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDConstants.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
 		9D7F1443240C4486001577A1 /* ComplexSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexSetting.swift; sourceTree = "<group>"; };
@@ -1122,7 +1128,7 @@
 			children = (
 				9DDF13D0229CC601001E8A8A /* PDNotificationProtocol.swift */,
 				9DDF47DE234C329F005AA467 /* SwallowPillNotificationActionHandling.swift */,
-				9D22698723750D8400828B5F /* ApplyHormoneNotificationActionHandling.swift */,
+				9D22698723750D8400828B5F /* hormoneNotificationActionHandler.swift */,
 				9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */,
 				9DA3A904233C4B6300DAF350 /* PDNotificationScheduling.swift */,
 				9D226983237506BF00828B5F /* PDNotificationProducing.swift */,
@@ -1133,10 +1139,29 @@
 		9D6E9AEF2456253A003BBCC9 /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
+				9D6E9B1C2457A541003BBCC9 /* Notifications */,
 				9D6E9AF22456253A003BBCC9 /* Info.plist */,
-				9D6E9AF82456256F003BBCC9 /* NotificationsTests.swift */,
 			);
 			path = PatchDayTests;
+			sourceTree = "<group>";
+		};
+		9D6E9B1C2457A541003BBCC9 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				9D6E9B1F2457A595003BBCC9 /* Notifications */,
+				9D6E9AF82456256F003BBCC9 /* NotificationsTests.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		9D6E9B1F2457A595003BBCC9 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				9D6E9B202457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift */,
+				9D6E9B22245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift */,
+				9D6E9B26245CDAF8003BBCC9 /* DuePillNotificationTests.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		9D8A97FB23B28F5C004E20FE /* Stores */ = {
@@ -1929,7 +1954,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D6E9B23245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift in Sources */,
 				9D6E9AF92456256F003BBCC9 /* NotificationsTests.swift in Sources */,
+				9D6E9B27245CDAF8003BBCC9 /* DuePillNotificationTests.swift in Sources */,
+				9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2091,7 +2119,7 @@
 				9D6E9ADC24562264003BBCC9 /* SwallowPillNotificationActionHandling.swift in Sources */,
 				9D8A983023C7F736004E20FE /* PDBadgeDelegate.swift in Sources */,
 				9D3E4C8522B5DEB300C82DAE /* ViewTitleStrings.swift in Sources */,
-				9D6E9ADB24562264003BBCC9 /* ApplyHormoneNotificationActionHandling.swift in Sources */,
+				9D6E9ADB24562264003BBCC9 /* hormoneNotificationActionHandler.swift in Sources */,
 				9D8A980B23C56121004E20FE /* HormoneDataSharing.swift in Sources */,
 				9D8A982C23C7EEDA004E20FE /* PillStoring.swift in Sources */,
 				9D6DB7D22405FED600C00711 /* PDUserDefault.swift in Sources */,

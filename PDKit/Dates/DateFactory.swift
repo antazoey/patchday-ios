@@ -68,10 +68,8 @@ public class DateFactory: NSObject {
 
 	/// Creates date
 	public static func createDateBeforeAtEightPM(of date: Date) -> Date? {
-		if let eightPM = createEightPM(of: date) {
-			return createDayBefore(eightPM)
-		}
-		return nil
+        guard let eightPM = createEightPM(of: date) else { return nil }
+        return createDayBefore(eightPM)
 	}
 
 	public static func createDefaultDate() -> Date {

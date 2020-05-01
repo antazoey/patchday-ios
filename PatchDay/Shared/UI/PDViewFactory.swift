@@ -16,8 +16,8 @@ class PDViewFactory {
 		let doneButton = UIButton(frame: doneRect)
 		doneButton.setTitle(ActionStrings.Done, for: UIControl.State.normal)
 		doneButton.setTitle(ActionStrings.Done, for: UIControl.State.highlighted)
-		doneButton.setTitleColor(UIColor.blue, for: UIControl.State.normal)
-		doneButton.setTitleColor(UIColor.black, for: UIControl.State.highlighted)
+        doneButton.setTitleColor(PDColors[.Button], for: UIControl.State.normal)
+        doneButton.setTitleColor(PDColors[.Text], for: UIControl.State.highlighted)
 		doneButton.replaceTarget(targetViewController, newAction: doneAction)
 		return doneButton
 	}

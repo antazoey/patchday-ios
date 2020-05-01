@@ -25,24 +25,24 @@ public class MockNotificationFactory: NotificationProducing {
     
     public init() {}
     
-    public var createExpiredHormoneNotificationCallArgs: [ExpiredHormoneNotificationCreationParams] = []
+    public var createExpiredHormoneNotificationCallArgs: [Hormonal] = []
     public var createExpiredHormoneNotificationReturnValue: PDNotificationProtocol = MockNotification()
-    public func createExpiredHormoneNotification(_ params: ExpiredHormoneNotificationCreationParams) -> PDNotificationProtocol {
-        createExpiredHormoneNotificationCallArgs.append(params)
+    public func createExpiredHormoneNotification(hormone: Hormonal) -> PDNotificationProtocol {
+        createExpiredHormoneNotificationCallArgs.append(hormone)
         return createExpiredHormoneNotificationReturnValue
     }
-    
-    public var createDuePillNotificationCallArgs: [(Swallowable, Int)] = []
+
+    public var createDuePillNotificationCallArgs: [Swallowable] = []
     public var createDuePillNotificationReturnValue: PDNotificationProtocol = MockNotification()
-    public func createDuePillNotification(_ pill: Swallowable, totalDue: Int) -> PDNotificationProtocol {
-        createDuePillNotificationCallArgs.append((pill, totalDue))
+    public func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol {
+        createDuePillNotificationCallArgs.append(pill)
         return createDuePillNotificationReturnValue
     }
     
-    public var createOvernightExpiredHormoneNotificationCallArgs: [ExpiredHormoneOvernightNotificationCreationParams] = []
-    public var createOvernightExpiredHormoneNotificationReturnValue: PDNotificationProtocol = MockNotification()
-    public func createOvernightExpiredHormoneNotification(_ params: ExpiredHormoneOvernightNotificationCreationParams) -> PDNotificationProtocol {
-        createOvernightExpiredHormoneNotificationCallArgs.append(params)
-        return createOvernightExpiredHormoneNotificationReturnValue
+    public var createOvernightExpiredHormoneNotificationCallArgs: [Date] = []
+    public var createOvernightExpiredHormoneNotificationReturnValue = MockNotification()
+    public func createOvernightExpiredHormoneNotification(date: Date) -> PDNotificationProtocol {
+        createOvernightExpiredHormoneNotificationCallArgs.append(date)
+        return createDuePillNotificationReturnValue
     }
 }

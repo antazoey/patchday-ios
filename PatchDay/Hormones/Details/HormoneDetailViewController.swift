@@ -155,7 +155,6 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 		guard let siteName = viewModel.trySelectSite(at: row) else { return }
 		selectSiteTextField.text = siteName
-		closeSitePicker()
 	}
 
 	// MARK: - Date Picker funcs

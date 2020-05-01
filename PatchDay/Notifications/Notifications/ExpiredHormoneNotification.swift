@@ -20,22 +20,50 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 	public static let actionId = "estroActionId"
 	public static let categoryId = "estroCategoryId"
 
-	init(_ params: ExpiredHormoneNotificationCreationParams) {
-		self.hormone = params.hormone
-		self.expiration = params.expiration
-        self.notificationsMinutesBefore = params.notificationsMinutesBefore
-		let strings = NotificationStrings[params]
-		super.init(title: strings.0, body: strings.1, badge: params.totalHormonesExpired)
+    init(
+        hormone: Hormonal,
+        expiration: ExpirationIntervalUD,
+        notifyMinutes: Double,
+        suggestedSite: SiteName?,
+        badge: Int,
+        requestHandler: ((_ interval: Double, _ id: String)-> ())?=nil
+    ) {
+		self.hormone = hormone
+		self.expiration = expiration
+        self.notificationsMinutesBefore = notifyMinutes
+        let strings = NotificationStrings.get(
+            method: hormone.deliveryMethod,
+            notifyMinutes: notifyMinutes,
+            siteName: hormone.siteName ?? SiteStrings.CustomSiteId,
+            suggestedSite: suggestedSite
+        )
+        super.init(
+            title: strings.0,
+            body: strings.1,
+            badge: badge,
+            categoryId: ExpiredHormoneNotification.categoryId,
+            requestHandler: requestHandler
+        )
 	}
+    
+    private var hormoneId: String { hormone.id.uuidString }
 
 	public func request() {
-		let hours = expiration.hours
-        let expirationInterval = DateFactory.createTimeInterval(fromAddingHours: hours, to: hormone.date)
-		guard var expiration = expirationInterval else { return }
-		expiration = expiration - (self.notificationsMinutesBefore * 60.0)
-        guard expiration > 0 else { return }
-        let id = self.hormone.id.uuidString
+		guard let expiration = createInterval(), expiration > 0 else { return }
         super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
-        super.request(when: expiration, requestId: id)
+        super.request(when: expiration, requestId: hormoneId)
 	}
+    
+    private func createInterval() -> TimeInterval? {
+        guard let interval = createIntervalFromExpirationSetting() else { return nil }
+        return accountForNotificationsMinBefore(interval)
+    }
+    
+    private func createIntervalFromExpirationSetting() -> TimeInterval? {
+        DateFactory.createTimeInterval(fromAddingHours: expiration.hours, to: hormone.date)
+    }
+    
+    private func accountForNotificationsMinBefore(_ interval: TimeInterval) -> TimeInterval {
+        interval - (notificationsMinutesBefore * 60.0)
+    }
 }

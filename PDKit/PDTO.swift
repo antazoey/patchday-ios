@@ -9,43 +9,6 @@
 import Foundation
 
 
-public struct ExpiredHormoneNotificationCreationParams {
-
-    public var hormone: Hormonal
-    public var suggestedSiteName: SiteName?
-    public var expiration: ExpirationIntervalUD
-    public var notificationsMinutesBefore: Double
-    public var totalHormonesExpired: Int
-    
-    public init(
-        _ hormone: Hormonal,
-        _ suggestedSiteName: SiteName?,
-        _ expiration: ExpirationIntervalUD,
-        _ notificationsMinutesBefore: Double,
-        _ totalHormonesExpired: Int
-    ) {
-        self.hormone = hormone
-        self.suggestedSiteName = suggestedSiteName
-        self.expiration = expiration
-        self.notificationsMinutesBefore = notificationsMinutesBefore
-        self.totalHormonesExpired = totalHormonesExpired
-    }
-}
-
-
-public struct ExpiredHormoneOvernightNotificationCreationParams {
-    public var triggerDate: Date
-    public var deliveryMethod: DeliveryMethod
-    public var totalHormonesExpired: Int
-    
-    public init(_ date: Date, _ method: DeliveryMethod, _ total: Int) {
-        self.triggerDate = date
-        self.deliveryMethod = method
-        self.totalHormonesExpired = total
-    }
-}
-
-
 public struct HormoneScheduleProperties {
 
     public var expirationInterval: ExpirationIntervalUD

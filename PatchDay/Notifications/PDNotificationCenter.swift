@@ -14,18 +14,17 @@ import PDKit
 class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
 	private let root: UNUserNotificationCenter
-	private let hormoneApplicant: ApplyHormoneNotificationActionHandling
-	private lazy var log = PDLog<PDNotificationCenter>()
-
-	var swallowPillNotificationActionHandler: SwallowPillNotificationActionHandling
+    private lazy var log = PDLog<PDNotificationCenter>()
+	private let hormoneActionHandler: HormoneNotificationActionHandling
+	var pillActionHandler: SwallowPillNotificationActionHandling
 
 	init(
 		root: UNUserNotificationCenter,
-		applyHormoneHandler: ApplyHormoneNotificationActionHandling,
-		swallowPillNotificationActionHandler: SwallowPillNotificationActionHandling
+        handleHormone: HormoneNotificationActionHandling,
+		handlePill: SwallowPillNotificationActionHandling
 	) {
-		self.hormoneApplicant = applyHormoneHandler
-		self.swallowPillNotificationActionHandler = swallowPillNotificationActionHandler
+		self.hormoneActionHandler = handleHormone
+		self.pillActionHandler = handlePill
 		self.root = root
 		super.init()
 		self.root.delegate = self
@@ -78,12 +77,10 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 		didReceive response: UNNotificationResponse,
 		withCompletionHandler completionHandler: @escaping () -> Void
 	) {
-		let uid = response.notification.request.identifier
+		let id = response.notification.request.identifier
 		switch response.actionIdentifier {
-		case ExpiredHormoneNotification.actionId:
-			hormoneApplicant.applyHormone(hormoneUid: uid)
-		case DuePillNotification.actionId:
-			swallowPillNotificationActionHandler.swallow(pillUid: uid)
+		case ExpiredHormoneNotification.actionId: hormoneActionHandler.handleHormone(id: id)
+		case DuePillNotification.actionId: pillActionHandler.handlePill(pillId: id)
 		default: return
 		}
 	}

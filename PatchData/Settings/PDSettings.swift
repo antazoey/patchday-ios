@@ -15,6 +15,8 @@ public class PDSettings: PDSettingsManaging {
 	private let writer: UserDefaultsWriting
 	private let hormones: HormoneScheduling
 	private let sites: SiteScheduling
+    
+    /// If the logic can be handled without depenencies, it should be in the writer class.
 
 	init(
 		writer: UserDefaultsWriting,

@@ -12,6 +12,8 @@ import PDKit
 
 public class MockPillSchedule: PillScheduling {
     
+    public init() {}
+    
     public var count: Int = 0
     
     public var all: [Swallowable] = []
@@ -27,11 +29,8 @@ public class MockPillSchedule: PillScheduling {
         return insertNewReturnValue
     }
     
-    public var subscriptIndexCallArgs: [Index] = []
-    public var subscriptIndexReturnValue: Swallowable? = nil
     public subscript(index: Index) -> Swallowable? {
-        subscriptIndexCallArgs.append(index)
-        return subscriptIndexReturnValue
+        all.tryGet(at: index)
     }
     
     public var subscriptIdCallArgs: [UUID] = []

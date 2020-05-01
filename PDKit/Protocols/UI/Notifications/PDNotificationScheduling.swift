@@ -11,8 +11,6 @@ import Foundation
 
 public protocol NotificationScheduling {
 
-	func cancelExpiredHormoneNotification(at index: Index)
-
 	func cancelExpiredHormoneNotification(for hormone: Hormonal)
 
 	func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index)
@@ -26,8 +24,6 @@ public protocol NotificationScheduling {
 	func requestRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index)
 
 	func requestOvernightExpirationNotification(for hormone: Hormonal)
-
-	func requestDuePillNotification(forPillAt index: Index)
 
 	func cancelDuePillNotification(_ pill: Swallowable)
 

@@ -15,11 +15,11 @@ public class ExpiredHormoneOvernightNotification: Notification, PDNotificationPr
 	private let dateBeforeOvernightExpiration: Date
 	private let deliveryMethod: DeliveryMethod
 
-	init(_ params: ExpiredHormoneOvernightNotificationCreationParams) {
-		self.dateBeforeOvernightExpiration = params.triggerDate
-		self.deliveryMethod = params.deliveryMethod
-		let title = NotificationStrings.Overnight[params.deliveryMethod]
-		super.init(title: title, body: nil, badge: params.totalHormonesExpired)
+    init(_ date: Date, _ method: DeliveryMethod, _ badge: Int, _ requestHandler: ((_ interval: Double, _ id: String)-> ())?=nil) {
+		self.dateBeforeOvernightExpiration = date
+		self.deliveryMethod = method
+		let title = NotificationStrings.Overnight[method]
+		super.init(title: title, body: nil, badge: badge, requestHandler: requestHandler)
 	}
 
 	public func request() {

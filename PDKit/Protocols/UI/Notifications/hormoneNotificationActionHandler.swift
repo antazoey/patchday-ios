@@ -9,8 +9,8 @@
 import Foundation
 
 
-public protocol ApplyHormoneNotificationActionHandling {
+public protocol HormoneNotificationActionHandling {
 
 	/// A handler for an expired-hormone notification action for applying a hormone.
-	func applyHormone(hormoneUid: String)
+	func handleHormone(id: String)
 }
