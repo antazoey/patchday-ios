@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol SwallowPillNotificationActionHandling {
+public protocol PillNotificationActionHandling {
 
 	var requestPillNotification: ((_ pill: Swallowable) -> Void)? { get set }
 

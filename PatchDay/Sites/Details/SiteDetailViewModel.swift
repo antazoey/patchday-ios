@@ -14,8 +14,6 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	weak var imagePickerDelegate: SiteImagePickerDelegate?
 
-	// MARK: - CTOR
-
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
 		let images = SiteImages.getAllAvailable(params.imageSelectionParams)
 		self.init(

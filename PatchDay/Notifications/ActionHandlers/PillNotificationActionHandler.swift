@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandling {
+class PillNotificationActionHandler: PillNotificationActionHandling {
 
 	let pills: PillScheduling?
 	let badge: PDBadgeDelegate
@@ -22,14 +22,12 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
 	var requestPillNotification: ((_ pill: Swallowable) -> Void)?
 
 	func handlePill(pillId: String) {
-		if let pills = pills,
-			let id = UUID(uuidString: pillId),
-			let pill = pills[id] {
-
-			pills.swallow(id) {
-				self.requestPillNotification?(pill)
-				self.badge.decrement()
-			}
+		guard let id = UUID(uuidString: pillId) else { return }
+		guard let pills = pills else { return }
+		guard let pill = pills[id] else { return }
+		pills.swallow(id) {
+			self.requestPillNotification?(pill)
+			self.badge.decrement()
 		}
 	}
 }

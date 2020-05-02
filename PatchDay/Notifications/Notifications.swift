@@ -26,8 +26,8 @@ class Notifications: NSObject, NotificationScheduling {
 	convenience init(sdk: PatchDataSDK, appBadge: PDBadgeDelegate) {
 		let center = PDNotificationCenter(
 			root: UNUserNotificationCenter.current(),
-            handleHormone: ApplyHormoneNotificationActionHandler(sdk: sdk),
-            handlePill: SwallowPillNotificationActionHandler(sdk.pills, appBadge)
+            handleHormone: HormoneNotificationActionHandler(sdk: sdk),
+            handlePill: PillNotificationActionHandler(sdk.pills, appBadge)
 		)
         self.init(sdk: sdk, center: center, factory: NotificationFactory(sdk: sdk))
 		center.pillActionHandler.requestPillNotification = self.requestDuePillNotification

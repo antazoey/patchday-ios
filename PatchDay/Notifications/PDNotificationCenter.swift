@@ -15,12 +15,12 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 	private let root: UNUserNotificationCenter
     private lazy var log = PDLog<PDNotificationCenter>()
 	private let hormoneActionHandler: HormoneNotificationActionHandling
-	var pillActionHandler: SwallowPillNotificationActionHandling
+	var pillActionHandler: PillNotificationActionHandling
 
 	init(
 		root: UNUserNotificationCenter,
         handleHormone: HormoneNotificationActionHandling,
-		handlePill: SwallowPillNotificationActionHandling
+		handlePill: PillNotificationActionHandling
 	) {
 		self.hormoneActionHandler = handleHormone
 		self.pillActionHandler = handlePill
