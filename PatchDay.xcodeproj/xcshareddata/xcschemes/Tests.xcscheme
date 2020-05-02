@@ -102,9 +102,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B480EE2321CC7554002C2238"
-               BuildableName = "PatchDataTests.xctest"
-               BlueprintName = "PatchDataTests"
+               BlueprintIdentifier = "B40CC9AE21CCE614002364BB"
+               BuildableName = "PDKitTests.xctest"
+               BlueprintName = "PDKitTests"
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -112,9 +112,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B40CC9AE21CCE614002364BB"
-               BuildableName = "PDKitTests.xctest"
-               BlueprintName = "PDKitTests"
+               BlueprintIdentifier = "B480EE2321CC7554002C2238"
+               BuildableName = "PatchDataTests.xctest"
+               BlueprintName = "PatchDataTests"
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </TestableReference>

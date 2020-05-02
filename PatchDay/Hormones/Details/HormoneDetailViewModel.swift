@@ -22,7 +22,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	var hormone: Hormonal
-	var selectionState = HormoneSelectionState()
+	var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
 
 	init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> Void) {
@@ -31,9 +31,17 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		super.init()
 	}
 
+	/// Returns the date selected from the UI. If no date has been selected, returns the hormones date. If the hormone does not
+	/// have a valid date, returns the current date.
 	var dateSelected: Date {
-		get { selectionState.selectedDate ?? hormone.date }
-		set { selectionState.selectedDate = newValue }
+		get {
+			if let selected = selections.date {
+				return selected
+			}
+			let date = hormone.date
+			return date.isDefault() ? Date() : date
+		}
+		set { selections.date = newValue }
 	}
 
 	var dateSelectedText: String {
@@ -59,12 +67,12 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	var siteIndexStartRow: Index {
-		guard selectionState.selectedSiteIndex < 0 else { return selectionState.selectedSiteIndex }
+		guard selections.siteIndex < 0 else { return selections.siteIndex }
 		guard let site = getSite() else { return 0 }
 		let order = site.order
 		let end = sitesCount
 		if order >= 1 && order <= end {
-			selectionState.selectedSite = site
+			selections.site = site
 			return order
 		}
 		return 0
@@ -76,7 +84,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	var autoPickedDateText: String {
 		let date = Date()
-		selectionState.selectedDate = date
+		selections.date = date
 		return PDDateFormatter.formatDate(date)
 	}
 
@@ -98,7 +106,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	@discardableResult func trySelectSite(at row: Index) -> String? {
 		guard let site = sdk?.sites[row] else { return nil }
-		selectionState.selectedSite = site
+		selections.site = site
 		return site.name
 	}
 
@@ -135,8 +143,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	private func trySave() {
 		guard let sdk = sdk else { return }
-		trySaveDate(sdk.hormones, selectionState.selectedDate)
-		trySaveSite(sdk.hormones, selectionState.selectedSite)
+		trySaveDate(sdk.hormones, selections.date)
+		trySaveSite(sdk.hormones, selections.site)
 	}
 
 	private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?) {

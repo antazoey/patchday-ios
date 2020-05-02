@@ -28,6 +28,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		super.init()
 		loadAppTabs(source: source)
 		initTable(style: style)
+		watchForChanges()
 	}
 
 	var mainViewControllerTitle: String {
@@ -98,10 +99,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		setTabs(tabBarController: tabs, appViewControllers: vcs)
 	}
 
-	func watchHormonesForChanges() {
+	private func watchForChanges() {
 		NotificationCenter.default.addObserver(
 			self,
-			selector: #selector(reloadHormoneCellData),
+			selector: #selector(reflectDataFromBackgroundUpdate),
 			name: UIApplication.willEnterForegroundNotification,
 			object: nil
 		)
@@ -129,5 +130,8 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.tabs = tabs
 	}
 
-	@objc private func reloadHormoneCellData() { table.reloadData() }
+	@objc private func reflectDataFromBackgroundUpdate() {
+		table.reloadData()
+		tabs?.reflect()
+	}
 }

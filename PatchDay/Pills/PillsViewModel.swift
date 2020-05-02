@@ -16,7 +16,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		super.init()
 		let tableWrapper = PillsTable(pillsTableView, pills: pills)
 		self.pillsTable = tableWrapper
-		watchForPillChanges()
+		watchForChanges()
 	}
 
 	var pills: PillScheduling? {
@@ -72,14 +72,15 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	// MARK: - Private
 
-	private func watchForPillChanges() {
+	private func watchForChanges() {
 		let name = UIApplication.willEnterForegroundNotification
 		NotificationCenter.default.addObserver(
-			self, selector: #selector(reloadPillData), name: name, object: nil
+			self, selector: #selector(reloadDataFromBackgroundUpdate), name: name, object: nil
 		)
 	}
 
-    @objc private func reloadPillData() {
+    @objc private func reloadDataFromBackgroundUpdate() {
         pillsTable.reloadData()
+		tabs?.reflect()
     }
 }

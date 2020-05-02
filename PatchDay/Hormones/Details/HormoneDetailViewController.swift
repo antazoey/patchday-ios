@@ -271,7 +271,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	private func autoSetSiteText() {
 		guard let nextSite = viewModel.sdk?.sites.suggested else { return }
 		selectSiteTextField.text = nextSite.name
-		viewModel.selectionState.selectedSite = nextSite
+		viewModel.selections.site = nextSite
 	}
 
 	private func autoSetDateText() {

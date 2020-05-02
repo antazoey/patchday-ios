@@ -23,7 +23,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		assignSelfAsTableDelegate()
 		loadTitle()
 		loadBarButtons()
-		updateFromBackground()
 		applyTheme()
 	}
 
@@ -63,10 +62,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 
 	@objc func settingsTapped() {
 		viewModel.nav?.goToSettings(source: self)
-	}
-
-	func updateFromBackground() {
-		viewModel.watchHormonesForChanges()
 	}
 
 	// MARK: - Private

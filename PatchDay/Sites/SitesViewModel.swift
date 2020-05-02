@@ -17,6 +17,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		self.table = SitesTable(sitesTableView)
 		super.init()
 		self.table.sites = sdk?.sites
+		watchForChanges()
 	}
 
 	var sites: SiteScheduling? {
@@ -98,6 +99,15 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		)
 		return [insert, edit]
 	}
+	
+	private func watchForChanges() {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(reloadDataFromBackgroundUpdate),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+	}
 
 	private static func prepareBackButtonForNavigation(_ sitesViewController: UIViewController) {
 		let backItem = SiteViewFactory.createBackItem()
@@ -109,4 +119,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		let method = sdk.settings.deliveryMethod.value
 		return ViewTitleStrings.getSitesTitle(for: method)
 	}
+	
+    @objc private func reloadDataFromBackgroundUpdate() {
+		tabs?.reflect()
+    }
 }

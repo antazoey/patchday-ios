@@ -7,11 +7,9 @@ import Foundation
 import PDKit
 
 struct HormoneSelectionState {
-	var selectedSite: Bodily?
-	var selectedDate: Date?
-	var selectedSiteIndex: Index {
-		selectedSite?.order ?? -1
-	}
+	var site: Bodily?
+	var date: Date?
+	var siteIndex: Index { site?.order ?? -1 }
 }
 
 struct HormoneExpirationState {
