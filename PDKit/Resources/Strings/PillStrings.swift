@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class PillStrings {
 
 	public static var NewPill: String {
@@ -22,7 +21,7 @@ public class PillStrings {
 	public static var DefaultPills: [String] { ["T-Blocker", "Progesterone"] }
 
 	public static var ExtraPills: [String] { ["Estrogen", "Prolactin"] }
-    
+
     public class Intervals {
         private static let comment = "Picker option."
         public static var EveryDay: String {
@@ -43,7 +42,7 @@ public class PillStrings {
         public static var LastTwentyDays: String {
             NSLocalizedString("Last 20 Days / Month", comment: comment)
         }
-        
+
         public static var all: [String] {
             [
                 EveryDay,
@@ -54,7 +53,7 @@ public class PillStrings {
                 LastTwentyDays
             ]
         }
-        
+
         public static func getStringFromInterval(_ interval: PillExpirationInterval) -> String {
             switch interval {
             case .EveryDay: return EveryDay
@@ -65,7 +64,7 @@ public class PillStrings {
             case .LastTwentyDays: return LastTwentyDays
             }
         }
-        
+
         public static func getIntervalFromString(_ string: String) -> PillExpirationInterval? {
             switch string {
             case EveryDay: return .EveryDay

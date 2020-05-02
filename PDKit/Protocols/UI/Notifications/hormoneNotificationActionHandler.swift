@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol HormoneNotificationActionHandling {
 
 	/// A handler for an expired-hormone notification action for applying a hormone.

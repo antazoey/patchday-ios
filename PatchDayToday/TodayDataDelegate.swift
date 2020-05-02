@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 protocol TodayDataDelegate {
 
 	/// Gets the stored delivery method from the PatchDay App.

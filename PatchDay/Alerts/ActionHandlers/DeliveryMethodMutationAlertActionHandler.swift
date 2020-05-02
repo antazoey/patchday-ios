@@ -9,12 +9,11 @@
 import Foundation
 import PDKit
 
-
 class DeliveryMethodMutationAlertActionHandler: DeliveryMethodMutationAlertActionHandling {
 
-	private let declineAction: (_ oldMethod: DeliveryMethod) -> ()
+	private let declineAction: (_ oldMethod: DeliveryMethod) -> Void
 
-	init(decline: @escaping (_ oldMethod: DeliveryMethod) -> ()) {
+	init(decline: @escaping (_ oldMethod: DeliveryMethod) -> Void) {
 		self.declineAction = decline
 	}
 

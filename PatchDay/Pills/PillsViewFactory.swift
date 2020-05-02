@@ -8,9 +8,9 @@ import PDKit
 
 class PillsViewFactory {
 
-	private var insertButtonAction: () -> ()
+	private var insertButtonAction: () -> Void
 
-	init(insertButtonAction: @escaping () -> ()) {
+	init(insertButtonAction: @escaping () -> Void) {
 		self.insertButtonAction = insertButtonAction
 	}
 
@@ -22,7 +22,7 @@ class PillsViewFactory {
 		return insertButton
 	}
 
-	func createSiteCellDeleteSwipeAction(delete: @escaping () -> ()) -> UIContextualAction {
+	func createSiteCellDeleteSwipeAction(delete: @escaping () -> Void) -> UIContextualAction {
 		let title = ActionStrings.Delete
 		let delete = UIContextualAction(style: .normal, title: title) {
 			_, _, _ in delete()

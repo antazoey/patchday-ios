@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 struct EntityKey {
 	public var type: PDEntity
 	public var name: String

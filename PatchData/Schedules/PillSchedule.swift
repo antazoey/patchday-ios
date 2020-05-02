@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 import PDKit
 
-
 public class PillSchedule: NSObject, PillScheduling {
 
 	override public var description: String { "Schedule for pills." }
@@ -51,7 +50,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	}
 
 	public var nextDue: Swallowable? {
-		pills.min() {
+		pills.min {
 			switch($0.due, $1.due) {
 			case (nil, nil): return false
 			case (nil, _): return false
@@ -71,7 +70,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	// MARK: - Override base class
 
 	@discardableResult
-	public func insertNew(onSuccess: (() -> ())?) -> Swallowable? {
+	public func insertNew(onSuccess: (() -> Void)?) -> Swallowable? {
 		if let pill = store.createNewPill() {
 			pills.append(pill)
 			store.pushLocalChangesToManagedContext([pill], doSave: true)
@@ -115,13 +114,13 @@ public class PillSchedule: NSObject, PillScheduling {
 		}
 	}
 
-	public func swallow(_ id: UUID, onSuccess: (() -> ())?) {
+	public func swallow(_ id: UUID, onSuccess: (() -> Void)?) {
 		if let pill = self[id] {
 			swallow(pill, onSuccess) // Saves
 		}
 	}
 
-	public func swallow(onSuccess: (() -> ())?) {
+	public func swallow(onSuccess: (() -> Void)?) {
 		if let pill = nextDue {
 			swallow(pill, onSuccess)
 		}
@@ -152,7 +151,7 @@ public class PillSchedule: NSObject, PillScheduling {
 		store.pushLocalChangesToManagedContext(pills, doSave: true)
 	}
 
-	private func swallow(_ pill: Swallowable, _ onSuccess: (() -> ())?) {
+	private func swallow(_ pill: Swallowable, _ onSuccess: (() -> Void)?) {
 		if pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil {
 			pill.swallow()
 			store.pushLocalChangesToManagedContext([pill], doSave: true)
@@ -161,7 +160,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	}
 
 	private func deleteAll() {
-		pills.forEach { (_ p: Swallowable) -> () in store.delete(p) }
+		pills.forEach { (_ p: Swallowable) -> Void in store.delete(p) }
 		pills = []
 	}
 }

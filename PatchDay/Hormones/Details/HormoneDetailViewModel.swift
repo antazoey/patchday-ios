@@ -9,12 +9,10 @@
 import Foundation
 import PDKit
 
-
 enum TextFieldButtonSenderType: String {
 	case PickerActivator = "pick"
 	case DefaultTextFieldEditor = "type"
 }
-
 
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
@@ -25,9 +23,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	var hormone: Hormonal
 	var selectionState = HormoneSelectionState()
-	let handleInterfaceUpdatesFromNewSite: () -> ()
+	let handleInterfaceUpdatesFromNewSite: () -> Void
 
-	init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> ()) {
+	init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> Void) {
 		self.hormone = hormone
 		self.handleInterfaceUpdatesFromNewSite = newSiteHandler
 		super.init()
@@ -121,7 +119,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	func presentNewSiteAlert(newSiteName: String) {
 		guard let alerts = alerts else { return }
-		let handlers = NewSiteAlertActionHandler() {
+		let handlers = NewSiteAlertActionHandler {
 			self.sdk?.sites.insertNew(name: newSiteName, save: true) {
 				self.handleInterfaceUpdatesFromNewSite()
 			}

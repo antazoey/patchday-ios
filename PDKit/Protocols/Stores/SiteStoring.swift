@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol SiteStoring: PDObjectStoring {
 
 	/// Get the count of stored sites.

@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
 	private var props: SiteImagePickerDelegateProperties
@@ -71,8 +70,8 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
 		imageView.image = getImage(at: row)
 	}
 
-	public func openPicker(completion: @escaping () -> ()) {
-		showPicker() {
+	public func openPicker(completion: @escaping () -> Void) {
+		showPicker {
 			completion()
 		}
 	}
@@ -81,7 +80,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
 		props.imageOptions.tryGet(at: row)
 	}
 
-	private func showPicker(completion: @escaping () -> ()) {
+	private func showPicker(completion: @escaping () -> Void) {
 		UIView.transition(
 			with: props.views.getPicker() as UIView,
 			duration: 0.4,
@@ -90,7 +89,7 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
 				self.props.views.getPicker().isHidden = false
 				self.props.views.getSaveButton().isEnabled = true
 			},
-			completion: { void in completion() }
+			completion: { _ in completion() }
 		)
 	}
 }

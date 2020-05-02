@@ -47,7 +47,6 @@ class DateFactoryTests: XCTestCase {
 		XCTAssert(actual.timeIntervalSince(expected) < 0.01)
 	}
 
-
 	func testCreateTimeInterval_returnsExpectedTimeInterval() {
 		let expected = 18000.0
 		let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date())!

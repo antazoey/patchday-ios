@@ -9,13 +9,12 @@
 import Foundation
 import PDKit
 
-
 class PillCellActionHandlers: PillCellActionHandling {
 
-	private let goToDetailsAction: () -> ()
-	private let takePillAction: () -> ()
+	private let goToDetailsAction: () -> Void
+	private let takePillAction: () -> Void
 
-	init(goToDetails: @escaping () -> (), takePill: @escaping () -> ()) {
+	init(goToDetails: @escaping () -> Void, takePill: @escaping () -> Void) {
 		self.goToDetailsAction = goToDetails
 		self.takePillAction = takePill
 	}

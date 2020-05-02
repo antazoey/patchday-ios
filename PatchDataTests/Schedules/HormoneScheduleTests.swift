@@ -5,14 +5,12 @@
 //  Created by Juliya Smith on 1/1/19.
 //  Copyright © 2019 Juliya Smith. All rights reserved.
 
-
 import XCTest
 import PDKit
 import PDMock
 
 @testable
 import PatchData
-
 
 class HormoneScheduleTests: XCTestCase {
 

@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandling {
 
 	let pills: PillScheduling?
@@ -20,7 +19,7 @@ class SwallowPillNotificationActionHandler: SwallowPillNotificationActionHandlin
 		self.badge = appBadge
 	}
 
-	var requestPillNotification: ((_ pill: Swallowable) -> ())?
+	var requestPillNotification: ((_ pill: Swallowable) -> Void)?
 
 	func handlePill(pillId: String) {
 		if let pills = pills,

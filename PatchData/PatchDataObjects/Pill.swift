@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class Pill: Swallowable {
 
 	private var pillData: PillStruct  // Stored data
@@ -51,7 +50,7 @@ public class Pill: Swallowable {
 		get { pillData.attributes.name ?? PillStrings.NewPill }
 		set { pillData.attributes.name = newValue }
 	}
-    
+
     /// Human readable expiration interval derived from the stored property. Correlates to `PillStrings.Intervals` and `PillExpirationInterval`.
     public var expirationInterval: String {
         get {
@@ -125,7 +124,7 @@ public class Pill: Swallowable {
 		set { pillData.attributes.lastTaken = newValue }
 	}
 
-    public var due:  Date? {
+    public var due: Date? {
         switch expirationInterval {
         case PillStrings.Intervals.EveryDay: return regularNextDueTime
         case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
@@ -202,7 +201,7 @@ public class Pill: Swallowable {
 			addMissingTime(timeIndex: i)
 		}
 	}
-    
+
     private var regularNextDueTime: Date? {
         if timesTakenToday == 0 {
             return DateFactory.createTodayDate(at: time1)
@@ -212,7 +211,7 @@ public class Pill: Swallowable {
             return tomorrowAtTimeOne
         }
     }
-    
+
     private var dueDateForEveryOtherDay: Date? {
         guard let lastTaken = lastTaken else { return regularNextDueTime }
         if lastTaken.isInYesterday() {
@@ -222,19 +221,19 @@ public class Pill: Swallowable {
         }
         return regularNextDueTime
     }
-    
+
     private var tomorrowAtTimeOne: Date? {
         getTimeOne(daysFromNow: 1)
     }
-    
+
     private func getTimeOne(daysFromNow: Int) -> Date? {
         DateFactory.createDate(at: time1, daysFromToday: daysFromNow)
     }
-    
+
     private var dueDateForFirstTenDays: Date? {
         dueDate(begin: 10)
     }
-    
+
     private func dueDate(begin: Int) -> Date? {
         guard let lastTaken = lastTaken else { return regularNextDueTime }
         let dayNumberInMonth = lastTaken.dayNumberInMonth()
@@ -243,7 +242,7 @@ public class Pill: Swallowable {
         }
         return beginningOfNextMonthAtTimeOne(lastTaken: lastTaken)
     }
-    
+
     private func beginningOfNextMonthAtTimeOne(lastTaken: Date) -> Date? {
         if let nextTime = regularNextDueTime,
             let nextMonth = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken) {
@@ -251,7 +250,7 @@ public class Pill: Swallowable {
         }
         return nil
     }
-    
+
     private func endOfNextMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
         guard let daysInMonth = lastTaken.daysInMonth() else { return nil }
         let begin = daysInMonth - days
@@ -261,27 +260,27 @@ public class Pill: Swallowable {
         }
         return nil
     }
-    
+
     private func dueDateForLastTenDays() -> Date? {
         dueDate(end: 10)
     }
-    
+
     private func dueDate(end: Int) -> Date? {
         guard let lastTaken = lastTaken else { return regularNextDueTime }
         guard let daysInMonth = lastTaken.daysInMonth() else { return regularNextDueTime }
         let dayNumber = lastTaken.dayNumberInMonth()
         let limit = daysInMonth - end
-        
+
         if dayNumber == daysInMonth && isDone || dayNumber <= limit {
             return endOfNextMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
         return regularNextDueTime
     }
-    
+
     private func dueDateForFirstTwentyDays() -> Date? {
         dueDate(begin: 10)
     }
-    
+
     private func dueDateForLastTwentyDays() -> Date? {
         dueDate(end: 20)
     }

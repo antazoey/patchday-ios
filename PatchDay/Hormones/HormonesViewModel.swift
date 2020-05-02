@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private let style: UIUserInterfaceStyle
@@ -47,7 +46,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		var i = 0
 		table.reflectModel(self.sdk, style)
 		do {
-			try table.cells.forEach() {
+			try table.cells.forEach {
 				cell in
 				let history = histories[i]
 				history.push(getSiteImage(at: i))

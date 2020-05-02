@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class Hormone: Hormonal {
 
 	private var hormoneData: HormoneStruct

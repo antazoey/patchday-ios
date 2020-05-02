@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 import PDKit
 
-
 public class SiteSchedule: NSObject, SiteScheduling {
 
 	override public var description: String { "Schedule for sites." }
@@ -77,7 +76,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	@discardableResult
-	public func insertNew(name: String, save: Bool, onSuccess: (() -> ())?) -> Bodily? {
+	public func insertNew(name: String, save: Bool, onSuccess: (() -> Void)?) -> Bodily? {
 		if var site = store.createNewSite(doSave: save) {
 			site.name = name
 			sites.append(site)
@@ -114,7 +113,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public func sort() {
-		sites.sort() {
+		sites.sort {
 			// keep negative orders at the end
 			if $0.order < 0 {
 				return false

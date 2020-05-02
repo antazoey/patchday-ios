@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public extension Array {
 
 	func tryGet(at index: Index) -> Element? {
@@ -24,7 +23,6 @@ public extension Array where Element: Equatable {
 		return firstIndex(of: item)
 	}
 }
-
 
 // https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift
 public extension String {
@@ -48,7 +46,6 @@ public extension String {
 		return String(self[startIndex..<endIndex])
 	}
 }
-
 
 public extension UIViewController {
 

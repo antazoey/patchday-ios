@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 class TimesadaySliderDefinition {
 
 	static let Max: Float = 4.0

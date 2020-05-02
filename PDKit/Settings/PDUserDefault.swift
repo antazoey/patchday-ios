@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class PDUserDefault<T1, T2> {
 
 	public typealias Value = T1

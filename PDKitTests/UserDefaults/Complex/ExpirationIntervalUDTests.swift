@@ -9,7 +9,6 @@ import XCTest
 @testable
 import PDKit
 
-
 class ExpirationIntervalUDTests: XCTestCase {
 
 	func testHours_whenIsEveryTwoWeeks_returnsExpectedHours() {

@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 struct SiteImagePickerDelegateProperties {
 	var selectedSite: Bodily
 	var imageOptions: [UIImage]

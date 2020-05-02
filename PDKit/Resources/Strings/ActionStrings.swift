@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class ActionStrings {
 	private static let c1 = "Button title.  Could you keep it short?"
 	private static let c2 = "Notification action. Used all over app, so please keep it short."

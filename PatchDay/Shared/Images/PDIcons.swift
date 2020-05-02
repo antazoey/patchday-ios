@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 public typealias UIIcon = UIImage
 
 class PDIcons {

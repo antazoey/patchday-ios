@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 public protocol BooleanKeyStorable: KeyStorable where Value == Bool, RawValue == Bool { }
 public protocol IntKeyStorable: KeyStorable where Value == Int, RawValue == Int { }
 public protocol StringKeyStorable: KeyStorable where Value == String, RawValue == String { }

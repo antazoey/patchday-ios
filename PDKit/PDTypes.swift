@@ -8,19 +8,16 @@
 
 import Foundation
 
-
 public typealias Index = Int
 public typealias SiteName = String
 public typealias Time = Date
 public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
 
-
 public enum DeliveryMethod {
 	case Patches
 	case Injections
 }
-
 
 public enum Quantity: Int {
 	case One = 1
@@ -29,13 +26,11 @@ public enum Quantity: Int {
 	case Four = 4
 }
 
-
 public enum ExpirationInterval {
 	case TwiceWeekly
 	case OnceWeekly
 	case EveryTwoWeeks
 }
-
 
 public enum PillExpirationInterval: String {
     case EveryDay = "everyDay"
@@ -45,7 +40,6 @@ public enum PillExpirationInterval: String {
     case FirstTwentyDays = "firstTwentyDays"
     case LastTwentyDays = "lastTwentyDays"
 }
-
 
 // These strings cannot change - they are for retrieving from Core Data
 public enum PDSetting: String {
@@ -58,13 +52,11 @@ public enum PDSetting: String {
 	case SiteIndex = "site_i"
 }
 
-
 public enum PDEntity: String, CaseIterable {
 	case hormone = "Hormone"
 	case pill = "Pill"
 	case site = "Site"
 }
-
 
 public enum ThemedAsset {
 	case bg
@@ -79,4 +71,3 @@ public enum ThemedAsset {
 	case text
 	case unselected
 }
-

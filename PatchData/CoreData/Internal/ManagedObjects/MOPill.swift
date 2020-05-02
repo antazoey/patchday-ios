@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 import PDKit
 
-
 @objc(MOPill)
 public class MOPill: NSManagedObject {
     @NSManaged var expirationInterval: String?

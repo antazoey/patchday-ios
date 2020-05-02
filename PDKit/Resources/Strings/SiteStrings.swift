@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class SiteStrings {
 
 	private static let commonComment = {

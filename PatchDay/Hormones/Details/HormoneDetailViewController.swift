@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
 	var viewModel: HormoneDetailViewModel!

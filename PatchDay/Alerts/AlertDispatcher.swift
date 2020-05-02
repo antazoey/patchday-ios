@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class AlertDispatcher: NSObject, AlertDispatching {
 
 	override var description: String { "Controls alerts." }
@@ -97,7 +96,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
 }
 
 // Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(
+private func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(
 	_ input: [String: Any]
 ) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
 	Dictionary(uniqueKeysWithValues: input.map {

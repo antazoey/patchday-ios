@@ -10,7 +10,6 @@ import Foundation
 import CoreData
 import PDKit
 
-
 class CoreDataStack: NSObject {
 
 	private static var container: NSPersistentContainer?
@@ -31,7 +30,7 @@ class CoreDataStack: NSObject {
         "notify",
         "timesTakenToday",
         "lastTaken",
-        "expirationInterval",
+        "expirationInterval"
     ]
 
 	// MARK: - Public

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class PDDateFormatter {
 
 	private static let timeFormatter: DateFormatter = { createFormatter("h:mm a") }()
@@ -28,14 +27,14 @@ public class PDDateFormatter {
 		}
 		return dateFormatter.string(from: date)
 	}
-    
+
     public static func formatDay(_ day: Date) -> String {
         if let word = dateWord(from: day) {
             return getWordedDateString(from: day, word: word)
         }
         return dayFormatter.string(from: day)
     }
-    
+
     private static func getWordedDateString(from date: Date, word: String) -> String {
         word + ", " + timeFormatter.string(from: date)
     }

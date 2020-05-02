@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 typealias PillName = String
 
 class PillsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {

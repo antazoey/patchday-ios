@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SettingsPickerView: UIPickerView {
 
 	private var _activator: UIButton!

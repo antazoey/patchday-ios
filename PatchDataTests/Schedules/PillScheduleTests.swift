@@ -13,7 +13,6 @@ import PDMock
 @testable
 import PatchData
 
-
 class PillScheduleTests: XCTestCase {
 
 	private var mockStore: MockPillStore!
@@ -235,8 +234,7 @@ class PillScheduleTests: XCTestCase {
 		pills.set(at: 0, with: attributes)
 		let pill = pills[0] as! MockPill
 
-		XCTAssert(pill.setCallArgs.contains(where:
-					{ (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate
+		XCTAssert(pill.setCallArgs.contains(where: { (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate
 			}))
 	}
 
@@ -273,8 +271,7 @@ class PillScheduleTests: XCTestCase {
 		pills.set(by: idToSet, with: attributes)
 		let pill = pills[idToSet] as! MockPill
 
-		XCTAssert(pill.setCallArgs.contains(where:
-					{ (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate
+		XCTAssert(pill.setCallArgs.contains(where: { (_ a: PillAttributes) in a.name == "New Name" && a.time1 == testDate
 			}))
 	}
 

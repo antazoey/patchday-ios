@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol KeyStorable {
 	associatedtype Value
 	associatedtype RawValue

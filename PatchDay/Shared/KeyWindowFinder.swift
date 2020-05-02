@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class KeyWindowFinder {
 
 	static var keyWindow: UIWindow? {

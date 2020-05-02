@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class PDBadge: PDBadgeDelegate {
 
 	private var badgeNumber = UIApplication.shared.applicationIconBadgeNumber

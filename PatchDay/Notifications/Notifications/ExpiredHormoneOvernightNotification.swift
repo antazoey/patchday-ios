@@ -15,7 +15,7 @@ public class ExpiredHormoneOvernightNotification: Notification, PDNotificationPr
 	private let dateBeforeOvernightExpiration: Date
 	private let deliveryMethod: DeliveryMethod
 
-    init(_ date: Date, _ method: DeliveryMethod, _ badge: Int, _ requestHandler: ((_ interval: Double, _ id: String)-> ())?=nil) {
+    init(_ date: Date, _ method: DeliveryMethod, _ badge: Int, _ requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil) {
 		self.dateBeforeOvernightExpiration = date
 		self.deliveryMethod = method
 		let title = NotificationStrings.Overnight[method]

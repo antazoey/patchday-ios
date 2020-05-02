@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class PatchData: NSObject, PatchDataSDK {
 
 	override public var description: String {
@@ -119,6 +118,6 @@ public class PatchData: NSObject, PatchDataSDK {
 		settings: UserDefaultsWriting
 	) -> PillSchedule.PillScheduleState {
 		typealias PSS = PillSchedule.PillScheduleState
-		return settings.mentionedDisclaimer.value ? PSS.Working : PSS.Initial
+		return settings.mentionedDisclaimer.value ? PSS.Working: PSS.Initial
 	}
 }

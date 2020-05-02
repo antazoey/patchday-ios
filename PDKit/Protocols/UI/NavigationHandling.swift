@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 public protocol NavigationHandling {
 	func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController)
 	func goToPillDetails(_ pill: Swallowable, source: UIViewController)

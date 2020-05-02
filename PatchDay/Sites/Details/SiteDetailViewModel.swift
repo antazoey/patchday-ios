@@ -6,14 +6,13 @@
 import UIKit
 import PDKit
 
-
 class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	private var site: Bodily
 	private let siteIndex: Index
 	private var selections = SiteSelectionState()
 
-	let imagePickerDelegate: SiteImagePickerDelegate
+	weak var imagePickerDelegate: SiteImagePickerDelegate?
 
 	// MARK: - CTOR
 
@@ -85,18 +84,18 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	}
 
 	@discardableResult func saveSiteImageChanges() -> UIImage? {
-		let row = imagePickerDelegate.selectedRow
+        guard let row = imagePickerDelegate?.selectedRow else { return nil }
 		guard let image = createImageStruct(selectedRow: row) else { return nil }
 		sdk?.sites.setImageId(at: row, to: image.name)
 		return image.image
 	}
 
-	func openPicker(picker: UIPickerView, completion: @escaping () -> ()) {
-		if let image = imagePickerDelegate.imageView.image,
-			let index = imagePickerDelegate.options.firstIndex(of: image) {
-			imagePickerDelegate.picker.selectRow(index, inComponent: index, animated: false)
+	func openPicker(picker: UIPickerView, completion: @escaping () -> Void) {
+		if let delegate = imagePickerDelegate, let image = delegate.imageView.image,
+			let index = delegate.options.firstIndex(of: image) {
+			delegate.picker.selectRow(index, inComponent: index, animated: false)
 		}
-		imagePickerDelegate.openPicker() {
+		imagePickerDelegate?.openPicker {
 			completion()
 		}
 	}

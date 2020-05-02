@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 enum TimeNumber: String {
 	case Time1 = "time1"
 	case Time2 = "time2"
@@ -51,7 +50,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		let name = selections.name ?? pill.name
 		return providedPillNameSelection.firstIndex(of: name) ?? 0
 	}
-    
+
     var expirationIntervalStartIndex: Index {
         let interval = selections.expirationInterval ?? pill.expirationInterval
         return PillStrings.Intervals.all.firstIndex(of: interval) ?? 0
@@ -71,7 +70,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		sdk?.pills.set(by: pill.id, with: selections)
 		notifications.requestDuePillNotification(pill)
 		tabs?.reflectDuePillBadgeValue()
-        
+
 	}
 
 	/// Sets the selected name with the name at the given index and optionally returns the name.
@@ -81,7 +80,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		selections.name = name
 		return name ?? ""
 	}
-    
+
     @discardableResult
     func selectExpirationIntervalFromRow(_ row: Index) -> String {
         let interval = PillStrings.Intervals.all.tryGet(at: row)

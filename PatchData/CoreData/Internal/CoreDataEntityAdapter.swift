@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 class CoreDataEntityAdapter {
 
 	private static var log = PDLog<CoreDataEntityAdapter>()

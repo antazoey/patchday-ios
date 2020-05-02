@@ -13,7 +13,6 @@ import PDMock
 @testable
 import PatchData
 
-
 class SiteScheduleTests: XCTestCase {
 
 	private var mockStore: MockSiteStore!

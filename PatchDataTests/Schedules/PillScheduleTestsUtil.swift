@@ -13,7 +13,6 @@ import PDMock
 @testable
 import PatchData
 
-
 class PillScheduleTestsUtil {
 
 	private var mockStore: MockPillStore

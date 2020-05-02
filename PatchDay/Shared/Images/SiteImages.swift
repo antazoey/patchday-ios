@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 public class SiteImages: NSObject {
 
 	override public var description: String { "Read-only app image static accessor." }
@@ -61,7 +60,7 @@ public class SiteImages: NSObject {
 			lnjectionRightQuad: SiteStrings.rightQuad,
 			lnjectionLeftQuad: SiteStrings.leftQuad,
 			lnjectionRightDelt: SiteStrings.rightDelt,
-			lnjectionLeftDelt: SiteStrings.leftDelt,
+			lnjectionLeftDelt: SiteStrings.leftDelt
 		]
 	}
 

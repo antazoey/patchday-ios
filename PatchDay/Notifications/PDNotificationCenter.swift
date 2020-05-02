@@ -10,7 +10,6 @@ import Foundation
 import UserNotifications
 import PDKit
 
-
 class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
 	private let root: UNUserNotificationCenter
@@ -29,7 +28,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 		super.init()
 		self.root.delegate = self
 		self.root.requestAuthorization(options: [.alert, .sound, .badge]) {
-			(granted, error) in
+			(_, error) in
 			if let e = error {
 				self.log.error(e)
 			}

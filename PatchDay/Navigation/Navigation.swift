@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 public class Navigation: NavigationHandling {
 
 	private lazy var log = PDLog<Navigation>()

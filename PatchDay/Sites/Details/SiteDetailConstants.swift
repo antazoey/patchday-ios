@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 class SiteDetailConstants {
 
 	static let TypeId = "type"

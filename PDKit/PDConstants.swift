@@ -8,14 +8,12 @@
 
 import Foundation
 
-
 public let OnlySupportedInjectionsQuantity = 1
 public let SupportedHormoneUpperQuantityLimit = 4
 
 public let HoursInHalfWeek = 84
 public let HoursInWeek = HoursInHalfWeek * 2
 public let HoursInTwoWeeks = HoursInWeek * 2
-
 
 public class DefaultSettings {
 	public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
@@ -30,7 +28,6 @@ public class DefaultSettings {
 	public static let MentionedDisclaimerRawValue = false
 	public static let SiteIndexRawValue = 0
 }
-
 
 public class DefaultPillAttributes {
 

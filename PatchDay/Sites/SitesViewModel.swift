@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
 	let table: SitesTable

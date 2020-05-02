@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorable {
 
 	public static let PatchesKey = { "Patches" }()
@@ -17,7 +16,7 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 	public typealias Value = DeliveryMethod
 	public typealias RawValue = String
 	public let setting: PDSetting = .DeliveryMethod
-    
+
     public convenience init() {
         self.init(DefaultSettings.DeliveryMethodValue)
     }

@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
 	var viewModel: SiteDetailViewModel!
@@ -18,7 +17,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var nameStackVertical: UIStackView!
 	@IBOutlet weak var nameStackHorizontal: UIStackView!
     @IBOutlet weak var verticalLineByNameTextField: UIView!
-    
+
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var lineUnderNameLabel: UIView!
 	@IBOutlet weak var typeNameButton: UIButton!
@@ -27,7 +26,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var gapAboveImage: UIView!
 	@IBOutlet weak var topConstraint: NSLayoutConstraint!
 	@IBOutlet weak var imagePickerDoneButton: UIButton!
-    
+
     @IBOutlet weak var imageLabel: UILabel!
     @IBOutlet weak var lineUnderImageLabel: UIView!
     @IBOutlet weak var imageInputView: UIView!
@@ -103,7 +102,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBAction func imageButtonTapped(_ sender: Any) {
 		siteImageView.isHidden = true
 		imageButton.isEnabled = false
-		viewModel.imagePickerDelegate.openPicker() {
+        viewModel.imagePickerDelegate?.openPicker {
 			self.typeNameButton.isEnabled = false
 			self.imageButton.isEnabled = false
 			self.nameText.isEnabled = false
@@ -184,9 +183,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	@objc func closeNamePicker() {
-		self.namePicker.isHidden = true;
-		self.lineUnderNameStack.isHidden = false;
-		self.siteImageView.isHidden = false;
+		self.namePicker.isHidden = true
+		self.lineUnderNameStack.isHidden = false
+		self.siteImageView.isHidden = false
 		nameText.restorationIdentifier = SiteDetailConstants.SelectId
 		typeNameButton.setTitle(ActionStrings._Type, for: .normal)
 		nameText.removeTarget(self, action: #selector(closeNamePicker), for: .touchUpInside)
@@ -263,8 +262,8 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 			with: picker as UIView,
 			duration: 0.4,
 			options: .transitionFlipFromTop, animations: {
-				picker.isHidden = false;
-				self.lineUnderNameStack.isHidden = true;
+				picker.isHidden = false
+				self.lineUnderNameStack.isHidden = true
 				self.siteImageView.isHidden = true
 			})
 	}

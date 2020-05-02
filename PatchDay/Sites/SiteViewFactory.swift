@@ -49,7 +49,7 @@ class SiteViewFactory {
 	}
 
 	/// Create a delete row action. Row actions are the buttons that appear in TableViews when you swipe them.
-	static func createDeleteRowTableAction(indexPath: IndexPath, delete: @escaping (IndexPath) -> ()) -> UIContextualAction {
+	static func createDeleteRowTableAction(indexPath: IndexPath, delete: @escaping (IndexPath) -> Void) -> UIContextualAction {
 		let title = ActionStrings.Delete
 		let deleteRowAction = UIContextualAction(style: .normal, title: title) {
 			_, _, _ in delete(indexPath)

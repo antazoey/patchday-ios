@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class HormoneStore: EntityStore, HormoneStoring {
 
 	private lazy var log = PDLog<HormoneStore>()

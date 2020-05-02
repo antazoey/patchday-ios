@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SitesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
 	@IBOutlet var sitesView: UIView!

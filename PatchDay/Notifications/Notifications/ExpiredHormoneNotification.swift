@@ -10,7 +10,6 @@ import Foundation
 import UserNotifications
 import PDKit
 
-
 public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 
 	private let hormone: Hormonal
@@ -26,7 +25,7 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         notifyMinutes: Double,
         suggestedSite: SiteName?,
         badge: Int,
-        requestHandler: ((_ interval: Double, _ id: String)-> ())?=nil
+        requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
 		self.hormone = hormone
 		self.expiration = expiration
@@ -45,7 +44,7 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
             requestHandler: requestHandler
         )
 	}
-    
+
     private var hormoneId: String { hormone.id.uuidString }
 
 	public func request() {
@@ -53,16 +52,16 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
         super.request(when: expiration, requestId: hormoneId)
 	}
-    
+
     private func createInterval() -> TimeInterval? {
         guard let interval = createIntervalFromExpirationSetting() else { return nil }
         return accountForNotificationsMinBefore(interval)
     }
-    
+
     private func createIntervalFromExpirationSetting() -> TimeInterval? {
         DateFactory.createTimeInterval(fromAddingHours: expiration.hours, to: hormone.date)
     }
-    
+
     private func accountForNotificationsMinBefore(_ interval: TimeInterval) -> TimeInterval {
         interval - (notificationsMinutesBefore * 60.0)
     }

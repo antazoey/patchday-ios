@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol PillScheduling: Schedule, Deleting {
 
 	/// All the pills.
@@ -22,7 +21,7 @@ public protocol PillScheduling: Schedule, Deleting {
 
 	/// Insert a new pill into the schedule.
 	@discardableResult
-	func insertNew(onSuccess: (() -> ())?) -> Swallowable?
+	func insertNew(onSuccess: (() -> Void)?) -> Swallowable?
 
 	/// Returns the pill at the given index.
 	subscript(index: Index) -> Swallowable? { get }
@@ -40,10 +39,10 @@ public protocol PillScheduling: Schedule, Deleting {
 	func reset()
 
 	/// Swallows the pill.
-	func swallow(_ id: UUID, onSuccess: (() -> ())?)
+	func swallow(_ id: UUID, onSuccess: (() -> Void)?)
 
 	/// Swallows the next pill due.
-	func swallow(onSuccess: (() -> ())?)
+	func swallow(onSuccess: (() -> Void)?)
 
 	/// Gets the first index of the given pill.
 	func indexOf(_ pill: Swallowable) -> Index?

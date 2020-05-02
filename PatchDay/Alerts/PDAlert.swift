@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 public class PDAlert: PDAlerting {
 
 	let controller: UIAlertController

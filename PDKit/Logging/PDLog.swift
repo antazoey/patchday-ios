@@ -5,16 +5,13 @@
 
 import Foundation
 
-
 public enum PDLogLevels {
 	case DEBUG
 	case NONE
 }
 
-
 /// Set to `LogLevel.DEBUG` to turn on loggers.
 public var PDLogLevel = PDLogLevels.NONE
-
 
 public class PDLog<T> {
 

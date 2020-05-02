@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol PillStoring {
 
 	/// Fetches all the pills from storage.

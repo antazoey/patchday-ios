@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol NotificationProducing {
     func createExpiredHormoneNotification(hormone: Hormonal) -> PDNotificationProtocol
 	func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol

@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class ApplyHormoneNotificationActionHandler: HormoneNotificationActionHandling {
 
 	private let sdk: PatchDataSDK?

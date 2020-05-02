@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol DeliveryMethodMutationAlertActionHandling {
 	func handleDecline(oldMethod: DeliveryMethod)
 }

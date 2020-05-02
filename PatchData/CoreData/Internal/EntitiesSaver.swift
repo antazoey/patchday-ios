@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 class EntitiesSaver {
 
 	private let stack: PDCoreDataWrapping

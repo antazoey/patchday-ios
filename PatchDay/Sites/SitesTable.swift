@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 class SitesTable: TableViewWrapper<SiteCell> {
 
 	var sites: SiteScheduling?

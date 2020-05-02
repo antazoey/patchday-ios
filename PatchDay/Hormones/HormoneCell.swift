@@ -9,11 +9,9 @@
 import UIKit
 import PDKit
 
-
 enum SiteImageReflectionError: Error {
 	case AddWithoutGivenPlaceholderImage
 }
-
 
 class HormoneCell: TableCell {
 
@@ -83,7 +81,6 @@ class HormoneCell: TableCell {
 		badgeButton.badgeValue = shouldShow ? "!" : nil
 	}
 
-
     private func setDateLabel(_ title: String?, _ hormone: Hormonal) {
         dateLabel.textColor = hormone.isPastNotificationTime ? UIColor.red : PDColors[.Text]
 		dateLabel.text = title
@@ -104,7 +101,7 @@ class HormoneCell: TableCell {
 		return self
 	}
 
-	private func animateRemove(completion: (() -> ())? = nil) {
+	private func animateRemove(completion: (() -> Void)? = nil) {
 		self.siteImageView.alpha = 1
 		UIView.animate(
 			withDuration: 0.75,
@@ -119,13 +116,13 @@ class HormoneCell: TableCell {
 		}
 	}
 
-	private func animateAdd(_ placeholderImage: UIImage?, completion: (() -> ())? = nil) {
+	private func animateAdd(_ placeholderImage: UIImage?, completion: (() -> Void)? = nil) {
 		siteImageView.alpha = 0
 		siteImageView.image = placeholderImage
 		UIView.animate(
 			withDuration: 0.75,
 			animations: { self.siteImageView.alpha = 1 }) {
-			void in
+			_ in
 			completion?()
 		}
 	}

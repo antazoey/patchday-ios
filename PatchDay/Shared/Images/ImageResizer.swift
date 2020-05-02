@@ -23,7 +23,7 @@ public class ImageResizer {
 
 		// Figure out what our orientation is, and use that to form the rectangle
 		let newSize: CGSize
-		if(widthRatio > heightRatio) {
+		if widthRatio > heightRatio {
 			let w = size.width * heightRatio
 			let h = size.height * heightRatio
 			newSize = CGSize(width: w, height: h)

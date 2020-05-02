@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol PDNotificationProtocol {
 	func request()
 }

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol UserDefaultsReading {
 
 	/// The method by which you take hormones. Supports patches and injections.

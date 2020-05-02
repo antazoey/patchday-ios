@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 class CoreDataEntitiesLogger {
 
 	private lazy var log = PDLog<CoreDataEntities>()

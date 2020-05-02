@@ -20,11 +20,11 @@ extension Date {
 	public func isInPast() -> Bool {
 		self < Date()
 	}
-    
+
     public func dayNumberInMonth() -> Int {
         Calendar.current.component(.day, from: self)
     }
-    
+
     public func daysInMonth() -> Int? {
         let cal = Calendar.current
         let range = cal.range(of: .day, in: .month, for: self)
@@ -35,12 +35,12 @@ extension Date {
 	public func isInToday() -> Bool {
 		Calendar.current.isDateInToday(self)
 	}
-    
+
     /// Whether this date is tomorrow.
     public func isInTomorrow() -> Bool {
         Calendar.current.isDateInTomorrow(self)
     }
-    
+
     /// Whether this date is yesterday.
     public func isInYesterday() -> Bool {
         Calendar.current.isDateInYesterday(self)

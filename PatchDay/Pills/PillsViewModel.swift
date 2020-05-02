@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	var pillsTable: PillsTable! = nil
@@ -79,7 +78,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 			self, selector: #selector(reloadPillData), name: name, object: nil
 		)
 	}
-    
+
     @objc private func reloadPillData() {
         pillsTable.reloadData()
     }

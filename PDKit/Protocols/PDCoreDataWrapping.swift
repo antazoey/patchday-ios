@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol PDCoreDataWrapping {
 	func save(saverName: String)
 	func getManagedObjects(entity: PDEntity) -> [Any]?

@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class CoreDataEntities {
 
 	private static var hormoneMOs: [MOHormone] = []

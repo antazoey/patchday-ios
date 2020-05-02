@@ -8,14 +8,12 @@
 
 import Foundation
 
-
 import XCTest
 import PDKit
 import PDMock
 
 @testable
 import PatchData
-
 
 public class PillTests: XCTestCase {
 
@@ -58,7 +56,7 @@ public class PillTests: XCTestCase {
 		attrs.time2 = calendar.date(from: components)
 		return attrs
 	}
-    
+
     func testExpirationInterval_whenEveryDay_returnsExpectedString() {
         var attrs = PillAttributes()
         attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
@@ -66,12 +64,12 @@ public class PillTests: XCTestCase {
         let actual = pill.expirationInterval
         let expected = PillStrings.Intervals.EveryDay
         XCTAssertEqual(expected, actual)
-        
+
         // Test set
         pill.expirationInterval = PillStrings.Intervals.EveryOtherDay
         XCTAssertEqual(PillStrings.Intervals.EveryOtherDay, pill.expirationInterval)
     }
-    
+
     func testExpirationInterval_whenEveryOtherDay_returnsExpectedString() {
         var attrs = PillAttributes()
         attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
@@ -80,7 +78,7 @@ public class PillTests: XCTestCase {
         let expected = PillStrings.Intervals.EveryOtherDay
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testExpirationInterval_whenFirstTen_returnsExpectedString() {
         var attrs = PillAttributes()
         attrs.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
@@ -89,7 +87,7 @@ public class PillTests: XCTestCase {
         let expected = PillStrings.Intervals.FirstTenDays
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testExpirationInterval_whenLastTen_returnsExpectedString() {
         var attrs = PillAttributes()
         attrs.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
@@ -98,7 +96,7 @@ public class PillTests: XCTestCase {
         let expected = PillStrings.Intervals.LastTenDays
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testExpirationInterval_whenFirstTwenty_returnsExpectedString() {
         var attrs = PillAttributes()
         attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
@@ -107,7 +105,7 @@ public class PillTests: XCTestCase {
         let expected = PillStrings.Intervals.FirstTwentyDays
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testExpirationInterval_whenLastTwenty_returnsExpectedString() {
         var attrs = PillAttributes()
         attrs.expirationInterval = PillExpirationInterval.LastTwentyDays.rawValue
@@ -232,13 +230,13 @@ public class PillTests: XCTestCase {
 		let actual = pill.timesTakenToday
 		XCTAssertEqual(expected, actual)
 	}
-    
+
     func testSetExpirationInterval_whenGivenUIString_sets() {
         let pill = createPill(PillAttributes())
         pill.expirationInterval = PillStrings.Intervals.LastTenDays
         XCTAssertEqual(PillStrings.Intervals.LastTenDays, pill.expirationInterval)
     }
-    
+
     func testSetExpirationInterval_whenGivenRawString_setsAndReturnsUIVersion() {
         let pill = createPill(PillAttributes())
         pill.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
@@ -291,7 +289,7 @@ public class PillTests: XCTestCase {
 		let actual = pill.due
 		XCTAssertEqual(expected, actual)
 	}
-    
+
     func testDue_whenEveryOtherDayAndTakenTwoDaysAgo_returnsTodayAtTimeOne() {
         var attrs = PillAttributes()
         attrs.lastTaken = DateFactory.createDate(daysFromNow: -2)
@@ -342,7 +340,7 @@ public class PillTests: XCTestCase {
         let actual = pill.due
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testDue_whenEveryOtherDayAndTakenYesterday_returnsTomorrowAtTimeOne() {
         var attrs = PillAttributes()
         attrs.lastTaken = DateFactory.createDate(daysFromNow: -1)
@@ -355,7 +353,7 @@ public class PillTests: XCTestCase {
         let actual = pill.due
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testDue_whenTakenFirstTenDaysAndFinishedOnTenthDay_returnsFirstOfNextMonthAtTimeOne() {
         var attrs = PillAttributes()
         let cal = Calendar.current
@@ -370,7 +368,7 @@ public class PillTests: XCTestCase {
         let actual = pill.due
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testDue_whenTakenEveryFirstTenDaysAndIsDuringThoseTenDays_returnsExpectedDate() {
         var attrs = PillAttributes()
         attrs.timesaday = 1
@@ -382,7 +380,7 @@ public class PillTests: XCTestCase {
         let expected = DateFactory.createDate(on: Date(), at: attrs.time1!)
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testDue_whenTakenFirstTenDaysAndFinishedOnTwenthiethDay_returnsFirstOfNextMonthAtTimeOne() {
         var attrs = PillAttributes()
         let cal = Calendar.current
@@ -414,7 +412,7 @@ public class PillTests: XCTestCase {
         let actual = pill.due
         XCTAssertEqual(expected, actual)
     }
-    
+
     func testDue_whenLastTakenTwentyDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
         var attrs = PillAttributes()
         let cal = Calendar.current

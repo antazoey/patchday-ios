@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class CodeBehindDependencies<T> {
 
 	let sdk: PatchDataSDK?

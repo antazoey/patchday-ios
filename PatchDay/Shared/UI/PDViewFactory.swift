@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 class PDViewFactory {
 
 	static func createDoneButton(doneAction: Selector, mainView: UIView, targetViewController: UIViewController) -> UIButton {

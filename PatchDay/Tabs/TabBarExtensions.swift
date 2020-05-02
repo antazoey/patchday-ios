@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 extension UITabBarItem {
 
 	func reflectHormonesCharacteristics(sdk: PatchDataSDK) {

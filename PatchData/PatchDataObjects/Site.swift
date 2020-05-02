@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class Site: Bodily {
 
 	private var siteData: SiteStruct

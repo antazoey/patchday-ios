@@ -10,7 +10,6 @@ import PDMock
 @testable
 import PatchData
 
-
 class PDSettingsTests: XCTestCase {
 
 	private let mockSettingsWriter = MockUserDefaultsWriter()

@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class DeliveryMethodMutationAlert: PDAlert {
 
 	private var sdk: PatchDataSDK?
@@ -21,7 +20,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 
 	private lazy var continueAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
-			void in
+			_ in
 			self.sdk?.settings.setDeliveryMethod(to: self.newDeliveryMethod)
 			self.tabs?.reflectHormoneCharacteristics()
 		}
@@ -29,7 +28,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 
 	private lazy var declineAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
-			void in self.handlers.handleDecline(oldMethod: self.oldDeliveryMethod)
+			_ in self.handlers.handleDecline(oldMethod: self.oldDeliveryMethod)
 		}
 	}()
 

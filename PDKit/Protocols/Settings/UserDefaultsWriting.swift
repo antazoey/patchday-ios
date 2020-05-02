@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol UserDefaultsWriting: UserDefaultsReading {
 
 	/// Resets all values back to their default values. The defaultSiteCount depends on the DeliveryMethod.

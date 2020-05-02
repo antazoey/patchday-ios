@@ -9,11 +9,10 @@
 import Foundation
 import PDKit
 
-
 public class NotificationFactory: NotificationProducing {
-    
+
     private let sdk: PatchDataSDK
-    
+
     public init(sdk: PatchDataSDK) {
         self.sdk = sdk
     }
@@ -31,7 +30,7 @@ public class NotificationFactory: NotificationProducing {
     public func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol {
         DuePillNotification(for: pill, badge: sdk.totalAlerts)
 	}
-    
+
     public func createOvernightExpiredHormoneNotification(date: Date) -> PDNotificationProtocol {
         ExpiredHormoneOvernightNotification(date, sdk.settings.deliveryMethod.value, sdk.totalAlerts)
     }

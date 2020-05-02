@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol HormoneStoring: PDObjectStoring {
 
 	/// Fetches all the hormones from storage.

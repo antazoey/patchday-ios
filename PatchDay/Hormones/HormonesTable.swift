@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 class HormonesTable: TableViewWrapper<HormoneCell> {
 
 	private var _cells: [HormoneCell] = []

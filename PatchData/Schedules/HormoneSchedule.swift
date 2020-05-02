@@ -9,22 +9,20 @@
 import Foundation
 import PDKit
 
-
 public class HormoneIterator: IteratorProtocol {
     private var cursor: Index = 0
     var hormones: [Hormonal]
-    
+
     public init(_ hormones: [Hormonal]) {
         self.hormones = hormones
     }
-    
+
     public func next() -> Hormonal? {
         let hormone = hormones.tryGet(at: cursor)
         cursor += 1
         return hormone
     }
 }
-
 
 public class HormoneSchedule: NSObject, HormoneScheduling {
 
@@ -48,7 +46,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		sort()
 		shareData()
 	}
-    
+
     public func makeIterator() -> HormoneIterator {
         HormoneIterator(hormones)
     }
@@ -85,12 +83,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		return hormone
 	}
 
-	public func forEach(doThis: (Hormonal) -> ()) {
+	public func forEach(doThis: (Hormonal) -> Void) {
 		hormones.forEach(doThis)
 	}
 
 	public func sort() {
-		hormones.sort() { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
+		hormones.sort { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
 	}
 
 	@discardableResult
@@ -106,7 +104,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	@discardableResult
-	public func reset(completion: (() -> ())?) -> Int {
+	public func reset(completion: (() -> Void)?) -> Int {
 		deleteAll()
 		let method = settings.deliveryMethod.value
 		let quantity = KeyStorableHelper.defaultQuantity(for: method)

@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class DataSharer: DataSharing {
 
 	private var sharedDefaults: UserDefaults? {

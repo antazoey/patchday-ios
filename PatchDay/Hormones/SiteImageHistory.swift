@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SiteImageHistory {
 
 	private var history: [UIImage?] = [nil, nil]

@@ -9,17 +9,16 @@
 import Foundation
 import PDKit
 
-
 class QuantityMutationAlertHandler: QuantityMutationAlertActionHandling {
 
-	private let continueAction: (_ newQuantity: Int) -> ()
-	private let cancelAction: (_ oldQuantity: Int) -> ()
-	private let setQuantity: (_ newQuantity: Int) -> ()
+	private let continueAction: (_ newQuantity: Int) -> Void
+	private let cancelAction: (_ oldQuantity: Int) -> Void
+	private let setQuantity: (_ newQuantity: Int) -> Void
 
 	init(
-		cont: @escaping (_ newQuantity: Int) -> (),
-		cancel: @escaping (_ oldQuantity: Int) -> (),
-		setQuantity: @escaping (_ newQuantity: Int) -> ()
+		cont: @escaping (_ newQuantity: Int) -> Void,
+		cancel: @escaping (_ oldQuantity: Int) -> Void,
+		setQuantity: @escaping (_ newQuantity: Int) -> Void
 	) {
 		self.continueAction = cont
 		self.cancelAction = cancel

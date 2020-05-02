@@ -11,7 +11,6 @@ import Foundation
 import CoreData
 import PDKit
 
-
 @objc(MOSite)
 public class MOSite: NSManagedObject {
 

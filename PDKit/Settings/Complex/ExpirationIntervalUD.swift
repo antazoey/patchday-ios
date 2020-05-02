@@ -8,17 +8,16 @@
 
 import Foundation
 
-
 public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
 
 	public static var TwiceWeeklyKey = { "One half-week" }()
-	public static var OnceWeeklyKey = { "One week" } ()
+	public static var OnceWeeklyKey = { "One week" }()
 	public static var EveryTwoWeeksKey = { "Two weeks" }()
 
 	public typealias Value = ExpirationInterval
 	public typealias RawValue = String
 	public let setting: PDSetting = .ExpirationInterval
-    
+
     public convenience init() {
         self.init(DefaultSettings.ExpirationIntervalValue)
     }

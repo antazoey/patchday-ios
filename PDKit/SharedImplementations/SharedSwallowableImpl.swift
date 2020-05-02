@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 public extension Swallowable {
 
 	var times: [Time] { [time1, time2] }

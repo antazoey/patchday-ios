@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class PDGenericAlert: PDAlert {
 
 	init(parent: UIViewController, style: UIAlertController.Style) {

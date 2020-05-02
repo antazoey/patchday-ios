@@ -10,7 +10,6 @@ import XCTest
 import PDKit
 import PDMock
 
-
 class ColonStringsTests: XCTestCase {
 
 	private let expiredDate = Date(timeIntervalSinceNow: -86000)
@@ -49,7 +48,7 @@ class ColonStringsTests: XCTestCase {
         let actual = ColonStrings.createHormoneViewStrings(patch)
 		XCTAssertEqual("Expires: ", actual.expirationText)
 	}
-    
+
     func testCreateHormoneViewStrings_whenGivenPatchThatIsNotExpiredButIsPastNotificationTime_returnsExpectedString() {
         let patch = createHormone(isExpired: false)
         patch.isPastNotificationTime = true

@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 
 	var reflector: SettingsReflector

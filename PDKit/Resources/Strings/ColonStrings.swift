@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public class ColonStrings {
 
 	private static let c1 = "Displayed on a label, plenty of room."
@@ -28,7 +27,7 @@ public class ColonStrings {
 			siteLabelText: Site
 		)
 	}
-    
+
     private static func getPatchExpiredText(_ patch: Hormonal) -> String {
         if patch.isPastNotificationTime && !patch.isExpired {
             return ExpiresSoon
@@ -62,7 +61,7 @@ public class ColonStrings {
 	private static var Expired: String {
 		NSLocalizedString("Expired: ", comment: c2)
 	}
-    
+
     private static var ExpiresSoon: String {
         NSLocalizedString("Expires soon: ", comment: "There is room.")
     }

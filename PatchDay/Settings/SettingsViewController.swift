@@ -9,14 +9,13 @@
 import UIKit
 import PDKit
 
-
 class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
 	override public var description: String {
 		"The view controller for configuring Application settings."
 	}
 
-	private var viewModel: SettingsViewModel? = nil
+	private var viewModel: SettingsViewModel?
 	private lazy var log = PDLog<SettingsViewController>()
 
 	// Containers
@@ -260,20 +259,17 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		setPicker(
 			deliveryMethodPicker,
 				.DeliveryMethod,
-			deliveryMethodButton,
-			{ viewModel.deliveryMethodStartIndex }
+			deliveryMethodButton, { viewModel.deliveryMethodStartIndex }
 		)
 		setPicker(
 			expirationIntervalPicker,
 				.ExpirationInterval,
-			expirationIntervalButton,
-			{ viewModel.expirationIntervalStartIndex }
+			expirationIntervalButton, { viewModel.expirationIntervalStartIndex }
 		)
 		setPicker(
 			quantityPicker,
 				.Quantity,
-			quantityButton,
-			{ viewModel.quantityStartIndex }
+			quantityButton, { viewModel.quantityStartIndex }
 		)
 	}
 

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class PDCli {
 
 	static func isNukeMode() -> Bool {

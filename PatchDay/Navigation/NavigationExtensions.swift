@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 extension UINavigationController {
 
 	func goToHormoneDetails(_ hormone: Hormonal, _ source: UIViewController) {

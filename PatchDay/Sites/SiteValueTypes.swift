@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 struct SiteImageStruct {
 	let image: UIImage
 	let name: SiteName

@@ -10,7 +10,6 @@ import UIKit
 import Foundation
 import PDKit
 
-
 class HormonesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
 	@IBOutlet var hormonesView: UIView!

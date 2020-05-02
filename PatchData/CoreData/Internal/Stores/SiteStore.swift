@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class SiteStore: EntityStore, SiteStoring {
 
 	func getStoredSites() -> [Bodily] {

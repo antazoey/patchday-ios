@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public struct HormoneScheduleProperties {
 
     public var expirationInterval: ExpirationIntervalUD
@@ -32,7 +31,6 @@ public struct HormoneScheduleProperties {
     }
 }
 
-
 public struct PillDueDateFinderParams {
     public var timesTakenToday: Int
     public var timesaday: Int
@@ -44,8 +42,6 @@ public struct PillDueDateFinderParams {
         self.times = times
     }
 }
-
-
 
 public class SiteImageDeterminationParameters {
 
@@ -66,7 +62,6 @@ public class SiteImageDeterminationParameters {
         self.deliveryMethod = deliveryMethod
     }
 }
-
 
 public struct PillAttributes {
 
@@ -107,7 +102,6 @@ public struct PillAttributes {
     }
 }
 
-
 public struct SiteStruct {
 
     public var id: UUID
@@ -139,7 +133,6 @@ public struct SiteStruct {
     }
 }
 
-
 public struct HormoneStruct {
     public var siteRelationshipId: UUID?
     public var id: UUID
@@ -169,7 +162,6 @@ public struct HormoneStruct {
         self.siteNameBackUp = siteNameBackUp
     }
 }
-
 
 public struct PillStruct {
     public var id: UUID

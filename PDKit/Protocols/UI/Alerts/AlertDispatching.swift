@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol AlertDispatching {
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling)
 	func presentDeliveryMethodMutationAlert(

@@ -2,7 +2,6 @@
 // Inspired by moflo's MFBadgeButton from  Feb 3, 2017.
 // https://gist.github.com/moflo/3939e6801dc9575903b05baa72365695
 
-
 import UIKit
 import PDKit
 

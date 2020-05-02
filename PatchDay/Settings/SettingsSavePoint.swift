@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private let controls: SettingsControls
@@ -39,7 +38,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 	}
 
 	private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
-		let decline = { (_ method: DeliveryMethod) -> () in
+		let decline = { (_ method: DeliveryMethod) -> Void in
 			let methodTitle = SettingsOptions.getDeliveryMethodString(for: choice)
 			switch choice {
 			case .Patches:
@@ -68,8 +67,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		).setQuantity(to: newQuantity)
 	}
 
-	private func createDeclineSaveQuantityButtonClosure() -> (Int) -> () {
-		{ oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)") }
+	private func createDeclineSaveQuantityButtonClosure() -> (Int) -> Void { { oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)") }
 	}
 
 	private func saveExpirationInterval(_ selectedRow: Index) {

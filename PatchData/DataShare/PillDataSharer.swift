@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class PillDataSharer: PillDataSharing {
 
 	private let baseSharer: DataSharing

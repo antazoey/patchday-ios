@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol QuantityMutating {
 	func setQuantity(to newQuantity: Int)
 }

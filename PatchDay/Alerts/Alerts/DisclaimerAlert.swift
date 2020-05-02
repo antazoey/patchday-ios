@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class DisclaimerAlert: PDAlert {
 
 	private var dismissAction: UIAlertAction {
@@ -18,7 +17,7 @@ class DisclaimerAlert: PDAlert {
 
 	private var goToUrlAction: UIAlertAction {
 		UIAlertAction(title: AlertStrings.disclaimerAlertStrings.supportPageActionTitle, style: .default) {
-			void in
+			_ in
 			if let url = URL(string: "http://www.patchdayhrt.com") {
 				if #available(iOS 10.0, *) {
 					UIApplication.shared.open(url, options: [:], completionHandler: nil)

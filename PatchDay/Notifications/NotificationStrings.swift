@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class NotificationStrings {
 
 	static let siteToExpiredPatchMessage =

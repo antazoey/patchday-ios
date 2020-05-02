@@ -9,15 +9,14 @@
 import UIKit
 import PDKit
 
-
 class PillCell: TableCell {
 
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var arrowLabel: UILabel!
-    
+
     @IBOutlet weak var lastTakenHeaderLabel: UILabel!
     @IBOutlet weak var lastTakenLabel: UILabel!
-    
+
     @IBOutlet weak var nextHeaderLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!
 	@IBOutlet weak var imageViewContainer: UIView!

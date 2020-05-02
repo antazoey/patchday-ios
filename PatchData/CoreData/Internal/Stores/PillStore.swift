@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class PillStore: EntityStore, PillStoring {
 
 	func getStoredPills() -> [Swallowable] {

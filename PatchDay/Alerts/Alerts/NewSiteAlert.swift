@@ -9,14 +9,13 @@
 import UIKit
 import PDKit
 
-
 class NewSiteAlert: PDAlert {
 
 	private let handlers: NewSiteAlertActionHandling
 
 	private var appendSiteAction: UIAlertAction {
 		UIAlertAction(title: AlertStrings.newSiteAlertStrings.positiveActionTitle, style: .default) {
-			void in self.handlers.handleNewSite()
+			_ in self.handlers.handleNewSite()
 		}
 	}
 

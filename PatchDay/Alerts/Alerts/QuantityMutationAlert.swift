@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class QuantityMutationAlert: PDAlert {
 
 	private let oldQuantity: Int
@@ -19,14 +18,14 @@ class QuantityMutationAlert: PDAlert {
 	private var continueAction: UIAlertAction {
 		let contStr = ActionStrings.Continue
 		return UIAlertAction(title: contStr, style: .destructive) {
-			void in self.handler.handleContinue(newQuantity: self.newQuantity)
+			_ in self.handler.handleContinue(newQuantity: self.newQuantity)
 		}
 	}
 
 	private var declineAction: UIAlertAction {
 		let title = ActionStrings.Decline
 		return UIAlertAction(title: title, style: .cancel) {
-			void in self.handler.handleDecline(oldQuantity: self.oldQuantity)
+			_ in self.handler.handleDecline(oldQuantity: self.oldQuantity)
 		}
 	}
 

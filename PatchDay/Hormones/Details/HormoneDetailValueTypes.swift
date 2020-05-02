@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 public struct HormoneViewStrings {
 	public var expirationText: String
 	public var dateAndTimePlacedText: String

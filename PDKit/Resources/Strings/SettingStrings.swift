@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 // Useful since the above does has legacy strings
 public var NameToSettingMap: [String: PDSetting] {
 	[
@@ -22,11 +21,10 @@ public var NameToSettingMap: [String: PDSetting] {
 	]
 }
 
-
 public var SettingToTitle: [PDSetting: String] {
 	[
 			.DeliveryMethod: NSLocalizedString("Delivery Method", comment: ""),
 			.ExpirationInterval: NSLocalizedString("Expiration Intervak", comment: ""),
-			.Quantity: NSLocalizedString("Quantity", comment: ""),
+			.Quantity: NSLocalizedString("Quantity", comment: "")
 	]
 }

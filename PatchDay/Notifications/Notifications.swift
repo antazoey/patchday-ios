@@ -10,7 +10,6 @@ import UIKit
 import UserNotifications
 import PDKit
 
-
 class Notifications: NSObject, NotificationScheduling {
 
 	private let sdk: PatchDataSDK
@@ -35,7 +34,7 @@ class Notifications: NSObject, NotificationScheduling {
 	}
 
 	// MARK: - Hormonee
-    
+
 	func cancelExpiredHormoneNotification(for hormone: Hormonal) {
 		let id = hormone.id.uuidString
 		center.removeNotifications(with: [id])
@@ -59,7 +58,7 @@ class Notifications: NSObject, NotificationScheduling {
 			center.removeNotifications(with: ids)
 		}
 	}
-    
+
     /// Request a hormone notification.
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
         guard sdk.settings.notifications.value else { return }
@@ -71,7 +70,7 @@ class Notifications: NSObject, NotificationScheduling {
 		let end = sdk.settings.quantity.rawValue - 1
 		requestRangeOfExpiredHormoneNotifications(from: 0, to: end)
 	}
-    
+
     /// Requests all the hormone notifications between the given indices.
     func requestRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index) {
         guard sdk.settings.notifications.value else { return }

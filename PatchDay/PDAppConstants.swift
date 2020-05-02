@@ -5,10 +5,8 @@
 
 import UIKit
 
-
 let DefaultNumberOfPickerComponents = 1
 let DefaultNumberOfTableSections = 1
-
 
 class ViewControllerIds {
 	static let HormoneDetail = "HormoneDetailVC_id"
@@ -16,7 +14,6 @@ class ViewControllerIds {
 	static let SiteDetail = "SiteDetailVC_id"
 	static let Settings = "SettingsVC_id"
 }
-
 
 class CellReuseIds {
 	static let Hormone = "HormoneCellReuseId"

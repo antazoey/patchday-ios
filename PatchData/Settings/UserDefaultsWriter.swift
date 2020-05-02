@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 public class UserDefaultsWriter: UserDefaultsWriting {
 
 	// Dependencies

@@ -91,7 +91,7 @@ public class SettingsOptions {
 
 	public static subscript(setting: PDSetting?) -> [String] {
 		guard let setting = setting else { return [] }
-		switch (setting) {
+		switch setting {
 		case .DeliveryMethod: return deliveryMethods
 		case .ExpirationInterval: return expirationIntervals
 		case .Quantity: return quantities

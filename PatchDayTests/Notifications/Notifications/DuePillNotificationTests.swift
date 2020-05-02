@@ -13,12 +13,11 @@ import PDMock
 @testable
 import PatchDay
 
-
 class DuePillNotificationTests: XCTestCase {
 
     private static var testHandlerCallCount = 0
-    private let _testHandler: (Double, String) -> () = { v, id in testHandlerCallCount += 1}
-    
+    private let _testHandler: (Double, String) -> Void = { v, id in testHandlerCallCount += 1}
+
     func testInit_hasExpectedProperties() {
         let pill = MockPill()
         pill.name = "Cannabis"
@@ -35,7 +34,7 @@ class DuePillNotificationTests: XCTestCase {
         XCTAssertEqual(1, DuePillNotificationTests.testHandlerCallCount)
         DuePillNotificationTests.testHandlerCallCount = 0
     }
-    
+
     func testRequests_whenDueDateIsNil_doesNotRequest() {
         let pill = MockPill()
         pill.due = nil

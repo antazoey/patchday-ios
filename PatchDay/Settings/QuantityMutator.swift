@@ -9,20 +9,19 @@
 import Foundation
 import PDKit
 
-
 class QuantityMutator: QuantityMutating {
 
 	var sdk: PatchDataSDK?
 	let alerts: AlertDispatching?
 	let tabs: TabReflective?
 	let notifications: NotificationScheduling?
-	let decline: (_ originalQuantity: Int) -> ()
+	let decline: (_ originalQuantity: Int) -> Void
 
 	init(sdk: PatchDataSDK?,
 		alerts: AlertDispatching?,
 		tabs: TabReflective?,
 		notifications: NotificationScheduling?,
-		decline: @escaping (_ originalQunatity: Int) -> ()) {
+		decline: @escaping (_ originalQunatity: Int) -> Void) {
 		self.sdk = sdk
 		self.alerts = alerts
 		self.tabs = tabs
@@ -37,7 +36,7 @@ class QuantityMutator: QuantityMutating {
 			sdk.settings.setQuantity(to: newQuantity)
 			return
 		}
-		let continueAction: (_ newQuantity: Int) -> () = {
+		let continueAction: (_ newQuantity: Int) -> Void = {
 			(newQuantity) in
 			sdk.hormones.delete(after: newQuantity)
 			sdk.settings.setQuantity(to: newQuantity)
@@ -55,8 +54,8 @@ class QuantityMutator: QuantityMutating {
 		)
 	}
 
-	private func makeResetClosure(oldQuantity: Int) -> ((Int) -> ()) {
-		let reset: (Int) -> () = {
+	private func makeResetClosure(oldQuantity: Int) -> ((Int) -> Void) {
+		let reset: (Int) -> Void = {
 			newQuantity in
 			self.tabs?.reflectHormoneCharacteristics()
 			self.notifications?.cancelRangeOfExpiredHormoneNotifications(

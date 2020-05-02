@@ -6,7 +6,6 @@
 import UIKit
 import PDKit
 
-
 class SiteValueTypeFactory {
 
 	static func createBarItemInitProps(

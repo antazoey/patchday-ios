@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class SiteCell: TableCell {
 
 	private var props: SiteCellProperties!

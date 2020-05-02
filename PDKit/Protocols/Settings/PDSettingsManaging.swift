@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol PDSettingsManaging: UserDefaultsReading {
 	func setDeliveryMethod(to newMethod: DeliveryMethod)
 	func setQuantity(to newQuantity: Int)

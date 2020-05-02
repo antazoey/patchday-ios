@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
 	private var viewModel: PillDetailViewModel!
@@ -26,14 +25,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var lineUnderDrugNameStack: UIView!
 	@IBOutlet weak var notificationsIcon: UIImageView!
 	@IBOutlet weak var notificationsLabel: UILabel!
-    
+
     @IBOutlet weak var lineUnderNotifications: UIView!
     @IBOutlet weak var expirationIntervalIcon: UIImageView!
     @IBOutlet weak var expirationIntervalButton: UIButton!
     @IBOutlet weak var expirationIntervalLabel: UILabel!
     @IBOutlet weak var expirationIntervalArrowButton: UIButton!
     @IBOutlet weak var lineUnderExpirationInterval: UIView!
-    
+
     @IBOutlet weak var expirationIntervalPicker: UIPickerView!
     @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
 	@IBOutlet weak var notificationSwitch: UISwitch!
@@ -43,8 +42,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBOutlet weak var time1Button: UIButton!
 	@IBOutlet weak var time2Button: UIButton!
 	@IBOutlet weak var timePicker: UIDatePicker!
-    
-    private var selectedPicker: UIPickerView? = nil
+
+    private var selectedPicker: UIPickerView?
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -74,7 +73,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		return self
 	}
 
-	// MARK: -- Pill actions
+	// MARK: - - Pill actions
 
 	@objc func selectNameTapped() {
 		openNamePicker()
@@ -90,14 +89,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 			enableSaveButton()
 		}
 	}
-    
+
     @IBAction func expirationIntervalTapped(_ sender: Any) {
         selectedPicker = expirationIntervalPicker
         openExpirationIntervalPicker()
         expirationIntervalButton.setTitle(ActionStrings.Done)
         expirationIntervalButton.replaceTarget(self, newAction: #selector(doneWithSelectExpirationIntervalTapped))
     }
-    
+
     @objc func doneWithSelectExpirationIntervalTapped() {
         closeExpirationIntervalPicker()
         if let interval = viewModel.selections.expirationInterval {
@@ -108,7 +107,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             enableSaveButton()
         }
     }
-    
 
 	@IBAction func saveButtonTapped() {
 		viewModel.save()
@@ -268,7 +266,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	private func loadTime2() {
 		time2Button.setTitle(viewModel.time2Text)
 	}
-    
+
     private func loadExpirationInterval() {
         expirationIntervalButton.setTitle(viewModel.pill.expirationInterval)
     }
@@ -290,7 +288,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		nameTextField.isEnabled = false
 		unhideNamePicker()
 	}
-    
+
     private func openExpirationIntervalPicker() {
         startExpirationPickerActivation()
         expirationIntervalPicker.isHidden = false
@@ -299,18 +297,18 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	private func unhideNamePicker() {
         PillDetailViewController.unhidePicker(namePicker)
 	}
-    
+
     private func unhideExpirationIntervalPicker() {
         PillDetailViewController.unhidePicker(expirationIntervalPicker)
     }
-    
+
     private static func unhidePicker(_ picker: UIPickerView) {
         UIView.transition(
             with: picker as UIView,
             duration: 0.4,
             options: .transitionFlipFromTop,
             animations: { picker.isHidden = false },
-            completion: { void in }
+            completion: { _ in }
         )
     }
 
@@ -318,7 +316,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		let nameIndex = viewModel.namePickerStartIndex
 		namePicker.selectRow(nameIndex, inComponent: 0, animated: false)
 	}
-    
+
     private func startExpirationPickerActivation() {
         let index = viewModel.expirationIntervalStartIndex
         expirationIntervalPicker.selectRow(index, inComponent: 0, animated: false)
@@ -330,7 +328,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		namePicker.isHidden = true
         selectedPicker = nil
 	}
-    
+
     private func closeExpirationIntervalPicker() {
         startExpirationPickerActivation()
         expirationIntervalPicker.isHidden = true

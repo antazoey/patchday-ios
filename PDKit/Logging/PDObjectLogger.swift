@@ -5,7 +5,6 @@
 
 import Foundation
 
-
 public class PDObjectLogger {
 
 	/// Sometimes it is just nice to see a PDObject in JSON form.
@@ -37,7 +36,7 @@ public class PDObjectLogger {
 	}
 
 	public static func logPill(_ pill: Swallowable) {
-		var lastTakenStr: String? = nil
+		var lastTakenStr: String?
 		if let lastTaken = pill.lastTaken {
 			lastTakenStr = "\"\(lastTaken)\""
 		}

@@ -9,7 +9,6 @@
 import UIKit
 import PDKit
 
-
 struct SettingsControls {
 	let deliveryMethodButton: UIButton
 	let quantityButton: UIButton

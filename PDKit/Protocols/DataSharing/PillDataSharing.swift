@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol PillDataSharing {
 	func share(nextPill: Swallowable)
 }

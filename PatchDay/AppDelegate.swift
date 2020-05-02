@@ -11,7 +11,6 @@ import UserNotifications
 import PDKit
 import PatchData
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

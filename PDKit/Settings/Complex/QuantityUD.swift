@@ -8,13 +8,12 @@
 
 import Foundation
 
-
 public class QuantityUD: ComplexSetting<Quantity, Int>, KeyStorable {
 
 	public typealias Value = Quantity
 	public typealias RawValue = Int
 	public let setting: PDSetting = .Quantity
-    
+
     public convenience init() {
         self.init(DefaultSettings.QuantityValue)
     }

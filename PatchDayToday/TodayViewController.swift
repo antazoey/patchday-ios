@@ -10,7 +10,6 @@ import UIKit
 import NotificationCenter
 import PDKit
 
-
 class TodayViewController: UIViewController, NCWidgetProviding {
 
 	@IBOutlet weak var nextHormoneLabel: UILabel!
@@ -35,7 +34,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
 		let myAppUrl = NSURL(string: "PatchDay://")!
 		extensionContext?.open(myAppUrl as URL, completionHandler: {
 			(success) in
-			if (!success) {
+			if !success {
 				self.log.warn("Failure to open PatchDay")
 			}
 		})

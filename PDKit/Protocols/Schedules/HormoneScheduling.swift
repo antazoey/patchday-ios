@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol HormoneScheduling: Schedule, Sorting, Resetting {
 
 	/// All the hormones.
@@ -29,7 +28,7 @@ public protocol HormoneScheduling: Schedule, Sorting, Resetting {
 
 	/// Resets all hormone properties to their default values.
 	@discardableResult
-	func reset(completion: (() -> ())?) -> Int
+	func reset(completion: (() -> Void)?) -> Int
 
 	/// Persists all the changes to the hormones.
 	func saveAll()

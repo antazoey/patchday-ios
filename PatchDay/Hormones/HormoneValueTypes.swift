@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 struct HormoneSelectionState {
 	var selectedSite: Bodily?
 	var selectedDate: Date?
@@ -20,7 +19,6 @@ struct HormoneExpirationState {
 	var wasPastAlertTimeAfterSave = false
 	var isExpiredAfterSave = false
 }
-
 
 enum HormoneMutation {
 	case Add

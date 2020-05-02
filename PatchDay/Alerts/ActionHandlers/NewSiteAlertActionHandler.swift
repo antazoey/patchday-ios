@@ -9,12 +9,11 @@
 import Foundation
 import PDKit
 
-
 class NewSiteAlertActionHandler: NewSiteAlertActionHandling {
 
-	private let newSiteAction: () -> ()
+	private let newSiteAction: () -> Void
 
-	init(_ handleNewSite: @escaping () -> ()) {
+	init(_ handleNewSite: @escaping () -> Void) {
 		self.newSiteAction = handleNewSite
 	}
 

@@ -8,10 +8,9 @@
 
 import Foundation
 
-
 public class MentionedDisclaimerUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
 	public var setting: PDSetting = .MentionedDisclaimer
-    
+
     public convenience init() {
         self.init(DefaultSettings.MentionedDisclaimerRawValue)
     }
@@ -19,7 +18,7 @@ public class MentionedDisclaimerUD: PDUserDefault<Bool, Bool>, BooleanKeyStorabl
 
 public class NotificationsMinutesBeforeUD: PDUserDefault<Int, Int>, IntKeyStorable {
 	public var setting: PDSetting = .NotificationsMinutesBefore
-    
+
     public convenience init() {
         self.init(DefaultSettings.NotificationsMinutesBeforeRawValue)
     }
@@ -27,7 +26,7 @@ public class NotificationsMinutesBeforeUD: PDUserDefault<Int, Int>, IntKeyStorab
 
 public class NotificationsUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
 	public var setting: PDSetting = .Notifications
-    
+
     public convenience init() {
         self.init(DefaultSettings.NotificationsRawValue)
     }
@@ -35,7 +34,7 @@ public class NotificationsUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
 
 public class SiteIndexUD: PDUserDefault<Int, Int>, IntKeyStorable {
 	public var setting: PDSetting = .SiteIndex
-    
+
     public convenience init() {
         self.init(DefaultSettings.SiteIndexRawValue)
     }

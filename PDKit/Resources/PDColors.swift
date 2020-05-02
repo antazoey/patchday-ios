@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 public enum ColorKey: String {
 	case Border
 	case Button
@@ -20,7 +19,6 @@ public enum ColorKey: String {
 	case Text
 	case Unselected
 }
-
 
 public class PDColors: NSObject {
 

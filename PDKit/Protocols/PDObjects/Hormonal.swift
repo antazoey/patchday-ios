@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 public protocol Hormonal: PDObjectified {
 	var id: UUID { get set }
 

@@ -8,14 +8,12 @@
 
 import Foundation
 
-
 import XCTest
 import PDKit
 import PDMock
 
 @testable
 import PatchData
-
 
 class SiteTests: XCTestCase {
 
