@@ -1,7 +1,7 @@
 *.xcuserstate
 **/xcuserdata/
 
-
+PatchDay.xcodeproj/project.xcworkspace/xcuserdata
 **/*.xcuserstate
 
 *.cer
