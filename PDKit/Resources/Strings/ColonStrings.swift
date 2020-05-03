@@ -17,6 +17,8 @@ public class ColonStrings {
         switch hormone.deliveryMethod {
 		case .Patches: return createPatchViewStrings(hormone)
 		case .Injections: return createInjectionViewStrings(hormone)
+		case .Pills: return createPillViewStrings(hormone)
+		case .Gel: return createGelViewStrings(hormone)
 		}
 	}
 
@@ -44,6 +46,9 @@ public class ColonStrings {
 			dateAndTimePlacedText: DateAndTimeInjected,
             siteLabelText: LastSiteInjected
 		)
+	}
+	private static func createPillViewStrings(_ pill: Hormonal) -> HormoneViewStrings {
+
 	}
 
 	private static var Count: String {

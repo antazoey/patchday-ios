@@ -99,7 +99,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		)
 		return [insert, edit]
 	}
-	
+
 	private func watchForChanges() {
 		NotificationCenter.default.addObserver(
 			self,
@@ -119,7 +119,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		let method = sdk.settings.deliveryMethod.value
 		return ViewTitleStrings.getSitesTitle(for: method)
 	}
-	
+
     @objc private func reloadDataFromBackgroundUpdate() {
 		tabs?.reflect()
     }

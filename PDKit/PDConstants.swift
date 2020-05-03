@@ -38,19 +38,23 @@ public class DefaultPillAttributes {
     public static let expirationInterval = PillExpirationInterval.EveryDay
 }
 
-public class KeyStorableHelper {
+public class DefaultQuantities {
 
-	public static func defaultQuantity(for deliveryMethod: DeliveryMethod) -> Int {
+	public static func getForHormone(for deliveryMethod: DeliveryMethod) -> Int {
 		switch deliveryMethod {
 		case .Injections: return 1
 		case .Patches: return 3
+		case .Pills: return 1
+		case .Gel: return 1
 		}
 	}
 
-	public static func defaultSiteCount(for deliveryMethod: DeliveryMethod) -> Int {
+	public static func getForSite(for deliveryMethod: DeliveryMethod) -> Int {
 		switch deliveryMethod {
 		case .Injections: return 1
 		case .Patches: return 4
+		case .Pills: return 1
+		case .Gel: return 2
 		}
 	}
 }

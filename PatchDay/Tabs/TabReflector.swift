@@ -30,7 +30,7 @@ class TabReflector: TabReflective {
 	var hormonesVC: UIViewController? { viewControllers.tryGet(at: 0) }
 	var pillsVC: UIViewController? { viewControllers.tryGet(at: 1) }
 	var sitesVC: UIViewController? { viewControllers.tryGet(at: 2) }
-	
+
 	func reflect() {
 		reflectHormoneCharacteristics()
 		reflectDuePillBadgeValue()

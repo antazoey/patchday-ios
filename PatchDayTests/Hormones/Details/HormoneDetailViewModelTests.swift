@@ -13,19 +13,18 @@ import PDMock
 @testable
 import PatchDay
 
-
 class HormoneDetailViewModelTests: XCTestCase {
-	
+
 	private static var handlerCallCount = 0
 	private let handler: () -> Void = { HormoneDetailViewModelTests.handlerCallCount += 1 }
-	
+
 	func testDateSelected_whenDateIsDefault_returnsCurrentDate() {
 		let hormone = MockHormone()
 		hormone.date = DateFactory.createDefaultDate()
 		let viewModel = HormoneDetailViewModel(hormone, handler)
 		XCTAssert(Date().timeIntervalSince(viewModel.dateSelected) < 0.01)
 	}
-	
+
 	func testDateSelected_whenDateSelectedFromSelections_returnsSelectedDate() {
 		let hormone = MockHormone()
 		let viewModel = HormoneDetailViewModel(hormone, handler)
@@ -34,7 +33,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.dateSelected
 		XCTAssertEqual(testDate, actual)
 	}
-	
+
 	func testDateSelected_whenNoDateSelected_usesHormoneDate() {
 		let hormone = MockHormone()
 		let testDate = Date()

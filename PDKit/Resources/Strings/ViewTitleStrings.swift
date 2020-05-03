@@ -14,6 +14,7 @@ public class ViewTitleStrings {
 
 	public static var PatchesTitle: String { NSLocalizedString("Patches", comment: c) }
 	public static var InjectionsTitle: String { NSLocalizedString("Injections", comment: c) }
+	public static var GelTitle: String { NSLocalizedString("Gel", comment: c)}
 	public static var HormonesTitle: String { NSLocalizedString("Hormones", comment: c) }
 	public static var SettingsTitle: String { NSLocalizedString("Settings", comment: c) }
 	public static var PillsTitle: String { NSLocalizedString("Pills", comment: c) }
@@ -23,6 +24,7 @@ public class ViewTitleStrings {
 	public static var SitesTitle: String { NSLocalizedString("Sites", comment: c) }
 	public static var PatchSitesTitle: String { NSLocalizedString("Patch Sites", comment: c) }
 	public static var InjectionSitesTitle: String { NSLocalizedString("Injection Sites", comment: c) }
+	public static var GelSitesTitle: String { NSLocalizedString("Gel Sites", comment: c) }
 	public static var EditSiteTitle: String { NSLocalizedString("Edit Site", comment: c) }
 	public static var PatchTitle: String { NSLocalizedString("Patch", comment: c) }
 	public static var InjectionTitle: String { NSLocalizedString("Injection", comment: c) }
@@ -32,6 +34,8 @@ public class ViewTitleStrings {
 		switch method {
 		case .Patches: return PatchesTitle
 		case .Injections: return InjectionsTitle
+		case .Gel: return GelTitle
+		default: return HormonesTitle
 		}
 	}
 
@@ -39,6 +43,8 @@ public class ViewTitleStrings {
 		switch method {
 		case .Patches: return PatchSitesTitle
 		case .Injections: return InjectionSitesTitle
+		case .Gel: return GelSitesTitle
+		default: return SitesTitle
 		}
 	}
 }

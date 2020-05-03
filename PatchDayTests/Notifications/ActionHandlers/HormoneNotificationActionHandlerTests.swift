@@ -13,7 +13,6 @@ import PDMock
 @testable
 import PatchDay
 
-
 class HormoneNotificationActionHandlerTests: XCTestCase {
 	func testHandleHormone_whenGivenInvalidId_doesNotHandle() {
 		let sdk = MockSDK()
@@ -25,7 +24,7 @@ class HormoneNotificationActionHandlerTests: XCTestCase {
 		let hormones = sdk.hormones as! MockHormoneSchedule
 		XCTAssertEqual(0, hormones.setByIdCallArgs.count)
 	}
-	
+
 	func testHandleHormone_whenHormoneDoesNotHaveSuggested_doesNotHandle() {
 		let sdk = MockSDK()
 		let hormone = MockHormone()
@@ -36,7 +35,7 @@ class HormoneNotificationActionHandlerTests: XCTestCase {
 		let hormones = sdk.hormones as! MockHormoneSchedule
 		XCTAssertEqual(0, hormones.setByIdCallArgs.count)
 	}
-	
+
 	func testHandleHormone_handles() {
 		let sdk = MockSDK()
 		(sdk.sites as! MockSiteSchedule).suggested = MockSite()
@@ -48,7 +47,7 @@ class HormoneNotificationActionHandlerTests: XCTestCase {
 		let hormones = sdk.hormones as! MockHormoneSchedule
 		XCTAssertEqual(1, hormones.setByIdCallArgs.count)
 	}
-	
+
 	func testHandleHormone_decrementsBadge() {
 		let sdk = MockSDK()
 		(sdk.sites as! MockSiteSchedule).suggested = MockSite()

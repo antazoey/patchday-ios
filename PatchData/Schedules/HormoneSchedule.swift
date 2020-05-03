@@ -107,7 +107,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	public func reset(completion: (() -> Void)?) -> Int {
 		deleteAll()
 		let method = settings.deliveryMethod.value
-		let quantity = KeyStorableHelper.defaultQuantity(for: method)
+		let quantity = DefaultQuantities.defaultHormoneQuantity(for: method)
 		for _ in 0..<quantity {
 			insertNew()
 		}
