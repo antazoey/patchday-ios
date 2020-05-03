@@ -46,8 +46,8 @@ class NotificationStrings {
 	class Overnight {
 		static subscript(method: DeliveryMethod) -> String {
 			switch method {
-			case .Patches: return overnightPatch
-			case .Injections: return overnightInjection
+				case .Patches: return overnightPatch
+				case .Injections: return overnightInjection
 			}
 		}
 	}

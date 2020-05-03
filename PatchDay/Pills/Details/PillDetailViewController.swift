@@ -347,8 +347,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	private func handleTimeNumberTypeDone(_ type: TimeNumber) {
 		switch type {
-		case .Time1: handleTimeNumberOneDone()
-		case .Time2: handleTimeNumberTwoDone()
+			case .Time1: handleTimeNumberOneDone()
+			case .Time2: handleTimeNumberTwoDone()
 		}
 	}
 

@@ -35,20 +35,20 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 
 	public override var value: DeliveryMethod {
 		switch rawValue {
-		case DeliveryMethodUD.PatchesKey: return .Patches
-		case DeliveryMethodUD.InjectionsKey: return .Injections
-		case DeliveryMethodUD.PillsKey: return .Pills
-		case DeliveryMethodUD.GelKey: return .Gel
-		default: return .Patches
+			case DeliveryMethodUD.PatchesKey: return .Patches
+			case DeliveryMethodUD.InjectionsKey: return .Injections
+			case DeliveryMethodUD.PillsKey: return .Pills
+			case DeliveryMethodUD.GelKey: return .Gel
+			default: return .Patches
 		}
 	}
 
 	public static func getRawValue(for v: DeliveryMethod) -> String {
 		switch v {
-		case .Patches: return PatchesKey
-		case .Injections: return InjectionsKey
-		case .Pills: return PillsKey
-		case .Gel: return GelKey
+			case .Patches: return PatchesKey
+			case .Injections: return InjectionsKey
+			case .Pills: return PillsKey
+			case .Gel: return GelKey
 		}
 	}
 }

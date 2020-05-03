@@ -15,10 +15,14 @@ public class ColonStrings {
 
 	public static func createHormoneViewStrings(_ hormone: Hormonal) -> HormoneViewStrings {
         switch hormone.deliveryMethod {
-		case .Patches: return createPatchViewStrings(hormone)
-		case .Injections: return createInjectionViewStrings(hormone)
-		case .Pills: return createPillViewStrings(hormone)
-		case .Gel: return createGelViewStrings(hormone)
+			case .Patches: return createPatchViewStrings(hormone)
+			case .Injections: return createInjectionViewStrings(hormone)
+			case .Gel: return createGelViewStrings(hormone)
+			default: return HormoneViewStrings(
+				expirationText: NextDue,
+				dateAndTimePlacedText: DateAndTimeTaken,
+				siteLabelText: _Site
+			)
 		}
 	}
 
@@ -26,7 +30,7 @@ public class ColonStrings {
 		HormoneViewStrings(
 			expirationText: getPatchExpiredText(patch),
 			dateAndTimePlacedText: DateAndTimeApplied,
-			siteLabelText: Site
+			siteLabelText: _Site
 		)
 	}
 
@@ -47,8 +51,13 @@ public class ColonStrings {
             siteLabelText: LastSiteInjected
 		)
 	}
-	private static func createPillViewStrings(_ pill: Hormonal) -> HormoneViewStrings {
 
+	private static func createGelViewStrings(_ gel: Hormonal) -> HormoneViewStrings {
+		HormoneViewStrings(
+			expirationText: String,
+			dateAndTimePlacedText: DateAndTimeApplied,
+			siteLabelText: _Site
+		)
 	}
 
 	private static var Count: String {
@@ -83,7 +92,11 @@ public class ColonStrings {
 		NSLocalizedString("Date and time injected: ", comment: c2)
 	}
 
-	private static var Site: String {
+	private static var DateAndTimeTaken: String {
+		NSLocalizedString("Date and time taken: ", comment: c2)
+	}
+
+	private static var _Site: String {
 		NSLocalizedString("Site: ", comment: c2)
 	}
 

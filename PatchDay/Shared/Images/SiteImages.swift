@@ -94,8 +94,8 @@ public class SiteImages: NSObject {
 
 	static func getAllAvailable(_ params: SiteImageDeterminationParameters) -> [UIImage] {
 		switch params.deliveryMethod {
-		case .Patches: return patchImages
-		case .Injections: return injectionImages
+			case .Patches: return patchImages
+			case .Injections: return injectionImages
 		}
 	}
 
@@ -115,23 +115,24 @@ public class SiteImages: NSObject {
 	private static func provided(from params: SiteImageDeterminationParameters) -> UIImage? {
 		guard let siteName = params.siteName else { return nil }
 		switch params.deliveryMethod {
-		case .Patches: return siteNameToPatchImageDict[siteName]
-		case .Injections: return siteNameToInjectionImageDict[siteName]
+			case .Patches: return siteNameToPatchImageDict[siteName]
+			case .Injections: return siteNameToInjectionImageDict[siteName]
+			case .Pills: return
 		}
 	}
 
 	private static func custom(from params: SiteImageDeterminationParameters) -> UIImage? {
 		guard let _ = params.siteName else { return nil }
 		switch params.deliveryMethod {
-		case .Patches: return customPatch
-		case .Injections: return customInjection
+			case .Patches: return customPatch
+			case .Injections: return customInjection
 		}
 	}
 
 	private static func placeholder(_ params: SiteImageDeterminationParameters) -> UIImage {
 		switch params.deliveryMethod {
-		case .Patches: return placeholderPatch
-		case .Injections: return placeholderInjection
+			case .Patches: return placeholderPatch
+			case .Injections: return placeholderInjection
 		}
 	}
 }

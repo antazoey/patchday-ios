@@ -52,12 +52,12 @@ extension CAShapeLayer {
 		self.fillColor = UIColor.red.cgColor
 		self.strokeColor = UIColor.red.cgColor
 		switch type {
-		case .patches, .injections:
-			self.frame = self.frame.offsetBy(dx: width * 0.90, dy: 20)
-			self.lineWidth = 4
-		case .pills:
-			self.frame = self.frame.offsetBy(dx: width * 0.71, dy: 0)
-			self.lineWidth = 0.5
+			case .patches, .injections:
+				self.frame = self.frame.offsetBy(dx: width * 0.90, dy: 20)
+				self.lineWidth = 4
+			case .pills:
+				self.frame = self.frame.offsetBy(dx: width * 0.71, dy: 0)
+				self.lineWidth = 0.5
 		}
 	}
 }

@@ -31,11 +31,11 @@ class SiteImageHistory {
 	func differentiate() -> HormoneMutation {
 		var result = HormoneMutation.None
 		switch (history[0], history[1]) {
-		case (nil, nil): return .Empty
-		case (nil, let h) where h != nil: result = .Add
-		case (let h, nil) where h != nil: result = .Remove
-		case (let h0, let h1) where h0 != h1: result = .Edit
-		default: break
+			case (nil, nil): return .Empty
+			case (nil, let h) where h != nil: result = .Add
+			case (let h, nil) where h != nil: result = .Remove
+			case (let h0, let h1) where h0 != h1: result = .Edit
+			default: break
 		}
 		return result
 	}

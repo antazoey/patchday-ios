@@ -21,9 +21,9 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 	public func save(_ key: PDSetting, selectedRow: Index) {
 		notifications?.cancelAllExpiredHormoneNotifications()
 		switch key {
-		case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
-		case .Quantity: saveQuantity(selectedRow)
-		case .ExpirationInterval: saveExpirationInterval(selectedRow)
+			case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
+			case .Quantity: saveQuantity(selectedRow)
+			case .ExpirationInterval: saveExpirationInterval(selectedRow)
 		default: log.error("Error: No picker for key \(key)")
 		}
 		notifications?.requestAllExpiredHormoneNotifications()
@@ -41,14 +41,14 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		let decline = { (_ method: DeliveryMethod) -> Void in
 			let methodTitle = SettingsOptions.getDeliveryMethodString(for: choice)
 			switch choice {
-			case .Patches:
-				controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
-				controls.quantityButton.isEnabled = true
-				controls.quantityArrowButton.isEnabled = true
-			case .Injections:
-				controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
-				controls.quantityButton.isEnabled = false
-				controls.quantityArrowButton.isEnabled = false
+				case .Patches:
+					controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
+					controls.quantityButton.isEnabled = true
+					controls.quantityArrowButton.isEnabled = true
+				case .Injections:
+					controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
+					controls.quantityButton.isEnabled = false
+					controls.quantityArrowButton.isEnabled = false
 			}
 		}
 		let handlers = DeliveryMethodMutationAlertActionHandler(decline: decline)

@@ -57,10 +57,10 @@ public class SiteStrings {
 
 	public static func getSiteNames(for method: DeliveryMethod) -> [String] {
 		switch method {
-		case .Patches: return patches
-		case .Injections: return injections
-		case .Pills: return []
-		case .Gel: return [""]
+			case .Patches: return patches
+			case .Injections: return injections
+			case .Pills: return []
+			case .Gel: return [""]
 		}
 	}
 }

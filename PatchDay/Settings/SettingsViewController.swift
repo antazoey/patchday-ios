@@ -245,12 +245,12 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
 	private func selectPicker(setting: PDSetting) -> SettingsPickerView? {
 		switch setting {
-		case.Quantity: return quantityPicker
-		case .DeliveryMethod: return deliveryMethodPicker
-		case .ExpirationInterval: return expirationIntervalPicker
-		default:
-			log.error("No picker for given setting \(setting)")
-			return nil
+			case.Quantity: return quantityPicker
+			case .DeliveryMethod: return deliveryMethodPicker
+			case .ExpirationInterval: return expirationIntervalPicker
+			default:
+				log.error("No picker for given setting \(setting)")
+				return nil
 		}
 	}
 

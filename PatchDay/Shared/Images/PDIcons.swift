@@ -17,8 +17,8 @@ class PDIcons {
 
 	static subscript(method: DeliveryMethod) -> UIIcon {
 		switch method {
-		case .Patches: return patchIcon
-		case .Injections: return injectionIcon
+			case .Patches: return patchIcon
+			case .Injections: return injectionIcon
 		}
 	}
 }

@@ -32,15 +32,15 @@ class HormoneCell: TableCell {
 	public func reflectSiteImage(_ history: SiteImageHistory) throws {
 		let mutation = history.differentiate()
 		switch mutation {
-		case .Add:
-			guard let image = history.current else {
-				throw SiteImageReflectionError.AddWithoutGivenPlaceholderImage
-			}
-			animateAdd(image)
-		case .Edit: animateSetSiteImage(history.current)
-		case .Remove: animateRemove()
-		case .Empty: siteImageView.alpha = 0; siteImageView.image = nil
-		case .None: siteImageView.image = history.current; siteImageView.alpha = 1
+			case .Add:
+				guard let image = history.current else {
+					throw SiteImageReflectionError.AddWithoutGivenPlaceholderImage
+				}
+				animateAdd(image)
+			case .Edit: animateSetSiteImage(history.current)
+			case .Remove: animateRemove()
+			case .Empty: siteImageView.alpha = 0; siteImageView.image = nil
+			case .None: siteImageView.image = history.current; siteImageView.alpha = 1
 		}
 	}
 

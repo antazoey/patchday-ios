@@ -126,13 +126,13 @@ public class Pill: Swallowable {
 
     public var due: Date? {
         switch expirationInterval {
-        case PillStrings.Intervals.EveryDay: return regularNextDueTime
-        case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
-        case PillStrings.Intervals.FirstTenDays: return dueDateForFirstTenDays
-        case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays()
-        case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays()
-        case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays()
-        default: return nil
+			case PillStrings.Intervals.EveryDay: return regularNextDueTime
+			case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
+			case PillStrings.Intervals.FirstTenDays: return dueDateForFirstTenDays
+			case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays()
+			case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays()
+			case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays()
+			default: return nil
         }
     }
 

@@ -78,9 +78,9 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 	) {
 		let id = response.notification.request.identifier
 		switch response.actionIdentifier {
-		case ExpiredHormoneNotification.actionId: hormoneActionHandler.handleHormone(id: id)
-		case DuePillNotification.actionId: pillActionHandler.handlePill(pillId: id)
-		default: return
+			case ExpiredHormoneNotification.actionId: hormoneActionHandler.handleHormone(id: id)
+			case DuePillNotification.actionId: pillActionHandler.handlePill(pillId: id)
+			default: return
 		}
 	}
 }

@@ -25,15 +25,15 @@ public class SettingsOptions {
 
 	public static func getDeliveryMethodString(for method: DeliveryMethod) -> String {
 		switch method {
-		case .Patches: return deliveryMethods[0]
-		case .Injections: return deliveryMethods[1]
+			case .Patches: return deliveryMethods[0]
+			case .Injections: return deliveryMethods[1]
 		}
 	}
 
 	public static func getDeliveryMethod(for pickerString: String?) -> DeliveryMethod {
 		switch pickerString {
-		case deliveryMethods[1]: return .Injections
-		default: return .Patches
+			case deliveryMethods[1]: return .Injections
+			default: return .Patches
 		}
 	}
 
@@ -49,16 +49,16 @@ public class SettingsOptions {
 
 	public static func getDefaultQuantityString(deliveryMethod: DeliveryMethod) -> String {
 		switch deliveryMethod {
-		case .Patches: return quantities[2]
-		case .Injections: return quantities[0]
+			case .Patches: return quantities[2]
+			case .Injections: return quantities[0]
 		}
 	}
 
 	public static func getPickerOption(key: PDSetting, row: Index) -> String? {
 		switch key {
-		case .DeliveryMethod: return deliveryMethods.tryGet(at: row)
-		case .Quantity: return quantities.tryGet(at: row)
-		case .ExpirationInterval: return expirationIntervals.tryGet(at: row)
+			case .DeliveryMethod: return deliveryMethods.tryGet(at: row)
+			case .Quantity: return quantities.tryGet(at: row)
+			case .ExpirationInterval: return expirationIntervals.tryGet(at: row)
 		default: return nil
 		}
 	}
@@ -75,16 +75,16 @@ public class SettingsOptions {
 
 	public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
 		switch interval {
-		case .TwiceWeekly: return expirationIntervals[0]
-		case .OnceWeekly: return expirationIntervals[1]
-		case .EveryTwoWeeks: return expirationIntervals[2]
+			case .TwiceWeekly: return expirationIntervals[0]
+			case .OnceWeekly: return expirationIntervals[1]
+			case .EveryTwoWeeks: return expirationIntervals[2]
 		}
 	}
 
 	public static func getExpirationInterval(for pickerString: String) -> ExpirationInterval {
 		switch pickerString {
-		case expirationIntervals[1]: return .OnceWeekly
-		case expirationIntervals[2]: return .EveryTwoWeeks
+			case expirationIntervals[1]: return .OnceWeekly
+			case expirationIntervals[2]: return .EveryTwoWeeks
 		default: return .TwiceWeekly
 		}
 	}
@@ -92,9 +92,9 @@ public class SettingsOptions {
 	public static subscript(setting: PDSetting?) -> [String] {
 		guard let setting = setting else { return [] }
 		switch setting {
-		case .DeliveryMethod: return deliveryMethods
-		case .ExpirationInterval: return expirationIntervals
-		case .Quantity: return quantities
+			case .DeliveryMethod: return deliveryMethods
+			case .ExpirationInterval: return expirationIntervals
+			case .Quantity: return quantities
 		default: return []
 		}
 	}

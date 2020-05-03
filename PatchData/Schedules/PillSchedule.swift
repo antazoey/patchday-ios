@@ -52,10 +52,10 @@ public class PillSchedule: NSObject, PillScheduling {
 	public var nextDue: Swallowable? {
 		pills.min {
 			switch($0.due, $1.due) {
-			case (nil, nil): return false
-			case (nil, _): return false
-			case (_, nil): return true
-			default: return $0.due! < $1.due!
+				case (nil, nil): return false
+				case (nil, _): return false
+				case (_, nil): return true
+				default: return $0.due! < $1.due!
 			}
 		}
 	}

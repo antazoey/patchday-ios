@@ -37,13 +37,13 @@ public class PDSettings: PDSettingsManaging {
 
 	public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
 		switch setting {
-		case .DeliveryMethod: return deliveryMethod.displayableString
-		case .ExpirationInterval: return expirationInterval.displayableString
-		case .Quantity: return quantity.displayableString
-		case .Notifications: return notifications.displayableString
-		case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
-		case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
-		case .SiteIndex: return siteIndex.displayableString
+			case .DeliveryMethod: return deliveryMethod.displayableString
+			case .ExpirationInterval: return expirationInterval.displayableString
+			case .Quantity: return quantity.displayableString
+			case .Notifications: return notifications.displayableString
+			case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
+			case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
+			case .SiteIndex: return siteIndex.displayableString
 		}
 	}
 
@@ -55,15 +55,14 @@ public class PDSettings: PDSettingsManaging {
 
 	public func setQuantity(to newQuantity: Int) {
 		let endRange = SettingsOptions.quantities.count
-		if newQuantity <= endRange && newQuantity > 0 {
-			let oldQuantity = writer.quantity.rawValue
-			if newQuantity < oldQuantity {
-				hormones.delete(after: newQuantity - 1)
-			} else if newQuantity > oldQuantity {
-				hormones.fillIn(to: newQuantity)
-			}
-			writer.replaceStoredQuantity(to: newQuantity)
+		guard newQuantity <= endRange && newQuantity > 0 else { return }
+		let oldQuantity = writer.quantity.rawValue
+		if newQuantity < oldQuantity {
+			hormones.delete(after: newQuantity - 1)
+		} else if newQuantity > oldQuantity {
+			hormones.fillIn(to: newQuantity)
 		}
+		writer.replaceStoredQuantity(to: newQuantity)
 	}
 
 	public func setExpirationInterval(to newInterval: String) {

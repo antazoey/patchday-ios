@@ -115,15 +115,15 @@ class CoreDataStack: NSObject {
 		var n: String
 		var props: [String]
 		switch entity {
-		case .hormone:
-			n = hormoneEntityName
-			props = hormoneProps
-		case .pill:
-			n = pillEntityName
-			props = pillProps
-		case .site:
-			n = siteEntityName
-			props = siteProps
+			case .hormone:
+				n = hormoneEntityName
+				props = hormoneProps
+			case .pill:
+				n = pillEntityName
+				props = pillProps
+			case .site:
+				n = siteEntityName
+				props = siteProps
 		}
 		return EntityKey(type: entity, name: n, props: props)
 	}

@@ -28,15 +28,15 @@ public class PDColors: NSObject {
 
 	public static subscript(_ key: ColorKey) -> UIColor {
 		switch key {
-		case .Border: return border
-		case .Button: return button
-		case .EvenCell: return evenCell
-		case .NewItem: return newItem
-		case .OddCell: return oddCell
-		case .Purple: return purple
-		case .Selected: return selected
-		case .Text: return text
-		case .Unselected: return unselected
+			case .Border: return border
+			case .Button: return button
+			case .EvenCell: return evenCell
+			case .NewItem: return newItem
+			case .OddCell: return oddCell
+			case .Purple: return purple
+			case .Selected: return selected
+			case .Text: return text
+			case .Unselected: return unselected
 		}
 	}
 
