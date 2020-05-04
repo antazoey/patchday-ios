@@ -24,7 +24,7 @@ extension UITabBarItem {
 	}
 
 	private func reflectHormoneTabBarItemTitle(deliveryMethod: DeliveryMethod) {
-		title = ViewTitleStrings.getTitle(for: deliveryMethod)
+		title = PDTitleStrings.getHormonesTitle(for: deliveryMethod)
 	}
 
 	private func reflectHormoneTabBarItemIcon(deliveryMethod: DeliveryMethod) {

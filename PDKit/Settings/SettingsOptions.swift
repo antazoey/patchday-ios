@@ -14,7 +14,9 @@ public class SettingsOptions {
 		let comment = "Displayed on a button and in a picker."
 		return [
 			NSLocalizedString("Patches", comment: comment),
-			NSLocalizedString("Injections", comment: comment)
+			NSLocalizedString("Injections", comment: comment),
+			NSLocalizedString("Pills", comment: comment),
+			NSLocalizedString("Gel", comment: comment)
 		]
 	}
 
@@ -27,6 +29,8 @@ public class SettingsOptions {
 		switch method {
 			case .Patches: return deliveryMethods[0]
 			case .Injections: return deliveryMethods[1]
+			case .Pills: return deliveryMethods[2]
+			case .Gel: return deliveryMethods[3]
 		}
 	}
 
@@ -45,13 +49,6 @@ public class SettingsOptions {
 			return quantity
 		}
 		return .One
-	}
-
-	public static func getDefaultQuantityString(deliveryMethod: DeliveryMethod) -> String {
-		switch deliveryMethod {
-			case .Patches: return quantities[2]
-			case .Injections: return quantities[0]
-		}
 	}
 
 	public static func getPickerOption(key: PDSetting, row: Index) -> String? {

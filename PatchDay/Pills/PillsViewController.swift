@@ -23,7 +23,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 		super.viewDidLoad()
 		initViewModelIfNil()
 		applyTheme()
-		title = ViewTitleStrings.PillsTitle
+		title = PDTitleStrings.PillsTitle
 		pillsTableView.delegate = self
 		pillsTableView.dataSource = self
 		loadBarButtons()
@@ -74,7 +74,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 	private func loadBarButtons() {
 		let insertButton = viewFactory.createInsertButton()
 		navigationItem.rightBarButtonItems = [insertButton]
-		let backItem = PDViewFactory.createTextBarButtonItem(ViewTitleStrings.PillTitle)
+		let backItem = PDViewFactory.createTextBarButtonItem(PDTitleStrings.PillTitle)
 		navigationItem.backBarButtonItem = backItem
 	}
 

@@ -96,6 +96,8 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return patchImages
 			case .Injections: return injectionImages
+			case .Pills: return []
+			case .Gel: return []
 		}
 	}
 
@@ -117,7 +119,7 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return siteNameToPatchImageDict[siteName]
 			case .Injections: return siteNameToInjectionImageDict[siteName]
-			case .Pills: return
+			default: return nil
 		}
 	}
 
@@ -126,6 +128,7 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return customPatch
 			case .Injections: return customInjection
+			default: return nil
 		}
 	}
 
@@ -133,6 +136,7 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return placeholderPatch
 			case .Injections: return placeholderInjection
+			default: return UIImage()
 		}
 	}
 }

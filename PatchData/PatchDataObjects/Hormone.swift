@@ -61,7 +61,7 @@ public class Hormone: Hormonal {
 
 	public var expirationString: String {
 		guard let expDate = expiration else {
-			return PlaceholderStrings.DotDotDot
+			return DotDotDot
 		}
 		return PDDateFormatter.formatDate(expDate)
 	}

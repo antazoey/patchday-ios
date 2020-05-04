@@ -82,7 +82,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		settingsButton.action = #selector(settingsTapped)
 		navigationItem.rightBarButtonItems = [settingsButton]
 
-		let backItem = PDViewFactory.createTextBarButtonItem(ViewTitleStrings.HormonesTitle)
+		let backItem = PDViewFactory.createTextBarButtonItem(PDTitleStrings.HormonesTitle)
 		navigationItem.backBarButtonItem = backItem
 	}
 

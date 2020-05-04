@@ -115,9 +115,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 	}
 
 	private func getViewControllerTitleFromDeliveryMethod() -> String {
-		guard let sdk = sdk else { return ViewTitleStrings.SiteTitle }
+		guard let sdk = sdk else { return PDTitleStrings.SiteTitle }
 		let method = sdk.settings.deliveryMethod.value
-		return ViewTitleStrings.getSitesTitle(for: method)
+		return PDTitleStrings.getSitesTitle(for: method)
 	}
 
     @objc private func reloadDataFromBackgroundUpdate() {

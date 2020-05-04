@@ -12,7 +12,7 @@ import PDKit
 public class DataSharer: DataSharing {
 
 	private var sharedDefaults: UserDefaults? {
-		UserDefaults(suiteName: "group.com.patchday.todaydata")
+		UserDefaults(suiteName: PDSharedDataGroupName)
 	}
 
 	public func share(_ value: Any?, forKey key: String) {
@@ -22,4 +22,11 @@ public class DataSharer: DataSharing {
 	public func object(forKey key: String) -> Any? {
 		sharedDefaults?.object(forKey: key)
 	}
+}
+
+public enum TodayKey: String {
+	case nextHormoneSiteName = "nextEstroSiteName"
+	case nextHormoneDate = "nextEstroDate"
+	case nextPillToTake = "nextPillToTake"
+	case nextPillTakeTime = "nextPillTakeTime"
 }

@@ -33,9 +33,9 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	var mainViewControllerTitle: String {
 		guard let method = sdk?.settings.deliveryMethod.value else {
-			return ViewTitleStrings.HormonesTitle
+			return PDTitleStrings.HormonesTitle
 		}
-		return ViewTitleStrings.getTitle(for: method)
+		return PDTitleStrings.getHormonesTitle(for: method)
 	}
 
 	var expiredHormoneBadgeValue: String? {

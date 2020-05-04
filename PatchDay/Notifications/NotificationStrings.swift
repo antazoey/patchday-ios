@@ -48,6 +48,7 @@ class NotificationStrings {
 			switch method {
 				case .Patches: return overnightPatch
 				case .Injections: return overnightInjection
+				default: return ""
 			}
 		}
 	}

@@ -15,7 +15,8 @@ public class PDSettings: PDSettingsManaging {
 	private let hormones: HormoneScheduling
 	private let sites: SiteScheduling
 
-    /// If the logic can be handled without depenencies, it should be in the writer class.
+    /// For Settings logic that requires the use of dependencies, such as the Schedules. For all other Settings logic that does not
+	/// require using dependencies, use the Writer class.
 
 	init(
 		writer: UserDefaultsWriting,

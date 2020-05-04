@@ -9,7 +9,7 @@ import PDKit
 class SiteViewFactory {
 
 	static func createBackItem() -> UIBarButtonItem {
-		PDViewFactory.createTextBarButtonItem(ViewTitleStrings.SitesTitle)
+		PDViewFactory.createTextBarButtonItem(PDTitleStrings.SitesTitle)
 	}
 
 	static func createItemFromActionState(_ props: BarItemInitializationProperties) -> UIBarButtonItem {

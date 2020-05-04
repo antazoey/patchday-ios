@@ -58,3 +58,7 @@ public class DefaultQuantities {
 		}
 	}
 }
+
+public var DotDotDot: String {
+	NSLocalizedString("...", comment: "Instruction for empty patch")
+}

@@ -86,4 +86,16 @@ extension UIButton {
 		}
 		return NameToSettingMap[setting.lowercased()]
 	}
+
+	private var NameToSettingMap: [String: PDSetting] {
+		[
+			"deliverymethod": .DeliveryMethod,
+			"expirationinterval": .ExpirationInterval,
+			"quantity": .Quantity,
+			"notifications": .Notifications,
+			"notificationsminutesbefore": .NotificationsMinutesBefore,
+			"mentioneddisclaimer": .MentionedDisclaimer,
+			"siteindex": .SiteIndex
+		]
+	}
 }

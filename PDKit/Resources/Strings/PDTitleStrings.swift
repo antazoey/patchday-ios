@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class ViewTitleStrings {
+public class PDTitleStrings {
 
 	private static let c = "Title of a view controller. Keep it brief please."
 
@@ -30,7 +30,7 @@ public class ViewTitleStrings {
 	public static var InjectionTitle: String { NSLocalizedString("Injection", comment: c) }
 	public static var SiteTitle: String { NSLocalizedString("Site", comment: c) }
 
-	public static func getTitle(for method: DeliveryMethod) -> String {
+	public static func getHormonesTitle(for method: DeliveryMethod) -> String {
 		switch method {
 			case .Patches: return PatchesTitle
 			case .Injections: return InjectionsTitle

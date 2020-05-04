@@ -10,15 +10,18 @@ import Foundation
 
 public class PDDateFormatter {
 
+	private static let strComment = "The word 'today' displayed on a button."
+	public static var todayStr: String { NSLocalizedString("Today", comment: strComment) }
+	public static var yesterdayStr: String { NSLocalizedString("Yesterday", comment: strComment) }
+	public static var tomorrowStr: String { NSLocalizedString("Tomorrow", comment: strComment) }
+
 	private static let timeFormatter: DateFormatter = { createFormatter("h:mm a") }()
 	private static let dayFormatter: DateFormatter = { createFormatter("EEEE, h:mm a") }()
     private static let dateFormatter: DateFormatter = { createFormatter("EEEE, MMMM d, h:mm a") }()
 	private static var calendar = { Calendar.current }()
 
 	/// Gives String for the given Time.
-	public static func formatTime(_ time: Time) -> String {
-		timeFormatter.string(from: time)
-	}
+	public static func formatTime(_ time: Time) -> String { timeFormatter.string(from: time) }
 
 	/// Gives String for the given Date.
 	public static func formatDate(_ date: Date) -> String {
@@ -41,13 +44,13 @@ public class PDDateFormatter {
 
 	private static func dateWord(from date: Date) -> String? {
 		if calendar.isDateInToday(date) {
-			return DayStrings.today
+			return todayStr
 		} else if let yesterdayAtThisTime = DateFactory.createDate(daysFromNow: -1),
 			calendar.isDate(date, inSameDayAs: yesterdayAtThisTime) {
-			return DayStrings.yesterday
+			return yesterdayStr
 		} else if let tomorrowAtThisTime = DateFactory.createDate(daysFromNow: 1),
 			calendar.isDate(date, inSameDayAs: tomorrowAtThisTime) {
-			return DayStrings.tomorrow
+			return tomorrowStr
 		}
 		return nil
 	}

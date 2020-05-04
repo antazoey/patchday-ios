@@ -7,31 +7,24 @@
 //
 
 import Foundation
+import PDKit
 
-public class ColonStrings {
+public class HormoneStrings {
 
 	private static let c1 = "Displayed on a label, plenty of room."
 	private static let c2 = "Label next to date. Easy on room."
 
-	public static func createHormoneViewStrings(_ hormone: Hormonal) -> HormoneViewStrings {
+	public static func create(_ hormone: Hormonal) -> HormoneViewStrings {
         switch hormone.deliveryMethod {
 			case .Patches: return createPatchViewStrings(hormone)
 			case .Injections: return createInjectionViewStrings(hormone)
 			case .Gel: return createGelViewStrings(hormone)
-			default: return HormoneViewStrings(
-				expirationText: NextDue,
-				dateAndTimePlacedText: DateAndTimeTaken,
-				siteLabelText: _Site
-			)
+			default: return HormoneViewStrings(NextDue, DateAndTimeTaken, _Site)
 		}
 	}
 
 	private static func createPatchViewStrings(_ patch: Hormonal) -> HormoneViewStrings {
-		HormoneViewStrings(
-			expirationText: getPatchExpiredText(patch),
-			dateAndTimePlacedText: DateAndTimeApplied,
-			siteLabelText: _Site
-		)
+		HormoneViewStrings(getPatchExpiredText(patch), DateAndTimeApplied, _Site)
 	}
 
     private static func getPatchExpiredText(_ patch: Hormonal) -> String {
@@ -45,19 +38,11 @@ public class ColonStrings {
     }
 
 	private static func createInjectionViewStrings(_ injection: Hormonal) -> HormoneViewStrings {
-		HormoneViewStrings(
-			expirationText: NextDue,
-			dateAndTimePlacedText: DateAndTimeInjected,
-            siteLabelText: LastSiteInjected
-		)
+		HormoneViewStrings(NextDue, DateAndTimeInjected, LastSiteInjected)
 	}
 
 	private static func createGelViewStrings(_ gel: Hormonal) -> HormoneViewStrings {
-		HormoneViewStrings(
-			expirationText: String,
-			dateAndTimePlacedText: DateAndTimeApplied,
-			siteLabelText: _Site
-		)
+		HormoneViewStrings(NextDue, DateAndTimeApplied, _Site)
 	}
 
 	private static var Count: String {

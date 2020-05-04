@@ -8,7 +8,7 @@ import PDKit
 
 class TodayData: TodayDataDelegate {
 
-	private let defaults = UserDefaults(suiteName: "group.com.patchday.todaydata")
+	private let defaults = UserDefaults(suiteName: PDSharedDataGroupName)
 
 	func getDeliveryMethod() -> String? {
 		let key = PDSetting.DeliveryMethod.rawValue
@@ -16,22 +16,22 @@ class TodayData: TodayDataDelegate {
 	}
 
 	func getNextHormoneSiteName() -> String? {
-		let siteKey = TodayKey.nextHormoneSiteName.rawValue
+		let siteKey = TodayKey.NextHormoneSiteName.rawValue
 		return defaults?.object(forKey: siteKey) as? String
 	}
 
 	func getNextHormoneExpirationDate() -> Date? {
-		let dateKey = TodayKey.nextHormoneDate.rawValue
+		let dateKey = TodayKey.NextHormoneDate.rawValue
 		return defaults?.object(forKey: dateKey) as? Date
 	}
 
 	func getNextPillName() -> String? {
-		let pillKey = TodayKey.nextPillToTake.rawValue
+		let pillKey = TodayKey.NextPillToTake.rawValue
 		return defaults?.object(forKey: pillKey) as? String
 	}
 
 	func getNextPillDate() -> Date? {
-		let timeKey = TodayKey.nextPillTakeTime.rawValue
+		let timeKey = TodayKey.NextPillTakeTime.rawValue
 		return defaults?.object(forKey: timeKey) as? Date
 	}
 }

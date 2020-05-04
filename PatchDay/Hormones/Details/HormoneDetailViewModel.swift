@@ -101,7 +101,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	func createHormoneViewStrings() -> HormoneViewStrings {
-		ColonStrings.createHormoneViewStrings(hormone)
+		HormoneStrings.create(hormone)
 	}
 
 	@discardableResult func trySelectSite(at row: Index) -> String? {

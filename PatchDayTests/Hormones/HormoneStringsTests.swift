@@ -3,14 +3,14 @@
 // Copyright (c) 2020 Juliya Smith. All rights reserved.
 //
 
-import Foundation
-
 import XCTest
-@testable
 import PDKit
 import PDMock
 
-class ColonStringsTests: XCTestCase {
+@testable
+import PatchDay
+
+class HormoneStringsTests: XCTestCase {
 
 	private let expiredDate = Date(timeIntervalSinceNow: -86000)
 	private let healthyDate = Date(timeIntervalSinceNow: 86400)
@@ -37,34 +37,34 @@ class ColonStringsTests: XCTestCase {
 		return hormone
 	}
 
-	func testCreateHormoneViewStrings_whenGivenExpiredPatch_returnsExpectedStrings() {
+	func testCreate_whenGivenExpiredPatch_returnsExpectedStrings() {
 		let patch = createPatch(isExpired: true)
-        let actual = ColonStrings.createHormoneViewStrings(patch)
+        let actual = HormoneStrings.create(patch)
         XCTAssertEqual("Expired: ", actual.expirationText)
 	}
 
-	func testCreateHormoneViewStrings_whenGivenNonExpiredPatch_returnsExpectedStrings() {
+	func testCreate_whenGivenNonExpiredPatch_returnsExpectedStrings() {
 		let patch = createPatch(isExpired: false)
-        let actual = ColonStrings.createHormoneViewStrings(patch)
+        let actual = HormoneStrings.create(patch)
 		XCTAssertEqual("Expires: ", actual.expirationText)
 	}
 
-    func testCreateHormoneViewStrings_whenGivenPatchThatIsNotExpiredButIsPastNotificationTime_returnsExpectedString() {
+    func testCreate_whenGivenPatchThatIsNotExpiredButIsPastNotificationTime_returnsExpectedString() {
         let patch = createHormone(isExpired: false)
         patch.isPastNotificationTime = true
-        let actual = ColonStrings.createHormoneViewStrings(patch)
+        let actual = HormoneStrings.create(patch)
         XCTAssertEqual("Expires soon: ", actual.expirationText)
     }
 
-	func testCreateHormoneViewStrings_whenGivenExpiredInjection_returnsExpectedStrings() {
+	func testCreates_whenGivenExpiredInjection_returnsExpectedStrings() {
 		let injection = createInjection(isExpired: true)
-		let actual = ColonStrings.createHormoneViewStrings(injection)
+		let actual = HormoneStrings.create(injection)
 		XCTAssertEqual("Next due: ", actual.expirationText)
 	}
 
-	func testGetDateTitle_whenGivenNonExpiredInjection_returnsExpectedStrings() {
+	func testCreate_whenGivenNonExpiredInjection_returnsExpectedStrings() {
 		let injection = createInjection(isExpired: false)
-		let actual = ColonStrings.createHormoneViewStrings(injection)
+		let actual = HormoneStrings.create(injection)
         XCTAssertEqual("Next due: ", actual.expirationText)
 	}
 }

@@ -68,7 +68,7 @@ class HormoneCell: TableCell {
 		let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
 		dateLabel.font = UIFont.systemFont(ofSize: size)
         if !hormone.date.isDefault(), let expiration = hormone.expiration {
-            let prefix = ColonStrings.createHormoneViewStrings(hormone).expirationText
+            let prefix = HormoneStrings.create(hormone).expirationText
             let dateString = PDDateFormatter.formatDay(expiration)
 			setDateLabel("\(prefix) \(dateString)", hormone)
 		}

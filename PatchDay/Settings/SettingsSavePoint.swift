@@ -38,15 +38,17 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 	}
 
 	private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
+		// Put view logic here that reflects the state of the delivery method in the Settings view.
 		let decline = { (_ method: DeliveryMethod) -> Void in
 			let methodTitle = SettingsOptions.getDeliveryMethodString(for: choice)
+			controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
 			switch choice {
 				case .Patches:
-					controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
 					controls.quantityButton.isEnabled = true
 					controls.quantityArrowButton.isEnabled = true
+				case .Pills: fallthrough
+				case .Gel: fallthrough
 				case .Injections:
-					controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
 					controls.quantityButton.isEnabled = false
 					controls.quantityArrowButton.isEnabled = false
 			}
