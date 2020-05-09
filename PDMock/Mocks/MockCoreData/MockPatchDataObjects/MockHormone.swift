@@ -34,6 +34,12 @@ public class MockHormone: Hormonal, PDMocking {
 	public var hasDate = false
 
 	public init() { }
+	
+	var fromCallArgs: [UserDefaultsReading] = []
+	public func from(_ settings: UserDefaultsReading) -> Hormonal {
+		fromCallArgs.append(settings)
+		return self
+	}
 
 	public func resetMock() {
 		stampCallCount = 0

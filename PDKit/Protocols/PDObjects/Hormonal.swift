@@ -9,6 +9,10 @@
 import Foundation
 
 public protocol Hormonal: PDObjectified {
+	
+	/// Applies the given settings to the hormone instance and returns itself.
+	func from(_ settings: UserDefaultsReading) -> Hormonal
+	
 	var id: UUID { get set }
 
 	/// The way in which the hormone is delivered to the body, usually set from User Defaults.

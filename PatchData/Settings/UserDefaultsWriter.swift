@@ -66,7 +66,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 
 	public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
 		let rawValue = DeliveryMethodUD.getRawValue(for: newValue)
-		let newQuantity = DefaultQuantities.getForHormone(for: newValue)
+		let newQuantity = DefaultQuantities.Hormone[newValue]
 		handler.replace(&deliveryMethod, to: rawValue)
 		handler.replace(&quantity, to: newQuantity)
 	}

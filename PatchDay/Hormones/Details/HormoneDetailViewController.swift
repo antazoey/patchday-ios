@@ -207,7 +207,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	private func loadTitle() {
 		guard let settings = viewModel.sdk?.settings else { return }
 		let method = settings.deliveryMethod.value
-		title = PDTitleStrings.getHormonesTitle(for: method)
+		title = PDTitleStrings.Hormones[method]
 	}
 
 	private func loadDateControls() {

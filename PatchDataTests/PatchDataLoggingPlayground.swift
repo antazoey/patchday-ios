@@ -6,6 +6,7 @@
 import XCTest
 import Foundation
 import PDKit
+import PDMock
 
 @testable
 import PatchData
@@ -18,10 +19,8 @@ class LoggingPlayground: XCTestCase {
 		data.siteRelationshipId = UUID()
 		data.siteName = "Left Delt"
 		data.siteNameBackUp = "Left Delt"
-		let props = HormoneScheduleProperties(
-			ExpirationIntervalUD(.EveryTwoWeeks), .Patches, NotificationsMinutesBeforeUD(25)
-		)
-		let hormone = Hormone(hormoneData: data, scheduleProperties: props)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
 		PDObjectLogger.logHormone(hormone)
 	}
 

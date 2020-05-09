@@ -40,20 +40,24 @@ public class DefaultPillAttributes {
 }
 
 public class DefaultQuantities {
-
-	public static func getForHormone(for deliveryMethod: DeliveryMethod) -> Int {
-		switch deliveryMethod {
-			case .Injections: return 1
-			case .Patches: return 3
-			case .Gel: return 1
+	
+	public class Hormone {
+		public static subscript(method: DeliveryMethod) -> Int {
+			switch method {
+				case .Injections: return 1
+				case .Patches: return 3
+				case .Gel: return 1
+			}
 		}
 	}
-
-	public static func getForSite(for deliveryMethod: DeliveryMethod) -> Int {
-		switch deliveryMethod {
-			case .Injections: return 1
-			case .Patches: return 4
-			case .Gel: return 2
+	
+	public class Site {
+		public static subscript(method: DeliveryMethod) -> Int {
+			switch method {
+				case .Injections: return 6
+				case .Patches: return 4
+				case .Gel: return 1
+			}
 		}
 	}
 }

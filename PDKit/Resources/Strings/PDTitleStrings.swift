@@ -29,20 +29,24 @@ public class PDTitleStrings {
 	public static var PatchTitle: String { NSLocalizedString("Patch", comment: c) }
 	public static var InjectionTitle: String { NSLocalizedString("Injection", comment: c) }
 	public static var SiteTitle: String { NSLocalizedString("Site", comment: c) }
-
-	public static func getHormonesTitle(for method: DeliveryMethod) -> String {
-		switch method {
-			case .Patches: return PatchesTitle
-			case .Injections: return InjectionsTitle
-			case .Gel: return GelTitle
+	
+	public class Hormones {
+		public static subscript(method: DeliveryMethod) -> String {
+			switch method {
+				case .Patches: return PatchesTitle
+				case .Injections: return InjectionsTitle
+				case .Gel: return GelTitle
+			}
 		}
 	}
-
-	public static func getSitesTitle(for method: DeliveryMethod) -> String {
-		switch method {
-			case .Patches: return PatchSitesTitle
-			case .Injections: return InjectionSitesTitle
-			case .Gel: return GelSitesTitle
+	
+	public class Sites {
+		public static subscript(method: DeliveryMethod) -> String {
+			switch method {
+				case .Patches: return PatchSitesTitle
+				case .Injections: return InjectionSitesTitle
+				case .Gel: return GelSitesTitle
+			}
 		}
 	}
 }

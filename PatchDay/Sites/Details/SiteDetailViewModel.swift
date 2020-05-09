@@ -15,7 +15,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	weak var imagePickerDelegate: SiteImagePickerDelegate?
 
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
-		let images = SiteImages.getAllAvailable(params.imageSelectionParams)
+		let images = SiteImages.all
 		self.init(
 			params.site,
 			siteIndex: params.site.order,
@@ -128,8 +128,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	}
 
 	private func createImageStruct(selectedRow: Index, method: DeliveryMethod) -> SiteImageStruct? {
-		let params = SiteImageDeterminationParameters(deliveryMethod: method)
-		let images = SiteImages.getAllAvailable(params)
+		let images = SiteImages.All[method]
 		guard let image = images.tryGet(at: selectedRow) else { return nil }
 		let imageKey = SiteImages.getName(from: image)
 		return SiteImageStruct(image: image, name: imageKey)

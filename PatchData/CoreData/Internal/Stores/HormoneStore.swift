@@ -13,19 +13,19 @@ class HormoneStore: EntityStore, HormoneStoring {
 
 	private lazy var log = PDLog<HormoneStore>()
 
-	func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
+	func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal] {
 		var hormones: [Hormonal] = []
 		let hormoneDataEntries = entities.getManagedHormoneData()
 		for hormoneData in hormoneDataEntries {
-			let hormone = Hormone(hormoneData: hormoneData, scheduleProperties: scheduleProperties)
+			let hormone = Hormone(hormoneData: hormoneData, settings: settings)
 			hormones.append(hormone)
 		}
 		return hormones
 	}
 
-	func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
+	func createNewHormone(_ settings: UserDefaultsReading) -> Hormonal? {
 		guard let newHormoneDataFromStore = entities.createNewManagedHormone() else { return nil }
-		return Hormone(hormoneData: newHormoneDataFromStore, scheduleProperties: scheduleProperties)
+		return Hormone(hormoneData: newHormoneDataFromStore, settings: settings)
 	}
 
 	func delete(_ hormone: Hormonal) {

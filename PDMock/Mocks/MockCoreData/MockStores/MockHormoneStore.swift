@@ -17,11 +17,11 @@ public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
 		newObjectFactory = { () in MockHormone() }
 	}
 
-	public func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal] {
+	public func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal] {
 		getNextMockStoredObjects()
 	}
 
-	public func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal? {
+	public func createNewHormone(_ settings: UserDefaultsReading) -> Hormonal? {
 		newObjectFactory?()
 	}
 

@@ -11,10 +11,10 @@ import Foundation
 public protocol HormoneStoring: PDObjectStoring {
 
 	/// Fetches all the hormones from storage.
-	func getStoredHormones(_ scheduleProperties: HormoneScheduleProperties) -> [Hormonal]
+	func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal]
 
 	/// Creates a new stored hormone and returns it.
-	func createNewHormone(_ scheduleProperties: HormoneScheduleProperties) -> Hormonal?
+	func createNewHormone(_ settings: UserDefaultsReading) -> Hormonal?
 
 	/// Deletes the given hormone from storage.
 	func delete(_ hormone: Hormonal)

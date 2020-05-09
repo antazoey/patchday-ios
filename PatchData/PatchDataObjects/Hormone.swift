@@ -17,11 +17,18 @@ public class Hormone: Hormonal {
 	public var expirationInterval: ExpirationIntervalUD
 	public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
 
-	public init(hormoneData: HormoneStruct, scheduleProperties: HormoneScheduleProperties) {
+	public init(hormoneData: HormoneStruct, settings: UserDefaultsReading) {
 		self.hormoneData = hormoneData
-		self.deliveryMethod = scheduleProperties.deliveryMethod
-		self.expirationInterval = scheduleProperties.expirationInterval
-		self.notificationsMinutesBefore = scheduleProperties.notificationsMinutesBefore
+		self.deliveryMethod = settings.deliveryMethod.value
+		self.expirationInterval = settings.expirationInterval
+		self.notificationsMinutesBefore = settings.notificationsMinutesBefore
+	}
+	
+	public func from(_ settings: UserDefaultsReading) -> Hormonal {
+		self.deliveryMethod = settings.deliveryMethod.value
+		self.expirationInterval = settings.expirationInterval
+		self.notificationsMinutesBefore = settings.notificationsMinutesBefore
+		return self
 	}
 
 	public var id: UUID {

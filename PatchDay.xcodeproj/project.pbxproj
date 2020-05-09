@@ -1002,13 +1002,6 @@
 			path = Dates;
 			sourceTree = "<group>";
 		};
-		3397CEAAC3E1CFBFCDC5F0B6 /* State */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = State;
-			sourceTree = "<group>";
-		};
 		3397CF652F777698055482E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1499,7 +1492,6 @@
 				B480EE1E21CC7553002C2238 /* PatchData.h */,
 				B480EE1F21CC7553002C2238 /* Info.plist */,
 				3397CC78426D1417ECADBDE0 /* DataSharing */,
-				3397CEAAC3E1CFBFCDC5F0B6 /* State */,
 				9DE45370242FB93D0056AC94 /* PDCli.swift */,
 			);
 			path = PatchData;

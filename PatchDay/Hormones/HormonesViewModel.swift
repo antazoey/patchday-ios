@@ -35,7 +35,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		guard let method = sdk?.settings.deliveryMethod.value else {
 			return PDTitleStrings.HormonesTitle
 		}
-		return PDTitleStrings.getHormonesTitle(for: method)
+		return PDTitleStrings.Hormones[method]
 	}
 
 	var expiredHormoneBadgeValue: String? {

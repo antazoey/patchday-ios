@@ -9,21 +9,6 @@
 import Foundation
 import PDKit
 
-public class HormoneIterator: IteratorProtocol {
-    private var cursor: Index = 0
-    var hormones: [Hormonal]
-
-    public init(_ hormones: [Hormonal]) {
-        self.hormones = hormones
-    }
-
-    public func next() -> Hormonal? {
-        let hormone = hormones.tryGet(at: cursor)
-        cursor += 1
-        return hormone
-    }
-}
-
 public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	override public var description: String { "Schedule for hormones." }
@@ -46,10 +31,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		sort()
 		shareData()
 	}
-
-    public func makeIterator() -> HormoneIterator {
-        HormoneIterator(hormones)
-    }
 
 	public var count: Int { hormones.count }
 
@@ -76,8 +57,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	@discardableResult
 	public func insertNew() -> Hormonal? {
-		let props = HormoneScheduleProperties(settings)
-		guard let hormone = store.createNewHormone(props) else { return nil }
+		guard let hormone = store.createNewHormone(settings) else { return nil }
 		hormones.append(hormone)
 		sort()
 		return hormone
@@ -107,7 +87,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	public func reset(completion: (() -> Void)?) -> Int {
 		deleteAll()
 		let method = settings.deliveryMethod.value
-		let quantity = DefaultQuantities.getForHormone(for: method)
+		let quantity = DefaultQuantities.Hormone[method]
 		for _ in 0..<quantity {
 			insertNew()
 		}
@@ -140,11 +120,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	public subscript(index: Index) -> Hormonal? {
-		hormones.tryGet(at: index)
+		hormones.tryGet(at: index)?.from(settings)
 	}
 
 	public subscript(id: UUID) -> Hormonal? {
-		hormones.first(where: { h in h.id == id })
+		hormones.first(where: { h in h.id == id })?.from(settings)
 	}
 
 	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool) {
@@ -236,7 +216,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	private static func getHormoneList(from store: HormoneStoring, settings: UserDefaultsReading) -> [Hormonal] {
-		store.getStoredHormones(HormoneScheduleProperties(settings))
+		store.getStoredHormones(settings)
 	}
 
 	private func pushFromDateAndSiteChange(_ hormone: Hormonal) {

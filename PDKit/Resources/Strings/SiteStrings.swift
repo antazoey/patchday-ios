@@ -19,6 +19,10 @@ public class SiteStrings {
 	public static var Unplaced: String { NSLocalizedString("unplaced", comment: commonComment) }
 
 	public static var NewSite: String { NSLocalizedString("New Site", comment: commonComment) }
+	
+	public static var arms: String {
+		NSLocalizedString("Arms", comment: commonComment)
+	}
 
 	public static var rightAbdomen: String {
 		NSLocalizedString("Right Abdomen", tableName: nil, comment: commonComment)
@@ -60,7 +64,7 @@ public class SiteStrings {
 		[rightQuad, leftQuad, rightGlute, leftGlute, rightDelt, leftDelt]
 	}
 
-	public static var gels: [String] { [rightArm, leftArm] }
+	public static var gels: [String] { [arms] }
 
 	public static func getSiteNames(for method: DeliveryMethod) -> [String] {
 		switch method {

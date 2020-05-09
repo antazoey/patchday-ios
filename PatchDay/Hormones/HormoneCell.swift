@@ -108,7 +108,6 @@ class HormoneCell: TableCell {
 			withDuration: 0.75,
 			animations: { self.siteImageView.alpha = 0 }) {
 			isReady in
-			print("IsREAD \(isReady)")
 			if isReady {
 				self.siteImageView.image = nil
 				self.reset()

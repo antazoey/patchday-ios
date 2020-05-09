@@ -34,6 +34,9 @@ public class SiteImages: NSObject {
 	private static var lnjectionRightDelt: UIImage { initImage("Right Delt") }
 	private static var customInjection: UIImage { initImage("Custom Injection") }
 
+	// Gel images
+	private static var arms: UIImage { initImage("Arms") }
+	
 	private static var patchImages: [UIImage] {
 		[patchRightGlute, patchLeftGlute, patchRightAbdomen, patchLeftAbdomen, customPatch]
 	}
@@ -48,6 +51,24 @@ public class SiteImages: NSObject {
 			lnjectionRightDelt,
 			customInjection
 		]
+	}
+	
+	private static var gelImages: [UIImage] {
+		[arms]
+	}
+	
+	public static var all: [UIImage] {
+		Array(Set(patchImages + injectionImages + gelImages))
+	}
+	
+	public class All {
+		public static subscript(method: DeliveryMethod) -> [UIImage] {
+			switch method {
+				case .Patches: return patchImages
+				case .Injections: return injectionImages
+				case .Gel: return gelImages
+			}
+		}
 	}
 
 	private static var imageToSiteNameDict: [UIImage: SiteName] {
@@ -84,21 +105,15 @@ public class SiteImages: NSObject {
 			SiteStrings.rightQuad: lnjectionRightQuad
 		]
 	}
-
-	static var pill: UIImage { initImage("Pill") }
+	
+	private static var siteNameToGelImageDict: [SiteName: UIImage] {
+		[ SiteStrings.arms: arms ]
+	}
 
 	private static func initImage(_ name: String) -> UIImage {
 		guard let image = UIImage(named: name) else { return UIImage() }
 		image.accessibilityIdentifier = name
 		return image
-	}
-
-	static func getAllAvailable(_ params: SiteImageDeterminationParameters) -> [UIImage] {
-		switch params.deliveryMethod {
-			case .Patches: return patchImages
-			case .Injections: return injectionImages
-			case .Gel: return []
-		}
 	}
 
 	static func isPlaceholder(_ img: UIImage) -> Bool {
@@ -119,7 +134,7 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return siteNameToPatchImageDict[siteName]
 			case .Injections: return siteNameToInjectionImageDict[siteName]
-			default: return nil
+			case .Gel: return siteNameToGelImageDict[siteName]
 		}
 	}
 
