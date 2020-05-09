@@ -46,9 +46,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 				case .Patches:
 					controls.quantityButton.isEnabled = true
 					controls.quantityArrowButton.isEnabled = true
-				case .Pills: fallthrough
-				case .Gel: fallthrough
-				case .Injections:
+				case .Gel, .Injections:
 					controls.quantityButton.isEnabled = false
 					controls.quantityArrowButton.isEnabled = false
 			}

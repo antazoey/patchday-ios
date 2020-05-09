@@ -16,6 +16,7 @@ public class SiteImages: NSObject {
 	// Placeholder
 	private static var placeholderPatch: UIImage { initImage("Add Patch") }
 	private static var placeholderInjection: UIImage { initImage("Add Injection") }
+	private static var placeholderGel: UIImage { initImage("Add Gel") }
 
 	// Patch site images
 	private static var patchRightGlute: UIImage { initImage("Right Glute") }
@@ -96,7 +97,6 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return patchImages
 			case .Injections: return injectionImages
-			case .Pills: return []
 			case .Gel: return []
 		}
 	}
@@ -136,7 +136,7 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return placeholderPatch
 			case .Injections: return placeholderInjection
-			default: return UIImage()
+			case .Gel: return placeholderGel
 		}
 	}
 }

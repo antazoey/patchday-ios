@@ -15,7 +15,6 @@ public class SettingsOptions {
 		return [
 			NSLocalizedString("Patches", comment: comment),
 			NSLocalizedString("Injections", comment: comment),
-			NSLocalizedString("Pills", comment: comment),
 			NSLocalizedString("Gel", comment: comment)
 		]
 	}
@@ -29,15 +28,16 @@ public class SettingsOptions {
 		switch method {
 			case .Patches: return deliveryMethods[0]
 			case .Injections: return deliveryMethods[1]
-			case .Pills: return deliveryMethods[2]
 			case .Gel: return deliveryMethods[3]
 		}
 	}
 
 	public static func getDeliveryMethod(for pickerString: String?) -> DeliveryMethod {
 		switch pickerString {
+			case deliveryMethods[0]: return .Patches
 			case deliveryMethods[1]: return .Injections
-			default: return .Patches
+			case deliveryMethods[2]: return .Gel
+			default: return DefaultSettings.DeliveryMethodValue
 		}
 	}
 
@@ -64,17 +64,19 @@ public class SettingsOptions {
 		let comment1 = "Displayed on a button and in a picker."
 		let comment2 = "Displayed in a picker."
 		return [
+			NSLocalizedString("Once daily", tableName: nil, comment: comment1),
 			NSLocalizedString("Twice weekly", tableName: nil, comment: comment1),
-			NSLocalizedString("Once weekly", tableName: nil, comment: comment2),
+			NSLocalizedString("Once weekly", tableName: nil, comment: comment1),
 			NSLocalizedString("Once every two weeks", comment: comment1)
 		]
 	}()
 
 	public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
 		switch interval {
-			case .TwiceWeekly: return expirationIntervals[0]
-			case .OnceWeekly: return expirationIntervals[1]
-			case .EveryTwoWeeks: return expirationIntervals[2]
+			case .OnceDaily: return expirationIntervals[0]
+			case .TwiceWeekly: return expirationIntervals[1]
+			case .OnceWeekly: return expirationIntervals[2]
+			case .EveryTwoWeeks: return expirationIntervals[3]
 		}
 	}
 

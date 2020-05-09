@@ -61,11 +61,12 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 		replaceStoredNotificationsMinutesBefore(to: DefaultSettings.NotificationsMinutesBeforeRawValue)
 		replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
 		replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
+		
 	}
 
 	public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
 		let rawValue = DeliveryMethodUD.getRawValue(for: newValue)
-		let newQuantity = newValue == .Injections ? Quantity.One.rawValue : Quantity.Three.rawValue
+		let newQuantity = DefaultQuantities.getForHormone(for: newValue)
 		handler.replace(&deliveryMethod, to: rawValue)
 		handler.replace(&quantity, to: newQuantity)
 	}
@@ -101,9 +102,13 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 	public func incrementStoredSiteIndex() -> Index {
 		let currentIndex = siteIndex.value
 		let siteCount = getSiteCount()
-		if siteCount == 0 {
-			return currentIndex
+		
+		// Should not happen, but exists for safety
+		if currentIndex < 0 || currentIndex >= siteCount || siteCount == 0 {
+			handler.replace(&siteIndex, to: 0)
+			return 0
 		}
+		
 		let newIndex = (currentIndex + 1) % siteCount
 		handler.replace(&siteIndex, to: newIndex)
 		return newIndex

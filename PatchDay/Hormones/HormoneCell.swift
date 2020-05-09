@@ -58,12 +58,12 @@ class HormoneCell: TableCell {
 	}
 
 	private func attachToModel(_ hormone: Hormonal, _ hormoneIndex: Index) {
-		loadDateLabel(for: hormone)
+		loadDateLabel(for: hormone, hormoneIndex)
 		loadBadge(hormone, at: hormoneIndex)
 		selectionStyle = .default
 	}
 
-	private func loadDateLabel(for hormone: Hormonal) {
+	private func loadDateLabel(for hormone: Hormonal, _ index: Index) {
 		dateLabel.textColor = hormone.isExpired ? UIColor.red : UIColor.black
 		let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
 		dateLabel.font = UIFont.systemFont(ofSize: size)
@@ -76,7 +76,8 @@ class HormoneCell: TableCell {
 
     private func loadBadge(_ hormone: Hormonal, at index: Int) {
 		badgeButton.restorationIdentifier = String(index)
-        badgeButton.type = hormone.deliveryMethod == .Injections ? .injections : .patches
+		badgeButton.type = hormone.deliveryMethod == .Injections
+			? .forInjectionsHormonesView : .forPatchesHormonesView
         let shouldShow = hormone.isPastNotificationTime
 		badgeButton.badgeValue = shouldShow ? "!" : nil
 	}

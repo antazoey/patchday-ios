@@ -11,14 +11,14 @@ import PDKit
 
 class PillDataSharer: PillDataSharing {
 
-	private let baseSharer: DataSharing
+	private let baseSharer: UserDefaultsProtocol
 
-	init(baseSharer: DataSharing) {
+	init(baseSharer: UserDefaultsProtocol) {
 		self.baseSharer = baseSharer
 	}
 
 	public func share(nextPill: Swallowable) {
-		baseSharer.share(nextPill.name, forKey: TodayKey.nextPillToTake.rawValue)
-		baseSharer.share(nextPill.due, forKey: TodayKey.nextPillTakeTime.rawValue)
+		baseSharer.set(nextPill.name, for: TodayKey.nextPillToTake.rawValue)
+		baseSharer.set(nextPill.due, for: TodayKey.nextPillTakeTime.rawValue)
 	}
 }

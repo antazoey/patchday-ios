@@ -19,7 +19,6 @@ public class HormoneStrings {
 			case .Patches: return createPatchViewStrings(hormone)
 			case .Injections: return createInjectionViewStrings(hormone)
 			case .Gel: return createGelViewStrings(hormone)
-			default: return HormoneViewStrings(NextDue, DateAndTimeTaken, _Site)
 		}
 	}
 

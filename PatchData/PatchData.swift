@@ -15,7 +15,7 @@ public class PatchData: NSObject, PatchDataSDK {
 		"Root object for developing with PatchData."
 	}
 
-	let dataSharer: DataSharing
+	let dataSharer: UserDefaultsProtocol
 	let coreData: PDCoreDataWrapping
 	let hormoneDataSharer: HormoneDataSharing
 
@@ -26,7 +26,7 @@ public class PatchData: NSObject, PatchDataSDK {
 
 	public init(
 		settings: PDSettingsManaging,
-		dataSharer: DataSharing,
+		dataSharer: UserDefaultsProtocol,
 		hormones: HormoneScheduling,
 		pills: PillScheduling,
 		sites: SiteScheduling,

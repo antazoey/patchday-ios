@@ -11,6 +11,7 @@ import Foundation
 public let OnlySupportedInjectionsQuantity = 1
 public let SupportedHormoneUpperQuantityLimit = 4
 
+public let HoursInADay = 24
 public let HoursInHalfWeek = 84
 public let HoursInWeek = HoursInHalfWeek * 2
 public let HoursInTwoWeeks = HoursInWeek * 2
@@ -44,7 +45,6 @@ public class DefaultQuantities {
 		switch deliveryMethod {
 			case .Injections: return 1
 			case .Patches: return 3
-			case .Pills: return 1
 			case .Gel: return 1
 		}
 	}
@@ -53,7 +53,6 @@ public class DefaultQuantities {
 		switch deliveryMethod {
 			case .Injections: return 1
 			case .Patches: return 4
-			case .Pills: return 1
 			case .Gel: return 2
 		}
 	}

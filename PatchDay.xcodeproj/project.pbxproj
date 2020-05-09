@@ -95,6 +95,9 @@
 		9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */; };
 		9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* HormoneStringsTests.swift */; };
 		9D1908D42460C79700E95244 /* TodayAppDataKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D32460C79700E95244 /* TodayAppDataKeys.swift */; };
+		9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */; };
+		9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */; };
+		9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */; };
 		9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
 		9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */; };
@@ -183,7 +186,7 @@
 		9D8A985D23D3B9A6004E20FE /* MockPillDataSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A985C23D3B9A6004E20FE /* MockPillDataSharer.swift */; };
 		9D8A985F23D3B9EC004E20FE /* PillDataSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A985E23D3B9EC004E20FE /* PillDataSharing.swift */; };
 		9D8A986123D3BAF3004E20FE /* DataSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986023D3BAF3004E20FE /* DataSharer.swift */; };
-		9D8A986323D3BAFE004E20FE /* DataSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986223D3BAFE004E20FE /* DataSharing.swift */; };
+		9D8A986323D3BAFE004E20FE /* UserDefaultsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986223D3BAFE004E20FE /* UserDefaultsProtocol.swift */; };
 		9D8A986523D95941004E20FE /* PillScheduleTestsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A986423D95941004E20FE /* PillScheduleTestsUtil.swift */; };
 		9D913B7A22FF3A0B001FC03C /* UserDefaultsWriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */; };
 		9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */; };
@@ -496,6 +499,9 @@
 		9D003EC0233599A90070C964 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataWrapping.swift; sourceTree = "<group>"; };
 		9D1908D32460C79700E95244 /* TodayAppDataKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAppDataKeys.swift; sourceTree = "<group>"; };
+		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
+		9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsInterface.swift; sourceTree = "<group>"; };
+		9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaultsInterface.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptions.swift; sourceTree = "<group>"; };
 		9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandling.swift; sourceTree = "<group>"; };
@@ -569,7 +575,7 @@
 		9D8A985C23D3B9A6004E20FE /* MockPillDataSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPillDataSharer.swift; sourceTree = "<group>"; };
 		9D8A985E23D3B9EC004E20FE /* PillDataSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDataSharing.swift; sourceTree = "<group>"; };
 		9D8A986023D3BAF3004E20FE /* DataSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSharer.swift; sourceTree = "<group>"; };
-		9D8A986223D3BAFE004E20FE /* DataSharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSharing.swift; sourceTree = "<group>"; };
+		9D8A986223D3BAFE004E20FE /* UserDefaultsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsProtocol.swift; sourceTree = "<group>"; };
 		9D8A986423D95941004E20FE /* PillScheduleTestsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillScheduleTestsUtil.swift; sourceTree = "<group>"; };
 		9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriting.swift; sourceTree = "<group>"; };
 		9D913B7C22FF3BEA001FC03C /* HormoneScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduling.swift; sourceTree = "<group>"; };
@@ -862,6 +868,7 @@
 			isa = PBXGroup;
 			children = (
 				3397CF33CEB0E43BBF273BDB /* PDSettingsTests.swift */,
+				9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1096,6 +1103,7 @@
 				9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */,
 				13C746D01ED781DD00067A67 /* UserDefaultsWriter.swift */,
 				9D9397BC2379444300FDF290 /* PDSettings.swift */,
+				9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1276,6 +1284,7 @@
 			children = (
 				9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */,
 				9D6E9AFC24563454003BBCC9 /* MockSettings.swift */,
+				9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */,
 			);
 			path = MockSettings;
 			sourceTree = "<group>";
@@ -1364,7 +1373,7 @@
 			children = (
 				3397C4E72B97FAB79FE3636F /* HormoneDataSharing.swift */,
 				9D8A985E23D3B9EC004E20FE /* PillDataSharing.swift */,
-				9D8A986223D3BAFE004E20FE /* DataSharing.swift */,
+				9D8A986223D3BAFE004E20FE /* UserDefaultsProtocol.swift */,
 			);
 			path = DataSharing;
 			sourceTree = "<group>";
@@ -2038,6 +2047,7 @@
 				9D8A983523C7F8A9004E20FE /* MockHormoneStore.swift in Sources */,
 				9D8A981F23C57473004E20FE /* MockHormoneDataSharer.swift in Sources */,
 				9D8A982723C574F5004E20FE /* MockUserDefaultsWriter.swift in Sources */,
+				9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */,
 				9D6E9B00245643B7003BBCC9 /* MockHormoneSchedule.swift in Sources */,
 				9D6E9AFB245633DC003BBCC9 /* MockSDK.swift in Sources */,
 				9D8A984B23D13093004E20FE /* MockSiteStore.swift in Sources */,
@@ -2092,6 +2102,7 @@
 				9D8A986123D3BAF3004E20FE /* DataSharer.swift in Sources */,
 				9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PatchData.swift in Sources */,
+				9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* UserDefaultsWriter.swift in Sources */,
 				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
 				9D8A97F823AFCCE5004E20FE /* CoreDataEntityAdapter.swift in Sources */,
@@ -2124,6 +2135,7 @@
 			files = (
 				9D8A984723D13052004E20FE /* SiteScheduledTests.swift in Sources */,
 				9D8A983F23CBF384004E20FE /* HormoneTests.swift in Sources */,
+				9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */,
 				9D8A986523D95941004E20FE /* PillScheduleTestsUtil.swift in Sources */,
 				B468414221DC815A00A0BE73 /* HormoneScheduleTests.swift in Sources */,
 				9D8A985323D1682E004E20FE /* SiteTests.swift in Sources */,
@@ -2190,7 +2202,7 @@
 				9D8A982C23C7EEDA004E20FE /* PillStoring.swift in Sources */,
 				9D6DB7D22405FED600C00711 /* PDUserDefault.swift in Sources */,
 				9D6E9ADA2456219A003BBCC9 /* PDNotificationProducing.swift in Sources */,
-				9D8A986323D3BAFE004E20FE /* DataSharing.swift in Sources */,
+				9D8A986323D3BAFE004E20FE /* UserDefaultsProtocol.swift in Sources */,
 				3397C05456061252A20D0EC4 /* HormoneDetailValueTypes.swift in Sources */,
 				3397C115FF936D6A9736EE74 /* SingleValueTypeKeyStorables.swift in Sources */,
 				9DDAB02E23FA050A00E6EEF6 /* PDAlerting.swift in Sources */,

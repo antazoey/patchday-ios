@@ -9,17 +9,17 @@
 import Foundation
 import PDKit
 
-public class DataSharer: DataSharing {
+public class DataSharer: UserDefaultsProtocol {
 
 	private var sharedDefaults: UserDefaults? {
 		UserDefaults(suiteName: PDSharedDataGroupName)
 	}
 
-	public func share(_ value: Any?, forKey key: String) {
+	public func set(_ value: Any?, for key: String) {
 		sharedDefaults?.set(value, forKey: key)
 	}
 
-	public func object(forKey key: String) -> Any? {
+	public func object(for key: String) -> Any? {
 		sharedDefaults?.object(forKey: key)
 	}
 }

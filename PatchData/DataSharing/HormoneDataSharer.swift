@@ -11,12 +11,12 @@ import PDKit
 
 public class HormoneDataSharer: HormoneDataSharing {
 
-	private let baseSharer: DataSharing
+	private let base: UserDefaultsProtocol
 	private let sites: SiteScheduling
 	private let settings: UserDefaultsReading
 
-	init(baseSharer: DataSharing, sites: SiteScheduling, settings: UserDefaultsReading) {
-		self.baseSharer = baseSharer
+	init(baseSharer: UserDefaultsProtocol, sites: SiteScheduling, settings: UserDefaultsReading) {
+		self.base = baseSharer
 		self.sites = sites
 		self.settings = settings
 	}
@@ -40,7 +40,7 @@ public class HormoneDataSharer: HormoneDataSharing {
 		interval: ExpirationIntervalUD,
 		deliveryMethod: DeliveryMethodUD
 	) {
-		baseSharer.share(displayedSiteName, forKey: TodayKey.nextHormoneSiteName.rawValue)
-		baseSharer.share(oldestHormone.date, forKey: TodayKey.nextHormoneDate.rawValue)
+		base.set(displayedSiteName, for: TodayKey.nextHormoneSiteName.rawValue)
+		base.set(oldestHormone.date, for: TodayKey.nextHormoneDate.rawValue)
 	}
 }

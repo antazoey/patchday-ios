@@ -12,7 +12,6 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 
 	public static let PatchesKey = { "Patches" }()
 	public static let InjectionsKey = { "Injections" }()
-	public static let PillsKey = { "Pills" }()
 	public static let GelKey = { "Gel" }()
 
 	public typealias Value = DeliveryMethod
@@ -37,7 +36,6 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 		switch rawValue {
 			case DeliveryMethodUD.PatchesKey: return .Patches
 			case DeliveryMethodUD.InjectionsKey: return .Injections
-			case DeliveryMethodUD.PillsKey: return .Pills
 			case DeliveryMethodUD.GelKey: return .Gel
 			default: return .Patches
 		}
@@ -47,7 +45,6 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
 		switch v {
 			case .Patches: return PatchesKey
 			case .Injections: return InjectionsKey
-			case .Pills: return PillsKey
 			case .Gel: return GelKey
 		}
 	}

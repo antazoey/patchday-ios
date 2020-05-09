@@ -35,7 +35,6 @@ public class PDTitleStrings {
 			case .Patches: return PatchesTitle
 			case .Injections: return InjectionsTitle
 			case .Gel: return GelTitle
-			default: return HormonesTitle
 		}
 	}
 
@@ -44,7 +43,6 @@ public class PDTitleStrings {
 			case .Patches: return PatchSitesTitle
 			case .Injections: return InjectionSitesTitle
 			case .Gel: return GelSitesTitle
-			default: return SitesTitle
 		}
 	}
 }

@@ -55,7 +55,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		viewModel.goToHormoneDetails(hormoneIndex: indexPath.row, hormonesViewController: self)
+		viewModel.handleRowTapped(at: indexPath.row, self)
 	}
 
 	// MARK: - Actions

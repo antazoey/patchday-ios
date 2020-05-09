@@ -258,17 +258,17 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		guard let viewModel = self.viewModel else { return }
 		setPicker(
 			deliveryMethodPicker,
-				.DeliveryMethod,
+			.DeliveryMethod,
 			deliveryMethodButton, { viewModel.deliveryMethodStartIndex }
 		)
 		setPicker(
 			expirationIntervalPicker,
-				.ExpirationInterval,
+			.ExpirationInterval,
 			expirationIntervalButton, { viewModel.expirationIntervalStartIndex }
 		)
 		setPicker(
 			quantityPicker,
-				.Quantity,
+			.Quantity,
 			quantityButton, { viewModel.quantityStartIndex }
 		)
 	}

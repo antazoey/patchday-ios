@@ -17,7 +17,6 @@ public typealias Stamps = [Stamp?]?
 public enum DeliveryMethod {
 	case Patches
 	case Injections
-	case Pills
 	case Gel
 }
 
@@ -29,6 +28,7 @@ public enum Quantity: Int {
 }
 
 public enum ExpirationInterval {
+	case OnceDaily
 	case TwiceWeekly
 	case OnceWeekly
 	case EveryTwoWeeks

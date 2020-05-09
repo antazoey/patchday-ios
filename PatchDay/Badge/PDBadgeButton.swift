@@ -6,9 +6,9 @@ import UIKit
 import PDKit
 
 enum PDBadgeButtonType {
-	case patches
-	case injections
-	case pills
+	case forPatchesHormonesView
+	case forInjectionsHormonesView
+	case forPillsView
 }
 
 struct CGDimensions {
@@ -52,12 +52,12 @@ extension CAShapeLayer {
 		self.fillColor = UIColor.red.cgColor
 		self.strokeColor = UIColor.red.cgColor
 		switch type {
-			case .patches, .injections:
-				self.frame = self.frame.offsetBy(dx: width * 0.90, dy: 20)
-				self.lineWidth = 4
-			case .pills:
+			case .forPillsView:
 				self.frame = self.frame.offsetBy(dx: width * 0.71, dy: 0)
 				self.lineWidth = 0.5
+			default:
+				self.frame = self.frame.offsetBy(dx: width * 0.90, dy: 20)
+				self.lineWidth = 4
 		}
 	}
 }
@@ -112,7 +112,7 @@ extension CGRect {
 
 class PDBadgeButton: UIButton {
 
-	var type: PDBadgeButtonType = .patches
+	var type: PDBadgeButtonType = .forPatchesHormonesView
 
 	var badgeValue: String! = "" {
 		didSet {

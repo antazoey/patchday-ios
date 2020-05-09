@@ -10,6 +10,7 @@ import Foundation
 
 public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
 
+	public static var OnceDailyKey = { "Once daily" }()
 	public static var TwiceWeeklyKey = { "One half-week" }()
 	public static var OnceWeeklyKey = { "One week" }()
 	public static var EveryTwoWeeksKey = { "Two weeks" }()
@@ -34,14 +35,17 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
 
 	public override var value: ExpirationInterval {
 		switch rawValue {
+			case ExpirationIntervalUD.OnceDailyKey: return .OnceDaily
+			case ExpirationIntervalUD.TwiceWeeklyKey: return .TwiceWeekly
 			case ExpirationIntervalUD.OnceWeeklyKey: return .OnceWeekly
 			case ExpirationIntervalUD.EveryTwoWeeksKey: return .EveryTwoWeeks
-			default: return .TwiceWeekly
+			default: return DefaultSettings.ExpirationIntervalValue
 		}
 	}
 
 	public var hours: Int {
 		switch value {
+			case .OnceDaily: return HoursInADay
 			case .TwiceWeekly: return HoursInHalfWeek
 			case .OnceWeekly: return HoursInWeek
 			case .EveryTwoWeeks: return HoursInTwoWeeks
@@ -52,15 +56,17 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
 		let options = SettingsOptions.expirationIntervals
 		var str = ""
 		switch value {
-			case .TwiceWeekly: str = options.tryGet(at: 0) ?? str
-			case .OnceWeekly: str = options.tryGet(at: 1) ?? str
-			case .EveryTwoWeeks: str = options.tryGet(at: 2) ?? str
+			case .OnceDaily: str = options.tryGet(at: 0) ?? str
+			case .TwiceWeekly: str = options.tryGet(at: 1) ?? str
+			case .OnceWeekly: str = options.tryGet(at: 2) ?? str
+			case .EveryTwoWeeks: str = options.tryGet(at: 3) ?? str
 		}
 		return str
 	}
 
 	public static func getRawValue(for value: ExpirationInterval) -> String {
 		switch value {
+			case .OnceDaily: return OnceDailyKey
 			case .TwiceWeekly: return TwiceWeeklyKey
 			case .OnceWeekly: return OnceWeeklyKey
 			case .EveryTwoWeeks: return EveryTwoWeeksKey

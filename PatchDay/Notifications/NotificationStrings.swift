@@ -48,7 +48,7 @@ class NotificationStrings {
 			switch method {
 				case .Patches: return overnightPatch
 				case .Injections: return overnightInjection
-				default: return ""
+				case .Gel: return overnightGel
 			}
 		}
 	}
@@ -95,6 +95,10 @@ class NotificationStrings {
 
     static var overnightInjection: String {
 		NSLocalizedString("Injection due overnight.", comment: comment)
+	}
+	
+	static var overnightGel: String {
+		NSLocalizedString("Gel due overnight", comment: comment)
 	}
 
     private static let comment = "Notification telling you where and when to change your patch."

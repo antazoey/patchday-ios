@@ -66,7 +66,6 @@ public class SiteStrings {
 		switch method {
 			case .Patches: return patches
 			case .Injections: return injections
-			case .Pills: return []
 			case .Gel: return gels
 		}
 	}

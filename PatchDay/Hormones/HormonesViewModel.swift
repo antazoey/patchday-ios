@@ -64,17 +64,17 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		guard let sdk = sdk else { return nil }
 		let quantity = sdk.settings.quantity.rawValue
 		guard row < quantity && row >= 0 else { return nil }
-		let method = sdk.settings.deliveryMethod.value
 		let hormone = sdk.hormones[row]
-
-		let siteImageDeterminationParams = SiteImageDeterminationParameters(
-			hormone: hormone, deliveryMethod: method
-		)
+		let siteImageDeterminationParams = SiteImageDeterminationParameters(hormone: hormone)
 		return SiteImages[siteImageDeterminationParams]
 	}
 
 	func sortHormones() {
 		hormones?.sort()
+	}
+	
+	func handleRowTapped(at index: Index, _ hormonesViewController: UIViewController) {
+		goToHormoneDetails(hormoneIndex: index, hormonesViewController)
 	}
 
 	func presentDisclaimerAlertIfFirstLaunch() {
@@ -87,7 +87,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		table.cells.tryGet(at: row) ?? HormoneCell()
 	}
 
-	func goToHormoneDetails(hormoneIndex: Index, hormonesViewController: UIViewController) {
+	func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController) {
 		guard let hormone = hormones?[hormoneIndex] else { return }
 		nav?.goToHormoneDetails(hormone, source: hormonesViewController)
 	}

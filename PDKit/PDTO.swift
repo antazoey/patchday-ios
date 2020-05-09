@@ -53,9 +53,9 @@ public class SiteImageDeterminationParameters {
         self.deliveryMethod = deliveryMethod
     }
 
-    public init(hormone: Hormonal?, deliveryMethod: DeliveryMethod) {
+    public init(hormone: Hormonal?) {
         self.siteName = hormone?.siteName
-        self.deliveryMethod = deliveryMethod
+		self.deliveryMethod = hormone?.deliveryMethod ?? DefaultSettings.DeliveryMethodValue
     }
 
     public init(deliveryMethod: DeliveryMethod) {
@@ -64,11 +64,8 @@ public class SiteImageDeterminationParameters {
 }
 
 public struct PillAttributes {
-
     private let defaultName = PillStrings.NewPill
-
     public var description: String { "Pill DTO" }
-
     public var name: String?
     public var expirationInterval: String?
     public var timesaday: Int?

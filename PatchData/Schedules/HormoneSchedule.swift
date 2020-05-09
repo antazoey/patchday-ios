@@ -206,14 +206,16 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	private var hasSites: Bool {
-		hormones.filter { $0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "") }.count > 0
+		hormones.filter {
+			$0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "")
+		}.count > 0
 	}
 
 	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 		hormone.siteId = site.id
 		hormone.date = date
 		sort()
-		pushFromDateAndSiteChange(hormone, doSave: true)
+		pushFromDateAndSiteChange(hormone)
 		if incrementSiteIndex {
 			settings.incrementStoredSiteIndex()
 		}
@@ -237,8 +239,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		store.getStoredHormones(HormoneScheduleProperties(settings))
 	}
 
-	private func pushFromDateAndSiteChange(_ hormone: Hormonal, doSave: Bool) {
-		store.pushLocalChangesToManagedContext([hormone], doSave: doSave)
+	private func pushFromDateAndSiteChange(_ hormone: Hormonal) {
+		store.pushLocalChangesToManagedContext([hormone], doSave: true)
 		shareData()
 	}
 }

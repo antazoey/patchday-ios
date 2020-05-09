@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol UserDefaultsProtocol {
-	func set(_ value: Any?, forKey key: String)
-	func object(forKey key: String) -> Any?
+	func set(_ value: Any?, for key: String)
+	func object(for key: String) -> Any?
 }
