@@ -17,8 +17,20 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 		self.controls = controls
 		super.init()
 	}
+	
+	init(_ controls: SettingsControls, _ dependencies: DependenciesProtocol) {
+		self.controls = controls
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
+	}
 
-	public func reflectStoredSettings() {
+	public func reflect() {
 		loadDeliveryMethod()
 		loadExpirationInterval()
 		loadQuantity()
@@ -38,16 +50,20 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 
 	private func loadQuantity() {
 		guard let settings = sdk?.settings else { return }
-		let quantity = settings.quantity.rawValue
+		var quantity = settings.quantity.rawValue
 		let method = settings.deliveryMethod.value
 		controls.quantityButton.setTitle("\(quantity)")
-		if method == .Injections {
+		
+		// Disable ability to change quantity for methods with only one quantity.
+		if DefaultQuantities.Hormone[method] == 1 {
 			controls.quantityButton.isEnabled = false
 			controls.quantityArrowButton.isEnabled = false
-			if quantity != OnlySupportedInjectionsQuantity {
-				settings.setQuantity(to: OnlySupportedInjectionsQuantity)
+			if quantity != 1 {
+				settings.setQuantity(to: 1)
+				quantity = 1
 			}
 		}
+		controls.quantityButton.setTitle("\(quantity)")
 	}
 
 	private func loadNotifications() {
@@ -57,6 +73,7 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 
 	private func loadNotificationsMinutesBefore() {
 		guard let minutesBefore = sdk?.settings.notificationsMinutesBefore.value else { return }
+		controls.notificationsMinutesBeforeSlider.maximumValue = Float(DefaultSettings.MaxSupportedNotificationsMinutesBefore)
 		if controls.notificationsSwitch.isOn {
 			controls.notificationsMinutesBeforeSlider.value = Float(minutesBefore)
 			controls.notificationsMinutesBeforeValueLabel.text = String(minutesBefore)

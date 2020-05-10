@@ -28,7 +28,7 @@ public class SettingsOptions {
 		switch method {
 			case .Patches: return deliveryMethods[0]
 			case .Injections: return deliveryMethods[1]
-			case .Gel: return deliveryMethods[3]
+			case .Gel: return deliveryMethods[2]
 		}
 	}
 

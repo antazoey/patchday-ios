@@ -498,7 +498,7 @@ class SiteScheduleTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
-	public func testReorder_whenIndexesAreValid_swaps() {
+	public func testReorder_whenIndicesAreValid_swaps() {
 		let mockSites = setUpSites(count: 3)
 		let expected = mockSites[0].id
 		sites.reorder(at: 0, to: 2)

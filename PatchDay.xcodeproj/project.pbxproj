@@ -60,7 +60,6 @@
 		3397C8BC572ADE0631DBFC1B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9AF85534D3884106598 /* DateExtension.swift */; };
 		3397C8FDF0447D23136C68C4 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C7DB5907E297804FE42B /* SettingsViewModel.swift */; };
 		3397C9103C3BF3CE2A887203 /* SettingsSavePoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CBAEECDFB0997BB88263 /* SettingsSavePoint.swift */; };
-		3397C93B7F180AADB95B65C9 /* QuantityMutator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C45C47949C6C2CF07287 /* QuantityMutator.swift */; };
 		3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */; };
 		3397C9F0797A3112A1D3C473 /* SiteImagePickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C77F4C999C35C9771AFC /* SiteImagePickerDelegate.swift */; };
 		3397CA6214D86DA38FC63503 /* SiteViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C38F2F374263D15AFAAD /* SiteViewFactory.swift */; };
@@ -98,6 +97,16 @@
 		9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */; };
 		9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */; };
 		9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */; };
+		9D1908DF2468315F00E95244 /* SettingsSavePointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */; };
+		9D1908E1246834EF00E95244 /* MockDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E0246834EF00E95244 /* MockDependencies.swift */; };
+		9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E2246835E900E95244 /* DependenciesProtocol.swift */; };
+		9D1908E62468369700E95244 /* MockTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E52468369700E95244 /* MockTabs.swift */; };
+		9D1908E82468375200E95244 /* MockNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E72468375200E95244 /* MockNotifications.swift */; };
+		9D1908EA2468388B00E95244 /* MockNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E92468388B00E95244 /* MockNav.swift */; };
+		9D1908ED2468395C00E95244 /* MockAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908EC2468395C00E95244 /* MockAlerts.swift */; };
+		9D1908EF24684B5400E95244 /* SettingsReflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */; };
+		9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F024684BC900E95244 /* SettingsTestHelper.swift */; };
+		9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F22468564100E95244 /* SettingsViewModelTests.swift */; };
 		9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
 		9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */; };
@@ -426,7 +435,6 @@
 		3397C3FEA855E6D94AB288AD /* AlertStrings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertStrings.swift; sourceTree = "<group>"; };
 		3397C429190FB7BFA67C7CB2 /* SiteDetailConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailConstants.swift; sourceTree = "<group>"; };
 		3397C44F655B05A9959614A9 /* HormoneDetailValueTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDetailValueTypes.swift; sourceTree = "<group>"; };
-		3397C45C47949C6C2CF07287 /* QuantityMutator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuantityMutator.swift; sourceTree = "<group>"; };
 		3397C46296174AEBD22741E7 /* PDAppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAppConstants.swift; sourceTree = "<group>"; };
 		3397C464274CED87748A05AE /* AlertDispatching.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDispatching.swift; sourceTree = "<group>"; };
 		3397C478C3A31A2B19EE03A6 /* PDTStructFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDTStructFactory.swift; sourceTree = "<group>"; };
@@ -502,6 +510,16 @@
 		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
 		9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsInterface.swift; sourceTree = "<group>"; };
 		9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaultsInterface.swift; sourceTree = "<group>"; };
+		9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSavePointTests.swift; sourceTree = "<group>"; };
+		9D1908E0246834EF00E95244 /* MockDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDependencies.swift; sourceTree = "<group>"; };
+		9D1908E2246835E900E95244 /* DependenciesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesProtocol.swift; sourceTree = "<group>"; };
+		9D1908E52468369700E95244 /* MockTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTabs.swift; sourceTree = "<group>"; };
+		9D1908E72468375200E95244 /* MockNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotifications.swift; sourceTree = "<group>"; };
+		9D1908E92468388B00E95244 /* MockNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNav.swift; sourceTree = "<group>"; };
+		9D1908EC2468395C00E95244 /* MockAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlerts.swift; sourceTree = "<group>"; };
+		9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReflectorTests.swift; sourceTree = "<group>"; };
+		9D1908F024684BC900E95244 /* SettingsTestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTestHelper.swift; sourceTree = "<group>"; };
+		9D1908F22468564100E95244 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptions.swift; sourceTree = "<group>"; };
 		9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandling.swift; sourceTree = "<group>"; };
@@ -843,7 +861,6 @@
 				3397C7DB5907E297804FE42B /* SettingsViewModel.swift */,
 				3397CBAEECDFB0997BB88263 /* SettingsSavePoint.swift */,
 				3397C53545234920B507958D /* SettingsStructs.swift */,
-				3397C45C47949C6C2CF07287 /* QuantityMutator.swift */,
 				3397CB18E77D8048782F165F /* SettingsReflector.swift */,
 				3397C5BF42C6720C632A84B3 /* SettingsViewController.swift */,
 			);
@@ -1090,6 +1107,37 @@
 			path = DataSharing;
 			sourceTree = "<group>";
 		};
+		9D1908DD2468310800E95244 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */,
+				9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */,
+				9D1908F024684BC900E95244 /* SettingsTestHelper.swift */,
+				9D1908F22468564100E95244 /* SettingsViewModelTests.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9D1908E42468368100E95244 /* MockApp */ = {
+			isa = PBXGroup;
+			children = (
+				9D6E9B0124564501003BBCC9 /* MockBadge.swift */,
+				9D1908E0246834EF00E95244 /* MockDependencies.swift */,
+				9D6E9AFA245633DC003BBCC9 /* MockSDK.swift */,
+				9D1908E52468369700E95244 /* MockTabs.swift */,
+				9D1908E92468388B00E95244 /* MockNav.swift */,
+			);
+			path = MockApp;
+			sourceTree = "<group>";
+		};
+		9D1908EB2468394B00E95244 /* MockAlerts */ = {
+			isa = PBXGroup;
+			children = (
+				9D1908EC2468395C00E95244 /* MockAlerts.swift */,
+			);
+			path = MockAlerts;
+			sourceTree = "<group>";
+		};
 		9D1BC56A2275FAC800552BC1 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1152,6 +1200,7 @@
 			children = (
 				9D6E9AD524562155003BBCC9 /* MockNotificationCenter.swift */,
 				9D6E9B1724564A2F003BBCC9 /* MockNotificationFactory.swift */,
+				9D1908E72468375200E95244 /* MockNotifications.swift */,
 			);
 			path = MockNotifications;
 			sourceTree = "<group>";
@@ -1172,6 +1221,7 @@
 		9D6E9AEF2456253A003BBCC9 /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
+				9D1908DD2468310800E95244 /* Settings */,
 				9D6E9B38245DCD2E003BBCC9 /* Hormones */,
 				9D6E9B1C2457A541003BBCC9 /* Notifications */,
 				9D6E9AF22456253A003BBCC9 /* Info.plist */,
@@ -1250,13 +1300,13 @@
 		9D8A981B23C5742E004E20FE /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				9D1908EB2468394B00E95244 /* MockAlerts */,
+				9D1908E42468368100E95244 /* MockApp */,
 				9D6E9AD424562145003BBCC9 /* MockNotifications */,
 				9D8A985623D1692F004E20FE /* MockDataSharers */,
 				9D8A982523C574C0004E20FE /* MockSettings */,
 				9D8A982023C57487004E20FE /* MockCoreData */,
 				3397C2AF275108F73193FF4C /* MockSchedules */,
-				9D6E9AFA245633DC003BBCC9 /* MockSDK.swift */,
-				9D6E9B0124564501003BBCC9 /* MockBadge.swift */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1302,6 +1352,7 @@
 				9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */,
 				3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */,
 				3397CF930A5E66090BFA9C71 /* TabReflective.swift */,
+				9D1908E2246835E900E95244 /* DependenciesProtocol.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1987,7 +2038,6 @@
 				9D6DB7E22406002B00C00711 /* SettingsPickerView.swift in Sources */,
 				3397C9103C3BF3CE2A887203 /* SettingsSavePoint.swift in Sources */,
 				3397C270073E6E9F1E9E1E6D /* SettingsStructs.swift in Sources */,
-				3397C93B7F180AADB95B65C9 /* QuantityMutator.swift in Sources */,
 				3397CB4DDE8099EDD871BBB7 /* SettingsReflector.swift in Sources */,
 				3397CC13D997D7B96EB62086 /* SettingsViewController.swift in Sources */,
 				9D6E9AE42456231C003BBCC9 /* NotificationFactory.swift in Sources */,
@@ -2025,9 +2075,13 @@
 				9D6E9AF92456256F003BBCC9 /* NotificationsTests.swift in Sources */,
 				9D6E9B2A245DAE60003BBCC9 /* HormoneNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B27245CDAF8003BBCC9 /* DuePillNotificationTests.swift in Sources */,
+				9D1908DF2468315F00E95244 /* SettingsSavePointTests.swift in Sources */,
 				9D6E9B3B245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift in Sources */,
+				9D1908EF24684B5400E95244 /* SettingsReflectorTests.swift in Sources */,
 				9D6E9B2D245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */,
+				9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */,
+				9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2038,6 +2092,7 @@
 				9D8A983C23CBC071004E20FE /* MockSite.swift in Sources */,
 				9D8A983523C7F8A9004E20FE /* MockHormoneStore.swift in Sources */,
 				9D8A981F23C57473004E20FE /* MockHormoneDataSharer.swift in Sources */,
+				9D1908E82468375200E95244 /* MockNotifications.swift in Sources */,
 				9D8A982723C574F5004E20FE /* MockUserDefaultsWriter.swift in Sources */,
 				9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */,
 				9D6E9B00245643B7003BBCC9 /* MockHormoneSchedule.swift in Sources */,
@@ -2048,14 +2103,18 @@
 				9D8A984923D1308A004E20FE /* MockPillStore.swift in Sources */,
 				9D8A985123D160EB004E20FE /* MockPill.swift in Sources */,
 				9D6E9B0224564501003BBCC9 /* MockBadge.swift in Sources */,
+				9D1908E62468369700E95244 /* MockTabs.swift in Sources */,
 				9D6E9B1824564A2F003BBCC9 /* MockNotificationFactory.swift in Sources */,
 				9D8A983A23C7FD1F004E20FE /* MockHormone.swift in Sources */,
+				9D1908E1246834EF00E95244 /* MockDependencies.swift in Sources */,
 				9D8A984D23D132EC004E20FE /* MockPatchDataStore.swift in Sources */,
 				9D8A985D23D3B9A6004E20FE /* MockPillDataSharer.swift in Sources */,
 				9D8A982223C57499004E20FE /* MockEntity.swift in Sources */,
+				9D1908EA2468388B00E95244 /* MockNav.swift in Sources */,
 				9D6E9AFD24563454003BBCC9 /* MockSettings.swift in Sources */,
 				9D6E9AFF2456376B003BBCC9 /* MockPillSchedule.swift in Sources */,
 				9D6E9AD624562155003BBCC9 /* MockNotificationCenter.swift in Sources */,
+				9D1908ED2468395C00E95244 /* MockAlerts.swift in Sources */,
 				3397CB2B0008632768A8CFAF /* MockSiteSchedule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2154,6 +2213,7 @@
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
 				9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */,
 				9D913B9C22FF5497001FC03C /* SiteScheduling.swift in Sources */,
+				9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */,
 				9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */,
 				9D8A985F23D3B9EC004E20FE /* PillDataSharing.swift in Sources */,
 				9D913BA022FF697F001FC03C /* Bodily.swift in Sources */,

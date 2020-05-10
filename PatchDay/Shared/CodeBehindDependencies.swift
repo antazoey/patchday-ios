@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-class CodeBehindDependencies<T> {
+class CodeBehindDependencies<T>: DependenciesProtocol {
 
 	let sdk: PatchDataSDK?
 	var tabs: TabReflective?

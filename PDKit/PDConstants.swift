@@ -8,7 +8,6 @@
 
 import Foundation
 
-public let OnlySupportedInjectionsQuantity = 1
 public let SupportedHormoneUpperQuantityLimit = 4
 
 public let HoursInADay = 24
@@ -28,6 +27,7 @@ public class DefaultSettings {
 	public static let NotificationsMinutesBeforeRawValue = 0
 	public static let MentionedDisclaimerRawValue = false
 	public static let SiteIndexRawValue = 0
+	public static let MaxSupportedNotificationsMinutesBefore = 120
 }
 
 public class DefaultPillAttributes {

@@ -11,11 +11,11 @@ import PDKit
 
 class SettingsPickerView: UIPickerView {
 
-	private var _activator: UIButton!
+	private var _activator: UIButton?
 
-	public var setting: PDSetting!
+	public var setting: PDSetting?
 	public var activator: UIButton {
-		get { _activator }
+		get { _activator ?? UIButton() }
 		set {
 			newValue.setTitle(ActionStrings.Save, for: .selected)
 			_activator = newValue
@@ -23,9 +23,11 @@ class SettingsPickerView: UIPickerView {
 	}
 	public var getStartRow: () -> Index = { 0 }
 
-	public var options: [String]!
+	public var options: [String]?
 
-	public var selected: String? { options.tryGet(at: selectedRow(inComponent: 0)) }
+	public var selected: String? {
+		options?.tryGet(at: selectedRow(inComponent: 0))
+	}
 
 	public func open() {
 		_activator?.isSelected = true

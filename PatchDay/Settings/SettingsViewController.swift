@@ -76,7 +76,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		title = PDTitleStrings.SettingsTitle
 		setTopConstraint()
 		loadButtonDisabledStates()
-		viewModel?.reflector.reflectStoredSettings()
+		viewModel?.reflector.reflect()
 		setPickers()
 		applyTheme()
 	}
@@ -151,8 +151,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
 	private func loadViewModelIfNil() {
 		guard viewModel == nil else { return }
-		let saver = SettingsSavePoint(controls: controlsStruct)
-		self.viewModel = SettingsViewModel(reflector: SettingsReflector(controlsStruct), saver: saver)
+		let saver = SettingsSavePoint(controlsStruct)
+		let reflector = SettingsReflector(controlsStruct)
+		self.viewModel = SettingsViewModel(reflector, saver)
 	}
 
 	private func handlePickerActivation(_ setting: PDSetting) {

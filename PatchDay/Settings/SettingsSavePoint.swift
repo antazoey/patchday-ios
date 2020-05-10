@@ -12,10 +12,22 @@ import PDKit
 class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private let controls: SettingsControls
-
-	init(controls: SettingsControls) {
+	
+	init(_ controls: SettingsControls) {
 		self.controls = controls
 		super.init()
+	}
+
+	init(_ controls: SettingsControls, _ dependencies: DependenciesProtocol) {
+		self.controls = controls
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
 	}
 
 	public func save(_ key: PDSetting, selectedRow: Index) {
@@ -39,10 +51,10 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
 		// Put view logic here that reflects the state of the delivery method in the Settings view.
-		let decline = { (_ method: DeliveryMethod) -> Void in
-			let methodTitle = SettingsOptions.getDeliveryMethodString(for: choice)
-			controls.deliveryMethodButton.setTitleForNormalAndDisabled(methodTitle)
-			switch choice {
+		let decline = { (_ originalMethod: DeliveryMethod) -> Void in
+			let originalTitle = SettingsOptions.getDeliveryMethodString(for: originalMethod)
+			controls.deliveryMethodButton.setTitleForNormalAndDisabled(originalTitle)
+			switch originalMethod {
 				case .Patches:
 					controls.quantityButton.isEnabled = true
 					controls.quantityArrowButton.isEnabled = true
@@ -58,20 +70,44 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 	private func saveQuantity(_ selectedRow: Index) {
 		let decline = createDeclineSaveQuantityButtonClosure()
 		let newQuantity = SettingsOptions.getQuantity(at: selectedRow).rawValue
-		QuantityMutator(
-			sdk: sdk,
-			alerts: alerts,
-			tabs: tabs,
-			notifications: notifications,
-			decline: decline
-		).setQuantity(to: newQuantity)
+		setQuantity(to: newQuantity, decline: decline)
 	}
 
 	private func createDeclineSaveQuantityButtonClosure() -> (Int) -> Void { { oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)") }
 	}
-
+	
+	private func setQuantity(to newQuantity: Int, decline: @escaping (Int) -> Void) {
+		guard let sdk = sdk else { return }
+		let oldQuantity = sdk.settings.quantity.rawValue
+		if newQuantity >= oldQuantity {
+			sdk.settings.setQuantity(to: newQuantity)
+			return
+		}
+		let continueAction: (_ newQuantity: Int) -> Void = {
+			(newQuantity) in
+			sdk.hormones.delete(after: newQuantity)
+			sdk.settings.setQuantity(to: newQuantity)
+			self.tabs?.reflectHormoneCharacteristics()
+			self.notifications?.cancelRangeOfExpiredHormoneNotifications(
+				from: newQuantity - 1, to: oldQuantity - 1
+			)
+		}
+		let handler = QuantityMutationAlertActionHandler(
+			cont: continueAction,
+			decline: decline,
+			setQuantity: sdk.settings.setQuantity
+		)
+		alerts?.presentQuantityMutationAlert(
+			oldQuantity: oldQuantity,
+			newQuantity: newQuantity,
+			handlers: handler
+		)
+	}
+	
 	private func saveExpirationInterval(_ selectedRow: Index) {
-		guard let newInterval = SettingsOptions.expirationIntervals.tryGet(at: selectedRow) else { return }
+		guard let newInterval = SettingsOptions.expirationIntervals.tryGet(at: selectedRow) else {
+			return
+		}
 		sdk?.settings.setExpirationInterval(to: newInterval)
 	}
 }

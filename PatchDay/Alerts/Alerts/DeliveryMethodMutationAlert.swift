@@ -14,7 +14,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 	private var sdk: PatchDataSDK?
 	private let tabs: TabReflective?
 
-	private let oldDeliveryMethod: DeliveryMethod
+	private let originalDeliveryMethod: DeliveryMethod
 	private let newDeliveryMethod: DeliveryMethod
 	private let handlers: DeliveryMethodMutationAlertActionHandling
 
@@ -28,7 +28,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 
 	private lazy var declineAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
-			_ in self.handlers.handleDecline(oldMethod: self.oldDeliveryMethod)
+			_ in self.handlers.handleDecline(originalMethod: self.originalDeliveryMethod)
 		}
 	}()
 
@@ -37,7 +37,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 		style: UIAlertController.Style,
 		sdk: PatchDataSDK?,
 		tabs: TabReflective?,
-		oldDeliveryMethod: DeliveryMethod,
+		originalDeliveryMethod: DeliveryMethod,
 		newDeliveryMethod: DeliveryMethod,
 		handlers: DeliveryMethodMutationAlertActionHandling
 	) {
@@ -45,7 +45,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 		self.tabs = tabs
 		self.handlers = handlers
 		let strings = AlertStrings.loseDataAlertStrings
-		self.oldDeliveryMethod = oldDeliveryMethod
+		self.originalDeliveryMethod = originalDeliveryMethod
 		self.newDeliveryMethod = newDeliveryMethod
 		super.init(
 			parent: parent, title: strings.title, message: strings.message, style: style
