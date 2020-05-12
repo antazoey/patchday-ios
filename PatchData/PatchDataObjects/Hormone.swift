@@ -60,17 +60,9 @@ public class Hormone: Hormonal {
 
 	public var expiration: Date? {
 		if let date = date as Date?, !date.isDefault() {
-			let hoursUntilExpires = expirationInterval.hours
-			return DateFactory.createDate(byAddingHours: hoursUntilExpires, to: date)
+			return createExpirationDate(from: date)
 		}
 		return nil
-	}
-
-	public var expirationString: String {
-		guard let expDate = expiration else {
-			return DotDotDot
-		}
-		return PDDateFormatter.formatDate(expDate)
 	}
 
 	public var isExpired: Bool {
@@ -124,5 +116,9 @@ public class Hormone: Hormonal {
 		hormoneData.date = nil
 		hormoneData.siteRelationshipId = nil
 		hormoneData.siteNameBackUp = nil
+	}
+	
+	public func createExpirationDate(from startDate: Date) -> Date? {
+		DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: date)
 	}
 }

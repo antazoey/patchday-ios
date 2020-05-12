@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol DeliveryMethodMutationAlertActionHandling {
-	func handleDecline(originalMethod: DeliveryMethod)
+	func handleDecline(originalMethod: DeliveryMethod, originalQuantity: Int)
 }

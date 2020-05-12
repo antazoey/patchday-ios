@@ -16,14 +16,26 @@ enum TextFieldButtonSenderType: String {
 
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
-	private var expirationIntervalHours: Int {
-		guard let hours = sdk?.settings.expirationInterval.hours else { return DefaultSettings.ExpirationIntervalHours }
-		return hours
-	}
-
 	var hormone: Hormonal
 	var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
+	
+	init(
+		_ hormone: Hormonal,
+		_ newSiteHandler: @escaping () -> Void,
+		_ dependencies: DependenciesProtocol
+	) {
+		self.hormone = hormone
+		self.handleInterfaceUpdatesFromNewSite = newSiteHandler
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
+	}
 
 	init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> Void) {
 		self.hormone = hormone
@@ -33,19 +45,24 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	/// Returns the date selected from the UI. If no date has been selected, returns the hormones date. If the hormone does not
 	/// have a valid date, returns the current date.
-	var dateSelected: Date {
+	var dateSelected: Date? {
 		get {
 			if let selected = selections.date {
 				return selected
 			}
 			let date = hormone.date
-			return date.isDefault() ? Date() : date
+			return date.isDefault() ? nil : date
 		}
 		set { selections.date = newValue }
 	}
 
 	var dateSelectedText: String {
-		PDDateFormatter.formatDate(dateSelected)
+		guard let date = dateSelected else { return DotDotDot }
+		return PDDateFormatter.formatDate(date)
+	}
+	
+	var datePickerDate: Date {
+		dateSelected ?? Date()
 	}
 
 	var selectDateButtonStartText: String {
@@ -55,11 +72,16 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	var selectSiteTextFieldStartText: String {
 		guard hormone.hasSite else { return ActionStrings.Select }
-		return getSite()?.name ?? SiteStrings.NewSite
+		return hormone.siteName ?? SiteStrings.NewSite
 	}
 
 	var expirationDateText: String {
-		createExpirationDateString(from: dateSelected)
+		let expInt = hormone.expirationInterval
+		guard let date = dateSelected else { return DotDotDot }
+		if let expDate = DateFactory.createExpirationDate(expirationInterval: expInt, to: date) {
+			return PDDateFormatter.formatDay(expDate)
+		}
+		return DotDotDot
 	}
 
 	var hormoneIndex: Index {
@@ -89,7 +111,10 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	var autoPickedExpirationDateText: String {
-		createExpirationDateString(from: Date())
+		if let date = hormone.createExpirationDate(from: Date()) {
+			return PDDateFormatter.formatDay(date)
+		}
+		return DotDotDot
 	}
 
 	func getSiteName(at row: Index) -> SiteName {
@@ -114,8 +139,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		var expState = createInitialExpirationState(from: hormone)
 		trySave()
 		expState.isExpiredAfterSave = hormone.isExpired
-		handleExpirationState(state: expState)
-		handleExpirationStateInNotifications(state: expState)
+		reflectExpirationInAppBadge(expState)
+		handleExpirationStateInNotifications(expState)
 		requestNewNotifications()
 		tabs?.reflectHormoneCharacteristics()
 	}
@@ -164,11 +189,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested)
 	}
 
-	private func handleExpirationState(state: HormoneExpirationState) {
-		reflectExpirationInAppBadge(state: state)
-	}
-
-	private func reflectExpirationInAppBadge(state: HormoneExpirationState) {
+	private func reflectExpirationInAppBadge(_ state: HormoneExpirationState) {
 		if !state.isExpiredAfterSave {
 			badge?.decrement()
 		} else if !state.wasExpiredBeforeSave && state.isExpiredAfterSave {
@@ -177,7 +198,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		}
 	}
 
-	private func handleExpirationStateInNotifications(state: HormoneExpirationState) {
+	private func handleExpirationStateInNotifications(_ state: HormoneExpirationState) {
 		guard !state.wasPastAlertTimeAfterSave else { return }
 		notifications?.cancelExpiredHormoneNotification(for: hormone)
 	}
@@ -188,12 +209,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		if hormone.expiresOvernight {
 			notifications.requestOvernightExpirationNotification(for: hormone)
 		}
-	}
-
-	private func createExpirationDateString(from startDate: Date) -> String {
-		let hours = expirationIntervalHours
-		guard let expDate = DateFactory.createDate(byAddingHours: hours, to: startDate) else { return "" }
-		return PDDateFormatter.formatDay(expDate)
 	}
 
 	private func getSite() -> Bodily? {

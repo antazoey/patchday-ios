@@ -114,7 +114,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		notificationsMinutesBeforeValueLabel.text = String(newValue)
 	}
 
-	/// Opens UIPickerView
+	/// The settings buttons with pickers i.e. `deliveryMethodButton`, `quantityButton` all point here.
 	@IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
 		guard let setting = sender.tryGetSettingFromButtonMetadata() else { return }
 		handlePickerActivation(setting)
@@ -136,11 +136,17 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		return settingsPicker.options?.count ?? 0
 	}
 
-	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+	func pickerView(
+		_ pickerView: UIPickerView,
+		attributedTitleForRow row: Int,
+		forComponent component: Int
+	) -> NSAttributedString? {
 		let settingsPicker = pickerView as? SettingsPickerView
 		let title = settingsPicker?.options?.tryGet(at: row) ?? ""
 		let textColor = PDColors[.Text]
-		return NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor])
+		return NSAttributedString(
+			string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor]
+		)
 	}
 
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -225,7 +231,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(textColor)
 		quantityIcon.image = quantityIcon.image?.withTintColor(textColor)
 		notificationsIcon.image = notificationsIcon.image?.withTintColor(textColor)
-		notificationsMinutesBeforeIcon.image = notificationsMinutesBeforeIcon.image?.withTintColor(textColor)
+		let tintedImage = notificationsMinutesBeforeIcon.image?.withTintColor(textColor)
+		notificationsMinutesBeforeIcon.image = tintedImage
 
 		// Misc
 		notificationsSwitch.backgroundColor = bgColor

@@ -159,7 +159,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	// MARK: - Date Picker funcs
 
 	@IBAction func selectDateTextTapped(_ sender: Any) {
-		datePicker.date = viewModel.dateSelected
+		datePicker.date = viewModel.datePickerDate
 		let doneButton = PDViewFactory.createDoneButton(
 			doneAction: #selector(datePickerDone), mainView: view, targetViewController: self
 		)

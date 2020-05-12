@@ -15,20 +15,28 @@ class DeliveryMethodMutationAlert: PDAlert {
 	private let tabs: TabReflective?
 
 	private let originalDeliveryMethod: DeliveryMethod
+	private let originalQuantity: Int
 	private let newDeliveryMethod: DeliveryMethod
 	private let handlers: DeliveryMethodMutationAlertActionHandling
 
 	private lazy var continueAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
 			_ in
-			self.sdk?.settings.setDeliveryMethod(to: self.newDeliveryMethod)
+			if let sdk = self.sdk {
+				sdk.settings.setDeliveryMethod(to: self.newDeliveryMethod)
+				let defaultQuantity = DefaultQuantities.Hormone[self.newDeliveryMethod]
+				sdk.settings.setQuantity(to: defaultQuantity)
+			}
 			self.tabs?.reflectHormoneCharacteristics()
 		}
 	}()
 
 	private lazy var declineAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
-			_ in self.handlers.handleDecline(originalMethod: self.originalDeliveryMethod)
+			_ in self.handlers.handleDecline(
+				originalMethod: self.originalDeliveryMethod,
+				originalQuantity: self.originalQuantity
+			)
 		}
 	}()
 
@@ -38,6 +46,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 		sdk: PatchDataSDK?,
 		tabs: TabReflective?,
 		originalDeliveryMethod: DeliveryMethod,
+		originalQuantity: Int,
 		newDeliveryMethod: DeliveryMethod,
 		handlers: DeliveryMethodMutationAlertActionHandling
 	) {
@@ -46,6 +55,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 		self.handlers = handlers
 		let strings = AlertStrings.loseDataAlertStrings
 		self.originalDeliveryMethod = originalDeliveryMethod
+		self.originalQuantity = originalQuantity
 		self.newDeliveryMethod = newDeliveryMethod
 		super.init(
 			parent: parent, title: strings.title, message: strings.message, style: style

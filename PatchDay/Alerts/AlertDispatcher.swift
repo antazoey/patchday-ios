@@ -49,6 +49,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
 			sdk: sdk,
 			tabs: tabs,
 			originalDeliveryMethod: originalMethod,
+			originalQuantity: sdk.settings.quantity.rawValue,
 			newDeliveryMethod: newMethod,
 			handlers: handlers
 		).present()

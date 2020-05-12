@@ -24,7 +24,6 @@ public class MockHormone: Hormonal, PDMocking {
 	public var siteName: SiteName? = nil
 	public var date: Date = Date(timeIntervalSince1970: 0)
 	public var expiration: Date? = nil
-	public var expirationString = ""
 	public var isExpired = false
 	public var isPastNotificationTime = false
 	public var expiresOvernight = false
@@ -61,5 +60,12 @@ public class MockHormone: Hormonal, PDMocking {
 
 	public func reset() {
 		resetCallCount += 1
+	}
+	
+	var createExpirationDateCallArgs: [Date?] = []
+	var createExpirationDateReturnValue: Date? = nil
+	public func createExpirationDate(from startDate: Date) -> Date? {
+		createExpirationDateCallArgs.append(startDate)
+		return createExpirationDateReturnValue
 	}
 }

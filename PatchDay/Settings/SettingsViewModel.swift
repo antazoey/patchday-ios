@@ -20,7 +20,11 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 		super.init()
 	}
 	
-	init(_ reflector: SettingsReflector, _ saver: SettingsSavePoint, _ dependencies: DependenciesProtocol) {
+	init(
+		_ reflector: SettingsReflector,
+		_ saver: SettingsSavePoint,
+		_ dependencies: DependenciesProtocol
+	) {
 		self.reflector = reflector
 		self.saver = saver
 		super.init(

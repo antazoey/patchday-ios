@@ -50,20 +50,10 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 
 	private func loadQuantity() {
 		guard let settings = sdk?.settings else { return }
-		var quantity = settings.quantity.rawValue
+		let quantity = settings.quantity.rawValue
 		let method = settings.deliveryMethod.value
 		controls.quantityButton.setTitle("\(quantity)")
-		
-		// Disable ability to change quantity for methods with only one quantity.
-		if DefaultQuantities.Hormone[method] == 1 {
-			controls.quantityButton.isEnabled = false
-			controls.quantityArrowButton.isEnabled = false
-			if quantity != 1 {
-				settings.setQuantity(to: 1)
-				quantity = 1
-			}
-		}
-		controls.quantityButton.setTitle("\(quantity)")
+		controls.reflect(method: method)
 	}
 
 	private func loadNotifications() {

@@ -33,9 +33,6 @@ public protocol Hormonal: PDObjectified {
 	/// The date that this hormone runs out of juice.
 	var expiration: Date? { get }
 
-	/// The string representation of the expiration date.
-	var expirationString: String { get }
-
 	/// Whether it is past this hormone's expiration date.
 	var isExpired: Bool { get }
 
@@ -59,4 +56,7 @@ public protocol Hormonal: PDObjectified {
 
 	/// Sets the date to now.
 	func stamp()
+	
+	/// Creates a would-be expiration date for the given start date using this hormone's expiration interval.
+	func createExpirationDate(from startDate: Date) -> Date?
 }

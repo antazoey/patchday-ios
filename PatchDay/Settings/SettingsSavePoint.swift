@@ -47,13 +47,19 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		sdk.isFresh
 			? sdk.settings.setDeliveryMethod(to: newMethod)
 			: presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
+		controls.reflect(method: newMethod)
+		let defaultQuantity = DefaultQuantities.Hormone[newMethod]
+		controls.quantityButton.setTitle("\(defaultQuantity)")
 	}
 
-	private func presentDeliveryMethodMutationAlert(choice: DeliveryMethod, controls: SettingsControls) {
+	private func presentDeliveryMethodMutationAlert(
+		choice: DeliveryMethod, controls: SettingsControls
+	) {
 		// Put view logic here that reflects the state of the delivery method in the Settings view.
-		let decline = { (_ originalMethod: DeliveryMethod) -> Void in
+		let decline = { (_ originalMethod: DeliveryMethod, _ originalQuantity: Int) -> Void in
 			let originalTitle = SettingsOptions.getDeliveryMethodString(for: originalMethod)
 			controls.deliveryMethodButton.setTitleForNormalAndDisabled(originalTitle)
+			controls.quantityButton.setTitleForNormalAndDisabled("\(originalQuantity)")
 			switch originalMethod {
 				case .Patches:
 					controls.quantityButton.isEnabled = true
@@ -68,14 +74,13 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 	}
 
 	private func saveQuantity(_ selectedRow: Index) {
-		let decline = createDeclineSaveQuantityButtonClosure()
+		let decline: (Int) -> Void = {
+			oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)")
+		}
 		let newQuantity = SettingsOptions.getQuantity(at: selectedRow).rawValue
 		setQuantity(to: newQuantity, decline: decline)
 	}
 
-	private func createDeclineSaveQuantityButtonClosure() -> (Int) -> Void { { oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)") }
-	}
-	
 	private func setQuantity(to newQuantity: Int, decline: @escaping (Int) -> Void) {
 		guard let sdk = sdk else { return }
 		let oldQuantity = sdk.settings.quantity.rawValue

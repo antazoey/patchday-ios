@@ -87,25 +87,6 @@ class HormoneTests: XCTestCase {
 		XCTAssertNil(hormone.expiration)
 	}
 
-	func testExpirationString_whenExpirationIsnil_returnsThreeDots() {
-		let hormone = createEmptyHormone()
-		let expected = "..."
-		let actual = hormone.expirationString
-		XCTAssertEqual(expected, actual)
-	}
-
-	func testExpirationString_whenExpirationIsDefault_returnsThreeDots() {
-		let hormone = createEmptyHormone(useDefaultDate: true)
-		let expected = "..."
-		let actual = hormone.expirationString
-		XCTAssertEqual(expected, actual)
-	}
-
-	func testExpirationString_whenExpirationIsYesterday_includesWordYesterday() {
-		let hormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
-		XCTAssert(hormone.expirationString.contains("Yesterday"))
-	}
-
 	func testIsExpired_whenExpirationDateIsBeforeNow_returnsTrue() {
 		let hormone = createTwiceWeeklyHormoneThatIsExpiredByOneDay()
 		XCTAssert(hormone.isExpired)
@@ -253,5 +234,13 @@ class HormoneTests: XCTestCase {
 				&& hormone.siteId == nil
 				&& hormone.siteNameBackUp == nil
 		)
+	}
+	
+	func testCreateExpirationDate_returnsExpectedDate() {
+		let testDate = Date()
+		let hormone = createEmptyHormone()
+		let actual = hormone.createExpirationDate(from: testDate)
+		let expected = Calendar.current.date(byAdding: .hour, value: 84, to: testDateThatIsNow)
+		XCTAssert(abs(expected!.timeIntervalSince(actual!)) < 0.01)
 	}
 }
