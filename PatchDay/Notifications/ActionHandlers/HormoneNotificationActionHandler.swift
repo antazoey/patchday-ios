@@ -15,7 +15,7 @@ class HormoneNotificationActionHandler: HormoneNotificationActionHandling {
 	private let badge: PDBadgeDelegate
 
 	convenience init(sdk: PatchDataSDK?) {
-		self.init(sdk: sdk, appBadge: PDBadge())
+		self.init(sdk: sdk, appBadge: PDBadge(sdk: sdk))
 	}
 
 	init(sdk: PatchDataSDK?, appBadge: PDBadgeDelegate) {
@@ -27,6 +27,6 @@ class HormoneNotificationActionHandler: HormoneNotificationActionHandling {
 		guard let id = UUID(uuidString: id) else { return }
 		guard let suggestedSite = sdk?.sites.suggested else { return }
 		sdk?.hormones.set(by: id, date: Date(), site: suggestedSite, incrementSiteIndex: true)
-		badge.decrement()
+		badge.reflect()
 	}
 }

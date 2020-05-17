@@ -12,17 +12,13 @@ import PDKit
 class PDBadge: PDBadgeDelegate {
 
 	private var badgeNumber = UIApplication.shared.applicationIconBadgeNumber
-
-	func increment() {
-		badgeNumber += 1
+	private let sdk: PatchDataSDK?
+	
+	init(sdk: PatchDataSDK?) {
+		self.sdk = sdk
 	}
-
-	func decrement() {
-        guard badgeNumber > 0 else { return }
-        badgeNumber -= 1
-	}
-
-	func set(to newBadgeValue: Int) {
-		badgeNumber = newBadgeValue
+	
+	func reflect() {
+		badgeNumber = sdk?.totalAlerts ?? 0
 	}
 }

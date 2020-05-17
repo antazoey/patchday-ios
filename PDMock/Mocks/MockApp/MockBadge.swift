@@ -11,21 +11,11 @@ import PDKit
 
 
 public class MockBadge: PDBadgeDelegate {
-    
+	
     public init() {}
     
-    public var incrementCallCount = 0
-    public func increment() {
-        incrementCallCount += 1
-    }
-    
-    public var decrementCallCount = 0
-    public func decrement() {
-        decrementCallCount += 1
-    }
-    
-    public var setCallArgs: [Int] = []
-    public func set(to newBadgeValue: Int) {
-        setCallArgs.append(newBadgeValue)
-    }
+	public var reflectCallCount = 0
+	public func reflect() {
+		reflectCallCount += 1
+	}
 }

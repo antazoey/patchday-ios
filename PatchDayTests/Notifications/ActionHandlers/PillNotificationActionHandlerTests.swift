@@ -56,7 +56,7 @@ class PillNotificationActionHandlerTests: XCTestCase {
 		pills.swallowIdCallArgs[0].1!()
 		XCTAssertEqual(1, PillNotificationActionHandlerTests.requesterCallCount)
 		PillNotificationActionHandlerTests.requesterCallCount = 0
-		XCTAssertEqual(1, badge.decrementCallCount)
+		XCTAssertEqual(1, badge.reflectCallCount)
 	}
 
 	func testHandlePill_whenClosureExecuted_requestsNewNotification() {
@@ -72,7 +72,7 @@ class PillNotificationActionHandlerTests: XCTestCase {
 		let handler = setUpHandler()
 		handler.handlePill(pillId: mockPill.id.uuidString)
 		pills.swallowIdCallArgs[0].1!()
-		XCTAssertEqual(1, badge.decrementCallCount)
+		XCTAssertEqual(1, badge.reflectCallCount)
 		PillNotificationActionHandlerTests.requesterCallCount = 0
 	}
 }

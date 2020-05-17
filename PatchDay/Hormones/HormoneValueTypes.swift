@@ -12,12 +12,6 @@ struct HormoneSelectionState {
 	var siteIndex: Index { site?.order ?? -1 }
 }
 
-struct HormoneExpirationState {
-	var wasExpiredBeforeSave = false
-	var wasPastAlertTimeAfterSave = false
-	var isExpiredAfterSave = false
-}
-
 enum HormoneMutation {
 	case Add
 	case Edit

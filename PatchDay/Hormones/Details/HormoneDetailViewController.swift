@@ -211,7 +211,7 @@ class HormoneDetailViewController:
 
 	@objc private func saveButtonTapped(_ sender: Any) {
 		guard let viewModel = viewModel else { return }
-		viewModel.saveFromSelectionState()
+		viewModel.saveSelections()
 		viewModel.nav?.pop(source: self)
 	}
 

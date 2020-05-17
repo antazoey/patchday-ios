@@ -56,6 +56,6 @@ class HormoneNotificationActionHandlerTests: XCTestCase {
 		let badge = MockBadge()
 		let handler = HormoneNotificationActionHandler(sdk: sdk, appBadge: badge)
 		handler.handleHormone(id: hormone.id.uuidString)
-		XCTAssertEqual(1, badge.decrementCallCount)
+		XCTAssertEqual(1, badge.reflectCallCount)
 	}
 }

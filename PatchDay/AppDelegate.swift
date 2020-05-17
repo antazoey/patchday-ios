@@ -20,15 +20,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var alerts: AlertDispatching?
 	var tabs: TabReflective?
 	var nav: NavigationHandling = Navigation()
-	var badge: PDBadgeDelegate = PDBadge()
+	var badge: PDBadgeDelegate?
 
 	func application(
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 	) -> Bool {
+		let badge = PDBadge(sdk: sdk)
+		self.badge = badge
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
 		self.alerts = AlertDispatcher(sdk: sdk)
-		self.setBadgeToTotalAlerts()
+		self.badge?.reflect()
 		return true
 	}
 
@@ -41,15 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {
-		setBadgeToTotalAlerts()
+		badge?.reflect()
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {
-		setBadgeToTotalAlerts()
-	}
-
-	/// Sets the App badge number to the expired count + the total pills due for taking.
-	private func setBadgeToTotalAlerts() {
-		badge.set(to: sdk.totalAlerts)
+		badge?.reflect()
 	}
 }

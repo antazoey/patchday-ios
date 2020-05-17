@@ -131,12 +131,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return site.name
 	}
 
-	func saveFromSelectionState() {
-		var expState = createInitialExpirationState(from: hormone)
+	func saveSelections() {
 		trySave()
-		expState.isExpiredAfterSave = hormone.isExpired
-		reflectExpirationInAppBadge(expState)
-		handleExpirationStateInNotifications(expState)
+		badge?.reflect()
 		requestNewNotifications()
 		tabs?.reflectHormoneCharacteristics()
 	}
@@ -154,12 +151,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 			}
 		}
 		alerts.presentNewSiteAlert(handlers: handlers)
-	}
-
-	private func createInitialExpirationState(from hormone: Hormonal) -> HormoneExpirationState {
-		HormoneExpirationState(
-			wasExpiredBeforeSave: hormone.isExpired, wasPastAlertTimeAfterSave: hormone.isPastNotificationTime
-		)
 	}
 
 	private func trySave() {
@@ -183,20 +174,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		}
 		let isSuggested = site.id == sdk?.sites.suggested?.id
 		hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested)
-	}
-
-	private func reflectExpirationInAppBadge(_ state: HormoneExpirationState) {
-		if !state.isExpiredAfterSave {
-			badge?.decrement()
-		} else if !state.wasExpiredBeforeSave && state.isExpiredAfterSave {
-			// ^ Don't increment if already incremented (already was expired)
-			badge?.increment()
-		}
-	}
-
-	private func handleExpirationStateInNotifications(_ state: HormoneExpirationState) {
-		guard !state.wasPastAlertTimeAfterSave else { return }
-		notifications?.cancelExpiredHormoneNotification(for: hormone)
 	}
 
 	private func requestNewNotifications() {

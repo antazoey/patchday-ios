@@ -33,9 +33,9 @@ public class MockAlerts: AlertDispatching {
 		presentDisclaimerAlertCallCount += 1
 	}
 	
-	public var resentNewSiteAlertCallArgs: [NewSiteAlertActionHandling] = []
+	public var presentNewSiteAlertCallArgs: [NewSiteAlertActionHandling] = []
 	public func presentNewSiteAlert(handlers: NewSiteAlertActionHandling) {
-		resentNewSiteAlertCallArgs.append(handlers)
+		presentNewSiteAlertCallArgs.append(handlers)
 	}
 	
 	public var presentGenericAlertCallCount = 0

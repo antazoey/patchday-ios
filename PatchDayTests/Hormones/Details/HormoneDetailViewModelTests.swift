@@ -362,33 +362,33 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(actual, expected)
 	}
 	
-	func testSaveFromSelectionState_whenDateSelected_callsSetHormoneDate() {
+	func testSaveSelections_whenDateSelected_callsSetHormoneDate() {
 		let hormone = MockHormone()
 		let date = Date()
 		let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
 		let viewModel = HormoneDetailViewModel(hormone, handler, dependencies)
 		viewModel.selections.date = date
-		viewModel.saveFromSelectionState()
+		viewModel.saveSelections()
 		let actual = hormones.setDateByIdCallArgs[0]
 		let expected = (hormone.id, date)
 		XCTAssertEqual(expected.0, actual.0)
 		XCTAssertEqual(expected.1, actual.1)
 	}
 	
-	func testSaveFromSelectionState_whenSiteSelected_callsSetHormoneSite() {
+	func testSaveSelections_whenSiteSelected_callsSetHormoneSite() {
 		let hormone = MockHormone()
 		let site = MockSite()
 		let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
 		let viewModel = HormoneDetailViewModel(hormone, handler, dependencies)
 		viewModel.selections.site = site
-		viewModel.saveFromSelectionState()
+		viewModel.saveSelections()
 		let actual = hormones.setSiteByIdCallArgs[0]
 		let expected = (hormone.id, site)
 		XCTAssertEqual(expected.0, actual.0)
 		XCTAssertEqual(expected.1.id, actual.1.id)
 	}
 	
-	func testSaveFromSelectionState_whenSiteSelectedAndSiteIsSuggested_incrementsSiteIndex() {
+	func testSaveSelections_whenSiteSelectedAndSiteIsSuggested_incrementsSiteIndex() {
 		let hormone = MockHormone()
 		let site = MockSite()
 		let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
@@ -396,12 +396,12 @@ class HormoneDetailViewModelTests: XCTestCase {
 		sites.suggested = site
 		let viewModel = HormoneDetailViewModel(hormone, handler, dependencies)
 		viewModel.selections.site = site
-		viewModel.saveFromSelectionState()
+		viewModel.saveSelections()
 		let didIncrement = hormones.setSiteByIdCallArgs[0].2
 		XCTAssert(didIncrement)
 	}
 	
-	func testSaveFromSelectionState_whenSiteSelectedAndSiteIsNotSuggested_doesNotIncrementSiteIndex() {
+	func testSaveSelections_whenSiteSelectedAndSiteIsNotSuggested_doesNotIncrementSiteIndex() {
 		let hormone = MockHormone()
 		let site = MockSite()
 		let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
@@ -409,8 +409,87 @@ class HormoneDetailViewModelTests: XCTestCase {
 		sites.suggested = MockSite()
 		let viewModel = HormoneDetailViewModel(hormone, handler, dependencies)
 		viewModel.selections.site = site
-		viewModel.saveFromSelectionState()
+		viewModel.saveSelections()
 		let didIncrement = hormones.setSiteByIdCallArgs[0].2
 		XCTAssertFalse(didIncrement)
+	}
+	
+	func testSaveSelections_reflectsBadge() {
+		let viewModel = HormoneDetailViewModel(MockHormone(), handler, dependencies)
+		viewModel.saveSelections()
+		let actual = (dependencies.badge as! MockBadge).reflectCallCount
+		XCTAssertEqual(1, actual)
+	}
+	
+	func testSaveSelections_requestNotification() {
+		let hormone = MockHormone()
+		hormone.isPastNotificationTime = false
+		let viewModel = HormoneDetailViewModel(hormone, handler, dependencies)
+		let notifications = dependencies.notifications as! MockNotifications
+		viewModel.saveSelections()
+		let actual = notifications.requestExpiredHormoneNotificationCallArgs[0].id
+		let expected = hormone.id
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testSaveSelections_reflectsTabs() {
+		let hormone = MockHormone()
+		hormone.isPastNotificationTime = false
+		let viewModel = HormoneDetailViewModel(hormone, handler, dependencies)
+		let tabs = dependencies.tabs as! MockTabs
+		viewModel.saveSelections()
+		let actual = tabs.reflectHormoneCharacteristicsCount
+		let expected = 1
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsNewSite() {
+		let expected = SiteStrings.NewSite
+		let textField = UITextField()
+		textField.text = nil
+		let viewModel = HormoneDetailViewModel(MockHormone(), handler, dependencies)
+		let actual = viewModel.extractSiteNameFromTextField(textField)
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testExtractSiteNameFromTextField_whenTextFieldTextIsEmptyString_returnsNewSite() {
+		let expected = SiteStrings.NewSite
+		let textField = UITextField()
+		textField.text = ""
+		let viewModel = HormoneDetailViewModel(MockHormone(), handler, dependencies)
+		let actual = viewModel.extractSiteNameFromTextField(textField)
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testExtractSiteNameFromTextField_whenTextFieldTextIsEmptyString_returnsText() {
+		let text = "Text"
+		let expected = text
+		let textField = UITextField()
+		textField.text = text
+		let viewModel = HormoneDetailViewModel(MockHormone(), handler, dependencies)
+		let actual = viewModel.extractSiteNameFromTextField(textField)
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testPresentNewSiteAlert_presentsAlertWithHandlerThatWhenCalledInsertsNewSite() {
+		let viewModel = HormoneDetailViewModel(MockHormone(), handler, dependencies)
+		let site = "Right Thigh"
+		viewModel.presentNewSiteAlert(newSiteName: site)
+		let handlers = (dependencies.alerts as! MockAlerts).presentNewSiteAlertCallArgs[0]
+		handlers.handleNewSite()
+		let actual = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0]
+		XCTAssertEqual(site, actual.0)
+		XCTAssert(actual.1)
+	}
+	
+	func testPresentNewSiteAlert_presentsAlertWithHandlerWithClosureThatCallsUpdateViewsHandler() {
+		let viewModel = HormoneDetailViewModel(MockHormone(), handler, dependencies)
+		let site = "Right Thigh"
+		viewModel.presentNewSiteAlert(newSiteName: site)
+		let handlers = (dependencies.alerts as! MockAlerts).presentNewSiteAlertCallArgs[0]
+		handlers.handleNewSite()
+		let closure = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0].2
+		closure!()
+		XCTAssertEqual(1, HormoneDetailViewModelTests.handlerCallCount)
 	}
 }

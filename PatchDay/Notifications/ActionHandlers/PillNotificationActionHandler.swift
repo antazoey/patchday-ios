@@ -27,7 +27,7 @@ class PillNotificationActionHandler: PillNotificationActionHandling {
 		guard let pill = pills[id] else { return }
 		pills.swallow(id) {
 			self.requestPillNotification?(pill)
-			self.badge.decrement()
+			self.badge.reflect()
 		}
 	}
 }
