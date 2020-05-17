@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol HormoneScheduling: Schedule, Sorting, Resetting {
+public protocol HormoneScheduling: Schedule, Resetting {
 
 	/// All the hormones.
 	var all: [Hormonal] { get }

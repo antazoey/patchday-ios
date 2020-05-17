@@ -8,8 +8,10 @@ import PDKit
 
 class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
-	private var site: Bodily
 	private let siteIndex: Index
+	private var site: Bodily {
+		return sdk!.sites[siteIndex]!
+	}
 	private var selections = SiteSelectionState()
 
 	weak var imagePickerDelegate: SiteImagePickerDelegate?
@@ -17,34 +19,31 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
 		let images = SiteImages.all
 		self.init(
-			params.site,
-			siteIndex: params.site.order,
+			siteIndex: params.siteIndex,
 			imageSelections: images,
 			siteImagePickerRelatedViews: params.relatedViews
 		)
 	}
 
 	private convenience init(
-		_ site: Bodily,
 		siteIndex: Index,
 		imageSelections: [UIImage],
 		siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews
 	) {
 		let pickerDelegateProps = SiteImagePickerDelegateProperties(
-			selectedSite: site, imageOptions: imageSelections, views: siteImagePickerRelatedViews
+			selectedSiteIndex: siteIndex,
+			imageOptions: imageSelections,
+			views: siteImagePickerRelatedViews
 		)
-		self.init(site, siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
+		self.init(siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
 	}
 
-	private convenience init(
-		_ site: Bodily, siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties
-	) {
+	private convenience init(siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties) {
 		let imagePickerDelegate = SiteImagePickerDelegate(props: imagePickerProps)
-		self.init(site, siteIndex: siteIndex, imagePickerDelegate: imagePickerDelegate)
+		self.init(siteIndex, imagePickerDelegate: imagePickerDelegate)
 	}
 
-	init(_ site: Bodily, siteIndex: Index, imagePickerDelegate: SiteImagePickerDelegate) {
-		self.site = site
+	init(_ siteIndex: Index, imagePickerDelegate: SiteImagePickerDelegate) {
 		self.siteIndex = siteIndex
 		self.imagePickerDelegate = imagePickerDelegate
 		super.init()

@@ -144,20 +144,6 @@ class HormoneScheduleTests: XCTestCase {
 		XCTAssertEqual(expected.id, actual?.id)
 	}
 
-	func testSort_sortsHormones() {
-		let mockHormones = MockHormone.createList(count: 3)
-		mockHormones[0].date = Date()
-		mockHormones[1].date = Date(timeIntervalSinceNow: -5000) // Original oldest
-		mockHormones[2].date = Date(timeIntervalSinceNow: -1000)
-		setUpHormones(mockHormones)
-		hormones.sort()
-		XCTAssertTrue(
-			hormones.all[0].date == mockHormones[1].date &&
-				hormones.all[1].date == mockHormones[2].date &&
-				hormones.all[2].date == mockHormones[0].date
-		)
-	}
-
 	func testResetIfEmpty_ifHormonesNotEmpty_returnsCount() {
 		let mockHormones = MockHormone.createList(count: 3)
 		setUpHormones(mockHormones)

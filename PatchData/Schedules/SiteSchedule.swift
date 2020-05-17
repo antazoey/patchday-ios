@@ -17,7 +17,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
 	private let store: SiteStoring
 	private let settings: UserDefaultsWriting
-	private var sites: [Bodily]
+	private var context: [Bodily]
 
 	private lazy var log = PDLog<SiteSchedule>()
 
@@ -25,16 +25,16 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		self.store = store
 		self.settings = settings
 		self.resetWhenEmpty = resetWhenEmpty
-		self.sites = store.getStoredSites()
+		self.context = store.getStoredSites()
 		super.init()
 		handleSiteCount()
 		sort()
 		ensureValidOrdering()
 	}
 
-	public var count: Int { sites.count }
+	public var count: Int { all.count }
 
-	public var all: [Bodily] { sites }
+	public var all: [Bodily] { context }
 
 	public var suggested: Bodily? {
 		guard count > 0 else { return nil }
@@ -51,7 +51,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public var nextIndex: Index {
-		sites.firstIndex(where: { b in
+		all.firstIndex(where: { b in
 			if let suggestedSite = suggested {
 				return suggestedSite.id == b.id
 			}
@@ -60,7 +60,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public var names: [SiteName] {
-		sites.map({ (site: Bodily) -> SiteName in site.name })
+		all.map({ (site: Bodily) -> SiteName in site.name })
 	}
 
 	public var isDefault: Bool {
@@ -79,7 +79,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	public func insertNew(name: String, save: Bool, onSuccess: (() -> Void)?) -> Bodily? {
 		if var site = store.createNewSite(doSave: save) {
 			site.name = name
-			sites.append(site)
+			context.append(site)
 			onSuccess?()
 			return site
 		}
@@ -90,18 +90,18 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	public func reset() -> Int {
 		if isDefault {
 			log.warn("Resetting sites unnecessary because already default")
-			return sites.count
+			return count
 		}
 		resetSitesToDefault()
-		store.pushLocalChangesToManagedContext(sites, doSave: true)
-		return sites.count
+		store.pushLocalChangesToManagedContext(context, doSave: true)
+		return count
 	}
 
 	public func delete(at index: Index) {
 		if let site = self[index] {
 			log.info("Deleting site at index \(index)")
 			store.delete(site)
-			sites.remove(at: index)
+			context.remove(at: index)
 
 			// index now refers to index - 1
 			for i in index...count - 1 {
@@ -113,7 +113,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public func sort() {
-		sites.sort {
+		context.sort {
 			// keep negative orders at the end
 			if $0.order < 0 {
 				return false
@@ -127,11 +127,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public subscript(index: Index) -> Bodily? {
-		sites.tryGet(at: index)
+		context.tryGet(at: index)
 	}
 
 	public subscript(id: UUID) -> Bodily? {
-		sites.first(where: { s in s.id == id })
+		context.first(where: { s in s.id == id })
 	}
 
 	public func rename(at index: Index, to name: SiteName) {
@@ -142,18 +142,18 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public func reorder(at index: Index, to newOrder: Int) {
-		guard sites.count > 0 else { return }
+		guard count > 0 else { return }
 		if var site = self[index], var originalSiteAtOrder = self[newOrder] {
 			site.order = site.order + originalSiteAtOrder.order
 			originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
 			site.order = site.order - originalSiteAtOrder.order
 			sort()
-			store.pushLocalChangesToManagedContext(sites, doSave: true)
+			store.pushLocalChangesToManagedContext(context, doSave: true)
 		}
 	}
 
 	public func setImageId(at index: Index, to newId: String) {
-		guard sites.count > 0 else { return }
+		guard count > 0 else { return }
 		let siteSet = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
 		if var site = self[index] {
 			site.imageId = siteSet.contains(newId) ? newId : SiteStrings.CustomSiteId
@@ -162,7 +162,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public func indexOf(_ site: Bodily) -> Index? {
-		sites.firstIndex { (_ s: Bodily) -> Bool in s.id == site.id }
+		context.firstIndex { (_ s: Bodily) -> Bool in s.id == site.id }
 	}
 
 	@discardableResult
@@ -189,7 +189,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	private var siteWithOldestHormone: Bodily? {
-		sites.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
+		context.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
 				(b, site) in
 
 				if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
@@ -215,19 +215,19 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	private func ensureValidOrdering() {
 		var shouldSave = false
 		for i in 0..<count {
-			var site = sites[i]
+			var site = context[i]
 			if site.order != i {
 				site.order = i
 				shouldSave = true
 			}
 		}
 		if shouldSave {
-			store.pushLocalChangesToManagedContext(sites, doSave: true)
+			store.pushLocalChangesToManagedContext(context, doSave: true)
 		}
 	}
 
 	private func handleSiteCount() {
-		if resetWhenEmpty && sites.count == 0 {
+		if resetWhenEmpty && count == 0 {
 			log.info("No stored sites - resetting to default")
 			reset()
 			logSites()
@@ -237,7 +237,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	private func resetSitesToDefault() {
 		let method = settings.deliveryMethod.value
 		let defaultSiteNames = SiteStrings.getSiteNames(for: method)
-		let previousCount = sites.count
+		let previousCount = count
 		assignDefaultProperties(options: defaultSiteNames)
 		deleteExtraSitesIfNeeded(previousCount: previousCount, newCount: defaultSiteNames.count)
 	}
@@ -269,20 +269,20 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	private func deleteSites(start: Index, end: Index) {
 		var deleteCount = 0
 		for i in start...end {
-			if let site = sites.tryGet(at: i) {
+			if let site = context.tryGet(at: i) {
 				deleteCount += 1
 				site.reset()
 				store.delete(site)
 			}
 		}
 		for _ in 0...deleteCount - 1 {
-			_ = sites.popLast()
+			_ = context.popLast()
 		}
 	}
 
 	private func logSites() {
 		var sitesDescription = "The Site Schedule contains:"
-		for site in sites {
+		for site in context {
 			sitesDescription.append("\nSite. Id=\(site.id), Order=\(site.order), Name=\(site.name)")
 		}
 		if sitesDescription.last != ":" {

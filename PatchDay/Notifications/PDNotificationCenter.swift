@@ -82,5 +82,6 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 			case DuePillNotification.actionId: pillActionHandler.handlePill(pillId: id)
 			default: return
 		}
+		completionHandler()
 	}
 }

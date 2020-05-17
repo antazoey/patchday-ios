@@ -16,16 +16,19 @@ enum TextFieldButtonSenderType: String {
 
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
-	var hormone: Hormonal
+	var index: Index
+	var hormone: Hormonal {
+		sdk!.hormones[self.index]!
+	}
 	var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
 	
 	init(
-		_ hormone: Hormonal,
+		_ hormoneIndex: Index,
 		_ newSiteHandler: @escaping () -> Void,
 		_ dependencies: DependenciesProtocol
 	) {
-		self.hormone = hormone
+		self.index = hormoneIndex
 		self.handleInterfaceUpdatesFromNewSite = newSiteHandler
 		super.init(
 			sdk: dependencies.sdk,
@@ -37,8 +40,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		)
 	}
 
-	init(_ hormone: Hormonal, _ newSiteHandler: @escaping () -> Void) {
-		self.hormone = hormone
+	init(_ hormoneIndex: Index, _ newSiteHandler: @escaping () -> Void) {
+		self.index = hormoneIndex
 		self.handleInterfaceUpdatesFromNewSite = newSiteHandler
 		super.init()
 	}
@@ -83,10 +86,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return DotDotDot
 	}
 
-	var hormoneIndex: Index {
-		sdk?.hormones.indexOf(hormone) ?? -1
-	}
-
 	var siteStartRow: Index {
 		guard selections.siteIndex < 0 else { return selections.siteIndex }
 		guard let site = getSite() else { return 0 }
@@ -121,8 +120,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return name != "" ? name : SiteStrings.NewSite
 	}
 
-	func createHormoneViewStrings() -> HormoneViewStrings {
-		HormoneStrings.create(hormone)
+	func createHormoneViewStrings() -> HormoneViewStrings? {
+		return HormoneStrings.create(hormone)
 	}
 
 	@discardableResult func trySelectSite(at row: Index) -> String? {

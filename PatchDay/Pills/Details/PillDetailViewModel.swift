@@ -13,12 +13,15 @@ enum TimeNumber: String {
 
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
-	let pill: Swallowable
+	let index: Index
+	var pill: Swallowable {
+		sdk!.pills[index]!
+	}
 	static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
 	var selections = PillAttributes()
 
-	init(_ pill: Swallowable) {
-		self.pill = pill
+	init(_ pillIndex: Index) {
+		self.index = pillIndex
 		super.init()
 	}
 

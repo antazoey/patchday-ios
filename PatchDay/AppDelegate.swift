@@ -16,22 +16,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 	var notifications: NotificationScheduling?
-	var sdk: PatchDataSDK = PatchData()
+	var sdk: PatchDataSDK?
 	var alerts: AlertDispatching?
 	var tabs: TabReflective?
-	var nav: NavigationHandling = Navigation()
+	var nav: NavigationHandling?
 	var badge: PDBadgeDelegate?
+	
+	private var sessionInitialized = false
 
 	func application(
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 	) -> Bool {
+		initDependencies()
+		return true
+	}
+	
+	func initDependencies() {
+		guard !sessionInitialized else { return }
+		let sdk = PatchData()
+		self.sdk = PatchData()
+		self.nav = Navigation()
 		let badge = PDBadge(sdk: sdk)
 		self.badge = badge
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
 		self.alerts = AlertDispatcher(sdk: sdk)
 		self.badge?.reflect()
-		return true
+		sessionInitialized = true
 	}
 
 	static var isPad: Bool {
@@ -40,6 +51,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	static var current: AppDelegate? {
 		UIApplication.shared.delegate as? AppDelegate
+	}
+
+	func applicationDidEnterBackground(_ application: UIApplication) {
+		sessionInitialized = false
+	}
+	
+	func applicationDidBecomeActive(_ application: UIApplication) {
+		sessionInitialized = false
+	}
+	
+	func applicationWillEnterForeground(_ application: UIApplication) {
+		initDependencies()
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {

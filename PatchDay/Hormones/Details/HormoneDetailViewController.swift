@@ -58,10 +58,10 @@ class HormoneDetailViewController:
 	}
 
 	static func create(
-		_ source: UIViewController, _ hormone: Hormonal
+		_ source: UIViewController, _ index: Index
 	) -> HormoneDetailViewController? {
 		let vc = create(source)
-		return vc?.initWithHormone(hormone)
+		return vc?.initWithHormoneIndex(index)
 	}
 
 	static func create(
@@ -77,8 +77,8 @@ class HormoneDetailViewController:
 		return sb?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController
 	}
 
-	private func initWithHormone(_ hormone: Hormonal) -> HormoneDetailViewController {
-		let viewModel = HormoneDetailViewModel(hormone, {
+	private func initWithHormoneIndex(_ index: Index) -> HormoneDetailViewController {
+		let viewModel = HormoneDetailViewModel(index, {
 			() in self.sitePicker.reloadAllComponents()
 		})
 		return initWithViewModel(viewModel)
@@ -231,7 +231,7 @@ class HormoneDetailViewController:
 
 	private func loadDateControls() {
 		guard let viewModel = viewModel else { return }
-		let viewStrings = viewModel.createHormoneViewStrings()
+		guard let viewStrings = viewModel.createHormoneViewStrings() else { return }
 		selectDateButton.setTitle(viewModel.selectDateButtonStartText)
 		expirationDateLabelHeader.text = viewStrings.expirationText
 		dateAndTimeAppliedHeader.text = viewStrings.dateAndTimePlacedText

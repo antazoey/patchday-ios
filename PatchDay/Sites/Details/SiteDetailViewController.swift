@@ -51,9 +51,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	static func createSiteDetailVC(
-		_ source: UIViewController, _ site: Bodily, params: SiteImageDeterminationParameters
+		_ source: UIViewController, _ index: Index, params: SiteImageDeterminationParameters
 	) -> SiteDetailViewController? {
-		createSiteDetailsVC(source)?.initWithSite(site, imageParams: params)
+		createSiteDetailsVC(source)?.initWithSite(index, imageParams: params)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -67,14 +67,14 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	private func initWithSite(
-		_ site: Bodily, imageParams: SiteImageDeterminationParameters
+		_ index: Index, imageParams: SiteImageDeterminationParameters
 	) -> SiteDetailViewController {
 		let relatedViews = SiteImagePickerDelegateRelatedViews(
 			getPicker: { self.imagePicker },
 			getImageView: { self.siteImageView },
 			getSaveButton: { self.saveButton }
 		)
-		return initWithParams(SiteDetailViewModelConstructorParams(site, imageParams, relatedViews))
+		return initWithParams(SiteDetailViewModelConstructorParams(index, imageParams, relatedViews))
 	}
 
 	private func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailViewController {

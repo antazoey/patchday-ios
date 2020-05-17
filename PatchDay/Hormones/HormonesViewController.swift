@@ -67,8 +67,9 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 	// MARK: - Private
 
 	private func initViewModelIfNil() {
-		guard viewModel == nil else { return }
-		viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, source: self)
+		//guard viewModel == nil else { return }
+		viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, style: getStyle())
+		viewModel.loadAppTabs(source: self)
 	}
 
 	private func assignSelfAsTableDelegate() {

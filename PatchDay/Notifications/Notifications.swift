@@ -15,11 +15,20 @@ class Notifications: NSObject, NotificationScheduling {
 	private let sdk: PatchDataSDK
 	private let center: NotificationCenterDelegate
 	private let factory: NotificationProducing
+	
+	public let observatory: PDObserving
+	
 
-	init(sdk: PatchDataSDK, center: NotificationCenterDelegate, factory: NotificationProducing) {
+	init(
+		sdk: PatchDataSDK,
+		center: NotificationCenterDelegate,
+		factory: NotificationProducing,
+		observatory: PDObserving
+	) {
 		self.sdk = sdk
 		self.center = center
 		self.factory = factory
+		self.observatory = observatory
 		super.init()
 	}
 
@@ -29,11 +38,18 @@ class Notifications: NSObject, NotificationScheduling {
             handleHormone: HormoneNotificationActionHandler(sdk: sdk),
             handlePill: PillNotificationActionHandler(sdk.pills, appBadge)
 		)
-        self.init(sdk: sdk, center: center, factory: NotificationFactory(sdk: sdk))
+		let factory = NotificationFactory(sdk: sdk)
+		let observatory = Observatory()
+		self.init(
+			sdk: sdk,
+			center: center,
+			factory: factory,
+			observatory: observatory
+		)
 		center.pillActionHandler.requestPillNotification = self.requestDuePillNotification
 	}
 
-	// MARK: - Hormonee
+	// MARK: - Hormone
 
 	func cancelExpiredHormoneNotification(for hormone: Hormonal) {
 		let id = hormone.id.uuidString

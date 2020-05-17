@@ -13,19 +13,19 @@ public class MockNav: NavigationHandling {
 	
 	public init() {}
 	
-	public var goToHormoneDetailsCallArgs: [(Hormonal, UIViewController)] = []
-	public func goToHormoneDetails(_ hormone: Hormonal, source: UIViewController) {
-		goToHormoneDetailsCallArgs.append((hormone, source))
+	public var goToHormoneDetailsCallArgs: [(Index, UIViewController)] = []
+	public func goToHormoneDetails(_ index: Index, source: UIViewController) {
+		goToHormoneDetailsCallArgs.append((index, source))
 	}
 	
-	public var goToPillDetailsCallArgs: [(Swallowable, UIViewController)] = []
-	public func goToPillDetails(_ pill: Swallowable, source: UIViewController) {
-		goToPillDetailsCallArgs.append((pill, source))
+	public var goToPillDetailsCallArgs: [(Index, UIViewController)] = []
+	public func goToPillDetails(_ index: Index, source: UIViewController) {
+		goToPillDetailsCallArgs.append((index, source))
 	}
 	
-	public var goToSiteDetailsCallArgs: [(Bodily, UIViewController, SiteImageDeterminationParameters)] = []
-	public func goToSiteDetails(_ site: Bodily, source: UIViewController, params: SiteImageDeterminationParameters) {
-		goToSiteDetailsCallArgs.append((site, source, params))
+	public var goToSiteDetailsCallArgs: [(Index, UIViewController, SiteImageDeterminationParameters)] = []
+	public func goToSiteDetails(_ index: Index, source: UIViewController, params: SiteImageDeterminationParameters) {
+		goToSiteDetailsCallArgs.append((index, source, params))
 	}
 	
 	public var goToSettingsCallArgs: [UIViewController] = []

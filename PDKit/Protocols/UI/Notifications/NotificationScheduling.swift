@@ -9,6 +9,8 @@
 import Foundation
 
 public protocol NotificationScheduling {
+	
+	var observatory: PDObserving { get }
 
 	func cancelExpiredHormoneNotification(for hormone: Hormonal)
 

@@ -16,9 +16,9 @@ public class PillSchedule: NSObject, PillScheduling {
 
 	private lazy var log = PDLog<PillSchedule>()
 
-	private var pills: [Swallowable]
 	private let store: PillStoring
 	private let sharer: PillDataSharing
+	private var context: [Swallowable]
 
 	enum PillScheduleState {
 		case Initial
@@ -28,7 +28,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	init(store: PillStoring, pillDataSharer: PillDataSharing, state: PillScheduleState) {
 		self.store = store
 		self.sharer = pillDataSharer
-		self.pills = store.getStoredPills()
+		self.context = store.getStoredPills()
 		super.init()
 		if state == .Initial {
 			log.info("Pill state is initial - Setting up default Pills")
@@ -37,20 +37,20 @@ public class PillSchedule: NSObject, PillScheduling {
 		awaken()
 	}
 
-	public var all: [Swallowable] { pills }
+	public var all: [Swallowable] { context }
 
-	public var count: Int { pills.count }
+	public var count: Int { all.count }
 
 	public subscript(id: UUID) -> Swallowable? {
-		pills.first(where: { p in p.id == id })
+		all.first(where: { p in p.id == id })
 	}
 
 	public subscript(index: Index) -> Swallowable? {
-		pills.tryGet(at: index)
+		all.tryGet(at: index)
 	}
 
 	public var nextDue: Swallowable? {
-		pills.min {
+		all.min {
 			switch($0.due, $1.due) {
 				case (nil, nil): return false
 				case (nil, _): return false
@@ -61,7 +61,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	}
 
 	public var totalDue: Int {
-		pills.reduce(0) {
+		all.reduce(0) {
 			(count: Int, pill: Swallowable) -> Int in
 			pill.isDue ? 1 + count : count
 		}
@@ -72,7 +72,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	@discardableResult
 	public func insertNew(onSuccess: (() -> Void)?) -> Swallowable? {
 		if let pill = store.createNewPill() {
-			pills.append(pill)
+			context.append(pill)
 			store.pushLocalChangesToManagedContext([pill], doSave: true)
 			onSuccess?()
 			shareData()
@@ -83,7 +83,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
 	public func delete(at index: Index) {
 		if let pill = self[index] {
-			pills.remove(at: index)
+			context.remove(at: index)
 			store.delete(pill)
 			shareData()
 		}
@@ -91,7 +91,7 @@ public class PillSchedule: NSObject, PillScheduling {
 
 	public func reset() {
 		deleteAll()
-		pills = PillStrings.DefaultPills.reduce([]) {
+		context = PillStrings.DefaultPills.reduce([]) {
 			(currentPills: [Swallowable], name: String) -> [Swallowable] in
 			if var pill = store.createNewPill(name: name) {
 				pill.timesaday = 1
@@ -99,7 +99,7 @@ public class PillSchedule: NSObject, PillScheduling {
 			}
 			return currentPills
 		}
-		store.pushLocalChangesToManagedContext(pills, doSave: true)
+		store.pushLocalChangesToManagedContext(context, doSave: true)
 	}
 
 	public func set(at index: Index, with attributes: PillAttributes) {
@@ -127,7 +127,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	}
 
 	public func indexOf(_ pill: Swallowable) -> Index? {
-		pills.firstIndex { (_ p: Swallowable) -> Bool in p.id == pill.id }
+		all.firstIndex { (_ p: Swallowable) -> Bool in p.id == pill.id }
 	}
 
 	public func shareData() {
@@ -145,10 +145,10 @@ public class PillSchedule: NSObject, PillScheduling {
 	}
 
 	private func awaken() {
-		for pill in pills {
+		for pill in all {
 			pill.awaken()
 		}
-		store.pushLocalChangesToManagedContext(pills, doSave: true)
+		store.pushLocalChangesToManagedContext(all, doSave: true)
 	}
 
 	private func swallow(_ pill: Swallowable, _ onSuccess: (() -> Void)?) {
@@ -160,7 +160,7 @@ public class PillSchedule: NSObject, PillScheduling {
 	}
 
 	private func deleteAll() {
-		pills.forEach { (_ p: Swallowable) -> Void in store.delete(p) }
-		pills = []
+		context.forEach { (_ p: Swallowable) -> Void in store.delete(p) }
+		context = []
 	}
 }

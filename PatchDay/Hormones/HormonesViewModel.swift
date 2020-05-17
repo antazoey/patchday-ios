@@ -22,13 +22,18 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		SiteImageHistory(3)
 	]
 
-	init(hormonesTableView: UITableView, source: HormonesViewController) {
-		self.style = source.getStyle()
+	init(hormonesTableView: UITableView, style: UIUserInterfaceStyle) {
+		self.style = style
 		self.table = HormonesTable(hormonesTableView)
 		super.init()
-		loadAppTabs(source: source)
 		initTable(style: style)
 		watchForChanges()
+		
+		
+		print("HERE!")
+		for hormone in sdk!.hormones.all {
+			print(PDDateFormatter.formatDay(hormone.date))
+		}
 	}
 
 	var mainViewControllerTitle: String {
@@ -68,10 +73,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		let siteImageDeterminationParams = SiteImageDeterminationParameters(hormone: hormone)
 		return SiteImages[siteImageDeterminationParams]
 	}
-
-	func sortHormones() {
-		hormones?.sort()
-	}
 	
 	func handleRowTapped(at index: Index, _ hormonesViewController: UIViewController) {
 		goToHormoneDetails(hormoneIndex: index, hormonesViewController)
@@ -88,8 +89,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	}
 
 	func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController) {
-		guard let hormone = hormones?[hormoneIndex] else { return }
-		nav?.goToHormoneDetails(hormone, source: hormonesViewController)
+		nav?.goToHormoneDetails(hormoneIndex, source: hormonesViewController)
 	}
 
 	func loadAppTabs(source: UIViewController) {
@@ -100,11 +100,9 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	}
 
 	private func watchForChanges() {
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(reflectDataFromBackgroundUpdate),
-			name: UIApplication.willEnterForegroundNotification,
-			object: nil
+		notifications?.observatory.add(
+			source: self,
+			selector: #selector(reflectDataFromBackgroundUpdate)
 		)
 	}
 

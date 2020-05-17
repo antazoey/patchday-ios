@@ -11,6 +11,8 @@ import PDKit
 
 public class MockNotifications: NotificationScheduling {
 	
+	public var observatory: PDObserving = MockObservatory()
+	
 	public init() {}
 	
 	public var cancelExpiredHormoneNotificationCallArgs: [Hormonal] = []

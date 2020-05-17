@@ -16,7 +16,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	private var store: HormoneStoring
 	private let dataSharer: HormoneDataSharing
 	private let settings: UserDefaultsWriting
-	private var hormones: [Hormonal]
+	private var context: [Hormonal]
 
 	private lazy var log = PDLog<HormoneSchedule>()
 
@@ -25,30 +25,31 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		self.store = store
 		self.dataSharer = hormoneDataSharer
 		self.settings = settings
-		self.hormones = HormoneSchedule.getHormoneList(from: store, settings: settings)
+		self.context = HormoneSchedule.getHormoneList(from: store, settings: settings)
 		super.init()
 		resetIfEmpty()
-		sort()
 		shareData()
 	}
 
-	public var count: Int { hormones.count }
+	public var count: Int { all.count }
 
-	public var all: [Hormonal] { hormones }
+	public var all: [Hormonal] {
+		context.sort { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
+		return context
+	}
 
 	public var isEmpty: Bool {
 		let hasNoDates = !hasDates
 		let hasNoSites = !hasSites
-		return hormones.count == 0 || (hasNoDates && hasNoSites)
+		return count == 0 || (hasNoDates && hasNoSites)
 	}
 
 	public var next: Hormonal? {
-		sort()
-		return hormones.tryGet(at: 0)
+		all.tryGet(at: 0)
 	}
 
 	public var totalExpired: Int {
-		hormones.reduce(0, {
+		all.reduce(0, {
 			count, hormone in
 			let c = hormone.isExpired ? 1 : 0
 			return c + count
@@ -57,18 +58,15 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	@discardableResult
 	public func insertNew() -> Hormonal? {
-		guard let hormone = store.createNewHormone(settings) else { return nil }
-		hormones.append(hormone)
-		sort()
-		return hormone
+		if let hormone = store.createNewHormone(settings) {
+			context.append(hormone)
+			return hormone
+		}
+		return nil
 	}
 
 	public func forEach(doThis: (Hormonal) -> Void) {
-		hormones.forEach(doThis)
-	}
-
-	public func sort() {
-		hormones.sort { $0.date < $1.date && !$0.date.isDefault() || $1.date.isDefault() }
+		all.forEach(doThis)
 	}
 
 	@discardableResult
@@ -93,7 +91,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		}
 		completion?()
 		saveAll()
-		return hormones.count
+		return count
 	}
 
 	public func delete(after i: Index) {
@@ -103,7 +101,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 			return
 		}
 		for _ in start..<count {
-			if let hormone = hormones.popLast() {
+			if let hormone = context.popLast() {
 				store.delete(hormone)
 			}
 		}
@@ -111,7 +109,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	public func saveAll() {
 		guard count > 0 else { return }
-        store.pushLocalChangesToManagedContext(hormones, doSave: true)
+        store.pushLocalChangesToManagedContext(context, doSave: true)
 	}
 
 	public func deleteAll() {
@@ -120,11 +118,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	public subscript(index: Index) -> Hormonal? {
-		hormones.tryGet(at: index)?.from(settings)
+		all.tryGet(at: index)?.from(settings)
 	}
 
 	public subscript(id: UUID) -> Hormonal? {
-		hormones.first(where: { h in h.id == id })?.from(settings)
+		all.first(where: { h in h.id == id })?.from(settings)
 	}
 
 	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool) {
@@ -164,7 +162,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	public func indexOf(_ hormone: Hormonal) -> Index? {
-		hormones.firstIndex { (_ h: Hormonal) -> Bool in h.id == hormone.id }
+		all.firstIndex { (_ h: Hormonal) -> Bool in h.id == hormone.id }
 	}
 
 	public func fillIn(to stopCount: Int) {
@@ -182,11 +180,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	// MARK: - Private
 
 	private var hasDates: Bool {
-		hormones.filter { !$0.date.isDefault() }.count > 0
+		all.filter { !$0.date.isDefault() }.count > 0
 	}
 
 	private var hasSites: Bool {
-		hormones.filter {
+		all.filter {
 			$0.siteId != nil || ($0.siteNameBackUp != nil && $0.siteNameBackUp != "")
 		}.count > 0
 	}
@@ -194,7 +192,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, incrementSiteIndex: Bool) {
 		hormone.siteId = site.id
 		hormone.date = date
-		sort()
 		pushFromDateAndSiteChange(hormone)
 		if incrementSiteIndex {
 			settings.incrementStoredSiteIndex()
@@ -210,7 +207,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	private func setDate(_ hormone: inout Hormonal, with date: Date) {
 		hormone.date = date
-		sort()
 		shareData()
 		store.pushLocalChangesToManagedContext([hormone], doSave: true)
 	}

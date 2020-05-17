@@ -58,9 +58,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		applyTheme()
 	}
 
-	static func createPillDetailVC(_ source: UIViewController, _ pill: Swallowable) -> PillDetailViewController? {
+	static func createPillDetailVC(_ source: UIViewController, _ index: Index) -> PillDetailViewController? {
 		let vc = createPillDetailVC(source)
-		return vc?.initWithPill(pill)
+		return vc?.initWithPillIndex(index)
 	}
 
 	private static func createPillDetailVC(_ source: UIViewController) -> PillDetailViewController? {
@@ -68,8 +68,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		return source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailViewController
 	}
 
-	private func initWithPill(_ pill: Swallowable) -> PillDetailViewController {
-		viewModel = PillDetailViewModel(pill)
+	private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
+		viewModel = PillDetailViewModel(index)
 		return self
 	}
 

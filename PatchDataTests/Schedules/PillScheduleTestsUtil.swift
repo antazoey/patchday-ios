@@ -48,6 +48,13 @@ class PillScheduleTestsUtil {
 	}
 
 	func nextPillDueWasShared(_ pills: PillSchedule) -> Bool {
-		pills.nextDue?.id == mockDataSharer.shareCallArgs[0].id
+		let args = mockDataSharer.shareCallArgs
+		if args.count <= 0 {
+			return false
+		}
+		if pills.nextDue == nil {
+			return false
+		}
+		return pills.nextDue!.id == args[0].id
 	}
 }

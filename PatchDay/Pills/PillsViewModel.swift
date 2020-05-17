@@ -62,12 +62,12 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	func goToNewPillDetails(pillsViewController: UIViewController) {
 		guard let pill = pills?.insertNew(onSuccess: nil) else { return }
-		nav?.goToPillDetails(pill, source: pillsViewController)
+		guard let index = sdk?.pills.indexOf(pill) else { return }
+		nav?.goToPillDetails(index, source: pillsViewController)
 	}
 
 	func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
-		guard let pill = pills?[pillIndex] else { return }
-		nav?.goToPillDetails(pill, source: pillsViewController)
+		nav?.goToPillDetails(pillIndex, source: pillsViewController)
 	}
 
 	// MARK: - Private

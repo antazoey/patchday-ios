@@ -8,24 +8,24 @@ import PDKit
 
 extension UINavigationController {
 
-	func goToHormoneDetails(_ hormone: Hormonal, _ source: UIViewController) {
-		if let vc = HormoneDetailViewController.create(source, hormone) {
+	func goToHormoneDetails(_ index: Index, _ source: UIViewController) {
+		if let vc = HormoneDetailViewController.create(source, index) {
 			pushViewController(vc, animated: true)
 		} else {
 			errorOnViewControllerCreationFailure(name: "Hormone Details")
 		}
 	}
 
-	func goToPillDetails(_ pill: Swallowable, _ source: UIViewController) {
-		if let vc = PillDetailViewController.createPillDetailVC(source, pill) {
+	func goToPillDetails(_ index: Index, _ source: UIViewController) {
+		if let vc = PillDetailViewController.createPillDetailVC(source, index) {
 			pushViewController(vc, animated: true)
 		} else {
 			errorOnViewControllerCreationFailure(name: "Pill Details")
 		}
 	}
 
-	func goToSiteDetails(_ site: Bodily, _ source: UIViewController, params: SiteImageDeterminationParameters) {
-		if let vc = SiteDetailViewController.createSiteDetailVC(source, site, params: params) {
+	func goToSiteDetails(_ index: Index, _ source: UIViewController, params: SiteImageDeterminationParameters) {
+		if let vc = SiteDetailViewController.createSiteDetailVC(source, index, params: params) {
 			pushViewController(vc, animated: true)
 		} else {
 			errorOnViewControllerCreationFailure(name: "Site Details")
