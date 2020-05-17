@@ -15,7 +15,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	let table: HormonesTable
 	var hormones: HormoneScheduling? { sdk?.hormones }
 
-	private var histories: [SiteImageHistory] = [
+	private lazy var histories: [SiteImageHistory] = [
 		SiteImageHistory(0),
 		SiteImageHistory(1),
 		SiteImageHistory(2),
@@ -28,12 +28,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		super.init()
 		initTable(style: style)
 		watchForChanges()
-		
-		
-		print("HERE!")
-		for hormone in sdk!.hormones.all {
-			print(PDDateFormatter.formatDay(hormone.date))
-		}
 	}
 
 	var mainViewControllerTitle: String {
@@ -130,6 +124,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	@objc private func reflectDataFromBackgroundUpdate() {
 		table.reloadData()
+		updateSiteImages()
 		tabs?.reflect()
 	}
 }

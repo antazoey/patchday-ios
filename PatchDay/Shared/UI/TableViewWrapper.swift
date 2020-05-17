@@ -20,7 +20,10 @@ class TableViewWrapper<T> where T: TableCell {
 	}
 
 	@objc func reloadData() {
-		table.reloadData()
+		DispatchQueue.main.async{
+			self.table.reloadData()
+			self.table.setNeedsDisplay()
+		}
 	}
 
 	func dequeueCell() -> T? {

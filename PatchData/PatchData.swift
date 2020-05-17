@@ -78,13 +78,13 @@ public class PatchData: NSObject, PatchDataSDK {
 		// ******************************************************
 		// Nuke mode: Resets app like it's fresh
 		// ******************************************************
-		if PDCli.isNukeMode() {
+		if PDCli.isNukeMode(){
 			hormones.reset()
 			pills.reset()
 			let newSiteCount = sites.reset()
 			settings.reset(defaultSiteCount: newSiteCount)
 			storeDataStackWrapper.nuke()
-			CommandLine.arguments.removeAll()
+			CommandLine.arguments.removeAll(where: { $0 == "--nuke-storage" })
 			self.init()
 			PDLogLevel = PDLogLevels.DEBUG
 			return
@@ -93,6 +93,14 @@ public class PatchData: NSObject, PatchDataSDK {
 
 		if PDCli.isDebugMode() {
 			PDLogLevel = PDLogLevels.DEBUG
+		}
+		
+		// Post Nuke
+		if PDCli.isNotificationsTest() {
+			let now = Date()
+			let expMin = settings.expirationInterval.hours * 60 - 1
+			let date = DateFactory.createDate(byAddingMinutes: -expMin, to: now)
+			hormones.setDate(at: 0, with: date!) // Will expire in 1 minute
 		}
 
 		self.init(

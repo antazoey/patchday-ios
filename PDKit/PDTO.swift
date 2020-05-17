@@ -26,13 +26,17 @@ public class SiteImageDeterminationParameters {
     public var deliveryMethod: DeliveryMethod
 
     public init(siteName: SiteName, deliveryMethod: DeliveryMethod) {
-        self.siteName = siteName
+        self.siteName =  siteName
         self.deliveryMethod = deliveryMethod
     }
 
     public init(hormone: Hormonal?) {
-        self.siteName = hormone?.siteName
-		self.deliveryMethod = hormone?.deliveryMethod ?? DefaultSettings.DeliveryMethodValue
+		if let hormone = hormone {
+			self.siteName = hormone.hasSite ? hormone.siteName : nil
+			self.deliveryMethod = hormone.deliveryMethod
+		}
+		self.siteName = nil
+		self.deliveryMethod = DefaultSettings.DeliveryMethodValue
     }
 
     public init(deliveryMethod: DeliveryMethod) {

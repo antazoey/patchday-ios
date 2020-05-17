@@ -17,4 +17,8 @@ class PDCli {
 	static func isDebugMode() -> Bool {
 		CommandLine.arguments.contains("-d") || CommandLine.arguments.contains("--debug")
 	}
+	
+	static func isNotificationsTest() -> Bool {
+		CommandLine.arguments.contains("--notifications-test")
+	}
 }

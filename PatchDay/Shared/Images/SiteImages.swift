@@ -107,7 +107,7 @@ public class SiteImages: NSObject {
 	}
 	
 	private static var siteNameToGelImageDict: [SiteName: UIImage] {
-		[ SiteStrings.arms: arms ]
+		[SiteStrings.arms: arms]
 	}
 
 	private static func initImage(_ name: String) -> UIImage {
