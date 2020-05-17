@@ -32,12 +32,11 @@ class NotificationStrings {
 		]
 
     static func get(
-        method: DeliveryMethod,
-        notifyMinutes: Double,
-        siteName: SiteName,
-        suggestedSite: SiteName?
-    ) -> (String, String) {
-        let titleOptions = method == .Patches ? [patchExpired, patchExpires] : [injectionExpired, injectionExpires]
+		method: DeliveryMethod, notifyMinutes: Double, suggestedSite: SiteName?
+	) -> (String, String) {
+        let titleOptions = method == .Patches ?
+			[patchExpired, patchExpires] :
+			[injectionExpired, injectionExpires]
 		let title = (notifyMinutes == 0) ? titleOptions[0] : titleOptions[1]
         let body = suggestedSite != nil ? "\(suggestedNextSite) \(suggestedSite!)" : ""
 		return (title, body)

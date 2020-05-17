@@ -71,8 +71,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	var selectSiteTextFieldStartText: String {
-		guard hormone.hasSite else { return ActionStrings.Select }
-		return hormone.siteName ?? SiteStrings.NewSite
+		hormone.hasSite ? hormone.siteName : ActionStrings.Select
 	}
 
 	var expirationDateText: String {
@@ -88,11 +87,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		sdk?.hormones.indexOf(hormone) ?? -1
 	}
 
-	var siteIndexStartRow: Index {
+	var siteStartRow: Index {
 		guard selections.siteIndex < 0 else { return selections.siteIndex }
 		guard let site = getSite() else { return 0 }
 		let order = site.order
-		let end = sitesCount
+		let end = siteCount
 		if order >= 1 && order <= end {
 			selections.site = site
 			return order
@@ -100,7 +99,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return 0
 	}
 
-	var sitesCount: Int {
+	var siteCount: Int {
 		sdk?.sites.count ?? 0
 	}
 
@@ -117,12 +116,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return DotDotDot
 	}
 
-	func getSiteName(at row: Index) -> SiteName {
-		var siteName = sdk?.sites.names.tryGet(at: row)
-		if siteName == "" {
-			siteName = SiteStrings.NewSite
-		}
-		return siteName ?? SiteStrings.NewSite
+	func getSiteName(at row: Index) -> SiteName? {
+		guard let name = sdk?.sites.names.tryGet(at: row) else { return nil }
+		return name != "" ? name : SiteStrings.NewSite
 	}
 
 	func createHormoneViewStrings() -> HormoneViewStrings {

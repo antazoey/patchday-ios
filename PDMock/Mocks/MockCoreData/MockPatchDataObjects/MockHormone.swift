@@ -12,16 +12,11 @@ import PDKit
 
 public class MockHormone: Hormonal, PDMocking {
 
-	// Mock-related properties
-	public var stampCallCount: Int = 0
-	public var resetCallCount = 0
-
-	// Hormonal properties
 	public var id = UUID()
 	public var deliveryMethod = DeliveryMethod.Patches
 	public var expirationInterval = ExpirationIntervalUD(DefaultSettings.ExpirationIntervalRawValue)
 	public var siteId: UUID? = nil
-	public var siteName: SiteName? = nil
+	public var siteName: SiteName = SiteStrings.NewSite
 	public var date: Date = Date(timeIntervalSince1970: 0)
 	public var expiration: Date? = nil
 	public var isExpired = false
@@ -53,17 +48,19 @@ public class MockHormone: Hormonal, PDMocking {
 		}
 		return hormoneList
 	}
-
+	
+	public var stampCallCount: Int = 0
 	public func stamp() {
 		stampCallCount += 1
 	}
 
+	public var resetCallCount = 0
 	public func reset() {
 		resetCallCount += 1
 	}
 	
-	var createExpirationDateCallArgs: [Date?] = []
-	var createExpirationDateReturnValue: Date? = nil
+	public var createExpirationDateCallArgs: [Date?] = []
+	public var createExpirationDateReturnValue: Date? = nil
 	public func createExpirationDate(from startDate: Date) -> Date? {
 		createExpirationDateCallArgs.append(startDate)
 		return createExpirationDateReturnValue

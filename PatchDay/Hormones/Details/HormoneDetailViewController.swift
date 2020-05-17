@@ -9,7 +9,12 @@
 import UIKit
 import PDKit
 
-class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+class HormoneDetailViewController:
+	UIViewController,
+	UIPickerViewDelegate,
+	UIPickerViewDataSource,
+	UITextFieldDelegate
+ {
 
 	var viewModel: HormoneDetailViewModel!
 	private lazy var log = PDLog<HormoneDetailViewController>()
@@ -52,27 +57,36 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 		super.viewDidAppear(animated)
 	}
 
-	static func create(_ source: UIViewController, _ hormone: Hormonal) -> HormoneDetailViewController? {
+	static func create(
+		_ source: UIViewController, _ hormone: Hormonal
+	) -> HormoneDetailViewController? {
 		let vc = create(source)
 		return vc?.initWithHormone(hormone)
 	}
 
-	static func create(source: UIViewController, viewModel: HormoneDetailViewModel) -> HormoneDetailViewController? {
+	static func create(
+		source: UIViewController, viewModel: HormoneDetailViewModel
+	) -> HormoneDetailViewController? {
 		let vc = create(source)
 		return vc?.initWithViewModel(viewModel)
 	}
 
 	private static func create(_ source: UIViewController) -> HormoneDetailViewController? {
 		let id = ViewControllerIds.HormoneDetail
-		return source.storyboard?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController
+		let sb = source.storyboard
+		return sb?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController
 	}
 
 	private func initWithHormone(_ hormone: Hormonal) -> HormoneDetailViewController {
-		let viewModel = HormoneDetailViewModel(hormone, { () in self.sitePicker.reloadAllComponents() })
+		let viewModel = HormoneDetailViewModel(hormone, {
+			() in self.sitePicker.reloadAllComponents()
+		})
 		return initWithViewModel(viewModel)
 	}
 
-	private func initWithViewModel(_ viewModel: HormoneDetailViewModel) -> HormoneDetailViewController {
+	private func initWithViewModel(
+		_ viewModel: HormoneDetailViewModel
+	) -> HormoneDetailViewController {
 		self.viewModel = viewModel
 		return self
 	}
@@ -84,8 +98,8 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 		selectDateButton.isEnabled = false
 		autofillButton.isHidden = true
 		typeSiteButton.setTitle(ActionStrings.Done)
-
-		if let senderType = TextFieldButtonSenderType(rawValue: textField.restorationIdentifier ?? "") {
+		let id = textField.restorationIdentifier ?? ""
+		if let senderType = TextFieldButtonSenderType(rawValue: id) {
 			handleSenderType(senderType, textFieldSender: textField)
 		}
 	}
@@ -110,7 +124,8 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	}
 
 	@IBAction private func keyboardTapped(_ sender: Any) {
-		selectSiteTextField.restorationIdentifier = TextFieldButtonSenderType.DefaultTextFieldEditor.rawValue
+		let id = TextFieldButtonSenderType.DefaultTextFieldEditor.rawValue
+		selectSiteTextField.restorationIdentifier = id
 		selectSiteTextField.becomeFirstResponder()
 	}
 
@@ -118,7 +133,7 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 
 	@IBAction func openSitePicker(_ sender: Any) {
 		showSitePicker()
-		sitePicker.selectRow(viewModel.siteIndexStartRow, inComponent: 0, animated: false)
+		sitePicker.selectRow(viewModel.siteStartRow, inComponent: 0, animated: false)
 		autofillButton.isHidden = true
 		autofillButton.isEnabled = false
 		selectSiteTextField.isEnabled = false
@@ -142,13 +157,17 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 	}
 
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		viewModel.sitesCount
+		viewModel.siteCount
 	}
 
-	func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-		let title = viewModel.getSiteName(at: row)
+	func pickerView(
+		_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int
+	) -> NSAttributedString? {
+		guard let title = viewModel.getSiteName(at: row) else { return nil }
 		let textColor = PDColors[.Text]
-		return NSAttributedString(string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor])
+		return NSAttributedString(
+			string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor]
+		)
 	}
 
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -224,8 +243,9 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 		if let viewModel = viewModel {
 			selectSiteTextField.text = viewModel.selectSiteTextFieldStartText
 		}
+		let id = TextFieldButtonSenderType.PickerActivator.rawValue
+		selectSiteTextField.restorationIdentifier = id
 		selectSiteTextField.autocapitalizationType = .words
-		selectSiteTextField.restorationIdentifier = TextFieldButtonSenderType.PickerActivator.rawValue
 		selectSiteTextField.delegate = self
 		sitePicker.delegate = self
 		sitePicker.dataSource = self
@@ -280,7 +300,9 @@ class HormoneDetailViewController: UIViewController, UIPickerViewDelegate, UIPic
 		expirationDateLabel.text = viewModel.autoPickedExpirationDateText
 	}
 
-	private func handleSenderType(_ senderType: TextFieldButtonSenderType?, textFieldSender: UITextField) {
+	private func handleSenderType(
+		_ senderType: TextFieldButtonSenderType?, textFieldSender: UITextField
+	) {
 		if senderType == .PickerActivator {
 			handleTextFieldButtonOpeningPicker(typeButton: typeSiteButton)
 			openSitePicker(textFieldSender)

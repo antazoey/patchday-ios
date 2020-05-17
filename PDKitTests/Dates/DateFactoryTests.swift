@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import PDMock
 
 @testable
 import PDKit
@@ -36,27 +37,25 @@ class DateFactoryTests: XCTestCase {
 	func testCreateDate_byAddingHoursToDate_returnsExpectedDate() {
 		let expected = Date(timeIntervalSinceNow: 10800)
 		let actual = DateFactory.createDate(byAddingHours: 3, to: Date())!
-		XCTAssert(Calendar.current.isDate(expected, equalTo: actual, toGranularity: .nanosecond))
-		XCTAssert(actual.timeIntervalSince(expected) < 0.01)
+		XCTAssert(PDTest.equiv(expected, actual))
 	}
 
 	func testCreateDate_byAddingMinutesToDate_returnsExpectedDate() {
 		let expected = Date(timeIntervalSinceNow: 10800)
 		let actual = DateFactory.createDate(byAddingMinutes: 180, to: Date())!
-		XCTAssert(Calendar.current.isDate(expected, equalTo: actual, toGranularity: .nanosecond))
-		XCTAssert(actual.timeIntervalSince(expected) < 0.01)
+		XCTAssert(PDTest.equiv(expected, actual))
 	}
 
 	func testCreateTimeInterval_returnsExpectedTimeInterval() {
 		let expected = 18000.0
 		let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date())!
-		XCTAssert(abs(expected - actual) < 0.1)
+		XCTAssert(PDTest.equiv(expected, actual))
 	}
 
 	func testCreateTimeInterval_whenGivenNegativeHours_returnsExpectedTimeInterval() {
 		let expected = -18000.0
 		let actual = DateFactory.createTimeInterval(fromAddingHours: -5, to: Date())!
-		XCTAssert(abs(expected - actual) < 0.1)
+		XCTAssert(PDTest.equiv(expected, actual))
 	}
 
 	func testCreateTimeInterval_whenGivenDefaultDate_returnsNil() {

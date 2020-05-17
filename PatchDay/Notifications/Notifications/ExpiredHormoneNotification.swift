@@ -33,7 +33,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         let strings = NotificationStrings.get(
             method: hormone.deliveryMethod,
             notifyMinutes: notifyMinutes,
-            siteName: hormone.siteName ?? SiteStrings.CustomSiteId,
             suggestedSite: suggestedSite
         )
         super.init(

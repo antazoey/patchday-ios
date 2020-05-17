@@ -79,8 +79,11 @@ public class MockHormoneSchedule: HormoneScheduling {
 		setDateByIndexCallArgs.append((index, date))
 	}
 
+	public var indexOfCallArgs: [Hormonal] = []
+	public var indexOfReturnValue: Index? = nil
 	public func indexOf(_ hormone: Hormonal) -> Index? {
-        -1
+		indexOfCallArgs.append(hormone)
+		return indexOfReturnValue
 	}
 
 	public func fillIn(to stopCount: Int) {

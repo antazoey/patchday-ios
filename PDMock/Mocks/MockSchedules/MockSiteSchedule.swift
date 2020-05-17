@@ -16,49 +16,65 @@ public class MockSiteSchedule: SiteScheduling {
 	public var names: [SiteName] = []
 	public var isDefault: Bool = false
 
-	public var resetCallCount = 0
-
 	public init() { }
 
-	public func insertNew(name: String, save: Bool, onSuccess: (() -> ())?) -> Bodily? {
-		nil
+	public var insertNewCallArgs: [(String, Bool, (() -> Void)?)] = []
+	public var insertNewReturnValue: Bodily? = nil
+	public func insertNew(name: String, save: Bool, onSuccess: (() -> Void)?) -> Bodily? {
+		insertNewCallArgs.append((name, save, onSuccess))
+		return insertNewReturnValue
 	}
 
+	public var subscriptIdCallArgs: [UUID] = []
+	public var subscriptIdReturnValue: Bodily? = nil
 	public subscript(id: UUID) -> Bodily? {
-		nil
+		subscriptIdCallArgs.append(id)
+		return subscriptIdReturnValue
 	}
 
-
+	public var subscriptIndexCallArgs: [Index] = []
+	public var subscriptIndexReturnValue: Bodily? = nil
 	public subscript(index: Index) -> Bodily? {
-		nil
+		subscriptIndexCallArgs.append(index)
+		return subscriptIndexReturnValue
 	}
 
+	public var renameCallArgs: [(Index, SiteName)] = []
 	public func rename(at index: Index, to name: SiteName) {
-
+		renameCallArgs.append((index, name))
 	}
 
+	public var reorderCallArgs: [(Index, Int)] = []
 	public func reorder(at index: Index, to newOrder: Int) {
-
+		reorderCallArgs.append((index, newOrder))
 	}
 
+	public var setImageIdCallArgs: [(Index, String)] = []
 	public func setImageId(at index: Index, to newId: String) {
-
+		setImageIdCallArgs.append((index, newId))
 	}
 
+	public var indexOfCallArgs: [Bodily] = []
+	public var indexOfReturnValue: Index? = nil
 	public func indexOf(_ site: Bodily) -> Index? {
-        -1
+		indexOfCallArgs.append(site)
+		return indexOfReturnValue
 	}
 
+	public var sortCallCount = 0
 	public func sort() {
-
+		sortCallCount += 1
 	}
 
+	public var deleteCallArgs: [Index] = []
 	public func delete(at index: Index) {
-
+		deleteCallArgs.append(index)
 	}
 
+	public var resetCallCount = 0
+	public var resetReturnValue = -1
 	public func reset() -> Int {
 		resetCallCount += 1
-		return 0
+		return resetReturnValue
 	}
 }

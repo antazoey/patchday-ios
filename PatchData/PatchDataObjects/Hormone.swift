@@ -48,8 +48,16 @@ public class Hormone: Hormonal {
 		}
 	}
 
-	public var siteName: SiteName? {
-		get { hormoneData.siteName }
+	public var siteName: SiteName {
+		get {
+			let siteName = hormoneData.siteName
+			let backup = hormoneData.siteNameBackUp
+			
+			if siteName == SiteStrings.NewSite {
+				return backup ?? SiteStrings.NewSite
+			}
+			return siteName ?? backup ?? SiteStrings.NewSite
+		}
 		set { hormoneData.siteName = newValue }
 	}
 
@@ -91,7 +99,7 @@ public class Hormone: Hormonal {
 	}
 
 	public var siteNameBackUp: String? {
-		// Ignore backup name if there is a site relationship.
+		// Ignore backup name if there _is_ a site relationship.
 		get { siteId == nil ? hormoneData.siteNameBackUp : nil }
 		set { hormoneData.siteNameBackUp = newValue }
 	}

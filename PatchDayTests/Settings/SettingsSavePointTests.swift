@@ -59,8 +59,8 @@ class SettingsSavePointTests: XCTestCase {
 		let alerts = dependencies.alerts as! MockAlerts
 		let handlers = alerts.presentDeliveryMethodMutationAlertCallArgs[0].1
 		
-		handlers.handleDecline(originalMethod: .Patches)
-		let expected = "Patches"
+		handlers.handleDecline(originalMethod: .Patches, originalQuantity: 3)
+		let expected = SettingsOptions.getDeliveryMethodString(for: .Patches)
 		let actual = controls.deliveryMethodButton.titleLabel?.text
 		XCTAssertEqual(expected, actual)
 	}
@@ -73,7 +73,7 @@ class SettingsSavePointTests: XCTestCase {
 		
 		let alerts = dependencies.alerts as! MockAlerts
 		let handlers = alerts.presentDeliveryMethodMutationAlertCallArgs[0].1
-		handlers.handleDecline(originalMethod: .Patches)
+		handlers.handleDecline(originalMethod: .Patches, originalQuantity: 3)
 		
 		let actual = (sdk.settings as! MockSettings).setDeliveryMethodCallArgs.count
 		XCTAssertEqual(0, actual)
@@ -89,7 +89,7 @@ class SettingsSavePointTests: XCTestCase {
 		
 		let alerts = dependencies.alerts as! MockAlerts
 		let handlers = alerts.presentDeliveryMethodMutationAlertCallArgs[0].1
-		handlers.handleDecline(originalMethod: .Patches)
+		handlers.handleDecline(originalMethod: .Patches, originalQuantity: 3)
 		
 		XCTAssertTrue(controls.quantityButton.isEnabled)
 		XCTAssertTrue(controls.quantityArrowButton.isEnabled)
@@ -105,7 +105,7 @@ class SettingsSavePointTests: XCTestCase {
 		
 		let alerts = dependencies.alerts as! MockAlerts
 		let handlers = alerts.presentDeliveryMethodMutationAlertCallArgs[0].1
-		handlers.handleDecline(originalMethod: .Injections)
+		handlers.handleDecline(originalMethod: .Injections, originalQuantity: 3)
 		
 		XCTAssertFalse(controls.quantityButton.isEnabled)
 		XCTAssertFalse(controls.quantityArrowButton.isEnabled)
@@ -121,7 +121,7 @@ class SettingsSavePointTests: XCTestCase {
 		
 		let alerts = dependencies.alerts as! MockAlerts
 		let handlers = alerts.presentDeliveryMethodMutationAlertCallArgs[0].1
-		handlers.handleDecline(originalMethod: .Gel)
+		handlers.handleDecline(originalMethod: .Gel, originalQuantity: 3)
 		
 		XCTAssertFalse(controls.quantityButton.isEnabled)
 		XCTAssertFalse(controls.quantityArrowButton.isEnabled)

@@ -60,6 +60,64 @@ class HormoneTests: XCTestCase {
 		hormone.siteId = nil
 		XCTAssertNil(hormone.siteId)
 	}
+	
+	func testSiteName_whenSiteNameNilFromInitData_returnsSiteBackUpName() {
+		let backup = "Site Name Backup"
+		let data = HormoneStruct(testId, nil, nil, nil, backup)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = backup
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testSiteName_whenSiteNameIsNewSiteButSiteBackupIsNot_returnsSiteBackUpName() {
+		let backup = "Site Name Backup"
+		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, backup)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = backup
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testSiteName_whenSiteNameIsNewSiteButSiteBackupIsNil_returnsNewSite() {
+		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = SiteStrings.NewSite
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testSiteName_whenSiteNameAndSiteBackupAreNil_returnsNewSite() {
+		let data = HormoneStruct(testId, nil, nil, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = SiteStrings.NewSite
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testSiteName_whenSiteNameNotNilNorNewSiteAndSiteBackUpIsNil_returnsSiteName() {
+		let site = "SITE"
+		let data = HormoneStruct(testId, nil, site, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = site
+		XCTAssertEqual(expected, actual)
+	}
+	
+	func testSiteName_whenSiteNameNotNilNorNewSiteAndSiteBackUpIsNewSite_returnsSiteName() {
+		let site = "SITE"
+		let data = HormoneStruct(testId, nil, site, nil, SiteStrings.NewSite)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = site
+		XCTAssertEqual(expected, actual)
+	}
 
 	func testExpiration_whenExpirationIntervalIsEveryTwoWeeks_returnsExpectedDate() {
 		let hormone = createHormoneForExpirationTesting(.TwiceWeekly)
@@ -239,8 +297,11 @@ class HormoneTests: XCTestCase {
 	func testCreateExpirationDate_returnsExpectedDate() {
 		let testDate = Date()
 		let hormone = createEmptyHormone()
-		let actual = hormone.createExpirationDate(from: testDate)
-		let expected = Calendar.current.date(byAdding: .hour, value: 84, to: testDateThatIsNow)
-		XCTAssert(abs(expected!.timeIntervalSince(actual!)) < 0.01)
+		let interval = ExpirationIntervalUD(.EveryTwoWeeks)
+		hormone.date = testDateThatIsNow
+		hormone.expirationInterval = interval
+		let actual = hormone.createExpirationDate(from: testDate)!
+		let expected = Calendar.current.date(byAdding: .hour, value: interval.hours, to: testDateThatIsNow)!
+		XCTAssert(PDTest.equiv(expected, actual))
 	}
 }

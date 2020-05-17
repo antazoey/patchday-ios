@@ -50,8 +50,12 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 
 	private func loadQuantity() {
 		guard let settings = sdk?.settings else { return }
-		let quantity = settings.quantity.rawValue
 		let method = settings.deliveryMethod.value
+		// Currently, only .Patches support a quantity > 1
+		let quantity = method == .Patches ? settings.quantity.rawValue : 1
+		if quantity != settings.quantity.rawValue {
+			settings.setQuantity(to: quantity)
+		}
 		controls.quantityButton.setTitle("\(quantity)")
 		controls.reflect(method: method)
 	}

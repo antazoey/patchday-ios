@@ -107,6 +107,7 @@
 		9D1908EF24684B5400E95244 /* SettingsReflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */; };
 		9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F024684BC900E95244 /* SettingsTestHelper.swift */; };
 		9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F22468564100E95244 /* SettingsViewModelTests.swift */; };
+		9D1908F6247029E800E95244 /* PDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F5247029E800E95244 /* PDTest.swift */; };
 		9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
 		9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */; };
@@ -520,6 +521,7 @@
 		9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReflectorTests.swift; sourceTree = "<group>"; };
 		9D1908F024684BC900E95244 /* SettingsTestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTestHelper.swift; sourceTree = "<group>"; };
 		9D1908F22468564100E95244 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
+		9D1908F5247029E800E95244 /* PDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTest.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptions.swift; sourceTree = "<group>"; };
 		9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandling.swift; sourceTree = "<group>"; };
@@ -1293,6 +1295,7 @@
 				9D8A981B23C5742E004E20FE /* Mocks */,
 				9D8A981323C573B3004E20FE /* PDMock.h */,
 				9D8A981423C573B3004E20FE /* Info.plist */,
+				9D1908F5247029E800E95244 /* PDTest.swift */,
 			);
 			path = PDMock;
 			sourceTree = "<group>";
@@ -2098,6 +2101,7 @@
 				9D6E9B00245643B7003BBCC9 /* MockHormoneSchedule.swift in Sources */,
 				9D6E9AFB245633DC003BBCC9 /* MockSDK.swift in Sources */,
 				9D8A984B23D13093004E20FE /* MockSiteStore.swift in Sources */,
+				9D1908F6247029E800E95244 /* PDTest.swift in Sources */,
 				9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */,
 				9D8A982423C574B0004E20FE /* MockPatchData.swift in Sources */,
 				9D8A984923D1308A004E20FE /* MockPillStore.swift in Sources */,

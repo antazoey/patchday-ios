@@ -45,7 +45,6 @@ public class SettingsOptions {
 		if let quantityString = quantities.tryGet(at: i),
 			let quantityInt = Int(quantityString),
 			let quantity = Quantity(rawValue: quantityInt) {
-
 			return quantity
 		}
 		return .One
