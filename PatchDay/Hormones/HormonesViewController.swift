@@ -24,6 +24,16 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		loadTitle()
 		loadBarButtons()
 		applyTheme()
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(update),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+	}
+	
+	@objc func update() {
+		hormonesTableView.reloadData()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {

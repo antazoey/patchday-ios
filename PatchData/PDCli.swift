@@ -8,17 +8,17 @@
 
 import Foundation
 
-class PDCli {
+public class PDCli {
 
-	static func isNukeMode() -> Bool {
+	public static func isNukeMode() -> Bool {
 		CommandLine.arguments.contains("--nuke-storage")
 	}
 
-	static func isDebugMode() -> Bool {
+	public static func isDebugMode() -> Bool {
 		CommandLine.arguments.contains("-d") || CommandLine.arguments.contains("--debug")
 	}
 	
-	static func isNotificationsTest() -> Bool {
+	public static func isNotificationsTest() -> Bool {
 		CommandLine.arguments.contains("--notifications-test")
 	}
 }

@@ -78,7 +78,7 @@ public class PatchData: NSObject, PatchDataSDK {
 		// ******************************************************
 		// Nuke mode: Resets app like it's fresh
 		// ******************************************************
-		if PDCli.isNukeMode(){
+		if PDCli.isNukeMode() {
 			hormones.reset()
 			pills.reset()
 			let newSiteCount = sites.reset()
@@ -95,7 +95,7 @@ public class PatchData: NSObject, PatchDataSDK {
 			PDLogLevel = PDLogLevels.DEBUG
 		}
 		
-		// Post Nuke
+		// Sets first hormome to automatically expire in 1 min.
 		if PDCli.isNotificationsTest() {
 			let now = Date()
 			let expMin = settings.expirationInterval.hours * 60 - 1

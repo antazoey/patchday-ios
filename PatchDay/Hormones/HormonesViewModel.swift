@@ -96,7 +96,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	private func watchForChanges() {
 		notifications?.observatory.add(
 			source: self,
-			selector: #selector(reflectDataFromBackgroundUpdate)
+			selector: #selector(updateFromBackground)
 		)
 	}
 
@@ -122,7 +122,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.tabs = tabs
 	}
 
-	@objc private func reflectDataFromBackgroundUpdate() {
+	@objc func updateFromBackground() {
 		table.reloadData()
 		updateSiteImages()
 		tabs?.reflect()
