@@ -14,7 +14,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
 	private let root: UNUserNotificationCenter
     private lazy var log = PDLog<PDNotificationCenter>()
-	private let hormoneActionHandler: HormoneNotificationActionHandling
+	var hormoneActionHandler: HormoneNotificationActionHandling
 	var pillActionHandler: PillNotificationActionHandling
 
 	init(
@@ -34,6 +34,10 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 			}
 		}
 		self.root.setNotificationCategories(categories)
+	}
+	
+	func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
+		self.hormoneActionHandler.updateViewsHook = hook
 	}
 
 	private var categories: Set<UNNotificationCategory> {

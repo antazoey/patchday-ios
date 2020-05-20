@@ -9,6 +9,9 @@
 import Foundation
 
 public protocol HormoneNotificationActionHandling {
+	
+	/// Set for updating views after action handling.
+	var updateViewsHook: (() -> Void)? { get set }
 
 	/// A handler for an expired-hormone notification action for applying a hormone.
 	func handleHormone(id: String)

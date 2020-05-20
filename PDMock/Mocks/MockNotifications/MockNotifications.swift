@@ -10,10 +10,15 @@ import Foundation
 import PDKit
 
 public class MockNotifications: NotificationScheduling {
-	
+
 	public var observatory: PDObserving = MockObservatory()
 	
 	public init() {}
+	
+	public var setHormoneChangeUpdateViewsHookCallArgs: [() -> Void] = []
+	public func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
+		setHormoneChangeUpdateViewsHookCallArgs.append(hook)
+	}
 	
 	public var cancelExpiredHormoneNotificationCallArgs: [Hormonal] = []
 	public func cancelExpiredHormoneNotification(for hormone: Hormonal) {

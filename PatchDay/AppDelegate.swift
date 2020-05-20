@@ -34,11 +34,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		if PDCli.isNotificationsTest() {
 			self.notifications?.requestExpiredHormoneNotification(for: sdk!.hormones[0]!)
 		}
+		badge?.reflect()
 		return true
 	}
 	
 	func initDependencies() {
-		guard !sessionInitialized else { return }
 		let sdk = PatchData()
 		self.sdk = PatchData()
 		self.nav = Navigation()
@@ -47,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
 		self.alerts = AlertDispatcher(sdk: sdk)
 		self.badge?.reflect()
-		sessionInitialized = true
 	}
 
 	static var isPad: Bool {
@@ -57,13 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	static var current: AppDelegate? {
 		UIApplication.shared.delegate as? AppDelegate
 	}
-
-	func applicationDidEnterBackground(_ application: UIApplication) {
-		sessionInitialized = false
-	}
 	
 	func applicationDidBecomeActive(_ application: UIApplication) {
-		sessionInitialized = false
+		initDependencies()
 	}
 	
 	func applicationWillEnterForeground(_ application: UIApplication) {

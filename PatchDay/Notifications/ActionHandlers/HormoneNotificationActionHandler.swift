@@ -14,6 +14,7 @@ class HormoneNotificationActionHandler: HormoneNotificationActionHandling {
 	private let sdk: PatchDataSDK?
 	private let badge: PDBadgeDelegate
 	private let log = PDLog<HormoneNotificationActionHandler>()
+	var updateViewsHook: (() -> Void)?
 
 	convenience init(sdk: PatchDataSDK?) {
 		self.init(sdk: sdk, appBadge: PDBadge(sdk: sdk))
@@ -30,5 +31,6 @@ class HormoneNotificationActionHandler: HormoneNotificationActionHandling {
 		guard let suggestedSite = sdk.sites.suggested else { return }
 		sdk.hormones.set(by: id, date: Date(), site: suggestedSite, incrementSiteIndex: true)
 		badge.reflect()
+		updateViewsHook?()
 	}
 }

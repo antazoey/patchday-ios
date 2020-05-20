@@ -72,6 +72,7 @@ class HormoneCell: TableCell {
             let dateString = PDDateFormatter.formatDay(expiration)
 			setDateLabel("\(prefix) \(dateString)", hormone)
 		}
+		dateLabel.setNeedsDisplay()
 	}
 
     private func loadBadge(_ hormone: Hormonal, at index: Int) {
@@ -80,11 +81,13 @@ class HormoneCell: TableCell {
 			? .forInjectionsHormonesView : .forPatchesHormonesView
         let shouldShow = hormone.isPastNotificationTime
 		badgeButton.badgeValue = shouldShow ? "!" : nil
+		badgeButton.setNeedsDisplay()
 	}
 
     private func setDateLabel(_ title: String?, _ hormone: Hormonal) {
         dateLabel.textColor = hormone.isPastNotificationTime ? UIColor.red : PDColors[.Text]
 		dateLabel.text = title
+		dateLabel.setNeedsDisplay()
 	}
 
 	private func reset() {

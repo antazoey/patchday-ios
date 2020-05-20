@@ -19,25 +19,15 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		initViewModelIfNil()
+		initViewModel()
 		assignSelfAsTableDelegate()
 		loadTitle()
 		loadBarButtons()
 		applyTheme()
-		NotificationCenter.default.addObserver(
-			self,
-			selector: #selector(update),
-			name: UIApplication.willEnterForegroundNotification,
-			object: nil
-		)
-	}
-	
-	@objc func update() {
-		hormonesTableView.reloadData()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
-		initViewModelIfNil()
+		initViewModel()
 		fadeInView()
 		viewModel.presentDisclaimerAlertIfFirstLaunch()
 		loadTitle()
@@ -76,8 +66,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 
 	// MARK: - Private
 
-	private func initViewModelIfNil() {
-		//guard viewModel == nil else { return }
+	private func initViewModel() {
 		viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, style: getStyle())
 		viewModel.loadAppTabs(source: self)
 	}
@@ -108,6 +97,15 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 			animations: { self.view.alpha = 1.0 },
 			completion: nil
 		)
+	}
+	
+	private func watchForChangesDuringBackgrounding() {
+		viewModel.notifications?.observatory.add(source: self, selector: #selector(updateFromBackground))
+	}
+	
+	@objc func updateFromBackground() {
+		hormonesTableView.reloadData()
+		
 	}
 
 	private func applyTheme() {

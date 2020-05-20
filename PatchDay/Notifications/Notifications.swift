@@ -50,6 +50,10 @@ class Notifications: NSObject, NotificationScheduling {
 	}
 
 	// MARK: - Hormone
+	
+	func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
+		self.center.setHormoneChangeUpdateViewsHook(hook: hook)
+	}
 
 	func cancelExpiredHormoneNotification(for hormone: Hormonal) {
 		let id = hormone.id.uuidString

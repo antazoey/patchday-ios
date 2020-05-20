@@ -27,7 +27,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.table = HormonesTable(hormonesTableView)
 		super.init()
 		initTable(style: style)
-		watchForChanges()
 	}
 
 	var mainViewControllerTitle: String {
@@ -93,13 +92,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		setTabs(tabBarController: tabs, appViewControllers: vcs)
 	}
 
-	private func watchForChanges() {
-		notifications?.observatory.add(
-			source: self,
-			selector: #selector(updateFromBackground)
-		)
-	}
-
 	private func initTable(style: UIUserInterfaceStyle) {
 		reflectTableModel()
 		updateSiteImages()
@@ -120,11 +112,5 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		)
 		AppDelegate.current?.tabs = tabs
 		self.tabs = tabs
-	}
-
-	@objc func updateFromBackground() {
-		table.reloadData()
-		updateSiteImages()
-		tabs?.reflect()
 	}
 }

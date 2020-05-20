@@ -125,6 +125,7 @@ public class Pill: Swallowable {
 	}
 
     public var due: Date? {
+		guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
         switch expirationInterval {
 			case PillStrings.Intervals.EveryDay: return regularNextDueTime
 			case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
@@ -137,10 +138,8 @@ public class Pill: Swallowable {
     }
 
 	public var isDue: Bool {
-		if let dueDate = due {
-			return Date() > dueDate
-		}
-		return false
+		guard let dueDate = due else { return false }
+		return Date() > dueDate
 	}
 
 	public var isNew: Bool { pillData.attributes.lastTaken == nil }

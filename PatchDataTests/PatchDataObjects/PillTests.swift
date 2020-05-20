@@ -469,6 +469,26 @@ public class PillTests: XCTestCase {
 		let pill = createPill(attrs)
 		XCTAssertFalse(pill.isDue)
 	}
+	
+	func testIsDue_whenNeverTakenByWayOfNil_returnsFalse() {
+		var attrs = createPillAttributes(minutesFromNow: -5)
+		attrs.lastTaken = nil
+		attrs.time1 = Date()
+		attrs.timesaday = 1
+		attrs.timesTakenToday = 0
+		let pill = createPill(attrs)
+		XCTAssertFalse(pill.isDue)
+	}
+	
+	func testIsDue_whenNeverTakenByWayOfDefault_returnsFalse() {
+		var attrs = createPillAttributes(minutesFromNow: -5)
+		attrs.lastTaken = DateFactory.createDefaultDate()
+		attrs.time1 = Date()
+		attrs.timesaday = 1
+		attrs.timesTakenToday = 0
+		let pill = createPill(attrs)
+		XCTAssertFalse(pill.isDue)
+	}
 
 	func testIsNew_whenLastTakenIsNil_returnsTrue() {
 		let attrs = PillAttributes()
