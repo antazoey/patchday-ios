@@ -109,8 +109,6 @@
 		9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F22468564100E95244 /* SettingsViewModelTests.swift */; };
 		9D1908F6247029E800E95244 /* PDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F5247029E800E95244 /* PDTest.swift */; };
 		9D1908F82471BCE800E95244 /* HormonesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F72471BCE800E95244 /* HormonesViewModelTests.swift */; };
-		9D1908FC2471C39200E95244 /* Observatory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908FB2471C39200E95244 /* Observatory.swift */; };
-		9D1908FE2471C3DD00E95244 /* PDObserving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908FD2471C3DD00E95244 /* PDObserving.swift */; };
 		9D1909002471C4D600E95244 /* MockObservatory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908FF2471C4D600E95244 /* MockObservatory.swift */; };
 		9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
@@ -527,8 +525,6 @@
 		9D1908F22468564100E95244 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		9D1908F5247029E800E95244 /* PDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTest.swift; sourceTree = "<group>"; };
 		9D1908F72471BCE800E95244 /* HormonesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesViewModelTests.swift; sourceTree = "<group>"; };
-		9D1908FB2471C39200E95244 /* Observatory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observatory.swift; sourceTree = "<group>"; };
-		9D1908FD2471C3DD00E95244 /* PDObserving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObserving.swift; sourceTree = "<group>"; };
 		9D1908FF2471C4D600E95244 /* MockObservatory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockObservatory.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptions.swift; sourceTree = "<group>"; };
@@ -1168,7 +1164,6 @@
 				9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */,
 				1340A9ED1EE771EC0003EFFA /* Notifications.swift */,
 				3397C3F89940959F98971EA3 /* NotificationFactory.swift */,
-				9D1908FB2471C39200E95244 /* Observatory.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -1226,7 +1221,6 @@
 				9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */,
 				9DA3A904233C4B6300DAF350 /* NotificationScheduling.swift */,
 				9D226983237506BF00828B5F /* NotificationProducing.swift */,
-				9D1908FD2471C3DD00E95244 /* PDObserving.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -2011,7 +2005,6 @@
 				9D9397B7237884DA00FDF290 /* HormonesViewModel.swift in Sources */,
 				9D3E4C8022B5AFC500C82DAE /* Notification.swift in Sources */,
 				9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */,
-				9D1908FC2471C39200E95244 /* Observatory.swift in Sources */,
 				1340A9EE1EE771EC0003EFFA /* Notifications.swift in Sources */,
 				139754BE1EDA8C4D006C82B8 /* HormonesViewController.swift in Sources */,
 				137330ED1E22BA3E0048F91E /* AppDelegate.swift in Sources */,
@@ -2250,7 +2243,6 @@
 				9D913BA42304ED7B001FC03C /* PillScheduling.swift in Sources */,
 				9D003EC323359B2D0070C964 /* PDCoreDataWrapping.swift in Sources */,
 				9D8A982E23C7EEE4004E20FE /* SiteStoring.swift in Sources */,
-				9D1908FE2471C3DD00E95244 /* PDObserving.swift in Sources */,
 				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
 				9D6E9AD824562192003BBCC9 /* PDNotificationCenterDelegate.swift in Sources */,
 				9D003EC1233599A90070C964 /* Schedule.swift in Sources */,

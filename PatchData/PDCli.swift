@@ -9,16 +9,29 @@
 import Foundation
 
 public class PDCli {
+	
+	private static let NukeFlag = "--nuke-storage"
+	private static let DebugFlag = "--debug"
+	private static let DebugFlagShort = "-d"
+	private static let NotificationsTestFlag = "--notifications-test"
 
 	public static func isNukeMode() -> Bool {
-		CommandLine.arguments.contains("--nuke-storage")
+		CommandLine.arguments.contains(NukeFlag)
+	}
+
+	public static func clearNukeFlag() {
+		CommandLine.arguments.removeAll(where: { $0 == NukeFlag })
 	}
 
 	public static func isDebugMode() -> Bool {
-		CommandLine.arguments.contains("-d") || CommandLine.arguments.contains("--debug")
+		CommandLine.arguments.contains(DebugFlagShort) || CommandLine.arguments.contains(DebugFlag)
 	}
-	
+
 	public static func isNotificationsTest() -> Bool {
-		CommandLine.arguments.contains("--notifications-test")
+		CommandLine.arguments.contains(NotificationsTestFlag)
+	}
+
+	public static func clearNotificationsFlag() {
+		CommandLine.arguments.removeAll(where: { $0 == NotificationsTestFlag })
 	}
 }

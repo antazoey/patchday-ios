@@ -42,7 +42,11 @@ public class DateFactory: NSObject {
 		}
 		return nil
 	}
-
+	
+    public static func createDate(byAddingMonths months: Int, to date: Date) -> Date? {
+        calendar.date(byAdding: .month, value: months, to: date)
+    }
+	
 	/// Gives the future date from the given one based on the given interval string.
 	public static func createDate(byAddingHours hours: Int, to date: Date) -> Date? {
 		calendar.date(byAdding: .hour, value: hours, to: date)
@@ -51,11 +55,11 @@ public class DateFactory: NSObject {
 	public static func createDate(byAddingMinutes minutes: Int, to date: Date) -> Date? {
 		calendar.date(byAdding: .minute, value: minutes, to: date)
 	}
-
-    public static func createDate(byAddingMonths months: Int, to date: Date) -> Date? {
-        calendar.date(byAdding: .month, value: months, to: date)
-    }
 	
+	public static func createDate(byAddingSeconds seconds: Int, to date: Date) -> Date? {
+		calendar.date(byAdding: .second, value: seconds, to: date)
+	}
+
 	public static func createExpirationDate(
 		expirationInterval: ExpirationIntervalUD, to date: Date
 	) -> Date? {

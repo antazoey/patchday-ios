@@ -10,10 +10,6 @@ import Foundation
 
 public protocol NotificationScheduling {
 	
-	var observatory: PDObserving { get }
-	
-	func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void)
-
 	func cancelExpiredHormoneNotification(for hormone: Hormonal)
 
 	func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index)

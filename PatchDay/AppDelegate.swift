@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// The `Notifications Test` is a test where the first hormone expires in a minute from now.
 		if PDCli.isNotificationsTest() {
 			self.notifications?.requestExpiredHormoneNotification(for: sdk!.hormones[0]!)
+			PDCli.clearNotificationsFlag()
 		}
 		badge?.reflect()
 		return true

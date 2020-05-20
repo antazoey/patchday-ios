@@ -84,7 +84,7 @@ public class PatchData: NSObject, PatchDataSDK {
 			let newSiteCount = sites.reset()
 			settings.reset(defaultSiteCount: newSiteCount)
 			storeDataStackWrapper.nuke()
-			CommandLine.arguments.removeAll(where: { $0 == "--nuke-storage" })
+			PDCli.clearNukeFlag()
 			self.init()
 			PDLogLevel = PDLogLevels.DEBUG
 			return
@@ -96,10 +96,12 @@ public class PatchData: NSObject, PatchDataSDK {
 		}
 		
 		// Sets first hormome to automatically expire in 1 min.
+		
 		if PDCli.isNotificationsTest() {
 			let now = Date()
-			let expMin = settings.expirationInterval.hours * 60 - 1
-			let date = DateFactory.createDate(byAddingMinutes: -expMin, to: now)
+			let buffer = 8
+			let expSec = settings.expirationInterval.hours * 60 * 60 - buffer
+			let date = DateFactory.createDate(byAddingSeconds: -expSec, to: now)
 			hormones.setDate(at: 0, with: date!) // Will expire in 1 minute
 		}
 

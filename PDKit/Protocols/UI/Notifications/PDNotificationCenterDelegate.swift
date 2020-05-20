@@ -10,6 +10,5 @@ import Foundation
 import UserNotifications
 
 public protocol NotificationCenterDelegate: UNUserNotificationCenterDelegate {
-	func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void)
 	func removeNotifications(with ids: [String])
 }

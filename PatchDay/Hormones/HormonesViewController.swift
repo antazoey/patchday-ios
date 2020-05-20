@@ -27,6 +27,16 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		super.viewDidAppear(false)
+	}
+	
+	@objc func willEnterForeground() {
 		initViewModel()
 		fadeInView()
 		viewModel.presentDisclaimerAlertIfFirstLaunch()
@@ -34,7 +44,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		viewModel.table.reloadData()
 		viewModel.updateSiteImages()
 		applyTheme()
-		super.viewDidAppear(false)
 	}
 
 	override func viewDidLayoutSubviews() {
@@ -97,10 +106,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 			animations: { self.view.alpha = 1.0 },
 			completion: nil
 		)
-	}
-	
-	private func watchForChangesDuringBackgrounding() {
-		viewModel.notifications?.observatory.add(source: self, selector: #selector(updateFromBackground))
 	}
 	
 	@objc func updateFromBackground() {

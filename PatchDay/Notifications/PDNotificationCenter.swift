@@ -35,10 +35,6 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 		}
 		self.root.setNotificationCategories(categories)
 	}
-	
-	func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
-		self.hormoneActionHandler.updateViewsHook = hook
-	}
 
 	private var categories: Set<UNNotificationCategory> {
 		let hormoneActionId = ExpiredHormoneNotification.actionId
