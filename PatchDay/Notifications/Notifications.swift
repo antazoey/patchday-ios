@@ -95,7 +95,7 @@ class Notifications: NSObject, NotificationScheduling {
 
 	/// Request a pill notification.
 	func requestDuePillNotification(_ pill: Swallowable) {
-        guard pill.isDue, pill.notify else { return }
+        guard pill.notify else { return }
         cancelDuePillNotification(pill)
         factory.createDuePillNotification(pill).request()
 	}

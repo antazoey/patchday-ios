@@ -109,7 +109,6 @@
 		9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F22468564100E95244 /* SettingsViewModelTests.swift */; };
 		9D1908F6247029E800E95244 /* PDTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F5247029E800E95244 /* PDTest.swift */; };
 		9D1908F82471BCE800E95244 /* HormonesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F72471BCE800E95244 /* HormonesViewModelTests.swift */; };
-		9D1909002471C4D600E95244 /* MockObservatory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908FF2471C4D600E95244 /* MockObservatory.swift */; };
 		9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */; };
 		9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */; };
 		9D21A5C923860FBF00EC2A03 /* CodeBehindDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */; };
@@ -525,7 +524,6 @@
 		9D1908F22468564100E95244 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
 		9D1908F5247029E800E95244 /* PDTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTest.swift; sourceTree = "<group>"; };
 		9D1908F72471BCE800E95244 /* HormonesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesViewModelTests.swift; sourceTree = "<group>"; };
-		9D1908FF2471C4D600E95244 /* MockObservatory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockObservatory.swift; sourceTree = "<group>"; };
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptions.swift; sourceTree = "<group>"; };
 		9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandling.swift; sourceTree = "<group>"; };
@@ -1207,7 +1205,6 @@
 				9D6E9AD524562155003BBCC9 /* MockNotificationCenter.swift */,
 				9D6E9B1724564A2F003BBCC9 /* MockNotificationFactory.swift */,
 				9D1908E72468375200E95244 /* MockNotifications.swift */,
-				9D1908FF2471C4D600E95244 /* MockObservatory.swift */,
 			);
 			path = MockNotifications;
 			sourceTree = "<group>";
@@ -2125,7 +2122,6 @@
 				9D6E9AFD24563454003BBCC9 /* MockSettings.swift in Sources */,
 				9D6E9AFF2456376B003BBCC9 /* MockPillSchedule.swift in Sources */,
 				9D6E9AD624562155003BBCC9 /* MockNotificationCenter.swift in Sources */,
-				9D1909002471C4D600E95244 /* MockObservatory.swift in Sources */,
 				9D1908ED2468395C00E95244 /* MockAlerts.swift in Sources */,
 				3397CB2B0008632768A8CFAF /* MockSiteSchedule.swift in Sources */,
 			);

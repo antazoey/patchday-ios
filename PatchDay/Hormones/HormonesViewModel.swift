@@ -94,7 +94,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private func initTable(style: UIUserInterfaceStyle) {
 		reflectTableModel()
-		updateSiteImages()
+		updateSiteImages()  // Animating images has to happen after `cell.configure()`
 	}
 
 	private func reflectTableModel() {

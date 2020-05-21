@@ -95,14 +95,23 @@ public class PatchData: NSObject, PatchDataSDK {
 			PDLogLevel = PDLogLevels.DEBUG
 		}
 		
-		// Sets first hormome to automatically expire in 1 min.
-		
+		// ******************************************************
+		// Notifications testing - a Hormone that expires in 8 seconds, a Pill that expires in 12
+		// ******************************************************
 		if PDCli.isNotificationsTest() {
 			let now = Date()
-			let buffer = 8
-			let expSec = settings.expirationInterval.hours * 60 * 60 - buffer
+			let hormoneBuffer = 8
+			let expSec = settings.expirationInterval.hours * 60 * 60 - hormoneBuffer
+			settings.setNotifications(to: true)
 			let date = DateFactory.createDate(byAddingSeconds: -expSec, to: now)
 			hormones.setDate(at: 0, with: date!) // Will expire in 1 minute
+			
+			var attrs = PillAttributes()
+			attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+			attrs.time1 = DateFactory.createDate(byAddingSeconds: 12, to: now)
+			attrs.lastTaken = DateFactory.createDate(byAddingHours: -12, to: now)
+			attrs.notify = true
+			pills.set(at: 0, with: attrs)
 		}
 
 		self.init(
