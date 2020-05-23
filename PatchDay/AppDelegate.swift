@@ -29,7 +29,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 	) -> Bool {
 		initDependencies()
-		handleIfNotificationsTest()
+#if
+		// The `Notifications Test` is a test where the first hormone expires in a minute from now.
+		if PDCli.isNotificationsTest() {
+			let log = PDLog<AppDelegate>()
+			if let sdk = sdk, let notifications = notifications {
+				if let hormone = sdk.hormones[0] {
+					log.info("Requesting hormone notification for Test")
+					notifications.requestExpiredHormoneNotification(for: hormone)
+				}
+				if let pill = sdk.pills[0] {
+					log.info("Requesting pill notification for Test")
+					notifications.requestDuePillNotification(pill)
+				}
+			}
+			PDCli.clearNotificationsFlag()
+		}
+#endif
 		badge?.reflect()
 		return true
 	}
@@ -67,20 +83,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func applicationWillResignActive(_ application: UIApplication) {
 		badge?.reflect()
-	}
-	
-	private func handleIfNotificationsTest() {
-		// The `Notifications Test` is a test where the first hormone expires in a minute from now.
-		if PDCli.isNotificationsTest() {
-			if let sdk = sdk {
-				if let hormone = sdk.hormones[0] {
-					self.notifications?.requestExpiredHormoneNotification(for: hormone)
-				}
-				if let pill = sdk.pills[0] {
-					self.notifications?.requestDuePillNotification(pill)
-				}
-			}
-			PDCli.clearNotificationsFlag()
-		}
 	}
 }

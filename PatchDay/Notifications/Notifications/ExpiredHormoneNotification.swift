@@ -24,7 +24,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         expiration: ExpirationIntervalUD,
         notifyMinutes: Double,
         suggestedSite: SiteName?,
-        badge: Int,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
 		self.hormone = hormone
@@ -38,7 +37,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         super.init(
             title: strings.0,
             body: strings.1,
-            badge: badge,
             categoryId: ExpiredHormoneNotification.categoryId,
             requestHandler: requestHandler
         )

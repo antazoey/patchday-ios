@@ -78,6 +78,7 @@ public class PatchData: NSObject, PatchDataSDK {
 		// ******************************************************
 		// Nuke mode: Resets app like it's fresh
 		// ******************************************************
+#if DEBUG
 		if PDCli.isNukeMode() {
 			hormones.reset()
 			pills.reset()
@@ -113,6 +114,7 @@ public class PatchData: NSObject, PatchDataSDK {
 			attrs.notify = true
 			pills.set(at: 0, with: attrs)
 		}
+#endif
 
 		self.init(
 			settings: settings,

@@ -17,10 +17,10 @@ public class DuePillNotification: Notification, PDNotificationProtocol {
 	public static var actionId = { "takeActionId" }()
 	public static var categoryId = { "pillCategoryId" }()
 
-    init(for pill: Swallowable, badge: Int, requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil) {
+	init(for pill: Swallowable, requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil) {
 		self.pill = pill
 		let title = NotificationStrings.takePill + pill.name
-		super.init(title: title, body: nil, badge: badge, requestHandler: requestHandler)
+		super.init(title: title, body: nil, requestHandler: requestHandler)
 	}
 
 	public func request() {

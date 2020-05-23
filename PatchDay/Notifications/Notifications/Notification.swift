@@ -22,7 +22,6 @@ public class Notification {
     init(
         title: String,
         body: String?,
-        badge: Int,
         categoryId: String?=nil,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
@@ -30,12 +29,11 @@ public class Notification {
         self.body = body
 
         self.requestHandler = requestHandler
-
 		content = UNMutableNotificationContent()
 		content.sound = UNNotificationSound.default
 		content.title = title
 		content.body = body ?? ""
-		content.badge = badge as NSNumber
+		content.badge = 1
         if let catId = categoryId {
             content.categoryIdentifier = catId
         }

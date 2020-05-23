@@ -125,6 +125,7 @@ public class Pill: Swallowable {
 	}
 
     public var due: Date? {
+		// Schedule doesn't start until taken at least once.
 		guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
         switch expirationInterval {
 			case PillStrings.Intervals.EveryDay: return regularNextDueTime

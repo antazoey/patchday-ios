@@ -245,6 +245,7 @@ public class PillTests: XCTestCase {
 
 	func testDue_whenEveryDayAndTimesTakenAndNotYetTaken_returnsTodayAtTimeOne() {
 		var attrs = PillAttributes()
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
         attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
 		attrs.timesTakenToday = 0
 		attrs.time1 = Date(timeIntervalSinceNow: -234233234352) // Making it an old date makes the test better
@@ -256,6 +257,7 @@ public class PillTests: XCTestCase {
 
 	func testDue_whenOnceEveryDayAndTakenOnceToday_returnsTomorrowAtTimeOne() {
 		var attrs = PillAttributes()
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
         attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
 		attrs.timesTakenToday = 1
 		attrs.timesaday = 1
@@ -268,6 +270,7 @@ public class PillTests: XCTestCase {
 
 	func testDue_whenTwiceEveryDayAndTakenOnceToday_returnsTodayAtTimeTwo() {
 		var attrs = PillAttributes()
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
         attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
 		attrs.timesTakenToday = 1
 		attrs.timesaday = 2
@@ -280,6 +283,7 @@ public class PillTests: XCTestCase {
 
 	func testDue_whenTwiceEveryDayAndTakenTwiceToday_returnsTomorrowATimeOne() {
 		var attrs = PillAttributes()
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
         attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
 		attrs.timesTakenToday = 2
 		attrs.timesaday = 2
@@ -432,6 +436,7 @@ public class PillTests: XCTestCase {
 
 	func testIsDue_whenPillNotYetTakenAndTimeOneIsPast_returnsTrue() {
 		var attrs = createPillAttributes(minutesFromNow: -5)
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
 		attrs.timesTakenToday = 0
 		attrs.timesaday = 2
 		let pill = createPill(attrs)
@@ -456,6 +461,7 @@ public class PillTests: XCTestCase {
 
 	func testIsDue_whenPillTakenOnceAndTimesadayIsTwoAndTimesTwoIsPast_returnsTrue() {
 		var attrs = createPillAttributes(minutesFromNow: -5)
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
 		attrs.timesTakenToday = 1
 		attrs.timesaday = 2
 		let pill = createPill(attrs)

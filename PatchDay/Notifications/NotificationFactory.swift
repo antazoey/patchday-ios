@@ -22,16 +22,15 @@ public class NotificationFactory: NotificationProducing {
             hormone: hormone,
             expiration: sdk.settings.expirationInterval,
             notifyMinutes: Double(sdk.settings.notificationsMinutesBefore.value),
-            suggestedSite: sdk.sites.suggested?.name,
-            badge: sdk.totalAlerts
+            suggestedSite: sdk.sites.suggested?.name
         )
 	}
 
     public func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol {
-        DuePillNotification(for: pill, badge: sdk.totalAlerts)
+        DuePillNotification(for: pill)
 	}
 
     public func createOvernightExpiredHormoneNotification(date: Date) -> PDNotificationProtocol {
-        ExpiredHormoneOvernightNotification(date, sdk.settings.deliveryMethod.value, sdk.totalAlerts)
+		ExpiredHormoneOvernightNotification(date, sdk.settings.deliveryMethod.value)
     }
 }
