@@ -66,7 +66,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		let siteImageDeterminationParams = SiteImageDeterminationParameters(hormone: hormone)
 		return SiteImages[siteImageDeterminationParams]
 	}
-	
+
 	func handleRowTapped(at index: Index, _ hormonesViewController: UIViewController) {
 		goToHormoneDetails(hormoneIndex: index, hormonesViewController)
 	}

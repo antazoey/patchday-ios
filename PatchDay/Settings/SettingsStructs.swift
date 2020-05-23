@@ -17,7 +17,7 @@ struct SettingsControls {
 	let notificationsSwitch: UISwitch
 	let notificationsMinutesBeforeSlider: UISlider
 	let notificationsMinutesBeforeValueLabel: UILabel
-	
+
 	func reflect(method: DeliveryMethod) {
 		switch method {
 			case .Gel, .Injections:

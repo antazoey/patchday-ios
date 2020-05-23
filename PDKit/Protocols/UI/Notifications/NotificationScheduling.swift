@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol NotificationScheduling {
-	
+
 	func cancelExpiredHormoneNotification(for hormone: Hormonal)
 
 	func cancelRangeOfExpiredHormoneNotifications(from begin: Index, to end: Index)

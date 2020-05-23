@@ -36,7 +36,7 @@ public class SiteImages: NSObject {
 
 	// Gel images
 	private static var arms: UIImage { initImage("Arms") }
-	
+
 	private static var patchImages: [UIImage] {
 		[patchRightGlute, patchLeftGlute, patchRightAbdomen, patchLeftAbdomen, customPatch]
 	}
@@ -52,15 +52,15 @@ public class SiteImages: NSObject {
 			customInjection
 		]
 	}
-	
+
 	private static var gelImages: [UIImage] {
 		[arms]
 	}
-	
+
 	public static var all: [UIImage] {
 		Array(Set(patchImages + injectionImages + gelImages))
 	}
-	
+
 	public class All {
 		public static subscript(method: DeliveryMethod) -> [UIImage] {
 			switch method {
@@ -105,7 +105,7 @@ public class SiteImages: NSObject {
 			SiteStrings.rightQuad: lnjectionRightQuad
 		]
 	}
-	
+
 	private static var siteNameToGelImageDict: [SiteName: UIImage] {
 		[SiteStrings.arms: arms]
 	}

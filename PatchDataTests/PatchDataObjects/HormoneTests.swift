@@ -60,7 +60,7 @@ class HormoneTests: XCTestCase {
 		hormone.siteId = nil
 		XCTAssertNil(hormone.siteId)
 	}
-	
+
 	func testSiteName_whenSiteNameNilFromInitData_returnsSiteBackUpName() {
 		let backup = "Site Name Backup"
 		let data = HormoneStruct(testId, nil, nil, nil, backup)
@@ -70,7 +70,7 @@ class HormoneTests: XCTestCase {
 		let expected = backup
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteName_whenSiteNameIsNewSiteButSiteBackupIsNot_returnsSiteBackUpName() {
 		let backup = "Site Name Backup"
 		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, backup)
@@ -80,7 +80,7 @@ class HormoneTests: XCTestCase {
 		let expected = backup
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteName_whenSiteNameIsNewSiteButSiteBackupIsNil_returnsNewSite() {
 		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, nil)
 		let settings = MockSettings()
@@ -89,7 +89,7 @@ class HormoneTests: XCTestCase {
 		let expected = SiteStrings.NewSite
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteName_whenSiteNameAndSiteBackupAreNil_returnsNewSite() {
 		let data = HormoneStruct(testId, nil, nil, nil, nil)
 		let settings = MockSettings()
@@ -98,7 +98,7 @@ class HormoneTests: XCTestCase {
 		let expected = SiteStrings.NewSite
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteName_whenSiteNameNotNilNorNewSiteAndSiteBackUpIsNil_returnsSiteName() {
 		let site = "SITE"
 		let data = HormoneStruct(testId, nil, site, nil, nil)
@@ -108,7 +108,7 @@ class HormoneTests: XCTestCase {
 		let expected = site
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteName_whenSiteNameNotNilNorNewSiteAndSiteBackUpIsNewSite_returnsSiteName() {
 		let site = "SITE"
 		let data = HormoneStruct(testId, nil, site, nil, SiteStrings.NewSite)
@@ -293,7 +293,7 @@ class HormoneTests: XCTestCase {
 				&& hormone.siteNameBackUp == nil
 		)
 	}
-	
+
 	func testCreateExpirationDate_returnsExpectedDate() {
 		let testDate = Date()
 		let hormone = createEmptyHormone()

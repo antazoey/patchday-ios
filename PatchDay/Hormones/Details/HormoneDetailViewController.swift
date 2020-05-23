@@ -9,12 +9,10 @@
 import UIKit
 import PDKit
 
-class HormoneDetailViewController:
-	UIViewController,
+class HormoneDetailViewController: UIViewController,
 	UIPickerViewDelegate,
 	UIPickerViewDataSource,
-	UITextFieldDelegate
- {
+	UITextFieldDelegate {
 
 	var viewModel: HormoneDetailViewModel!
 	private lazy var log = PDLog<HormoneDetailViewController>()

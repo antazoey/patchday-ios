@@ -12,11 +12,11 @@ import PDKit
 class PDBadge: PDBadgeDelegate {
 
 	private let sdk: PatchDataSDK?
-	
+
 	init(sdk: PatchDataSDK?) {
 		self.sdk = sdk
 	}
-	
+
 	func reflect() {
 		UIApplication.shared.applicationIconBadgeNumber = sdk?.totalAlerts ?? 0
 		PDLog<PDBadge>().info("Badge number set to \(UIApplication.shared.applicationIconBadgeNumber)")

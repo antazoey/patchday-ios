@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var tabs: TabReflective?
 	var nav: NavigationHandling?
 	var badge: PDBadgeDelegate?
-	
+
 	private var sessionInitialized = false
 
 	func application(
@@ -49,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		badge?.reflect()
 		return true
 	}
-	
+
 	func initDependencies() {
 		let sdk = PatchData()
 		self.sdk = PatchData()
@@ -68,11 +68,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	static var current: AppDelegate? {
 		UIApplication.shared.delegate as? AppDelegate
 	}
-	
+
 	func applicationDidBecomeActive(_ application: UIApplication) {
 		initDependencies()
 	}
-	
+
 	func applicationWillEnterForeground(_ application: UIApplication) {
 		initDependencies()
 	}

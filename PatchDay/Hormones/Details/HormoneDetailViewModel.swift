@@ -22,7 +22,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 	var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
-	
+
 	init(
 		_ hormoneIndex: Index,
 		_ newSiteHandler: @escaping () -> Void,
@@ -63,7 +63,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		guard let date = dateSelected else { return DotDotDot }
 		return PDDateFormatter.formatDate(date)
 	}
-	
+
 	var datePickerDate: Date {
 		dateSelected ?? Date()
 	}

@@ -14,10 +14,10 @@ import PDMock
 import PatchDay
 
 class HormonesViewModelTests: XCTestCase {
-	
+
 	private let table = UITableView()
 	private let style = UIUserInterfaceStyle.dark
-	
+
 	func testInit_setsTabs() {
 		let viewModel = HormonesViewModel(hormonesTableView: table, style: style)
 	}

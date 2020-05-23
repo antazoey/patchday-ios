@@ -47,7 +47,7 @@ class CoreDataStack: NSObject {
 		}
 		let container = CoreDataStack.container!
 		container.loadPersistentStores(completionHandler: {
-			(storeDescription, error) in
+			(_, error) in
 			//self.log.info("Loaded persistent store '\(name)' of type \(storeDescription.type)")
 			if let error = error as NSError? {
 				//self.log.error(error)
@@ -55,7 +55,7 @@ class CoreDataStack: NSObject {
 			}
 		})
 		return container
-		
+
 //		if let container = container {
 //			return container
 //		} else {

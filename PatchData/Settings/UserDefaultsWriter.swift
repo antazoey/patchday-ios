@@ -61,7 +61,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 		replaceStoredNotificationsMinutesBefore(to: DefaultSettings.NotificationsMinutesBeforeRawValue)
 		replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
 		replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
-		
+
 	}
 
 	public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
@@ -102,13 +102,13 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 	public func incrementStoredSiteIndex() -> Index {
 		let currentIndex = siteIndex.value
 		let siteCount = getSiteCount()
-		
+
 		// Should not happen, but exists for safety
 		if currentIndex < 0 || currentIndex >= siteCount || siteCount == 0 {
 			handler.replace(&siteIndex, to: 0)
 			return 0
 		}
-		
+
 		let newIndex = (currentIndex + 1) % siteCount
 		handler.replace(&siteIndex, to: newIndex)
 		return newIndex

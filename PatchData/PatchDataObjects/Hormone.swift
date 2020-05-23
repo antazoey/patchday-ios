@@ -23,7 +23,7 @@ public class Hormone: Hormonal {
 		self.expirationInterval = settings.expirationInterval
 		self.notificationsMinutesBefore = settings.notificationsMinutesBefore
 	}
-	
+
 	public func from(_ settings: UserDefaultsReading) -> Hormonal {
 		self.deliveryMethod = settings.deliveryMethod.value
 		self.expirationInterval = settings.expirationInterval
@@ -52,7 +52,7 @@ public class Hormone: Hormonal {
 		get {
 			let siteName = hormoneData.siteName
 			let backup = hormoneData.siteNameBackUp
-			
+
 			if siteName == SiteStrings.NewSite {
 				return backup ?? SiteStrings.NewSite
 			}
@@ -125,7 +125,7 @@ public class Hormone: Hormonal {
 		hormoneData.siteRelationshipId = nil
 		hormoneData.siteNameBackUp = nil
 	}
-	
+
 	public func createExpirationDate(from startDate: Date) -> Date? {
 		DateFactory.createExpirationDate(expirationInterval: expirationInterval, to: date)
 	}

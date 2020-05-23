@@ -35,7 +35,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		)
 		super.viewDidAppear(false)
 	}
-	
+
 	@objc func willEnterForeground() {
 		initViewModel()
 		fadeInView()
@@ -107,10 +107,10 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 			completion: nil
 		)
 	}
-	
+
 	@objc func updateFromBackground() {
 		hormonesTableView.reloadData()
-		
+
 	}
 
 	private func applyTheme() {

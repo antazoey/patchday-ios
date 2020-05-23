@@ -18,7 +18,7 @@ public class ExpiredHormoneOvernightNotification: Notification, PDNotificationPr
     init(
 		_ date: Date,
 		_ method: DeliveryMethod,
-		_ requestHandler: ((_ interval: Double, _ id: String)-> Void
+		_ requestHandler: ((_ interval: Double, _ id: String) -> Void
 		)?=nil) {
 		self.dateBeforeOvernightExpiration = date
 		self.deliveryMethod = method

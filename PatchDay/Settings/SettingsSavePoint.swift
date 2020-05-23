@@ -12,7 +12,7 @@ import PDKit
 class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 
 	private let controls: SettingsControls
-	
+
 	init(_ controls: SettingsControls) {
 		self.controls = controls
 		super.init()
@@ -108,7 +108,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 			handlers: handler
 		)
 	}
-	
+
 	private func saveExpirationInterval(_ selectedRow: Index) {
 		guard let newInterval = SettingsOptions.expirationIntervals.tryGet(at: selectedRow) else {
 			return

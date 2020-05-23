@@ -95,7 +95,7 @@ public class PatchData: NSObject, PatchDataSDK {
 		if PDCli.isDebugMode() {
 			PDLogLevel = PDLogLevels.DEBUG
 		}
-		
+
 		// ******************************************************
 		// Notifications testing - a Hormone that expires in 8 seconds, a Pill that expires in 12
 		// ******************************************************
@@ -106,7 +106,7 @@ public class PatchData: NSObject, PatchDataSDK {
 			settings.setNotifications(to: true)
 			let date = DateFactory.createDate(byAddingSeconds: -expSec, to: now)
 			hormones.setDate(at: 0, with: date!) // Will expire in 1 minute
-			
+
 			var attrs = PillAttributes()
 			attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
 			attrs.time1 = DateFactory.createDate(byAddingSeconds: 12, to: now)

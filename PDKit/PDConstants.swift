@@ -40,7 +40,7 @@ public class DefaultPillAttributes {
 }
 
 public class DefaultQuantities {
-	
+
 	public class Hormone {
 		public static subscript(method: DeliveryMethod) -> Int {
 			switch method {
@@ -50,7 +50,7 @@ public class DefaultQuantities {
 			}
 		}
 	}
-	
+
 	public class Site {
 		public static subscript(method: DeliveryMethod) -> Int {
 			switch method {

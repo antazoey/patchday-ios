@@ -95,7 +95,7 @@ class NotificationStrings {
     static var overnightInjection: String {
 		NSLocalizedString("Injection due overnight.", comment: comment)
 	}
-	
+
 	static var overnightGel: String {
 		NSLocalizedString("Gel due overnight", comment: comment)
 	}

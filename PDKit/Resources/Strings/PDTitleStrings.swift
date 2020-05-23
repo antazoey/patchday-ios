@@ -29,7 +29,7 @@ public class PDTitleStrings {
 	public static var PatchTitle: String { NSLocalizedString("Patch", comment: c) }
 	public static var InjectionTitle: String { NSLocalizedString("Injection", comment: c) }
 	public static var SiteTitle: String { NSLocalizedString("Site", comment: c) }
-	
+
 	public class Hormones {
 		public static subscript(method: DeliveryMethod) -> String {
 			switch method {
@@ -39,7 +39,7 @@ public class PDTitleStrings {
 			}
 		}
 	}
-	
+
 	public class Sites {
 		public static subscript(method: DeliveryMethod) -> String {
 			switch method {

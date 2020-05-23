@@ -17,7 +17,7 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
 		self.controls = controls
 		super.init()
 	}
-	
+
 	init(_ controls: SettingsControls, _ dependencies: DependenciesProtocol) {
 		self.controls = controls
 		super.init(

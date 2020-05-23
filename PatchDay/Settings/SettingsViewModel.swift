@@ -19,7 +19,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 		self.saver = saver
 		super.init()
 	}
-	
+
 	init(
 		_ reflector: SettingsReflector,
 		_ saver: SettingsSavePoint,

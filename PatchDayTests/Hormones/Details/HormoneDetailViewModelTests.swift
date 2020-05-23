@@ -18,7 +18,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 	private var dependencies = MockDependencies()
 	private static var handlerCallCount = 0
 	private let handler: () -> Void = { HormoneDetailViewModelTests.handlerCallCount += 1 }
-	
+
 	@discardableResult
 	private func setupHormone() -> MockHormone {
 		let hormone = MockHormone()
@@ -27,7 +27,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		schedule.all = [hormone]
 		return hormone
 	}
-	
+
 	func testDateSelected_whenHormoneDateIsDefaultAndNoDateSelected_returnsNil() {
 		let hormone = setupHormone()
 		hormone.date = DateFactory.createDefaultDate()
@@ -52,7 +52,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.dateSelected
 		XCTAssertEqual(testDate, actual)
 	}
-	
+
 	func testDateSelectedText_returnsExpectedDateString() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -71,7 +71,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = Date()
 		XCTAssert(PDTest.equiv(expected, actual))
 	}
-	
+
 	func testDatePickerDate_whenDateSelectedFromSelections_returnsSelectedDate() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler)
@@ -89,7 +89,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.datePickerDate
 		XCTAssertEqual(testDate, actual)
 	}
-	
+
 	func testSelectDateButtonStartText_whenHormoneHasNoDate_returnsSelectString() {
 		let hormone = setupHormone()
 		hormone.hasDate = false
@@ -98,7 +98,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = ActionStrings.Select
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSelectDateButtonStartText_returnsFormattedHormoneDate() {
 		let testDate = Date()
 		let hormone = setupHormone()
@@ -109,7 +109,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.selectDateButtonStartText
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSelectDateButtonStartText_returnsExpectedSiteName() {
 		let hormone = setupHormone()
 		let testSite = "MY SEXY ASS"
@@ -119,7 +119,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.selectSiteTextFieldStartText
 		XCTAssertEqual(testSite, actual)
 	}
-	
+
 	func testSelectSiteTextFieldStartText_whenHormoneHasNoSite_returnsSelectString() {
 		let hormone = setupHormone()
 		hormone.hasSite = false
@@ -128,7 +128,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = ActionStrings.Select
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSelectSiteTextFieldStartText_whenHormonesHasSite_returnsHormoneSiteName() {
 		let hormone = setupHormone()
 		hormone.hasSite = true
@@ -138,7 +138,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = hormone.siteName
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testExpirationDateText_whenNoDateSelected_returnsFormatedDayOfHormoneExpiration() {
 		let testDate = Date()
 		let hormone = setupHormone()
@@ -147,7 +147,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		hormone.expirationInterval = expInt
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		viewModel.selections.date = nil
-		
+
 		let expectedDate = DateFactory.createExpirationDate(
 			expirationInterval: expInt, to: testDate
 		)
@@ -155,7 +155,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.expirationDateText
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testExpirationDateText_whenHormoneDateIsDefaultAndNoDateSelected_returnsPlaceholder() {
 		let hormone = setupHormone()
 		let expInt = ExpirationIntervalUD(.TwiceWeekly)
@@ -163,12 +163,12 @@ class HormoneDetailViewModelTests: XCTestCase {
 		hormone.expirationInterval = expInt
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		viewModel.selections.date = nil
-		
+
 		let expected = DotDotDot
 		let actual = viewModel.expirationDateText
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testExpirationDateText_whenDateSelected_returnsFormattedDateSelected() {
 		let testDate = Date()
 		let hormone = setupHormone()
@@ -177,7 +177,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		hormone.expirationInterval = expInt
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		viewModel.selections.date = testDate
-		
+
 		let expectedDate = DateFactory.createExpirationDate(
 			expirationInterval: expInt, to: testDate
 		)
@@ -185,7 +185,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.expirationDateText
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteStartRow_whenSiteIndexSelected_returnsSelectedSiteIndex() {
 		setupHormone()
 		let site = MockSite()
@@ -196,7 +196,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = site.order
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteStartRow_whenNoSiteIndexSelectedAndNoSite_returnsZero() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -204,7 +204,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = 0
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteStartRow_whenNoSiteIndexSelectedAndSiteHasValidOrder_returnsSiteOrder() {
 		let site = MockSite()
 		site.order = 2
@@ -218,7 +218,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = 2
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteStartRow_whenNoSiteIndexSelectedAndSiteHasOrderOutOfRange_returnsZero() {
 		let site = MockSite()
 		site.order = 5
@@ -232,7 +232,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = 0
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteStartRow_whenNoSiteIndexSelectedAndSiteHasValidOrder_selectsSite() {
 		let site = MockSite()
 		site.order = 2
@@ -243,12 +243,12 @@ class HormoneDetailViewModelTests: XCTestCase {
 		sites.subscriptIdReturnValue = site
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		_ = viewModel.siteStartRow
-		
+
 		let expected = site
 		let actual = viewModel.selections.site
 		XCTAssertEqual(expected.id, actual!.id)
 	}
-	
+
 	func testSiteCount_whenSdkNil_returnsZero() {
 		dependencies.sdk = nil
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -256,7 +256,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.siteCount
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSiteCount_returnsCountFromSdk() {
 		setupHormone()
 		let sites = dependencies.sdk?.sites as! MockSiteSchedule
@@ -266,7 +266,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.siteCount
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testAutoPickedDateText_returnsFormattedNow() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -274,7 +274,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = PDDateFormatter.formatDate(Date())
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testAutoPickedDateText_selectsNowAsDate() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -283,7 +283,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = Date()
 		XCTAssert(PDTest.equiv(expected, actual))
 	}
-	
+
 	func testAutoPickedExpirationDateText_returnsExpectedFormattedExpirationDate() {
 		let hormone = setupHormone()
 		let date = Date()
@@ -293,7 +293,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.autoPickedExpirationDateText
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testAutoPickedExpirationDateText_whenHormoneFailsToCreateDate_returnsPlaceholder() {
 		let hormone = setupHormone()
 		hormone.createExpirationDateReturnValue = nil
@@ -302,7 +302,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = DotDotDot
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testGetSiteName_whenNameNotFound_returnsNil() {
 		setupHormone()
 		let sites = dependencies.sdk?.sites as! MockSiteSchedule
@@ -310,7 +310,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		XCTAssertNil(viewModel.getSiteName(at: 3))
 	}
-	
+
 	func testGetSiteName_returnsExpectedName() {
 		setupHormone()
 		let sites = dependencies.sdk?.sites as! MockSiteSchedule
@@ -320,7 +320,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = "Name2"
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testCreateHormoneViewStrings_createsExpectedStrings() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -329,13 +329,13 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual("Expires: ", actual.expirationText)
 		XCTAssertEqual("Site: ", actual.siteLabelText)
 	}
-	
+
 	func testTrySelectSite_whenSiteDoesNotExistAtRow_returnsNil() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		XCTAssertNil(viewModel.trySelectSite(at: 54))
 	}
-	
+
 	func testTrySelectSite_whenSiteExists_returnsSite() {
 		setupHormone()
 		let site = MockSite()
@@ -346,7 +346,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = site.name
 		XCTAssertEqual(actual, expected)
 	}
-	
+
 	func testTrySelectSite_whenSiteExists_selectsSite() {
 		setupHormone()
 		let site = MockSite()
@@ -357,7 +357,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = viewModel.selections.site!.name
 		XCTAssertEqual(actual, expected)
 	}
-	
+
 	func testSaveSelections_whenDateSelected_callsSetHormoneDate() {
 		let hormone = setupHormone()
 		let date = Date()
@@ -370,7 +370,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected.0, actual.0)
 		XCTAssertEqual(expected.1, actual.1)
 	}
-	
+
 	func testSaveSelections_whenSiteSelected_callsSetHormoneSite() {
 		let hormone = setupHormone()
 		let site = MockSite()
@@ -383,7 +383,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected.0, actual.0)
 		XCTAssertEqual(expected.1.id, actual.1.id)
 	}
-	
+
 	func testSaveSelections_whenSiteSelectedAndSiteIsSuggested_incrementsSiteIndex() {
 		setupHormone()
 		let site = MockSite()
@@ -396,7 +396,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let didIncrement = hormones.setSiteByIdCallArgs[0].2
 		XCTAssert(didIncrement)
 	}
-	
+
 	func testSaveSelections_whenSiteSelectedAndSiteIsNotSuggested_doesNotIncrementSiteIndex() {
 		setupHormone()
 		let site = MockSite()
@@ -409,7 +409,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let didIncrement = hormones.setSiteByIdCallArgs[0].2
 		XCTAssertFalse(didIncrement)
 	}
-	
+
 	func testSaveSelections_reflectsBadge() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -417,7 +417,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = (dependencies.badge as! MockBadge).reflectCallCount
 		XCTAssertEqual(1, actual)
 	}
-	
+
 	func testSaveSelections_requestNotification() {
 		let hormone = setupHormone()
 		hormone.isPastNotificationTime = false
@@ -428,7 +428,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = hormone.id
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testSaveSelections_reflectsTabs() {
 		let hormone = setupHormone()
 		hormone.isPastNotificationTime = false
@@ -439,7 +439,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let expected = 1
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsNewSite() {
 		setupHormone()
 		let expected = SiteStrings.NewSite
@@ -449,7 +449,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.extractSiteNameFromTextField(textField)
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testExtractSiteNameFromTextField_whenTextFieldTextIsEmptyString_returnsNewSite() {
 		setupHormone()
 		let expected = SiteStrings.NewSite
@@ -459,7 +459,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.extractSiteNameFromTextField(textField)
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testExtractSiteNameFromTextField_whenTextFieldTextIsEmptyString_returnsText() {
 		setupHormone()
 		let text = "Text"
@@ -470,7 +470,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let actual = viewModel.extractSiteNameFromTextField(textField)
 		XCTAssertEqual(expected, actual)
 	}
-	
+
 	func testPresentNewSiteAlert_presentsAlertWithHandlerThatWhenCalledInsertsNewSite() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
@@ -482,7 +482,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(site, actual.0)
 		XCTAssert(actual.1)
 	}
-	
+
 	func testPresentNewSiteAlert_presentsAlertWithHandlerWithClosureThatCallsUpdateViewsHandler() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)

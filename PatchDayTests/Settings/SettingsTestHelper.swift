@@ -12,7 +12,7 @@ import UIKit
 import PatchDay
 
 class SettingsTestHelper {
-	
+
 	private let methodButton = UIButton()
 	private let quantityButton = UIButton()
 	private let quantityArrowButton = UIButton()
@@ -20,7 +20,7 @@ class SettingsTestHelper {
 	private let notificationsSwitch = UISwitch()
 	private let notificationsSlider = UISlider()
 	private let notificationsMinutesLabel = UILabel()
-	
+
 	public func createControls() -> SettingsControls {
 		SettingsControls(
 			deliveryMethodButton: methodButton,

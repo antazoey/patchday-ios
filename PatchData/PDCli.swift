@@ -9,7 +9,7 @@
 import Foundation
 
 public class PDCli {
-	
+
 	private static let NukeFlag = "--nuke-storage"
 	private static let DebugFlag = "--debug"
 	private static let DebugFlagShort = "-d"

@@ -19,7 +19,7 @@ public class SiteStrings {
 	public static var Unplaced: String { NSLocalizedString("unplaced", comment: commonComment) }
 
 	public static var NewSite: String { NSLocalizedString("New Site", comment: commonComment) }
-	
+
 	public static var arms: String {
 		NSLocalizedString("Arms", comment: commonComment)
 	}

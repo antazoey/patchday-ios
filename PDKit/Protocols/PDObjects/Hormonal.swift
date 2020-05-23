@@ -9,10 +9,10 @@
 import Foundation
 
 public protocol Hormonal: PDObjectified {
-	
+
 	/// Applies the given settings to the hormone instance and returns itself.
 	func from(_ settings: UserDefaultsReading) -> Hormonal
-	
+
 	var id: UUID { get set }
 
 	/// The way in which the hormone is delivered to the body, usually set from User Defaults.
@@ -56,7 +56,7 @@ public protocol Hormonal: PDObjectified {
 
 	/// Sets the date to now.
 	func stamp()
-	
+
 	/// Creates a would-be expiration date for the given start date using this hormone's expiration interval.
 	func createExpirationDate(from startDate: Date) -> Date?
 }
