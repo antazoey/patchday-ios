@@ -49,12 +49,27 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		super.viewDidLoad()
 		setPickerDelegates()
 		handleHardwareConstraints()
+		loadTitle()
+		willEnterForeground()
+	}
+
+	override func viewDidAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		willEnterForeground()
+		super.viewDidAppear(animated)
+	}
+
+	@objc func willEnterForeground() {
 		loadSelectNameButton()
 		loadTimesadaySlider()
 		loadTimeButtons()
 		disableSaveButton()
 		reflectPillAttributes()
-		loadTitle()
 		applyTheme()
 	}
 

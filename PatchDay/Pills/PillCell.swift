@@ -20,6 +20,7 @@ class PillCell: TableCell {
     @IBOutlet weak var nextHeaderLabel: UILabel!
     @IBOutlet weak var nextDueDate: UILabel!
 	@IBOutlet weak var imageViewContainer: UIView!
+	@IBOutlet weak var badgeButton: PDBadgeButton!
 
 	static let RowHeight: CGFloat = 170.0
 
@@ -28,6 +29,7 @@ class PillCell: TableCell {
 		loadLastTakenText(params.pill)
 		loadDueDateText(params.pill)
 		loadBackground()
+		loadBadge(params.pill)
 		applyTheme(at: params.index)
 		return self
 	}
@@ -66,6 +68,10 @@ class PillCell: TableCell {
 	@discardableResult private func loadNameLabel(_ pill: Swallowable) -> PillCell {
 		nameLabel.text = pill.name
 		return self
+	}
+
+	private func loadBadge(_ pill: Swallowable) {
+		badgeButton.badgeValue = pill.isDue ? "!" : nil
 	}
 
 	@discardableResult private func applyTheme(at index: Index) -> PillCell {

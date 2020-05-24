@@ -44,15 +44,27 @@ class HormoneDetailViewController: UIViewController,
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		loadTitle()
+		willEnterForeground()
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		willEnterForeground()
+		super.viewDidAppear(animated)
+	}
+
+	@objc func willEnterForeground() {
 		loadSiteControls()
 		loadSaveButton()
 		loadAutofillButton()
 		loadDateControls()
-	}
-
-	override func viewWillAppear(_ animated: Bool) {
 		applyTheme()
-		super.viewDidAppear(animated)
+
 	}
 
 	static func create(

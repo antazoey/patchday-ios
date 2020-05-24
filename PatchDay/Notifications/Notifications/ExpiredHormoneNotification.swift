@@ -14,7 +14,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 
 	private let hormone: Hormonal
 	private let notificationsMinutesBefore: Double
-	private let badge: PDBadgeDelegate
 
 	public static let actionId = "estroActionId"
 	public static let categoryId = "estroCategoryId"
@@ -23,12 +22,10 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         hormone: Hormonal,
         notifyMinutes: Double,
         suggestedSite: SiteName?,
-		badge: PDBadgeDelegate,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
 		self.hormone = hormone
         self.notificationsMinutesBefore = notifyMinutes
-		self.badge = badge
         let strings = NotificationStrings.get(
             method: hormone.deliveryMethod,
             notifyMinutes: notifyMinutes,
@@ -38,7 +35,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
             title: strings.0,
             body: strings.1,
 			categoryId: ExpiredHormoneNotification.categoryId,
-			badge: badge,
             requestHandler: requestHandler
         )
 	}

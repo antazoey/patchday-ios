@@ -41,13 +41,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		willEnterForeground()
 		setRuntimeViewProps()
 		applyDelegates()
 		loadTitle()
-		loadName()
-		loadImage()
-		loadSave()
-		applyTheme()
 	}
 
 	static func createSiteDetailVC(
@@ -57,7 +54,20 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(false)
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		willEnterForeground()
+		super.viewDidAppear(animated)
+	}
+
+	@objc func willEnterForeground() {
+		loadName()
+		loadImage()
+		loadSave()
 		applyTheme()
 	}
 

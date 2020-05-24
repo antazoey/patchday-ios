@@ -20,15 +20,16 @@ class ExpiredHormoneOvernightNotificationTests: XCTestCase {
 
     func testInit_whenUsingPatches_hasExpectedProperties() {
         let not = ExpiredHormoneOvernightNotification(
-			Date(timeIntervalSinceNow: -100), .Patches, MockBadge(), _testHandler
+			Date(timeIntervalSinceNow: -100), .Patches, _testHandler
 		)
         XCTAssertEqual("Patch expires overnight.", not.title)
         XCTAssertNil(not.body)
+		XCTAssertNil(not.content.badge)
     }
 
     func testInit_whenUsingInjections_hasExpectedProperties() {
         let not = ExpiredHormoneOvernightNotification(
-			Date(timeIntervalSinceNow: -100), .Injections, MockBadge(), _testHandler
+			Date(timeIntervalSinceNow: -100), .Injections, _testHandler
 		)
         XCTAssertEqual("Injection due overnight.", not.title)
         XCTAssertNil(not.body)
@@ -36,7 +37,7 @@ class ExpiredHormoneOvernightNotificationTests: XCTestCase {
 
     func testRequest_whenGivenDateInPast_doesNotRequest() {
         let not = ExpiredHormoneOvernightNotification(
-			Date(timeIntervalSinceNow: -100), .Patches, MockBadge(),_testHandler
+			Date(timeIntervalSinceNow: -100), .Patches,_testHandler
 		)
         not.request()
         XCTAssertEqual(0, ExpiredHormoneOvernightNotificationTests.testHandlerCallCount)
@@ -44,7 +45,7 @@ class ExpiredHormoneOvernightNotificationTests: XCTestCase {
 
     func testRequest_requests() {
         let not = ExpiredHormoneOvernightNotification(
-			Date(timeIntervalSinceNow: 100), .Patches, MockBadge(), _testHandler
+			Date(timeIntervalSinceNow: 100), .Patches, _testHandler
 		)
         not.request()
         XCTAssertEqual(1, ExpiredHormoneOvernightNotificationTests.testHandlerCallCount)

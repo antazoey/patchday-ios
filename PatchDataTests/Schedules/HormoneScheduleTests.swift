@@ -26,7 +26,7 @@ class HormoneScheduleTests: XCTestCase {
 		mockSettings = MockUserDefaultsWriter()
 	}
 
-	private func setUpHormones(_ mockHormones: [MockHormone] = []) {
+	private func setUpHormones(_ mockHormones: [Hormonal] = []) {
 		mockStore.getStoredCollectionReturnValues = [mockHormones]
 		hormones = HormoneSchedule(
 			store: mockStore,
@@ -98,6 +98,38 @@ class HormoneScheduleTests: XCTestCase {
 		mockHormones[2].isExpired = false
 		setUpHormones(mockHormones)
 		let expected = 2
+		let actual = hormones.totalExpired
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testTotalExpired_integration_returnsCountOfHormonesExpired() {
+		let data1 = HormoneStruct(
+			UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil
+		)
+		let data2 = HormoneStruct(
+			UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil
+		)
+		let hormone1 = Hormone(hormoneData: data1, settings: MockSettings())
+		let hormone2 = Hormone(hormoneData: data2, settings: MockSettings())
+		setUpHormones([hormone1, hormone2])
+
+		XCTAssertEqual(2, hormones.totalExpired)
+
+		hormones.setDate(at: 0, with: Date())
+
+		XCTAssertEqual(1, hormones.totalExpired)
+	}
+
+	/// Integration
+	func testTotalExpired_afterSettingDate_reflectsAccurately() {
+		let mockSettings = MockSettings()
+		let data1 = HormoneStruct(UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil)
+		let data2 = HormoneStruct(UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil)
+		let hormone1 = Hormone(hormoneData: data1, settings: mockSettings)
+		let hormone2 = Hormone(hormoneData: data2, settings: mockSettings)
+		setUpHormones([hormone1, hormone2])
+		hormones.setDate(at: 0, with: Date())
+		let expected = 1
 		let actual = hormones.totalExpired
 		XCTAssertEqual(expected, actual)
 	}

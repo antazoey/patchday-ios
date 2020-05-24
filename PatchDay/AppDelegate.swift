@@ -50,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func initDependencies() {
 		let sdk = PatchData()
-		self.sdk = PatchData()
+		self.sdk = sdk
 		self.nav = Navigation()
 		let badge = PDBadge(sdk: sdk)
 		self.badge = badge

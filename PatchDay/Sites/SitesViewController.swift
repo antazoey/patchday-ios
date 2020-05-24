@@ -18,18 +18,28 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		initViewModelIfNil()
+		willEnterForeground()
 		sitesTableView.delegate = self
 		sitesTableView.dataSource = self
-		loadBarButtons()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		willEnterForeground()
 		super.viewDidAppear(animated)
-		initViewModelIfNil()
+	}
+
+	@objc func willEnterForeground() {
+		initViewModel()
 		applyTheme()
 		viewModel.table.reloadData()
 		loadTitle()
+		loadBarButtons()
 	}
 
 	// MARK: - Table and cell characteristics.
@@ -134,8 +144,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 	// MARK: - Private
 
-	private func initViewModelIfNil() {
-		guard viewModel == nil else { return }
+	private func initViewModel() {
 		viewModel = SitesViewModel(sitesTableView: sitesTableView)
 	}
 

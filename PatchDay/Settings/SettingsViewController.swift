@@ -72,21 +72,31 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		loadViewModelIfNil()
+		willEnterForeground()
 		title = PDTitleStrings.SettingsTitle
 		setTopConstraint()
 		loadButtonDisabledStates()
-		viewModel?.reflector.reflect()
 		setPickers()
-		applyTheme()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		willEnterForeground()
+		super.viewDidAppear(animated)
+	}
+
+	@objc func willEnterForeground() {
 		quantityPicker.isHidden = true
 		assignSelfAsDelegateForPickers()
-		loadViewModelIfNil()
-		super.viewWillAppear(animated)
+		loadViewModel()
+		viewModel?.reflector.reflect()
 		applyTheme()
+		loadButtonDisabledStates()
 	}
 
 	private var controlsStruct: SettingsControls {
@@ -155,8 +165,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		settingsPicker.activator.setTitle(title)
 	}
 
-	private func loadViewModelIfNil() {
-		guard viewModel == nil else { return }
+	private func loadViewModel() {
 		let saver = SettingsSavePoint(controlsStruct)
 		let reflector = SettingsReflector(controlsStruct)
 		self.viewModel = SettingsViewModel(reflector, saver)

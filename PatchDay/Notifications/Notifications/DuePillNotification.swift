@@ -13,25 +13,23 @@ import PDKit
 public class DuePillNotification: Notification, PDNotificationProtocol {
 
 	private let pill: Swallowable
-	private let badge: PDBadgeDelegate
 
 	public static var actionId = { "takeActionId" }()
 	public static var categoryId = { "pillCategoryId" }()
 
 	init(
 		for pill: Swallowable,
-		badge: PDBadgeDelegate,
 		requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
 	) {
 		self.pill = pill
-		self.badge = badge
 		let title = "\(NotificationStrings.takePill)\(pill.name)"
-		super.init(title: title, body: nil, badge: badge, requestHandler: requestHandler)
+		super.init(title: title, body: nil, requestHandler: requestHandler)
 	}
 
 	public func request() {
 		super.content.categoryIdentifier = DuePillNotification.categoryId
 		if let interval = pill.due?.timeIntervalSince(Date()), interval > 0 {
+			PDLog<DuePillNotification>().info("Pill notification in \(interval)")
 			super.request(when: interval, requestId: pill.id.uuidString)
 		}
 	}

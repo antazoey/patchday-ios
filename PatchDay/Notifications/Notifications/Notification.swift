@@ -17,26 +17,25 @@ public class Notification {
 
     public var title: String
     public var body: String?
-	private let badge: PDBadgeDelegate
     private var requestHandler: ((_ interval: Double, _ id: String) -> Void)?
 
     init(
         title: String,
         body: String?,
         categoryId: String?=nil,
-		badge: PDBadgeDelegate,
+		setBadge: Bool=true,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
         self.title = title
         self.body = body
-		self.badge = badge
         self.requestHandler = requestHandler
-		let newBadge = badge.value + 1
 		content = UNMutableNotificationContent()
 		content.sound = UNNotificationSound.default
 		content.title = title
 		content.body = body ?? ""
-		content.badge = NSNumber(value: newBadge >= 0 ? newBadge : 0)
+		if setBadge {
+			content.badge = 1
+		}
         if let catId = categoryId {
             content.categoryIdentifier = catId
         }

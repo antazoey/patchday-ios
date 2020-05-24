@@ -21,8 +21,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		initViewModelIfNil()
-		applyTheme()
+		willEnterForeground()
 		title = PDTitleStrings.PillsTitle
 		pillsTableView.delegate = self
 		pillsTableView.dataSource = self
@@ -30,10 +29,21 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		initViewModelIfNil()
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(willEnterForeground),
+			name: UIApplication.willEnterForegroundNotification,
+			object: nil
+		)
+		willEnterForeground()
+		super.viewDidAppear(animated)
+	}
+
+	@objc func willEnterForeground() {
+		initViewModel()
 		viewModel.pillsTable.reloadData()
 		reloadInputViews()
+		applyTheme()
 	}
 
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,8 +75,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 	// MARK: - Private / Helpers
 
-	private func initViewModelIfNil() {
-		guard viewModel == nil else { return }
+	private func initViewModel() {
 		viewFactory = PillsViewFactory(insertButtonAction: handleInsertNewPill)
 		viewModel = PillsViewModel(pillsTableView: pillsTableView, viewFactory: viewFactory)
 	}

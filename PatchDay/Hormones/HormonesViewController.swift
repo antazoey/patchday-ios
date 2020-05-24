@@ -19,14 +19,14 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		initViewModel()
+		willEnterForeground()
 		assignSelfAsTableDelegate()
 		loadTitle()
 		loadBarButtons()
-		applyTheme()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
+		fadeInView()
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(willEnterForeground),
@@ -34,12 +34,11 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 			object: nil
 		)
 		willEnterForeground()
-		super.viewDidAppear(false)
+		super.viewDidAppear(animated)
 	}
 
 	@objc func willEnterForeground() {
 		initViewModel()
-		fadeInView()
 		viewModel.presentDisclaimerAlertIfFirstLaunch()
 		loadTitle()
 		viewModel.table.reloadData()

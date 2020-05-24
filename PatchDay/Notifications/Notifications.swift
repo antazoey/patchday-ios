@@ -34,7 +34,7 @@ class Notifications: NSObject, NotificationScheduling {
             handleHormone: HormoneNotificationActionHandler(sdk: sdk),
             handlePill: PillNotificationActionHandler(sdk.pills, appBadge)
 		)
-		let factory = NotificationFactory(sdk: sdk, badge: appBadge)
+		let factory = NotificationFactory(sdk: sdk)
 		self.init(
 			sdk: sdk,
 			center: center,

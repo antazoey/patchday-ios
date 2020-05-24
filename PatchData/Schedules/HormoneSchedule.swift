@@ -49,8 +49,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	}
 
 	public var totalExpired: Int {
-		all.reduce(0, {
-			count, hormone in
+		all.reduce(0, {			count, hormone in
 			let c = hormone.isExpired ? 1 : 0
 			return c + count
 		})

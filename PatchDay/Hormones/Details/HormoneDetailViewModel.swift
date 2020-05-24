@@ -135,9 +135,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	func saveSelections() {
 		trySave()
-		badge?.reflect()
-		requestNewNotifications()
-		tabs?.reflectHormoneCharacteristics()
+		self.tabs?.reflectHormoneCharacteristics()
+		PDBadge(sdk: sdk).reflect()
+		self.requestNewNotifications()
 	}
 
 	func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {
@@ -156,26 +156,26 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	private func trySave() {
+		trySaveDate()
+		trySaveSite()
+	}
+
+	private func trySaveDate() {
 		guard let sdk = sdk else { return }
-		trySaveDate(sdk.hormones, selections.date)
-		trySaveSite(sdk.hormones, selections.site)
+		guard let hormone = hormone else { return }
+		guard let date = selections.date else { return }
+		sdk.hormones.setDate(by: hormone.id, with: date)
+		badge?.reflect()
 	}
 
-	private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?) {
-		guard let hormone = hormone, let date = selectedDate else {
-			log.info("There are no changes to the \(PDEntity.hormone) date")
-			return
-		}
-		hormones.setDate(by: hormone.id, with: date)
-	}
-
-	private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?) {
-		guard let hormone = hormone, let site = selectedSite else {
-			log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
-			return
-		}
-		let isSuggested = site.id == sdk?.sites.suggested?.id
-		hormones.setSite(by: hormone.id, with: site, incrementSiteIndex: isSuggested)
+	private func trySaveSite() {
+		guard let sdk = sdk else { return }
+		guard let hormone = hormone else { return }
+		guard let site = selections.site else { return }
+		let isSuggested = site.id == sdk.sites.suggested?.id
+		sdk.hormones.setSite(
+			by: hormone.id, with: site, incrementSiteIndex: isSuggested
+		)
 	}
 
 	private func requestNewNotifications() {

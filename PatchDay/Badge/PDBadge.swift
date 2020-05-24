@@ -18,8 +18,9 @@ public class PDBadge: PDBadgeDelegate {
 	}
 
 	public func reflect() {
-		UIApplication.shared.applicationIconBadgeNumber = sdk?.totalAlerts ?? 0
-		PDLog<PDBadge>().info("Badge number set to \(UIApplication.shared.applicationIconBadgeNumber)")
+		let newValue = sdk?.totalAlerts ?? 0
+		UIApplication.shared.applicationIconBadgeNumber = newValue
+		PDLog<PDBadge>().info("Badge number set to \(newValue)")
 	}
 
 	public func clear() {
