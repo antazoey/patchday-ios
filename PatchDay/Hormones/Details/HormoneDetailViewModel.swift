@@ -135,9 +135,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	func saveSelections() {
 		trySave()
-		self.tabs?.reflectHormoneCharacteristics()
-		PDBadge(sdk: sdk).reflect()
-		self.requestNewNotifications()
+		tabs?.reflectHormoneCharacteristics()
+		badge?.reflect()
+		requestNewNotifications()
 	}
 
 	func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {

@@ -70,7 +70,9 @@ public class PDLog<T> {
 	}
 
 	private var bundle: String? {
-		guard let t = T.self as? AnyClass.Type, let id = Bundle(for: t).bundleIdentifier else { return nil }
+		guard let t = T.self as? AnyClass.Type, let id = Bundle(for: t).bundleIdentifier else {
+			return nil
+		}
 		return id
 	}
 }

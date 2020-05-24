@@ -34,6 +34,7 @@ public class SiteImageDeterminationParameters {
 		if let hormone = hormone {
 			self.siteName = hormone.hasSite ? hormone.siteName : nil
 			self.deliveryMethod = hormone.deliveryMethod
+			return
 		}
 		self.siteName = nil
 		self.deliveryMethod = DefaultSettings.DeliveryMethodValue
