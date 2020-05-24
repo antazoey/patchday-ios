@@ -216,6 +216,7 @@
 		9D9397C02379473B00FDF290 /* PDSettingsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */; };
 		9D9397C22379476F00FDF290 /* UserDefaultsReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */; };
 		9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978462367B01C009679FB /* SimpleProtocols.swift */; };
+		9D9C5FF02479EDED00B3DA6A /* PDBadgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FEF2479EDED00B3DA6A /* PDBadgeTests.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DC5135923973C1400A5138B /* TodayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayData.swift */; };
 		9DC5135A23973C1700A5138B /* TodayDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */; };
@@ -616,6 +617,7 @@
 		9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsReading.swift; sourceTree = "<group>"; };
 		9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDBadgeDelegate.swift; sourceTree = "<group>"; };
 		9D9978462367B01C009679FB /* SimpleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleProtocols.swift; sourceTree = "<group>"; };
+		9D9C5FEF2479EDED00B3DA6A /* PDBadgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDBadgeTests.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* NotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduling.swift; sourceTree = "<group>"; };
@@ -1225,6 +1227,7 @@
 		9D6E9AEF2456253A003BBCC9 /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
+				9D9C5FEE2479EDD700B3DA6A /* Badge */,
 				9D1908DD2468310800E95244 /* Settings */,
 				9D6E9B38245DCD2E003BBCC9 /* Hormones */,
 				9D6E9B1C2457A541003BBCC9 /* Notifications */,
@@ -1470,6 +1473,14 @@
 				9D22698923750DB100828B5F /* HormoneNotificationActionHandler.swift */,
 			);
 			path = ActionHandlers;
+			sourceTree = "<group>";
+		};
+		9D9C5FEE2479EDD700B3DA6A /* Badge */ = {
+			isa = PBXGroup;
+			children = (
+				9D9C5FEF2479EDED00B3DA6A /* PDBadgeTests.swift */,
+			);
+			path = Badge;
 			sourceTree = "<group>";
 		};
 		9DDAB03323FAE5EA00E6EEF6 /* Alerts */ = {
@@ -2079,6 +2090,7 @@
 				9D6E9B23245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift in Sources */,
 				9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */,
 				9D6E9AF92456256F003BBCC9 /* NotificationsTests.swift in Sources */,
+				9D9C5FF02479EDED00B3DA6A /* PDBadgeTests.swift in Sources */,
 				9D6E9B2A245DAE60003BBCC9 /* HormoneNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B27245CDAF8003BBCC9 /* DuePillNotificationTests.swift in Sources */,
 				9D1908F82471BCE800E95244 /* HormonesViewModelTests.swift in Sources */,

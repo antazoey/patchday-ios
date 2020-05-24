@@ -66,17 +66,18 @@ public class DateFactory: NSObject {
 		createDate(byAddingHours: expirationInterval.hours, to: date)
 	}
 
+	/// Creates a time interval by adding the given hours to the given date.
 	public static func createTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
 		guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {
 			return nil
 		}
+		// Find start and end between date and now (handling negative hours)
 		var range = [Date(), dateWithAddedHours]
 		range.sort()
 		let interval = DateInterval(start: range[0], end: range[1]).duration
 		return range[1] == dateWithAddedHours ? interval : -interval
 	}
 
-	/// Creates date
 	public static func createDateBeforeAtEightPM(of date: Date) -> Date? {
         guard let eightPM = createEightPM(of: date) else { return nil }
         return createDayBefore(eightPM)

@@ -15,32 +15,52 @@ import PatchDay
 
 class DuePillNotificationTests: XCTestCase {
 
-    private static var testHandlerCallCount = 0
-    private let _testHandler: (Double, String) -> Void = { v, id in testHandlerCallCount += 1}
+	private static var testHandlerCallArgs: [(Double, String)] = []
+	private let _testHandler: (Double, String) -> Void = {
+		interval, id in DuePillNotificationTests.testHandlerCallArgs.append((interval, id))
+	}
 
     func testInit_hasExpectedProperties() {
         let pill = MockPill()
+		pill.due = Date()
         pill.name = "Cannabis"
-        let not = DuePillNotification(for: pill, badge: 1, requestHandler: _testHandler)
+		let not = DuePillNotification(for: pill, badge: MockBadge(), requestHandler: _testHandler)
         XCTAssertEqual("Time to take pill: Cannabis", not.title)
         XCTAssertNil(not.body)
     }
 
-    func testRequests_requests() {
+	func testRequest_requestsAtExpectedInterval() {
         let pill = MockPill()
+		let dueDate = Date(timeInterval: 100, since: Date())
         pill.name = "Cannabis"
-        let not = DuePillNotification(for: pill, badge: 1, requestHandler: _testHandler)
+		pill.time1 = dueDate
+		pill.due = dueDate
+		let not = DuePillNotification(for: pill, badge: MockBadge(), requestHandler: _testHandler)
         not.request()
-        XCTAssertEqual(1, DuePillNotificationTests.testHandlerCallCount)
-        DuePillNotificationTests.testHandlerCallCount = 0
-    }
+		let expected = dueDate.timeIntervalSince(Date())
+		let actual = DuePillNotificationTests.testHandlerCallArgs[0].0
+		XCTAssert(PDTest.equiv(expected, actual))
+	}
 
-    func testRequests_whenDueDateIsNil_doesNotRequest() {
+    func testRequest_whenDueDateIsNil_doesNotRequest() {
         let pill = MockPill()
         pill.due = nil
         pill.name = "Cannabis"
-        let not = DuePillNotification(for: pill, badge: 1, requestHandler: _testHandler)
+		let not = DuePillNotification(for: pill, badge: MockBadge(), requestHandler: _testHandler)
+		DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
         not.request()
-        XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallCount)
+		XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
     }
+
+	func testRequest_whenDueDateIsInPast_doesNotRequest() {
+        let pill = MockPill()
+		let dueDate = Date(timeInterval: -100, since: Date())
+        pill.name = "Cannabis"
+		pill.time1 = dueDate
+		pill.due = dueDate
+		let not = DuePillNotification(for: pill, badge: MockBadge(), requestHandler: _testHandler)
+		DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
+        not.request()
+		XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
+	}
 }

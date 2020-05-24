@@ -17,8 +17,8 @@ enum TextFieldButtonSenderType: String {
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	var index: Index
-	var hormone: Hormonal {
-		sdk!.hormones[self.index]!
+	var hormone: Hormonal? {
+		sdk?.hormones[self.index]
 	}
 	var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
@@ -53,8 +53,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 			if let selected = selections.date {
 				return selected
 			}
-			let date = hormone.date
-			return date.isDefault() ? nil : date
+			let date = hormone?.date
+			return date?.isDefault() ?? true ? nil : date
 		}
 		set { selections.date = newValue }
 	}
@@ -69,15 +69,17 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	var selectDateButtonStartText: String {
-		guard hormone.hasDate else { return ActionStrings.Select }
+		guard let hormone = hormone, hormone.hasDate else { return ActionStrings.Select }
 		return PDDateFormatter.formatDate(hormone.date)
 	}
 
 	var selectSiteTextFieldStartText: String {
-		hormone.hasSite ? hormone.siteName : ActionStrings.Select
+		guard let hormone = hormone else { return ActionStrings.Select }
+		return hormone.hasSite ? hormone.siteName : ActionStrings.Select
 	}
 
 	var expirationDateText: String {
+		guard let hormone = hormone else { return DotDotDot }
 		let expInt = hormone.expirationInterval
 		guard let date = dateSelected else { return DotDotDot }
 		if let expDate = DateFactory.createExpirationDate(expirationInterval: expInt, to: date) {
@@ -109,7 +111,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	var autoPickedExpirationDateText: String {
-		if let date = hormone.createExpirationDate(from: Date()) {
+		if let hormone = hormone, let date = hormone.createExpirationDate(from: Date()) {
 			return PDDateFormatter.formatDay(date)
 		}
 		return DotDotDot
@@ -121,6 +123,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	func createHormoneViewStrings() -> HormoneViewStrings? {
+		guard let hormone = hormone else { return nil }
 		return HormoneStrings.create(hormone)
 	}
 
@@ -159,7 +162,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	private func trySaveDate(_ hormones: HormoneScheduling, _ selectedDate: Date?) {
-		guard let date = selectedDate else {
+		guard let hormone = hormone, let date = selectedDate else {
 			log.info("There are no changes to the \(PDEntity.hormone) date")
 			return
 		}
@@ -167,7 +170,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	private func trySaveSite(_ hormones: HormoneScheduling, _ selectedSite: Bodily?) {
-		guard let site = selectedSite else {
+		guard let hormone = hormone, let site = selectedSite else {
 			log.info("There are no changes to the \(PDEntity.hormone) \(PDEntity.site)")
 			return
 		}
@@ -176,7 +179,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	private func requestNewNotifications() {
-		guard let notifications = notifications else { return }
+		guard let hormone = hormone, let notifications = notifications else { return }
 		notifications.requestExpiredHormoneNotification(for: hormone)
 		if hormone.expiresOvernight {
 			notifications.requestOvernightExpirationNotification(for: hormone)
@@ -184,7 +187,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	private func getSite() -> Bodily? {
-		guard let id = hormone.siteId else { return nil }
+		guard let hormone = hormone, let id = hormone.siteId else { return nil }
 		return sdk?.sites[id]
 	}
 }

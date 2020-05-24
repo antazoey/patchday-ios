@@ -71,18 +71,22 @@ public class Pill: Swallowable {
     }
 
 	public var time1: Date {
-		get { pillData.attributes.time1 as Date? ?? DateFactory.createDefaultDate() }
+		get { pillData.attributes.time1 ?? DateFactory.createDefaultDate() }
 		set { pillData.attributes.time1 = newValue }
 	}
 
 	public var time2: Date {
 		get {
-			guard let t2 = pillData.attributes.time2 else {
+			guard let t1 = pillData.attributes.time1, !t1.isDefault(), let t2 = pillData.attributes.time2 else {
 				return DateFactory.createDefaultDate()
 			}
 			return t2 as Date
 		} set {
-			if let time1 = pillData.attributes.time1 as Date? {
+			if let time1 = pillData.attributes.time1 as Date?,
+				!time1.isDefault(),
+				timesaday >= 2,
+				!newValue.isDefault() {
+
 				if newValue < time1 {
 					pillData.attributes.time2 = time1
 					pillData.attributes.time1 = newValue
@@ -131,14 +135,15 @@ public class Pill: Swallowable {
 			case PillStrings.Intervals.EveryDay: return regularNextDueTime
 			case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
 			case PillStrings.Intervals.FirstTenDays: return dueDateForFirstTenDays
-			case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays()
-			case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays()
-			case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays()
+			case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays
+			case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays
+			case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays
 			default: return nil
         }
     }
 
 	public var isDue: Bool {
+		guard timesTakenToday < timesaday else { return false }
 		guard let dueDate = due else { return false }
 		return Date() > dueDate
 	}
@@ -190,9 +195,10 @@ public class Pill: Swallowable {
 		return _times
 	}
 
-	private func ensureTimeOrdering() {
-		if self.time2 < time1 || self.time1 > time2 {
-			self.time2 = time1
+	private func ensureTimeOrder() {
+		guard timesaday > 1 else { return }
+		if time2 < time1 {
+			time2 = time1
 		}
 	}
 
@@ -261,11 +267,11 @@ public class Pill: Swallowable {
         return nil
     }
 
-    private func dueDateForLastTenDays() -> Date? {
+	private var dueDateForLastTenDays: Date? {
         dueDate(end: 10)
     }
 
-    private func dueDate(end: Int) -> Date? {
+	private func dueDate(end: Int) -> Date? {
         guard let lastTaken = lastTaken else { return regularNextDueTime }
         guard let daysInMonth = lastTaken.daysInMonth() else { return regularNextDueTime }
         let dayNumber = lastTaken.dayNumberInMonth()
@@ -277,11 +283,11 @@ public class Pill: Swallowable {
         return regularNextDueTime
     }
 
-    private func dueDateForFirstTwentyDays() -> Date? {
+	private var dueDateForFirstTwentyDays: Date? {
         dueDate(begin: 10)
     }
 
-    private func dueDateForLastTwentyDays() -> Date? {
+	private var dueDateForLastTwentyDays: Date? {
         dueDate(end: 20)
     }
 

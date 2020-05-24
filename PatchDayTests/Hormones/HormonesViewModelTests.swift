@@ -19,6 +19,6 @@ class HormonesViewModelTests: XCTestCase {
 	private let style = UIUserInterfaceStyle.dark
 
 	func testInit_setsTabs() {
-		let viewModel = HormonesViewModel(hormonesTableView: table, style: style)
+		//let viewModel = HormonesViewModel(hormonesTableView: table, style: style)
 	}
 }

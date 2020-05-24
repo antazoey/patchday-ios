@@ -135,6 +135,7 @@ public class PillTests: XCTestCase {
 
 	func testTimeTwo_whenNilInAttributes_returnsDefaultDate() {
 		var attrs = PillAttributes()
+		attrs.time1 = Date()
 		attrs.time2 = nil
 		let pill = createPill(attrs)
 		let expected = Date(timeIntervalSince1970: 0)
@@ -144,6 +145,7 @@ public class PillTests: XCTestCase {
 
 	public func testTimeTwo_returnsTimeFromAttributes() {
 		var attrs = PillAttributes()
+		attrs.time1 = Date()
 		attrs.time2 = Date()
 		let pill = createPill(attrs)
 		let expected = attrs.time2
@@ -151,8 +153,53 @@ public class PillTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
+	func testSetTimeTwoSet_whenGivenDefaultValue_doesNotSet() {
+		var attrs = PillAttributes()
+		attrs.time1 = Date()
+		attrs.time2 = Date()
+		attrs.timesaday = 2
+		let pill = createPill(attrs)
+		pill.time2 = DateFactory.createDefaultDate()
+		let expected = attrs.time2
+		let actual = pill.time2
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSetTimeTwo_whenTimesadayIsOne_doesNotSet() {
+		var attrs = PillAttributes()
+		attrs.timesaday = 1
+		attrs.time1 = Date(timeInterval: 1000, since: Date())
+		attrs.time2 = Date()
+		let pill = createPill(attrs)
+		pill.time2 = Date()
+		let expected = attrs.time2
+		let actual = pill.time2
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSetTimeTwo_whenTimeOneIsDefault_doesNotSetAndReturnsDefaultDate() {
+		var attrs = PillAttributes()
+		attrs.timesaday = 2
+		attrs.time1 = DateFactory.createDefaultDate()
+		attrs.time2 = Date()
+		let pill = createPill(attrs)
+		pill.time2 = Date()
+		XCTAssertEqual(DateFactory.createDefaultDate(), pill.time2)
+	}
+
+	func testSetTimeTwo_whenTimeOneIsNil_doesNotSetAndReturnsDefaultDate() {
+		var attrs = PillAttributes()
+		attrs.timesaday = 2
+		attrs.time1 = nil
+		attrs.time2 = Date()
+		let pill = createPill(attrs)
+		pill.time2 = Date()
+		XCTAssertEqual(DateFactory.createDefaultDate(), pill.time2)
+	}
+
 	func testSetTimeTwo_whenTimeOneIsGreater_setsPillOneToNewTime() {
 		var attrs = PillAttributes()
+		attrs.timesaday = 2
 		attrs.time1 = Date(timeInterval: 1000, since: Date())
 		let pill = createPill(attrs)
 		let expected = Date()
@@ -162,6 +209,7 @@ public class PillTests: XCTestCase {
 
 	func testSetTimeTwo_whenTimeOneIsGreater_setsTimeTwoToPillTimeOne() {
 		var attrs = PillAttributes()
+		attrs.timesaday = 2
 		let expected = Date(timeInterval: 1000, since: Date())
 		attrs.time1 = expected
 		let pill = createPill(attrs)
@@ -245,10 +293,14 @@ public class PillTests: XCTestCase {
 
 	func testDue_whenEveryDayAndTimesTakenAndNotYetTaken_returnsTodayAtTimeOne() {
 		var attrs = PillAttributes()
-		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+		let now = Date()
+		attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+		attrs.time1 = DateFactory.createDate(byAddingSeconds: 61, to: now)!
+		attrs.time2 = nil
+		attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
+		attrs.notify = true
+		attrs.timesaday = 1
 		attrs.timesTakenToday = 0
-		attrs.time1 = Date(timeIntervalSinceNow: -234233234352) // Making it an old date makes the test better
 		let pill = createPill(attrs)
 		let expected = createDueTime(pill.time1, days: 0)
 		let actual = pill.due
@@ -433,6 +485,15 @@ public class PillTests: XCTestCase {
         let actual = pill.due
         XCTAssertEqual(expected, actual)
     }
+
+	func testIsDue_whenTimesTakenTodayEqualsTimesday_returnsFalse() {
+		var attrs = createPillAttributes(minutesFromNow: -5)
+		attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+		attrs.timesTakenToday = 2
+		attrs.timesaday = 2
+		let pill = createPill(attrs)
+		XCTAssertFalse(pill.isDue)
+	}
 
 	func testIsDue_whenPillNotYetTakenAndTimeOneIsPast_returnsTrue() {
 		var attrs = createPillAttributes(minutesFromNow: -5)

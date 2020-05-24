@@ -48,21 +48,11 @@ class CoreDataStack: NSObject {
 		let container = CoreDataStack.container!
 		container.loadPersistentStores(completionHandler: {
 			(_, error) in
-			//self.log.info("Loaded persistent store '\(name)' of type \(storeDescription.type)")
 			if let error = error as NSError? {
-				//self.log.error(error)
 				fatalError()
 			}
 		})
 		return container
-
-//		if let container = container {
-//			return container
-//		} else {
-//			let newContainer = getPersistentContainer(for: persistentContainerKey)
-//			container = newContainer
-//			return newContainer
-//		}
 	}()
 
 	static var context: NSManagedObjectContext {
@@ -111,19 +101,6 @@ class CoreDataStack: NSObject {
 	}
 
 	// MARK: - Private
-
-//	private static func getPersistentContainer(for name: String) -> NSPersistentContainer {
-//		let container = NSPersistentContainer(name: name)
-//		container.loadPersistentStores(completionHandler: {
-//			(storeDescription, error) in
-//			self.log.info("Loaded persistent store '\(name)' of type \(storeDescription.type)")
-//			if let error = error as NSError? {
-//				self.log.error(error)
-//				fatalError()
-//			}
-//		})
-//		return container
-//	}
 
 	private static func getEntityKey(for entity: PDEntity) -> EntityKey {
 		var n: String

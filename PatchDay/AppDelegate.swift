@@ -29,17 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
 	) -> Bool {
 		initDependencies()
-#if
+#if DEBUG
 		// The `Notifications Test` is a test where the first hormone expires in a minute from now.
 		if PDCli.isNotificationsTest() {
-			let log = PDLog<AppDelegate>()
+			badge?.clear()
 			if let sdk = sdk, let notifications = notifications {
 				if let hormone = sdk.hormones[0] {
-					log.info("Requesting hormone notification for Test")
 					notifications.requestExpiredHormoneNotification(for: hormone)
 				}
 				if let pill = sdk.pills[0] {
-					log.info("Requesting pill notification for Test")
 					notifications.requestDuePillNotification(pill)
 				}
 			}

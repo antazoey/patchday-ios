@@ -13,22 +13,22 @@ import PDKit
 public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 
 	private let hormone: Hormonal
-	private let expiration: ExpirationIntervalUD
 	private let notificationsMinutesBefore: Double
+	private let badge: PDBadgeDelegate
 
 	public static let actionId = "estroActionId"
 	public static let categoryId = "estroCategoryId"
 
     init(
         hormone: Hormonal,
-        expiration: ExpirationIntervalUD,
         notifyMinutes: Double,
         suggestedSite: SiteName?,
+		badge: PDBadgeDelegate,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
 		self.hormone = hormone
-		self.expiration = expiration
         self.notificationsMinutesBefore = notifyMinutes
+		self.badge = badge
         let strings = NotificationStrings.get(
             method: hormone.deliveryMethod,
             notifyMinutes: notifyMinutes,
@@ -37,7 +37,8 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         super.init(
             title: strings.0,
             body: strings.1,
-            categoryId: ExpiredHormoneNotification.categoryId,
+			categoryId: ExpiredHormoneNotification.categoryId,
+			badge: badge,
             requestHandler: requestHandler
         )
 	}
@@ -56,7 +57,8 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
     }
 
     private func createIntervalFromExpirationSetting() -> TimeInterval? {
-        DateFactory.createTimeInterval(fromAddingHours: expiration.hours, to: hormone.date)
+		let hours = hormone.expirationInterval.hours
+		return DateFactory.createTimeInterval(fromAddingHours: hours, to: hormone.date)
     }
 
     private func accountForNotificationsMinBefore(_ interval: TimeInterval) -> TimeInterval {

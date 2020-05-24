@@ -33,6 +33,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 			name: UIApplication.willEnterForegroundNotification,
 			object: nil
 		)
+		willEnterForeground()
 		super.viewDidAppear(false)
 	}
 

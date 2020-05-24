@@ -15,6 +15,7 @@ class Notifications: NSObject, NotificationScheduling {
 	private let sdk: PatchDataSDK
 	private let center: NotificationCenterDelegate
 	private let factory: NotificationProducing
+	private lazy var log = PDLog<Notifications>()
 
 	init(
 		sdk: PatchDataSDK,
@@ -33,7 +34,7 @@ class Notifications: NSObject, NotificationScheduling {
             handleHormone: HormoneNotificationActionHandler(sdk: sdk),
             handlePill: PillNotificationActionHandler(sdk.pills, appBadge)
 		)
-		let factory = NotificationFactory(sdk: sdk)
+		let factory = NotificationFactory(sdk: sdk, badge: appBadge)
 		self.init(
 			sdk: sdk,
 			center: center,
@@ -98,6 +99,7 @@ class Notifications: NSObject, NotificationScheduling {
         guard pill.notify else { return }
         cancelDuePillNotification(pill)
         factory.createDuePillNotification(pill).request()
+		log.info("Pill notification has been requested")
 	}
 
 	/// Cancels a pill notification.

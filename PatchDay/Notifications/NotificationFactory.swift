@@ -12,25 +12,27 @@ import PDKit
 public class NotificationFactory: NotificationProducing {
 
     private let sdk: PatchDataSDK
+	private let badge: PDBadgeDelegate
 
-    public init(sdk: PatchDataSDK) {
+	public init(sdk: PatchDataSDK, badge: PDBadgeDelegate) {
         self.sdk = sdk
+		self.badge = badge
     }
 
     public func createExpiredHormoneNotification(hormone: Hormonal) -> PDNotificationProtocol {
         ExpiredHormoneNotification(
             hormone: hormone,
-            expiration: sdk.settings.expirationInterval,
             notifyMinutes: Double(sdk.settings.notificationsMinutesBefore.value),
-            suggestedSite: sdk.sites.suggested?.name
+			suggestedSite: sdk.sites.suggested?.name,
+			badge: badge
         )
 	}
 
     public func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol {
-        DuePillNotification(for: pill)
+		DuePillNotification(for: pill, badge: badge)
 	}
 
     public func createOvernightExpiredHormoneNotification(date: Date) -> PDNotificationProtocol {
-		ExpiredHormoneOvernightNotification(date, sdk.settings.deliveryMethod.value)
+		ExpiredHormoneOvernightNotification(date, sdk.settings.deliveryMethod.value, badge)
     }
 }
