@@ -34,7 +34,7 @@ class Notifications: NSObject, NotificationScheduling {
             handleHormone: HormoneNotificationActionHandler(sdk: sdk),
             handlePill: PillNotificationActionHandler(sdk.pills, appBadge)
 		)
-		let factory = NotificationFactory(sdk: sdk)
+		let factory = NotificationFactory(sdk: sdk, badge: appBadge)
 		self.init(
 			sdk: sdk,
 			center: center,
@@ -110,7 +110,9 @@ class Notifications: NSObject, NotificationScheduling {
 	/// Request a hormone notification that occurs when it's due overnight.
 	func requestOvernightExpirationNotification(for hormone: Hormonal) {
         guard let expiration = hormone.expiration else { return }
-        guard let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) else { return }
+        guard let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) else {
+			return
+		}
         factory.createOvernightExpiredHormoneNotification(date: notificationTime).request()
 	}
 }

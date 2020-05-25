@@ -19,11 +19,17 @@ public class DuePillNotification: Notification, PDNotificationProtocol {
 
 	init(
 		for pill: Swallowable,
+		currentBadgeValue: Int,
 		requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
 	) {
 		self.pill = pill
 		let title = "\(NotificationStrings.takePill)\(pill.name)"
-		super.init(title: title, body: nil, requestHandler: requestHandler)
+		super.init(
+			title: title,
+			body: nil,
+			currentBadgeValue: currentBadgeValue,
+			requestHandler: requestHandler
+		)
 	}
 
 	public func request() {

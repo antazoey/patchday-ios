@@ -24,6 +24,7 @@ public class Notification {
         body: String?,
         categoryId: String?=nil,
 		setBadge: Bool=true,
+		currentBadgeValue: Int?=nil,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
         self.title = title
@@ -34,7 +35,8 @@ public class Notification {
 		content.title = title
 		content.body = body ?? ""
 		if setBadge {
-			content.badge = 1
+			let value = currentBadgeValue ?? 0
+			content.badge = NSNumber(value: value + 1)
 		}
         if let catId = categoryId {
             content.categoryIdentifier = catId
