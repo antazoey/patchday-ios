@@ -22,9 +22,6 @@ public class PDTitleStrings {
 	public static var EditPillTitle: String { NSLocalizedString("Edit Pill", comment: c) }
 	public static var NewPillTitle: String { NSLocalizedString("New Pill", comment: c) }
 	public static var SitesTitle: String { NSLocalizedString("Sites", comment: c) }
-	public static var PatchSitesTitle: String { NSLocalizedString("Patch Sites", comment: c) }
-	public static var InjectionSitesTitle: String { NSLocalizedString("Injection Sites", comment: c) }
-	public static var GelSitesTitle: String { NSLocalizedString("Gel Sites", comment: c) }
 	public static var EditSiteTitle: String { NSLocalizedString("Edit Site", comment: c) }
 	public static var PatchTitle: String { NSLocalizedString("Patch", comment: c) }
 	public static var InjectionTitle: String { NSLocalizedString("Injection", comment: c) }
@@ -46,16 +43,6 @@ public class PDTitleStrings {
 				case .Patches: return PatchTitle
 				case .Injections: return InjectionTitle
 				case .Gel: return GelTitle
-			}
-		}
-	}
-
-	public class Sites {
-		public static subscript(method: DeliveryMethod) -> String {
-			switch method {
-				case .Patches: return PatchSitesTitle
-				case .Injections: return InjectionSitesTitle
-				case .Gel: return GelSitesTitle
 			}
 		}
 	}
