@@ -870,7 +870,7 @@
         <scene sceneID="XNk-I8-a3y">
             <objects>
                 <navigationController title="Estrogens Nav" automaticallyAdjustsScrollViewInsets="NO" id="cg3-1t-cWr" userLabel="HormonesNav" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Hormones" image="Patch Icon" id="frx-Fi-ydK"/>
+                    <tabBarItem key="tabBarItem" title="Hormones" id="frx-Fi-ydK"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="bhU-lV-Shi"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XZg-Jc-sa0">
@@ -962,13 +962,12 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mpM-BR-8sz"/>
+        <segue reference="uH0-Pp-56s"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.1005799463190184" colorSpace="calibratedRGB"/>
     <resources>
         <image name="Calendar Icon" width="50" height="50"/>
         <image name="Notify Icon" width="50" height="50"/>
-        <image name="Patch Icon" width="50" height="50"/>
         <image name="Pill Icon" width="50" height="50"/>
         <image name="Site Icon" width="50" height="50"/>
         <namedColor name="Button">

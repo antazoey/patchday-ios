@@ -236,7 +236,7 @@ class HormoneDetailViewController: UIViewController,
 	private func loadTitle() {
 		guard let settings = viewModel.sdk?.settings else { return }
 		let method = settings.deliveryMethod.value
-		title = PDTitleStrings.Hormones[method]
+		title = PDTitleStrings.Hormone[method]
 	}
 
 	private func loadDateControls() {

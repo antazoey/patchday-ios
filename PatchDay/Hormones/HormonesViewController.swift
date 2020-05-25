@@ -96,7 +96,9 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 	}
 
 	private func loadTitle() {
-		title = viewModel.mainViewControllerTitle
+		if title != viewModel.mainViewControllerTitle {
+			title = viewModel.mainViewControllerTitle
+		}
 	}
 
 	private func fadeInView() {

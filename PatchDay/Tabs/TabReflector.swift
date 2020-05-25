@@ -24,7 +24,7 @@ class TabReflector: TabReflective {
 		self.tabBarController = tabBarController
 		self.viewControllers = viewControllers
 		self.sdk = sdk
-		loadViewControllerTabTexts()
+		loadViewControllerTabTextAttributes()
 	}
 
 	var hormonesVC: UIViewController? { viewControllers.tryGet(at: 0) }
@@ -37,10 +37,19 @@ class TabReflector: TabReflective {
 	}
 
 	func reflectHormoneCharacteristics() {
-		if let sdk = sdk, let hormonesVC = hormonesVC, let tabItem = hormonesVC.tabBarItem {
-			tabItem.reflectHormonesCharacteristics(sdk: sdk)
-			hormonesVC.awakeFromNib()
-		}
+		guard let sdk = sdk else { return }
+		guard let hormonesVC = hormonesVC else { return }
+		let method = sdk.settings.deliveryMethod.value
+		let icon = PDIcons[method]
+		guard icon != hormonesVC.tabBarItem.image else { return }
+		let expiredCount = sdk.hormones.totalExpired
+		let title = PDTitleStrings.Hormones[method]
+		let item = UITabBarItem(title: title, image: icon, selectedImage: icon)
+		item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
+		hormonesVC.title = title
+		hormonesVC.tabBarItem = nil
+		hormonesVC.tabBarItem = item
+		hormonesVC.awakeFromNib()
 	}
 
 	func reflectDuePillBadgeValue() {
@@ -49,7 +58,7 @@ class TabReflector: TabReflective {
 		}
 	}
 
-	private func loadViewControllerTabTexts() {
+	private func loadViewControllerTabTextAttributes() {
 		let size: CGFloat = AppDelegate.isPad ? 25 : 9
 		for i in 0..<viewControllers.count {
 			let font = UIFont.systemFont(ofSize: size)

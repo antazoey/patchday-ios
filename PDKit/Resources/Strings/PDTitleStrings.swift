@@ -40,6 +40,16 @@ public class PDTitleStrings {
 		}
 	}
 
+	public class Hormone {
+		public static subscript(method: DeliveryMethod) -> String {
+			switch method {
+				case .Patches: return PatchTitle
+				case .Injections: return InjectionTitle
+				case .Gel: return GelTitle
+			}
+		}
+	}
+
 	public class Sites {
 		public static subscript(method: DeliveryMethod) -> String {
 			switch method {
