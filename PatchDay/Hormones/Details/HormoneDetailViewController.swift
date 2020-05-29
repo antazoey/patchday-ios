@@ -299,9 +299,7 @@ class HormoneDetailViewController: UIViewController,
 	}
 
 	private func autoSetSiteText() {
-		guard let nextSite = viewModel.sdk?.sites.suggested else { return }
-		selectSiteTextField.text = nextSite.name
-		viewModel.selections.site = nextSite
+		selectSiteTextField.text = viewModel.selectSuggestedSite()
 	}
 
 	private func autoSetDateText() {

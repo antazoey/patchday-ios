@@ -303,6 +303,43 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
+	func testSelectSuggestedSite_selectSite() {
+		setupHormone()
+		let sites = dependencies.sdk!.sites as! MockSiteSchedule
+		let site = MockSite()
+		site.name = "Test site"
+		sites.suggested = site
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		let _ = viewModel.selectSuggestedSite()
+		let expected = site.id
+		let actual = viewModel.selections.site?.id
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSelectSuggestedSite_returnsExpectedSiteName() {
+		setupHormone()
+		let sites = dependencies.sdk!.sites as! MockSiteSchedule
+		let site = MockSite()
+		site.name = "Test site"
+		sites.suggested = site
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		let actual = viewModel.selectSuggestedSite()
+		let expected = site.name
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSelectSuggestedSite_whenSiteHasNoName_returnsNewSiteString() {
+		setupHormone()
+		let sites = dependencies.sdk!.sites as! MockSiteSchedule
+		let site = MockSite()
+		site.name = ""
+		sites.suggested = site
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		let actual = viewModel.selectSuggestedSite()
+		let expected = SiteStrings.NewSite
+		XCTAssertEqual(expected, actual)
+	}
+
 	func testGetSiteName_whenNameNotFound_returnsNil() {
 		setupHormone()
 		let sites = dependencies.sdk?.sites as! MockSiteSchedule

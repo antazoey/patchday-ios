@@ -117,6 +117,13 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return DotDotDot
 	}
 
+	func selectSuggestedSite() -> String {
+		guard let nextSite = sdk?.sites.suggested else { return SiteStrings.NewSite }
+		let name = nextSite.name
+		selections.site = nextSite
+		return name != "" ? name : SiteStrings.NewSite
+	}
+
 	func getSiteName(at row: Index) -> SiteName? {
 		guard let name = sdk?.sites.names.tryGet(at: row) else { return nil }
 		return name != "" ? name : SiteStrings.NewSite
