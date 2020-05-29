@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "new-1.pdf",
+      "filename" : "custom-1.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "light"
         }
       ],
-      "filename" : "new.pdf",
+      "filename" : "custom.pdf",
       "idiom" : "universal"
     },
     {
@@ -21,7 +21,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "new_d.pdf",
+      "filename" : "custom_d.pdf",
       "idiom" : "universal"
     }
   ],

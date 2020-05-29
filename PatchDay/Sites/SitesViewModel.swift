@@ -83,7 +83,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 	}
 
 	func getSitesViewControllerTitle(_ siteCellActionState: SiteTableActionState) -> String {
-		siteCellActionState == .Editing ? "" : getViewControllerTitleFromDeliveryMethod()
+		siteCellActionState == .Editing ? "" : PDTitleStrings.SitesTitle
 	}
 
 	func createBarItems(
@@ -110,12 +110,6 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 	private static func prepareBackButtonForNavigation(_ sitesViewController: UIViewController) {
 		let backItem = SiteViewFactory.createBackItem()
 		sitesViewController.navigationItem.backBarButtonItem = backItem
-	}
-
-	private func getViewControllerTitleFromDeliveryMethod() -> String {
-		guard let sdk = sdk else { return PDTitleStrings.SiteTitle }
-		let method = sdk.settings.deliveryMethod.value
-		return PDTitleStrings.SitesTitle
 	}
 
     @objc private func reloadDataFromBackgroundUpdate() {

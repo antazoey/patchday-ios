@@ -33,6 +33,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
             hormone: hormone,
             notifyMinutes: notifyMin,
 			suggestedSite: suggestedSiteName,
+			currentBadgeValue: 0,
             requestHandler: _testHandler
         )
         XCTAssertEqual("Almost time for your next patch", not.title)
@@ -49,6 +50,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
             hormone: hormone,
             notifyMinutes: notifyMin,
 			suggestedSite: suggestedSiteName,
+			currentBadgeValue: 0,
             requestHandler: _testHandler
         )
 
@@ -67,6 +69,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
             hormone: hormone,
             notifyMinutes: notifyMin,
 			suggestedSite: suggestedSiteName,
+			currentBadgeValue: 0,
             requestHandler: _testHandler
         )
 		let hours = hormone.expirationInterval.hours
@@ -89,6 +92,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
             hormone: hormone,
             notifyMinutes: notifyMin,
             suggestedSite: suggestedSiteName,
+			currentBadgeValue: 0,
             requestHandler: _testHandler
         )
 		ExpiredHormoneNotificationTests.testHandlerCallArgs = []

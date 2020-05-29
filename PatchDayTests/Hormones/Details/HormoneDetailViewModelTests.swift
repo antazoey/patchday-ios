@@ -494,4 +494,19 @@ class HormoneDetailViewModelTests: XCTestCase {
 		closure!()
 		XCTAssertEqual(1, HormoneDetailViewModelTests.handlerCallCount)
 	}
+
+	func testPresentNewSiteAlert_presentsAlertWithHandlerWithClosureThatSelectsNewSiteFromInsert() {
+		setupHormone()
+		let sites = dependencies.sdk?.sites as! MockSiteSchedule
+		let site = MockSite()
+		sites.insertNewReturnValue = site
+
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		viewModel.presentNewSiteAlert(newSiteName: "Test")
+		let handlers = (dependencies.alerts as! MockAlerts).presentNewSiteAlertCallArgs[0]
+		handlers.handleNewSite()
+		let expected = site.id
+		let actual = viewModel.selections.site?.id
+		XCTAssertEqual(expected, actual)
+	}
 }

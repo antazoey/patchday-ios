@@ -15,7 +15,7 @@ import PatchData
 import PatchDay
 
 class IntegrationTests: XCTestCase {
-#if targetEnvironment(simulator)  // Prevent accidentally messing up my phone
+#if targetEnvironment(simulator)
 
 	func testWhenChangingHormoneBadgeUpdatesCorrectly() {
 		let sdk = PatchData()

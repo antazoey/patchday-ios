@@ -148,9 +148,10 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	func presentNewSiteAlert(newSiteName: String) {
 		guard let alerts = alerts else { return }
 		let handlers = NewSiteAlertActionHandler {
-			self.sdk?.sites.insertNew(name: newSiteName, save: true) {
+			let newSite = self.sdk?.sites.insertNew(name: newSiteName, save: true) {
 				self.handleInterfaceUpdatesFromNewSite()
 			}
+			self.selections.site = newSite ?? self.selections.site
 		}
 		alerts.presentNewSiteAlert(handlers: handlers)
 	}

@@ -24,7 +24,7 @@ class DuePillNotificationTests: XCTestCase {
         let pill = MockPill()
 		pill.due = Date()
         pill.name = "Cannabis"
-		let not = DuePillNotification(for: pill, requestHandler: _testHandler)
+		let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
         XCTAssertEqual("Time to take pill: Cannabis", not.title)
         XCTAssertNil(not.body)
     }
@@ -35,7 +35,7 @@ class DuePillNotificationTests: XCTestCase {
         pill.name = "Cannabis"
 		pill.time1 = dueDate
 		pill.due = dueDate
-		let not = DuePillNotification(for: pill, requestHandler: _testHandler)
+		let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
         not.request()
 		let expected = dueDate.timeIntervalSince(Date())
 		let actual = DuePillNotificationTests.testHandlerCallArgs[0].0
@@ -46,7 +46,7 @@ class DuePillNotificationTests: XCTestCase {
         let pill = MockPill()
         pill.due = nil
         pill.name = "Cannabis"
-		let not = DuePillNotification(for: pill, requestHandler:_testHandler)
+		let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler:_testHandler)
 		DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
         not.request()
 		XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
@@ -58,7 +58,7 @@ class DuePillNotificationTests: XCTestCase {
         pill.name = "Cannabis"
 		pill.time1 = dueDate
 		pill.due = dueDate
-		let not = DuePillNotification(for: pill, requestHandler: _testHandler)
+		let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
 		DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
         not.request()
 		XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)

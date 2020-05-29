@@ -21,8 +21,9 @@ public class MockHormoneSchedule: HormoneScheduling {
 
 	public init() { }
 
+	public var insertNewReturnValue: Hormonal? = nil
 	public func insertNew() -> Hormonal? {
-		nil
+		insertNewReturnValue
 	}
 
 	public func reset(completion: (() -> ())?) -> Int {
