@@ -25,7 +25,7 @@ public class MockTabs: TabReflective {
 	}
 	
 	public var reflectHormoneCharacteristicsCount = 0
-	public func reflectHormoneCharacteristics() {
+	public func reflectHormones() {
 		reflectHormoneCharacteristicsCount += 1
 	}
 	

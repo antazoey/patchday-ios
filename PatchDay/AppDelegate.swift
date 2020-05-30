@@ -57,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
 		self.alerts = AlertDispatcher(sdk: sdk)
 		self.badge?.reflect()
+		self.tabs?.reflect()
 	}
 
 	static var isPad: Bool {
@@ -77,9 +78,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func applicationWillTerminate(_ application: UIApplication) {
 		badge?.reflect()
+		tabs?.reflect()
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {
 		badge?.reflect()
+		tabs?.reflect()
 	}
 }

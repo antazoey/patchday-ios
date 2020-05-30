@@ -140,6 +140,13 @@ public class PatchData: NSObject, PatchDataSDK {
 		hormones.totalExpired + pills.totalDue
 	}
 
+	public func resetAll() {
+		hormones.reset()
+		pills.reset()
+		let newSiteCount = sites.reset()
+		settings.reset(defaultSiteCount: newSiteCount)
+	}
+
 	private static func determinePillScheduleState(
 		settings: UserDefaultsWriting
 	) -> PillSchedule.PillScheduleState {

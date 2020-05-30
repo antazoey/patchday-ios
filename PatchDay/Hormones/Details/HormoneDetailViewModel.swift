@@ -142,7 +142,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	func saveSelections() {
 		trySave()
-		tabs?.reflectHormoneCharacteristics()
+		tabs?.reflectHormones()
 		badge?.reflect()
 		requestNewNotifications()
 	}

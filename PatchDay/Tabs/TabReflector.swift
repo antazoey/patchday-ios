@@ -32,30 +32,29 @@ class TabReflector: TabReflective {
 	var sitesVC: UIViewController? { viewControllers.tryGet(at: 2) }
 
 	func reflect() {
-		reflectHormoneCharacteristics()
+		reflectHormones()
 		reflectDuePillBadgeValue()
 	}
 
-	func reflectHormoneCharacteristics() {
+	func reflectHormones() {
 		guard let sdk = sdk else { return }
 		guard let hormonesVC = hormonesVC else { return }
 		let method = sdk.settings.deliveryMethod.value
 		let icon = PDIcons[method]
-		guard icon != hormonesVC.tabBarItem.image else { return }
 		let expiredCount = sdk.hormones.totalExpired
 		let title = PDTitleStrings.Hormones[method]
 		let item = UITabBarItem(title: title, image: icon, selectedImage: icon)
 		item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
 		hormonesVC.title = title
-		hormonesVC.tabBarItem = nil
+		hormonesVC.tabBarItem = nil  // Set to nil first to force redraw
 		hormonesVC.tabBarItem = item
 		hormonesVC.awakeFromNib()
 	}
 
 	func reflectDuePillBadgeValue() {
-		if let totalDue = sdk?.pills.totalDue, let pillTab = pillsVC?.tabBarItem {
-			pillTab.badgeValue = String(totalDue)
-		}
+		guard let totalDue = sdk?.pills.totalDue, totalDue > 0 else { return }
+		guard let pills = pillsVC else { return }
+		pills.tabBarItem.badgeValue = String(totalDue)
 	}
 
 	private func loadViewControllerTabTextAttributes() {

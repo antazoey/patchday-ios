@@ -88,7 +88,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	func loadAppTabs(source: UIViewController) {
 		guard let navigationController = source.navigationController else { return }
 		guard let tabs = navigationController.tabBarController else { return }
-		let vcs = navigationController.viewControllers
+		guard let vcs = tabs.viewControllers else { return }
 		setTabs(tabBarController: tabs, appViewControllers: vcs)
 	}
 

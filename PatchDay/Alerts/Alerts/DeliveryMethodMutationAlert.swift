@@ -19,19 +19,22 @@ class DeliveryMethodMutationAlert: PDAlert {
 	private let newDeliveryMethod: DeliveryMethod
 	private let handlers: DeliveryMethodMutationAlertActionHandling
 
-	private lazy var continueAction: UIAlertAction = {
+	lazy var continueAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Continue, style: .destructive) {
-			_ in
-			if let sdk = self.sdk {
-				sdk.settings.setDeliveryMethod(to: self.newDeliveryMethod)
-				let defaultQuantity = DefaultQuantities.Hormone[self.newDeliveryMethod]
-				sdk.settings.setQuantity(to: defaultQuantity)
-			}
-			self.tabs?.reflectHormoneCharacteristics()
+			_ in self.continueHandler()
 		}
 	}()
 
-	private lazy var declineAction: UIAlertAction = {
+	lazy var continueHandler = {
+		if let sdk = self.sdk {
+			sdk.settings.setDeliveryMethod(to: self.newDeliveryMethod)
+			let defaultQuantity = DefaultQuantities.Hormone[self.newDeliveryMethod]
+			sdk.settings.setQuantity(to: defaultQuantity)
+		}
+		self.tabs?.reflectHormones()
+	}
+
+	lazy var declineAction: UIAlertAction = {
 		UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
 			_ in self.handlers.handleDecline(
 				originalMethod: self.originalDeliveryMethod,

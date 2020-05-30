@@ -48,7 +48,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
-		viewModel.tabs?.reflectHormoneCharacteristics()
+		viewModel.tabs?.reflectHormones()
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

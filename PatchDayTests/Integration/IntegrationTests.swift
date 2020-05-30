@@ -14,11 +14,21 @@ import PatchData
 @testable
 import PatchDay
 
+// These tests don't always work and better to be run individually. TODO: Make run serially.
+
+
 class IntegrationTests: XCTestCase {
 #if targetEnvironment(simulator)
 
+	private let sdk = PatchData()
+
+	private let dummyViewController = UIViewController()
+
+	override func setUp() {
+		sdk.resetAll()
+	}
+
 	func testWhenChangingHormoneBadgeUpdatesCorrectly() {
-		let sdk = PatchData()
 		let badge = PDBadge(sdk: sdk)
 		sdk.hormones.setDate(at: 0, with: DateFactory.createDate(daysFromNow: -20)!)
 		sdk.hormones.setDate(at: 1, with: DateFactory.createDate(daysFromNow: -20)!)
@@ -34,5 +44,43 @@ class IntegrationTests: XCTestCase {
 		XCTAssertEqual(2, sdk.hormones.totalExpired)
 		XCTAssertEqual(2, badge.value)
 	}
+
+	func testWhenContinuingOnChangeDeliveryMethodAlertAddsOrRemoveHormonesToGetToDefaultQuantity() {
+		let tabs = TabReflector(
+			tabBarController: UITabBarController(),
+			viewControllers: [UIViewController()],
+			sdk: sdk
+		)
+		let handlers = DeliveryMethodMutationAlertActionHandler { (_, _) in () }
+		let patchesToGelAlert = DeliveryMethodMutationAlert(
+			parent: UIViewController(),
+			style: .actionSheet,
+			sdk: sdk,
+			tabs: tabs,
+			originalDeliveryMethod: .Patches,
+			originalQuantity: 4,
+			newDeliveryMethod: .Gel,
+			handlers: handlers
+		)
+		patchesToGelAlert.continueHandler()
+		XCTAssertEqual(1, sdk.hormones.count)
+		XCTAssertEqual(1, sdk.settings.quantity.rawValue)
+
+		let injectionsToPatchesAlert = DeliveryMethodMutationAlert(
+			parent: UIViewController(),
+			style: .actionSheet,
+			sdk: sdk,
+			tabs: tabs,
+			originalDeliveryMethod: .Injections,
+			originalQuantity: 4,
+			newDeliveryMethod: .Patches,
+			handlers: handlers
+		)
+		injectionsToPatchesAlert.continueHandler()
+		XCTAssertEqual(3, sdk.hormones.count)
+		XCTAssertEqual(3, sdk.settings.quantity.rawValue)
+	}
+
 #endif
 }
+

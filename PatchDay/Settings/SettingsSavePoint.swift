@@ -92,7 +92,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 			(newQuantity) in
 			sdk.hormones.delete(after: newQuantity)
 			sdk.settings.setQuantity(to: newQuantity)
-			self.tabs?.reflectHormoneCharacteristics()
+			self.tabs?.reflectHormones()
 			self.notifications?.cancelRangeOfExpiredHormoneNotifications(
 				from: newQuantity - 1, to: oldQuantity - 1
 			)

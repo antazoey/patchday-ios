@@ -11,7 +11,7 @@ import PDKit
 
 
 public class MockSDK: PatchDataSDK {
-    
+
     public init() {
         self.settings = MockSettings()
         self.hormones = MockHormoneSchedule()
@@ -25,4 +25,9 @@ public class MockSDK: PatchDataSDK {
     public var sites: SiteScheduling
     public var pills: PillScheduling
     public var totalAlerts: Int = 0
+
+	var resetAllCallCount = 0
+	public func resetAll() {
+		resetAllCallCount += 1
+	}
 }

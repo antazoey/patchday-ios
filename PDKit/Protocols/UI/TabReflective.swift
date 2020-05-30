@@ -13,6 +13,6 @@ public protocol TabReflective {
 	var pillsVC: UIViewController? { get }
 	var sitesVC: UIViewController? { get }
 	func reflect()
-	func reflectHormoneCharacteristics()
+	func reflectHormones()
 	func reflectDuePillBadgeValue()
 }
