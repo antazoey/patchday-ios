@@ -50,24 +50,24 @@ public class MockHormoneSchedule: HormoneScheduling {
 		nil
 	}
 
-	public var setByIdCallArgs: [(UUID, Date, Bodily, Bool)] = []
-	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool) {
-		setByIdCallArgs.append((id, date, site, incrementSiteIndex))
+	public var setByIdCallArgs: [(UUID, Date, Bodily)] = []
+	public func set(by id: UUID, date: Date, site: Bodily) {
+		setByIdCallArgs.append((id, date, site))
 	}
 
-	public var setByIndexCallArgs: [(Index, Date, Bodily, Bool)] = []
-	public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool) {
-		setByIndexCallArgs.append((index, date, site, incrementSiteIndex))
+	public var setByIndexCallArgs: [(Index, Date, Bodily)] = []
+	public func set(at index: Index, date: Date, site: Bodily) {
+		setByIndexCallArgs.append((index, date, site))
 	}
 
-	public var setSiteByIdCallArgs: [(UUID, Bodily, Bool)] = []
-	public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool) {
-		setSiteByIdCallArgs.append((id, site, incrementSiteIndex))
+	public var setSiteByIdCallArgs: [(UUID, Bodily)] = []
+	public func setSite(by id: UUID, with site: Bodily) {
+		setSiteByIdCallArgs.append((id, site))
 	}
 
-	public var setSiteByIndexCallArgs: [(Index, Bodily, Bool)] = []
-	public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool) {
-		setSiteByIndexCallArgs.append((index, site, incrementSiteIndex))
+	public var setSiteByIndexCallArgs: [(Index, Bodily)] = []
+	public func setSite(at index: Index, with site: Bodily) {
+		setSiteByIndexCallArgs.append((index, site))
 	}
 
 	public var setDateByIdCallArgs: [(UUID, Date)] = []

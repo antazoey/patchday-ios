@@ -113,4 +113,15 @@ class UserDefaultsWriterTests: XCTestCase {
 		XCTAssertEqual(expected, r)
 		XCTAssertEqual(expected, writer.siteIndex.rawValue)
 	}
+
+	func testIncrementSiteIndex_usesGivenStart() {
+		let writer = UserDefaultsWriter(handler: handler, getSiteCount: getSiteCount)
+		UserDefaultsWriterTests.getSiteCountReturnValue = 4
+		writer.siteIndex = SiteIndexUD(0)
+
+		let expected = 3
+		let r = writer.incrementStoredSiteIndex(from: 2)
+		XCTAssertEqual(expected, r)
+		XCTAssertEqual(expected, writer.siteIndex.rawValue)
+	}
 }

@@ -66,7 +66,9 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 		return i
 	}
 
-	public func incrementStoredSiteIndex() -> Index {
+	public var incrementStoredSiteIndexCallArgs: [Int?] = []
+	public func incrementStoredSiteIndex(from start: Int?) -> Index {
+		incrementStoredSiteIndexCallArgs.append(start)
 		self.siteIndex = SiteIndexUD(self.siteIndex.rawValue + 1)
 		return self.siteIndex.rawValue + 1
 	}

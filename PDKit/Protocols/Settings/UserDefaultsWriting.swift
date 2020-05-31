@@ -31,9 +31,9 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
 	/// Replaces the value of 'mentioned disclaimer' with the given one.
 	func replaceStoredMentionedDisclaimer(to newMentionedDisclaimer: Bool)
 
-	/// Increments the site index modularly.
+	/// Increments the site index modularly. Use `start` when changing sites outside of schedule order.
 	@discardableResult
-	func incrementStoredSiteIndex() -> Index
+	func incrementStoredSiteIndex(from start: Int?) -> Index
 
 	/// Replaces the value of 'site index' with the given one. Accepts 0..<siteCount. Returns the index after trying to set.
 	@discardableResult

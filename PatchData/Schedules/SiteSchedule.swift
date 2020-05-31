@@ -165,11 +165,6 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		context.firstIndex { (_ s: Bodily) -> Bool in s.id == site.id }
 	}
 
-	@discardableResult
-	private func updateIndex() -> Index {
-		settings.incrementStoredSiteIndex()
-	}
-
 	private var suggestedSite: Bodily? {
 		if let site = self[settings.siteIndex.value] {
 			return site

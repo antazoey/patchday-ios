@@ -20,7 +20,11 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	private lazy var log = PDLog<HormoneSchedule>()
 
-	init(store: HormoneStoring, hormoneDataSharer: HormoneDataSharing, settings: UserDefaultsWriting) {
+	init(
+		store: HormoneStoring,
+		hormoneDataSharer: HormoneDataSharing,
+		settings: UserDefaultsWriting
+	) {
 		let store = store
 		self.store = store
 		self.dataSharer = hormoneDataSharer
@@ -96,7 +100,8 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	public func delete(after i: Index) {
 		let start = i >= -1 ? i + 1 : 0
 		guard count >= start else {
-			log.error("Attempted to delete hormones after index \(i) when the count is only \(count)")
+			log.error("Attempted to delete hormones after index " +
+				"\(i) when the count is only \(count)")
 			return
 		}
 		for _ in start..<count {
@@ -124,30 +129,28 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		all.first(where: { h in h.id == id })?.from(settings)
 	}
 
-	public func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool) {
+	public func set(by id: UUID, date: Date, site: Bodily) {
 		guard var hormone = self[id] else { return }
-		set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex)
+		set(&hormone, date: date, site: site)
+
 	}
 
-	public func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool) {
+	public func set(at index: Index, date: Date, site: Bodily) {
 		guard var hormone = self[index] else { return }
-		set(&hormone, date: date, site: site, incrementSiteIndex: incrementSiteIndex)
+		set(&hormone, date: date, site: site)
 	}
 
-	public func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool) {
+	public func setSite(at index: Index, with site: Bodily) {
 		guard var hormone = self[index] else { return }
 		setSite(&hormone, with: site)
-		if incrementSiteIndex {
-			settings.incrementStoredSiteIndex()
-		}
+		settings.incrementStoredSiteIndex(from: site.order)
+
 	}
 
-	public func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool) {
+	public func setSite(by id: UUID, with site: Bodily) {
 		guard var hormone = self[id] else { return }
 		setSite(&hormone, with: site)
-		if incrementSiteIndex {
-			settings.incrementStoredSiteIndex()
-		}
+		settings.incrementStoredSiteIndex(from: site.order)
 	}
 
 	public func setDate(at index: Index, with date: Date) {
@@ -188,13 +191,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		}.count > 0
 	}
 
-	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily, incrementSiteIndex: Bool) {
+	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily) {
 		hormone.siteId = site.id
 		hormone.date = date
+		hormone.siteName = site.name
 		pushFromDateAndSiteChange(hormone)
-		if incrementSiteIndex {
-			settings.incrementStoredSiteIndex()
-		}
+		settings.incrementStoredSiteIndex(from: site.order)
 	}
 
 	private func setSite(_ hormone: inout Hormonal, with site: Bodily) {
@@ -202,6 +204,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		hormone.siteName = site.name
 		shareData()
 		store.pushLocalChangesToManagedContext([hormone], doSave: true)
+		settings.incrementStoredSiteIndex(from: site.order)
 	}
 
 	private func setDate(_ hormone: inout Hormonal, with date: Date) {

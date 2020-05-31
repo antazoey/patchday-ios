@@ -99,8 +99,8 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 	}
 
 	@discardableResult
-	public func incrementStoredSiteIndex() -> Index {
-		let currentIndex = siteIndex.value
+	public func incrementStoredSiteIndex(from start: Int?=nil) -> Index {
+		let currentIndex = start ?? siteIndex.value
 		let siteCount = getSiteCount()
 
 		// Should not happen, but exists for safety

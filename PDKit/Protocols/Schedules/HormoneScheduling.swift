@@ -46,16 +46,16 @@ public protocol HormoneScheduling: Schedule, Resetting {
 	subscript(id: UUID) -> Hormonal? { get }
 
 	/// Sets the date and site for the hormone with the given ID.
-	func set(by id: UUID, date: Date, site: Bodily, incrementSiteIndex: Bool)
+	func set(by id: UUID, date: Date, site: Bodily)
 
 	/// Sets the date and site for the hormone at given index.
-	func set(at index: Index, date: Date, site: Bodily, incrementSiteIndex: Bool)
+	func set(at index: Index, date: Date, site: Bodily)
 
 	/// Sets the site of the hormone with the given ID.
-	func setSite(by id: UUID, with site: Bodily, incrementSiteIndex: Bool)
+	func setSite(by id: UUID, with site: Bodily)
 
 	/// Sets the site for the hormone at the given index.
-	func setSite(at index: Index, with site: Bodily, incrementSiteIndex: Bool)
+	func setSite(at index: Index, with site: Bodily)
 
 	/// Sets the date of the hormone with the given ID.
 	func setDate(by id: UUID, with date: Date)
