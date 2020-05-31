@@ -28,9 +28,7 @@ class HormoneNotificationActionHandler: HormoneNotificationActionHandling {
 		guard let sdk = sdk else { return }
 		guard let id = UUID(uuidString: id) else { return }
 		guard let suggestedSite = sdk.sites.suggested else { return }
-		sdk.hormones.set(
-			by: id, date: Date(), site: suggestedSite, incrementSiteIndex: true
-		)
+		sdk.hormones.set(by: id, date: Date(), site: suggestedSite)
 		badge.reflect()
 		PDLog<HormoneNotificationActionHandler>().info("Handle hormone action from notification")
 	}

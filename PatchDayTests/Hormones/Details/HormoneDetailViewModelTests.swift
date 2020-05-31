@@ -431,32 +431,6 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected.1.id, actual.1.id)
 	}
 
-	func testSaveSelections_whenSiteSelectedAndSiteIsSuggested_incrementsSiteIndex() {
-		setupHormone()
-		let site = MockSite()
-		let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
-		let sites = dependencies.sdk?.sites as! MockSiteSchedule
-		sites.suggested = site
-		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		viewModel.selections.site = site
-		viewModel.saveSelections()
-		let didIncrement = hormones.setSiteByIdCallArgs[0].2
-		XCTAssert(didIncrement)
-	}
-
-	func testSaveSelections_whenSiteSelectedAndSiteIsNotSuggested_doesNotIncrementSiteIndex() {
-		setupHormone()
-		let site = MockSite()
-		let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
-		let sites = dependencies.sdk?.sites as! MockSiteSchedule
-		sites.suggested = MockSite()
-		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		viewModel.selections.site = site
-		viewModel.saveSelections()
-		let didIncrement = hormones.setSiteByIdCallArgs[0].2
-		XCTAssertFalse(didIncrement)
-	}
-
 	func testSaveSelections_reflectsBadge() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)

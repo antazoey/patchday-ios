@@ -183,10 +183,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		guard let sdk = sdk else { return }
 		guard let hormone = hormone else { return }
 		guard let site = selections.site else { return }
-		let isSuggested = site.id == sdk.sites.suggested?.id
-		sdk.hormones.setSite(
-			by: hormone.id, with: site, incrementSiteIndex: isSuggested
-		)
+		sdk.hormones.setSite(by: hormone.id, with: site)
 	}
 
 	private func requestNewNotifications() {
