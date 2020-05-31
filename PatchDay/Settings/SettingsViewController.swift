@@ -79,7 +79,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		setPickers()
 	}
 
-	override func viewWillAppear(_ animated: Bool) {
+	override func viewDidAppear(_ animated: Bool) {
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(willEnterForeground),
@@ -93,7 +93,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 	@objc func willEnterForeground() {
 		quantityPicker.isHidden = true
 		assignSelfAsDelegateForPickers()
-		loadViewModel()
+		initViewModel()
 		viewModel?.reflector.reflect()
 		applyTheme()
 		loadButtonDisabledStates()
@@ -165,7 +165,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 		settingsPicker.activator.setTitle(title)
 	}
 
-	private func loadViewModel() {
+	private func initViewModel() {
 		let saver = SettingsSavePoint(controlsStruct)
 		let reflector = SettingsReflector(controlsStruct)
 		self.viewModel = SettingsViewModel(reflector, saver)

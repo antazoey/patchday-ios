@@ -27,6 +27,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.table = HormonesTable(hormonesTableView)
 		super.init()
 		initTable(style: style)
+		tabs?.reflectHormones()
 	}
 
 	var mainViewControllerTitle: String {

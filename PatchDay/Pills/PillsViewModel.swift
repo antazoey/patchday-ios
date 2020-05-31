@@ -16,6 +16,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		super.init()
 		let tableWrapper = PillsTable(pillsTableView, pills: pills)
 		self.pillsTable = tableWrapper
+		tabs?.reflectDuePillBadgeValue()
 		watchForChanges()
 	}
 

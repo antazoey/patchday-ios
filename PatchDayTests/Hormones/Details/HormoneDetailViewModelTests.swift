@@ -90,52 +90,62 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(testDate, actual)
 	}
 
-	func testSelectDateButtonStartText_whenHormoneHasNoDate_returnsSelectString() {
+	func testSelectDateStartText_whenHormoneHasNoDate_returnsSelectString() {
 		let hormone = setupHormone()
 		hormone.hasDate = false
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		let actual = viewModel.selectDateButtonStartText
+		let actual = viewModel.selectDateStartText
 		let expected = ActionStrings.Select
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testSelectDateButtonStartText_returnsFormattedHormoneDate() {
+	func testSelectDateStartText_returnsFormattedHormoneDate() {
 		let testDate = Date()
 		let hormone = setupHormone()
 		hormone.hasDate = true
 		hormone.date = testDate
 		let expected = PDDateFormatter.formatDate(testDate)
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		let actual = viewModel.selectDateButtonStartText
+		let actual = viewModel.selectDateStartText
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testSelectDateButtonStartText_returnsExpectedSiteName() {
+	func testSelectDateStartText_returnsExpectedSiteName() {
 		let hormone = setupHormone()
 		let testSite = "MY SEXY ASS"
 		hormone.hasSite = true
 		hormone.siteName = testSite
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		let actual = viewModel.selectSiteTextFieldStartText
+		let actual = viewModel.selectSiteStartText
 		XCTAssertEqual(testSite, actual)
 	}
 
-	func testSelectSiteTextFieldStartText_whenHormoneHasNoSite_returnsSelectString() {
+	func testSelectSiteStartText_whenHormoneHasNoSite_returnsSelectString() {
 		let hormone = setupHormone()
 		hormone.hasSite = false
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		let actual = viewModel.selectSiteTextFieldStartText
+		let actual = viewModel.selectSiteStartText
 		let expected = ActionStrings.Select
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testSelectSiteTextFieldStartText_whenHormonesHasSite_returnsHormoneSiteName() {
+	func testSelectSiteStartText_whenHormonesHasSite_returnsHormoneSiteName() {
 		let hormone = setupHormone()
 		hormone.hasSite = true
 		hormone.siteName = "MY SEXY ASS"
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		let actual = viewModel.selectSiteTextFieldStartText
+		let actual = viewModel.selectSiteStartText
 		let expected = hormone.siteName
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSelectSiteStartText_whenHormoneHasSiteWithEmptyString_returnsNewSiteString() {
+		let hormone = setupHormone()
+		hormone.hasSite = true
+		hormone.siteName = ""
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		let actual = viewModel.selectSiteStartText
+		let expected = SiteStrings.NewSite
 		XCTAssertEqual(expected, actual)
 	}
 
@@ -477,21 +487,11 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsNewSite() {
+	func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsEmptyString() {
 		setupHormone()
-		let expected = SiteStrings.NewSite
+		let expected = ""
 		let textField = UITextField()
 		textField.text = nil
-		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		let actual = viewModel.extractSiteNameFromTextField(textField)
-		XCTAssertEqual(expected, actual)
-	}
-
-	func testExtractSiteNameFromTextField_whenTextFieldTextIsEmptyString_returnsNewSite() {
-		setupHormone()
-		let expected = SiteStrings.NewSite
-		let textField = UITextField()
-		textField.text = ""
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		let actual = viewModel.extractSiteNameFromTextField(textField)
 		XCTAssertEqual(expected, actual)
@@ -506,6 +506,15 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		let actual = viewModel.extractSiteNameFromTextField(textField)
 		XCTAssertEqual(expected, actual)
+	}
+
+	func testPresentNewSiteAlert_whenNewSiteNameIsEmptyString_doesNotPresent() {
+		setupHormone()
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		let site = ""
+		viewModel.presentNewSiteAlert(newSiteName: site)
+		let actual = (dependencies.alerts as! MockAlerts).presentNewSiteAlertCallArgs.count
+		XCTAssertEqual(0, actual)
 	}
 
 	func testPresentNewSiteAlert_presentsAlertWithHandlerThatWhenCalledInsertsNewSite() {

@@ -242,7 +242,7 @@ class HormoneDetailViewController: UIViewController,
 	private func loadDateControls() {
 		guard let viewModel = viewModel else { return }
 		guard let viewStrings = viewModel.createHormoneViewStrings() else { return }
-		selectDateButton.setTitle(viewModel.selectDateButtonStartText)
+		selectDateButton.setTitle(viewModel.selectDateStartText)
 		expirationDateLabelHeader.text = viewStrings.expirationText
 		dateAndTimeAppliedHeader.text = viewStrings.dateAndTimePlacedText
 		siteLabel.text = viewStrings.siteLabelText
@@ -251,7 +251,7 @@ class HormoneDetailViewController: UIViewController,
 
 	private func loadSiteControls() {
 		if let viewModel = viewModel {
-			selectSiteTextField.text = viewModel.selectSiteTextFieldStartText
+			selectSiteTextField.text = viewModel.selectSiteStartText
 		}
 		let id = TextFieldButtonSenderType.PickerActivator.rawValue
 		selectSiteTextField.restorationIdentifier = id

@@ -68,14 +68,17 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		dateSelected ?? Date()
 	}
 
-	var selectDateButtonStartText: String {
+	var selectDateStartText: String {
 		guard let hormone = hormone, hormone.hasDate else { return ActionStrings.Select }
 		return PDDateFormatter.formatDate(hormone.date)
 	}
 
-	var selectSiteTextFieldStartText: String {
+	var selectSiteStartText: String {
 		guard let hormone = hormone else { return ActionStrings.Select }
-		return hormone.hasSite ? hormone.siteName : ActionStrings.Select
+		if hormone.hasSite {
+			return hormone.siteName == "" ? SiteStrings.NewSite : hormone.siteName
+		}
+		return ActionStrings.Select
 	}
 
 	var expirationDateText: String {
@@ -148,11 +151,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {
-		guard let text = siteTextField.text else { return SiteStrings.NewSite }
-		return text != "" ? text : SiteStrings.NewSite
+		siteTextField.text ?? ""
 	}
 
 	func presentNewSiteAlert(newSiteName: String) {
+		guard newSiteName.count > 0 else { return }
 		guard let alerts = alerts else { return }
 		let handlers = NewSiteAlertActionHandler {
 			let newSite = self.sdk?.sites.insertNew(name: newSiteName, save: true) {
