@@ -35,12 +35,12 @@ class SettingsPickerView: UIPickerView {
 		selectStartRow()
 	}
 
-	public func close() {
+	public func close(setSelectedRow: Bool=true) {
 		isHidden = true
 		guard let button = _activator else { return }
 		button.isSelected = false
 		button.isHighlighted = false
-		if let selected = selected {
+		if setSelectedRow, let selected = selected {
 			button.setTitle(selected)
 			button.setNeedsDisplay()
 		}

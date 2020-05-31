@@ -261,13 +261,27 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 	}
 
 	private func selectPicker(setting: PDSetting) -> SettingsPickerView? {
+		var picker: SettingsPickerView? = nil
 		switch setting {
-			case.Quantity: return quantityPicker
-			case .DeliveryMethod: return deliveryMethodPicker
-			case .ExpirationInterval: return expirationIntervalPicker
+			case.Quantity: picker = quantityPicker
+			case .DeliveryMethod: picker = deliveryMethodPicker
+			case .ExpirationInterval: picker = expirationIntervalPicker
 			default:
 				log.error("No picker for given setting \(setting)")
 				return nil
+		}
+		if let picker = picker {
+			deselectOtherPickers(besides: picker)
+		}
+		return picker
+	}
+
+	private func deselectOtherPickers(besides selectedPicker: UIPickerView) {
+		let pickers = [quantityPicker, deliveryMethodPicker, expirationIntervalPicker]
+		for picker in pickers {
+			if picker != selectedPicker {
+				picker?.close(setSelectedRow: false)
+			}
 		}
 	}
 

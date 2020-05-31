@@ -135,7 +135,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	@IBAction func timesadaySliderValueChanged(_ sender: Any) {
 		let slider = sender as! UISlider
 		viewModel.setSelectedTimesadayFromSliderValue(sliderValue: slider.value)
-		time2Button.isEnabled = viewModel.sliderValueRepresentsPlurality(sliderValue: slider.value)
+		time2Button.isEnabled = TimesadaySliderDefinition.valueIsGreaterThanOne(
+			timesday: slider.value
+		)
 		enableSaveButton()
 	}
 

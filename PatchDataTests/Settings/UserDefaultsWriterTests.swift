@@ -37,18 +37,6 @@ class UserDefaultsWriterTests: XCTestCase {
 		XCTAssertEqual(3, writer.quantity.rawValue)
 	}
 
-	func testSetDeliveryMethod_whenSettingsToInjections_setsQuantityToDefault() {
-		let writer = UserDefaultsWriter(handler: handler, getSiteCount: getSiteCount)
-		writer.replaceStoredDeliveryMethod(to: .Injections)
-		XCTAssertEqual(1, writer.quantity.rawValue)
-	}
-
-	func testSetDeliveryMethod_whenSettingsToGel_setsQuantityToDefault() {
-		let writer = UserDefaultsWriter(handler: handler, getSiteCount: getSiteCount)
-		writer.replaceStoredDeliveryMethod(to: .Gel)
-		XCTAssertEqual(1, writer.quantity.rawValue)
-	}
-
 	func testIncrementStoredSiteIndex_whenRoomToIncrement_incrementsNormally() {
 		let writer = UserDefaultsWriter(handler: handler, getSiteCount: getSiteCount)
 		UserDefaultsWriterTests.getSiteCountReturnValue = 4

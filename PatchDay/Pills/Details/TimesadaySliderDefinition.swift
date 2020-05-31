@@ -17,6 +17,7 @@ class TimesadaySliderDefinition {
 	///     1.0      3.0
 	/// --------------------
 	static func convertTimesadayToSliderValue(timesaday: Int) -> Float {
+		guard timesaday > 0 else { return 1.0 }
 		let timesadayFloat = Float(timesaday)
 		return timesadayFloat == 1.0 ? timesadayFloat : timesadayFloat + 2.0
 	}

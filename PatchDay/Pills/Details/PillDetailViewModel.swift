@@ -25,6 +25,18 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		super.init()
 	}
 
+	init(_ pillIndex: Index, dependencies: DependenciesProtocol) {
+		self.index = pillIndex
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
+	}
+
 	var isNewPill: Bool {
 		pill.name == PillStrings.NewPill
 	}
@@ -100,9 +112,5 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
 	func setSelectedTimesadayFromSliderValue(sliderValue: Float) {
 		selections.timesaday = TimesadaySliderDefinition.convertSliderValueToTimesaday(sliderValue: sliderValue)
-	}
-
-	func sliderValueRepresentsPlurality(sliderValue: Float) -> Bool {
-		sliderValue >= 2.0
 	}
 }

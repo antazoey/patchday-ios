@@ -220,6 +220,8 @@
 		9D9C5FF5247B187900B3DA6A /* PDTOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */; };
 		9D9C5FF82482935800B3DA6A /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FF72482935800B3DA6A /* PillsViewModelTests.swift */; };
 		9D9C5FFB2482970E00B3DA6A /* TabReflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFA2482970E00B3DA6A /* TabReflectorTests.swift */; };
+		9D9C5FFE24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */; };
+		9D9C600024829F5000B3DA6A /* PillDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
 		9DC5135923973C1400A5138B /* TodayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayData.swift */; };
 		9DC5135A23973C1700A5138B /* TodayDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */; };
@@ -624,6 +626,8 @@
 		9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTOTests.swift; sourceTree = "<group>"; };
 		9D9C5FF72482935800B3DA6A /* PillsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsViewModelTests.swift; sourceTree = "<group>"; };
 		9D9C5FFA2482970E00B3DA6A /* TabReflectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabReflectorTests.swift; sourceTree = "<group>"; };
+		9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesadaySliderDefinitionTests.swift; sourceTree = "<group>"; };
+		9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDetailViewModelTests.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* NotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduling.swift; sourceTree = "<group>"; };
@@ -1502,6 +1506,7 @@
 		9D9C5FF62482934900B3DA6A /* Pills */ = {
 			isa = PBXGroup;
 			children = (
+				9D9C5FFC24829C8B00B3DA6A /* Details */,
 				9D9C5FF72482935800B3DA6A /* PillsViewModelTests.swift */,
 			);
 			path = Pills;
@@ -1513,6 +1518,15 @@
 				9D9C5FFA2482970E00B3DA6A /* TabReflectorTests.swift */,
 			);
 			path = Tabs;
+			sourceTree = "<group>";
+		};
+		9D9C5FFC24829C8B00B3DA6A /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */,
+				9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 		9DDAB03323FAE5EA00E6EEF6 /* Alerts */ = {
@@ -2121,6 +2135,7 @@
 			files = (
 				9D6E9B23245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift in Sources */,
 				9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */,
+				9D9C600024829F5000B3DA6A /* PillDetailViewModelTests.swift in Sources */,
 				9D6E9AF92456256F003BBCC9 /* NotificationsTests.swift in Sources */,
 				9D9C5FF02479EDED00B3DA6A /* PDBadgeTests.swift in Sources */,
 				9D6E9B2A245DAE60003BBCC9 /* HormoneNotificationActionHandlerTests.swift in Sources */,
@@ -2134,6 +2149,7 @@
 				9D9C5FF3247AE4FD00B3DA6A /* IntegrationTests.swift in Sources */,
 				9D6E9B2D245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */,
+				9D9C5FFE24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift in Sources */,
 				9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */,
 				9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */,
 			);
