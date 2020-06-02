@@ -241,13 +241,13 @@ class SiteScheduleTests: XCTestCase {
 		let testSite = MockSite()
 		mockStore.newObjectFactory = { testSite }
 		sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
-		sites.insertNew(name: "Doesn't matter", save: true, onSuccess: nil)
+		sites.insertNew(name: "Doesn't matter", onSuccess: nil)
 		XCTAssertTrue(mockStore.createNewSiteCallArgs[0])
 	}
 
 	public func testInsertNew_whenSuccessful_increaseCount() {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings) // starts with 4 sites
-		sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
+		sites.insertNew(name: "Doesn't matter", onSuccess: nil)
 		let expected = 5
 		let actual = sites.count
 		XCTAssertEqual(expected, actual)
@@ -255,7 +255,7 @@ class SiteScheduleTests: XCTestCase {
 
 	public func testInsertNew_whenSuccessful_insertsSiteWithGivenName() {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
-		sites.insertNew(name: "Ok, now it matters I guess", save: false, onSuccess: nil)
+		sites.insertNew(name: "Ok, now it matters I guess", onSuccess: nil)
 		XCTAssert(sites.all.contains(where: { $0.name == "Ok, now it matters I guess" }))
 	}
 
@@ -263,7 +263,7 @@ class SiteScheduleTests: XCTestCase {
 		let expected = MockSite()
 		mockStore.newObjectFactory = { expected }
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
-		let actual = sites.insertNew(name: "Doesn't matter again.", save: false, onSuccess: nil)
+		let actual = sites.insertNew(name: "Doesn't matter again.", onSuccess: nil)
 		XCTAssertEqual(expected.id, actual!.id)
 	}
 
@@ -271,24 +271,40 @@ class SiteScheduleTests: XCTestCase {
 		var called = false
 		let testClosure = { called = true }
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
-		sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
+		sites.insertNew(name: "Doesn't matter", onSuccess: testClosure)
 		XCTAssert(called)
+	}
+
+	public func testInsertNew_whenSuccessful_saves() {
+		let testSite = MockSite()
+		mockStore.newObjectFactory = { testSite }
+		sites = SiteSchedule(store: mockStore, settings: mockSettings)
+		sites.insertNew(name: "Doesn't matter", onSuccess: nil)
+		XCTAssert(
+			sites.all.contains(where: { $0.id == testSite.id && $0.name == "Doesn't matter" })
+		)
 	}
 
 	public func testInsertNew_whenUnsuccessful_doesNotAffectCount() {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings) // starts with 4 sites
 		mockStore.newObjectFactory = nil
-		sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
+		sites.insertNew(name: "Doesn't matter", onSuccess: nil)
 		let expected = 4
 		let actual = sites.count
 		XCTAssertEqual(expected, actual)
 	}
 
+	public func testInsertNew_setsOrderToLastForNewlyInsertedSite() {
+		sites = SiteSchedule(store: mockStore, settings: mockSettings)
+		let actual = sites.insertNew(name: "Doesn't matter", onSuccess: nil)?.order
+		XCTAssertEqual(sites.count - 1, actual)
+	}
+
 	public func testInsertNew_whenUnsuccessful_returnsNil() {
 		mockStore.newObjectFactory = nil
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
-		sites.insertNew(name: "Doesn't matter", save: false, onSuccess: nil)
-		XCTAssertNil(sites.insertNew(name: "Doesn't matter again.", save: false, onSuccess: nil))
+		sites.insertNew(name: "Doesn't matter", onSuccess: nil)
+		XCTAssertNil(sites.insertNew(name: "Doesn't matter again.", onSuccess: nil))
 	}
 
 	public func testInsertNew_whenUnsuccessful_doesNotCallOnSuccess() {
@@ -296,7 +312,7 @@ class SiteScheduleTests: XCTestCase {
 		var called = false
 		let testClosure = { called = true }
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
-		sites.insertNew(name: "Doesn't matter", save: false, onSuccess: testClosure)
+		sites.insertNew(name: "Doesn't matter", onSuccess: testClosure)
 		XCTAssertFalse(called)
 	}
 
@@ -336,7 +352,9 @@ class SiteScheduleTests: XCTestCase {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
 		sites.reset()
 		let args = mockStore.pushLocalChangesCallArgs[1]
-		XCTAssert(args.0.count == 4 && args.0[0].id == mockSites[0].id && args.0[1].id == mockSites[1].id && args.1)
+		XCTAssertEqual(3, args.0.count)
+		XCTAssertEqual(mockSites[0].id, args.0[0].id)
+		XCTAssertEqual(mockSites[1].id, args.0[1].id)
 	}
 
 	public func testReset_whenDeliveryMethodIsPatches_resetsToExpectedProperties() {
@@ -510,7 +528,9 @@ class SiteScheduleTests: XCTestCase {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
 		sites.reorder(at: 0, to: 1)
 		let args = mockStore.pushLocalChangesCallArgs[1]
-		XCTAssert(sites[0]!.id == args.0[0].id && sites[1]!.id == args.0[1].id && args.1)
+		let actual = args.0.map { $0.id }
+		XCTAssert(actual.contains(sites[0]!.id))
+		XCTAssert(actual.contains(sites[1]!.id))
 	}
 
 	public func testSetImageId_whenDeliveryMethodIsPatchesAndGivenADefaultSiteName_setsImageIdToSiteName() {

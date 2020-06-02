@@ -391,7 +391,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		let actual = viewModel.trySelectSite(at: 3)
 		let expected = site.name
-		XCTAssertEqual(actual, expected)
+		XCTAssertEqual(expected, actual)
 	}
 
 	func testTrySelectSite_whenSiteExists_selectsSite() {
@@ -402,7 +402,46 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		let actual = viewModel.trySelectSite(at: 3)
 		let expected = viewModel.selections.site!.name
-		XCTAssertEqual(actual, expected)
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testTrySelectSite_whenHormoneHasNoDateAndNoneSelected_selectsNow() {
+		let hormone = setupHormone()
+		hormone.date = DateFactory.createDefaultDate()
+		hormone.hasDate = false
+		let site = MockSite()
+		let sites = dependencies.sdk?.sites as! MockSiteSchedule
+		sites.subscriptIndexReturnValue = site
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		viewModel.trySelectSite(at: 3)
+		let actual = viewModel.selections.date!
+		XCTAssert(PDTest.equiv(actual, Date()))
+	}
+
+	func testTrySelectSite_whenHormoneHasDateAndNoneSelected_doesNotSelectNow() {
+		let hormone = setupHormone()
+		hormone.date = DateFactory.createDate(daysFromNow: -1)!
+		hormone.hasDate = true
+		let site = MockSite()
+		let sites = dependencies.sdk?.sites as! MockSiteSchedule
+		sites.subscriptIndexReturnValue = site
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		viewModel.trySelectSite(at: 3)
+		XCTAssertNil(viewModel.selections.date)
+	}
+
+	func testTrySelectSite_whenHormoneHasDateAndDateIsSelected_doesNotSelectNow() {
+		let hormone = setupHormone()
+		hormone.date = DateFactory.createDefaultDate()
+		hormone.hasDate = false
+		let site = MockSite()
+		let sites = dependencies.sdk?.sites as! MockSiteSchedule
+		sites.subscriptIndexReturnValue = site
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		viewModel.selections.date = DateFactory.createDate(daysFromNow: -8)
+		viewModel.trySelectSite(at: 3)
+		let actual = viewModel.selections.date!
+		XCTAssertFalse(PDTest.equiv(actual, Date()))
 	}
 
 	func testSaveSelections_whenDateSelected_callsSetHormoneDate() {
@@ -500,7 +539,6 @@ class HormoneDetailViewModelTests: XCTestCase {
 		handlers.handleNewSite()
 		let actual = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0]
 		XCTAssertEqual(site, actual.0)
-		XCTAssert(actual.1)
 	}
 
 	func testPresentNewSiteAlert_presentsAlertWithHandlerWithClosureThatCallsUpdateViewsHandler() {
@@ -510,7 +548,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		viewModel.presentNewSiteAlert(newSiteName: site)
 		let handlers = (dependencies.alerts as! MockAlerts).presentNewSiteAlertCallArgs[0]
 		handlers.handleNewSite()
-		let closure = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0].2
+		let closure = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0].1
 		closure!()
 		XCTAssertEqual(1, HormoneDetailViewModelTests.handlerCallCount)
 	}

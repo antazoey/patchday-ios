@@ -1236,6 +1236,7 @@
 		9D6E9AEF2456253A003BBCC9 /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
+				9D9C60012485CE7300B3DA6A /* Sites */,
 				9D9C5FF92482970300B3DA6A /* Tabs */,
 				9D9C5FF62482934900B3DA6A /* Pills */,
 				9D9C5FF1247AE4ED00B3DA6A /* Integration */,
@@ -1525,6 +1526,21 @@
 			children = (
 				9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */,
 				9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		9D9C60012485CE7300B3DA6A /* Sites */ = {
+			isa = PBXGroup;
+			children = (
+				9D9C60022485CE8200B3DA6A /* Details */,
+			);
+			path = Sites;
+			sourceTree = "<group>";
+		};
+		9D9C60022485CE8200B3DA6A /* Details */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = Details;
 			sourceTree = "<group>";

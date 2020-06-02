@@ -130,6 +130,7 @@ class HormoneDetailViewController: UIViewController,
 		} else {
 			viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
 		}
+		selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)
 	}
 
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -164,6 +165,7 @@ class HormoneDetailViewController: UIViewController,
 		saveButton.isEnabled = true
 		typeSiteButton.setTitle(ActionStrings._Type)
 		typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
+		selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)
 	}
 
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {

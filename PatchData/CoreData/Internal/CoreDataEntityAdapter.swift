@@ -88,7 +88,7 @@ class CoreDataEntityAdapter {
 	}
 
 	static func applySiteData(_ siteData: SiteStruct, to site: inout MOSite) {
-		if let name = siteData.name, name != site.name {
+		if let name = siteData.name, name != "", name != site.name {
 			site.name = name
 		}
 		if let imageId = siteData.imageIdentifier, imageId != site.imageIdentifier {

@@ -64,7 +64,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 	}
 
 	func handleSiteInsert(sitesViewController: UIViewController) {
-		goToSiteDetails(siteIndex: sitesCount, sitesViewController: sitesViewController)
+		if let site = sdk?.sites.insertNew(name: SiteStrings.NewSite, onSuccess: nil) {
+			goToSiteDetails(siteIndex: site.order, sitesViewController: sitesViewController)
+		}
 	}
 
 	func toggleEdit(_ props: BarItemInitializationProperties) {

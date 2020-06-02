@@ -9,6 +9,7 @@ import PDKit
 class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	private let siteIndex: Index
+	
 	private var site: Bodily {
 		return sdk!.sites[siteIndex]!
 	}
@@ -138,7 +139,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		if siteIndex >= 0 && siteIndex < sites.count {
 			sites.rename(at: siteIndex, to: siteName)
 		} else if siteIndex == sites.count {
-			sites.insertNew(name: siteName, save: true, onSuccess: nil)
+			sites.insertNew(name: siteName, onSuccess: nil)
 		}
 	}
 }

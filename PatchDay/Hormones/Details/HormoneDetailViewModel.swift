@@ -140,6 +140,10 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	@discardableResult func trySelectSite(at row: Index) -> String? {
 		guard let site = sdk?.sites[row] else { return nil }
 		selections.site = site
+		// If is a new hormone and has no date did not set one, set automatically to now.
+		if let hormone = hormone, selections.date == nil && hormone.date.isDefault() {
+			selections.date = Date()
+		}
 		return site.name
 	}
 
@@ -158,7 +162,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		guard newSiteName.count > 0 else { return }
 		guard let alerts = alerts else { return }
 		let handlers = NewSiteAlertActionHandler {
-			let newSite = self.sdk?.sites.insertNew(name: newSiteName, save: true) {
+			let newSite = self.sdk?.sites.insertNew(name: newSiteName) {
 				self.handleInterfaceUpdatesFromNewSite()
 			}
 			self.selections.site = newSite ?? self.selections.site

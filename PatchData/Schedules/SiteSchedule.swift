@@ -44,7 +44,6 @@ public class SiteSchedule: NSObject, SiteScheduling {
 			if shouldBeSuggestedSite.id != suggestedSite?.id {
 				settings.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
 			}
-
 			return shouldBeSuggestedSite
 		}
 		return suggestedSite
@@ -76,11 +75,13 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	@discardableResult
-	public func insertNew(name: String, save: Bool, onSuccess: (() -> Void)?) -> Bodily? {
-		if var site = store.createNewSite(doSave: save) {
+	public func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily? {
+		if var site = store.createNewSite(doSave: true) {
 			site.name = name
+			site.order = count
 			context.append(site)
 			onSuccess?()
+			save() // Save name and order
 			return site
 		}
 		return nil
@@ -243,7 +244,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 			if var site = self[i] {
 				setSite(&site, index: i, name: name)
 			} else {
-				var site = insertNew(name: name, save: false, onSuccess: nil)
+				var site = insertNew(name: name, onSuccess: nil)
 				site?.order = i
 			}
 		}
@@ -283,5 +284,9 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		if sitesDescription.last != ":" {
 			log.info(sitesDescription)
 		}
+	}
+
+	private func save() {
+		store.pushLocalChangesToManagedContext(context, doSave: true)
 	}
 }

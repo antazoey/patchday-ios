@@ -18,10 +18,10 @@ public class MockSiteSchedule: SiteScheduling {
 
 	public init() { }
 
-	public var insertNewCallArgs: [(String, Bool, (() -> Void)?)] = []
+	public var insertNewCallArgs: [(String, (() -> Void)?)] = []
 	public var insertNewReturnValue: Bodily? = nil
-	public func insertNew(name: String, save: Bool, onSuccess: (() -> Void)?) -> Bodily? {
-		insertNewCallArgs.append((name, save, onSuccess))
+	public func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily? {
+		insertNewCallArgs.append((name, onSuccess))
 		return insertNewReturnValue
 	}
 
