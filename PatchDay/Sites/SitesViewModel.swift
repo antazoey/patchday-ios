@@ -60,7 +60,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		guard let settings = sdk?.settings else { return }
 		let method = settings.deliveryMethod.value
 		let params = SiteImageDeterminationParameters(deliveryMethod: method)
-		nav?.goToSditeDetails(siteIndex, source: sitesViewController, params: params)
+		nav?.goToSiteDetails(siteIndex, source: sitesViewController, params: params)
 	}
 
 	func handleSiteInsert(sitesViewController: UIViewController) {
