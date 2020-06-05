@@ -19,4 +19,9 @@ public protocol AlertDispatching {
 	func presentDisclaimerAlert()
 	func presentNewSiteAlert(handlers: NewSiteAlertActionHandling)
 	func presentGenericAlert()
+	func presentUnsavedAlert(
+		_ parent: UIViewController,
+		saveAndContinueHandler: @escaping () -> Void,
+		discardHandler: @escaping () -> Void
+	)
 }

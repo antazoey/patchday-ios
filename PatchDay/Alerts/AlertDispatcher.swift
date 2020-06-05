@@ -73,6 +73,18 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		).present()
 	}
 
+	func presentUnsavedAlert(
+		_ parent: UIViewController,
+		saveAndContinueHandler: @escaping () -> Void,
+		discardHandler: @escaping () -> Void
+	) {
+		UnsavedChangesAlert(
+			parent: parent,
+			saveAndContinueHandler: saveAndContinueHandler,
+			discardHandler: discardHandler
+		).present()
+	}
+
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {
 		guard let root = rootViewController else { return }
 		PillCellActionAlert(parent: root, pill: pill, handlers: handlers).present()

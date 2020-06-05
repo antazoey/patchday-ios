@@ -38,6 +38,6 @@ class PillCellActionAlert: PDAlert {
         if let take = takeAction {
             actions.append(take)
         }
-		self.present(actions: actions)
+		super.present(actions: actions)
 	}
 }

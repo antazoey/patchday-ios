@@ -30,6 +30,6 @@ class NewSiteAlert: PDAlert {
 	}
 
 	override func present() {
-		self.present(actions: [appendSiteAction, declineAction])
+		super.present(actions: [appendSiteAction, declineAction])
 	}
 }

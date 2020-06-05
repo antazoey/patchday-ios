@@ -13,9 +13,23 @@ how a consumer would use the library (e.g. adding unit tests, updating documenta
 
 ### Added
 
-- Dark mode support, os based.
-- Estro-Gel delivery method support with site images Arms, Custom, and New.
+- Dark mode.
+- Estro-Gel hormonal delivery method support with site choices:
+	- Arms
+	Supports custom sites.
+- The concept of "Pill Schedules" with choices:
+	- Every Day (previously was only one supported)
+	- Every Other Day
+	- First 10 Days of the Month
+	- First 20 Days of the Month
+	- Last 10 Days of the Month
+	- Last 20 Days of the Month
+	Available by editing a pill in the Pill Schedule.
+- Warning for when leaving views without saving changes.
+- Leaving Hormone Details View.
 - Icon improvements.
+- Increased sizes.
+	- Changed Site Schedule tab icon.
 
 ### Changed
 

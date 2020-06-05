@@ -20,8 +20,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	var hormone: Hormonal? {
 		sdk?.hormones[self.index]
 	}
-	var selections = HormoneSelectionState()
+	lazy var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
+	private lazy var saved = false
 
 	init(
 		_ hormoneIndex: Index,
@@ -120,6 +121,34 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return DotDotDot
 	}
 
+	var unsaved: Bool {
+		if let date = selections.date, !date.isDefault() {
+			return !saved
+		}
+		return !saved && selections.site != nil
+	}
+
+	func handleIfUnsaved(
+		_ viewController: UIViewController, navigationHandler: @escaping () -> Void
+	) {
+		let save: () -> Void = {
+			self.saveSelections()
+			navigationHandler()
+		}
+		let discard: () -> Void = {
+			self.selections.date = nil
+			self.selections.site = nil
+			navigationHandler()
+		}
+		if unsaved {
+			self.alerts?.presentUnsavedAlert(
+				viewController,
+				saveAndContinueHandler: save,
+				discardHandler: discard
+			)
+		}
+	}
+
 	func selectSuggestedSite() -> String {
 		guard let nextSite = sdk?.sites.suggested else { return SiteStrings.NewSite }
 		let name = nextSite.name
@@ -148,10 +177,12 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 
 	func saveSelections() {
-		trySave()
+		trySaveDate()
+		trySaveSite()
 		tabs?.reflectHormones()
 		badge?.reflect()
 		requestNewNotifications()
+		saved = true
 	}
 
 	func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {
@@ -168,11 +199,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 			self.selections.site = newSite ?? self.selections.site
 		}
 		alerts.presentNewSiteAlert(handlers: handlers)
-	}
-
-	private func trySave() {
-		trySaveDate()
-		trySaveSite()
 	}
 
 	private func trySaveDate() {
