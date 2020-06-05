@@ -51,6 +51,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		handleHardwareConstraints()
 		loadTitle()
 		willEnterForeground()
+		setBackButton()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -86,6 +87,28 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
 		viewModel = PillDetailViewModel(index)
 		return self
+	}
+
+	@objc func back() {
+		checkForUnsavedChanges()
+		self.navigationController?.popViewController(animated: true)
+	}
+
+	private func checkForUnsavedChanges() {
+		guard let viewModel = viewModel else { return }
+		viewModel.handleIfUnsaved(self)
+	}
+
+	private func setBackButton() {
+		let newButton = UIBarButtonItem(
+			title: ActionStrings.Back,
+			style: UIBarButtonItem.Style.plain,
+			target: self,
+			action: #selector(back)
+		)
+		newButton.tintColor = PDColors[.Button]
+		navigationItem.hidesBackButton = true
+		navigationItem.leftBarButtonItem = newButton
 	}
 
 	// MARK: - - Pill actions

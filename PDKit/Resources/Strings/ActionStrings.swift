@@ -34,4 +34,5 @@ public class ActionStrings {
 	public static let No = { NSLocalizedString("No", comment: c6) }()
 	public static let Edit = { NSLocalizedString("Edit", comment: c7) }()
 	public static let Reset = { NSLocalizedString("Reset", comment: c7) }()
+	public static let Back = { NSLocalizedString("Back", comment: c7)}()
 }

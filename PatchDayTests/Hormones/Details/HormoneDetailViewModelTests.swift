@@ -355,15 +355,15 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		viewModel.selections.site = nil
 		viewModel.selections.date = nil
-		XCTAssertFalse(viewModel.unsaved)
+		XCTAssertFalse(viewModel.saved)
 	}
 
-	func testUnsaved_whenSiteSelectedAndSaveUncalled_returnsFalse() {
+	func testUnsaved_whenSiteSelectedAndSaveUncalled_returnsTrue() {
 		setupHormone()
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		viewModel.selections.site = MockSite()
 		viewModel.selections.date = nil
-		XCTAssertFalse(viewModel.unsaved)
+		XCTAssert(viewModel.saved)
 	}
 
 	func testGetSiteName_whenNameNotFound_returnsNil() {

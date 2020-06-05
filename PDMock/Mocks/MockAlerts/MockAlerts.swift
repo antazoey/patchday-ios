@@ -42,4 +42,13 @@ public class MockAlerts: AlertDispatching {
 	public func presentGenericAlert() {
 		presentGenericAlertCallCount += 1
 	}
+
+	public var presentUnsavedAlertCallArgs: [(UIViewController, () -> Void, () -> Void)] = []
+	public func presentUnsavedAlert(
+		_ parent: UIViewController,
+		saveAndContinueHandler: @escaping () -> Void,
+		discardHandler: @escaping () -> Void
+	) {
+		presentUnsavedAlertCallArgs.append((parent, saveAndContinueHandler, discardHandler))
+	}
 }

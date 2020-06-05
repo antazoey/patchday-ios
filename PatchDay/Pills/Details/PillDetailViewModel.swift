@@ -19,6 +19,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 	}
 	static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
 	var selections = PillAttributes()
+	private lazy var _saved = false
 
 	init(_ pillIndex: Index) {
 		self.index = pillIndex
@@ -79,13 +80,35 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
 	}
 
-	func save() {
-		guard let notifications = notifications else { return }
-		notifications.cancelDuePillNotification(pill)
-		sdk?.pills.set(by: pill.id, with: selections)
-		notifications.requestDuePillNotification(pill)
-		tabs?.reflectDuePillBadgeValue()
+	var hasUnsavedChanges: Bool {
+		!_saved && selections.anyAttributeExists
+	}
 
+	func save() {
+		notifications?.cancelDuePillNotification(pill)
+		sdk?.pills.set(by: pill.id, with: selections)
+		notifications?.requestDuePillNotification(pill)
+		tabs?.reflectDuePillBadgeValue()
+		_saved = true
+		selections = PillAttributes()
+	}
+
+	func handleIfUnsaved(_ viewController: UIViewController) {
+		let save: () -> Void = {
+			self.save()
+			self.nav?.pop(source: viewController)
+		}
+		let discard: () -> Void = {
+			self.selections = PillAttributes()
+			self.nav?.pop(source: viewController)
+		}
+		if hasUnsavedChanges {
+			self.alerts?.presentUnsavedAlert(
+				viewController,
+				saveAndContinueHandler: save,
+				discardHandler: discard
+			)
+		}
 	}
 
 	/// Sets the selected name with the name at the given index and optionally returns the name.

@@ -45,20 +45,7 @@ class HormoneDetailViewController: UIViewController,
 		super.viewDidLoad()
 		loadTitle()
 		willEnterForeground()
-		navigationItem.hidesBackButton = true
-        let backButton = UIBarButtonItem(
-			title: NSLocalizedString("Back", comment: "Back nav"),
-			style: UIBarButtonItem.Style.plain,
-			target: self,
-			action: #selector(back)
-		)
-		backButton.tintColor = PDColors[.Button]
-        self.navigationItem.leftBarButtonItem = backButton
-	}
-
-	@objc func back() {
-		checkForUnsavedChanges()
-		self.navigationController?.popViewController(animated: true)
+		setBackButton()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -74,11 +61,7 @@ class HormoneDetailViewController: UIViewController,
 
 	private func checkForUnsavedChanges() {
 		guard let viewModel = viewModel else { return }
-		viewModel.handleIfUnsaved(self, navigationHandler: pop)
-	}
-
-	@objc private func pop() {
-		navigationController?.popViewController(animated: true)
+		viewModel.handleIfUnsaved(self)
 	}
 
 	@objc func willEnterForeground() {
@@ -377,6 +360,23 @@ class HormoneDetailViewController: UIViewController,
 		horizontalLineAboveSite.isHidden = false
 		horizontalLineBelowSite.isHidden = false
 		verticalLineInSiteStack.isHidden = false
+	}
+
+	@objc func back() {
+		checkForUnsavedChanges()
+		self.navigationController?.popViewController(animated: true)
+	}
+
+	private func setBackButton() {
+		let newButton = UIBarButtonItem(
+			title: ActionStrings.Back,
+			style: UIBarButtonItem.Style.plain,
+			target: self,
+			action: #selector(back)
+		)
+		newButton.tintColor = PDColors[.Button]
+		navigationItem.hidesBackButton = true
+		navigationItem.leftBarButtonItem = newButton
 	}
 
 	private func applyTheme() {

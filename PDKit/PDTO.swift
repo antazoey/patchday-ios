@@ -48,6 +48,8 @@ public class SiteImageDeterminationParameters {
 public struct PillAttributes {
     private let defaultName = PillStrings.NewPill
     public var description: String { "Pill DTO" }
+
+	// Pill Properties
     public var name: String?
     public var expirationInterval: String?
     public var timesaday: Int?
@@ -56,6 +58,7 @@ public struct PillAttributes {
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
+
     public init(
         name: String?,
         expirationInterval: String?,
@@ -77,8 +80,18 @@ public struct PillAttributes {
     }
 
     public init() {
-        self.notify = true
     }
+
+	public var anyAttributeExists: Bool {
+		name != nil ||
+		expirationInterval != nil ||
+		timesaday != nil ||
+		time1 != nil ||
+		time2 != nil ||
+		notify != nil ||
+		timesTakenToday != nil ||
+		lastTaken != nil
+	}
 }
 
 public struct SiteStruct {
