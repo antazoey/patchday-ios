@@ -46,13 +46,13 @@ public class PDColors: NSObject {
 		}
 	}
 
-	private static var border: UIColor { UIColor(named: "Border")! }
-	private static var button: UIColor { UIColor(named: "Button")! }
-	private static var evenCell: UIColor { UIColor(named: "Even Cell")! }
-	private static var newItem: UIColor { UIColor(named: "New Item")! }
-	private static var oddCell: UIColor { UIColor(named: "Odd Cell")! }
-	private static var purple: UIColor { UIColor(named: "Purple")! }
-	private static var selected: UIColor { UIColor(named: "Selected")! }
-	private static var text: UIColor { UIColor(named: "Text")! }
-	private static var unselected: UIColor { UIColor(named: "Unselected")! }
+	private static var border: UIColor { UIColor(named: "Border") ?? UIColor.gray }
+	private static var button: UIColor { UIColor(named: "Button") ?? UIColor.blue }
+	private static var evenCell: UIColor { UIColor(named: "Even Cell") ?? UIColor.white }
+	private static var newItem: UIColor { UIColor(named: "New Item") ?? UIColor.green }
+	private static var oddCell: UIColor { UIColor(named: "Odd Cell") ?? UIColor.white }
+	private static var purple: UIColor { UIColor(named: "Purple") ?? UIColor.purple }
+	private static var selected: UIColor { UIColor(named: "Selected") ?? UIColor.gray }
+	private static var text: UIColor { UIColor(named: "Text") ?? UIColor.black }
+	private static var unselected: UIColor { UIColor(named: "Unselected") ?? UIColor.white }
 }
