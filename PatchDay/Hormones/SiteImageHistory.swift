@@ -19,31 +19,29 @@ class SiteImageHistory {
 		self.push(image)
 	}
 
-	var current: UIImage? { history[1] }
+	var current: UIImage? { history.tryGet(at: 1) ?? nil }
 
 	@discardableResult
 	func push(_ image: UIImage?) -> SiteImageHistory {
-		history[0] = history[1]
+		history[0] = history.tryGet(at: 1) ?? nil
 		history[1] = image
 		return self
 	}
 
 	func differentiate() -> HormoneMutation {
-		var result = HormoneMutation.None
-		switch (history[0], history[1]) {
-			case (nil, nil): return .Empty
-			case (nil, let h) where h != nil: result = .Add
-			case (let h, nil) where h != nil: result = .Remove
-			case (let h0, let h1) where h0 != h1: result = .Edit
-			default: break
-		}
-		return result
+		let penultimate = history.tryGet(at: 0) ?? nil
+		let last = history.tryGet(at: 1) ?? nil
+		if penultimate == nil && last == nil { return .Empty }
+		if penultimate == nil && last != nil { return .Add }
+		if penultimate != nil && last == nil { return .Remove }
+		if penultimate != last { return .Edit }
+		return .None
 	}
 
 	private func logState() {
 		let log = PDLog<SiteImageHistory>()
-		let last = history[0]?.accessibilityIdentifier ?? "nil"
-		let latest = history[1]?.accessibilityIdentifier ?? "nil"
+		let last = history.tryGet(at: 0)??.accessibilityIdentifier ?? "nil"
+		let latest = history.tryGet(at: 1)??.accessibilityIdentifier ?? "nil"
 		log.info("HormoneCell site image history last: \(last), Latest: \(latest)")
 	}
 }

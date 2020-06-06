@@ -15,7 +15,9 @@ class HormoneStringsTests: XCTestCase {
 	private let expiredDate = Date(timeIntervalSinceNow: -86000)
 	private let healthyDate = Date(timeIntervalSinceNow: 86400)
 
-	private let formatter: DateFormatter = { let f = DateFormatter(); f.dateFormat = "h:mm a"; return f }()
+	private let formatter: DateFormatter = {
+		let f = DateFormatter(); f.dateFormat = "h:mm a"; return f
+	}()
 
 	private func createPatch(isExpired: Bool) -> MockHormone {
 		let patch = createHormone(isExpired: isExpired)
