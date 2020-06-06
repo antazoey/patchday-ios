@@ -1407,6 +1407,8 @@
 			children = (
 				B480EE4121CC76FE002C2238 /* ManagedObjects */,
 				9D8A97FB23B28F5C004E20FE /* Stores */,
+				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
+				9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */,
 				B40CC9BF21CD7DA9002364BB /* CoreDataStack.swift */,
 				3397C196720C92604C2FEAA4 /* CoreDataValueTypes.swift */,
 				3397C9489AA2464C530A78F2 /* CoreDataEntityAdapter.swift */,
@@ -1466,7 +1468,6 @@
 			isa = PBXGroup;
 			children = (
 				9D8A984523CFFB44004E20FE /* Internal */,
-				9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1635,7 +1636,6 @@
 		B480EE4121CC76FE002C2238 /* ManagedObjects */ = {
 			isa = PBXGroup;
 			children = (
-				13F0CC0A1EC2567A00653CB9 /* patchData.xcdatamodeld */,
 				B4355D9320ED6F250048D466 /* MOPill.swift */,
 				B458993B20F8822700D36B06 /* MOSite.swift */,
 				B458994120F8865C00D36B06 /* MOHormone.swift */,

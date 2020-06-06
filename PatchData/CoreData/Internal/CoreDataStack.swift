@@ -17,12 +17,11 @@ class CoreDataStack: NSObject {
 
 	static let persistentContainerKey = "patchData"
 	static let testContainerKey = "patchDataTest" // For experimental purposes
-	static let hormoneEntityName = "Hormone"
+
 	static let hormoneProps = ["date", "id", "siteNameBackUp"]
-	static let siteEntityName = "Site"
-	static let siteProps = ["order", "name"]
-	static let pillEntityName = "Pill"
+	static let siteProps = ["order", "name", "imageIdentifier"]
 	static let pillProps = [
+		"id",
         "name",
         "timesaday",
         "time1",
@@ -103,20 +102,13 @@ class CoreDataStack: NSObject {
 	// MARK: - Private
 
 	private static func getEntityKey(for entity: PDEntity) -> EntityKey {
-		var n: String
 		var props: [String]
 		switch entity {
-			case .hormone:
-				n = hormoneEntityName
-				props = hormoneProps
-			case .pill:
-				n = pillEntityName
-				props = pillProps
-			case .site:
-				n = siteEntityName
-				props = siteProps
+			case .hormone: props = hormoneProps
+			case .pill: props = pillProps
+			case .site: props = siteProps
 		}
-		return EntityKey(type: entity, name: n, props: props)
+		return EntityKey(type: entity, name: entity.rawValue, props: props)
 	}
 }
 

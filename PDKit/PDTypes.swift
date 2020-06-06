@@ -55,7 +55,7 @@ public enum PDSetting: String {
 }
 
 public enum PDEntity: String, CaseIterable {
-	case hormone = "Hormone"
+	case hormone = "Estrogen"
 	case pill = "Pill"
 	case site = "Site"
 }
