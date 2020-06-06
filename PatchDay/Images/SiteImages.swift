@@ -14,34 +14,34 @@ public class SiteImages: NSObject {
 	override public var description: String { "Read-only app image static accessor." }
 
 	// Placeholder
-	private static var placeholderPatch: UIImage { initImage("Add Patch") }
-	private static var placeholderInjection: UIImage { initImage("Add Injection") }
-	private static var placeholderGel: UIImage { initImage("Add Gel") }
+	static var placeholderPatch: UIImage { initImage("Add Patch") }
+	static var placeholderInjection: UIImage { initImage("Add Injection") }
+	static var placeholderGel: UIImage { initImage("Add Gel") }
 
 	// Patch site images
-	private static var patchRightGlute: UIImage { initImage("Right Glute") }
-	private static var patchLeftGlute: UIImage { initImage("Left Glute") }
-	private static var patchRightAbdomen: UIImage { initImage("Right Abdomen") }
-	private static var patchLeftAbdomen: UIImage { initImage("Left Abdomen") }
-	private static var customPatch: UIImage { initImage("Custom Patch") }
+	static var patchRightGlute: UIImage { initImage("Right Glute") }
+	static var patchLeftGlute: UIImage { initImage("Left Glute") }
+	static var patchRightAbdomen: UIImage { initImage("Right Abdomen") }
+	static var patchLeftAbdomen: UIImage { initImage("Left Abdomen") }
+	static var customPatch: UIImage { initImage("Custom Patch") }
 
 	// Injection site images
-	private static var lnjectionLeftQuad: UIImage { initImage("Left Quad") }
-	private static var lnjectionRightQuad: UIImage { initImage("Right Quad") }
-	private static var lnjectionLeftGlute: UIImage { initImage("Left Injection Glute") }
-	private static var lnjectionGluteRight: UIImage { initImage("Right Injection Glute") }
-	private static var lnjectionLeftDelt: UIImage { initImage("Left Delt") }
-	private static var lnjectionRightDelt: UIImage { initImage("Right Delt") }
-	private static var customInjection: UIImage { initImage("Custom Injection") }
+	static var lnjectionLeftQuad: UIImage { initImage("Left Quad") }
+	static var lnjectionRightQuad: UIImage { initImage("Right Quad") }
+	static var lnjectionLeftGlute: UIImage { initImage("Left Injection Glute") }
+	static var lnjectionGluteRight: UIImage { initImage("Right Injection Glute") }
+	static var lnjectionLeftDelt: UIImage { initImage("Left Delt") }
+	static var lnjectionRightDelt: UIImage { initImage("Right Delt") }
+	static var customInjection: UIImage { initImage("Custom Injection") }
 
 	// Gel images
-	private static var arms: UIImage { initImage("Arms") }
+	static var arms: UIImage { initImage("Arms") }
 
-	private static var patchImages: [UIImage] {
+	static var patchImages: [UIImage] {
 		[patchRightGlute, patchLeftGlute, patchRightAbdomen, patchLeftAbdomen, customPatch]
 	}
 
-	private static var injectionImages: [UIImage] {
+	static var injectionImages: [UIImage] {
 		[
 			lnjectionRightQuad,
 			lnjectionLeftQuad,
@@ -53,7 +53,7 @@ public class SiteImages: NSObject {
 		]
 	}
 
-	private static var gelImages: [UIImage] {
+	static var gelImages: [UIImage] {
 		[arms]
 	}
 
@@ -82,7 +82,8 @@ public class SiteImages: NSObject {
 			lnjectionRightQuad: SiteStrings.rightQuad,
 			lnjectionLeftQuad: SiteStrings.leftQuad,
 			lnjectionRightDelt: SiteStrings.rightDelt,
-			lnjectionLeftDelt: SiteStrings.leftDelt
+			lnjectionLeftDelt: SiteStrings.leftDelt,
+			arms: SiteStrings.arms
 		]
 	}
 

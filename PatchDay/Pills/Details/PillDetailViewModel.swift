@@ -38,12 +38,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		)
 	}
 
-	var isNewPill: Bool {
-		pill.name == PillStrings.NewPill
-	}
-
 	var title: String {
-		isNewPill ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
+		pill.isNew ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
 	}
 
 	var startTimePickerTwoTime: Time {

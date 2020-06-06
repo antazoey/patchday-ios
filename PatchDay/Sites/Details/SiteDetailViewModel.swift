@@ -10,12 +10,10 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	private let siteIndex: Index
 	
-	private var site: Bodily {
-		return sdk!.sites[siteIndex]!
-	}
-	private var selections = SiteSelectionState()
+	private var site: Bodily { sdk!.sites[siteIndex]! }
+	var selections = SiteSelectionState()
 
-	weak var imagePickerDelegate: SiteImagePickerDelegate?
+	weak var imagePickerDelegate: SiteImagePicker?
 
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
 		let images = SiteImages.all
@@ -39,34 +37,45 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		self.init(siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
 	}
 
-	private convenience init(siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties) {
-		let imagePickerDelegate = SiteImagePickerDelegate(props: imagePickerProps)
+	private convenience init(
+		siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties
+	) {
+		let imagePickerDelegate = SiteImagePicker(props: imagePickerProps)
 		self.init(siteIndex, imagePickerDelegate: imagePickerDelegate)
 	}
 
-	init(_ siteIndex: Index, imagePickerDelegate: SiteImagePickerDelegate) {
+	init(_ siteIndex: Index, imagePickerDelegate: SiteImagePicker) {
 		self.siteIndex = siteIndex
 		self.imagePickerDelegate = imagePickerDelegate
 		super.init()
 	}
 
+	init(
+		_ siteIndex: Index,
+		imagePickerDelegate: SiteImagePicker,
+		_ dependencies: DependenciesProtocol
+	) {
+		self.siteIndex = siteIndex
+		self.imagePickerDelegate = imagePickerDelegate
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
+	}
+
 	// MARK: - Public
 
-	var siteDetailViewControllerTitle: String {
-		siteName
-	}
+	var siteDetailViewControllerTitle: String { siteName }
 
-	var siteName: SiteName {
-		site.name
-	}
+	var siteName: SiteName { site.name }
 
-	var sitesCount: Int {
-		sdk?.sites.count ?? 0
-	}
+	var sitesCount: Int { sdk?.sites.count ?? 0 }
 
-	var siteNameSelections: [SiteName] {
-		sdk?.sites.names ?? []
-	}
+	var siteNameSelections: [SiteName] { sdk?.sites.names ?? [] }
 
 	var siteNamePickerStartIndex: Index {
 		let startName = selections.selectedSiteName ?? siteName
@@ -88,17 +97,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		return image.image
 	}
 
-	func openPicker(picker: UIPickerView, completion: @escaping () -> Void) {
-		if let delegate = imagePickerDelegate, let image = delegate.imageView.image,
-			let index = delegate.options.firstIndex(of: image) {
-			delegate.picker.selectRow(index, inComponent: index, animated: false)
-		}
-		imagePickerDelegate?.openPicker {
-			completion()
-		}
-	}
-
-	func handleSave(siteNameText: SiteName?, siteDetailViewController: SiteDetailViewController) {
+	func handleSave(siteNameText: SiteName?, siteDetailViewController: UIViewController) {
 		if let name = siteNameText {
 			saveSiteNameChanges(siteName: name)
 		}

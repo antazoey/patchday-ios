@@ -26,18 +26,18 @@ class PillDetailViewModelTests: XCTestCase {
 		return pill
 	}
 
-	func testIsNewPill_whenNameIsNewPill_returnsTrue() {
+	func testTitle_whenIsNewPill_returnsExpectedTitle() {
 		let pill = setupPill()
-		pill.name = PillStrings.NewPill
+		pill.isNew = true
 		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-		XCTAssertTrue(viewModel.isNewPill)
+		XCTAssertEqual(PDTitleStrings.NewPillTitle, viewModel.title)
 	}
 
-	func testIsNewPill_whenNameIsNotNewPill_returnsFalse() {
+	func testTitle_whenIsNotNewPill_returnsExpectedTitle() {
 		let pill = setupPill()
 		pill.name = "Spiro"
 		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-		XCTAssertFalse(viewModel.isNewPill)
+		XCTAssertEqual(PDTitleStrings.EditPillTitle, viewModel.title)
 	}
 
 	func testHasUnsavedChanges_whenUnsavedChanges_returnsTrue() {
@@ -104,5 +104,44 @@ class PillDetailViewModelTests: XCTestCase {
 		viewModel.save()
 		let tabs = viewModel.tabs as! MockTabs
 		XCTAssertEqual(1, tabs.reflectDuePillBadgeValueCallCount)
+	}
+
+	func testHandleIfUnsaved_whenUnsaved_presentsAlert() {
+		setupPill()
+		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+		viewModel.selections.lastTaken = Date()
+		let testViewController = UIViewController()
+		viewModel.handleIfUnsaved(testViewController)
+		let alerts = viewModel.alerts! as! MockAlerts
+		let callArgs = alerts.presentUnsavedAlertCallArgs[0]
+		XCTAssertEqual(testViewController, callArgs.0)
+	}
+
+	func testHandleIfUnsaved_whenUnsaved_presentsAlertWithSaveHandlerThatSavesAndContinues() {
+		let pill = setupPill()
+		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+		viewModel.selections.lastTaken = Date()
+		let testViewController = UIViewController()
+		viewModel.handleIfUnsaved(testViewController)
+		let alerts = viewModel.alerts! as! MockAlerts
+		let callArgs = alerts.presentUnsavedAlertCallArgs[0]
+		let handler = callArgs.1
+		handler()
+		XCTAssertEqual(pill.id, (viewModel.sdk?.pills as! MockPillSchedule).setIdCallArgs[0].0)
+	}
+
+	func testHandleIfUnsaved_whenUnsaved_presentsAlertWithDiscardHandlerThatResetsSelections() {
+		setupPill()
+		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+		viewModel.selections.lastTaken = Date()
+		let testViewController = UIViewController()
+		viewModel.handleIfUnsaved(testViewController)
+		let alerts = viewModel.alerts! as! MockAlerts
+		let callArgs = alerts.presentUnsavedAlertCallArgs[0]
+		let handler = callArgs.2
+		handler()
+
+		// Test that it resets what was selected at beginning of test
+		XCTAssertNil(viewModel.selections.lastTaken)
 	}
 }

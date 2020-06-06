@@ -9,33 +9,25 @@
 import UIKit
 import PDKit
 
-class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
+class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
-	private var props: SiteImagePickerDelegateProperties
+	var _props: SiteImagePickerDelegateProperties
 
 	init(props: SiteImagePickerDelegateProperties) {
-		self.props = props
+		self._props = props
 		super.init()
 	}
 
-	var picker: UIPickerView {
-		props.views.getPicker()
-	}
+	var picker: UIPickerView { _props.views?.getPicker() ?? UIPickerView() }
 
-	var imageView: UIImageView {
-		props.views.getImageView()
-	}
+	var imageView: UIImageView { _props.views?.getImageView() ?? UIImageView() }
 
-	var options: [UIImage?] {
-		props.imageOptions
-	}
+	var options: [UIImage?] { _props.imageOptions }
 
-	var selectedRow: Index {
-		props.selectedImageIndex
-	}
+	var selectedRow: Index? { _props.selectedImageIndex }
 
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-		props.imageOptions.count
+		_props.imageOptions.count
 	}
 
 	func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -65,9 +57,10 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
 	}
 
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-		props.selectedImageIndex = row
-		let imageView = props.views.getImageView()
-		imageView.image = getImage(at: row)
+		_props.selectedImageIndex = row
+		if let imageView = _props.views?.getImageView() {
+			imageView.image = getImage(at: row)
+		}
 	}
 
 	public func openPicker(completion: @escaping () -> Void) {
@@ -77,17 +70,20 @@ class SiteImagePickerDelegate: NSObject, UIPickerViewDelegate, UIPickerViewDataS
 	}
 
 	private func getImage(at row: Index) -> UIImage? {
-		props.imageOptions.tryGet(at: row)
+		_props.imageOptions.tryGet(at: row)
 	}
 
 	private func showPicker(completion: @escaping () -> Void) {
+		guard let picker = _props.views?.getPicker() else { return }
 		UIView.transition(
-			with: props.views.getPicker() as UIView,
+			with: picker as UIView,
 			duration: 0.4,
 			options: .transitionFlipFromTop,
 			animations: {
-				self.props.views.getPicker().isHidden = false
-				self.props.views.getSaveButton().isEnabled = true
+				picker.isHidden = false
+				if let saveButton = self._props.views?.getSaveButton() {
+					saveButton.isEnabled = true
+				}
 			},
 			completion: { _ in completion() }
 		)

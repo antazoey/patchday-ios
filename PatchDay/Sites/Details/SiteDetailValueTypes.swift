@@ -7,10 +7,10 @@ import UIKit
 import PDKit
 
 struct SiteImagePickerDelegateProperties {
-	var selectedSiteIndex: Index
-	var imageOptions: [UIImage]
-	var views: SiteImagePickerDelegateRelatedViews
-	var selectedImageIndex: Index = 0
+	var selectedSiteIndex: Index? = nil
+	var imageOptions: [UIImage] = []
+	var views: SiteImagePickerDelegateRelatedViews? = nil
+	var selectedImageIndex: Index? = nil
 }
 
 struct SiteImagePickerDelegateRelatedViews {
