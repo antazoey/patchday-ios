@@ -58,6 +58,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 	func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController) {
 		SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
 		guard let settings = sdk?.settings else { return }
+		if table.isEditing {
+			table.turnOffEditingMode()
+		}
 		let method = settings.deliveryMethod.value
 		let params = SiteImageDeterminationParameters(deliveryMethod: method)
 		nav?.goToSiteDetails(siteIndex, source: sitesViewController, params: params)
@@ -82,10 +85,6 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		guard let sites = sdk?.sites else { return }
 		sites.delete(at: indexPath.row)
 		table.deleteCell(indexPath: indexPath)
-	}
-
-	func getSitesViewControllerTitle(_ siteCellActionState: SiteTableActionState) -> String {
-		siteCellActionState == .Editing ? "" : PDTitleStrings.SitesTitle
 	}
 
 	func createBarItems(

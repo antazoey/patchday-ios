@@ -21,6 +21,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 		willEnterForeground()
 		sitesTableView.delegate = self
 		sitesTableView.dataSource = self
+		loadTitle()
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -38,7 +39,6 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 		initViewModel()
 		applyTheme()
 		viewModel.table.reloadData()
-		loadTitle()
 		loadBarButtons()
 	}
 
@@ -127,8 +127,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 	@objc func editTapped() {
 		let props = createBarItemProps()
-		loadTitle(actionState: props.tableActionState)
 		switchNavItems(barItemEditProps: props)
+		viewModel.toggleEdit(props)
 	}
 
 	@objc func insertTapped() {
@@ -171,8 +171,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 		navigationItem.rightBarButtonItems = sitesBarItems
 	}
 
-	private func loadTitle(actionState: SiteTableActionState = .Unknown) {
-		title = viewModel.getSitesViewControllerTitle(actionState)
+	private func loadTitle() {
+		title = PDTitleStrings.SitesTitle
 	}
 
 	private func applyTheme() {

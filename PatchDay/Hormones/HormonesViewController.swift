@@ -37,6 +37,10 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		super.viewDidAppear(animated)
 	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		HormonesViewModel.imagesUpdatedInSession = false
+	}
+
 	@objc func willEnterForeground() {
 		initViewModel()
 		viewModel.presentDisclaimerAlertIfFirstLaunch()

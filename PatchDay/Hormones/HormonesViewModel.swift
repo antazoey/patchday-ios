@@ -12,10 +12,11 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private let style: UIUserInterfaceStyle
+	static var imagesUpdatedInSession = false
 	let table: HormonesTable
 	var hormones: HormoneScheduling? { sdk?.hormones }
 
-	private lazy var histories: [SiteImageHistory] = [
+	private static var histories: [SiteImageHistory] = [
 		SiteImageHistory(0),
 		SiteImageHistory(1),
 		SiteImageHistory(2),
@@ -43,12 +44,13 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	}
 
 	func updateSiteImages() {
+		guard !HormonesViewModel.imagesUpdatedInSession else { return }
 		var i = 0
 		table.reflectModel(self.sdk, style)
 		do {
 			try table.cells.forEach {
 				cell in
-				let history = histories[i]
+				let history = HormonesViewModel.histories[i]
 				history.push(getSiteImage(at: i))
 				try cell.reflectSiteImage(history)
 				i += 1
@@ -57,6 +59,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 			let log = PDLog<HormonesViewModel>()
 			log.error("Unable to update site image at row \(i)")
 		}
+		HormonesViewModel.imagesUpdatedInSession = true
 	}
 
 	private func getSiteImage(at row: Index) -> UIImage? {
@@ -83,7 +86,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	}
 
 	func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController) {
-		nav?.goToHormoneDetails(hormoneIndex, source: hormonesViewController)
+		if let nav = nav {
+			nav.goToHormoneDetails(hormoneIndex, source: hormonesViewController)
+			HormonesViewModel.imagesUpdatedInSession = false
+		}
 	}
 
 	func loadAppTabs(source: UIViewController) {

@@ -131,13 +131,16 @@ class HormoneCell: TableCell {
 	}
 
 	private func animateSetSiteImage(_ image: UIImage?) {
-		UIView.transition(
-			with: siteImageView as UIView,
-			duration: 0.75,
-			options: .transitionCrossDissolve,
-			animations: { self.siteImageView.image = image },
-			completion: nil
-		)
+		guard siteImageView.image != image else { return }
+		DispatchQueue.main.async {
+			UIView.transition(
+				with: self.siteImageView as UIView,
+				duration: 0.75,
+				options: .transitionCrossDissolve,
+				animations: { self.siteImageView.image = image },
+				completion: nil
+			)
+		}
 	}
 
 	private func logSetSiteImageOutcome(row: Index, mutation: HormoneMutation) {

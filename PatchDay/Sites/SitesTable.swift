@@ -20,6 +20,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
 		table.allowsSelectionDuringEditing = true
 	}
 
+	var isEditing: Bool { table.isEditing }
+
 	func reloadCells() {
 		reloadData()
 		table.isEditing = false
@@ -40,6 +42,11 @@ class SitesTable: TableViewWrapper<SiteCell> {
 
 	func toggleEdit(state: SiteTableActionState) {
 		table.isEditing = state == .Editing
+		reloadData()
+	}
+
+	func turnOffEditingMode() {
+		table.isEditing = false
 		reloadData()
 	}
 
