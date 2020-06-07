@@ -20,51 +20,51 @@ public class SiteStrings {
 
 	public static var NewSite: String { NSLocalizedString("New Site", comment: commonComment) }
 
-	public static var arms: String {
+	public static var Arms: String {
 		NSLocalizedString("Arms", comment: commonComment)
 	}
 
-	public static var rightAbdomen: String {
+	public static var RightAbdomen: String {
 		NSLocalizedString("Right Abdomen", tableName: nil, comment: commonComment)
 	}
 
-	public static var leftAbdomen: String {
+	public static var LeftAbdomen: String {
 		NSLocalizedString("Left Abdomen", tableName: nil, comment: commonComment)
 	}
 
-	public static var rightGlute: String {
+	public static var RightGlute: String {
 		NSLocalizedString("Right Glute", tableName: nil, comment: commonComment)
 	}
 
-	public static var leftGlute: String {
+	public static var LeftGlute: String {
 		NSLocalizedString("Left Glute", tableName: nil, comment: commonComment)
 	}
 
-	public static var rightQuad: String {
+	public static var RightQuad: String {
 		NSLocalizedString("Right Quad", comment: commonComment)
 	}
 
-	public static var leftQuad: String {
+	public static var LeftQuad: String {
 		NSLocalizedString("Left Quad", comment: commonComment)
 	}
 
-	public static var rightDelt: String {
+	public static var RightDelt: String {
 		NSLocalizedString("Right Delt", comment: commonComment)
 	}
 
-	public static var leftDelt: String { NSLocalizedString("Left Delt", comment: commonComment) }
+	public static var LeftDelt: String { NSLocalizedString("Left Delt", comment: commonComment) }
 
-	public static var rightArm: String { NSLocalizedString("Right Arm", comment: commonComment) }
+	public static var RightArm: String { NSLocalizedString("Right Arm", comment: commonComment) }
 
-	public static var leftArm: String { NSLocalizedString("Left Arm", comment: commonComment) }
+	public static var LeftArm: String { NSLocalizedString("Left Arm", comment: commonComment) }
 
-	public static var patches: [String] { [rightGlute, leftGlute, rightAbdomen, leftAbdomen] }
+	public static var patches: [String] { [RightGlute, LeftGlute, RightAbdomen, LeftAbdomen] }
 
 	public static var injections: [String] {
-		[rightQuad, leftQuad, rightGlute, leftGlute, rightDelt, leftDelt]
+		[RightQuad, LeftQuad, RightGlute, LeftGlute, RightDelt, LeftDelt]
 	}
 
-	public static var gels: [String] { [arms] }
+	public static var gels: [String] { [Arms] }
 
 	public static func getSiteNames(for method: DeliveryMethod) -> [String] {
 		switch method {

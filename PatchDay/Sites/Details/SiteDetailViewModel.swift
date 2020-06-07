@@ -16,25 +16,16 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	var imagePickerDelegate: SiteImagePicker?
 
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
-		let images = SiteImages.All[params.deliveryMethod]
-		self.init(
-			siteIndex: params.siteIndex,
-			imageChoices: images,
-			siteImagePickerRelatedViews: params.relatedViews
-		)
-	}
-
-	private convenience init(
-		siteIndex: Index,
-		imageChoices: [UIImage],
-		siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews
-	) {
+		let imageChoices = SiteImages.All[params.deliveryMethod]
+		let image = SiteImages[params.imageSelectionParams]
+		let imageIndex = imageChoices.firstIndex(where: { $0 == image })
 		let pickerDelegateProps = SiteImagePickerDelegateProperties(
-			selectedSiteIndex: siteIndex,
+			selectedSiteIndex: params.siteIndex,
 			imageChoices: imageChoices,
-			views: siteImagePickerRelatedViews
+			views: params.relatedViews,
+			selectedImageIndex: imageIndex
 		)
-		self.init(siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
+		self.init(siteIndex: params.siteIndex, imagePickerProps: pickerDelegateProps)
 	}
 
 	private convenience init(

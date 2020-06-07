@@ -63,6 +63,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		}
 		let method = settings.deliveryMethod.value
 		let params = SiteImageDeterminationParameters(deliveryMethod: method)
+		params.imageId = sdk?.sites[siteIndex]?.imageId
 		nav?.goToSiteDetails(siteIndex, source: sitesViewController, params: params)
 	}
 

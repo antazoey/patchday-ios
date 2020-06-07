@@ -19,23 +19,24 @@ public class SiteImages: NSObject {
 	static var placeholderGel: UIImage { initImage("Add Gel") }
 
 	// Patch site images
-	static var patchRightGlute: UIImage { initImage("Right Glute") }
-	static var patchLeftGlute: UIImage { initImage("Left Glute") }
-	static var patchRightAbdomen: UIImage { initImage("Right Abdomen") }
-	static var patchLeftAbdomen: UIImage { initImage("Left Abdomen") }
+	static var patchRightGlute: UIImage { initImage(SiteStrings.RightGlute) }
+	static var patchLeftGlute: UIImage { initImage(SiteStrings.LeftGlute) }
+	static var patchRightAbdomen: UIImage { initImage(SiteStrings.RightAbdomen) }
+	static var patchLeftAbdomen: UIImage { initImage(SiteStrings.LeftAbdomen) }
 	static var customPatch: UIImage { initImage("Custom Patch") }
 
 	// Injection site images
-	static var lnjectionLeftQuad: UIImage { initImage("Left Quad") }
-	static var lnjectionRightQuad: UIImage { initImage("Right Quad") }
+	static var lnjectionLeftQuad: UIImage { initImage(SiteStrings.LeftQuad) }
+	static var lnjectionRightQuad: UIImage { initImage(SiteStrings.RightQuad) }
 	static var lnjectionLeftGlute: UIImage { initImage("Left Injection Glute") }
 	static var lnjectionGluteRight: UIImage { initImage("Right Injection Glute") }
-	static var lnjectionLeftDelt: UIImage { initImage("Left Delt") }
-	static var lnjectionRightDelt: UIImage { initImage("Right Delt") }
+	static var lnjectionLeftDelt: UIImage { initImage(SiteStrings.LeftDelt) }
+	static var lnjectionRightDelt: UIImage { initImage(SiteStrings.RightDelt) }
 	static var customInjection: UIImage { initImage("Custom Injection") }
 
 	// Gel images
-	static var arms: UIImage { initImage("Arms") }
+	static var arms: UIImage { initImage(SiteStrings.Arms) }
+	static var customGel: UIImage { initImage("Custom Gel") }
 
 	static var patchImages: [UIImage] {
 		[patchRightGlute, patchLeftGlute, patchRightAbdomen, patchLeftAbdomen, customPatch]
@@ -73,42 +74,42 @@ public class SiteImages: NSObject {
 
 	private static var imageToSiteNameDict: [UIImage: SiteName] {
 		[
-			patchRightGlute: SiteStrings.rightGlute,
-			patchLeftGlute: SiteStrings.leftGlute,
-			patchRightAbdomen: SiteStrings.rightAbdomen,
-			patchLeftAbdomen: SiteStrings.leftAbdomen,
-			lnjectionGluteRight: SiteStrings.rightGlute,
-			lnjectionLeftGlute: SiteStrings.leftGlute,
-			lnjectionRightQuad: SiteStrings.rightQuad,
-			lnjectionLeftQuad: SiteStrings.leftQuad,
-			lnjectionRightDelt: SiteStrings.rightDelt,
-			lnjectionLeftDelt: SiteStrings.leftDelt,
-			arms: SiteStrings.arms
+			patchRightGlute: SiteStrings.RightGlute,
+			patchLeftGlute: SiteStrings.LeftGlute,
+			patchRightAbdomen: SiteStrings.RightAbdomen,
+			patchLeftAbdomen: SiteStrings.LeftAbdomen,
+			lnjectionGluteRight: SiteStrings.RightGlute,
+			lnjectionLeftGlute: SiteStrings.LeftGlute,
+			lnjectionRightQuad: SiteStrings.RightQuad,
+			lnjectionLeftQuad: SiteStrings.LeftQuad,
+			lnjectionRightDelt: SiteStrings.RightDelt,
+			lnjectionLeftDelt: SiteStrings.LeftDelt,
+			arms: SiteStrings.Arms
 		]
 	}
 
 	private static var siteNameToPatchImageDict: [SiteName: UIImage] {
 		[
-			SiteStrings.rightGlute: patchRightGlute,
-			SiteStrings.leftGlute: patchLeftGlute,
-			SiteStrings.rightAbdomen: patchRightAbdomen,
-			SiteStrings.leftAbdomen: patchLeftAbdomen
+			SiteStrings.RightGlute: patchRightGlute,
+			SiteStrings.LeftGlute: patchLeftGlute,
+			SiteStrings.RightAbdomen: patchRightAbdomen,
+			SiteStrings.LeftAbdomen: patchLeftAbdomen
 		]
 	}
 
 	private static var siteNameToInjectionImageDict: [SiteName: UIImage] {
 		[
-			SiteStrings.rightGlute: lnjectionGluteRight,
-			SiteStrings.leftGlute: lnjectionLeftGlute,
-			SiteStrings.leftDelt: lnjectionLeftDelt,
-			SiteStrings.rightDelt: lnjectionRightDelt,
-			SiteStrings.leftQuad: lnjectionLeftQuad,
-			SiteStrings.rightQuad: lnjectionRightQuad
+			SiteStrings.RightGlute: lnjectionGluteRight,
+			SiteStrings.LeftGlute: lnjectionLeftGlute,
+			SiteStrings.RightDelt: lnjectionRightDelt,
+			SiteStrings.LeftDelt: lnjectionLeftDelt,
+			SiteStrings.RightQuad: lnjectionRightQuad,
+			SiteStrings.LeftQuad: lnjectionLeftQuad
 		]
 	}
 
 	private static var siteNameToGelImageDict: [SiteName: UIImage] {
-		[SiteStrings.arms: arms]
+		[SiteStrings.Arms: arms]
 	}
 
 	private static func initImage(_ name: String) -> UIImage {

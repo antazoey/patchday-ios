@@ -24,7 +24,7 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
 	var options: [UIImage?] { _props.imageChoices }
 
-	var selectedRow: Index? { _props.selectedImageIndex }
+	var selectedRow: Index? { _props.selectedImageIndex ?? picker.getSelectedRow() }
 
 	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
 		_props.imageChoices.count
@@ -75,6 +75,8 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
 	private func showPicker(completion: @escaping () -> Void) {
 		guard let picker = _props.views?.getPicker() else { return }
+		let startRow = _props.selectedImageIndex ?? 0
+		picker.selectRow(startRow)
 		UIView.transition(
 			with: picker as UIView,
 			duration: 0.4,

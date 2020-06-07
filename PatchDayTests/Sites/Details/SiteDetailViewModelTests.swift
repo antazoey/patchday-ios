@@ -17,22 +17,23 @@ class SiteDetailViewModelTests: XCTestCase {
 
 	private var dependencies: MockDependencies! = nil
 	private var siteImagePicker: SiteImagePicker! = nil
-	let imagePickerOptions = [UIImage(), UIImage(), UIImage()]
 
 	private let picker = UIPickerView()
 	private let imageView = UIImageView()
 	private let saveButton = UIBarButtonItem()
 
-	private func createImagePicker(selectedSiteIndex: Int=0) -> SiteImagePicker {
-		let views = SiteImagePickerDelegateRelatedViews(
+	private var relatedViews: SiteImagePickerDelegateRelatedViews {
+		SiteImagePickerDelegateRelatedViews(
 			getPicker: { self.picker },
 			getImageView: { self.imageView },
 			getSaveButton: { self.saveButton }
 		)
+	}
+
+	private func createImagePicker(selectedSiteIndex: Int=0) -> SiteImagePicker {
 		let props = SiteImagePickerDelegateProperties(
 			selectedSiteIndex: selectedSiteIndex,
-			imageOptions: imagePickerOptions,
-			views: views
+			views: relatedViews
 		)
 		return SiteImagePicker(props: props)
 	}
@@ -59,6 +60,20 @@ class SiteDetailViewModelTests: XCTestCase {
 		XCTAssertNotNil(viewModel.imagePickerDelegate)
 	}
 
+	func testInitSelectCorrectStartIndexOfSiteImagePicker() {
+		setupSite()
+		let imgParams = SiteImageDeterminationParameters(
+			imageId: SiteStrings.LeftQuad, deliveryMethod: .Injections
+		)
+		let ctorParams = SiteDetailViewModelConstructorParams(0, imgParams, relatedViews)
+		let viewModel = SiteDetailViewModel(ctorParams)
+		let expected = SiteImages.injectionImages.firstIndex {
+			$0.accessibilityIdentifier == SiteStrings.LeftQuad
+		}
+		let actual = viewModel.imagePickerDelegate?._props.selectedImageIndex
+		XCTAssertEqual(expected, actual)
+	}
+
 	func testSiteNamePickerStartIndex_whenNoNameSelected_returnsIndexOfSiteSiteName() {
 		let site = setupSite()
 		site.name = "Neck"  // index 2
@@ -76,20 +91,12 @@ class SiteDetailViewModelTests: XCTestCase {
 
 	func testSiteImage_returnsExpectedImage() {
 		let site = setupSite()
-		site.imageId = SiteStrings.arms
+		site.imageId = SiteStrings.Arms
 		let viewModel = createViewModel()
 		(viewModel.sdk?.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
 		XCTAssertEqual(SiteImages.arms, viewModel.siteImage)
 	}
 
-	func testHandleSave_whenNoRowSelected_doesNotSave() {
-		setupSite()
-		let viewModel = createViewModel()
-		viewModel.selections.selectedSiteName = nil
-		viewModel.handleSave(siteDetailViewController: UIViewController())
-		let callArgs = (viewModel.sdk?.sites as! MockSiteSchedule).setImageIdCallArgs
-		XCTAssertEqual(0, callArgs.count)
-	}
 
 	func testHandleSave_whenImageDoesNotExist_doesNotSave() {
 		setupSite()
@@ -103,8 +110,8 @@ class SiteDetailViewModelTests: XCTestCase {
 
 	func testHandleSave_whenImageExistsAndSelected_saves() {
 		let site = setupSite()
-		site.name = SiteStrings.arms
-		site.imageId = SiteStrings.arms
+		site.name = SiteStrings.Arms
+		site.imageId = SiteStrings.Arms
 		let viewModel = createViewModel()
 		(viewModel.sdk?.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
 		siteImagePicker._props.selectedImageIndex = 0
