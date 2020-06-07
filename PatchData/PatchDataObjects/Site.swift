@@ -30,14 +30,26 @@ public class Site: Bodily {
 	}
 
 	public var imageId: String {
-		// `siteData.imageIdentifier` should never be nil, but it wouldn't be catastrophic if it was..
-		// Therefore, treat it like it's not (without force-unwrapping).
-		get { siteData.imageIdentifier ?? "" }
+		get {
+			guard let id = siteData.imageIdentifier else {
+				return name
+			}
+			if id == "" || id == SiteStrings.NewSite {
+				return name
+			}
+			return id
+		}
 		set { siteData.imageIdentifier = newValue }
 	}
 
 	public var name: SiteName {
-		get { siteData.name ?? "" }
+		get {
+			guard let storedName = siteData.name else {
+				return SiteStrings.NewSite
+			}
+			return storedName != "" ? storedName : SiteStrings.NewSite
+
+		}
 		set { siteData.name = newValue }
 	}
 

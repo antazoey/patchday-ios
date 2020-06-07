@@ -21,7 +21,7 @@ class HormoneTests: XCTestCase {
 
 	private func createEmptyHormone(useDefaultDate: Bool = false) -> Hormone {
 		let date = useDefaultDate ? Date(timeIntervalSince1970: 0) : nil
-		let data = HormoneStruct(testId, testSiteId, nil, date, nil)
+		let data = HormoneStruct(testId, testSiteId, "", nil, date, nil)
 		let settings = MockSettings()
 		return Hormone(hormoneData: data, settings: settings)
 	}
@@ -63,7 +63,7 @@ class HormoneTests: XCTestCase {
 
 	func testSiteName_whenSiteNameNilFromInitData_returnsSiteBackUpName() {
 		let backup = "Site Name Backup"
-		let data = HormoneStruct(testId, nil, nil, nil, backup)
+		let data = HormoneStruct(testId, nil, nil, nil, nil, backup)
 		let settings = MockSettings()
 		let hormone = Hormone(hormoneData: data, settings: settings)
 		let actual = hormone.siteName
@@ -73,7 +73,17 @@ class HormoneTests: XCTestCase {
 
 	func testSiteName_whenSiteNameIsNewSiteButSiteBackupIsNot_returnsSiteBackUpName() {
 		let backup = "Site Name Backup"
-		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, backup)
+		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, nil, backup)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = backup
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSiteName_whenSiteNameIsEmptyStringButSiteBackupIsNot_returnsSiteBackUpName() {
+		let backup = "Site Name Backup"
+		let data = HormoneStruct(testId, nil, "", nil, nil, backup)
 		let settings = MockSettings()
 		let hormone = Hormone(hormoneData: data, settings: settings)
 		let actual = hormone.siteName
@@ -82,7 +92,16 @@ class HormoneTests: XCTestCase {
 	}
 
 	func testSiteName_whenSiteNameIsNewSiteButSiteBackupIsNil_returnsNewSite() {
-		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, nil)
+		let data = HormoneStruct(testId, nil, SiteStrings.NewSite, nil, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = SiteStrings.NewSite
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSiteName_whenSiteNameIsEmptyButSiteBackupIsNil_returnsNewSite() {
+		let data = HormoneStruct(testId, nil, "", nil, nil, nil)
 		let settings = MockSettings()
 		let hormone = Hormone(hormoneData: data, settings: settings)
 		let actual = hormone.siteName
@@ -91,7 +110,16 @@ class HormoneTests: XCTestCase {
 	}
 
 	func testSiteName_whenSiteNameAndSiteBackupAreNil_returnsNewSite() {
-		let data = HormoneStruct(testId, nil, nil, nil, nil)
+		let data = HormoneStruct(testId, nil, nil, nil, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteName
+		let expected = SiteStrings.NewSite
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testSiteName_whenSiteNameAndSiteBackupAreEmptyString_returnsNewSite() {
+		let data = HormoneStruct(testId, nil, "", nil, nil, "")
 		let settings = MockSettings()
 		let hormone = Hormone(hormoneData: data, settings: settings)
 		let actual = hormone.siteName
@@ -101,7 +129,7 @@ class HormoneTests: XCTestCase {
 
 	func testSiteName_whenSiteNameNotNilNorNewSiteAndSiteBackUpIsNil_returnsSiteName() {
 		let site = "SITE"
-		let data = HormoneStruct(testId, nil, site, nil, nil)
+		let data = HormoneStruct(testId, nil, site, nil, nil, nil)
 		let settings = MockSettings()
 		let hormone = Hormone(hormoneData: data, settings: settings)
 		let actual = hormone.siteName
@@ -111,12 +139,90 @@ class HormoneTests: XCTestCase {
 
 	func testSiteName_whenSiteNameNotNilNorNewSiteAndSiteBackUpIsNewSite_returnsSiteName() {
 		let site = "SITE"
-		let data = HormoneStruct(testId, nil, site, nil, SiteStrings.NewSite)
+		let data = HormoneStruct(testId, nil, site, nil, nil, SiteStrings.NewSite)
 		let settings = MockSettings()
 		let hormone = Hormone(hormoneData: data, settings: settings)
 		let actual = hormone.siteName
 		let expected = site
 		XCTAssertEqual(expected, actual)
+	}
+
+	func testSiteImageId_usesImageIdFirst() {
+		let data = HormoneStruct(testId, nil, "NAME", "IMAGE_ID", nil, "BACKUP")
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("IMAGE_ID", actual)
+	}
+
+	func testSiteImageId_whenImageIdIsNil_returnsImageForSiteName() {
+		let data = HormoneStruct(testId, nil, "NAME", nil, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("NAME", actual)
+	}
+
+	func testSiteImageId_whenImageIdIsNilAndSiteNameNil_returnsImageForSiteNameBackUp() {
+		let data = HormoneStruct(testId, nil, nil, nil, nil, "BACKUP")
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("BACKUP", actual)
+	}
+
+	func testSiteImageId_whenImageIdIsEmpty_returnsImageForSiteName() {
+		let data = HormoneStruct(testId, nil, "NAME", "", nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("NAME", actual)
+	}
+
+	func testSiteImageId_whenImageIdIsEmptyAndSiteNameEmpty_returnsImageForSiteNameBackUp() {
+		let data = HormoneStruct(testId, nil, "", "", nil, "BACKUP")
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("BACKUP", actual)
+	}
+
+	func testSiteImageId_whenImageIdIsNewSite_returnsImageForSiteName() {
+		let data = HormoneStruct(testId, nil, "NAME", SiteStrings.NewSite, nil, nil)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("NAME", actual)
+	}
+
+	func testSiteImageId_whenImageIdIsNewSiteAndSiteNameIsNewSite_returnsImageForSiteNameBackUp() {
+		let data = HormoneStruct(
+			testId, nil, SiteStrings.NewSite, SiteStrings.NewSite, nil, "BACKUP"
+		)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual("BACKUP", actual)
+	}
+
+	func testSiteImageId_whenEverythingNil_returnsNewSite() {
+		let data = HormoneStruct(
+			testId, nil, nil, nil, nil, nil
+		)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual(SiteStrings.NewSite, actual)
+	}
+
+	func testSiteImageId_whenEverythingEmpty_returnsNewSite() {
+		let data = HormoneStruct(
+			testId, nil, "", "", nil, ""
+		)
+		let settings = MockSettings()
+		let hormone = Hormone(hormoneData: data, settings: settings)
+		let actual = hormone.siteImageId
+		XCTAssertEqual(SiteStrings.NewSite, actual)
 	}
 
 	func testExpiration_whenExpirationIntervalIsEveryTwoWeeks_returnsExpectedDate() {

@@ -14,7 +14,7 @@ public class PDTest {
 		Calendar.current.isDate(d1, equalTo: d2, toGranularity: .nanosecond)
 	}
 	
-	public static func equiv(_ d1: Double, _ d2: Double, _ granularity: Double = 0.001) -> Bool {
+	public static func equiv(_ d1: Double, _ d2: Double, _ granularity: Double = 0.01) -> Bool {
 		abs(d1 - d2) < granularity
 	}
 }

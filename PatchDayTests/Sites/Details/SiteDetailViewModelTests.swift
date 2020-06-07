@@ -76,71 +76,51 @@ class SiteDetailViewModelTests: XCTestCase {
 
 	func testSiteImage_returnsExpectedImage() {
 		let site = setupSite()
-		site.name = SiteStrings.arms
+		site.imageId = SiteStrings.arms
 		let viewModel = createViewModel()
 		(viewModel.sdk?.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
 		XCTAssertEqual(SiteImages.arms, viewModel.siteImage)
 	}
 
-	func testSaveSiteImageChanges_whenNoRowSelected_returnsNil() {
+	func testHandleSave_whenNoRowSelected_doesNotSave() {
 		setupSite()
 		let viewModel = createViewModel()
-		XCTAssertNil(viewModel.saveSiteImageChanges())
-	}
-
-	func testSaveSiteImageChanges_whenNoRowSelected_doesNotSave() {
-		setupSite()
-		let viewModel = createViewModel()
+		viewModel.selections.selectedSiteName = nil
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let callArgs = (viewModel.sdk?.sites as! MockSiteSchedule).setImageIdCallArgs
 		XCTAssertEqual(0, callArgs.count)
 	}
 
-	func testSaveSiteImageChanges_whenImageDoesNotExist_returnsNil() {
+	func testHandleSave_whenImageDoesNotExist_doesNotSave() {
 		setupSite()
 		let viewModel = createViewModel()
-		siteImagePicker._props.selectedImageIndex = 5
-		XCTAssertNil(viewModel.saveSiteImageChanges())
-	}
-
-	func testSaveSiteImageChanges_whenImageDoesNotExist_doesNotSave() {
-		setupSite()
-		let viewModel = createViewModel()
-		siteImagePicker._props.selectedImageIndex = 5
-		viewModel.saveSiteImageChanges()
+		siteImagePicker._props.selectedImageIndex = 50
+		viewModel.selections.selectedSiteName = nil
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let callArgs = (viewModel.sdk?.sites as! MockSiteSchedule).setImageIdCallArgs
 		XCTAssertEqual(0, callArgs.count)
 	}
 
-	func testSaveSiteImageChanges_whenImageExistsAndSelected_returnsImage() {
+	func testHandleSave_whenImageExistsAndSelected_saves() {
 		let site = setupSite()
 		site.name = SiteStrings.arms
 		site.imageId = SiteStrings.arms
 		let viewModel = createViewModel()
 		(viewModel.sdk?.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
 		siteImagePicker._props.selectedImageIndex = 0
-		viewModel.saveSiteImageChanges()
-		let expected = SiteImages.arms
-		let actual = viewModel.saveSiteImageChanges()
-		XCTAssertEqual(expected, actual)
-	}
-
-	func testSaveSiteImageChanges_whenImageExistsAndSelected_saves() {
-		let site = setupSite()
-		site.name = SiteStrings.arms
-		site.imageId = SiteStrings.arms
-		let viewModel = createViewModel()
-		(viewModel.sdk?.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
-		siteImagePicker._props.selectedImageIndex = 0
-		viewModel.saveSiteImageChanges()
+		viewModel.selections.selectedSiteName = nil
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let callArgs = (viewModel.sdk?.sites as! MockSiteSchedule).setImageIdCallArgs
-		XCTAssertEqual(0, callArgs[0].0)
-		XCTAssertEqual(SiteStrings.arms, callArgs[0].1)
+		let siteIndex = 0
+		XCTAssertEqual(siteIndex, callArgs[0].0)
+		XCTAssertEqual("Right Glute", callArgs[0].1)
 	}
 
 	func testHandleSave_whenGivenNil_doesNotSave() {
 		setupSite()
 		let viewModel = createViewModel()
-		viewModel.handleSave(siteNameText: nil, siteDetailViewController: UIViewController())
+		viewModel.selections.selectedSiteName = nil
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let sites = viewModel.sdk?.sites as! MockSiteSchedule
 		let renameCallArgs = sites.renameCallArgs
 		let insertNewCallArgs = sites.insertNewCallArgs
@@ -153,7 +133,8 @@ class SiteDetailViewModelTests: XCTestCase {
 		let viewModel = createViewModel(index: 5)
 		let sites = viewModel.sdk?.sites as! MockSiteSchedule
 		sites.count = 0  // Out of range because of this
-		viewModel.handleSave(siteNameText: "New Name", siteDetailViewController: UIViewController())
+		viewModel.selections.selectedSiteName = "New Name"
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let renameCallArgs = sites.renameCallArgs
 		let insertNewCallArgs = sites.insertNewCallArgs
 		XCTAssertEqual(0, renameCallArgs.count)
@@ -165,7 +146,8 @@ class SiteDetailViewModelTests: XCTestCase {
 		let viewModel = createViewModel()
 		let sites = viewModel.sdk?.sites as! MockSiteSchedule
 		sites.count = 5
-		viewModel.handleSave(siteNameText: "New Name", siteDetailViewController: UIViewController())
+		viewModel.selections.selectedSiteName = "New Name"
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let renameCallArgs = sites.renameCallArgs
 		let insertNewCallArgs = sites.insertNewCallArgs
 		XCTAssertEqual(0, renameCallArgs[0].0)
@@ -178,7 +160,8 @@ class SiteDetailViewModelTests: XCTestCase {
 		let viewModel = createViewModel(index: 5)
 		let sites = viewModel.sdk?.sites as! MockSiteSchedule
 		sites.count = 5  // Equal to site.order above
-		viewModel.handleSave(siteNameText: "New Name", siteDetailViewController: UIViewController())
+		viewModel.selections.selectedSiteName = "New Name"
+		viewModel.handleSave(siteDetailViewController: UIViewController())
 		let renameCallArgs = sites.renameCallArgs
 		let insertNewCallArgs = sites.insertNewCallArgs
 		XCTAssertEqual(0, renameCallArgs.count)

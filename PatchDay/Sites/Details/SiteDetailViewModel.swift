@@ -16,22 +16,22 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	var imagePickerDelegate: SiteImagePicker?
 
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
-		let images = SiteImages.all
+		let images = SiteImages.All[params.deliveryMethod]
 		self.init(
 			siteIndex: params.siteIndex,
-			imageSelections: images,
+			imageChoices: images,
 			siteImagePickerRelatedViews: params.relatedViews
 		)
 	}
 
 	private convenience init(
 		siteIndex: Index,
-		imageSelections: [UIImage],
+		imageChoices: [UIImage],
 		siteImagePickerRelatedViews: SiteImagePickerDelegateRelatedViews
 	) {
 		let pickerDelegateProps = SiteImagePickerDelegateProperties(
 			selectedSiteIndex: siteIndex,
-			imageOptions: imageSelections,
+			imageChoices: imageChoices,
 			views: siteImagePickerRelatedViews
 		)
 		self.init(siteIndex: siteIndex, imagePickerProps: pickerDelegateProps)
@@ -75,37 +75,32 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	var sitesCount: Int { sdk?.sites.count ?? 0 }
 
-	var siteNameSelections: [SiteName] { sdk?.sites.names ?? [] }
+	var siteNameOptions: [SiteName] { sdk?.sites.names ?? [] }
 
 	var siteNamePickerStartIndex: Index {
 		let startName = selections.selectedSiteName ?? siteName
-		return siteNameSelections.firstIndex(of: startName) ?? 0
+		return siteNameOptions.firstIndex(of: startName) ?? 0
 	}
 
 	var siteImage: UIImage {
 		guard let settings = sdk?.settings else { return UIImage() }
+		let key = site.imageId
 		let params = SiteImageDeterminationParameters(
-			siteName: siteName, deliveryMethod: settings.deliveryMethod.value
+			imageId: key, deliveryMethod: settings.deliveryMethod.value
 		)
 		return SiteImages[params]
 	}
 
-	@discardableResult func saveSiteImageChanges() -> UIImage? {
-        guard let row = imagePickerDelegate?.selectedRow else { return nil }
-		guard let image = createImageStruct(selectedRow: row) else { return nil }
-		sdk?.sites.setImageId(at: row, to: image.name)
-		return image.image
-	}
-
-	func handleSave(siteNameText: SiteName?, siteDetailViewController: UIViewController) {
-		if let name = siteNameText {
+	func handleSave(siteDetailViewController: UIViewController) {
+		if let name = selections.selectedSiteName {
 			saveSiteNameChanges(siteName: name)
 		}
+		saveSiteImageChanges()
 		nav?.pop(source: siteDetailViewController)
 	}
 
 	func getSiteName(at index: Index) -> SiteName? {
-		siteNameSelections.tryGet(at: index)
+		siteNameOptions.tryGet(at: index)
 	}
 
 	func getAttributedSiteName(at index: Index) -> NSAttributedString? {
@@ -116,23 +111,6 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	// MARK: - Private
 
-	private func createImageStruct(selectedRow: Index) -> SiteImageStruct? {
-		guard let settings = sdk?.settings else {
-			return createImageStruct(
-				selectedRow: selectedRow, method: DefaultSettings.DeliveryMethodValue
-			)
-		}
-		let method = settings.deliveryMethod.value
-		return createImageStruct(selectedRow: selectedRow, method: method)
-	}
-
-	private func createImageStruct(selectedRow: Index, method: DeliveryMethod) -> SiteImageStruct? {
-		let images = SiteImages.All[method]
-		guard let image = images.tryGet(at: selectedRow) else { return nil }
-		let imageKey = SiteImages.getName(from: image)
-		return SiteImageStruct(image: image, name: imageKey)
-	}
-
 	private func saveSiteNameChanges(siteName: SiteName) {
 		guard let sites = sdk?.sites else { return }
 		if siteIndex >= 0 && siteIndex < sites.count {
@@ -140,5 +118,18 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		} else if siteIndex == sites.count {
 			sites.insertNew(name: siteName, onSuccess: nil)
 		}
+	}
+
+	private func saveSiteImageChanges() {
+        guard let row = imagePickerDelegate?.selectedRow else { return }
+		guard let image = createImageStruct(selectedRow: row) else { return }
+		sdk?.sites.setImageId(at: siteIndex, to: image.name)
+	}
+
+	private func createImageStruct(selectedRow: Index) -> SiteImageStruct? {
+		let images = SiteImages.all
+		guard let image = images.tryGet(at: selectedRow) else { return nil }
+		let imageKey = SiteImages.getName(from: image)
+		return SiteImageStruct(image: image, name: imageKey)
 	}
 }

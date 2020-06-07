@@ -58,7 +58,7 @@ public class SiteImages: NSObject {
 	}
 
 	public static var all: [UIImage] {
-		Array(Set(patchImages + injectionImages + gelImages))
+		Array(patchImages + injectionImages + gelImages)
 	}
 
 	public class All {
@@ -131,7 +131,7 @@ public class SiteImages: NSObject {
 	}
 
 	private static func provided(from params: SiteImageDeterminationParameters) -> UIImage? {
-		guard let siteName = params.siteName else { return nil }
+		guard let siteName = params.imageId else { return nil }
 		switch params.deliveryMethod {
 			case .Patches: return siteNameToPatchImageDict[siteName]
 			case .Injections: return siteNameToInjectionImageDict[siteName]
@@ -140,7 +140,7 @@ public class SiteImages: NSObject {
 	}
 
 	private static func custom(from params: SiteImageDeterminationParameters) -> UIImage? {
-		guard let _ = params.siteName else { return nil }
+		guard let _ = params.imageId else { return nil }
 		switch params.deliveryMethod {
 			case .Patches: return customPatch
 			case .Injections: return customInjection

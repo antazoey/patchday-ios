@@ -22,22 +22,23 @@ public struct PillDueDateFinderParams {
 
 public class SiteImageDeterminationParameters {
 
-    public var siteName: SiteName?
+    public var imageId: SiteName?
     public var deliveryMethod: DeliveryMethod
 
-    public init(siteName: SiteName, deliveryMethod: DeliveryMethod) {
-        self.siteName =  siteName
+	public init(imageId: SiteName, deliveryMethod: DeliveryMethod) {
+        self.imageId = imageId
         self.deliveryMethod = deliveryMethod
     }
 
     public init(hormone: Hormonal?) {
-		if let hormone = hormone {
-			self.siteName = hormone.hasSite ? hormone.siteName : nil
-			self.deliveryMethod = hormone.deliveryMethod
+		guard let hormone = hormone else {
+			self.imageId = nil
+			self.deliveryMethod = DefaultSettings.DeliveryMethodValue
 			return
 		}
-		self.siteName = nil
-		self.deliveryMethod = DefaultSettings.DeliveryMethodValue
+		self.imageId = hormone.hasSite ? hormone.siteImageId : nil
+		self.deliveryMethod = hormone.deliveryMethod
+		return
     }
 
     public init(deliveryMethod: DeliveryMethod) {
@@ -129,6 +130,7 @@ public struct HormoneStruct {
     public var siteRelationshipId: UUID?
     public var id: UUID
     public var siteName: SiteName?
+	public var siteImageId: SiteName?
     public var date: Date?
     public var siteNameBackUp: String?
 
@@ -136,6 +138,7 @@ public struct HormoneStruct {
         self.id = id
         self.siteRelationshipId = nil
         self.siteName = nil
+		self.siteNameBackUp = nil
         self.date = nil
         self.siteNameBackUp = nil
     }
@@ -144,12 +147,14 @@ public struct HormoneStruct {
         _ id: UUID,
         _ siteRelationshipId: UUID?,
         _ siteName: SiteName?,
+		_ siteImageId: SiteName?,
         _ date: Date?,
         _ siteNameBackUp: String?
     ) {
         self.id = id
         self.siteRelationshipId = siteRelationshipId
         self.siteName = siteName
+		self.siteImageId = siteImageId
         self.date = date
         self.siteNameBackUp = siteNameBackUp
     }

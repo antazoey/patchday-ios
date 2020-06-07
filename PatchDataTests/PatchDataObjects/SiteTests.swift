@@ -31,13 +31,43 @@ class SiteTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testImageId_whenNilInData_returnsEmptyString() {
+	func testImageId_whenNilInData_returnsName() {
 		var data = SiteStruct(UUID())
 		data.imageIdentifier = nil
 		let site = createSite(data: data)
-		let expected = ""
+		site.name = "NAME"
+		let expected = "NAME"
 		let actual = site.imageId
 		XCTAssertEqual(expected, actual)
+	}
+
+	func testImageId_whenEmptyString_returnsName() {
+		var data = SiteStruct(UUID())
+		data.imageIdentifier = nil
+		let site = createSite(data: data)
+		site.name = "NAME"
+		site.imageId = ""
+		let expected = "NAME"
+		let actual = site.imageId
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testImageId_whenNewSite_returnsName() {
+		var data = SiteStruct(UUID())
+		data.imageIdentifier = nil
+		let site = createSite(data: data)
+		site.name = "NAME"
+		site.imageId = SiteStrings.NewSite
+		let actual = site.imageId
+		XCTAssertEqual("NAME", actual)
+	}
+
+	func testImageId_whenNilAndNameIsNil_returnsNewSite() {
+		var data = SiteStruct(UUID())
+		data.imageIdentifier = nil
+		let site = createSite(data: data)
+		let actual = site.imageId
+		XCTAssertEqual(SiteStrings.NewSite, actual)
 	}
 
 	func testSetOrder_whenNewOrderLessThanZero_doesNotSet() {
@@ -60,13 +90,20 @@ class SiteTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testName_whenNilInData_returnsEmptyString() {
+	func testName_whenNil_returnsNewSite() {
 		var data = SiteStruct(UUID())
 		data.name = nil
 		let site = createSite(data: data)
-		let expected = ""
 		let actual = site.name
-		XCTAssertEqual(expected, actual)
+		XCTAssertEqual(SiteStrings.NewSite, actual)
+	}
+
+	func testName_whenEmptyString_returnsNewSite() {
+		var data = SiteStruct(UUID())
+		data.name = ""
+		let site = createSite(data: data)
+		let actual = site.name
+		XCTAssertEqual(SiteStrings.NewSite, actual)
 	}
 
 	func testReset_resetsProperties() {
@@ -77,6 +114,8 @@ class SiteTests: XCTestCase {
 		data.hormoneRelationshipIds = [UUID(), UUID()]
 		let site = createSite(data: data)
 		site.reset()
-		XCTAssert(site.name == "" && site.order == -1 && site.imageId == "" && site.hormoneIds == [])
+		XCTAssertEqual(SiteStrings.NewSite, site.name)
+		XCTAssertEqual(-1, site.order)
+		XCTAssertEqual([], site.hormoneIds)
 	}
 }

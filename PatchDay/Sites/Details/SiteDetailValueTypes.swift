@@ -8,7 +8,7 @@ import PDKit
 
 struct SiteImagePickerDelegateProperties {
 	var selectedSiteIndex: Index? = nil
-	var imageOptions: [UIImage] = []
+	var imageChoices: [UIImage] = []
 	var views: SiteImagePickerDelegateRelatedViews? = nil
 	var selectedImageIndex: Index? = nil
 }
@@ -23,6 +23,7 @@ struct SiteDetailViewModelConstructorParams {
 	var siteIndex: Index
 	var imageSelectionParams: SiteImageDeterminationParameters
 	var relatedViews: SiteImagePickerDelegateRelatedViews
+	var deliveryMethod: DeliveryMethod
 
 	init(
 		_ siteIndex: Index,
@@ -32,5 +33,6 @@ struct SiteDetailViewModelConstructorParams {
 		self.siteIndex = siteIndex
 		self.imageSelectionParams = imageParams
 		self.relatedViews = relateViews
+		self.deliveryMethod = imageParams.deliveryMethod
 	}
 }

@@ -194,14 +194,14 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 	private func set(_ hormone: inout Hormonal, date: Date, site: Bodily) {
 		hormone.siteId = site.id
 		hormone.date = date
-		hormone.siteName = site.name
+		hormone.siteName = site.imageId
 		pushFromDateAndSiteChange(hormone)
 		settings.incrementStoredSiteIndex(from: site.order)
 	}
 
 	private func setSite(_ hormone: inout Hormonal, with site: Bodily) {
 		hormone.siteId = site.id
-		hormone.siteName = site.name
+		hormone.siteName = site.imageId
 		shareData()
 		store.pushLocalChangesToManagedContext([hormone], doSave: true)
 		settings.incrementStoredSiteIndex(from: site.order)

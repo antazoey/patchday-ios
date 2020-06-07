@@ -104,10 +104,10 @@ class HormoneScheduleTests: XCTestCase {
 
 	func testTotalExpired_integration_returnsCountOfHormonesExpired() {
 		let data1 = HormoneStruct(
-			UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil
+			UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil
 		)
 		let data2 = HormoneStruct(
-			UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil
+			UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil
 		)
 		let hormone1 = Hormone(hormoneData: data1, settings: MockSettings())
 		let hormone2 = Hormone(hormoneData: data2, settings: MockSettings())
@@ -123,8 +123,8 @@ class HormoneScheduleTests: XCTestCase {
 	/// Integration
 	func testTotalExpired_afterSettingDate_reflectsAccurately() {
 		let mockSettings = MockSettings()
-		let data1 = HormoneStruct(UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil)
-		let data2 = HormoneStruct(UUID(), nil, nil, DateFactory.createDate(daysFromNow: -20), nil)
+		let data1 = HormoneStruct(UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil)
+		let data2 = HormoneStruct(UUID(), nil, nil, nil, DateFactory.createDate(daysFromNow: -20), nil)
 		let hormone1 = Hormone(hormoneData: data1, settings: mockSettings)
 		let hormone2 = Hormone(hormoneData: data2, settings: mockSettings)
 		setUpHormones([hormone1, hormone2])

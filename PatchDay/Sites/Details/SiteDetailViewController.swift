@@ -87,7 +87,8 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 			getImageView: { self.siteImageView },
 			getSaveButton: { self.saveButton }
 		)
-		return initWithParams(SiteDetailViewModelConstructorParams(index, imageParams, relatedViews))
+		return initWithParams(SiteDetailViewModelConstructorParams(index, imageParams, relatedViews)
+		)
 	}
 
 	private func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailViewController {
@@ -103,11 +104,12 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	// MARK: - Actions
 
 	@IBAction func doneButtonTapped(_ sender: Any) {
-		siteImageView.image = viewModel.saveSiteImageChanges()
 		imagePicker.isHidden = true
 		imageButton.isEnabled = true
 		nameText.isEnabled = true
 		siteImageView.isHidden = false
+		imageButton.isHidden = false
+		imageButton.isEnabled = true
 		typeNameButton.isEnabled = true
 		imagePickerDoneButton.hideAsDisabled()
 		enableSave()
@@ -132,7 +134,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	@objc func saveButtonTapped(_ sender: Any) {
-		viewModel.handleSave(siteNameText: nameText.text, siteDetailViewController: self)
+		viewModel.handleSave(siteDetailViewController: self)
 	}
 
 	// MARK: - Text field

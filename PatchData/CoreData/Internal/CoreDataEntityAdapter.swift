@@ -14,21 +14,31 @@ class CoreDataEntityAdapter {
 
 	static func convertToHormoneStruct(_ hormone: MOHormone) -> HormoneStruct? {
 		guard let hormoneId = hormone.id else {
-			log.error("Failure converting managed \(PDEntity.hormone.rawValue) to DTO struct. Missing ID")
+			log.error("Failure converting managed \(PDEntity.hormone.rawValue) to DTO struct. " +
+				"Missing ID"
+			)
 			return nil
 		}
 		return createHormoneStruct(hormone, id: hormoneId)
 	}
 
 	static func convertToHormoneStruct(_ hormone: Hormonal) -> HormoneStruct {
-		HormoneStruct(hormone.id, hormone.siteId, hormone.siteName, hormone.date, hormone.siteNameBackUp)
+		HormoneStruct(
+			hormone.id,
+			hormone.siteId,
+			hormone.siteName,
+			hormone.siteImageId,
+			hormone.date,
+			hormone.siteNameBackUp
+		)
 	}
 
 	static func applyHormoneData(_ hormoneData: HormoneStruct, to hormone: inout MOHormone) {
 		if let date = hormoneData.date as NSDate?, date != hormone.date {
 			hormone.date = date
 		}
-		if let siteNameBackUp = hormoneData.siteNameBackUp, siteNameBackUp != hormone.siteNameBackUp {
+		let backup = hormone.siteNameBackUp
+		if let siteNameBackUp = hormoneData.siteNameBackUp, siteNameBackUp != backup {
 			hormone.siteNameBackUp = siteNameBackUp
 		}
 	}
@@ -37,7 +47,9 @@ class CoreDataEntityAdapter {
 
 	static func convertToPillStruct(_ pill: MOPill) -> PillStruct? {
 		guard let pillId = pill.id else {
-			log.error("Failure converting managed \(PDEntity.pill.rawValue) to DTO struct. Missing ID")
+			log.error("Failure converting managed \(PDEntity.pill.rawValue) to DTO struct. " +
+				"Missing ID"
+			)
 			return nil
 		}
 		let attributes = createPillAttributes(pill)
@@ -67,7 +79,8 @@ class CoreDataEntityAdapter {
 		if let time2 = pillData.attributes.time2 as NSDate?, time2 != pill.time2 {
 			pill.time2 = time2
 		}
-		if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pill.timesTakenToday {
+		let pillTimesTaken = pill.timesTakenToday
+		if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
 			pill.timesTakenToday = Int16(timesTaken)
 		}
 	}
@@ -76,11 +89,14 @@ class CoreDataEntityAdapter {
 
 	static func convertToSiteStruct(_ site: MOSite) -> SiteStruct? {
 		guard let siteId = site.id else {
-			log.error("Failure converting managed \(PDEntity.site.rawValue) to DTO struct. Missing ID")
+			log.error("Failure converting managed \(PDEntity.site.rawValue) to DTO struct. " +
+				"Missing ID"
+			)
 			return nil
 		}
 		let relatedHormoneIds = extractHormoneIds(site)
-		return SiteStruct(siteId, relatedHormoneIds, site.imageIdentifier, site.name, Int(site.order))
+		let order = Int(site.order)
+		return SiteStruct(siteId, relatedHormoneIds, site.imageIdentifier, site.name, order)
 	}
 
 	static func convertToSiteStruct(_ site: Bodily) -> SiteStruct {
@@ -106,6 +122,7 @@ class CoreDataEntityAdapter {
 			id,
 			hormone.siteRelationship?.id,
 			hormone.siteRelationship?.name,
+			hormone.siteRelationship?.imageIdentifier,
 			hormone.date as Date?,
 			hormone.siteNameBackUp
 		)

@@ -27,6 +27,9 @@ public protocol Hormonal: PDObjectified {
 	/// The name of the site this hormone applies to.
 	var siteName: SiteName { get set }
 
+	/// The Id referencing which site image is related to this hormone.
+	var siteImageId: SiteName { get set }
+
 	/// The date you applied this hormone to a site.
 	var date: Date { get set }
 

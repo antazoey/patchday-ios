@@ -50,15 +50,24 @@ public class Hormone: Hormonal {
 
 	public var siteName: SiteName {
 		get {
-			let siteName = hormoneData.siteName
-			let backup = hormoneData.siteNameBackUp
-
-			if siteName == SiteStrings.NewSite {
-				return backup ?? SiteStrings.NewSite
+			let backup = hormoneData.siteNameBackUp == "" ?
+				SiteStrings.NewSite : hormoneData.siteNameBackUp ?? SiteStrings.NewSite
+			guard let name = hormoneData.siteName, name != "", name != SiteStrings.NewSite else {
+				return backup
 			}
-			return siteName ?? backup ?? SiteStrings.NewSite
+			return name
 		}
 		set { hormoneData.siteName = newValue }
+	}
+
+	public var siteImageId: SiteName {
+		get {
+			guard let id = hormoneData.siteImageId else {
+				return siteName
+			}
+			return id == "" || id == SiteStrings.NewSite ? siteName : id
+		}
+		set { hormoneData.siteImageId = newValue }
 	}
 
 	public var date: Date {
