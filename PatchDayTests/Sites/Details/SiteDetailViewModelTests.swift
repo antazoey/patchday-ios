@@ -50,7 +50,13 @@ class SiteDetailViewModelTests: XCTestCase {
 
 	func createViewModel(index: Index=0, sitePicker: SiteImagePicker?=nil) -> SiteDetailViewModel {
 		siteImagePicker = sitePicker ?? createImagePicker()
-		return SiteDetailViewModel(index, imagePickerDelegate: siteImagePicker, dependencies)
+		return SiteDetailViewModel(index, siteImagePicker, dependencies)
+	}
+
+	func testInitInitsPicker() {
+		setupSite()
+		let viewModel = createViewModel()
+		XCTAssertNotNil(viewModel.imagePickerDelegate)
 	}
 
 	func testSiteNamePickerStartIndex_whenNoNameSelected_returnsIndexOfSiteSiteName() {

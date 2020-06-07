@@ -13,7 +13,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 	private var site: Bodily { sdk!.sites[siteIndex]! }
 	var selections = SiteSelectionState()
 
-	weak var imagePickerDelegate: SiteImagePicker?
+	var imagePickerDelegate: SiteImagePicker?
 
 	convenience init(_ params: SiteDetailViewModelConstructorParams) {
 		let images = SiteImages.all
@@ -52,7 +52,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	init(
 		_ siteIndex: Index,
-		imagePickerDelegate: SiteImagePicker,
+		_ imagePickerDelegate: SiteImagePicker,
 		_ dependencies: DependenciesProtocol
 	) {
 		self.siteIndex = siteIndex

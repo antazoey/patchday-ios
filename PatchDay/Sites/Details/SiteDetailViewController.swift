@@ -71,9 +71,12 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		applyTheme()
 	}
 
-	private static func createSiteDetailsVC(_ source: UIViewController) -> SiteDetailViewController? {
+	private static func createSiteDetailsVC(
+		_ source: UIViewController
+	) -> SiteDetailViewController? {
 		let id = ViewControllerIds.SiteDetail
-		return source.storyboard?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController
+		let sb = source.storyboard
+		return sb?.instantiateViewController(withIdentifier: id) as? SiteDetailViewController
 	}
 
 	private func initWithSite(
@@ -88,7 +91,8 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	private func initWithParams(_ params: SiteDetailViewModelConstructorParams) -> SiteDetailViewController {
-		initWithViewModel(SiteDetailViewModel(params))
+		let viewModel = SiteDetailViewModel(params)
+		return initWithViewModel(viewModel)
 	}
 
 	private func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailViewController {
@@ -110,9 +114,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	@IBAction func imageButtonTapped(_ sender: Any) {
+		guard let picker = viewModel.imagePickerDelegate else { return }
 		siteImageView.isHidden = true
 		imageButton.isEnabled = false
-        viewModel.imagePickerDelegate?.openPicker {
+        picker.openPicker {
 			self.typeNameButton.isEnabled = false
 			self.imageButton.isEnabled = false
 			self.nameText.isEnabled = false
