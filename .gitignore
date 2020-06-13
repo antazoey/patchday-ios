@@ -9,4 +9,5 @@ PatchDay.xcodeproj/project.xcworkspace/xcuserdata
 .DS_Store
 *.p12
 *.idea
+*.swo
 
