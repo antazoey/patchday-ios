@@ -45,6 +45,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		setRuntimeViewProps()
 		applyDelegates()
 		loadTitle()
+		setBackButton()
 	}
 
 	static func createSiteDetailVC(
@@ -166,7 +167,6 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	@objc func closeTextField() {
-		guard typeNameButton.titleLabel?.text != ActionStrings._Type else { return }
 		view.endEditing(true)
 		viewModel.selections.selectedSiteName = nameText.text
 		nameText.restorationIdentifier = SiteDetailConstants.SelectId
@@ -205,6 +205,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         guard let name = viewModel.getSiteName(at: row) else { return }
         self.nameText.text = name
+		viewModel.selections.selectedSiteName = name
 	}
 
 	@objc func closeNamePicker() {
@@ -237,6 +238,28 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	private func loadTitle() {
 		title = viewModel.siteDetailViewControllerTitle
+	}
+
+	private func setBackButton() {
+		let newButton = UIBarButtonItem(
+			title: ActionStrings.Back,
+			style: UIBarButtonItem.Style.plain,
+			target: self,
+			action: #selector(back)
+		)
+		newButton.tintColor = PDColors[.Button]
+		navigationItem.hidesBackButton = true
+		navigationItem.leftBarButtonItem = newButton
+	}
+
+	@objc func back() {
+		checkForUnsavedChanges()
+		self.navigationController?.popViewController(animated: true)
+	}
+
+	private func checkForUnsavedChanges() {
+		guard let viewModel = viewModel else { return }
+		viewModel.handleIfUnsaved(self)
 	}
 
 	private func loadName() {

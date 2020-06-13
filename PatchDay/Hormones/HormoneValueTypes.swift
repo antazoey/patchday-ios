@@ -10,6 +10,12 @@ struct HormoneSelectionState {
 	var site: Bodily?
 	var date: Date?
 	var siteIndex: Index { site?.order ?? -1 }
+
+	var hasSelections: Bool {
+		let dateSelected = date != nil && date != DateFactory.createDefaultDate()
+		let siteSelected = site != nil && siteIndex != -1
+		return dateSelected || siteSelected
+	}
 }
 
 enum HormoneMutation {

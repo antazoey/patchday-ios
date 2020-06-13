@@ -19,7 +19,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 	}
 	static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
 	var selections = PillAttributes()
-	private lazy var _saved = false
 
 	init(_ pillIndex: Index) {
 		self.index = pillIndex
@@ -76,16 +75,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
 	}
 
-	var hasUnsavedChanges: Bool {
-		!_saved && selections.anyAttributeExists
-	}
-
 	func save() {
 		notifications?.cancelDuePillNotification(pill)
 		sdk?.pills.set(by: pill.id, with: selections)
 		notifications?.requestDuePillNotification(pill)
 		tabs?.reflectDuePillBadgeValue()
-		_saved = true
 		selections = PillAttributes()
 	}
 
@@ -98,7 +92,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 			self.selections = PillAttributes()
 			self.nav?.pop(source: viewController)
 		}
-		if hasUnsavedChanges {
+		if selections.anyAttributeExists {
 			self.alerts?.presentUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,

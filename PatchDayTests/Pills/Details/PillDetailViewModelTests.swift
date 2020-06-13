@@ -40,19 +40,6 @@ class PillDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(PDTitleStrings.EditPillTitle, viewModel.title)
 	}
 
-	func testHasUnsavedChanges_whenUnsavedChanges_returnsTrue() {
-		setupPill()
-		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-		viewModel.selections.name = "Test"
-		XCTAssert(viewModel.hasUnsavedChanges)
-	}
-
-	func testHasUnsavedChanges_whenDoesNotHaveUnsavedChanges_returnsFalse() {
-		setupPill()
-		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-		XCTAssertFalse(viewModel.hasUnsavedChanges)
-	}
-
 	func testSave_resetsPillAttributes() {
 		setupPill()
 		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
@@ -61,12 +48,12 @@ class PillDetailViewModelTests: XCTestCase {
 		XCTAssertNil(viewModel.selections.name)
 	}
 
-	func testSave_setsHasUnsavedChangesToFalse() {
+	func testSave_resetsSelections() {
 		setupPill()
 		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
 		viewModel.selections.name = "Test"
 		viewModel.save()
-		XCTAssertFalse(viewModel.hasUnsavedChanges)
+		XCTAssertFalse(viewModel.selections.anyAttributeExists)
 	}
 
 	func testSave_callsSetPillWithSelections() {

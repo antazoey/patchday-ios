@@ -104,10 +104,13 @@ public class SiteSchedule: NSObject, SiteScheduling {
 			store.delete(site)
 			context.remove(at: index)
 
-			// index now refers to index - 1
-			for i in index...count - 1 {
-				if var site = self[i] {
-					site.order -= 1
+			// Decrease order of sites after deleted index.
+			let lastIndex = count - 1
+			if index < lastIndex {
+				for i in index...count - 1 {
+					if var site = self[i] {
+						site.order -= 1
+					}
 				}
 			}
 		}

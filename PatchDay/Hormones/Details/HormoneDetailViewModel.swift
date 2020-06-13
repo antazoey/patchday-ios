@@ -22,7 +22,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 	lazy var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
-	private lazy var _saved = false
 
 	init(
 		_ hormoneIndex: Index,
@@ -121,13 +120,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		return DotDotDot
 	}
 
-	var saved: Bool {
-		if let date = selections.date, !date.isDefault() {
-			return !_saved
-		}
-		return !_saved && selections.site != nil
-	}
-
 	func handleIfUnsaved(_ viewController: UIViewController) {
 		let save: () -> Void = {
 			self.saveSelections()
@@ -138,7 +130,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 			self.selections.site = nil
 			self.nav?.pop(source: viewController)
 		}
-		if saved {
+		if selections.hasSelections {
 			self.alerts?.presentUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,
@@ -180,7 +172,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		tabs?.reflectHormones()
 		badge?.reflect()
 		requestNewNotifications()
-		_saved = true
+		selections = HormoneSelectionState()
 	}
 
 	func extractSiteNameFromTextField(_ siteTextField: UITextField) -> String {

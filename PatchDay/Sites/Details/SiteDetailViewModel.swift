@@ -88,6 +88,27 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		}
 		saveSiteImageChanges()
 		nav?.pop(source: siteDetailViewController)
+		selections = SiteSelectionState()
+	}
+
+	func handleIfUnsaved(_ viewController: UIViewController) {
+		let save: () -> Void = {
+			self.handleSave(siteDetailViewController: viewController)
+		}
+		let discard: () -> Void = {
+			self.nav?.pop(source: viewController)
+			// Delete site if it was new.
+			guard self.site.name == SiteStrings.NewSite else { return }
+			guard let sdk = self.sdk else { return }
+			sdk.sites.delete(at: self.siteIndex)
+		}
+		if selections.hasSelections || site.name == SiteStrings.NewSite {
+			self.alerts?.presentUnsavedAlert(
+				viewController,
+				saveAndContinueHandler: save,
+				discardHandler: discard
+			)
+		}
 	}
 
 	func getSiteName(at index: Index) -> SiteName? {

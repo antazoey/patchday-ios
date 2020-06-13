@@ -176,6 +176,28 @@ class SiteDetailViewModelTests: XCTestCase {
 		XCTAssertNil(insertNewCallArgs[0].1)
 	}
 
+	func testHandleSave_resetsSelections() {
+		setupSite()
+		let viewModel = createViewModel(index: 0)
+		viewModel.selections.selectedSiteName = "TEST SITE NAME"
+		viewModel.handleSave(siteDetailViewController: UIViewController())
+		XCTAssertNil(viewModel.selections.selectedSiteName)
+	}
+
+	func testHandleIfUnsaved_whenDiscardingFromNewSite_deletesNewSite() {
+		let site = setupSite()
+		site.order = 5
+		site.name = SiteStrings.NewSite
+		let viewModel = createViewModel(index: site.order)
+		let sites = viewModel.sdk?.sites as! MockSiteSchedule
+		sites.count = 5  // Equal to site.order above
+		viewModel.handleIfUnsaved(UIViewController())
+		let discard = (viewModel.alerts as! MockAlerts).presentUnsavedAlertCallArgs[0].2
+		discard()
+		let actual = (viewModel.sdk!.sites as! MockSiteSchedule).deleteCallArgs[0]
+		XCTAssertEqual(site.order, actual)
+	}
+
 	func testGetAttributedSiteName_hasExpectedName() {
 		setupSite()
 		let viewModel = createViewModel(index: 5)

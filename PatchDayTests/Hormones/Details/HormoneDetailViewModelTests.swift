@@ -350,22 +350,6 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testUnsaved_whenNothingSelected_returnsFalse() {
-		setupHormone()
-		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		viewModel.selections.site = nil
-		viewModel.selections.date = nil
-		XCTAssertFalse(viewModel.saved)
-	}
-
-	func testUnsaved_whenSiteSelectedAndSaveUncalled_returnsTrue() {
-		setupHormone()
-		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
-		viewModel.selections.site = MockSite()
-		viewModel.selections.date = nil
-		XCTAssert(viewModel.saved)
-	}
-
 	func testGetSiteName_whenNameNotFound_returnsNil() {
 		setupHormone()
 		let sites = dependencies.sdk?.sites as! MockSiteSchedule

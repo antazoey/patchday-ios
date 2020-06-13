@@ -417,7 +417,17 @@ class SiteScheduleTests: XCTestCase {
 	public func testDelete_maintainsOrder() {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings)
 		sites.delete(at: 1)
-		XCTAssert(sites[0]!.order == 0 && sites[1]!.order == 1 && sites[2]!.order == 2)
+		XCTAssertEqual(0, sites[0]!.order)
+		XCTAssertEqual(1, sites[1]!.order)
+		XCTAssertEqual(2, sites[2]!.order)
+	}
+
+	public func testDelete_succeedsWhenDeletingLastIndexAndMaintainsOrder() {
+		sites = SiteSchedule(store: mockStore, settings: mockSettings)
+		sites.delete(at: sites.count - 1)
+		XCTAssertEqual(0, sites[0]!.order)
+		XCTAssertEqual(1, sites[1]!.order)
+		XCTAssertEqual(2, sites[2]!.order)
 	}
 
 	public func testSort_keepsNegativeNumbersAtTheEnd() {

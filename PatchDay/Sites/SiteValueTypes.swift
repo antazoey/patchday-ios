@@ -20,6 +20,10 @@ struct SiteCellProperties {
 
 struct SiteSelectionState {
 	var selectedSiteName: SiteName?
+
+	var hasSelections: Bool {
+		selectedSiteName != nil
+	}
 }
 
 struct BarItemInitializationProperties {
