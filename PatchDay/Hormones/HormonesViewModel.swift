@@ -12,7 +12,6 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private let style: UIUserInterfaceStyle
-	static var imagesUpdatedInSession = false
 	let table: HormonesTable
 	var hormones: HormoneScheduling? { sdk?.hormones }
 
@@ -68,7 +67,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	}
 
 	func updateSiteImages() {
-		guard !HormonesViewModel.imagesUpdatedInSession else { return }
 		var i = 0
 		table.reflectModel(self.sdk, style)
 		do {
@@ -83,7 +81,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 			let log = PDLog<HormonesViewModel>()
 			log.error("Unable to update site image at row \(i)")
 		}
-		HormonesViewModel.imagesUpdatedInSession = true
 	}
 
 	private func getSiteImage(at row: Index) -> UIImage? {
@@ -112,7 +109,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController) {
 		if let nav = nav {
 			nav.goToHormoneDetails(hormoneIndex, source: hormonesViewController)
-			HormonesViewModel.imagesUpdatedInSession = false
 		}
 	}
 

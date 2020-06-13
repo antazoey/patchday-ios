@@ -30,7 +30,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -99,7 +99,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -151,7 +151,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -215,7 +215,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -240,7 +240,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -505,7 +505,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -565,7 +565,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
