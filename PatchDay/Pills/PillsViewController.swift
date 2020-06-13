@@ -14,7 +14,6 @@ typealias PillName = String
 class PillsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
 	private var viewModel: PillsViewModel!
-	private var viewFactory: PillsViewFactory!
 
 	@IBOutlet var pillsView: UIView!
 	@IBOutlet weak var pillsTableView: UITableView!
@@ -76,12 +75,16 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 	// MARK: - Private / Helpers
 
 	private func initViewModel() {
-		viewFactory = PillsViewFactory(insertButtonAction: handleInsertNewPill)
-		viewModel = PillsViewModel(pillsTableView: pillsTableView, viewFactory: viewFactory)
+		viewModel = PillsViewModel(pillsTableView: pillsTableView)
 	}
 
 	private func loadBarButtons() {
-		let insertButton = viewFactory.createInsertButton()
+		let insertButton = UIBarButtonItem(
+			barButtonSystemItem: UIBarButtonItem.SystemItem.add,
+			target: self,
+			action: #selector(handleInsertNewPill)
+		)
+		insertButton.tintColor = PDColors[.NewItem]
 		navigationItem.rightBarButtonItems = [insertButton]
 		let backItem = PDViewFactory.createTextBarButtonItem(PDTitleStrings.PillTitle)
 		navigationItem.backBarButtonItem = backItem

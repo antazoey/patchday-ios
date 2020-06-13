@@ -9,10 +9,8 @@ import PDKit
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	var pillsTable: PillsTable! = nil
-	var viewFactory: PillsViewFactory
 
-	init(pillsTableView: UITableView, viewFactory: PillsViewFactory) {
-		self.viewFactory = viewFactory
+	init(pillsTableView: UITableView) {
 		super.init()
 		let tableWrapper = PillsTable(pillsTableView, pills: pills)
 		self.pillsTable = tableWrapper
@@ -20,18 +18,16 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		watchForChanges()
 	}
 
-	var pills: PillScheduling? {
-		sdk?.pills
-	}
+	var pills: PillScheduling? { sdk?.pills }
 
-	var pillsCount: Int {
-		pills?.count ?? 0
-	}
+	var pillsCount: Int { pills?.count ?? 0 }
 
 	func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
-		let delete = viewFactory.createSiteCellDeleteSwipeAction {
-			self.deletePill(at: index)
+		let title = ActionStrings.Delete
+		let delete = UIContextualAction(style: .normal, title: title) {
+			_, _, _ in self.deletePill(at: index)
 		}
+		delete.backgroundColor = UIColor.red
 		return UISwipeActionsConfiguration(actions: [delete])
 	}
 
