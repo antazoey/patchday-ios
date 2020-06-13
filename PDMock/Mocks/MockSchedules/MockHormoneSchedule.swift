@@ -26,6 +26,11 @@ public class MockHormoneSchedule: HormoneScheduling {
 		insertNewReturnValue
 	}
 
+	public var reloadContextCallCount = 0
+	public func reloadContext() {
+		reloadContextCallCount += 1
+	}
+
 	public func reset(completion: (() -> ())?) -> Int {
         -1
 	}

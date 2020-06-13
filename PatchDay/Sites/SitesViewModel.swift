@@ -13,9 +13,20 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
 	let table: SitesTable
 
-	init(sitesTableView: UITableView) {
+	init(sitesTableView: UITableView, dependencies: DependenciesProtocol?=nil) {
 		self.table = SitesTable(sitesTableView)
-		super.init()
+		if let dep = dependencies {
+			super.init(
+				sdk: dep.sdk,
+				tabs: dep.tabs,
+				notifications: dep.notifications,
+				alerts: dep.alerts,
+				nav: dep.nav,
+				badge: dep.badge
+			)
+		} else {
+			super.init()
+		}
 		self.table.sites = sdk?.sites
 		watchForChanges()
 	}
@@ -51,7 +62,9 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 	}
 
 	func reorderSites(sourceRow: Index, destinationRow: Index) {
-		sdk?.sites.reorder(at: sourceRow, to: destinationRow)
+		guard let sdk = sdk else { return }
+		sdk.sites.reorder(at: sourceRow, to: destinationRow)
+		sdk.settings.setSiteIndex(to: destinationRow)
 		table.reloadData()
 	}
 

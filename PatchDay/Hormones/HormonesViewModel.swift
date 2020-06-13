@@ -27,10 +27,32 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.style = style
 		self.table = HormonesTable(hormonesTableView)
 		super.init()
-		self.sdk?.hormones.reloadContext()
+		finishInit()
+	}
+
+	init(
+		hormonesTableView: UITableView,
+		style: UIUserInterfaceStyle,
+		dependencies: DependenciesProtocol
+	) {
+		self.style = style
+		self.table = HormonesTable(hormonesTableView)
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
+		finishInit()
+	}
+
+	private func finishInit() {
+		sdk?.hormones.reloadContext()
 		initTable(style: style)
 		tabs?.reflectHormones()
-		self.table.reloadData()
+		table.reloadData()
 	}
 
 	var mainViewControllerTitle: String {
