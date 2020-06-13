@@ -22,6 +22,9 @@ public protocol HormoneScheduling: Schedule, Resetting {
 	/// The number of hormones that are past their expiration dates.
 	var totalExpired: Int { get }
 
+	/// Force reload of from backend.
+	func reloadContext()
+
 	/// Inserts a new hormone into the schedule.
 	@discardableResult
 	func insertNew() -> Hormonal?

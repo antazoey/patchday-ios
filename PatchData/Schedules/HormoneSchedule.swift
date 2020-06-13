@@ -59,6 +59,10 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		})
 	}
 
+	public func reloadContext() {
+		self.context = HormoneSchedule.getHormoneList(from: store, settings: settings)
+	}
+
 	@discardableResult
 	public func insertNew() -> Hormonal? {
 		if let hormone = store.createNewHormone(settings) {

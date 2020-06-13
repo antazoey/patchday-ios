@@ -158,9 +158,9 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
 	public func setImageId(at index: Index, to newId: String) {
 		guard count > 0 else { return }
-		let siteSet = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
+		let names = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
 		if var site = self[index] {
-			site.imageId = siteSet.contains(newId) ? newId : SiteStrings.CustomSiteId
+			site.imageId = names.contains(newId) ? newId : SiteStrings.CustomSiteId
 			store.pushLocalChangesToManagedContext([site], doSave: true)
 		}
 	}

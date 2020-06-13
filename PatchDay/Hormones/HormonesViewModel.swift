@@ -27,8 +27,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.style = style
 		self.table = HormonesTable(hormonesTableView)
 		super.init()
+		self.sdk?.hormones.reloadContext()
 		initTable(style: style)
 		tabs?.reflectHormones()
+		self.table.reloadData()
 	}
 
 	var mainViewControllerTitle: String {
