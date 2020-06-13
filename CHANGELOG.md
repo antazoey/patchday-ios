@@ -31,6 +31,7 @@ how a consumer would use the library (e.g. adding unit tests, updating documenta
 - Icon improvements.
 - Increased sizes.
 	- Changed Site Schedule tab icon.
+- A Moon icon now displays in the top right of a Hormone Cell for overnight Hormones.
 
 ### Changed
 

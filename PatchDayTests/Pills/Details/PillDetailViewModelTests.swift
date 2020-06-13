@@ -26,6 +26,22 @@ class PillDetailViewModelTests: XCTestCase {
 		return pill
 	}
 
+	func testNotifyStartValue_whenNotifySelected_returnsNotify() {
+		let pill = setupPill()
+		pill.notify = false
+		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+		viewModel.selections.notify = true
+		XCTAssert(viewModel.notifyStartValue)
+	}
+
+	func testNotifyStartValue_whenNotifyNotSelected_returnsPillValue() {
+		let pill = setupPill()
+		pill.notify = false
+		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+		viewModel.selections.notify = nil
+		XCTAssertFalse(viewModel.notifyStartValue)
+	}
+
 	func testTitle_whenIsNewPill_returnsExpectedTitle() {
 		let pill = setupPill()
 		pill.isNew = true

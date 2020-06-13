@@ -18,6 +18,7 @@ class HormoneCell: TableCell {
 	@IBOutlet weak var siteImageView: UIImageView!
 	@IBOutlet weak var dateLabel: UILabel!
 	@IBOutlet weak var badgeButton: PDBadgeButton!
+	@IBOutlet weak var overnightImage: UIImageView!
 
 	private var sdk: PatchDataSDK?
 
@@ -51,6 +52,11 @@ class HormoneCell: TableCell {
 		let quantity = sdk.settings.quantity
 		if let hormone = sdk.hormones[row], row < quantity.rawValue && row >= 0 {
 			attachToModel(hormone, row)
+			if hormone.expiresOvernight {
+				overnightImage.image = PDIcons.moonIcon
+			} else {
+				overnightImage.image = nil
+			}
 		} else {
 			reset()
 		}
@@ -102,6 +108,7 @@ class HormoneCell: TableCell {
 		selectedBackgroundView = UIView()
 		selectedBackgroundView?.backgroundColor = PDColors[.Selected]
 		backgroundColor = PDColors.Cell[index]
+		overnightImage.image = overnightImage.image?.withTintColor(PDColors[.Text])
 		return self
 	}
 

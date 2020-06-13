@@ -288,7 +288,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	private func loadNotify() {
-        notificationSwitch.isOn = viewModel.pill.notify
+        notificationSwitch.isOn = viewModel.notifyStartValue
 	}
 
 	private func loadTimesaday() {

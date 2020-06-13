@@ -10,12 +10,13 @@ public typealias UIIcon = UIImage
 
 class PDIcons {
 
-	private static var patchIcon: UIIcon { UIIcon(named: "Patch Icon")! }
-	private static var injectionIcon: UIIcon { UIIcon(named: "Injection Icon")! }
-	private static var gelIcon: UIIcon { UIIcon(named: "Gel Icon")! }
-	private static var pillIcon: UIIcon { UIIcon(named: "Pill Icon")! }
-	static var siteIndexIcon: UIIcon { UIIcon(named: "Site Index Icon")! }
-	static var settingsIcon: UIIcon { UIIcon(named: "Settings Icon")! }
+	private static var patchIcon: UIIcon { UIIcon(named: "Patch Icon") ?? UIIcon() }
+	private static var injectionIcon: UIIcon { UIIcon(named: "Injection Icon") ?? UIIcon()}
+	private static var gelIcon: UIIcon { UIIcon(named: "Gel Icon") ?? UIIcon() }
+	private static var pillIcon: UIIcon { UIIcon(named: "Pill Icon") ?? UIIcon() }
+	static var siteIndexIcon: UIIcon { UIIcon(named: "Site Index Icon") ?? UIIcon() }
+	static var settingsIcon: UIIcon { UIIcon(named: "Settings Icon") ?? UIIcon() }
+	static var moonIcon: UIIcon { UIIcon(named: "Moon") ?? UIImage() }
 
 	static subscript(method: DeliveryMethod) -> UIIcon {
 		switch method {

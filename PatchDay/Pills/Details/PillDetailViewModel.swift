@@ -67,6 +67,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         return PillStrings.Intervals.all.firstIndex(of: interval) ?? 0
     }
 
+	var notifyStartValue: Bool {
+		selections.notify ?? pill.notify
+	}
+
 	var providedPillNameSelection: [String] {
 		PillStrings.DefaultPills + PillStrings.ExtraPills
 	}
