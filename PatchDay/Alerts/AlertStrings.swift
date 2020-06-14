@@ -37,8 +37,8 @@ class AlertStrings {
 			NSLocalizedString("Setup / Disclaimer", comment: titleComment),
 			NSLocalizedString(
 				"To begin using PatchDay, tap the Gear button in the " +
-				"top right and set your Quantity, Expiration Interval, and Delivery Methid." +
-				"\n\nUse this tool responsibly, and please follow medication instructions!" +
+				"top right and set your Quantity, Schedule Interval, and Delivery Method." +
+				"\n\nUse this tool responsibly, and please follow prescription instructions!" +
 				"\n\nGo to www.PatchDayHRT.com to learn more.", comment: messageComment
 			),
 			NSLocalizedString("Support page", comment: titleComment)

@@ -33,22 +33,35 @@ class UserDefaultsWriterTests: XCTestCase {
 		store.getStoredCollectionReturnValues.append(sites)
 		return store
 	}
-	private var handler = UserDefaultsWriteHandler(baseDefaults: MockUserDefaultsInterface(), dataSharer: MockUserDefaultsInterface())
+	private var handler = UserDefaultsWriteHandler(
+		baseDefaults: MockUserDefaultsInterface(), dataSharer: MockUserDefaultsInterface()
+	)
 
 	func testReset() {
-		let writer = UserDefaultsWriter(handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0))
+		let writer = UserDefaultsWriter(
+			handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+		)
 		writer.reset()
 		XCTAssertEqual(DefaultSettings.DeliveryMethodRawValue, writer.deliveryMethod.rawValue)
 		XCTAssertEqual(DefaultSettings.QuantityRawValue, writer.quantity.rawValue)
-		XCTAssertEqual(DefaultSettings.ExpirationIntervalRawValue, writer.expirationInterval.rawValue)
-		XCTAssertEqual(DefaultSettings.MentionedDisclaimerRawValue, writer.mentionedDisclaimer.rawValue)
-		XCTAssertEqual(DefaultSettings.NotificationsMinutesBeforeRawValue, writer.notificationsMinutesBefore.rawValue)
+		XCTAssertEqual(
+			DefaultSettings.ExpirationIntervalRawValue, writer.expirationInterval.rawValue
+		)
+		XCTAssertEqual(
+			DefaultSettings.MentionedDisclaimerRawValue, writer.mentionedDisclaimer.rawValue
+		)
+		XCTAssertEqual(
+			DefaultSettings.NotificationsMinutesBeforeRawValue,
+			writer.notificationsMinutesBefore.rawValue
+		)
 		XCTAssertEqual(DefaultSettings.NotificationsRawValue, writer.notifications.rawValue)
 		XCTAssertEqual(DefaultSettings.SiteIndexRawValue, writer.siteIndex.rawValue)
 	}
 
 	func testSetDeliveryMethod_whenSettingsToPatches_setsQuantityToDefault() {
-		let writer = UserDefaultsWriter(handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0))
+		let writer = UserDefaultsWriter(
+			handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+		)
 		writer.replaceStoredDeliveryMethod(to: .Patches)
 		XCTAssertEqual(3, writer.quantity.rawValue)
 	}
@@ -142,34 +155,19 @@ class UserDefaultsWriterTests: XCTestCase {
 	}
 
 	func testIncrementSiteIndex_whenNextSiteIndexIsOccupied_returnsFirstIndexThatIsNotOccupied() {
-		let store = MockSiteStore()
-		let count = 4
-		let expected = 3
-		store.siteCount = count
-		var sites: [Bodily] = []
-		if count > 0 {
-			for i in 0..<count {
-				let site = MockSite()
-				site.order = i
-				sites.append(site)
-				// Sets all but one of the sites to have hormones
-				if site.order != expected {
-					site.hormoneCount = 1
-				}
-			}
-		}
-		store.getStoredCollectionReturnValues.append(sites)
-		let writer = UserDefaultsWriter(handler: handler, siteStore: store)
-		writer.siteIndex = SiteIndexUD(0) // Thinks it should be 1 but actually should be 3
+		let writer = UserDefaultsWriter(
+			handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 3)
+		)
+		writer.siteIndex = SiteIndexUD(0) // Thinks it should be 0+1 but actually should be 3
 		let actual = writer.incrementStoredSiteIndex()
-		XCTAssertEqual(expected, actual)
+		XCTAssertEqual(3, actual)
 	}
 
 	func testIncrementSiteIndex_whenFromSiteIndexIsOccupied_returnsFirstIndexThatIsNotOccupied() {
 		let writer = UserDefaultsWriter(
 			handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 3)
 		)
-		writer.siteIndex = SiteIndexUD(0) // Thinks it should be 1 but actually should be 3
+		writer.siteIndex = SiteIndexUD(0)
 		let actual = writer.incrementStoredSiteIndex(from: 1)
 		XCTAssertEqual(3, actual)
 	}
