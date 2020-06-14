@@ -30,7 +30,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -99,7 +99,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -151,7 +151,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -215,7 +215,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="menu" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -240,7 +240,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                            <font key="NSFont" metaFont="message" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -366,6 +366,7 @@
                                                         </stackView>
                                                     </subviews>
                                                     <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="mdX-t1-SRb" secondAttribute="trailing" id="1pR-W7-Y5W"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="hqR-YB-CjD"/>
                                                     </constraints>
                                                 </stackView>
@@ -391,6 +392,7 @@
                                                 <constraint firstItem="svk-H5-od3" firstAttribute="top" secondItem="IiY-0Z-0mN" secondAttribute="top" id="TUV-pA-8mq"/>
                                                 <constraint firstItem="cKy-SE-Iqe" firstAttribute="bottom" secondItem="Eds-VZ-0h6" secondAttribute="bottom" id="W5g-vi-6G0"/>
                                                 <constraint firstAttribute="trailing" secondItem="svk-H5-od3" secondAttribute="trailing" id="Wjj-GW-Vgr"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="KHr-Ka-MPu" secondAttribute="trailing" constant="45" id="XbE-fD-SDc"/>
                                                 <constraint firstAttribute="bottom" secondItem="svk-H5-od3" secondAttribute="bottom" id="iXc-eU-09s"/>
                                                 <constraint firstItem="Eds-VZ-0h6" firstAttribute="leading" secondItem="IiY-0Z-0mN" secondAttribute="leadingMargin" id="mqw-Z4-jY9"/>
                                                 <constraint firstItem="KHr-Ka-MPu" firstAttribute="leading" secondItem="Eds-VZ-0h6" secondAttribute="leading" id="zFU-JD-wUe"/>
@@ -505,7 +507,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                                            <font key="NSFont" metaFont="message" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -565,7 +567,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="menu" size="11"/>
+                                                            <font key="NSFont" metaFont="message" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
