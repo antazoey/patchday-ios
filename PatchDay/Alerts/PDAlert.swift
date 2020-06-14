@@ -11,27 +11,30 @@ import PDKit
 
 public class PDAlert: PDAlerting {
 
-	let controller: UIAlertController
+	let alert: UIAlertController
 	let parent: UIViewController
-	let style: UIAlertController.Style
 
 	init(parent: UIViewController, title: String, message: String, style: UIAlertController.Style) {
-		self.controller = UIAlertController(title: title, message: message, preferredStyle: style)
+		let _style = AppDelegate.isPad ? .alert : style
+		self.alert = UIAlertController(title: title, message: message, preferredStyle: _style)
 		self.parent = parent
-		self.style = style
 	}
 
 	public func present(actions: [UIAlertAction]) {
-		for a in actions {
-			controller.addAction(a)
+		if alert.actions.count == 0 {
+			for a in actions {
+				if !alert.actions.contains(a) {
+					alert.addAction(a)
+				}
+			}
 		}
-		parent.present(controller, animated: true, completion: nil)
+		// bug in swift preventing calling self.present()
+		parent.present(alert, animated: true, completion: nil)
 	}
 
 	public func present() {
-		if AppDelegate.isPad {
-			controller.popoverPresentationController?.sourceView = parent.view
+		DispatchQueue.main.async {
+			self.parent.present(self.alert, animated: true, completion: nil)
 		}
-		parent.present(controller, animated: true, completion: nil)
 	}
 }
