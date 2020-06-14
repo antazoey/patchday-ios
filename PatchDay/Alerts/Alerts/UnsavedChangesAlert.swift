@@ -41,7 +41,7 @@ class UnsavedChangesAlert: PDAlert {
 	) {
 		self.saveAndContinueHandler = saveAndContinueHandler
 		self.discardChangesHandler = discardHandler
-		super.init(parent: parent, title: self.title, message: "", style: .actionSheet)
+		super.init(title: self.title, message: "", style: .actionSheet)
 	}
 
 	override func present() {

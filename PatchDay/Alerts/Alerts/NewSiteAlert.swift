@@ -23,10 +23,10 @@ class NewSiteAlert: PDAlert {
 		UIAlertAction(title: ActionStrings.Decline, style: .default)
 	}
 
-	init(parent: UIViewController, style: UIAlertController.Style, handlers: NewSiteAlertActionHandling) {
+	init(style: UIAlertController.Style, handlers: NewSiteAlertActionHandling) {
 		self.handlers = handlers
 		let strings = AlertStrings.newSiteAlertStrings
-		super.init(parent: parent, title: strings.title, message: "", style: style)
+		super.init(title: strings.title, message: "", style: style)
 	}
 
 	override func present() {

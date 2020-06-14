@@ -21,15 +21,6 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		AppDelegate.isPad ? .alert : .actionSheet
 	}()
 
-	private var rootViewController: UIViewController? {
-		guard let window = KeyWindowFinder.keyWindow else {
-			let log = PDLog<AlertDispatcher>()
-			log.error("Unable to get root view controller")
-			return nil
-		}
-		return window.rootViewController
-	}
-
 	init(sdk: PatchDataSDK?, factory: AlertProducing, tabs: TabReflective? = nil) {
 		self.sdk = sdk
 		self.factory = factory
@@ -40,12 +31,10 @@ class AlertDispatcher: NSObject, AlertDispatching {
 	func presentDeliveryMethodMutationAlert(
 		newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
 	) {
-		guard let root = rootViewController else { return }
 		guard let sdk = sdk else { return }
 		let originalMethod = sdk.settings.deliveryMethod.value
 		let tabs = self.tabs ?? AppDelegate.current?.tabs
 		DeliveryMethodMutationAlert(
-			parent: root,
 			style: self.style,
 			sdk: sdk,
 			tabs: tabs,
@@ -64,9 +53,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
 			handlers.setQuantityWithoutAlert(newQuantity: newQuantity)
 			return
 		}
-		guard let root = rootViewController else { return }
 		QuantityMutationAlert(
-			parent: root,
 			style: self.style,
 			actionHandler: handlers,
 			oldQuantity: oldQuantity,
@@ -91,7 +78,6 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		reload: @escaping () -> Void,
 		nav: @escaping () -> Void
 	) {
-		guard let root = rootViewController else { return }
 		let nextSite = sdk?.sites.suggested
 		let changeHormone = {
 			guard let sdk = self.sdk else { return }
@@ -101,7 +87,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
 			sdk.hormones.setSite(by: hormoneId, with: site)
 			reload()
 		}
-		let alert = self.factory.createHormoneActions(root, nextSite?.name, changeHormone, nav)
+		let alert = self.factory.createHormoneActions(nextSite?.name, changeHormone, nav)
 		alert.present()
 	}
 
@@ -110,25 +96,21 @@ class AlertDispatcher: NSObject, AlertDispatching {
 	}
 
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {
-		guard let root = rootViewController else { return }
-		PillCellActionAlert(parent: root, pill: pill, handlers: handlers).present()
+		PillCellActionAlert(pill: pill, handlers: handlers).present()
 	}
 
 	/// Alert that displays a quick tutorial and disclaimer on installation.
 	func presentDisclaimerAlert() {
-		guard let root = rootViewController else { return }
-		DisclaimerAlert(parent: root, style: style).present()
+		DisclaimerAlert(style: style).present()
 	}
 
 	/// Alert that gives the user the option to add a new site they typed out in the UI.
 	func presentNewSiteAlert(handlers: NewSiteAlertActionHandling) {
-		guard let root = rootViewController else { return }
-		NewSiteAlert(parent: root, style: style, handlers: handlers).present()
+		NewSiteAlert(style: style, handlers: handlers).present()
 	}
 
 	func presentGenericAlert() {
-		guard let root = rootViewController else { return }
-		PDGenericAlert(parent: root, style: style).present()
+		PDGenericAlert(style: style).present()
 	}
 }
 

@@ -28,7 +28,6 @@ class HormoneCellActionAlert: PDAlert {
 	}
 
 	init(
-		source: UIViewController,
 		nextSite: SiteName?,
 		changeHormone: @escaping () -> Void,
 		nav: @escaping () -> Void
@@ -36,7 +35,7 @@ class HormoneCellActionAlert: PDAlert {
 		self.suggestedSite = nextSite
 		self.changeHormone = changeHormone
 		self.nav = nav
-		super.init(parent: source, title: _title, message: "", style: .actionSheet)
+		super.init(title: _title, message: "", style: .actionSheet)
 	}
 
 	private var changeAction: UIAlertAction {

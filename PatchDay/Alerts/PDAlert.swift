@@ -9,18 +9,45 @@
 import UIKit
 import PDKit
 
-public class PDAlert: PDAlerting {
+// My Hero @Umair Aamir: https://stackoverflow.com/questions/48307833/alert-is-not-displayed-in-tableviewcontroller
+class PDAlertController: UIAlertController {
 
-	let alert: UIAlertController
-	let parent: UIViewController
+    var alertWindow: UIWindow?
 
-	init(parent: UIViewController, title: String, message: String, style: UIAlertController.Style) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        alertWindow?.isHidden = true
+        alertWindow = nil
+    }
+
+    func show(animated: Bool = true) {
+        alertWindow = UIWindow(frame: UIScreen.main.bounds)
+        alertWindow?.rootViewController = UIViewController()
+
+        if let window = UIApplication.shared.delegate?.window {
+            alertWindow?.tintColor = window?.tintColor
+        }
+
+        alertWindow?.windowLevel = UIApplication.shared.windows.last!.windowLevel + 1
+        alertWindow?.makeKeyAndVisible()
+        alertWindow?.rootViewController?.present(self, animated: animated, completion: nil)
+    }
+}
+
+class PDAlert: PDAlerting {
+
+	let alert: PDAlertController
+
+	init(title: String, message: String, style: UIAlertController.Style) {
 		let _style = AppDelegate.isPad ? .alert : style
-		self.alert = UIAlertController(title: title, message: message, preferredStyle: _style)
-		self.parent = parent
+		self.alert = PDAlertController(title: title, message: message, preferredStyle: _style)
 	}
 
-	public func present(actions: [UIAlertAction]) {
+	func present(actions: [UIAlertAction]) {
 		if alert.actions.count == 0 {
 			for a in actions {
 				if !alert.actions.contains(a) {
@@ -28,11 +55,10 @@ public class PDAlert: PDAlerting {
 				}
 			}
 		}
-		// bug in swift preventing calling self.present()
-		_ = parent.present(alert, animated: true, completion: nil)
+		alert.show()
 	}
 
-	public func present() {
-		self.parent.present(self.alert, animated: true)
+	func present() {
+		self.alert.show()
 	}
 }

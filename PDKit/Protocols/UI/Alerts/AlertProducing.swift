@@ -10,7 +10,6 @@ import Foundation
 
 public protocol AlertProducing {
 	func createHormoneActions(
-		_ root: UIViewController,
 		_ siteName: SiteName?,
 		_ change: @escaping () -> Void,
 		_ nav: @escaping () -> Void

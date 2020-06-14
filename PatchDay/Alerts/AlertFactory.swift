@@ -12,13 +12,10 @@ import PDKit
 class AlertFactory: AlertProducing {
 
 	func createHormoneActions(
-		_ root: UIViewController,
 		_ siteName: SiteName?,
 		_ change: @escaping () -> Void,
 		_ nav: @escaping () -> Void
 	) -> PDAlerting {
-		HormoneCellActionAlert(
-			source: root, nextSite: siteName, changeHormone: change, nav: nav
-		)
+		HormoneCellActionAlert(nextSite: siteName, changeHormone: change, nav: nav)
 	}
 }

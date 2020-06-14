@@ -28,9 +28,9 @@ class DisclaimerAlert: PDAlert {
 		}
 	}
 
-	public init(parent: UIViewController, style: UIAlertController.Style) {
+	public init(style: UIAlertController.Style) {
 		let strings = AlertStrings.disclaimerAlertStrings
-		super.init(parent: parent, title: strings.title, message: strings.message, style: style)
+		super.init(title: strings.title, message: strings.message, style: style)
 	}
 
 	override func present() {

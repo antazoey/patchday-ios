@@ -29,7 +29,7 @@ class QuantityMutationAlert: PDAlert {
 		}
 	}
 
-	init(parent: UIViewController,
+	init(
 		style: UIAlertController.Style,
 		actionHandler: QuantityMutationAlertActionHandling,
 		oldQuantity: Int,
@@ -38,7 +38,7 @@ class QuantityMutationAlert: PDAlert {
 		self.oldQuantity = oldQuantity
 		self.newQuantity = newQuantity
 		let strings = AlertStrings.loseDataAlertStrings
-		super.init(parent: parent, title: strings.title, message: strings.message, style: style)
+		super.init(title: strings.title, message: strings.message, style: style)
 	}
 
 	override func present() {

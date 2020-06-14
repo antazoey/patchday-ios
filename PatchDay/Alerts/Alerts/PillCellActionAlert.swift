@@ -11,10 +11,10 @@ class PillCellActionAlert: PDAlert {
     private let pill: Swallowable
     private let handlers: PillCellActionHandling
 
-	init(parent: UIViewController, pill: Swallowable, handlers: PillCellActionHandling) {
+	init(pill: Swallowable, handlers: PillCellActionHandling) {
         self.pill = pill
 		self.handlers = handlers
-        super.init(parent: parent, title: pill.name, message: "", style: .actionSheet)
+        super.init(title: pill.name, message: "", style: .actionSheet)
 	}
 
     private var cancelAction: UIAlertAction {
