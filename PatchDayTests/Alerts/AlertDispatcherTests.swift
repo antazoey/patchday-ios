@@ -13,7 +13,7 @@ import PDMock
 @testable
 import PatchDay
 
-class TestAlertDispatcher: XCTestCase {
+class AlertDispatcherTests: XCTestCase {
 	func testPresentHormoneActions_whenChoosingChange_changes() {
 		let sdk = MockSDK()
 		let hormones = sdk.hormones as! MockHormoneSchedule

@@ -24,13 +24,13 @@ public class MockTabs: TabReflective {
 		reflectCallCount += 1
 	}
 	
-	public var reflectHormoneCharacteristicsCount = 0
+	public var reflectHormonesCallCount = 0
 	public func reflectHormones() {
-		reflectHormoneCharacteristicsCount += 1
+		reflectHormonesCallCount += 1
 	}
 	
-	public var reflectDuePillBadgeValueCallCount = 0
-	public func reflectDuePillBadgeValue() {
-		reflectDuePillBadgeValueCallCount += 1
+	public var reflectPillsCallCount = 0
+	public func reflectPills() {
+		reflectPillsCallCount += 1
 	}
 }

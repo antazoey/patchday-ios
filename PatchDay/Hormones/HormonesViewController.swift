@@ -95,15 +95,13 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 		settingsButton.target = self
 		settingsButton.action = #selector(settingsTapped)
 		navigationItem.rightBarButtonItems = [settingsButton]
-
 		let backItem = PDViewFactory.createTextBarButtonItem(PDTitleStrings.HormonesTitle)
 		navigationItem.backBarButtonItem = backItem
 	}
 
 	private func loadTitle() {
-		if title != viewModel.mainViewControllerTitle {
-			title = viewModel.mainViewControllerTitle
-		}
+		guard title != viewModel.mainViewControllerTitle else { return }
+		title = viewModel.mainViewControllerTitle
 	}
 
 	private func fadeInView() {
@@ -117,7 +115,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
 
 	@objc func updateFromBackground() {
 		hormonesTableView.reloadData()
-
 	}
 
 	private func applyTheme() {

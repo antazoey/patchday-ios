@@ -68,10 +68,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UIApplication.shared.delegate as? AppDelegate
 	}
 
-	func applicationDidBecomeActive(_ application: UIApplication) {
-		initDependencies()
-	}
-
 	func applicationWillEnterForeground(_ application: UIApplication) {
 		initDependencies()
 	}

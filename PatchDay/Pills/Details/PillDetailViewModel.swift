@@ -83,7 +83,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		notifications?.cancelDuePillNotification(pill)
 		sdk?.pills.set(by: pill.id, with: selections)
 		notifications?.requestDuePillNotification(pill)
-		tabs?.reflectDuePillBadgeValue()
+		tabs?.reflectPills()
 		selections = PillAttributes()
 	}
 

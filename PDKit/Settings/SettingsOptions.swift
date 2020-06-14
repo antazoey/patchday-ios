@@ -81,9 +81,11 @@ public class SettingsOptions {
 
 	public static func getExpirationInterval(for pickerString: String) -> ExpirationInterval {
 		switch pickerString {
-			case expirationIntervals[1]: return .OnceWeekly
-			case expirationIntervals[2]: return .EveryTwoWeeks
-		default: return .TwiceWeekly
+			case expirationIntervals[0]: return .OnceDaily
+			case expirationIntervals[1]: return .TwiceWeekly
+			case expirationIntervals[2]: return .OnceWeekly
+			case expirationIntervals[3]: return .EveryTwoWeeks
+			default: return DefaultSettings.ExpirationIntervalValue
 		}
 	}
 

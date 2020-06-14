@@ -14,7 +14,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		super.init()
 		let tableWrapper = PillsTable(pillsTableView, pills: pills)
 		self.pillsTable = tableWrapper
-		tabs?.reflectDuePillBadgeValue()
+		tabs?.reflectPills()
 		watchForChanges()
 	}
 
@@ -35,12 +35,12 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		guard let pills = pills else { return }
 		guard let pill = pills[index] else { return }
 		pills.swallow(pill.id) {
-			self.tabs?.reflectDuePillBadgeValue()
 			self.notifications?.requestDuePillNotification(pill)
 			let params = PillCellConfigurationParameters(pill: pill, index: index)
 			self.pillsTable[index].stamp().configure(params)
 			self.pillsTable.reloadData()
 		}
+		self.tabs?.reflectPills()
 	}
 
 	func deletePill(at index: IndexPath) {
@@ -49,10 +49,13 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		pillsTable.deleteCell(at: index, pillsCount: pillsCount)
 	}
 
-	func presentPillActions(at index: Index, viewController: UIViewController) {
+	func presentPillActions(at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void) {
         guard let pill = sdk?.pills[index] else { return }
 		let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
-		let takePill = { self.takePill(at: index) }
+		let takePill = {
+			let _ = self.takePill(at: index)
+			takePillCompletion()
+		}
 		let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
 		alerts?.presentPillActions(for: pill, handlers: handlers)
 	}

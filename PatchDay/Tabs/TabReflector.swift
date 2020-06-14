@@ -33,7 +33,7 @@ class TabReflector: TabReflective {
 
 	func reflect() {
 		reflectHormones()
-		reflectDuePillBadgeValue()
+		reflectPills()
 	}
 
 	func reflectHormones() {
@@ -51,10 +51,20 @@ class TabReflector: TabReflective {
 		hormonesVC.awakeFromNib()
 	}
 
-	func reflectDuePillBadgeValue() {
-		guard let totalDue = sdk?.pills.totalDue, totalDue > 0 else { return }
-		guard let pills = pillsVC else { return }
-		pills.tabBarItem.badgeValue = String(totalDue)
+	func reflectPills() {
+		guard let pillsVC = pillsVC else { return }
+		guard let sdk = sdk else { return }
+		let currentItem = pillsVC.tabBarItem
+		let item = UITabBarItem(
+			title: currentItem?.title, image: currentItem?.image, selectedImage: currentItem?.image
+		)
+		let expiredCount = sdk.pills.totalDue
+		item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
+		let log = PDLog<TabReflector>()
+		log.info("Settings pills tab to \(item.badgeValue ?? "nil")")
+		pillsVC.tabBarItem = nil
+		pillsVC.tabBarItem = item
+		pillsVC.awakeFromNib()
 	}
 
 	private func loadViewControllerTabTextAttributes() {

@@ -38,6 +38,11 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 		super.viewDidAppear(animated)
 	}
 
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		viewModel.tabs?.reflectHormones()
+	}
+
 	@objc func willEnterForeground() {
 		initViewModel()
 		viewModel.pillsTable.reloadData()
@@ -54,7 +59,11 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 	}
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		viewModel.presentPillActions(at: indexPath.row, viewController: self)
+		viewModel.presentPillActions(at: indexPath.row, viewController: self) {
+			self.initViewModel()
+			self.pillsTableView.reloadRows(at: [indexPath], with: .none)
+			self.viewModel.tabs?.reflectPills()
+		}
 	}
 
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
