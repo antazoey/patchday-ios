@@ -52,7 +52,8 @@ class HormoneCell: TableCell {
 		let quantity = sdk.settings.quantity
 		if let hormone = sdk.hormones[row], row < quantity.rawValue && row >= 0 {
 			attachToModel(hormone, row)
-			if hormone.expiresOvernight {
+			// Don't put moon on if already expired
+			if hormone.expiresOvernight && !hormone.isExpired {
 				overnightImage.image = PDIcons.moonIcon
 			} else {
 				overnightImage.image = nil
