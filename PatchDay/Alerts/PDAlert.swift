@@ -29,12 +29,10 @@ public class PDAlert: PDAlerting {
 			}
 		}
 		// bug in swift preventing calling self.present()
-		parent.present(alert, animated: true, completion: nil)
+		_ = parent.present(alert, animated: true, completion: nil)
 	}
 
 	public func present() {
-		DispatchQueue.main.async {
-			self.parent.present(self.alert, animated: true, completion: nil)
-		}
+		self.parent.present(self.alert, animated: true)
 	}
 }
