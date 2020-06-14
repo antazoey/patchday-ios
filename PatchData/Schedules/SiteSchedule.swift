@@ -116,6 +116,10 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		}
 	}
 
+	public func reloadContext() {
+		self.context = store.getStoredSites()
+	}
+
 	public func sort() {
 		context.sort {
 			// keep negative orders at the end
@@ -180,6 +184,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		var siteIterator = settings.siteIndex.value
 		for _ in 0..<count {
 			if let site = self[siteIterator], site.hormoneCount == 0 {
+				log.info("First empty from site index checkpoint is \(siteIterator)")
 				return site
 			}
 			siteIterator = (siteIterator + 1) % count

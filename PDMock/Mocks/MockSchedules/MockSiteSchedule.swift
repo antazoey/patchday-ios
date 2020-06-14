@@ -18,6 +18,11 @@ public class MockSiteSchedule: SiteScheduling {
 
 	public init() { }
 
+	public var reloadContextCallCount = 0
+	public func reloadContext() {
+		reloadContextCallCount += 1
+	}
+
 	public var insertNewCallArgs: [(String, (() -> Void)?)] = []
 	public var insertNewReturnValue: Bodily? = nil
 	public func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily? {

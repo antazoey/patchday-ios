@@ -95,6 +95,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	func handleRowTapped(
 		at index: Index, _ hormonesViewController: UIViewController, reload: @escaping () -> Void
 	) {
+		sdk?.sites.reloadContext()
 		alerts?.presentHormoneActions(
 			at: index,
 			reload: reload,

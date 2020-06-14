@@ -105,9 +105,11 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 			for site in storedSites {
 				if site.hormoneCount == 0 {
 					newIndex = site.order
+					break
 				}
 			}
 		}
+		PDLog<UserDefaultsWriter>().info("Settings new site index to \(newIndex)")
 		handler.replace(&siteIndex, to: newIndex)
 		return newIndex
 	}

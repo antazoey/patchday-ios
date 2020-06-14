@@ -95,13 +95,18 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		let nextSite = sdk?.sites.suggested
 		let changeHormone = {
 			guard let sdk = self.sdk else { return }
-			sdk.hormones.setDate(at: row, with: Date())
+			guard let hormoneId = sdk.hormones[row]?.id else { return }
+			sdk.hormones.setDate(by: hormoneId, with: Date())
 			guard let site = nextSite else { return }
-			sdk.hormones.setSite(at: row, with: site)
+			sdk.hormones.setSite(by: hormoneId, with: site)
 			reload()
 		}
 		let alert = self.factory.createHormoneActions(root, nextSite?.name, changeHormone, nav)
 		alert.present()
+	}
+
+	private func getSuggestedSite() {
+		
 	}
 
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {

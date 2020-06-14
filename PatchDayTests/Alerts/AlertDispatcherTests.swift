@@ -17,6 +17,8 @@ class AlertDispatcherTests: XCTestCase {
 	func testPresentHormoneActions_whenChoosingChange_changes() {
 		let sdk = MockSDK()
 		let hormones = sdk.hormones as! MockHormoneSchedule
+		let hormone = MockHormone()
+		hormones.all = [hormone]
 		let sites = sdk.sites as! MockSiteSchedule
 		let suggestedSite = MockSite()
 		suggestedSite.name = "SUGGESTED"
@@ -24,14 +26,17 @@ class AlertDispatcherTests: XCTestCase {
 		let factory = MockAlertFactory()
 		let tabs = MockTabs()
 		let dispatcher = AlertDispatcher(sdk: sdk, factory: factory, tabs: tabs)
+
+		// Test call
 		dispatcher.presentHormoneActions(at: 0, reload: {}, nav: {})
+
 		let changeAction = factory.createHormoneActionsCallArgs[0].2
 		changeAction()
-		let dateArgs = hormones.setDateByIndexCallArgs[0]
-		XCTAssertEqual(0, dateArgs.0)
+		let dateArgs = hormones.setDateByIdCallArgs[0]
+		XCTAssertEqual(hormone.id, dateArgs.0)
 		XCTAssert(PDTest.equiv(Date(), dateArgs.1))
-		let siteArgs = hormones.setSiteByIndexCallArgs[0]
-		XCTAssertEqual(0, siteArgs.0)
+		let siteArgs = hormones.setSiteByIdCallArgs[0]
+		XCTAssertEqual(hormone.id, siteArgs.0)
 		XCTAssertEqual(suggestedSite.id, siteArgs.1.id)
 	}
 }

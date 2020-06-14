@@ -25,6 +25,9 @@ public protocol SiteScheduling: Schedule, Sorting, Deleting, Resetting {
 	/// If the sites use the default scheme for the given delivery method.
 	var isDefault: Bool { get }
 
+	/// Force reload context from database.
+	func reloadContext()
+
 	/// Inserts a new site into the schedule.
 	@discardableResult
 	func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily?
