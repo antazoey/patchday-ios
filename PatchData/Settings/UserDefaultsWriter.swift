@@ -23,11 +23,11 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 	public var mentionedDisclaimer: MentionedDisclaimerUD
 	public var siteIndex: SiteIndexUD
 
-	private var getSiteCount: () -> Int
+	private var sites: SiteStoring
 
-	init(handler: UserDefaultsWriteHandler, getSiteCount: @escaping () -> Int) {
+	init(handler: UserDefaultsWriteHandler, siteStore: SiteStoring) {
 		self.handler = handler
-		self.getSiteCount = getSiteCount
+		self.sites = siteStore
 		typealias D = DefaultSettings
 
 		let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: D.DeliveryMethodRawValue)
@@ -94,23 +94,38 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 
 	@discardableResult
 	public func replaceStoredSiteIndex(to newValue: Index) -> Index {
-		handler.replace(&siteIndex, to: newValue)
-		return newValue
+		let storedSites = sites.getStoredSites()
+		if storedSites.count == 0 {
+			handler.replace(&siteIndex, to: 0)
+			return 0
+		}
+		var newIndex = newValue
+		let site = storedSites[newIndex]
+		if quantity.rawValue != SupportedHormoneUpperQuantityLimit && site.hormoneCount > 0 {
+			for site in storedSites {
+				if site.hormoneCount == 0 {
+					newIndex = site.order
+				}
+			}
+		}
+		handler.replace(&siteIndex, to: newIndex)
+		return newIndex
 	}
 
 	@discardableResult
 	public func incrementStoredSiteIndex(from start: Int?=nil) -> Index {
 		let currentIndex = start ?? siteIndex.value
-		let siteCount = getSiteCount()
+		let siteCount = sites.siteCount
 
-		// Should not happen, but exists for safety
-		if currentIndex < 0 || currentIndex >= siteCount || siteCount == 0 {
+		if siteCount == 0 {
 			handler.replace(&siteIndex, to: 0)
 			return 0
 		}
 
-		let newIndex = (currentIndex + 1) % siteCount
-		handler.replace(&siteIndex, to: newIndex)
-		return newIndex
+		if currentIndex < 0 || currentIndex >= siteCount {
+			return replaceStoredSiteIndex(to: 0)
+		}
+		let incrementedIndex = (currentIndex + 1) % sites.siteCount
+		return replaceStoredSiteIndex(to: incrementedIndex)
 	}
 }

@@ -106,7 +106,7 @@ class PillDetailViewModelTests: XCTestCase {
 		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
 		viewModel.save()
 		let tabs = viewModel.tabs as! MockTabs
-		XCTAssertEqual(1, tabs.reflectDuePillBadgeValueCallCount)
+		XCTAssertEqual(1, tabs.reflectPillsCallCount)
 	}
 
 	func testHandleIfUnsaved_whenUnsaved_presentsAlert() {

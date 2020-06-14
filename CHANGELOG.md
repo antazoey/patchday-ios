@@ -38,6 +38,7 @@ how a consumer would use the library (e.g. adding unit tests, updating documenta
 
 - Taking Pills is handled through alert actions now. Simply select the PillCell to Take a pill.
 - Editing Pills is handled through alert actions now. Simply select the PillCell to Edit pill details.
+- The SiteSchedule no longer cares about occupied sites and just follows the site Index accordingly.
 
 ### Fixed
 

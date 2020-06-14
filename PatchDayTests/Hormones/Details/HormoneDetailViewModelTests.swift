@@ -495,7 +495,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
 		let tabs = dependencies.tabs as! MockTabs
 		viewModel.saveSelections()
-		let actual = tabs.reflectHormoneCharacteristicsCount
+		let actual = tabs.reflectHormonesCallCount
 		let expected = 1
 		XCTAssertEqual(expected, actual)
 	}

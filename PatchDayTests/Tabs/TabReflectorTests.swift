@@ -37,7 +37,7 @@ class TabReflectorTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
-	func testReflectHormone_reflectsBadgeValue() {
+	func testReflectHormones_reflectsBadgeValue() {
 		let hormones = sdk.hormones as! MockHormoneSchedule
 		hormones.totalExpired = 2
 		let tabs = createTabs()
@@ -45,7 +45,7 @@ class TabReflectorTests: XCTestCase {
 		XCTAssertEqual("2", hormonesViewController.tabBarItem.badgeValue)
 	}
 
-	func testReflectHormone_whenZeroTotalDue_doesNotReflectBadgeValue() {
+	func testReflectHormones_whenZeroTotalDue_doesNotReflectBadgeValue() {
 		let hormones = sdk.hormones as! MockHormoneSchedule
 		hormones.totalExpired = 0
 		let tabs = createTabs()
@@ -53,19 +53,19 @@ class TabReflectorTests: XCTestCase {
 		XCTAssertNil(hormonesViewController.tabBarItem.badgeValue)
 	}
 
-	func testReflectDuePillBadgeValue_whenZeroTotalDue_doesNotReflectBadgeValue() {
+	func testReflectPills_whenZeroTotalDue_doesNotReflectBadgeValue() {
 		let pills = sdk.pills as! MockPillSchedule
 		pills.totalDue = 0
 		let tabs = createTabs()
-		tabs.reflectDuePillBadgeValue()
+		tabs.reflectPills()
 		XCTAssertNil(pillsViewController.tabBarItem.badgeValue)
 	}
 
-	func testReflectDuePillBadgeValue_reflectsBadgeValue() {
+	func testReflectPills_reflectsBadgeValue() {
 		let pills = sdk.pills as! MockPillSchedule
 		pills.totalDue = 1
 		let tabs = createTabs()
-		tabs.reflectDuePillBadgeValue()
+		tabs.reflectPills()
 		XCTAssertEqual("1", pillsViewController.tabBarItem.badgeValue)
 	}
 }

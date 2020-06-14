@@ -54,7 +54,7 @@ public class PatchData: NSObject, PatchDataSDK {
 		let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
 		let userDefaultsWriter = UserDefaultsWriter(
 			handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
-			getSiteCount: { () in siteStore.siteCount }
+			siteStore: siteStore
 		)
 		let pillScheduleState = PatchData.determinePillScheduleState(
 			settings: userDefaultsWriter

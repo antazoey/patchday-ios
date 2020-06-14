@@ -178,7 +178,7 @@ class SettingsSavePointTests: XCTestCase {
 		let handlers = alerts.presentQuantityMutationAlertCallArgs[0].2
 		handlers.handleContinue(newQuantity: newQ)
 		let tabs = saver.tabs as! MockTabs
-		XCTAssertEqual(1, tabs.reflectHormoneCharacteristicsCount)
+		XCTAssertEqual(1, tabs.reflectHormonesCallCount)
 	}
 
 	func testSave_whenQuantity_presentsAlertWithContinueActionThatRemovesUnneededNotifications() {
