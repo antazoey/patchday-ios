@@ -43,7 +43,7 @@ class SiteImageDeterminationParametersTests: XCTestCase {
 		XCTAssertNil(params.imageId)
 	}
 
-	func testInit_whenBothSiteNameAndIdAreEmptyString_() {
+	func testInit_whenBothSiteNameAndIdAreEmptyString_setsImageIdToNewSite() {
 		let hormone = MockHormone()
 		hormone.deliveryMethod = .Injections
 		hormone.siteImageId = ""

@@ -37,6 +37,16 @@ public class SiteImageDeterminationParameters {
 			return
 		}
 		self.imageId = hormone.hasSite ? hormone.siteImageId : nil
+
+		// If siteImageId is empty string somehow, use site name directly.
+		if self.imageId == "" {
+			self.imageId = hormone.siteName
+		}
+
+		// If still empty string (from site name), use default string for new sites.
+		if self.imageId == "" {
+			self.imageId = SiteStrings.NewSite
+		}
 		self.deliveryMethod = hormone.deliveryMethod
 		return
     }

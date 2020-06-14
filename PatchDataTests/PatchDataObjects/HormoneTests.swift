@@ -54,11 +54,25 @@ class HormoneTests: XCTestCase {
 		XCTAssertEqual("Test", hormone.siteNameBackUp)
 	}
 
-	func testSetSiteId_whenSettingToNil_setsToNil() {
+	func testSetSiteId_resetSiteImageIdToNil() {
+		let hormone = createEmptyHormone()
+		hormone.siteImageId = "Test"
+		hormone.siteId = UUID()
+		XCTAssertEqual(hormone.siteName, hormone.siteImageId)
+	}
+
+	func testSetSiteName_whenSettingToNil_setsToNil() {
 		let hormone = createEmptyHormone()
 		hormone.siteId = UUID()
 		hormone.siteId = nil
 		XCTAssertNil(hormone.siteId)
+	}
+
+	func testSetSiteName_resetsSiteImageIdToSiteName() {
+		let hormone = createEmptyHormone()
+		hormone.siteImageId = "Test"
+		hormone.siteName = "New Test"
+		XCTAssertEqual(hormone.siteName, hormone.siteImageId)
 	}
 
 	func testSiteName_whenSiteNameNilFromInitData_returnsSiteBackUpName() {

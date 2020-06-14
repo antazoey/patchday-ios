@@ -9,6 +9,11 @@
 import Foundation
 
 public protocol AlertDispatching {
+	func presentHormoneActions(
+		at row: Index,
+		reload: @escaping () -> Void,
+		nav: @escaping () -> Void
+	)
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling)
 	func presentDeliveryMethodMutationAlert(
 		newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling

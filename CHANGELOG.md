@@ -25,6 +25,7 @@ how a consumer would use the library (e.g. adding unit tests, updating documenta
 	- Last 10 Days of the Month
 	- Last 20 Days of the Month
 	Available by editing a pill in the Pill Schedule.
+- Hormone Cell Actions, useful for quickly changing Hormones.
 - Warning for when leaving views without saving changes.
 	- Leaving Hormone Details View.
 	- Leaving Pill Details View.

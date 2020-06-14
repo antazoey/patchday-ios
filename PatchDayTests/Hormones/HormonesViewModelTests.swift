@@ -23,4 +23,15 @@ class HormonesViewModelTests: XCTestCase {
 		let actual = hormones.reloadContextCallCount
 		XCTAssertEqual(1, actual)
 	}
+
+	func testHandleRowTapped_whenChoosesChangeAction_callsAlertsPresentHormoneActionsWithExpectedIndex() {
+		let table = UITableView()
+		let style = UIUserInterfaceStyle.dark
+		let deps = MockDependencies()
+		let viewModel = HormonesViewModel(hormonesTableView: table, style: style, dependencies: deps)
+		viewModel.handleRowTapped(at: 0, UIViewController(), reload: {})
+		let alerts = deps.alerts! as! MockAlerts
+		let alert = alerts.presentHormoneActionsCallArgs[0]
+		XCTAssertEqual(0, alert.0)
+	}
 }

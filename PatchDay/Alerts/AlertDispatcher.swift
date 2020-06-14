@@ -10,10 +10,10 @@ import UIKit
 import PDKit
 
 class AlertDispatcher: NSObject, AlertDispatching {
-
 	override var description: String { "Controls alerts." }
 
 	private let sdk: PatchDataSDK?
+	private let factory: AlertProducing
 	private let tabs: TabReflective?
 	private let log = PDLog<AlertDispatcher>()
 
@@ -30,8 +30,9 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		return window.rootViewController
 	}
 
-	init(sdk: PatchDataSDK?, tabs: TabReflective? = nil) {
+	init(sdk: PatchDataSDK?, factory: AlertProducing, tabs: TabReflective? = nil) {
 		self.sdk = sdk
+		self.factory = factory
 		self.tabs = tabs
 	}
 
@@ -83,6 +84,24 @@ class AlertDispatcher: NSObject, AlertDispatching {
 			saveAndContinueHandler: saveAndContinueHandler,
 			discardHandler: discardHandler
 		).present()
+	}
+
+	func presentHormoneActions(
+		at row: Index,
+		reload: @escaping () -> Void,
+		nav: @escaping () -> Void
+	) {
+		guard let root = rootViewController else { return }
+		let nextSite = sdk?.sites.suggested
+		let changeHormone = {
+			guard let sdk = self.sdk else { return }
+			sdk.hormones.setDate(at: row, with: Date())
+			guard let site = nextSite else { return }
+			sdk.hormones.setSite(at: row, with: site)
+			reload()
+		}
+		let alert = self.factory.createHormoneActions(root, nextSite?.name, changeHormone, nav)
+		alert.present()
 	}
 
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {

@@ -12,6 +12,13 @@ import PDKit
 public class MockAlerts: AlertDispatching {
 	
 	public init() {}
+
+	public var presentHormoneActionsCallArgs: [(Index, () -> Void, () -> Void)] = []
+	public func presentHormoneActions(
+		at row: Index, reload: @escaping () -> Void, nav: @escaping () -> Void
+	) {
+		presentHormoneActionsCallArgs.append((row, reload, nav))
+	}
 	
 	public var presentPillActionsCallArgs: [(Swallowable, PillCellActionHandling)] = []
 	public func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {

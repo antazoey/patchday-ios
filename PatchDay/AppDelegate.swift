@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let badge = PDBadge(sdk: sdk)
 		self.badge = badge
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
-		self.alerts = AlertDispatcher(sdk: sdk)
+		self.alerts = AlertDispatcher(sdk: sdk, factory: AlertFactory())
 		self.badge?.reflect()
 		self.tabs?.reflect()
 	}

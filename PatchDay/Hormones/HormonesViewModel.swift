@@ -92,8 +92,14 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		return SiteImages[siteImageDeterminationParams]
 	}
 
-	func handleRowTapped(at index: Index, _ hormonesViewController: UIViewController) {
-		goToHormoneDetails(hormoneIndex: index, hormonesViewController)
+	func handleRowTapped(
+		at index: Index, _ hormonesViewController: UIViewController, reload: @escaping () -> Void
+	) {
+		alerts?.presentHormoneActions(
+			at: index,
+			reload: reload,
+			nav: { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
+		)
 	}
 
 	func presentDisclaimerAlertIfFirstLaunch() {
