@@ -94,12 +94,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 		}
 		let discard: () -> Void = {
 			self.selections = PillAttributes()
-			if self.pill.isNew {
+			if self.pill.name == PillStrings.NewPill {
 				self.sdk?.pills.delete(at: self.index)
 			}
 			self.nav?.pop(source: viewController)
 		}
-		if selections.anyAttributeExists || pill.isNew {
+		if selections.anyAttributeExists || pill.name == PillStrings.NewPill {
 			self.alerts?.presentUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,

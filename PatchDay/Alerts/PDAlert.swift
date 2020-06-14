@@ -29,6 +29,9 @@ public class PDAlert: PDAlerting {
 	}
 
 	public func present() {
+		if AppDelegate.isPad {
+			controller.popoverPresentationController?.sourceView = parent.view
+		}
 		parent.present(controller, animated: true, completion: nil)
 	}
 }

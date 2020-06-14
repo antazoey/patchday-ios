@@ -153,12 +153,14 @@ class PillDetailViewModelTests: XCTestCase {
 		setupPill()
 		let pills = dependencies.sdk!.pills as! MockPillSchedule
 		let testPill = MockPill()
-		testPill.isNew = true
+		testPill.name = PillStrings.NewPill
 		pills.all = [MockPill(), MockPill(), testPill]
 		let viewModel = PillDetailViewModel(expectedIndex, dependencies: dependencies)
 		let testViewController = UIViewController()
 		viewModel.handleIfUnsaved(testViewController)
-		let discard = (viewModel.alerts! as! MockAlerts).presentUnsavedAlertCallArgs[0].2
+		let alerts = viewModel.alerts! as! MockAlerts
+		XCTAssertEqual(1, alerts.presentUnsavedAlertCallArgs.count)
+		let discard = alerts.presentUnsavedAlertCallArgs[0].2
 		discard()
 		let actual = pills.deleteCallArgs[0]
 		XCTAssertEqual(expectedIndex, actual)
