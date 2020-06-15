@@ -56,7 +56,9 @@ class TabReflector: TabReflective {
 		guard let sdk = sdk else { return }
 		let currentItem = pillsVC.tabBarItem
 		let item = UITabBarItem(
-			title: currentItem?.title, image: currentItem?.image, selectedImage: currentItem?.image
+			title: currentItem?.title,
+			image: currentItem?.image,
+			selectedImage: currentItem?.selectedImage
 		)
 		let expiredCount = sdk.pills.totalDue
 		item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil

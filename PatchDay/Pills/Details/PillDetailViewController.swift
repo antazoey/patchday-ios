@@ -91,7 +91,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	@objc func back() {
 		checkForUnsavedChanges()
-		self.navigationController?.popViewController(animated: true)
 	}
 
 	private func checkForUnsavedChanges() {
@@ -419,9 +418,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	private func segueToPillsVC() {
-		if let navCon = navigationController {
-			navCon.popViewController(animated: true)
-		}
+		guard let navCon = navigationController else { return }
+		navCon.popViewController(animated: true)
 	}
 
 	private func sliderSaysMoreThanOne() -> Bool {

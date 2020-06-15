@@ -23,10 +23,7 @@ class TimesadaySliderDefinition {
 	}
 
 	static func convertSliderValueToTimesaday(sliderValue: Float) -> Int {
-		if sliderValue >= 2 {
-			return 2
-		}
-		return 1
+		sliderValue >= 2 ? 2 : 1
 	}
 
 	static func valueIsGreaterThanOne(timesday: Float) -> Bool {
