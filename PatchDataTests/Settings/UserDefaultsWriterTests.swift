@@ -66,6 +66,16 @@ class UserDefaultsWriterTests: XCTestCase {
 		XCTAssertEqual(3, writer.quantity.rawValue)
 	}
 
+	func testReplaceStoredSiteIndex_whenIndexGreaterThanCount_replacesToZero() {
+		let writer = UserDefaultsWriter(
+			handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+		)
+		let expected = 0
+		let r = writer.replaceStoredSiteIndex(to: 50)
+		XCTAssertEqual(expected, r)
+		XCTAssertEqual(expected, writer.siteIndex.rawValue)
+	}
+
 	func testIncrementStoredSiteIndex_whenRoomToIncrementAndNextIsFree_incrementsNormally() {
 		let writer = UserDefaultsWriter(
 			handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 2)

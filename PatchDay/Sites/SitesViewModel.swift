@@ -99,6 +99,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		guard let sites = sdk?.sites else { return }
 		sites.delete(at: indexPath.row)
 		table.deleteCell(indexPath: indexPath)
+		table.reloadCells()
 	}
 
 	func createBarItems(

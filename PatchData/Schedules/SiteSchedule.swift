@@ -29,7 +29,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		super.init()
 		handleSiteCount()
 		sort()
-		ensureValidOrdering()
+		order()
 	}
 
 	public var count: Int { all.count }
@@ -99,21 +99,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public func delete(at index: Index) {
-		if let site = self[index] {
-			log.info("Deleting site at index \(index)")
-			store.delete(site)
-			context.remove(at: index)
-
-			// Decrease order of sites after deleted index.
-			let lastIndex = count - 1
-			if index < lastIndex {
-				for i in index...count - 1 {
-					if var site = self[i] {
-						site.order -= 1
-					}
-				}
-			}
-		}
+		guard let site = self[index] else { return }
+		log.info("Deleting site at index \(index)")
+		store.delete(site)
+		context.remove(at: index)
+		order()
 	}
 
 	public func reloadContext() {
@@ -143,30 +133,27 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	public func rename(at index: Index, to name: SiteName) {
-		if var site = self[index] {
-			site.name = name
-			store.pushLocalChangesToManagedContext([site], doSave: true)
-		}
+		guard var site = self[index] else { return }
+		site.name = name
+		store.pushLocalChangesToManagedContext([site], doSave: true)
 	}
 
 	public func reorder(at index: Index, to newOrder: Int) {
 		guard count > 0 else { return }
-		if var site = self[index], var originalSiteAtOrder = self[newOrder] {
-			site.order = site.order + originalSiteAtOrder.order
-			originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
-			site.order = site.order - originalSiteAtOrder.order
-			sort()
-			store.pushLocalChangesToManagedContext(context, doSave: true)
-		}
+		guard var site = self[index], var originalSiteAtOrder = self[newOrder] else  { return }
+		site.order = site.order + originalSiteAtOrder.order
+		originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
+		site.order = site.order - originalSiteAtOrder.order
+		sort()
+		store.pushLocalChangesToManagedContext(context, doSave: true)
 	}
 
 	public func setImageId(at index: Index, to newId: String) {
 		guard count > 0 else { return }
 		let names = SiteStrings.getSiteNames(for: settings.deliveryMethod.value)
-		if var site = self[index] {
-			site.imageId = names.contains(newId) ? newId : SiteStrings.CustomSiteId
-			store.pushLocalChangesToManagedContext([site], doSave: true)
-		}
+		guard var site = self[index] else { return }
+		site.imageId = names.contains(newId) ? newId : SiteStrings.CustomSiteId
+		store.pushLocalChangesToManagedContext([site], doSave: true)
 	}
 
 	public func indexOf(_ site: Bodily) -> Index? {
@@ -174,10 +161,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	private var suggestedSite: Bodily? {
-		if let site = self[settings.siteIndex.value] {
-			return site
-		}
-		return nil
+		guard let site = self[settings.siteIndex.value] else { return nil }
+		return site
 	}
 
 	private var firstEmptyFromSiteIndex: Bodily? {
@@ -216,26 +201,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		return hormones.tryGet(at: 0)?.date
 	}
 
-	private func ensureValidOrdering() {
-		var shouldSave = false
-		for i in 0..<count {
-			var site = context[i]
-			if site.order != i {
-				site.order = i
-				shouldSave = true
-			}
-		}
-		if shouldSave {
-			store.pushLocalChangesToManagedContext(context, doSave: true)
-		}
-	}
-
 	private func handleSiteCount() {
-		if resetWhenEmpty && count == 0 {
-			log.info("No stored sites - resetting to default")
-			reset()
-			logSites()
-		}
+		guard resetWhenEmpty && count == 0 else { return }
+		log.info("No stored sites - resetting to default")
+		reset()
+		logSites()
 	}
 
 	private func resetSitesToDefault() {
@@ -259,9 +229,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	}
 
 	private func deleteExtraSitesIfNeeded(previousCount: Int, newCount: Int) {
-		if newCount < previousCount {
-			deleteSites(start: newCount, end: previousCount - 1)
-		}
+		guard newCount < previousCount else { return }
+		deleteSites(start: newCount, end: previousCount - 1)
 	}
 
 	private func setSite(_ site: inout Bodily, index: Index, name: String) {
@@ -273,15 +242,17 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	private func deleteSites(start: Index, end: Index) {
 		var deleteCount = 0
 		for i in start...end {
-			if let site = context.tryGet(at: i) {
-				deleteCount += 1
-				site.reset()
-				store.delete(site)
+			guard let site = context.tryGet(at: i) else {
+				continue
 			}
+			deleteCount += 1
+			site.reset()
+			store.delete(site)
 		}
 		for _ in 0...deleteCount - 1 {
 			_ = context.popLast()
 		}
+		order()
 	}
 
 	private func logSites() {
@@ -292,6 +263,15 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		if sitesDescription.last != ":" {
 			log.info(sitesDescription)
 		}
+	}
+
+	private func order() {
+		var counter = 0
+		for var site in context {
+			site.order = counter
+			counter += 1
+		}
+		save()
 	}
 
 	private func save() {

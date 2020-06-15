@@ -95,7 +95,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 	@discardableResult
 	public func replaceStoredSiteIndex(to newValue: Index) -> Index {
 		let storedSites = sites.getStoredSites()
-		if storedSites.count == 0 {
+		if storedSites.count == 0 || newValue >= storedSites.count || newValue < 0 {
 			handler.replace(&siteIndex, to: 0)
 			return 0
 		}
