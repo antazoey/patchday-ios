@@ -53,7 +53,6 @@ class IntegrationTests: XCTestCase {
 		)
 		let handlers = DeliveryMethodMutationAlertActionHandler { (_, _) in () }
 		let patchesToGelAlert = DeliveryMethodMutationAlert(
-			parent: UIViewController(),
 			style: .actionSheet,
 			sdk: sdk,
 			tabs: tabs,
@@ -67,7 +66,6 @@ class IntegrationTests: XCTestCase {
 		XCTAssertEqual(1, sdk.settings.quantity.rawValue)
 
 		let injectionsToPatchesAlert = DeliveryMethodMutationAlert(
-			parent: UIViewController(),
 			style: .actionSheet,
 			sdk: sdk,
 			tabs: tabs,
