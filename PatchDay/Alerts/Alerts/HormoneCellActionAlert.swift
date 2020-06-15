@@ -17,9 +17,7 @@ class HormoneCellActionAlert: PDAlert {
 
 	private let _title = NSLocalizedString("Hormone Actions", comment: "Alert title")
 	private var changeHormoneTitle: String {
-		let prefix = NSLocalizedString(
-			"Change", comment: "Beginning of alert action title."
-		)
+		let prefix = ActionStrings.Change
 		var rest = ""
 		if let name = suggestedSite {
 			rest = " to \(name)"

@@ -54,17 +54,11 @@ class TabReflector: TabReflective {
 	func reflectPills() {
 		guard let pillsVC = pillsVC else { return }
 		guard let sdk = sdk else { return }
-		let currentItem = pillsVC.tabBarItem
-		let item = UITabBarItem(
-			title: currentItem?.title,
-			image: currentItem?.image,
-			selectedImage: currentItem?.selectedImage
-		)
+		guard let item = pillsVC.tabBarItem else { return }
 		let expiredCount = sdk.pills.totalDue
 		item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
 		let log = PDLog<TabReflector>()
 		log.info("Settings pills tab to \(item.badgeValue ?? "nil")")
-		pillsVC.tabBarItem = nil
 		pillsVC.tabBarItem = item
 		pillsVC.awakeFromNib()
 	}

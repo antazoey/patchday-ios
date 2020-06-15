@@ -43,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			}
 			PDCli.clearNotificationsFlag()
 		}
+		reflectBadges()
 #endif
-		badge?.reflect()
 		return true
 	}
 
@@ -56,8 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		self.badge = badge
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
 		self.alerts = AlertDispatcher(sdk: sdk, factory: AlertFactory())
-		self.badge?.reflect()
-		self.tabs?.reflect()
+		reflectBadges()
 	}
 
 	static var isPad: Bool {
@@ -70,14 +69,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func applicationWillEnterForeground(_ application: UIApplication) {
 		initDependencies()
+		reflectBadges()
 	}
 
 	func applicationWillTerminate(_ application: UIApplication) {
-		badge?.reflect()
-		tabs?.reflect()
+		reflectBadges()
 	}
 
 	func applicationWillResignActive(_ application: UIApplication) {
+		reflectBadges()
+	}
+
+	private func reflectBadges() {
 		badge?.reflect()
 		tabs?.reflect()
 	}

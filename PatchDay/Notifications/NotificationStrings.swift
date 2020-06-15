@@ -58,13 +58,6 @@ class NotificationStrings {
 		NSLocalizedString("Suggested next site:", comment: comment)
     }
 
-    static var autofill: String {
-		NSLocalizedString(
-			"Change to suggested site?",
-			comment: "Notification action label."
-		)
-	}
-
     static var patchExpired: String {
 		NSLocalizedString("Time for your next patch", comment: comment)
 	}

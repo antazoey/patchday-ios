@@ -52,6 +52,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 		loadTitle()
 		willEnterForeground()
 		setBackButton()
+		tabBarItem.selectedImage = tabBarItem.selectedImage?.withTintColor(PDColors[.Purple])
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
