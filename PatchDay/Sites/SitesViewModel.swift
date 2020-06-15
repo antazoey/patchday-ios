@@ -90,7 +90,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		table.toggleEdit(state: props.tableActionState)
 	}
 
-	func tryDeleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
+	func deleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
 		guard style == .delete else { return }
 		deleteSite(at: indexPath)
 	}

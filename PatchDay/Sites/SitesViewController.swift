@@ -105,7 +105,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 		commit editingStyle: UITableViewCell.EditingStyle,
 		forRowAt indexPath: IndexPath
 	) {
-		viewModel.tryDeleteFromEditingStyle(style: editingStyle, at: indexPath)
+		viewModel.deleteFromEditingStyle(style: editingStyle, at: indexPath)
 	}
 
 	// Reorder cell

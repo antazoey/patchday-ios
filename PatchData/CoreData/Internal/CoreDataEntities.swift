@@ -420,8 +420,8 @@ class CoreDataEntities {
 
 	private func deleteSite(_ siteData: SiteStruct) {
 		guard var managedSite = getManagedSite(by: siteData.id) else { return }
-		resetSite(&managedSite)
 		pushBackupSiteNameToHormones(deletedSite: managedSite)
+		resetSite(&managedSite)
 		coreDataStack.tryDelete(managedSite)
 		CoreDataEntities.siteMOs.removeAll(where: { $0.id == managedSite.id })
 	}
