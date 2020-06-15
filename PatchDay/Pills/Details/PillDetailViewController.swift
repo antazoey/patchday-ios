@@ -152,6 +152,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 	}
 
 	@IBAction func notificationSwitched(_ sender: Any) {
+		guard let _switch = sender as? UISwitch else { return }
+		viewModel.selections.notify = _switch.isOn
 		enableSaveButton()
 	}
 
