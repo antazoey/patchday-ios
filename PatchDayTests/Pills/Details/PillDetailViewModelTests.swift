@@ -165,4 +165,13 @@ class PillDetailViewModelTests: XCTestCase {
 		let actual = pills.deleteCallArgs[0]
 		XCTAssertEqual(expectedIndex, actual)
 	}
+
+	func testHandleIfUnsaved_whenNothingSelected_stillPops() {
+		setupPill()
+		let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+		let nav = dependencies.nav as! MockNav
+		let testViewController = UIViewController()
+		viewModel.handleIfUnsaved(testViewController)
+		XCTAssertEqual(testViewController, nav.popCallArgs[0])
+	}
 }

@@ -105,6 +105,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 				saveAndContinueHandler: save,
 				discardHandler: discard
 			)
+		} else {
+			self.nav?.pop(source: viewController)
 		}
 	}
 

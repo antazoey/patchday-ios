@@ -39,4 +39,22 @@ class AlertDispatcherTests: XCTestCase {
 		XCTAssertEqual(hormone.id, siteArgs.0)
 		XCTAssertEqual(suggestedSite.id, siteArgs.1.id)
 	}
+
+	func testPresentHormoneActions_whenChoosingChangeWithoutSuggestedSite_stillCallsReload() {
+		let sdk = MockSDK()
+		let hormones = sdk.hormones as! MockHormoneSchedule
+		let hormone = MockHormone()
+		hormones.all = [hormone]
+		let sites = sdk.sites as! MockSiteSchedule
+		sites.suggested = nil
+		let factory = MockAlertFactory()
+		let tabs = MockTabs()
+		let dispatcher = AlertDispatcher(sdk: sdk, factory: factory, tabs: tabs)
+		var reloadCalled = false
+		let dumbReload = { reloadCalled = true }
+		dispatcher.presentHormoneActions(at: 0, reload: dumbReload, nav: {})
+		let changeAction = factory.createHormoneActionsCallArgs[0].1
+		changeAction()
+		XCTAssert(reloadCalled)
+	}
 }
