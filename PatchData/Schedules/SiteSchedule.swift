@@ -66,6 +66,9 @@ public class SiteSchedule: NSObject, SiteScheduling {
 		guard count > 0 else { return false }
 		let method = settings.deliveryMethod.value
 		let defaultSites = SiteStrings.getSiteNames(for: method)
+		if defaultSites.count != count {
+			return false
+		}
 		for name in names {
 			if !defaultSites.contains(name) {
 				return false
@@ -180,10 +183,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
 	private var siteWithOldestHormone: Bodily? {
 		context.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
 				(b, site) in
-
 				if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
 					oldestDateInThisSitesHormones < b.oldestDate, let site = self[b.iterator] {
-
 					return (oldestDateInThisSitesHormones, site, b.iterator + 1)
 				}
 				return (b.oldestDate, b.oldest, b.iterator + 1)

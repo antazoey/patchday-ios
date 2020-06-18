@@ -136,10 +136,11 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
 	}
 
 	@objc func resetTapped() {
-		viewModel.toggleEdit(createBarItemProps())
 		loadTitle()
 		viewModel.resetSites()
-		switchNavItems(barItemEditProps: createBarItemProps())
+		sitesTableView.isEditing = false
+		sitesTableView.reloadData()
+		viewModel.table.reloadCells()
 	}
 
 	// MARK: - Private

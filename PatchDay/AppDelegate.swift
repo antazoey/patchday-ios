@@ -12,7 +12,7 @@ import PDKit
 import PatchData
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+	class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 	var notifications: NotificationScheduling?

@@ -235,6 +235,14 @@ class SiteScheduleTests: XCTestCase {
 		XCTAssertFalse(sites.isDefault)
 	}
 
+	public func testIsDefault_whenIsDefaultPrefix_returnsFalse() {
+		var sites = SiteSchedule(store: mockStore, settings: mockSettings).all
+		sites.removeLast()
+		mockStore.getStoredCollectionReturnValues = [sites]
+		let schedule = SiteSchedule(store: mockStore, settings: mockSettings)
+		XCTAssertFalse(schedule.isDefault)
+	}
+
 	public func testInsertNew_callsSiteStoreCreateNewSiteWithExpectedArgs() {
 		mockSettings.deliveryMethod = DeliveryMethodUD(.Injections)
 		mockSettings.expirationInterval = ExpirationIntervalUD(.OnceWeekly)

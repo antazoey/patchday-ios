@@ -23,12 +23,13 @@ class SitesTable: TableViewWrapper<SiteCell> {
 	var isEditing: Bool { table.isEditing }
 
 	func reloadCells() {
-		reloadData()
-		table.isEditing = false
-		let range = 0..<(sites?.count ?? 0)
-		let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
-		table.reloadRows(at: indexPathsToReload, with: .automatic)
-		resetCellColors(startIndex: 0)
+		table.performBatchUpdates({
+			table.isEditing = false
+			let range = 0..<(sites?.count ?? 0)
+			let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
+			table.reloadRows(at: indexPathsToReload, with: .automatic)
+			resetCellColors(startIndex: 0)
+		}, completion: nil)
 	}
 
 	subscript(index: Index) -> SiteCell {
@@ -51,10 +52,12 @@ class SitesTable: TableViewWrapper<SiteCell> {
 	}
 
 	func deleteCell(indexPath: IndexPath) {
+		table.beginUpdates()
 		table.deleteRows(at: [indexPath], with: .fade)
 		table.reloadData()
 		guard indexPath.row < cellCount else { return }
 		resetCellColors(startIndex: indexPath.row)
+		table.endUpdates()
 	}
 
 	private func createCellProps(_ siteIndex: Index) -> SiteCellProperties {
