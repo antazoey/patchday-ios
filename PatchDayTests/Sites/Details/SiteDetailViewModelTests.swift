@@ -198,6 +198,16 @@ class SiteDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(site.order, actual)
 	}
 
+
+	func testHandleIfUnsaved_whenNoSelections_stillPops() {
+		setupSite()
+		let viewModel = createViewModel(index: 0)
+		let vc = UIViewController()
+		viewModel.handleIfUnsaved(vc)
+		let nav = viewModel.nav as! MockNav
+		XCTAssertEqual(vc, nav.popCallArgs[0])
+	}
+
 	func testGetAttributedSiteName_hasExpectedName() {
 		setupSite()
 		let viewModel = createViewModel(index: 5)

@@ -108,6 +108,8 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 				saveAndContinueHandler: save,
 				discardHandler: discard
 			)
+		} else {
+			self.nav?.pop(source: viewController)
 		}
 	}
 
