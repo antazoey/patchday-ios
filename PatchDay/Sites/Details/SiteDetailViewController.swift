@@ -254,7 +254,6 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
 	@objc func back() {
 		checkForUnsavedChanges()
-		self.navigationController?.popViewController(animated: true)
 	}
 
 	private func checkForUnsavedChanges() {
