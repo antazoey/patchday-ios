@@ -62,11 +62,9 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 
 	@discardableResult
 	public func insertNew() -> Hormonal? {
-		if let hormone = store.createNewHormone(settings) {
-			context.append(hormone)
-			return hormone
-		}
-		return nil
+		guard let hormone = store.createNewHormone(settings) else { return nil }
+		context.append(hormone)
+		return hormone
 	}
 
 	public func forEach(doThis: (Hormonal) -> Void) {

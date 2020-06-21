@@ -25,10 +25,8 @@ class TodayViewModel: NSObject {
 	// MARK: - Public
 
 	var usingPatches: Bool {
-		if let method = data.getDeliveryMethod() {
-			return method == SettingsOptions.getDeliveryMethodString(for: .Patches)
-		}
-		return false
+		guard let method = data.getDeliveryMethod() else { return false }
+		return method == SettingsOptions.getDeliveryMethodString(for: .Patches)
 	}
 
 	var hormoneTitle: String {
