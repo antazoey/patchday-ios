@@ -49,7 +49,9 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		pillsTable.deleteCell(at: index, pillsCount: pillsCount)
 	}
 
-	func presentPillActions(at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void) {
+	func presentPillActions(
+		at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void
+	) {
         guard let pill = sdk?.pills[index] else { return }
 		let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
 		let takePill = {

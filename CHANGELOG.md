@@ -9,7 +9,7 @@ The intended audience of this file is for PatchDay consumers -- as such, changes
   [Bookmarked May 31, 2020 at 7:25:13 AM]
 how a consumer would use the library (e.g. adding unit tests, updating documentation, etc) are not captured here.
 
-## 3.0.0 - Unreleased
+## 3.0.0
 
 ### Added
 
