@@ -1944,7 +1944,6 @@
 				TargetAttributes = {
 					137330E81E22BA3E0048F91E = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 8U33TMB35U;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -2634,7 +2633,7 @@
 				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8U33TMB35U;
+				DEVELOPMENT_TEAM = DNY59KF8C3;
 				INFOPLIST_FILE = PatchDay/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2657,7 +2656,7 @@
 				CODE_SIGN_ENTITLEMENTS = PatchDay/PatchDay.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8U33TMB35U;
+				DEVELOPMENT_TEAM = DNY59KF8C3;
 				INFOPLIST_FILE = PatchDay/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (

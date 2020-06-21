@@ -10,7 +10,8 @@ import Foundation
 
 public protocol AlertProducing {
 	func createHormoneActions(
-		_ siteName: SiteName?,
+		_ currentSite: SiteName,
+		_ suggestSiteName: SiteName?,
 		_ change: @escaping () -> Void,
 		_ nav: @escaping () -> Void
 	) -> PDAlerting

@@ -98,9 +98,14 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		sdk?.sites.reloadContext()
 		alerts?.presentHormoneActions(
 			at: index,
-			reload: reload,
+			reload: { reload(); self.requesttHormoneNotification(from: index)},
 			nav: { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
 		)
+	}
+
+	private func requesttHormoneNotification(from row: Index) {
+		guard let hormone = sdk?.hormones[row] else { return }
+		notifications?.requestExpiredHormoneNotification(for: hormone)
 	}
 
 	func presentDisclaimerAlertIfFirstLaunch() {

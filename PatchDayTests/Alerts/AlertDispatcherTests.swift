@@ -30,7 +30,7 @@ class AlertDispatcherTests: XCTestCase {
 		// Test call
 		dispatcher.presentHormoneActions(at: 0, reload: {}, nav: {})
 
-		let changeAction = factory.createHormoneActionsCallArgs[0].1
+		let changeAction = factory.createHormoneActionsCallArgs[0].2
 		changeAction()
 		let dateArgs = hormones.setDateByIdCallArgs[0]
 		XCTAssertEqual(hormone.id, dateArgs.0)
@@ -53,7 +53,7 @@ class AlertDispatcherTests: XCTestCase {
 		var reloadCalled = false
 		let dumbReload = { reloadCalled = true }
 		dispatcher.presentHormoneActions(at: 0, reload: dumbReload, nav: {})
-		let changeAction = factory.createHormoneActionsCallArgs[0].1
+		let changeAction = factory.createHormoneActionsCallArgs[0].2
 		changeAction()
 		XCTAssert(reloadCalled)
 	}

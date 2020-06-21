@@ -15,7 +15,6 @@ class HormoneCellActionAlert: PDAlert {
 	private let changeHormone: () -> Void
 	private let nav: () -> Void
 
-	private let _title = NSLocalizedString("Hormone Actions", comment: "Alert title")
 	private var changeHormoneTitle: String {
 		let prefix = ActionStrings.Change
 		var rest = ""
@@ -26,6 +25,7 @@ class HormoneCellActionAlert: PDAlert {
 	}
 
 	init(
+		currentSite: SiteName,
 		nextSite: SiteName?,
 		changeHormone: @escaping () -> Void,
 		nav: @escaping () -> Void
@@ -33,7 +33,7 @@ class HormoneCellActionAlert: PDAlert {
 		self.suggestedSite = nextSite
 		self.changeHormone = changeHormone
 		self.nav = nav
-		super.init(title: _title, message: "", style: .actionSheet)
+		super.init(title: currentSite, message: "", style: .actionSheet)
 	}
 
 	private var changeAction: UIAlertAction {

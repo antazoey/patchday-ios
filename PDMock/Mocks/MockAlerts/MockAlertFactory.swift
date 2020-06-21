@@ -10,17 +10,19 @@ import Foundation
 import PDKit
 
 public class MockAlertFactory: AlertProducing {
-
-	public init() {}
-
-	public var createHormoneActionsCallArgs: [(SiteName?, () -> Void, () -> Void)] = []
-	public var createHormoneActionsReturnValue = MockAlert()
 	public func createHormoneActions(
-		_ siteName: SiteName?,
+		_ currentSite: SiteName,
+		_ suggestSiteName: SiteName?,
 		_ change: @escaping () -> Void,
 		_ nav: @escaping () -> Void
 	) -> PDAlerting {
-		createHormoneActionsCallArgs.append((siteName, change, nav))
+		createHormoneActionsCallArgs.append((currentSite, suggestSiteName, change, nav))
 		return createHormoneActionsReturnValue
 	}
+
+
+	public init() {}
+
+	public var createHormoneActionsCallArgs: [(SiteName, SiteName?, () -> Void, () -> Void)] = []
+	public var createHormoneActionsReturnValue = MockAlert()
 }

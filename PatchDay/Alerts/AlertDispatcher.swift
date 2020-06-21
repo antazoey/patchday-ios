@@ -78,19 +78,22 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		reload: @escaping () -> Void,
 		nav: @escaping () -> Void
 	) {
+		guard let hormone = sdk?.hormones[row] else { return }
 		let nextSite = sdk?.sites.suggested
 		let changeHormone = {
-			guard let sdk = self.sdk, let hormoneId = sdk.hormones[row]?.id else {
+			guard let sdk = self.sdk else {
 				reload()
 				return
 			}
-			sdk.hormones.setDate(by: hormoneId, with: Date())
+			sdk.hormones.setDate(by: hormone.id, with: Date())
 			if let site = nextSite {
-				sdk.hormones.setSite(by: hormoneId, with: site)
+				sdk.hormones.setSite(by: hormone.id, with: site)
 			}
 			reload()
 		}
-		let alert = self.factory.createHormoneActions(nextSite?.name, changeHormone, nav)
+		let alert = self.factory.createHormoneActions(
+			hormone.siteName, nextSite?.name, changeHormone, nav
+		)
 		alert.present()
 	}
 
