@@ -464,6 +464,15 @@ class HormoneScheduleTests: XCTestCase {
 		XCTAssertEqual(0, mockSettings.siteIndex.rawValue)
 	}
 
+	func testSetSiteName_clearsSite() {
+		let mockHormones = setUpDefaultHormones(1)
+		let testId = UUID()
+		mockHormones[0].id = testId
+		hormones.setSiteName(by: testId, with: "TEST")
+		let actual = mockStore.clearSitesFromHormoneCallArgs[0]
+		XCTAssertEqual(testId, actual)
+	}
+
 	func testFirstIndexOf_whenGiveHormoneIsInSchedule_returnsIndexOfGivenHormone() {
 		let mockHormones = setUpDefaultHormones(2)
 		let expected = 1

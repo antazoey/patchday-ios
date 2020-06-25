@@ -85,6 +85,11 @@ public class MockHormoneSchedule: HormoneScheduling {
 		setDateByIndexCallArgs.append((index, date))
 	}
 
+	public var setSiteNameCallArgs: [(UUID, SiteName)] = []
+	public func setSiteName(by id: UUID, with siteName: SiteName) {
+		setSiteNameCallArgs.append((id, siteName))
+	}
+
 	public var indexOfCallArgs: [Hormonal] = []
 	public var indexOfReturnValue: Index? = nil
 	public func indexOf(_ hormone: Hormonal) -> Index? {

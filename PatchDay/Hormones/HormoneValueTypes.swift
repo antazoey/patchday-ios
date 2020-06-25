@@ -8,6 +8,7 @@ import PDKit
 
 struct HormoneSelectionState {
 	var site: Bodily?
+	var siteName: SiteName?
 	var date: Date?
 	var siteIndex: Index { site?.order ?? -1 }
 

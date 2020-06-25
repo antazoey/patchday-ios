@@ -364,7 +364,6 @@ class HormoneDetailViewController: UIViewController,
 
 	@objc func back() {
 		checkForUnsavedChanges()
-		self.navigationController?.popViewController(animated: true)
 	}
 
 	private func setBackButton() {

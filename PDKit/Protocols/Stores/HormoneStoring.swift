@@ -10,6 +10,9 @@ import Foundation
 
 public protocol HormoneStoring: PDObjectStoring {
 
+	/// Remove hormone's sites.
+	func clearSitesFromHormone(_ hormoneId: UUID)
+
 	/// Fetches all the hormones from storage.
 	func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal]
 

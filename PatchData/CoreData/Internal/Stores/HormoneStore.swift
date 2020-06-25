@@ -32,6 +32,10 @@ class HormoneStore: EntityStore, HormoneStoring {
 		entities.deleteManagedHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
 	}
 
+	func clearSitesFromHormone(_ hormoneId: UUID) {
+		entities.clearSitesFromHormone(hormoneId)
+	}
+
 	func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool = true) {
 		guard hormones.count > 0 else { return }
 		let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }

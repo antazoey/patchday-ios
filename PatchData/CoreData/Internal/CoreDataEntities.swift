@@ -164,6 +164,12 @@ class CoreDataEntities {
 
 	// MARK: - Internal Deleters
 
+	func clearSitesFromHormone(_ hormoneId: UUID) {
+		guard let hormone = getManagedHormone(by: hormoneId) else { return }
+		hormone.siteRelationship = nil
+		saver.saveFromDelete(.hormone)
+	}
+
 	func deleteManagedHormoneData(_ hormoneData: [HormoneStruct], doSave: Bool = true) {
 		for data in hormoneData {
 			deleteHormone(data)
@@ -285,7 +291,7 @@ class CoreDataEntities {
 		}
 	}
 
-	// MARK: - Private Creators
+	// MARK: - Creators
 
 	func createNewHormone() -> HormoneStruct? {
 		guard var newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone else { return nil }

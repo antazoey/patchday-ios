@@ -189,6 +189,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 			self.selections.site = newSite ?? self.selections.site
 		}
 		alerts.presentNewSiteAlert(handlers: handlers)
+
+		// For when user sets with text and not site
+		if self.selections.site == nil {
+			self.selections.siteName = newSiteName
+		}
 	}
 
 	private func trySaveDate() {
@@ -202,8 +207,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	private func trySaveSite() {
 		guard let sdk = sdk else { return }
 		guard let hormone = hormone else { return }
-		guard let site = selections.site else { return }
-		sdk.hormones.setSite(by: hormone.id, with: site)
+		if let site = selections.site {
+			sdk.hormones.setSite(by: hormone.id, with: site)
+		} else if let siteName = selections.siteName {
+			sdk.hormones.setSiteName(by: hormone.id, with: siteName)
+		}
 	}
 
 	private func requestNewNotifications() {

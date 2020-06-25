@@ -500,6 +500,17 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
+	func testSaveSelections_savesSiteNameIfNoSiteAndHasSiteName() {
+		let hormone = setupHormone()
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		viewModel.selections.site = nil
+		viewModel.selections.siteName = "TEST"
+		viewModel.saveSelections()
+		let callArgs = (viewModel.sdk!.hormones as! MockHormoneSchedule).setSiteNameCallArgs[0]
+		XCTAssertEqual(hormone.id, callArgs.0)
+		XCTAssertEqual(callArgs.1, "TEST")
+	}
+
 	func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsEmptyString() {
 		setupHormone()
 		let expected = ""

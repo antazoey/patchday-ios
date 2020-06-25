@@ -152,6 +152,16 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
 		settings.incrementStoredSiteIndex(from: site.order)
 	}
 
+	public func setSiteName(by id: UUID, with siteName: SiteName) {
+		guard var hormone = self[id] else { return }
+		hormone.siteNameBackUp = siteName
+		hormone.siteId = nil
+		hormone.siteName = siteName
+		shareData()
+		store.clearSitesFromHormone(hormone.id)
+		store.pushLocalChangesToManagedContext([hormone], doSave: true)
+	}
+
 	public func setDate(at index: Index, with date: Date) {
 		guard var hormone = self[index] else { return }
 		setDate(&hormone, with: date)

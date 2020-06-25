@@ -145,10 +145,10 @@ public struct HormoneStruct {
     public var siteNameBackUp: String?
 
     public init(_ id: UUID) {
-        self.id = id
         self.siteRelationshipId = nil
+        self.id = id
         self.siteName = nil
-		self.siteNameBackUp = nil
+		self.siteImageId = nil
         self.date = nil
         self.siteNameBackUp = nil
     }

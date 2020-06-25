@@ -60,6 +60,9 @@ public protocol HormoneScheduling: Schedule, Resetting {
 	/// Sets the site for the hormone at the given index.
 	func setSite(at index: Index, with site: Bodily)
 
+	/// Sets the site name back-up (a non-managed site) of the hormone with the given ID.
+	func setSiteName(by id: UUID, with siteName: SiteName)
+
 	/// Sets the date of the hormone with the given ID.
 	func setDate(by id: UUID, with date: Date)
 
