@@ -9,6 +9,13 @@ The intended audience of this file is for PatchDay consumers -- as such, changes
   [Bookmarked May 31, 2020 at 7:25:13 AM]
 how a consumer would use the library (e.g. adding unit tests, updating documentation, etc) are not captured here.
 
+## 3.0.1
+
+### Fixed
+
+- Issue the Unsaved Changes Alert not blocking navigation for hormone editing.
+- Issue where if you declined adding a new site name from a type-edit on a hormone, it would not set the site.
+
 ## 3.0.0
 
 ### Added

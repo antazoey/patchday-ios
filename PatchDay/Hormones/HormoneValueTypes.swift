@@ -14,7 +14,7 @@ struct HormoneSelectionState {
 
 	var hasSelections: Bool {
 		let dateSelected = date != nil && date != DateFactory.createDefaultDate()
-		let siteSelected = site != nil && siteIndex != -1
+		let siteSelected = (site != nil && siteIndex != -1) || siteName != nil
 		return dateSelected || siteSelected
 	}
 }

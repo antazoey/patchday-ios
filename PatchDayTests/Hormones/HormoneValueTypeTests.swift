@@ -41,4 +41,10 @@ class TestHormoneSelectionState: XCTestCase {
 		selections.site = site
 		XCTAssert(selections.hasSelections)
 	}
+
+	func testHasSelections_whenSiteNameSelected_returnsTrue() {
+		var selections = HormoneSelectionState()
+		selections.siteName = "Test"
+		XCTAssert(selections.hasSelections)
+	}
 }
