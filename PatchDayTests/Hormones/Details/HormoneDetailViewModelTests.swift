@@ -511,6 +511,14 @@ class HormoneDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(callArgs.1, "TEST")
 	}
 
+	func testHandleIfUnsaved_whenNoChanges_stillPops() {
+		setupHormone()
+		let viewModel = HormoneDetailViewModel(0, handler, dependencies)
+		let vc = UIViewController()
+		viewModel.handleIfUnsaved(vc)
+		XCTAssertEqual(vc, (viewModel.nav! as! MockNav).popCallArgs[0])
+	}
+
 	func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsEmptyString() {
 		setupHormone()
 		let expected = ""
