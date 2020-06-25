@@ -136,6 +136,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 				saveAndContinueHandler: save,
 				discardHandler: discard
 			)
+		} else {
+			self.nav?.pop(source: viewController)
 		}
 	}
 
