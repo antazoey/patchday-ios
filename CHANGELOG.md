@@ -13,7 +13,7 @@ how a consumer would use the library (e.g. adding unit tests, updating documenta
 
 ### Fixed
 
-- Issue the Unsaved Changes Alert not blocking navigation for hormone editing.
+- Issue where the Unsaved Changes Alert did not block the navigation after editing a hormone and tapping Back.
 - Issue where if you declined adding a new site name from a type-edit on a hormone, it would not set the site.
 
 ## 3.0.0
