@@ -16,7 +16,8 @@ class DisclaimerAlert: PDAlert {
 	}
 
 	private var goToUrlAction: UIAlertAction {
-		UIAlertAction(title: AlertStrings.disclaimerAlertStrings.supportPageActionTitle, style: .default) {
+		let supportTitle = AlertStrings.disclaimerAlertStrings.supportPageActionTitle
+		return UIAlertAction(title: supportTitle, style: .default) {
 			_ in
 			if let url = URL(string: "http://www.patchdayhrt.com") {
 				if #available(iOS 10.0, *) {
