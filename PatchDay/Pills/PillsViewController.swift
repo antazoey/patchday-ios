@@ -60,6 +60,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		viewModel.presentPillActions(at: indexPath.row, viewController: self) {
+			// TODO: Move some of this to ViewModel and then test again.
 			self.initViewModel()
 			self.pillsTableView.reloadRows(at: [indexPath], with: .none)
 			self.viewModel.tabs?.reflectPills()
