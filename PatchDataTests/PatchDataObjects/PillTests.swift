@@ -217,11 +217,11 @@ public class PillTests: XCTestCase {
 		XCTAssertEqual(expected, pill.time2)
 	}
 
-	func testNotify_whenNilInAttributes_returnsFalse() {
+	func testNotify_whenNilInAttributes_returnsDefaultNotify() {
 		var attrs = PillAttributes()
 		attrs.notify = nil
 		let pill = createPill(attrs)
-		XCTAssertFalse(pill.notify)
+		XCTAssertEqual(DefaultPillAttributes.notify, pill.notify)
 	}
 
 	func testTimesaday_whenNilInAttributes_returnsDefaultTimesaday() {

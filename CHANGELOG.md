@@ -13,8 +13,9 @@ how a consumer would use the library (e.g. adding unit tests, updating documenta
 
 ### Fixed
 
-- Issue where Pill tab would not display badge alerts when notifications were disabled for the Pill.
-- Issue where the bade would not update when changing a due Pill right away.
+- Issue where the Pill tab would not display badge alerts when notifications were disabled for the Pill.
+- Issue where the App badge would not update when changing a due Pill right away.
+- Issue where new Pills did not default to Notify=true like they did before.
 
 ## 3.0.1
 
