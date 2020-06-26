@@ -9,11 +9,12 @@ The intended audience of this file is for PatchDay consumers -- as such, changes
   [Bookmarked May 31, 2020 at 7:25:13 AM]
 how a consumer would use the library (e.g. adding unit tests, updating documentation, etc) are not captured here.
 
-## Unreleased
+## 3.0.2
 
 ### Fixed
 
 - Issue where Pill tab would not display badge alerts when notifications were disabled for the Pill.
+- Issue where the bade would not update when changing a due Pill right away.
 
 ## 3.0.1
 

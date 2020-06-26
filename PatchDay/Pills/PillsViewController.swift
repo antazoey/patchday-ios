@@ -63,6 +63,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 			self.initViewModel()
 			self.pillsTableView.reloadRows(at: [indexPath], with: .none)
 			self.viewModel.tabs?.reflectPills()
+			self.viewModel.badge?.reflect()
 			if let pill = self.viewModel.sdk?.pills[indexPath.row] {
 				self.viewModel.notifications?.requestDuePillNotification(pill)
 			}
