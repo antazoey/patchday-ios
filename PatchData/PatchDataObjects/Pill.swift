@@ -98,7 +98,7 @@ public class Pill: Swallowable {
 	}
 
 	public var notify: Bool {
-		get { pillData.attributes.notify ?? false }
+		get { pillData.attributes.notify ?? DefaultPillAttributes.notify }
 		set { pillData.attributes.notify = newValue }
 	}
 
@@ -120,7 +120,7 @@ public class Pill: Swallowable {
 	}
 
 	public var timesTakenToday: Int {
-		pillData.attributes.timesTakenToday ?? 0
+		pillData.attributes.timesTakenToday ?? DefaultPillAttributes.timesTakenToday
 	}
 
 	public var lastTaken: Date? {

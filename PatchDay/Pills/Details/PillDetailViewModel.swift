@@ -27,6 +27,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
 	init(_ pillIndex: Index, dependencies: DependenciesProtocol) {
 		self.index = pillIndex
+
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
