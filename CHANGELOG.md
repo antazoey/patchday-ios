@@ -9,6 +9,12 @@ The intended audience of this file is for PatchDay consumers -- as such, changes
   [Bookmarked May 31, 2020 at 7:25:13 AM]
 how a consumer would use the library (e.g. adding unit tests, updating documentation, etc) are not captured here.
 
+## Unreleased
+
+### Fixed
+
+- Issue where Pill tab would not display badge alerts when notifications were disabled for the Pill.
+
 ## 3.0.1
 
 ### Fixed

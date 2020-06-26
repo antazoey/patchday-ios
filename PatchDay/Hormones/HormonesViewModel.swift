@@ -50,7 +50,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	private func finishInit() {
 		sdk?.hormones.reloadContext()
 		initTable(style: style)
-		tabs?.reflectHormones()
+		tabs?.reflect()
 		table.reloadData()
 	}
 
