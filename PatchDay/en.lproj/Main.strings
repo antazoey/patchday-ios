@@ -1,0 +1,105 @@
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "0vU-op-qLy"; */
+"0vU-op-qLy.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Date and time applied:"; ObjectID = "1DI-qg-8qA"; */
+"1DI-qg-8qA.text" = "Date and time applied:";
+
+/* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "2qc-jj-Sae"; */
+"2qc-jj-Sae.normalTitle" = "   〉";
+
+/* Class = "UILabel"; text = "Site:"; ObjectID = "2sx-PL-C2B"; */
+"2sx-PL-C2B.text" = "Site:";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "3tV-Xz-Eqt"; */
+"3tV-Xz-Eqt.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Notify before expire:"; ObjectID = "4Mq-Q9-v4s"; */
+"4Mq-Q9-v4s.text" = "Notify before expire:";
+
+/* Class = "UILabel"; text = "Expires:"; ObjectID = "5x3-eZ-12Y"; */
+"5x3-eZ-12Y.text" = "Expires:";
+
+/* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "68Z-9e-9Pp"; */
+"68Z-9e-9Pp.normalTitle" = "   〉";
+
+/* Class = "UILabel"; text = "Receive reminder:"; ObjectID = "8jB-BF-JTf"; */
+"8jB-BF-JTf.text" = "Receive reminder:";
+
+/* Class = "UIViewController"; title = "Schedule"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Schedule";
+
+/* Class = "UILabel"; text = "Details"; ObjectID = "E6B-yb-uBQ"; */
+"E6B-yb-uBQ.text" = "Details";
+
+/* Class = "UIButton"; normalTitle = "   〉"; ObjectID = "EEv-5c-Ivy"; */
+"EEv-5c-Ivy.normalTitle" = "   〉";
+
+/* Class = "UILabel"; text = "Enables \"Suggest Patch Site\" functionality:"; ObjectID = "GV5-S9-7Km"; */
+"GV5-S9-7Km.text" = "Enables \"Suggest Patch Site\" functionality:";
+
+/* Class = "UILabel"; text = "Number of patches:"; ObjectID = "R6v-Ga-j3u"; */
+"R6v-Ga-j3u.text" = "Number of patches:";
+
+/* Class = "UIViewController"; title = "Details"; ObjectID = "UrJ-qX-o3J"; */
+"UrJ-qX-o3J.title" = "Details";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "VxV-0X-CKx"; */
+"VxV-0X-CKx.normalTitle" = "Button";
+
+/* Class = "UIButton"; normalTitle = "←"; ObjectID = "bm0-pQ-CZr"; */
+"bm0-pQ-CZr.normalTitle" = "←";
+
+/* Class = "UIButton"; normalTitle = "                     "; ObjectID = "dhc-uH-T6d"; */
+"dhc-uH-T6d.normalTitle" = "                     ";
+
+/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "ejS-YQ-rca"; */
+"ejS-YQ-rca.normalTitle" = "Save";
+
+/* Class = "UIButton"; normalTitle = "⚙"; ObjectID = "fbo-rk-nJE"; */
+"fbo-rk-nJE.normalTitle" = "⚙";
+
+/* Class = "UIButton"; normalTitle = "                     "; ObjectID = "gkg-w3-hAO"; */
+"gkg-w3-hAO.normalTitle" = "                     ";
+
+/* Class = "UILabel"; text = "Main"; ObjectID = "ib6-yR-rGr"; */
+"ib6-yR-rGr.text" = "Main";
+
+/* Class = "UILabel"; text = "Autofill site:"; ObjectID = "m6I-w4-yag"; */
+"m6I-w4-yag.text" = "Autofill site:";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "n18-9f-ThC"; */
+"n18-9f-ThC.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Settings"; ObjectID = "nbW-tw-X4f"; */
+"nbW-tw-X4f.text" = "Settings";
+
+/* Class = "UIButton"; normalTitle = "✕"; ObjectID = "oJq-is-GOf"; */
+"oJq-is-GOf.normalTitle" = "✕";
+
+/* Class = "UITextField"; text = "                             "; ObjectID = "ptS-v2-B6E"; */
+"ptS-v2-B6E.text" = "                             ";
+
+/* Class = "UIButton"; normalTitle = "⌨"; ObjectID = "suw-Ai-Pxz"; */
+"suw-Ai-Pxz.normalTitle" = "⌨";
+
+/* Class = "UIButton"; normalTitle = "                        "; ObjectID = "tNJ-il-X3d"; */
+"tNJ-il-X3d.normalTitle" = "                        ";
+
+/* Class = "UILabel"; text = "Notifications"; ObjectID = "uvD-wo-kpW"; */
+"uvD-wo-kpW.text" = "Notifications";
+
+/* Class = "UIViewController"; title = "Settings"; ObjectID = "vQS-Ij-BG5"; */
+"vQS-Ij-BG5.title" = "Settings";
+
+/* Class = "UILabel"; text = " "; ObjectID = "vei-Lg-bch"; */
+"vei-Lg-bch.text" = " ";
+
+/* Class = "UILabel"; text = "Receive a reminder notification minutes before patch expiration."; ObjectID = "vfC-et-iHq"; */
+"vfC-et-iHq.text" = "Receive a reminder notification minutes before patch expiration.";
+
+/* Class = "UILabel"; text = "Schedule:"; ObjectID = "xZp-Rx-dxb"; */
+"xZp-Rx-dxb.text" = "Schedule:";
+
+/* Class = "UIButton"; normalTitle = "Autofill"; ObjectID = "ynp-FM-Qea"; */
+"ynp-FM-Qea.normalTitle" = "Autofill";
