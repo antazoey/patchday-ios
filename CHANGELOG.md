@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.3 - unreleased
+
+### Fixed
+
+- Issue where if you disable and re-enable the Notifications setting on Dark mode, some text would disappear.
+
 ## 3.0.2
 
 ### Fixed
