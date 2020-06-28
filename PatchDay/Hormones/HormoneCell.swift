@@ -71,7 +71,7 @@ class HormoneCell: TableCell {
 	}
 
 	private func loadDateLabel(for hormone: Hormonal, _ index: Index) {
-		dateLabel.textColor = hormone.isExpired ? UIColor.red : UIColor.black
+		dateLabel.textColor = hormone.isExpired ? UIColor.red : PDColors[.Text]
 		let size: CGFloat = AppDelegate.isPad ? 38.0 : 15.0
 		dateLabel.font = UIFont.systemFont(ofSize: size)
         if !hormone.date.isDefault(), let expiration = hormone.expiration {

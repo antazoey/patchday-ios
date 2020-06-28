@@ -185,7 +185,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
 	private func enableNotificationButtons() {
 		notificationsMinutesBeforeSlider.isEnabled = true
-		notificationsMinutesBeforeValueLabel.textColor = UIColor.black
+		notificationsMinutesBeforeValueLabel.textColor = PDColors[.Text]
 	}
 
 	private func disableNotificationButtons() {
