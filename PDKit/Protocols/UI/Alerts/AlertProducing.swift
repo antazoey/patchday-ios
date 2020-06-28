@@ -16,6 +16,10 @@ public protocol AlertProducing {
 		newDeliveryMethod: DeliveryMethod,
 		handlers: DeliveryMethodMutationAlertActionHandling
 	) -> PDAlerting
+
+	func createQuantityMutationAlert(
+		handlers: QuantityMutationAlertActionHandling, oldQuantity: Int, newQuantity: Int
+	) -> PDAlerting
 	
 	func createHormoneActions(
 		_ currentSite: SiteName,
@@ -23,4 +27,7 @@ public protocol AlertProducing {
 		_ change: @escaping () -> Void,
 		_ nav: @escaping () -> Void
 	) -> PDAlerting
+
+	func createPillActions(_ pill: Swallowable, _ handlers: PillCellActionHandling) -> PDAlerting
+	func createNewSiteAlert(_ handlers: NewSiteAlertActionHandling) -> PDAlerting
 }

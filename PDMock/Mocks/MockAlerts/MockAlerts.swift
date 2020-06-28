@@ -14,27 +14,12 @@ public class MockAlerts: AlertDispatching {
 	public var factory: AlertProducing = MockAlertFactory()
 
 	public init() {}
-
-	public var presentPillActionsCallArgs: [(Swallowable, PillCellActionHandling)] = []
-	public func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {
-		presentPillActionsCallArgs.append((pill, handlers))
-	}
-
-	public var presentQuantityMutationAlertCallArgs: [(Int, Int, QuantityMutationAlertActionHandling)] = []
-	public func presentQuantityMutationAlert(oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling) {
-		presentQuantityMutationAlertCallArgs.append((oldQuantity, newQuantity, handlers))
-	}
 	
 	public var presentDisclaimerAlertCallCount = 0
 	public func presentDisclaimerAlert() {
 		presentDisclaimerAlertCallCount += 1
 	}
-	
-	public var presentNewSiteAlertCallArgs: [NewSiteAlertActionHandling] = []
-	public func presentNewSiteAlert(handlers: NewSiteAlertActionHandling) {
-		presentNewSiteAlertCallArgs.append(handlers)
-	}
-	
+
 	public var presentGenericAlertCallCount = 0
 	public func presentGenericAlert() {
 		presentGenericAlertCallCount += 1

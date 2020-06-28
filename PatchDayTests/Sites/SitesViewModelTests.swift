@@ -14,6 +14,15 @@ import PDMock
 import PatchDay
 
 class SitesViewModelTests: XCTestCase {
+
+	func testInit_callsReloadContext() {
+		let table = UITableView()
+		let dep = MockDependencies()
+		let sites = dep.sdk?.sites as! MockSiteSchedule
+		_ = SitesViewModel(sitesTableView: table, dependencies: dep)
+		XCTAssertEqual(1, sites.reloadContextCallCount)
+	}
+
 	func testReorderSites_callsReorderSites() {
 		let table = UITableView()
 		let dep = MockDependencies()

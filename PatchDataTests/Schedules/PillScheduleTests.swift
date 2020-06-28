@@ -114,6 +114,12 @@ class PillScheduleTests: XCTestCase {
 		XCTAssertEqual(expected, actual)
 	}
 
+	public func testInsertNew_setsNotifyToTrueForNewPill() {
+		setUpPills()
+		let newPill = pills.insertNew(onSuccess: nil)
+		XCTAssert(newPill!.notify)
+	}
+
 	public func testInsertNew_whenStoreReturnsPill_increasesCount() {
 		setUpPills()
 		pills.insertNew(onSuccess: nil)
@@ -181,6 +187,13 @@ class PillScheduleTests: XCTestCase {
 		setUpThreePills()
 		pills.reset()
 		XCTAssertEqual(2, pills.count)
+	}
+
+	public func testReset_turnsNotificationsOnForNewDefaultPills() {
+		setUpPills()
+		pills.reset()
+		XCTAssert(pills[0]!.notify)
+		XCTAssert(pills[1]!.notify)
 	}
 
 	public func testReset_resetsPillTimesadays() {

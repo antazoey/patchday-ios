@@ -22,14 +22,17 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 	}
 	lazy var selections = HormoneSelectionState()
 	let handleInterfaceUpdatesFromNewSite: () -> Void
+	private var alertFactory: AlertProducing?
 
 	init(
 		_ hormoneIndex: Index,
 		_ newSiteHandler: @escaping () -> Void,
+		_ alertFactory: AlertProducing,
 		_ dependencies: DependenciesProtocol
 	) {
 		self.index = hormoneIndex
 		self.handleInterfaceUpdatesFromNewSite = newSiteHandler
+		self.alertFactory = alertFactory
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
@@ -44,6 +47,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 		self.index = hormoneIndex
 		self.handleInterfaceUpdatesFromNewSite = newSiteHandler
 		super.init()
+		if let sdk = self.sdk, self.alertFactory == nil {
+			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
+		}
 	}
 
 	/// Returns the date selected from the UI. If no date has been selected, returns the hormones date. If the hormone does not
@@ -183,14 +189,15 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
 	func presentNewSiteAlert(newSiteName: String) {
 		guard newSiteName.count > 0 else { return }
-		guard let alerts = alerts else { return }
+		guard let alertFactory = alertFactory else { return }
 		let handlers = NewSiteAlertActionHandler {
 			let newSite = self.sdk?.sites.insertNew(name: newSiteName) {
 				self.handleInterfaceUpdatesFromNewSite()
 			}
 			self.selections.site = newSite ?? self.selections.site
 		}
-		alerts.presentNewSiteAlert(handlers: handlers)
+		let alert = alertFactory.createNewSiteAlert(handlers)
+		alert.present()
 
 		// For when user sets with text and not site
 		if self.selections.site == nil {

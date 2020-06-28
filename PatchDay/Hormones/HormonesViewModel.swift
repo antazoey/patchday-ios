@@ -12,7 +12,7 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private let style: UIUserInterfaceStyle
-	private var alertFactory: AlertProducing!
+	private var alertFactory: AlertProducing?
 	let table: HormonesTable
 	var hormones: HormoneScheduling? { sdk?.hormones }
 
@@ -33,10 +33,12 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	init(
 		hormonesTableView: UITableView,
 		style: UIUserInterfaceStyle,
+		alertFactory: AlertProducing,
 		dependencies: DependenciesProtocol
 	) {
 		self.style = style
 		self.table = HormonesTable(hormonesTableView)
+		self.alertFactory = alertFactory
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
@@ -110,13 +112,13 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 			}
 			reload()
 		}
-		let alert = self.alertFactory.createHormoneActions(
+		let alert = self.alertFactory?.createHormoneActions(
 			hormone.siteName,
 			nextSite?.name,
 			changeHormone,
 			{ self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
 		)
-		alert.present()
+		alert?.present()
 	}
 
 	private func requesttHormoneNotification(from row: Index) {
@@ -142,7 +144,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		guard let navigationController = source.navigationController else { return }
 		guard let tabs = navigationController.tabBarController else { return }
 		guard let vcs = tabs.viewControllers else { return }
-		setTabs(tabBarController: tabs, appViewControllers: vcs)
+		setTabDependencies(tabBarController: tabs, appViewControllers: vcs)
 	}
 
 	private func initTable(style: UIUserInterfaceStyle) {
@@ -159,13 +161,14 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		return !sdk.settings.mentionedDisclaimer.value
 	}
 
-	private func setTabs(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
+	private func setTabDependencies(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
 		tabs = TabReflector(
 			tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk
 		)
 		AppDelegate.current?.tabs = tabs
-		AppDelegate.current?.alerts?.factory.tabs = tabs
 		self.tabs = tabs
+
+		// Wait for tabs to be set before setting this AlertFactory
 		if let sdk = sdk {
 			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
 		}

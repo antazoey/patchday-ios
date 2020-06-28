@@ -27,6 +27,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 		} else {
 			super.init()
 		}
+		self.sdk?.sites.reloadContext()
 		self.table.sites = sdk?.sites
 		watchForChanges()
 	}

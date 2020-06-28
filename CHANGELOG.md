@@ -1,11 +1,14 @@
 # Changelog
 
-## 3.0.3 - unreleased
+## 3.0.3
 
 ### Fixed
 
 - Issue where if you disable and re-enable the Notifications setting on Dark mode, some text would disappear.
 - Issue where if there was only one Site, the site schedule would not suggest it.
+- Issue where custom Gel images would appear as placeholder Gel images.
+- Bug where when adding a new Site, it's order label would not display in a Site Cell.
+- Actually fix issue where new Pills did not default to Notify=true.
 
 ## 3.0.2
 

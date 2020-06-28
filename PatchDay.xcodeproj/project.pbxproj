@@ -115,6 +115,8 @@
 		9D3E4C8222B5B47E00C82DAE /* DuePillNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C8122B5B47E00C82DAE /* DuePillNotification.swift */; };
 		9D3E4C8522B5DEB300C82DAE /* PDTitleStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C8322B5DD9F00C82DAE /* PDTitleStrings.swift */; };
 		9D3E4C9622B730B500C82DAE /* ActionStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9522B730B500C82DAE /* ActionStrings.swift */; };
+		9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */; };
+		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
 		9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */; };
@@ -204,7 +206,6 @@
 		9D8F45DC2495B0BB00F2C39A /* HormoneCellActionAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45DB2495B0BB00F2C39A /* HormoneCellActionAlert.swift */; };
 		9D8F45DE24965FDB00F2C39A /* AlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45DD24965FDB00F2C39A /* AlertFactory.swift */; };
 		9D8F45E02496605F00F2C39A /* AlertProducing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45DF2496605F00F2C39A /* AlertProducing.swift */; };
-		9D8F45E32496621D00F2C39A /* AlertDispatcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45E22496621D00F2C39A /* AlertDispatcherTests.swift */; };
 		9D8F45E52496626B00F2C39A /* MockAlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45E42496626B00F2C39A /* MockAlertFactory.swift */; };
 		9D8F45E72496632600F2C39A /* MockAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45E62496632600F2C39A /* MockAlert.swift */; };
 		9D8F45EA2496718600F2C39A /* SettingsOptionsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8F45E92496718600F2C39A /* SettingsOptionsTests.swift */; };
@@ -549,6 +550,8 @@
 		9D3E4C8122B5B47E00C82DAE /* DuePillNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuePillNotification.swift; sourceTree = "<group>"; };
 		9D3E4C8322B5DD9F00C82DAE /* PDTitleStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTitleStrings.swift; sourceTree = "<group>"; };
 		9D3E4C9522B730B500C82DAE /* ActionStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStrings.swift; sourceTree = "<group>"; };
+		9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsViewModelTests.swift; sourceTree = "<group>"; };
+		9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImagesTests.swift; sourceTree = "<group>"; };
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
 		9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlings.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
@@ -620,7 +623,6 @@
 		9D8F45DB2495B0BB00F2C39A /* HormoneCellActionAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneCellActionAlert.swift; sourceTree = "<group>"; };
 		9D8F45DD24965FDB00F2C39A /* AlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFactory.swift; sourceTree = "<group>"; };
 		9D8F45DF2496605F00F2C39A /* AlertProducing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertProducing.swift; sourceTree = "<group>"; };
-		9D8F45E22496621D00F2C39A /* AlertDispatcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDispatcherTests.swift; sourceTree = "<group>"; };
 		9D8F45E42496626B00F2C39A /* MockAlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlertFactory.swift; sourceTree = "<group>"; };
 		9D8F45E62496632600F2C39A /* MockAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlert.swift; sourceTree = "<group>"; };
 		9D8F45E92496718600F2C39A /* SettingsOptionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionsTests.swift; sourceTree = "<group>"; };
@@ -1219,6 +1221,14 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		9D3E653D24A8F4C30000D079 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		9D6DB7CE2405FEA900C00711 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1267,7 +1277,7 @@
 		9D6E9AEF2456253A003BBCC9 /* PatchDayTests */ = {
 			isa = PBXGroup;
 			children = (
-				9D8F45E12496621000F2C39A /* Alerts */,
+				9D3E653D24A8F4C30000D079 /* Images */,
 				9D9C60012485CE7300B3DA6A /* Sites */,
 				9D9C5FF92482970300B3DA6A /* Tabs */,
 				9D9C5FF62482934900B3DA6A /* Pills */,
@@ -1480,14 +1490,6 @@
 			path = DataSharing;
 			sourceTree = "<group>";
 		};
-		9D8F45E12496621000F2C39A /* Alerts */ = {
-			isa = PBXGroup;
-			children = (
-				9D8F45E22496621D00F2C39A /* AlertDispatcherTests.swift */,
-			);
-			path = Alerts;
-			sourceTree = "<group>";
-		};
 		9D8F45E82496717900F2C39A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1559,6 +1561,7 @@
 			isa = PBXGroup;
 			children = (
 				9D9C5FFC24829C8B00B3DA6A /* Details */,
+				9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */,
 			);
 			path = Pills;
 			sourceTree = "<group>";
@@ -2209,6 +2212,7 @@
 				9D6E9AF92456256F003BBCC9 /* NotificationsTests.swift in Sources */,
 				9D9C5FF02479EDED00B3DA6A /* PDBadgeTests.swift in Sources */,
 				9D6E9B2A245DAE60003BBCC9 /* HormoneNotificationActionHandlerTests.swift in Sources */,
+				9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */,
 				9D6E9B27245CDAF8003BBCC9 /* DuePillNotificationTests.swift in Sources */,
 				9D8F45D82495694A00F2C39A /* SitesViewModelTests.swift in Sources */,
 				9D1908DF2468315F00E95244 /* SettingsSavePointTests.swift in Sources */,
@@ -2220,9 +2224,9 @@
 				9D6E9B2D245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */,
 				9D8F45D4248BED7700F2C39A /* SiteImageHistoryTests.swift in Sources */,
-				9D8F45E32496621D00F2C39A /* AlertDispatcherTests.swift in Sources */,
 				9D8F45DA24956C6C00F2C39A /* HormonesViewModelTests.swift in Sources */,
 				9D8F45D62495473500F2C39A /* HormoneValueTypeTests.swift in Sources */,
+				9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */,
 				9D9C5FFE24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift in Sources */,
 				9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */,
 				9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */,
@@ -2656,7 +2660,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2681,7 +2685,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2897,7 +2901,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PDToday;
@@ -2928,7 +2932,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PDToday;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2962,7 +2966,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
@@ -2999,7 +3003,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -3093,7 +3097,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3129,7 +3133,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 3.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

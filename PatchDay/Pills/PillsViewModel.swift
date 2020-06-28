@@ -9,13 +9,38 @@ import PDKit
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	var pillsTable: PillsTable! = nil
+	var alertFactory: AlertProducing?
 
 	init(pillsTableView: UITableView) {
 		super.init()
+		finishInit(pillsTableView)
+	}
+
+	init(
+		pillsTableView: UITableView,
+		alertFactory: AlertProducing? = nil,
+		dependencies: DependenciesProtocol
+	) {
+		self.alertFactory = alertFactory
+		super.init(
+			sdk: dependencies.sdk,
+			tabs: dependencies.tabs,
+			notifications: dependencies.notifications,
+			alerts: dependencies.alerts,
+			nav: dependencies.nav,
+			badge: dependencies.badge
+		)
+		self.finishInit(pillsTableView)
+	}
+
+	private func finishInit(_ pillsTableView: UITableView) {
 		let tableWrapper = PillsTable(pillsTableView, pills: pills)
 		self.pillsTable = tableWrapper
 		tabs?.reflectPills()
 		watchForChanges()
+		if self.alertFactory == nil, let sdk = sdk {
+			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
+		}
 	}
 
 	var pills: PillScheduling? { sdk?.pills }
@@ -59,7 +84,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 			takePillCompletion()
 		}
 		let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
-		alerts?.presentPillActions(for: pill, handlers: handlers)
+		let alert = self.alertFactory?.createPillActions(pill, handlers)
+		alert?.present()
 	}
 
 	func goToNewPillDetails(pillsViewController: UIViewController) {

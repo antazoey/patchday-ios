@@ -30,9 +30,11 @@ class IntegrationTests: XCTestCase {
 
 	func testWhenChangingHormoneBadgeUpdatesCorrectly() {
 		let badge = PDBadge(sdk: sdk)
-		sdk.hormones.setDate(at: 0, with: DateFactory.createDate(daysFromNow: -20)!)
-		sdk.hormones.setDate(at: 1, with: DateFactory.createDate(daysFromNow: -20)!)
-		sdk.hormones.setDate(at: 2, with: DateFactory.createDate(daysFromNow: -20)!)
+		sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
+		let ids = self.sdk.hormones.all.map({ $0.id })
+		sdk.hormones.setDate(by: ids[0], with: DateFactory.createDate(daysFromNow: -20)!)
+		sdk.hormones.setDate(by: ids[1], with: DateFactory.createDate(daysFromNow: -20)!)
+		sdk.hormones.setDate(by: ids[2], with: DateFactory.createDate(daysFromNow: -20)!)
 		badge.reflect()
 
 		XCTAssertEqual(3, sdk.hormones.totalExpired)
@@ -53,7 +55,6 @@ class IntegrationTests: XCTestCase {
 		)
 		let handlers = DeliveryMethodMutationAlertActionHandler { (_, _) in () }
 		let patchesToGelAlert = DeliveryMethodMutationAlert(
-			style: .actionSheet,
 			sdk: sdk,
 			tabs: tabs,
 			originalDeliveryMethod: .Patches,
@@ -66,7 +67,6 @@ class IntegrationTests: XCTestCase {
 		XCTAssertEqual(1, sdk.settings.quantity.rawValue)
 
 		let injectionsToPatchesAlert = DeliveryMethodMutationAlert(
-			style: .actionSheet,
 			sdk: sdk,
 			tabs: tabs,
 			originalDeliveryMethod: .Injections,

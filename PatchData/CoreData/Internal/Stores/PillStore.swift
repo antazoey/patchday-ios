@@ -22,7 +22,9 @@ class PillStore: EntityStore, PillStoring {
 	}
 
 	func createNewPill(name: String) -> Swallowable? {
-		guard let newPillDataFromStore = entities.createNewManagedPill(name: name) else { return nil }
+		guard let newPillDataFromStore = entities.createNewManagedPill(name: name) else {
+			return nil
+		}
 		return Pill(pillData: newPillDataFromStore)
 	}
 

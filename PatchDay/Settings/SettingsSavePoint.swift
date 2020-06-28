@@ -34,7 +34,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		notifications?.cancelAllExpiredHormoneNotifications()
 		switch key {
 			case .DeliveryMethod: saveDeliveryMethodChange(selectedRow, alertFactory: alertFactory)
-			case .Quantity: saveQuantity(selectedRow)
+			case .Quantity: saveQuantity(selectedRow, alertFactory: alertFactory)
 			case .ExpirationInterval: saveExpirationInterval(selectedRow)
 		default: log.error("Error: No picker for key \(key)")
 		}
@@ -78,15 +78,17 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		alert.present()
 	}
 
-	private func saveQuantity(_ selectedRow: Index) {
+	private func saveQuantity(_ selectedRow: Index, alertFactory: AlertProducing) {
 		let decline: (Int) -> Void = {
 			oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)")
 		}
 		let newQuantity = SettingsOptions.getQuantity(at: selectedRow).rawValue
-		setQuantity(to: newQuantity, decline: decline)
+		setQuantity(to: newQuantity, decline: decline, factory: alertFactory)
 	}
 
-	private func setQuantity(to newQuantity: Int, decline: @escaping (Int) -> Void) {
+	private func setQuantity(
+		to newQuantity: Int, decline: @escaping (Int) -> Void, factory: AlertProducing
+	) {
 		guard let sdk = sdk else { return }
 		let oldQuantity = sdk.settings.quantity.rawValue
 		if newQuantity >= oldQuantity {
@@ -107,11 +109,28 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 			decline: decline,
 			setQuantity: sdk.settings.setQuantity
 		)
-		alerts?.presentQuantityMutationAlert(
+		presentQuantityMutationAlert(
 			oldQuantity: oldQuantity,
 			newQuantity: newQuantity,
-			handlers: handler
+			handlers: handler,
+			factory: factory
 		)
+	}
+
+	private func presentQuantityMutationAlert(
+		oldQuantity: Int,
+		newQuantity: Int,
+		handlers: QuantityMutationAlertActionHandling,
+		factory: AlertProducing
+	) {
+		if newQuantity > oldQuantity {
+			handlers.setQuantityWithoutAlert(newQuantity: newQuantity)
+			return
+		}
+		let alert = factory.createQuantityMutationAlert(
+			handlers: handlers, oldQuantity: oldQuantity, newQuantity: newQuantity
+		)
+		alert.present()
 	}
 
 	private func saveExpirationInterval(_ selectedRow: Index) {

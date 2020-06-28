@@ -23,7 +23,8 @@ class SettingsViewModelTests: XCTestCase {
 		let controls = helper.createControls()
 		let reflector = SettingsReflector(controls, dependencies)
 		let saver = SettingsSavePoint(controls, dependencies)
-		let viewModel = SettingsViewModel(reflector, saver, dependencies)
+		let alertFactory = MockAlertFactory()
+		let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
 		let picker = SettingsPickerView()
 		picker.isHidden = true
@@ -38,7 +39,8 @@ class SettingsViewModelTests: XCTestCase {
 		let controls = helper.createControls()
 		let reflector = SettingsReflector(controls, dependencies)
 		let saver = SettingsSavePoint(controls, dependencies)
-		let viewModel = SettingsViewModel(reflector, saver, dependencies)
+		let alertFactory = MockAlertFactory()
+		let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
 		let picker = SettingsPickerView()
 		picker.setting = .ExpirationInterval
@@ -53,7 +55,8 @@ class SettingsViewModelTests: XCTestCase {
 		let controls = helper.createControls()
 		let reflector = SettingsReflector(controls, dependencies)
 		let saver = SettingsSavePoint(controls, dependencies)
-		let viewModel = SettingsViewModel(reflector, saver, dependencies)
+		let alertFactory = MockAlertFactory()
+		let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 		let settings = dependencies.sdk?.settings as! MockSettings
 		settings.notifications = NotificationsUD(false)
 
@@ -66,7 +69,8 @@ class SettingsViewModelTests: XCTestCase {
 		let controls = helper.createControls()
 		let reflector = SettingsReflector(controls, dependencies)
 		let saver = SettingsSavePoint(controls, dependencies)
-		let viewModel = SettingsViewModel(reflector, saver, dependencies)
+		let alertFactory = MockAlertFactory()
+		let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
 		viewModel.handleNewNotificationsValue(-23)
 
@@ -78,7 +82,8 @@ class SettingsViewModelTests: XCTestCase {
 		let controls = helper.createControls()
 		let reflector = SettingsReflector(controls, dependencies)
 		let saver = SettingsSavePoint(controls, dependencies)
-		let viewModel = SettingsViewModel(reflector, saver, dependencies)
+		let alertFactory = MockAlertFactory()
+		let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 		let settings = dependencies.sdk?.settings as! MockSettings
 		settings.notifications = NotificationsUD(true)
 
@@ -93,7 +98,8 @@ class SettingsViewModelTests: XCTestCase {
 		let controls = helper.createControls()
 		let reflector = SettingsReflector(controls, dependencies)
 		let saver = SettingsSavePoint(controls, dependencies)
-		let viewModel = SettingsViewModel(reflector, saver, dependencies)
+		let alertFactory = MockAlertFactory()
+		let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
 		viewModel.handleNewNotificationsValue(23)
 

@@ -80,21 +80,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 		notifications?.requestAllExpiredHormoneNotifications()
 	}
 
-	func presentQuantityMutationAlert(
-		oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
-	) {
-		if newQuantity > oldQuantity {
-			handlers.setQuantityWithoutAlert(newQuantity: newQuantity)
-			return
-		}
-		QuantityMutationAlert(
-			style: PDAlert.style,
-			actionHandler: handlers,
-			oldQuantity: oldQuantity,
-			newQuantity: newQuantity
-		).present()
-	}
-
 	private func close(_ picker: SettingsPickerView) {
 		picker.close()
 		guard let setting = picker.setting else { return }

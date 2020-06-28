@@ -35,6 +35,17 @@ class AlertFactory: AlertProducing {
 		)
 	}
 
+	func createQuantityMutationAlert(
+		handlers: QuantityMutationAlertActionHandling, oldQuantity: Int, newQuantity: Int
+	) -> PDAlerting {
+		QuantityMutationAlert(
+			style: PDAlert.style,
+			actionHandler: handlers,
+			oldQuantity: oldQuantity,
+			newQuantity: newQuantity
+		)
+	}
+
 	func createHormoneActions(
 		_ currentSite: SiteName,
 		_ suggestSiteName: SiteName?,
@@ -44,5 +55,13 @@ class AlertFactory: AlertProducing {
 		HormoneCellActionAlert(
 			currentSite: currentSite, nextSite: suggestSiteName, changeHormone: change, nav: nav
 		)
+	}
+
+	func createPillActions(_ pill: Swallowable, _ handlers: PillCellActionHandling) -> PDAlerting {
+		PillCellActionAlert(pill: pill, handlers: handlers)
+	}
+
+	func createNewSiteAlert(_ handlers: NewSiteAlertActionHandling) -> PDAlerting {
+		NewSiteAlert(style: PDAlert.style, handlers: handlers)
 	}
 }

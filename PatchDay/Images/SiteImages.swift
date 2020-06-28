@@ -26,12 +26,12 @@ public class SiteImages: NSObject {
 	static var customPatch: UIImage { initImage("Custom Patch") }
 
 	// Injection site images
-	static var lnjectionLeftQuad: UIImage { initImage(SiteStrings.LeftQuad) }
-	static var lnjectionRightQuad: UIImage { initImage(SiteStrings.RightQuad) }
-	static var lnjectionLeftGlute: UIImage { initImage("Left Injection Glute") }
-	static var lnjectionGluteRight: UIImage { initImage("Right Injection Glute") }
-	static var lnjectionLeftDelt: UIImage { initImage(SiteStrings.LeftDelt) }
-	static var lnjectionRightDelt: UIImage { initImage(SiteStrings.RightDelt) }
+	static var injectionLeftQuad: UIImage { initImage(SiteStrings.LeftQuad) }
+	static var injectionRightQuad: UIImage { initImage(SiteStrings.RightQuad) }
+	static var injectionLeftGlute: UIImage { initImage("Left Injection Glute") }
+	static var injectionRightGlute: UIImage { initImage("Right Injection Glute") }
+	static var injectionLeftDelt: UIImage { initImage(SiteStrings.LeftDelt) }
+	static var injectionRightDelt: UIImage { initImage(SiteStrings.RightDelt) }
 	static var customInjection: UIImage { initImage("Custom Injection") }
 
 	// Gel images
@@ -44,12 +44,12 @@ public class SiteImages: NSObject {
 
 	static var injectionImages: [UIImage] {
 		[
-			lnjectionRightQuad,
-			lnjectionLeftQuad,
-			lnjectionLeftGlute,
-			lnjectionGluteRight,
-			lnjectionLeftDelt,
-			lnjectionRightDelt,
+			injectionRightQuad,
+			injectionLeftQuad,
+			injectionLeftGlute,
+			injectionRightGlute,
+			injectionLeftDelt,
+			injectionRightDelt,
 			customInjection
 		]
 	}
@@ -78,12 +78,12 @@ public class SiteImages: NSObject {
 			patchLeftGlute: SiteStrings.LeftGlute,
 			patchRightAbdomen: SiteStrings.RightAbdomen,
 			patchLeftAbdomen: SiteStrings.LeftAbdomen,
-			lnjectionGluteRight: SiteStrings.RightGlute,
-			lnjectionLeftGlute: SiteStrings.LeftGlute,
-			lnjectionRightQuad: SiteStrings.RightQuad,
-			lnjectionLeftQuad: SiteStrings.LeftQuad,
-			lnjectionRightDelt: SiteStrings.RightDelt,
-			lnjectionLeftDelt: SiteStrings.LeftDelt,
+			injectionRightGlute: SiteStrings.RightGlute,
+			injectionLeftGlute: SiteStrings.LeftGlute,
+			injectionRightQuad: SiteStrings.RightQuad,
+			injectionLeftQuad: SiteStrings.LeftQuad,
+			injectionRightDelt: SiteStrings.RightDelt,
+			injectionLeftDelt: SiteStrings.LeftDelt,
 			arms: SiteStrings.Arms
 		]
 	}
@@ -99,12 +99,12 @@ public class SiteImages: NSObject {
 
 	private static var siteNameToInjectionImageDict: [SiteName: UIImage] {
 		[
-			SiteStrings.RightGlute: lnjectionGluteRight,
-			SiteStrings.LeftGlute: lnjectionLeftGlute,
-			SiteStrings.RightDelt: lnjectionRightDelt,
-			SiteStrings.LeftDelt: lnjectionLeftDelt,
-			SiteStrings.RightQuad: lnjectionRightQuad,
-			SiteStrings.LeftQuad: lnjectionLeftQuad
+			SiteStrings.RightGlute: injectionRightGlute,
+			SiteStrings.LeftGlute: injectionLeftGlute,
+			SiteStrings.RightDelt: injectionRightDelt,
+			SiteStrings.LeftDelt: injectionLeftDelt,
+			SiteStrings.RightQuad: injectionRightQuad,
+			SiteStrings.LeftQuad: injectionLeftQuad
 		]
 	}
 
@@ -145,7 +145,7 @@ public class SiteImages: NSObject {
 		switch params.deliveryMethod {
 			case .Patches: return customPatch
 			case .Injections: return customInjection
-			default: return nil
+			case .Gel: return customGel
 		}
 	}
 

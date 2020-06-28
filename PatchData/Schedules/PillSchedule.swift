@@ -71,7 +71,8 @@ public class PillSchedule: NSObject, PillScheduling {
 
 	@discardableResult
 	public func insertNew(onSuccess: (() -> Void)?) -> Swallowable? {
-		if let pill = store.createNewPill() {
+		if var pill = store.createNewPill() {
+			pill.notify = true
 			context.append(pill)
 			store.pushLocalChangesToManagedContext([pill], doSave: true)
 			onSuccess?()
@@ -95,6 +96,7 @@ public class PillSchedule: NSObject, PillScheduling {
 			(currentPills: [Swallowable], name: String) -> [Swallowable] in
 			if var pill = store.createNewPill(name: name) {
 				pill.timesaday = 1
+				pill.notify = true
 				return currentPills + [pill]
 			}
 			return currentPills
