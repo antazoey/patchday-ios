@@ -166,9 +166,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 	}
 
 	private func initViewModel() {
-		let saver = SettingsSavePoint(controlsStruct)
-		let reflector = SettingsReflector(controlsStruct)
-		self.viewModel = SettingsViewModel(reflector, saver)
+		self.viewModel = SettingsViewModel(controls: controlsStruct)
 	}
 
 	private func handlePickerActivation(_ setting: PDSetting) {

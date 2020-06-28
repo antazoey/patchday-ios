@@ -30,10 +30,10 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		)
 	}
 
-	public func save(_ key: PDSetting, selectedRow: Index) {
+	public func save(_ key: PDSetting, selectedRow: Index, alertFactory: AlertProducing) {
 		notifications?.cancelAllExpiredHormoneNotifications()
 		switch key {
-			case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
+			case .DeliveryMethod: saveDeliveryMethodChange(selectedRow, alertFactory: alertFactory)
 			case .Quantity: saveQuantity(selectedRow)
 			case .ExpirationInterval: saveExpirationInterval(selectedRow)
 		default: log.error("Error: No picker for key \(key)")
@@ -41,19 +41,21 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 		notifications?.requestAllExpiredHormoneNotifications()
 	}
 
-	private func saveDeliveryMethodChange(_ selectedRow: Index) {
+	private func saveDeliveryMethodChange(_ selectedRow: Index, alertFactory: AlertProducing) {
 		guard let sdk = sdk else { return }
 		let newMethod = SettingsOptions.getDeliveryMethod(at: selectedRow)
 		sdk.isFresh
 			? sdk.settings.setDeliveryMethod(to: newMethod)
-			: presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
+			: presentDeliveryMethodMutationAlert(
+				choice: newMethod, controls: controls, factory: alertFactory
+		)
 		controls.reflect(method: newMethod)
 		let defaultQuantity = DefaultQuantities.Hormone[newMethod]
 		controls.quantityButton.setTitle("\(defaultQuantity)")
 	}
 
 	private func presentDeliveryMethodMutationAlert(
-		choice: DeliveryMethod, controls: SettingsControls
+		choice: DeliveryMethod, controls: SettingsControls, factory: AlertProducing
 	) {
 		// Put view logic here that reflects the state of the delivery method in the Settings view.
 		let decline = { (_ originalMethod: DeliveryMethod, _ originalQuantity: Int) -> Void in
@@ -70,7 +72,10 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
 			}
 		}
 		let handlers = DeliveryMethodMutationAlertActionHandler(decline: decline)
-		alerts?.presentDeliveryMethodMutationAlert(newMethod: choice, handlers: handlers)
+		let alert = factory.createDeliveryMethodMutationAlert(
+			newDeliveryMethod: choice, handlers: handlers
+		)
+		alert.present()
 	}
 
 	private func saveQuantity(_ selectedRow: Index) {

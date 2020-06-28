@@ -150,6 +150,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 			tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk
 		)
 		AppDelegate.current?.tabs = tabs
+		AppDelegate.current?.alerts?.factory.tabs = tabs
 		self.tabs = tabs
 	}
 }

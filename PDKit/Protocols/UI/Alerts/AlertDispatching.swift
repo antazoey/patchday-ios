@@ -9,15 +9,15 @@
 import Foundation
 
 public protocol AlertDispatching {
+
+	var factory: AlertProducing {get set}
+
 	func presentHormoneActions(
 		at row: Index,
 		reload: @escaping () -> Void,
 		nav: @escaping () -> Void
 	)
 	func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling)
-	func presentDeliveryMethodMutationAlert(
-		newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
-	)
 	func presentQuantityMutationAlert(
 		oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
 	)

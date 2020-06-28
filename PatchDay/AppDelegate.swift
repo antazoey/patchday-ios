@@ -55,7 +55,7 @@ import PatchData
 		let badge = PDBadge(sdk: sdk)
 		self.badge = badge
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
-		self.alerts = AlertDispatcher(sdk: sdk, factory: AlertFactory())
+		self.alerts = AlertDispatcher(sdk: sdk, tabs: nil)
 		reflectBadges()
 	}
 

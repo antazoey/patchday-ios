@@ -44,7 +44,6 @@ class DeliveryMethodMutationAlert: PDAlert {
 	}()
 
 	init(
-		style: UIAlertController.Style,
 		sdk: PatchDataSDK?,
 		tabs: TabReflective?,
 		originalDeliveryMethod: DeliveryMethod,
@@ -60,7 +59,7 @@ class DeliveryMethodMutationAlert: PDAlert {
 		self.originalQuantity = originalQuantity
 		self.newDeliveryMethod = newDeliveryMethod
 		super.init(
-			title: strings.title, message: strings.message, style: style
+			title: strings.title, message: strings.message, style: PDAlert.style
 		)
 	}
 

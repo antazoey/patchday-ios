@@ -13,7 +13,7 @@ class AlertDispatcher: NSObject, AlertDispatching {
 	override var description: String { "Controls alerts." }
 
 	private let sdk: PatchDataSDK?
-	private let factory: AlertProducing
+	var factory: AlertProducing
 	private let tabs: TabReflective?
 	private let log = PDLog<AlertDispatcher>()
 
@@ -21,28 +21,10 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		AppDelegate.isPad ? .alert : .actionSheet
 	}()
 
-	init(sdk: PatchDataSDK?, factory: AlertProducing, tabs: TabReflective? = nil) {
+	init(sdk: PatchDataSDK, tabs: TabReflective?, factory: AlertProducing? = nil) {
 		self.sdk = sdk
-		self.factory = factory
+		self.factory = factory ?? AlertFactory(sdk: sdk, tabs: tabs)
 		self.tabs = tabs
-	}
-
-	/// Alert that occurs when the delivery method has changed because data could now be lost.
-	func presentDeliveryMethodMutationAlert(
-		newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
-	) {
-		guard let sdk = sdk else { return }
-		let originalMethod = sdk.settings.deliveryMethod.value
-		let tabs = self.tabs ?? AppDelegate.current?.tabs
-		DeliveryMethodMutationAlert(
-			style: self.style,
-			sdk: sdk,
-			tabs: tabs,
-			originalDeliveryMethod: originalMethod,
-			originalQuantity: sdk.settings.quantity.rawValue,
-			newDeliveryMethod: newMethod,
-			handlers: handlers
-		).present()
 	}
 
 	/// Alert for changing the count of hormones causing a loss of data.
@@ -101,12 +83,10 @@ class AlertDispatcher: NSObject, AlertDispatching {
 		PillCellActionAlert(pill: pill, handlers: handlers).present()
 	}
 
-	/// Alert that displays a quick tutorial and disclaimer on installation.
 	func presentDisclaimerAlert() {
 		DisclaimerAlert(style: style).present()
 	}
 
-	/// Alert that gives the user the option to add a new site they typed out in the UI.
 	func presentNewSiteAlert(handlers: NewSiteAlertActionHandling) {
 		NewSiteAlert(style: style, handlers: handlers).present()
 	}

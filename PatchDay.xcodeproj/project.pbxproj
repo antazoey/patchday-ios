@@ -848,6 +848,7 @@
 		3397C0E1224465191A078D84 /* Sites */ = {
 			isa = PBXGroup;
 			children = (
+				9D029FC224A8399300F4BC67 /* Alerts */,
 				3397C609A733531CFC1C82A1 /* SitesTable.swift */,
 				3397C38F2F374263D15AFAAD /* SiteViewFactory.swift */,
 				3397C732C09787FC94D77CB9 /* SiteValueTypes.swift */,
@@ -885,6 +886,7 @@
 		3397C37F978FFB434BFF4FDE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9D029FC124A8397A00F4BC67 /* Alerts */,
 				9D6DB7E12406002B00C00711 /* SettingsPickerView.swift */,
 				3397C7DB5907E297804FE42B /* SettingsViewModel.swift */,
 				3397CBAEECDFB0997BB88263 /* SettingsSavePoint.swift */,
@@ -898,6 +900,7 @@
 		3397C45AFE80B6E86213E63C /* Pills */ = {
 			isa = PBXGroup;
 			children = (
+				9D029FC424A839B900F4BC67 /* Alerts */,
 				3397C4F5D8AADC9C5B2831CA /* PillCell.swift */,
 				3397C6E2BC39EA33203730DE /* PillsViewModel.swift */,
 				3397C5E1286D48758418CA9A /* PillsTable.swift */,
@@ -953,7 +956,6 @@
 		3397CB13E4C554A7E1BA95B1 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
-				3397CBC785A3084F41648520 /* ActionHandlers */,
 				3397CC199B959B4215CCB571 /* Alerts */,
 				3397C8B360B6B1582B2DC97C /* PDAlert.swift */,
 				3397C3FEA855E6D94AB288AD /* AlertStrings.swift */,
@@ -961,17 +963,6 @@
 				9D8F45DD24965FDB00F2C39A /* AlertFactory.swift */,
 			);
 			path = Alerts;
-			sourceTree = "<group>";
-		};
-		3397CBC785A3084F41648520 /* ActionHandlers */ = {
-			isa = PBXGroup;
-			children = (
-				9DDAB03123FAE5DD00E6EEF6 /* NewSiteAlertActionHandler.swift */,
-				9DDAB03923FAEFF500E6EEF6 /* QuantityMutationAlertActionHandler.swift */,
-				9DDAB03B23FAF13400E6EEF6 /* DeliveryMethodMutationAlertActionHandler.swift */,
-				9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */,
-			);
-			path = ActionHandlers;
 			sourceTree = "<group>";
 		};
 		3397CC0083CB78BC1B9BC1F4 /* Details */ = {
@@ -987,14 +978,9 @@
 		3397CC199B959B4215CCB571 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
-				3397C1C060A400B13F4C03DC /* DeliveryMethodMutationAlert.swift */,
 				3397C7428C516F8FDBD1253E /* DisclaimerAlert.swift */,
 				3397C7499209AE8D1F2DC6AC /* PDGenericAlert.swift */,
-				3397C76B77C82500F8608543 /* QuantityMutationAlert.swift */,
-				3397CADC885E37C6B08B5EC8 /* NewSiteAlert.swift */,
-				3397C2272E1628C1CDBA4901 /* PillCellActionAlert.swift */,
 				9D9C60032489B75600B3DA6A /* UnsavedChangesAlert.swift */,
-				9D8F45DB2495B0BB00F2C39A /* HormoneCellActionAlert.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -1126,6 +1112,35 @@
 				3397CB53F54E67EA5276E7CD /* SettingsAndSites.storyboard */,
 			);
 			name = Storyboards;
+			sourceTree = "<group>";
+		};
+		9D029FC124A8397A00F4BC67 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				9DDAB03923FAEFF500E6EEF6 /* QuantityMutationAlertActionHandler.swift */,
+				9DDAB03B23FAF13400E6EEF6 /* DeliveryMethodMutationAlertActionHandler.swift */,
+				3397C1C060A400B13F4C03DC /* DeliveryMethodMutationAlert.swift */,
+				3397C76B77C82500F8608543 /* QuantityMutationAlert.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
+		9D029FC224A8399300F4BC67 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				3397CADC885E37C6B08B5EC8 /* NewSiteAlert.swift */,
+				9DDAB03123FAE5DD00E6EEF6 /* NewSiteAlertActionHandler.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
+		9D029FC424A839B900F4BC67 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				3397C2272E1628C1CDBA4901 /* PillCellActionAlert.swift */,
+				9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */,
+			);
+			path = Alerts;
 			sourceTree = "<group>";
 		};
 		9D1908D22460C76900E95244 /* DataSharing */ = {
@@ -1705,6 +1720,7 @@
 			children = (
 				3397C0464AEDF8C2A41814E6 /* Details */,
 				139754BD1EDA8C4D006C82B8 /* HormonesViewController.swift */,
+				9D8F45DB2495B0BB00F2C39A /* HormoneCellActionAlert.swift */,
 				B435182A20F5D72C00BD268C /* HormoneCell.swift */,
 				9D9397B6237884DA00FDF290 /* HormonesViewModel.swift */,
 				3397CA1A9C6D122F6FEB4D49 /* HormoneValueTypes.swift */,

@@ -13,20 +13,37 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 
 	var reflector: SettingsReflector
 	var saver: SettingsSavePoint
+	var alertFactory: AlertProducing?
 
-	init(_ reflector: SettingsReflector, _ saver: SettingsSavePoint) {
-		self.reflector = reflector
-		self.saver = saver
-		super.init()
+	convenience init(controls: SettingsControls) {
+		let reflector = SettingsReflector(controls)
+		let saver = SettingsSavePoint(controls)
+		self.init(reflector, saver, nil)
 	}
 
 	init(
 		_ reflector: SettingsReflector,
 		_ saver: SettingsSavePoint,
+		_ alertFactory: AlertProducing? = nil
+	) {
+		self.reflector = reflector
+		self.saver = saver
+		self.alertFactory = alertFactory
+		super.init()
+		if self.alertFactory == nil, let sdk = sdk {
+			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
+		}
+	}
+
+	init(
+		_ reflector: SettingsReflector,
+		_ saver: SettingsSavePoint,
+		_ alertFactory: AlertProducing,
 		_ dependencies: DependenciesProtocol
 	) {
 		self.reflector = reflector
 		self.saver = saver
+		self.alertFactory = alertFactory
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
@@ -63,10 +80,27 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 		notifications?.requestAllExpiredHormoneNotifications()
 	}
 
+	func presentQuantityMutationAlert(
+		oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling
+	) {
+		if newQuantity > oldQuantity {
+			handlers.setQuantityWithoutAlert(newQuantity: newQuantity)
+			return
+		}
+		QuantityMutationAlert(
+			style: PDAlert.style,
+			actionHandler: handlers,
+			oldQuantity: oldQuantity,
+			newQuantity: newQuantity
+		).present()
+	}
+
 	private func close(_ picker: SettingsPickerView) {
 		picker.close()
 		guard let setting = picker.setting else { return }
 		let row = picker.selectedRow(inComponent: 0)
-		saver.save(setting, selectedRow: row)
+		if let factory = alertFactory {
+			saver.save(setting, selectedRow: row, alertFactory: factory)
+		}
 	}
 }

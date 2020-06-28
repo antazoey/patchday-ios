@@ -41,6 +41,9 @@ class PDAlertController: UIAlertController {
 class PDAlert: PDAlerting {
 
 	let alert: PDAlertController
+	static var style: UIAlertController.Style = {
+		AppDelegate.isPad ? .alert : .actionSheet
+	}()
 
 	init(title: String, message: String, style: UIAlertController.Style) {
 		let _style = AppDelegate.isPad ? .alert : style

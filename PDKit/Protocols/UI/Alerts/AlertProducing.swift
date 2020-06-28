@@ -9,6 +9,14 @@
 import Foundation
 
 public protocol AlertProducing {
+
+	var tabs: TabReflective? {get set}
+
+	func createDeliveryMethodMutationAlert(
+		newDeliveryMethod: DeliveryMethod,
+		handlers: DeliveryMethodMutationAlertActionHandling
+	) -> PDAlerting
+	
 	func createHormoneActions(
 		_ currentSite: SiteName,
 		_ suggestSiteName: SiteName?,
