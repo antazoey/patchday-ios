@@ -38,6 +38,10 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
 	public var suggested: Bodily? {
 		guard count > 0 else { return nil }
+		if count == 1 {
+			return self[0]
+		}
+
 		if let shouldBeSuggestedSite = firstEmptyFromSiteIndex ?? siteWithOldestHormone {
 			// If the current siteIndex is not actually pointing to the correct 'suggested',
 			// fix it here before giving the correct suggested site.

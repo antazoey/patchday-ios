@@ -5,6 +5,7 @@
 ### Fixed
 
 - Issue where if you disable and re-enable the Notifications setting on Dark mode, some text would disappear.
+- Issue where if there was only one Site, the site schedule would not suggest it.
 
 ## 3.0.2
 

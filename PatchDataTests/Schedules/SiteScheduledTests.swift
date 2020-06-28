@@ -169,6 +169,16 @@ class SiteScheduleTests: XCTestCase {
 		XCTAssertEqual(3, mockSettings.siteIndex.value)
 	}
 
+	public func testSuggested_whenOnlyOneSite_returnsSite() {
+		let mockSites = [MockSite()]
+		mockStore.getStoredCollectionReturnValues = [mockSites]
+		sites = SiteSchedule(store: mockStore, settings: mockSettings)
+		mockSettings.siteIndex = SiteIndexUD(3)  // Shouldn't matter what index is.
+		let expected = mockSites[0].id
+		let actual = sites.suggested!.id
+		XCTAssertEqual(expected, actual)
+	}
+
 	public func testNextIndex_whenSitesCountIsZero_returnsNegativeOne() {
 		sites = SiteSchedule(store: mockStore, settings: mockSettings, resetWhenEmpty: false)
 		let expected = -1

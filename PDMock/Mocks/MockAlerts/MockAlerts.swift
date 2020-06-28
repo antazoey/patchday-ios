@@ -10,26 +10,16 @@ import Foundation
 import PDKit
 
 public class MockAlerts: AlertDispatching {
-	
+
+	public var factory: AlertProducing = MockAlertFactory()
+
 	public init() {}
 
-	public var presentHormoneActionsCallArgs: [(Index, () -> Void, () -> Void)] = []
-	public func presentHormoneActions(
-		at row: Index, reload: @escaping () -> Void, nav: @escaping () -> Void
-	) {
-		presentHormoneActionsCallArgs.append((row, reload, nav))
-	}
-	
 	public var presentPillActionsCallArgs: [(Swallowable, PillCellActionHandling)] = []
 	public func presentPillActions(for pill: Swallowable, handlers: PillCellActionHandling) {
 		presentPillActionsCallArgs.append((pill, handlers))
 	}
-	
-	public var presentDeliveryMethodMutationAlertCallArgs: [(DeliveryMethod, DeliveryMethodMutationAlertActionHandling)] = []
-	public func presentDeliveryMethodMutationAlert(newMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling) {
-		presentDeliveryMethodMutationAlertCallArgs.append((newMethod, handlers))
-	}
-	
+
 	public var presentQuantityMutationAlertCallArgs: [(Int, Int, QuantityMutationAlertActionHandling)] = []
 	public func presentQuantityMutationAlert(oldQuantity: Int, newQuantity: Int, handlers: QuantityMutationAlertActionHandling) {
 		presentQuantityMutationAlertCallArgs.append((oldQuantity, newQuantity, handlers))

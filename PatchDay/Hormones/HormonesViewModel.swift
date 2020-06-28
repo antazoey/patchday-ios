@@ -12,6 +12,7 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private let style: UIUserInterfaceStyle
+	private var alertFactory: AlertProducing!
 	let table: HormonesTable
 	var hormones: HormoneScheduling? { sdk?.hormones }
 
@@ -96,11 +97,26 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		at index: Index, _ hormonesViewController: UIViewController, reload: @escaping () -> Void
 	) {
 		sdk?.sites.reloadContext()
-		alerts?.presentHormoneActions(
-			at: index,
-			reload: { reload(); self.requesttHormoneNotification(from: index)},
-			nav: { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
+		guard let hormone = sdk?.hormones[index] else { return }
+		let nextSite = sdk?.sites.suggested
+		let changeHormone = {
+			guard let sdk = self.sdk else {
+				reload()
+				return
+			}
+			sdk.hormones.setDate(by: hormone.id, with: Date())
+			if let site = nextSite {
+				sdk.hormones.setSite(by: hormone.id, with: site)
+			}
+			reload()
+		}
+		let alert = self.alertFactory.createHormoneActions(
+			hormone.siteName,
+			nextSite?.name,
+			changeHormone,
+			{ self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
 		)
+		alert.present()
 	}
 
 	private func requesttHormoneNotification(from row: Index) {
@@ -119,9 +135,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	}
 
 	func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController) {
-		if let nav = nav {
-			nav.goToHormoneDetails(hormoneIndex, source: hormonesViewController)
-		}
+		nav?.goToHormoneDetails(hormoneIndex, source: hormonesViewController)
 	}
 
 	func loadAppTabs(source: UIViewController) {
@@ -152,5 +166,8 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		AppDelegate.current?.tabs = tabs
 		AppDelegate.current?.alerts?.factory.tabs = tabs
 		self.tabs = tabs
+		if let sdk = sdk {
+			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
+		}
 	}
 }

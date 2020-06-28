@@ -10,6 +10,16 @@ import Foundation
 import PDKit
 
 public class MockAlertFactory: AlertProducing {
+
+	public var tabs: TabReflective?
+
+	public var createDeliveryMethodMutationAlertCallArgs: [(DeliveryMethod, DeliveryMethodMutationAlertActionHandling)] = []
+	public var createDeliveryMethodMutationAlertReturnValue = MockAlert()
+	public func createDeliveryMethodMutationAlert(newDeliveryMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling) -> PDAlerting {
+		createDeliveryMethodMutationAlertCallArgs.append((newDeliveryMethod, handlers))
+		return createDeliveryMethodMutationAlertReturnValue
+	}
+
 	public func createHormoneActions(
 		_ currentSite: SiteName,
 		_ suggestSiteName: SiteName?,
