@@ -192,10 +192,12 @@ class SiteDetailViewModelTests: XCTestCase {
 		let sites = viewModel.sdk?.sites as! MockSiteSchedule
 		sites.count = 5  // Equal to site.order above
 		viewModel.handleIfUnsaved(UIViewController())
-		let discard = (viewModel.alerts as! MockAlerts).presentUnsavedAlertCallArgs[0].2
+		let alerts = viewModel.alerts as! MockAlertFactory
+		let discard = alerts.createUnsavedAlertCallArgs[0].2
 		discard()
 		let actual = (viewModel.sdk!.sites as! MockSiteSchedule).deleteCallArgs[0]
 		XCTAssertEqual(site.order, actual)
+		XCTAssertEqual(1, alerts.createUnsavedAlertReturnValue.presentCallCount)
 	}
 
 	func testHandleIfUnsaved_whenNoSelections_stillPops() {

@@ -56,4 +56,25 @@ public class MockAlertFactory: AlertProducing {
 		createNewSiteAlertCallArgs.append(handlers)
 		return createNewSiteAlertReturnValue
 	}
+
+	public var createUnsavedAlertCallArgs: [(UIViewController, () -> Void, () -> Void)] = []
+	public var createUnsavedAlertReturnValue = MockAlert()
+	public func createUnsavedAlert(_ parent: UIViewController, saveAndContinueHandler: @escaping () -> Void, discardHandler: @escaping () -> Void) -> PDAlerting {
+		createUnsavedAlertCallArgs.append((parent, saveAndContinueHandler, discardHandler))
+		return createUnsavedAlertReturnValue
+	}
+
+	public var createDisclaimerAlertCallCount = 0
+	public var createDisclaimerAlertReturnValue = MockAlert()
+	public func createDisclaimerAlert() -> PDAlerting {
+		createDisclaimerAlertCallCount += 1
+		return createDisclaimerAlertReturnValue
+	}
+
+	public var createGenericAlertCallCount = 0
+	public var createGenericAlertReturnValue = MockAlert()
+	public func createGenericAlert() -> PDAlerting {
+		createGenericAlertCallCount += 1
+		return createGenericAlertReturnValue
+	}
 }

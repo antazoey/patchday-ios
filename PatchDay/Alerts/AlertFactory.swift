@@ -81,7 +81,7 @@ class AlertFactory: AlertProducing {
 		DisclaimerAlert(style: .alert)
 	}
 
-	func presentGenericAlert() {
-		PDGenericAlert(style: PDAlert.style).present()
+	func createGenericAlert() -> PDAlerting {
+		PDGenericAlert(style: PDAlert.style)
 	}
 }

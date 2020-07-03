@@ -40,5 +40,5 @@ public protocol AlertProducing {
 
 	func createDisclaimerAlert() -> PDAlerting
 
-	func presentGenericAlert()
+	func createGenericAlert() -> PDAlerting
 }

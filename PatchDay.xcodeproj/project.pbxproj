@@ -100,7 +100,6 @@
 		9D1908E62468369700E95244 /* MockTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E52468369700E95244 /* MockTabs.swift */; };
 		9D1908E82468375200E95244 /* MockNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E72468375200E95244 /* MockNotifications.swift */; };
 		9D1908EA2468388B00E95244 /* MockNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E92468388B00E95244 /* MockNav.swift */; };
-		9D1908ED2468395C00E95244 /* MockAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908EC2468395C00E95244 /* MockAlerts.swift */; };
 		9D1908EF24684B5400E95244 /* SettingsReflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */; };
 		9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F024684BC900E95244 /* SettingsTestHelper.swift */; };
 		9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908F22468564100E95244 /* SettingsViewModelTests.swift */; };
@@ -529,7 +528,6 @@
 		9D1908E52468369700E95244 /* MockTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTabs.swift; sourceTree = "<group>"; };
 		9D1908E72468375200E95244 /* MockNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotifications.swift; sourceTree = "<group>"; };
 		9D1908E92468388B00E95244 /* MockNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNav.swift; sourceTree = "<group>"; };
-		9D1908EC2468395C00E95244 /* MockAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAlerts.swift; sourceTree = "<group>"; };
 		9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReflectorTests.swift; sourceTree = "<group>"; };
 		9D1908F024684BC900E95244 /* SettingsTestHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTestHelper.swift; sourceTree = "<group>"; };
 		9D1908F22468564100E95244 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
@@ -1174,7 +1172,6 @@
 		9D1908EB2468394B00E95244 /* MockAlerts */ = {
 			isa = PBXGroup;
 			children = (
-				9D1908EC2468395C00E95244 /* MockAlerts.swift */,
 				9D8F45E42496626B00F2C39A /* MockAlertFactory.swift */,
 				9D8F45E62496632600F2C39A /* MockAlert.swift */,
 			);
@@ -2258,7 +2255,6 @@
 				9D6E9AFD24563454003BBCC9 /* MockSettings.swift in Sources */,
 				9D6E9AFF2456376B003BBCC9 /* MockPillSchedule.swift in Sources */,
 				9D6E9AD624562155003BBCC9 /* MockNotificationCenter.swift in Sources */,
-				9D1908ED2468395C00E95244 /* MockAlerts.swift in Sources */,
 				3397CB2B0008632768A8CFAF /* MockSiteSchedule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
