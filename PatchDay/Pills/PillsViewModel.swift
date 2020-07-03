@@ -63,14 +63,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		self.tabs?.reflectPills()
 	}
 
-	func handlePillTaken(at row: Index) {
-		tabs?.reflectPills()
-		badge?.reflect()
-		if let pill = sdk?.pills[row] {
-			notifications?.requestDuePillNotification(pill)
-		}
-	}
-
 	func deletePill(at index: IndexPath) {
 		pills?.delete(at: index.row)
 		let pillsCount = pills?.count ?? 0
@@ -85,6 +77,11 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		let takePill = {
 			let _ = self.takePill(at: index)
 			takePillCompletion()
+			self.tabs?.reflectPills()
+			self.badge?.reflect()
+			if let pill = self.sdk?.pills[index] {
+				self.notifications?.requestDuePillNotification(pill)
+			}
 		}
 		let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
 		let alert = self.alerts?.createPillActions(pill, handlers)

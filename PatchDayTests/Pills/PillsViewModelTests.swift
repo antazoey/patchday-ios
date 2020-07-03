@@ -50,4 +50,13 @@ class PillsViewModelTests: XCTestCase {
 		handlers.takePill()
 		XCTAssert(completerCalled)
 	}
+
+	func testTakePill_callsSwallow() {
+		let viewModel = createViewModel()
+		viewModel.takePill(at: 0)
+		let pills = viewModel.sdk?.pills as! MockPillSchedule
+		XCTAssertEqual(1, pills.swallowCallArgs.count)
+	}
+
+	func testTakePill_
 }

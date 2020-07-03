@@ -62,7 +62,6 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 		viewModel.presentPillActions(at: indexPath.row, viewController: self) {
 			self.initViewModel()
 			self.pillsTableView.reloadRows(at: [indexPath], with: .none)
-			self.viewModel.handlePillTaken(at: indexPath.row)
 		}
 	}
 
