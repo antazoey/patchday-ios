@@ -9,7 +9,6 @@ import PDKit
 class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 
 	var pillsTable: PillsTable! = nil
-	var alertFactory: AlertProducing?
 
 	init(pillsTableView: UITableView) {
 		super.init()
@@ -21,7 +20,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		alertFactory: AlertProducing? = nil,
 		dependencies: DependenciesProtocol
 	) {
-		self.alertFactory = alertFactory
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
@@ -38,9 +36,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		self.pillsTable = tableWrapper
 		tabs?.reflectPills()
 		watchForChanges()
-		if self.alertFactory == nil, let sdk = sdk {
-			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
-		}
 	}
 
 	var pills: PillScheduling? { sdk?.pills }
@@ -68,6 +63,14 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 		self.tabs?.reflectPills()
 	}
 
+	func handlePillTaken(at row: Index) {
+		tabs?.reflectPills()
+		badge?.reflect()
+		if let pill = sdk?.pills[row] {
+			notifications?.requestDuePillNotification(pill)
+		}
+	}
+
 	func deletePill(at index: IndexPath) {
 		pills?.delete(at: index.row)
 		let pillsCount = pills?.count ?? 0
@@ -84,7 +87,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
 			takePillCompletion()
 		}
 		let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
-		let alert = self.alertFactory?.createPillActions(pill, handlers)
+		let alert = self.alerts?.createPillActions(pill, handlers)
 		alert?.present()
 	}
 
