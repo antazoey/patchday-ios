@@ -12,7 +12,6 @@ import PDKit
 class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	private let style: UIUserInterfaceStyle
-	private var alertFactory: AlertProducing?
 	let table: HormonesTable
 	var hormones: HormoneScheduling? { sdk?.hormones }
 
@@ -38,12 +37,11 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 	) {
 		self.style = style
 		self.table = HormonesTable(hormonesTableView)
-		self.alertFactory = alertFactory
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
 			notifications: dependencies.notifications,
-			alerts: dependencies.alerts,
+			alerts: alertFactory,
 			nav: dependencies.nav,
 			badge: dependencies.badge
 		)
@@ -112,13 +110,12 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 			}
 			reload()
 		}
-		let alert = self.alertFactory?.createHormoneActions(
+		self.alerts?.createHormoneActions(
 			hormone.siteName,
 			nextSite?.name,
 			changeHormone,
 			{ self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
-		)
-		alert?.present()
+		).present()
 	}
 
 	private func requesttHormoneNotification(from row: Index) {
@@ -128,7 +125,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
 	func presentDisclaimerAlertIfFirstLaunch() {
 		guard isFirstLaunch else { return }
-		alerts?.presentDisclaimerAlert()
+		alerts?.createDisclaimerAlert().present()
 		sdk?.settings.setMentionedDisclaimer(to: true)
 	}
 
@@ -167,10 +164,9 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		)
 		AppDelegate.current?.tabs = tabs
 		self.tabs = tabs
-
-		// Wait for tabs to be set before setting this AlertFactory
-		if let sdk = sdk {
-			self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
-		}
+		guard let sdk = sdk else { return }
+		let alerts = AlertFactory(sdk: sdk, tabs: self.tabs)
+		AppDelegate.current?.alerts = alerts
+		self.alerts = alerts
 	}
 }

@@ -29,5 +29,16 @@ public protocol AlertProducing {
 	) -> PDAlerting
 
 	func createPillActions(_ pill: Swallowable, _ handlers: PillCellActionHandling) -> PDAlerting
+
 	func createNewSiteAlert(_ handlers: NewSiteAlertActionHandling) -> PDAlerting
+
+	func createUnsavedAlert(
+		_ parent: UIViewController,
+		saveAndContinueHandler: @escaping () -> Void,
+		discardHandler: @escaping () -> Void
+	) -> PDAlerting
+
+	func createDisclaimerAlert() -> PDAlerting
+
+	func presentGenericAlert()
 }

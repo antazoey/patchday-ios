@@ -14,7 +14,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
 	let sdk: PatchDataSDK?
 	var tabs: TabReflective?
 	let notifications: NotificationScheduling?
-	let alerts: AlertDispatching?
+	var alerts: AlertProducing?
 	let nav: NavigationHandling?
 	let badge: PDBadgeDelegate?
 
@@ -25,7 +25,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
 		sdk: PatchDataSDK?,
 		tabs: TabReflective?,
 		notifications: NotificationScheduling?,
-		alerts: AlertDispatching?,
+		alerts: AlertProducing?,
 		nav: NavigationHandling?,
 		badge: PDBadgeDelegate?
 	) {

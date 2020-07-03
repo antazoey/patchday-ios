@@ -103,11 +103,11 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 			sdk.sites.delete(at: self.siteIndex)
 		}
 		if selections.hasSelections || site.name == SiteStrings.NewSite {
-			self.alerts?.presentUnsavedAlert(
+			self.alerts?.createUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,
 				discardHandler: discard
-			)
+			).present()
 		} else {
 			self.nav?.pop(source: viewController)
 		}

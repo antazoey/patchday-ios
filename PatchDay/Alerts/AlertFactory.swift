@@ -64,4 +64,24 @@ class AlertFactory: AlertProducing {
 	func createNewSiteAlert(_ handlers: NewSiteAlertActionHandling) -> PDAlerting {
 		NewSiteAlert(style: PDAlert.style, handlers: handlers)
 	}
+
+	func createUnsavedAlert(
+		_ parent: UIViewController,
+		saveAndContinueHandler: @escaping () -> Void,
+		discardHandler: @escaping () -> Void
+	) -> PDAlerting {
+		UnsavedChangesAlert(
+			parent: parent,
+			saveAndContinueHandler: saveAndContinueHandler,
+			discardHandler: discardHandler
+		)
+	}
+
+	func createDisclaimerAlert() -> PDAlerting {
+		DisclaimerAlert(style: .alert)
+	}
+
+	func presentGenericAlert() {
+		PDGenericAlert(style: PDAlert.style).present()
+	}
 }
