@@ -16,11 +16,12 @@ import PatchDay
 class PillsViewModelTests: XCTestCase {
 
 	private let tableView = UITableView()
+	private let testPill = MockPill()
 
 	private func createViewModel() -> PillsViewModel {
 		let alertFactory = MockAlertFactory()
 		let deps = MockDependencies()
-		(deps.sdk?.pills as! MockPillSchedule).all = [MockPill()]
+		(deps.sdk?.pills as! MockPillSchedule).all = [testPill]
 		return PillsViewModel(
 			pillsTableView: self.tableView, alertFactory: alertFactory, dependencies: deps
 		)
@@ -55,8 +56,22 @@ class PillsViewModelTests: XCTestCase {
 		let viewModel = createViewModel()
 		viewModel.takePill(at: 0)
 		let pills = viewModel.sdk?.pills as! MockPillSchedule
-		XCTAssertEqual(1, pills.swallowCallArgs.count)
+		XCTAssertEqual(1, pills.swallowIdCallArgs.count)
 	}
 
-	func testTakePill_
+	func testTakePill_reflectsPillsInTabs() {
+		let viewModel = createViewModel()
+		let tabs = viewModel.tabs as! MockTabs
+		tabs.reflectPillsCallCount = 0
+		viewModel.takePill(at: 0)
+		XCTAssertEqual(1, tabs.reflectPillsCallCount)
+	}
+
+	func testTakePill_requestNotification() {
+		let viewModel = createViewModel()
+		viewModel.takePill(at: 0)
+		(viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
+		let notifications = viewModel.notifications as! MockNotifications
+		XCTAssertEqual(testPill.id, notifications.requestDuePillNotificationCallArgs[0].id)
+	}
 }
