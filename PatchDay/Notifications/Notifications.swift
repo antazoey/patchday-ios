@@ -31,7 +31,6 @@ class Notifications: NSObject, NotificationScheduling {
 	convenience init(sdk: PatchDataSDK, appBadge: PDBadgeDelegate) {
 		let center = PDNotificationCenter(
 			root: UNUserNotificationCenter.current(),
-            handleHormone: HormoneNotificationActionHandler(sdk: sdk),
             handlePill: PillNotificationActionHandler(sdk.pills, appBadge)
 		)
 		let factory = NotificationFactory(sdk: sdk, badge: appBadge)
@@ -73,7 +72,8 @@ class Notifications: NSObject, NotificationScheduling {
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
         guard sdk.settings.notifications.value else { return }
         cancelExpiredHormoneNotification(for: hormone)
-        factory.createExpiredHormoneNotification(hormone: hormone).request()
+		let notification = factory.createExpiredHormoneNotification(hormone: hormone)
+		notification.request()
     }
 
 	func requestAllExpiredHormoneNotifications() {

@@ -98,14 +98,14 @@ public class PatchData: NSObject, PatchDataSDK {
 		}
 
 		// ******************************************************
-		// Notifications testing - a Hormone that expires in 8 seconds, a Pill that expires in 12
+		// Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12
 		// ******************************************************
 		if PDCli.isNotificationsTest() {
 			let now = Date()
-			let hormoneBuffer = 8
-			let expSec = settings.expirationInterval.hours * 60 * 60 - hormoneBuffer
+			let delay = 20
+			let seconds = settings.expirationInterval.hours * 60 * 60 - delay
 			settings.setNotifications(to: true)
-			let date = DateFactory.createDate(byAddingSeconds: -expSec, to: now)
+			let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
 			hormones.setDate(at: 0, with: date!)
 
 			var attrs = PillAttributes()
