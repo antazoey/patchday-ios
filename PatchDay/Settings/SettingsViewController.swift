@@ -259,7 +259,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 	}
 
 	private func selectPicker(setting: PDSetting) -> SettingsPickerView? {
-		var picker: SettingsPickerView? = nil
+		var picker: SettingsPickerView?
 		switch setting {
 			case.Quantity: picker = quantityPicker
 			case .DeliveryMethod: picker = deliveryMethodPicker

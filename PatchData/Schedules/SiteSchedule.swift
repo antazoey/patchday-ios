@@ -147,7 +147,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
 	public func reorder(at index: Index, to newOrder: Int) {
 		guard count > 0 else { return }
-		guard var site = self[index], var originalSiteAtOrder = self[newOrder] else  { return }
+		guard var site = self[index], var originalSiteAtOrder = self[newOrder] else { return }
 		site.order = site.order + originalSiteAtOrder.order
 		originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
 		site.order = site.order - originalSiteAtOrder.order

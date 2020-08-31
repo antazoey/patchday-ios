@@ -18,6 +18,9 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 		super.init()
 	}
 
+	/// Tracks if the selected image has changed
+	var didSelectImage = false
+
 	var picker: UIPickerView { _props.views?.getPicker() ?? UIPickerView() }
 
 	var imageView: UIImageView { _props.views?.getImageView() ?? UIImageView() }
@@ -60,6 +63,7 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 		_props.selectedImageIndex = row
 		if let imageView = _props.views?.getImageView() {
 			imageView.image = getImage(at: row)
+			didSelectImage = true
 		}
 	}
 

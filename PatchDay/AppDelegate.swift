@@ -17,7 +17,7 @@ import PatchData
 	var window: UIWindow?
 	var notifications: NotificationScheduling?
 	var sdk: PatchDataSDK?
-	var alerts: AlertDispatching?
+	var alerts: AlertProducing?
 	var tabs: TabReflective?
 	var nav: NavigationHandling?
 	var badge: PDBadgeDelegate?
@@ -55,7 +55,6 @@ import PatchData
 		let badge = PDBadge(sdk: sdk)
 		self.badge = badge
 		self.notifications = Notifications(sdk: sdk, appBadge: badge)
-		self.alerts = AlertDispatcher(sdk: sdk, tabs: nil)
 		reflectBadges()
 	}
 

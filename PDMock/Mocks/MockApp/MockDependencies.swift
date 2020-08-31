@@ -19,7 +19,7 @@ public class MockDependencies: DependenciesProtocol {
 	
 	public var notifications: NotificationScheduling? = MockNotifications()
 	
-	public var alerts: AlertDispatching? = MockAlerts()
+	public var alerts: AlertProducing? = MockAlertFactory()
 	
 	public var nav: NavigationHandling? = MockNav()
 	

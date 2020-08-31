@@ -9,7 +9,7 @@ import PDKit
 class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	private let siteIndex: Index
-	
+
 	private var site: Bodily { sdk!.sites[siteIndex]! }
 	var selections = SiteSelectionState()
 
@@ -102,12 +102,12 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 			guard let sdk = self.sdk else { return }
 			sdk.sites.delete(at: self.siteIndex)
 		}
-		if selections.hasSelections || site.name == SiteStrings.NewSite {
-			self.alerts?.presentUnsavedAlert(
+		if hasSelections || site.name == SiteStrings.NewSite {
+			self.alerts?.createUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,
 				discardHandler: discard
-			)
+			).present()
 		} else {
 			self.nav?.pop(source: viewController)
 		}
@@ -145,5 +145,9 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		guard let image = images.tryGet(at: selectedRow) else { return nil }
 		let imageKey = SiteImages.getName(from: image)
 		return SiteImageStruct(image: image, name: imageKey)
+	}
+
+	private var hasSelections: Bool {
+		selections.hasSelections || (imagePickerDelegate?.didSelectImage ?? false)
 	}
 }

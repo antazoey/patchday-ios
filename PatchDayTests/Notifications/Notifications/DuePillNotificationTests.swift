@@ -46,7 +46,7 @@ class DuePillNotificationTests: XCTestCase {
         let pill = MockPill()
         pill.due = nil
         pill.name = "Cannabis"
-		let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler:_testHandler)
+		let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
 		DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
         not.request()
 		XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)

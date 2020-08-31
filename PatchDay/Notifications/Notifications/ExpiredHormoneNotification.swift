@@ -16,7 +16,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 	private let notificationsMinutesBefore: Double
 
 	public static let actionId = "estroActionId"
-	public static let categoryId = "estroCategoryId"
 
     init(
         hormone: Hormonal,
@@ -35,7 +34,7 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
         super.init(
             title: strings.0,
             body: strings.1,
-			categoryId: ExpiredHormoneNotification.categoryId,
+			categoryId: nil,
 			currentBadgeValue: currentBadgeValue,
             requestHandler: requestHandler
         )
@@ -45,7 +44,6 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 
 	public func request() {
 		guard let expiration = createInterval(), expiration > 0 else { return }
-        super.content.categoryIdentifier = ExpiredHormoneNotification.categoryId
         super.request(when: expiration, requestId: hormoneId)
 	}
 

@@ -12,7 +12,7 @@ public protocol DependenciesProtocol {
 	var sdk: PatchDataSDK? { get }
 	var tabs: TabReflective? { get set }
 	var notifications: NotificationScheduling? { get }
-	var alerts: AlertDispatching? { get }
 	var nav: NavigationHandling? { get }
+	var alerts: AlertProducing? {get }
 	var badge: PDBadgeDelegate? { get }
 }

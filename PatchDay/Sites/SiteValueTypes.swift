@@ -20,6 +20,7 @@ struct SiteCellProperties {
 
 struct SiteSelectionState {
 	var selectedSiteName: SiteName?
+	// Image propety is not tracked here - see SiteImagePicker.swift
 
 	var hasSelections: Bool {
 		selectedSiteName != nil

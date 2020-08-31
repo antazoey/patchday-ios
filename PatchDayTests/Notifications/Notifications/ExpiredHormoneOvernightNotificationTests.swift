@@ -37,7 +37,7 @@ class ExpiredHormoneOvernightNotificationTests: XCTestCase {
 
     func testRequest_whenGivenDateInPast_doesNotRequest() {
         let not = ExpiredHormoneOvernightNotification(
-			Date(timeIntervalSinceNow: -100), .Patches,_testHandler
+			Date(timeIntervalSinceNow: -100), .Patches, _testHandler
 		)
         not.request()
         XCTAssertEqual(0, ExpiredHormoneOvernightNotificationTests.testHandlerCallCount)

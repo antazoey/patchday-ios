@@ -27,7 +27,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
 	init(_ pillIndex: Index, dependencies: DependenciesProtocol) {
 		self.index = pillIndex
-
 		super.init(
 			sdk: dependencies.sdk,
 			tabs: dependencies.tabs,
@@ -101,11 +100,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 			self.nav?.pop(source: viewController)
 		}
 		if selections.anyAttributeExists || pill.name == PillStrings.NewPill {
-			self.alerts?.presentUnsavedAlert(
+			self.alerts?.createUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,
 				discardHandler: discard
-			)
+			).present()
 		} else {
 			self.nav?.pop(source: viewController)
 		}

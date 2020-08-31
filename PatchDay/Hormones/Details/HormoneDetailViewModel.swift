@@ -137,11 +137,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 			self.nav?.pop(source: viewController)
 		}
 		if selections.hasSelections {
-			self.alerts?.presentUnsavedAlert(
+			self.alerts?.createUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,
 				discardHandler: discard
-			)
+			).present()
 		} else {
 			self.nav?.pop(source: viewController)
 		}
