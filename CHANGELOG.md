@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.0.4
+
+### Fixed
+
+- Issue where App would not detect unsaved changes for Site Image.
+
+### Removed
+
+- Faulty Hormone notification action for changing the hormone from the notification.
+
 ## 3.0.3
 
 ### Fixed
