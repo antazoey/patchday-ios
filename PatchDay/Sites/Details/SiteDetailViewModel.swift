@@ -9,7 +9,7 @@ import PDKit
 class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 
 	private let siteIndex: Index
-	
+
 	private var site: Bodily { sdk!.sites[siteIndex]! }
 	var selections = SiteSelectionState()
 

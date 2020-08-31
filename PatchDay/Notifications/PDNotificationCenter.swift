@@ -10,7 +10,6 @@ import Foundation
 import UserNotifications
 import PDKit
 
-
 class PDNotificationCenter: NSObject, NotificationCenterDelegate {
 
 	private let root: UNUserNotificationCenter

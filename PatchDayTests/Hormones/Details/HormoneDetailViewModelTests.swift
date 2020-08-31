@@ -346,7 +346,7 @@ class HormoneDetailViewModelTests: XCTestCase {
 		sites.suggested = site
 		let alertFactory = MockAlertFactory()
 		let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
-		let _ = viewModel.selectSuggestedSite()
+		_ = viewModel.selectSuggestedSite()
 		let expected = site.id
 		let actual = viewModel.selections.site?.id
 		XCTAssertEqual(expected, actual)

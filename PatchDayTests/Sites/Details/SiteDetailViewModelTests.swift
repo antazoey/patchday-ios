@@ -97,7 +97,6 @@ class SiteDetailViewModelTests: XCTestCase {
 		XCTAssertEqual(SiteImages.arms, viewModel.siteImage)
 	}
 
-
 	func testHandleSave_whenImageDoesNotExist_doesNotSave() {
 		setupSite()
 		let viewModel = createViewModel()

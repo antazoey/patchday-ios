@@ -75,7 +75,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
         guard let pill = sdk?.pills[index] else { return }
 		let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
 		let takePill = {
-			let _ = self.takePill(at: index)
+			_ = self.takePill(at: index)
 			takePillCompletion()
 			self.tabs?.reflectPills()
 			self.badge?.reflect()

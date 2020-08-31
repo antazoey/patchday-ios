@@ -113,8 +113,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 		self.alerts?.createHormoneActions(
 			hormone.siteName,
 			nextSite?.name,
-			changeHormone,
-			{ self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
+			changeHormone, { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
 		).present()
 	}
 
