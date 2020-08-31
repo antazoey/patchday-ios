@@ -20,7 +20,7 @@ public protocol AlertProducing {
 	func createQuantityMutationAlert(
 		handlers: QuantityMutationAlertActionHandling, oldQuantity: Int, newQuantity: Int
 	) -> PDAlerting
-	
+
 	func createHormoneActions(
 		_ currentSite: SiteName,
 		_ suggestSiteName: SiteName?,
