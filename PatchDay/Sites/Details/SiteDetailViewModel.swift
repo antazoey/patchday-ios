@@ -102,7 +102,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 			guard let sdk = self.sdk else { return }
 			sdk.sites.delete(at: self.siteIndex)
 		}
-		if selections.hasSelections || site.name == SiteStrings.NewSite {
+		if hasSelections || site.name == SiteStrings.NewSite {
 			self.alerts?.createUnsavedAlert(
 				viewController,
 				saveAndContinueHandler: save,
@@ -145,5 +145,9 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
 		guard let image = images.tryGet(at: selectedRow) else { return nil }
 		let imageKey = SiteImages.getName(from: image)
 		return SiteImageStruct(image: image, name: imageKey)
+	}
+
+	private var hasSelections: Bool {
+		selections.hasSelections || (imagePickerDelegate?.didSelectImage ?? false)
 	}
 }
