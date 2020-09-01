@@ -27,6 +27,10 @@ class EntitiesSaver {
 		save(entity, from: "\(entity.rawValue) delete")
 	}
 
+	func saveFromMigration(_ entity: PDEntity) {
+		save(entity, from: "\(entity.rawValue) migrations")
+	}
+
 	private func save(_ entity: PDEntity, from name: String) {
 		logger.logSave(entity)
 		stack.save(saverName: name)

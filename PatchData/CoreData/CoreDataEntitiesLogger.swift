@@ -59,4 +59,8 @@ class CoreDataEntitiesLogger {
 	func errorOnMissingId(_ entity: PDEntity) {
 		log.error("There exists a \(entity.rawValue) that is missing an ID.")
 	}
+
+	func logPillMigration() {
+		log.info("Migrating pill times to comma-seperated string...")
+	}
 }

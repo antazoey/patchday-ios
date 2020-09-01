@@ -38,6 +38,17 @@ public class PDDateFormatter {
         return dayFormatter.string(from: day)
     }
 
+	/// For migrating Pill times
+	public static func convertNSDatesToCommaSeparatedString(_ times: [NSDate?]) -> String {
+		let formatter = DateFormatter()
+		let format = "HH:MM:SS"
+		formatter.dateFormat = format
+		let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
+			s in s != nil
+		} as! [String]
+		return dateStrings.joined(separator: ",")
+	}
+
     private static func getWordedDateString(from date: Date, word: String) -> String {
         word + ", " + timeFormatter.string(from: date)
     }

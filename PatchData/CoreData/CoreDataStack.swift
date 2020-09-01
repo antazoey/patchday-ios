@@ -29,7 +29,8 @@ class CoreDataStack: NSObject {
         "notify",
         "timesTakenToday",
         "lastTaken",
-        "expirationInterval"
+        "expirationInterval",
+		"times"
     ]
 
 	// MARK: - Public

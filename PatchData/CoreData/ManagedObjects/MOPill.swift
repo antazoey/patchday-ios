@@ -19,6 +19,7 @@ public class MOPill: NSManagedObject {
 	@NSManaged var notify: Bool
 	@NSManaged var time1: NSDate?
 	@NSManaged var time2: NSDate?
+	@NSManaged var times: String?
 	@NSManaged var timesaday: Int16
 	@NSManaged var timesTakenToday: Int16
 	@NSManaged var id: UUID?

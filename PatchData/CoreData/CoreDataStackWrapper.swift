@@ -10,6 +10,7 @@ import Foundation
 import PDKit
 import CoreData
 
+
 class CoreDataStackWrapper: PDCoreDataWrapping {
 
 	private lazy var log = PDLog<CoreDataStackWrapper>()

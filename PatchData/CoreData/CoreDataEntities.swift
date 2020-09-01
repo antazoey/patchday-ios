@@ -215,6 +215,7 @@ class CoreDataEntities {
 			logger.logEntityCount(pills.count, for: .pill)
 			CoreDataEntities.pillMOs = pills
 			fixPillIdsIfNeeded()
+			migratePillTimesIfNeeded()
 		} else {
 			logger.errorOnLoad(.pill)
 		}
@@ -287,6 +288,28 @@ class CoreDataEntities {
 		for site in CoreDataEntities.siteMOs {
 			if site.id == nil {
 				site.id = UUID()
+			}
+		}
+	}
+
+	// MARK: - Migrations
+
+	private func migratePillTimesIfNeeded() {
+		for pill in CoreDataEntities.pillMOs {
+			var times: [NSDate?] = []
+			if pill.time1 != nil {
+				times.append(pill.time1)
+			}
+			if pill.time2 != nil {
+				times.append(pill.time2)
+			}
+			if times != [] {
+				logger.logPillMigration()
+				let timesString = PDDateFormatter.convertNSDatesToCommaSeparatedString(times)
+				pill.times = timesString
+				pill.time1 = nil
+				pill.time2 = nil
+				saver.saveFromMigration(.pill)
 			}
 		}
 	}
@@ -365,16 +388,14 @@ class CoreDataEntities {
 
 	private func applySiteDataToManagedSite(_ siteData: SiteStruct, _ managedSite: inout MOSite) {
 		CoreDataEntityAdapter.applySiteData(siteData, to: &managedSite)
-		if let hormoneIds = siteData.hormoneRelationshipIds {
-			relateHormonesToSite(hormoneIds: hormoneIds, managedSite)
-		}
+		guard let hormoneIds = siteData.hormoneRelationshipIds else { return }
+		relateHormonesToSite(hormoneIds: hormoneIds, managedSite)
 	}
 
 	private func applyHormoneDataToManagedHormone(_ hormoneData: HormoneStruct, _ managedHormone: inout MOHormone) {
 		CoreDataEntityAdapter.applyHormoneData(hormoneData, to: &managedHormone)
-		if let siteId = hormoneData.siteRelationshipId {
-			relateSiteToHormone(siteId: siteId, managedHormone)
-		}
+		guard let siteId = hormoneData.siteRelationshipId else { return }
+		relateSiteToHormone(siteId: siteId, managedHormone)
 	}
 
 	// MARK: - Private Relators
