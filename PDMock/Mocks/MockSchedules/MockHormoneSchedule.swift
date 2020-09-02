@@ -6,12 +6,11 @@
 import Foundation
 import PDKit
 
-
 public class MockHormoneSchedule: HormoneScheduling {
 
 	public var all: [Hormonal] = []
 	public var isEmpty: Bool = false
-	public var next: Hormonal? = nil
+	public var next: Hormonal?
 	public var totalExpired: Int = -1
 	public var count: Int = -1
 
@@ -21,7 +20,7 @@ public class MockHormoneSchedule: HormoneScheduling {
 
 	public init() { }
 
-	public var insertNewReturnValue: Hormonal? = nil
+	public var insertNewReturnValue: Hormonal?
 	public func insertNew() -> Hormonal? {
 		insertNewReturnValue
 	}
@@ -31,7 +30,7 @@ public class MockHormoneSchedule: HormoneScheduling {
 		reloadContextCallCount += 1
 	}
 
-	public func reset(completion: (() -> ())?) -> Int {
+	public func reset(completion: (() -> Void)?) -> Int {
         -1
 	}
 
@@ -91,7 +90,7 @@ public class MockHormoneSchedule: HormoneScheduling {
 	}
 
 	public var indexOfCallArgs: [Hormonal] = []
-	public var indexOfReturnValue: Index? = nil
+	public var indexOfReturnValue: Index?
 	public func indexOf(_ hormone: Hormonal) -> Index? {
 		indexOfCallArgs.append(hormone)
 		return indexOfReturnValue

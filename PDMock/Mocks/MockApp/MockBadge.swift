@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class MockBadge: PDBadgeDelegate {
 	public var clearCallCount = 0
 	public func clear() { clearCallCount += 1 }

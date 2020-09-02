@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class MockSDK: PatchDataSDK {
 
     public init() {
@@ -18,7 +17,7 @@ public class MockSDK: PatchDataSDK {
         self.sites = MockSiteSchedule()
         self.pills = MockPillSchedule()
     }
-    
+
     public var isFresh: Bool = false
     public var settings: PDSettingsManaging
     public var hormones: HormoneScheduling

@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 public class MockEntity {
 
 	public var type: PDEntity = .hormone

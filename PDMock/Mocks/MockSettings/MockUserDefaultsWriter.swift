@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 
 	public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DeliveryMethodRawValue)

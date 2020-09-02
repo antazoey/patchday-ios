@@ -9,22 +9,20 @@
 import Foundation
 import PDKit
 
-
 public class MockNotification: PDNotificationProtocol {
-    
+
     public init() {}
-    
+
     public var requestCallCount = 0
     public func request() {
         requestCallCount += 1
     }
 }
 
-
 public class MockNotificationFactory: NotificationProducing {
-    
+
     public init() {}
-    
+
     public var createExpiredHormoneNotificationCallArgs: [Hormonal] = []
     public var createExpiredHormoneNotificationReturnValue: PDNotificationProtocol = MockNotification()
     public func createExpiredHormoneNotification(hormone: Hormonal) -> PDNotificationProtocol {
@@ -38,7 +36,7 @@ public class MockNotificationFactory: NotificationProducing {
         createDuePillNotificationCallArgs.append(pill)
         return createDuePillNotificationReturnValue
     }
-    
+
     public var createOvernightExpiredHormoneNotificationCallArgs: [Date] = []
     public var createOvernightExpiredHormoneNotificationReturnValue = MockNotification()
     public func createOvernightExpiredHormoneNotification(date: Date) -> PDNotificationProtocol {

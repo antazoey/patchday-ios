@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
 
 	public override init() {

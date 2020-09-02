@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class MockSiteStore: MockPatchDataStore<Bodily>, SiteStoring {
 
 	public var getRelatedHormonesCallArgs: [UUID] = []

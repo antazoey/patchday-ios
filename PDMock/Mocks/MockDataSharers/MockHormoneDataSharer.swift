@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 public class MockHormoneDataSharer: HormoneDataSharing, PDMocking {
 
 	public var shareedHormoneIds: [String] = []

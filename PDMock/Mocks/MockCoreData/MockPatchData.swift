@@ -6,7 +6,6 @@
 import Foundation
 import PDKit
 
-
 public class MockPatchData: PDCoreDataWrapping {
 
 	private var mockEntities: [MockEntity] = []

@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class MockPillStore: MockPatchDataStore<Swallowable>, PillStoring {
 
 	public override init() {

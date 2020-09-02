@@ -8,11 +8,10 @@
 
 import Foundation
 
-
 public class MockPatchDataStore<T>: PDMocking {
 
 	public var getStoredCollectionReturnValues: [[T]] = []
-	public var newObjectFactory: (() -> T)? = nil
+	public var newObjectFactory: (() -> T)?
 	public var deleteCallArgs: [T] = []
 	public var pushLocalChangesCallArgs: [([T], Bool)] = []
 

@@ -6,12 +6,11 @@
 import Foundation
 import PDKit
 
-
 public class MockSiteSchedule: SiteScheduling {
 
 	public var all: [Bodily] = []
 	public var count: Int = -1
-	public var suggested: Bodily? = nil
+	public var suggested: Bodily?
 	public var nextIndex: Index = -1
 	public var names: [SiteName] = []
 	public var isDefault: Bool = false
@@ -24,21 +23,21 @@ public class MockSiteSchedule: SiteScheduling {
 	}
 
 	public var insertNewCallArgs: [(String, (() -> Void)?)] = []
-	public var insertNewReturnValue: Bodily? = nil
+	public var insertNewReturnValue: Bodily?
 	public func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily? {
 		insertNewCallArgs.append((name, onSuccess))
 		return insertNewReturnValue
 	}
 
 	public var subscriptIdCallArgs: [UUID] = []
-	public var subscriptIdReturnValue: Bodily? = nil
+	public var subscriptIdReturnValue: Bodily?
 	public subscript(id: UUID) -> Bodily? {
 		subscriptIdCallArgs.append(id)
 		return subscriptIdReturnValue
 	}
 
 	public var subscriptIndexCallArgs: [Index] = []
-	public var subscriptIndexReturnValue: Bodily? = nil
+	public var subscriptIndexReturnValue: Bodily?
 	public subscript(index: Index) -> Bodily? {
 		subscriptIndexCallArgs.append(index)
 		return subscriptIndexReturnValue
@@ -60,7 +59,7 @@ public class MockSiteSchedule: SiteScheduling {
 	}
 
 	public var indexOfCallArgs: [Bodily] = []
-	public var indexOfReturnValue: Index? = nil
+	public var indexOfReturnValue: Index?
 	public func indexOf(_ site: Bodily) -> Index? {
 		indexOfCallArgs.append(site)
 		return indexOfReturnValue

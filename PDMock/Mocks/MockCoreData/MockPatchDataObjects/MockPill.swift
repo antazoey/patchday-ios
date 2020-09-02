@@ -9,9 +9,8 @@
 import Foundation
 import PDKit
 
-
 public class MockPill: Swallowable {
-    
+
 	// Mock-related properties
 	public var setCallArgs: [PillAttributes] = []
 	public var swallowCallCount = 0
@@ -26,7 +25,7 @@ public class MockPill: Swallowable {
 	public var notify: Bool = false
 	public var timesaday: Int = -1
 	public var timesTakenToday: Int = -1
-	public var lastTaken: Date? = nil
+	public var lastTaken: Date?
 	public var due: Date? = Date()
 	public var isDue: Bool = false
 	public var isNew: Bool = false

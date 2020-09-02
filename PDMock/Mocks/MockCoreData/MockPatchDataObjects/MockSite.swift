@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 public class MockSite: Bodily, PDMocking {
 
 	// Mock-related properties
