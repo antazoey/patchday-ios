@@ -73,11 +73,8 @@ class CoreDataEntityAdapter {
 		if let timesaday = pillData.attributes.timesaday, timesaday != pill.timesaday {
 			pill.timesaday = Int16(timesaday)
 		}
-		if let time1 = pillData.attributes.time1 as NSDate?, time1 != pill.time1 {
-			pill.time1 = time1
-		}
-		if let time2 = pillData.attributes.time2 as NSDate?, time2 != pill.time2 {
-			pill.time2 = time2
+		if let times = pillData.attributes.times as String? {
+			pill.times = times
 		}
 		let pillTimesTaken = pill.timesTakenToday
 		if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
@@ -145,8 +142,7 @@ class CoreDataEntityAdapter {
 			name: pill.name ?? PillStrings.NewPill,
             expirationInterval: pill.expirationInterval,
 			timesaday: Int(pill.timesaday),
-			time1: pill.time1 as Date?,
-			time2: pill.time2 as Date?,
+			times: pill.times,
 			notify: pill.notify,
 			timesTakenToday: Int(pill.timesTakenToday),
 			lastTaken: pill.lastTaken as Date?

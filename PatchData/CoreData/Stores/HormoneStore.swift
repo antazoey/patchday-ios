@@ -11,6 +11,13 @@ import PDKit
 
 class HormoneStore: EntityStore, HormoneStoring {
 
+	private let entities: MOHormoneList
+
+	override init(_ stack: PDCoreDataWrapping) {
+		self.entities = MOHormoneList(coreDataStack: stack)
+		super.init(stack)
+	}
+
 	private lazy var log = PDLog<HormoneStore>()
 
 	func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal] {

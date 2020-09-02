@@ -9,7 +9,15 @@
 import Foundation
 import PDKit
 
+
 class PillStore: EntityStore, PillStoring {
+
+	private let entities: MOPillList
+
+	override init(_ stack: PDCoreDataWrapping) {
+		self.entities = MOPillList(coreDataStack: stack)
+		super.init(stack)
+	}
 
 	func getStoredPills() -> [Swallowable] {
 		var pills: [Swallowable] = []

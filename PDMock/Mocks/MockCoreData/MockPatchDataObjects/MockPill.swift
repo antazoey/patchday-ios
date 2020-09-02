@@ -22,8 +22,7 @@ public class MockPill: Swallowable {
 	public var attributes: PillAttributes = PillAttributes()
 	public var name: String = ""
     public var expirationInterval: String = ""
-	public var time1: Date = Date()
-	public var time2: Date = Date()
+	public var times: [Time] = []
 	public var notify: Bool = false
 	public var timesaday: Int = -1
 	public var timesTakenToday: Int = -1

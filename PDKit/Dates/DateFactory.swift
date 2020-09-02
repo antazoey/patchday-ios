@@ -66,6 +66,14 @@ public class DateFactory: NSObject {
 		createDate(byAddingHours: expirationInterval.hours, to: date)
 	}
 
+	public static func createTimesFromCommaSeparatedString(_ dateString: String) -> [Time] {
+		let formatter = DateFormatterFactory.createInternalTimeFormatter()
+		let dates = dateString.split(separator: ",").map {
+			formatter.date(from: String($0))
+		}.filter { $0 != nil }
+		return dates as! [Time]
+	}
+
 	/// Creates a time interval by adding the given hours to the given date.
 	public static func createTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
 		guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {

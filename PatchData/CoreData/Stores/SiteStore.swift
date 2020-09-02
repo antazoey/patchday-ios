@@ -11,6 +11,13 @@ import PDKit
 
 class SiteStore: EntityStore, SiteStoring {
 
+	private let entities: MOSiteList
+
+	override init(_ stack: PDCoreDataWrapping) {
+		self.entities = MOSiteList(coreDataStack: stack)
+		super.init(stack)
+	}
+
 	func getStoredSites() -> [Bodily] {
 		var sites: [Bodily] = []
 		let siteDataEntries = entities.getManagedSiteData()

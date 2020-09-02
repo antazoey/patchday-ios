@@ -21,11 +21,8 @@ public protocol Swallowable {
     /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
     var expirationInterval: String { get set }
 
-	/// The first time in a day to take this pill.
-	var time1: Date { get set }
-
-	/// The second time in a day to take this pill.
-	var time2: Date { get set }
+	/// The times, in order, for which to take pills on a day in the schedule.
+	var times: [Time] { get set }
 
 	/// Whether you want to be notified when due.
 	var notify: Bool { get set }

@@ -98,7 +98,7 @@ public class PatchData: NSObject, PatchDataSDK {
 		}
 
 		// ******************************************************
-		// Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12
+		// Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12 
 		// ******************************************************
 		if PDCli.isNotificationsTest() {
 			let now = Date()
@@ -111,8 +111,7 @@ public class PatchData: NSObject, PatchDataSDK {
 			var attrs = PillAttributes()
 			let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
 			attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
-			attrs.time1 = dueDate
-			attrs.time2 = nil
+			attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
 			attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
 			attrs.notify = true
 			attrs.timesaday = 1

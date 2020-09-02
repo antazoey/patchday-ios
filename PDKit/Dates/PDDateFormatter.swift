@@ -1,5 +1,5 @@
 //
-//  DateFormatter.swift
+//  PDDateFormatter.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 2/2/20.
@@ -8,41 +8,41 @@
 
 import Foundation
 
+
 public class PDDateFormatter {
 
 	private static let strComment = "The word 'today' displayed on a button."
-	public static var todayStr: String { NSLocalizedString("Today", comment: strComment) }
-	public static var yesterdayStr: String { NSLocalizedString("Yesterday", comment: strComment) }
-	public static var tomorrowStr: String { NSLocalizedString("Tomorrow", comment: strComment) }
-
-	private static let timeFormatter: DateFormatter = { createFormatter("h:mm a") }()
-	private static let dayFormatter: DateFormatter = { createFormatter("EEEE, h:mm a") }()
-    private static let dateFormatter: DateFormatter = { createFormatter("EEEE, MMMM d, h:mm a") }()
-	private static var calendar = { Calendar.current }()
+	public static var todayStr: String = NSLocalizedString("Today", comment: strComment)
+	public static var yesterdayStr = NSLocalizedString("Yesterday", comment: strComment)
+	public static var tomorrowStr = NSLocalizedString("Tomorrow", comment: strComment)
+	private static var calendar = Calendar.current
 
 	/// Gives String for the given Time.
-	public static func formatTime(_ time: Time) -> String { timeFormatter.string(from: time) }
+	public static func formatTime(_ time: Time) -> String {
+		let formatter = DateFormatterFactory.createTimeFormatter()
+		return formatter.string(from: time)
+	}
 
 	/// Gives String for the given Date.
 	public static func formatDate(_ date: Date) -> String {
 		if let word = dateWord(from: date) {
             return getWordedDateString(from: date, word: word)
 		}
-		return dateFormatter.string(from: date)
+		let formatter = DateFormatterFactory.createDateFormatter()
+		return formatter.string(from: date)
 	}
 
     public static func formatDay(_ day: Date) -> String {
         if let word = dateWord(from: day) {
             return getWordedDateString(from: day, word: word)
         }
-        return dayFormatter.string(from: day)
+		let formatter = DateFormatterFactory.createDayFormatter()
+        return formatter.string(from: day)
     }
 
 	/// For migrating Pill times
-	public static func convertNSDatesToCommaSeparatedString(_ times: [NSDate?]) -> String {
-		let formatter = DateFormatter()
-		let format = "HH:MM:SS"
-		formatter.dateFormat = format
+	public static func convertDatesToCommaSeparatedString(_ times: [Date?]) -> String {
+		let formatter = DateFormatterFactory.createInternalTimeFormatter()
 		let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
 			s in s != nil
 		} as! [String]
@@ -50,7 +50,9 @@ public class PDDateFormatter {
 	}
 
     private static func getWordedDateString(from date: Date, word: String) -> String {
-        word + ", " + timeFormatter.string(from: date)
+		let formatter = DateFormatterFactory.createTimeFormatter()
+		let dateString = formatter.string(from: date)
+		return "\(word), \(dateString)"
     }
 
 	private static func dateWord(from date: Date) -> String? {
@@ -64,11 +66,5 @@ public class PDDateFormatter {
 			return tomorrowStr
 		}
 		return nil
-	}
-
-	private static func createFormatter(_ format: String) -> DateFormatter {
-		let formatter = DateFormatter()
-		formatter.dateFormat = format
-		return formatter
 	}
 }
