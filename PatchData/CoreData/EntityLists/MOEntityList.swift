@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class MOEntityList {
 
 	let entityType: PDEntity

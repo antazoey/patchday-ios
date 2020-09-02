@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class MOEntities {
 
 	static var hormoneMOs: [MOHormone] = []
@@ -29,7 +28,6 @@ class MOEntities {
 		}
 		return nil
 	}
-
 
 	static func getManagedSite(by id: UUID) -> MOSite? {
 		if let site = MOEntities.siteMOs.first(where: { s in s.id == id }) {

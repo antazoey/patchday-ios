@@ -80,7 +80,7 @@ public struct PillAttributes {
     ) {
         self.name = name
         self.expirationInterval = expirationInterval
-        self.timesaday = timesaday
+		self.timesaday = timesaday
 		self.times = times
         self.notify = notify
         self.timesTakenToday = timesTakenToday

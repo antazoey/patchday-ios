@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class MOPillList: MOEntityList {
 
 	init(coreDataStack: PDCoreDataWrapping) {

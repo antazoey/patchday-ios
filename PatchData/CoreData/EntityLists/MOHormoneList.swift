@@ -9,7 +9,6 @@
 import Foundation
 import PDKit
 
-
 class MOHormoneList: MOEntityList {
 
 	init(coreDataStack: PDCoreDataWrapping) {
