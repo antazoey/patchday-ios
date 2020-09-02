@@ -10,13 +10,13 @@ import Foundation
 import PDKit
 
 public class MockAlert: PDAlerting {
-	public var presentCallArgs: [[UIAlertAction]] = []
-	public func present(actions: [UIAlertAction]) {
-		presentCallArgs.append(actions)
-	}
+    public var presentCallArgs: [[UIAlertAction]] = []
+    public func present(actions: [UIAlertAction]) {
+        presentCallArgs.append(actions)
+    }
 
-	public var presentCallCount = 0
-	public func present() {
-		presentCallCount += 1
-	}
+    public var presentCallCount = 0
+    public func present() {
+        presentCallCount += 1
+    }
 }

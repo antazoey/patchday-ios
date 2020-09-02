@@ -18,10 +18,10 @@ class ExpiredHormoneNotificationTests: XCTestCase {
     private let _name = "Dat Ass Cheek"
     private let _oldName = "Dat Tummy"
 
-	private static var testHandlerCallArgs: [(Double, String)] = []
+    private static var testHandlerCallArgs: [(Double, String)] = []
     private let _testHandler: (Double, String) -> Void = {
-		v, id in ExpiredHormoneNotificationTests.testHandlerCallArgs.append((v, id))
-	}
+        v, id in ExpiredHormoneNotificationTests.testHandlerCallArgs.append((v, id))
+    }
 
     func testInit_whenUsingPatchesAndMinutesBefore_hasExpectedProperties() {
         let hormone = MockHormone()
@@ -32,8 +32,8 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         let not = ExpiredHormoneNotification(
             hormone: hormone,
             notifyMinutes: notifyMin,
-			suggestedSite: suggestedSiteName,
-			currentBadgeValue: 0,
+            suggestedSite: suggestedSiteName,
+            currentBadgeValue: 0,
             requestHandler: _testHandler
         )
         XCTAssertEqual("Almost time for your next patch", not.title)
@@ -49,8 +49,8 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         let not = ExpiredHormoneNotification(
             hormone: hormone,
             notifyMinutes: notifyMin,
-			suggestedSite: suggestedSiteName,
-			currentBadgeValue: 0,
+            suggestedSite: suggestedSiteName,
+            currentBadgeValue: 0,
             requestHandler: _testHandler
         )
 
@@ -61,30 +61,7 @@ class ExpiredHormoneNotificationTests: XCTestCase {
     func testRequest_callsHandlersWithExpectedArgs() {
         let hormone = MockHormone()
         hormone.date = Date()
-		hormone.expirationInterval = ExpirationIntervalUD()
-        let notifyMin = Double(30)
-        let suggestedSiteName = "Dat Ass Cheek"
-
-        let not = ExpiredHormoneNotification(
-            hormone: hormone,
-            notifyMinutes: notifyMin,
-			suggestedSite: suggestedSiteName,
-			currentBadgeValue: 0,
-            requestHandler: _testHandler
-        )
-		let hours = hormone.expirationInterval.hours
-		let date = hormone.date
-		let expected = DateFactory.createTimeInterval(fromAddingHours: hours, to: date)! - 30 * 60
-		ExpiredHormoneNotificationTests.testHandlerCallArgs = []
-        not.request()
-		let actual = ExpiredHormoneNotificationTests.testHandlerCallArgs[0].0
-		XCTAssert(PDTest.equiv(expected, actual))
-		XCTAssertEqual(hormone.id.uuidString, ExpiredHormoneNotificationTests.testHandlerCallArgs[0].1)
-    }
-
-    func testRequest_whenHormoneHasNoDate_doesNotRequest() {
-        let hormone = MockHormone()
-		hormone.expirationInterval = ExpirationIntervalUD()
+        hormone.expirationInterval = ExpirationIntervalUD()
         let notifyMin = Double(30)
         let suggestedSiteName = "Dat Ass Cheek"
 
@@ -92,11 +69,34 @@ class ExpiredHormoneNotificationTests: XCTestCase {
             hormone: hormone,
             notifyMinutes: notifyMin,
             suggestedSite: suggestedSiteName,
-			currentBadgeValue: 0,
+            currentBadgeValue: 0,
             requestHandler: _testHandler
         )
-		ExpiredHormoneNotificationTests.testHandlerCallArgs = []
+        let hours = hormone.expirationInterval.hours
+        let date = hormone.date
+        let expected = DateFactory.createTimeInterval(fromAddingHours: hours, to: date)! - 30 * 60
+        ExpiredHormoneNotificationTests.testHandlerCallArgs = []
         not.request()
-		XCTAssertEqual(0, ExpiredHormoneNotificationTests.testHandlerCallArgs.count)
+        let actual = ExpiredHormoneNotificationTests.testHandlerCallArgs[0].0
+        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssertEqual(hormone.id.uuidString, ExpiredHormoneNotificationTests.testHandlerCallArgs[0].1)
+    }
+
+    func testRequest_whenHormoneHasNoDate_doesNotRequest() {
+        let hormone = MockHormone()
+        hormone.expirationInterval = ExpirationIntervalUD()
+        let notifyMin = Double(30)
+        let suggestedSiteName = "Dat Ass Cheek"
+
+        let not = ExpiredHormoneNotification(
+            hormone: hormone,
+            notifyMinutes: notifyMin,
+            suggestedSite: suggestedSiteName,
+            currentBadgeValue: 0,
+            requestHandler: _testHandler
+        )
+        ExpiredHormoneNotificationTests.testHandlerCallArgs = []
+        not.request()
+        XCTAssertEqual(0, ExpiredHormoneNotificationTests.testHandlerCallArgs.count)
     }
 }

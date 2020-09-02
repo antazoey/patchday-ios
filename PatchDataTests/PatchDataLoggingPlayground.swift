@@ -13,44 +13,44 @@ import PatchData
 
 class LoggingPlayground: XCTestCase {
 
-	func logHormone() {
-		var data = HormoneStruct(UUID())
-		data.date = Date()
-		data.siteRelationshipId = UUID()
-		data.siteName = "Left Delt"
-		data.siteNameBackUp = "Left Delt"
-		let settings = MockSettings()
-		let hormone = Hormone(hormoneData: data, settings: settings)
-		PDObjectLogger.logHormone(hormone)
-	}
+    func logHormone() {
+        var data = HormoneStruct(UUID())
+        data.date = Date()
+        data.siteRelationshipId = UUID()
+        data.siteName = "Left Delt"
+        data.siteNameBackUp = "Left Delt"
+        let settings = MockSettings()
+        let hormone = Hormone(hormoneData: data, settings: settings)
+        PDObjectLogger.logHormone(hormone)
+    }
 
-	func logPill() {
-		var attributes = PillAttributes()
-		attributes.name = "Prolactin"
-		attributes.notify = true
-		attributes.lastTaken = Date(timeIntervalSinceNow: -2342652)
-		attributes.times = "12:00:00,5:00:00"
-		attributes.timesaday = 2
-		attributes.timesTakenToday = 0
-		let pill = Pill(pillData: PillStruct(UUID(), attributes))
-		PDObjectLogger.logPill(pill)
-	}
+    func logPill() {
+        var attributes = PillAttributes()
+        attributes.name = "Prolactin"
+        attributes.notify = true
+        attributes.lastTaken = Date(timeIntervalSinceNow: -2342652)
+        attributes.times = "12:00:00,5:00:00"
+        attributes.timesaday = 2
+        attributes.timesTakenToday = 0
+        let pill = Pill(pillData: PillStruct(UUID(), attributes))
+        PDObjectLogger.logPill(pill)
+    }
 
-	func logSite() {
-		var data = SiteStruct(UUID())
-		data.order = 2
-		data.name = "Right Abdomen"
-		data.imageIdentifier = "Right Abdomen"
-		data.hormoneRelationshipIds = [UUID(), UUID()]
-		let site = Site(siteData: data)
-		PDObjectLogger.logSite(site)
-	}
+    func logSite() {
+        var data = SiteStruct(UUID())
+        data.order = 2
+        data.name = "Right Abdomen"
+        data.imageIdentifier = "Right Abdomen"
+        data.hormoneRelationshipIds = [UUID(), UUID()]
+        let site = Site(siteData: data)
+        PDObjectLogger.logSite(site)
+    }
 
-	func testLogging() {
-		logHormone()
-		print()
-		logPill()
-		print()
-		logSite()
-	}
+    func testLogging() {
+        logHormone()
+        print()
+        logPill()
+        print()
+        logSite()
+    }
 }

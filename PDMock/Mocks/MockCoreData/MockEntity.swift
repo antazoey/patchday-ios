@@ -8,11 +8,11 @@ import PDKit
 
 public class MockEntity {
 
-	public var type: PDEntity = .hormone
+    public var type: PDEntity = .hormone
 
-	public init() { }
+    public init() { }
 
-	public init(type: PDEntity) {
-		self.type = type
-	}
+    public init(type: PDEntity) {
+        self.type = type
+    }
 }

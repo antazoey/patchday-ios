@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol PillDataSharing {
-	func share(nextPill: Swallowable)
+    func share(nextPill: Swallowable)
 }

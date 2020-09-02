@@ -9,7 +9,7 @@
 import Foundation
 
 public protocol PDBadgeDelegate {
-	var value: Int { get }
-	func clear()
-	func reflect()
+    var value: Int { get }
+    func clear()
+    func reflect()
 }

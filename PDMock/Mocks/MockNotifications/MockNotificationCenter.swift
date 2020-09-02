@@ -13,10 +13,10 @@ public class MockNotificationCenter: NSObject, NotificationCenterDelegate {
 
     public override init() {}
 
-	public var setHormoneChangeUpdateViewsHookCallArgs: [() -> Void] = []
-	public func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
-		setHormoneChangeUpdateViewsHookCallArgs.append(hook)
-	}
+    public var setHormoneChangeUpdateViewsHookCallArgs: [() -> Void] = []
+    public func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
+        setHormoneChangeUpdateViewsHookCallArgs.append(hook)
+    }
 
     public var removeNotificationsCallArgs: [[String]] = []
     public var removeNotificationsCallCount: Int {

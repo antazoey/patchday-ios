@@ -10,6 +10,6 @@ import Foundation
 
 public protocol NotificationProducing {
     func createExpiredHormoneNotification(hormone: Hormonal) -> PDNotificationProtocol
-	func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol
+    func createDuePillNotification(_ pill: Swallowable) -> PDNotificationProtocol
     func createOvernightExpiredHormoneNotification(date: Date) -> PDNotificationProtocol
 }

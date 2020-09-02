@@ -11,9 +11,9 @@ import PDKit
 
 public class EntityStore {
 
-	let stack: PDCoreDataWrapping
+    let stack: PDCoreDataWrapping
 
-	init(_ stack: PDCoreDataWrapping) {
-		self.stack = stack
-	}
+    init(_ stack: PDCoreDataWrapping) {
+        self.stack = stack
+    }
 }

@@ -11,17 +11,17 @@ import PDKit
 
 public class MockDependencies: DependenciesProtocol {
 
-	public init() {}
+    public init() {}
 
-	public var sdk: PatchDataSDK? = MockSDK()
+    public var sdk: PatchDataSDK? = MockSDK()
 
-	public var tabs: TabReflective? = MockTabs()
+    public var tabs: TabReflective? = MockTabs()
 
-	public var notifications: NotificationScheduling? = MockNotifications()
+    public var notifications: NotificationScheduling? = MockNotifications()
 
-	public var alerts: AlertProducing? = MockAlertFactory()
+    public var alerts: AlertProducing? = MockAlertFactory()
 
-	public var nav: NavigationHandling? = MockNav()
+    public var nav: NavigationHandling? = MockNav()
 
-	public var badge: PDBadgeDelegate? = MockBadge()
+    public var badge: PDBadgeDelegate? = MockBadge()
 }

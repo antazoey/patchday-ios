@@ -8,33 +8,33 @@ import PDKit
 
 class SiteValueTypeFactory {
 
-	static func createBarItemInitProps(
-		_ reset: Selector,
-		_ insert: Selector,
-		_ sitesViewController: UIViewController
-	) -> BarItemInitializationProperties {
-		let cellEditingState = SiteValueTypeFactory.createEditingState(sitesViewController)
-		return BarItemInitializationProperties(
-			sitesViewController: sitesViewController,
-			tableActionState: cellEditingState,
-			oppositeActionTitle: createOppositeActionTitle(cellEditingState),
-			reset: reset,
-			insert: insert
-		)
-	}
+    static func createBarItemInitProps(
+        _ reset: Selector,
+        _ insert: Selector,
+        _ sitesViewController: UIViewController
+    ) -> BarItemInitializationProperties {
+        let cellEditingState = SiteValueTypeFactory.createEditingState(sitesViewController)
+        return BarItemInitializationProperties(
+            sitesViewController: sitesViewController,
+            tableActionState: cellEditingState,
+            oppositeActionTitle: createOppositeActionTitle(cellEditingState),
+            reset: reset,
+            insert: insert
+        )
+    }
 
-	private static func createEditingState(_ sitesViewController: UIViewController) -> SiteTableActionState {
-		if let items = sitesViewController.navigationItem.rightBarButtonItems {
-			switch items[1].title {
-			case ActionStrings.Edit: return .Editing
-			case ActionStrings.Done: return .Reading
-			default: break
-			}
-		}
-		return .Unknown
-	}
+    private static func createEditingState(_ sitesViewController: UIViewController) -> SiteTableActionState {
+        if let items = sitesViewController.navigationItem.rightBarButtonItems {
+            switch items[1].title {
+            case ActionStrings.Edit: return .Editing
+            case ActionStrings.Done: return .Reading
+            default: break
+            }
+        }
+        return .Unknown
+    }
 
-	private static func createOppositeActionTitle(_ cellEditingState: SiteTableActionState) -> String {
-		cellEditingState == .Editing ? ActionStrings.Done : ActionStrings.Edit
-	}
+    private static func createOppositeActionTitle(_ cellEditingState: SiteTableActionState) -> String {
+        cellEditingState == .Editing ? ActionStrings.Done : ActionStrings.Edit
+    }
 }

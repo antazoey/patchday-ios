@@ -7,22 +7,22 @@ import Foundation
 import PDKit
 
 struct HormoneSelectionState {
-	var site: Bodily?
-	var siteName: SiteName?
-	var date: Date?
-	var siteIndex: Index { site?.order ?? -1 }
+    var site: Bodily?
+    var siteName: SiteName?
+    var date: Date?
+    var siteIndex: Index { site?.order ?? -1 }
 
-	var hasSelections: Bool {
-		let dateSelected = date != nil && date != DateFactory.createDefaultDate()
-		let siteSelected = (site != nil && siteIndex != -1) || siteName != nil
-		return dateSelected || siteSelected
-	}
+    var hasSelections: Bool {
+        let dateSelected = date != nil && date != DateFactory.createDefaultDate()
+        let siteSelected = (site != nil && siteIndex != -1) || siteName != nil
+        return dateSelected || siteSelected
+    }
 }
 
 enum HormoneMutation {
-	case Add
-	case Edit
-	case Remove
-	case None
-	case Empty
+    case Add
+    case Edit
+    case Remove
+    case None
+    case Empty
 }

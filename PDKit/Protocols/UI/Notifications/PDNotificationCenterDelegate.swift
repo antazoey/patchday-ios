@@ -10,5 +10,5 @@ import Foundation
 import UserNotifications
 
 public protocol NotificationCenterDelegate: UNUserNotificationCenterDelegate {
-	func removeNotifications(with ids: [String])
+    func removeNotifications(with ids: [String])
 }

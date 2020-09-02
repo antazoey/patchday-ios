@@ -7,26 +7,26 @@ import Foundation
 
 class TimesadaySliderDefinition {
 
-	static let Max: Float = 4.0
-	static let Min: Float = 0.0
-	static let GreaterThanOneMarker: Float = 2.0
+    static let Max: Float = 4.0
+    static let Min: Float = 0.0
+    static let GreaterThanOneMarker: Float = 2.0
 
-	/// Converts a pill's timesaday value to a float for a slider in the UI
-	//       *
-	/// ---- | ------ | ----
-	///     1.0      3.0
-	/// --------------------
-	static func convertTimesadayToSliderValue(timesaday: Int) -> Float {
-		guard timesaday > 0 else { return 1.0 }
-		let timesadayFloat = Float(timesaday)
-		return timesadayFloat == 1.0 ? timesadayFloat : timesadayFloat + 2.0
-	}
+    /// Converts a pill's timesaday value to a float for a slider in the UI
+    //       *
+    /// ---- | ------ | ----
+    ///     1.0      3.0
+    /// --------------------
+    static func convertTimesadayToSliderValue(timesaday: Int) -> Float {
+        guard timesaday > 0 else { return 1.0 }
+        let timesadayFloat = Float(timesaday)
+        return timesadayFloat == 1.0 ? timesadayFloat : timesadayFloat + 2.0
+    }
 
-	static func convertSliderValueToTimesaday(sliderValue: Float) -> Int {
-		sliderValue >= 2 ? 2 : 1
-	}
+    static func convertSliderValueToTimesaday(sliderValue: Float) -> Int {
+        sliderValue >= 2 ? 2 : 1
+    }
 
-	static func valueIsGreaterThanOne(timesday: Float) -> Bool {
-		timesday >= GreaterThanOneMarker
-	}
+    static func valueIsGreaterThanOne(timesday: Float) -> Bool {
+        timesday >= GreaterThanOneMarker
+    }
 }

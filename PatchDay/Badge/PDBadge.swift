@@ -11,23 +11,23 @@ import PDKit
 
 public class PDBadge: PDBadgeDelegate {
 
-	private let sdk: PatchDataSDK?
+    private let sdk: PatchDataSDK?
 
-	public init(sdk: PatchDataSDK?) {
-		self.sdk = sdk
-	}
+    public init(sdk: PatchDataSDK?) {
+        self.sdk = sdk
+    }
 
-	public func reflect() {
-		let newValue = sdk?.totalAlerts ?? 0
-		UIApplication.shared.applicationIconBadgeNumber = newValue
-		PDLog<PDBadge>().info("Badge number set to \(newValue)")
-	}
+    public func reflect() {
+        let newValue = sdk?.totalAlerts ?? 0
+        UIApplication.shared.applicationIconBadgeNumber = newValue
+        PDLog<PDBadge>().info("Badge number set to \(newValue)")
+    }
 
-	public func clear() {
-		UIApplication.shared.applicationIconBadgeNumber = 0
-	}
+    public func clear() {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
 
-	public var value: Int {
-		UIApplication.shared.applicationIconBadgeNumber
-	}
+    public var value: Int {
+        UIApplication.shared.applicationIconBadgeNumber
+    }
 }

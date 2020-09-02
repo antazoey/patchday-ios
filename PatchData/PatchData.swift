@@ -11,145 +11,145 @@ import PDKit
 
 public class PatchData: NSObject, PatchDataSDK {
 
-	override public var description: String {
-		"Root object for developing with PatchData."
-	}
+    override public var description: String {
+        "Root object for developing with PatchData."
+    }
 
-	let dataSharer: UserDefaultsProtocol
-	let coreData: PDCoreDataWrapping
-	let hormoneDataSharer: HormoneDataSharing
+    let dataSharer: UserDefaultsProtocol
+    let coreData: PDCoreDataWrapping
+    let hormoneDataSharer: HormoneDataSharing
 
-	public var settings: PDSettingsManaging
-	public var hormones: HormoneScheduling
-	public var sites: SiteScheduling
-	public var pills: PillScheduling
+    public var settings: PDSettingsManaging
+    public var hormones: HormoneScheduling
+    public var sites: SiteScheduling
+    public var pills: PillScheduling
 
-	public init(
-		settings: PDSettingsManaging,
-		dataSharer: UserDefaultsProtocol,
-		hormones: HormoneScheduling,
-		pills: PillScheduling,
-		sites: SiteScheduling,
-		coreData: PDCoreDataWrapping,
-		hormoneDataSharer: HormoneDataSharing
-	) {
-		self.settings = settings
-		self.dataSharer = dataSharer
-		self.hormones = hormones
-		self.pills = pills
-		self.sites = sites
-		self.coreData = coreData
-		self.hormoneDataSharer = hormoneDataSharer
-		super.init()
-	}
+    public init(
+        settings: PDSettingsManaging,
+        dataSharer: UserDefaultsProtocol,
+        hormones: HormoneScheduling,
+        pills: PillScheduling,
+        sites: SiteScheduling,
+        coreData: PDCoreDataWrapping,
+        hormoneDataSharer: HormoneDataSharing
+    ) {
+        self.settings = settings
+        self.dataSharer = dataSharer
+        self.hormones = hormones
+        self.pills = pills
+        self.sites = sites
+        self.coreData = coreData
+        self.hormoneDataSharer = hormoneDataSharer
+        super.init()
+    }
 
-	// Run
-	public override convenience init() {
-		let storeDataStackWrapper = CoreDataStackWrapper()
-		let hormoneStore = HormoneStore(storeDataStackWrapper)
-		let pillStore = PillStore(storeDataStackWrapper)
-		let siteStore = SiteStore(storeDataStackWrapper)
+    // Run
+    public override convenience init() {
+        let storeDataStackWrapper = CoreDataStackWrapper()
+        let hormoneStore = HormoneStore(storeDataStackWrapper)
+        let pillStore = PillStore(storeDataStackWrapper)
+        let siteStore = SiteStore(storeDataStackWrapper)
 
-		let dataSharer = DataSharer()
-		let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
-		let userDefaultsWriter = UserDefaultsWriter(
-			handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
-			siteStore: siteStore
-		)
-		let pillScheduleState = PatchData.determinePillScheduleState(
-			settings: userDefaultsWriter
-		)
-		let pills = PillSchedule(
-			store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState
-		)
-		let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
-		let hormoneDataSharer = HormoneDataSharer(
-			baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter
-		)
-		let hormones = HormoneSchedule(
-			store: hormoneStore,
-			hormoneDataSharer: hormoneDataSharer,
-			settings: userDefaultsWriter
-		)
-		let settings = PDSettings(
-			writer: userDefaultsWriter, hormones: hormones, sites: sites
-		)
+        let dataSharer = DataSharer()
+        let pillDataSharer = PillDataSharer(baseSharer: dataSharer)
+        let userDefaultsWriter = UserDefaultsWriter(
+            handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
+            siteStore: siteStore
+        )
+        let pillScheduleState = PatchData.determinePillScheduleState(
+            settings: userDefaultsWriter
+        )
+        let pills = PillSchedule(
+            store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState
+        )
+        let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
+        let hormoneDataSharer = HormoneDataSharer(
+            baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter
+        )
+        let hormones = HormoneSchedule(
+            store: hormoneStore,
+            hormoneDataSharer: hormoneDataSharer,
+            settings: userDefaultsWriter
+        )
+        let settings = PDSettings(
+            writer: userDefaultsWriter, hormones: hormones, sites: sites
+        )
 #if DEBUG
-		// ******************************************************
-		// Nuke mode: Resets app like it's fresh
-		// ******************************************************
-		if PDCli.isNukeMode() {
-			hormones.reset()
-			pills.reset()
-			let newSiteCount = sites.reset()
-			settings.reset(defaultSiteCount: newSiteCount)
-			storeDataStackWrapper.nuke()
-			PDCli.clearNukeFlag()
-			self.init()
-			PDLogLevel = PDLogLevels.DEBUG
-			return
-		}
+        // ******************************************************
+        // Nuke mode: Resets app like it's fresh
+        // ******************************************************
+        if PDCli.isNukeMode() {
+            hormones.reset()
+            pills.reset()
+            let newSiteCount = sites.reset()
+            settings.reset(defaultSiteCount: newSiteCount)
+            storeDataStackWrapper.nuke()
+            PDCli.clearNukeFlag()
+            self.init()
+            PDLogLevel = PDLogLevels.DEBUG
+            return
+        }
 
-		// ******************************************************
-		// Debug mode
-		// ******************************************************
-		if PDCli.isDebugMode() {
-			PDLogLevel = PDLogLevels.DEBUG
-		}
+        // ******************************************************
+        // Debug mode
+        // ******************************************************
+        if PDCli.isDebugMode() {
+            PDLogLevel = PDLogLevels.DEBUG
+        }
 
-		// ******************************************************
-		// Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12 
-		// ******************************************************
-		if PDCli.isNotificationsTest() {
-			let now = Date()
-			let delay = 20
-			let seconds = settings.expirationInterval.hours * 60 * 60 - delay
-			settings.setNotifications(to: true)
-			let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
-			hormones.setDate(at: 0, with: date!)
+        // ******************************************************
+        // Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12 
+        // ******************************************************
+        if PDCli.isNotificationsTest() {
+            let now = Date()
+            let delay = 20
+            let seconds = settings.expirationInterval.hours * 60 * 60 - delay
+            settings.setNotifications(to: true)
+            let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
+            hormones.setDate(at: 0, with: date!)
 
-			var attrs = PillAttributes()
-			let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-			attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
-			attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
-			attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
-			attrs.notify = true
-			attrs.timesaday = 1
-			attrs.timesTakenToday = 0
-			attrs.name = "Notification Test"
-			pills.set(at: 0, with: attrs)
-		}
+            var attrs = PillAttributes()
+            let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
+            attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+            attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
+            attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
+            attrs.notify = true
+            attrs.timesaday = 1
+            attrs.timesTakenToday = 0
+            attrs.name = "Notification Test"
+            pills.set(at: 0, with: attrs)
+        }
 #endif
-		self.init(
-			settings: settings,
-			dataSharer: dataSharer,
-			hormones: hormones,
-			pills: pills,
-			sites: sites,
-			coreData: storeDataStackWrapper,
-			hormoneDataSharer: hormoneDataSharer
-		)
-	}
+        self.init(
+            settings: settings,
+            dataSharer: dataSharer,
+            hormones: hormones,
+            pills: pills,
+            sites: sites,
+            coreData: storeDataStackWrapper,
+            hormoneDataSharer: hormoneDataSharer
+        )
+    }
 
-	public var isFresh: Bool {
-		hormones.isEmpty && sites.isDefault
-	}
+    public var isFresh: Bool {
+        hormones.isEmpty && sites.isDefault
+    }
 
-	public var totalAlerts: Int {
-		hormones.totalExpired + pills.totalDue
-	}
+    public var totalAlerts: Int {
+        hormones.totalExpired + pills.totalDue
+    }
 
-	public func resetAll() {
-		hormones.reset()
-		pills.reset()
-		let newSiteCount = sites.reset()
-		settings.reset(defaultSiteCount: newSiteCount)
-	}
+    public func resetAll() {
+        hormones.reset()
+        pills.reset()
+        let newSiteCount = sites.reset()
+        settings.reset(defaultSiteCount: newSiteCount)
+    }
 
-	private static func determinePillScheduleState(
-		settings: UserDefaultsWriting
-	) -> PillSchedule.PillScheduleState {
-		typealias PSS = PillSchedule.PillScheduleState
-		return settings.mentionedDisclaimer.value ? PSS.Working: PSS.Initial
-	}
+    private static func determinePillScheduleState(
+        settings: UserDefaultsWriting
+    ) -> PillSchedule.PillScheduleState {
+        typealias PSS = PillSchedule.PillScheduleState
+        return settings.mentionedDisclaimer.value ? PSS.Working: PSS.Initial
+    }
 }

@@ -76,7 +76,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = MockNotificationFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelAllExpiredHormoneNotifications()
 
         XCTAssertEqual([
@@ -92,7 +92,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = MockNotificationFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelExpiredHormoneNotification(for: mockHormones[1])
         XCTAssertEqual([mockHormones[1].id.uuidString], center.removeNotificationsCallArgs[0])
     }
@@ -101,9 +101,9 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = MockNotificationFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 2, to: 6)
-		let callArgs = center.removeNotificationsCallArgs[0]
+        let callArgs = center.removeNotificationsCallArgs[0]
         XCTAssertEqual([mockHormones[2].id.uuidString, mockHormones[3].id.uuidString], callArgs)
     }
 
@@ -111,7 +111,7 @@ class NotificationsTests: XCTestCase {
         let sdk = MockSDK()
         let center = MockNotificationCenter()
         let factory = MockNotificationFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 8, to: 6)
         XCTAssertEqual(0, center.removeNotificationsCallArgs.count)
     }
@@ -120,7 +120,7 @@ class NotificationsTests: XCTestCase {
         let sdk = MockSDK()
         let center = MockNotificationCenter()
         let factory = MockNotificationFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelRangeOfExpiredHormoneNotifications(from: 2, to: 4)
         XCTAssertEqual(0, center.removeNotificationsCallArgs.count)
     }
@@ -129,7 +129,7 @@ class NotificationsTests: XCTestCase {
         let center = MockNotificationCenter()
         let sdk = createSDK(settings: createSettings(on: false))
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let mockHormone = createTestHormone()
         notifications.requestExpiredHormoneNotification(for: mockHormone)
         XCTAssertEqual(0, mockNotification.requestCallCount)
@@ -140,7 +140,7 @@ class NotificationsTests: XCTestCase {
         let settings = createSettings(on: true, minutesBefore: 23)
         let sdk = createSDK(totalExpired: 2, settings: settings)
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let mockHormone = createTestHormone()
         notifications.requestExpiredHormoneNotification(for: mockHormone)
 
@@ -152,7 +152,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 18, to: 1)
         XCTAssertEqual(0, mockNotification.requestCallCount)
     }
@@ -161,7 +161,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 2, to: 3)
         XCTAssertEqual(1, center.removeNotificationsCallArgs.count)
     }
@@ -170,7 +170,7 @@ class NotificationsTests: XCTestCase {
        let sdk = createSDK(settings: createSettings(on: false))
        let center = MockNotificationCenter()
        let factory = createFactory()
-	   let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+       let notifications = Notifications(sdk: sdk, center: center, factory: factory)
        notifications.requestRangeOfExpiredHormoneNotifications(from: 18, to: 1)
        XCTAssertEqual(0, mockNotification.requestCallCount)
     }
@@ -179,7 +179,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 2, to: 3)
         XCTAssertEqual(
             [mockHormones[2].id.uuidString, mockHormones[3].id.uuidString],
@@ -191,7 +191,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK()
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestRangeOfExpiredHormoneNotifications(from: 2, to: 3)
         XCTAssertEqual(2, mockNotification.requestCallCount)
     }
@@ -200,7 +200,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK(settings: createSettings(quantity: 4))
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.requestAllExpiredHormoneNotifications()
         XCTAssertEqual(4, mockNotification.requestCallCount)
     }
@@ -209,7 +209,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let pill = createTestPill(isDue: true, notify: false)
         notifications.requestDuePillNotification(pill)
         XCTAssertEqual(0, factory.createDuePillNotificationCallArgs.count)
@@ -219,7 +219,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let pill = createTestPill(isDue: true, notify: true)
         notifications.requestDuePillNotification(pill)
         XCTAssertEqual(pill.id, factory.createDuePillNotificationCallArgs[0].id)
@@ -230,7 +230,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let pill = createTestPill(isDue: true, notify: true)
         notifications.cancelDuePillNotification(pill)
         XCTAssertEqual([pill.id.uuidString], center.removeNotificationsCallArgs[0])
@@ -240,7 +240,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let hormone = createTestHormone()
         hormone.expiration = nil
         notifications.requestOvernightExpirationNotification(for: hormone)
@@ -251,7 +251,7 @@ class NotificationsTests: XCTestCase {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
-		let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
 
         let hormone = createTestHormone()
         hormone.expiration = Date()

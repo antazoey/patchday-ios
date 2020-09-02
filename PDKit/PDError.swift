@@ -9,6 +9,6 @@
 import Foundation
 
 public enum PDError: Error {
-	case PatchDataError
-	case IndexOutOfBoundsError
+    case PatchDataError
+    case IndexOutOfBoundsError
 }

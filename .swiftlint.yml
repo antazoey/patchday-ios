@@ -1,2 +1,10 @@
 disabled_rules:
   - weak_delegate
+opt_in_rules:
+  - indentation_width 
+
+
+indentation_width:
+  severity: .warning,
+  indentationWidth: 4,
+  includeComments: true

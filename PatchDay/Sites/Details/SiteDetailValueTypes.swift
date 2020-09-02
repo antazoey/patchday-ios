@@ -7,32 +7,32 @@ import UIKit
 import PDKit
 
 struct SiteImagePickerDelegateProperties {
-	var selectedSiteIndex: Index?
-	var imageChoices: [UIImage] = []
-	var views: SiteImagePickerDelegateRelatedViews?
-	var selectedImageIndex: Index?
+    var selectedSiteIndex: Index?
+    var imageChoices: [UIImage] = []
+    var views: SiteImagePickerDelegateRelatedViews?
+    var selectedImageIndex: Index?
 }
 
 struct SiteImagePickerDelegateRelatedViews {
-	var getPicker: () -> UIPickerView
-	var getImageView: () -> UIImageView
-	var getSaveButton: () -> UIBarButtonItem
+    var getPicker: () -> UIPickerView
+    var getImageView: () -> UIImageView
+    var getSaveButton: () -> UIBarButtonItem
 }
 
 struct SiteDetailViewModelConstructorParams {
-	var siteIndex: Index
-	var imageSelectionParams: SiteImageDeterminationParameters
-	var relatedViews: SiteImagePickerDelegateRelatedViews
-	var deliveryMethod: DeliveryMethod
+    var siteIndex: Index
+    var imageSelectionParams: SiteImageDeterminationParameters
+    var relatedViews: SiteImagePickerDelegateRelatedViews
+    var deliveryMethod: DeliveryMethod
 
-	init(
-		_ siteIndex: Index,
-		_ imageParams: SiteImageDeterminationParameters,
-		_ relateViews: SiteImagePickerDelegateRelatedViews
-	) {
-		self.siteIndex = siteIndex
-		self.imageSelectionParams = imageParams
-		self.relatedViews = relateViews
-		self.deliveryMethod = imageParams.deliveryMethod
-	}
+    init(
+        _ siteIndex: Index,
+        _ imageParams: SiteImageDeterminationParameters,
+        _ relateViews: SiteImagePickerDelegateRelatedViews
+    ) {
+        self.siteIndex = siteIndex
+        self.imageSelectionParams = imageParams
+        self.relatedViews = relateViews
+        self.deliveryMethod = imageParams.deliveryMethod
+    }
 }

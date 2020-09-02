@@ -11,22 +11,22 @@ import PDKit
 
 public class DataSharer: UserDefaultsProtocol {
 
-	private var sharedDefaults: UserDefaults? {
-		UserDefaults(suiteName: PDSharedDataGroupName)
-	}
+    private var sharedDefaults: UserDefaults? {
+        UserDefaults(suiteName: PDSharedDataGroupName)
+    }
 
-	public func set(_ value: Any?, for key: String) {
-		sharedDefaults?.set(value, forKey: key)
-	}
+    public func set(_ value: Any?, for key: String) {
+        sharedDefaults?.set(value, forKey: key)
+    }
 
-	public func object(for key: String) -> Any? {
-		sharedDefaults?.object(forKey: key)
-	}
+    public func object(for key: String) -> Any? {
+        sharedDefaults?.object(forKey: key)
+    }
 }
 
 public enum TodayKey: String {
-	case nextHormoneSiteName = "nextEstroSiteName"
-	case nextHormoneDate = "nextEstroDate"
-	case nextPillToTake = "nextPillToTake"
-	case nextPillTakeTime = "nextPillTakeTime"
+    case nextHormoneSiteName = "nextEstroSiteName"
+    case nextHormoneDate = "nextEstroDate"
+    case nextPillToTake = "nextPillToTake"
+    case nextPillTakeTime = "nextPillTakeTime"
 }
