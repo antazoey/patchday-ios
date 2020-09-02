@@ -1,3 +1,5 @@
+disabled_ruleS:
+  - weak_delegate
 opt_in_rules: # some rules are only opt-in
   - empty_count
   # Find all the available rules by running:
