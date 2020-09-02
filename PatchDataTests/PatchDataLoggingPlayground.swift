@@ -29,8 +29,7 @@ class LoggingPlayground: XCTestCase {
 		attributes.name = "Prolactin"
 		attributes.notify = true
 		attributes.lastTaken = Date(timeIntervalSinceNow: -2342652)
-		attributes.time1 = Date()
-		attributes.time2 = Date(timeIntervalSinceNow: 16000)
+		attributes.times = "12:00:00,5:00:00"
 		attributes.timesaday = 2
 		attributes.timesTakenToday = 0
 		let pill = Pill(pillData: PillStruct(UUID(), attributes))

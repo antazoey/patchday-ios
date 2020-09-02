@@ -46,6 +46,16 @@ class DateFactoryTests: XCTestCase {
 		XCTAssert(PDTest.equiv(expected, actual))
 	}
 
+	func testCreateTimesFromCommaSeparatedString_handlesSingleDate() {
+		let actual = DateFactory.createTimesFromCommaSeparatedString("06:05:04")
+		XCTAssertNotNil(actual)
+	}
+
+	func testCreateTimesFromCommaSeparatedString_handlesMultipleDates() {
+		let actual = DateFactory.createTimesFromCommaSeparatedString("06:05:04,07:08:09")
+		XCTAssertEqual(2, actual.count)
+	}
+
 	func testCreateTimeInterval_returnsExpectedTimeInterval() {
 		let expected = 18000.0
 		let actual = DateFactory.createTimeInterval(fromAddingHours: 5, to: Date())!

@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class DateFormatterFactory {
 
 	static func createTimeFormatter() -> DateFormatter {

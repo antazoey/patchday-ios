@@ -12,8 +12,6 @@ import PDKit
 class PDDateFormatterTests: XCTestCase {
 
 	private var formatter: DateFormatter!
-	private let timeFormat = "h:mm a"
-	private let dateFormat = "EEEE, h:mm a"
 
 	override func setUp() {
 		formatter = DateFormatter()
@@ -32,7 +30,7 @@ class PDDateFormatterTests: XCTestCase {
 	}
 
 	func testFormatDate_whenToday_returnsExpectedString() {
-		formatter.dateFormat = timeFormat
+		formatter.dateFormat = DateFormatterFactory.timeFormat
 		let now = Date()
 		let expected = "Today, " + formatter.string(from: now)
 		let actual = PDDateFormatter.formatDate(now)
@@ -40,7 +38,7 @@ class PDDateFormatterTests: XCTestCase {
 	}
 
 	func testFormatDate_whenYesterday_returnsExpectedString() {
-		formatter.dateFormat = timeFormat
+		formatter.dateFormat = DateFormatterFactory.timeFormat
 		let yesterday = Date(timeInterval: -86499, since: Date())
 		let expected = "Yesterday, " + formatter.string(from: yesterday)
 		let actual = PDDateFormatter.formatDate(yesterday)
@@ -48,7 +46,7 @@ class PDDateFormatterTests: XCTestCase {
 	}
 
     func testFormatDate_whenTomorrow_returnsExpecteDstring() {
-        formatter.dateFormat = timeFormat
+        formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let expected = "Tomorrow, " + formatter.string(from: yesterday)
         let actual = PDDateFormatter.formatDate(yesterday)
@@ -62,7 +60,7 @@ class PDDateFormatterTests: XCTestCase {
     }
 
     func testFormatDay_whenToday_returnsExpectedString() {
-        formatter.dateFormat = timeFormat
+        formatter.dateFormat = DateFormatterFactory.timeFormat
         let now = Date()
         let expected = "Today, " + formatter.string(from: now)
         let actual = PDDateFormatter.formatDay(now)
@@ -70,18 +68,43 @@ class PDDateFormatterTests: XCTestCase {
     }
 
     func testFormatDay_whenYesterday_returnsExpectedString() {
-        formatter.dateFormat = timeFormat
+        formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: -86499, since: Date())
         let expected = "Yesterday, " + formatter.string(from: yesterday)
         let actual = PDDateFormatter.formatDay(yesterday)
         XCTAssertEqual(expected, actual)
     }
 
-    func testFormatDay_whenTomorrow_returnsExpecteDstring() {
-        formatter.dateFormat = timeFormat
+    func testFormatDay_whenTomorrow_returnsExpectedString() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let expected = "Tomorrow, " + formatter.string(from: yesterday)
         let actual = PDDateFormatter.formatDay(yesterday)
         XCTAssertEqual(expected, actual)
     }
+
+	func testConvertDatesToCommaSeparatedString_whenGivenSingleDate_returnsExpectedString() {
+		formatter.dateFormat = DateFormatterFactory.internalTimeFormat
+		let date = Date()
+		let expected = formatter.string(from: date)
+		let actual = PDDateFormatter.convertDatesToCommaSeparatedString([date])
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testConvertDatesToCommaSeparatedString_whenGivenMultipleDates_returnsExpectedString() {
+		formatter.dateFormat = DateFormatterFactory.internalTimeFormat
+		let dateOne = Date()
+		let dateTwo = DateFactory.createDate(byAddingHours: -3, to: dateOne)
+		let expected = "\(formatter.string(from: dateOne)),\(formatter.string(from: dateTwo!))"
+		let actual = PDDateFormatter.convertDatesToCommaSeparatedString([dateOne, dateTwo])
+		XCTAssertEqual(expected, actual)
+	}
+
+	func testConvertDatesToCommaSeparatedString_ignoreNils() {
+		formatter.dateFormat = DateFormatterFactory.internalTimeFormat
+		let date = Date()
+		let expected = formatter.string(from: date)
+		let actual = PDDateFormatter.convertDatesToCommaSeparatedString([nil, date, nil])
+		XCTAssertEqual(expected, actual)
+	}
 }

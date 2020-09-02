@@ -8,13 +8,12 @@
 
 import Foundation
 
-
 public class PDDateFormatter {
 
-	private static let strComment = "The word 'today' displayed on a button."
-	public static var todayStr: String = NSLocalizedString("Today", comment: strComment)
-	public static var yesterdayStr = NSLocalizedString("Yesterday", comment: strComment)
-	public static var tomorrowStr = NSLocalizedString("Tomorrow", comment: strComment)
+	private static let localizationComment = "The word 'today' displayed on a button."
+	public static var todayString: String = NSLocalizedString("Today", comment: localizationComment)
+	public static var yesterdayString = NSLocalizedString("Yesterday", comment: localizationComment)
+	public static var tomorrowString = NSLocalizedString("Tomorrow", comment: localizationComment)
 	private static var calendar = Calendar.current
 
 	/// Gives String for the given Time.
@@ -57,13 +56,13 @@ public class PDDateFormatter {
 
 	private static func dateWord(from date: Date) -> String? {
 		if calendar.isDateInToday(date) {
-			return todayStr
+			return todayString
 		} else if let yesterdayAtThisTime = DateFactory.createDate(daysFromNow: -1),
 			calendar.isDate(date, inSameDayAs: yesterdayAtThisTime) {
-			return yesterdayStr
+			return yesterdayString
 		} else if let tomorrowAtThisTime = DateFactory.createDate(daysFromNow: 1),
 			calendar.isDate(date, inSameDayAs: tomorrowAtThisTime) {
-			return tomorrowStr
+			return tomorrowString
 		}
 		return nil
 	}
