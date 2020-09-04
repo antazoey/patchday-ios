@@ -23,8 +23,8 @@ class HormonesTable: TableViewWrapper<HormoneCell> {
         guard let sdk = sdk else { return }
         for row in 0..<SupportedHormoneUpperQuantityLimit {
             if let cell = dequeueCell() {
-	            cell.configure(at: row, sdk)
-	            _cells.append(cell)
+                cell.configure(at: row, sdk)
+                _cells.append(cell)
             }
         }
         applyTheme()

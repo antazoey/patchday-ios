@@ -86,10 +86,10 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
             duration: 0.4,
             options: .transitionFlipFromTop,
             animations: {
-	            picker.isHidden = false
-	            if let saveButton = self._props.views?.getSaveButton() {
-	                saveButton.isEnabled = true
-	            }
+                picker.isHidden = false
+                if let saveButton = self._props.views?.getSaveButton() {
+                    saveButton.isEnabled = true
+                }
             },
             completion: { _ in completion() }
         )

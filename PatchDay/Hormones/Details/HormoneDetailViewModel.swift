@@ -57,7 +57,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     var dateSelected: Date? {
         get {
             if let selected = selections.date {
-	            return selected
+                return selected
             }
             let date = hormone?.date
             return date?.isDefault() ?? true ? nil : date
@@ -138,9 +138,9 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         }
         if selections.hasSelections {
             self.alerts?.createUnsavedAlert(
-	            viewController,
-	            saveAndContinueHandler: save,
-	            discardHandler: discard
+                viewController,
+                saveAndContinueHandler: save,
+                discardHandler: discard
             ).present()
         } else {
             self.nav?.pop(source: viewController)
@@ -192,7 +192,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         guard let alertFactory = alertFactory else { return }
         let handlers = NewSiteAlertActionHandler {
             let newSite = self.sdk?.sites.insertNew(name: newSiteName) {
-	            self.handleInterfaceUpdatesFromNewSite()
+                self.handleInterfaceUpdatesFromNewSite()
             }
             self.selections.site = newSite ?? self.selections.site
         }

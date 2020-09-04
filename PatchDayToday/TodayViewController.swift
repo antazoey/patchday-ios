@@ -35,7 +35,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         extensionContext?.open(myAppUrl as URL, completionHandler: {
             (success) in
             if !success {
-	            self.log.warn("Failure to open PatchDay")
+                self.log.warn("Failure to open PatchDay")
             }
         })
     }

@@ -20,11 +20,11 @@ class DisclaimerAlert: PDAlert {
         return UIAlertAction(title: supportTitle, style: .default) {
             _ in
             if let url = URL(string: "http://www.patchdayhrt.com") {
-	            if #available(iOS 10.0, *) {
-	                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-	            } else {
-	                UIApplication.shared.openURL(url)
-	            }
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
             }
         }
     }

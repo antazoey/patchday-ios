@@ -131,11 +131,11 @@ extension CAShapeLayer {
         self.strokeColor = UIColor.red.cgColor
         switch type {
             case .forPillsView:
-	            self.frame = self.frame.offsetBy(dx: width * 0.71, dy: 0)
-	            self.lineWidth = 0.5
+                self.frame = self.frame.offsetBy(dx: width * 0.71, dy: 0)
+                self.lineWidth = 0.5
             default:
-	            self.frame = self.frame.offsetBy(dx: width * 0.90, dy: 20)
-	            self.lineWidth = 4
+                self.frame = self.frame.offsetBy(dx: width * 0.90, dy: 20)
+                self.lineWidth = 4
         }
     }
 }

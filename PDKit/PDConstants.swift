@@ -44,9 +44,9 @@ public class DefaultQuantities {
     public class Hormone {
         public static subscript(method: DeliveryMethod) -> Int {
             switch method {
-	            case .Injections: return 1
-	            case .Patches: return 3
-	            case .Gel: return 1
+                case .Injections: return 1
+                case .Patches: return 3
+                case .Gel: return 1
             }
         }
     }
@@ -54,9 +54,9 @@ public class DefaultQuantities {
     public class Site {
         public static subscript(method: DeliveryMethod) -> Int {
             switch method {
-	            case .Injections: return 6
-	            case .Patches: return 4
-	            case .Gel: return 1
+                case .Injections: return 6
+                case .Patches: return 4
+                case .Gel: return 1
             }
         }
     }

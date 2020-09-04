@@ -43,7 +43,7 @@ public class Hormone: Hormonal {
             hormoneData.siteImageId = nil
             // Only clear back up if not explicitly setting to nil
             if let _ = newValue {
-	            hormoneData.siteNameBackUp = nil
+                hormoneData.siteNameBackUp = nil
             }
         }
     }
@@ -51,9 +51,9 @@ public class Hormone: Hormonal {
     public var siteName: SiteName {
         get {
             let backup = hormoneData.siteNameBackUp == "" ?
-	            SiteStrings.NewSite : hormoneData.siteNameBackUp ?? SiteStrings.NewSite
+                SiteStrings.NewSite : hormoneData.siteNameBackUp ?? SiteStrings.NewSite
             guard let name = hormoneData.siteName, name != "", name != SiteStrings.NewSite else {
-	            return backup
+                return backup
             }
             hormoneData.siteImageId = nil
             return name
@@ -64,7 +64,7 @@ public class Hormone: Hormonal {
     public var siteImageId: SiteName {
         get {
             guard let id = hormoneData.siteImageId else {
-	            return siteName
+                return siteName
             }
             return id == "" || id == SiteStrings.NewSite ? siteName : id
         }
@@ -93,7 +93,7 @@ public class Hormone: Hormonal {
     public var isPastNotificationTime: Bool {
         if let expirationDate = expiration,
             let notificationTime = DateFactory.createDate(
-	            byAddingMinutes: -notificationsMinutesBefore.value, to: expirationDate
+                byAddingMinutes: -notificationsMinutesBefore.value, to: expirationDate
             ) {
 
             return notificationTime < Date()

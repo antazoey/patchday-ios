@@ -288,10 +288,10 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadSave() {
         navigationItem.rightBarButtonItem =
             UIBarButtonItem(
-	            title: ActionStrings.Save,
-	            style: .plain,
-	            target: self,
-	            action: #selector(saveButtonTapped(_:))
+                title: ActionStrings.Save,
+                style: .plain,
+                target: self,
+                action: #selector(saveButtonTapped(_:))
             )
         disableSave()
     }
@@ -309,9 +309,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             with: picker as UIView,
             duration: 0.4,
             options: .transitionFlipFromTop, animations: {
-	            picker.isHidden = false
-	            self.lineUnderNameStack.isHidden = true
-	            self.siteImageView.isHidden = true
+                picker.isHidden = false
+                self.lineUnderNameStack.isHidden = true
+                self.siteImageView.isHidden = true
             })
     }
 

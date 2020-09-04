@@ -80,7 +80,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
             self.tabs?.reflectPills()
             self.badge?.reflect()
             if let pill = self.sdk?.pills[index] {
-	            self.notifications?.requestDuePillNotification(pill)
+                self.notifications?.requestDuePillNotification(pill)
             }
         }
         let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)

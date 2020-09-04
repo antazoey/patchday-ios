@@ -103,10 +103,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         let site = storedSites[newIndex]
         if quantity.rawValue != SupportedHormoneUpperQuantityLimit && site.hormoneCount > 0 {
             for site in storedSites {
-	            if site.hormoneCount == 0 {
-	                newIndex = site.order
-	                break
-	            }
+                if site.hormoneCount == 0 {
+                    newIndex = site.order
+                    break
+                }
             }
         }
         PDLog<UserDefaultsWriter>().info("Settings new site index to \(newIndex)")

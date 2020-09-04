@@ -59,11 +59,11 @@ public class PDObjectLogger {
         for i in 0..<site.hormoneIds.count {
             let id = site.hormoneIds[i]
             if hormoneIdsStr == "[]" {
-	            hormoneIdsStr = "["
+                hormoneIdsStr = "["
             }
             hormoneIdsStr.append("\n\t\t\"" + "\(id.uuidString)\"")
             if i < site.hormoneIds.count - 1 {
-	            hormoneIdsStr.append(",")
+                hormoneIdsStr.append(",")
             }
         }
         if hormoneIdsStr != "[]" {

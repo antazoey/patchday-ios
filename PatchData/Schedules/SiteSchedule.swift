@@ -46,7 +46,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             // If the current siteIndex is not actually pointing to the correct 'suggested',
             // fix it here before giving the correct suggested site.
             if shouldBeSuggestedSite.id != suggestedSite?.id {
-	            settings.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
+                settings.replaceStoredSiteIndex(to: shouldBeSuggestedSite.order)
             }
             return shouldBeSuggestedSite
         }
@@ -56,7 +56,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
     public var nextIndex: Index {
         all.firstIndex(where: { b in
             if let suggestedSite = suggested {
-	            return suggestedSite.id == b.id
+                return suggestedSite.id == b.id
             }
             return false
         }) ?? -1
@@ -75,7 +75,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
         }
         for name in names {
             if !defaultSites.contains(name) {
-	            return false
+                return false
             }
         }
         return true
@@ -121,11 +121,11 @@ public class SiteSchedule: NSObject, SiteScheduling {
         context.sort {
             // keep negative orders at the end
             if $0.order < 0 {
-	            return false
+                return false
             }
 
             if $1.order < 0 {
-	            return true
+                return true
             }
             return $0.order < $1.order
         }
@@ -176,8 +176,8 @@ public class SiteSchedule: NSObject, SiteScheduling {
         var siteIterator = settings.siteIndex.value
         for _ in 0..<count {
             if let site = self[siteIterator], site.hormoneCount == 0 {
-	            log.info("First empty from site index checkpoint is \(siteIterator)")
-	            return site
+                log.info("First empty from site index checkpoint is \(siteIterator)")
+                return site
             }
             siteIterator = (siteIterator + 1) % count
         }
@@ -186,12 +186,12 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     private var siteWithOldestHormone: Bodily? {
         context.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
-	            (b, site) in
-	            if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
-	                oldestDateInThisSitesHormones < b.oldestDate, let site = self[b.iterator] {
-	                return (oldestDateInThisSitesHormones, site, b.iterator + 1)
-	            }
-	            return (b.oldestDate, b.oldest, b.iterator + 1)
+                (b, site) in
+                if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
+                    oldestDateInThisSitesHormones < b.oldestDate, let site = self[b.iterator] {
+                    return (oldestDateInThisSitesHormones, site, b.iterator + 1)
+                }
+                return (b.oldestDate, b.oldest, b.iterator + 1)
             }).oldest
     }
 
@@ -199,7 +199,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
         var hormones = store.getRelatedHormones(siteId)
         hormones.sort(by: {
             if let d1 = $0.date, let d2 = $1.date {
-	            return d1 < d2
+                return d1 < d2
             }
             return false
         })
@@ -225,10 +225,10 @@ public class SiteSchedule: NSObject, SiteScheduling {
         for i in 0..<options.count {
             let name = options[i]
             if var site = self[i] {
-	            setSite(&site, index: i, name: name)
+                setSite(&site, index: i, name: name)
             } else {
-	            var site = insertNew(name: name, onSuccess: nil)
-	            site?.order = i
+                var site = insertNew(name: name, onSuccess: nil)
+                site?.order = i
             }
         }
     }
@@ -248,7 +248,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
         var deleteCount = 0
         for i in start...end {
             guard let site = context.tryGet(at: i) else {
-	            continue
+                continue
             }
             deleteCount += 1
             site.reset()

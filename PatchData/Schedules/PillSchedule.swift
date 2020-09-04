@@ -52,10 +52,10 @@ public class PillSchedule: NSObject, PillScheduling {
     public var nextDue: Swallowable? {
         all.min {
             switch($0.due, $1.due) {
-	            case (nil, nil): return false
-	            case (nil, _): return false
-	            case (_, nil): return true
-	            default: return $0.due! < $1.due!
+                case (nil, nil): return false
+                case (nil, _): return false
+                case (_, nil): return true
+                default: return $0.due! < $1.due!
             }
         }
     }
@@ -95,9 +95,9 @@ public class PillSchedule: NSObject, PillScheduling {
         context = PillStrings.DefaultPills.reduce([]) {
             (currentPills: [Swallowable], name: String) -> [Swallowable] in
             if var pill = store.createNewPill(name: name) {
-	            pill.timesaday = 1
-	            pill.notify = true
-	            return currentPills + [pill]
+                pill.timesaday = 1
+                pill.notify = true
+                return currentPills + [pill]
             }
             return currentPills
         }

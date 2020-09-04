@@ -100,12 +100,12 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         let start = i >= -1 ? i + 1 : 0
         guard count >= start else {
             log.error("Attempted to delete hormones after index " +
-	            "\(i) when the count is only \(count)")
+                "\(i) when the count is only \(count)")
             return
         }
         for _ in start..<count {
             if let hormone = context.popLast() {
-	            store.delete(hormone)
+                store.delete(hormone)
             }
         }
     }

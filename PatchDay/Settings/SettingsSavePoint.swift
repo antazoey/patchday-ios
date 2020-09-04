@@ -47,7 +47,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
         sdk.isFresh
             ? sdk.settings.setDeliveryMethod(to: newMethod)
             : presentDeliveryMethodMutationAlert(
-	            choice: newMethod, controls: controls, factory: alertFactory
+                choice: newMethod, controls: controls, factory: alertFactory
         )
         controls.reflect(method: newMethod)
         let defaultQuantity = DefaultQuantities.Hormone[newMethod]
@@ -63,12 +63,12 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
             controls.deliveryMethodButton.setTitleForNormalAndDisabled(originalTitle)
             controls.quantityButton.setTitleForNormalAndDisabled("\(originalQuantity)")
             switch originalMethod {
-	            case .Patches:
-	                controls.quantityButton.isEnabled = true
-	                controls.quantityArrowButton.isEnabled = true
-	            case .Gel, .Injections:
-	                controls.quantityButton.isEnabled = false
-	                controls.quantityArrowButton.isEnabled = false
+                case .Patches:
+                    controls.quantityButton.isEnabled = true
+                    controls.quantityArrowButton.isEnabled = true
+                case .Gel, .Injections:
+                    controls.quantityButton.isEnabled = false
+                    controls.quantityArrowButton.isEnabled = false
             }
         }
         let handlers = DeliveryMethodMutationAlertActionHandler(decline: decline)
@@ -101,7 +101,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
             sdk.settings.setQuantity(to: newQuantity)
             self.tabs?.reflectHormones()
             self.notifications?.cancelRangeOfExpiredHormoneNotifications(
-	            from: newQuantity - 1, to: oldQuantity - 1
+                from: newQuantity - 1, to: oldQuantity - 1
             )
         }
         let handler = QuantityMutationAlertActionHandler(

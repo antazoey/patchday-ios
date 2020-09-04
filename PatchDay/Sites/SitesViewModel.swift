@@ -17,12 +17,12 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
         self.table = SitesTable(sitesTableView)
         if let dep = dependencies {
             super.init(
-	            sdk: dep.sdk,
-	            tabs: dep.tabs,
-	            notifications: dep.notifications,
-	            alerts: dep.alerts,
-	            nav: dep.nav,
-	            badge: dep.badge
+                sdk: dep.sdk,
+                tabs: dep.tabs,
+                notifications: dep.notifications,
+                alerts: dep.alerts,
+                nav: dep.nav,
+                badge: dep.badge
             )
         } else {
             super.init()

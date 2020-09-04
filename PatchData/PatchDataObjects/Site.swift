@@ -32,10 +32,10 @@ public class Site: Bodily {
     public var imageId: String {
         get {
             guard let id = siteData.imageIdentifier else {
-	            return name
+                return name
             }
             if id == "" || id == SiteStrings.NewSite {
-	            return name
+                return name
             }
             return id
         }
@@ -45,7 +45,7 @@ public class Site: Bodily {
     public var name: SiteName {
         get {
             guard let storedName = siteData.name else {
-	            return SiteStrings.NewSite
+                return SiteStrings.NewSite
             }
             return storedName != "" ? storedName : SiteStrings.NewSite
 
@@ -57,7 +57,7 @@ public class Site: Bodily {
         get { siteData.order }
         set {
             if newValue >= 0 {
-	            siteData.order = newValue
+                siteData.order = newValue
             }
         }
     }

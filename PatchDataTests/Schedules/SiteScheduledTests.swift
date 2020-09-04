@@ -78,9 +78,9 @@ class SiteScheduleTests: XCTestCase {
         let c = min(sites.count, hormonesOptions.count)
         mockStore.getRelatedHormonesFactory = {
             for i in 0..<c {
-	            if sites[i].id == $0 {
-	                return hormonesOptions[i]
-	            }
+                if sites[i].id == $0 {
+                    return hormonesOptions[i]
+                }
             }
             return []
         }
@@ -473,9 +473,9 @@ class SiteScheduleTests: XCTestCase {
         // Puts order 6 at end and order 1 becomes new first.
         XCTAssertTrue(
             sites[0]!.order == 1
-	            && sites[1]!.order == 4
-	            && sites[2]!.order == 6
-	            && sites[3]!.order == -9
+                && sites[1]!.order == 4
+                && sites[2]!.order == 6
+                && sites[3]!.order == -9
         )
     }
 

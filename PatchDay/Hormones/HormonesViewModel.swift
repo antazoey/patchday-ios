@@ -72,11 +72,11 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         table.reflectModel(self.sdk, style)
         do {
             try table.cells.forEach {
-	            cell in
-	            let history = HormonesViewModel.histories[i]
-	            history.push(getSiteImage(at: i))
-	            try cell.reflectSiteImage(history)
-	            i += 1
+                cell in
+                let history = HormonesViewModel.histories[i]
+                history.push(getSiteImage(at: i))
+                try cell.reflectSiteImage(history)
+                i += 1
             }
         } catch {
             let log = PDLog<HormonesViewModel>()
@@ -101,12 +101,12 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         let nextSite = sdk?.sites.suggested
         let changeHormone = {
             guard let sdk = self.sdk else {
-	            reload()
-	            return
+                reload()
+                return
             }
             sdk.hormones.setDate(by: hormone.id, with: Date())
             if let site = nextSite {
-	            sdk.hormones.setSite(by: hormone.id, with: site)
+                sdk.hormones.setSite(by: hormone.id, with: site)
             }
             reload()
         }

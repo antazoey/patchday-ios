@@ -81,7 +81,7 @@ class MOPillList: MOEntityList {
         var pillStructs: [PillStruct] = []
         for managedPill in MOEntities.pillMOs {
             if let pill = CoreDataEntityAdapter.convertToPillStruct(managedPill) {
-	            pillStructs.append(pill)
+                pillStructs.append(pill)
             }
         }
         return pillStructs
@@ -90,7 +90,7 @@ class MOPillList: MOEntityList {
     private func fixPillIdsIfNeeded() {
         for pill in MOEntities.pillMOs {
             if pill.id == nil {
-	            pill.id = UUID()
+                pill.id = UUID()
             }
         }
     }
@@ -99,18 +99,18 @@ class MOPillList: MOEntityList {
         for pill in MOEntities.pillMOs {
             var times: [Date?] = []
             if pill.time1 != nil {
-	            times.append(pill.time1 as Date?)
+                times.append(pill.time1 as Date?)
             }
             if pill.time2 != nil {
-	            times.append(pill.time2 as Date?)
+                times.append(pill.time2 as Date?)
             }
             if times != [] {
-	            logger.logPillMigration()
-	            let timesString = PDDateFormatter.convertDatesToCommaSeparatedString(times)
-	            pill.times = timesString
-	            pill.time1 = nil
-	            pill.time2 = nil
-	            saver.saveFromMigration()
+                logger.logPillMigration()
+                let timesString = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+                pill.times = timesString
+                pill.time1 = nil
+                pill.time2 = nil
+                saver.saveFromMigration()
             }
         }
     }

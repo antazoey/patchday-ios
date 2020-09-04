@@ -65,9 +65,9 @@ public class SiteImages: NSObject {
     public class All {
         public static subscript(method: DeliveryMethod) -> [UIImage] {
             switch method {
-	            case .Patches: return patchImages
-	            case .Injections: return injectionImages
-	            case .Gel: return gelImages
+                case .Patches: return patchImages
+                case .Injections: return injectionImages
+                case .Gel: return gelImages
             }
         }
     }

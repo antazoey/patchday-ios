@@ -57,7 +57,7 @@ public class Notification {
         let center = UNUserNotificationCenter.current()
         center.add(request) { (error: Error?) in
             if let e = error {
-	            self.log.error("Unable to add notification request", e)
+                self.log.error("Unable to add notification request", e)
             }
         }
     }

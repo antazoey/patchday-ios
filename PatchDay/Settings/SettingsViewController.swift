@@ -265,8 +265,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             case .DeliveryMethod: picker = deliveryMethodPicker
             case .ExpirationInterval: picker = expirationIntervalPicker
             default:
-	            log.error("No picker for given setting \(setting)")
-	            return nil
+                log.error("No picker for given setting \(setting)")
+                return nil
         }
         if let picker = picker {
             deselectOtherPickers(besides: picker)
@@ -278,7 +278,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         let pickers = [quantityPicker, deliveryMethodPicker, expirationIntervalPicker]
         for picker in pickers {
             if picker != selectedPicker {
-	            picker?.close(setSelectedRow: false)
+                picker?.close(setSelectedRow: false)
             }
         }
     }

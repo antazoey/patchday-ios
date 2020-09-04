@@ -34,10 +34,10 @@ class HormoneCell: TableCell {
         let mutation = history.differentiate()
         switch mutation {
             case .Add:
-	            guard let image = history.current else {
-	                throw SiteImageReflectionError.AddWithoutGivenPlaceholderImage
-	            }
-	            animateAdd(image)
+                guard let image = history.current else {
+                    throw SiteImageReflectionError.AddWithoutGivenPlaceholderImage
+                }
+                animateAdd(image)
             case .Edit: animateSetSiteImage(history.current)
             case .Remove: animateRemove()
             case .Empty: siteImageView.alpha = 0; siteImageView.image = nil
@@ -54,9 +54,9 @@ class HormoneCell: TableCell {
             attachToModel(hormone, row)
             // Don't put moon on if already expired
             if hormone.expiresOvernight && !hormone.isExpired {
-	            overnightImage.image = PDIcons.moonIcon
+                overnightImage.image = PDIcons.moonIcon
             } else {
-	            overnightImage.image = nil
+                overnightImage.image = nil
             }
         } else {
             reset()
@@ -120,9 +120,9 @@ class HormoneCell: TableCell {
             animations: { self.siteImageView.alpha = 0 }) {
             isReady in
             if isReady {
-	            self.siteImageView.image = nil
-	            self.reset()
-	            completion?()
+                self.siteImageView.image = nil
+                self.reset()
+                completion?()
             }
         }
     }
@@ -142,11 +142,11 @@ class HormoneCell: TableCell {
         guard siteImageView.image != image else { return }
         DispatchQueue.main.async {
             UIView.transition(
-	            with: self.siteImageView as UIView,
-	            duration: 0.75,
-	            options: .transitionCrossDissolve,
-	            animations: { self.siteImageView.image = image },
-	            completion: nil
+                with: self.siteImageView as UIView,
+                duration: 0.75,
+                options: .transitionCrossDissolve,
+                animations: { self.siteImageView.image = image },
+                completion: nil
             )
         }
     }

@@ -409,8 +409,8 @@ class HormoneTests: XCTestCase {
         hormone.reset()
         XCTAssert(
             hormone.date == Date(timeIntervalSince1970: 0)
-	            && hormone.siteId == nil
-	            && hormone.siteNameBackUp == nil
+                && hormone.siteId == nil
+                && hormone.siteNameBackUp == nil
         )
     }
 

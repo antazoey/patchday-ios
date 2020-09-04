@@ -56,24 +56,24 @@ public class PillStrings {
 
         public static func getStringFromInterval(_ interval: PillExpirationInterval) -> String {
             switch interval {
-	            case .EveryDay: return EveryDay
-	            case .EveryOtherDay: return EveryOtherDay
-	            case .FirstTenDays: return FirstTenDays
-	            case .LastTenDays: return LastTenDays
-	            case .FirstTwentyDays: return FirstTwentyDays
-	            case .LastTwentyDays: return LastTwentyDays
+                case .EveryDay: return EveryDay
+                case .EveryOtherDay: return EveryOtherDay
+                case .FirstTenDays: return FirstTenDays
+                case .LastTenDays: return LastTenDays
+                case .FirstTwentyDays: return FirstTwentyDays
+                case .LastTwentyDays: return LastTwentyDays
             }
         }
 
         public static func getIntervalFromString(_ string: String) -> PillExpirationInterval? {
             switch string {
-	            case EveryDay: return .EveryDay
-	            case EveryOtherDay: return .EveryOtherDay
-	            case FirstTenDays: return .FirstTenDays
-	            case LastTenDays: return .LastTenDays
-	            case FirstTwentyDays: return .FirstTwentyDays
-	            case LastTwentyDays: return .LastTwentyDays
-	            default: return nil
+                case EveryDay: return .EveryDay
+                case EveryOtherDay: return .EveryOtherDay
+                case FirstTenDays: return .FirstTenDays
+                case LastTenDays: return .LastTenDays
+                case FirstTwentyDays: return .FirstTwentyDays
+                case LastTwentyDays: return .LastTwentyDays
+                default: return nil
             }
         }
     }

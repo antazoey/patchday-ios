@@ -30,9 +30,9 @@ public class PDTitleStrings {
     public class Hormones {
         public static subscript(method: DeliveryMethod) -> String {
             switch method {
-	            case .Patches: return PatchesTitle
-	            case .Injections: return InjectionsTitle
-	            case .Gel: return GelTitle
+                case .Patches: return PatchesTitle
+                case .Injections: return InjectionsTitle
+                case .Gel: return GelTitle
             }
         }
     }
@@ -40,9 +40,9 @@ public class PDTitleStrings {
     public class Hormone {
         public static subscript(method: DeliveryMethod) -> String {
             switch method {
-	            case .Patches: return PatchTitle
-	            case .Injections: return InjectionTitle
-	            case .Gel: return GelTitle
+                case .Patches: return PatchTitle
+                case .Injections: return InjectionTitle
+                case .Gel: return GelTitle
             }
         }
     }

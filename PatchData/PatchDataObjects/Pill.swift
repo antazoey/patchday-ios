@@ -21,7 +21,7 @@ public class Pill: Swallowable {
         }
         if let timesaday = pillData.attributes.timesaday {
             if timesaday <= 0 {
-	            self.pillData.attributes.timesaday = 1
+                self.pillData.attributes.timesaday = 1
             }
         } else {
             self.pillData.attributes.timesaday = 1
@@ -89,7 +89,7 @@ public class Pill: Swallowable {
     public var timesaday: Int {
         get {
             if let timesaday = pillData.attributes.timesaday, timesaday > 0 {
-	            return timesaday
+                return timesaday
             }
             return DefaultPillAttributes.timesaday
         }
@@ -100,12 +100,12 @@ public class Pill: Swallowable {
             // Adjust times by removing or adding times.
             var _times = times
             if newValue < _times.count {
-	            _times = Array(_times[0..<newValue])
+                _times = Array(_times[0..<newValue])
             } else if newValue > _times.count {
-	            let greatestTime = _times.last ?? Date()
-	            for _ in _times.count..<newValue {
-	                _times.append(greatestTime)
-	            }
+                let greatestTime = _times.last ?? Date()
+                for _ in _times.count..<newValue {
+                    _times.append(greatestTime)
+                }
             }
             times = _times
         }

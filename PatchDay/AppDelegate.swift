@@ -34,12 +34,12 @@ import PatchData
         if PDCli.isNotificationsTest() {
             badge?.clear()
             if let sdk = sdk, let notifications = notifications {
-	            if let hormone = sdk.hormones[0] {
-	                notifications.requestExpiredHormoneNotification(for: hormone)
-	            }
-	            if let pill = sdk.pills[0] {
-	                notifications.requestDuePillNotification(pill)
-	            }
+                if let hormone = sdk.hormones[0] {
+                    notifications.requestExpiredHormoneNotification(for: hormone)
+                }
+                if let pill = sdk.pills[0] {
+                    notifications.requestDuePillNotification(pill)
+                }
             }
             PDCli.clearNotificationsFlag()
         }

@@ -79,7 +79,7 @@ class MOSiteList: MOEntityList {
         var siteStructs: [SiteStruct] = []
         for managedSite in MOEntities.siteMOs {
             if let site = CoreDataEntityAdapter.convertToSiteStruct(managedSite) {
-	            siteStructs.append(site)
+                siteStructs.append(site)
             }
         }
         return siteStructs
@@ -88,7 +88,7 @@ class MOSiteList: MOEntityList {
     private func fixSiteIdsIfNeeded() {
         for site in MOEntities.siteMOs {
             if site.id == nil {
-	            site.id = UUID()
+                site.id = UUID()
             }
         }
     }
@@ -128,7 +128,7 @@ class MOSiteList: MOEntityList {
         // Check if already related
         if let relationship = managedSite.hormoneRelationship {
             if relationship.contains(managedHormone) {
-	            return
+                return
             }
         }
         managedSite.addToHormoneRelationship(managedHormone)
@@ -153,7 +153,7 @@ class MOSiteList: MOEntityList {
         if let hormoneSet = deletedSite.hormoneRelationship,
             let hormones = Array(hormoneSet) as? [MOHormone] {
             for hormone in hormones {
-	            hormone.siteNameBackUp = deletedSite.name
+                hormone.siteNameBackUp = deletedSite.name
             }
         }
         saver.saveFromPush()

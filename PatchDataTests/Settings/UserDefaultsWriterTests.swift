@@ -21,13 +21,13 @@ class UserDefaultsWriterTests: XCTestCase {
         var sites: [Bodily] = []
         if count > 0 {
             for i in 0..<count {
-	            let site = MockSite()
-	            site.order = i
-	            sites.append(site)
-	            // Sets all but one of the sites to have hormones
-	            if site.order != freeHormoneIndex {
-	                site.hormoneCount = 1
-	            }
+                let site = MockSite()
+                site.order = i
+                sites.append(site)
+                // Sets all but one of the sites to have hormones
+                if site.order != freeHormoneIndex {
+                    site.hormoneCount = 1
+                }
             }
         }
         store.getStoredCollectionReturnValues.append(sites)

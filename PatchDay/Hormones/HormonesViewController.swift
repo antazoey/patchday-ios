@@ -66,8 +66,8 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.handleRowTapped(at: indexPath.row, self) {
             DispatchQueue.main.async {
-	            self.initViewModel()
-	            self.hormonesTableView.reloadRows(at: [indexPath], with: .none)
+                self.initViewModel()
+                self.hormonesTableView.reloadRows(at: [indexPath], with: .none)
             }
         }
     }

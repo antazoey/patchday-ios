@@ -85,7 +85,7 @@ class MOHormoneList: MOEntityList {
         var hormoneStructs: [HormoneStruct] = []
         for managedHormone in MOEntities.hormoneMOs {
             if let hormone = CoreDataEntityAdapter.convertToHormoneStruct(managedHormone) {
-	            hormoneStructs.append(hormone)
+                hormoneStructs.append(hormone)
             }
         }
 
@@ -95,7 +95,7 @@ class MOHormoneList: MOEntityList {
     private func fixHormoneIdsIfNeeded() {
         for hormone in MOEntities.hormoneMOs {
             if hormone.id == nil {
-	            hormone.id = UUID()
+                hormone.id = UUID()
             }
         }
     }

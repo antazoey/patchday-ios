@@ -30,7 +30,7 @@ class PillsTable: TableViewWrapper<PillCell> {
         let end = count - 1
         if start <= end {
             for i in start...end {
-	            self[i].loadBackground()
+                self[i].loadBackground()
             }
         }
         table.reloadData()

@@ -50,7 +50,7 @@ extension Date {
     public func isOvernight() -> Bool {
         guard let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: self),
             let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self) else {
-	            return false
+                return false
         }
         return self < sixAM && self > midnight
     }

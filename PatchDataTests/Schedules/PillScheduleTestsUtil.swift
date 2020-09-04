@@ -13,10 +13,21 @@ import PDMock
 @testable
 import PatchData
 
-class PillScheduleTestsUtil {
+class PillTestsUtil {
 
     private var mockStore: MockPillStore
     private var mockDataSharer: MockPillDataSharer
+
+    static let testId = UUID()
+    static let testHour = 12
+    static let testMinute = 51
+    static let testSeconds = 30
+    static let testTimeString = "\(testHour):\(testMinute):\(testSeconds)"
+    static let testTime = Calendar.current.date(
+        bySettingHour: testHour,
+        minute: testMinute,
+        second: testSeconds, of: Date()
+    )!
 
     init(_ mockStore: MockPillStore, _ mockDataSharer: MockPillDataSharer) {
         self.mockStore = mockStore
@@ -30,9 +41,9 @@ class PillScheduleTestsUtil {
     func didSave(with pills: [MockPill]) -> Bool {
         if let lastCall = getMostRecentCallToPush() {
             for pill in pills {
-	            if !lastCall.0.contains(where: { (_ p: Swallowable) -> Bool in p.id == pill.id }) {
-	                return false
-	            }
+                if !lastCall.0.contains(where: { (_ p: Swallowable) -> Bool in p.id == pill.id }) {
+                    return false
+                }
             }
             return lastCall.1
         }

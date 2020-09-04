@@ -49,7 +49,7 @@ class CoreDataStack: NSObject {
         container.loadPersistentStores(completionHandler: {
             (_, error) in
             if let error = error as NSError? {
-	            fatalError()
+                fatalError()
             }
         })
         return container
@@ -62,10 +62,10 @@ class CoreDataStack: NSObject {
     static func save(saverName: String) {
         if context.hasChanges {
             do {
-	            try context.save()
+                try context.save()
             } catch {
-	            self.log.error("Failed saving core data")
-	            return
+                self.log.error("Failed saving core data")
+                return
             }
         } else {
             log.info("\(saverName) - save was called without changes")
@@ -94,7 +94,7 @@ class CoreDataStack: NSObject {
         PDEntity.allCases.forEach { e in
             let managedObjects = getManagedObjects(entity: e)
             for obj: NSManagedObject in managedObjects {
-	            context.delete(obj)
+                context.delete(obj)
             }
         }
         save(saverName: "Nuke function")

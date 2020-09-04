@@ -27,7 +27,7 @@ class PDNotificationCenter: NSObject, NotificationCenterDelegate {
         self.root.requestAuthorization(options: [.alert, .sound, .badge]) {
             (_, error) in
             if let e = error {
-	            self.log.error(e)
+                self.log.error(e)
             }
         }
         self.root.setNotificationCategories(categories)

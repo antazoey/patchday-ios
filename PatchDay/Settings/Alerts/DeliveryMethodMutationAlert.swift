@@ -37,8 +37,8 @@ class DeliveryMethodMutationAlert: PDAlert {
     lazy var declineAction: UIAlertAction = {
         UIAlertAction(title: ActionStrings.Decline, style: .cancel) {
             _ in self.handlers.handleDecline(
-	            originalMethod: self.originalDeliveryMethod,
-	            originalQuantity: self.originalQuantity
+                originalMethod: self.originalDeliveryMethod,
+                originalQuantity: self.originalQuantity
             )
         }
     }()

@@ -104,9 +104,9 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
         }
         if hasSelections || site.name == SiteStrings.NewSite {
             self.alerts?.createUnsavedAlert(
-	            viewController,
-	            saveAndContinueHandler: save,
-	            discardHandler: discard
+                viewController,
+                saveAndContinueHandler: save,
+                discardHandler: discard
             ).present()
         } else {
             self.nav?.pop(source: viewController)

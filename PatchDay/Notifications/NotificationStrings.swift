@@ -14,20 +14,20 @@ class NotificationStrings {
     static let siteToExpiredPatchMessage =
         [
             "Right Abdomen": NSLocalizedString(
-	            "Change patch on your 'Right Abdomen'",
-	            comment: comment
+                "Change patch on your 'Right Abdomen'",
+                comment: comment
             ),
             "Left Abdomen": NSLocalizedString(
-	            "Change patch on your 'Right Abdomen'",
-	            comment: comment
+                "Change patch on your 'Right Abdomen'",
+                comment: comment
             ),
             "Right Glute": NSLocalizedString(
-	            "Change patch on your 'Right Glute'",
-	            comment: comment
+                "Change patch on your 'Right Glute'",
+                comment: comment
             ),
             "Left Glute": NSLocalizedString(
-	            "Change patch on your 'Left Glute'",
-	            comment: comment
+                "Change patch on your 'Left Glute'",
+                comment: comment
             )
         ]
 
@@ -45,9 +45,9 @@ class NotificationStrings {
     class Overnight {
         static subscript(method: DeliveryMethod) -> String {
             switch method {
-	            case .Patches: return overnightPatch
-	            case .Injections: return overnightInjection
-	            case .Gel: return overnightGel
+                case .Patches: return overnightPatch
+                case .Injections: return overnightInjection
+                case .Gel: return overnightGel
             }
         }
     }

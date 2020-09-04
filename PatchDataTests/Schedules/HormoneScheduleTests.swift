@@ -306,7 +306,7 @@ class HormoneScheduleTests: XCTestCase {
         hormones.set(by: testId, date: Date(), site: MockSite())
         XCTAssert(
             mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-	            && mockStore.pushLocalChangesCallArgs[0].1
+                && mockStore.pushLocalChangesCallArgs[0].1
         )
     }
 
@@ -328,7 +328,7 @@ class HormoneScheduleTests: XCTestCase {
         hormones.set(at: 0, date: Date(), site: MockSite())
         XCTAssert(
             mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-	            && mockStore.pushLocalChangesCallArgs[0].1
+                && mockStore.pushLocalChangesCallArgs[0].1
         )
     }
 
@@ -366,7 +366,7 @@ class HormoneScheduleTests: XCTestCase {
         hormones.setDate(by: testId, with: Date())
         XCTAssert(
             mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-	            && mockStore.pushLocalChangesCallArgs[0].1
+                && mockStore.pushLocalChangesCallArgs[0].1
         )
     }
 
@@ -382,7 +382,7 @@ class HormoneScheduleTests: XCTestCase {
         hormones.setDate(at: 0, with: Date())
         XCTAssert(
             mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-	            && mockStore.pushLocalChangesCallArgs[0].1
+                && mockStore.pushLocalChangesCallArgs[0].1
         )
     }
 
@@ -418,7 +418,7 @@ class HormoneScheduleTests: XCTestCase {
         hormones.setSite(by: testId, with: MockSite())
         XCTAssert(
             mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-	            && mockStore.pushLocalChangesCallArgs[0].1
+                && mockStore.pushLocalChangesCallArgs[0].1
         )
     }
 
@@ -436,7 +436,7 @@ class HormoneScheduleTests: XCTestCase {
         hormones.setSite(at: 0, with: MockSite())
         XCTAssert(
             mockStore.pushLocalChangesCallArgs[0].0[0].id == mockHormones[0].id
-	            && mockStore.pushLocalChangesCallArgs[0].1
+                && mockStore.pushLocalChangesCallArgs[0].1
         )
     }
 
