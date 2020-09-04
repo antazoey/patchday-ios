@@ -42,19 +42,23 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     var startTimePickerTwoTime: Time {
-        selections.time2 ?? pill.time2
+        //selections.time2 ?? pill.time2
+        Date()
     }
 
     var startMinimumTimePickerTwoTime: Time {
-        selections.time1 ?? pill.time1
+        //selections.time1 ?? pill.time1
+        Date()
     }
 
     var time1Text: String {
-        PDDateFormatter.formatTime(pill.time1)
+        //PDDateFormatter.formatTime(pill.time1)
+        ""
     }
 
     var time2Text: String {
-        PDDateFormatter.formatTime(pill.time2)
+        //PDDateFormatter.formatTime(pill.time2)
+        ""
     }
 
     var namePickerStartIndex: Index {

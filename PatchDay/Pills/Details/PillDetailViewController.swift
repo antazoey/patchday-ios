@@ -173,8 +173,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timePicker.minimumDate = nil
         transformIntoDoneButton(time1Button)
         disableNonTimeInteractions()
-        timePicker.date = viewModel.selections.time1 ?? viewModel.pill.time1
-        timePicker.maximumDate = time2Button.isEnabled ? viewModel.selections.time2 : nil
+        // TODO: lalala
+//        timePicker.date = viewModel.selections.time1 ?? viewModel.pill.time1
+//        timePicker.maximumDate = time2Button.isEnabled ? viewModel.selections.time2 : nil
         time2Button.isEnabled = false
     }
 
@@ -395,7 +396,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func handleTimeNumberOneDone() {
-        viewModel.selections.time1 = timePicker.date
+        // TODO: lalala
+        //viewModel.selections.time1 = timePicker.date
         time1Button.replaceTarget(self, newAction: #selector(time1ButtonTapped(_:)))
         if sliderSaysMoreThanOne() {
             time2Button.isEnabled = true
@@ -403,7 +405,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func handleTimeNumberTwoDone() {
-        viewModel.selections.time2 = timePicker.date
+        // TODO: lalala
+        //viewModel.selections.time2 = timePicker.date
         time2Button.replaceTarget(self, newAction: #selector(time2ButtonTapped(_:)))
         time1Button.isEnabled = true
     }
