@@ -39,8 +39,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
     @IBOutlet weak var timesadayLabel: UILabel!
     @IBOutlet weak var timesadaySlider: UISlider!
-    @IBOutlet weak var time1Button: UIButton!
-    @IBOutlet weak var time2Button: UIButton!
     @IBOutlet weak var timePicker: UIDatePicker!
 
     private var selectedPicker: UIPickerView?
@@ -68,8 +66,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @objc func willEnterForeground() {
         loadSelectNameButton()
-        loadTimesadaySlider()
-        loadTimeButtons()
+      //  loadTimesadaySlider()
+      //  loadTimeButtons()
         disableSaveButton()
         reflectPillAttributes()
         applyTheme()
@@ -159,36 +157,39 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
         let slider = sender as! UISlider
-        viewModel.setSelectedTimesadayFromSliderValue(sliderValue: slider.value)
-        time2Button.isEnabled = TimesadaySliderDefinition.valueIsGreaterThanOne(
-            timesday: slider.value
-        )
+        let newValue = Int(floor(slider.value))
+        viewModel.setSelectedTimesadayFromSliderValue(sliderValue: newValue)
+        updateTimesdayValueLabel(with: newValue)
+        // TODO: - enable time buttons
+//        time2Button.isEnabled = TimesadaySliderDefinition.valueIsGreaterThanOne(
+//            timesday: slider.value
+//        )
         enableSaveButton()
     }
 
     // MARK: - Time picker actions
 
-    @objc func time1ButtonTapped(_ sender: Any) {
-        timePicker.isHidden = false
-        timePicker.minimumDate = nil
-        transformIntoDoneButton(time1Button)
-        disableNonTimeInteractions()
-        // TODO: lalala
-//        timePicker.date = viewModel.selections.time1 ?? viewModel.pill.time1
-//        timePicker.maximumDate = time2Button.isEnabled ? viewModel.selections.time2 : nil
-        time2Button.isEnabled = false
-    }
-
-    @objc func time2ButtonTapped(_ sender: Any) {
-        timePicker.isHidden = false
-        timePicker.maximumDate = nil
-        time1Button.isEnabled = false
-        transformIntoDoneButton(time2Button)
-        disableNonTimeInteractions()
-        time1Button.isEnabled = false
-        timePicker.minimumDate = viewModel.startMinimumTimePickerTwoTime
-        timePicker.date = viewModel.startTimePickerTwoTime
-    }
+//    @objc func time1ButtonTapped(_ sender: Any) {
+//        timePicker.isHidden = false
+//        timePicker.minimumDate = nil
+//        //transformIntoDoneButton(time1Button)
+//        disableNonTimeInteractions()
+//        // TODO: lalala
+////        timePicker.date = viewModel.selections.time1 ?? viewModel.pill.time1
+////        timePicker.maximumDate = time2Button.isEnabled ? viewModel.selections.time2 : nil
+//        //time2Button.isEnabled = false
+//    }
+//
+//    @objc func time2ButtonTapped(_ sender: Any) {
+//        timePicker.isHidden = false
+//        timePicker.maximumDate = nil
+//        time1Button.isEnabled = false
+//        transformIntoDoneButton(time2Button)
+//        disableNonTimeInteractions()
+//        time1Button.isEnabled = false
+//        timePicker.minimumDate = viewModel.startMinimumTimePickerTwoTime
+//        timePicker.date = viewModel.startTimePickerTwoTime
+//    }
 
     @objc func timePickerDone(sender: Any) {
         guard let timeButton = sender as? UIButton else { return }
@@ -257,21 +258,21 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         selectNameButton.addTarget(self, action: #selector(selectNameTapped), for: .touchUpInside)
     }
 
-    private func loadTimesadaySlider() {
-        timesadaySlider.maximumValue = TimesadaySliderDefinition.Max
-        timesadaySlider.minimumValue = TimesadaySliderDefinition.Min
-    }
+//    private func loadTimesadaySlider() {
+//        timesadaySlider.maximumValue = TimesadaySliderDefinition.Max
+//        timesadaySlider.minimumValue = TimesadaySliderDefinition.Min
+//    }
 
-    private func loadTimeButtons() {
-        time1Button.setTitleColor(UIColor.lightGray, for: .disabled)
-        time2Button.setTitleColor(UIColor.lightGray, for: .disabled)
-        time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
-        time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
-        time1Button.setTitle(ActionStrings.Done, for: .selected)
-        time2Button.setTitle(ActionStrings.Done, for: .selected)
-        time1Button.setTitleColor(UIColor.blue, for: .selected)
-        time2Button.setTitleColor(UIColor.blue, for: .selected)
-    }
+//    private func loadTimeButtons() {
+//        time1Button.setTitleColor(UIColor.lightGray, for: .disabled)
+//        time2Button.setTitleColor(UIColor.lightGray, for: .disabled)
+//        time1Button.addTarget(self, action: #selector(time1ButtonTapped(_:)), for: .touchUpInside)
+//        time2Button.addTarget(self, action: #selector(time2ButtonTapped(_:)), for: .touchUpInside)
+//        time1Button.setTitle(ActionStrings.Done, for: .selected)
+//        time2Button.setTitle(ActionStrings.Done, for: .selected)
+//        time1Button.setTitleColor(UIColor.blue, for: .selected)
+//        time2Button.setTitleColor(UIColor.blue, for: .selected)
+//    }
 
     private func loadTitle() {
         title = viewModel.title
@@ -280,8 +281,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func reflectPillAttributes() {
         loadName()
         loadTimesaday()
-        loadTime1()
-        loadTime2()
+   //     loadTime1()
+    //    loadTime2()
         loadNotify()
         loadExpirationInterval()
     }
@@ -295,19 +296,26 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadTimesaday() {
-        let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(
-            timesaday: viewModel.pill.timesaday
-        )
+//        let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(
+//            timesaday: viewModel.pill.timesaday
+//        )
+        let sliderValue = Float(viewModel.pill.timesaday)
         timesadaySlider.setValue(sliderValue, animated: false)
-        time2Button.isEnabled = viewModel.pill.timesaday == 2
+        updateTimesdayValueLabel(with: viewModel.pill.timesaday)
+        //time2Button.isEnabled = viewModel.pill.timesaday == 2
     }
 
-    private func loadTime1() {
-        time1Button.setTitle(viewModel.time1Text)
-    }
+//    private func loadTime1() {
+//        time1Button.setTitle(viewModel.time1Text)
+//    }
+//
+//    private func loadTime2() {
+//        time2Button.setTitle(viewModel.time2Text)
+//    }
 
-    private func loadTime2() {
-        time2Button.setTitle(viewModel.time2Text)
+    private func updateTimesdayValueLabel(with timesaday: Int) {
+        let prefix = NSLocalizedString("How many per day: ", comment: "Label prefix")
+        timesadayLabel.text = "\(prefix) \(timesaday)"
     }
 
     private func loadExpirationInterval() {
@@ -398,17 +406,17 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func handleTimeNumberOneDone() {
         // TODO: lalala
         //viewModel.selections.time1 = timePicker.date
-        time1Button.replaceTarget(self, newAction: #selector(time1ButtonTapped(_:)))
-        if sliderSaysMoreThanOne() {
-            time2Button.isEnabled = true
-        }
+        //time1Button.replaceTarget(self, newAction: #selector(time1ButtonTapped(_:)))
+//        if sliderSaysMoreThanOne() {
+//            time2Button.isEnabled = true
+//        }
     }
 
     private func handleTimeNumberTwoDone() {
         // TODO: lalala
         //viewModel.selections.time2 = timePicker.date
-        time2Button.replaceTarget(self, newAction: #selector(time2ButtonTapped(_:)))
-        time1Button.isEnabled = true
+        //time2Button.replaceTarget(self, newAction: #selector(time2ButtonTapped(_:)))
+        //time1Button.isEnabled = true
     }
 
     private func enableSaveButton() {
@@ -427,7 +435,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func sliderSaysMoreThanOne() -> Bool {
-        TimesadaySliderDefinition.valueIsGreaterThanOne(timesday: timesadaySlider.value)
+        timesadaySlider.value > 1
+        //TimesadaySliderDefinition.valueIsGreaterThanOne(timesday: timesadaySlider.value)
     }
 
     private func applyTheme() {
@@ -452,7 +461,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timesadaySlider.backgroundColor = UIColor.systemBackground
         paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground
         timesadayLabel.textColor = PDColors[.Text]
-        time1Button.setTitleColor(PDColors[.Button])
-        time2Button.setTitleColor(PDColors[.Button])
+       // time1Button.setTitleColor(PDColors[.Button])
+       // time2Button.setTitleColor(PDColors[.Button])
     }
 }

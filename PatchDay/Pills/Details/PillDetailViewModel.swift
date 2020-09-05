@@ -136,7 +136,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         return numType
     }
 
-    func setSelectedTimesadayFromSliderValue(sliderValue: Float) {
+    func setSelectedTimesadayFromSliderValue(sliderValue: Int) {
         // TODO: - This
         //selections.timesaday = TimesadaySliderDefinition.convertSliderValueToTimesaday(sliderValue: sliderValue)
     }
