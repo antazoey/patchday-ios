@@ -65,12 +65,7 @@ public class Pill: Swallowable {
 
     public var times: [Time] {
         guard let timeString = pillData.attributes.times else { return [] }
-        let times = DateFactory.createTimesFromCommaSeparatedString(timeString)
-        let now = Date()
-        let timesWithSameDate = times.map {
-            DateFactory.createDate(on: now, at: $0)
-        }.filter { $0 != nil } as! [Time]
-        return timesWithSameDate.sorted()
+        return DateFactory.createTimesFromCommaSeparatedString(timeString)
     }
 
     public func appendTime(_ time: Time) {

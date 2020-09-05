@@ -63,12 +63,27 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
     }
 
+    var times: [Time] {
+        if let selectedTimes = selections.times {
+            return DateFactory.createTimesFromCommaSeparatedString(selectedTimes)
+        } else {
+            return pill.times
+        }
+    }
+
     func save() {
         notifications?.cancelDuePillNotification(pill)
         sdk?.pills.set(by: pill.id, with: selections)
         notifications?.requestDuePillNotification(pill)
         tabs?.reflectPills()
         selections = PillAttributes()
+    }
+
+    func appendNewTime() {
+        var timesCopy = times
+        timesCopy.append(Time())
+        let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
+        selections.times = newTimeString
     }
 
     func handleIfUnsaved(_ viewController: UIViewController) {

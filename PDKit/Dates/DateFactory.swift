@@ -72,7 +72,12 @@ public class DateFactory: NSObject {
         let dates = dateString.split(separator: ",").map {
             formatter.date(from: String($0))
         }.filter { $0 != nil }
-        return dates as! [Time]
+        let times = dates as! [Time]
+        let now = Date()
+        let timesWithSameDate = times.map {
+            DateFactory.createDate(on: now, at: $0)
+        }.filter { $0 != nil } as! [Time]
+        return timesWithSameDate.sorted()
     }
 
     /// Creates a time interval by adding the given hours to the given date.
