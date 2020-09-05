@@ -31,7 +31,7 @@ class PillScheduleTests: XCTestCase {
     // MARK: - Setup helpers
 
     private func setUpPills() {
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Working)
+        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
     }
 
     @discardableResult
@@ -43,7 +43,7 @@ class PillScheduleTests: XCTestCase {
 
     private func setUpPills(_ mockPills: [MockPill]) {
         mockStore.getStoredCollectionReturnValues = [mockPills]
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Working)
+        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
     }
 
     private func setUpPills(insertPillFactory: (() -> MockPill)?) {
@@ -63,7 +63,7 @@ class PillScheduleTests: XCTestCase {
     // MARK: - Tests
 
     public func testInit_whenGivenInitialState_resetsToPillCountToTwo() {
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer, state: .Initial)
+        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
         XCTAssertEqual(2, pills.count)
     }
 

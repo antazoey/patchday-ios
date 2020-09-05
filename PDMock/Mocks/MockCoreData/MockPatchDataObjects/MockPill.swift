@@ -10,7 +10,6 @@ import Foundation
 import PDKit
 
 public class MockPill: Swallowable {
-
     public var id: UUID = UUID()
     public var attributes: PillAttributes = PillAttributes()
     public var name: String = ""
@@ -24,6 +23,7 @@ public class MockPill: Swallowable {
     public var isDue: Bool = false
     public var isNew: Bool = false
     public var isDone: Bool = false
+    public var hasName: Bool = false
 
     public init() { }
 

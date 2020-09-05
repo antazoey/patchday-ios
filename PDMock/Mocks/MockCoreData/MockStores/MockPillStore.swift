@@ -11,6 +11,8 @@ import PDKit
 
 public class MockPillStore: MockPatchDataStore<Swallowable>, PillStoring {
 
+    public var state: PillScheduleState = PillScheduleState.Working
+
     public override init() {
         super.init()
         newObjectFactory = { () in MockPill() }

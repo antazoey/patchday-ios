@@ -124,7 +124,13 @@ public class Pill: Swallowable {
         return Date() > dueDate
     }
 
-    public var isNew: Bool { pillData.attributes.lastTaken == nil }
+    public var isNew: Bool {
+        pillData.attributes.lastTaken == nil && !hasName
+    }
+
+    public var hasName: Bool {
+        pillData.attributes.name != PillStrings.NewPill && pillData.attributes.name != ""
+    }
 
     public var isDone: Bool {
         timesTakenToday >= timesaday && lastTaken != nil

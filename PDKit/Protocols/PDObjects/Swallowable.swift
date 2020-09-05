@@ -51,6 +51,9 @@ public protocol Swallowable {
     /// Whether you never took this pill before.
     var isNew: Bool { get }
 
+    /// Whether the pill was ever given a name.
+    var hasName: Bool { get }
+
     /// If you are done taking this pill today.
     var isDone: Bool { get }
 
