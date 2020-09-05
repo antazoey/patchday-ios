@@ -63,6 +63,7 @@ class PillScheduleTests: XCTestCase {
     // MARK: - Tests
 
     public func testInit_whenGivenInitialState_resetsToPillCountToTwo() {
+        mockStore.state = .Initial
         pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
         XCTAssertEqual(2, pills.count)
     }

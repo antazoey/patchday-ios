@@ -502,10 +502,49 @@ public class PillTests: XCTestCase {
         XCTAssertFalse(pill.isDue)
     }
 
-    func testIsNew_whenLastTakenIsNil_returnsTrue() {
-        let attrs = PillAttributes()
+    func testIsNew_whenLastTakenIsNilAndNameIsDefault_returnsTrue() {
+        var attrs = PillAttributes()
+        attrs.lastTaken = nil
+        attrs.name = PillStrings.NewPill
         let pill = createPill(attrs)
         XCTAssertTrue(pill.isNew)
+    }
+
+    func testIsNew_whenLastTakenIsNilAndNameIsEmpty_returnsTrue() {
+        var attrs = PillAttributes()
+        attrs.lastTaken = nil
+        attrs.name = ""
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.isNew)
+    }
+
+    func testIsNew_whenLastTakenIsNilAndNameIsNotEmpty_returnsFalse() {
+        var attrs = PillAttributes()
+        attrs.lastTaken = nil
+        attrs.name = "Testosterone"
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isNew)
+    }
+
+    func testHasName_whenNameIsDefault_returnsFalse() {
+        var attrs = PillAttributes()
+        attrs.name = PillStrings.NewPill
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.hasName)
+    }
+
+    func testHasName_whenNameIsEmpty_returnsFalse() {
+        var attrs = PillAttributes()
+        attrs.name = ""
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.hasName)
+    }
+
+    func testHasName_whenNameIsSet_returnsTrue() {
+        var attrs = PillAttributes()
+        attrs.name = "Testosterone"
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.hasName)
     }
 
     func testIsNew_whenLastTakenHasValue_returnsFalse() {
