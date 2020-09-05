@@ -41,26 +41,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         pill.isNew ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
     }
 
-    var startTimePickerTwoTime: Time {
-        //selections.time2 ?? pill.time2
-        Date()
-    }
-
-    var startMinimumTimePickerTwoTime: Time {
-        //selections.time1 ?? pill.time1
-        Date()
-    }
-
-    var time1Text: String {
-        //PDDateFormatter.formatTime(pill.time1)
-        ""
-    }
-
-    var time2Text: String {
-        //PDDateFormatter.formatTime(pill.time2)
-        ""
-    }
-
     var namePickerStartIndex: Index {
         let name = selections.name ?? pill.name
         return providedPillNameSelection.firstIndex(of: name) ?? 0
@@ -134,10 +114,5 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
             return TimeNumber.Time1
         }
         return numType
-    }
-
-    func setSelectedTimesadayFromSliderValue(sliderValue: Int) {
-        // TODO: - This
-        //selections.timesaday = TimesadaySliderDefinition.convertSliderValueToTimesaday(sliderValue: sliderValue)
     }
 }

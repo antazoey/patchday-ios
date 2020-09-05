@@ -26,11 +26,11 @@ class CoreDataStack: NSObject {
         "timesaday",
         "time1",
         "time2",
+        "times",
         "notify",
         "timesTakenToday",
         "lastTaken",
         "expirationInterval",
-        "times"
     ]
 
     struct EntityKey {

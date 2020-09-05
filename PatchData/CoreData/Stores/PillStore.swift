@@ -20,12 +20,21 @@ class PillStore: EntityStore, PillStoring {
 
     /// Returns True if anyone of the stored pill have saved times.
     var state: PillScheduleState {
+        var state = PillScheduleState.Initial
+        var pillsToSave: [Swallowable] = []
         for pill in getStoredPills() {
             if pill.times.count > 0  {
-                return .Working
+                state = .Working
+            } else {
+                // Fix Pill that for some reason don't have a single Time set.
+                pill.appendTime(Time())
+                pillsToSave.append(pill)
             }
         }
-        return .Initial
+        if pillsToSave.count > 0 {
+            pushLocalChangesToManagedContext(pillsToSave, doSave: true)
+        }
+        return state
     }
 
     func getStoredPills() -> [Swallowable] {

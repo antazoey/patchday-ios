@@ -11,7 +11,7 @@ public enum PDLogLevels {
 }
 
 /// Set to `LogLevel.DEBUG` to turn on loggers.
-public var PDLogLevel = PDLogLevels.NONE
+public var PDLogLevel = PDLogLevels.DEBUG
 
 public class PDLog<T> {
 

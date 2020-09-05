@@ -433,7 +433,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YF0-w6-5sp">
-                                <rect key="frame" x="5" y="89" width="365" height="391"/>
+                                <rect key="frame" x="5" y="89" width="365" height="361"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drug name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-cg-wSc">
                                         <rect key="frame" x="0.0" y="0.0" width="365" height="17"/>
@@ -605,32 +605,32 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRx-Mi-FYL">
-                                        <rect key="frame" x="0.0" y="171" width="365" height="65"/>
+                                        <rect key="frame" x="0.0" y="171" width="365" height="35"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="65" id="kL2-e0-XbS"/>
+                                            <constraint firstAttribute="height" constant="35" id="kL2-e0-XbS"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many per day:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UoZ-DT-gdz">
-                                        <rect key="frame" x="0.0" y="236" width="365" height="17"/>
+                                        <rect key="frame" x="0.0" y="206" width="365" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7a-Zd-8Sz">
-                                        <rect key="frame" x="0.0" y="253" width="365" height="1"/>
+                                        <rect key="frame" x="0.0" y="223" width="365" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Kc8-3H-mQS"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3YF-M8-UPO">
-                                        <rect key="frame" x="0.0" y="254" width="365" height="42"/>
+                                        <rect key="frame" x="0.0" y="224" width="365" height="42"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="EOY-EO-bXe"/>
                                         </constraints>
                                     </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="DuN-cY-yDQ">
-                                        <rect key="frame" x="-2" y="296" width="369" height="36"/>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="DuN-cY-yDQ">
+                                        <rect key="frame" x="-2" y="266" width="369" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="cB8-nP-AgZ"/>
                                         </constraints>
@@ -640,58 +640,8 @@
                                             <action selector="timesadaySliderValueChanged:" destination="9mn-Be-MMV" eventType="valueChanged" id="00B-yl-vzD"/>
                                         </connections>
                                     </slider>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ubA-sY-7FI">
-                                        <rect key="frame" x="0.0" y="331" width="365" height="15"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yDR-nU-l2e">
-                                                <rect key="frame" x="0.0" y="0.0" width="1" height="15"/>
-                                                <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="1" id="GBL-bU-KzS"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S2h-ah-VeN">
-                                                <rect key="frame" x="1" y="0.0" width="120.5" height="15"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x90-tj-Bhg">
-                                                <rect key="frame" x="121.5" y="0.0" width="1" height="15"/>
-                                                <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="1" id="Oj1-7J-y2h"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cKs-Dc-EV5">
-                                                <rect key="frame" x="122.5" y="0.0" width="120" height="15"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BRo-gz-1wD">
-                                                <rect key="frame" x="242.5" y="0.0" width="1" height="15"/>
-                                                <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="1" id="fUY-wI-1aa"/>
-                                                </constraints>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uPM-b2-v8q">
-                                                <rect key="frame" x="243.5" y="0.0" width="120.5" height="15"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5KV-Qc-zkT">
-                                                <rect key="frame" x="364" y="0.0" width="1" height="15"/>
-                                                <color key="backgroundColor" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="1" id="YVK-Zu-OcF"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="15" id="5IM-gp-8TK"/>
-                                            <constraint firstItem="uPM-b2-v8q" firstAttribute="width" secondItem="S2h-ah-VeN" secondAttribute="width" id="7I8-dE-3V5"/>
-                                            <constraint firstItem="cKs-Dc-EV5" firstAttribute="width" secondItem="S2h-ah-VeN" secondAttribute="width" id="eup-wr-buD"/>
-                                        </constraints>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KLT-Qb-BL7">
-                                        <rect key="frame" x="0.0" y="346" width="365" height="15"/>
+                                        <rect key="frame" x="0.0" y="301" width="365" height="15"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tYo-WT-Poq">
                                                 <rect key="frame" x="0.0" y="0.0" width="8" height="15"/>
@@ -736,11 +686,61 @@
                                             <constraint firstAttribute="height" constant="15" id="yxQ-Su-UtI"/>
                                         </constraints>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
+                                        <rect key="frame" x="0.0" y="316" width="365" height="15"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeOneButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fZS-Cj-XcQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="P5X-kB-ic1"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7PS-kk-1eI">
+                                                <rect key="frame" x="39" y="0.0" width="69.5" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeTwoButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-f3-meX">
+                                                <rect key="frame" x="108.5" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="zqN-5d-fI5"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXf-Se-Gp4">
+                                                <rect key="frame" x="147.5" y="0.0" width="70" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeThreeButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTm-9b-tnO">
+                                                <rect key="frame" x="217.5" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="uvs-Wu-PdT"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jia-id-Dhx">
+                                                <rect key="frame" x="256.5" y="0.0" width="69.5" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeFourButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghk-DN-NbN">
+                                                <rect key="frame" x="326" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="xuV-KD-wdY"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="15" id="a8U-8W-lKt"/>
+                                            <constraint firstItem="BXf-Se-Gp4" firstAttribute="width" secondItem="7PS-kk-1eI" secondAttribute="width" id="eKw-Fh-BdE"/>
+                                            <constraint firstItem="jia-id-Dhx" firstAttribute="width" secondItem="7PS-kk-1eI" secondAttribute="width" id="guC-fh-HqA"/>
+                                        </constraints>
+                                    </stackView>
                                     <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jng-qE-vf3">
-                                        <rect key="frame" x="0.0" y="361" width="365" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="331" width="365" height="0.0"/>
                                     </datePicker>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XY7-Lb-cxD">
-                                        <rect key="frame" x="0.0" y="361" width="365" height="30"/>
+                                        <rect key="frame" x="0.0" y="331" width="365" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="esU-OG-RK7"/>
                                         </constraints>
@@ -789,7 +789,11 @@
                         <outlet property="paddingBelowNotificationsSwitch" destination="uPx-d5-evg" id="vFi-qa-Uai"/>
                         <outlet property="saveButton" destination="koe-DU-BKv" id="ua4-QK-QfR"/>
                         <outlet property="selectNameButton" destination="mxZ-UI-Ia5" id="Kfy-l4-VIf"/>
+                        <outlet property="timeFourButton" destination="ghk-DN-NbN" id="zYr-bw-Uh6"/>
+                        <outlet property="timeOneButton" destination="fZS-Cj-XcQ" id="rhR-4H-eGc"/>
                         <outlet property="timePicker" destination="Jng-qE-vf3" id="NRu-aq-HFU"/>
+                        <outlet property="timeThreeButton" destination="yTm-9b-tnO" id="d2f-me-z53"/>
+                        <outlet property="timeTwoButton" destination="Ssv-f3-meX" id="sWQ-le-Pcf"/>
                         <outlet property="timesadayLabel" destination="UoZ-DT-gdz" id="pm6-XK-eeA"/>
                         <outlet property="timesadaySlider" destination="DuN-cY-yDQ" id="mdj-cp-th7"/>
                         <outlet property="topConstraint" destination="IIT-Gr-dQX" id="HPx-CA-xtl"/>
