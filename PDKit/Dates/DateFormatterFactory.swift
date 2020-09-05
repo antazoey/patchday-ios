@@ -13,7 +13,7 @@ class DateFormatterFactory {
     static let timeFormat = "h:mm a"
     static let dayFormat = "EEEE, h:mm a"
     static let dateFormat = "EEEE, MMMM d, h:mm a"
-    static let internalTimeFormat = "HH:MM:SS"
+    static let internalTimeFormat = "HH:mm:ss"
 
     static func createTimeFormatter() -> DateFormatter {
         createFormatter(timeFormat)

@@ -36,7 +36,7 @@ class HormoneStore: EntityStore, HormoneStoring {
     }
 
     func delete(_ hormone: Hormonal) {
-        entities.deleteManagedHormoneData([CoreDataEntityAdapter.convertToHormoneStruct(hormone)])
+        entities.deleteManagedHormoneData([EntityAdapter.convertToHormoneStruct(hormone)])
     }
 
     func clearSitesFromHormone(_ hormoneId: UUID) {
@@ -45,7 +45,7 @@ class HormoneStore: EntityStore, HormoneStoring {
 
     func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool = true) {
         guard hormones.count > 0 else { return }
-        let hormoneData = hormones.map { h in CoreDataEntityAdapter.convertToHormoneStruct(h) }
+        let hormoneData = hormones.map { h in EntityAdapter.convertToHormoneStruct(h) }
         pushLocalChangesToManagedContext(hormoneData, doSave: doSave)
     }
 

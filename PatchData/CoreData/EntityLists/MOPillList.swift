@@ -80,7 +80,7 @@ class MOPillList: MOEntityList {
     private func getCurrentManagedPills() -> [PillStruct] {
         var pillStructs: [PillStruct] = []
         for managedPill in MOEntities.pillMOs {
-            if let pill = CoreDataEntityAdapter.convertToPillStruct(managedPill) {
+            if let pill = EntityAdapter.convertToPillStruct(managedPill) {
                 pillStructs.append(pill)
             }
         }
@@ -110,6 +110,7 @@ class MOPillList: MOEntityList {
                 pill.times = timesString
                 pill.time1 = nil
                 pill.time2 = nil
+                pill.timesaday = 0
                 saver.saveFromMigration()
             }
         }
@@ -118,7 +119,7 @@ class MOPillList: MOEntityList {
     func createNewPill() -> PillStruct? {
         guard var newManagedPill = coreDataStack.insert(.pill) as? MOPill else { return nil }
         initPill(&newManagedPill)
-        return CoreDataEntityAdapter.convertToPillStruct(newManagedPill)
+        return EntityAdapter.convertToPillStruct(newManagedPill)
     }
 
     private func initPill(_ managedPill: inout MOPill) {
@@ -130,7 +131,7 @@ class MOPillList: MOEntityList {
 
     private func pushPillData(_ pillData: PillStruct) {
         guard var managedPill = getManagedPill(by: pillData.id) else { return }
-        CoreDataEntityAdapter.applyPillData(pillData, to: &managedPill)
+        EntityAdapter.applyPillData(pillData, to: &managedPill)
     }
 
     private func deletePill(_ pillData: PillStruct) {

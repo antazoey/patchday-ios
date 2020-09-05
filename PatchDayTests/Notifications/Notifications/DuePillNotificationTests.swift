@@ -33,7 +33,7 @@ class DuePillNotificationTests: XCTestCase {
         let pill = MockPill()
         let dueDate = Date(timeInterval: 100, since: Date())
         pill.name = "Cannabis"
-        pill.time1 = dueDate
+        pill.times = [dueDate]
         pill.due = dueDate
         let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
         not.request()
@@ -56,7 +56,7 @@ class DuePillNotificationTests: XCTestCase {
         let pill = MockPill()
         let dueDate = Date(timeInterval: -100, since: Date())
         pill.name = "Cannabis"
-        pill.time1 = dueDate
+        pill.times = [dueDate]
         pill.due = dueDate
         let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
         DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile

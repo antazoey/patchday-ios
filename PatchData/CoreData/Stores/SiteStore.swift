@@ -39,12 +39,12 @@ class SiteStore: EntityStore, SiteStoring {
     }
 
     func delete(_ site: Bodily) {
-        entities.deleteManagedSiteData([CoreDataEntityAdapter.convertToSiteStruct(site)])
+        entities.deleteManagedSiteData([EntityAdapter.convertToSiteStruct(site)])
     }
 
     func pushLocalChangesToManagedContext(_ sites: [Bodily], doSave: Bool) {
         guard sites.count > 0 else { return }
-        let siteData = sites.map { s in CoreDataEntityAdapter.convertToSiteStruct(s) }
+        let siteData = sites.map { s in EntityAdapter.convertToSiteStruct(s) }
         self.pushLocalChangesToManagedContext(siteData, doSave: doSave)
     }
 

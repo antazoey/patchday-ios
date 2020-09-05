@@ -6,9 +6,9 @@
 import Foundation
 import PDKit
 
-class CoreDataEntityAdapter {
+class EntityAdapter {
 
-    private static var log = PDLog<CoreDataEntityAdapter>()
+    private static var log = PDLog<EntityAdapter>()
 
     // MARK: - Hormones
 
@@ -69,9 +69,6 @@ class CoreDataEntityAdapter {
         }
         if let notify = pillData.attributes.notify, notify != pill.notify {
             pill.notify = notify
-        }
-        if let timesaday = pillData.attributes.timesaday, timesaday != pill.timesaday {
-            pill.timesaday = Int16(timesaday)
         }
         if let times = pillData.attributes.times as String? {
             pill.times = times
@@ -141,7 +138,6 @@ class CoreDataEntityAdapter {
         PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
             expirationInterval: pill.expirationInterval,
-            timesaday: Int(pill.timesaday),
             times: pill.times,
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),

@@ -82,4 +82,16 @@ class DateFactoryTests: XCTestCase {
         let actual = DateFactory.createDateBeforeAtEightPM(of: Date())
         XCTAssertEqual(expected, actual)
     }
+
+    /// Tests a PDMock test method
+    public func testSameTime() {
+        let time = Date()
+        let d1 = DateFactory.createDate(at: time, daysFromToday: 5)!
+        let d2 = DateFactory.createDate(at: time, daysFromToday: -9)!
+        XCTAssert(PDTest.sameTime(d1, d2))
+
+        let d3 = DateFactory.createDate(byAddingMinutes: 12, to: time)!
+        let d4 = DateFactory.createDate(byAddingMinutes: -19, to: time)!
+        XCTAssertFalse(PDTest.sameTime(d3, d4))
+    }
 }

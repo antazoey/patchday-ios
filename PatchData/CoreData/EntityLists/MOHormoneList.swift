@@ -84,7 +84,7 @@ class MOHormoneList: MOEntityList {
     private func getCurrentMananagedHormones() -> [HormoneStruct] {
         var hormoneStructs: [HormoneStruct] = []
         for managedHormone in MOEntities.hormoneMOs {
-            if let hormone = CoreDataEntityAdapter.convertToHormoneStruct(managedHormone) {
+            if let hormone = EntityAdapter.convertToHormoneStruct(managedHormone) {
                 hormoneStructs.append(hormone)
             }
         }
@@ -103,7 +103,7 @@ class MOHormoneList: MOEntityList {
     func createNewHormone() -> HormoneStruct? {
         guard var newManagedHormone = coreDataStack.insert(.hormone) as? MOHormone else { return nil }
         initHormone(&newManagedHormone)
-        return CoreDataEntityAdapter.convertToHormoneStruct(newManagedHormone)
+        return EntityAdapter.convertToHormoneStruct(newManagedHormone)
     }
 
     private func initHormone(_ managedHormone: inout MOHormone) {
@@ -121,7 +121,7 @@ class MOHormoneList: MOEntityList {
     private func applyHormoneDataToManagedHormone(
         _ hormoneData: HormoneStruct, _ managedHormone: inout MOHormone
     ) {
-        CoreDataEntityAdapter.applyHormoneData(hormoneData, to: &managedHormone)
+        EntityAdapter.applyHormoneData(hormoneData, to: &managedHormone)
         guard let siteId = hormoneData.siteRelationshipId else { return }
         relateSiteToHormone(siteId: siteId, managedHormone)
     }

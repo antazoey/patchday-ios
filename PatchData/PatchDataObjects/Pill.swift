@@ -19,13 +19,6 @@ public class Pill: Swallowable {
         if pillData.attributes.name == nil {
             self.pillData.attributes.name = PillStrings.NewPill
         }
-        if let timesaday = pillData.attributes.timesaday {
-            if timesaday <= 0 {
-                self.pillData.attributes.timesaday = 1
-            }
-        } else {
-            self.pillData.attributes.timesaday = 1
-        }
     }
 
     public var id: UUID {
@@ -34,10 +27,10 @@ public class Pill: Swallowable {
     }
 
     public var attributes: PillAttributes {
-        PillAttributes(
+        let defaultInterval = DefaultPillAttributes.expirationInterval.rawValue
+        return PillAttributes(
             name: name,
-            expirationInterval: pillData.attributes.expirationInterval ?? DefaultPillAttributes.expirationInterval.rawValue,
-            timesaday: timesaday,
+            expirationInterval: pillData.attributes.expirationInterval ?? defaultInterval,
             times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
@@ -50,7 +43,8 @@ public class Pill: Swallowable {
         set { pillData.attributes.name = newValue }
     }
 
-    /// Human readable expiration interval derived from the stored property. Correlates to `PillStrings.Intervals` and `PillExpirationInterval`.
+    /// Human readable expiration interval derived from the stored property.
+    /// Correlates to `PillStrings.Intervals` and `PillExpirationInterval`.
     public var expirationInterval: String {
         get {
             if let storedInterval = pillData.attributes.expirationInterval,
@@ -70,15 +64,28 @@ public class Pill: Swallowable {
     }
 
     public var times: [Time] {
-        get {
-            guard let timeString = pillData.attributes.times else { return [] }
-            return DateFactory.createTimesFromCommaSeparatedString(timeString).sorted()
-        }
-        set {
-            let newTimes = newValue.sorted()
-            let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
-            pillData.attributes.times = timeString
-        }
+        guard let timeString = pillData.attributes.times else { return [] }
+        let times = DateFactory.createTimesFromCommaSeparatedString(timeString)
+        let now = Date()
+        let timesWithSameDate = times.map {
+            DateFactory.createDate(on: now, at: $0)
+        }.filter { $0 != nil } as! [Time]
+        return timesWithSameDate.sorted()
+    }
+
+    public func appendTime(_ time: Time) {
+        var newTimes = times
+        newTimes.append(time)
+        newTimes = newTimes.filter { $0 != DateFactory.createDefaultDate() }
+        newTimes.sort { $1 < $0 }
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
+        pillData.attributes.times = timeString
+    }
+
+    public func replaceTimes(_ times: [Time]) {
+        let newTimes = times.filter { $0 != DateFactory.createDefaultDate() }.sorted()
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
+        pillData.attributes.times = timeString
     }
 
     public var notify: Bool {
@@ -86,30 +93,7 @@ public class Pill: Swallowable {
         set { pillData.attributes.notify = newValue }
     }
 
-    public var timesaday: Int {
-        get {
-            if let timesaday = pillData.attributes.timesaday, timesaday > 0 {
-                return timesaday
-            }
-            return DefaultPillAttributes.timesaday
-        }
-        set {
-            guard newValue >= 1 else { return }
-            pillData.attributes.timesaday = newValue
-
-            // Adjust times by removing or adding times.
-            var _times = times
-            if newValue < _times.count {
-                _times = Array(_times[0..<newValue])
-            } else if newValue > _times.count {
-                let greatestTime = _times.last ?? Date()
-                for _ in _times.count..<newValue {
-                    _times.append(greatestTime)
-                }
-            }
-            times = _times
-        }
-    }
+    public var timesaday: Int { times.count }
 
     public var timesTakenToday: Int {
         pillData.attributes.timesTakenToday ?? DefaultPillAttributes.timesTakenToday
@@ -148,10 +132,10 @@ public class Pill: Swallowable {
 
     public func set(attributes: PillAttributes) {
         name = attributes.name ?? name
-        timesaday = attributes.timesaday ?? timesaday
         notify = attributes.notify ?? notify
         lastTaken = attributes.lastTaken ?? lastTaken
         expirationInterval = attributes.expirationInterval ?? expirationInterval
+        pillData.attributes.times = attributes.times
     }
 
     public func swallow() {

@@ -10,12 +10,12 @@ class EntitiesSaver {
 
     private let stack: PDCoreDataWrapping
     private let entity: PDEntity
-    private var logger: CoreDataEntitiesLogger
+    private var logger: EntitiesLogger
 
     init(_ stack: PDCoreDataWrapping, _ entity: PDEntity) {
         self.stack = stack
         self.entity = entity
-        self.logger = CoreDataEntitiesLogger(entity: entity)
+        self.logger = EntitiesLogger(entity: entity)
     }
 
     func saveCreateNewEntity() {

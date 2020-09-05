@@ -11,12 +11,6 @@ import PDKit
 
 public class MockPill: Swallowable {
 
-    // Mock-related properties
-    public var setCallArgs: [PillAttributes] = []
-    public var swallowCallCount = 0
-    public var awakenCallCount = 0
-
-    // Swallowable properties
     public var id: UUID = UUID()
     public var attributes: PillAttributes = PillAttributes()
     public var name: String = ""
@@ -33,15 +27,28 @@ public class MockPill: Swallowable {
 
     public init() { }
 
+    public var setCallArgs: [PillAttributes] = []
     public func set(attributes: PillAttributes) {
         setCallArgs.append(attributes)
     }
 
+    public var swallowCallCount = 0
     public func swallow() {
         swallowCallCount += 1
     }
 
+    public var awakenCallCount = 0
     public func awaken() {
         awakenCallCount += 1
+    }
+
+    public var appendTimeCallArgs: [Time] = []
+    public func appendTime(_ time: Time) {
+        appendTimeCallArgs.append(time)
+    }
+
+    public var replaceTimesCallArgs: [[Time]] = []
+    public func replaceTimes(_ times: [Time]) {
+        replaceTimesCallArgs.append(times)
     }
 }

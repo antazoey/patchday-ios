@@ -76,18 +76,18 @@ class PillDetailViewModelTests: XCTestCase {
         let pill = setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let name = "Test"
-        let time1 = Time()
+        let time = PDDateFormatter.convertDatesToCommaSeparatedString([Time()])
         let notify = true
         let interval = PillExpirationInterval.EveryDay.rawValue
         viewModel.selections.name = name
-        viewModel.selections.time1 = time1
+        viewModel.selections.times = time
         viewModel.selections.notify = notify
         viewModel.selections.expirationInterval = interval
         viewModel.save()
         let pills = (viewModel.sdk?.pills as! MockPillSchedule)
         XCTAssertEqual(pills.setIdCallArgs[0].0, pill.id)
         XCTAssertEqual(name, pills.setIdCallArgs[0].1.name)
-        XCTAssertEqual(time1, pills.setIdCallArgs[0].1.time1)
+        XCTAssertEqual(time, pills.setIdCallArgs[0].1.times)
         XCTAssertEqual(notify, pills.setIdCallArgs[0].1.notify)
         XCTAssertEqual(interval, pills.setIdCallArgs[0].1.expirationInterval)
     }

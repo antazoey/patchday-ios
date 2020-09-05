@@ -23,7 +23,8 @@ public class DateFactory: NSObject {
             month: calendar.component(.month, from: date),
             day: calendar.component(.day, from: date),
             hour: calendar.component(.hour, from: time),
-            minute: calendar.component(.minute, from: time)
+            minute: calendar.component(.minute, from: time),
+            second: calendar.component(.second, from: time)
         )
         return calendar.date(from: components)
     }

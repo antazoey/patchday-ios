@@ -33,7 +33,11 @@ class CoreDataStack: NSObject {
         "times"
     ]
 
-    // MARK: - Public
+    struct EntityKey {
+        public var type: PDEntity
+        public var name: String
+        public var props: [String]
+    }
 
     override public var description: String {
         "Implements the Core Data stack."

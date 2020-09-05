@@ -21,17 +21,20 @@ class PillTestsUtil {
     static let testId = UUID()
     static let testHour = 12
     static let testMinute = 51
-    static let testSeconds = 30
+    static let testSeconds = 10
     static let testTimeString = "\(testHour):\(testMinute):\(testSeconds)"
-    static let testTime = Calendar.current.date(
-        bySettingHour: testHour,
-        minute: testMinute,
-        second: testSeconds, of: Date()
-    )!
+    static let testTime = DateFactory.createTimesFromCommaSeparatedString(testTimeString)[0]
 
     init(_ mockStore: MockPillStore, _ mockDataSharer: MockPillDataSharer) {
         self.mockStore = mockStore
         self.mockDataSharer = mockDataSharer
+    }
+
+    static func createTimeString(hour: Int, minute: Int, second: Int) -> String {
+        let hourString = hour <= 9 ? "0\(hour)" : String(hour)
+        let minString = minute <= 9 ? "0\(minute)" : String(minute)
+        let secString = second <= 9 ? "0\(second)" : String(second)
+        return "\(hourString):\(minString):\(secString)"
     }
 
     func createThreePills() -> [MockPill] {

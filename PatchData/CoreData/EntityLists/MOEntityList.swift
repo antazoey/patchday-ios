@@ -12,7 +12,7 @@ class MOEntityList {
 
     let entityType: PDEntity
     let coreDataStack: PDCoreDataWrapping
-    let logger: CoreDataEntitiesLogger
+    let logger: EntitiesLogger
     var initialized = false
     let saver: EntitiesSaver
 
@@ -23,6 +23,6 @@ class MOEntityList {
         self.coreDataStack = coreDataStack
         self.entityType = entityType
         self.saver = EntitiesSaver(coreDataStack, entityType)
-        self.logger = CoreDataEntitiesLogger(entity: entityType)
+        self.logger = EntitiesLogger(entity: entityType)
     }
 }

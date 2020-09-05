@@ -22,13 +22,19 @@ public protocol Swallowable {
     var expirationInterval: String { get set }
 
     /// The times, in order, for which to take pills on a day in the schedule.
-    var times: [Time] { get set }
+    var times: [Time] { get }
+
+    /// Adds a new pill time.
+    func appendTime(_ time: Time)
+
+    /// Replaces all of the pill times. Use for remove.
+    func replaceTimes(_ times: [Time])
 
     /// Whether you want to be notified when due.
     var notify: Bool { get set }
 
     /// The number of times you should take this pill a day.
-    var timesaday: Int { get set }
+    var timesaday: Int { get }
 
     /// The number of times you took this pill today.
     var timesTakenToday: Int { get }

@@ -78,7 +78,7 @@ class MOSiteList: MOEntityList {
     private func getCurrentManagedSites() -> [SiteStruct] {
         var siteStructs: [SiteStruct] = []
         for managedSite in MOEntities.siteMOs {
-            if let site = CoreDataEntityAdapter.convertToSiteStruct(managedSite) {
+            if let site = EntityAdapter.convertToSiteStruct(managedSite) {
                 siteStructs.append(site)
             }
         }
@@ -96,7 +96,7 @@ class MOSiteList: MOEntityList {
     func createNewSite() -> SiteStruct? {
         guard var newManagedSite = coreDataStack.insert(.site) as? MOSite else { return nil }
         initSite(&newManagedSite)
-        return CoreDataEntityAdapter.convertToSiteStruct(newManagedSite)
+        return EntityAdapter.convertToSiteStruct(newManagedSite)
     }
 
     private func initSite(_ managedSite: inout MOSite) {
@@ -112,7 +112,7 @@ class MOSiteList: MOEntityList {
     }
 
     private func applySiteDataToManagedSite(_ siteData: SiteStruct, _ managedSite: inout MOSite) {
-        CoreDataEntityAdapter.applySiteData(siteData, to: &managedSite)
+        EntityAdapter.applySiteData(siteData, to: &managedSite)
         guard let hormoneIds = siteData.hormoneRelationshipIds else { return }
         relateHormonesToSite(hormoneIds: hormoneIds, managedSite)
     }

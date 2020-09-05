@@ -95,8 +95,8 @@ public class PillSchedule: NSObject, PillScheduling {
         context = PillStrings.DefaultPills.reduce([]) {
             (currentPills: [Swallowable], name: String) -> [Swallowable] in
             if var pill = store.createNewPill(name: name) {
-                pill.timesaday = 1
                 pill.notify = true
+                pill.appendTime(Date())
                 return currentPills + [pill]
             }
             return currentPills

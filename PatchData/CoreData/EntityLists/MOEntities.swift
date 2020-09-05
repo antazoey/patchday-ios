@@ -16,23 +16,17 @@ class MOEntities {
     static var siteMOs: [MOSite] = []
 
     static func getManagedHormone(by id: UUID) -> MOHormone? {
-        if let hormone = hormoneMOs.first(where: { h in h.id == id }) {
-            return hormone
-        }
-        return nil
+        guard let hormone = hormoneMOs.first(where: { h in h.id == id }) else { return nil }
+        return hormone
     }
 
     static func getManagedPill(by id: UUID) -> MOPill? {
-        if let pill = MOEntities.pillMOs.first(where: { p in p.id == id }) {
-            return pill
-        }
-        return nil
+        guard let pill = MOEntities.pillMOs.first(where: { p in p.id == id }) else { return nil }
+        return pill
     }
 
     static func getManagedSite(by id: UUID) -> MOSite? {
-        if let site = MOEntities.siteMOs.first(where: { s in s.id == id }) {
-            return site
-        }
-        return nil
+        guard let site = MOEntities.siteMOs.first(where: { s in s.id == id }) else { return nil }
+        return site
     }
 }

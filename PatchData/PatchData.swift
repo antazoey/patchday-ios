@@ -114,7 +114,6 @@ public class PatchData: NSObject, PatchDataSDK {
             attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
             attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
             attrs.notify = true
-            attrs.timesaday = 1
             attrs.timesTakenToday = 0
             attrs.name = "Notification Test"
             pills.set(at: 0, with: attrs)

@@ -199,7 +199,10 @@ class PillScheduleTests: XCTestCase {
     public func testReset_resetsPillTimesadays() {
         setUpThreePills()
         pills.reset()
-        XCTAssert(pills[0]!.timesaday == 1 && pills[1]!.timesaday == 1)
+        let pill1 = pills[0]! as! MockPill
+        let pill2 = pills[1]! as! MockPill
+        XCTAssertEqual(1, pill1.appendTimeCallArgs.count)
+        XCTAssertEqual(1, pill2.appendTimeCallArgs.count)
     }
 
     public func testReset_savesChanges() {

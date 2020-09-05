@@ -100,11 +100,18 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertDatesToCommaSeparatedString_ignoreNils() {
+    func testConvertDatesToCommaSeparatedString_ignoresNils() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let date = Date()
         let expected = formatter.string(from: date)
         let actual = PDDateFormatter.convertDatesToCommaSeparatedString([nil, date, nil])
         XCTAssertEqual(expected, actual)
+    }
+
+    func testConvertDatesToCommaSeparatedString() {
+        formatter.dateFormat = DateFormatterFactory.internalTimeFormat
+        let testDate = Calendar.current.date(bySettingHour: 12, minute: 51, second: 30, of: Date())!
+        let actual = PDDateFormatter.convertDatesToCommaSeparatedString([testDate])
+        XCTAssertEqual("12:51:30", actual)
     }
 }

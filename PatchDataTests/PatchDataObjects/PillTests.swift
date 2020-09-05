@@ -17,17 +17,6 @@ import PatchData
 
 public class PillTests: XCTestCase {
 
-    static let testId = UUID()
-    static let testHour = 12
-    static let testMinute = 51
-    static let testSeconds = 30
-    static let testTimeString = "\(testHour):\(testMinute):\(testSeconds)"
-    static let testTime = Calendar.current.date(
-        bySettingHour: testHour,
-        minute: testMinute,
-        second: testSeconds, of: Date()
-    )!
-
     func createPill(_ attributes: PillAttributes) -> Pill {
         Pill(pillData: PillStruct(UUID(), attributes))
     }
@@ -42,7 +31,8 @@ public class PillTests: XCTestCase {
             month: calendar.component(.month, from: date),
             day: calendar.component(.day, from: date),
             hour: calendar.component(.hour, from: time),
-            minute: calendar.component(.minute, from: time)
+            minute: calendar.component(.minute, from: time),
+            second: calendar.component(.second, from: time)
         )
         return calendar.date(from: components)!
     }
@@ -124,599 +114,543 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testTimes_whenNilInAttributes_returnsDefaultDate() {
+    func testTimes_whenNilInAttributes_returnsNil() {
         var attrs = PillAttributes()
         attrs.times = nil
         let pill = createPill(attrs)
-        let expected = DateFactory.createDefaultDate()
-        XCTAssertEqual([expected], pill.times)
+        XCTAssertEqual(0, pill.times.count)
     }
 
     func testTimes_returnsTimeFromAttributes() {
         var attrs = PillAttributes()
-        attrs.times = PillTests.testTimeString
+        attrs.times = PillTestsUtil.testTimeString
         let pill = createPill(attrs)
-        XCTAssertEqual([PillTests.testTime], pill.times)
+        let actual = pill.times[0]
+        let expected = PillTestsUtil.testTime
+        XCTAssertEqual(1, pill.times.count)
+        XCTAssert(PDTest.sameTime(expected, actual))
     }
 
-//    func testTimeTwo_whenNilInAttributes_returnsDefaultDate() {
-//        var attrs = PillAttributes()
-//        attrs.time1 = Date()
-//        attrs.time2 = nil
-//        let pill = createPill(attrs)
-//        let expected = Date(timeIntervalSince1970: 0)
-//        let actual = pill.time2
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    public func testTimeTwo_returnsTimeFromAttributes() {
-//        var attrs = PillAttributes()
-//        attrs.time1 = Date()
-//        attrs.time2 = Date()
-//        let pill = createPill(attrs)
-//        let expected = attrs.time2
-//        let actual = pill.time2
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testSetTimeTwoSet_whenGivenDefaultValue_doesNotSet() {
-//        var attrs = PillAttributes()
-//        attrs.time1 = Date()
-//        attrs.time2 = Date()
-//        attrs.timesaday = 2
-//        let pill = createPill(attrs)
-//        pill.time2 = DateFactory.createDefaultDate()
-//        let expected = attrs.time2
-//        let actual = pill.time2
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testSetTimeTwo_whenTimesadayIsOne_doesNotSet() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 1
-//        attrs.time1 = Date(timeInterval: 1000, since: Date())
-//        attrs.time2 = Date()
-//        let pill = createPill(attrs)
-//        pill.time2 = Date()
-//        let expected = attrs.time2
-//        let actual = pill.time2
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testSetTimeTwo_whenTimeOneIsDefault_doesNotSetAndReturnsDefaultDate() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.time1 = DateFactory.createDefaultDate()
-//        attrs.time2 = Date()
-//        let pill = createPill(attrs)
-//        pill.time2 = Date()
-//        XCTAssertEqual(DateFactory.createDefaultDate(), pill.time2)
-//    }
-//
-//    func testSetTimeTwo_whenTimeOneIsNil_doesNotSetAndReturnsDefaultDate() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.time1 = nil
-//        attrs.time2 = Date()
-//        let pill = createPill(attrs)
-//        pill.time2 = Date()
-//        XCTAssertEqual(DateFactory.createDefaultDate(), pill.time2)
-//    }
-//
-//    func testSetTimeTwo_whenTimeOneIsGreater_setsPillOneToNewTime() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.time1 = Date(timeInterval: 1000, since: Date())
-//        let pill = createPill(attrs)
-//        let expected = Date()
-//        pill.time2 = expected
-//        XCTAssertEqual(expected, pill.time1)
-//    }
-//
-//    func testSetTimeTwo_whenTimeOneIsGreater_setsTimeTwoToPillTimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        let expected = Date(timeInterval: 1000, since: Date())
-//        attrs.time1 = expected
-//        let pill = createPill(attrs)
-//        pill.time2 = Date()
-//        XCTAssertEqual(expected, pill.time2)
-//    }
-//
-//    func testNotify_whenNilInAttributes_returnsDefaultNotify() {
-//        var attrs = PillAttributes()
-//        attrs.notify = nil
-//        let pill = createPill(attrs)
-//        XCTAssertEqual(DefaultPillAttributes.notify, pill.notify)
-//    }
-//
-//    func testTimesaday_whenNilInAttributes_returnsDefaultTimesaday() {
-//        var attrs = PillAttributes()
-//        attrs.notify = nil
-//        let pill = createPill(attrs)
-//        let expected = DefaultPillAttributes.timesaday
-//        let actual = pill.timesaday
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testSetTimesaday_whenNewValueLessThanOne_doesNotSet() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 3
-//        let pill = createPill(attrs)
-//        pill.timesaday = 0
-//        let expected = 3
-//        let actual = pill.timesaday
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    public func testSetTimesaday_whenNewValuePositive_sets() {
-//        let pill = createPill(PillAttributes())
-//        pill.timesaday = 16
-//        let expected = 16
-//        let actual = pill.timesaday
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testSetTimesaday_whenNewValueEqualToOne_clearsTimeTwo() {
-//        var attrs = PillAttributes()
-//        attrs.time2 = Date()
-//        let pill = createPill(attrs)
-//        pill.timesaday = 1
-//        let expected = Date(timeIntervalSince1970: 0)
-//        let actual = pill.time2
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    public func testTimesTakenToday_whenNilInAttributes_returnsZero() {
-//        var attrs = PillAttributes()
-//        attrs.timesTakenToday = nil
-//        let pill = createPill(attrs)
-//        let expected = 0
-//        let actual = pill.timesTakenToday
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testTimesTakenToday_whenNotNilInAttributes_returnsValueFromAttributes() {
-//        var attrs = PillAttributes()
-//        attrs.timesTakenToday = 19
-//        let pill = createPill(attrs)
-//        let expected = 19
-//        let actual = pill.timesTakenToday
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testSetExpirationInterval_whenGivenUIString_sets() {
-//        let pill = createPill(PillAttributes())
-//        pill.expirationInterval = PillStrings.Intervals.LastTenDays
-//        XCTAssertEqual(PillStrings.Intervals.LastTenDays, pill.expirationInterval)
-//    }
-//
-//    func testSetExpirationInterval_whenGivenRawString_setsAndReturnsUIVersion() {
-//        let pill = createPill(PillAttributes())
-//        pill.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
-//        XCTAssertEqual(PillStrings.Intervals.LastTenDays, pill.expirationInterval)
-//    }
-//
-//    func testDue_whenEveryDayAndTimesTakenAndNotYetTaken_returnsTodayAtTimeOne() {
-//        var attrs = PillAttributes()
-//        let now = Date()
-//        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
-//        attrs.time1 = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-//        attrs.time2 = nil
-//        attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
-//        attrs.notify = true
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 0
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 0)
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenOnceEveryDayAndTakenOnceToday_returnsTomorrowAtTimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-//        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        attrs.time1 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 1) // Tomorrow at time one
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTwiceEveryDayAndTakenOnceToday_returnsTodayAtTimeTwo() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-//        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 2
-//        attrs.time2 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time2, days: 0) // Today at time two
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTwiceEveryDayAndTakenTwiceToday_returnsTomorrowATimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-//        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
-//        attrs.timesTakenToday = 2
-//        attrs.timesaday = 2
-//        attrs.time2 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 1) // Tomorrow at time one
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenEveryOtherDayAndTakenTwoDaysAgo_returnsTodayAtTimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = DateFactory.createDate(daysFromNow: -2)
-//        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
-//        attrs.timesTakenToday = 0
-//        attrs.time1 = Date(timeIntervalSinceNow: -234233234352) // Making it an old date makes the test better
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 0)
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenOnceEveryOtherDayAndTakenOnceToday_returnsTwoDaysFromNowAtTimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = DateFactory.createDate(daysFromNow: 0)
-//        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        attrs.time1 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 2)
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTwiceEveryOtherDayAndTakenOnceToday_returnsTodayAtTimeTwo() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = DateFactory.createDate(daysFromNow: 0)
-//        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 2
-//        attrs.time2 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time2, days: 0) // Today at time two
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTwiceEveryOtherDayAndTakenTwiceToday_returnsTwosDaysFromNowAtTimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = DateFactory.createDate(daysFromNow: 0)
-//        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
-//        attrs.timesTakenToday = 2
-//        attrs.timesaday = 2
-//        attrs.time2 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 2)
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenEveryOtherDayAndTakenYesterday_returnsTomorrowAtTimeOne() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = DateFactory.createDate(daysFromNow: -1)
-//        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
-//        attrs.timesTakenToday = 0
-//        attrs.timesaday = 1
-//        attrs.time1 = Date(timeIntervalSinceNow: -234233234352)
-//        let pill = createPill(attrs)
-//        let expected = createDueTime(pill.time1, days: 1)
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTakenFirstTenDaysAndFinishedOnTenthDay_returnsFirstOfNextMonthAtTimeOne() {
-//        var attrs = PillAttributes()
-//        let cal = Calendar.current
-//        attrs.lastTaken = cal.date(bySetting: .day, value: 10, of: Date())
-//        attrs.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        attrs.time1 = Date()
-//        let pill = createPill(attrs)
-//        let date = cal.date(bySetting: .day, value: 1, of: attrs.lastTaken!)!
-//        let expected = DateFactory.createDate(on: date, at: attrs.time1!)!
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTakenEveryFirstTenDaysAndIsDuringThoseTenDays_returnsExpectedDate() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 0
-//        attrs.lastTaken = DateFactory.createDate(daysFromNow: -1)
-//        attrs.time1 = Date()
-//        let pill = createPill(attrs)
-//        let actual = pill.due
-//        let expected = DateFactory.createDate(on: Date(), at: attrs.time1!)
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTakenFirstTenDaysAndFinishedOnTwenthiethDay_returnsFirstOfNextMonthAtTimeOne() {
-//        var attrs = PillAttributes()
-//        let cal = Calendar.current
-//        attrs.lastTaken = cal.date(bySetting: .day, value: 20, of: Date())
-//        attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        attrs.time1 = Date()
-//        let pill = createPill(attrs)
-//        let date = cal.date(bySetting: .day, value: 1, of: attrs.lastTaken!)!
-//        let expected = DateFactory.createDate(on: date, at: attrs.time1!)!
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenTakenLastTenDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
-//        var attrs = PillAttributes()
-//        let cal = Calendar.current
-//        let last = Date().daysInMonth()!
-//        attrs.lastTaken = cal.date(bySetting: .day, value: last, of: Date())
-//        attrs.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        attrs.time1 = Date()
-//        let day = attrs.lastTaken!.daysInMonth()! - 10
-//        let pill = createPill(attrs)
-//        let date = cal.date(bySetting: .day, value: day, of: attrs.lastTaken!)!
-//        let expected = DateFactory.createDate(on: date, at: attrs.time1!)!
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testDue_whenLastTakenTwentyDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
-//        var attrs = PillAttributes()
-//        let cal = Calendar.current
-//        let last = Date().daysInMonth()!
-//        attrs.lastTaken = cal.date(bySetting: .day, value: last, of: Date())
-//        attrs.expirationInterval = PillExpirationInterval.LastTwentyDays.rawValue
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        attrs.time1 = Date()
-//        let day = attrs.lastTaken!.daysInMonth()! - 20
-//        let pill = createPill(attrs)
-//        let date = cal.date(bySetting: .day, value: day, of: attrs.lastTaken!)!
-//        let expected = DateFactory.createDate(on: date, at: attrs.time1!)!
-//        let actual = pill.due
-//        XCTAssertEqual(expected, actual)
-//    }
-//
-//    func testIsDue_whenTimesTakenTodayEqualsTimesday_returnsFalse() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-//        attrs.timesTakenToday = 2
-//        attrs.timesaday = 2
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDue)
-//    }
-//
-//    func testIsDue_whenPillNotYetTakenAndTimeOneIsPast_returnsTrue() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-//        attrs.timesTakenToday = 0
-//        attrs.timesaday = 2
-//        let pill = createPill(attrs)
-//        XCTAssertTrue(pill.isDue)
-//    }
-//
-//    func testIsDue_whenPillTakenTodayAndTimesadayIsOne_returnsFalse() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 1
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDue)
-//    }
-//
-//    func testIsDue_whenPillTakenOnceAndTimesadayIsTwoAndTimesTwoIsNotPast_returnsFalse() {
-//        var attrs = createPillAttributes(minutesFromNow: 5)
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 2
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDue)
-//    }
-//
-//    func testIsDue_whenPillTakenOnceAndTimesadayIsTwoAndTimesTwoIsPast_returnsTrue() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
-//        attrs.timesTakenToday = 1
-//        attrs.timesaday = 2
-//        let pill = createPill(attrs)
-//        XCTAssert(pill.isDue)
-//    }
-//
-//    func testIsDue_whenPillTakenTwiceTodayAndTimesadayIsTwo_returnsFalse() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.timesTakenToday = 2
-//        attrs.timesaday = 2
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDue)
-//    }
-//
-//    func testIsDue_whenNeverTakenByWayOfNil_returnsFalse() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.lastTaken = nil
-//        attrs.time1 = Date()
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 0
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDue)
-//    }
-//
-//    func testIsDue_whenNeverTakenByWayOfDefault_returnsFalse() {
-//        var attrs = createPillAttributes(minutesFromNow: -5)
-//        attrs.lastTaken = DateFactory.createDefaultDate()
-//        attrs.time1 = Date()
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 0
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDue)
-//    }
-//
-//    func testIsNew_whenLastTakenIsNil_returnsTrue() {
-//        let attrs = PillAttributes()
-//        let pill = createPill(attrs)
-//        XCTAssertTrue(pill.isNew)
-//    }
-//
-//    func testIsNew_whenLastTakenHasValue_returnsFalse() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isNew)
-//    }
-//
-//    func testIsDone_whenTimesTakenIsLessThanTimesaday_returnsFalse() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.timesTakenToday = 1
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDone)
-//    }
-//
-//    func testIsDone_whenTimesTakenIsEqualToTimesaday_returnsTrue() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.timesTakenToday = 2
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        XCTAssertTrue(pill.isDone)
-//    }
-//
-//    func testIsDone_whenTimesTakenIsGreaterThanTimesaday_returnsTrue() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.timesTakenToday = 3
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        XCTAssertTrue(pill.isDone)
-//    }
-//
-//    func testIsDone_whenLastTakenIsNil_returnsFalse() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 2
-//        attrs.timesTakenToday = 3
-//        attrs.lastTaken = nil
-//        let pill = createPill(attrs)
-//        XCTAssertFalse(pill.isDone)
-//    }
-//
-//    func testSet_setsGivenAttributes() {
-//        let newName = "New Pill Name"
-//        let newTime1 = Date()
-//        let newTime2 = Date()
-//        let newTimesaday = 6
-//        let newNotify = true
-//        let newLastTaken = Date()
-//        let newExpiration = PillStrings.Intervals.FirstTenDays
-//        let pill = createPill(PillAttributes())
-//        var newAttrs = PillAttributes()
-//        newAttrs.name = newName
-//        newAttrs.time1 = newTime1
-//        newAttrs.time2 = newTime2
-//        newAttrs.timesaday = newTimesaday
-//        newAttrs.notify = newNotify
-//        newAttrs.lastTaken = newLastTaken
-//        newAttrs.expirationInterval = newExpiration
-//        pill.set(attributes: newAttrs)
-//        XCTAssert(pill.name == newName
-//                && pill.time1 == newTime1
-//                && pill.time2 == newTime2
-//                && pill.timesaday == newTimesaday
-//                && pill.notify == newNotify
-//                && pill.lastTaken == newLastTaken
-//                && pill.expirationInterval == PillStrings.Intervals.FirstTenDays
-//        )
-//    }
-//
-//    func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotIncreaseTimesTakenToday() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 1
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        pill.swallow()
-//        XCTAssertEqual(1, pill.timesTakenToday)
-//    }
-//
-//    func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotSetLastTaken() {
-//        var attrs = PillAttributes()
-//        let originalLastTaken = Date()
-//        attrs.lastTaken = originalLastTaken
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 1
-//        let pill = createPill(attrs)
-//        pill.swallow()
-//        XCTAssertEqual(originalLastTaken, pill.lastTaken)
-//    }
-//
-//    func testSwallow_whenTimesTakenTodayIsLessThanTimesaday_increasesTimesTakenToday() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 0
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        pill.swallow()
-//        XCTAssertEqual(1, pill.timesTakenToday)
-//    }
-//
-//    func testSwallow_whenTimesTakenTodayIsLessThanTimesaday_stampsLastTaken() {
-//        var attrs = PillAttributes()
-//        let originalLastTaken = Date()
-//        attrs.lastTaken = originalLastTaken
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 0
-//        let pill = createPill(attrs)
-//        pill.swallow()
-//        XCTAssert(originalLastTaken < pill.lastTaken! && pill.lastTaken! < Date())
-//    }
-//
-//    func testSwallow_whenLastTakenIsNil_increasesTimesTakenToday() {
-//        var attrs = PillAttributes()
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 1
-//        attrs.lastTaken = nil
-//        let pill = createPill(attrs)
-//        pill.swallow()
-//        XCTAssertEqual(2, pill.timesTakenToday)
-//    }
-//
-//    func testSwallow_whenLastTakenIsNil_stampsLastTaken() {
-//        var attrs = PillAttributes()
-//        attrs.lastTaken = nil
-//        attrs.timesaday = 1
-//        attrs.timesTakenToday = 1
-//        let pill = createPill(attrs)
-//        pill.swallow()
-//        XCTAssert(Date().timeIntervalSince(pill.lastTaken!) < 0.1)
-//    }
-//
-//    func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {
-//        var attrs = PillAttributes()
-//        attrs.timesTakenToday = 2
-//        attrs.lastTaken = Date()
-//        let pill = createPill(attrs)
-//        pill.awaken()
-//        XCTAssertEqual(2, pill.timesTakenToday)
-//    }
-//
-//    func testAwaken_whenLastTakenWasYesterday_setsTimesTakenTodayToZero() {
-//        var attrs = PillAttributes()
-//        attrs.timesTakenToday = 2
-//        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
-//        let pill = createPill(attrs)
-//        pill.awaken()
-//        XCTAssertEqual(0, pill.timesTakenToday)
-//    }
+    func testTimes_whenStoredOutOfOrder_reorders() {
+        var attrs = PillAttributes()
+        let secondTimeString = PillTestsUtil.createTimeString(
+            hour: PillTestsUtil.testHour + 1, minute: 0, second: 0
+        )
+        attrs.times = "\(secondTimeString),\(PillTestsUtil.testTimeString)"
+        let pill = createPill(attrs)
+        let actualTimes = pill.times
+        XCTAssertEqual(2, actualTimes.count)
+        XCTAssert(PDTest.sameTime(PillTestsUtil.testTime, actualTimes[0]))
+        let expectedNewTime = Calendar.current.date(
+            bySettingHour: PillTestsUtil.testHour + 1, minute: 0, second: 0, of: Date()
+        )!
+        XCTAssert(PDTest.sameTime(expectedNewTime, actualTimes[1]))
+    }
+
+    func testAppendTime_whenGivenDefaultValue_doesNotSet() {
+        var attrs = PillAttributes()
+        let testTimesString = "\(PillTestsUtil.testTimeString)"
+        attrs.times = testTimesString
+        let pill = createPill(attrs)
+        pill.appendTime(DateFactory.createDefaultDate())
+        // Only has original time
+        XCTAssertEqual(1, pill.times.count)
+        XCTAssert(PDTest.sameTime(PillTestsUtil.testTime, pill.times[0]))
+    }
+
+    func testAppendTime_whenTimeSecondAndLessThanFirstTime_maintainsOrder() {
+        var attrs = PillAttributes()
+        let secondTimeString = PillTestsUtil.createTimeString(
+            hour: PillTestsUtil.testHour, minute: PillTestsUtil.testSeconds - 1, second: 0
+        )
+        let secondTime = DateFactory.createTimesFromCommaSeparatedString(secondTimeString)[0]
+        attrs.times = "\(PillTestsUtil.testTimeString)"
+        let pill = createPill(attrs)
+        pill.appendTime(secondTime)
+        let actualTimes = pill.times
+        XCTAssertEqual(2, pill.times.count)
+        XCTAssert(PDTest.sameTime(secondTime, actualTimes[0]))
+        XCTAssert(PDTest.sameTime(PillTestsUtil.testTime, actualTimes[1]))
+    }
+
+  func testNotify_whenNilInAttributes_returnsDefaultNotify() {
+        var attrs = PillAttributes()
+        attrs.notify = nil
+        let pill = createPill(attrs)
+        XCTAssertEqual(DefaultPillAttributes.notify, pill.notify)
+    }
+
+    func testTimesaday_returnsCountOfTimes() {
+        var attrs = PillAttributes()
+        let t2 = PillTestsUtil.createTimeString(
+            hour: PillTestsUtil.testHour, minute: PillTestsUtil.testSeconds - 1, second: 0
+        )
+        let t3 = PillTestsUtil.createTimeString(
+            hour: PillTestsUtil.testHour - 8, minute: PillTestsUtil.testSeconds + 12, second: 0
+        )
+        attrs.times = "\(PillTestsUtil.testTimeString),\(t2),\(t3)"
+        let pill = createPill(attrs)
+        XCTAssertEqual(3, pill.timesaday)
+    }
+
+    public func testTimesTakenToday_whenNilInAttributes_returnsZero() {
+        var attrs = PillAttributes()
+        attrs.timesTakenToday = nil
+        let pill = createPill(attrs)
+        let expected = 0
+        let actual = pill.timesTakenToday
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testTimesTakenToday_whenNotNilInAttributes_returnsValueFromAttributes() {
+        var attrs = PillAttributes()
+        attrs.timesTakenToday = 19
+        let pill = createPill(attrs)
+        let expected = 19
+        let actual = pill.timesTakenToday
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testSetExpirationInterval_whenGivenUIString_sets() {
+        let pill = createPill(PillAttributes())
+        pill.expirationInterval = PillStrings.Intervals.LastTenDays
+        XCTAssertEqual(PillStrings.Intervals.LastTenDays, pill.expirationInterval)
+    }
+
+    func testSetExpirationInterval_whenGivenRawString_setsAndReturnsUIVersion() {
+        let pill = createPill(PillAttributes())
+        pill.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
+        XCTAssertEqual(PillStrings.Intervals.LastTenDays, pill.expirationInterval)
+    }
+
+    func testDue_whenEveryDayAndTimesTakenAndNotYetTaken_returnsTodayAtTimeOne() {
+        var attrs = PillAttributes()
+        let now = Date()
+        let testTime = DateFactory.createDate(byAddingSeconds: 61, to: now)!
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
+        attrs.notify = true
+        attrs.timesTakenToday = 0
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 0)
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenOnceEveryDayAndTakenOnceToday_returnsTomorrowAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 1) // Tomorrow at time one
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTwiceEveryDayAndTakenOnceToday_returnsTodayAtTimeTwo() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTimeTwo!, days: 0) // Today at time two
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTwiceEveryDayAndTakenTwiceToday_returnsTomorrowATimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.timesTakenToday = 2
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 1) // Tomorrow at time one
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenEveryOtherDayAndTakenTwoDaysAgo_returnsTodayAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: -2)
+        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
+        attrs.timesTakenToday = 0
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 0)
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenOnceEveryOtherDayAndTakenOnceToday_returnsTwoDaysFromNowAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: 0)
+        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 2)
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTwiceEveryOtherDayAndTakenOnceToday_returnsTodayAtTimeTwo() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: 0)
+        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTimeTwo, days: 0) // Today at time two
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTwiceEveryOtherDayAndTakenTwiceToday_returnsTwosDaysFromNowAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: 0)
+        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
+        attrs.timesTakenToday = 2
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 2)
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenEveryOtherDayAndTakenYesterday_returnsTomorrowAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: -1)
+        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay.rawValue
+        attrs.timesTakenToday = 0
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 1)
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenFirstTenDaysAndFinishedOnTenthDay_returnsFirstOfNextMonthAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        attrs.lastTaken = cal.date(bySetting: .day, value: 10, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let date = cal.date(bySetting: .day, value: 1, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenEveryFirstTenDaysAndIsDuringThoseTenDays_returnsExpectedDate() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        attrs.timesTakenToday = 0
+        attrs.lastTaken = DateFactory.createDate(daysFromNow: -1)
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let actual = pill.due
+        let expected = DateFactory.createDate(on: Date(), at: testTime)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenFirstTenDaysAndFinishedOnTwentiethDay_returnsFirstOfNextMonthAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        attrs.lastTaken = cal.date(bySetting: .day, value: 20, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let date = cal.date(bySetting: .day, value: 1, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenLastTenDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        let last = Date().daysInMonth()!
+        attrs.lastTaken = cal.date(bySetting: .day, value: last, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let day = attrs.lastTaken!.daysInMonth()! - 10
+        let pill = createPill(attrs)
+        let date = cal.date(bySetting: .day, value: day, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenLastTakenTwentyDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        let last = Date().daysInMonth()!
+        attrs.lastTaken = cal.date(bySetting: .day, value: last, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.LastTwentyDays.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let day = attrs.lastTaken!.daysInMonth()! - 20
+        let pill = createPill(attrs)
+        let date = cal.date(bySetting: .day, value: day, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testIsDue_whenTimesTakenTodayEqualsTimesday_returnsFalse() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.timesTakenToday = 2
+        attrs.times = "12:00:00,12:00:10"
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDue)
+    }
+
+    func testIsDue_whenPillNotYetTakenAndTimeOneIsPast_returnsTrue() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        let pastDate = Date(timeInterval: -5, since: Date())
+        let pastDateString = PDDateFormatter.convertDatesToCommaSeparatedString([pastDate])
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.timesTakenToday = 0
+        attrs.times = pastDateString
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.isDue)
+    }
+
+    func testIsDue_whenPillTakenTodayAndTimesadayIsOne_returnsFalse() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        attrs.timesTakenToday = 1
+        attrs.times = "12:00:00"
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDue)
+    }
+
+    func testIsDue_whenPillTakenOnceAndTimesadayIsTwoAndTimesTwoIsNotPast_returnsFalse() {
+        var attrs = createPillAttributes(minutesFromNow: 5)
+        let pastDate = Date(timeInterval: -5, since: Date())
+        let notPastDate = Date(timeInterval: 5, since: Date())
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString([notPastDate, pastDate])
+        attrs.timesTakenToday = 1
+        attrs.times = timeString
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDue)
+    }
+
+    func testIsDue_whenPillTakenOnceAndTimesadayIsTwoAndTimesTwoIsPast_returnsTrue() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        let pastDateOne = Date(timeInterval: -50, since: Date())
+        let pastDateTwo = Date(timeInterval: -5, since: Date())
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(
+            [pastDateOne, pastDateTwo]
+        )
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.timesTakenToday = 1
+        attrs.times = timeString
+        let pill = createPill(attrs)
+        XCTAssert(pill.isDue)
+    }
+
+    func testIsDue_whenPillTakenTwiceTodayAndTimesadayIsTwo_returnsFalse() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        attrs.timesTakenToday = 2
+        attrs.times = "12:00:00,12:00:10"
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDue)
+    }
+
+    func testIsDue_whenNeverTakenByWayOfNil_returnsFalse() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        attrs.lastTaken = nil
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 0
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDue)
+    }
+
+    func testIsDue_whenNeverTakenByWayOfDefault_returnsFalse() {
+        var attrs = createPillAttributes(minutesFromNow: -5)
+        attrs.lastTaken = DateFactory.createDefaultDate()
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 0
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDue)
+    }
+
+    func testIsNew_whenLastTakenIsNil_returnsTrue() {
+        let attrs = PillAttributes()
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.isNew)
+    }
+
+    func testIsNew_whenLastTakenHasValue_returnsFalse() {
+        var attrs = PillAttributes()
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isNew)
+    }
+
+    func testIsDone_whenTimesTakenIsLessThanTimesaday_returnsFalse() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00,12:00:10"
+        attrs.timesTakenToday = 1
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDone)
+    }
+
+    func testIsDone_whenTimesTakenIsEqualToTimesaday_returnsTrue() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00,12:00:10"
+        attrs.timesTakenToday = 2
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.isDone)
+    }
+
+    func testIsDone_whenTimesTakenIsGreaterThanTimesaday_returnsTrue() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00,12:00:10"
+        attrs.timesTakenToday = 3
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.isDone)
+    }
+
+    func testIsDone_whenLastTakenIsNil_returnsFalse() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00,12:00:10"
+        attrs.timesTakenToday = 3
+        attrs.lastTaken = nil
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDone)
+    }
+
+    func testSet_setsGivenAttributes() {
+        let newName = "New Pill Name"
+        let newTime1 = Date()
+        let newTime2 = Date()
+        let timesString = PDDateFormatter.convertDatesToCommaSeparatedString([newTime1, newTime2])
+        let newLastTaken = Date()
+        let newExpiration = PillStrings.Intervals.FirstTenDays
+        let pill = createPill(PillAttributes())
+        var newAttrs = PillAttributes()
+        newAttrs.name = newName
+        newAttrs.times = timesString
+        newAttrs.notify = true
+        newAttrs.lastTaken = newLastTaken
+        newAttrs.expirationInterval = newExpiration
+        pill.set(attributes: newAttrs)
+        XCTAssertEqual(newName, pill.name)
+        XCTAssert(PDTest.sameTime(newTime1, pill.times[0]))
+        XCTAssert(PDTest.sameTime(newTime2, pill.times[1]))
+        XCTAssert(pill.notify)
+        XCTAssertEqual(newLastTaken, pill.lastTaken)
+        XCTAssertEqual(PillStrings.Intervals.FirstTenDays, pill.expirationInterval)
+    }
+
+    func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotIncreaseTimesTakenToday() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        pill.swallow()
+        XCTAssertEqual(1, pill.timesTakenToday)
+    }
+
+    func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotSetLastTaken() {
+        var attrs = PillAttributes()
+        let originalLastTaken = Date()
+        attrs.lastTaken = originalLastTaken
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        let pill = createPill(attrs)
+        pill.swallow()
+        XCTAssertEqual(originalLastTaken, pill.lastTaken)
+    }
+
+    func testSwallow_whenTimesTakenTodayIsLessThanTimesaday_increasesTimesTakenToday() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 0
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        pill.swallow()
+        XCTAssertEqual(1, pill.timesTakenToday)
+    }
+
+    func testSwallow_whenTimesTakenTodayIsLessThanTimesaday_stampsLastTaken() {
+        var attrs = PillAttributes()
+        let originalLastTaken = Date()
+        attrs.lastTaken = originalLastTaken
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 0
+        let pill = createPill(attrs)
+        pill.swallow()
+        XCTAssert(originalLastTaken < pill.lastTaken! && pill.lastTaken! < Date())
+    }
+
+    func testSwallow_whenLastTakenIsNil_increasesTimesTakenToday() {
+        var attrs = PillAttributes()
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        attrs.lastTaken = nil
+        let pill = createPill(attrs)
+        pill.swallow()
+        XCTAssertEqual(2, pill.timesTakenToday)
+    }
+
+    func testSwallow_whenLastTakenIsNil_stampsLastTaken() {
+        var attrs = PillAttributes()
+        attrs.lastTaken = nil
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        let pill = createPill(attrs)
+        pill.swallow()
+        XCTAssert(Date().timeIntervalSince(pill.lastTaken!) < 0.1)
+    }
+
+    func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {
+        var attrs = PillAttributes()
+        attrs.timesTakenToday = 2
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(2, pill.timesTakenToday)
+    }
+
+    func testAwaken_whenLastTakenWasYesterday_setsTimesTakenTodayToZero() {
+        var attrs = PillAttributes()
+        attrs.timesTakenToday = 2
+        attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(0, pill.timesTakenToday)
+    }
 }

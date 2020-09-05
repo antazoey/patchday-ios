@@ -63,7 +63,6 @@ public struct PillAttributes {
     // Pill Properties
     public var name: String?
     public var expirationInterval: String?
-    public var timesaday: Int?
     public var times: String?
     public var notify: Bool?
     public var timesTakenToday: Int?
@@ -72,7 +71,6 @@ public struct PillAttributes {
     public init(
         name: String?,
         expirationInterval: String?,
-        timesaday: Int?,
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
@@ -80,7 +78,6 @@ public struct PillAttributes {
     ) {
         self.name = name
         self.expirationInterval = expirationInterval
-        self.timesaday = timesaday
         self.times = times
         self.notify = notify
         self.timesTakenToday = timesTakenToday
@@ -93,7 +90,6 @@ public struct PillAttributes {
     public var anyAttributeExists: Bool {
         name != nil ||
         expirationInterval != nil ||
-        timesaday != nil ||
         times != nil ||
         notify != nil ||
         timesTakenToday != nil ||
