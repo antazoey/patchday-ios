@@ -283,8 +283,7 @@ class PillScheduleTests: XCTestCase {
         pills.set(by: idToSet, with: attributes)
         let pill = pills[idToSet] as! MockPill
 
-        XCTAssert(pill.setCallArgs.contains
-            { $0.name == "New Name" && $0.times == PillTestsUtil.testTimeString }
+        XCTAssert(pill.setCallArgs.contains { $0.name == "New Name" && $0.times == PillTestsUtil.testTimeString }
         )
     }
 
