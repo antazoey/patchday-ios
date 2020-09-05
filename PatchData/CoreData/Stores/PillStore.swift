@@ -18,6 +18,16 @@ class PillStore: EntityStore, PillStoring {
         super.init(stack)
     }
 
+    /// Returns True if anyone of the stored pill have saved times.
+    var state: PillScheduleState {
+        for pill in getStoredPills() {
+            if pill.times.count > 0  {
+                return .Working
+            }
+        }
+        return .Initial
+    }
+
     func getStoredPills() -> [Swallowable] {
         var pills: [Swallowable] = []
         let pillDataEntries = entities.getManagedPillData()

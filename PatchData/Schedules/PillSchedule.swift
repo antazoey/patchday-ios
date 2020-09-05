@@ -20,17 +20,12 @@ public class PillSchedule: NSObject, PillScheduling {
     private let sharer: PillDataSharing
     private var context: [Swallowable]
 
-    enum PillScheduleState {
-        case Initial
-        case Working
-    }
-
-    init(store: PillStoring, pillDataSharer: PillDataSharing, state: PillScheduleState) {
+    init(store: PillStoring, pillDataSharer: PillDataSharing) {
         self.store = store
         self.sharer = pillDataSharer
         self.context = store.getStoredPills()
         super.init()
-        if state == .Initial {
+        if store.state == .Initial {
             log.info("Pill state is initial - Setting up default Pills")
             self.reset()
         }

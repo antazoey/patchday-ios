@@ -56,12 +56,7 @@ public class PatchData: NSObject, PatchDataSDK {
             handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
             siteStore: siteStore
         )
-        let pillScheduleState = PatchData.determinePillScheduleState(
-            settings: userDefaultsWriter
-        )
-        let pills = PillSchedule(
-            store: pillStore, pillDataSharer: pillDataSharer, state: pillScheduleState
-        )
+        let pills = PillSchedule(store: pillStore, pillDataSharer: pillDataSharer)
         let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
         let hormoneDataSharer = HormoneDataSharer(
             baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter
@@ -143,12 +138,5 @@ public class PatchData: NSObject, PatchDataSDK {
         pills.reset()
         let newSiteCount = sites.reset()
         settings.reset(defaultSiteCount: newSiteCount)
-    }
-
-    private static func determinePillScheduleState(
-        settings: UserDefaultsWriting
-    ) -> PillSchedule.PillScheduleState {
-        typealias PSS = PillSchedule.PillScheduleState
-        return settings.mentionedDisclaimer.value ? PSS.Working: PSS.Initial
     }
 }

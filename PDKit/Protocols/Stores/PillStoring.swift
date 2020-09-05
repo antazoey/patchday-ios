@@ -8,7 +8,15 @@
 
 import Foundation
 
+public enum PillScheduleState {
+    case Initial
+    case Working
+}
+
 public protocol PillStoring {
+
+    /// Returns True if anyone of the stored pill have saved times.
+    var state: PillScheduleState { get }
 
     /// Fetches all the pills from storage.
     func getStoredPills() -> [Swallowable]

@@ -157,7 +157,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
         let slider = sender as! UISlider
-        let newValue = Int(floor(slider.value))
+        let newValue = Int(floor(slider.value)) + 1
         viewModel.setSelectedTimesadayFromSliderValue(sliderValue: newValue)
         updateTimesdayValueLabel(with: newValue)
         // TODO: - enable time buttons
@@ -280,9 +280,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func reflectPillAttributes() {
         loadName()
-        loadTimesaday()
-   //     loadTime1()
-    //    loadTime2()
+        loadTimes()
         loadNotify()
         loadExpirationInterval()
     }
@@ -295,10 +293,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         notificationSwitch.isOn = viewModel.notifyStartValue
     }
 
-    private func loadTimesaday() {
-//        let sliderValue = TimesadaySliderDefinition.convertTimesadayToSliderValue(
-//            timesaday: viewModel.pill.timesaday
-//        )
+    private func loadTimes() {
         let sliderValue = Float(viewModel.pill.timesaday)
         timesadaySlider.setValue(sliderValue, animated: false)
         updateTimesdayValueLabel(with: viewModel.pill.timesaday)
