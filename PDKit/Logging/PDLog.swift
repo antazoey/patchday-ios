@@ -1,4 +1,5 @@
 //
+// PDLog.swift
 // Created by Juliya Smith on 12/24/19.
 // Copyright (c) 2019 Juliya Smith. All rights reserved.
 //
@@ -11,7 +12,7 @@ public enum PDLogLevels {
 }
 
 /// Set to `LogLevel.DEBUG` to turn on loggers.
-public var PDLogLevel = PDLogLevels.DEBUG
+public var PDLogLevel = PDLogLevels.NONE
 
 public class PDLog<T> {
 
