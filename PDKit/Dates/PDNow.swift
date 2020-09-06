@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// This protocol is useful for writing unit tests for code that is sensitive to when "now" is.
 public class PDNow: NowProtocol {
     public init() {}
     public var now: Date { Date() }

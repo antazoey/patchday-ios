@@ -472,6 +472,40 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testDue_whenTakenLastTwentyDaysAndIsFirstOfMonth_returnsFirstOfLastTwentyDaysAtTimeOne() {
+        let cal = Calendar.current
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        var attrs = PillAttributes()
+        let realNow = Date()
+        let lastDayNumInCurrentMonth = Date().daysInMonth()!
+        attrs.expirationInterval = PillExpirationInterval.LastTwentyDays.rawValue
+        attrs.timesTakenToday = 0
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+
+        // Set "now" to first of the month
+        var firstOfMonth = cal.date(bySetting: .day, value: 1, of: realNow)!
+        firstOfMonth = cal.date(byAdding: .day, value: -lastDayNumInCurrentMonth, to: firstOfMonth)!
+        let now = MockNow()
+        now.now = firstOfMonth
+
+        // Last taken last day of last month
+        let randomDateLastMonth = DateFactory.createDate(byAddingHours: -24, to: Date())!
+        let lastDayNumInLastMonth = randomDateLastMonth.daysInMonth()!
+        var comps = DateComponents()
+        comps.month = -1
+        attrs.lastTaken = cal.date(
+            byAdding: comps,
+            to: cal.date(bySetting: .day, value: lastDayNumInLastMonth, of: randomDateLastMonth)!
+        )!
+
+        let pill = createPill(attrs, now)
+        let timeOne = pill.times[0]
+        let expectedDay = cal.date(bySetting: .day, value: lastDayNumInCurrentMonth-19, of: Date())!
+        let expected = DateFactory.createDate(on: expectedDay, at: timeOne)!
+        let actual = pill.due!
+        XCTAssertEqual(expected, actual)
+    }
+
     func testIsDue_whenTimesTakenTodayEqualsTimesday_returnsFalse() {
         var attrs = createPillAttributes(minutesFromNow: -5)
         attrs.lastTaken = Date(timeIntervalSinceNow: -1000)

@@ -222,9 +222,10 @@ public class Pill: Swallowable {
             return nextDueTimeForEveryDaySchedule
         }
         let dayNumber = lastTaken.dayNumberInMonth()
-        let limit = daysInMonth - end
-
-        if dayNumber == daysInMonth && isDone || dayNumber <= limit {
+        // Last "5" of 30 days = 26, 27, 28, 29, 30, len=5, 30-4=26.
+        let numberToSubstract = end - 1
+        let limit = daysInMonth - numberToSubstract
+        if dayNumber == daysInMonth && isDone || dayNumber <= limit || lastTaken < Date() {
             return endOfNextMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
         return nextDueTimeForEveryDaySchedule
