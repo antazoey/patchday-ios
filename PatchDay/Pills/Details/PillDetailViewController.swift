@@ -415,6 +415,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timeButton.replaceTarget(
             self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside
         )
+        let timesaday = viewModel.times.count
+        let newTime = viewModel.times[timesaday-1]
+        for i in timesaday-1..<timeButtons.count {
+            let button = timeButtons[i]
+            button.setTitle(PDDateFormatter.formatTime(newTime))
+        }
     }
 
     private func enableSaveButton() {

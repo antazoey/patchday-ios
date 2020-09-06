@@ -85,8 +85,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         guard timesaday > 0 else { return }
         var timesCopy = times
         if timesaday > times.count {
-            for _ in times.count..<timesaday {
-                timesCopy.append(Time())
+            for i in times.count..<timesaday {
+                timesCopy.append(times[i-1])
             }
         } else {
             for _ in timesaday..<times.count {
