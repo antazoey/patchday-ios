@@ -9,33 +9,34 @@
 import Foundation
 import PDKit
 
-
 public class MockPillStore: MockPatchDataStore<Swallowable>, PillStoring {
 
-	public override init() {
-		super.init()
-		newObjectFactory = { () in MockPill() }
-	}
+    public var state: PillScheduleState = PillScheduleState.Working
 
-	public func getStoredPills() -> [Swallowable] {
-		getNextMockStoredObjects()
-	}
+    public override init() {
+        super.init()
+        newObjectFactory = { () in MockPill() }
+    }
 
-	public func createNewPill(name: String) -> Swallowable? {
-		var pill = newObjectFactory?()
-		pill?.name = name
-		return pill
-	}
+    public func getStoredPills() -> [Swallowable] {
+        getNextMockStoredObjects()
+    }
 
-	public func createNewPill() -> Swallowable? {
-		newObjectFactory?()
-	}
+    public func createNewPill(name: String) -> Swallowable? {
+        var pill = newObjectFactory?()
+        pill?.name = name
+        return pill
+    }
 
-	public func delete(_ hormone: Swallowable) {
-		deleteCallArgs.append(hormone)
-	}
+    public func createNewPill() -> Swallowable? {
+        newObjectFactory?()
+    }
 
-	public func pushLocalChangesToManagedContext(_ hormones: [Swallowable], doSave: Bool) {
-		pushLocalChangesCallArgs.append((hormones, doSave))
-	}
+    public func delete(_ hormone: Swallowable) {
+        deleteCallArgs.append(hormone)
+    }
+
+    public func pushLocalChangesToManagedContext(_ hormones: [Swallowable], doSave: Bool) {
+        pushLocalChangesCallArgs.append((hormones, doSave))
+    }
 }

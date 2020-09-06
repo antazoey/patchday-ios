@@ -9,25 +9,24 @@
 import Foundation
 import PDKit
 
-
 public class MockNotificationCenter: NSObject, NotificationCenterDelegate {
 
     public override init() {}
-	
-	public var setHormoneChangeUpdateViewsHookCallArgs: [() -> Void] = []
-	public func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
-		setHormoneChangeUpdateViewsHookCallArgs.append(hook)
-	}
+
+    public var setHormoneChangeUpdateViewsHookCallArgs: [() -> Void] = []
+    public func setHormoneChangeUpdateViewsHook(hook: @escaping () -> Void) {
+        setHormoneChangeUpdateViewsHookCallArgs.append(hook)
+    }
 
     public var removeNotificationsCallArgs: [[String]] = []
     public var removeNotificationsCallCount: Int {
         removeNotificationsCallArgs.count
     }
-    
+
     public func removeNotifications(with ids: [String]) {
         removeNotificationsCallArgs.append(ids)
     }
-    
+
     public func resetMock() {
         removeNotificationsCallArgs = []
     }

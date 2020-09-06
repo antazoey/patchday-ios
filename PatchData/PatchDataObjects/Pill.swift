@@ -11,47 +11,40 @@ import PDKit
 
 public class Pill: Swallowable {
 
-	private var pillData: PillStruct  // Stored data
-	private lazy var log = PDLog<Pill>()
+    private var pillData: PillStruct  // Stored data
+    private lazy var log = PDLog<Pill>()
 
-	public init(pillData: PillStruct) {
-		self.pillData = pillData
-		if pillData.attributes.name == nil {
-			self.pillData.attributes.name = PillStrings.NewPill
-		}
-		if let timesaday = pillData.attributes.timesaday {
-			if timesaday <= 0 {
-				self.pillData.attributes.timesaday = 1
-			}
-		} else {
-			self.pillData.attributes.timesaday = 1
-		}
-	}
+    public init(pillData: PillStruct) {
+        self.pillData = pillData
+        if pillData.attributes.name == nil {
+            self.pillData.attributes.name = PillStrings.NewPill
+        }
+    }
 
-	public var id: UUID {
-		get { pillData.id }
-		set { pillData.id = newValue }
-	}
+    public var id: UUID {
+        get { pillData.id }
+        set { pillData.id = newValue }
+    }
 
-	public var attributes: PillAttributes {
-		PillAttributes(
+    public var attributes: PillAttributes {
+        let defaultInterval = DefaultPillAttributes.expirationInterval.rawValue
+        return PillAttributes(
             name: name,
-            expirationInterval: pillData.attributes.expirationInterval ?? DefaultPillAttributes.expirationInterval.rawValue,
-			timesaday: timesaday,
-			time1: time1,
-			time2: time2,
-			notify: notify,
-			timesTakenToday: timesTakenToday,
-			lastTaken: lastTaken
-		)
-	}
+            expirationInterval: pillData.attributes.expirationInterval ?? defaultInterval,
+            times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
+            notify: notify,
+            timesTakenToday: timesTakenToday,
+            lastTaken: lastTaken
+        )
+    }
 
-	public var name: String {
-		get { pillData.attributes.name ?? PillStrings.NewPill }
-		set { pillData.attributes.name = newValue }
-	}
+    public var name: String {
+        get { pillData.attributes.name ?? PillStrings.NewPill }
+        set { pillData.attributes.name = newValue }
+    }
 
-    /// Human readable expiration interval derived from the stored property. Correlates to `PillStrings.Intervals` and `PillExpirationInterval`.
+    /// Human readable expiration interval derived from the stored property.
+    /// Correlates to `PillStrings.Intervals` and `PillExpirationInterval`.
     public var expirationInterval: String {
         get {
             if let storedInterval = pillData.attributes.expirationInterval,
@@ -70,162 +63,120 @@ public class Pill: Swallowable {
         }
     }
 
-	public var time1: Date {
-		get { pillData.attributes.time1 ?? DateFactory.createDefaultDate() }
-		set { pillData.attributes.time1 = newValue }
-	}
+    public var times: [Time] {
+        guard let timeString = pillData.attributes.times else { return [] }
+        return DateFactory.createTimesFromCommaSeparatedString(timeString)
+    }
 
-	public var time2: Date {
-		get {
-			guard let t1 = pillData.attributes.time1, !t1.isDefault(), let t2 = pillData.attributes.time2 else {
-				return DateFactory.createDefaultDate()
-			}
-			return t2 as Date
-		} set {
-			if let time1 = pillData.attributes.time1 as Date?,
-				!time1.isDefault(),
-				timesaday >= 2,
-				!newValue.isDefault() {
+    public func appendTime(_ time: Time) {
+        var newTimes = times
+        newTimes.append(time)
+        newTimes = newTimes.filter { $0 != DateFactory.createDefaultDate() }
+        newTimes.sort { $1 < $0 }
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
+        pillData.attributes.times = timeString
+    }
 
-				if newValue < time1 {
-					pillData.attributes.time2 = time1
-					pillData.attributes.time1 = newValue
-				} else {
-					pillData.attributes.time2 = newValue
-				}
-			}
-		}
-	}
+    public func replaceTimes(_ times: [Time]) {
+        let newTimes = times.filter { $0 != DateFactory.createDefaultDate() }.sorted()
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
+        pillData.attributes.times = timeString
+    }
 
-	public var notify: Bool {
-		get { pillData.attributes.notify ?? DefaultPillAttributes.notify }
-		set { pillData.attributes.notify = newValue }
-	}
+    public var notify: Bool {
+        get { pillData.attributes.notify ?? DefaultPillAttributes.notify }
+        set { pillData.attributes.notify = newValue }
+    }
 
-	public var timesaday: Int {
-		get {
-			if let timesaday = pillData.attributes.timesaday, timesaday > 0 {
-				return timesaday
-			}
-			return DefaultPillAttributes.timesaday
-		}
-		set {
-			if newValue >= 1 {
-				pillData.attributes.timesaday = newValue
-				if newValue < 2 {
-					pillData.attributes.time2 = nil
-				}
-			}
-		}
-	}
+    public var timesaday: Int { times.count }
 
-	public var timesTakenToday: Int {
-		pillData.attributes.timesTakenToday ?? DefaultPillAttributes.timesTakenToday
-	}
+    public var timesTakenToday: Int {
+        pillData.attributes.timesTakenToday ?? DefaultPillAttributes.timesTakenToday
+    }
 
-	public var lastTaken: Date? {
-		get { pillData.attributes.lastTaken }
-		set { pillData.attributes.lastTaken = newValue }
-	}
+    public var lastTaken: Date? {
+        get { pillData.attributes.lastTaken }
+        set { pillData.attributes.lastTaken = newValue }
+    }
 
     public var due: Date? {
-		// Schedule doesn't start until taken at least once.
-		guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
+        // Schedule doesn't start until taken at least once.
+        guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
         switch expirationInterval {
-			case PillStrings.Intervals.EveryDay: return regularNextDueTime
-			case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
-			case PillStrings.Intervals.FirstTenDays: return dueDateForFirstTenDays
-			case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays
-			case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays
-			case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays
-			default: return nil
+            case PillStrings.Intervals.EveryDay: return nextDueTimeForEveryDaySchedule
+            case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
+            case PillStrings.Intervals.FirstTenDays: return dueDateForFirstTenDays
+            case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays
+            case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays
+            case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays
+            default: return nil
         }
     }
 
-	public var isDue: Bool {
-		guard timesTakenToday < timesaday else { return false }
-		guard let dueDate = due else { return false }
-		return Date() > dueDate
-	}
+    public var isDue: Bool {
+        guard timesTakenToday < timesaday else { return false }
+        guard let dueDate = due else { return false }
+        return Date() > dueDate
+    }
 
-	public var isNew: Bool { pillData.attributes.lastTaken == nil }
+    public var isNew: Bool {
+        pillData.attributes.lastTaken == nil && !hasName
+    }
 
-	public var isDone: Bool {
-		timesTakenToday >= timesaday && lastTaken != nil
-	}
+    public var hasName: Bool {
+        pillData.attributes.name != PillStrings.NewPill && pillData.attributes.name != ""
+    }
 
-	public func set(attributes: PillAttributes) {
-		name = attributes.name ?? name
-		timesaday = attributes.timesaday ?? timesaday
-		time1 = attributes.time1 ?? time1
-		time2 = attributes.time2 ?? time2
-		notify = attributes.notify ?? notify
-		lastTaken = attributes.lastTaken ?? lastTaken
+    public var isDone: Bool {
+        timesTakenToday >= timesaday && lastTaken != nil
+    }
+
+    public func set(attributes: PillAttributes) {
+        name = attributes.name ?? name
+        notify = attributes.notify ?? notify
+        lastTaken = attributes.lastTaken ?? lastTaken
         expirationInterval = attributes.expirationInterval ?? expirationInterval
-	}
+        pillData.attributes.times = attributes.times
+    }
 
-	public func swallow() {
+    public func swallow() {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
         let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
         pillData.attributes.timesTakenToday = currentTimesTaken + 1
         lastTaken = Date()
-	}
+    }
 
-	public func awaken() {
-		if timesTakenToday > 0,
-			let lastDate = lastTaken as Date?,
-			!lastDate.isInToday() {
+    public func awaken() {
+        if timesTakenToday > 0,
+            let lastDate = lastTaken as Date?,
+            !lastDate.isInToday() {
 
-			pillData.attributes.timesTakenToday = 0
-		}
-	}
+            pillData.attributes.timesTakenToday = 0
+        }
+    }
 
-	private var pillDueDateFinderParams: PillDueDateFinderParams {
-		PillDueDateFinderParams(timesTakenToday, timesaday, times)
-	}
+    private var pillDueDateFinderParams: PillDueDateFinderParams {
+        PillDueDateFinderParams(timesTakenToday, timesaday, times)
+    }
 
-	private var times: [Time] {
-		var _times: [Time] = []
-		if let t1 = pillData.attributes.time1 {
-			_times.append(t1 as Time)
-		}
-		if let t2 = pillData.attributes.time2 {
-			_times.append(t2 as Time)
-		}
-		return _times
-	}
-
-	private func ensureTimeOrder() {
-		guard timesaday > 1 else { return }
-		if time2 < time1 {
-			time2 = time1
-		}
-	}
-
-	private func addMissingTimes() {
-		for i in times.count..<timesaday {
-			addMissingTime(timeIndex: i)
-		}
-	}
-
-    private var regularNextDueTime: Date? {
-        if timesTakenToday == 0 {
-            return DateFactory.createTodayDate(at: time1)
-        } else if timesTakenToday == 1 && timesaday == 2 {
-            return DateFactory.createTodayDate(at: time2)
+    private var nextDueTimeForEveryDaySchedule: Date? {
+        guard timesaday <= times.count else { return nil }
+        if timesTakenToday < timesaday {
+            let time = times[timesTakenToday]
+            return DateFactory.createTodayDate(at: time)
         } else {
             return tomorrowAtTimeOne
         }
     }
 
     private var dueDateForEveryOtherDay: Date? {
-        guard let lastTaken = lastTaken else { return regularNextDueTime }
+        guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
         if lastTaken.isInYesterday() {
             return tomorrowAtTimeOne
         } else if isDone {
             return getTimeOne(daysFromNow: 2)
         }
-        return regularNextDueTime
+        return nextDueTimeForEveryDaySchedule
     }
 
     private var tomorrowAtTimeOne: Date? {
@@ -233,7 +184,8 @@ public class Pill: Swallowable {
     }
 
     private func getTimeOne(daysFromNow: Int) -> Date? {
-        DateFactory.createDate(at: time1, daysFromToday: daysFromNow)
+        guard times.count >= 1 else { return nil }
+        return DateFactory.createDate(at: times[0], daysFromToday: daysFromNow)
     }
 
     private var dueDateForFirstTenDays: Date? {
@@ -241,16 +193,16 @@ public class Pill: Swallowable {
     }
 
     private func dueDate(begin: Int) -> Date? {
-        guard let lastTaken = lastTaken else { return regularNextDueTime }
+        guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
         let dayNumberInMonth = lastTaken.dayNumberInMonth()
         if dayNumberInMonth < 10 || (dayNumberInMonth == 10 && !isDone) {
-            return regularNextDueTime
+            return nextDueTimeForEveryDaySchedule
         }
         return beginningOfNextMonthAtTimeOne(lastTaken: lastTaken)
     }
 
     private func beginningOfNextMonthAtTimeOne(lastTaken: Date) -> Date? {
-        if let nextTime = regularNextDueTime,
+        if let nextTime = nextDueTimeForEveryDaySchedule,
             let nextMonth = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken) {
             return DateFactory.createDate(on: nextMonth, at: nextTime)
         }
@@ -260,50 +212,36 @@ public class Pill: Swallowable {
     private func endOfNextMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
         guard let daysInMonth = lastTaken.daysInMonth() else { return nil }
         let begin = daysInMonth - days
-        if let nextTime = regularNextDueTime,
+        if let nextTime = nextDueTimeForEveryDaySchedule,
             let month = Calendar.current.date(bySetting: .day, value: begin, of: lastTaken) {
             return DateFactory.createDate(on: month, at: nextTime)
         }
         return nil
     }
 
-	private var dueDateForLastTenDays: Date? {
+    private var dueDateForLastTenDays: Date? {
         dueDate(end: 10)
     }
 
-	private func dueDate(end: Int) -> Date? {
-        guard let lastTaken = lastTaken else { return regularNextDueTime }
-        guard let daysInMonth = lastTaken.daysInMonth() else { return regularNextDueTime }
+    private func dueDate(end: Int) -> Date? {
+        guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
+        guard let daysInMonth = lastTaken.daysInMonth() else {
+            return nextDueTimeForEveryDaySchedule
+        }
         let dayNumber = lastTaken.dayNumberInMonth()
         let limit = daysInMonth - end
 
         if dayNumber == daysInMonth && isDone || dayNumber <= limit {
             return endOfNextMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
-        return regularNextDueTime
+        return nextDueTimeForEveryDaySchedule
     }
 
-	private var dueDateForFirstTwentyDays: Date? {
+    private var dueDateForFirstTwentyDays: Date? {
         dueDate(begin: 10)
     }
 
-	private var dueDateForLastTwentyDays: Date? {
+    private var dueDateForLastTwentyDays: Date? {
         dueDate(end: 20)
     }
-
-	private func addMissingTime(timeIndex: Index) {
-		if timeIndex == 0 {
-			time1 = Date()
-		} else if timeIndex == 1 {
-			addMissingTimeTwo()
-		}
-	}
-
-	private func addMissingTimeTwo() {
-		if let time1 = pillData.attributes.time1 {
-			pillData.attributes.time2 = Time(timeInterval: 1000, since: time1)
-		} else {
-			pillData.attributes.time2 = Time()
-		}
-	}
 }

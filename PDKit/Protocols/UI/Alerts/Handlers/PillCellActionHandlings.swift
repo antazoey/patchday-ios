@@ -9,6 +9,6 @@
 import Foundation
 
 public protocol PillCellActionHandling {
-	func goToDetails()
-	func takePill()
+    func goToDetails()
+    func takePill()
 }

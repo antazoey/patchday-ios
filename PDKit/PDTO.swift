@@ -25,30 +25,30 @@ public class SiteImageDeterminationParameters {
     public var imageId: SiteName?
     public var deliveryMethod: DeliveryMethod
 
-	public init(imageId: SiteName, deliveryMethod: DeliveryMethod) {
+    public init(imageId: SiteName, deliveryMethod: DeliveryMethod) {
         self.imageId = imageId
         self.deliveryMethod = deliveryMethod
     }
 
     public init(hormone: Hormonal?) {
-		guard let hormone = hormone else {
-			self.imageId = nil
-			self.deliveryMethod = DefaultSettings.DeliveryMethodValue
-			return
-		}
-		self.imageId = hormone.hasSite ? hormone.siteImageId : nil
+        guard let hormone = hormone else {
+            self.imageId = nil
+            self.deliveryMethod = DefaultSettings.DeliveryMethodValue
+            return
+        }
+        self.imageId = hormone.hasSite ? hormone.siteImageId : nil
 
-		// If siteImageId is empty string somehow, use site name directly.
-		if self.imageId == "" {
-			self.imageId = hormone.siteName
-		}
+        // If siteImageId is empty string somehow, use site name directly.
+        if self.imageId == "" {
+            self.imageId = hormone.siteName
+        }
 
-		// If still empty string (from site name), use default string for new sites.
-		if self.imageId == "" {
-			self.imageId = SiteStrings.NewSite
-		}
-		self.deliveryMethod = hormone.deliveryMethod
-		return
+        // If still empty string (from site name), use default string for new sites.
+        if self.imageId == "" {
+            self.imageId = SiteStrings.NewSite
+        }
+        self.deliveryMethod = hormone.deliveryMethod
+        return
     }
 
     public init(deliveryMethod: DeliveryMethod) {
@@ -60,12 +60,10 @@ public struct PillAttributes {
     private let defaultName = PillStrings.NewPill
     public var description: String { "Pill DTO" }
 
-	// Pill Properties
+    // Pill Properties
     public var name: String?
     public var expirationInterval: String?
-    public var timesaday: Int?
-    public var time1: Time?
-    public var time2: Time?
+    public var times: String?
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
@@ -73,18 +71,14 @@ public struct PillAttributes {
     public init(
         name: String?,
         expirationInterval: String?,
-        timesaday: Int?,
-        time1: Time?,
-        time2: Time?,
+        times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
         lastTaken: Date?
     ) {
         self.name = name
         self.expirationInterval = expirationInterval
-        self.timesaday = timesaday
-        self.time1 = time1
-        self.time2 = time2
+        self.times = times
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
@@ -93,16 +87,14 @@ public struct PillAttributes {
     public init() {
     }
 
-	public var anyAttributeExists: Bool {
-		name != nil ||
-		expirationInterval != nil ||
-		timesaday != nil ||
-		time1 != nil ||
-		time2 != nil ||
-		notify != nil ||
-		timesTakenToday != nil ||
-		lastTaken != nil
-	}
+    public var anyAttributeExists: Bool {
+        name != nil ||
+        expirationInterval != nil ||
+        times != nil ||
+        notify != nil ||
+        timesTakenToday != nil ||
+        lastTaken != nil
+    }
 }
 
 public struct SiteStruct {
@@ -140,7 +132,7 @@ public struct HormoneStruct {
     public var siteRelationshipId: UUID?
     public var id: UUID
     public var siteName: SiteName?
-	public var siteImageId: SiteName?
+    public var siteImageId: SiteName?
     public var date: Date?
     public var siteNameBackUp: String?
 
@@ -148,7 +140,7 @@ public struct HormoneStruct {
         self.siteRelationshipId = nil
         self.id = id
         self.siteName = nil
-		self.siteImageId = nil
+        self.siteImageId = nil
         self.date = nil
         self.siteNameBackUp = nil
     }
@@ -157,14 +149,14 @@ public struct HormoneStruct {
         _ id: UUID,
         _ siteRelationshipId: UUID?,
         _ siteName: SiteName?,
-		_ siteImageId: SiteName?,
+        _ siteImageId: SiteName?,
         _ date: Date?,
         _ siteNameBackUp: String?
     ) {
         self.id = id
         self.siteRelationshipId = siteRelationshipId
         self.siteName = siteName
-		self.siteImageId = siteImageId
+        self.siteImageId = siteImageId
         self.date = date
         self.siteNameBackUp = siteNameBackUp
     }

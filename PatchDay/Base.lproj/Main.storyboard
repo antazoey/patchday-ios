@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -30,7 +30,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -99,7 +99,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -151,7 +151,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -215,7 +215,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="message" size="11"/>
+                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -240,7 +240,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="message" size="11"/>
+                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -433,39 +433,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YF0-w6-5sp">
-                                <rect key="frame" x="1" y="89" width="373" height="411"/>
+                                <rect key="frame" x="5" y="76" width="365" height="427.5"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drug name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-cg-wSc">
-                                        <rect key="frame" x="0.0" y="0.0" width="373" height="17"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drug:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-cg-wSc">
+                                        <rect key="frame" x="0.0" y="0.0" width="365" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QWI-S9-kPR">
-                                        <rect key="frame" x="0.0" y="17" width="373" height="1"/>
+                                        <rect key="frame" x="0.0" y="17" width="365" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="fCG-T1-jgh"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mwS-WS-gDR">
-                                        <rect key="frame" x="0.0" y="18" width="373" height="50"/>
+                                        <rect key="frame" x="0.0" y="18" width="365" height="50"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" restorationIdentifier="pickpill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" text="New Pill                           " clearsOnBeginEditing="YES" minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="8k4-TJ-UDN">
-                                                <rect key="frame" x="0.0" y="0.0" width="322" height="50"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="314" height="50"/>
                                                 <color key="textColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="words" returnKeyType="done"/>
                                             </textField>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UCx-Qm-o6m">
-                                                <rect key="frame" x="322" y="0.0" width="1" height="50"/>
+                                                <rect key="frame" x="314" y="0.0" width="1" height="50"/>
                                                 <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="1" id="f5T-jt-sZs"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="typepill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mxZ-UI-Ia5">
-                                                <rect key="frame" x="323" y="0.0" width="50" height="50"/>
+                                                <rect key="frame" x="315" y="0.0" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="8z5-hs-Qfx"/>
                                                 </constraints>
@@ -480,17 +480,17 @@
                                         </constraints>
                                     </stackView>
                                     <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGT-mi-uMr">
-                                        <rect key="frame" x="0.0" y="68" width="373" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="68" width="365" height="0.0"/>
                                     </pickerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TZC-Xk-Tph">
-                                        <rect key="frame" x="0.0" y="68" width="373" height="1"/>
+                                        <rect key="frame" x="0.0" y="68" width="365" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="RmY-xW-UdU"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gr9-xn-ths">
-                                        <rect key="frame" x="0.0" y="69" width="373" height="50"/>
+                                        <rect key="frame" x="0.0" y="69" width="365" height="50"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Notify Icon" translatesAutoresizingMaskIntoConstraints="NO" id="8Ha-HG-CTB">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
@@ -500,21 +500,21 @@
                                                 </constraints>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3vP-Sf-cjr">
-                                                <rect key="frame" x="40" y="0.0" width="283" height="50"/>
+                                                <rect key="frame" x="40" y="0.0" width="275" height="50"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="message" size="11"/>
+                                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="hSo-eW-Sds">
-                                                <rect key="frame" x="323" y="0.0" width="50" height="50"/>
+                                                <rect key="frame" x="315" y="0.0" width="50" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9B-j2-ovD">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="10"/>
@@ -543,14 +543,14 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybn-Pl-Nru">
-                                        <rect key="frame" x="0.0" y="119" width="373" height="1"/>
+                                        <rect key="frame" x="0.0" y="119" width="365" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="7Xl-DJ-gSE"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQZ-DF-y7E">
-                                        <rect key="frame" x="0.0" y="120" width="373" height="50"/>
+                                        <rect key="frame" x="0.0" y="120" width="365" height="50"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Calendar Icon" translatesAutoresizingMaskIntoConstraints="NO" id="b3U-OV-iKG">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="50"/>
@@ -567,21 +567,21 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="message" size="11"/>
+                                                            <font key="NSFont" metaFont="controlContent" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEs-dt-ycQ">
-                                                <rect key="frame" x="104.5" y="0.0" width="238.5" height="50"/>
+                                                <rect key="frame" x="104.5" y="0.0" width="230.5" height="50"/>
                                                 <state key="normal" title="Button"/>
                                                 <connections>
                                                     <action selector="expirationIntervalTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Lb8-sV-bKS"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wA-kW-Ajl">
-                                                <rect key="frame" x="343" y="0.0" width="30" height="50"/>
+                                                <rect key="frame" x="335" y="0.0" width="30" height="50"/>
                                                 <state key="normal" title="   〉">
                                                     <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
@@ -595,42 +595,35 @@
                                         </constraints>
                                     </stackView>
                                     <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ilc-SD-D8X">
-                                        <rect key="frame" x="0.0" y="170" width="373" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="170" width="365" height="0.0"/>
                                     </pickerView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0oz-7u-4xe">
-                                        <rect key="frame" x="0.0" y="170" width="373" height="1"/>
+                                        <rect key="frame" x="0.0" y="170" width="365" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="c1b-XE-PzV"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRx-Mi-FYL">
-                                        <rect key="frame" x="0.0" y="171" width="373" height="65"/>
+                                        <rect key="frame" x="0.0" y="171" width="365" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="65" id="kL2-e0-XbS"/>
+                                            <constraint firstAttribute="height" constant="20" id="kL2-e0-XbS"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many per day:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UoZ-DT-gdz">
-                                        <rect key="frame" x="0.0" y="236" width="373" height="17"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <rect key="frame" x="0.0" y="191" width="365" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7a-Zd-8Sz">
-                                        <rect key="frame" x="0.0" y="253" width="373" height="1"/>
-                                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17P-Kr-o3S">
+                                        <rect key="frame" x="0.0" y="210.5" width="365" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="Kc8-3H-mQS"/>
+                                            <constraint firstAttribute="height" constant="22" id="aqt-ni-e1l"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3YF-M8-UPO">
-                                        <rect key="frame" x="0.0" y="254" width="373" height="42"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="42" id="EOY-EO-bXe"/>
-                                        </constraints>
-                                    </view>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="DuN-cY-yDQ">
-                                        <rect key="frame" x="-2" y="296" width="377" height="36"/>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="DuN-cY-yDQ">
+                                        <rect key="frame" x="-2" y="232.5" width="369" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="cB8-nP-AgZ"/>
                                         </constraints>
@@ -640,55 +633,81 @@
                                             <action selector="timesadaySliderValueChanged:" destination="9mn-Be-MMV" eventType="valueChanged" id="00B-yl-vzD"/>
                                         </connections>
                                     </slider>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ubA-sY-7FI">
-                                        <rect key="frame" x="0.0" y="331" width="373" height="50"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
+                                        <rect key="frame" x="0.0" y="267.5" width="365" height="15"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="iCf-cL-EqA">
-                                                <rect key="frame" x="0.0" y="0.0" width="186.5" height="50"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="|" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mg6-1L-hSl">
-                                                        <rect key="frame" x="0.0" y="0.0" width="186.5" height="25"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" restorationIdentifier="time1" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D37-Eq-Epq">
-                                                        <rect key="frame" x="0.0" y="25" width="186.5" height="25"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <state key="normal" title="10:00 AM">
-                                                            <color key="titleColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </state>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="8ZS-2T-fhH">
-                                                <rect key="frame" x="186.5" y="0.0" width="186.5" height="50"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="|" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q8k-U7-7jT">
-                                                        <rect key="frame" x="0.0" y="0.0" width="186.5" height="25"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <nil key="textColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="time2" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lK3-U3-ARB">
-                                                        <rect key="frame" x="0.0" y="25" width="186.5" height="25"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <state key="normal" title="10:00 PM">
-                                                            <color key="titleColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </state>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeOneButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fZS-Cj-XcQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="P5X-kB-ic1"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7PS-kk-1eI">
+                                                <rect key="frame" x="39" y="0.0" width="69.5" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeTwoButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-f3-meX">
+                                                <rect key="frame" x="108.5" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="zqN-5d-fI5"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXf-Se-Gp4">
+                                                <rect key="frame" x="147.5" y="0.0" width="70" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeThreeButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTm-9b-tnO">
+                                                <rect key="frame" x="217.5" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="uvs-Wu-PdT"/>
+                                                </connections>
+                                            </button>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jia-id-Dhx">
+                                                <rect key="frame" x="256.5" y="0.0" width="69.5" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeFourButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghk-DN-NbN">
+                                                <rect key="frame" x="326" y="0.0" width="39" height="15"/>
+                                                <state key="normal" title="12:00"/>
+                                                <connections>
+                                                    <action selector="timeButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="xuV-KD-wdY"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="5IM-gp-8TK"/>
+                                            <constraint firstAttribute="height" constant="15" id="a8U-8W-lKt"/>
+                                            <constraint firstItem="BXf-Se-Gp4" firstAttribute="width" secondItem="7PS-kk-1eI" secondAttribute="width" id="eKw-Fh-BdE"/>
+                                            <constraint firstItem="jia-id-Dhx" firstAttribute="width" secondItem="7PS-kk-1eI" secondAttribute="width" id="guC-fh-HqA"/>
                                         </constraints>
                                     </stackView>
-                                    <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jng-qE-vf3">
-                                        <rect key="frame" x="0.0" y="381" width="373" height="0.0"/>
-                                    </datePicker>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aDS-4O-w6Y">
+                                        <rect key="frame" x="0.0" y="282.5" width="365" height="15"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="15" id="WMe-wV-4hf"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0TA-AC-mxp">
+                                        <rect key="frame" x="0.0" y="297.5" width="365" height="100"/>
+                                        <subviews>
+                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Jng-qE-vf3">
+                                                <rect key="frame" x="0.0" y="0.0" width="365" height="100"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="100" id="neV-gv-Yfi"/>
+                                                </constraints>
+                                            </datePicker>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="2z8-Yy-qvT"/>
+                                            <constraint firstItem="Jng-qE-vf3" firstAttribute="centerX" secondItem="0TA-AC-mxp" secondAttribute="centerX" id="UEn-uN-Sdh"/>
+                                            <constraint firstItem="Jng-qE-vf3" firstAttribute="leading" secondItem="0TA-AC-mxp" secondAttribute="leading" id="mgb-yd-Kmc"/>
+                                            <constraint firstItem="Jng-qE-vf3" firstAttribute="top" secondItem="0TA-AC-mxp" secondAttribute="top" id="svW-da-1dy"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XY7-Lb-cxD">
-                                        <rect key="frame" x="0.0" y="381" width="373" height="30"/>
+                                        <rect key="frame" x="0.0" y="397.5" width="365" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="esU-OG-RK7"/>
                                         </constraints>
@@ -702,8 +721,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="YF0-w6-5sp" firstAttribute="top" secondItem="JxO-PP-lrf" secondAttribute="top" constant="45" id="IIT-Gr-dQX"/>
+                            <constraint firstAttribute="trailing" secondItem="YF0-w6-5sp" secondAttribute="trailing" constant="5" id="96W-Nx-25s"/>
+                            <constraint firstItem="YF0-w6-5sp" firstAttribute="top" secondItem="JxO-PP-lrf" secondAttribute="top" constant="32" id="IIT-Gr-dQX"/>
                             <constraint firstItem="YF0-w6-5sp" firstAttribute="centerX" secondItem="MMA-J0-UE1" secondAttribute="centerX" id="bg8-uB-0hR"/>
+                            <constraint firstItem="YF0-w6-5sp" firstAttribute="leading" secondItem="MMA-J0-UE1" secondAttribute="leading" constant="5" id="t5b-8X-xaX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="JxO-PP-lrf"/>
                     </view>
@@ -735,9 +756,11 @@
                         <outlet property="paddingBelowNotificationsSwitch" destination="uPx-d5-evg" id="vFi-qa-Uai"/>
                         <outlet property="saveButton" destination="koe-DU-BKv" id="ua4-QK-QfR"/>
                         <outlet property="selectNameButton" destination="mxZ-UI-Ia5" id="Kfy-l4-VIf"/>
-                        <outlet property="time1Button" destination="D37-Eq-Epq" id="imK-Pg-lDN"/>
-                        <outlet property="time2Button" destination="lK3-U3-ARB" id="0Vv-df-WKM"/>
+                        <outlet property="timeFourButton" destination="ghk-DN-NbN" id="zYr-bw-Uh6"/>
+                        <outlet property="timeOneButton" destination="fZS-Cj-XcQ" id="rhR-4H-eGc"/>
                         <outlet property="timePicker" destination="Jng-qE-vf3" id="NRu-aq-HFU"/>
+                        <outlet property="timeThreeButton" destination="yTm-9b-tnO" id="d2f-me-z53"/>
+                        <outlet property="timeTwoButton" destination="Ssv-f3-meX" id="sWQ-le-Pcf"/>
                         <outlet property="timesadayLabel" destination="UoZ-DT-gdz" id="pm6-XK-eeA"/>
                         <outlet property="timesadaySlider" destination="DuN-cY-yDQ" id="mdj-cp-th7"/>
                         <outlet property="topConstraint" destination="IIT-Gr-dQX" id="HPx-CA-xtl"/>

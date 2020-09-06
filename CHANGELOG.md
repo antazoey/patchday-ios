@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.1.0
+
+### Fixed
+
+- Title for Pill details would mistakenly say "New Pill" for the initial default pills created.
+
+### Changed
+
+- Pills can now have up to 4 times per day.
+
 ## 3.0.4
 
 ### Fixed

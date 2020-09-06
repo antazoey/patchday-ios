@@ -6,35 +6,34 @@
 import Foundation
 import PDKit
 
-
 public class MockPatchData: PDCoreDataWrapping {
 
-	private var mockEntities: [MockEntity] = []
+    private var mockEntities: [MockEntity] = []
 
-	public var saveCalls: [String] = []
-	public var deleteCalls: [String] = []
+    public var saveCalls: [String] = []
+    public var deleteCalls: [String] = []
 
-	public init() { }
+    public init() { }
 
-	public func save(saverName: String) {
-		saveCalls.append(saverName)
-	}
+    public func save(saverName: String) {
+        saveCalls.append(saverName)
+    }
 
-	public func getManagedObjects(entity: PDEntity) -> [Any]? {
-		mockEntities
-	}
+    public func getManagedObjects(entity: PDEntity) -> [Any]? {
+        mockEntities
+    }
 
-	public func insert(_ entity: PDEntity) -> Any? {
-		mockEntities.append(MockEntity(type: entity))
-	}
+    public func insert(_ entity: PDEntity) -> Any? {
+        mockEntities.append(MockEntity(type: entity))
+    }
 
-	public func nuke() {
-		mockEntities = []
-		saveCalls = []
-		deleteCalls = []
-	}
+    public func nuke() {
+        mockEntities = []
+        saveCalls = []
+        deleteCalls = []
+    }
 
-	public func tryDelete(_ managedObject: Any) {
-		deleteCalls.append(String(describing: managedObject))
-	}
+    public func tryDelete(_ managedObject: Any) {
+        deleteCalls.append(String(describing: managedObject))
+    }
 }

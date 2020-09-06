@@ -11,13 +11,13 @@ import PDKit
 
 class NewSiteAlertActionHandler: NewSiteAlertActionHandling {
 
-	private let newSiteAction: () -> Void
+    private let newSiteAction: () -> Void
 
-	init(_ handleNewSite: @escaping () -> Void) {
-		self.newSiteAction = handleNewSite
-	}
+    init(_ handleNewSite: @escaping () -> Void) {
+        self.newSiteAction = handleNewSite
+    }
 
-	func handleNewSite() {
-		newSiteAction()
-	}
+    func handleNewSite() {
+        newSiteAction()
+    }
 }

@@ -40,28 +40,28 @@ class PDAlertController: UIAlertController {
 
 class PDAlert: PDAlerting {
 
-	let alert: PDAlertController
-	static var style: UIAlertController.Style = {
-		AppDelegate.isPad ? .alert : .actionSheet
-	}()
+    let alert: PDAlertController
+    static var style: UIAlertController.Style = {
+        AppDelegate.isPad ? .alert : .actionSheet
+    }()
 
-	init(title: String, message: String, style: UIAlertController.Style) {
-		let _style = AppDelegate.isPad ? .alert : style
-		self.alert = PDAlertController(title: title, message: message, preferredStyle: _style)
-	}
+    init(title: String, message: String, style: UIAlertController.Style) {
+        let _style = AppDelegate.isPad ? .alert : style
+        self.alert = PDAlertController(title: title, message: message, preferredStyle: _style)
+    }
 
-	func present(actions: [UIAlertAction]) {
-		if alert.actions.count == 0 {
-			for a in actions {
-				if !alert.actions.contains(a) {
-					alert.addAction(a)
-				}
-			}
-		}
-		alert.show()
-	}
+    func present(actions: [UIAlertAction]) {
+        if alert.actions.count == 0 {
+            for a in actions {
+                if !alert.actions.contains(a) {
+                    alert.addAction(a)
+                }
+            }
+        }
+        alert.show()
+    }
 
-	func present() {
-		self.alert.show()
-	}
+    func present() {
+        self.alert.show()
+    }
 }

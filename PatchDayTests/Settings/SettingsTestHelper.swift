@@ -13,23 +13,23 @@ import PatchDay
 
 class SettingsTestHelper {
 
-	private let methodButton = UIButton()
-	private let quantityButton = UIButton()
-	private let quantityArrowButton = UIButton()
-	private let expirationButton = UIButton()
-	private let notificationsSwitch = UISwitch()
-	private let notificationsSlider = UISlider()
-	private let notificationsMinutesLabel = UILabel()
+    private let methodButton = UIButton()
+    private let quantityButton = UIButton()
+    private let quantityArrowButton = UIButton()
+    private let expirationButton = UIButton()
+    private let notificationsSwitch = UISwitch()
+    private let notificationsSlider = UISlider()
+    private let notificationsMinutesLabel = UILabel()
 
-	public func createControls() -> SettingsControls {
-		SettingsControls(
-			deliveryMethodButton: methodButton,
-			quantityButton: quantityButton,
-			quantityArrowButton: quantityArrowButton,
-			expirationIntervalButton: expirationButton,
-			notificationsSwitch: notificationsSwitch,
-			notificationsMinutesBeforeSlider: notificationsSlider,
-			notificationsMinutesBeforeValueLabel: notificationsMinutesLabel
-		)
-	}
+    public func createControls() -> SettingsControls {
+        SettingsControls(
+            deliveryMethodButton: methodButton,
+            quantityButton: quantityButton,
+            quantityArrowButton: quantityArrowButton,
+            expirationIntervalButton: expirationButton,
+            notificationsSwitch: notificationsSwitch,
+            notificationsMinutesBeforeSlider: notificationsSlider,
+            notificationsMinutesBeforeValueLabel: notificationsMinutesLabel
+        )
+    }
 }

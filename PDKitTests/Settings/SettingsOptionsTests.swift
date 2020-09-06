@@ -13,12 +13,12 @@ import XCTest
 import PDKit
 
 class SettingsOptionsTests: XCTestCase {
-	func testGetExpirationInterval() {
-		XCTAssertEqual(.OnceDaily, SettingsOptions.getExpirationInterval(for: "Once daily"))
-		XCTAssertEqual(.TwiceWeekly, SettingsOptions.getExpirationInterval(for: "Twice weekly"))
-		XCTAssertEqual(.OnceWeekly, SettingsOptions.getExpirationInterval(for: "Once weekly"))
-		XCTAssertEqual(.EveryTwoWeeks, SettingsOptions.getExpirationInterval(
-			for: "Once every two weeks")
-		)
-	}
+    func testGetExpirationInterval() {
+        XCTAssertEqual(.OnceDaily, SettingsOptions.getExpirationInterval(for: "Once daily"))
+        XCTAssertEqual(.TwiceWeekly, SettingsOptions.getExpirationInterval(for: "Twice weekly"))
+        XCTAssertEqual(.OnceWeekly, SettingsOptions.getExpirationInterval(for: "Once weekly"))
+        XCTAssertEqual(.EveryTwoWeeks, SettingsOptions.getExpirationInterval(
+            for: "Once every two weeks")
+        )
+    }
 }

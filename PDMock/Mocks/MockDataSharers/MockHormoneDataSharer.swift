@@ -6,18 +6,17 @@
 import Foundation
 import PDKit
 
-
 public class MockHormoneDataSharer: HormoneDataSharing, PDMocking {
 
-	public var shareedHormoneIds: [String] = []
+    public var shareedHormoneIds: [String] = []
 
-	public init() { }
+    public init() { }
 
-	public func resetMock() {
-		shareedHormoneIds = []
-	}
+    public func resetMock() {
+        shareedHormoneIds = []
+    }
 
-	public func share(nextHormone: Hormonal) {
-		shareedHormoneIds.append(nextHormone.id.uuidString)
-	}
+    public func share(nextHormone: Hormonal) {
+        shareedHormoneIds.append(nextHormone.id.uuidString)
+    }
 }

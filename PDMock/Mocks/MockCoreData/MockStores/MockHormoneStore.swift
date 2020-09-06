@@ -9,32 +9,31 @@
 import Foundation
 import PDKit
 
-
 public class MockHormoneStore: MockPatchDataStore<Hormonal>, HormoneStoring {
 
-	public override init() {
-		super.init()
-		newObjectFactory = { () in MockHormone() }
-	}
+    public override init() {
+        super.init()
+        newObjectFactory = { () in MockHormone() }
+    }
 
-	public func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal] {
-		getNextMockStoredObjects()
-	}
+    public func getStoredHormones(_ settings: UserDefaultsReading) -> [Hormonal] {
+        getNextMockStoredObjects()
+    }
 
-	public func createNewHormone(_ settings: UserDefaultsReading) -> Hormonal? {
-		newObjectFactory?()
-	}
+    public func createNewHormone(_ settings: UserDefaultsReading) -> Hormonal? {
+        newObjectFactory?()
+    }
 
-	public func delete(_ hormone: Hormonal) {
-		deleteCallArgs.append(hormone)
-	}
+    public func delete(_ hormone: Hormonal) {
+        deleteCallArgs.append(hormone)
+    }
 
-	public func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool) {
-		pushLocalChangesCallArgs.append((hormones, doSave))
-	}
+    public func pushLocalChangesToManagedContext(_ hormones: [Hormonal], doSave: Bool) {
+        pushLocalChangesCallArgs.append((hormones, doSave))
+    }
 
-	public var clearSitesFromHormoneCallArgs: [UUID] = []
-	public func clearSitesFromHormone(_ hormoneId: UUID) {
-		clearSitesFromHormoneCallArgs.append(hormoneId)
-	}
+    public var clearSitesFromHormoneCallArgs: [UUID] = []
+    public func clearSitesFromHormone(_ hormoneId: UUID) {
+        clearSitesFromHormoneCallArgs.append(hormoneId)
+    }
 }

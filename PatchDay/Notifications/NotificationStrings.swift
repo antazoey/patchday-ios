@@ -11,88 +11,88 @@ import PDKit
 
 class NotificationStrings {
 
-	static let siteToExpiredPatchMessage =
-		[
-			"Right Abdomen": NSLocalizedString(
-				"Change patch on your 'Right Abdomen'",
-				comment: comment
-			),
-			"Left Abdomen": NSLocalizedString(
-				"Change patch on your 'Right Abdomen'",
-				comment: comment
-			),
-			"Right Glute": NSLocalizedString(
-				"Change patch on your 'Right Glute'",
-				comment: comment
-			),
-			"Left Glute": NSLocalizedString(
-				"Change patch on your 'Left Glute'",
-				comment: comment
-			)
-		]
+    static let siteToExpiredPatchMessage =
+        [
+            "Right Abdomen": NSLocalizedString(
+                "Change patch on your 'Right Abdomen'",
+                comment: comment
+            ),
+            "Left Abdomen": NSLocalizedString(
+                "Change patch on your 'Right Abdomen'",
+                comment: comment
+            ),
+            "Right Glute": NSLocalizedString(
+                "Change patch on your 'Right Glute'",
+                comment: comment
+            ),
+            "Left Glute": NSLocalizedString(
+                "Change patch on your 'Left Glute'",
+                comment: comment
+            )
+        ]
 
     static func get(
-		method: DeliveryMethod, notifyMinutes: Double, suggestedSite: SiteName?
-	) -> (String, String) {
+        method: DeliveryMethod, notifyMinutes: Double, suggestedSite: SiteName?
+    ) -> (String, String) {
         let titleOptions = method == .Patches ?
-			[patchExpired, patchExpires] :
-			[injectionExpired, injectionExpires]
-		let title = (notifyMinutes == 0) ? titleOptions[0] : titleOptions[1]
+            [patchExpired, patchExpires] :
+            [injectionExpired, injectionExpires]
+        let title = (notifyMinutes == 0) ? titleOptions[0] : titleOptions[1]
         let body = suggestedSite != nil ? "\(suggestedNextSite) \(suggestedSite!)" : ""
-		return (title, body)
-	}
+        return (title, body)
+    }
 
-	class Overnight {
-		static subscript(method: DeliveryMethod) -> String {
-			switch method {
-				case .Patches: return overnightPatch
-				case .Injections: return overnightInjection
-				case .Gel: return overnightGel
-			}
-		}
-	}
+    class Overnight {
+        static subscript(method: DeliveryMethod) -> String {
+            switch method {
+                case .Patches: return overnightPatch
+                case .Injections: return overnightInjection
+                case .Gel: return overnightGel
+            }
+        }
+    }
 
-	// MARK: - User facing
+    // MARK: - User facing
 
     static var suggestedNextSite: String {
-		NSLocalizedString("Suggested next site:", comment: comment)
+        NSLocalizedString("Suggested next site:", comment: comment)
     }
 
     static var patchExpired: String {
-		NSLocalizedString("Time for your next patch", comment: comment)
-	}
+        NSLocalizedString("Time for your next patch", comment: comment)
+    }
 
     static var patchExpires: String {
-		NSLocalizedString("Almost time for your next patch", comment: comment)
-	}
+        NSLocalizedString("Almost time for your next patch", comment: comment)
+    }
 
     static var injectionExpired: String {
-		NSLocalizedString("Time for your next injection", comment: comment)
-	}
+        NSLocalizedString("Time for your next injection", comment: comment)
+    }
 
     static var injectionExpires: String {
-		NSLocalizedString(
-			"Almost time for your next injection",
-			comment: comment
-		)
-	}
+        NSLocalizedString(
+            "Almost time for your next injection",
+            comment: comment
+        )
+    }
 
     static var takePill: String {
-		NSLocalizedString("Time to take pill: ", comment: comment)
-	}
+        NSLocalizedString("Time to take pill: ", comment: comment)
+    }
 
     static var overnightPatch: String {
-		NSLocalizedString("Patch expires overnight.", comment: comment)
-	}
+        NSLocalizedString("Patch expires overnight.", comment: comment)
+    }
 
     static var overnightInjection: String {
-		NSLocalizedString("Injection due overnight.", comment: comment)
-	}
+        NSLocalizedString("Injection due overnight.", comment: comment)
+    }
 
-	static var overnightGel: String {
-		NSLocalizedString("Gel due overnight", comment: comment)
-	}
+    static var overnightGel: String {
+        NSLocalizedString("Gel due overnight", comment: comment)
+    }
 
     private static let comment = "Notification telling you where and when to change your patch."
-	private static let titleComment = "Title of notification."
+    private static let titleComment = "Title of notification."
 }

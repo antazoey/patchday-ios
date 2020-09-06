@@ -9,6 +9,6 @@
 import UIKit
 
 public protocol PDAlerting {
-	func present(actions: [UIAlertAction])
-	func present()
+    func present(actions: [UIAlertAction])
+    func present()
 }
