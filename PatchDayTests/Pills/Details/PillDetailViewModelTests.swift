@@ -32,7 +32,8 @@ class PillDetailViewModelTests: XCTestCase {
         let times = [Time()]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        XCTAssertEqual(times, viewModel.times)
+        XCTAssertEqual(times.count, viewModel.times.count)
+        XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
     }
 
     func testTimes_whenTimesSelected_returnsSelectedTimes() {
@@ -45,6 +46,39 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(selectedTimes)
         XCTAssertEqual(selectedTimes, viewModel.times)
+    }
+
+    func testTimes_ordersTimes() {
+        let now = Date()
+        let times = [
+            Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+        ]
+        let pill = setupPill()
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertEqual(times[1], viewModel.times[0])
+        XCTAssertEqual(times[2], viewModel.times[1])
+        XCTAssertEqual(times[0], viewModel.times[2])
+    }
+
+    func testTimes_setsDateToToday() {
+        let yesterday = DateFactory.createDate(daysFromNow: -1)!
+        let times = [
+            Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: yesterday)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: yesterday)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: yesterday)!,
+        ]
+        let pill = setupPill()
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected1 = DateFactory.createDate(byAddingHours: 24, to: times[1])
+        let expected2 = DateFactory.createDate(byAddingHours: 24, to: times[2])
+        let expected3 = DateFactory.createDate(byAddingHours: 24, to: times[0])
+        XCTAssertEqual(expected1, viewModel.times[0])
+        XCTAssertEqual(expected2, viewModel.times[1])
+        XCTAssertEqual(expected3, viewModel.times[2])
     }
 
     func testSelectTime_whenNothingElseSelected_setExpectedTimeString() {
@@ -85,7 +119,8 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectTime(Time(), 1)
-        XCTAssertEqual(times, viewModel.times)
+        XCTAssertEqual(times.count, viewModel.times.count)
+        XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
     }
 
     func testSetTimesday_whenSettingToZero_doesNotSet() {
@@ -104,7 +139,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.setTimesaday(1)
         XCTAssertEqual(1, viewModel.times.count)
-        XCTAssertEqual(times[0], viewModel.times[0])
+        XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
     }
 
     func testSetTimesaday_whenIncreasingAndNoTimeSelected_addsNewTime() {
@@ -149,6 +184,47 @@ class PillDetailViewModelTests: XCTestCase {
         )
         viewModel.setTimesaday(1)
         XCTAssertEqual(1, viewModel.times.count)
+    }
+
+    func testGetPickerTimes_returnsExpectedTimes() {
+        let pill = setupPill()
+        let now = Date()
+        pill.times = [
+            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+        ]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let times = viewModel.getPickerTimes(timeIndex: 1)
+        XCTAssertEqual(pill.times[0], times.min)
+        XCTAssertEqual(pill.times[1], times.start)
+    }
+
+    func testGetPickerTimes_whenGiveIndexZero_returnsExpectedTimesWithNilMin() {
+        let pill = setupPill()
+        let now = Date()
+        pill.times = [
+            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+        ]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let times = viewModel.getPickerTimes(timeIndex: 0)
+        XCTAssertNil(times.min)
+        XCTAssertEqual(pill.times[0], times.start)
+    }
+
+    func testGetPickerTimes_whenMinDateIsOutOfOrder_returnsExpectedTimesWithMinEqualToStart() {
+        let pill = setupPill()
+        let now = Date()
+        let t1 = Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: now)!
+        let t2 = Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!
+        let t3 = Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
+        pill.times = [t1, t2, t3]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let times = viewModel.getPickerTimes(timeIndex: 1)
+        XCTAssert(PDTest.sameTime(t2, times.min!))
+        XCTAssert(PDTest.sameTime(t3, times.start))
     }
 
     func testNotifyStartValue_whenNotifySelected_returnsNotify() {

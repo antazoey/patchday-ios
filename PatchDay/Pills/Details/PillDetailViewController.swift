@@ -129,16 +129,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timePicker.isHidden = false
         transformIntoDoneButton(timeButton)
         disableNonTimeInteractions()
-        var times: [Time] = []
-        if let selectedTimeString = viewModel.selections.times {
-            times = DateFactory.createTimesFromCommaSeparatedString(selectedTimeString)
-        } else {
-            times = viewModel.pill.times
-        }
-        timePicker.date = times[timeIndex]
-        if timeIndex > 0 {
-            timePicker.minimumDate = times[timeIndex - 1]
-        }
+        let times = viewModel.getPickerTimes(timeIndex: timeIndex)
+        timePicker.minimumDate = times.min
+        timePicker.date = times.start
     }
 
     @objc func selectNameTapped() {

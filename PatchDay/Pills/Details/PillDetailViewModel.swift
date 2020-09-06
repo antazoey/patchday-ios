@@ -67,7 +67,9 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         if let selectedTimes = selections.times {
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes)
         }
-        return pill.times
+        // Sort, in case Swallowable impl doesn't
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(pill.times)
+        return DateFactory.createTimesFromCommaSeparatedString(timeString)
     }
 
     func selectTime(_ time: Time, _ index: Index) {
@@ -93,6 +95,18 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         }
         let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
         selections.times = newTimeString
+    }
+
+    func getPickerTimes(timeIndex: Index) -> (start: Time, min: Time?) {
+        var startTime = times[timeIndex]
+        var minTime: Time? = nil
+        if timeIndex > 0 {
+            minTime = self.times[timeIndex - 1]
+        }
+        if let minTime = minTime, minTime > startTime {
+            startTime = minTime
+        }
+        return (startTime, minTime)
     }
 
     func save() {
