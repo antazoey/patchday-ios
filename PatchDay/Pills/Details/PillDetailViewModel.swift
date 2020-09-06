@@ -6,11 +6,6 @@
 import Foundation
 import PDKit
 
-enum TimeNumber: String {
-    case Time1 = "time1"
-    case Time2 = "time2"
-}
-
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     let index: Index
@@ -153,12 +148,5 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         let interval = PillStrings.Intervals.all.tryGet(at: row)
         selections.expirationInterval = interval
         return interval ?? ""
-    }
-
-    func createTimeNumberTypeFromButton(_ button: UIButton) -> TimeNumber {
-        guard let id = button.restorationIdentifier, let numType = TimeNumber(rawValue: id) else {
-            return TimeNumber.Time1
-        }
-        return numType
     }
 }
