@@ -4,11 +4,16 @@
 
 ### Fixed
 
-- Title for Pill details would mistakenly say "New Pill" for the initial default pills created.
+- A bug where the Pill Schedule "First twenty days" mistakenly used "First ten days".
+- Mistake in Pill Detail view title where it said "New Pill" for the initial pills created.
 
 ### Changed
 
-- Pills can now have up to 4 times per day.
+- Pills can now be taken up to 4 times per day.
+
+### Added
+
+- Pill time 3 and pill time 4 and ready to support more if needed.
 
 ## 3.0.4
 
