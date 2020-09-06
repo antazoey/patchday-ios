@@ -23,9 +23,9 @@ public class PDLog<T> {
     }
 
     private var symbolMap: [LogStatus: String] = [
-            .INFO: "🔎",
-            .WARN: "⚠️",
-            .ERROR: "🛑"
+        .INFO: "🔎",
+        .WARN: "⚠️",
+        .ERROR: "🛑"
     ]
 
     private var context: String
