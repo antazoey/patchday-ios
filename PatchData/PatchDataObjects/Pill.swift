@@ -72,7 +72,6 @@ public class Pill: Swallowable {
         var newTimes = times
         newTimes.append(time)
         newTimes = newTimes.filter { $0 != DateFactory.createDefaultDate() }
-        newTimes.sort { $1 < $0 }
         let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
         pillData.attributes.times = timeString
     }
