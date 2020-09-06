@@ -88,7 +88,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let newTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
         viewModel.selectTime(newTime!, 1)
-        let expectedTimes = [times[0], newTime, times[1]]
+        let expectedTimes = [times[0], newTime, newTime]
         let expected = PDDateFormatter.convertDatesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)
     }
@@ -101,7 +101,7 @@ class PillDetailViewModelTests: XCTestCase {
         let previousSelectedTimes = [
             Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: times[0]),
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: times[1]),
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: times[2])
+            Calendar.current.date(bySettingHour: 13, minute: 13, second: 13, of: times[2])
         ]
         viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
             previousSelectedTimes
@@ -225,6 +225,45 @@ class PillDetailViewModelTests: XCTestCase {
         let times = viewModel.getPickerTimes(timeIndex: 1)
         XCTAssert(PDTest.sameTime(t2, times.min!))
         XCTAssert(PDTest.sameTime(t3, times.start))
+    }
+
+    func testGetPickerTimes_whenLastPickerDate_worksAsExpected() {
+        let pill = setupPill()
+        let now = Date()
+        pill.times = [
+            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+            Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: now)!
+        ]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let times = viewModel.getPickerTimes(timeIndex: 3)
+        XCTAssert(PDTest.sameTime(pill.times[2], times.min!))
+        XCTAssert(PDTest.sameTime(pill.times[3], times.start))
+    }
+
+    func testGetPickerTimes_usesSelections() {
+        let pill = setupPill()
+        let now = Date()
+        pill.times = [
+            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+            Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: now)!
+        ]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString([
+            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 30, second: 30, of: now)!,
+            Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: now)!
+        ])
+        let actualTimes = viewModel.getPickerTimes(timeIndex: 3)
+        let expectedTimes = DateFactory.createTimesFromCommaSeparatedString(
+            viewModel.selections.times!
+        )
+        XCTAssert(PDTest.sameTime(expectedTimes[2], actualTimes.min!))
+        XCTAssert(PDTest.sameTime(expectedTimes[3], actualTimes.start))
     }
 
     func testNotifyStartValue_whenNotifySelected_returnsNotify() {

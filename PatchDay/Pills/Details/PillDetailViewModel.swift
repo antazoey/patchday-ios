@@ -70,7 +70,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     func selectTime(_ time: Time, _ index: Index) {
         var timesToSet = times
         guard index < timesToSet.count && index >= 0 else { return }
-        timesToSet[index] = time
+        for i in index..<timesToSet.count {
+            if timesToSet[i] < time {
+                timesToSet[i] = time
+            }
+        }
         let timeStrings = PDDateFormatter.convertDatesToCommaSeparatedString(timesToSet)
         selections.times = timeStrings
     }
@@ -97,6 +101,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         var startTime = times[timeIndex]
         var minTime: Time?
         if timeIndex > 0 {
+            print(self.times)
             minTime = self.times[timeIndex - 1]
         }
         if let minTime = minTime, minTime > startTime {
