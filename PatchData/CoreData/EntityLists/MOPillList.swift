@@ -104,7 +104,7 @@ class MOPillList: MOEntityList {
             if pill.time2 != nil {
                 times.append(pill.time2 as Date?)
             }
-            if times != [] {
+            if times.count > 0 {
                 logger.logPillMigration()
                 let timesString = PDDateFormatter.convertDatesToCommaSeparatedString(times)
                 pill.times = timesString
