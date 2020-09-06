@@ -142,12 +142,10 @@ class MOPillList: MOEntityList {
     }
 
     private func resetPill(_ managedPill: inout MOPill) {
-        managedPill.time1 = nil
-        managedPill.time2 = nil
+        managedPill.times = nil
         managedPill.id = nil
         managedPill.lastTaken = nil
         managedPill.timesTakenToday = -1
         managedPill.notify = false
-        managedPill.timesaday = -1
     }
 }
