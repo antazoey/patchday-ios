@@ -181,19 +181,6 @@ public class Pill: Swallowable {
         return DateFactory.createDate(at: times[0], daysFromToday: daysFromNow)
     }
 
-    private var dueDateForFirstTenDays: Date? {
-        dueDate(begin: 10)
-    }
-
-    private func dueDate(begin: Int) -> Date? {
-        guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
-        let dayNumberInMonth = lastTaken.dayNumberInMonth()
-        if dayNumberInMonth < 10 || (dayNumberInMonth == 10 && !isDone) {
-            return nextDueTimeForEveryDaySchedule
-        }
-        return beginningOfNextMonthAtTimeOne(lastTaken: lastTaken)
-    }
-
     private func beginningOfNextMonthAtTimeOne(lastTaken: Date) -> Date? {
         if let nextTime = nextDueTimeForEveryDaySchedule,
             let nextMonth = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken) {
@@ -212,11 +199,32 @@ public class Pill: Swallowable {
         return nil
     }
 
-    private var dueDateForLastTenDays: Date? {
-        dueDate(end: 10)
+    private var dueDateForFirstTenDays: Date? {
+        dueDateBegin(10)
     }
 
-    private func dueDate(end: Int) -> Date? {
+    private var dueDateForFirstTwentyDays: Date? {
+        dueDateBegin(20)
+    }
+
+    private func dueDateBegin(_ begin: Int) -> Date? {
+        guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
+        let dayNumberInMonth = lastTaken.dayNumberInMonth()
+        if dayNumberInMonth < 10 || (dayNumberInMonth == 10 && !isDone) {
+            return nextDueTimeForEveryDaySchedule
+        }
+        return beginningOfNextMonthAtTimeOne(lastTaken: lastTaken)
+    }
+
+    private var dueDateForLastTenDays: Date? {
+        dueDateEnd(10)
+    }
+
+    private var dueDateForLastTwentyDays: Date? {
+        dueDateEnd(20)
+    }
+
+    private func dueDateEnd(_ end: Int) -> Date? {
         guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
         guard let daysInMonth = lastTaken.daysInMonth() else {
             return nextDueTimeForEveryDaySchedule
@@ -230,11 +238,4 @@ public class Pill: Swallowable {
         return nextDueTimeForEveryDaySchedule
     }
 
-    private var dueDateForFirstTwentyDays: Date? {
-        dueDate(begin: 10)
-    }
-
-    private var dueDateForLastTwentyDays: Date? {
-        dueDate(end: 20)
-    }
 }
