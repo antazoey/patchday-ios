@@ -71,7 +71,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         var timesToSet = times
         guard index < timesToSet.count && index >= 0 else { return }
         for i in index..<timesToSet.count {
-            if timesToSet[i] < time {
+            if timesToSet[i] < time || i == index {
                 timesToSet[i] = time
             }
         }

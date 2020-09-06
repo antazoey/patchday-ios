@@ -296,6 +296,10 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
                 self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside
             )
         }
+        loadTimeButtonTimes()
+    }
+
+    private func loadTimeButtonTimes() {
         let times = viewModel.times
         var greatestTime: Time?
         for i in 0..<times.count {
@@ -411,11 +415,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let timeIndex = timeButtons.firstIndex(of: timeButton) ?? 0
         let newTime = timePicker.date
         viewModel.selectTime(newTime, timeIndex)
-        let timesaday = viewModel.times.count
-        for i in timesaday-1..<timeButtons.count {
-            let button = timeButtons[i]
-            button.setTitle(PDDateFormatter.formatTime(newTime))
-        }
+        loadTimeButtonTimes()
         timeButton.replaceTarget(
             self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside
         )
