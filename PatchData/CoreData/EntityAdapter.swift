@@ -70,7 +70,7 @@ class EntityAdapter {
         if let notify = pillData.attributes.notify, notify != pill.notify {
             pill.notify = notify
         }
-        if let times = pillData.attributes.times as String? {
+        if let times = pillData.attributes.times as String?, times != "" {
             pill.times = times
         }
         let pillTimesTaken = pill.timesTakenToday

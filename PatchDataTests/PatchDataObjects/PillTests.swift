@@ -662,6 +662,33 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(PillStrings.Intervals.FirstTenDays, pill.expirationInterval)
     }
 
+    func testSet_whenGivenNil_doesNotSet() {
+        var startAttrs = PillAttributes()
+        let testName = "NAME"
+        let testDate = Date()
+        let testTimeString = "12:00:00"
+        startAttrs.name = testName
+        startAttrs.lastTaken = testDate
+        startAttrs.times = testTimeString
+        startAttrs.notify = true
+        startAttrs.timesTakenToday = 2
+        let pill = createPill(startAttrs)
+        var newAttrs = PillAttributes()
+        newAttrs.name = nil
+        newAttrs.lastTaken = nil
+        newAttrs.times = nil
+        newAttrs.notify = nil
+        newAttrs.timesTakenToday = nil
+        pill.set(attributes: newAttrs)
+        XCTAssertEqual(testName, pill.name)
+        XCTAssertEqual(testDate, pill.lastTaken)
+        XCTAssertEqual(
+            testTimeString, PDDateFormatter.convertDatesToCommaSeparatedString(pill.times)
+        )
+        XCTAssert(pill.notify)
+        XCTAssertEqual(2, pill.timesTakenToday)
+    }
+
     func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotIncreaseTimesTakenToday() {
         var attrs = PillAttributes()
         attrs.times = "12:00:00"

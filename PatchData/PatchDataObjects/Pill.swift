@@ -131,7 +131,7 @@ public class Pill: Swallowable {
         notify = attributes.notify ?? notify
         lastTaken = attributes.lastTaken ?? lastTaken
         expirationInterval = attributes.expirationInterval ?? expirationInterval
-        pillData.attributes.times = attributes.times
+        pillData.attributes.times = attributes.times ?? pillData.attributes.times
     }
 
     public func swallow() {
