@@ -13,9 +13,11 @@ public class Pill: Swallowable {
 
     private var pillData: PillStruct  // Stored data
     private lazy var log = PDLog<Pill>()
+    private let now: NowProtocol
 
-    public init(pillData: PillStruct) {
+    public init(pillData: PillStruct, now: NowProtocol?=nil) {
         self.pillData = pillData
+        self.now = now ?? PDNow()
         if pillData.attributes.name == nil {
             self.pillData.attributes.name = PillStrings.NewPill
         }
@@ -109,7 +111,7 @@ public class Pill: Swallowable {
     public var isDue: Bool {
         guard timesTakenToday < timesaday else { return false }
         guard let dueDate = due else { return false }
-        return Date() > dueDate
+        return now.now > dueDate
     }
 
     public var isNew: Bool {
@@ -136,7 +138,7 @@ public class Pill: Swallowable {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
         let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
         pillData.attributes.timesTakenToday = currentTimesTaken + 1
-        lastTaken = Date()
+        lastTaken = now.now
     }
 
     public func awaken() {
@@ -150,16 +152,6 @@ public class Pill: Swallowable {
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {
         PillDueDateFinderParams(timesTakenToday, timesaday, times)
-    }
-
-    private var nextDueTimeForEveryDaySchedule: Date? {
-        guard timesaday <= times.count else { return nil }
-        if timesTakenToday < timesaday {
-            let time = times[timesTakenToday]
-            return DateFactory.createTodayDate(at: time)
-        } else {
-            return tomorrowAtTimeOne
-        }
     }
 
     private var dueDateForEveryOtherDay: Date? {
@@ -178,7 +170,7 @@ public class Pill: Swallowable {
 
     private func getTimeOne(daysFromNow: Int) -> Date? {
         guard times.count >= 1 else { return nil }
-        return DateFactory.createDate(at: times[0], daysFromToday: daysFromNow)
+        return DateFactory.createDate(at: times[0], daysFromToday: daysFromNow, now: now)
     }
 
     private func beginningOfNextMonthAtTimeOne(lastTaken: Date) -> Date? {
@@ -236,5 +228,14 @@ public class Pill: Swallowable {
             return endOfNextMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
         return nextDueTimeForEveryDaySchedule
+    }
+
+    private var nextDueTimeForEveryDaySchedule: Date? {
+        guard timesaday <= times.count else { return nil }
+        if timesTakenToday < timesaday {
+            let time = times[timesTakenToday]
+            return DateFactory.createTodayDate(at: time, now: self.now)
+        }
+        return tomorrowAtTimeOne
     }
 }

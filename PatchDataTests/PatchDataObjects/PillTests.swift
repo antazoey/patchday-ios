@@ -17,8 +17,8 @@ import PatchData
 
 public class PillTests: XCTestCase {
 
-    func createPill(_ attributes: PillAttributes) -> Pill {
-        Pill(pillData: PillStruct(UUID(), attributes))
+    func createPill(_ attributes: PillAttributes, _ now: NowProtocol?=nil) -> Pill {
+        Pill(pillData: PillStruct(UUID(), attributes), now: now)
     }
 
     func createDueTime(_ time: Date, days: Double) -> Date {
@@ -412,15 +412,12 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
         attrs.timesTakenToday = 0
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
-        let pill = createPill(attrs)
+        let now = MockNow()
+        now.now = cal.date(bySetting: .day, value: 19, of: Date())!
+        let pill = createPill(attrs, now)
         let date = cal.date(bySetting: .day, value: 19, of: attrs.lastTaken!)!
         let expected = DateFactory.createDate(on: date, at: testTime)!
         let actual = pill.due
-        print(pill.timesTakenToday)
-        print(pill.times)
-        print(pill.lastTaken)
-        print(pill.due)
-
         XCTAssertEqual(expected, actual)
     }
 
@@ -432,8 +429,9 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
-        let pill = createPill(attrs)
-        print(pill.timesTakenToday)
+        let now = MockNow()
+        now.now = cal.date(bySetting: .day, value: 19, of: Date())!
+        let pill = createPill(attrs, now)
         let date = cal.date(bySetting: .day, value: 20, of: attrs.lastTaken!)!
         let expected = DateFactory.createDate(on: date, at: testTime)!
         let actual = pill.due

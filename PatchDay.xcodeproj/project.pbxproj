@@ -114,6 +114,9 @@
 		9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */; };
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
 		9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */; };
+		9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BA25056E8B00C0324E /* NowProtocol.swift */; };
+		9D59F8BD25056EC500C0324E /* PDNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BC25056EC500C0324E /* PDNow.swift */; };
+		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
 		9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */; };
@@ -543,6 +546,9 @@
 		9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsViewModelTests.swift; sourceTree = "<group>"; };
 		9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImagesTests.swift; sourceTree = "<group>"; };
 		9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntegrationTests.swift; sourceTree = "<group>"; };
+		9D59F8BA25056E8B00C0324E /* NowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowProtocol.swift; sourceTree = "<group>"; };
+		9D59F8BC25056EC500C0324E /* PDNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNow.swift; sourceTree = "<group>"; };
+		9D59F8BE250570CC00C0324E /* MockNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNow.swift; sourceTree = "<group>"; };
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
 		9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlings.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
@@ -1026,6 +1032,7 @@
 				3397C91D80B0294A38B737EC /* PDDateFormatter.swift */,
 				3397C9AF85534D3884106598 /* Date+PatchDay.swift */,
 				9DFD8EAC2500335900E7C3A8 /* DateFormatterFactory.swift */,
+				9D59F8BC25056EC500C0324E /* PDNow.swift */,
 			);
 			path = Dates;
 			sourceTree = "<group>";
@@ -1359,6 +1366,7 @@
 				9D8A981323C573B3004E20FE /* PDMock.h */,
 				9D8A981423C573B3004E20FE /* Info.plist */,
 				9D1908F5247029E800E95244 /* PDTest.swift */,
+				9D59F8BE250570CC00C0324E /* MockNow.swift */,
 			);
 			path = PDMock;
 			sourceTree = "<group>";
@@ -1493,6 +1501,7 @@
 				9D003EB9233467F10070C964 /* PDObjects */,
 				9D003EB7233467D20070C964 /* Schedules */,
 				9D003EB6233467C00070C964 /* Settings */,
+				9D59F8BA25056E8B00C0324E /* NowProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2253,6 +2262,7 @@
 				9D1908E1246834EF00E95244 /* MockDependencies.swift in Sources */,
 				9D8A984D23D132EC004E20FE /* MockPatchDataStore.swift in Sources */,
 				9D8A985D23D3B9A6004E20FE /* MockPillDataSharer.swift in Sources */,
+				9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */,
 				9D8F45E72496632600F2C39A /* MockAlert.swift in Sources */,
 				9D8A982223C57499004E20FE /* MockEntity.swift in Sources */,
 				9D1908EA2468388B00E95244 /* MockNav.swift in Sources */,
@@ -2384,6 +2394,7 @@
 				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
 				9D6E9AD824562192003BBCC9 /* PDNotificationCenterDelegate.swift in Sources */,
 				9D003EC1233599A90070C964 /* Schedule.swift in Sources */,
+				9D59F8BD25056EC500C0324E /* PDNow.swift in Sources */,
 				9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */,
 				9D8F45E02496605F00F2C39A /* AlertProducing.swift in Sources */,
 				9D1908D42460C79700E95244 /* TodayAppDataKeys.swift in Sources */,
@@ -2396,6 +2407,7 @@
 				9DCB086B2442163E00E80486 /* TabReflective.swift in Sources */,
 				9DDAB02C23F8D84D00E6EEF6 /* PillStrings.swift in Sources */,
 				9D913B8722FF43AB001FC03C /* KeyStorable.swift in Sources */,
+				9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */,
 				9D6E9AE6245623AA003BBCC9 /* PDTO.swift in Sources */,
 				9D6E9ADC24562264003BBCC9 /* PillNotificationActionHandling.swift in Sources */,
 				9D8A983023C7F736004E20FE /* PDBadgeDelegate.swift in Sources */,

@@ -10,8 +10,9 @@ public class DateFactory: NSObject {
 
     private static var calendar = Calendar.current
 
-    public static func createTodayDate(at time: Time) -> Date? {
-        createDate(on: Date(), at: time)
+    public static func createTodayDate(at time: Time, now: NowProtocol?=nil) -> Date? {
+        let now = now?.now ?? Date()
+        return createDate(on: now, at: time)
     }
 
     /// Creates a new Date from given Date at the given Time.
@@ -35,10 +36,11 @@ public class DateFactory: NSObject {
     }
 
     /// Creates a Date at the given time calculated by adding days from today.
-    public static func createDate(at time: Time, daysFromToday: Int) -> Date? {
+    public static func createDate(at time: Time, daysFromToday: Int, now: NowProtocol?=nil) -> Date? {
         var componentsToAdd = DateComponents()
         componentsToAdd.day = daysFromToday
-        if let newDate = calendar.date(byAdding: componentsToAdd, to: Date()) {
+        let now = now?.now ?? Date()
+        if let newDate = calendar.date(byAdding: componentsToAdd, to: now) {
             return createDate(on: newDate, at: time)
         }
         return nil
