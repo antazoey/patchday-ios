@@ -297,7 +297,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             button.setTitleColor(UIColor.blue, for: .selected)
         }
         let times = viewModel.times
-        var greatestTime: Time? = nil
+        var greatestTime: Time?
         for i in 0..<times.count {
             let time = times[i]
             greatestTime = time

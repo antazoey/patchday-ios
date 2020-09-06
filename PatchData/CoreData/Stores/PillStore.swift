@@ -18,12 +18,12 @@ class PillStore: EntityStore, PillStoring {
         super.init(stack)
     }
 
-    /// Returns True if anyone of the stored pill have saved times.
+    /// Returns True if any of the stored pill have saved times.
     var state: PillScheduleState {
         var state = PillScheduleState.Initial
         var pillsToSave: [Swallowable] = []
         for pill in getStoredPills() {
-            if pill.times.count > 0  {
+            if pill.times.count > 0 {
                 state = .Working
             } else {
                 // Fix Pill that for some reason don't have a single Time set.

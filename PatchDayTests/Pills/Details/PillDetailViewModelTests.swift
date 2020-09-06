@@ -53,7 +53,7 @@ class PillDetailViewModelTests: XCTestCase {
         let times = [
             Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: now)!,
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
         ]
         let pill = setupPill()
         pill.times = times
@@ -68,7 +68,7 @@ class PillDetailViewModelTests: XCTestCase {
         let times = [
             Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: yesterday)!,
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: yesterday)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: yesterday)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: yesterday)!
         ]
         let pill = setupPill()
         pill.times = times
@@ -101,7 +101,7 @@ class PillDetailViewModelTests: XCTestCase {
         let previousSelectedTimes = [
             Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: times[0]),
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: times[1]),
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: times[2]),
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: times[2])
         ]
         viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
             previousSelectedTimes
@@ -192,7 +192,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = [
             Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
         ]
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let times = viewModel.getPickerTimes(timeIndex: 1)
@@ -206,7 +206,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = [
             Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
         ]
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let times = viewModel.getPickerTimes(timeIndex: 0)

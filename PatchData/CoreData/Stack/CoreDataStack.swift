@@ -30,7 +30,7 @@ class CoreDataStack: NSObject {
         "notify",
         "timesTakenToday",
         "lastTaken",
-        "expirationInterval",
+        "expirationInterval"
     ]
 
     struct EntityKey {

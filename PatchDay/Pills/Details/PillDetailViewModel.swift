@@ -99,7 +99,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     func getPickerTimes(timeIndex: Index) -> (start: Time, min: Time?) {
         var startTime = times[timeIndex]
-        var minTime: Time? = nil
+        var minTime: Time?
         if timeIndex > 0 {
             minTime = self.times[timeIndex - 1]
         }
