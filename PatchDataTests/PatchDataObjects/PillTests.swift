@@ -173,7 +173,7 @@ public class PillTests: XCTestCase {
         XCTAssert(PDTest.sameTime(PillTestsUtil.testTime, actualTimes[1]))
     }
 
-  func testNotify_whenNilInAttributes_returnsDefaultNotify() {
+    func testNotify_whenNilInAttributes_returnsDefaultNotify() {
         var attrs = PillAttributes()
         attrs.notify = nil
         let pill = createPill(attrs)

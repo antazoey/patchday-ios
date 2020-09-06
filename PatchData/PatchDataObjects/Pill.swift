@@ -76,12 +76,6 @@ public class Pill: Swallowable {
         pillData.attributes.times = timeString
     }
 
-    public func replaceTimes(_ times: [Time]) {
-        let newTimes = times.filter { $0 != DateFactory.createDefaultDate() }.sorted()
-        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
-        pillData.attributes.times = timeString
-    }
-
     public var notify: Bool {
         get { pillData.attributes.notify ?? DefaultPillAttributes.notify }
         set { pillData.attributes.notify = newValue }

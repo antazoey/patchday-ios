@@ -27,9 +27,6 @@ public protocol Swallowable {
     /// Adds a new pill time.
     func appendTime(_ time: Time)
 
-    /// Replaces all of the pill times. Use for remove.
-    func replaceTimes(_ times: [Time])
-
     /// Whether you want to be notified when due.
     var notify: Bool { get set }
 

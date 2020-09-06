@@ -46,9 +46,4 @@ public class MockPill: Swallowable {
     public func appendTime(_ time: Time) {
         appendTimeCallArgs.append(time)
     }
-
-    public var replaceTimesCallArgs: [[Time]] = []
-    public func replaceTimes(_ times: [Time]) {
-        replaceTimesCallArgs.append(times)
-    }
 }
