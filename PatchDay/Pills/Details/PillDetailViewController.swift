@@ -129,7 +129,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         guard let timeIndex = timeButtons.firstIndex(of: timeButton) else { return }
         let times = viewModel.getPickerTimes(timeIndex: timeIndex)
         timePicker.minimumDate = times.min
-        timePicker.date = times.start
+        timePicker.setDate(times.start, animated: false)
         timeButton.setTitle(ActionStrings.Done)
         disableNonTimeInteractions()
         timePicker.isHidden = false
