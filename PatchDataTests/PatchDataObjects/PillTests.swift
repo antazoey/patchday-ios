@@ -379,11 +379,62 @@ public class PillTests: XCTestCase {
         let testTime = Date(timeIntervalSinceNow: -234233234352)
         let cal = Calendar.current
         attrs.lastTaken = cal.date(bySetting: .day, value: 20, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let date = cal.date(bySetting: .day, value: 1, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenFirstTwentyDaysAndFinishedOnTwentiethDay_returnsFirstOfNextMonthAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        attrs.lastTaken = cal.date(bySetting: .day, value: 20, of: Date())
         attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
         let pill = createPill(attrs)
         let date = cal.date(bySetting: .day, value: 1, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenFirstTwentyDaysAndNotYetFinishedOnNineteenthDay_returnsSameDayAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        attrs.lastTaken = cal.date(bySetting: .day, value: 18, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
+        attrs.timesTakenToday = 0
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        let date = cal.date(bySetting: .day, value: 19, of: attrs.lastTaken!)!
+        let expected = DateFactory.createDate(on: date, at: testTime)!
+        let actual = pill.due
+        print(pill.timesTakenToday)
+        print(pill.times)
+        print(pill.lastTaken)
+        print(pill.due)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenTakenFirstTwentyDaysAndFinishedOnNineteenthDay_returnsNextDayAtTimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let cal = Calendar.current
+        attrs.lastTaken = cal.date(bySetting: .day, value: 19, of: Date())
+        attrs.expirationInterval = PillExpirationInterval.FirstTwentyDays.rawValue
+        attrs.timesTakenToday = 1
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+        let pill = createPill(attrs)
+        print(pill.timesTakenToday)
+        let date = cal.date(bySetting: .day, value: 20, of: attrs.lastTaken!)!
         let expected = DateFactory.createDate(on: date, at: testTime)!
         let actual = pill.due
         XCTAssertEqual(expected, actual)

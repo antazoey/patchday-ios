@@ -210,7 +210,7 @@ public class Pill: Swallowable {
     private func dueDateBegin(_ begin: Int) -> Date? {
         guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
         let dayNumberInMonth = lastTaken.dayNumberInMonth()
-        if dayNumberInMonth < 10 || (dayNumberInMonth == 10 && !isDone) {
+        if dayNumberInMonth < begin || (dayNumberInMonth == begin && !isDone) {
             return nextDueTimeForEveryDaySchedule
         }
         return beginningOfNextMonthAtTimeOne(lastTaken: lastTaken)
@@ -237,5 +237,4 @@ public class Pill: Swallowable {
         }
         return nextDueTimeForEveryDaySchedule
     }
-
 }
