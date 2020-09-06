@@ -88,16 +88,16 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(times, viewModel.times)
     }
 
-    func testAppendTime_whenNoTimeSelected_addsNewTime() {
+    func testSetTimesaday_whenIncreasingAndNoTimeSelected_addsNewTime() {
         let pill = setupPill()
         let times = [Time()]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.appendTime()
+        viewModel.setTimesaday(2)
         XCTAssertEqual(2, viewModel.times.count)
     }
 
-    func testAppendTime_whenTimesPreviouslySelected_addsNewTime() {
+    func testSetTimesaday_whenIncreasingAndTimesPreviouslySelected_addsNewTime() {
         let pill = setupPill()
         let times = [Time()]
         pill.times = times
@@ -106,8 +106,30 @@ class PillDetailViewModelTests: XCTestCase {
         viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
             previousSelectedTimes
         )
-        viewModel.appendTime()
+        viewModel.setTimesaday(3)
         XCTAssertEqual(3, viewModel.times.count)
+    }
+
+    func testSetTimesaday_whenDecreasingAndNoTimeSelected_removesTime() {
+        let pill = setupPill()
+        let times = [Time(), Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.setTimesaday(1)
+        XCTAssertEqual(1, viewModel.times.count)
+    }
+
+    func testSetTimesaday_whenDecreasingAndTimesPreviouslySelected_addsNewTime() {
+        let pill = setupPill()
+        let times = [Time(), Time()]
+        pill.times = times
+        let previousSelectedTimes = [Time(), Time(), Time()]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
+            previousSelectedTimes
+        )
+        viewModel.setTimesaday(1)
+        XCTAssertEqual(1, viewModel.times.count)
     }
 
     func testNotifyStartValue_whenNotifySelected_returnsNotify() {

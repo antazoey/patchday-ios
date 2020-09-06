@@ -79,9 +79,19 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         selections.times = timeStrings
     }
 
-    func appendTime() {
+    func setTimesaday(_ timesaday: Int) {
+        guard timesaday != times.count else { return }
+        guard timesaday > 0 else { return }
         var timesCopy = times
-        timesCopy.append(Time())
+        if timesaday > times.count {
+            for _ in times.count..<timesaday {
+                timesCopy.append(Time())
+            }
+        } else {
+            for _ in timesaday..<times.count {
+                timesCopy.removeLast()
+            }
+        }
         let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
         selections.times = newTimeString
     }

@@ -183,12 +183,13 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
         let slider = sender as! UISlider
-        let newValue = Int(round(slider.value))
-        guard 1...timeButtons.count ~= newValue else { return }
-        updateTimesdayValueLabel(with: newValue)
-        setTimeButtonEnabledState(newValue)
+        let newTimesaday = Int(round(slider.value))
+        guard newTimesaday != viewModel.times.count else { return }
+        guard 1...timeButtons.count ~= newTimesaday else { return }
+        viewModel.setTimesaday(newTimesaday)
+        updateTimesdayValueLabel(with: newTimesaday)
+        setTimeButtonEnabledState(newTimesaday)
         enableSaveButton()
-        viewModel.appendTime()
     }
 
     @objc func timePickerDone(sender: Any) {
