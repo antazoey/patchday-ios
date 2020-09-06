@@ -80,6 +80,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         guard timesaday > 0 else { return }
         var timesCopy = times
         if timesaday > times.count {
+            // Set new times to have latest time
             for i in times.count..<timesaday {
                 timesCopy.append(times[i-1])
             }
