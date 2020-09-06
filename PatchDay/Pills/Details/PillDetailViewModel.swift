@@ -74,7 +74,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         var timesToSet = times
         guard index < timesToSet.count && index >= 0 else { return }
         timesToSet[index] = time
-        print(timesToSet)
         let timeStrings = PDDateFormatter.convertDatesToCommaSeparatedString(timesToSet)
         selections.times = timeStrings
     }

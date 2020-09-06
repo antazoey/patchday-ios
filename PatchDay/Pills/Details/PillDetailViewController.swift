@@ -81,14 +81,17 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         applyTheme()
     }
 
-    static func createPillDetailVC(_ source: UIViewController, _ index: Index) -> PillDetailViewController? {
+    static func createPillDetailVC(
+        _ source: UIViewController, _ index: Index
+    ) -> PillDetailViewController? {
         let vc = createPillDetailVC(source)
         return vc?.initWithPillIndex(index)
     }
 
     private static func createPillDetailVC(_ source: UIViewController) -> PillDetailViewController? {
         let id = ViewControllerIds.PillDetail
-        return source.storyboard?.instantiateViewController(withIdentifier: id) as? PillDetailViewController
+        let vc = source.storyboard?.instantiateViewController(withIdentifier: id)
+        return vc as? PillDetailViewController
     }
 
     private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
@@ -133,8 +136,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             times = viewModel.pill.times
         }
         timePicker.date = times[timeIndex]
-        let nextIndex = timeIndex + 1
-        timePicker.maximumDate = nextIndex < times.count ? times[nextIndex] : nil
+        if timeIndex > 0 {
+            timePicker.minimumDate = times[timeIndex - 1]
+        }
     }
 
     @objc func selectNameTapped() {
@@ -156,7 +160,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         selectedPicker = expirationIntervalPicker
         openExpirationIntervalPicker()
         expirationIntervalButton.setTitle(ActionStrings.Done)
-        expirationIntervalButton.replaceTarget(self, newAction: #selector(doneWithSelectExpirationIntervalTapped))
+        expirationIntervalButton.replaceTarget(
+            self, newAction: #selector(doneWithSelectExpirationIntervalTapped)
+        )
     }
 
     @objc func doneWithSelectExpirationIntervalTapped() {
@@ -211,7 +217,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return PillStrings.Intervals.all.count
     }
 
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(
+        _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int
+    ) -> String? {
         if selectedPicker == namePicker {
             return viewModel.providedPillNameSelection.tryGet(at: row)
         }
@@ -289,7 +297,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadTimeButtonStaticStates() {
         for button in timeButtons {
             button.setTitleColor(UIColor.lightGray, for: .disabled)
-            button.replaceTarget(self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside)
+            button.replaceTarget(
+                self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside
+            )
             button.setTitle(ActionStrings.Done, for: .selected)
             button.setTitleColor(UIColor.blue, for: .selected)
         }
