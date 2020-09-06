@@ -88,6 +88,25 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(times, viewModel.times)
     }
 
+    func testSetTimesday_whenSettingToZero_doesNotSet() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.setTimesaday(0)
+        XCTAssertEqual(1, viewModel.times.count)
+    }
+
+    func testSetTimesday_whenNotChanging_doesNotSet() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.setTimesaday(1)
+        XCTAssertEqual(1, viewModel.times.count)
+        XCTAssertEqual(times[0], viewModel.times[0])
+    }
+
     func testSetTimesaday_whenIncreasingAndNoTimeSelected_addsNewTime() {
         let pill = setupPill()
         let times = [Time()]
