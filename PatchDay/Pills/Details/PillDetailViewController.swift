@@ -188,13 +188,13 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         updateTimesdayValueLabel(with: newValue)
         setTimeButtonEnabledState(newValue)
         enableSaveButton()
-        viewModel.appendNewTime()
+        viewModel.appendTime()
     }
 
     @objc func timePickerDone(sender: Any) {
         guard let timeButton = sender as? UIButton else { return }
         setControlsFromTimePickerDone(timeButton: timeButton)
-        handleTimePickerDone()
+        handleTimePickerDone(timeButton)
     }
 
     // MARK: - Picker functions
@@ -255,7 +255,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func loadSelectNameButton() {
         selectNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        selectNameButton.addTarget(self, action: #selector(selectNameTapped), for: .touchUpInside)
+        selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped), for: .touchUpInside)
     }
 
     private func loadTitle() {
@@ -288,7 +288,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadTimeButtonStaticStates() {
         for button in timeButtons {
             button.setTitleColor(UIColor.lightGray, for: .disabled)
-            button.addTarget(self, action: #selector(timeButtonTapped(_:)), for: .touchUpInside)
+            button.replaceTarget(self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside)
             button.setTitle(ActionStrings.Done, for: .selected)
             button.setTitleColor(UIColor.blue, for: .selected)
         }
@@ -405,9 +405,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameTextField.isEnabled = true
     }
 
-    private func handleTimePickerDone() {
-        let timeStrings = timeButtons.map { $0.titleLabel?.text }.filter { $0 != nil } as! [String]
-        viewModel.selections.times = timeStrings.joined(separator: ",")
+    private func handleTimePickerDone(_ timeButton: UIButton) {
+        let timeIndex = timeButtons.firstIndex(of: timeButton) ?? 0
+        viewModel.selectTime(timePicker.date, timeIndex)
+        timeButton.replaceTarget(
+            self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside
+        )
     }
 
     private func enableSaveButton() {

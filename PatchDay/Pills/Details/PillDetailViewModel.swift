@@ -66,9 +66,24 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     var times: [Time] {
         if let selectedTimes = selections.times {
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes)
-        } else {
-            return pill.times
         }
+        return pill.times
+    }
+
+    func selectTime(_ time: Time, _ index: Index) {
+        var timesToSet = times
+        guard index < timesToSet.count && index >= 0 else { return }
+        timesToSet[index] = time
+        print(timesToSet)
+        let timeStrings = PDDateFormatter.convertDatesToCommaSeparatedString(timesToSet)
+        selections.times = timeStrings
+    }
+
+    func appendTime() {
+        var timesCopy = times
+        timesCopy.append(Time())
+        let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
+        selections.times = newTimeString
     }
 
     func save() {
@@ -77,13 +92,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
         notifications?.requestDuePillNotification(pill)
         tabs?.reflectPills()
         selections = PillAttributes()
-    }
-
-    func appendNewTime() {
-        var timesCopy = times
-        timesCopy.append(Time())
-        let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
-        selections.times = newTimeString
     }
 
     func handleIfUnsaved(_ viewController: UIViewController) {

@@ -6,6 +6,7 @@
 //  Copyright © 2020 Juliya Smith. All rights reserved.
 //
 
+import Foundation
 import XCTest
 import PDKit
 import PDMock
@@ -24,6 +25,89 @@ class PillDetailViewModelTests: XCTestCase {
         let schedule = dependencies.sdk?.pills as! MockPillSchedule
         schedule.all = [pill]
         return pill
+    }
+
+    func testTimes_whenNothingSelected_returnsPillTimes() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertEqual(times, viewModel.times)
+    }
+
+    func testTimes_whenTimesSelected_returnsSelectedTimes() {
+        let pill = setupPill()
+        let times = [Time()]
+        let selectedTimes = [
+            Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
+        ]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(selectedTimes)
+        XCTAssertEqual(selectedTimes, viewModel.times)
+    }
+
+    func testSelectTime_whenNothingElseSelected_setExpectedTimeString() {
+        let pill = setupPill()
+        let times = [Time(), Time(), Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let newTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
+        viewModel.selectTime(newTime!, 1)
+        let expectedTimes = [times[0], newTime, times[1]]
+        let expected = PDDateFormatter.convertDatesToCommaSeparatedString(expectedTimes)
+        XCTAssertEqual(expected, viewModel.selections.times)
+    }
+
+    func testSelectTime_whenHasPreviousSelection_setExpectedTimeString() {
+        let pill = setupPill()
+        let times = [Time(), Time(), Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let previousSelectedTimes = [
+            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: times[0]),
+            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: times[1]),
+            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: times[2]),
+        ]
+        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
+            previousSelectedTimes
+        )
+        let newTime = Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: times[0])
+        viewModel.selectTime(newTime!, 1)
+        let expectedTimes = [previousSelectedTimes[0], newTime, previousSelectedTimes[2]]
+        let expected = PDDateFormatter.convertDatesToCommaSeparatedString(expectedTimes)
+        XCTAssertEqual(expected, viewModel.selections.times)
+    }
+
+    func testSelectTime_whenIndexOutOfRange_doesNothing() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectTime(Time(), 1)
+        XCTAssertEqual(times, viewModel.times)
+    }
+
+    func testAppendTime_whenNoTimeSelected_addsNewTime() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.appendTime()
+        XCTAssertEqual(2, viewModel.times.count)
+    }
+
+    func testAppendTime_whenTimesPreviouslySelected_addsNewTime() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let previousSelectedTimes = [Time(), Time()]
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
+            previousSelectedTimes
+        )
+        viewModel.appendTime()
+        XCTAssertEqual(3, viewModel.times.count)
     }
 
     func testNotifyStartValue_whenNotifySelected_returnsNotify() {

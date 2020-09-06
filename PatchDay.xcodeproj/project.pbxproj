@@ -224,7 +224,6 @@
 		9D9C5FF3247AE4FD00B3DA6A /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FF2247AE4FD00B3DA6A /* IntegrationTests.swift */; };
 		9D9C5FF5247B187900B3DA6A /* PDTOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */; };
 		9D9C5FFB2482970E00B3DA6A /* TabReflectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFA2482970E00B3DA6A /* TabReflectorTests.swift */; };
-		9D9C5FFE24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */; };
 		9D9C600024829F5000B3DA6A /* PillDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */; };
 		9D9C60042489B75600B3DA6A /* UnsavedChangesAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C60032489B75600B3DA6A /* UnsavedChangesAlert.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
@@ -638,7 +637,6 @@
 		9D9C5FF2247AE4FD00B3DA6A /* IntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegrationTests.swift; sourceTree = "<group>"; };
 		9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTOTests.swift; sourceTree = "<group>"; };
 		9D9C5FFA2482970E00B3DA6A /* TabReflectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabReflectorTests.swift; sourceTree = "<group>"; };
-		9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesadaySliderDefinitionTests.swift; sourceTree = "<group>"; };
 		9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDetailViewModelTests.swift; sourceTree = "<group>"; };
 		9D9C60032489B75600B3DA6A /* UnsavedChangesAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsavedChangesAlert.swift; sourceTree = "<group>"; };
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
@@ -1568,7 +1566,6 @@
 		9D9C5FFC24829C8B00B3DA6A /* Details */ = {
 			isa = PBXGroup;
 			children = (
-				9D9C5FFD24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift */,
 				9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */,
 			);
 			path = Details;
@@ -2225,7 +2222,6 @@
 				9D8F45DA24956C6C00F2C39A /* HormonesViewModelTests.swift in Sources */,
 				9D8F45D62495473500F2C39A /* HormoneValueTypeTests.swift in Sources */,
 				9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */,
-				9D9C5FFE24829CCD00B3DA6A /* TimesadaySliderDefinitionTests.swift in Sources */,
 				9D1908F124684BC900E95244 /* SettingsTestHelper.swift in Sources */,
 				9D1908F32468564100E95244 /* SettingsViewModelTests.swift in Sources */,
 			);
