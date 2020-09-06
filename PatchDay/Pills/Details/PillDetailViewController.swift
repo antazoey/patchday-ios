@@ -123,15 +123,17 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     // MARK: - Pill actions
 
     @IBAction func timeButtonTapped(_ sender: Any) {
+        guard timePicker.isHidden else { return }
         guard let timeButton = sender as? UIButton else { return }
         guard timeButton.isEnabled else { return }
         guard let timeIndex = timeButtons.firstIndex(of: timeButton) else { return }
-        timePicker.isHidden = false
-        transformIntoDoneButton(timeButton)
-        disableNonTimeInteractions()
         let times = viewModel.getPickerTimes(timeIndex: timeIndex)
         timePicker.minimumDate = times.min
         timePicker.date = times.start
+        timeButton.setTitle(ActionStrings.Done)
+        disableNonTimeInteractions()
+        timePicker.isHidden = false
+        transformIntoDoneButton(timeButton)
     }
 
     @objc func selectNameTapped() {
@@ -293,8 +295,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             button.replaceTarget(
                 self, newAction: #selector(timeButtonTapped(_:)), for: .touchUpInside
             )
-            button.setTitle(ActionStrings.Done, for: .selected)
-            button.setTitleColor(UIColor.blue, for: .selected)
         }
         let times = viewModel.times
         var greatestTime: Time?
@@ -342,7 +342,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func transformIntoDoneButton(_ button: UIButton) {
-        button.isSelected = true
         button.replaceTarget(self, newAction: #selector(timePickerDone(sender:)))
     }
 
@@ -402,7 +401,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func setControlsFromTimePickerDone(timeButton: UIButton) {
         timeButton.setTitle(PDDateFormatter.formatTime(timePicker.date))
         enableSaveButton()
-        timeButton.isSelected = false
         timePicker.isHidden = true
         timesadaySlider.isEnabled = true
         selectNameButton.isEnabled = true
