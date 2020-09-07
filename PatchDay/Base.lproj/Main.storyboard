@@ -30,7 +30,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -99,7 +99,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -151,7 +151,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -215,7 +215,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="message" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -240,7 +240,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="label" size="11"/>
+                                            <font key="NSFont" metaFont="message" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -324,19 +324,22 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="KHr-Ka-MPu">
-                                                    <rect key="frame" x="15" y="65" width="300" height="70"/>
+                                                    <rect key="frame" x="15" y="65" width="345" height="70"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdX-t1-SRb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="300" height="35"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Last taken:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD8-YQ-00g">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="100" id="T0n-nJ-RU5"/>
+                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday, 10:00 PM" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfQ-wk-dOK">
-                                                                    <rect key="frame" x="150" y="0.0" width="150" height="35"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="245" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -344,16 +347,19 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTq-fb-mxV">
-                                                            <rect key="frame" x="0.0" y="35" width="300" height="35"/>
+                                                            <rect key="frame" x="0.0" y="35" width="345" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="100" id="xw6-TO-mFR"/>
+                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today, 10:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J63-bw-Kcr">
-                                                                    <rect key="frame" x="150" y="0.0" width="150" height="35"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="245" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -392,7 +398,7 @@
                                                 <constraint firstItem="svk-H5-od3" firstAttribute="top" secondItem="IiY-0Z-0mN" secondAttribute="top" id="TUV-pA-8mq"/>
                                                 <constraint firstItem="cKy-SE-Iqe" firstAttribute="bottom" secondItem="Eds-VZ-0h6" secondAttribute="bottom" id="W5g-vi-6G0"/>
                                                 <constraint firstAttribute="trailing" secondItem="svk-H5-od3" secondAttribute="trailing" id="Wjj-GW-Vgr"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="KHr-Ka-MPu" secondAttribute="trailing" constant="45" id="XbE-fD-SDc"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="KHr-Ka-MPu" secondAttribute="trailing" id="XbE-fD-SDc"/>
                                                 <constraint firstAttribute="bottom" secondItem="svk-H5-od3" secondAttribute="bottom" id="iXc-eU-09s"/>
                                                 <constraint firstItem="Eds-VZ-0h6" firstAttribute="leading" secondItem="IiY-0Z-0mN" secondAttribute="leadingMargin" id="mqw-Z4-jY9"/>
                                                 <constraint firstItem="KHr-Ka-MPu" firstAttribute="leading" secondItem="Eds-VZ-0h6" secondAttribute="leading" id="zFU-JD-wUe"/>
@@ -507,7 +513,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="label" size="11"/>
+                                                            <font key="NSFont" metaFont="message" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -567,7 +573,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="label" size="11"/>
+                                                            <font key="NSFont" metaFont="message" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>

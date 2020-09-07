@@ -4,6 +4,7 @@
 
 ### Fixed
 
+- An issue that prevented Pill Schedules from saving.
 - A bug where the Pill Schedule "First twenty days" mistakenly used "First ten days".
 - Bugs preventing "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
 - A bug where "Last Twenty Days" and "Last Ten Days" did one more days than expected.

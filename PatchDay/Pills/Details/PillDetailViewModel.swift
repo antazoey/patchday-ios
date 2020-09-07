@@ -150,7 +150,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
 
     @discardableResult
-    func selectExpirationIntervalFromRow(_ row: Index) -> String {
+    func  selectExpirationIntervalFromRow(_ row: Index) -> String {
         let interval = PillStrings.Intervals.all.tryGet(at: row)
         selections.expirationInterval = interval
         return interval ?? ""

@@ -77,6 +77,9 @@ class EntityAdapter {
         if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
             pill.timesTakenToday = Int16(timesTaken)
         }
+        if let expirationInterval = pillData.attributes.expirationInterval {
+            pill.expirationInterval = expirationInterval
+        }
     }
 
     // MARK: - Sites
