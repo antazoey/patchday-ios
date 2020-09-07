@@ -8,6 +8,8 @@
 
 ### Fixed
 
+- A bug with the Autofill feature where when changing both the Date and the Site would corrupt the schedule by
+changing the site of the wrong hormone.
 - An issue that prevented Pill Schedules from saving.
 - A bug where the Pill Schedule "First twenty days" mistakenly used "First ten days".
 - Bugs preventing "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
