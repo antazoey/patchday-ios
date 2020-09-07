@@ -33,12 +33,14 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.date = DateFactory.createDefaultDate()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         XCTAssertNil(viewModel.dateSelected)
     }
 
     func testDateSelected_whenDateSelectedFromSelections_returnsSelectedDate() {
-        setupHormone()
+        let hormone = setupHormone()
         let viewModel = HormoneDetailViewModel(0, handler)
+        viewModel.hormoneId = hormone.id
         let testDate = Date()
         viewModel.selections.date = testDate
         let actual = viewModel.dateSelected
@@ -51,14 +53,16 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.date = testDate
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.dateSelected
         XCTAssertEqual(testDate, actual)
     }
 
     func testDateSelectedText_returnsExpectedDateString() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let testDate = Date()
         viewModel.dateSelected = testDate
         let expected = PDDateFormatter.formatDate(testDate)
@@ -71,16 +75,18 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.date = DateFactory.createDefaultDate()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.datePickerDate
         let expected = Date()
         XCTAssert(PDTest.equiv(expected, actual))
     }
 
     func testDatePickerDate_whenDateSelectedFromSelections_returnsSelectedDate() {
-        setupHormone()
+        let hormone = setupHormone()
         let viewModel = HormoneDetailViewModel(0, handler)
         let testDate = Date()
         viewModel.selections.date = testDate
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.datePickerDate
         XCTAssertEqual(testDate, actual)
     }
@@ -91,6 +97,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.date = testDate
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.datePickerDate
         XCTAssertEqual(testDate, actual)
     }
@@ -100,6 +107,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.hasDate = false
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.selectDateStartText
         let expected = ActionStrings.Select
         XCTAssertEqual(expected, actual)
@@ -113,6 +121,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let expected = PDDateFormatter.formatDate(testDate)
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.selectDateStartText
         XCTAssertEqual(expected, actual)
     }
@@ -124,6 +133,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.siteName = testSite
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.selectSiteStartText
         XCTAssertEqual(testSite, actual)
     }
@@ -133,6 +143,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.hasSite = false
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.selectSiteStartText
         let expected = ActionStrings.Select
         XCTAssertEqual(expected, actual)
@@ -144,6 +155,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.siteName = "MY SEXY ASS"
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.selectSiteStartText
         let expected = hormone.siteName
         XCTAssertEqual(expected, actual)
@@ -155,6 +167,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.siteName = ""
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.selectSiteStartText
         let expected = SiteStrings.NewSite
         XCTAssertEqual(expected, actual)
@@ -168,6 +181,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.expirationInterval = expInt
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.date = nil
 
         let expectedDate = DateFactory.createExpirationDate(
@@ -185,6 +199,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.expirationInterval = expInt
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.date = nil
 
         let expected = DotDotDot
@@ -200,6 +215,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.expirationInterval = expInt
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.date = testDate
 
         let expectedDate = DateFactory.createExpirationDate(
@@ -211,11 +227,12 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testSiteStartRow_whenSiteIndexSelected_returnsSelectedSiteIndex() {
-        setupHormone()
+        let hormone = setupHormone()
         let site = MockSite()
         site.order = 3
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.site = site
         let actual = viewModel.siteStartRow
         let expected = site.order
@@ -223,9 +240,10 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testSiteStartRow_whenNoSiteIndexSelectedAndNoSite_returnsZero() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.siteStartRow
         let expected = 0
         XCTAssertEqual(expected, actual)
@@ -241,6 +259,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         sites.subscriptIdReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.siteStartRow
         let expected = 2
         XCTAssertEqual(expected, actual)
@@ -256,6 +275,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         sites.subscriptIdReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.siteStartRow
         let expected = 0
         XCTAssertEqual(expected, actual)
@@ -271,6 +291,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         sites.subscriptIdReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         _ = viewModel.siteStartRow
 
         let expected = site
@@ -433,12 +454,13 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testTrySelectSite_whenSiteExists_selectsSite() {
-        setupHormone()
+        let hormone = setupHormone()
         let site = MockSite()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         sites.subscriptIndexReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.trySelectSite(at: 3)
         let expected = viewModel.selections.site!.name
         XCTAssertEqual(expected, actual)
@@ -453,6 +475,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         sites.subscriptIndexReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.trySelectSite(at: 3)
         let actual = viewModel.selections.date!
         XCTAssert(PDTest.equiv(actual, Date()))
@@ -492,6 +515,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.date = date
         viewModel.saveSelections()
         let actual = hormones.setDateByIdCallArgs[0]
@@ -506,6 +530,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let hormones = dependencies.sdk?.hormones as! MockHormoneSchedule
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.site = site
         viewModel.saveSelections()
         let actual = hormones.setSiteByIdCallArgs[0]
@@ -515,9 +540,10 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testSaveSelections_reflectsBadge() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.saveSelections()
         let actual = (dependencies.badge as! MockBadge).reflectCallCount
         XCTAssertEqual(1, actual)
@@ -528,6 +554,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.isPastNotificationTime = false
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let notifications = dependencies.notifications as! MockNotifications
         viewModel.saveSelections()
         let actual = notifications.requestExpiredHormoneNotificationCallArgs[0].id
@@ -540,6 +567,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.isPastNotificationTime = false
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let tabs = dependencies.tabs as! MockTabs
         viewModel.saveSelections()
         let actual = tabs.reflectHormonesCallCount
@@ -551,6 +579,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.selections.site = nil
         viewModel.selections.siteName = "TEST"
         viewModel.saveSelections()
@@ -560,41 +589,45 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testHandleIfUnsaved_whenNoChanges_stillPops() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let vc = UIViewController()
         viewModel.handleIfUnsaved(vc)
         XCTAssertEqual(vc, (viewModel.nav! as! MockNav).popCallArgs[0])
     }
 
     func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsEmptyString() {
-        setupHormone()
+        let hormone = setupHormone()
         let expected = ""
         let textField = UITextField()
         textField.text = nil
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.extractSiteNameFromTextField(textField)
         XCTAssertEqual(expected, actual)
     }
 
     func testExtractSiteNameFromTextField_whenTextFieldTextIsEmptyString_returnsText() {
-        setupHormone()
+        let hormone = setupHormone()
         let text = "Text"
         let expected = text
         let textField = UITextField()
         textField.text = text
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.extractSiteNameFromTextField(textField)
         XCTAssertEqual(expected, actual)
     }
 
     func testPresentNewSiteAlert_whenNewSiteNameIsEmptyString_doesNotPresent() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let site = ""
         viewModel.presentNewSiteAlert(newSiteName: site)
         let callCount = alertFactory.createNewSiteAlertCallArgs.count
@@ -603,11 +636,12 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testPresentNewSiteAlert_presentsAlertWithHandlerThatWhenCalledInsertsNewSite() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
         let site = "Right Thigh"
         viewModel.presentNewSiteAlert(newSiteName: site)
+        viewModel.hormoneId = hormone.id
         let handlers = alertFactory.createNewSiteAlertCallArgs[0]
         handlers.handleNewSite()
         let actual = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0]
@@ -615,11 +649,12 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testPresentNewSiteAlert_presentsAlertWithHandlerWithClosureThatCallsUpdateViewsHandler() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
         let site = "Right Thigh"
         viewModel.presentNewSiteAlert(newSiteName: site)
+        viewModel.hormoneId = hormone.id
         let handlers = alertFactory.createNewSiteAlertCallArgs[0]
         handlers.handleNewSite()
         let closure = (dependencies.sdk?.sites as! MockSiteSchedule).insertNewCallArgs[0].1
@@ -628,12 +663,13 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testPresentNewSiteAlert_presentsAlertWithHandlerWithClosureThatSelectsNewSiteFromInsert() {
-        setupHormone()
+        let hormone = setupHormone()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         let site = MockSite()
         sites.insertNewReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         viewModel.presentNewSiteAlert(newSiteName: "Test")
         let handlers = alertFactory.createNewSiteAlertCallArgs[0]
         handlers.handleNewSite()
