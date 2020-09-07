@@ -16,9 +16,10 @@ enum TextFieldButtonSenderType: String {
 
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
-    var index: Index
+    private var hormoneId: UUID? = nil  // Determined after PatchData SDK available
     var hormone: Hormonal? {
-        sdk?.hormones[self.index]
+        guard let id = hormoneId else { return nil }
+        return sdk?.hormones[id]
     }
     lazy var selections = HormoneSelectionState()
     let handleInterfaceUpdatesFromNewSite: () -> Void
@@ -30,7 +31,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
         _ alertFactory: AlertProducing,
         _ dependencies: DependenciesProtocol
     ) {
-        self.index = hormoneIndex
         self.handleInterfaceUpdatesFromNewSite = newSiteHandler
         self.alertFactory = alertFactory
         super.init(
@@ -44,11 +44,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
     }
 
     init(_ hormoneIndex: Index, _ newSiteHandler: @escaping () -> Void) {
-        self.index = hormoneIndex
         self.handleInterfaceUpdatesFromNewSite = newSiteHandler
         super.init()
         if let sdk = self.sdk, self.alertFactory == nil {
             self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
+            self.hormoneId = sdk.hormones[hormoneIndex]?.id
         }
     }
 
