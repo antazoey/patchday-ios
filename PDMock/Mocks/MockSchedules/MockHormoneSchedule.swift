@@ -51,7 +51,7 @@ public class MockHormoneSchedule: HormoneScheduling {
     }
 
     public subscript(id: UUID) -> Hormonal? {
-        nil
+        all.first(where: { $0.id == id })
     }
 
     public var setByIdCallArgs: [(UUID, Date, Bodily)] = []

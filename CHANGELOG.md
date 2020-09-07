@@ -8,15 +8,13 @@
 
 ### Fixed
 
-- A bug with the Hormone Autofill feature on the Hornone Detalil screen when changing both the Date and the 
-Site would corrupt the schedule by changing the site of the wrong hormone.
-- An issue that prevented Pill Schedules from saving.
-- A bug where the Pill Schedule "First twenty days" mistakenly used "First ten days".
-- Bugs preventing "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
-- A bug where "Last Twenty Days" and "Last Ten Days" did one more days than expected.
+- A bug with the Hormone Detail screen where changing both the Date and the Site would change the site of the wrong Hormone.
+- An issue that prevented Pill expiration-interval changes from saving.
+- A bug where the Pill expiration interval "First twenty days" mistakenly used "First ten days".
+- Bugs preventing pill expiration intervals "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
+- A bug where "Last Twenty Days" and "Last Ten Days" did one more day than expected.
 - Mistake in Pill Detail view title where it said "New Pill" for the initial pills created.
-- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the next due dates. It now say a 
-more helpful message.
+- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the initial next-due dates. It now says a more helpful message.more helpful message.
 
 ## 3.0.4
 

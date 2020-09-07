@@ -323,6 +323,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         hormone.createExpirationDateReturnValue = date
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let expected = PDDateFormatter.formatDay(date)
         let actual = viewModel.autoPickedExpirationDateText
         XCTAssertEqual(expected, actual)
@@ -388,20 +389,22 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testGetSiteName_returnsExpectedName() {
-        setupHormone()
+        let hormone = setupHormone()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         sites.names = ["Name1", "Name2"]
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.getSiteName(at: 1)
         let expected = "Name2"
         XCTAssertEqual(expected, actual)
     }
 
     func testCreateHormoneViewStrings_createsExpectedStrings() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.createHormoneViewStrings()!
         XCTAssertEqual("Date and time applied: ", actual.dateAndTimePlacedText)
         XCTAssertEqual("Expires: ", actual.expirationText)
@@ -409,19 +412,21 @@ class HormoneDetailViewModelTests: XCTestCase {
     }
 
     func testTrySelectSite_whenSiteDoesNotExistAtRow_returnsNil() {
-        setupHormone()
+        let hormone = setupHormone()
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         XCTAssertNil(viewModel.trySelectSite(at: 54))
     }
 
     func testTrySelectSite_whenSiteExists_returnsSite() {
-        setupHormone()
+        let hormone = setupHormone()
         let site = MockSite()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
         sites.subscriptIndexReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
+        viewModel.hormoneId = hormone.id
         let actual = viewModel.trySelectSite(at: 3)
         let expected = site.name
         XCTAssertEqual(expected, actual)

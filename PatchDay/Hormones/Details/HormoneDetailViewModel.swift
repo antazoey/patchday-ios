@@ -16,7 +16,7 @@ enum TextFieldButtonSenderType: String {
 
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
 
-    private var hormoneId: UUID? = nil  // Determined after PatchData SDK available
+    var hormoneId: UUID? = nil  // Determined after PatchData SDK available
     var hormone: Hormonal? {
         guard let id = hormoneId else { return nil }
         return sdk?.hormones[id]
