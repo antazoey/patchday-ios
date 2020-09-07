@@ -9,6 +9,7 @@
 - Bugs preventing "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
 - A bug where "Last Twenty Days" and "Last Ten Days" did one more days than expected.
 - Mistake in Pill Detail view title where it said "New Pill" for the initial pills created.
+- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the next due dates.
 
 ### Changed
 

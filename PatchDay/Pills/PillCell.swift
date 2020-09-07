@@ -41,8 +41,11 @@ class PillCell: TableCell {
     }
 
     @discardableResult func loadDueDateText(_ pill: Swallowable) -> PillCell {
+        guard let nextDueDate = nextDueDate else { return self }
         if let dueDate = pill.due {
-            nextDueDate?.text = PDDateFormatter.formatDate(dueDate)
+            nextDueDate.text = PDDateFormatter.formatDate(dueDate)
+        } else {
+            nextDueDate.text = NSLocalizedString("Take pill to start schedule.", comment: "")
         }
         return self
     }
