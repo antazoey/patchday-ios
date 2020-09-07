@@ -2,6 +2,10 @@
 
 ## 3.1.0
 
+### Added
+
+- Pills can now be taken up to 4 times per day.
+
 ### Fixed
 
 - An issue that prevented Pill Schedules from saving.
@@ -9,15 +13,8 @@
 - Bugs preventing "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
 - A bug where "Last Twenty Days" and "Last Ten Days" did one more days than expected.
 - Mistake in Pill Detail view title where it said "New Pill" for the initial pills created.
-- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the next due dates.
-
-### Changed
-
-- Pills can now be taken up to 4 times per day.
-
-### Added
-
-- Pill time 3 and pill time 4 and ready to support more if needed.
+- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the next due dates. It now say a 
+more helpful message.
 
 ## 3.0.4
 
