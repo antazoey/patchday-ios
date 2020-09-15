@@ -20,20 +20,15 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
     init(
         hormone: Hormonal,
         notifyMinutes: Double,
-        suggestedSite: SiteName?,
         currentBadgeValue: Int,
         requestHandler: ((_ interval: Double, _ id: String)-> Void)?=nil
     ) {
         self.hormone = hormone
         self.notificationsMinutesBefore = notifyMinutes
-        let strings = NotificationStrings.get(
-            method: hormone.deliveryMethod,
-            notifyMinutes: notifyMinutes,
-            suggestedSite: suggestedSite
-        )
+        let title = NotificationStrings[hormone.deliveryMethod]
         super.init(
-            title: strings.0,
-            body: strings.1,
+            title: title,
+            body: "",
             categoryId: nil,
             currentBadgeValue: currentBadgeValue,
             requestHandler: requestHandler
@@ -49,15 +44,11 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
 
     private func createInterval() -> TimeInterval? {
         guard let interval = createIntervalFromExpirationSetting() else { return nil }
-        return accountForNotificationsMinBefore(interval)
+        return interval - (notificationsMinutesBefore * 60.0)
     }
 
     private func createIntervalFromExpirationSetting() -> TimeInterval? {
         let hours = hormone.expirationInterval.hours
         return DateFactory.createTimeInterval(fromAddingHours: hours, to: hormone.date)
-    }
-
-    private func accountForNotificationsMinBefore(_ interval: TimeInterval) -> TimeInterval {
-        interval - (notificationsMinutesBefore * 60.0)
     }
 }

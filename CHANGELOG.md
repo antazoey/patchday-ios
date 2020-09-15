@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.1.1
+
+### Fixed
+
+- Fix text in expired Gel notification's title and body - was previously the Injection title and body.
+- Fix text in all expired hormone notifications where it would indicate the hormone is not expired yet.
+
+### Removed
+
+- Removed faulty body from expired hormone notifications that mentioned the next suggested site. This may re-added if we ever support Push Notifications.
+
 ## 3.1.0
 
 ### Added

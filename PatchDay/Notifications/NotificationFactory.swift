@@ -23,7 +23,6 @@ public class NotificationFactory: NotificationProducing {
         ExpiredHormoneNotification(
             hormone: hormone,
             notifyMinutes: Double(sdk.settings.notificationsMinutesBefore.value),
-            suggestedSite: sdk.sites.suggested?.name,
             currentBadgeValue: badge.value
         )
     }
