@@ -501,8 +501,6 @@ public class PillTests: XCTestCase {
             byAdding: comps,
             to: cal.date(bySetting: .day, value: lastDayNumInLastMonth, of: randomDateLastMonth)!
         )!
-        print(attrs.lastTaken!)
-        print(now.now)
 
         let pill = createPill(attrs, now)
         let timeOne = pill.times[0]
