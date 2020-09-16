@@ -23,10 +23,14 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         v, id in ExpiredHormoneNotificationTests.testHandlerCallArgs.append((v, id))
     }
 
-    func testInit_whenUsingPatchesAndMinutesBefore_hasExpectedProperties() {
+    private func createHormone() -> MockHormone {
         let hormone = MockHormone()
         hormone.siteName = _oldName
-        hormone.deliveryMethod = .Patches
+        return hormone
+    }
+
+    func testInit_whenUsingPatchesAndMinutesBefore_hasExpectedProperties() {
+        let hormone = createHormone()
         let notifyMin = Double(30)
         let not = ExpiredHormoneNotification(
             hormone: hormone,
@@ -35,10 +39,11 @@ class ExpiredHormoneNotificationTests: XCTestCase {
             requestHandler: _testHandler
         )
         XCTAssertEqual("Time for your next patch", not.title)
+        XCTAssertEqual("Expired Patch from previous site \(_oldName).", not.body)
     }
 
     func testInit_whenUsingInjectionsAndMinutesBefore_hasExpectedProperties() {
-        let hormone = MockHormone()
+        let hormone = createHormone()
         hormone.deliveryMethod = .Injections
         let notifyMin = Double(30)
 
@@ -50,6 +55,23 @@ class ExpiredHormoneNotificationTests: XCTestCase {
         )
 
         XCTAssertEqual("Time for your next injection", not.title)
+        XCTAssertEqual("Expired Injection from previous site \(_oldName).", not.body)
+    }
+
+    func testInit_whenUsingGelAndMinutesBefore_hasExpectedProperties() {
+        let hormone = createHormone()
+        hormone.deliveryMethod = .Gel
+        let notifyMin = Double(30)
+
+        let not = ExpiredHormoneNotification(
+            hormone: hormone,
+            notifyMinutes: notifyMin,
+            currentBadgeValue: 0,
+            requestHandler: _testHandler
+        )
+
+        XCTAssertEqual("Time for your gel", not.title)
+        XCTAssertEqual("Expired Gel from previous site \(_oldName).", not.body)
     }
 
     func testRequest_callsHandlersWithExpectedArgs() {

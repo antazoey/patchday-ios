@@ -11,6 +11,14 @@ import PDKit
 
 class NotificationStrings {
 
+    static func createBody(from hormone: Hormonal) -> String {
+        let type = SiteStrings.getDeliveryMethodString(hormone.deliveryMethod)
+        return NSLocalizedString(
+            "Expired \(type) from previous site \(hormone.siteName).",
+            comment: "Notification body."
+        )
+    }
+
     static subscript(method: DeliveryMethod) -> String {
         switch method {
             case .Patches: return patchExpired

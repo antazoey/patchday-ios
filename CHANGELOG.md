@@ -6,6 +6,7 @@
 
 - Fix text in expired Gel notification's title and body - was previously the Injection title and body.
 - Fix text in all expired hormone notifications where it would indicate the hormone is not expired yet.
+- Fixed migration issue where you would get an extra pill time even if you were only using a single time.
 
 ### Removed
 
