@@ -474,6 +474,7 @@ public class PillTests: XCTestCase {
         let date = cal.date(bySetting: .day, value: day, of: attrs.lastTaken!)!
         let expected = DateFactory.createDate(on: date, at: testTime)!
         let actual = pill.due
+
         XCTAssertEqual(expected, actual)
     }
 

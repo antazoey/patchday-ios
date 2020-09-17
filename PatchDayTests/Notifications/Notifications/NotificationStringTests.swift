@@ -13,7 +13,6 @@ import PDMock
 @testable
 import PatchDay
 
-
 class NotificationStringTests: XCTestCase {
     func testSubscript_whenPatchesAndExpired() {
         let actual = NotificationStrings[.Patches]
