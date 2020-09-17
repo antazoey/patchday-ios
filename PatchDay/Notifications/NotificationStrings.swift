@@ -11,6 +11,14 @@ import PDKit
 
 class NotificationStrings {
 
+    let title: String
+    let body: String
+
+    init(hormone: Hormonal) {
+        self.body = NotificationStrings.createBody(from: hormone)
+        self.title = NotificationStrings.createTitle(method: hormone.deliveryMethod)
+    }
+
     static func createBody(from hormone: Hormonal) -> String {
         let type = SiteStrings.getDeliveryMethodString(hormone.deliveryMethod)
         return NSLocalizedString(
@@ -19,7 +27,7 @@ class NotificationStrings {
         )
     }
 
-    static subscript(method: DeliveryMethod) -> String {
+    static func createTitle(method: DeliveryMethod) -> String {
         switch method {
             case .Patches: return patchExpired
             case .Injections: return injectionExpired

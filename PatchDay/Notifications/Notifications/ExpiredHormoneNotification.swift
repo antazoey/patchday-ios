@@ -25,11 +25,10 @@ public class ExpiredHormoneNotification: Notification, PDNotificationProtocol {
     ) {
         self.hormone = hormone
         self.notificationsMinutesBefore = notifyMinutes
-        let title = NotificationStrings[hormone.deliveryMethod]
-        let body = NotificationStrings.createBody(from: hormone)
+        let strings = NotificationStrings(hormone: hormone)
         super.init(
-            title: title,
-            body: body,
+            title: strings.title,
+            body: strings.body,
             categoryId: nil,
             currentBadgeValue: currentBadgeValue,
             requestHandler: requestHandler
