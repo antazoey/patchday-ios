@@ -279,6 +279,22 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testDue_whenThriceEveryDayAndTakenTwiceToday_returnsTodayATimeThree() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
+        let testTimeThree = DateFactory.createDate(byAddingSeconds: 100, to: testTime)!
+        let times = [testTime, testTimeTwo, testTimeThree]
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.timesTakenToday = 2
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTimeThree, days: 0) // Tomorrow at time one
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
     func testDue_whenEveryOtherDayAndTakenTwoDaysAgo_returnsTodayAtTimeOne() {
         var attrs = PillAttributes()
         let testTime = Date(timeIntervalSinceNow: -234233234352)
