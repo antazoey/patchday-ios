@@ -175,7 +175,7 @@ public class Pill: Swallowable {
         return DateFactory.createDate(at: times[0], daysFromToday: daysFromNow, now: _now)
     }
 
-    private func beginningOfNextMonthAtTimeOne(lastTaken: Date) -> Date? {
+    private func beginningOfDueMonthAtTimeOne(lastTaken: Date) -> Date? {
         if let nextTime = nextDueTimeForEveryDaySchedule,
             let nextMonth = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken) {
             return DateFactory.createDate(on: nextMonth, at: nextTime)
@@ -183,7 +183,7 @@ public class Pill: Swallowable {
         return nil
     }
 
-    private func endOfMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
+    private func endOfDueMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
         guard let daysInMonth = lastTaken.daysInMonth() else { return nil }
         let startDay = daysInMonth - days
         if let nextTime = nextDueTimeForEveryDaySchedule,
@@ -207,7 +207,7 @@ public class Pill: Swallowable {
         if dayNumberInMonth < begin || (dayNumberInMonth == begin && !isDone) {
             return nextDueTimeForEveryDaySchedule
         }
-        return beginningOfNextMonthAtTimeOne(lastTaken: lastTaken)
+        return beginningOfDueMonthAtTimeOne(lastTaken: lastTaken)
     }
 
     private var dueDateForLastTenDays: Date? {
@@ -228,7 +228,7 @@ public class Pill: Swallowable {
         let numberToSubstract = end - 1
         let limit = daysInMonth - numberToSubstract
         if dayNumber == daysInMonth && isDone || dayNumber <= limit || lastTaken < Date() {
-            return endOfMonthAtTimeOne(lastTaken: lastTaken, days: end)
+            return endOfDueMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
         return nextDueTimeForEveryDaySchedule
     }
