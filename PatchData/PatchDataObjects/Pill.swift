@@ -183,8 +183,6 @@ public class Pill: Swallowable {
         return nil
     }
 
-    // TODO:  Should be beginning of last 20 days of this month and only do next month day is
-    // greater than threshold (or equal to last of month)
     private func endOfMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
         guard let daysInMonth = lastTaken.daysInMonth() else { return nil }
         let startDay = daysInMonth - days
