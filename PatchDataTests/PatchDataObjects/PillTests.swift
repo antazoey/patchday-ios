@@ -279,6 +279,39 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testDue_whenThriceEveryDayAndTakenTwiceToday_returnsTodayATimeThree() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
+        let testTimeThree = DateFactory.createDate(byAddingSeconds: 100, to: testTime)!
+        let times = [testTime, testTimeTwo, testTimeThree]
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.timesTakenToday = 2
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTimeThree, days: 0)  // Today at time three
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDue_whenFourTimesEveryDayAndTakenFourTimesToday_returnsTomorrowATimeOne() {
+        var attrs = PillAttributes()
+        let testTime = Date(timeIntervalSinceNow: -234233234352)
+        let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
+        let testTimeThree = DateFactory.createDate(byAddingSeconds: 100, to: testTime)!
+        let testTimeFour = DateFactory.createDate(byAddingSeconds: 250, to: testTime)!
+        let times = [testTime, testTimeTwo, testTimeThree, testTimeFour]
+        attrs.lastTaken = Date(timeIntervalSinceNow: -1000)
+        attrs.expirationInterval = PillExpirationInterval.EveryDay.rawValue
+        attrs.timesTakenToday = 4
+        attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+        let pill = createPill(attrs)
+        let expected = createDueTime(testTime, days: 1) // Tomorrow at time one
+        let actual = pill.due
+        XCTAssertEqual(expected, actual)
+    }
+
     func testDue_whenEveryOtherDayAndTakenTwoDaysAgo_returnsTodayAtTimeOne() {
         var attrs = PillAttributes()
         let testTime = Date(timeIntervalSinceNow: -234233234352)
@@ -464,11 +497,17 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval = PillExpirationInterval.LastTwentyDays.rawValue
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
+
+        // Set "now" to end of last month.
+        let now = MockNow()
+        now.now = attrs.lastTaken!
+
         let day = attrs.lastTaken!.daysInMonth()! - 20
-        let pill = createPill(attrs)
+        let pill = createPill(attrs, now)
         let date = cal.date(bySetting: .day, value: day, of: attrs.lastTaken!)!
         let expected = DateFactory.createDate(on: date, at: testTime)!
         let actual = pill.due
+
         XCTAssertEqual(expected, actual)
     }
 
@@ -481,7 +520,6 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval = PillExpirationInterval.LastTwentyDays.rawValue
         attrs.timesTakenToday = 0
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
-
         // Set "now" to first of the month
         var firstOfMonth = cal.date(bySetting: .day, value: 1, of: realNow)!
         firstOfMonth = cal.date(byAdding: .day, value: -lastDayNumInCurrentMonth, to: firstOfMonth)!
@@ -500,7 +538,7 @@ public class PillTests: XCTestCase {
 
         let pill = createPill(attrs, now)
         let timeOne = pill.times[0]
-        let expectedDay = cal.date(bySetting: .day, value: lastDayNumInCurrentMonth-19, of: Date())!
+        let expectedDay = cal.date(bySetting: .day, value: lastDayNumInCurrentMonth-19, of: attrs.lastTaken!)!
         let expected = DateFactory.createDate(on: expectedDay, at: timeOne)!
         let actual = pill.due!
         XCTAssertEqual(expected, actual)

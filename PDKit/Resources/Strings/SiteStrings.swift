@@ -14,6 +14,14 @@ public class SiteStrings {
         "Displayed all over the app. Abbreviate if it is more than 2x as long."
     }()
 
+    public static func getDeliveryMethodString(_ method: DeliveryMethod) -> String {
+        switch method {
+            case .Patches: return NSLocalizedString("Patch", comment: "Medicinal")
+            case .Injections: return NSLocalizedString("Injection", comment: "Medicinal")
+            case .Gel: return NSLocalizedString("Gel", comment: "Medicinal")
+        }
+    }
+
     public static let CustomSiteId = "custom"
 
     public static var Unplaced: String { NSLocalizedString("unplaced", comment: commonComment) }

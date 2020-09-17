@@ -101,7 +101,7 @@ class MOPillList: MOEntityList {
             if pill.time1 != nil {
                 times.append(pill.time1 as Date?)
             }
-            if pill.time2 != nil {
+            if pill.time2 != nil && pill.timesaday > 1 {
                 times.append(pill.time2 as Date?)
             }
             if times.count > 0 {
