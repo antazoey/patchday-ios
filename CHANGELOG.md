@@ -10,7 +10,7 @@
 
 ### Removed
 
-- Removed faulty body from expired hormone notifications that mentioned the next suggested site. This may re-added if we ever support Push Notifications.
+- Removed next suggested site text from expired hormone notifications, as it was faulty.
 
 ## 3.1.0
 
