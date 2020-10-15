@@ -57,7 +57,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
 
     func resetSites() {
         guard let sites = sdk?.sites else { return }
-            sites.reset()
+        sites.reset()
     }
 
     func reorderSites(sourceRow: Index, destinationRow: Index) {
@@ -86,7 +86,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
     }
 
     func toggleEdit(_ props: BarItemInitializationProperties) {
-        table.toggleEdit(state: props.tableActionState)
+        table.toggleEdit(isEditing: props.isEditing)
     }
 
     func deleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {

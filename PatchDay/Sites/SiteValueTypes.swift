@@ -29,14 +29,8 @@ struct SiteSelectionState {
 
 struct BarItemInitializationProperties {
     var sitesViewController: UIViewController
-    var tableActionState: SiteTableActionState
+    var isEditing: Bool
     var oppositeActionTitle: String
     var reset: Selector
     var insert: Selector
-}
-
-enum SiteTableActionState {
-    case Editing
-    case Reading
-    case Unknown
 }

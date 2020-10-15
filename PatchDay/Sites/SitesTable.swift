@@ -41,8 +41,8 @@ class SitesTable: TableViewWrapper<SiteCell> {
         return cell
     }
 
-    func toggleEdit(state: SiteTableActionState) {
-        table.isEditing = state == .Editing
+    func toggleEdit(isEditing: Bool) {
+        table.isEditing = isEditing
         reloadData()
     }
 

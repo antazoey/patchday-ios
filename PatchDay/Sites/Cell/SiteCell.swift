@@ -19,51 +19,32 @@ class SiteCell: TableCell {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
 
+    private var viewModel: SiteCellViewModel? = nil
+
     @discardableResult
     func configure(props: SiteCellProperties) -> SiteCell {
+        self.viewModel = SiteCellViewModel(props)
         self.props = props
+        nameLabel.text = viewModel?.siteNameText ?? SiteStrings.NewSite
         loadOrderDependentViews()
-        loadNameLabel()
         siteIndexImageView.image = PDIcons.siteIndexIcon.withRenderingMode(.alwaysTemplate)
         reflectTheme(row: props.row)
         prepareBackgroundSelectedView()
         return self
     }
 
-    private func loadNameLabel() {
-        var name = self.props.site?.name
-        if name == "" {
-            name = SiteStrings.NewSite
-        }
-        nameLabel.text = name ?? SiteStrings.NewSite
-    }
-
     private func loadOrderDependentViews() {
-        guard let order = props.site?.order else { return }
-        orderLabel.text = "\(order + 1)."
-        loadNextLabel(order)
-        let state: SiteTableActionState = isEditing ? .Editing : .Reading
-        reflectActionState(cellIndex: order, actionState: state)
+        orderLabel.text = viewModel?.orderText
+        reflectActionState()
     }
 
-    public func reflectActionState(cellIndex: Index, actionState: SiteTableActionState) {
-        let isEditing = actionState == .Editing
-        reflectEditingState(isEditing)
-        if !isEditing, cellIndex == props?.nextSiteIndex {
-            nextLabel.isHidden = false
-            siteIndexImageView.isHidden = true
-        }
-    }
-
-    private func reflectEditingState(_ editing: Bool) {
-        orderLabel.isHidden = editing
-        arrowLabel.isHidden = editing
-        siteIndexImageView.isHidden = editing
-    }
-
-    private func loadNextLabel(_ index: Index) {
-        nextLabel.isHidden = nextTitleShouldHide(at: index, isEditing: isEditing)
-        siteIndexImageView.isHidden = !nextLabel.isHidden
+    public func reflectActionState() {
+        guard let viewModel = viewModel else { return }
+        let visibilityBools = viewModel.getVisibilityBools(cellIsInEditMode: isEditing)
+        orderLabel.isHidden = !visibilityBools.showOrder
+        arrowLabel.isHidden = visibilityBools.showNext
+        siteIndexImageView.isHidden = visibilityBools.showNext
+        nextLabel.isHidden = !visibilityBools.showNext
     }
 
     private func reflectTheme(row: Index) {
@@ -73,11 +54,6 @@ class SiteCell: TableCell {
         nextLabel.textColor = PDColors[.NewItem]
         siteIndexImageView.tintColor = PDColors[.Text]
         backgroundColor = PDColors.Cell[row]
-    }
-
-    /// Should hide if not the the next index.
-    private func nextTitleShouldHide(at index: Index, isEditing: Bool) -> Bool {
-        props.nextSiteIndex != index || isEditing
     }
 
     private func prepareBackgroundSelectedView() {
