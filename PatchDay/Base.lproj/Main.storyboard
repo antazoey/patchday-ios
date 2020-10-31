@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -30,7 +32,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area where user enters the date and time placed for the patch">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -46,7 +48,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KbJ-x8-HEc">
                                         <rect key="frame" x="0.0" y="17" width="339" height="40"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNJ-il-X3d">
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNJ-il-X3d">
                                                 <rect key="frame" x="0.0" y="0.0" width="339" height="40"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="                        ">
@@ -99,7 +101,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the expiration date">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -151,7 +153,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="title for area that states the location the patch was placed at">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -183,7 +185,7 @@
                                                     <constraint firstAttribute="width" constant="1" id="RXq-CX-uDb"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="where" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="suw-Ai-Pxz">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="where" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="suw-Ai-Pxz">
                                                 <rect key="frame" x="289" y="0.0" width="50" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="93l-1J-4hM"/>
@@ -215,7 +217,7 @@
                                         <attributedString key="userComments">
                                             <fragment content="a save button (title)">
                                                 <attributes>
-                                                    <font key="NSFont" metaFont="label" size="11"/>
+                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
@@ -228,7 +230,7 @@
                                     <constraint firstItem="5x3-eZ-12Y" firstAttribute="height" secondItem="1DI-qg-8qA" secondAttribute="height" id="xc1-8B-sUl"/>
                                 </constraints>
                             </stackView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ynp-FM-Qea">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ynp-FM-Qea">
                                 <rect key="frame" x="76" y="439" width="223" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Xqt-09-RTb"/>
@@ -240,7 +242,7 @@
                                 <attributedString key="userComments">
                                     <fragment content="Button title for changing a patch">
                                         <attributes>
-                                            <font key="NSFont" metaFont="label" size="11"/>
+                                            <font key="NSFont" metaFont="menu" size="11"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -250,6 +252,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="Wqf-qn-5f0"/>
                         <color key="backgroundColor" white="1" alpha="0.20235812883435583" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ynp-FM-Qea" firstAttribute="centerX" secondItem="LVV-Xz-kzD" secondAttribute="centerX" id="6ng-3J-fJK"/>
@@ -260,7 +263,6 @@
                             <constraint firstItem="LVV-Xz-kzD" firstAttribute="top" secondItem="Wqf-qn-5f0" secondAttribute="top" constant="51" id="tVn-fM-3ni"/>
                             <constraint firstItem="ynp-FM-Qea" firstAttribute="leading" secondItem="hEG-HB-nmT" secondAttribute="leadingMargin" constant="60" id="yLA-ER-3Bn"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Wqf-qn-5f0"/>
                     </view>
                     <navigationItem key="navigationItem" title="Hormone" id="y1n-4K-QQn">
                         <barButtonItem key="backBarButtonItem" title="Back" id="nN7-dt-VEJ"/>
@@ -315,7 +317,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Progesterone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eds-VZ-0h6">
-                                                    <rect key="frame" x="15" y="17" width="200" height="24"/>
+                                                    <rect key="frame" x="16" y="17" width="200" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ejZ-D5-Xz1"/>
                                                     </constraints>
@@ -324,10 +326,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="KHr-Ka-MPu">
-                                                    <rect key="frame" x="15" y="65" width="345" height="70"/>
+                                                    <rect key="frame" x="16" y="65" width="343" height="70"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdX-t1-SRb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="345" height="35"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Last taken:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD8-YQ-00g">
                                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
@@ -339,7 +341,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday, 10:00 PM" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfQ-wk-dOK">
-                                                                    <rect key="frame" x="100" y="0.0" width="245" height="35"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="243" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
@@ -347,7 +349,7 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTq-fb-mxV">
-                                                            <rect key="frame" x="0.0" y="35" width="345" height="35"/>
+                                                            <rect key="frame" x="0.0" y="35" width="343" height="35"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
                                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
@@ -359,7 +361,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today, 10:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J63-bw-Kcr">
-                                                                    <rect key="frame" x="100" y="0.0" width="245" height="35"/>
+                                                                    <rect key="frame" x="100" y="0.0" width="243" height="35"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
@@ -382,7 +384,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svk-H5-od3" customClass="PDBadgeButton" customModule="PatchDay" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="svk-H5-od3" customClass="PDBadgeButton" customModule="PatchDay" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="170"/>
                                                     <state key="normal" title=" "/>
                                                 </button>
@@ -408,7 +410,7 @@
                                             <outlet property="arrowLabel" destination="cKy-SE-Iqe" id="pL3-dC-XIj"/>
                                             <outlet property="badgeButton" destination="svk-H5-od3" id="9KY-zp-5C6"/>
                                             <outlet property="lastTakenHeaderLabel" destination="PD8-YQ-00g" id="uvm-pC-ztD"/>
-                                            <outlet property="lastTakenLabel" destination="cfQ-wk-dOK" id="ys4-aS-Qqh"/>
+                                            <outlet property="lastTakenLabel" destination="cfQ-wk-dOK" id="4Mq-Yv-08h"/>
                                             <outlet property="nameLabel" destination="Eds-VZ-0h6" id="erR-Z2-KWy"/>
                                             <outlet property="nextDueDateLabel" destination="J63-bw-Kcr" id="G3V-Ti-9JG"/>
                                             <outlet property="nextHeaderLabel" destination="HfE-Hn-eEY" id="4iP-IF-pCk"/>
@@ -417,8 +419,8 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ILT-cU-H55"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </view>
                     <navigationItem key="navigationItem" title="Pills" id="Jvz-nd-goC"/>
                     <connections>
@@ -470,7 +472,7 @@
                                                     <constraint firstAttribute="width" constant="1" id="f5T-jt-sZs"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="typepill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mxZ-UI-Ia5">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="typepill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mxZ-UI-Ia5">
                                                 <rect key="frame" x="315" y="0.0" width="50" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="8z5-hs-Qfx"/>
@@ -513,7 +515,7 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="label" size="11"/>
+                                                            <font key="NSFont" metaFont="menu" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
@@ -573,20 +575,20 @@
                                                 <attributedString key="userComments">
                                                     <fragment content="title for area that states the location the patch was placed at">
                                                         <attributes>
-                                                            <font key="NSFont" metaFont="label" size="11"/>
+                                                            <font key="NSFont" metaFont="menu" size="11"/>
                                                             <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                         </attributes>
                                                     </fragment>
                                                 </attributedString>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEs-dt-ycQ">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DEs-dt-ycQ">
                                                 <rect key="frame" x="104.5" y="0.0" width="230.5" height="50"/>
                                                 <state key="normal" title="Button"/>
                                                 <connections>
                                                     <action selector="expirationIntervalTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Lb8-sV-bKS"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wA-kW-Ajl">
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1wA-kW-Ajl">
                                                 <rect key="frame" x="335" y="0.0" width="30" height="50"/>
                                                 <state key="normal" title="   〉">
                                                     <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -648,7 +650,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
                                         <rect key="frame" x="0.0" y="289.5" width="365" height="15"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeOneButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fZS-Cj-XcQ">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeOneButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fZS-Cj-XcQ">
                                                 <rect key="frame" x="0.0" y="0.0" width="39" height="15"/>
                                                 <state key="normal" title="12:00"/>
                                                 <connections>
@@ -657,9 +659,9 @@
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7PS-kk-1eI">
                                                 <rect key="frame" x="39" y="0.0" width="69.5" height="15"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeTwoButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-f3-meX">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeTwoButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-f3-meX">
                                                 <rect key="frame" x="108.5" y="0.0" width="39" height="15"/>
                                                 <state key="normal" title="12:00"/>
                                                 <connections>
@@ -668,9 +670,9 @@
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXf-Se-Gp4">
                                                 <rect key="frame" x="147.5" y="0.0" width="70" height="15"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeThreeButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTm-9b-tnO">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeThreeButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTm-9b-tnO">
                                                 <rect key="frame" x="217.5" y="0.0" width="39" height="15"/>
                                                 <state key="normal" title="12:00"/>
                                                 <connections>
@@ -679,9 +681,9 @@
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jia-id-Dhx">
                                                 <rect key="frame" x="256.5" y="0.0" width="69.5" height="15"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeFourButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghk-DN-NbN">
+                                            <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="pillTimeFourButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ghk-DN-NbN">
                                                 <rect key="frame" x="326" y="0.0" width="39" height="15"/>
                                                 <state key="normal" title="12:00"/>
                                                 <connections>
@@ -731,6 +733,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="JxO-PP-lrf"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="YF0-w6-5sp" secondAttribute="trailing" constant="5" id="96W-Nx-25s"/>
@@ -738,7 +741,6 @@
                             <constraint firstItem="YF0-w6-5sp" firstAttribute="centerX" secondItem="MMA-J0-UE1" secondAttribute="centerX" id="bg8-uB-0hR"/>
                             <constraint firstItem="YF0-w6-5sp" firstAttribute="leading" secondItem="MMA-J0-UE1" secondAttribute="leading" constant="5" id="t5b-8X-xaX"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="JxO-PP-lrf"/>
                     </view>
                     <navigationItem key="navigationItem" id="Wfm-81-PFl">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="koe-DU-BKv">
@@ -803,7 +805,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="htz-LK-Xnm">
-                                                    <rect key="frame" x="296" y="11" width="32" height="28"/>
+                                                    <rect key="frame" x="295" y="11" width="32" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="lhM-7u-jpf"/>
                                                     </constraints>
@@ -811,12 +813,12 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-va-RXc">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n77-qe-kWD" customClass="PDBadgeButton" customModule="PatchDay" customModuleProvider="target">
+                                                <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="n77-qe-kWD" customClass="PDBadgeButton" customModule="PatchDay" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="160"/>
                                                     <state key="normal" title=" "/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3T-o3-i1R">
-                                                    <rect key="frame" x="35" y="131" width="273" height="18"/>
+                                                    <rect key="frame" x="36" y="131" width="271" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -842,13 +844,14 @@
                                         <connections>
                                             <outlet property="badgeButton" destination="n77-qe-kWD" id="5ft-wS-wfo"/>
                                             <outlet property="dateLabel" destination="B3T-o3-i1R" id="u9y-ZX-HqG"/>
-                                            <outlet property="overnightImage" destination="htz-LK-Xnm" id="uNQ-cp-ZFV"/>
+                                            <outlet property="overnightImageView" destination="htz-LK-Xnm" id="Zzx-Am-guQ"/>
                                             <outlet property="siteImageView" destination="Fjm-va-RXc" id="DZ7-tO-1IC"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Zb-YV-Npm"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
@@ -857,7 +860,6 @@
                             <constraint firstItem="6Zb-YV-Npm" firstAttribute="trailing" secondItem="UET-BI-a1o" secondAttribute="trailing" constant="16" id="mRv-Zq-X1v"/>
                             <constraint firstItem="UET-BI-a1o" firstAttribute="leading" secondItem="6Zb-YV-Npm" secondAttribute="leading" constant="16" id="xtP-Eh-GHw"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Zb-YV-Npm"/>
                     </view>
                     <navigationItem key="navigationItem" title="Hormones" id="sdl-A0-hNe"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -1009,7 +1011,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uH0-Pp-56s"/>
+        <segue reference="mpM-BR-8sz"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="Purple"/>
     <resources>
@@ -1023,5 +1025,8 @@
         <namedColor name="Purple">
             <color red="0.57899999618530273" green="0.12800000607967377" blue="0.57300001382827759" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

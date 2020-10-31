@@ -6,7 +6,7 @@ import UIKit
 import PDKit
 
 enum PDBadgeButtonType {
-    case forPatchesHormonesView
+    case forPatchesAndGelHormonesView
     case forInjectionsHormonesView
     case forPillsView
 }
@@ -24,7 +24,7 @@ struct CGDimensions {
 
 class PDBadgeButton: UIButton {
 
-    var type: PDBadgeButtonType = .forPatchesHormonesView
+    var type: PDBadgeButtonType = .forPatchesAndGelHormonesView
 
     var badgeValue: String! = "" {
         didSet {

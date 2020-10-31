@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+### Changed
+
+- iPad font size for Hormone Cell text was decreased.
+
 ## 3.1.1
 
 ### Fixed

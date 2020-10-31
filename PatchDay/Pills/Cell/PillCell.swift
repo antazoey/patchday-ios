@@ -28,7 +28,7 @@ class PillCell: TableCell {
     @discardableResult
     public func configure(_ params: PillCellConfigurationParameters) -> PillCell {
         self.viewModel = PillCellViewModel(pill: params.pill)
-        lastTakenLabel.text = viewModel?.lastTakenText
+        lastTakenLabel?.text = viewModel?.lastTakenText
         nameLabel?.text = params.pill.name
         nextDueDateLabel?.text = viewModel?.dueDateText
         loadBackground()

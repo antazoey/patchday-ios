@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1020"
+   LastUpgradeVersion = "1210"
    wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
@@ -56,7 +56,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9DA35CD82451FD5000C0778B"
+               BlueprintIdentifier = "9D6E9AED2456253A003BBCC9"
                BuildableName = "PatchDayTests.xctest"
                BlueprintName = "PatchDayTests"
                ReferencedContainer = "container:PatchDay.xcodeproj">
