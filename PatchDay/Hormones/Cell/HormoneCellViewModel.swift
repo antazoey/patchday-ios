@@ -20,10 +20,12 @@ class HormoneCellViewModel {
 
     let cellIndex: Index
     private let sdk: PatchDataSDK
+    private let isPad: Bool
 
-    init(cellIndex: Index, sdk: PatchDataSDK) {
+    init(cellIndex: Index, sdk: PatchDataSDK, isPad: Bool) {
         self.cellIndex = cellIndex
         self.sdk = sdk
+        self.isPad = isPad
     }
 
     var hormone: Hormonal? {
@@ -78,7 +80,7 @@ class HormoneCellViewModel {
     }
 
     var dateFont: UIFont {
-        let size: CGFloat = AppDelegate.isPad ?
+        let size: CGFloat = isPad ?
             _HORMONE_CELL_PAD_FONT_SIZE : _HORMONE_CELL_PHONE_FONT_SIZE
         return UIFont.systemFont(ofSize: size)
     }

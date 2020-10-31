@@ -23,7 +23,9 @@ class HormonesTable: TableViewWrapper<HormoneCell> {
         guard let sdk = sdk else { return }
         for row in 0..<SupportedHormoneUpperQuantityLimit {
             if let cell = dequeueCell() {
-                cell.configure(viewModel: HormoneCellViewModel(cellIndex: row, sdk: sdk))
+                let isPad = AppDelegate.isPad
+                let viewModel = HormoneCellViewModel(cellIndex: row, sdk: sdk, isPad: isPad)
+                cell.configure(viewModel)
                 _cells.append(cell)
             }
         }

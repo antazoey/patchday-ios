@@ -19,7 +19,7 @@ class HormoneCell: TableCell {
     private var viewModel: HormoneCellViewModel?
 
     @discardableResult
-    public func configure(viewModel: HormoneCellViewModel) -> HormoneCell {
+    public func configure(_ viewModel: HormoneCellViewModel) -> HormoneCell {
         self.viewModel = viewModel
         backgroundColor = UIColor.systemBackground
         return reflectHormone(at: viewModel.cellIndex).applyTheme()
