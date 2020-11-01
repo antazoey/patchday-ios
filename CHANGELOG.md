@@ -5,6 +5,7 @@
 ### Fixed
 
 - Bug where Pill Schedules "Last 10 Days" and "Last 20 Days" would use the wrong start date of the month.
+- Bug where Pill Schedules "First 10 Days" and "First 20 Days" would not work correctly at the end of the month.
 
 ### Changed
 

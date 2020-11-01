@@ -213,19 +213,19 @@ public class Pill: Swallowable {
 
     private func dueDateBegin(_ begin: Int) -> Date? {
         guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
-        let dayNumberInMonth = lastTaken.dayNumberInMonth()
-        if dayNumberInMonth < begin || (dayNumberInMonth == begin && !isDone) {
+        let currentDay = now.dayValue()
+        if currentDay < begin || (currentDay == begin && !isDone) {
             return nextDueTimeForEveryDaySchedule
         }
         return beginningOfDueMonthAtTimeOne(lastTaken: lastTaken)
     }
 
     private var dueDateForLastTenDays: Date? {
-        dueDateEnd(10)
+        dueDateEnd(9)
     }
 
     private var dueDateForLastTwentyDays: Date? {
-        dueDateEnd(20)
+        dueDateEnd(19)
     }
 
     private func dueDateEnd(_ end: Int) -> Date? {
@@ -235,9 +235,7 @@ public class Pill: Swallowable {
         }
         let dayNumber = lastTaken.dayNumberInMonth()
         // Last "5" of 30 days = 26, 27, 28, 29, 30, len=5, 30-4=26.
-        let numberToSubstract = end - 1
-        let limit = daysInMonth - numberToSubstract
-        if dayNumber == daysInMonth && isDone || dayNumber <= limit || lastTaken < Date() {
+        if dayNumber == daysInMonth && isDone || dayNumber <= end || lastTaken < Date() {
             return endOfDueMonthAtTimeOne(lastTaken: lastTaken, days: end)
         }
         return nextDueTimeForEveryDaySchedule
