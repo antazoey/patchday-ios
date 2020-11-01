@@ -19,11 +19,11 @@ class HormoneTests: XCTestCase {
     let testDateThatIsNow = Date()
     let testSiteId = UUID()
 
-    private func createEmptyHormone(useDefaultDate: Bool = false) -> Hormone {
+    private func createEmptyHormone(useDefaultDate: Bool = false, _ now: NowProtocol?=nil) -> Hormone {
         let date = useDefaultDate ? Date(timeIntervalSince1970: 0) : nil
         let data = HormoneStruct(testId, testSiteId, "", nil, date, nil)
         let settings = MockSettings()
-        return Hormone(hormoneData: data, settings: settings)
+        return Hormone(hormoneData: data, settings: settings, now: now)
     }
 
     private func createHormoneForExpirationTesting(_ expiration: ExpirationInterval) -> Hormone {
@@ -309,28 +309,46 @@ class HormoneTests: XCTestCase {
         XCTAssertFalse(expiredHormone.expiresOvernight)
     }
 
-    func testExpiresOvernight_whenExpirationTimeIsBetweenSixAMAndMidnight_returnsTrue() {
-        let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
-
-        let calendar = Calendar.current
-
-        // Make the hormone date applied at 3am.
-        hormone.date = calendar.date(bySettingHour: 3, minute: 0, second: 0, of: Date())!
-
-        XCTAssertTrue(hormone.expiresOvernight)
+    func testExpiresOvernight_whenExpiresBetweenDuringDay_returnsFalse() {
+        // Day is between six am and midnight
+        let now = MockNow()
+        let defaultDate = DateFactory.createDefaultDate()
+        let days = 24 * 30
+        now.now = DateFactory.createDate(byAddingHours: days-24, to: defaultDate)!
+        let end = days + 6
+        let hormone = createEmptyHormone(useDefaultDate: false, now)
+        for i in days...end {
+            let date = DateFactory.createDate(byAddingHours: i, to: defaultDate)!
+            hormone.date = date
+            let formattedExpiration = PDDateFormatter.formatDate(hormone.expiration!)
+            let failMessage = "\(formattedExpiration) is not detected as overnight."
+            XCTAssertFalse(hormone.expiresOvernight, failMessage)
+        }
     }
 
-    func testExpiresOvernight_whenExpirationTimeIsAtNoon_returnsFalse() {
-        let hormone = createEmptyHormone()
-        hormone.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
+    func testExpiresOvernight_whenExpiresDuringNightreturnsTrue() {
+        // Night is between midnight and six am
+        let now = MockNow()
+        let defaultDate = DateFactory.createDefaultDate()
+        let days = 24 * 30
+        now.now = DateFactory.createDate(byAddingHours: days-24, to: defaultDate)!
+        let start = days - 6
+        let hormone = createEmptyHormone(useDefaultDate: false, now)
+        for i in start...days {
+            var date = DateFactory.createDate(byAddingHours: i, to: defaultDate)!
 
-        let calendar = Calendar.current
+            // Because is non-inclusive of exact midnight and 6am
+            if i == start {
+                date = DateFactory.createDate(byAddingSeconds: 1, to: date)!
+            } else if i == days {
+                date = DateFactory.createDate(byAddingSeconds: -1, to: date)!
+            }
 
-        // Make the hormone date applied at 3am.
-        hormone.date = calendar.date(bySettingHour: 12, minute: 0, second: 0, of: Date())!
-
-        XCTAssertFalse(hormone.expiresOvernight)
+            hormone.date = date
+            let formattedExpiration = PDDateFormatter.formatDate(hormone.expiration!)
+            let failMessage = "\(formattedExpiration) is not detected as overnight."
+            XCTAssertTrue(hormone.expiresOvernight, failMessage)
+        }
     }
 
     func testSiteNameBackUp_whenHasSiteIdAndSiteNameBackUp_returnsNil() {

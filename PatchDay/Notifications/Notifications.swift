@@ -109,6 +109,7 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Request a hormone notification that occurs when it's due overnight.
     func requestOvernightExpirationNotification(for hormone: Hormonal) {
+        guard hormone.expiresOvernight else { return }
         guard let expiration = hormone.expiration else { return }
         guard let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) else {
             return

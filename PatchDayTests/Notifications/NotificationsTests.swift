@@ -236,13 +236,25 @@ class NotificationsTests: XCTestCase {
         XCTAssertEqual([pill.id.uuidString], center.removeNotificationsCallArgs[0])
     }
 
-    func testRequestOvernightExpirationNotification_whenHormoneDoesNotExpires_doesNotRequest() {
+    func testRequestOvernightExpirationNotification_whenHormoneDoesNotExpire_doesNotRequest() {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         let hormone = createTestHormone()
         hormone.expiration = nil
+        notifications.requestOvernightExpirationNotification(for: hormone)
+        XCTAssertEqual(0, mockNotification.requestCallCount)
+    }
+
+    func testRequestOvernightExpirationNotification_whenHormoneDoesNotExpireOvernight_doesNotRequest() {
+        let sdk = createSDK(totalExpired: 3)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let hormone = createTestHormone()
+        hormone.expiration = Date()
+        hormone.expiresOvernight = false
         notifications.requestOvernightExpirationNotification(for: hormone)
         XCTAssertEqual(0, mockNotification.requestCallCount)
     }
@@ -255,6 +267,7 @@ class NotificationsTests: XCTestCase {
 
         let hormone = createTestHormone()
         hormone.expiration = Date()
+        hormone.expiresOvernight = true
         let cal = Calendar.current
         let eight = cal.date(bySettingHour: 20, minute: 0, second: 0, of: hormone.expiration!)
         let eightYesterday = cal.date(byAdding: .day, value: -1, to: eight!)

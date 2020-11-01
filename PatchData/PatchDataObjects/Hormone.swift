@@ -16,12 +16,14 @@ public class Hormone: Hormonal {
     public var deliveryMethod: DeliveryMethod
     public var expirationInterval: ExpirationIntervalUD
     public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
+    private var now: NowProtocol
 
-    public init(hormoneData: HormoneStruct, settings: UserDefaultsReading) {
+    public init(hormoneData: HormoneStruct, settings: UserDefaultsReading, now: NowProtocol?=nil) {
         self.hormoneData = hormoneData
         self.deliveryMethod = settings.deliveryMethod.value
         self.expirationInterval = settings.expirationInterval
         self.notificationsMinutesBefore = settings.notificationsMinutesBefore
+        self.now = now ?? PDNow()
     }
 
     public func from(_ settings: UserDefaultsReading) -> Hormonal {
@@ -87,7 +89,7 @@ public class Hormone: Hormonal {
         guard let expDate = expiration else {
             return false
         }
-        return expDate < Date()
+        return expDate < now.now
     }
 
     public var isPastNotificationTime: Bool {
@@ -96,7 +98,7 @@ public class Hormone: Hormonal {
                 byAddingMinutes: -notificationsMinutesBefore.value, to: expirationDate
             ) {
 
-            return notificationTime < Date()
+            return notificationTime < now.now
         }
         return false
     }
@@ -127,7 +129,7 @@ public class Hormone: Hormonal {
     }
 
     public func stamp() {
-        hormoneData.date = Date()
+        hormoneData.date = now.now
     }
 
     public func reset() {
