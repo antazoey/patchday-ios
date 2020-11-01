@@ -10,4 +10,6 @@ import Foundation
 
 public protocol NowProtocol {
     var now: Date { get }
+
+    func isInYesterday(_ date: Date) -> Bool
 }

@@ -17,6 +17,10 @@ extension Date {
         return interval < Double(minutes * 60) || interval == 0
     }
 
+    public func dayValue() -> Int {
+        Calendar.current.component(.day, from: self)
+    }
+
     public func isInPast() -> Bool {
         self < Date()
     }

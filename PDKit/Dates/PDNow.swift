@@ -12,4 +12,8 @@ import Foundation
 public class PDNow: NowProtocol {
     public init() {}
     public var now: Date { Date() }
+
+    public func isInYesterday(_ date: Date) -> Bool {
+        date.isInYesterday()
+    }
 }

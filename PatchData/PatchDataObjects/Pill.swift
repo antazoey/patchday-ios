@@ -158,7 +158,7 @@ public class Pill: Swallowable {
 
     private var dueDateForEveryOtherDay: Date? {
         guard let lastTaken = lastTaken else { return nextDueTimeForEveryDaySchedule }
-        if lastTaken.isInYesterday() {
+        if _now.isInYesterday(lastTaken) {
             return tomorrowAtTimeOne
         } else if isDone {
             return getTimeOne(daysFromNow: 2)
@@ -184,7 +184,12 @@ public class Pill: Swallowable {
     }
 
     private func endOfDueMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
-        guard let daysInMonth = lastTaken.daysInMonth() else { return nil }
+        if let nextTime = nextDueTimeForEveryDaySchedule {
+            let month = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken)
+        }
+
+        
+        guard let daysInMonth = now.daysInMonth() else { return nil }
         let startDay = daysInMonth - days
         if let nextTime = nextDueTimeForEveryDaySchedule,
             let month = Calendar.current.date(bySetting: .day, value: startDay, of: lastTaken) {

@@ -8,7 +8,7 @@
 
 public class DateFactory: NSObject {
 
-    private static var calendar = Calendar.current
+    private static var calendar = Calendar.current 
 
     public static func createTodayDate(at time: Time, now: NowProtocol?=nil) -> Date? {
         let now = now?.now ?? Date()
@@ -31,8 +31,8 @@ public class DateFactory: NSObject {
     }
 
     /// Create a Date by adding days from right now.
-    public static func createDate(daysFromNow: Int) -> Date? {
-        createDate(at: Date(), daysFromToday: daysFromNow)
+    public static func createDate(daysFromNow: Int, now: NowProtocol?=nil) -> Date? {
+        createDate(at: Date(), daysFromToday: daysFromNow, now: now)
     }
 
     /// Creates a Date at the given time calculated by adding days from today.

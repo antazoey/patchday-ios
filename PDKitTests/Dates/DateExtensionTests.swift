@@ -17,6 +17,15 @@ class DateExtensionTests: XCTestCase {
     // Note: If you run these tests at like midnight, you might get weird results.
     // For example, the tests may assume it can add seconds to the current time and have it still be today.
 
+    func testDayValue() {
+        let defaultDate = DateFactory.createDefaultDate()  // DayValue is 31
+        let twoDaysWorthOfHours = 48
+        let date = DateFactory.createDate(byAddingHours: twoDaysWorthOfHours, to: defaultDate)
+        let actual = date!.dayValue()
+        let expected = 2  //  day 31 + 1 day = day 1, + 1 day = day 2
+        XCTAssertEqual(expected, actual)
+    }
+
     func testIsWithinMinutes_returnsTrueWhenGivenDateThatIsWithinGivenMinutes() {
         let d1 = Date()
         let d2 = Date()

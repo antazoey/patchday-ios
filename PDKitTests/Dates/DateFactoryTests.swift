@@ -23,15 +23,13 @@ class DateFactoryTests: XCTestCase {
     }
 
     func testCreateDate_atTimeDaysFromNow_returnsExpectedDate() {
+        let now = MockNow()
+        now.now = DateFactory.createDate(byAddingHours: 1, to: DateFactory.createDefaultDate())!
         let days = 5
-        let midnight = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: Date())!
+        let midnight = Calendar.current.date(bySettingHour: 19, minute: 0, second: 0, of: now.now)!
         let expected = midnight.addingTimeInterval(TimeInterval(days * 86400))
-        let actual = DateFactory.createDate(at: midnight, daysFromToday: Int(days))!
-        XCTAssertEqual(expected, actual, """
-                                         Note: This test does not work within five days of daylight-savings time.
-                                         This is because the test function makes use of the Calendar object,
-                                         and the call to get `expected` just adds a TimeInterval.
-                                         """)
+        let actual = DateFactory.createDate(at: midnight, daysFromToday: Int(days), now: now)!
+        XCTAssertEqual(expected, actual)
     }
 
     func testCreateDate_byAddingHoursToDate_returnsExpectedDate() {
