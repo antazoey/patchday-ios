@@ -184,13 +184,18 @@ public class Pill: Swallowable {
     }
 
     private func endOfDueMonthAtTimeOne(lastTaken: Date, days: Int) -> Date? {
-        if let nextTime = nextDueTimeForEveryDaySchedule {
-            let month = Calendar.current.date(bySetting: .day, value: 1, of: lastTaken)
+        var startDay: Int
+        guard let daysThisMonth = now.daysInMonth() else { return nil }
+        if now.dayValue() == daysThisMonth {
+            if let daysNextMonth = DateFactory.createDate(byAddingHours: 48, to: now)?.daysInMonth() {
+                startDay = daysNextMonth - days
+            } else {
+                return nil
+            }
+        } else {
+            startDay = daysThisMonth - days
         }
 
-        
-        guard let daysInMonth = now.daysInMonth() else { return nil }
-        let startDay = daysInMonth - days
         if let nextTime = nextDueTimeForEveryDaySchedule,
             let month = Calendar.current.date(bySetting: .day, value: startDay, of: lastTaken) {
             return DateFactory.createDate(on: month, at: nextTime)
