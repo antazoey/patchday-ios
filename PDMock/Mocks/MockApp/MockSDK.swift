@@ -16,6 +16,7 @@ public class MockSDK: PatchDataSDK {
         self.hormones = MockHormoneSchedule()
         self.sites = MockSiteSchedule()
         self.pills = MockPillSchedule()
+        self.commandFactory = PDCommandFactory(hormones: self.hormones, sites: self.sites)
     }
 
     public var isFresh: Bool = false
@@ -24,6 +25,7 @@ public class MockSDK: PatchDataSDK {
     public var sites: SiteScheduling
     public var pills: PillScheduling
     public var totalAlerts: Int = 0
+    public var commandFactory: PDCommandFactory
 
     var resetAllCallCount = 0
     public func resetAll() {

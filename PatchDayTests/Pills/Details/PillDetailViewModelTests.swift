@@ -64,7 +64,10 @@ class PillDetailViewModelTests: XCTestCase {
     }
 
     func testTimes_setsDateToToday() {
-        let yesterday = DateFactory.createDate(daysFromNow: -1)!
+        let now = MockNow()
+        now.now = DateFactory.createDate(byAddingHours: 24*32, to: DateFactory.createDefaultDate())!
+
+        let yesterday = DateFactory.createDate(byAddingHours: -24, to: now.now)!
         let times = [
             Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: yesterday)!,
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: yesterday)!,
@@ -72,7 +75,7 @@ class PillDetailViewModelTests: XCTestCase {
         ]
         let pill = setupPill()
         pill.times = times
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies, now: now)
         let expected1 = DateFactory.createDate(byAddingHours: 24, to: times[1])
         let expected2 = DateFactory.createDate(byAddingHours: 24, to: times[2])
         let expected3 = DateFactory.createDate(byAddingHours: 24, to: times[0])

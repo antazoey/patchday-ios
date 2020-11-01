@@ -69,13 +69,15 @@ public class DateFactory: NSObject {
         createDate(byAddingHours: expirationInterval.hours, to: date)
     }
 
-    public static func createTimesFromCommaSeparatedString(_ dateString: String) -> [Time] {
+    public static func createTimesFromCommaSeparatedString(
+        _ dateString: String, now: NowProtocol?=nil
+    ) -> [Time] {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
         let dates = dateString.split(separator: ",").map {
             formatter.date(from: String($0))
         }.filter { $0 != nil }
         let times = dates as! [Time]
-        let now = Date()
+        let now = now?.now ?? Date()
         let timesWithSameDate = times.map {
             DateFactory.createDate(on: now, at: $0)
         }.filter { $0 != nil } as! [Time]

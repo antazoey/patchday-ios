@@ -28,6 +28,9 @@ public protocol PatchDataSDK {
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
 
+    /// Creates reusable commands that are common in PatchData.
+    var commandFactory: PDCommandFactory { get }
+
     /// Resets each schedule and the settings back to defaults.
     func resetAll()
 }

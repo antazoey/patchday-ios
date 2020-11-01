@@ -156,7 +156,7 @@
 		9D6E9B37245DBF84003BBCC9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6E9B36245DBF84003BBCC9 /* XCTest.framework */; };
 		9D6E9B3B245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B3A245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift */; };
 		9D788733254E0CC500DC0F6D /* PDCommandFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D788712254DE23300DC0F6D /* PDCommandFactory.swift */; };
-		9D78873C254E0CD400DC0F6D /* PDCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78873B254E0CD400DC0F6D /* PDCommand.swift */; };
+		9D78873C254E0CD400DC0F6D /* ChangeHormoneCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78873B254E0CD400DC0F6D /* ChangeHormoneCommand.swift */; };
 		9D788745254E0D0300DC0F6D /* PDCommandProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D788744254E0D0300DC0F6D /* PDCommandProtocol.swift */; };
 		9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D78A9E02386354F00058AD9 /* PDConstants.swift */; };
 		9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */; };
@@ -585,7 +585,7 @@
 		9D6E9B36245DBF84003BBCC9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		9D6E9B3A245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneDetailViewModelTests.swift; sourceTree = "<group>"; };
 		9D788712254DE23300DC0F6D /* PDCommandFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCommandFactory.swift; sourceTree = "<group>"; };
-		9D78873B254E0CD400DC0F6D /* PDCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCommand.swift; sourceTree = "<group>"; };
+		9D78873B254E0CD400DC0F6D /* ChangeHormoneCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeHormoneCommand.swift; sourceTree = "<group>"; };
 		9D788744254E0D0300DC0F6D /* PDCommandProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCommandProtocol.swift; sourceTree = "<group>"; };
 		9D78A9E02386354F00058AD9 /* PDConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDConstants.swift; sourceTree = "<group>"; };
 		9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandler.swift; sourceTree = "<group>"; };
@@ -1358,7 +1358,7 @@
 			isa = PBXGroup;
 			children = (
 				9D788712254DE23300DC0F6D /* PDCommandFactory.swift */,
-				9D78873B254E0CD400DC0F6D /* PDCommand.swift */,
+				9D78873B254E0CD400DC0F6D /* ChangeHormoneCommand.swift */,
 			);
 			path = Commands;
 			sourceTree = "<group>";
@@ -2470,7 +2470,7 @@
 				9D8A982E23C7EEE4004E20FE /* SiteStoring.swift in Sources */,
 				9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */,
 				9D6E9AD824562192003BBCC9 /* PDNotificationCenterDelegate.swift in Sources */,
-				9D78873C254E0CD400DC0F6D /* PDCommand.swift in Sources */,
+				9D78873C254E0CD400DC0F6D /* ChangeHormoneCommand.swift in Sources */,
 				9D003EC1233599A90070C964 /* Schedule.swift in Sources */,
 				9D59F8BD25056EC500C0324E /* PDNow.swift in Sources */,
 				9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */,

@@ -10,9 +10,21 @@ import Foundation
 
 public class PDCommandFactory {
 
+    private let hormones: HormoneScheduling
+    private let sites: SiteScheduling
 
+    public init(hormones: HormoneScheduling, sites: SiteScheduling) {
+        self.hormones = hormones
+        self.sites = sites
+    }
 
-    public static func createChangeHormoneCommand() {
-
+    public func createChangeHormoneCommand(
+        _ hormone: Hormonal, now: NowProtocol?=nil
+    ) -> ChangeHormoneCommand {
+        ChangeHormoneCommand(
+            hormones: hormones,
+            sites: sites,
+            hormone: hormone, now: now
+        )
     }
 }

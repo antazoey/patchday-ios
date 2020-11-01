@@ -14,14 +14,17 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
     }
     static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
     var selections = PillAttributes()
+    private let now: NowProtocol?
 
     init(_ pillIndex: Index) {
         self.index = pillIndex
+        self.now = nil
         super.init()
     }
 
-    init(_ pillIndex: Index, dependencies: DependenciesProtocol) {
+    init(_ pillIndex: Index, dependencies: DependenciesProtocol, now: NowProtocol?=nil) {
         self.index = pillIndex
+        self.now = now
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,
@@ -60,11 +63,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
 
     var times: [Time] {
         if let selectedTimes = selections.times {
-            return DateFactory.createTimesFromCommaSeparatedString(selectedTimes)
+            return DateFactory.createTimesFromCommaSeparatedString(selectedTimes, now: now)
         }
         // Sort, in case Swallowable impl doesn't
         let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(pill.times)
-        return DateFactory.createTimesFromCommaSeparatedString(timeString)
+        return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
     }
 
     func selectTime(_ time: Time, _ index: Index) {

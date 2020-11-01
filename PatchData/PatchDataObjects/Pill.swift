@@ -187,7 +187,9 @@ public class Pill: Swallowable {
         var startDay: Int
         guard let daysThisMonth = now.daysInMonth() else { return nil }
         if now.dayValue() == daysThisMonth {
-            if let daysNextMonth = DateFactory.createDate(byAddingHours: 48, to: now)?.daysInMonth() {
+            if let daysNextMonth = DateFactory.createDate(
+                byAddingHours: 48, to: now
+            )?.daysInMonth() {
                 startDay = daysNextMonth - days
             } else {
                 return nil

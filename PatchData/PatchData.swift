@@ -24,6 +24,8 @@ public class PatchData: NSObject, PatchDataSDK {
     public var sites: SiteScheduling
     public var pills: PillScheduling
 
+    public let commandFactory: PDCommandFactory
+
     public init(
         settings: PDSettingsManaging,
         dataSharer: UserDefaultsProtocol,
@@ -40,6 +42,7 @@ public class PatchData: NSObject, PatchDataSDK {
         self.sites = sites
         self.coreData = coreData
         self.hormoneDataSharer = hormoneDataSharer
+        self.commandFactory = PDCommandFactory(hormones: hormones, sites: sites)
         super.init()
     }
 

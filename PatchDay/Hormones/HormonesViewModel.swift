@@ -99,15 +99,14 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         sdk?.sites.reloadContext()
         guard let hormone = sdk?.hormones[index] else { return }
         let nextSite = sdk?.sites.suggested
+
         let changeHormone = {
             guard let sdk = self.sdk else {
                 reload()
                 return
             }
-            sdk.hormones.setDate(by: hormone.id, with: Date())
-            if let site = nextSite {
-                sdk.hormones.setSite(by: hormone.id, with: site)
-            }
+            let command = sdk.commandFactory.createChangeHormoneCommand(hormone)
+            command.execute()
             reload()
         }
         self.alerts?.createHormoneActions(

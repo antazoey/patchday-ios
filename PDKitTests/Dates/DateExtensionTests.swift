@@ -20,7 +20,7 @@ class DateExtensionTests: XCTestCase {
     func testDayValue() {
         let defaultDate = DateFactory.createDefaultDate()
         let actual = defaultDate.dayValue()
-        let expected = 1
+        let expected = 31
         XCTAssertEqual(expected, actual)
     }
 
