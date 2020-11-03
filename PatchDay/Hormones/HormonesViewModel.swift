@@ -55,7 +55,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         table.reloadData()
     }
 
-    var mainViewControllerTitle: String {
+    var title: String {
         guard let method = sdk?.settings.deliveryMethod.value else {
             return PDTitleStrings.HormonesTitle
         }

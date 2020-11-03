@@ -29,6 +29,80 @@ class HormonesViewModelTests: XCTestCase {
         XCTAssertEqual(1, actual)
     }
 
+    func testTitle_whenNilSdk_returnsHormonesTitle() {
+        let table = UITableView()
+        let deps = MockDependencies()
+        let style = UIUserInterfaceStyle.dark
+        deps.sdk = nil
+        let alertFactory = MockAlertFactory()
+        let viewModel = HormonesViewModel(
+            hormonesTableView: table,
+            style: style,
+            alertFactory: alertFactory,
+            dependencies: deps
+        )
+        let expected = PDTitleStrings.HormonesTitle
+        let actual = viewModel.title
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testTitle_whenPatches_returnsPatchesTitle() {
+        let table = UITableView()
+        let deps = MockDependencies()
+        let style = UIUserInterfaceStyle.dark
+        let sdk = MockSDK()
+        (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Patches)
+        deps.sdk = sdk
+        let alertFactory = MockAlertFactory()
+        let viewModel = HormonesViewModel(
+            hormonesTableView: table,
+            style: style,
+            alertFactory: alertFactory,
+            dependencies: deps
+        )
+        let expected = PDTitleStrings.PatchesTitle
+        let actual = viewModel.title
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testTitle_whenInjections_returnsInjectionsTitle() {
+        let table = UITableView()
+        let deps = MockDependencies()
+        let style = UIUserInterfaceStyle.dark
+        let sdk = MockSDK()
+        (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Injections)
+        deps.sdk = sdk
+        let alertFactory = MockAlertFactory()
+        let viewModel = HormonesViewModel(
+            hormonesTableView: table,
+            style: style,
+            alertFactory: alertFactory,
+            dependencies: deps
+        )
+        let expected = PDTitleStrings.InjectionsTitle
+        let actual = viewModel.title
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testTitle_whenGel_returnsGelTitle() {
+        let table = UITableView()
+        let deps = MockDependencies()
+        let style = UIUserInterfaceStyle.dark
+        let sdk = MockSDK()
+        (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
+        deps.sdk = sdk
+        let alertFactory = MockAlertFactory()
+        let viewModel = HormonesViewModel(
+            hormonesTableView: table,
+            style: style,
+            alertFactory: alertFactory,
+            dependencies: deps
+        )
+        let expected = PDTitleStrings.GelTitle
+        let actual = viewModel.title
+        XCTAssertEqual(expected, actual)
+    }
+
     func testHandleRowTapped_whenChoosesChangeAction_callsAlertsPresentHormoneActionsWithExpectedIndex() {
         let table = UITableView()
         let style = UIUserInterfaceStyle.dark
