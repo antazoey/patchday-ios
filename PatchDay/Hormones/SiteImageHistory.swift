@@ -9,13 +9,14 @@
 import UIKit
 import PDKit
 
-class SiteImageRecorder: SiteImageRecording {
+class SiteImageRecorder: NSObject, SiteImageRecording {
 
     private var images: [UIImage?] = [nil, nil]
     var row: Index
 
     init(_ row: Index, _ image: UIImage? = nil) {
         self.row = row
+        super.init()
         self.push(image)
     }
 

@@ -9,9 +9,14 @@
 import Foundation
 import PDKit
 
-public class MockSiteImageRecorder: SiteImageRecording {
+public class MockSiteImageRecorder: SiteImageRecording, Equatable {
 
     public init() {}
+
+    private let id = UUID()
+    public static func == (lhs: MockSiteImageRecorder, rhs: MockSiteImageRecorder) -> Bool {
+        lhs.id == rhs.id
+    }
 
     public var current: UIImage? = nil
 

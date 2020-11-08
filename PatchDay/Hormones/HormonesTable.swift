@@ -8,7 +8,7 @@ import PDKit
 
 class HormonesTable: TableViewWrapper<HormoneCell>, HormonesTableProtocol {
 
-    private var _cells: [HormoneCell] = []
+    private var _cells: [HormoneCellProtocol] = []
     private let sdk: PatchDataSDK?
     private let style: UIUserInterfaceStyle
 

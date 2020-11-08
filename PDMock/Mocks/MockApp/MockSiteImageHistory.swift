@@ -14,9 +14,11 @@ public class MockSiteImageHistory: SiteImageHistorical {
     public init() {}
 
     public var subscriptCallArgs: [Index] = []
-    public var subscriptReturnValue = MockSiteImageRecorder()
+    public var subscriptMockImplementation: (Index) -> SiteImageRecording = {
+        _ in MockSiteImageRecorder()
+    }
     public subscript(index: Index) -> SiteImageRecording {
         subscriptCallArgs.append(index)
-        return subscriptReturnValue
+        return subscriptMockImplementation(index)
     }
 }

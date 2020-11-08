@@ -142,13 +142,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
         table.reloadData()
     }
 
-    private func requesttHormoneNotification(from row: Index) {
-        guard let hormone = sdk?.hormones[row] else { return }
-        notifications?.requestExpiredHormoneNotification(for: hormone)
-    }
-
     private func initTable(style: UIUserInterfaceStyle) {
-        table.reflectModel()
         updateSiteImages()  // Animating images has to happen after `cell.configure()`
     }
 

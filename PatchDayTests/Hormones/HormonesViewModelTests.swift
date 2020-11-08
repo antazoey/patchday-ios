@@ -35,6 +35,18 @@ class HormonesViewModelTests: XCTestCase {
         XCTAssertEqual(1, actual)
     }
 
+    func testInit_reflectsCellsInTable() {
+        let deps = MockDependencies()
+        _ = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
+        )
+        XCTAssertEqual(1, mockTable.reflectModelCallCount)
+    }
+
     func testTitle_whenNilSdk_returnsHormonesTitle() {
         let deps = MockDependencies()
         deps.sdk = nil
@@ -101,7 +113,7 @@ class HormonesViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testUpdateSiteImages() {
+    func testUpdateSiteImages_callsTableReflectModel() {
         let deps = MockDependencies()
         let sdk = MockSDK()
         (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
@@ -113,7 +125,72 @@ class HormonesViewModelTests: XCTestCase {
             table: mockTable,
             dependencies: deps
         )
+        mockTable.reflectModelCallCount = 0  // Reset from init
         viewModel.updateSiteImages()
+        XCTAssertEqual(1, mockTable.reflectModelCallCount)
+    }
+
+    func testUpdateSiteImages_updatesSiteImages() {
+        let deps = MockDependencies()
+        let sdk = MockSDK()
+        (sdk.settings as! MockSettings).quantity = QuantityUD(3)
+        let hormones = [MockHormone(), MockHormone(), MockHormone()]
+        hormones[0].siteName = SiteStrings.LeftAbdomen
+        hormones[0].deliveryMethod = .Patches
+        hormones[0].siteId = UUID()
+        hormones[0].siteImageId = SiteStrings.LeftAbdomen
+        hormones[0].hasSite = true
+        hormones[1].siteName = SiteStrings.RightAbdomen
+        hormones[1].deliveryMethod = .Patches
+        hormones[1].siteId = UUID()
+        hormones[1].siteImageId = SiteStrings.RightAbdomen
+        hormones[1].hasSite = true
+        hormones[2].siteName = SiteStrings.LeftGlute
+        hormones[2].deliveryMethod = .Patches
+        hormones[2].siteId = UUID()
+        hormones[2].siteImageId = SiteStrings.LeftGlute
+        hormones[2].hasSite = true
+        (sdk.hormones as! MockHormoneSchedule).all = hormones
+        (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
+        deps.sdk = sdk
+        let mockCells = [MockHormoneCell(), MockHormoneCell(), MockHormoneCell()]
+        mockTable.cells = mockCells
+        let mockRecorders = [MockSiteImageRecorder(), MockSiteImageRecorder(), MockSiteImageRecorder()]
+        mockHistory.subscriptMockImplementation = { mockRecorders[$0] }
+
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
+        )
+
+        // Reset mocks from init
+        mockHistory.subscriptCallArgs = []
+        for recorder in mockRecorders {
+            recorder.pushCallArgs = []
+        }
+        for cell in mockCells {
+            cell.reflectSiteImageCallArgs = []
+        }
+
+        // Make call
+        viewModel.updateSiteImages()
+
+        // Assertions
+        XCTAssertEqual([0, 1, 2], mockHistory.subscriptCallArgs, "Iteration assertion")
+        let expectedImages = [
+            SiteImages.patchLeftAbdomen,
+            SiteImages.patchRightAbdomen,
+            SiteImages.patchLeftGlute
+        ]
+        let actualImages = mockRecorders.map { $0.pushCallArgs[0] }
+        XCTAssertEqual(expectedImages, actualImages, "Check that image was recorded")
+        let actualRecorders = mockCells.map {
+            $0.reflectSiteImageCallArgs[0]
+        } as! [MockSiteImageRecorder]
+        XCTAssertEqual(mockRecorders, actualRecorders, "Check that recorders were applied to cell")
     }
 
     func testExpiredHormoneBadgeValue_whenNilHormones_returnsNil() {
