@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class SiteCell: TableCell {
+class SiteCell: TableCell, SiteCellProtocol {
 
     private var props: SiteCellProperties!
 
@@ -19,10 +19,10 @@ class SiteCell: TableCell {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
 
-    private var viewModel: SiteCellViewModel? = nil
+    private var viewModel: SiteCellViewModelProtocol? = nil
 
     @discardableResult
-    func configure(props: SiteCellProperties) -> SiteCell {
+    func configure(props: SiteCellProperties) -> SiteCellProtocol {
         self.viewModel = SiteCellViewModel(props)
         self.props = props
         nameLabel.text = viewModel?.siteNameText ?? SiteStrings.NewSite

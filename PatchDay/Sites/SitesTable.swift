@@ -6,14 +6,14 @@
 import UIKit
 import PDKit
 
-class SitesTable: TableViewWrapper<SiteCell> {
+class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
 
     var sites: SiteScheduling?
     private lazy var log = PDLog<SitesTable>()
 
-    let RowHeight: CGFloat = 55.0
+    let rowHeight: CGFloat = 55.0
 
-    init(_ table: UITableView) {
+    required init(_ table: UITableView) {
         super.init(table, primaryCellReuseId: CellReuseIds.Site)
         table.backgroundColor = UIColor.systemBackground
         table.separatorColor = PDColors[.Border]
@@ -32,7 +32,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
         }, completion: nil)
     }
 
-    subscript(index: Index) -> SiteCell {
+    subscript(index: Index) -> SiteCellProtocol {
         let props = createCellProps(index)
         guard let cell = dequeueCell()?.configure(props: props) else {
             log.error("Unable to dequeue cell")
@@ -74,7 +74,7 @@ class SitesTable: TableViewWrapper<SiteCell> {
     private func resetCellColors(startIndex: Index) {
         for i in startIndex..<cellCount {
             let nextIndexPath = IndexPath(row: i, section: 0)
-            let cell = self[nextIndexPath.row]
+            var cell = self[nextIndexPath.row]
             cell.backgroundColor = PDColors.Cell[i]
         }
     }

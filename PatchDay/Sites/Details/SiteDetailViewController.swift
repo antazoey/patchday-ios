@@ -11,7 +11,7 @@ import PDKit
 
 class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    var viewModel: SiteDetailViewModel!
+    var viewModel: SiteDetailViewModelProtocol!
 
     @IBOutlet weak var siteStack: UIStackView!
     @IBOutlet weak var nameStackVertical: UIStackView!
@@ -99,7 +99,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return initWithViewModel(viewModel)
     }
 
-    private func initWithViewModel(_ viewModel: SiteDetailViewModel) -> SiteDetailViewController {
+    private func initWithViewModel(_ viewModel: SiteDetailViewModelProtocol) -> SiteDetailViewController {
         self.viewModel = viewModel
         return self
     }

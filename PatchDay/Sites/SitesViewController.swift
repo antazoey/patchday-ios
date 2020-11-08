@@ -14,7 +14,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     @IBOutlet var sitesView: UIView!
     @IBOutlet var sitesTableView: UITableView!
 
-    private var viewModel: SitesViewModel!
+    private var viewModel: SitesViewModelProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +75,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.table[indexPath.row]
+        viewModel.table[indexPath.row] as! UITableViewCell
     }
 
     // MARK: - Editing cells in the table
@@ -120,7 +120,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        viewModel.table.RowHeight
+        viewModel.table.rowHeight
     }
 
     // MARK: - Actions

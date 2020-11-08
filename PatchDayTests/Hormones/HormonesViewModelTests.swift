@@ -14,31 +14,35 @@ import PDMock
 import PatchDay
 
 class HormonesViewModelTests: XCTestCase {
+
+    private let table = UITableView()
+    private let style = UIUserInterfaceStyle.dark
+    private let alertFactory = MockAlertFactory()
+    private let mockHistory = MockSiteImageHistory()
+    private let mockTable = MockHormonesTable()
+
     func testInit_callsReloadContext() {
-        let table = UITableView()
-        let style = UIUserInterfaceStyle.dark
         let deps = MockDependencies()
         let hormones = deps.sdk!.hormones as! MockHormoneSchedule
-        let alertFactory = MockAlertFactory()
         _ = HormonesViewModel(
-            hormonesTableView: table,
+            siteImageHistory: mockHistory,
             style: style,
-            alertFactory: alertFactory, dependencies: deps
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
         )
         let actual = hormones.reloadContextCallCount
         XCTAssertEqual(1, actual)
     }
 
     func testTitle_whenNilSdk_returnsHormonesTitle() {
-        let table = UITableView()
         let deps = MockDependencies()
-        let style = UIUserInterfaceStyle.dark
         deps.sdk = nil
-        let alertFactory = MockAlertFactory()
         let viewModel = HormonesViewModel(
-            hormonesTableView: table,
+            siteImageHistory: mockHistory,
             style: style,
             alertFactory: alertFactory,
+            table: mockTable,
             dependencies: deps
         )
         let expected = PDTitleStrings.HormonesTitle
@@ -47,17 +51,15 @@ class HormonesViewModelTests: XCTestCase {
     }
 
     func testTitle_whenPatches_returnsPatchesTitle() {
-        let table = UITableView()
         let deps = MockDependencies()
-        let style = UIUserInterfaceStyle.dark
         let sdk = MockSDK()
         (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Patches)
         deps.sdk = sdk
-        let alertFactory = MockAlertFactory()
         let viewModel = HormonesViewModel(
-            hormonesTableView: table,
+            siteImageHistory: mockHistory,
             style: style,
             alertFactory: alertFactory,
+            table: mockTable,
             dependencies: deps
         )
         let expected = PDTitleStrings.PatchesTitle
@@ -66,17 +68,15 @@ class HormonesViewModelTests: XCTestCase {
     }
 
     func testTitle_whenInjections_returnsInjectionsTitle() {
-        let table = UITableView()
         let deps = MockDependencies()
-        let style = UIUserInterfaceStyle.dark
         let sdk = MockSDK()
         (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Injections)
         deps.sdk = sdk
-        let alertFactory = MockAlertFactory()
         let viewModel = HormonesViewModel(
-            hormonesTableView: table,
+            siteImageHistory: mockHistory,
             style: style,
             alertFactory: alertFactory,
+            table: mockTable,
             dependencies: deps
         )
         let expected = PDTitleStrings.InjectionsTitle
@@ -85,17 +85,15 @@ class HormonesViewModelTests: XCTestCase {
     }
 
     func testTitle_whenGel_returnsGelTitle() {
-        let table = UITableView()
         let deps = MockDependencies()
-        let style = UIUserInterfaceStyle.dark
         let sdk = MockSDK()
         (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
         deps.sdk = sdk
-        let alertFactory = MockAlertFactory()
         let viewModel = HormonesViewModel(
-            hormonesTableView: table,
+            siteImageHistory: mockHistory,
             style: style,
             alertFactory: alertFactory,
+            table: mockTable,
             dependencies: deps
         )
         let expected = PDTitleStrings.GelTitle
@@ -103,9 +101,68 @@ class HormonesViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testUpdateSiteImages() {
+        let deps = MockDependencies()
+        let sdk = MockSDK()
+        (sdk.settings as! MockSettings).deliveryMethod = DeliveryMethodUD(.Gel)
+        deps.sdk = sdk
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
+        )
+        viewModel.updateSiteImages()
+    }
+
+    func testExpiredHormoneBadgeValue_whenNilHormones_returnsNil() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
+        )
+        XCTAssertNil(viewModel.expiredHormoneBadgeValue)
+    }
+
+    func testExpiredHormoneBadgeValue_whenNoExpiredHormones_returnsNil() {
+        let deps = MockDependencies()
+        let sdk = MockSDK()
+        (sdk.hormones as! MockHormoneSchedule).totalExpired = 0
+        deps.sdk = sdk
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
+        )
+        XCTAssertNil(viewModel.expiredHormoneBadgeValue)
+    }
+
+    func testExpiredHormoneBadgeValue_returnsStringifiedExpiredCount() {
+        let deps = MockDependencies()
+        let sdk = MockSDK()
+        let expiredCount = 4
+        (sdk.hormones as! MockHormoneSchedule).totalExpired = expiredCount
+        deps.sdk = sdk
+        let viewModel = HormonesViewModel(
+            siteImageHistory: mockHistory,
+            style: style,
+            alertFactory: alertFactory,
+            table: mockTable,
+            dependencies: deps
+        )
+        let expected = "\(expiredCount)"
+        let actual = viewModel.expiredHormoneBadgeValue
+        XCTAssertEqual(expected, actual)
+    }
+
     func testHandleRowTapped_whenChoosesChangeAction_callsAlertsPresentHormoneActionsWithExpectedIndex() {
-        let table = UITableView()
-        let style = UIUserInterfaceStyle.dark
         let deps = MockDependencies()
         let expectedSite = MockSite()
         let expectedHormone = MockHormone()
@@ -113,11 +170,11 @@ class HormonesViewModelTests: XCTestCase {
         expectedSite.name = "Expected site"
         (deps.sdk?.hormones as! MockHormoneSchedule).all = [expectedHormone]
         (deps.sdk?.sites as! MockSiteSchedule).suggested = expectedSite
-        let alertFactory = MockAlertFactory()
         let viewModel = HormonesViewModel(
-            hormonesTableView: table,
+            siteImageHistory: mockHistory,
             style: style,
             alertFactory: alertFactory,
+            table: mockTable,
             dependencies: deps
         )
         viewModel.handleRowTapped(at: 0, UIViewController(), reload: {})

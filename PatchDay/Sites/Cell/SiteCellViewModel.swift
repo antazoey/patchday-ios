@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-class SiteCellViewModel {
+class SiteCellViewModel: SiteCellViewModelProtocol {
 
     private let props: SiteCellProperties
 

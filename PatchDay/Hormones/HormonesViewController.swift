@@ -15,7 +15,8 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet var hormonesView: UIView!
     @IBOutlet weak var hormonesTableView: UITableView!
 
-    var viewModel: HormonesViewModel!
+    var viewModel: HormonesViewModelProtocol!
+    private static let siteImageHistory = SiteImageHistory()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +82,12 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
     // MARK: - Private
 
     private func initViewModel() {
-        viewModel = HormonesViewModel(hormonesTableView: hormonesTableView, style: getStyle())
+        let style = getStyle()
+        viewModel = HormonesViewModel(
+            siteImageHistory: HormonesViewController.siteImageHistory,
+            hormonesTableView: hormonesTableView,
+            style: style
+        )
         viewModel.loadAppTabs(source: self)
     }
 

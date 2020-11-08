@@ -9,9 +9,9 @@
 import UIKit
 import PDKit
 
-class SitesViewModel: CodeBehindDependencies<SitesViewModel> {
+class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProtocol {
 
-    let table: SitesTable
+    var table: SitesTableProtocol
 
     init(sitesTableView: UITableView, dependencies: DependenciesProtocol?=nil) {
         self.table = SitesTable(sitesTableView)

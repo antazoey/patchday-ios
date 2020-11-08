@@ -13,7 +13,7 @@ typealias PillName = String
 
 class PillsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    private var viewModel: PillsViewModel!
+    private var viewModel: PillsViewModelProtocol!
 
     @IBOutlet var pillsView: UIView!
     @IBOutlet weak var pillsTableView: UITableView!
@@ -55,7 +55,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        viewModel.pillsTable[indexPath.row]
+        viewModel.pillsTable[indexPath.row] as! UITableViewCell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -1,5 +1,5 @@
 //
-//  SiteImagePickerDelegate.swift
+//  SiteImagePicker.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 7/12/18.
@@ -7,45 +7,44 @@
 //
 
 import UIKit
-import PDKit
 
-class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
+public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    var _props: SiteImagePickerDelegateProperties
+    public var _props: SiteImagePickerDelegateProperties
 
-    init(props: SiteImagePickerDelegateProperties) {
+    public init(props: SiteImagePickerDelegateProperties) {
         self._props = props
         super.init()
     }
 
     /// Tracks if the selected image has changed
-    var didSelectImage = false
+    public var didSelectImage = false
 
-    var picker: UIPickerView { _props.views?.getPicker() ?? UIPickerView() }
+    public var picker: UIPickerView { _props.views?.getPicker() ?? UIPickerView() }
 
-    var imageView: UIImageView { _props.views?.getImageView() ?? UIImageView() }
+    public var imageView: UIImageView { _props.views?.getImageView() ?? UIImageView() }
 
-    var options: [UIImage?] { _props.imageChoices }
+    public var options: [UIImage?] { _props.imageChoices }
 
-    var selectedRow: Index? { _props.selectedImageIndex ?? picker.getSelectedRow() }
+    public var selectedRow: Index? { _props.selectedImageIndex ?? picker.selectedRow(inComponent: 0) }
 
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         _props.imageChoices.count
     }
 
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    public func numberOfComponents(in pickerView: UIPickerView) -> Int {
         DefaultNumberOfPickerComponents
     }
 
-    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+    public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         SiteDetailConstants.SiteImageRowHeight
     }
 
-    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+    public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         SiteDetailConstants.SiteImageRowWidth
     }
 
-    func pickerView(
+    public func pickerView(
         _ pickerView: UIPickerView,
         viewForRow row: Int,
         forComponent component: Int,
@@ -59,7 +58,7 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
         return UIImageView()
     }
 
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         _props.selectedImageIndex = row
         if let imageView = _props.views?.getImageView() {
             imageView.image = getImage(at: row)
@@ -80,7 +79,7 @@ class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
     private func showPicker(completion: @escaping () -> Void) {
         guard let picker = _props.views?.getPicker() else { return }
         let startRow = _props.selectedImageIndex ?? 0
-        picker.selectRow(startRow)
+        picker.selectRow(startRow, inComponent: 0, animated: false)
         UIView.transition(
             with: picker as UIView,
             duration: 0.4,

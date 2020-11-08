@@ -5,7 +5,6 @@
 
 import UIKit
 
-let DefaultNumberOfPickerComponents = 1
 let DefaultNumberOfTableSections = 1
 
 class ViewControllerIds {

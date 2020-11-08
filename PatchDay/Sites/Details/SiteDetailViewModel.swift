@@ -6,7 +6,7 @@
 import UIKit
 import PDKit
 
-class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel> {
+class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDetailViewModelProtocol {
 
     private let siteIndex: Index
 

@@ -6,8 +6,6 @@
 import UIKit
 import PDKit
 
-public typealias UIIcon = UIImage
-
 class PDIcons {
 
     private static var patchIcon: UIIcon { UIIcon(named: "Patch Icon") ?? UIIcon() }

@@ -6,7 +6,7 @@
 import UIKit
 import PDKit
 
-class PillsTable: TableViewWrapper<PillCell> {
+class PillsTable: TableViewWrapper<PillCell>, PillsTableProtocol {
 
     private let pills: PillScheduling?
 
@@ -17,7 +17,7 @@ class PillsTable: TableViewWrapper<PillCell> {
         table.allowsSelectionDuringEditing = true
     }
 
-    subscript(index: Index) -> PillCell {
+    subscript(index: Index) -> PillCellProtocol {
         guard let pill = pills?[index] else { return PillCell() }
         let params = PillCellConfigurationParameters(pill: pill, index: index)
         return dequeueCell()?.configure(params) ?? PillCell()

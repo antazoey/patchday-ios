@@ -14,7 +14,7 @@ class HormoneDetailViewController: UIViewController,
     UIPickerViewDataSource,
     UITextFieldDelegate {
 
-    var viewModel: HormoneDetailViewModel!
+    var viewModel: HormoneDetailViewModelProtocol!
     private lazy var log = PDLog<HormoneDetailViewController>()
 
     private var saveButton: UIBarButtonItem!
@@ -70,7 +70,6 @@ class HormoneDetailViewController: UIViewController,
         loadAutofillButton()
         loadDateControls()
         applyTheme()
-
     }
 
     static func create(
@@ -246,9 +245,7 @@ class HormoneDetailViewController: UIViewController,
     // MARK: - Private
 
     private func loadTitle() {
-        guard let settings = viewModel.sdk?.settings else { return }
-        let method = settings.deliveryMethod.value
-        title = PDTitleStrings.Hormone[method]
+        title = PDTitleStrings.EditHormoneTitle
     }
 
     private func loadDateControls() {

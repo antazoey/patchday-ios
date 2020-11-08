@@ -9,9 +9,9 @@
 import UIKit
 import PDKit
 
-class SiteImageHistory {
+class SiteImageRecorder: SiteImageRecording {
 
-    private var history: [UIImage?] = [nil, nil]
+    private var images: [UIImage?] = [nil, nil]
     var row: Index
 
     init(_ row: Index, _ image: UIImage? = nil) {
@@ -19,29 +19,45 @@ class SiteImageHistory {
         self.push(image)
     }
 
-    var current: UIImage? { history.tryGet(at: 1) ?? nil }
+    var current: UIImage? { images.tryGet(at: 1) ?? nil }
 
     @discardableResult
-    func push(_ image: UIImage?) -> SiteImageHistory {
-        history[0] = history.tryGet(at: 1) ?? nil
-        history[1] = image
+    func push(_ image: UIImage?) -> SiteImageRecording {
+        images[0] = images.tryGet(at: 1) ?? nil
+        images[1] = image
         return self
     }
 
     func differentiate() -> HormoneMutation {
-        let penultimate = history.tryGet(at: 0) ?? nil
-        let last = history.tryGet(at: 1) ?? nil
+        let penultimate = images.tryGet(at: 0) ?? nil
+        let last = images.tryGet(at: 1) ?? nil
         if penultimate == nil && last == nil { return .Empty }
-        if penultimate == nil && last != nil { return .Add }
-        if penultimate != nil && last == nil { return .Remove }
-        if penultimate != last { return .Edit }
+        else if penultimate == nil && last != nil { return .Add }
+        else if penultimate != nil && last == nil { return .Remove }
+        else if penultimate != last { return .Edit }
         return .None
     }
 
     private func logState() {
         let log = PDLog<SiteImageHistory>()
-        let last = history.tryGet(at: 0)??.accessibilityIdentifier ?? "nil"
-        let latest = history.tryGet(at: 1)??.accessibilityIdentifier ?? "nil"
+        let last = images.tryGet(at: 0)??.accessibilityIdentifier ?? "nil"
+        let latest = images.tryGet(at: 1)??.accessibilityIdentifier ?? "nil"
         log.info("HormoneCell site image history last: \(last), Latest: \(latest)")
+    }
+}
+
+class SiteImageHistory: SiteImageHistorical {
+
+    private var recorders: [SiteImageRecorder]
+
+    init(_ upperLimit: Int = SupportedHormoneUpperQuantityLimit) {
+        recorders = []
+        for i in 0..<upperLimit {
+            recorders.append(SiteImageRecorder(i))
+        }
+    }
+
+    public subscript(index: Index) -> SiteImageRecording {
+        recorders[index]
     }
 }

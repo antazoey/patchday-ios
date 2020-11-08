@@ -35,17 +35,6 @@ extension UIControl {
     }
 }
 
-extension UIPickerView {
-
-    func selectRow(_ row: Int) {
-        selectRow(row, inComponent: 0, animated: false)
-    }
-
-    func getSelectedRow() -> Int {
-        selectedRow(inComponent: 0)
-    }
-}
-
 extension UISwitch {
 
     func setOn(_ on: Bool) {

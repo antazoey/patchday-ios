@@ -6,9 +6,9 @@
 import Foundation
 import PDKit
 
-class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
+class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProtocol {
 
-    var pillsTable: PillsTable! = nil
+    var pillsTable: PillsTableProtocol! = nil
 
     init(pillsTableView: UITableView) {
         super.init()
@@ -29,13 +29,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
             badge: dependencies.badge
         )
         self.finishInit(pillsTableView)
-    }
-
-    private func finishInit(_ pillsTableView: UITableView) {
-        let tableWrapper = PillsTable(pillsTableView, pills: pills)
-        self.pillsTable = tableWrapper
-        tabs?.reflectPills()
-        watchForChanges()
     }
 
     var pills: PillScheduling? { sdk?.pills }
@@ -99,6 +92,13 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel> {
     }
 
     // MARK: - Private
+
+    private func finishInit(_ pillsTableView: UITableView) {
+        let tableWrapper = PillsTable(pillsTableView, pills: pills)
+        self.pillsTable = tableWrapper
+        tabs?.reflectPills()
+        watchForChanges()
+    }
 
     private func watchForChanges() {
         let name = UIApplication.willEnterForegroundNotification

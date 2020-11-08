@@ -11,7 +11,7 @@ import PDKit
 
 class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
-    private var viewModel: PillDetailViewModel!
+    private var viewModel: PillDetailViewModelProtocol!
 
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var saveButton: UIBarButtonItem!

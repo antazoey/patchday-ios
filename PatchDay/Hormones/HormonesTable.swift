@@ -6,19 +6,23 @@
 import UIKit
 import PDKit
 
-class HormonesTable: TableViewWrapper<HormoneCell> {
+class HormonesTable: TableViewWrapper<HormoneCell>, HormonesTableProtocol {
 
     private var _cells: [HormoneCell] = []
+    private let sdk: PatchDataSDK?
+    private let style: UIUserInterfaceStyle
 
-    init(_ table: UITableView) {
+    init(_ table: UITableView, _ sdk: PatchDataSDK?, _ style: UIUserInterfaceStyle) {
+        self.sdk = sdk
+        self.style = style
         super.init(table, primaryCellReuseId: CellReuseIds.Hormone)
     }
 
-    var cells: [HormoneCell] {
+    var cells: [HormoneCellProtocol] {
         _cells
     }
 
-    func reflectModel(_ sdk: PatchDataSDK?, _ style: UIUserInterfaceStyle) {
+    func reflectModel() {
         _cells = []
         guard let sdk = sdk else { return }
         for row in 0..<SupportedHormoneUpperQuantityLimit {

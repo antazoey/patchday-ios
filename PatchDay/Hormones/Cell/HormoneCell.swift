@@ -9,24 +9,24 @@
 import UIKit
 import PDKit
 
-class HormoneCell: TableCell {
+class HormoneCell: TableCell, HormoneCellProtocol {
 
     @IBOutlet weak var siteImageView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var badgeButton: PDBadgeButton!
     @IBOutlet weak var overnightImageView: UIImageView!
 
-    private var viewModel: HormoneCellViewModel?
+    private var viewModel: HormoneCellViewModelProtocol?
 
     @discardableResult
-    public func configure(_ viewModel: HormoneCellViewModel) -> HormoneCell {
+    public func configure(_ viewModel: HormoneCellViewModelProtocol) -> HormoneCellProtocol {
         self.viewModel = viewModel
         backgroundColor = UIColor.systemBackground
         return reflectHormone(at: viewModel.cellIndex).applyTheme()
     }
 
     ///  Should be called after `configure()` and only when it is known what its animation should be.
-    public func reflectSiteImage(_ history: SiteImageHistory) throws {
+    public func reflectSiteImage(_ history: SiteImageRecording) throws {
         let mutation = history.differentiate()
         switch mutation {
             case .Add:

@@ -13,79 +13,79 @@ import PDMock
 @testable
 import PatchDay
 
-class SiteImageHistoryTests: XCTestCase {
+class SiteImageRecorderTests: XCTestCase {
 
     func testCurrentAndPush_whenNoHistory_returnsNil() {
-        let history = SiteImageHistory(0)
-        XCTAssertNil(history.current)
+        let recorder = SiteImageRecorder(0)
+        XCTAssertNil(recorder.current)
     }
 
     func testCurrentAndPush_whenPushedOnce_returnsImagePushed() {
-        let history = SiteImageHistory(0)
+        let recorder = SiteImageRecorder(0)
         let image = UIImage()
-        history.push(image)
-        let actual = history.current
+        recorder.push(image)
+        let actual = recorder.current
         let expected = image
         XCTAssertEqual(expected, actual)
     }
 
     func testCurrentAndPush_whenPushedMoreThanOnce_returnsLastImagePushed() {
-        let history = SiteImageHistory(0)
+        let recorder = SiteImageRecorder(0)
         let firstImage = UIImage()
         let secondImage = UIImage()
         let lastImage = UIImage()
-        history.push(firstImage)
-        history.push(secondImage)
-        history.push(lastImage)
-        let actual = history.current
+        recorder.push(firstImage)
+        recorder.push(secondImage)
+        recorder.push(lastImage)
+        let actual = recorder.current
         let expected = lastImage
         XCTAssertEqual(expected, actual)
     }
 
     func testDifferentiate_whenNeverTaken_returnsEmpty() {
-        let history = SiteImageHistory(0)
-        let actual = history.differentiate()
+        let recorder = SiteImageRecorder(0)
+        let actual = recorder.differentiate()
         let expected = HormoneMutation.Empty
         XCTAssertEqual(expected, actual)
     }
 
     func testDifferentiate_whenLastEqualsPenultimate_returnsNone() {
-        let history = SiteImageHistory(0)
+        let recorder = SiteImageRecorder(0)
         let image = UIImage()
-        history.push(image)
-        history.push(image)
-        let actual = history.differentiate()
+        recorder.push(image)
+        recorder.push(image)
+        let actual = recorder.differentiate()
         let expected = HormoneMutation.None
         XCTAssertEqual(expected, actual)
     }
 
     func testDifferentiate_whenOnlyOneImagePushes_returnsAdd() {
-        let history = SiteImageHistory(0)
+        let recorder = SiteImageRecorder(0)
         let image = UIImage()
-        history.push(image)
-        let actual = history.differentiate()
+        recorder.push(image)
+        let actual = recorder.differentiate()
         let expected = HormoneMutation.Add
         XCTAssertEqual(expected, actual)
     }
 
     func testDifferentiate_whenLastImageDifferentThanPenultimate_returnsEdit() {
-        let history = SiteImageHistory(0)
+        let recorder = SiteImageRecorder(0)
         let penultimate = SiteImages.arms
         let last = SiteImages.customPatch
-        history.push(penultimate)
-        history.push(last)
-        let actual = history.differentiate()
+        recorder.push(penultimate)
+        recorder.push(last)
+        let actual = recorder.differentiate()
         let expected = HormoneMutation.Edit
         XCTAssertEqual(expected, actual)
     }
 
     func testDifferentiate_whenLastPushIsNilAndPenultimateIsImage_returnsRemove() {
-        let history = SiteImageHistory(0)
+        let recorder = SiteImageRecorder(0)
         let penultimate = SiteImages.arms
         let last: UIImage? = nil
-        history.push(penultimate)
-        history.push(last)
-        let actual = history.differentiate()
+        recorder.push(penultimate)
+        recorder.push(last)
+        let actual = recorder.differentiate()
         let expected = HormoneMutation.Remove
         XCTAssertEqual(expected, actual)
     }

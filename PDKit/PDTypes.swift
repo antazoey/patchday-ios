@@ -13,6 +13,13 @@ public typealias SiteName = String
 public typealias Time = Date
 public typealias Stamp = Date
 public typealias Stamps = [Stamp?]?
+public typealias UIIcon = UIImage
+
+public enum PDBadgeButtonType {
+    case forPatchesAndGelHormonesView
+    case forInjectionsHormonesView
+    case forPillsView
+}
 
 public enum DeliveryMethod {
     case Patches
@@ -72,4 +79,12 @@ public enum ThemedAsset {
     case selected
     case text
     case unselected
+}
+
+public enum HormoneMutation {
+    case Add
+    case Edit
+    case Remove
+    case None
+    case Empty
 }

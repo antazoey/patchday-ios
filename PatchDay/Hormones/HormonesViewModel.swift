@@ -9,34 +9,35 @@
 import Foundation
 import PDKit
 
-class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
+class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesViewModelProtocol {
 
+    private let siteImageHistory: SiteImageHistorical
     private let style: UIUserInterfaceStyle
-    let table: HormonesTable
+    var table: HormonesTableProtocol! = nil
     var hormones: HormoneScheduling? { sdk?.hormones }
 
-    private static var histories: [SiteImageHistory] = [
-        SiteImageHistory(0),
-        SiteImageHistory(1),
-        SiteImageHistory(2),
-        SiteImageHistory(3)
-    ]
-
-    init(hormonesTableView: UITableView, style: UIUserInterfaceStyle) {
+    init(
+        siteImageHistory: SiteImageHistorical,
+        hormonesTableView: UITableView,
+        style: UIUserInterfaceStyle
+    ) {
+        self.siteImageHistory = siteImageHistory
         self.style = style
-        self.table = HormonesTable(hormonesTableView)
         super.init()
+        self.table = HormonesTable(hormonesTableView, self.sdk, style)
         finishInit()
     }
 
     init(
-        hormonesTableView: UITableView,
+        siteImageHistory: SiteImageHistorical,
         style: UIUserInterfaceStyle,
         alertFactory: AlertProducing,
+        table: HormonesTableProtocol,
         dependencies: DependenciesProtocol
     ) {
+        self.siteImageHistory = siteImageHistory
         self.style = style
-        self.table = HormonesTable(hormonesTableView)
+        self.table = table
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,
@@ -46,13 +47,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
             badge: dependencies.badge
         )
         finishInit()
-    }
-
-    private func finishInit() {
-        sdk?.hormones.reloadContext()
-        initTable(style: style)
-        tabs?.reflect()
-        table.reloadData()
     }
 
     var title: String {
@@ -69,28 +63,20 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
 
     func updateSiteImages() {
         var i = 0
-        table.reflectModel(self.sdk, style)
+        table.reflectModel()
         do {
             try table.cells.forEach {
                 cell in
-                let history = HormonesViewModel.histories[i]
-                history.push(getSiteImage(at: i))
-                try cell.reflectSiteImage(history)
+                let recorder = siteImageHistory[i]
+                let siteImage = getSiteImage(at: i)
+                recorder.push(siteImage)
+                try cell.reflectSiteImage(recorder)
                 i += 1
             }
         } catch {
             let log = PDLog<HormonesViewModel>()
             log.error("Unable to update site image at row \(i)")
         }
-    }
-
-    private func getSiteImage(at row: Index) -> UIImage? {
-        guard let sdk = sdk else { return nil }
-        let quantity = sdk.settings.quantity.rawValue
-        guard row < quantity && row >= 0 else { return nil }
-        let hormone = sdk.hormones[row]
-        let siteImageDeterminationParams = SiteImageDeterminationParameters(hormone: hormone)
-        return SiteImages[siteImageDeterminationParams]
     }
 
     func handleRowTapped(
@@ -116,11 +102,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         ).present()
     }
 
-    private func requesttHormoneNotification(from row: Index) {
-        guard let hormone = sdk?.hormones[row] else { return }
-        notifications?.requestExpiredHormoneNotification(for: hormone)
-    }
-
     func presentDisclaimerAlertIfFirstLaunch() {
         guard isFirstLaunch else { return }
         alerts?.createDisclaimerAlert().present()
@@ -128,7 +109,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
     }
 
     subscript(row: Index) -> UITableViewCell {
-        table.cells.tryGet(at: row) ?? HormoneCell()
+        if let cell = table.cells.tryGet(at: row) {
+            return cell as! UITableViewCell
+        }
+        return HormoneCell()
     }
 
     func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController) {
@@ -142,13 +126,30 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         setTabDependencies(tabBarController: tabs, appViewControllers: vcs)
     }
 
-    private func initTable(style: UIUserInterfaceStyle) {
-        reflectTableModel()
-        updateSiteImages()  // Animating images has to happen after `cell.configure()`
+    private func getSiteImage(at row: Index) -> UIImage? {
+        guard let sdk = sdk else { return nil }
+        let quantity = sdk.settings.quantity.rawValue
+        guard row < quantity && row >= 0 else { return nil }
+        let hormone = sdk.hormones[row]
+        let siteImageDeterminationParams = SiteImageDeterminationParameters(hormone: hormone)
+        return SiteImages[siteImageDeterminationParams]
     }
 
-    private func reflectTableModel() {
-        table.reflectModel(sdk, style)
+    private func finishInit() {
+        sdk?.hormones.reloadContext()
+        initTable(style: style)
+        tabs?.reflect()
+        table.reloadData()
+    }
+
+    private func requesttHormoneNotification(from row: Index) {
+        guard let hormone = sdk?.hormones[row] else { return }
+        notifications?.requestExpiredHormoneNotification(for: hormone)
+    }
+
+    private func initTable(style: UIUserInterfaceStyle) {
+        table.reflectModel()
+        updateSiteImages()  // Animating images has to happen after `cell.configure()`
     }
 
     private var isFirstLaunch: Bool {
@@ -156,7 +157,9 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel> {
         return !sdk.settings.mentionedDisclaimer.value
     }
 
-    private func setTabDependencies(tabBarController: UITabBarController, appViewControllers: [UIViewController]) {
+    private func setTabDependencies(
+        tabBarController: UITabBarController, appViewControllers: [UIViewController]
+    ) {
         tabs = TabReflector(
             tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk
         )

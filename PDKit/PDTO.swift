@@ -171,3 +171,127 @@ public struct PillStruct {
         self.attributes = attributes
     }
 }
+
+
+public struct SiteCellProperties {
+    public init(row: Index) {
+        self.row = row
+    }
+    public var row: Index
+    public var site: Bodily?
+    public var totalSiteCount: Int = 0
+    public var nextSiteIndex: Int = 0
+}
+
+public struct BarItemInitializationProperties {
+    public init(
+        sitesViewController: UIViewController,
+        isEditing: Bool,
+        oppositeActionTitle: String,
+        reset: Selector,
+        insert: Selector
+    ) {
+        self.sitesViewController = sitesViewController
+        self.isEditing = isEditing
+        self.oppositeActionTitle = oppositeActionTitle
+        self.reset = reset
+        self.insert = insert
+    }
+    public var sitesViewController: UIViewController
+    public var isEditing: Bool
+    public var oppositeActionTitle: String
+    public var reset: Selector
+    public var insert: Selector
+}
+
+public struct PillCellConfigurationParameters {
+    public init(pill: Swallowable, index: Index) {
+        self.pill = pill
+        self.index = index
+    }
+    public var pill: Swallowable
+    public var index: Index
+}
+
+public struct HormoneSelectionState {
+    public init() {}
+    public var site: Bodily?
+    public var siteName: SiteName?
+    public var date: Date?
+    public var siteIndex: Index { site?.order ?? -1 }
+
+    public var hasSelections: Bool {
+        let dateSelected = date != nil && date != DateFactory.createDefaultDate()
+        let siteSelected = (site != nil && siteIndex != -1) || siteName != nil
+        return dateSelected || siteSelected
+    }
+}
+
+public struct SiteImagePickerDelegateProperties {
+    public init(
+        selectedSiteIndex: Index?,
+        imageChoices: [UIImage],
+        views: SiteImagePickerDelegateRelatedViews?,
+        selectedImageIndex: Index?
+    ) {
+        self.selectedSiteIndex = selectedSiteIndex
+        self.imageChoices = imageChoices
+        self.views = views
+        self.selectedImageIndex = selectedImageIndex
+    }
+    public var selectedSiteIndex: Index?
+    public var imageChoices: [UIImage] = []
+    public var views: SiteImagePickerDelegateRelatedViews?
+    public var selectedImageIndex: Index?
+}
+
+public struct SiteImagePickerDelegateRelatedViews {
+    public init(
+        getPicker: @escaping () -> UIPickerView,
+        getImageView: @escaping () -> UIImageView,
+        getSaveButton: @escaping () -> UIBarButtonItem) {
+        self.getPicker = getPicker
+        self.getImageView = getImageView
+        self.getSaveButton = getSaveButton
+    }
+    public var getPicker: () -> UIPickerView
+    public var getImageView: () -> UIImageView
+    public var getSaveButton: () -> UIBarButtonItem
+}
+
+public struct SiteDetailViewModelConstructorParams {
+    public var siteIndex: Index
+    public var imageSelectionParams: SiteImageDeterminationParameters
+    public var relatedViews: SiteImagePickerDelegateRelatedViews
+    public var deliveryMethod: DeliveryMethod
+
+    public init(
+        _ siteIndex: Index,
+        _ imageParams: SiteImageDeterminationParameters,
+        _ relateViews: SiteImagePickerDelegateRelatedViews
+    ) {
+        self.siteIndex = siteIndex
+        self.imageSelectionParams = imageParams
+        self.relatedViews = relateViews
+        self.deliveryMethod = imageParams.deliveryMethod
+    }
+}
+
+public struct SiteImageStruct {
+    public init(image: UIImage, name: SiteName) {
+        self.image = image
+        self.name = name
+    }
+    public let image: UIImage
+    public let name: SiteName
+}
+
+public struct SiteSelectionState {
+    public init() {}
+    public var selectedSiteName: SiteName?
+    // Image propety is not tracked here - see SiteImagePicker.swift
+
+    public var hasSelections: Bool {
+        selectedSiteName != nil
+    }
+}

@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-class PillCell: TableCell {
+class PillCell: TableCell, PillCellProtocol {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
@@ -23,10 +23,10 @@ class PillCell: TableCell {
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
     static let RowHeight: CGFloat = 170.0
-    private var viewModel: PillCellViewModel? = nil
+    private var viewModel: PillCellViewModelProtocol? = nil
 
     @discardableResult
-    public func configure(_ params: PillCellConfigurationParameters) -> PillCell {
+    public func configure(_ params: PillCellConfigurationParameters) -> PillCellProtocol {
         self.viewModel = PillCellViewModel(pill: params.pill)
         lastTakenLabel?.text = viewModel?.lastTakenText
         nameLabel?.text = params.pill.name
@@ -38,7 +38,7 @@ class PillCell: TableCell {
     }
 
     /// Set the "last taken" label to the current date as a string.
-    @discardableResult func stamp() -> PillCell {
+    @discardableResult func stamp() -> PillCellProtocol {
         lastTakenLabel?.text = PDDateFormatter.formatDate(Date())
         return self
     }

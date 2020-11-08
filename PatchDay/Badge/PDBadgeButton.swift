@@ -5,12 +5,6 @@
 import UIKit
 import PDKit
 
-enum PDBadgeButtonType {
-    case forPatchesAndGelHormonesView
-    case forInjectionsHormonesView
-    case forPillsView
-}
-
 struct CGDimensions {
     var width: CGFloat
     var height: CGFloat

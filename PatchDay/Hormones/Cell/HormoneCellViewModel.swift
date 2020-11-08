@@ -16,13 +16,13 @@ enum SiteImageReflectionError: Error {
 let _HORMONE_CELL_PAD_FONT_SIZE: CGFloat = 35.0
 let _HORMONE_CELL_PHONE_FONT_SIZE: CGFloat = 15.0
 
-class HormoneCellViewModel {
+class HormoneCellViewModel: HormoneCellViewModelProtocol {
 
     let cellIndex: Index
     private let sdk: PatchDataSDK
     private let isPad: Bool
 
-    init(cellIndex: Index, sdk: PatchDataSDK, isPad: Bool) {
+    required init(cellIndex: Index, sdk: PatchDataSDK, isPad: Bool) {
         self.cellIndex = cellIndex
         self.sdk = sdk
         self.isPad = isPad

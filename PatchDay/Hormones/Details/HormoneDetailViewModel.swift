@@ -14,7 +14,7 @@ enum TextFieldButtonSenderType: String {
     case DefaultTextFieldEditor = "type"
 }
 
-class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel> {
+class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, HormoneDetailViewModelProtocol {
 
     var hormoneId: UUID?  // Determined after PatchData SDK available
     var hormone: Hormonal? {

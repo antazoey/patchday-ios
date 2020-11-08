@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 import PDKit
 
-class PillCellViewModel {
+class PillCellViewModel: PillCellViewModelProtocol {
 
     private let pill: Swallowable
 

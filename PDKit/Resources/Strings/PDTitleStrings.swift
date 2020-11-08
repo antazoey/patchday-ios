@@ -13,6 +13,7 @@ public class PDTitleStrings {
     private static let c = "Title of a view controller. Keep it brief please."
 
     public static var PatchesTitle: String { NSLocalizedString("Patches", comment: c) }
+    public static var EditHormoneTitle: String { NSLocalizedString("Edit Hormone", comment: c)}
     public static var InjectionsTitle: String { NSLocalizedString("Injections", comment: c) }
     public static var GelTitle: String { NSLocalizedString("Gel", comment: c)}
     public static var HormonesTitle: String { NSLocalizedString("Hormones", comment: c) }

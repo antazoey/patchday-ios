@@ -69,7 +69,7 @@ class SitesViewModelTests: XCTestCase {
         let dep = MockDependencies()
         (dep.sdk?.sites as! MockSiteSchedule).names = ["test", "orange", "foobar"]  // 3
         let viewModel = SitesViewModel(sitesTableView: table, dependencies: dep)
-        XCTAssertEqual(3, viewModel.sitesCount)
+        XCTAssertEqual(3, viewModel.sitesOptionsCount)
     }
 
     func testCreateSiteCellSwipeActions_returnsGestureWithCorrectNumberOfActions() {

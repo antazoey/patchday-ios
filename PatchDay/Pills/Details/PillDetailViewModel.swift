@@ -6,7 +6,7 @@
 import Foundation
 import PDKit
 
-class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel> {
+class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDetailViewModelProtocol {
 
     let index: Index
     var pill: Swallowable {
