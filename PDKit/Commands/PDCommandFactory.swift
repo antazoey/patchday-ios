@@ -24,7 +24,8 @@ public class PDCommandFactory {
         ChangeHormoneCommand(
             hormones: hormones,
             sites: sites,
-            hormone: hormone, now: now
+            hormoneId: hormone.id,
+            now: now
         )
     }
 }

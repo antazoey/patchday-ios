@@ -1496,7 +1496,6 @@
 				9D8A981323C573B3004E20FE /* PDMock.h */,
 				9D8A981423C573B3004E20FE /* Info.plist */,
 				9D1908F5247029E800E95244 /* PDTest.swift */,
-				9D59F8BE250570CC00C0324E /* MockNow.swift */,
 			);
 			path = PDMock;
 			sourceTree = "<group>";
@@ -1504,6 +1503,7 @@
 		9D8A981B23C5742E004E20FE /* Mocks */ = {
 			isa = PBXGroup;
 			children = (
+				9D59F8BE250570CC00C0324E /* MockNow.swift */,
 				9D1908EB2468394B00E95244 /* MockAlerts */,
 				9D1908E42468368100E95244 /* MockApp */,
 				9D6E9AD424562145003BBCC9 /* MockNotifications */,

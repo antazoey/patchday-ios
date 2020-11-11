@@ -9,10 +9,6 @@
 import Foundation
 import PDKit
 
-enum SiteImageReflectionError: Error {
-    case AddWithoutGivenPlaceholderImage
-}
-
 let _HORMONE_CELL_PAD_FONT_SIZE: CGFloat = 35.0
 let _HORMONE_CELL_PHONE_FONT_SIZE: CGFloat = 15.0
 

@@ -20,7 +20,7 @@ public protocol HormonesViewModelProtocol {
     func handleRowTapped(
         at index: Index, _ hormonesViewController: UIViewController, reload: @escaping () -> Void
     )
-    subscript(row: Index) -> UITableViewCell { get }
+    subscript(row: Index) -> HormoneCellProtocol { get }
     func goToHormoneDetails(hormoneIndex: Index, _ hormonesViewController: UIViewController)
     func loadAppTabs(source: UIViewController)
 }

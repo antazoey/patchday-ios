@@ -88,3 +88,8 @@ public enum HormoneMutation {
     case None
     case Empty
 }
+
+public enum SiteImageReflectionError: Error {
+    case AddWithoutGivenPlaceholderImage
+}
+

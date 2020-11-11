@@ -13,6 +13,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
 
     private let siteImageHistory: SiteImageHistorical
     private let style: UIUserInterfaceStyle
+    private let now: NowProtocol
     var table: HormonesTableProtocol! = nil
     var hormones: HormoneScheduling? { sdk?.hormones }
 
@@ -23,6 +24,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     ) {
         self.siteImageHistory = siteImageHistory
         self.style = style
+        self.now = PDNow()
         super.init()
         self.table = HormonesTable(hormonesTableView, self.sdk, style)
         finishInit()
@@ -31,18 +33,19 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     init(
         siteImageHistory: SiteImageHistorical,
         style: UIUserInterfaceStyle,
-        alertFactory: AlertProducing,
         table: HormonesTableProtocol,
-        dependencies: DependenciesProtocol
+        dependencies: DependenciesProtocol,
+        now: NowProtocol
     ) {
         self.siteImageHistory = siteImageHistory
         self.style = style
         self.table = table
+        self.now = now
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,
             notifications: dependencies.notifications,
-            alerts: alertFactory,
+            alerts: dependencies.alerts,
             nav: dependencies.nav,
             badge: dependencies.badge
         )
@@ -83,22 +86,20 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
         at index: Index, _ hormonesViewController: UIViewController, reload: @escaping () -> Void
     ) {
         sdk?.sites.reloadContext()
-        guard let hormone = sdk?.hormones[index] else { return }
-        let nextSite = sdk?.sites.suggested
-
+        guard let sdk = sdk else { return }
+        guard let alerts = self.alerts else { return }
+        guard let hormone = sdk.hormones[index] else { return }
+        let nextSite = sdk.sites.suggested
         let changeHormone = {
-            guard let sdk = self.sdk else {
-                reload()
-                return
-            }
-            let command = sdk.commandFactory.createChangeHormoneCommand(hormone)
+            let command = sdk.commandFactory.createChangeHormoneCommand(hormone, now: self.now)
             command.execute()
             reload()
         }
-        self.alerts?.createHormoneActions(
+        alerts.createHormoneActions(
             hormone.siteName,
             nextSite?.name,
-            changeHormone, { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
+            changeHormone,
+            { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
         ).present()
     }
 
@@ -108,9 +109,9 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
         sdk?.settings.setMentionedDisclaimer(to: true)
     }
 
-    subscript(row: Index) -> UITableViewCell {
+    subscript(row: Index) -> HormoneCellProtocol {
         if let cell = table.cells.tryGet(at: row) {
-            return cell as! UITableViewCell
+            return cell
         }
         return HormoneCell()
     }
@@ -154,6 +155,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     private func setTabDependencies(
         tabBarController: UITabBarController, appViewControllers: [UIViewController]
     ) {
+        guard self.alerts == nil else { return }
         tabs = TabReflector(
             tabBarController: tabBarController, viewControllers: appViewControllers, sdk: sdk
         )

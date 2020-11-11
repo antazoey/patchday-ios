@@ -104,7 +104,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         var startTime = times[timeIndex]
         var minTime: Time?
         if timeIndex > 0 {
-            print(self.times)
             minTime = self.times[timeIndex - 1]
         }
         if let minTime = minTime, minTime > startTime {

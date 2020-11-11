@@ -10,6 +10,8 @@ import Foundation
 import PDKit
 
 public class MockAlert: PDAlerting {
+    public init() {}
+
     public var presentCallArgs: [[UIAlertAction]] = []
     public func present(actions: [UIAlertAction]) {
         presentCallArgs.append(actions)
