@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="LVV-Xz-kzD">
-                                <rect key="frame" x="18" y="95" width="339" height="244"/>
+                                <rect key="frame" x="18" y="95" width="339" height="420"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date and time applied:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1DI-qg-8qA">
                                         <rect key="frame" x="0.0" y="0.0" width="339" height="16"/>
@@ -45,53 +45,25 @@
                                             <constraint firstAttribute="height" constant="1" id="QaV-G9-Jhz"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KbJ-x8-HEc">
-                                        <rect key="frame" x="0.0" y="17" width="339" height="40"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tNJ-il-X3d">
-                                                <rect key="frame" x="0.0" y="0.0" width="339" height="40"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="                        ">
-                                                    <color key="titleColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="selectDateTextTapped:" destination="UrJ-qX-o3J" eventType="touchUpInside" id="nRI-Ca-6qf"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="40" id="hSz-UD-0hm"/>
-                                        </constraints>
-                                    </stackView>
-                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JP-Ip-SdW">
-                                        <rect key="frame" x="0.0" y="57" width="339" height="240"/>
-                                        <subviews>
-                                            <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="QuF-JW-mey">
-                                                <rect key="frame" x="0.0" y="39" width="339" height="162"/>
-                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                            </datePicker>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="240" id="sIL-Bp-V7m"/>
-                                        </constraints>
-                                    </view>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="QuF-JW-mey" customClass="HormoneDatePicker" customModule="PatchDay" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="17" width="339" height="216"/>
+                                    </datePicker>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHr-Tu-bAI">
-                                        <rect key="frame" x="0.0" y="57" width="339" height="1"/>
+                                        <rect key="frame" x="0.0" y="233" width="339" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="0be-XT-gdP"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KTZ-2V-ijz">
-                                        <rect key="frame" x="0.0" y="58" width="339" height="35"/>
+                                        <rect key="frame" x="0.0" y="234" width="339" height="35"/>
                                         <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="4Re-li-BQH"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expires:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5x3-eZ-12Y">
-                                        <rect key="frame" x="0.0" y="93" width="339" height="16"/>
+                                        <rect key="frame" x="0.0" y="269" width="339" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="3if-CX-FOd"/>
                                         </constraints>
@@ -108,14 +80,14 @@
                                         </attributedString>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RTx-3W-wfr">
-                                        <rect key="frame" x="0.0" y="109" width="339" height="1"/>
+                                        <rect key="frame" x="0.0" y="285" width="339" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="3kX-2f-POT"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ar2-Kz-kT6">
-                                        <rect key="frame" x="0.0" y="110" width="339" height="40"/>
+                                        <rect key="frame" x="0.0" y="286" width="339" height="40"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vei-Lg-bch">
                                                 <rect key="frame" x="0.0" y="0.0" width="339" height="40"/>
@@ -129,21 +101,21 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" restorationIdentifier="line above big gap" translatesAutoresizingMaskIntoConstraints="NO" id="WkF-j9-qHW">
-                                        <rect key="frame" x="0.0" y="150" width="339" height="1"/>
+                                        <rect key="frame" x="0.0" y="326" width="339" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="U4I-KN-e1K"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nz8-r5-Kzo">
-                                        <rect key="frame" x="0.0" y="151" width="339" height="35"/>
+                                        <rect key="frame" x="0.0" y="327" width="339" height="35"/>
                                         <color key="backgroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="35" id="DqH-fP-5pC"/>
                                         </constraints>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Site:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2sx-PL-C2B">
-                                        <rect key="frame" x="0.0" y="186" width="339" height="16"/>
+                                        <rect key="frame" x="0.0" y="362" width="339" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="r3Q-2T-f9i"/>
                                         </constraints>
@@ -160,14 +132,14 @@
                                         </attributedString>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krO-wL-XDy">
-                                        <rect key="frame" x="0.0" y="202" width="339" height="1"/>
+                                        <rect key="frame" x="0.0" y="378" width="339" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="ggb-TH-wN1"/>
                                         </constraints>
                                     </view>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYp-qX-JWk">
-                                        <rect key="frame" x="0.0" y="203" width="339" height="40"/>
+                                        <rect key="frame" x="0.0" y="379" width="339" height="40"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" restorationIdentifier="pick" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="                             " minimumFontSize="14" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ptS-v2-B6E">
                                                 <rect key="frame" x="0.0" y="0.0" width="288" height="40"/>
@@ -203,14 +175,14 @@
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2g-Q7-iMQ">
-                                        <rect key="frame" x="0.0" y="243" width="339" height="1"/>
+                                        <rect key="frame" x="0.0" y="419" width="339" height="1"/>
                                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="RDO-jK-AW6"/>
                                         </constraints>
                                     </view>
                                     <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlM-ae-RCE">
-                                        <rect key="frame" x="0.0" y="244" width="339" height="180"/>
+                                        <rect key="frame" x="0.0" y="420" width="339" height="180"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="180" id="hyr-r0-MIl"/>
                                         </constraints>
@@ -231,7 +203,7 @@
                                 </constraints>
                             </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ynp-FM-Qea">
-                                <rect key="frame" x="76" y="439" width="223" height="50"/>
+                                <rect key="frame" x="76" y="615" width="223" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="Xqt-09-RTb"/>
                                 </constraints>
@@ -273,7 +245,6 @@
                         <outlet property="bigGapUnderExpirationDateViews" destination="nz8-r5-Kzo" id="ZTI-Bx-15n"/>
                         <outlet property="dateAndTimeAppliedHeader" destination="1DI-qg-8qA" id="FiL-ET-lZr"/>
                         <outlet property="datePicker" destination="QuF-JW-mey" id="YOK-wC-9vj"/>
-                        <outlet property="datePickerInputView" destination="9JP-Ip-SdW" id="SaG-mL-9WA"/>
                         <outlet property="expirationDateLabel" destination="vei-Lg-bch" id="zbQ-5a-go0"/>
                         <outlet property="expirationDateLabelHeader" destination="5x3-eZ-12Y" id="8cv-DT-9t4"/>
                         <outlet property="horizontalLineAboveSite" destination="krO-wL-XDy" id="0gG-cP-Uoa"/>
@@ -282,7 +253,6 @@
                         <outlet property="lineUnderDateInputView" destination="dHr-Tu-bAI" id="Wc7-pk-jTW"/>
                         <outlet property="lineUnderExpirationDate" destination="RTx-3W-wfr" id="l9v-id-Yyh"/>
                         <outlet property="lineUnderScheduleDate" destination="WkF-j9-qHW" id="X3V-fV-bUg"/>
-                        <outlet property="selectDateButton" destination="tNJ-il-X3d" id="0p7-Fs-7IG"/>
                         <outlet property="selectSiteTextField" destination="ptS-v2-B6E" id="iwc-cq-wQ1"/>
                         <outlet property="siteLabel" destination="2sx-PL-C2B" id="kPa-cJ-5tU"/>
                         <outlet property="sitePicker" destination="dlM-ae-RCE" id="sqy-XR-KjU"/>

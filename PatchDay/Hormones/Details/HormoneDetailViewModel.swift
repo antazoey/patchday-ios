@@ -74,11 +74,6 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         dateSelected ?? Date()
     }
 
-    var selectDateStartText: String {
-        guard let hormone = hormone, hormone.hasDate else { return ActionStrings.Select }
-        return PDDateFormatter.formatDate(hormone.date)
-    }
-
     var selectSiteStartText: String {
         guard let hormone = hormone else { return ActionStrings.Select }
         if hormone.hasSite {
@@ -113,10 +108,10 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         sdk?.sites.count ?? 0
     }
 
-    var autoPickedDateText: String {
+    var autoPickedDate: Date {
         let date = Date()
         selections.date = date
-        return PDDateFormatter.formatDate(date)
+        return date
     }
 
     var autoPickedExpirationDateText: String {

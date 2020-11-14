@@ -11,6 +11,7 @@ Fixed
 Changed
 
 - iPad font size for Hormone Cell text was decreased.
+- Using new UI Date Picker styles from iOS 14.
 
 ## 3.1.1
 

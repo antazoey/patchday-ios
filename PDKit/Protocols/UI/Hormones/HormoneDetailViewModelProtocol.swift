@@ -15,14 +15,12 @@ public protocol HormoneDetailViewModelProtocol {
     var selections: HormoneSelectionState { get set }
     var handleInterfaceUpdatesFromNewSite: () -> Void { get }
     var dateSelected: Date? { get set }
-    var dateSelectedText: String { get }
     var datePickerDate: Date { get }
-    var selectDateStartText: String { get }
     var selectSiteStartText: String { get }
     var expirationDateText: String { get }
     var siteStartRow: Index { get }
     var siteCount: Int { get }
-    var autoPickedDateText: String { get }
+    var autoPickedDate: Date { get }
     var autoPickedExpirationDateText: String { get }
     func handleIfUnsaved(_ viewController: UIViewController)
     func selectSuggestedSite() -> String

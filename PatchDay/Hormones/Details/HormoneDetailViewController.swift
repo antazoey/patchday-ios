@@ -21,10 +21,8 @@ class HormoneDetailViewController: UIViewController,
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
     @IBOutlet private weak var dateAndTimeAppliedHeader: UILabel!
     @IBOutlet private weak var selectSiteTextField: UITextField!
-    @IBOutlet private weak var selectDateButton: UIButton!
-    @IBOutlet private weak var datePickerInputView: UIView!
     @IBOutlet private weak var lineUnderDateInputView: UIView!
-    @IBOutlet private weak var datePicker: UIDatePicker!
+    @IBOutlet private weak var datePicker: HormoneDatePicker!
     @IBOutlet private weak var lineUnderScheduleDate: UIView!
     @IBOutlet private weak var lineUnderDateAndTimeAppliedLabel: UIView!
     @IBOutlet private weak var bigGapUnderDateAppliedViews: UIView!
@@ -110,7 +108,7 @@ class HormoneDetailViewController: UIViewController,
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         selectSiteTextField.isUserInteractionEnabled = true
-        selectDateButton.isEnabled = false
+        datePicker.isEnabled = false
         autofillButton.isHidden = true
         typeSiteButton.setTitle(ActionStrings.Done)
         let id = textField.restorationIdentifier ?? ""
@@ -125,7 +123,7 @@ class HormoneDetailViewController: UIViewController,
         typeSiteButton.setTitle(ActionStrings._Type)
         selectSiteTextField.endEditing(true)
         selectSiteTextField.isEnabled = true
-        selectDateButton.isEnabled = true
+        datePicker.isEnabled = true
         autofillButton.isHidden = false
         selectSiteTextField.isHidden = false
         saveButton.isEnabled = true
@@ -135,7 +133,6 @@ class HormoneDetailViewController: UIViewController,
         } else {
             viewModel.presentNewSiteAlert(newSiteName: siteNameTyped)
         }
-        selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -157,20 +154,17 @@ class HormoneDetailViewController: UIViewController,
         autofillButton.isHidden = true
         autofillButton.isEnabled = false
         selectSiteTextField.isEnabled = false
-        selectDateButton.isEnabled = false
     }
 
     @objc func closeSitePicker() {
         sitePicker.isHidden = true
         autofillButton.isEnabled = true
-        selectDateButton.isEnabled = true
         selectSiteTextField.isEnabled = true
         selectSiteTextField.isHidden = false
         autofillButton.isHidden = false
         saveButton.isEnabled = true
         typeSiteButton.setTitle(ActionStrings._Type)
         typeSiteButton.replaceTarget(self, newAction: #selector(keyboardTapped(_:)))
-        selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)
     }
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -196,38 +190,6 @@ class HormoneDetailViewController: UIViewController,
         selectSiteTextField.text = siteName
     }
 
-    // MARK: - Date Picker funcs
-
-    @IBAction func selectDateTextTapped(_ sender: Any) {
-        datePicker.date = viewModel.datePickerDate
-        let doneButton = PDViewFactory.createDoneButton(
-            doneAction: #selector(datePickerDone), mainView: view, targetViewController: self
-        )
-        datePickerInputView.addSubview(doneButton)
-        autofillButton.isHidden = true
-        selectDateButton.isEnabled = false
-        typeSiteButton.isEnabled = false
-        selectSiteTextField.isEnabled = false
-        showDatePicker()
-    }
-
-    @objc func datePickerDone(_ sender: Any) {
-        if let doneButton = sender as? UIButton {
-            doneButton.removeFromSuperview()
-        }
-        datePickerInputView.isHidden = true
-        viewModel.dateSelected = datePicker.date
-        selectDateButton.setTitle(viewModel.dateSelectedText, for: UIControl.State.normal)
-        expirationDateLabel.text = viewModel.expirationDateText
-        saveButton.isEnabled = true
-        selectDateButton.isEnabled = true
-        typeSiteButton.isEnabled = true
-        autofillButton.isHidden = false
-        siteStackView.isHidden = false
-        siteLabel.isHidden = false
-        selectSiteTextField.isEnabled = true
-    }
-
     // MARK: Other UI
 
     @objc private func saveButtonTapped(_ sender: Any) {
@@ -238,7 +200,7 @@ class HormoneDetailViewController: UIViewController,
 
     @IBAction private func autofillTapped(_ sender: Any) {
         autoSetSiteText()
-        autoSetDateText()
+        autoSetDate()
         saveButton.isEnabled = true
     }
 
@@ -248,14 +210,20 @@ class HormoneDetailViewController: UIViewController,
         title = PDTitleStrings.EditHormoneTitle
     }
 
+    @objc func selectDateFromPicker() {
+        viewModel.dateSelected = datePicker.date
+        saveButton.isEnabled = true
+    }
+
     private func loadDateControls() {
         guard let viewModel = viewModel else { return }
         guard let viewStrings = viewModel.createHormoneViewStrings() else { return }
-        selectDateButton.setTitle(viewModel.selectDateStartText)
         expirationDateLabelHeader.text = viewStrings.expirationText
         dateAndTimeAppliedHeader.text = viewStrings.dateAndTimePlacedText
         siteLabel.text = viewStrings.siteLabelText
         expirationDateLabel.text = viewModel.expirationDateText
+        datePicker.date = viewModel.datePickerDate
+        datePicker.addTarget(self, action: #selector(selectDateFromPicker), for: .allEditingEvents)
     }
 
     private func loadSiteControls() {
@@ -287,16 +255,6 @@ class HormoneDetailViewController: UIViewController,
         }
     }
 
-    private func showDatePicker() {
-        UIView.transition(
-            with: datePickerInputView as UIView,
-            duration: 0.4,
-            options: .transitionCrossDissolve,
-            animations: { self.datePickerInputView.isHidden = false },
-            completion: nil
-        )
-    }
-
     private func showSitePicker() {
         UIView.transition(
             with: sitePicker as UIView,
@@ -311,10 +269,8 @@ class HormoneDetailViewController: UIViewController,
         selectSiteTextField.text = viewModel.selectSuggestedSite()
     }
 
-    private func autoSetDateText() {
-        guard let viewModel = viewModel else { return }
-        selectDateButton.setTitle(viewModel.autoPickedDateText)
-        expirationDateLabel.text = viewModel.autoPickedExpirationDateText
+    private func autoSetDate() {
+        datePicker.date = viewModel.autoPickedDate
     }
 
     private func handleSenderType(
@@ -378,7 +334,6 @@ class HormoneDetailViewController: UIViewController,
     private func applyTheme() {
         // Containers
         view.backgroundColor = UIColor.systemBackground
-        datePickerInputView.backgroundColor = UIColor.systemBackground
         lineUnderScheduleDate.backgroundColor = PDColors[.Border]
         lineUnderDateAndTimeAppliedLabel.backgroundColor = PDColors[.Border]
         lineUnderDateInputView.backgroundColor = PDColors[.Border]
@@ -400,9 +355,10 @@ class HormoneDetailViewController: UIViewController,
         selectSiteTextField.textColor = PDColors[.Purple]
 
         // Buttons
-        selectDateButton.setTitleColor(PDColors[.Purple])
         typeSiteButton.setTitleColor(PDColors[.Button])
         autofillButton.setTitleColor(PDColors[.Button])
         saveButton.tintColor = PDColors[.Button]
+
+        datePicker.backgroundColor = PDColors[.OddCell]
     }
 }
