@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-let _HORMONE_CELL_PAD_FONT_SIZE: CGFloat = 35.0
+let _HORMONE_CELL_PAD_FONT_SIZE: CGFloat = 30.0
 let _HORMONE_CELL_PHONE_FONT_SIZE: CGFloat = 15.0
 
 class HormoneCellViewModel: HormoneCellViewModelProtocol {
