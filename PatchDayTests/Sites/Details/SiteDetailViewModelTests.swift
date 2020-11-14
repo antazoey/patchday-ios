@@ -140,7 +140,7 @@ class SiteDetailViewModelTests: XCTestCase {
         setupSite()
         let viewModel = createViewModel(index: 5)
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
-        sites.count = 0  // Out of range because of this
+        sites.all = []
         viewModel.selections.selectedSiteName = "New Name"
         viewModel.handleSave(siteDetailViewController: UIViewController())
         let renameCallArgs = sites.renameCallArgs
@@ -153,7 +153,7 @@ class SiteDetailViewModelTests: XCTestCase {
         setupSite()
         let viewModel = createViewModel()
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
-        sites.count = 5
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite(), MockSite()]
         viewModel.selections.selectedSiteName = "New Name"
         viewModel.handleSave(siteDetailViewController: UIViewController())
         let renameCallArgs = sites.renameCallArgs
@@ -167,7 +167,7 @@ class SiteDetailViewModelTests: XCTestCase {
         setupSite()
         let viewModel = createViewModel(index: 5)
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
-        sites.count = 5  // Equal to site.order above
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite(), MockSite()]
         viewModel.selections.selectedSiteName = "New Name"
         viewModel.handleSave(siteDetailViewController: UIViewController())
         let renameCallArgs = sites.renameCallArgs
@@ -191,7 +191,7 @@ class SiteDetailViewModelTests: XCTestCase {
         site.name = SiteStrings.NewSite
         let viewModel = createViewModel(index: site.order)
         let sites = viewModel.sdk?.sites as! MockSiteSchedule
-        sites.count = 5  // Equal to site.order above
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite(), MockSite()]
         viewModel.handleIfUnsaved(UIViewController())
         let alerts = viewModel.alerts as! MockAlertFactory
         let discard = alerts.createUnsavedAlertCallArgs[0].2

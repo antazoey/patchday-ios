@@ -255,7 +255,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let hormone = setupHormone()
         hormone.siteId = site.id
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
-        sites.count = 4
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite()]
         sites.subscriptIdReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
@@ -271,7 +271,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let hormone = setupHormone()
         hormone.siteId = site.id
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
-        sites.count = 4
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite()]
         sites.subscriptIdReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
@@ -287,7 +287,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let hormone = setupHormone()
         hormone.siteId = site.id
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
-        sites.count = 4
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite()]
         sites.subscriptIdReturnValue = site
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
@@ -311,7 +311,7 @@ class HormoneDetailViewModelTests: XCTestCase {
     func testSiteCount_returnsCountFromSdk() {
         setupHormone()
         let sites = dependencies.sdk?.sites as! MockSiteSchedule
-        sites.count = 11
+        sites.all = [MockSite(), MockSite(), MockSite(), MockSite()]
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
         let expected = sites.count

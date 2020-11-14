@@ -50,8 +50,9 @@ class SitesViewModelTests: XCTestCase {
     func testSitesCount_returnsSiteCount() {
         let table = UITableView()
         let dep = MockDependencies()
-        let expectedCount = 45
-        (dep.sdk?.sites as! MockSiteSchedule).count = expectedCount
+        let sites = dep.sdk?.sites as! MockSiteSchedule
+        sites.all = [MockSite(), MockSite(), MockSite()]
+        let expectedCount = sites.count
         let viewModel = SitesViewModel(sitesTableView: table, dependencies: dep)
         XCTAssertEqual(expectedCount, viewModel.sitesCount)
     }

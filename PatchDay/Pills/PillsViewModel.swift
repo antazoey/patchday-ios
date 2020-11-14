@@ -12,12 +12,15 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     init(pillsTableView: UITableView) {
         super.init()
-        finishInit(pillsTableView)
+        let tableWrapper = PillsTable(pillsTableView, pills: pills)
+        self.pillsTable = tableWrapper
+        finishInit()
     }
 
     init(
         pillsTableView: UITableView,
         alertFactory: AlertProducing? = nil,
+        table: PillsTableProtocol,
         dependencies: DependenciesProtocol
     ) {
         super.init(
@@ -28,7 +31,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
             nav: dependencies.nav,
             badge: dependencies.badge
         )
-        self.finishInit(pillsTableView)
+        self.pillsTable = table
+        self.finishInit()
     }
 
     var pills: PillScheduling? { sdk?.pills }
@@ -50,8 +54,13 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         pills.swallow(pill.id) {
             self.notifications?.requestDuePillNotification(pill)
             let params = PillCellConfigurationParameters(pill: pill, index: index)
-            self.pillsTable[index].stamp().configure(params)
+            let cell = self.pillsTable[index]
+            cell.stamp().configure(params)
             self.pillsTable.reloadData()
+            self.badge?.reflect()
+            if let pill = self.sdk?.pills[index] {
+                self.notifications?.requestDuePillNotification(pill)
+            }
         }
         self.tabs?.reflectPills()
     }
@@ -70,11 +79,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         let takePill = {
             self.takePill(at: index)
             takePillCompletion()
-            self.tabs?.reflectPills()
-            self.badge?.reflect()
-            if let pill = self.sdk?.pills[index] {
-                self.notifications?.requestDuePillNotification(pill)
-            }
         }
         let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
         let alert = self.alerts?.createPillActions(pill, handlers)
@@ -84,18 +88,18 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     func goToNewPillDetails(pillsViewController: UIViewController) {
         guard let pill = pills?.insertNew(onSuccess: nil) else { return }
         guard let index = sdk?.pills.indexOf(pill) else { return }
-        nav?.goToPillDetails(index, source: pillsViewController)
+        goToPillDetails(pillIndex: index, pillsViewController: pillsViewController)
     }
 
     func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController) {
+        guard let pills = pills else { return }
+        guard pillIndex >= 0 && pillIndex < pills.count else { return }
         nav?.goToPillDetails(pillIndex, source: pillsViewController)
     }
 
     // MARK: - Private
 
-    private func finishInit(_ pillsTableView: UITableView) {
-        let tableWrapper = PillsTable(pillsTableView, pills: pills)
-        self.pillsTable = tableWrapper
+    private func finishInit() {
         tabs?.reflectPills()
         watchForChanges()
     }

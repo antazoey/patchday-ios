@@ -9,14 +9,16 @@ import PDKit
 public class MockHormoneSchedule: HormoneScheduling {
 
     public var all: [Hormonal] = []
-    public var isEmpty: Bool = false
-    public var next: Hormonal?
-    public var totalExpired: Int = -1
-    public var count: Int = -1
 
-    public var fillInCallArgs: [Int] = []
-    public var deleteCallArgs: [Index] = []
-    public var shareDataCallCount = 0
+    public var isEmpty: Bool = false
+
+    public var next: Hormonal?
+
+    public var totalExpired: Int = -1
+
+    public var count: Int {
+        all.count
+    }
 
     public init() { }
 
@@ -30,20 +32,26 @@ public class MockHormoneSchedule: HormoneScheduling {
         reloadContextCallCount += 1
     }
 
+    public var resetCompletionCallArgs: [(() -> Void)?] = []
+    public var resetCompletionReturnValue = -1
     public func reset(completion: (() -> Void)?) -> Int {
-        -1
+        resetCompletionCallArgs.append(completion)
+        return resetCompletionReturnValue
     }
 
+    public var saveAllCallCount = 0
     public func saveAll() {
-
+        saveAllCallCount += 1
     }
 
+    public var deleteCallArgs: [Index] = []
     public func delete(after i: Index) {
         deleteCallArgs.append(i)
     }
 
+    public var deleteAllCallAcount = 0
     public func deleteAll() {
-
+        deleteAllCallAcount += 1
     }
 
     public subscript(index: Index) -> Hormonal? {
@@ -96,19 +104,25 @@ public class MockHormoneSchedule: HormoneScheduling {
         return indexOfReturnValue
     }
 
+    public var fillInCallArgs: [Int] = []
     public func fillIn(to stopCount: Int) {
         fillInCallArgs.append(stopCount)
     }
 
+    public var shareDataCallCount = 0
     public func shareData() {
         shareDataCallCount += 1
     }
 
+    public var sortCallCount = 0
     public func sort() {
-
+        sortCallCount += 1
     }
 
+    public var resetCallCount = 0
+    public var resetReturnValue = -1
     public func reset() -> Int {
-        -1
+        resetCallCount += 1
+        return resetReturnValue
     }
 }

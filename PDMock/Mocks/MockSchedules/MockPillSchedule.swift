@@ -13,7 +13,9 @@ public class MockPillSchedule: PillScheduling {
 
     public init() {}
 
-    public var count: Int = 0
+    public var count: Int {
+        all.count
+    }
 
     public var all: [Swallowable] = []
 

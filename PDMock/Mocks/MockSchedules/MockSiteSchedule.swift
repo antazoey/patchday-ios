@@ -9,10 +9,17 @@ import PDKit
 public class MockSiteSchedule: SiteScheduling {
 
     public var all: [Bodily] = []
-    public var count: Int = -1
+
+    public var count: Int {
+        all.count
+    }
+
     public var suggested: Bodily?
+
     public var nextIndex: Index = -1
+
     public var names: [SiteName] = []
+
     public var isDefault: Bool = false
 
     public init() { }
