@@ -26,7 +26,9 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
         table.performBatchUpdates({
             table.isEditing = false
             let range = 0..<(sites?.count ?? 0)
-            let indexPathsToReload = range.map({ (i: Index) -> IndexPath in IndexPath(row: i, section: 0) })
+            let indexPathsToReload = range.map(
+                { (i: Index) -> IndexPath in IndexPath(row: i, section: 0) }
+            )
             table.reloadRows(at: indexPathsToReload, with: .automatic)
             resetCellColors(startIndex: 0)
         }, completion: nil)
