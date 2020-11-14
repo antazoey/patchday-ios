@@ -13,8 +13,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
 
     var table: SitesTableProtocol
 
-    init(sitesTableView: UITableView, dependencies: DependenciesProtocol?=nil) {
-        self.table = SitesTable(sitesTableView)
+    init(sitesTable: SitesTableProtocol, dependencies: DependenciesProtocol?=nil) {
+        self.table = sitesTable
         if let dep = dependencies {
             super.init(
                 sdk: dep.sdk,
@@ -75,7 +75,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
         }
         let method = settings.deliveryMethod.value
         let params = SiteImageDeterminationParameters(deliveryMethod: method)
-        params.imageId = sdk?.sites[siteIndex]?.imageId
+        let site = sdk?.sites[siteIndex]
+        params.imageId = site?.imageId
         nav?.goToSiteDetails(siteIndex, source: sitesViewController, params: params)
     }
 
@@ -85,13 +86,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
         }
     }
 
-    func toggleEdit(_ props: BarItemInitializationProperties) {
-        table.toggleEdit(isEditing: props.isEditing)
-    }
-
-    func deleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath) {
-        guard style == .delete else { return }
-        deleteSite(at: indexPath)
+    func toggleEdit(_ isEditing: Bool) {
+        table.toggleEdit(isEditing: isEditing)
     }
 
     @objc func deleteSite(at indexPath: IndexPath) {

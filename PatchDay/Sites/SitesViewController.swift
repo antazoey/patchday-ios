@@ -89,23 +89,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     func tableView(
         _ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath
     ) -> UITableViewCell.EditingStyle {
-            .delete
-    }
-
-    // Indentation for edit mode
-    func tableView(_ tableView: UITableView,
-        shouldIndentWhileEditingRowAt indexPath: IndexPath
-    ) -> Bool {
-        viewModel.isValidSiteIndex(indexPath.row)
-    }
-
-    // Delete cell (deletes MOSite)
-    func tableView(
-        _ tableView: UITableView,
-        commit editingStyle: UITableViewCell.EditingStyle,
-        forRowAt indexPath: IndexPath
-    ) {
-        viewModel.deleteFromEditingStyle(style: editingStyle, at: indexPath)
+        .delete
     }
 
     // Reorder cell
@@ -128,7 +112,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     @objc func editTapped() {
         let props = createBarItemProps()
         switchNavItems(barItemEditProps: props)
-        viewModel.toggleEdit(props)
+        viewModel.toggleEdit(props.isEditing)
     }
 
     @objc func insertTapped() {
@@ -146,7 +130,7 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
     // MARK: - Private
 
     private func initViewModel() {
-        viewModel = SitesViewModel(sitesTableView: sitesTableView)
+        viewModel = SitesViewModel(sitesTable: SitesTable(sitesTableView))
     }
 
     private func createBarItemProps() -> BarItemInitializationProperties {

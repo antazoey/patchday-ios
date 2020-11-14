@@ -19,8 +19,7 @@ public protocol SitesViewModelProtocol {
     func reorderSites(sourceRow: Index, destinationRow: Index)
     func goToSiteDetails(siteIndex: Index, sitesViewController: UIViewController)
     func handleSiteInsert(sitesViewController: UIViewController)
-    func toggleEdit(_ props: BarItemInitializationProperties)
-    func deleteFromEditingStyle(style: UITableViewCell.EditingStyle, at indexPath: IndexPath)
+    func toggleEdit(_ isEditing: Bool)
     func deleteSite(at indexPath: IndexPath)
     func createBarItems(
         insertAction: Selector, editAction: Selector, sitesViewController: UIViewController
