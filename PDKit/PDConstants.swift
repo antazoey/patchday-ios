@@ -9,6 +9,7 @@
 import Foundation
 
 public let SupportedHormoneUpperQuantityLimit = 4
+public let MaxPillTimesaday = 4
 
 public let HoursInADay = 24
 public let HoursInHalfWeek = 84

@@ -102,30 +102,6 @@ class HormoneDetailViewModelTests: XCTestCase {
         XCTAssertEqual(testDate, actual)
     }
 
-    func testSelectDateStartText_whenHormoneHasNoDate_returnsSelectString() {
-        let hormone = setupHormone()
-        hormone.hasDate = false
-        let alertFactory = MockAlertFactory()
-        let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
-        viewModel.hormoneId = hormone.id
-        let actual = viewModel.selectDateStartText
-        let expected = ActionStrings.Select
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testSelectDateStartText_returnsFormattedHormoneDate() {
-        let testDate = Date()
-        let hormone = setupHormone()
-        hormone.hasDate = true
-        hormone.date = testDate
-        let expected = PDDateFormatter.formatDate(testDate)
-        let alertFactory = MockAlertFactory()
-        let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
-        viewModel.hormoneId = hormone.id
-        let actual = viewModel.selectDateStartText
-        XCTAssertEqual(expected, actual)
-    }
-
     func testSelectDateStartText_returnsExpectedSiteName() {
         let hormone = setupHormone()
         let testSite = "MY SEXY ASS"
@@ -317,25 +293,6 @@ class HormoneDetailViewModelTests: XCTestCase {
         let expected = sites.count
         let actual = viewModel.siteCount
         XCTAssertEqual(expected, actual)
-    }
-
-    func testAutoPickedDateText_returnsFormattedNow() {
-        setupHormone()
-        let alertFactory = MockAlertFactory()
-        let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
-        let actual = viewModel.autoPickedDateText
-        let expected = PDDateFormatter.formatDate(Date())
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testAutoPickedDateText_selectsNowAsDate() {
-        setupHormone()
-        let alertFactory = MockAlertFactory()
-        let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
-        _ = viewModel.autoPickedDateText
-        let actual = viewModel.selections.date!
-        let expected = Date()
-        XCTAssert(PDTest.equiv(expected, actual))
     }
 
     func testAutoPickedExpirationDateText_returnsExpectedFormattedExpirationDate() {

@@ -1,5 +1,5 @@
 //
-//  HormoneDetailVC.swift
+//  HormoneDetailViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/27/17.

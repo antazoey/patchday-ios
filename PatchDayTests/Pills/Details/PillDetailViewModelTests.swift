@@ -1,5 +1,5 @@
 //
-//  PillDetailsTests.swift
+//  PillDetailViewModelTests.swift
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 5/30/20.
@@ -25,6 +25,81 @@ class PillDetailViewModelTests: XCTestCase {
         let schedule = dependencies.sdk?.pills as! MockPillSchedule
         schedule.all = [pill]
         return pill
+    }
+
+    func testTitle_whenNew_returnsNewPillTitle() {
+        let pill = setupPill()
+        pill.isNew = true
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = PDTitleStrings.NewPillTitle
+        let actual = viewModel.title
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testTitle_returnsEditPillTitle() {
+        let pill = setupPill()
+        pill.isNew = false
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = PDTitleStrings.EditPillTitle
+        let actual = viewModel.title
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testNamePickerStartIndex_usesSelectedName() {
+        let pill = setupPill()
+        pill.name = "yes"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = "Progesterone"
+        let actual = viewModel.namePickerStartIndex
+        XCTAssertEqual(1, actual)
+    }
+
+    func testNamePickerStartIndex_whenNothingSelected_usesPillName() {
+        let pill = setupPill()
+        pill.name = "Estrogen"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = nil
+        let actual = viewModel.namePickerStartIndex
+        XCTAssertEqual(2, actual)
+    }
+
+    func testExpirationIntervalPickerStartIndex_usesSelectedInterval() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
+        let actual = viewModel.expirationIntervalStartIndex
+        XCTAssertEqual(1, actual)
+    }
+
+    func testExpirationIntervalPickerStartIndex_whenNothingSelected_usesPillInterval() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
+        viewModel.selections.name = nil
+        let actual = viewModel.expirationIntervalStartIndex
+        XCTAssertEqual(2, actual)
+    }
+
+    func testTimesaday_whenNothingSelected_returnsPillTimesaday() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertEqual(times.count, viewModel.timesaday)
+    }
+
+    func testTimes_whenTimesSelected_returnsSelectedTimesCount() {
+        let pill = setupPill()
+        let times = [Time()]
+        let selectedTimes = [
+            Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
+        ]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(selectedTimes)
+        XCTAssertEqual(selectedTimes.count, viewModel.timesaday)
     }
 
     func testTimes_whenNothingSelected_returnsPillTimes() {

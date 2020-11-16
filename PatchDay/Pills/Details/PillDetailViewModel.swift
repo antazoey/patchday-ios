@@ -44,8 +44,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         return providedPillNameSelection.firstIndex(of: name) ?? 0
     }
 
+    var timesaday: Int {
+        times.count
+    }
+
     var expirationIntervalStartIndex: Index {
         let interval = selections.expirationInterval ?? pill.expirationInterval
+        // asdfasdf TODO: FIX BUG - should be checking for interval list here, always returns 0 otherwise
+        kjnjkh
         return PillStrings.Intervals.all.firstIndex(of: interval) ?? 0
     }
 
@@ -71,7 +77,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func selectTime(_ time: Time, _ index: Index) {
-        var timesToSet = times
+        var timesToselectExpirationIntervalFromRow = times
         guard index < timesToSet.count && index >= 0 else { return }
         for i in index..<timesToSet.count {
             if timesToSet[i] < time || i == index {
@@ -83,16 +89,17 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func setTimesaday(_ timesaday: Int) {
-        guard timesaday != times.count else { return }
+        guard timesaday < MaxPillTimesaday else { return }
         guard timesaday > 0 else { return }
+        guard timesaday != self.timesaday else { return }
         var timesCopy = times
-        if timesaday > times.count {
+        if timesaday > self.timesaday {
             // Set new times to have latest time
-            for i in times.count..<timesaday {
+            for i in self.timesaday..<timesaday {
                 timesCopy.append(times[i-1])
             }
         } else {
-            for _ in timesaday..<times.count {
+            for _ in timesaday..<self.timesaday {
                 timesCopy.removeLast()
             }
         }
@@ -101,10 +108,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func getPickerTimes(timeIndex: Index) -> (start: Time, min: Time?) {
-        var startTime = times[timeIndex]
+        var startTime = times.tryGet(at: timeIndex) ?? Date()
         var minTime: Time?
         if timeIndex > 0 {
-            minTime = self.times[timeIndex - 1]
+            minTime = self.times.tryGet(at: timeIndex - 1) ?? Date()
         }
         if let minTime = minTime, minTime > startTime {
             startTime = minTime
@@ -156,5 +163,33 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         let interval = PillStrings.Intervals.all.tryGet(at: row)
         selections.expirationInterval = interval
         return interval ?? ""
+    }
+
+    func enableOrDisablePickers(_ pickers: [UIDatePicker]) {
+        let timesaday = pill.timesaday
+        guard 1...pickers.count ~= timesaday else { return }
+        for i in 0...timesaday - 1 {
+            pickers[i].isEnabled = true
+        }
+        for i in timesaday..<pickers.count {
+            pickers[i].isEnabled = false
+        }
+        assignTimePickerMinsAndMaxes(pickers)
+    }
+
+    func assignTimePickerMinsAndMaxes(_ pickers: [UIDatePicker]) {
+        guard pickers.count == 4 else { return }
+        if pill.timesaday > 1 {
+            pickers[0].maximumDate = pickers[1].date
+            pickers[1].minimumDate = pickers[0].date
+        }
+        if pill.timesaday > 2 {
+            pickers[1].maximumDate = pickers[2].date
+            pickers[2].minimumDate = pickers[1].date
+        }
+        if pill.timesaday > 3 {
+            pickers[2].maximumDate = pickers[3].date
+            pickers[3].minimumDate = pickers[2].date
+        }
     }
 }

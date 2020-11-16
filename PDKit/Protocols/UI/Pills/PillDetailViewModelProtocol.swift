@@ -13,6 +13,7 @@ public protocol PillDetailViewModelProtocol {
     var pill: Swallowable { get }
     var selections: PillAttributes { get set }
     var title: String { get }
+    var timesaday: Int { get }
     var namePickerStartIndex: Index { get }
     var expirationIntervalStartIndex: Index { get }
     var notifyStartValue: Bool { get }
@@ -26,4 +27,6 @@ public protocol PillDetailViewModelProtocol {
     func handleIfUnsaved(_ viewController: UIViewController)
     @discardableResult func selectNameFromRow(_ row: Index) -> String
     @discardableResult func  selectExpirationIntervalFromRow(_ row: Index) -> String
+    func enableOrDisablePickers(_ pickers: [UIDatePicker])
+    func assignTimePickerMinsAndMaxes(_ picker: [UIDatePicker])
 }
