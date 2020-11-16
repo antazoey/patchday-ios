@@ -78,7 +78,7 @@ class EntityAdapter {
             pill.timesTakenToday = Int16(timesTaken)
         }
         if let expirationInterval = pillData.attributes.expirationInterval {
-            pill.expirationInterval = expirationInterval
+            pill.expirationInterval = expirationInterval.rawValue
         }
     }
 
@@ -138,9 +138,14 @@ class EntityAdapter {
     }
 
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
-        PillAttributes(
+        let defaultInterval = DefaultPillAttributes.expirationInterval
+        var interval: PillExpirationInterval?
+        if let intervalString = pill.expirationInterval {
+            interval = PillExpirationInterval(rawValue: intervalString)
+        }
+        return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
-            expirationInterval: pill.expirationInterval,
+            expirationInterval: interval ?? defaultInterval,
             times: pill.times,
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),

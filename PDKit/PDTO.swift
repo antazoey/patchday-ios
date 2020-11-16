@@ -62,7 +62,7 @@ public struct PillAttributes {
 
     // Pill Properties
     public var name: String?
-    public var expirationInterval: String?
+    public var expirationInterval: PillExpirationInterval?
     public var times: String?
     public var notify: Bool?
     public var timesTakenToday: Int?
@@ -70,7 +70,7 @@ public struct PillAttributes {
 
     public init(
         name: String?,
-        expirationInterval: String?,
+        expirationInterval: PillExpirationInterval?,
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,

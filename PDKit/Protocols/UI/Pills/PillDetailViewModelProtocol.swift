@@ -13,6 +13,8 @@ public protocol PillDetailViewModelProtocol {
     var pill: Swallowable { get }
     var selections: PillAttributes { get set }
     var title: String { get }
+    var expirationInterval: PillExpirationInterval { get }
+    var expirationIntervalText: String { get }
     var timesaday: Int { get }
     var namePickerStartIndex: Index { get }
     var expirationIntervalStartIndex: Index { get }

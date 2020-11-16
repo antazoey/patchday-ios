@@ -65,18 +65,18 @@ class PillDetailViewModelTests: XCTestCase {
 
     func testExpirationIntervalPickerStartIndex_usesSelectedInterval() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
+        pill.expirationInterval = PillExpirationInterval.FirstTenDays
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
+        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays
         let actual = viewModel.expirationIntervalStartIndex
         XCTAssertEqual(1, actual)
     }
 
     func testExpirationIntervalPickerStartIndex_whenNothingSelected_usesPillInterval() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.FirstTenDays.rawValue
+        pill.expirationInterval = PillExpirationInterval.FirstTenDays
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays.rawValue
+        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays
         viewModel.selections.name = nil
         let actual = viewModel.expirationIntervalStartIndex
         XCTAssertEqual(2, actual)
@@ -396,7 +396,7 @@ class PillDetailViewModelTests: XCTestCase {
         let name = "Test"
         let time = PDDateFormatter.convertDatesToCommaSeparatedString([Time()])
         let notify = true
-        let interval = PillExpirationInterval.EveryDay.rawValue
+        let interval = PillExpirationInterval.EveryDay
         viewModel.selections.name = name
         viewModel.selections.times = time
         viewModel.selections.notify = notify

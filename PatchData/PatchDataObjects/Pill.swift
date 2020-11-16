@@ -31,7 +31,7 @@ public class Pill: Swallowable {
     }
 
     public var attributes: PillAttributes {
-        let defaultInterval = DefaultPillAttributes.expirationInterval.rawValue
+        let defaultInterval = DefaultPillAttributes.expirationInterval
         return PillAttributes(
             name: name,
             expirationInterval: pillData.attributes.expirationInterval ?? defaultInterval,
@@ -47,23 +47,14 @@ public class Pill: Swallowable {
         set { pillData.attributes.name = newValue }
     }
 
-    /// Human readable expiration interval derived from the stored property.
-    /// Correlates to `PillStrings.Intervals` and `PillExpirationInterval`.
-    public var expirationInterval: String {
+    public var expirationInterval: PillExpirationInterval {
         get {
-            if let storedInterval = pillData.attributes.expirationInterval,
-                let interval = PillExpirationInterval(rawValue: storedInterval) {
-                return PillStrings.Intervals.getStringFromInterval(interval)
-            }
-            let interval = DefaultPillAttributes.expirationInterval
-            return PillStrings.Intervals.getStringFromInterval(interval)
+            let defaultInterval = DefaultPillAttributes.expirationInterval
+            let storedInterval = pillData.attributes.expirationInterval
+            return storedInterval ?? defaultInterval
         }
         set {
-            let interval = PillStrings.Intervals.getIntervalFromString(newValue)
-                ?? PillExpirationInterval(rawValue: newValue)
-            if let interval = interval {
-                pillData.attributes.expirationInterval = interval.rawValue
-            }
+            pillData.attributes.expirationInterval = newValue
         }
     }
 
@@ -100,13 +91,12 @@ public class Pill: Swallowable {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
         switch expirationInterval {
-            case PillStrings.Intervals.EveryDay: return nextDueTimeForEveryDaySchedule
-            case PillStrings.Intervals.EveryOtherDay: return dueDateForEveryOtherDay
-            case PillStrings.Intervals.FirstTenDays: return dueDateForFirstTenDays
-            case PillStrings.Intervals.LastTenDays: return dueDateForLastTenDays
-            case PillStrings.Intervals.FirstTwentyDays: return dueDateForFirstTwentyDays
-            case PillStrings.Intervals.LastTwentyDays: return dueDateForLastTwentyDays
-            default: return nil
+            case PillExpirationInterval.EveryDay: return nextDueTimeForEveryDaySchedule
+            case PillExpirationInterval.EveryOtherDay: return dueDateForEveryOtherDay
+            case PillExpirationInterval.FirstTenDays: return dueDateForFirstTenDays
+            case PillExpirationInterval.LastTenDays: return dueDateForLastTenDays
+            case PillExpirationInterval.FirstTwentyDays: return dueDateForFirstTwentyDays
+            case PillExpirationInterval.LastTwentyDays: return dueDateForLastTwentyDays
         }
     }
 

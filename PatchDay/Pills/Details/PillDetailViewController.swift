@@ -146,9 +146,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @objc func doneWithSelectExpirationIntervalTapped() {
         closeExpirationIntervalPicker()
-        if let interval = viewModel.selections.expirationInterval {
-            expirationIntervalButton.setTitle(interval)
-        }
+        let intervalText = viewModel.expirationIntervalText
+        expirationIntervalButton.setTitle(intervalText)
         expirationIntervalButton.replaceTarget(self, newAction: #selector(expirationIntervalTapped))
         if viewModel.selections.expirationInterval != nil {
             enableSaveButton()
@@ -283,7 +282,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadExpirationInterval() {
-        expirationIntervalButton.setTitle(viewModel.pill.expirationInterval)
+        expirationIntervalButton.setTitle(viewModel.expirationIntervalText)
     }
 
     private func openNamePicker() {

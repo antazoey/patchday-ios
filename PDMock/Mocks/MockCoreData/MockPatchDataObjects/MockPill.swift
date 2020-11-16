@@ -13,9 +13,9 @@ public class MockPill: Swallowable {
     public var id: UUID = UUID()
     public var attributes: PillAttributes = PillAttributes()
     public var name: String = ""
-    public var expirationInterval: String = ""
     public var times: [Time] = []
     public var notify: Bool = false
+    public var expirationInterval = PillExpirationInterval.EveryDay
     public var timesaday: Int = -1
     public var timesTakenToday: Int = -1
     public var lastTaken: Date?

@@ -16,6 +16,33 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var selections = PillAttributes()
     private let now: NowProtocol?
 
+    private var pillExpirationIntervals: [PillExpirationInterval] = [
+        .EveryDay,
+        .EveryOtherDay,
+        .FirstTenDays,
+        .FirstTwentyDays,
+        .LastTenDays,
+        .LastTwentyDays
+    ]
+
+    private var textToExpirationInterval: [String: PillExpirationInterval] = [
+        PillStrings.Intervals.EveryDay: .EveryDay,
+        PillStrings.Intervals.EveryOtherDay: .EveryOtherDay,
+        PillStrings.Intervals.FirstTenDays: .FirstTenDays,
+        PillStrings.Intervals.LastTenDays: .LastTenDays,
+        PillStrings.Intervals.FirstTwentyDays: .FirstTwentyDays,
+        PillStrings.Intervals.LastTwentyDays: .LastTwentyDays
+    ]
+
+    private var expirationIntervalToText: [PillExpirationInterval: String] = [
+        .EveryDay: PillStrings.Intervals.EveryDay,
+        .EveryOtherDay: PillStrings.Intervals.EveryOtherDay,
+        .FirstTenDays: PillStrings.Intervals.FirstTenDays,
+        .FirstTwentyDays: PillStrings.Intervals.FirstTwentyDays,
+        .LastTenDays: PillStrings.Intervals.LastTenDays,
+        .LastTwentyDays: PillStrings.Intervals.LastTwentyDays
+    ]
+
     init(_ pillIndex: Index) {
         self.index = pillIndex
         self.now = nil
@@ -48,11 +75,16 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         times.count
     }
 
+    var expirationIntervalText: String {
+        expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
+    }
+
+    var expirationInterval: PillExpirationInterval {
+        selections.expirationInterval ?? pill.expirationInterval
+    }
+
     var expirationIntervalStartIndex: Index {
-        let interval = selections.expirationInterval ?? pill.expirationInterval
-        // asdfasdf TODO: FIX BUG - should be checking for interval list here, always returns 0 otherwise
-        kjnjkh
-        return PillStrings.Intervals.all.firstIndex(of: interval) ?? 0
+        pillExpirationIntervals.firstIndex(of: expirationInterval) ?? 0
     }
 
     var notifyStartValue: Bool {
@@ -77,14 +109,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func selectTime(_ time: Time, _ index: Index) {
-        var timesToselectExpirationIntervalFromRow = times
-        guard index < timesToSet.count && index >= 0 else { return }
-        for i in index..<timesToSet.count {
-            if timesToSet[i] < time || i == index {
-                timesToSet[i] = time
+        var times = self.times
+        guard index < times.count && index >= 0 else { return }
+        for i in index..<times.count {
+            if times[i] < time || i == index {
+                times[i] = time
             }
         }
-        let timeStrings = PDDateFormatter.convertDatesToCommaSeparatedString(timesToSet)
+        let timeStrings = PDDateFormatter.convertDatesToCommaSeparatedString(times)
         selections.times = timeStrings
     }
 
@@ -159,10 +191,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     @discardableResult
-    func  selectExpirationIntervalFromRow(_ row: Index) -> String {
-        let interval = PillStrings.Intervals.all.tryGet(at: row)
+    func selectExpirationIntervalFromRow(_ row: Index) -> String {
+        let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
+        let defaultInterval = DefaultPillAttributes.expirationInterval
+        let interval = textToExpirationInterval[rowString] ?? defaultInterval
         selections.expirationInterval = interval
-        return interval ?? ""
+        return rowString
     }
 
     func enableOrDisablePickers(_ pickers: [UIDatePicker]) {
