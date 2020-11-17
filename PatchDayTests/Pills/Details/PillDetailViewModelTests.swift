@@ -45,6 +45,54 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testTimesaday_whenNothingSelected_returnsPillTimesaday() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertEqual(times.count, viewModel.timesaday)
+    }
+
+    func testExpirationInterval_returnsSelectedInterval() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval.FirstTwentyDays
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = PillExpirationInterval.EveryOtherDay
+        let actual = viewModel.expirationInterval
+        let expected = viewModel.selections.expirationInterval
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenNothingSelected_returnsPillInterval() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval.FirstTwentyDays
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = nil
+        let actual = viewModel.expirationInterval
+        let expected = pill.expirationInterval
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationIntervalText_returnsSelectedIntervalText() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval.FirstTwentyDays
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = PillExpirationInterval.EveryOtherDay
+        let actual = viewModel.expirationIntervalText
+        let expected = PillStrings.Intervals.EveryOtherDay
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationIntervalText_whenNothingSelected_returnsPillIntervalText() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval.FirstTwentyDays
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = nil
+        let actual = viewModel.expirationIntervalText
+        let expected = PillStrings.Intervals.FirstTwentyDays
+        XCTAssertEqual(expected, actual)
+    }
+
     func testNamePickerStartIndex_usesSelectedName() {
         let pill = setupPill()
         pill.name = "yes"
@@ -69,25 +117,47 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays
         let actual = viewModel.expirationIntervalStartIndex
-        XCTAssertEqual(1, actual)
+        XCTAssertEqual(4, actual)
     }
 
     func testExpirationIntervalPickerStartIndex_whenNothingSelected_usesPillInterval() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval.FirstTenDays
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays
+        viewModel.selections.expirationInterval = nil
         viewModel.selections.name = nil
         let actual = viewModel.expirationIntervalStartIndex
         XCTAssertEqual(2, actual)
     }
 
-    func testTimesaday_whenNothingSelected_returnsPillTimesaday() {
+    func testNotify_whenNotifySelected_returnsNotify() {
         let pill = setupPill()
-        let times = [Time()]
-        pill.times = times
+        pill.notify = false
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        XCTAssertEqual(times.count, viewModel.timesaday)
+        viewModel.selections.notify = true
+        XCTAssert(viewModel.notify)
+    }
+
+    func testNotify_whenNotifyNotSelected_returnsPillValue() {
+        let pill = setupPill()
+        pill.notify = false
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.notify = nil
+        XCTAssertFalse(viewModel.notify)
+    }
+
+    func testProvidedNameSelection_returnsExpectedNames() {
+        let viewModel = PillDetailViewModel(0, dependencies: MockDependencies())
+        let expected = PillStrings.DefaultPills + PillStrings.ExtraPills
+        let actual = viewModel.providedNameSelection
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testNamelSelectionCount_returnsExpectedCount() {
+        let viewModel = PillDetailViewModel(0, dependencies: MockDependencies())
+        let expected = PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
+        let actual = viewModel.nameSelectionCount
+        XCTAssertEqual(expected, actual)
     }
 
     func testTimes_whenTimesSelected_returnsSelectedTimesCount() {
@@ -342,36 +412,6 @@ class PillDetailViewModelTests: XCTestCase {
         )
         XCTAssert(PDTest.sameTime(expectedTimes[2], actualTimes.min!))
         XCTAssert(PDTest.sameTime(expectedTimes[3], actualTimes.start))
-    }
-
-    func testNotifyStartValue_whenNotifySelected_returnsNotify() {
-        let pill = setupPill()
-        pill.notify = false
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.notify = true
-        XCTAssert(viewModel.notifyStartValue)
-    }
-
-    func testNotifyStartValue_whenNotifyNotSelected_returnsPillValue() {
-        let pill = setupPill()
-        pill.notify = false
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.notify = nil
-        XCTAssertFalse(viewModel.notifyStartValue)
-    }
-
-    func testTitle_whenIsNewPill_returnsExpectedTitle() {
-        let pill = setupPill()
-        pill.isNew = true
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        XCTAssertEqual(PDTitleStrings.NewPillTitle, viewModel.title)
-    }
-
-    func testTitle_whenIsNotNewPill_returnsExpectedTitle() {
-        let pill = setupPill()
-        pill.name = "Spiro"
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        XCTAssertEqual(PDTitleStrings.EditPillTitle, viewModel.title)
     }
 
     func testSave_resetsPillAttributes() {

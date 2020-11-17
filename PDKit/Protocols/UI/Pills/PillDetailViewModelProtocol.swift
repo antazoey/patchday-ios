@@ -18,9 +18,9 @@ public protocol PillDetailViewModelProtocol {
     var timesaday: Int { get }
     var namePickerStartIndex: Index { get }
     var expirationIntervalStartIndex: Index { get }
-    var notifyStartValue: Bool { get }
-    var providedPillNameSelection: [String] { get }
-    var pillSelectionCount: Int { get }
+    var notify: Bool { get }
+    var providedNameSelection: [String] { get }
+    var nameSelectionCount: Int { get }
     var times: [Time] { get }
     func selectTime(_ time: Time, _ index: Index)
     func setTimesaday(_ timesaday: Int)

@@ -66,37 +66,37 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         pill.isNew ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
     }
 
-    var namePickerStartIndex: Index {
-        let name = selections.name ?? pill.name
-        return providedPillNameSelection.firstIndex(of: name) ?? 0
-    }
-
     var timesaday: Int {
         times.count
-    }
-
-    var expirationIntervalText: String {
-        expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
     }
 
     var expirationInterval: PillExpirationInterval {
         selections.expirationInterval ?? pill.expirationInterval
     }
 
+    var expirationIntervalText: String {
+        expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
+    }
+
+    var namePickerStartIndex: Index {
+        let name = selections.name ?? pill.name
+        return providedNameSelection.firstIndex(of: name) ?? 0
+    }
+
     var expirationIntervalStartIndex: Index {
         pillExpirationIntervals.firstIndex(of: expirationInterval) ?? 0
     }
 
-    var notifyStartValue: Bool {
+    var notify: Bool {
         selections.notify ?? pill.notify
     }
 
-    var providedPillNameSelection: [String] {
+    var providedNameSelection: [String] {
         PillStrings.DefaultPills + PillStrings.ExtraPills
     }
 
-    var pillSelectionCount: Int {
-        PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
+    var nameSelectionCount: Int {
+        providedNameSelection.count
     }
 
     var times: [Time] {
@@ -121,7 +121,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func setTimesaday(_ timesaday: Int) {
-        guard timesaday < MaxPillTimesaday else { return }
+        guard timesaday <= MaxPillTimesaday else { return }
         guard timesaday > 0 else { return }
         guard timesaday != self.timesaday else { return }
         var timesCopy = times
@@ -185,7 +185,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     /// Sets the selected name with the name at the given index and optionally returns the name.
     @discardableResult
     func selectNameFromRow(_ row: Index) -> String {
-        let name = providedPillNameSelection.tryGet(at: row)
+        let name = providedNameSelection.tryGet(at: row)
         selections.name = name
         return name ?? ""
     }
@@ -200,7 +200,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func enableOrDisablePickers(_ pickers: [UIDatePicker]) {
-        let timesaday = pill.timesaday
         guard 1...pickers.count ~= timesaday else { return }
         for i in 0...timesaday - 1 {
             pickers[i].isEnabled = true
@@ -208,7 +207,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         for i in timesaday..<pickers.count {
             pickers[i].isEnabled = false
         }
-        assignTimePickerMinsAndMaxes(pickers)
     }
 
     func assignTimePickerMinsAndMaxes(_ pickers: [UIDatePicker]) {

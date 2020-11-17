@@ -185,7 +185,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if selectedPicker == namePicker {
-            return viewModel.pillSelectionCount
+            return viewModel.nameSelectionCount
         }
         return PillStrings.Intervals.all.count
     }
@@ -194,7 +194,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int
     ) -> String? {
         if selectedPicker == namePicker {
-            return viewModel.providedPillNameSelection.tryGet(at: row)
+            return viewModel.providedNameSelection.tryGet(at: row)
         }
         return PillStrings.Intervals.all.tryGet(at: row)
     }
@@ -256,7 +256,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadNotify() {
-        notificationSwitch.isOn = viewModel.notifyStartValue
+        notificationSwitch.isOn = viewModel.notify
     }
 
     private func loadTimes() {
@@ -264,14 +264,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let timesaday = viewModel.timesaday
         timesadaySlider.setValue(Float(timesaday), animated: false)
         updateTimesdayValueLabel()
-        //viewModel.enableOrDisablePickers(timePickers)
-        guard 1...timePickers.count ~= timesaday else { return }
-        for i in 0...timesaday - 1 {
-            timePickers[i].isEnabled = true
-        }
-        for i in timesaday..<timePickers.count {
-            timePickers[i].isEnabled = false
-        }
+        viewModel.enableOrDisablePickers(timePickers)
         viewModel.assignTimePickerMinsAndMaxes(timePickers)
     }
 
