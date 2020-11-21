@@ -6,7 +6,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -411,7 +410,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YF0-w6-5sp">
-                                <rect key="frame" x="5" y="76" width="365" height="409.5"/>
+                                <rect key="frame" x="5" y="76" width="365" height="634.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drug:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-cg-wSc">
                                         <rect key="frame" x="0.0" y="0.0" width="365" height="17"/>
@@ -617,41 +616,29 @@
                                             <constraint firstAttribute="height" constant="22" id="a6Y-7N-Hcw"/>
                                         </constraints>
                                     </view>
-                                    <stackView opaque="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
-                                        <rect key="frame" x="0.0" y="289.5" width="365" height="75"/>
+                                    <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
+                                        <rect key="frame" x="0.0" y="289.5" width="365" height="300"/>
                                         <subviews>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Vi9-1N-1QN">
-                                                <rect key="frame" x="0.0" y="0.0" width="91.5" height="75"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="365" height="75"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="0LN-hn-OsS"/>
                                                 </constraints>
                                             </datePicker>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7PS-kk-1eI">
-                                                <rect key="frame" x="91.5" y="0.0" width="0.0" height="75"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            </view>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Sx-Hq-P6f">
-                                                <rect key="frame" x="91.5" y="0.0" width="91" height="75"/>
+                                                <rect key="frame" x="0.0" y="75" width="365" height="75"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="HLE-We-U63"/>
                                                 </constraints>
                                             </datePicker>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXf-Se-Gp4">
-                                                <rect key="frame" x="182.5" y="0.0" width="0.0" height="75"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            </view>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="SCK-Gs-4XS">
-                                                <rect key="frame" x="182.5" y="0.0" width="91.5" height="75"/>
+                                                <rect key="frame" x="0.0" y="150" width="365" height="75"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="u0y-k6-3cH"/>
                                                 </constraints>
                                             </datePicker>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jia-id-Dhx">
-                                                <rect key="frame" x="274" y="0.0" width="0.0" height="75"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            </view>
                                             <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="8yH-GM-2aQ">
-                                                <rect key="frame" x="274" y="0.0" width="91" height="75"/>
+                                                <rect key="frame" x="0.0" y="225" width="365" height="75"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="75" id="Yoe-TU-fCG"/>
                                                 </constraints>
@@ -660,19 +647,17 @@
                                         <constraints>
                                             <constraint firstItem="SCK-Gs-4XS" firstAttribute="width" secondItem="5Sx-Hq-P6f" secondAttribute="width" id="OKZ-Xv-UZp"/>
                                             <constraint firstItem="8yH-GM-2aQ" firstAttribute="width" secondItem="SCK-Gs-4XS" secondAttribute="width" id="R3u-1d-ogd"/>
-                                            <constraint firstItem="BXf-Se-Gp4" firstAttribute="width" secondItem="7PS-kk-1eI" secondAttribute="width" id="eKw-Fh-BdE"/>
-                                            <constraint firstItem="jia-id-Dhx" firstAttribute="width" secondItem="7PS-kk-1eI" secondAttribute="width" id="guC-fh-HqA"/>
                                             <constraint firstItem="5Sx-Hq-P6f" firstAttribute="width" secondItem="Vi9-1N-1QN" secondAttribute="width" id="mqV-vn-kXy"/>
                                         </constraints>
                                     </stackView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aDS-4O-w6Y">
-                                        <rect key="frame" x="0.0" y="364.5" width="365" height="15"/>
+                                        <rect key="frame" x="0.0" y="589.5" width="365" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="WMe-wV-4hf"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XY7-Lb-cxD">
-                                        <rect key="frame" x="0.0" y="379.5" width="365" height="30"/>
+                                        <rect key="frame" x="0.0" y="604.5" width="365" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="esU-OG-RK7"/>
                                         </constraints>
@@ -976,8 +961,5 @@
         <namedColor name="Purple">
             <color red="0.57899999618530273" green="0.12800000607967377" blue="0.57300001382827759" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>
