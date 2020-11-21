@@ -66,6 +66,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         pill.isNew ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
     }
 
+    var name: String {
+        selections.name ?? pill.name
+    }
+
     var timesaday: Int {
         times.count
     }
@@ -182,21 +186,16 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
     }
 
-    /// Sets the selected name with the name at the given index and optionally returns the name.
-    @discardableResult
-    func selectNameFromRow(_ row: Index) -> String {
+    func selectNameFromRow(_ row: Index) {
         let name = providedNameSelection.tryGet(at: row)
         selections.name = name
-        return name ?? ""
     }
 
-    @discardableResult
-    func selectExpirationIntervalFromRow(_ row: Index) -> String {
+    func selectExpirationIntervalFromRow(_ row: Index) {
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
         let interval = textToExpirationInterval[rowString] ?? defaultInterval
         selections.expirationInterval = interval
-        return rowString
     }
 
     func enableOrDisablePickers(_ pickers: [UIDatePicker]) {

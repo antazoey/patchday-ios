@@ -201,7 +201,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if selectedPicker == namePicker {
-            nameTextField.text = viewModel.selectNameFromRow(row)
+            viewModel.selectNameFromRow(row)
+            nameTextField.text = viewModel.name
         } else {
             viewModel.selectExpirationIntervalFromRow(row)
         }
@@ -252,7 +253,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadName() {
-        nameTextField.text = viewModel.pill.name
+        nameTextField.text = viewModel.name
     }
 
     private func loadNotify() {
@@ -377,6 +378,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timePickerFour.addTarget(
             self, action: #selector(handleTimeFourPickerDone), for: .allEditingEvents
         )
+        if #available(iOS 13.4, *) {
+            timePickerOne.preferredDatePickerStyle = .compact
+            timePickerTwo.preferredDatePickerStyle = .compact
+            timePickerThree.preferredDatePickerStyle = .compact
+            timePickerFour.preferredDatePickerStyle = .compact
+        }
     }
 
     private func enableSaveButton() {

@@ -218,6 +218,9 @@ class HormoneDetailViewController: UIViewController,
     private func loadDateControls() {
         guard let viewModel = viewModel else { return }
         guard let viewStrings = viewModel.createHormoneViewStrings() else { return }
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .compact
+        }
         expirationDateLabelHeader.text = viewStrings.expirationText
         dateAndTimeAppliedHeader.text = viewStrings.dateAndTimePlacedText
         siteLabel.text = viewStrings.siteLabelText

@@ -146,18 +146,15 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.notify)
     }
 
-    func testProvidedNameSelection_returnsExpectedNames() {
+    func testProvidedPillNameSelection_returnsExpectedNames() {
         let viewModel = PillDetailViewModel(0, dependencies: MockDependencies())
         let expected = PillStrings.DefaultPills + PillStrings.ExtraPills
-        let actual = viewModel.providedNameSelection
+        let actual = viewModel.providedPillNameSelection
         XCTAssertEqual(expected, actual)
     }
 
-    func testNamelSelectionCount_returnsExpectedCount() {
-        let viewModel = PillDetailViewModel(0, dependencies: MockDependencies())
-        let expected = PillStrings.DefaultPills.count + PillStrings.ExtraPills.count
-        let actual = viewModel.nameSelectionCount
-        XCTAssertEqual(expected, actual)
+    func testName() {
+        asdfasdf
     }
 
     func testTimes_whenTimesSelected_returnsSelectedTimesCount() {

@@ -268,7 +268,7 @@ class HormoneCellViewModelTests: XCTestCase {
     func testDateFont_whenIsPad_returnsExpectedValue() {
         let sdk = getMockSDK([])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: true)
-        let expected = UIFont.systemFont(ofSize: _HORMONE_CELL_PAD_FONT_SIZE)
+        let expected = UIFont.systemFont(ofSize: HORMONE_CELL_PAD_FONT_SIZE)
         let actual = viewModel.dateFont
         XCTAssertEqual(expected, actual)
     }
@@ -276,7 +276,7 @@ class HormoneCellViewModelTests: XCTestCase {
     func testDateFont_whenIsPhone_returnsExpectedValue() {
         let sdk = getMockSDK([])
         let viewModel = HormoneCellViewModel(cellIndex: 0, sdk: sdk, isPad: false)
-        let expected = UIFont.systemFont(ofSize: _HORMONE_CELL_PHONE_FONT_SIZE)
+        let expected = UIFont.systemFont(ofSize: HORMONE_CELL_PHONE_FONT_SIZE)
         let actual = viewModel.dateFont
         XCTAssertEqual(expected, actual)
     }

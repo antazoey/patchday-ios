@@ -9,8 +9,8 @@
 import Foundation
 import PDKit
 
-let _HORMONE_CELL_PAD_FONT_SIZE: CGFloat = 30.0
-let _HORMONE_CELL_PHONE_FONT_SIZE: CGFloat = 15.0
+let HORMONE_CELL_PAD_FONT_SIZE: CGFloat = 30.0
+let HORMONE_CELL_PHONE_FONT_SIZE: CGFloat = 15.0
 
 class HormoneCellViewModel: HormoneCellViewModelProtocol {
 
@@ -77,7 +77,7 @@ class HormoneCellViewModel: HormoneCellViewModelProtocol {
 
     var dateFont: UIFont {
         let size: CGFloat = isPad ?
-            _HORMONE_CELL_PAD_FONT_SIZE : _HORMONE_CELL_PHONE_FONT_SIZE
+            HORMONE_CELL_PAD_FONT_SIZE : HORMONE_CELL_PHONE_FONT_SIZE
         return UIFont.systemFont(ofSize: size)
     }
 
