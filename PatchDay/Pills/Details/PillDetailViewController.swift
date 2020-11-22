@@ -130,7 +130,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         closeNamePicker()
         selectNameButton.setTitle(ActionStrings.Select)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
-        if viewModel.selections.name != nil {
+        if viewModel.nameIsSelected {
             enableSaveButton()
         }
     }
@@ -149,7 +149,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let intervalText = viewModel.expirationIntervalText
         expirationIntervalButton.setTitle(intervalText)
         expirationIntervalButton.replaceTarget(self, newAction: #selector(expirationIntervalTapped))
-        if viewModel.selections.expirationInterval != nil {
+        if viewModel.expirationIntervalIsSelected {
             enableSaveButton()
         }
     }
@@ -173,7 +173,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         guard newTimesaday >= 0 else { return }
         viewModel.setTimesaday(newTimesaday)
         updateTimesdayValueLabel()
-        viewModel.enableOrDisablePickers(timePickers)
+        viewModel.enableOrDisable(timePickers)
+        viewModel.setPickerTimes(timePickers)
         enableSaveButton()
     }
 
@@ -185,18 +186,18 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if selectedPicker == namePicker {
-            return viewModel.nameSelectionCount
+            return viewModel.nameOptions.count
         }
-        return PillStrings.Intervals.all.count
+        return viewModel.expirationIntervalOptions.count
     }
 
     func pickerView(
         _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int
     ) -> String? {
         if selectedPicker == namePicker {
-            return viewModel.providedNameSelection.tryGet(at: row)
+            return viewModel.nameOptions.tryGet(at: row)
         }
-        return PillStrings.Intervals.all.tryGet(at: row)
+        return viewModel.expirationIntervalOptions.tryGet(at: row)
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -238,7 +239,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func loadSelectNameButton() {
         selectNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
-        selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped), for: .touchUpInside)
+        selectNameButton.replaceTarget(
+            self, newAction: #selector(selectNameTapped), for: .touchUpInside
+        )
     }
 
     private func loadTitle() {
@@ -261,18 +264,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadTimes() {
-        loadTimePickers()
         let timesaday = viewModel.timesaday
         timesadaySlider.setValue(Float(timesaday), animated: false)
         updateTimesdayValueLabel()
-        viewModel.enableOrDisablePickers(timePickers)
-        viewModel.assignTimePickerMinsAndMaxes(timePickers)
+        loadTimePickers()
     }
 
     private func updateTimesdayValueLabel() {
-        let prefix = NSLocalizedString("How many per day: ", comment: "Label prefix")
-        let timesaday = viewModel.timesaday
-        timesadayLabel.text = "\(prefix) \(timesaday)"
+        timesadayLabel.text = viewModel.timesadayText
     }
 
     private func loadExpirationInterval() {
@@ -353,16 +352,13 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         let timeIndex = timePickers.firstIndex(of: timePicker) ?? 0
         let newTime = timePicker.date
         viewModel.selectTime(newTime, timeIndex)
+        viewModel.setPickerTimes(timePickers)
     }
 
     private func loadTimePickers() {
         loadTimePickerEventHandlers()
-        for i in 0..<timePickers.count {
-            let picker = timePickers[i]
-            let times = viewModel.getPickerTimes(timeIndex: i)
-            picker.setDate(times.start, animated: false)
-        }
-        viewModel.assignTimePickerMinsAndMaxes(timePickers)
+        viewModel.setPickerTimes(timePickers)
+        viewModel.enableOrDisable(timePickers)
     }
 
     private func loadTimePickerEventHandlers() {

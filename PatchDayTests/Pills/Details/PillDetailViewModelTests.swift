@@ -45,12 +45,103 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testName_returnsSelectedName() {
+        let pill = setupPill()
+        pill.name = "orig name"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = "selected name"
+        let actual = viewModel.name
+        let expected = viewModel.selections.name
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testName_whenNoNameSelected_returnsPillName() {
+        let pill = setupPill()
+        pill.name = "orig name"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = nil
+        let actual = viewModel.name
+        let expected = pill.name
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testNameIsSelected_whenNameSelected_returnsTrue() {
+        let pill = setupPill()
+        pill.name = "orig name"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = "selected name"
+        XCTAssertTrue(viewModel.nameIsSelected)
+    }
+
+    func testNameOptions_returnsExpectedNames() {
+        let viewModel = PillDetailViewModel(0, dependencies: MockDependencies())
+        let expected = PillStrings.DefaultPills + PillStrings.ExtraPills
+        let actual = viewModel.nameOptions
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testNamePickerStartIndex_usesSelectedName() {
+        let pill = setupPill()
+        pill.name = "yes"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = "Progesterone"
+        let actual = viewModel.namePickerStartIndex
+        XCTAssertEqual(1, actual)
+    }
+
+    func testNamePickerStartIndex_whenNothingSelected_usesPillName() {
+        let pill = setupPill()
+        pill.name = "Estrogen"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = nil
+        let actual = viewModel.namePickerStartIndex
+        XCTAssertEqual(2, actual)
+    }
+
+    func testNameIsSelected_whenNameNotSelected_returnsFalse() {
+        let pill = setupPill()
+        pill.name = "orig name"
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.name = nil
+        XCTAssertFalse(viewModel.nameIsSelected)
+    }
+
+    func testTimesaday_returnsSelectedTimesaday() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,12:01:00,12:03:00"  //  3
+        XCTAssertEqual(3, viewModel.timesaday)
+    }
+
     func testTimesaday_whenNothingSelected_returnsPillTimesaday() {
         let pill = setupPill()
         let times = [Time()]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         XCTAssertEqual(times.count, viewModel.timesaday)
+    }
+
+    func testTimesadayText_returnsExpectedSelectedText() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,12:01:00,12:03:00"  //  3
+        let expected = "How many per day:  3"
+        let actual = viewModel.timesadayText
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testTimesadayText_whenNoTimesSelected_returnsExpectedPillText() {
+        let pill = setupPill()
+        let times = [Time()]
+        pill.times = times
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "How many per day:  1"
+        let actual = viewModel.timesadayText
+        XCTAssertEqual(expected, actual)
     }
 
     func testExpirationInterval_returnsSelectedInterval() {
@@ -93,24 +184,6 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testNamePickerStartIndex_usesSelectedName() {
-        let pill = setupPill()
-        pill.name = "yes"
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.name = "Progesterone"
-        let actual = viewModel.namePickerStartIndex
-        XCTAssertEqual(1, actual)
-    }
-
-    func testNamePickerStartIndex_whenNothingSelected_usesPillName() {
-        let pill = setupPill()
-        pill.name = "Estrogen"
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.name = nil
-        let actual = viewModel.namePickerStartIndex
-        XCTAssertEqual(2, actual)
-    }
-
     func testExpirationIntervalPickerStartIndex_usesSelectedInterval() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval.FirstTenDays
@@ -130,6 +203,14 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(2, actual)
     }
 
+    func testExpirationIntervalOptions_returnsExpectedOptions() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = PillStrings.Intervals.all
+        let actual = viewModel.expirationIntervalOptions
+        XCTAssertEqual(expected, actual)
+    }
+
     func testNotify_whenNotifySelected_returnsNotify() {
         let pill = setupPill()
         pill.notify = false
@@ -144,17 +225,6 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.notify = nil
         XCTAssertFalse(viewModel.notify)
-    }
-
-    func testProvidedPillNameSelection_returnsExpectedNames() {
-        let viewModel = PillDetailViewModel(0, dependencies: MockDependencies())
-        let expected = PillStrings.DefaultPills + PillStrings.ExtraPills
-        let actual = viewModel.providedPillNameSelection
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testName() {
-        asdfasdf
     }
 
     func testTimes_whenTimesSelected_returnsSelectedTimesCount() {
@@ -233,7 +303,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let newTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
         viewModel.selectTime(newTime!, 1)
-        let expectedTimes = [times[0], newTime, newTime]
+        let expectedTimes = [times[0], newTime, times[2]]
         let expected = PDDateFormatter.convertDatesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)
     }
@@ -264,7 +334,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectTime(Time(), 1)
-        XCTAssertEqual(times.count, viewModel.times.count)
+        XCTAssertEqual(1, viewModel.times.count)
         XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
     }
 
@@ -331,84 +401,40 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(1, viewModel.times.count)
     }
 
-    func testGetPickerTimes_returnsExpectedTimes() {
+    func testSetPickerTimes_setsExpectedTime() {
         let pill = setupPill()
         let now = Date()
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
         pill.times = [
             Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
             Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
         ]
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let times = viewModel.getPickerTimes(timeIndex: 1)
-        XCTAssertEqual(pill.times[0], times.min)
-        XCTAssertEqual(pill.times[1], times.start)
+        viewModel.setPickerTimes(pickers)
+
+        let actualOne = pickers[0].date
+        let expectedOne = pill.times[0]
+        XCTAssertEqual(expectedOne, actualOne)
+
+        let actualTwo = pickers[1].date
+        let expectedTwo = pill.times[1]
+        XCTAssertEqual(expectedTwo, actualTwo)
+
+        let actualThree = pickers[2].date
+        let expectedThree = pill.times[2]
+        XCTAssertEqual(expectedThree, actualThree)
     }
 
-    func testGetPickerTimes_whenGiveIndexZero_returnsExpectedTimesWithNilMin() {
+    func testSetPickerTimes_whenNoTimeForIndex_usesCurrentDate() {
         let pill = setupPill()
-        let now = Date()
-        pill.times = [
-            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
-        ]
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        pill.times = []  // No times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let times = viewModel.getPickerTimes(timeIndex: 0)
-        XCTAssertNil(times.min)
-        XCTAssertEqual(pill.times[0], times.start)
-    }
-
-    func testGetPickerTimes_whenMinDateIsOutOfOrder_returnsExpectedTimesWithMinEqualToStart() {
-        let pill = setupPill()
-        let now = Date()
-        let t1 = Calendar.current.date(bySettingHour: 12, minute: 9, second: 9, of: now)!
-        let t2 = Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!
-        let t3 = Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!
-        pill.times = [t1, t2, t3]
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let times = viewModel.getPickerTimes(timeIndex: 1)
-        XCTAssert(PDTest.sameTime(t2, times.min!))
-        XCTAssert(PDTest.sameTime(t3, times.start))
-    }
-
-    func testGetPickerTimes_whenLastPickerDate_worksAsExpected() {
-        let pill = setupPill()
-        let now = Date()
-        pill.times = [
-            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
-            Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: now)!
-        ]
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let times = viewModel.getPickerTimes(timeIndex: 3)
-        XCTAssert(PDTest.sameTime(pill.times[2], times.min!))
-        XCTAssert(PDTest.sameTime(pill.times[3], times.start))
-    }
-
-    func testGetPickerTimes_usesSelections() {
-        let pill = setupPill()
-        let now = Date()
-        pill.times = [
-            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 11, second: 11, of: now)!,
-            Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: now)!
-        ]
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString([
-            Calendar.current.date(bySettingHour: 9, minute: 9, second: 9, of: now)!,
-            Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: now)!,
-            Calendar.current.date(bySettingHour: 11, minute: 30, second: 30, of: now)!,
-            Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: now)!
-        ])
-        let actualTimes = viewModel.getPickerTimes(timeIndex: 3)
-        let expectedTimes = DateFactory.createTimesFromCommaSeparatedString(
-            viewModel.selections.times!
-        )
-        XCTAssert(PDTest.sameTime(expectedTimes[2], actualTimes.min!))
-        XCTAssert(PDTest.sameTime(expectedTimes[3], actualTimes.start))
+        viewModel.setPickerTimes(pickers)
+        for p in pickers {
+            XCTAssert(PDTest.equiv(Date(), p.date))
+        }
     }
 
     func testSave_resetsPillAttributes() {
@@ -535,5 +561,107 @@ class PillDetailViewModelTests: XCTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         XCTAssertEqual(testViewController, nav.popCallArgs[0])
+    }
+
+    func testSelectNameFromRow_selectsExpectedName() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectNameFromRow(0)
+        XCTAssertEqual(PillStrings.DefaultPills[0], viewModel.selections.name)
+        viewModel.selectNameFromRow(1)
+        XCTAssertEqual(PillStrings.DefaultPills[1], viewModel.selections.name)
+        viewModel.selectNameFromRow(2)
+        XCTAssertEqual(PillStrings.ExtraPills[0], viewModel.selections.name)
+        viewModel.selectNameFromRow(3)
+        XCTAssertEqual(PillStrings.ExtraPills[1], viewModel.selections.name)
+    }
+
+    func testSelectExpirationIntervalFromRow_selectsExpectedInterval() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let getActual = { viewModel.selections.expirationInterval }
+        viewModel.selectExpirationIntervalFromRow(0)
+        XCTAssertEqual(PillExpirationInterval.EveryDay, getActual())
+        viewModel.selectExpirationIntervalFromRow(1)
+        XCTAssertEqual(PillExpirationInterval.EveryOtherDay, getActual())
+        viewModel.selectExpirationIntervalFromRow(2)
+        XCTAssertEqual(PillExpirationInterval.FirstTenDays, getActual())
+        viewModel.selectExpirationIntervalFromRow(3)
+        XCTAssertEqual(PillExpirationInterval.LastTenDays, getActual())
+        viewModel.selectExpirationIntervalFromRow(4)
+        XCTAssertEqual(PillExpirationInterval.FirstTwentyDays, getActual())
+        viewModel.selectExpirationIntervalFromRow(5)
+        XCTAssertEqual(PillExpirationInterval.LastTwentyDays, getActual())
+    }
+
+    func testSelectExpirationInterval_whenRowOutsideRange_usesEveryDay() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.expirationInterval = .FirstTenDays
+        viewModel.selectExpirationIntervalFromRow(-1)
+        let expected = PillExpirationInterval.EveryDay
+        let actual = viewModel.selections.expirationInterval
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testEnableOrDisable_whenTimesadayZero_doesNotChangePickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        let pill = setupPill()
+        pill.times = []
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.enableOrDisable(pickers)
+        // defaults to enabled
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertTrue(pickers[2].isEnabled)
+        XCTAssertTrue(pickers[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayOne_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00"
+        viewModel.enableOrDisable(pickers)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertFalse(pickers[1].isEnabled)
+        XCTAssertFalse(pickers[2].isEnabled)
+        XCTAssertFalse(pickers[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayTwo_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,1:00:00"
+        viewModel.enableOrDisable(pickers)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertFalse(pickers[2].isEnabled)
+        XCTAssertFalse(pickers[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayThree_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,1:00:00,2:00:00"
+        viewModel.enableOrDisable(pickers)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertTrue(pickers[2].isEnabled)
+        XCTAssertFalse(pickers[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayFour_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,1:00:00,2:00:00,3:00:00"
+        viewModel.enableOrDisable(pickers)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertTrue(pickers[2].isEnabled)
+        XCTAssertTrue(pickers[3].isEnabled)
     }
 }

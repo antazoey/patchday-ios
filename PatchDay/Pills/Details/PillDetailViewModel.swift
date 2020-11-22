@@ -70,8 +70,26 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.name ?? pill.name
     }
 
+    var nameIsSelected: Bool {
+        selections.name != nil
+    }
+
+    var nameOptions: [String] {
+        PillStrings.DefaultPills + PillStrings.ExtraPills
+    }
+
+    var namePickerStartIndex: Index {
+        let name = selections.name ?? pill.name
+        return nameOptions.firstIndex(of: name) ?? 0
+    }
+
     var timesaday: Int {
         times.count
+    }
+
+    var timesadayText: String {
+        let prefix = NSLocalizedString("How many per day: ", comment: "Label prefix")
+        return "\(prefix) \(timesaday)"
     }
 
     var expirationInterval: PillExpirationInterval {
@@ -82,25 +100,20 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
     }
 
-    var namePickerStartIndex: Index {
-        let name = selections.name ?? pill.name
-        return providedNameSelection.firstIndex(of: name) ?? 0
+    var expirationIntervalIsSelected: Bool {
+        selections.expirationInterval != nil
     }
 
     var expirationIntervalStartIndex: Index {
         pillExpirationIntervals.firstIndex(of: expirationInterval) ?? 0
     }
 
+    var expirationIntervalOptions: [String] {
+        PillStrings.Intervals.all
+    }
+
     var notify: Bool {
         selections.notify ?? pill.notify
-    }
-
-    var providedNameSelection: [String] {
-        PillStrings.DefaultPills + PillStrings.ExtraPills
-    }
-
-    var nameSelectionCount: Int {
-        providedNameSelection.count
     }
 
     var times: [Time] {
@@ -115,13 +128,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func selectTime(_ time: Time, _ index: Index) {
         var times = self.times
         guard index < times.count && index >= 0 else { return }
-        for i in index..<times.count {
-            if times[i] < time || i == index {
-                times[i] = time
-            }
-        }
-        let timeStrings = PDDateFormatter.convertDatesToCommaSeparatedString(times)
-        selections.times = timeStrings
+        times[index] = time
+        selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
     }
 
     func setTimesaday(_ timesaday: Int) {
@@ -143,16 +151,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.times = newTimeString
     }
 
-    func getPickerTimes(timeIndex: Index) -> (start: Time, min: Time?) {
-        var startTime = times.tryGet(at: timeIndex) ?? Date()
-        var minTime: Time?
-        if timeIndex > 0 {
-            minTime = self.times.tryGet(at: timeIndex - 1) ?? Date()
+    func setPickerTimes(_ timePickers: [UIDatePicker]) {
+        for i in 0..<timePickers.count {
+            let picker = timePickers[i]
+            let startTime = times.tryGet(at: i) ?? Date()
+            picker.setDate(startTime, animated: false)
         }
-        if let minTime = minTime, minTime > startTime {
-            startTime = minTime
-        }
-        return (startTime, minTime)
     }
 
     func save() {
@@ -187,7 +191,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func selectNameFromRow(_ row: Index) {
-        let name = providedNameSelection.tryGet(at: row)
+        let name = nameOptions.tryGet(at: row)
         selections.name = name
     }
 
@@ -198,29 +202,13 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.expirationInterval = interval
     }
 
-    func enableOrDisablePickers(_ pickers: [UIDatePicker]) {
+    func enableOrDisable(_ pickers: [UIDatePicker]) {
         guard 1...pickers.count ~= timesaday else { return }
         for i in 0...timesaday - 1 {
             pickers[i].isEnabled = true
         }
         for i in timesaday..<pickers.count {
             pickers[i].isEnabled = false
-        }
-    }
-
-    func assignTimePickerMinsAndMaxes(_ pickers: [UIDatePicker]) {
-        guard pickers.count == 4 else { return }
-        if pill.timesaday > 1 {
-            pickers[0].maximumDate = pickers[1].date
-            pickers[1].minimumDate = pickers[0].date
-        }
-        if pill.timesaday > 2 {
-            pickers[1].maximumDate = pickers[2].date
-            pickers[2].minimumDate = pickers[1].date
-        }
-        if pill.timesaday > 3 {
-            pickers[2].maximumDate = pickers[3].date
-            pickers[3].minimumDate = pickers[2].date
         }
     }
 }
