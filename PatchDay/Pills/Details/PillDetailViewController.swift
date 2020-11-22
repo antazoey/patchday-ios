@@ -13,7 +13,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private var viewModel: PillDetailViewModelProtocol!
 
-    @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet var detailsView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var detailStack: UIStackView!
     @IBOutlet weak var drugNameLabel: UILabel!
@@ -54,7 +55,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
         setPickerDelegates()
-        handleHardwareConstraints()
         loadTitle()
         willEnterForeground()
         setBackButton()
@@ -86,7 +86,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return vc?.initWithPillIndex(index)
     }
 
-    private static func createPillDetailVC(_ source: UIViewController) -> PillDetailViewController? {
+    private static func createPillDetailVC(
+        _ source: UIViewController
+    ) -> PillDetailViewController? {
         let id = ViewControllerIds.PillDetail
         let vc = source.storyboard?.instantiateViewController(withIdentifier: id)
         return vc as? PillDetailViewController
@@ -230,11 +232,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         namePicker.delegate = self
         nameTextField.delegate = self
         expirationIntervalPicker.delegate = self
-    }
-
-    private func handleHardwareConstraints() {
-        guard AppDelegate.isPad else { return }
-        topConstraint.constant = 100
     }
 
     private func loadSelectNameButton() {
@@ -424,4 +421,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timePickerThree.backgroundColor = UIColor.systemBackground
         timePickerFour.backgroundColor = UIColor.systemBackground
     }
+}
+
+extension PillDetailViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? { detailsView }
 }

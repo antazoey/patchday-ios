@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -45,13 +45,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="deliveryMethodButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="deliveryMethodButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8nT-zg-jpv">
                                                         <rect key="frame" x="161.5" y="0.0" width="167.5" height="60"/>
                                                         <state key="normal">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -61,7 +61,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="oBy-3W-0e3"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="deliveryMethodArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Fk-mp-wg2">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -114,13 +114,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for nearby button that means the length of a patch's life cycle, like how long it takes for it to expire">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="expirationIntervalButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="244" restorationIdentifier="expirationIntervalButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" adjustsImageWhenHighlighted="NO" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZo-Ez-aXA">
                                                         <rect key="frame" x="113.5" y="0.0" width="215.5" height="60"/>
                                                         <state key="normal">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -130,7 +130,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="Pdl-yO-iTs"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="expirationIntervalArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" restorationIdentifier="expirationIntervalArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TIv-4M-a4n">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -183,13 +183,13 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="title for a nearby button for choosing the number of patches">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
                                                         </attributedString>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="quantityButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" restorationIdentifier="quantityButton" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XiV-is-g5n">
                                                         <rect key="frame" x="107.5" y="0.0" width="221.5" height="60"/>
                                                         <state key="normal" title="                     ">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -198,7 +198,7 @@
                                                             <action selector="selectDefaultButtonTapped:" destination="KTV-H2-f0o" eventType="touchUpInside" id="nyj-NO-gws"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="quantityArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
+                                                    <button opaque="NO" contentMode="scaleToFill" restorationIdentifier="quantityArrowButton" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYX-vA-hfJ">
                                                         <rect key="frame" x="329" y="0.0" width="30" height="60"/>
                                                         <state key="normal" title="   〉">
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -247,7 +247,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="label next to switch for indicating whether the user wants to receive a reminder before their patch expires.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -307,7 +307,7 @@
                                                         <attributedString key="userComments">
                                                             <fragment content="this title is for a button that lets the user choose how many minutes before they are receiving the reminder.">
                                                                 <attributes>
-                                                                    <font key="NSFont" metaFont="controlContent" size="11"/>
+                                                                    <font key="NSFont" metaFont="menu" size="11"/>
                                                                     <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                                 </attributes>
                                                             </fragment>
@@ -414,6 +414,7 @@
                                 </constraints>
                             </scrollView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="bmK-OT-xzr"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <constraints>
@@ -422,7 +423,6 @@
                             <constraint firstItem="bmK-OT-xzr" firstAttribute="bottom" secondItem="Q1X-on-Iny" secondAttribute="bottom" id="Ph6-mX-enE"/>
                             <constraint firstItem="Q1X-on-Iny" firstAttribute="top" secondItem="fVr-dg-9JY" secondAttribute="top" id="hNz-xM-aAM"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="bmK-OT-xzr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="d9V-PI-Gpd"/>
                     <connections>
@@ -488,7 +488,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tJb-uW-EGL">
-                                                    <rect key="frame" x="15" y="11" width="32" height="21"/>
+                                                    <rect key="frame" x="16" y="11" width="32" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="eiS-mt-O6S"/>
                                                     </constraints>
@@ -497,25 +497,25 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New Site" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7B-ad-5lB">
-                                                    <rect key="frame" x="58" y="11" width="203" height="21"/>
+                                                    <rect key="frame" x="59" y="11" width="201" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <color key="highlightedColor" red="0.57919406890000003" green="0.1280144453" blue="0.57268613580000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BhY-Z1-713">
-                                                    <rect key="frame" x="269" y="3" width="47" height="37"/>
+                                                    <rect key="frame" x="268" y="3" width="47" height="37"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="AXx-g2-FU4"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="〉" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VT2-jt-DtX">
-                                                    <rect key="frame" x="331" y="11" width="18" height="21"/>
+                                                    <rect key="frame" x="330" y="11" width="18" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Next" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kn1-zJ-VDw">
-                                                    <rect key="frame" x="269" y="13" width="47" height="17"/>
+                                                    <rect key="frame" x="268" y="13" width="47" height="17"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="47" id="Zsl-KA-T2K"/>
                                                     </constraints>
@@ -554,6 +554,7 @@
                                 </prototypes>
                             </tableView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="QTr-h5-QBW"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="QTr-h5-QBW" firstAttribute="trailing" secondItem="HMu-AA-84D" secondAttribute="trailing" constant="16" id="2d1-ee-UFQ"/>
@@ -561,7 +562,6 @@
                             <constraint firstItem="HMu-AA-84D" firstAttribute="top" secondItem="QTr-h5-QBW" secondAttribute="top" constant="35" id="mQ5-as-8kE"/>
                             <constraint firstItem="HMu-AA-84D" firstAttribute="leading" secondItem="QTr-h5-QBW" secondAttribute="leading" constant="16" id="rCL-BO-n6d"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="QTr-h5-QBW"/>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="Axs-sI-5Zg"/>
@@ -621,7 +621,7 @@
                                                             <constraint firstAttribute="width" constant="1" id="J75-nY-eMN"/>
                                                         </constraints>
                                                     </view>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMM-T3-eKU">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMM-T3-eKU">
                                                         <rect key="frame" x="283" y="0.0" width="60" height="45"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="60" id="vFT-M7-mG4"/>
@@ -673,7 +673,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNG-gS-sCu">
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" highlighted="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNG-gS-sCu">
                                                 <rect key="frame" x="0.0" y="0.0" width="100" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="5sX-qN-vks"/>
@@ -706,7 +706,7 @@
                                             <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RLa-hi-dhK">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="244"/>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRW-wu-aPo">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRW-wu-aPo">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="244"/>
                                                 <connections>
                                                     <action selector="imageButtonTapped:" destination="7TT-v0-hbb" eventType="touchUpInside" id="Q5V-jN-zb5"/>
@@ -737,6 +737,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="c44-24-1cI"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="c2z-HC-dPi" firstAttribute="trailing" secondItem="cxN-PF-nCH" secondAttribute="trailingMargin" priority="999" id="GGC-1F-Otp"/>
@@ -744,7 +745,6 @@
                             <constraint firstItem="c2z-HC-dPi" firstAttribute="leading" secondItem="cxN-PF-nCH" secondAttribute="leadingMargin" priority="999" id="RGt-dA-ZYg"/>
                             <constraint firstItem="c2z-HC-dPi" firstAttribute="top" secondItem="c44-24-1cI" secondAttribute="top" constant="20" id="aTe-G3-tsC"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="c44-24-1cI"/>
                     </view>
                     <connections>
                         <outlet property="gapAboveImage" destination="JJU-rR-PHe" id="yvL-F8-FTh"/>
