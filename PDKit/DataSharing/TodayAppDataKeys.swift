@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum TodayKey: String {
+public enum SharedDataKey: String {
     case NextHormoneSiteName = "nextEstroSiteName"
     case NextHormoneDate = "nextEstroDate"
     case NextPillToTake = "nextPillToTake"

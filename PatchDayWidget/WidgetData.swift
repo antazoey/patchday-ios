@@ -1,12 +1,15 @@
 //
-// Created by Juliya Smith on 12/3/19.
-// Copyright (c) 2019 Juliya Smith. All rights reserved.
+//  WidgetData.swift
+//  PatchDay
+//
+//  Created by Juliya Smith on 11/23/20.
+//  Copyright © 2020 Juliya Smith. All rights reserved.
 //
 
 import Foundation
 import PDKit
 
-class TodayData: TodayDataDelegate {
+class WidgetData {
 
     private lazy var defaults = UserDefaults(suiteName: PDSharedDataGroupName)
 

@@ -11,7 +11,10 @@ Fixed
 Changed
 
 - iPad font size for Hormone Cell text was decreased.
-- Using new UI Date Picker styles from iOS 14.
+- Using new UI Date Picker compact style from iOS 14 for both hormone details date and pill times.
+- On the Pill details view:
+	- Times are now enumerated as rows.
+	- The view scrolls.
 
 ## 3.1.1
 

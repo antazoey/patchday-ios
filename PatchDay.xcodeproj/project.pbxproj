@@ -107,11 +107,19 @@
 		9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */; };
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
+		9D4D05C9256C7C980037A2E6 /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D05C8256C7C980037A2E6 /* WidgetData.swift */; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
 		9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */; };
 		9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BA25056E8B00C0324E /* NowProtocol.swift */; };
 		9D59F8BD25056EC500C0324E /* PDNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BC25056EC500C0324E /* PDNow.swift */; };
 		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
+		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
+		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
+		9D69B1E1256C7B2200213E79 /* PatchDayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* PatchDayWidget.swift */; };
+		9D69B1E4256C7B2400213E79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D69B1E3256C7B2400213E79 /* Assets.xcassets */; };
+		9D69B1E6256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */; };
+		9D69B1E7256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */; };
+		9D69B1EA256C7B2400213E79 /* PatchDayWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
 		9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */; };
@@ -316,6 +324,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9D69B1E8256C7B2400213E79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D69B1D9256C7B2200213E79;
+			remoteInfo = PatchDayWidgetExtension;
+		};
 		9D6E9AF32456253A003BBCC9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
@@ -442,6 +457,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				9D69B1EA256C7B2400213E79 /* PatchDayWidgetExtension.appex in Embed App Extensions */,
 				B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -575,11 +591,19 @@
 		9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsViewModelTests.swift; sourceTree = "<group>"; };
 		9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImagesTests.swift; sourceTree = "<group>"; };
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
+		9D4D05C8256C7C980037A2E6 /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
 		9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntegrationTests.swift; sourceTree = "<group>"; };
 		9D59F8BA25056E8B00C0324E /* NowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowProtocol.swift; sourceTree = "<group>"; };
 		9D59F8BC25056EC500C0324E /* PDNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNow.swift; sourceTree = "<group>"; };
 		9D59F8BE250570CC00C0324E /* MockNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNow.swift; sourceTree = "<group>"; };
+		9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		9D69B1E0256C7B2200213E79 /* PatchDayWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayWidget.swift; sourceTree = "<group>"; };
+		9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = PatchDayWidget.intentdefinition; sourceTree = "<group>"; };
+		9D69B1E3256C7B2400213E79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9D69B1E5256C7B2400213E79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
 		9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlings.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
@@ -771,6 +795,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D69B1D7256C7B2200213E79 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */,
+				9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9D6E9AEB2456253A003BBCC9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -847,6 +880,7 @@
 				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				9D8A981223C573B3004E20FE /* PDMock */,
 				9D6E9AEF2456253A003BBCC9 /* PatchDayTests */,
+				9D69B1DF256C7B2200213E79 /* PatchDayWidget */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -863,6 +897,7 @@
 				B40CC9AF21CCE614002364BB /* PDKitTests.xctest */,
 				9D8A981123C573B3004E20FE /* PDMock.framework */,
 				9D6E9AEE2456253A003BBCC9 /* PatchDayTests.xctest */,
+				9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1287,6 +1322,18 @@
 				B40CC9BF21CD7DA9002364BB /* CoreDataStack.swift */,
 			);
 			path = Stack;
+			sourceTree = "<group>";
+		};
+		9D69B1DF256C7B2200213E79 /* PatchDayWidget */ = {
+			isa = PBXGroup;
+			children = (
+				9D69B1E0256C7B2200213E79 /* PatchDayWidget.swift */,
+				9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */,
+				9D69B1E3256C7B2400213E79 /* Assets.xcassets */,
+				9D69B1E5256C7B2400213E79 /* Info.plist */,
+				9D4D05C8256C7C980037A2E6 /* WidgetData.swift */,
+			);
+			path = PatchDayWidget;
 			sourceTree = "<group>";
 		};
 		9D6DB7CE2405FEA900C00711 /* Settings */ = {
@@ -1853,6 +1900,8 @@
 			children = (
 				9D6E9B36245DBF84003BBCC9 /* XCTest.framework */,
 				B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */,
+				9D69B1DB256C7B2200213E79 /* WidgetKit.framework */,
+				9D69B1DD256C7B2200213E79 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2014,11 +2063,29 @@
 				B49A4A5220DB2D4C00F24FC0 /* PBXTargetDependency */,
 				B480EE1021CC72DB002C2238 /* PBXTargetDependency */,
 				B480EE3021CC7554002C2238 /* PBXTargetDependency */,
+				9D69B1E9256C7B2400213E79 /* PBXTargetDependency */,
 			);
 			name = PatchDay;
 			productName = PatchDay;
 			productReference = 137330E91E22BA3E0048F91E /* PatchDay.app */;
 			productType = "com.apple.product-type.application";
+		};
+		9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "PatchDayWidgetExtension" */;
+			buildPhases = (
+				9D69B1D6256C7B2200213E79 /* Sources */,
+				9D69B1D7256C7B2200213E79 /* Frameworks */,
+				9D69B1D8256C7B2200213E79 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PatchDayWidgetExtension;
+			productName = PatchDayWidgetExtension;
+			productReference = 9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		9D6E9AED2456253A003BBCC9 /* PatchDayTests */ = {
 			isa = PBXNativeTarget;
@@ -2160,7 +2227,7 @@
 		137330E11E22BA3E0048F91E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Juliya Smith";
 				TargetAttributes = {
@@ -2178,6 +2245,9 @@
 								enabled = 0;
 							};
 						};
+					};
+					9D69B1D9256C7B2200213E79 = {
+						CreatedOnToolsVersion = 12.2;
 					};
 					9D6E9AED2456253A003BBCC9 = {
 						CreatedOnToolsVersion = 11.4.1;
@@ -2251,6 +2321,7 @@
 				B40CC9AE21CCE614002364BB /* PDKitTests */,
 				9D8A981023C573B3004E20FE /* PDMock */,
 				9D6E9AED2456253A003BBCC9 /* PatchDayTests */,
+				9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -2264,6 +2335,14 @@
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
 				3397C48DA7DB4EB8DD595319 /* SettingsAndSites.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D69B1D8256C7B2200213E79 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D69B1E4256C7B2400213E79 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2325,6 +2404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D3E4C7E22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift in Sources */,
+				9D69B1E7256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */,
 				9DDF47E1234D670C005AA467 /* PillNotificationActionHandler.swift in Sources */,
 				9D3E4C8222B5B47E00C82DAE /* DuePillNotification.swift in Sources */,
 				B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */,
@@ -2366,6 +2446,7 @@
 				3397C4B72A3807FC1B7437E3 /* NewSiteAlert.swift in Sources */,
 				9DDAB03C23FAF13400E6EEF6 /* DeliveryMethodMutationAlertActionHandler.swift in Sources */,
 				3397C0686E3133FEE6967ACB /* PDAlert.swift in Sources */,
+				9D4D05C9256C7C980037A2E6 /* WidgetData.swift in Sources */,
 				9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */,
 				9DE7483B2539072500282144 /* HormoneCellViewModel.swift in Sources */,
 				3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */,
@@ -2396,6 +2477,15 @@
 				3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */,
 				3397C23AD8485783F292353A /* PDBadgeButton.swift in Sources */,
 				3397C39300E0DC7A3FF82DE8 /* UINavigationController+PatchDay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D69B1D6256C7B2200213E79 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D69B1E6256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */,
+				9D69B1E1256C7B2200213E79 /* PatchDayWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2661,6 +2751,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9D69B1E9256C7B2400213E79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */;
+			targetProxy = 9D69B1E8256C7B2400213E79 /* PBXContainerItemProxy */;
+		};
 		9D6E9AF42456253A003BBCC9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 137330E81E22BA3E0048F91E /* PatchDay */;
@@ -2893,7 +2988,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2918,7 +3013,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2927,6 +3022,67 @@
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9D69B1EC256C7B2400213E79 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = PatchDayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PatchDayWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9D69B1ED256C7B2400213E79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8U33TMB35U;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = PatchDayWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.1.1;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PatchDayWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2945,7 +3101,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2975,7 +3131,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3009,7 +3165,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDMock/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3048,7 +3204,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDMock/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3078,7 +3234,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3105,7 +3261,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3133,7 +3289,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchDayToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3164,7 +3320,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchDayToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3198,7 +3354,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3235,7 +3391,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3266,7 +3422,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3295,7 +3451,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3329,7 +3485,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3365,7 +3521,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3399,6 +3555,15 @@
 			buildConfigurations = (
 				137331121E22BA3E0048F91E /* Debug */,
 				137331131E22BA3E0048F91E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "PatchDayWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D69B1EC256C7B2400213E79 /* Debug */,
+				9D69B1ED256C7B2400213E79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
