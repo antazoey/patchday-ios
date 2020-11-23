@@ -31,7 +31,7 @@ public protocol PillDetailViewModelProtocol {
     func setPickerTimes(_ timePickers: [UIDatePicker])
     func save()
     func handleIfUnsaved(_ viewController: UIViewController)
-    func selectNameFromRow(_ row: Index)
-    func selectExpirationIntervalFromRow(_ row: Index)
+    func selectName(_ row: Index)
+    func selectExpirationInterval(_ row: Index)
     func enableOrDisable(_ pickers: [UIDatePicker])
 }

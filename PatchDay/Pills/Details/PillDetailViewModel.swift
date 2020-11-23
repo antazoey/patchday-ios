@@ -190,12 +190,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
     }
 
-    func selectNameFromRow(_ row: Index) {
+    func selectName(_ row: Index) {
         let name = nameOptions.tryGet(at: row)
         selections.name = name
     }
 
-    func selectExpirationIntervalFromRow(_ row: Index) {
+    func selectExpirationInterval(_ row: Index) {
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
         let interval = textToExpirationInterval[rowString] ?? defaultInterval

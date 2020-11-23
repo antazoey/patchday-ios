@@ -563,16 +563,16 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(testViewController, nav.popCallArgs[0])
     }
 
-    func testSelectNameFromRow_selectsExpectedName() {
+    func testSelectName_selectsExpectedName() {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selectNameFromRow(0)
+        viewModel.selectName(0)
         XCTAssertEqual(PillStrings.DefaultPills[0], viewModel.selections.name)
-        viewModel.selectNameFromRow(1)
+        viewModel.selectName(1)
         XCTAssertEqual(PillStrings.DefaultPills[1], viewModel.selections.name)
-        viewModel.selectNameFromRow(2)
+        viewModel.selectName(2)
         XCTAssertEqual(PillStrings.ExtraPills[0], viewModel.selections.name)
-        viewModel.selectNameFromRow(3)
+        viewModel.selectName(3)
         XCTAssertEqual(PillStrings.ExtraPills[1], viewModel.selections.name)
     }
 
@@ -580,17 +580,17 @@ class PillDetailViewModelTests: XCTestCase {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let getActual = { viewModel.selections.expirationInterval }
-        viewModel.selectExpirationIntervalFromRow(0)
+        viewModel.selectExpirationInterval(0)
         XCTAssertEqual(PillExpirationInterval.EveryDay, getActual())
-        viewModel.selectExpirationIntervalFromRow(1)
+        viewModel.selectExpirationInterval(1)
         XCTAssertEqual(PillExpirationInterval.EveryOtherDay, getActual())
-        viewModel.selectExpirationIntervalFromRow(2)
+        viewModel.selectExpirationInterval(2)
         XCTAssertEqual(PillExpirationInterval.FirstTenDays, getActual())
-        viewModel.selectExpirationIntervalFromRow(3)
+        viewModel.selectExpirationInterval(3)
         XCTAssertEqual(PillExpirationInterval.LastTenDays, getActual())
-        viewModel.selectExpirationIntervalFromRow(4)
+        viewModel.selectExpirationInterval(4)
         XCTAssertEqual(PillExpirationInterval.FirstTwentyDays, getActual())
-        viewModel.selectExpirationIntervalFromRow(5)
+        viewModel.selectExpirationInterval(5)
         XCTAssertEqual(PillExpirationInterval.LastTwentyDays, getActual())
     }
 
@@ -598,7 +598,7 @@ class PillDetailViewModelTests: XCTestCase {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = .FirstTenDays
-        viewModel.selectExpirationIntervalFromRow(-1)
+        viewModel.selectExpirationInterval(-1)
         let expected = PillExpirationInterval.EveryDay
         let actual = viewModel.selections.expirationInterval
         XCTAssertEqual(expected, actual)
