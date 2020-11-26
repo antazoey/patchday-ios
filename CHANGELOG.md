@@ -2,16 +2,20 @@
 
 ## Unreleased
 
+Added
+
+- The Next Hormone Widget for iOS 14.
+
 Fixed
 
 - Bug where Pill Schedules "Last 10 Days" and "Last 20 Days" would use the wrong start date of the month.
 - Bug where Pill Schedules "First 10 Days" and "First 20 Days" would not work correctly at the end of the month.
 - Layout issue that caused the date text to shift up when the Moon Icon for overnight Hormones was present.
-- Bug where pill data was not being shared with Widgets
+- Bug where pill data was not being shared with Widgets.
 
 Removed
 
-- The PatchDayToday today widget was removed, as it is now deprecated in iOS 14.
+- The PatchDayToday today widget was removed, as it is now deprecated in iOS 14. Use the Next Hormone Widget instead!
 
 Changed
 
