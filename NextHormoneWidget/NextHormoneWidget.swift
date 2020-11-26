@@ -1,6 +1,6 @@
 //
-//  PatchDayWidget.swift
-//  PatchDayWidget
+//  NextHormoneWidget.swift
+//  NextHormoneWidget
 //
 //  Created by Juliya Smith on 11/23/20.
 //  Copyright © 2020 Juliya Smith. All rights reserved.
@@ -32,19 +32,20 @@ struct NextHormoneLoader {
         completion(next)
     }
 
+    // TODO: Figure out if needed
     private static func getDeliveryMethod() -> String? {
         let key = PDSetting.DeliveryMethod.rawValue
         return defaults.string(forKey: key)
     }
 
     private static func getNextHormoneSiteName() -> String? {
-        let siteKey = SharedDataKey.NextHormoneSiteName.rawValue
-        return defaults.string(forKey: siteKey)
+        let key = SharedDataKey.NextHormoneSiteName.rawValue
+        return defaults.string(forKey: key)
     }
 
     private static func getNextHormoneExpirationDate() -> Date? {
-        let dateKey = SharedDataKey.NextHormoneDate.rawValue
-        return defaults.object(forKey: dateKey) as? Date
+        let key = SharedDataKey.NextHormoneDate.rawValue
+        return defaults.object(forKey: key) as? Date
     }
 }
 
@@ -99,20 +100,42 @@ struct PlaceholderView : View {
 struct NextHormoneWidgetView : View {
     let entry: NextHormoneEntry
 
-    var body: some View {
-        let hormoneNameText = entry.hormone.name ?? NSLocalizedString(
+    let title = "PD-HRT-NEXT"
+
+    var titleView: some View {
+        Text(title)
+            .font(.system(.title3))
+            .foregroundColor(.black)
+    }
+
+    func getHormoneText(_ entry: NextHormoneEntry) -> String {
+        entry.hormone.name ?? NSLocalizedString(
             "...", comment: "Widget"
         )
+    }
+
+    func getDateText(_ entry: NextHormoneEntry) -> String {
         var expDateText: String
         if let storedDate = entry.hormone.date {
             expDateText = "At: \(Self.format(date: storedDate))"
         } else {
             expDateText = "..."
         }
+        return expDateText
+    }
+
+    var gradient: Gradient {
+        Gradient(colors: [
+            Color(PDColors[.Selected]),
+            Color(PDColors[.EvenCell])
+        ])
+    }
+
+    var body: some View {
+        let hormoneNameText = getHormoneText(entry)
+        let expDateText = getDateText(entry)
         return VStack(alignment: .leading, spacing: 4) {
-            Text("HRT")
-                .font(.system(.title3))
-                .foregroundColor(.black)
+            titleView
             Text(hormoneNameText)
                 .font(.system(.callout))
                 .foregroundColor(.black)
@@ -130,7 +153,7 @@ struct NextHormoneWidgetView : View {
             .padding()
             .background(
                 LinearGradient(
-                    gradient: Gradient(colors: [.orange, .yellow]),
+                    gradient: gradient,
                     startPoint: .top,
                     endPoint: .bottom)
             )

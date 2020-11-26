@@ -22,6 +22,15 @@ public enum ColorKey: String {
 
 public class PDColors: NSObject {
 
+    /*
+     `.EvenCell` is a baby blue in light mode
+     `.Selected` is a baby pink in light mode
+     They are also like the transgender flag colors.
+
+     In dark mode, `.Button` is a hot, neon pink color.
+     Use `.NewItem` for create-buttons. It's a neon green color.
+     */
+
     override public var description: String {
         "Read-only PatchDay Color class."
     }

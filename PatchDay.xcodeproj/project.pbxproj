@@ -118,7 +118,7 @@
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
 		9D69B1E4256C7B2400213E79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D69B1E3256C7B2400213E79 /* Assets.xcassets */; };
-		9D69B1EA256C7B2400213E79 /* PatchDayWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9D69B1EA256C7B2400213E79 /* NextHormoneWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
 		9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */; };
@@ -326,7 +326,7 @@
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9D69B1D9256C7B2200213E79;
-			remoteInfo = PatchDayWidgetExtension;
+			remoteInfo = NextHormoneWidget;
 		};
 		9D6E9AF32456253A003BBCC9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -451,7 +451,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				9D69B1EA256C7B2400213E79 /* PatchDayWidgetExtension.appex in Embed App Extensions */,
+				9D69B1EA256C7B2400213E79 /* NextHormoneWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,12 +582,13 @@
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
 		9D4D05C8256C7C980037A2E6 /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
 		9D4D05E8256DC31E0037A2E6 /* NextPillWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextPillWidget.swift; sourceTree = "<group>"; };
+		9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NextHormoneWidget.entitlements; sourceTree = "<group>"; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
 		9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntegrationTests.swift; sourceTree = "<group>"; };
 		9D59F8BA25056E8B00C0324E /* NowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowProtocol.swift; sourceTree = "<group>"; };
 		9D59F8BC25056EC500C0324E /* PDNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNow.swift; sourceTree = "<group>"; };
 		9D59F8BE250570CC00C0324E /* MockNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNow.swift; sourceTree = "<group>"; };
-		9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextHormoneWidget.swift; sourceTree = "<group>"; };
@@ -846,6 +847,7 @@
 		137330E01E22BA3E0048F91E = {
 			isa = PBXGroup;
 			children = (
+				9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */,
 				137330EB1E22BA3E0048F91E /* PatchDay */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B40CC9B021CCE614002364BB /* PDKitTests */,
@@ -853,7 +855,7 @@
 				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				9D8A981223C573B3004E20FE /* PDMock */,
 				9D6E9AEF2456253A003BBCC9 /* PatchDayTests */,
-				9D69B1DF256C7B2200213E79 /* PatchDayWidget */,
+				9D69B1DF256C7B2200213E79 /* NextHormoneWidget */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
 				137330EA1E22BA3E0048F91E /* Products */,
 			);
@@ -869,7 +871,7 @@
 				B40CC9AF21CCE614002364BB /* PDKitTests.xctest */,
 				9D8A981123C573B3004E20FE /* PDMock.framework */,
 				9D6E9AEE2456253A003BBCC9 /* PatchDayTests.xctest */,
-				9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */,
+				9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1287,7 +1289,7 @@
 			path = Stack;
 			sourceTree = "<group>";
 		};
-		9D69B1DF256C7B2200213E79 /* PatchDayWidget */ = {
+		9D69B1DF256C7B2200213E79 /* NextHormoneWidget */ = {
 			isa = PBXGroup;
 			children = (
 				9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */,
@@ -1296,7 +1298,7 @@
 				9D4D05C8256C7C980037A2E6 /* WidgetData.swift */,
 				9D4D05E8256DC31E0037A2E6 /* NextPillWidget.swift */,
 			);
-			path = PatchDayWidget;
+			path = NextHormoneWidget;
 			sourceTree = "<group>";
 		};
 		9D6DB7CE2405FEA900C00711 /* Settings */ = {
@@ -2016,9 +2018,9 @@
 			productReference = 137330E91E22BA3E0048F91E /* PatchDay.app */;
 			productType = "com.apple.product-type.application";
 		};
-		9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */ = {
+		9D69B1D9256C7B2200213E79 /* NextHormoneWidget */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "PatchDayWidgetExtension" */;
+			buildConfigurationList = 9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "NextHormoneWidget" */;
 			buildPhases = (
 				9D69B1D6256C7B2200213E79 /* Sources */,
 				9D69B1D7256C7B2200213E79 /* Frameworks */,
@@ -2030,9 +2032,9 @@
 			dependencies = (
 				9D4D05F4256F61D20037A2E6 /* PBXTargetDependency */,
 			);
-			name = PatchDayWidgetExtension;
-			productName = PatchDayWidgetExtension;
-			productReference = 9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */;
+			name = NextHormoneWidget;
+			productName = NextHormoneWidget;
+			productReference = 9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		9D6E9AED2456253A003BBCC9 /* PatchDayTests */ = {
@@ -2239,7 +2241,7 @@
 				B40CC9AE21CCE614002364BB /* PDKitTests */,
 				9D8A981023C573B3004E20FE /* PDMock */,
 				9D6E9AED2456253A003BBCC9 /* PatchDayTests */,
-				9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */,
+				9D69B1D9256C7B2200213E79 /* NextHormoneWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -2653,7 +2655,7 @@
 		};
 		9D69B1E9256C7B2400213E79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */;
+			target = 9D69B1D9256C7B2200213E79 /* NextHormoneWidget */;
 			targetProxy = 9D69B1E8256C7B2400213E79 /* PBXContainerItemProxy */;
 		};
 		9D6E9AF42456253A003BBCC9 /* PBXTargetDependency */ = {
@@ -2918,11 +2920,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextHormoneWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PatchDayWidget/Info.plist;
+				INFOPLIST_FILE = NextHormoneWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2932,7 +2935,7 @@
 				MARKETING_VERSION = 3.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PatchDayWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -2949,11 +2952,12 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = NextHormoneWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PatchDayWidget/Info.plist;
+				INFOPLIST_FILE = NextHormoneWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2962,7 +2966,7 @@
 				);
 				MARKETING_VERSION = 3.1.1;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PatchDayWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -3380,7 +3384,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "PatchDayWidgetExtension" */ = {
+		9D69B1EB256C7B2400213E79 /* Build configuration list for PBXNativeTarget "NextHormoneWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D69B1EC256C7B2400213E79 /* Debug */,
