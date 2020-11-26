@@ -8,6 +8,10 @@ Fixed
 - Bug where Pill Schedules "First 10 Days" and "First 20 Days" would not work correctly at the end of the month.
 - Layout issue that caused the date text to shift up when the Moon Icon for overnight Hormones was present.
 
+Removed
+
+- The PatchDayToday today widget was removed, as it is now deprecated in iOS 14.
+
 Changed
 
 - iPad font size for Hormone Cell text was decreased.

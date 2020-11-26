@@ -10,6 +10,7 @@ import UIKit
 import UserNotifications
 import PDKit
 import PatchData
+import WidgetKit
 
 @UIApplicationMain
     class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -56,6 +57,7 @@ import PatchData
         self.badge = badge
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
         reflectBadges()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     static var isPad: Bool {

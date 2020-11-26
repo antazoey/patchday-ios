@@ -1,5 +1,5 @@
 //
-//  HormoneDataBroadcasting.swift
+//  HormoneDataSharer.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 11/10/19.
@@ -25,10 +25,18 @@ public class HormoneDataSharer: HormoneDataSharing {
         let method = settings.deliveryMethod
         let interval = settings.expirationInterval
         let nextSite = sites.suggested
-        let name = method.value == .Patches ? sites.suggested?.name : nextSite?.name
+
+        let name: String = {
+            switch method.value {
+                case .Patches: return sites.suggested?.name
+                case .Injections: return nextSite?.name
+                case .Gel: return nextSite?.name
+            }
+        }() ?? SiteStrings.NewSite
+
         shareRelevantHormoneData(
             oldestHormone: nextHormone,
-            displayedSiteName: name ?? SiteStrings.NewSite,
+            displayedSiteName: name,
             interval: interval,
             deliveryMethod: method
         )
@@ -40,7 +48,7 @@ public class HormoneDataSharer: HormoneDataSharing {
         interval: ExpirationIntervalUD,
         deliveryMethod: DeliveryMethodUD
     ) {
-        base.set(displayedSiteName, for: TodayKey.nextHormoneSiteName.rawValue)
-        base.set(oldestHormone.date, for: TodayKey.nextHormoneDate.rawValue)
+        base.set(displayedSiteName, for: SharedDataKey.NextHormoneSiteName.rawValue)
+        base.set(oldestHormone.date, for: SharedDataKey.NextHormoneDate.rawValue)
     }
 }

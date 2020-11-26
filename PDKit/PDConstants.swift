@@ -68,3 +68,5 @@ public var DotDotDot: String {
 }
 
 public let DefaultNumberOfPickerComponents = 1
+
+public let PDSharedDataGroupName: String = "group.com.patchday.todaydata"

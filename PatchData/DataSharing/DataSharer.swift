@@ -23,10 +23,3 @@ public class DataSharer: UserDefaultsProtocol {
         sharedDefaults?.object(forKey: key)
     }
 }
-
-public enum TodayKey: String {
-    case nextHormoneSiteName = "nextEstroSiteName"
-    case nextHormoneDate = "nextEstroDate"
-    case nextPillToTake = "nextPillToTake"
-    case nextPillTakeTime = "nextPillTakeTime"
-}

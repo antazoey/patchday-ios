@@ -57,7 +57,6 @@
 		3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */; };
 		3397CA6214D86DA38FC63503 /* SiteViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C38F2F374263D15AFAAD /* SiteViewFactory.swift */; };
 		3397CA689C9CC82D9E5BC09C /* HormoneDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C83CA26AB9993A1C43D2 /* HormoneDetailViewController.swift */; };
-		3397CAA239E115AFAB4DB0EC /* PDTStructFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C478C3A31A2B19EE03A6 /* PDTStructFactory.swift */; };
 		3397CB235DFF3871467CD47F /* DisclaimerAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C7428C516F8FDBD1253E /* DisclaimerAlert.swift */; };
 		3397CB2B0008632768A8CFAF /* MockSiteSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C86680B1CBEBCAA0DC3E /* MockSiteSchedule.swift */; };
 		3397CB4DDE8099EDD871BBB7 /* SettingsReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CB18E77D8048782F165F /* SettingsReflector.swift */; };
@@ -82,7 +81,6 @@
 		9D003EC323359B2D0070C964 /* PDCoreDataWrapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */; };
 		9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */; };
 		9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* HormoneStringsTests.swift */; };
-		9D1908D42460C79700E95244 /* TodayAppDataKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D32460C79700E95244 /* TodayAppDataKeys.swift */; };
 		9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */; };
 		9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */; };
 		9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */; };
@@ -108,6 +106,9 @@
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
 		9D4D05C9256C7C980037A2E6 /* WidgetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D05C8256C7C980037A2E6 /* WidgetData.swift */; };
+		9D4D05E9256DC31E0037A2E6 /* NextPillWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D05E8256DC31E0037A2E6 /* NextPillWidget.swift */; };
+		9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
+		9D4D05F2256F61D20037A2E6 /* PDKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
 		9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */; };
 		9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BA25056E8B00C0324E /* NowProtocol.swift */; };
@@ -115,10 +116,8 @@
 		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
-		9D69B1E1256C7B2200213E79 /* PatchDayWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* PatchDayWidget.swift */; };
+		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
 		9D69B1E4256C7B2400213E79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D69B1E3256C7B2400213E79 /* Assets.xcassets */; };
-		9D69B1E6256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */; };
-		9D69B1E7256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */; };
 		9D69B1EA256C7B2400213E79 /* PatchDayWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
@@ -208,7 +207,6 @@
 		9D8A982C23C7EEDA004E20FE /* PillStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982B23C7EEDA004E20FE /* PillStoring.swift */; };
 		9D8A982E23C7EEE4004E20FE /* SiteStoring.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982D23C7EEE4004E20FE /* SiteStoring.swift */; };
 		9D8A983023C7F736004E20FE /* PDBadgeDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9946CC2377266C00CF3C96 /* PDBadgeDelegate.swift */; };
-		9D8A983223C7F74F004E20FE /* KeyWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983123C7F74F004E20FE /* KeyWindowFinder.swift */; };
 		9D8A983523C7F8A9004E20FE /* MockHormoneStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */; };
 		9D8A983A23C7FD1F004E20FE /* MockHormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983923C7FD1F004E20FE /* MockHormone.swift */; };
 		9D8A983C23CBC071004E20FE /* MockSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A983B23CBC071004E20FE /* MockSite.swift */; };
@@ -264,8 +262,6 @@
 		9D9C600024829F5000B3DA6A /* PillDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */; };
 		9D9C60042489B75600B3DA6A /* UnsavedChangesAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C60032489B75600B3DA6A /* UnsavedChangesAlert.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
-		9DC5135923973C1400A5138B /* TodayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CEC480B40360BA66C97A /* TodayData.swift */; };
-		9DC5135A23973C1700A5138B /* TodayDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */; };
 		9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */; };
 		9DC8C0562531139100F89DEF /* PillCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */; };
 		9DC8C0582531344100F89DEF /* SiteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */; };
@@ -302,12 +298,6 @@
 		B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 137330F31E22BA3E0048F91E /* Assets.xcassets */; };
 		B468414221DC815A00A0BE73 /* HormoneScheduleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B468414121DC815A00A0BE73 /* HormoneScheduleTests.swift */; };
 		B4700F1E21E571DF00C8EFB6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
-		B4700F1F21E5732800C8EFB6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
-		B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */; };
-		B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE0921CC72DB002C2238 /* TodayViewController.swift */; };
-		B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */; };
-		B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B480EE0621CC72DB002C2238 /* PatchDayToday.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		B480EE1621CC7328002C2238 /* TodayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B480EE1521CC7328002C2238 /* TodayViewModel.swift */; };
 		B480EE2521CC7554002C2238 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
 		B480EE2E21CC7554002C2238 /* PatchData.h in Headers */ = {isa = PBXBuildFile; fileRef = B480EE1E21CC7553002C2238 /* PatchData.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -324,6 +314,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9D4D05F3256F61D20037A2E6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B49A4A3D20DB2D4C00F24FC0;
+			remoteInfo = PDKit;
+		};
 		9D69B1E8256C7B2400213E79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
@@ -387,13 +384,6 @@
 			remoteGlobalIDString = 9D8A981023C573B3004E20FE;
 			remoteInfo = PDMock;
 		};
-		9D6E9B1524564708003BBCC9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B49A4A3D20DB2D4C00F24FC0;
-			remoteInfo = PDKit;
-		};
 		9D6E9B31245DBD53003BBCC9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
@@ -407,13 +397,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = B49A4A3D20DB2D4C00F24FC0;
 			remoteInfo = PDKit;
-		};
-		B480EE0F21CC72DB002C2238 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B480EE0521CC72DB002C2238;
-			remoteInfo = PatchDayToday;
 		};
 		B480EE2621CC7554002C2238 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -451,6 +434,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D4D05F5256F61D20037A2E6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				9D4D05F2256F61D20037A2E6 /* PDKit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B468F4AF20D9BDBB007FC689 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -458,7 +452,6 @@
 			dstSubfolderSpec = 13;
 			files = (
 				9D69B1EA256C7B2400213E79 /* PatchDayWidgetExtension.appex in Embed App Extensions */,
-				B480EE1121CC72DB002C2238 /* PatchDayToday.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,7 +473,6 @@
 		13A7A4D61E4CCF0100594973 /* PatchDay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDay.entitlements; sourceTree = "<group>"; };
 		13C746D01ED781DD00067A67 /* UserDefaultsWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriter.swift; sourceTree = "<group>"; };
 		13F0CC0B1EC2567A00653CB9 /* patchData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = patchData.xcdatamodel; sourceTree = "<group>"; };
-		3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayDataDelegate.swift; sourceTree = "<group>"; };
 		3397C0B64890296742265A9E /* SingleValueTypeKeyStorables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleValueTypeKeyStorables.swift; sourceTree = "<group>"; };
 		3397C0FE3BE44A439FAED92F /* TableViewWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewWrapper.swift; sourceTree = "<group>"; };
 		3397C15569EB6EC92C438D45 /* PDBadge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDBadge.swift; sourceTree = "<group>"; };
@@ -501,7 +493,6 @@
 		3397C429190FB7BFA67C7CB2 /* SiteDetailConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailConstants.swift; sourceTree = "<group>"; };
 		3397C44F655B05A9959614A9 /* HormoneDetailValueTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDetailValueTypes.swift; sourceTree = "<group>"; };
 		3397C46296174AEBD22741E7 /* PDAppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAppConstants.swift; sourceTree = "<group>"; };
-		3397C478C3A31A2B19EE03A6 /* PDTStructFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDTStructFactory.swift; sourceTree = "<group>"; };
 		3397C49932A88441EDBC9663 /* HormonesTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormonesTable.swift; sourceTree = "<group>"; };
 		3397C4E72B97FAB79FE3636F /* HormoneDataSharing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDataSharing.swift; sourceTree = "<group>"; };
 		3397C4F5D8AADC9C5B2831CA /* PillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
@@ -553,7 +544,6 @@
 		3397CDDC25322F027DE45D6A /* PDViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDViewFactory.swift; sourceTree = "<group>"; };
 		3397CDE752EBD157A3E2CDE7 /* PDBadgeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDBadgeButton.swift; sourceTree = "<group>"; };
 		3397CE95ADAC03F0AF8D6220 /* SiteDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiteDetailViewModel.swift; sourceTree = "<group>"; };
-		3397CEC480B40360BA66C97A /* TodayData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayData.swift; sourceTree = "<group>"; };
 		3397CEF0E64C576123005F01 /* PDObjectLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDObjectLogger.swift; sourceTree = "<group>"; };
 		3397CF33CEB0E43BBF273BDB /* PDSettingsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDSettingsTests.swift; sourceTree = "<group>"; };
 		3397CF930A5E66090BFA9C71 /* TabReflective.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabReflective.swift; sourceTree = "<group>"; };
@@ -564,7 +554,6 @@
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
 		9D003EC0233599A90070C964 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataWrapping.swift; sourceTree = "<group>"; };
-		9D1908D32460C79700E95244 /* TodayAppDataKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayAppDataKeys.swift; sourceTree = "<group>"; };
 		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
 		9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsInterface.swift; sourceTree = "<group>"; };
 		9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaultsInterface.swift; sourceTree = "<group>"; };
@@ -592,6 +581,7 @@
 		9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImagesTests.swift; sourceTree = "<group>"; };
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
 		9D4D05C8256C7C980037A2E6 /* WidgetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetData.swift; sourceTree = "<group>"; };
+		9D4D05E8256DC31E0037A2E6 /* NextPillWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextPillWidget.swift; sourceTree = "<group>"; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
 		9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateIntegrationTests.swift; sourceTree = "<group>"; };
 		9D59F8BA25056E8B00C0324E /* NowProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowProtocol.swift; sourceTree = "<group>"; };
@@ -600,8 +590,7 @@
 		9D69B1DA256C7B2200213E79 /* PatchDayWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		9D69B1E0256C7B2200213E79 /* PatchDayWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchDayWidget.swift; sourceTree = "<group>"; };
-		9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = PatchDayWidget.intentdefinition; sourceTree = "<group>"; };
+		9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextHormoneWidget.swift; sourceTree = "<group>"; };
 		9D69B1E3256C7B2400213E79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D69B1E5256C7B2400213E79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
@@ -674,7 +663,6 @@
 		9D8A982923C7EED0004E20FE /* HormoneStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStoring.swift; sourceTree = "<group>"; };
 		9D8A982B23C7EEDA004E20FE /* PillStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStoring.swift; sourceTree = "<group>"; };
 		9D8A982D23C7EEE4004E20FE /* SiteStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStoring.swift; sourceTree = "<group>"; };
-		9D8A983123C7F74F004E20FE /* KeyWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyWindowFinder.swift; sourceTree = "<group>"; };
 		9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneStore.swift; sourceTree = "<group>"; };
 		9D8A983923C7FD1F004E20FE /* MockHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormone.swift; sourceTree = "<group>"; };
 		9D8A983B23CBC071004E20FE /* MockSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSite.swift; sourceTree = "<group>"; };
@@ -731,7 +719,6 @@
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* NotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduling.swift; sourceTree = "<group>"; };
-		9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PatchDayToday.entitlements; sourceTree = "<group>"; };
 		9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModel.swift; sourceTree = "<group>"; };
 		9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModelTests.swift; sourceTree = "<group>"; };
 		9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModel.swift; sourceTree = "<group>"; };
@@ -772,11 +759,6 @@
 		B458994120F8865C00D36B06 /* MOHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOHormone.swift; sourceTree = "<group>"; };
 		B468414121DC815A00A0BE73 /* HormoneScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneScheduleTests.swift; sourceTree = "<group>"; };
 		B468F4A020D9BDBA007FC689 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
-		B480EE0621CC72DB002C2238 /* PatchDayToday.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PatchDayToday.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		B480EE0921CC72DB002C2238 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
-		B480EE0C21CC72DB002C2238 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		B480EE0E21CC72DB002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B480EE1521CC7328002C2238 /* TodayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewModel.swift; sourceTree = "<group>"; };
 		B480EE1C21CC7553002C2238 /* PatchData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PatchData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B480EE1E21CC7553002C2238 /* PatchData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PatchData.h; sourceTree = "<group>"; };
 		B480EE1F21CC7553002C2238 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -800,6 +782,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */,
+				9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */,
 				9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -829,15 +812,6 @@
 			files = (
 				9D6E9B33245DBD5B003BBCC9 /* PDMock.framework in Frameworks */,
 				B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B480EE0321CC72DB002C2238 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B4700F1F21E5732800C8EFB6 /* PDKit.framework in Frameworks */,
-				B480EE0721CC72DB002C2238 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,7 +849,6 @@
 				137330EB1E22BA3E0048F91E /* PatchDay */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B40CC9B021CCE614002364BB /* PDKitTests */,
-				B480EE0821CC72DB002C2238 /* PatchDayToday */,
 				B480EE1D21CC7553002C2238 /* PatchData */,
 				B480EE2A21CC7554002C2238 /* PatchDataTests */,
 				9D8A981223C573B3004E20FE /* PDMock */,
@@ -891,7 +864,6 @@
 			children = (
 				137330E91E22BA3E0048F91E /* PatchDay.app */,
 				B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */,
-				B480EE0621CC72DB002C2238 /* PatchDayToday.appex */,
 				B480EE1C21CC7553002C2238 /* PatchData.framework */,
 				B480EE2421CC7554002C2238 /* PatchDataTests.xctest */,
 				B40CC9AF21CCE614002364BB /* PDKitTests.xctest */,
@@ -908,7 +880,6 @@
 				3397CB13E4C554A7E1BA95B1 /* Alerts */,
 				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
 				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
-				9D8A983123C7F74F004E20FE /* KeyWindowFinder.swift */,
 				9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */,
 				9D22698B23750E5300828B5F /* Notifications */,
 				9D0177F92251983C00A24E48 /* Storyboards */,
@@ -1227,14 +1198,6 @@
 			path = Alerts;
 			sourceTree = "<group>";
 		};
-		9D1908D22460C76900E95244 /* DataSharing */ = {
-			isa = PBXGroup;
-			children = (
-				9D1908D32460C79700E95244 /* TodayAppDataKeys.swift */,
-			);
-			path = DataSharing;
-			sourceTree = "<group>";
-		};
 		9D1908DD2468310800E95244 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1327,11 +1290,11 @@
 		9D69B1DF256C7B2200213E79 /* PatchDayWidget */ = {
 			isa = PBXGroup;
 			children = (
-				9D69B1E0256C7B2200213E79 /* PatchDayWidget.swift */,
-				9D69B1E2256C7B2200213E79 /* PatchDayWidget.intentdefinition */,
+				9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */,
 				9D69B1E3256C7B2400213E79 /* Assets.xcassets */,
 				9D69B1E5256C7B2400213E79 /* Info.plist */,
 				9D4D05C8256C7C980037A2E6 /* WidgetData.swift */,
+				9D4D05E8256DC31E0037A2E6 /* NextPillWidget.swift */,
 			);
 			path = PatchDayWidget;
 			sourceTree = "<group>";
@@ -1906,21 +1869,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B480EE0821CC72DB002C2238 /* PatchDayToday */ = {
-			isa = PBXGroup;
-			children = (
-				9DC0107321FE64040024E7CE /* PatchDayToday.entitlements */,
-				B480EE0921CC72DB002C2238 /* TodayViewController.swift */,
-				B480EE1521CC7328002C2238 /* TodayViewModel.swift */,
-				B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */,
-				B480EE0E21CC72DB002C2238 /* Info.plist */,
-				3397CEC480B40360BA66C97A /* TodayData.swift */,
-				3397C0A09251F19ABD646FD4 /* TodayDataDelegate.swift */,
-				3397C478C3A31A2B19EE03A6 /* PDTStructFactory.swift */,
-			);
-			path = PatchDayToday;
-			sourceTree = "<group>";
-		};
 		B480EE1D21CC7553002C2238 /* PatchData */ = {
 			isa = PBXGroup;
 			children = (
@@ -1989,7 +1937,6 @@
 			children = (
 				9D78886C2558625500DC0F6D /* UI */,
 				9D788732254E0CB500DC0F6D /* Commands */,
-				9D1908D22460C76900E95244 /* DataSharing */,
 				9D6DB7CE2405FEA900C00711 /* Settings */,
 				9D913B7B22FF3BD6001FC03C /* Protocols */,
 				B40CC9A721CCE4AE002364BB /* Resources */,
@@ -2061,7 +2008,6 @@
 			);
 			dependencies = (
 				B49A4A5220DB2D4C00F24FC0 /* PBXTargetDependency */,
-				B480EE1021CC72DB002C2238 /* PBXTargetDependency */,
 				B480EE3021CC7554002C2238 /* PBXTargetDependency */,
 				9D69B1E9256C7B2400213E79 /* PBXTargetDependency */,
 			);
@@ -2077,10 +2023,12 @@
 				9D69B1D6256C7B2200213E79 /* Sources */,
 				9D69B1D7256C7B2200213E79 /* Frameworks */,
 				9D69B1D8256C7B2200213E79 /* Resources */,
+				9D4D05F5256F61D20037A2E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9D4D05F4256F61D20037A2E6 /* PBXTargetDependency */,
 			);
 			name = PatchDayWidgetExtension;
 			productName = PatchDayWidgetExtension;
@@ -2145,24 +2093,6 @@
 			productName = PDKitTests;
 			productReference = B40CC9AF21CCE614002364BB /* PDKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		B480EE0521CC72DB002C2238 /* PatchDayToday */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B480EE1221CC72DB002C2238 /* Build configuration list for PBXNativeTarget "PatchDayToday" */;
-			buildPhases = (
-				B480EE0221CC72DB002C2238 /* Sources */,
-				B480EE0321CC72DB002C2238 /* Frameworks */,
-				B480EE0421CC72DB002C2238 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				9D6E9B1624564708003BBCC9 /* PBXTargetDependency */,
-			);
-			name = PatchDayToday;
-			productName = PatchDayToday;
-			productReference = B480EE0621CC72DB002C2238 /* PatchDayToday.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		B480EE1B21CC7553002C2238 /* PatchData */ = {
 			isa = PBXNativeTarget;
@@ -2268,17 +2198,6 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
-					B480EE0521CC72DB002C2238 = {
-						CreatedOnToolsVersion = 10.1;
-						DevelopmentTeam = 8U33TMB35U;
-						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
-						};
-					};
 					B480EE1B21CC7553002C2238 = {
 						CreatedOnToolsVersion = 10.1;
 						DevelopmentTeam = 8U33TMB35U;
@@ -2315,7 +2234,6 @@
 			targets = (
 				137330E81E22BA3E0048F91E /* PatchDay */,
 				B49A4A3D20DB2D4C00F24FC0 /* PDKit */,
-				B480EE0521CC72DB002C2238 /* PatchDayToday */,
 				B480EE1B21CC7553002C2238 /* PatchData */,
 				B480EE2321CC7554002C2238 /* PatchDataTests */,
 				B40CC9AE21CCE614002364BB /* PDKitTests */,
@@ -2367,14 +2285,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B480EE0421CC72DB002C2238 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B480EE0D21CC72DB002C2238 /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B480EE1A21CC7553002C2238 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2404,7 +2314,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D3E4C7E22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift in Sources */,
-				9D69B1E7256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */,
 				9DDF47E1234D670C005AA467 /* PillNotificationActionHandler.swift in Sources */,
 				9D3E4C8222B5B47E00C82DAE /* DuePillNotification.swift in Sources */,
 				B440110C21DF2CBD00C94B76 /* patchData.xcdatamodeld in Sources */,
@@ -2425,11 +2334,11 @@
 				3397CE0D3255A3D28540FD6F /* PDViewFactory.swift in Sources */,
 				3397CEAA73285A8C81B07DFF /* HormoneDetailViewModel.swift in Sources */,
 				3397C25AE996E55A7FA08DCC /* TableCell.swift in Sources */,
+				9D4D05E9256DC31E0037A2E6 /* NextPillWidget.swift in Sources */,
 				3397C77AC63E9C7EB9409EB4 /* TableViewWrapper.swift in Sources */,
 				3397C4C2E415FD8B9097A348 /* UIKit+PatchDay.swift in Sources */,
 				3397C3EF27D567221BCBBAA3 /* SiteImages.swift in Sources */,
 				9DDAB03223FAE5DD00E6EEF6 /* NewSiteAlertActionHandler.swift in Sources */,
-				9D8A983223C7F74F004E20FE /* KeyWindowFinder.swift in Sources */,
 				3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */,
 				3397C7AA5FCCF3F70851A96C /* PillCell.swift in Sources */,
 				3397C6153828AAF32DFBA6B2 /* PillsViewModel.swift in Sources */,
@@ -2484,8 +2393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D69B1E6256C7B2400213E79 /* PatchDayWidget.intentdefinition in Sources */,
-				9D69B1E1256C7B2200213E79 /* PatchDayWidget.swift in Sources */,
+				9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2581,18 +2489,6 @@
 				3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */,
 				3397C34B5CDE52B87B10C481 /* PatchDataLoggingPlayground.swift in Sources */,
 				9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B480EE0221CC72DB002C2238 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9DC5135A23973C1700A5138B /* TodayDataDelegate.swift in Sources */,
-				B480EE0A21CC72DB002C2238 /* TodayViewController.swift in Sources */,
-				B480EE1621CC7328002C2238 /* TodayViewModel.swift in Sources */,
-				9DC5135923973C1400A5138B /* TodayData.swift in Sources */,
-				3397CAA239E115AFAB4DB0EC /* PDTStructFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2699,7 +2595,6 @@
 				9D78A9E12386354F00058AD9 /* PDConstants.swift in Sources */,
 				9D8F45E02496605F00F2C39A /* AlertProducing.swift in Sources */,
 				9D78883525585E2A00DC0F6D /* PillDetailViewModelProtocol.swift in Sources */,
-				9D1908D42460C79700E95244 /* TodayAppDataKeys.swift in Sources */,
 				B49A4A5D20DB2D5A00F24FC0 /* PDColors.swift in Sources */,
 				9D7887F52558569C00DC0F6D /* PillCellProtocol.swift in Sources */,
 				9D788815255857B200DC0F6D /* PillCellViewModelProtocol.swift in Sources */,
@@ -2751,6 +2646,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		9D4D05F4256F61D20037A2E6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B49A4A3D20DB2D4C00F24FC0 /* PDKit */;
+			targetProxy = 9D4D05F3256F61D20037A2E6 /* PBXContainerItemProxy */;
+		};
 		9D69B1E9256C7B2400213E79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9D69B1D9256C7B2200213E79 /* PatchDayWidgetExtension */;
@@ -2796,11 +2696,6 @@
 			target = 9D8A981023C573B3004E20FE /* PDMock */;
 			targetProxy = 9D6E9B1324564703003BBCC9 /* PBXContainerItemProxy */;
 		};
-		9D6E9B1624564708003BBCC9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B49A4A3D20DB2D4C00F24FC0 /* PDKit */;
-			targetProxy = 9D6E9B1524564708003BBCC9 /* PBXContainerItemProxy */;
-		};
 		9D6E9B32245DBD53003BBCC9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9D8A981023C573B3004E20FE /* PDMock */;
@@ -2810,11 +2705,6 @@
 			isa = PBXTargetDependency;
 			target = B49A4A3D20DB2D4C00F24FC0 /* PDKit */;
 			targetProxy = B40CC9B521CCE614002364BB /* PBXContainerItemProxy */;
-		};
-		B480EE1021CC72DB002C2238 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B480EE0521CC72DB002C2238 /* PatchDayToday */;
-			targetProxy = B480EE0F21CC72DB002C2238 /* PBXContainerItemProxy */;
 		};
 		B480EE2721CC7554002C2238 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2849,14 +2739,6 @@
 				137330F61E22BA3E0048F91E /* Base */,
 			);
 			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		B480EE0B21CC72DB002C2238 /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B480EE0C21CC72DB002C2238 /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -2912,7 +2794,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2967,7 +2849,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -3275,67 +3157,6 @@
 			};
 			name = Release;
 		};
-		B480EE1321CC72DB002C2238 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = PatchDayToday/PatchDayToday.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8U33TMB35U;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PatchDayToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 3.1.1;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PDToday;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		B480EE1421CC72DB002C2238 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = PatchDayToday/PatchDayToday.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 8U33TMB35U;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = PatchDayToday/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 3.1.1;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.PDToday;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		B480EE3421CC7554002C2238 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3591,15 +3412,6 @@
 			buildConfigurations = (
 				B40CC9B821CCE614002364BB /* Debug */,
 				B40CC9B921CCE614002364BB /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B480EE1221CC72DB002C2238 /* Build configuration list for PBXNativeTarget "PatchDayToday" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B480EE1321CC72DB002C2238 /* Debug */,
-				B480EE1421CC72DB002C2238 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
