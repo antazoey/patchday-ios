@@ -100,14 +100,6 @@ struct PlaceholderView : View {
 struct NextHormoneWidgetView : View {
     let entry: NextHormoneEntry
 
-    let title = "PD-HRT-NEXT"
-
-    var titleView: some View {
-        Text(title)
-            .font(.system(.title3))
-            .foregroundColor(.black)
-    }
-
     func getHormoneText(_ entry: NextHormoneEntry) -> String {
         entry.hormone.name ?? NSLocalizedString(
             "...", comment: "Widget"
@@ -117,7 +109,7 @@ struct NextHormoneWidgetView : View {
     func getDateText(_ entry: NextHormoneEntry) -> String {
         var expDateText: String
         if let storedDate = entry.hormone.date {
-            expDateText = "At: \(Self.format(date: storedDate))"
+            expDateText = Self.format(date: storedDate)
         } else {
             expDateText = "..."
         }
@@ -126,8 +118,8 @@ struct NextHormoneWidgetView : View {
 
     var gradient: Gradient {
         Gradient(colors: [
-            Color(PDColors[.Selected]),
-            Color(PDColors[.EvenCell])
+            .pink,
+            .white
         ])
     }
 
@@ -135,7 +127,14 @@ struct NextHormoneWidgetView : View {
         let hormoneNameText = getHormoneText(entry)
         let expDateText = getDateText(entry)
         return VStack(alignment: .leading, spacing: 4) {
-            titleView
+            Text(hormoneNameText)
+                .font(.system(.callout))
+                .foregroundColor(.black)
+                .bold()
+            Text(expDateText)
+                .font(.system(.caption2))
+                .foregroundColor(.black)
+
             Text(hormoneNameText)
                 .font(.system(.callout))
                 .foregroundColor(.black)
