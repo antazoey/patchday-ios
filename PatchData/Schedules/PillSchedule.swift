@@ -66,23 +66,20 @@ public class PillSchedule: NSObject, PillScheduling {
 
     @discardableResult
     public func insertNew(onSuccess: (() -> Void)?) -> Swallowable? {
-        if var pill = store.createNewPill() {
-            pill.notify = true
-            context.append(pill)
-            store.pushLocalChangesToManagedContext([pill], doSave: true)
-            onSuccess?()
-            shareData()
-            return pill
-        }
-        return nil
+        guard var pill = store.createNewPill() else { return nil }
+        pill.notify = true
+        context.append(pill)
+        store.pushLocalChangesToManagedContext([pill], doSave: true)
+        onSuccess?()
+        shareData()
+        return pill
     }
 
     public func delete(at index: Index) {
-        if let pill = self[index] {
-            context.remove(at: index)
-            store.delete(pill)
-            shareData()
-        }
+        guard let pill = self[index] else { return }
+        context.remove(at: index)
+        store.delete(pill)
+        shareData()
     }
 
     public func reset() {
@@ -100,27 +97,23 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func set(at index: Index, with attributes: PillAttributes) {
-        if var pill = self[index] {
-            set(&pill, with: attributes)
-        }
+        guard var pill = self[index] else { return }
+        set(&pill, with: attributes)
     }
 
     public func set(by id: UUID, with attributes: PillAttributes) {
-        if var pill = self[id] {
-            set(&pill, with: attributes)
-        }
+        guard var pill = self[id] else { return }
+        set(&pill, with: attributes)
     }
 
     public func swallow(_ id: UUID, onSuccess: (() -> Void)?) {
-        if let pill = self[id] {
-            swallow(pill, onSuccess) // Saves
-        }
+        guard let pill = self[id] else { return }
+        swallow(pill, onSuccess) // Saves
     }
 
     public func swallow(onSuccess: (() -> Void)?) {
-        if let pill = nextDue {
-            swallow(pill, onSuccess)
-        }
+        guard let pill = nextDue else { return }
+        swallow(pill, onSuccess)
     }
 
     public func indexOf(_ pill: Swallowable) -> Index? {
@@ -128,9 +121,8 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     public func shareData() {
-        if let next = nextDue {
-            sharer.share(nextPill: next)
-        }
+        guard let next = nextDue else { return }
+        sharer.share(nextPill: next)
     }
 
     // MARK: - Private
@@ -149,11 +141,11 @@ public class PillSchedule: NSObject, PillScheduling {
     }
 
     private func swallow(_ pill: Swallowable, _ onSuccess: (() -> Void)?) {
-        if pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil {
-            pill.swallow()
-            store.pushLocalChangesToManagedContext([pill], doSave: true)
-            onSuccess?()
-        }
+        guard pill.timesTakenToday < pill.timesaday || pill.lastTaken == nil else { return }
+        pill.swallow()
+        store.pushLocalChangesToManagedContext([pill], doSave: true)
+        onSuccess?()
+        shareData()
     }
 
     private func deleteAll() {

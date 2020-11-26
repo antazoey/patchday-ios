@@ -433,4 +433,16 @@ class PillScheduleTests: XCTestCase {
         pills.swallow(mockPills[1].id, onSuccess: comp)
         XCTAssertTrue(didCall)
     }
+
+    public func testSwallow_inCaseWhereTakes_sharesData() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].timesaday = 10
+        mockPills[1].lastTaken = nil // Key to test
+
+        pills.swallow(mockPills[1].id, onSuccess: {})
+        XCTAssertEqual(1, mockDataSharer.shareCallArgs.count)
+        XCTAssertEqual(mockPills[1].id, mockDataSharer.shareCallArgs[0].id)
+    }
 }
