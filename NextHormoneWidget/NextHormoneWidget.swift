@@ -8,7 +8,6 @@
 
 import WidgetKit
 import SwiftUI
-import Intents
 import PDKit
 
 struct NextHormone {
@@ -30,12 +29,6 @@ struct NextHormoneLoader {
         let nextDate = self.getNextHormoneExpirationDate()
         let next = NextHormone(name: siteName, date: nextDate)
         completion(next)
-    }
-
-    // TODO: Figure out if needed
-    private static func getDeliveryMethod() -> String? {
-        let key = PDSetting.DeliveryMethod.rawValue
-        return defaults.string(forKey: key)
     }
 
     private static func getNextHormoneSiteName() -> String? {
@@ -65,7 +58,8 @@ struct NextHormoneTimeline: TimelineProvider {
         in context: Context, completion: @escaping (Timeline<NextHormoneEntry>
     ) -> Void) {
         let currentDate = Date()
-        let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)!
+        let refreshDate = Calendar.current.date(byAdding: .minute, value: 5, to: currentDate)
+            ?? currentDate
 
         NextHormoneLoader.fetch {
             nextHormone in
@@ -100,67 +94,38 @@ struct PlaceholderView : View {
 struct NextHormoneWidgetView : View {
     let entry: NextHormoneEntry
 
-    func getHormoneText(_ entry: NextHormoneEntry) -> String {
-        entry.hormone.name ?? NSLocalizedString(
-            "...", comment: "Widget"
-        )
-    }
-
-    func getDateText(_ entry: NextHormoneEntry) -> String {
-        var expDateText: String
-        if let storedDate = entry.hormone.date {
-            expDateText = Self.format(date: storedDate)
-        } else {
-            expDateText = "..."
-        }
-        return expDateText
-    }
-
     var gradient: Gradient {
-        Gradient(colors: [
-            .pink,
-            .white
-        ])
+        Gradient(colors: [.pink, .white])
     }
 
     var body: some View {
-        let hormoneNameText = getHormoneText(entry)
-        let expDateText = getDateText(entry)
-        return VStack(alignment: .leading, spacing: 4) {
-            Text(hormoneNameText)
-                .font(.system(.callout))
-                .foregroundColor(.black)
-                .bold()
-            Text(expDateText)
-                .font(.system(.caption2))
-                .foregroundColor(.black)
+        var dateText: String?
+        if let d = entry.hormone.date {
+            dateText = PDDateFormatter.formatDate(d)
+        }
 
-            Text(hormoneNameText)
-                .font(.system(.callout))
-                .foregroundColor(.black)
-                .bold()
-            Text(expDateText)
-                .font(.system(.caption2))
-                .foregroundColor(.black)
-        }.frame(
+        var nameTextView: Text?
+        if let n = entry.hormone.name {
+            nameTextView = Text(n).font(.system(.callout)).foregroundColor(.black).bold()
+        }
+
+        var dateTextView: Text?
+        if let d = dateText {
+            dateTextView = Text(d).font(.system(.caption2)).foregroundColor(.black)
+        }
+
+        return VStack(alignment: .leading, spacing: 4) {
+            nameTextView
+            dateTextView
+        }
+        .frame(
             minWidth: 0,
             maxWidth: .infinity,
             minHeight: 0,
             maxHeight: .infinity,
             alignment: .leading
         )
-            .padding()
-            .background(
-                LinearGradient(
-                    gradient: gradient,
-                    startPoint: .top,
-                    endPoint: .bottom)
-            )
-    }
-
-    static func format(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yyyy HH:mm"
-        return formatter.string(from: date)
+        .padding()
+        .background(LinearGradient(gradient: gradient, startPoint: .top, endPoint: .bottom))
     }
 }
