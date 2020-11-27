@@ -8,6 +8,7 @@
 
 import UIKit
 import PDKit
+import WidgetKit
 
 typealias PillName = String
 
@@ -48,6 +49,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel.pillsTable.reloadData()
         reloadInputViews()
         applyTheme()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

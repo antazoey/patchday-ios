@@ -24,6 +24,10 @@ Changed
 - On the Pill details view:
 	- Times are now enumerated as rows.
 	- The view scrolls.
+- The data for the new Next Hormone Widget (formerly, the Today app) has changed:
+	- Now, only the expiration date and the delivery method (Patch, Gel, etc.) are shown for expired Hormones,
+	e.g. "Next Patch: Tomorrow at 12:00". This is to make it less confusing about which date is shown and to focus on
+	information that is most relevant.
 
 ## 3.1.1
 

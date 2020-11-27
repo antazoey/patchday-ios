@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import PDKit
+import WidgetKit
 
 class HormonesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -45,6 +46,7 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
         viewModel.table.reloadData()
         viewModel.updateSiteImages()
         applyTheme()
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     override func viewDidLayoutSubviews() {

@@ -53,7 +53,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public var totalExpired: Int {
-        all.reduce(0, {    c, h in (h.isExpired ? 1 : 0) + c })
+        all.reduce(0, { c, h in (h.isExpired ? 1 : 0) + c })
     }
 
     public func reloadContext() {

@@ -46,7 +46,6 @@ public class PatchData: NSObject, PatchDataSDK {
         super.init()
     }
 
-    // Run
     public override convenience init() {
         let storeDataStackWrapper = CoreDataStackWrapper()
         let hormoneStore = HormoneStore(storeDataStackWrapper)
