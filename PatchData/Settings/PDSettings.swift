@@ -1,5 +1,5 @@
 //
-//  PDDefaults.swift
+//  PDSettings.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 11/11/19.
@@ -32,7 +32,9 @@ public class PDSettings: PDSettingsManaging {
     public var expirationInterval: ExpirationIntervalUD { writer.expirationInterval }
     public var quantity: QuantityUD { writer.quantity }
     public var notifications: NotificationsUD { writer.notifications }
-    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD { writer.notificationsMinutesBefore }
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
+        writer.notificationsMinutesBefore
+    }
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
 

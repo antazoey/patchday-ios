@@ -60,9 +60,7 @@ public class PatchData: NSObject, PatchDataSDK {
         )
         let pills = PillSchedule(store: pillStore, pillDataSharer: pillDataSharer)
         let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
-        let hormoneDataSharer = HormoneDataSharer(
-            baseSharer: dataSharer, sites: sites, settings: userDefaultsWriter
-        )
+        let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer)
         let hormones = HormoneSchedule(
             store: hormoneStore,
             hormoneDataSharer: hormoneDataSharer,

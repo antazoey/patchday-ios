@@ -25,8 +25,7 @@ public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
         self.dataSharer = dataSharer
     }
 
-    public func replace<T>(_ v: inout T, to newValue: T.RawValue) where T: KeyStorable {
-        v.rawValue = newValue
+    public func replace<T>(_ v: T, to newValue: T.RawValue) where T: KeyStorable {
         dataSharer.set(newValue, for: v.setting.rawValue)
         base.set(newValue, for: v.setting.rawValue)
     }

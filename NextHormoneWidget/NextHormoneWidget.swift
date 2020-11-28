@@ -11,10 +11,10 @@ import SwiftUI
 import PDKit
 
 struct NextHormone {
-    let hormone: String?
-    let hormoneDate: Date?
+    let hormoneExpirationDate: Date?
     let pill: String?
     let pillDue: Date?
+    let deliveryMethod: DeliveryMethod?
 }
 
 struct NextHormoneEntry: TimelineEntry {
@@ -26,29 +26,32 @@ struct NextHormoneLoader {
     private static var defaults = UserDefaults(suiteName: PDSharedDataGroupName)
 
     static func fetch(completion: @escaping (NextHormone) -> Void) {
-        let siteName = self.getNextHormoneSiteName()
-        let nextDate = self.getNextHormoneExpirationDate()
-        let pillName = self.getNextPillName()
-        let pillDate = self.getNextPillDate()
         let next = NextHormone(
-            hormone: siteName, hormoneDate: nextDate, pill: pillName, pillDue: pillDate
+            hormoneExpirationDate: nextHormoneExpirationDate,
+            pill: nextPillName,
+            pillDue: nextPillDate,
+            deliveryMethod: deliveryMethod
         )
         completion(next)
     }
 
-    private static func getNextHormoneSiteName() -> String? {
-        defaults?.string(forKey: SharedDataKey.NextHormoneSiteName.rawValue)
+    private static var deliveryMethod: DeliveryMethod {
+        let key = PDSetting.DeliveryMethod.rawValue
+        guard let storedValue = defaults?.string(forKey: key) else {
+            return DefaultSettings.DeliveryMethodValue
+        }
+        return DeliveryMethodUD(storedValue).value
     }
 
-    private static func getNextHormoneExpirationDate() -> Date? {
+    private static var nextHormoneExpirationDate: Date? {
         defaults?.object(forKey: SharedDataKey.NextHormoneDate.rawValue) as? Date
     }
 
-    private static func getNextPillName() -> String? {
+    private static var nextPillName: String? {
         defaults?.string(forKey: SharedDataKey.NextPillToTake.rawValue)
     }
 
-    private static func getNextPillDate() -> Date? {
+    private static var nextPillDate: Date? {
         defaults?.object(forKey: SharedDataKey.NextPillTakeTime.rawValue) as? Date
     }
 }
@@ -58,10 +61,10 @@ struct NextHormoneTimeline: TimelineProvider {
 
     func placeholder(in context: Context) -> NextHormoneEntry {
         let fakeHormone = NextHormone(
-            hormone: SiteStrings.RightAbdomen,
-            hormoneDate: Date(),
+            hormoneExpirationDate: Date(),
             pill: PillStrings.DefaultPills[0],
-            pillDue: Date()
+            pillDue: Date(),
+            deliveryMethod: .Patches
         )
         return NextHormoneEntry(date: Date(), hormone: fakeHormone)
     }
@@ -107,12 +110,12 @@ struct PlaceholderView : View {
 }
 
 struct StringTextWidgetView : View {
-    let str: String?
+    let text: String?
 
     var body: some View {
         var view: Text?
-        if let s = str {
-            view = Text(s).font(.system(.callout)).foregroundColor(.black).bold()
+        if let s = text {
+            view = Text(s).font(.system(.caption)).foregroundColor(.black).bold()
         }
         return view
     }
@@ -146,12 +149,35 @@ struct NextHormoneWidgetView : View {
         Gradient(colors: [.pink, .white])
     }
 
+    var headerView: StringTextWidgetView? {
+        guard let method = entry.hormone.deliveryMethod else { return nil }
+        let methodString = SiteStrings.getDeliveryMethodString(method)
+        let text = NSLocalizedString("Next \(methodString)", comment: "Widget view")
+        return StringTextWidgetView(text: text)
+    }
+
+    var hormoneExpirationTextView: DateTextWidgetView? {
+        guard let date = entry.hormone.hormoneExpirationDate else { return nil }
+        return DateTextWidgetView(date: date)
+    }
+
+    var nextPillView: StringTextWidgetView? {
+        guard let pill = entry.hormone.pill else { return nil }
+        let text = NSLocalizedString("Next \(pill)", comment: "Widget view")
+        return StringTextWidgetView(text: text)
+    }
+
+    var nextPillDueView: DateTextWidgetView? {
+        guard let date = entry.hormone.pillDue else { return nil }
+        return DateTextWidgetView(date: date)
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            StringTextWidgetView(str: entry.hormone.hormone)
-            DateTextWidgetView(date: entry.hormone.hormoneDate)
-            StringTextWidgetView(str: entry.hormone.pill)
-            DateTextWidgetView(date: entry.hormone.pillDue)
+            headerView
+            hormoneExpirationTextView
+            nextPillView
+            nextPillDueView
         }
         .frame(minWidth: 0, maxWidth: max, minHeight: 0, maxHeight: max, alignment: .leading)
         .padding()

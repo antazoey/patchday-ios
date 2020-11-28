@@ -14,43 +14,11 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     // Dependencies
     private let handler: UserDefaultsWriteHandler
 
-    // Defaults
-    public var deliveryMethod: DeliveryMethodUD
-    public var expirationInterval: ExpirationIntervalUD
-    public var quantity: QuantityUD
-    public var notifications: NotificationsUD
-    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD
-    public var mentionedDisclaimer: MentionedDisclaimerUD
-    public var siteIndex: SiteIndexUD
-
     private var sites: SiteStoring
 
     init(handler: UserDefaultsWriteHandler, siteStore: SiteStoring) {
         self.handler = handler
         self.sites = siteStore
-        typealias D = DefaultSettings
-
-        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: D.DeliveryMethodRawValue)
-        let expirationInterval = handler.load(
-            setting: .ExpirationInterval, defaultValue: D.ExpirationIntervalRawValue
-        )
-        let quantity = handler.load(setting: .Quantity, defaultValue: D.QuantityRawValue)
-        let notifications = handler.load(setting: .Notifications, defaultValue: D.NotificationsRawValue)
-        let notificationsMinutesBefore = handler.load(
-            setting: .NotificationsMinutesBefore, defaultValue: D.NotificationsMinutesBeforeRawValue
-        )
-        let mentionedDisclaimer = handler.load(
-            setting: .MentionedDisclaimer, defaultValue: D.MentionedDisclaimerRawValue
-        )
-        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: D.SiteIndexRawValue)
-
-        self.deliveryMethod = DeliveryMethodUD(deliveryMethod)
-        self.expirationInterval = ExpirationIntervalUD(expirationInterval)
-        self.quantity = QuantityUD(quantity)
-        self.notifications = NotificationsUD(notifications)
-        self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(notificationsMinutesBefore)
-        self.mentionedDisclaimer = MentionedDisclaimerUD(mentionedDisclaimer)
-        self.siteIndex = SiteIndexUD(siteIndex)
     }
 
     public func reset(defaultSiteCount: Int = 4) {
@@ -58,7 +26,9 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         replaceStoredExpirationInterval(to: DefaultSettings.ExpirationIntervalValue)
         replaceStoredQuantity(to: DefaultSettings.QuantityRawValue)
         replaceStoredNotifications(to: DefaultSettings.NotificationsRawValue)
-        replaceStoredNotificationsMinutesBefore(to: DefaultSettings.NotificationsMinutesBeforeRawValue)
+        replaceStoredNotificationsMinutesBefore(
+            to: DefaultSettings.NotificationsMinutesBeforeRawValue
+        )
         replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
         replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
 
@@ -66,37 +36,35 @@ public class UserDefaultsWriter: UserDefaultsWriting {
 
     public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
         let rawValue = DeliveryMethodUD.getRawValue(for: newValue)
-        //let newQuantity = DefaultQuantities.Hormone[newValue]
-        handler.replace(&deliveryMethod, to: rawValue)
-        //handler.replace(&quantity, to: newQuantity)
+        handler.replace(deliveryMethod, to: rawValue)
     }
 
     @objc public func replaceStoredQuantity(to newValue: Int) {
-        handler.replace(&quantity, to: newValue)
+        handler.replace(quantity, to: newValue)
     }
 
     public func replaceStoredExpirationInterval(to newValue: ExpirationInterval) {
         let rawValue = ExpirationIntervalUD.getRawValue(for: newValue)
-        handler.replace(&expirationInterval, to: rawValue)
+        handler.replace(expirationInterval, to: rawValue)
     }
 
     public func replaceStoredNotifications(to newValue: Bool) {
-        handler.replace(&notifications, to: newValue)
+        handler.replace(notifications, to: newValue)
     }
 
     public func replaceStoredNotificationsMinutesBefore(to newValue: Int) {
-        handler.replace(&notificationsMinutesBefore, to: newValue)
+        handler.replace(notificationsMinutesBefore, to: newValue)
     }
 
     public func replaceStoredMentionedDisclaimer(to newValue: Bool) {
-        handler.replace(&mentionedDisclaimer, to: newValue)
+        handler.replace(mentionedDisclaimer, to: newValue)
     }
 
     @discardableResult
     public func replaceStoredSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()
         if storedSites.count == 0 || newValue >= storedSites.count || newValue < 0 {
-            handler.replace(&siteIndex, to: 0)
+            handler.replace(siteIndex, to: 0)
             return 0
         }
         var newIndex = newValue
@@ -110,7 +78,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
             }
         }
         PDLog<UserDefaultsWriter>().info("Settings new site index to \(newIndex)")
-        handler.replace(&siteIndex, to: newIndex)
+        handler.replace(siteIndex, to: newIndex)
         return newIndex
     }
 
@@ -120,7 +88,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         let siteCount = sites.siteCount
 
         if siteCount == 0 {
-            handler.replace(&siteIndex, to: 0)
+            handler.replace(siteIndex, to: 0)
             return 0
         }
 
@@ -129,5 +97,49 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         }
         let incrementedIndex = (currentIndex + 1) % sites.siteCount
         return replaceStoredSiteIndex(to: incrementedIndex)
+    }
+
+    public var deliveryMethod: DeliveryMethodUD {
+        let def = DefaultSettings.DeliveryMethodRawValue
+        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: def)
+        return DeliveryMethodUD(deliveryMethod)
+    }
+
+    public var expirationInterval: ExpirationIntervalUD {
+        let def = DefaultSettings.ExpirationIntervalRawValue
+        let expirationInterval = handler.load(setting: .ExpirationInterval, defaultValue: def)
+        return ExpirationIntervalUD(expirationInterval)
+    }
+
+    public var quantity: QuantityUD {
+        let def = DefaultSettings.QuantityRawValue
+        let quantity = handler.load(setting: .Quantity, defaultValue: def)
+        return QuantityUD(quantity)
+    }
+
+    public var notifications: NotificationsUD {
+        let def = DefaultSettings.NotificationsRawValue
+        let notifications = handler.load(setting: .Notifications, defaultValue: def)
+        return NotificationsUD(notifications)
+    }
+
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
+        let def = DefaultSettings.NotificationsMinutesBeforeRawValue
+        let notificationsMinutesBefore = handler.load(
+            setting: .NotificationsMinutesBefore, defaultValue: def
+        )
+        return NotificationsMinutesBeforeUD(notificationsMinutesBefore)
+    }
+
+    public var mentionedDisclaimer: MentionedDisclaimerUD {
+        let def = DefaultSettings.MentionedDisclaimerRawValue
+        let mentionedDisclaimer = handler.load(setting: .MentionedDisclaimer, defaultValue: def)
+        return MentionedDisclaimerUD(mentionedDisclaimer)
+    }
+
+    public var siteIndex: SiteIndexUD {
+        let def = DefaultSettings.SiteIndexRawValue
+        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
+        return SiteIndexUD(siteIndex)
     }
 }
