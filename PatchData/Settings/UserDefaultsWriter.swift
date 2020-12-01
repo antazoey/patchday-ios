@@ -77,7 +77,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
                 }
             }
         }
-        PDLog<UserDefaultsWriter>().info("Settings new site index to \(newIndex)")
+        PDLog<UserDefaultsWriter>().info("Setting new site index to \(newIndex)")
         handler.replace(siteIndex, to: newIndex)
         return newIndex
     }

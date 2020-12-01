@@ -83,7 +83,7 @@
 		9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* HormoneStringsTests.swift */; };
 		9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */; };
 		9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */; };
-		9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */; };
+		9D1908DC2466FD7D00E95244 /* MockUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */; };
 		9D1908DF2468315F00E95244 /* SettingsSavePointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */; };
 		9D1908E1246834EF00E95244 /* MockDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E0246834EF00E95244 /* MockDependencies.swift */; };
 		9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E2246835E900E95244 /* DependenciesProtocol.swift */; };
@@ -554,7 +554,7 @@
 		9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataWrapping.swift; sourceTree = "<group>"; };
 		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
 		9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsInterface.swift; sourceTree = "<group>"; };
-		9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaultsInterface.swift; sourceTree = "<group>"; };
+		9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaults.swift; sourceTree = "<group>"; };
 		9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSavePointTests.swift; sourceTree = "<group>"; };
 		9D1908E0246834EF00E95244 /* MockDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDependencies.swift; sourceTree = "<group>"; };
 		9D1908E2246835E900E95244 /* DependenciesProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependenciesProtocol.swift; sourceTree = "<group>"; };
@@ -1543,7 +1543,7 @@
 			children = (
 				9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */,
 				9D6E9AFC24563454003BBCC9 /* MockSettings.swift */,
-				9D1908DB2466FD7D00E95244 /* MockUserDefaultsInterface.swift */,
+				9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */,
 			);
 			path = MockSettings;
 			sourceTree = "<group>";
@@ -2436,7 +2436,7 @@
 				9D8F45E52496626B00F2C39A /* MockAlertFactory.swift in Sources */,
 				9D1908E82468375200E95244 /* MockNotifications.swift in Sources */,
 				9D8A982723C574F5004E20FE /* MockUserDefaultsWriter.swift in Sources */,
-				9D1908DC2466FD7D00E95244 /* MockUserDefaultsInterface.swift in Sources */,
+				9D1908DC2466FD7D00E95244 /* MockUserDefaults.swift in Sources */,
 				9D6E9B00245643B7003BBCC9 /* MockHormoneSchedule.swift in Sources */,
 				9D6E9AFB245633DC003BBCC9 /* MockSDK.swift in Sources */,
 				9D788785255399EC00DC0F6D /* MockSiteImageHistory.swift in Sources */,
