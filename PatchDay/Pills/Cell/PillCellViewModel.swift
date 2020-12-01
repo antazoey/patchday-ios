@@ -31,7 +31,7 @@ class PillCellViewModel: PillCellViewModelProtocol {
         if let dueDate = pill.due {
             return PDDateFormatter.formatDate(dueDate)
         } else {
-            return NSLocalizedString("Take pill to start schedule.", comment: "")
+            return NSLocalizedString("Take to start", comment: "")
         }
     }
 }

@@ -48,7 +48,7 @@ class PillCellViewModelTests: XCTestCase {
         let pill = MockPill()
         pill.due = nil
         let viewModel = PillCellViewModel(pill: pill)
-        let expected = "Take pill to start schedule."
+        let expected = "Take to start"
         let actual = viewModel.dueDateText
         XCTAssertEqual(expected, actual)
     }
