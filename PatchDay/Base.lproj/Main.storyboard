@@ -916,6 +916,7 @@
                                                     <rect key="frame" x="295" y="11" width="32" height="28"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="32" id="lhM-7u-jpf"/>
+                                                        <constraint firstAttribute="height" constant="28" id="teg-rO-TCr"/>
                                                     </constraints>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fjm-va-RXc">
@@ -927,6 +928,9 @@
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3T-o3-i1R">
                                                     <rect key="frame" x="36" y="131" width="271" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="18" id="9ML-eX-pzU"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.26051741839999998" green="0.2605243921" blue="0.260520637" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -939,7 +943,7 @@
                                                 <constraint firstAttribute="bottom" secondItem="Fjm-va-RXc" secondAttribute="bottom" id="4Jt-FV-M8p"/>
                                                 <constraint firstItem="htz-LK-Xnm" firstAttribute="trailing" secondItem="JA4-OY-wJV" secondAttribute="trailingMargin" id="98l-g4-ecm"/>
                                                 <constraint firstItem="B3T-o3-i1R" firstAttribute="leading" secondItem="JA4-OY-wJV" secondAttribute="leadingMargin" constant="20" id="Drx-fR-2z7"/>
-                                                <constraint firstItem="B3T-o3-i1R" firstAttribute="top" secondItem="htz-LK-Xnm" secondAttribute="bottom" constant="92" id="TaM-DL-hMF"/>
+                                                <constraint firstItem="B3T-o3-i1R" firstAttribute="top" secondItem="htz-LK-Xnm" secondAttribute="bottom" priority="999" constant="92" id="TaM-DL-hMF"/>
                                                 <constraint firstItem="Fjm-va-RXc" firstAttribute="top" secondItem="JA4-OY-wJV" secondAttribute="top" id="V17-gz-baz"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="B3T-o3-i1R" secondAttribute="trailing" constant="20" id="Yow-tV-tbg"/>
                                                 <constraint firstItem="n77-qe-kWD" firstAttribute="top" secondItem="JA4-OY-wJV" secondAttribute="top" id="e8q-r6-rNE"/>

@@ -70,7 +70,7 @@ class HormoneCell: TableCell, HormoneCellProtocol {
         dateLabel.textColor = viewModel.dateLabelColor
         dateLabel.text = viewModel.dateString
         dateLabel.setNeedsDisplay()
-        dateLabel.setNeedsDisplay()
+        dateLabel.isHidden = false
     }
 
     private func loadBadge() {
