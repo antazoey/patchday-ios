@@ -106,7 +106,6 @@
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
 		9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
-		9D4D05F2256F61D20037A2E6 /* PDKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
 		9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8B725028AD900C0324E /* DateIntegrationTests.swift */; };
 		9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BA25056E8B00C0324E /* NowProtocol.swift */; };
@@ -428,17 +427,6 @@
 			files = (
 				B49A4A5420DB2D4C00F24FC0 /* PDKit.framework in Embed Frameworks */,
 				B480EE3221CC7554002C2238 /* PatchData.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9D4D05F5256F61D20037A2E6 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				9D4D05F2256F61D20037A2E6 /* PDKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2019,7 +2007,6 @@
 				9D69B1D6256C7B2200213E79 /* Sources */,
 				9D69B1D7256C7B2200213E79 /* Frameworks */,
 				9D69B1D8256C7B2200213E79 /* Resources */,
-				9D4D05F5256F61D20037A2E6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2869,7 +2856,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2894,7 +2881,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2924,7 +2911,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
@@ -2956,7 +2943,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3177,7 +3164,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
@@ -3214,7 +3201,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -3308,7 +3295,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3344,7 +3331,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2;
+				MARKETING_VERSION = 3.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
