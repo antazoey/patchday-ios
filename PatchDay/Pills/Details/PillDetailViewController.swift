@@ -46,8 +46,17 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var timePickerThree: UIDatePicker!
     @IBOutlet weak var timePickerFour: UIDatePicker!
 
+    @IBOutlet weak var firstTimeLabel: UILabel!
+    @IBOutlet weak var secondTimeLabel: UILabel!
+    @IBOutlet weak var thirdTimeLabel: UILabel!
+    @IBOutlet weak var fourthTimeLabel: UILabel!
+
     private var timePickers: [UIDatePicker] {
         [timePickerOne, timePickerTwo, timePickerThree, timePickerFour]
+    }
+
+    private var timeLabels: [UILabel] {
+        [firstTimeLabel, secondTimeLabel, thirdTimeLabel, fourthTimeLabel]
     }
 
     private var selectedPicker: UIPickerView?
@@ -175,7 +184,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         guard newTimesaday >= 0 else { return }
         viewModel.setTimesaday(newTimesaday)
         updateTimesdayValueLabel()
-        viewModel.enableOrDisable(timePickers)
+        viewModel.enableOrDisable(timePickers, timeLabels)
         viewModel.setPickerTimes(timePickers)
         enableSaveButton()
     }
@@ -355,7 +364,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadTimePickers() {
         loadTimePickerEventHandlers()
         viewModel.setPickerTimes(timePickers)
-        viewModel.enableOrDisable(timePickers)
+        viewModel.enableOrDisable(timePickers, timeLabels)
     }
 
     private func loadTimePickerEventHandlers() {

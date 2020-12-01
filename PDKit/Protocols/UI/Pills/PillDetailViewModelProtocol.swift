@@ -33,5 +33,5 @@ public protocol PillDetailViewModelProtocol {
     func handleIfUnsaved(_ viewController: UIViewController)
     func selectName(_ row: Index)
     func selectExpirationInterval(_ row: Index)
-    func enableOrDisable(_ pickers: [UIDatePicker])
+    func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel])
 }

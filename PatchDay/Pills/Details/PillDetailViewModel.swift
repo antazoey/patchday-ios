@@ -202,13 +202,25 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.expirationInterval = interval
     }
 
-    func enableOrDisable(_ pickers: [UIDatePicker]) {
+    func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         guard 1...pickers.count ~= timesaday else { return }
+        guard 1...labels.count ~= timesaday else { return }
+        guard pickers.count == labels.count else { return }
+        enablePickers(pickers, labels)
+        disablePickers(pickers, labels)
+    }
+
+    private func enablePickers(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         for i in 0...timesaday - 1 {
             pickers[i].isEnabled = true
+            labels[i].isEnabled = true
         }
+    }
+
+    private func disablePickers(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         for i in timesaday..<pickers.count {
             pickers[i].isEnabled = false
+            labels[i].isEnabled = false
         }
     }
 }

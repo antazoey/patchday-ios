@@ -17,7 +17,7 @@ public class UserDefaultsWriteHandler: NSObject, UserDefaultsWriteHandling {
     private var dataSharer: UserDefaultsProtocol
 
     public convenience init(dataSharer: UserDefaultsProtocol) {
-        self.init(baseDefaults: UserDefaultsInterface(), dataSharer: dataSharer)
+        self.init(baseDefaults: PDUserDefaults(), dataSharer: dataSharer)
     }
 
     public init(baseDefaults: UserDefaultsProtocol, dataSharer: UserDefaultsProtocol) {

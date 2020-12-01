@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="pvq-bf-Bhb">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -413,7 +413,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YF0-w6-5sp">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="546.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="550.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXT-VQ-vft">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="12"/>
@@ -489,7 +489,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Notifications:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3vP-Sf-cjr">
                                                         <rect key="frame" x="40" y="0.0" width="285" height="50"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="textColor" name="Text"/>
                                                         <nil key="highlightedColor"/>
                                                         <attributedString key="userComments">
                                                             <fragment content="title for area that states the location the patch was placed at">
@@ -549,7 +549,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Schedule:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOy-mq-EvS">
                                                         <rect key="frame" x="40" y="0.0" width="64.5" height="50"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                        <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="textColor" name="Text"/>
                                                         <nil key="highlightedColor"/>
                                                         <attributedString key="userComments">
                                                             <fragment content="title for area that states the location the patch was placed at">
@@ -600,7 +600,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many per day:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UoZ-DT-gdz">
                                                 <rect key="frame" x="0.0" y="203" width="375" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <color key="textColor" red="0.12984204290000001" green="0.12984612579999999" blue="0.12984395030000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" name="Text"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17P-Kr-o3S">
@@ -627,59 +627,200 @@
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
-                                                <rect key="frame" x="0.0" y="301.5" width="375" height="200"/>
+                                                <rect key="frame" x="0.0" y="301.5" width="375" height="204"/>
                                                 <subviews>
-                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="Vi9-1N-1QN">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AdT-1d-QNd">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9K-99-fYF">
+                                                                <rect key="frame" x="0.0" y="0.0" width="15" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="15" id="pmK-7o-uzL"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1st. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F9i-79-rzH">
+                                                                <rect key="frame" x="15" y="0.0" width="35" height="50"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" name="Text"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GjV-KX-6qg">
+                                                                <rect key="frame" x="50" y="0.0" width="50" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="VDn-3U-lhr"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="Vi9-1N-1QN">
+                                                                <rect key="frame" x="100" y="0.0" width="275" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="0LN-hn-OsS"/>
+                                                                    <constraint firstAttribute="width" constant="275" id="3Ca-0K-2Kc"/>
+                                                                </constraints>
+                                                            </datePicker>
+                                                        </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="0LN-hn-OsS"/>
+                                                            <constraint firstItem="GjV-KX-6qg" firstAttribute="leading" secondItem="AdT-1d-QNd" secondAttribute="leading" constant="50" id="cSd-zx-rZI"/>
                                                         </constraints>
-                                                    </datePicker>
-                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="5Sx-Hq-P6f">
-                                                        <rect key="frame" x="0.0" y="50" width="375" height="50"/>
+                                                    </stackView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1VU-AU-Obh">
+                                                        <rect key="frame" x="0.0" y="50" width="375" height="1"/>
+                                                        <color key="backgroundColor" name="Border"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="HLE-We-U63"/>
+                                                            <constraint firstAttribute="height" constant="1" id="2Xv-WH-Dgi"/>
                                                         </constraints>
-                                                    </datePicker>
-                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="SCK-Gs-4XS">
-                                                        <rect key="frame" x="0.0" y="100" width="375" height="50"/>
+                                                    </view>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fUL-h8-hqK">
+                                                        <rect key="frame" x="0.0" y="51" width="375" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="25B-Sy-8sS">
+                                                                <rect key="frame" x="0.0" y="0.0" width="15" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="GJ7-cH-DLd"/>
+                                                                    <constraint firstAttribute="width" constant="15" id="gMB-hP-kzz"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2nd. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fij-1m-Azx" userLabel="2.">
+                                                                <rect key="frame" x="15" y="0.0" width="35" height="50"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" name="Text"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0aB-61-xVI">
+                                                                <rect key="frame" x="50" y="0.0" width="50" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="SJS-Dj-MT3"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="5Sx-Hq-P6f">
+                                                                <rect key="frame" x="100" y="0.0" width="275" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="HLE-We-U63"/>
+                                                                </constraints>
+                                                            </datePicker>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8I5-fd-PdY">
+                                                        <rect key="frame" x="0.0" y="101" width="375" height="1"/>
+                                                        <color key="backgroundColor" name="Border"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="u0y-k6-3cH"/>
+                                                            <constraint firstAttribute="height" constant="1" id="ucX-DG-QYa"/>
                                                         </constraints>
-                                                    </datePicker>
-                                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="8yH-GM-2aQ">
-                                                        <rect key="frame" x="0.0" y="150" width="375" height="50"/>
+                                                    </view>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RKF-ZV-lXe">
+                                                        <rect key="frame" x="0.0" y="102" width="375" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hqK-sS-b6X">
+                                                                <rect key="frame" x="0.0" y="0.0" width="15" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="15" id="NhX-Gs-hFh"/>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="opc-iO-pOQ"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3rd. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZQ-iF-K7g">
+                                                                <rect key="frame" x="15" y="0.0" width="35" height="50"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" name="Text"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXT-X2-N0Y">
+                                                                <rect key="frame" x="50" y="0.0" width="50" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="yqw-d0-tmW"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="SCK-Gs-4XS">
+                                                                <rect key="frame" x="100" y="0.0" width="275" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="u0y-k6-3cH"/>
+                                                                </constraints>
+                                                            </datePicker>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2bT-ey-vxj">
+                                                        <rect key="frame" x="0.0" y="152" width="375" height="1"/>
+                                                        <color key="backgroundColor" name="Border"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="Yoe-TU-fCG"/>
+                                                            <constraint firstAttribute="height" constant="1" id="Rds-TR-PVW"/>
                                                         </constraints>
-                                                    </datePicker>
+                                                    </view>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mab-IQ-HAc">
+                                                        <rect key="frame" x="0.0" y="153" width="375" height="50"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9xz-zt-GvO">
+                                                                <rect key="frame" x="0.0" y="0.0" width="15" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="FXt-nN-G1b"/>
+                                                                    <constraint firstAttribute="width" constant="15" id="Tib-de-aRS"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4th. " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t5M-xs-qYL">
+                                                                <rect key="frame" x="15" y="0.0" width="35" height="50"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" name="Text"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kms-gQ-P4l">
+                                                                <rect key="frame" x="50" y="0.0" width="50" height="50"/>
+                                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="H4y-Yb-tuw"/>
+                                                                </constraints>
+                                                            </view>
+                                                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" style="compact" translatesAutoresizingMaskIntoConstraints="NO" id="8yH-GM-2aQ">
+                                                                <rect key="frame" x="100" y="0.0" width="275" height="50"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="50" id="Yoe-TU-fCG"/>
+                                                                </constraints>
+                                                            </datePicker>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vtz-ax-GbB">
+                                                        <rect key="frame" x="0.0" y="203" width="375" height="1"/>
+                                                        <color key="backgroundColor" name="Border"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="1" id="r2n-KV-z3a"/>
+                                                        </constraints>
+                                                    </view>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="SCK-Gs-4XS" firstAttribute="width" secondItem="5Sx-Hq-P6f" secondAttribute="width" id="OKZ-Xv-UZp"/>
-                                                    <constraint firstItem="8yH-GM-2aQ" firstAttribute="width" secondItem="SCK-Gs-4XS" secondAttribute="width" id="R3u-1d-ogd"/>
-                                                    <constraint firstItem="5Sx-Hq-P6f" firstAttribute="width" secondItem="Vi9-1N-1QN" secondAttribute="width" id="mqV-vn-kXy"/>
+                                                    <constraint firstItem="Fij-1m-Azx" firstAttribute="width" secondItem="F9i-79-rzH" secondAttribute="width" id="6GT-6Z-7Ui"/>
+                                                    <constraint firstItem="0aB-61-xVI" firstAttribute="width" secondItem="GjV-KX-6qg" secondAttribute="width" id="C5o-u5-xGX"/>
+                                                    <constraint firstItem="EZQ-iF-K7g" firstAttribute="width" secondItem="F9i-79-rzH" secondAttribute="width" id="F7h-cx-0ZN"/>
+                                                    <constraint firstItem="CXT-X2-N0Y" firstAttribute="width" secondItem="GjV-KX-6qg" secondAttribute="width" id="GDa-Ip-lAM"/>
+                                                    <constraint firstItem="t5M-xs-qYL" firstAttribute="width" secondItem="F9i-79-rzH" secondAttribute="width" id="Ucx-pA-bSL"/>
+                                                    <constraint firstItem="kms-gQ-P4l" firstAttribute="width" secondItem="GjV-KX-6qg" secondAttribute="width" id="hZU-f9-KtV"/>
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aDS-4O-w6Y">
-                                                <rect key="frame" x="0.0" y="501.5" width="375" height="15"/>
+                                                <rect key="frame" x="0.0" y="505.5" width="375" height="15"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="WMe-wV-4hf"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XY7-Lb-cxD">
-                                                <rect key="frame" x="0.0" y="516.5" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="520.5" width="375" height="30"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="esU-OG-RK7"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="1wA-kW-Ajl" firstAttribute="leading" secondItem="dX2-Ji-Hpr" secondAttribute="leading" constant="20" id="xkM-6j-NKQ"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <viewLayoutGuide key="safeArea" id="bmK-OT-xzr"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstItem="YF0-w6-5sp" firstAttribute="leading" secondItem="1PH-cJ-y4L" secondAttribute="leading" id="HmT-mK-EtS"/>
@@ -717,6 +858,8 @@
                         <outlet property="expirationIntervalIcon" destination="b3U-OV-iKG" id="EdZ-n3-8yY"/>
                         <outlet property="expirationIntervalLabel" destination="rOy-mq-EvS" id="oTL-jv-px6"/>
                         <outlet property="expirationIntervalPicker" destination="ilc-SD-D8X" id="9Kh-D2-CEF"/>
+                        <outlet property="firstTimeLabel" destination="F9i-79-rzH" id="uue-Zg-a5R"/>
+                        <outlet property="fourthTimeLabel" destination="t5M-xs-qYL" id="al2-sk-du8"/>
                         <outlet property="lineUnderDrugNameLabel" destination="QWI-S9-kPR" id="EfI-0F-htd"/>
                         <outlet property="lineUnderDrugNameStack" destination="TZC-Xk-Tph" id="UZI-jY-dr7"/>
                         <outlet property="lineUnderExpirationInterval" destination="0oz-7u-4xe" id="7To-Lp-eQ9"/>
@@ -730,7 +873,9 @@
                         <outlet property="paddingBelowNotificationsSwitch" destination="uPx-d5-evg" id="vFi-qa-Uai"/>
                         <outlet property="saveButton" destination="koe-DU-BKv" id="ua4-QK-QfR"/>
                         <outlet property="scrollView" destination="dET-4A-FKx" id="YXF-x5-ed1"/>
+                        <outlet property="secondTimeLabel" destination="Fij-1m-Azx" id="GLr-Wx-vt1"/>
                         <outlet property="selectNameButton" destination="mxZ-UI-Ia5" id="Kfy-l4-VIf"/>
+                        <outlet property="thirdTimeLabel" destination="EZQ-iF-K7g" id="NhY-Px-cj5"/>
                         <outlet property="timePickerFour" destination="8yH-GM-2aQ" id="s1h-HC-vQO"/>
                         <outlet property="timePickerOne" destination="Vi9-1N-1QN" id="lWw-Ay-mdE"/>
                         <outlet property="timePickerThree" destination="SCK-Gs-4XS" id="JVN-FE-i2l"/>
@@ -979,11 +1124,17 @@
         <image name="Notify Icon" width="50" height="50"/>
         <image name="Pill Icon" width="50" height="50"/>
         <image name="Site Icon" width="50" height="50"/>
+        <namedColor name="Border">
+            <color red="0.8880000114440918" green="0.8880000114440918" blue="0.8880000114440918" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
         <namedColor name="Button">
             <color red="0.039000000804662704" green="0.51800000667572021" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Purple">
             <color red="0.57899999618530273" green="0.12800000607967377" blue="0.57300001382827759" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Text">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

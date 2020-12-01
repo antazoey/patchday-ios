@@ -604,64 +604,112 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testEnableOrDisable_whenTimesadayZero_doesNotChangePickers() {
+    func testEnableOrDisable_whenGivenUnevenLists_doesNotChangePickers() {
         let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        let labels = [UILabel(), UILabel()]
         let pill = setupPill()
         pill.times = []
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.enableOrDisable(pickers)
+        viewModel.selections.times = "12:00:00"
+        viewModel.enableOrDisable(pickers, labels)
         // defaults to enabled
         XCTAssertTrue(pickers[0].isEnabled)
         XCTAssertTrue(pickers[1].isEnabled)
         XCTAssertTrue(pickers[2].isEnabled)
         XCTAssertTrue(pickers[3].isEnabled)
+
+        XCTAssertTrue(labels[0].isEnabled)
+        XCTAssertTrue(labels[1].isEnabled)
     }
 
-    func testEnableOrDisable_whenTimesadayOne_enablesOrDisablesExpectedPickers() {
+    func testEnableOrDisable_whenTimesadayZero_doesNotChangePickers() {
         let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
-        setupPill()
+        let labels = [UILabel(), UILabel(), UILabel(), UILabel()]
+        let pill = setupPill()
+        pill.times = []
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = "12:00:00"
-        viewModel.enableOrDisable(pickers)
-        XCTAssertTrue(pickers[0].isEnabled)
-        XCTAssertFalse(pickers[1].isEnabled)
-        XCTAssertFalse(pickers[2].isEnabled)
-        XCTAssertFalse(pickers[3].isEnabled)
-    }
-
-    func testEnableOrDisable_whenTimesadayTwo_enablesOrDisablesExpectedPickers() {
-        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
-        setupPill()
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = "12:00:00,1:00:00"
-        viewModel.enableOrDisable(pickers)
-        XCTAssertTrue(pickers[0].isEnabled)
-        XCTAssertTrue(pickers[1].isEnabled)
-        XCTAssertFalse(pickers[2].isEnabled)
-        XCTAssertFalse(pickers[3].isEnabled)
-    }
-
-    func testEnableOrDisable_whenTimesadayThree_enablesOrDisablesExpectedPickers() {
-        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
-        setupPill()
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = "12:00:00,1:00:00,2:00:00"
-        viewModel.enableOrDisable(pickers)
-        XCTAssertTrue(pickers[0].isEnabled)
-        XCTAssertTrue(pickers[1].isEnabled)
-        XCTAssertTrue(pickers[2].isEnabled)
-        XCTAssertFalse(pickers[3].isEnabled)
-    }
-
-    func testEnableOrDisable_whenTimesadayFour_enablesOrDisablesExpectedPickers() {
-        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
-        setupPill()
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = "12:00:00,1:00:00,2:00:00,3:00:00"
-        viewModel.enableOrDisable(pickers)
+        viewModel.enableOrDisable(pickers, labels)
+        // defaults to enabled
         XCTAssertTrue(pickers[0].isEnabled)
         XCTAssertTrue(pickers[1].isEnabled)
         XCTAssertTrue(pickers[2].isEnabled)
         XCTAssertTrue(pickers[3].isEnabled)
+
+        XCTAssertTrue(labels[0].isEnabled)
+        XCTAssertTrue(labels[1].isEnabled)
+        XCTAssertTrue(labels[2].isEnabled)
+        XCTAssertTrue(labels[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayOne_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        let labels = [UILabel(), UILabel(), UILabel(), UILabel()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00"
+        viewModel.enableOrDisable(pickers, labels)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertFalse(pickers[1].isEnabled)
+        XCTAssertFalse(pickers[2].isEnabled)
+        XCTAssertFalse(pickers[3].isEnabled)
+
+        XCTAssertTrue(labels[0].isEnabled)
+        XCTAssertFalse(labels[1].isEnabled)
+        XCTAssertFalse(labels[2].isEnabled)
+        XCTAssertFalse(labels[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayTwo_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        let labels = [UILabel(), UILabel(), UILabel(), UILabel()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,1:00:00"
+        viewModel.enableOrDisable(pickers, labels)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertFalse(pickers[2].isEnabled)
+        XCTAssertFalse(pickers[3].isEnabled)
+
+        XCTAssertTrue(labels[0].isEnabled)
+        XCTAssertTrue(labels[1].isEnabled)
+        XCTAssertFalse(labels[2].isEnabled)
+        XCTAssertFalse(labels[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayThree_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        let labels = [UILabel(), UILabel(), UILabel(), UILabel()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,1:00:00,2:00:00"
+        viewModel.enableOrDisable(pickers, labels)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertTrue(pickers[2].isEnabled)
+        XCTAssertFalse(pickers[3].isEnabled)
+
+        XCTAssertTrue(labels[0].isEnabled)
+        XCTAssertTrue(labels[1].isEnabled)
+        XCTAssertTrue(labels[2].isEnabled)
+        XCTAssertFalse(labels[3].isEnabled)
+    }
+
+    func testEnableOrDisable_whenTimesadayFour_enablesOrDisablesExpectedPickers() {
+        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
+        let labels = [UILabel(), UILabel(), UILabel(), UILabel()]
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selections.times = "12:00:00,1:00:00,2:00:00,3:00:00"
+        viewModel.enableOrDisable(pickers, labels)
+        XCTAssertTrue(pickers[0].isEnabled)
+        XCTAssertTrue(pickers[1].isEnabled)
+        XCTAssertTrue(pickers[2].isEnabled)
+        XCTAssertTrue(pickers[3].isEnabled)
+
+        XCTAssertTrue(labels[0].isEnabled)
+        XCTAssertTrue(labels[1].isEnabled)
+        XCTAssertTrue(labels[2].isEnabled)
+        XCTAssertTrue(labels[3].isEnabled)
     }
 }

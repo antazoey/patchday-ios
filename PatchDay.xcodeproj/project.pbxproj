@@ -82,7 +82,7 @@
 		9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */; };
 		9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* HormoneStringsTests.swift */; };
 		9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */; };
-		9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */; };
+		9D1908D82466F66000E95244 /* PDUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D72466F66000E95244 /* PDUserDefaults.swift */; };
 		9D1908DC2466FD7D00E95244 /* MockUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */; };
 		9D1908DF2468315F00E95244 /* SettingsSavePointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */; };
 		9D1908E1246834EF00E95244 /* MockDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908E0246834EF00E95244 /* MockDependencies.swift */; };
@@ -553,7 +553,7 @@
 		9D003EC0233599A90070C964 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataWrapping.swift; sourceTree = "<group>"; };
 		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
-		9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsInterface.swift; sourceTree = "<group>"; };
+		9D1908D72466F66000E95244 /* PDUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUserDefaults.swift; sourceTree = "<group>"; };
 		9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaults.swift; sourceTree = "<group>"; };
 		9D1908DE2468315F00E95244 /* SettingsSavePointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSavePointTests.swift; sourceTree = "<group>"; };
 		9D1908E0246834EF00E95244 /* MockDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDependencies.swift; sourceTree = "<group>"; };
@@ -1238,7 +1238,7 @@
 				9D7B0A78226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift */,
 				13C746D01ED781DD00067A67 /* UserDefaultsWriter.swift */,
 				9D9397BC2379444300FDF290 /* PDSettings.swift */,
-				9D1908D72466F66000E95244 /* UserDefaultsInterface.swift */,
+				9D1908D72466F66000E95244 /* PDUserDefaults.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2496,7 +2496,7 @@
 				9D8A986123D3BAF3004E20FE /* DataSharer.swift in Sources */,
 				9D7B0A79226CCB9B0089E1CD /* UserDefaultsWriteHandler.swift in Sources */,
 				B480EE3C21CC75FB002C2238 /* PatchData.swift in Sources */,
-				9D1908D82466F66000E95244 /* UserDefaultsInterface.swift in Sources */,
+				9D1908D82466F66000E95244 /* PDUserDefaults.swift in Sources */,
 				B480EE4B21CC7E20002C2238 /* UserDefaultsWriter.swift in Sources */,
 				B4C69F0A21E56CD7004EABC4 /* MOPill.swift in Sources */,
 				9D8A97F823AFCCE5004E20FE /* EntityAdapter.swift in Sources */,

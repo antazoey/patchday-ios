@@ -1,5 +1,5 @@
 //
-//  UserDefaultsInterface.swift
+//  PDUserDefaults.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 5/9/20.
@@ -9,7 +9,7 @@
 import Foundation
 import PDKit
 
-public class UserDefaultsInterface: UserDefaultsProtocol {
+public class PDUserDefaults: UserDefaultsProtocol {
 
     private let defaults = UserDefaults.standard
 
