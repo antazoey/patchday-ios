@@ -1,10 +1,10 @@
 # Changelog
 
-## Unreleased
+## 3.2.0
 
 Added
 
-- The Next Hormone Widget for iOS 14.
+- The Next Hormone Widget for iOS 14 (replacing the Today app).
 
 Fixed
 
@@ -23,11 +23,12 @@ Changed
 - Using new UI Date Picker compact style from iOS 14 for both hormone details date and pill times.
 - On the Pill details view:
 	- Times are now enumerated as rows.
-	- The view scrolls.
+	- The view scrolls when necessary.
 - The data for the new Next Hormone Widget (formerly, the Today app) has changed:
 	- Now, only the expiration date and the delivery method (Patch, Gel, etc.) are shown for expired Hormones,
 	e.g. "Next Patch: Tomorrow at 12:00". This is to make it less confusing about which date is shown and to focus on
 	information that is most relevant.
+- Changed Next date text for pills to be "Take to start" in the Pill Schedule View, to fix a clipping issue.
 
 ## 3.1.1
 
