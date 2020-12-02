@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+Changed
+
+- Increased font size of expiration date text for Hormone Cells.
+
 ## 3.2.0
 
 Added
