@@ -23,7 +23,7 @@ class PillCell: TableCell, PillCellProtocol {
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
     static let RowHeight: CGFloat = 170.0
-    private var viewModel: PillCellViewModelProtocol? = nil
+    private var viewModel: PillCellViewModelProtocol?
 
     @discardableResult
     public func configure(_ params: PillCellConfigurationParameters) -> PillCellProtocol {
@@ -50,7 +50,6 @@ class PillCell: TableCell, PillCellProtocol {
     }
 
     // MARK: - Private
-
 
     private func loadBadge(_ pill: Swallowable) {
         badgeButton?.badgeValue = pill.isDue ? "!" : nil

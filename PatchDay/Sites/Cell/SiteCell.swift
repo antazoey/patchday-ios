@@ -19,7 +19,7 @@ class SiteCell: TableCell, SiteCellProtocol {
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
 
-    private var viewModel: SiteCellViewModelProtocol? = nil
+    private var viewModel: SiteCellViewModelProtocol?
 
     @discardableResult
     func configure(props: SiteCellProperties) -> SiteCellProtocol {

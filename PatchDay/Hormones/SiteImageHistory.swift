@@ -32,10 +32,7 @@ class SiteImageRecorder: NSObject, SiteImageRecording {
     func differentiate() -> HormoneMutation {
         let penultimate = images.tryGet(at: 0) ?? nil
         let last = images.tryGet(at: 1) ?? nil
-        if penultimate == nil && last == nil { return .Empty }
-        else if penultimate == nil && last != nil { return .Add }
-        else if penultimate != nil && last == nil { return .Remove }
-        else if penultimate != last { return .Edit }
+        if penultimate == nil && last == nil { return .Empty } else if penultimate == nil && last != nil { return .Add } else if penultimate != nil && last == nil { return .Remove } else if penultimate != last { return .Edit }
         return .None
     }
 

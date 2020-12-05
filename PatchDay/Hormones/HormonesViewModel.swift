@@ -60,8 +60,8 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     }
 
     var expiredHormoneBadgeValue: String? {
-        guard let numExpired = hormones?.totalExpired, numExpired > 0 else { return nil }
-        return "\(numExpired)"
+        guard let count = hormones?.totalExpired, count > 0 else { return nil }
+        return "\(count)"
     }
 
     func updateSiteImages() {
@@ -94,12 +94,12 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
             let command = sdk.commandFactory.createChangeHormoneCommand(hormone, now: self.now)
             command.execute()
             reload()
+            self.tabs?.reflectHormones()
         }
         alerts.createHormoneActions(
             hormone.siteName,
             nextSite?.name,
-            changeHormone,
-            { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
+            changeHormone, { self.goToHormoneDetails(hormoneIndex: index, hormonesViewController) }
         ).present()
     }
 

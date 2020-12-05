@@ -27,9 +27,9 @@ class TabReflector: TabReflective {
         loadViewControllerTabTextAttributes()
     }
 
-    var hormonesVC: UIViewController? { viewControllers.tryGet(at: 0) }
-    var pillsVC: UIViewController? { viewControllers.tryGet(at: 1) }
-    var sitesVC: UIViewController? { viewControllers.tryGet(at: 2) }
+    var hormonesViewController: UIViewController? { viewControllers.tryGet(at: 0) }
+    var pillsViewController: UIViewController? { viewControllers.tryGet(at: 1) }
+    var sitesViewController: UIViewController? { viewControllers.tryGet(at: 2) }
 
     func reflect() {
         reflectHormones()
@@ -38,7 +38,8 @@ class TabReflector: TabReflective {
 
     func reflectHormones() {
         guard let sdk = sdk else { return }
-        guard let hormonesVC = hormonesVC else { return }
+        guard let hormonesVC = hormonesViewController else { return }
+        sdk.hormones.reloadContext()
         let method = sdk.settings.deliveryMethod.value
         let icon = PDIcons[method]
         let expiredCount = sdk.hormones.totalExpired
@@ -52,7 +53,7 @@ class TabReflector: TabReflective {
     }
 
     func reflectPills() {
-        guard let pillsVC = pillsVC else { return }
+        guard let pillsVC = pillsViewController else { return }
         guard let sdk = sdk else { return }
         guard let item = pillsVC.tabBarItem else { return }
         let expiredCount = sdk.pills.totalDue

@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 3.2.1
+
+Fixed
+
+- Issue where Hormones tab badge value would not clear.
+- Issue that clipped Hormone date text on iPads.
 
 Changed
 

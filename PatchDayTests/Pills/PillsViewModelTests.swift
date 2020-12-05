@@ -26,7 +26,7 @@ class PillsViewModelTests: XCTestCase {
         (deps.sdk?.pills as! MockPillSchedule).all = [testPill]
         table.subscriptReturnValue = cell
         return PillsViewModel(
-            pillsTableView: self.tableView, alertFactory: alerts,  table: table, dependencies: deps
+            pillsTableView: self.tableView, alertFactory: alerts, table: table, dependencies: deps
         )
     }
 

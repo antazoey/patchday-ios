@@ -172,7 +172,6 @@ public struct PillStruct {
     }
 }
 
-
 public struct SiteCellProperties {
     public init(row: Index) {
         self.row = row

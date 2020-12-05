@@ -14,7 +14,7 @@ import PDMock
 import PatchData
 
 extension MockUserDefaults {
-    func assertSettingWasSet<T>(expected: T, setting: PDSetting) where T : Equatable {
+    func assertSettingWasSet<T>(expected: T, setting: PDSetting) where T: Equatable {
         let actual = setCallArgs.last(where: { $0.1 == setting.rawValue})!.0 as! T
         XCTAssertEqual(expected, actual)
     }

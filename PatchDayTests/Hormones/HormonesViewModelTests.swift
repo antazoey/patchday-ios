@@ -114,7 +114,7 @@ class HormonesViewModelTests: XCTestCase {
         )
         XCTAssertEqual(1, mockTable.reflectModelCallCount)
     }
- 
+
     func testTitle_whenNilSdk_returnsHormonesTitle() {
         let deps = MockDependencies()
         deps.sdk = nil
@@ -319,14 +319,16 @@ class HormonesViewModelTests: XCTestCase {
             dependencies: mockDeps,
             now: mockNow
         )
-        var reloadCalled = false
+        var handleCalled = false
         viewModel.handleRowTapped(at: 0, UIViewController()) {
-            reloadCalled = true
+            handleCalled = true
         }
         let changeAction = (mockDeps.alerts as! MockAlertFactory).createHormoneActionsCallArgs[0].2
         changeAction()  // Simulates user selecting "Change" from the alert
         let mockHormones = mockDeps.sdk!.hormones as! MockHormoneSchedule
-        XCTAssertTrue(reloadCalled)
+        let tabsReloaded = (mockDeps.tabs as! MockTabs).reflectHormonesCallCount == 1
+        XCTAssertTrue(tabsReloaded)
+        XCTAssertTrue(handleCalled)
         let setDateCallArgs = mockHormones.setDateByIdCallArgs
         let setSiteCallArgs = mockHormones.setSiteByIdCallArgs
         XCTAssertEqual(1, setDateCallArgs.count)

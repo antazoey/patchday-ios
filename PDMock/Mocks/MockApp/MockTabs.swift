@@ -13,11 +13,11 @@ public class MockTabs: TabReflective {
 
     public init() {}
 
-    public var hormonesVC: UIViewController?
+    public var hormonesViewController: UIViewController?
 
-    public var pillsVC: UIViewController?
+    public var pillsViewController: UIViewController?
 
-    public var sitesVC: UIViewController?
+    public var sitesViewController: UIViewController?
 
     public var reflectCallCount = 0
     public func reflect() {

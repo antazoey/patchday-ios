@@ -27,6 +27,13 @@ class TabReflectorTests: XCTestCase {
         )
     }
 
+    func testReflectHormones_resetsContext() {
+        let tabs = createTabs()
+        tabs.reflectHormones()
+        let actual = (sdk.hormones as! MockHormoneSchedule).reloadContextCallCount
+        XCTAssertEqual(1, actual)
+    }
+
     func testReflectHormones_reflectsDeliveryMethodAccurately() {
         let settings = sdk.settings as! MockSettings
         settings.deliveryMethod = DeliveryMethodUD(.Injections)

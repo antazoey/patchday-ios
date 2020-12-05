@@ -89,13 +89,12 @@ struct NextHormoneTimeline: TimelineProvider {
     }
 }
 
-
 @main
 struct NextHormoneWidget: Widget {
     let kind: String = "PatchDayNextHormoneWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: NextHormoneTimeline()){
+        StaticConfiguration(kind: kind, provider: NextHormoneTimeline()) {
             entry in NextHormoneWidgetView(entry: entry)
         }
         .configurationDisplayName(NSLocalizedString("Next Hormone", comment: "OS Config screen"))
@@ -103,13 +102,13 @@ struct NextHormoneWidget: Widget {
     }
 }
 
-struct PlaceholderView : View {
+struct PlaceholderView: View {
     var body: some View {
         Text(DotDotDot)
     }
 }
 
-struct StringTextWidgetView : View {
+struct StringTextWidgetView: View {
     let text: String?
 
     var body: some View {
@@ -121,7 +120,7 @@ struct StringTextWidgetView : View {
     }
 }
 
-struct DateTextWidgetView : View {
+struct DateTextWidgetView: View {
     let date: Date?
 
     var dateText: String? {
@@ -141,7 +140,7 @@ struct DateTextWidgetView : View {
     }
 }
 
-struct NextHormoneWidgetView : View {
+struct NextHormoneWidgetView: View {
     let entry: NextHormoneEntry
     private let max: CGFloat = .infinity
 

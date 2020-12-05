@@ -18,7 +18,7 @@ public class MockSiteImageRecorder: SiteImageRecording, Equatable {
         lhs.id == rhs.id
     }
 
-    public var current: UIImage? = nil
+    public var current: UIImage?
 
     public var pushCallArgs: [UIImage?] = []
     public func push(_ image: UIImage?) -> SiteImageRecording {
