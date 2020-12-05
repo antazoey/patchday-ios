@@ -27,7 +27,13 @@ class IntegrationTests: XCTestCase {
         sdk.resetAll()
     }
 
-    func testWhenChangingHormoneBadgeUpdatesCorrectly() {
+    // Force synchronous execution
+    func test() {
+        runTestWhenChangingHormoneBadgeUpdatesCorrectly()
+        runTestWhenContinuingOnChangeDeliveryMethodAlertAddsOrRemoveHormonesToGetToDefaultQuantity()
+    }
+
+    func runTestWhenChangingHormoneBadgeUpdatesCorrectly() {
         let badge = PDBadge(sdk: sdk)
         sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
         let ids = self.sdk.hormones.all.map({ $0.id })
@@ -46,7 +52,7 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(2, badge.value)
     }
 
-    func testWhenContinuingOnChangeDeliveryMethodAlertAddsOrRemoveHormonesToGetToDefaultQuantity() {
+    func runTestWhenContinuingOnChangeDeliveryMethodAlertAddsOrRemoveHormonesToGetToDefaultQuantity() {
         let tabs = TabReflector(
             tabBarController: UITabBarController(),
             viewControllers: [UIViewController()],
@@ -57,7 +63,7 @@ class IntegrationTests: XCTestCase {
             sdk: sdk,
             tabs: tabs,
             originalDeliveryMethod: .Patches,
-            originalQuantity: 4,
+            originalQuantity: sdk.settings.quantity.rawValue,
             newDeliveryMethod: .Gel,
             handlers: handlers
         )
