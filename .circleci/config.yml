@@ -1,6 +1,7 @@
 version: 2.1
 
 jobs:
+<<<<<<< HEAD
   build-and-test:
     docker:
       - image: swiftdocker/swift
@@ -33,13 +34,41 @@ jobs:
     steps:
       - checkout
       - run: swiftlint lint --reporter junit | tee result.xml
+=======
+  swiftlint:
+    docker:
+      - image: dantoml/swiftlint:latest
+    steps:
+      - checkout
+      - run: make lint
+>>>>>>> build
       - store_artifacts:
           path: result.xml
       - store_test_results:
           path: result.xml
+<<<<<<< HEAD
 
 workflows:
   build-test-lint:
     jobs:
       - swiftlint
       - build-and-test
+=======
+  
+  build-and-test:
+    docker:
+      - image: swiftdocker/swift
+    steps:
+      - checkout
+      - run: make test
+      - store_artifacts:
+          path: test_result.xml
+      - store_test_results:
+          path: test_result.xml
+
+workflows:
+  patchday-checks:
+    jobs:
+      - swiftlint
+      - build-and-test
+>>>>>>> build

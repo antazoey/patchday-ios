@@ -3,6 +3,8 @@
 *.xcuserstate
 **/xcuserdata/
 
+*result.yml
+
 PatchDay.xcodeproj/project.xcworkspace/xcuserdata
 **/*.xcuserstate
 
