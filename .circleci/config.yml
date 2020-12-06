@@ -24,6 +24,7 @@ jobs:
           path: test_result.xml
 
 workflows:
-  build-test-lint:
+  patchday-checks:
     jobs:
       - swiftlint
+      - build-and-test
