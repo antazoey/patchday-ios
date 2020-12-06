@@ -29,7 +29,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         self.store = store
         self.dataSharer = hormoneDataSharer
         self.settings = settings
-        self.context = HormoneSchedule.getHormoneList(from: store, settings: settings)
+        self.context = store.getStoredHormones(settings)
         super.init()
         resetIfEmpty()
         shareData()
@@ -57,7 +57,7 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
     }
 
     public func reloadContext() {
-        self.context = HormoneSchedule.getHormoneList(from: store, settings: settings)
+        self.context = store.getStoredHormones(settings)
     }
 
     @discardableResult
@@ -220,10 +220,6 @@ public class HormoneSchedule: NSObject, HormoneScheduling {
         hormone.date = date
         shareData()
         store.pushLocalChangesToManagedContext([hormone], doSave: true)
-    }
-
-    private static func getHormoneList(from store: HormoneStoring, settings: UserDefaultsReading) -> [Hormonal] {
-        store.getStoredHormones(settings)
     }
 
     private func pushFromDateAndSiteChange(_ hormone: Hormonal) {

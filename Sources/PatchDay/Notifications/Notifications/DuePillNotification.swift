@@ -34,9 +34,12 @@ public class DuePillNotification: Notification, PDNotificationProtocol {
 
     public func request() {
         super.content.categoryIdentifier = DuePillNotification.categoryId
-        if let interval = pill.due?.timeIntervalSince(Date()), interval > 0 {
-            PDLog<DuePillNotification>().info("Pill notification in \(interval)")
-            super.request(when: interval, requestId: pill.id.uuidString)
-        }
+        guard let dueDate = pill.due else { return }
+        let interval = dueDate.timeIntervalSince(Date())
+        guard interval > 0 else { return }
+        let dueDateString = PDDateFormatter.formatDate(dueDate)
+        let logMessage =  "Pill notification in \(interval), due: \(dueDateString)"
+        PDLog<DuePillNotification>().info(logMessage)
+        super.request(when: interval, requestId: pill.id.uuidString)
     }
 }

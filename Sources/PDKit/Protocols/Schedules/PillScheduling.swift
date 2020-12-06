@@ -19,6 +19,9 @@ public protocol PillScheduling: Schedule, Deleting {
     /// The due count.
     var totalDue: Int { get }
 
+    /// Force reloads data from storage.
+    func reloadContext()
+
     /// Insert a new pill into the schedule.
     @discardableResult
     func insertNew(onSuccess: (() -> Void)?) -> Swallowable?

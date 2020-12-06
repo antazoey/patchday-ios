@@ -124,6 +124,8 @@ public class Pill: Swallowable {
         lastTaken = attributes.lastTaken ?? lastTaken
         expirationInterval = attributes.expirationInterval ?? expirationInterval
         pillData.attributes.times = attributes.times ?? pillData.attributes.times
+        pillData.attributes.timesTakenToday = attributes.timesTakenToday
+            ?? pillData.attributes.timesTakenToday
     }
 
     public func swallow() {

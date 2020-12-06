@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.2.2
+
+Fixed
+
+- Issue where pill notifications would re-schedule incorrectly.
+- Issue where the pill tab badge value would not update.
+
 ## 3.2.1
 
 Fixed

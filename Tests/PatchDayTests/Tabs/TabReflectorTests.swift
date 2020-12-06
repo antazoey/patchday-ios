@@ -60,6 +60,13 @@ class TabReflectorTests: XCTestCase {
         XCTAssertNil(hormonesViewController.tabBarItem.badgeValue)
     }
 
+    func testReflectPills_resetsContext() {
+        let tabs = createTabs()
+        tabs.reflectPills()
+        let actual = (sdk.pills as! MockPillSchedule).reloadContextCallCount
+        XCTAssertEqual(1, actual)
+    }
+
     func testReflectPills_whenZeroTotalDue_doesNotReflectBadgeValue() {
         let pills = sdk.pills as! MockPillSchedule
         pills.totalDue = 0

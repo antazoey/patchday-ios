@@ -869,18 +869,21 @@ public class PillTests: XCTestCase {
         let newExpiration = PillExpirationInterval.FirstTenDays
         let pill = createPill(PillAttributes())
         var newAttrs = PillAttributes()
+        let timesTakenToday = 5
         newAttrs.name = newName
         newAttrs.times = timesString
         newAttrs.notify = true
         newAttrs.lastTaken = newLastTaken
         newAttrs.expirationInterval = newExpiration
+        newAttrs.timesTakenToday = timesTakenToday
         pill.set(attributes: newAttrs)
         XCTAssertEqual(newName, pill.name)
         XCTAssert(PDTest.sameTime(newTime1, pill.times[0]))
         XCTAssert(PDTest.sameTime(newTime2, pill.times[1]))
         XCTAssert(pill.notify)
         XCTAssertEqual(newLastTaken, pill.lastTaken)
-        XCTAssertEqual(PillExpirationInterval.FirstTenDays, pill.expirationInterval)
+        XCTAssertEqual(newExpiration, pill.expirationInterval)
+        XCTAssertEqual(timesTakenToday, pill.timesTakenToday)
     }
 
     func testSet_whenGivenNil_doesNotSet() {

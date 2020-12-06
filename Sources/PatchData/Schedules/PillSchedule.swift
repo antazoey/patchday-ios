@@ -62,6 +62,10 @@ public class PillSchedule: NSObject, PillScheduling {
         }
     }
 
+    public func reloadContext() {
+        self.context = store.getStoredPills()
+    }
+
     // MARK: - Override base class
 
     @discardableResult
