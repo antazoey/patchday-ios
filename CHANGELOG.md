@@ -4,12 +4,12 @@
 
 Fixed
 
-- Issue where Hormones tab badge value would not clear.
-- Issue that clipped Hormone date text on iPads.
+- Issue where the Hormones tab badge value would not clear after taking the hormone.
+- Clipping issue on the Hormone date text, seen on iPads.
 
 Changed
 
-- Increased font size of expiration date text for Hormone Cells.
+- Increased font size of the expiration date text for Hormone cells.
 
 ## 3.2.0
 
