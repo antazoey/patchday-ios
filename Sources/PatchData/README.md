@@ -1,7 +1,7 @@
 # PatchData
 
 PatchData is the [PatchDay](../PatchDay/README.md) backend. It implements the 
-(Core Data)[https://developer.apple.com/documentation/coredata] stack.
+[Core Data](https://developer.apple.com/documentation/coredata) stack.
 
 ## Entities
 
