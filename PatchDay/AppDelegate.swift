@@ -21,7 +21,7 @@ import WidgetKit
     var alerts: AlertProducing?
     var tabs: TabReflective?
     var nav: NavigationHandling?
-    var badge: PDBadgeDelegate?
+    var badge: PDBadgeReflective?
 
     private var sessionInitialized = false
 
@@ -30,7 +30,7 @@ import WidgetKit
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         initDependencies()
-#if DEBUG
+        #if DEBUG
         // The `Notifications Test` is a test where the first hormone expires in a minute from now.
         if PDCli.isNotificationsTest() {
             badge?.clear()
@@ -45,7 +45,7 @@ import WidgetKit
             PDCli.clearNotificationsFlag()
         }
         reflectBadges()
-#endif
+        #endif
         return true
     }
 

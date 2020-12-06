@@ -70,11 +70,9 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         var newIndex = newValue
         let site = storedSites[newIndex]
         if quantity.rawValue != SupportedHormoneUpperQuantityLimit && site.hormoneCount > 0 {
-            for site in storedSites {
-                if site.hormoneCount == 0 {
-                    newIndex = site.order
-                    break
-                }
+            for site in storedSites where site.hormoneCount == 0 {
+                newIndex = site.order
+                break
             }
         }
         PDLog<UserDefaultsWriter>().info("Setting new site index to \(newIndex)")

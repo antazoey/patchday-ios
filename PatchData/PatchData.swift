@@ -69,7 +69,7 @@ public class PatchData: NSObject, PatchDataSDK {
         let settings = PDSettings(
             writer: userDefaultsWriter, hormones: hormones, sites: sites
         )
-#if DEBUG
+        #if DEBUG
         // ******************************************************
         // Nuke mode: Resets app like it's fresh
         // ******************************************************
@@ -84,36 +84,8 @@ public class PatchData: NSObject, PatchDataSDK {
             PDLogLevel = PDLogLevels.DEBUG
             return
         }
-
-        // ******************************************************
-        // Debug mode
-        // ******************************************************
-        if PDCli.isDebugMode() {
-            PDLogLevel = PDLogLevels.DEBUG
-        }
-
-        // ******************************************************
-        // Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12 
-        // ******************************************************
-        if PDCli.isNotificationsTest() {
-            let now = Date()
-            let delay = 20
-            let seconds = settings.expirationInterval.hours * 60 * 60 - delay
-            settings.setNotifications(to: true)
-            let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
-            hormones.setDate(at: 0, with: date!)
-
-            var attrs = PillAttributes()
-            let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-            attrs.expirationInterval = PillExpirationInterval.EveryDay
-            attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
-            attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
-            attrs.notify = true
-            attrs.timesTakenToday = 0
-            attrs.name = "Notification Test"
-            pills.set(at: 0, with: attrs)
-        }
-#endif
+        Self.handleDebugMode(settings, hormones, pills)
+        #endif
         self.init(
             settings: settings,
             dataSharer: dataSharer,
@@ -138,5 +110,38 @@ public class PatchData: NSObject, PatchDataSDK {
         pills.reset()
         let newSiteCount = sites.reset()
         settings.reset(defaultSiteCount: newSiteCount)
+    }
+
+    private static func handleDebugMode(
+        _ settings: PDSettings, _ hormones: HormoneSchedule, _ pills: PillSchedule) {
+
+        // ******************************************************
+        // Debug mode
+        // ******************************************************
+        if PDCli.isDebugMode() {
+            PDLogLevel = PDLogLevels.DEBUG
+        }
+
+        // ******************************************************
+        // Notifications testing - a Hormone that expires in 20 seconds, a Pill that expires in 12
+        // ******************************************************
+        if PDCli.isNotificationsTest() {
+            let now = Date()
+            let delay = 20
+            let seconds = settings.expirationInterval.hours * 60 * 60 - delay
+            settings.setNotifications(to: true)
+            let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
+            hormones.setDate(at: 0, with: date!)
+
+            var attrs = PillAttributes()
+            let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
+            attrs.expirationInterval = PillExpirationInterval.EveryDay
+            attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
+            attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
+            attrs.notify = true
+            attrs.timesTakenToday = 0
+            attrs.name = "Notification Test"
+            pills.set(at: 0, with: attrs)
+        }
     }
 }

@@ -14,5 +14,5 @@ public protocol DependenciesProtocol {
     var notifications: NotificationScheduling? { get }
     var nav: NavigationHandling? { get }
     var alerts: AlertProducing? {get }
-    var badge: PDBadgeDelegate? { get }
+    var badge: PDBadgeReflective? { get }
 }

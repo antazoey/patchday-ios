@@ -17,9 +17,9 @@ public var PDLogLevel = PDLogLevels.NONE
 public class PDLog<T> {
 
     private enum LogStatus: String {
-        case INFO = "INFO"
-        case WARN = "WARN"
-        case ERROR = "ERROR"
+        case INFO
+        case WARN
+        case ERROR
     }
 
     private var symbolMap: [LogStatus: String] = [

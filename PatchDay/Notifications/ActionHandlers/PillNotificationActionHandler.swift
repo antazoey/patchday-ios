@@ -1,5 +1,5 @@
 //
-//  SwallowPillNotificationActionHandler.swift
+//  PillNotificationActionHandler.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 10/8/19.
@@ -12,9 +12,9 @@ import PDKit
 class PillNotificationActionHandler: PillNotificationActionHandling {
 
     let pills: PillScheduling?
-    let badge: PDBadgeDelegate
+    let badge: PDBadgeReflective
 
-    init(_ pills: PillScheduling?, _ appBadge: PDBadgeDelegate) {
+    init(_ pills: PillScheduling?, _ appBadge: PDBadgeReflective) {
         self.pills = pills
         self.badge = appBadge
     }

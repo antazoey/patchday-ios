@@ -44,7 +44,7 @@ public class Hormone: Hormonal {
             hormoneData.siteRelationshipId = newValue
             hormoneData.siteImageId = nil
             // Only clear back up if not explicitly setting to nil
-            if let _ = newValue {
+            if newValue != nil {
                 hormoneData.siteNameBackUp = nil
             }
         }

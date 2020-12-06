@@ -23,15 +23,15 @@ public class PDObjectLogger {
             expirationStr = "\"\(exp)\""
         }
         let hormoneInfo = """
-                          {
-                                \"type\": \"\(PDEntity.hormone)\",
-                                \"date\": \(dateStr),
-                                \"siteId\": \(siteIdStr),
-                                \"deliveryMethod\": "\(hormone.deliveryMethod)\",
-                                \"expirationIntervalHours\": \(hormone.expirationInterval.hours),
-                                \"expiration\": \(expirationStr)
-                          }
-                          """
+            {
+                \"type\": \"\(PDEntity.hormone)\",
+                \"date\": \(dateStr),
+                \"siteId\": \(siteIdStr),
+                \"deliveryMethod\": "\(hormone.deliveryMethod)\",
+                \"expirationIntervalHours\": \(hormone.expirationInterval.hours),
+                \"expiration\": \(expirationStr)
+            }
+            """
         print(hormoneInfo)
     }
 
@@ -41,16 +41,16 @@ public class PDObjectLogger {
             lastTakenStr = "\"\(lastTaken)\""
         }
         let pillInfo = """
-                       {
-                            \"type\": \"\(PDEntity.pill)\",
-                            \"name\": \"\(pill.name)\",
-                            \"timesTakenToday\": \(pill.timesTakenToday),
-                            \"timesaday\": \(pill.timesaday),
-                            \"times\": \"\(pill.times)\",
-                            \"lastTaken\": \(lastTakenStr ?? "null"),
-                            \"notify\": \(pill.notify)
-                       }
-                       """
+            {
+                \"type\": \"\(PDEntity.pill)\",
+                \"name\": \"\(pill.name)\",
+                \"timesTakenToday\": \(pill.timesTakenToday),
+                \"timesaday\": \(pill.timesaday),
+                \"times\": \"\(pill.times)\",
+                \"lastTaken\": \(lastTakenStr ?? "null"),
+                \"notify\": \(pill.notify)
+            }
+            """
         print(pillInfo)
     }
 
@@ -70,13 +70,13 @@ public class PDObjectLogger {
             hormoneIdsStr.append("\n\t]")
         }
         let siteInfo = """
-                       {
-                            \"type\": \"\(PDEntity.site)\",
-                            \"name\": \"\(site.name)\",
-                            \"order\": \(site.order),
-                            \"hormoneIds\": \(hormoneIdsStr)
-                       }
-                       """
+            {
+                \"type\": \"\(PDEntity.site)\",
+                \"name\": \"\(site.name)\",
+                \"order\": \(site.order),
+                \"hormoneIds\": \(hormoneIdsStr)
+            }
+            """
         print(siteInfo)
     }
 }

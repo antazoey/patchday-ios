@@ -93,10 +93,8 @@ class MOHormoneList: MOEntityList {
     }
 
     private func fixHormoneIdsIfNeeded() {
-        for hormone in MOEntities.hormoneMOs {
-            if hormone.id == nil {
-                hormone.id = UUID()
-            }
+        for hormone in MOEntities.hormoneMOs where hormone.id == nil {
+            hormone.id = UUID()
         }
     }
 

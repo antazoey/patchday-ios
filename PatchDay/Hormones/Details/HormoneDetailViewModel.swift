@@ -52,8 +52,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         }
     }
 
-    /// Returns the date selected from the UI. If no date has been selected, returns the hormones date. If the hormone does not
-    /// have a valid date, returns the current date.
+    /// Returns the date selected from the UI. If no date has been selected, returns the hormones date.
+    /// If the hormone does not have a valid date, returns the current date.
     var dateSelected: Date? {
         get {
             if let selected = selections.date {

@@ -15,9 +15,12 @@ public class MockAlertFactory: AlertProducing {
 
     public var tabs: TabReflective?
 
-    public var createDeliveryMethodMutationAlertCallArgs: [(DeliveryMethod, DeliveryMethodMutationAlertActionHandling)] = []
+    public var createDeliveryMethodMutationAlertCallArgs: [(DeliveryMethod, DeliveryMethodMutationAlertActionHandling)]
+        = []
     public var createDeliveryMethodMutationAlertReturnValue = MockAlert()
-    public func createDeliveryMethodMutationAlert(newDeliveryMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling) -> PDAlerting {
+    public func createDeliveryMethodMutationAlert(
+        newDeliveryMethod: DeliveryMethod, handlers: DeliveryMethodMutationAlertActionHandling
+    ) -> PDAlerting {
         createDeliveryMethodMutationAlertCallArgs.append((newDeliveryMethod, handlers))
         return createDeliveryMethodMutationAlertReturnValue
     }
@@ -45,7 +48,9 @@ public class MockAlertFactory: AlertProducing {
 
     public var createPillActionsCallArgs: [(Swallowable, PillCellActionHandling)] = []
     public var createPillActionsReturnValue = MockAlert()
-    public func createPillActions(_ pill: Swallowable, _ handlers: PillCellActionHandling) -> PDAlerting {
+    public func createPillActions(
+        _ pill: Swallowable, _ handlers: PillCellActionHandling
+    ) -> PDAlerting {
         createPillActionsCallArgs.append((pill, handlers))
         return createPillActionsReturnValue
     }
@@ -59,7 +64,11 @@ public class MockAlertFactory: AlertProducing {
 
     public var createUnsavedAlertCallArgs: [(UIViewController, () -> Void, () -> Void)] = []
     public var createUnsavedAlertReturnValue = MockAlert()
-    public func createUnsavedAlert(_ parent: UIViewController, saveAndContinueHandler: @escaping () -> Void, discardHandler: @escaping () -> Void) -> PDAlerting {
+    public func createUnsavedAlert(
+        _ parent: UIViewController,
+        saveAndContinueHandler: @escaping () -> Void,
+        discardHandler: @escaping () -> Void
+    ) -> PDAlerting {
         createUnsavedAlertCallArgs.append((parent, saveAndContinueHandler, discardHandler))
         return createUnsavedAlertReturnValue
     }

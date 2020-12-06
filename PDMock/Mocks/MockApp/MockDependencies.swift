@@ -23,5 +23,5 @@ public class MockDependencies: DependenciesProtocol {
 
     public var nav: NavigationHandling? = MockNav()
 
-    public var badge: PDBadgeDelegate? = MockBadge()
+    public var badge: PDBadgeReflective? = MockBadge()
 }

@@ -35,7 +35,8 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     @discardableResult
     func incrementStoredSiteIndex(from start: Int?) -> Index
 
-    /// Replaces the value of 'site index' with the given one. Accepts 0..<siteCount. Returns the index after trying to set.
+    /// Replaces the value of 'site index' with the given one.
+    /// Accepts 0..<siteCount. Returns the index after trying to set.
     @discardableResult
     func replaceStoredSiteIndex(to i: Index) -> Index
 }

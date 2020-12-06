@@ -9,11 +9,17 @@ import PDKit
 public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 
     public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DeliveryMethodRawValue)
-    public var expirationInterval = ExpirationIntervalUD(DefaultSettings.ExpirationIntervalRawValue)
+    public var expirationInterval = ExpirationIntervalUD(
+        DefaultSettings.ExpirationIntervalRawValue
+    )
     public var quantity = QuantityUD(DefaultSettings.QuantityRawValue)
     public var notifications = NotificationsUD(DefaultSettings.NotificationsRawValue)
-    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(DefaultSettings.NotificationsMinutesBeforeRawValue)
-    public var mentionedDisclaimer = MentionedDisclaimerUD(DefaultSettings.MentionedDisclaimerRawValue)
+    public var notificationsMinutesBefore = NotificationsMinutesBeforeUD(
+        DefaultSettings.NotificationsMinutesBeforeRawValue
+    )
+    public var mentionedDisclaimer = MentionedDisclaimerUD(
+        DefaultSettings.MentionedDisclaimerRawValue
+    )
     public var siteIndex = SiteIndexUD(DefaultSettings.SiteIndexRawValue)
 
     public init() { }
@@ -53,7 +59,9 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     }
 
     public func replaceStoredNotificationsMinutesBefore(to newNotificationsMinutesBefore: Int) {
-        self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(newNotificationsMinutesBefore)
+        self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(
+            newNotificationsMinutesBefore
+        )
     }
 
     public func replaceStoredMentionedDisclaimer(to newMentionedDisclaimer: Bool) {

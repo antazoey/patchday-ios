@@ -148,9 +148,9 @@ public class SiteSchedule: NSObject, SiteScheduling {
     public func reorder(at index: Index, to newOrder: Int) {
         guard count > 0 else { return }
         guard var site = self[index], var originalSiteAtOrder = self[newOrder] else { return }
-        site.order = site.order + originalSiteAtOrder.order
+        site.order += originalSiteAtOrder.order
         originalSiteAtOrder.order = site.order - originalSiteAtOrder.order
-        site.order = site.order - originalSiteAtOrder.order
+        site.order -= originalSiteAtOrder.order
         sort()
         store.pushLocalChangesToManagedContext(context, doSave: true)
     }
@@ -185,14 +185,13 @@ public class SiteSchedule: NSObject, SiteScheduling {
     }
 
     private var siteWithOldestHormone: Bodily? {
-        context.reduce((oldestDate: Date(), oldest: nil, iterator: 0), {
-                (b, site) in
-                if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
-                    oldestDateInThisSitesHormones < b.oldestDate, let site = self[b.iterator] {
-                    return (oldestDateInThisSitesHormones, site, b.iterator + 1)
-                }
-                return (b.oldestDate, b.oldest, b.iterator + 1)
-            }).oldest
+        context.reduce((oldestDate: Date(), oldest: nil, iterator: 0), { (b, site) in
+            if let oldestDateInThisSitesHormones = getOldestHormoneDate(from: site.id),
+                oldestDateInThisSitesHormones < b.oldestDate, let site = self[b.iterator] {
+                return (oldestDateInThisSitesHormones, site, b.iterator + 1)
+            }
+            return (b.oldestDate, b.oldest, b.iterator + 1)
+        }).oldest
     }
 
     private func getOldestHormoneDate(from siteId: UUID) -> Date? {

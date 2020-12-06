@@ -28,7 +28,7 @@ class Notifications: NSObject, NotificationScheduling {
         super.init()
     }
 
-    convenience init(sdk: PatchDataSDK, appBadge: PDBadgeDelegate) {
+    convenience init(sdk: PatchDataSDK, appBadge: PDBadgeReflective) {
         let center = PDNotificationCenter(
             root: UNUserNotificationCenter.current(),
             handlePill: PillNotificationActionHandler(sdk.pills, appBadge)

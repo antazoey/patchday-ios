@@ -12,9 +12,9 @@ import PDKit
 public class NotificationFactory: NotificationProducing {
 
     private let sdk: PatchDataSDK
-    private let badge: PDBadgeDelegate
+    private let badge: PDBadgeReflective
 
-    public init(sdk: PatchDataSDK, badge: PDBadgeDelegate) {
+    public init(sdk: PatchDataSDK, badge: PDBadgeReflective) {
         self.sdk = sdk
         self.badge = badge
     }

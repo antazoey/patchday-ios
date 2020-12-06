@@ -88,10 +88,8 @@ class MOPillList: MOEntityList {
     }
 
     private func fixPillIdsIfNeeded() {
-        for pill in MOEntities.pillMOs {
-            if pill.id == nil {
-                pill.id = UUID()
-            }
+        for pill in MOEntities.pillMOs where pill.id == nil {
+            pill.id = UUID()
         }
     }
 

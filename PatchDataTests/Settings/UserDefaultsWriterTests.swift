@@ -26,7 +26,7 @@ class UserDefaultsWriterTests: XCTestCase {
     private let numOfHandlers = 2  // baseDefaults + dataSharer
 
     private var handler: UserDefaultsWriteHandler {
-         UserDefaultsWriteHandler(baseDefaults: defaults, dataSharer: defaults)
+        UserDefaultsWriteHandler(baseDefaults: defaults, dataSharer: defaults)
     }
 
     private func createMockSiteStore(count: Int, freeHormoneIndex: Index) -> MockSiteStore {

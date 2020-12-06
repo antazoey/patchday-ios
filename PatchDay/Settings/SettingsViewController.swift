@@ -276,10 +276,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     private func deselectOtherPickers(besides selectedPicker: UIPickerView) {
         let pickers = [quantityPicker, deliveryMethodPicker, expirationIntervalPicker]
-        for picker in pickers {
-            if picker != selectedPicker {
-                picker?.close(setSelectedRow: false)
-            }
+        for picker in pickers where picker != selectedPicker {
+            picker?.close(setSelectedRow: false)
         }
     }
 

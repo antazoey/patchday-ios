@@ -9,7 +9,7 @@
 import UIKit
 import PDKit
 
-public class PDBadge: PDBadgeDelegate {
+public class PDBadge: PDBadgeReflective {
 
     private let sdk: PatchDataSDK?
 

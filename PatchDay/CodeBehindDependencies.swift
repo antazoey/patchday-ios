@@ -16,7 +16,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
     let notifications: NotificationScheduling?
     var alerts: AlertProducing?
     let nav: NavigationHandling?
-    let badge: PDBadgeDelegate?
+    let badge: PDBadgeReflective?
 
     lazy var log = PDLog<CodeBehindDependencies>()
     lazy var contextClass = String(describing: T.self)
@@ -27,7 +27,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
         notifications: NotificationScheduling?,
         alerts: AlertProducing?,
         nav: NavigationHandling?,
-        badge: PDBadgeDelegate?
+        badge: PDBadgeReflective?
     ) {
         self.sdk = sdk
         self.tabs = tabs

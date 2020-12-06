@@ -141,7 +141,7 @@ public class SiteImages: NSObject {
     }
 
     private static func custom(from params: SiteImageDeterminationParameters) -> UIImage? {
-        guard let _ = params.imageId else { return nil }
+        guard params.imageId != nil else { return nil }
         switch params.deliveryMethod {
             case .Patches: return customPatch
             case .Injections: return customInjection

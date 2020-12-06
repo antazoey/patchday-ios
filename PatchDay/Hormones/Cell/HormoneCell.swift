@@ -102,14 +102,16 @@ class HormoneCell: TableCell, HormoneCellProtocol {
         self.siteImageView.alpha = 1
         UIView.animate(
             withDuration: 0.75,
-            animations: { self.siteImageView.alpha = 0 }) {
-            isReady in
-            if isReady {
-                self.siteImageView.image = nil
-                self.reset()
-                completion?()
+            animations: { self.siteImageView.alpha = 0 },
+            completion: {
+                isReady in
+                if isReady {
+                    self.siteImageView.image = nil
+                    self.reset()
+                    completion?()
+                }
             }
-        }
+        )
     }
 
     private func animateAdd(_ placeholderImage: UIImage?, completion: (() -> Void)? = nil) {
@@ -117,10 +119,9 @@ class HormoneCell: TableCell, HormoneCellProtocol {
         siteImageView.image = placeholderImage
         UIView.animate(
             withDuration: 0.75,
-            animations: { self.siteImageView.alpha = 1 }) {
-            _ in
-            completion?()
-        }
+            animations: { self.siteImageView.alpha = 1 },
+            completion: { _ in completion?() }
+        )
     }
 
     private func animateSetSiteImage(_ image: UIImage?) {

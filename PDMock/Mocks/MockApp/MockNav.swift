@@ -23,8 +23,12 @@ public class MockNav: NavigationHandling {
         goToPillDetailsCallArgs.append((index, source))
     }
 
-    public var goToSiteDetailsCallArgs: [(Index, UIViewController, SiteImageDeterminationParameters)] = []
-    public func goToSiteDetails(_ index: Index, source: UIViewController, params: SiteImageDeterminationParameters) {
+    public var goToSiteDetailsCallArgs: [(Index, UIViewController, SiteImageDeterminationParameters)]
+        = []
+
+    public func goToSiteDetails(
+        _ index: Index, source: UIViewController, params: SiteImageDeterminationParameters
+    ) {
         goToSiteDetailsCallArgs.append((index, source, params))
     }
 

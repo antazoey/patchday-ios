@@ -86,10 +86,8 @@ class MOSiteList: MOEntityList {
     }
 
     private func fixSiteIdsIfNeeded() {
-        for site in MOEntities.siteMOs {
-            if site.id == nil {
-                site.id = UUID()
-            }
+        for site in MOEntities.siteMOs where site.id == nil {
+            site.id = UUID()
         }
     }
 

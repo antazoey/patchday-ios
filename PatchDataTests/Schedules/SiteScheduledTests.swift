@@ -77,10 +77,8 @@ class SiteScheduleTests: XCTestCase {
     private func setUpRelatedHormonesFactory(sites: [MockSite], hormonesOptions: [[HormoneStruct]]) {
         let c = min(sites.count, hormonesOptions.count)
         mockStore.getRelatedHormonesFactory = {
-            for i in 0..<c {
-                if sites[i].id == $0 {
-                    return hormonesOptions[i]
-                }
+            for i in 0..<c where sites[i].id == $0 {
+                return hormonesOptions[i]
             }
             return []
         }
