@@ -7,8 +7,9 @@ SWIFTC_FLAGS =
 LINKER_FLAGS = -Xlinker -L/usr/local/lib
 endif
 ifeq ($(UNAME), Linux)
-SWIFTC_FLAGS = -Xcc -fblocks
+SWIFTC_FLAGS = -Xswiftc "-sdk" -Xswiftc "`xcrun --sdk iphonesimulator --show-sdk-path`" -Xswiftc "-target" -Xswiftc "x86_64-apple-ios14.2-simulator"
 LINKER_FLAGS = -Xlinker -rpath -Xlinker .build/debug
+
 endif
  
  
