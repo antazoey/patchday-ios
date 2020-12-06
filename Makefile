@@ -1,5 +1,7 @@
+PATHS = Sources/ Tests/
+
 lint:
-	swiftlint lint
+	swiftlint lint $(PATHS)
 
 autocorrect:
-	swiftlint autocorrect
+	swiftlint autocorrect $(PATHS)
