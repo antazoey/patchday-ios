@@ -8,15 +8,15 @@ Recommended to use Xcode. AppCode may also work (and may have some desired tooli
 
 Use [SwiftLint](https://github.com/realm/SwiftLint). Follow the install instructions - make sure `swiftlint` is in your path.
 
-From the project directory, do:
+To check lint errors, do:
 
 ```bash
-swiftlint autocorrect
+make lint
 ```
 
-TODO: Come up with insutrctions for automating this.
+`make autocorrect` works decently for correcting some errors.
 
-Make changes to the linter settings by editting `.swiftlint.yml`.
+CircleCI will complain about certain lint errors for the project.
 
 ## Testing
 
@@ -34,4 +34,3 @@ during tests.
 ### Tests Scheme
 
 If you create a new tests project, make sure to add it to the shared testing scheme.
-

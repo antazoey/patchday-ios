@@ -6,9 +6,40 @@ and Gel-based HRT. To learn more about how to set up the app, visit the support 
 
 [Support Site](https://patchdayhrt.com)
 
-* [PatchData](./PatchData/README.md) - the PatchDay Core Data API.
-* [PatchDaySite](https://github.com/unparalleled-js/patchday-site) - the PatchDay support website.
-* [PDKit](./PDKit/README.md) - a kit for common functions used in PatchDay apps.
-* [PatchDayToday](./PatchDayToday/README.md) - the PatchDay Today app.
+## Targets
 
-If you want to contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md)
+### PatchDay
+
+- The main app target, the target that gets archived for production.
+
+### Embedded libraries / widgets
+
+* [PatchData](./Sources/PatchData/) - the PatchDay backend Core Data proxy.
+* [PatchDaySite](https://github.com/unparalleled-js/patchday-site) - the PatchDay support website.
+* [PDKit](./Sources/PDKit/) - shared PatchDay app tools.
+* [NextHormoneWidget](./Sources/NextHormoneWidget/) - Displays when next the hormone is due as a widget.
+
+If you want to contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md
+
+## Schemes
+
+### Notifications Test
+
+This target sets hormones that are about to expire. You can use this target to verify notification-based 
+behavior.  Run the target and then minimize the app and wait for notificaitons to appear.  The hormone notification occurs in a few seconds but the pill notification takes until the start of the next minute.
+
+See [Contributing].(./CONTRIBUTING.md)
+
+### Debug
+
+The debug target includes additional logging.
+
+## Building
+
+Do
+
+```bash
+make build
+```
+
+Or build the PatchDay target.
