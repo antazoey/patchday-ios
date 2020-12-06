@@ -75,7 +75,9 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void
     ) {
         guard let pill = sdk?.pills[index] else { return }
-        let goToDetails = { self.goToPillDetails(pillIndex: index, pillsViewController: viewController) }
+        let goToDetails = {
+            self.goToPillDetails(pillIndex: index, pillsViewController: viewController)
+        }
         let takePill = {
             self.takePill(at: index)
             takePillCompletion()

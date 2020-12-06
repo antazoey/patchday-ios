@@ -23,6 +23,11 @@ public class MockPillSchedule: PillScheduling {
 
     public var totalDue: Int = 0
 
+    public var reloadContextCallCount = 0
+    public func reloadContext() {
+        reloadContextCallCount += 1
+    }
+
     public var insertNewCallArgs: [(() -> Void)?] = []
     public var insertNewReturnValue: Swallowable?
     public func insertNew(onSuccess: (() -> Void)?) -> Swallowable? {

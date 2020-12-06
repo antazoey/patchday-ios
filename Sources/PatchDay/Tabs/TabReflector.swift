@@ -38,7 +38,7 @@ class TabReflector: TabReflective {
 
     func reflectHormones() {
         guard let sdk = sdk else { return }
-        guard let hormonesVC = hormonesViewController else { return }
+        guard let hormonesViewController = hormonesViewController else { return }
         sdk.hormones.reloadContext()
         let method = sdk.settings.deliveryMethod.value
         let icon = PDIcons[method]
@@ -46,22 +46,23 @@ class TabReflector: TabReflective {
         let title = PDTitleStrings.Hormones[method]
         let item = UITabBarItem(title: title, image: icon, selectedImage: icon)
         item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
-        hormonesVC.title = title
-        hormonesVC.tabBarItem = nil  // Set to nil first to force redraw
-        hormonesVC.tabBarItem = item
-        hormonesVC.awakeFromNib()
+        hormonesViewController.title = title
+        hormonesViewController.tabBarItem = nil  // Set to nil first to force redraw
+        hormonesViewController.tabBarItem = item
+        hormonesViewController.awakeFromNib()
     }
 
     func reflectPills() {
-        guard let pillsVC = pillsViewController else { return }
+        guard let pillsViewController = pillsViewController else { return }
         guard let sdk = sdk else { return }
-        guard let item = pillsVC.tabBarItem else { return }
+        guard let item = pillsViewController.tabBarItem else { return }
+        sdk.pills.reloadContext()
         let expiredCount = sdk.pills.totalDue
         item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
         let log = PDLog<TabReflector>()
         log.info("Settings pills tab to \(item.badgeValue ?? "nil")")
-        pillsVC.tabBarItem = item
-        pillsVC.awakeFromNib()
+        pillsViewController.tabBarItem = item
+        pillsViewController.awakeFromNib()
     }
 
     private func loadViewControllerTabTextAttributes() {

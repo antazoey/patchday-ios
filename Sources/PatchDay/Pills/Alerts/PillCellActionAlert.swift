@@ -30,7 +30,7 @@ class PillCellActionAlert: PDAlert {
     private var takeAction: UIAlertAction? {
         !pill.isDone ? UIAlertAction(title: ActionStrings.Take, style: .default) {
             _ in self.handlers.takePill()
-            } : nil
+        } : nil
     }
 
     override func present() {
