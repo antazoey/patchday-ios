@@ -1,17 +1,17 @@
 
+# Build dirs
 /.build
+/build
 *.xcuserstate
 **/xcuserdata/
 
+# Test results files
 *result.yml
 
-PatchDay.xcodeproj/project.xcworkspace/xcuserdata
-**/*.xcuserstate
-
+# Files
 *.cer
 *.swp
 .DS_Store
 *.p12
 *.idea
 *.swo
-
