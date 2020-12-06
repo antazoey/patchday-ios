@@ -19,7 +19,7 @@ and Gel-based HRT. To learn more about how to set up the app, visit the support 
 * [PDKit](./Sources/PDKit/) - shared PatchDay app tools.
 * [NextHormoneWidget](./Sources/NextHormoneWidget/) - Displays when next the hormone is due as a widget.
 
-If you want to contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md
+If you want to contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Schemes
 
