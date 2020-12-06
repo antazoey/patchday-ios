@@ -881,7 +881,8 @@
 				3397C5FCFB55FB1F1D19DBE2 /* Tabs */,
 				3397C589C6DAE61092F94067 /* Badge */,
 			);
-			path = PatchDay;
+			name = PatchDay;
+			path = Sources/PatchDay;
 			sourceTree = "<group>";
 		};
 		138A65611F198B4D0068A972 /* Schedules */ = {
@@ -1280,7 +1281,8 @@
 				9D69B1E3256C7B2400213E79 /* Assets.xcassets */,
 				9D69B1E5256C7B2400213E79 /* Info.plist */,
 			);
-			path = NextHormoneWidget;
+			name = NextHormoneWidget;
+			path = Sources/NextHormoneWidget;
 			sourceTree = "<group>";
 		};
 		9D6DB7CE2405FEA900C00711 /* Settings */ = {
@@ -1341,7 +1343,8 @@
 				9D6E9B1C2457A541003BBCC9 /* Notifications */,
 				9D6E9AF22456253A003BBCC9 /* Info.plist */,
 			);
-			path = PatchDayTests;
+			name = PatchDayTests;
+			path = Tests/PatchDayTests;
 			sourceTree = "<group>";
 		};
 		9D6E9B1C2457A541003BBCC9 /* Notifications */ = {
@@ -1497,7 +1500,8 @@
 				9D8A981423C573B3004E20FE /* Info.plist */,
 				9D1908F5247029E800E95244 /* PDTest.swift */,
 			);
-			path = PDMock;
+			name = PDMock;
+			path = Sources/PDMock;
 			sourceTree = "<group>";
 		};
 		9D8A981B23C5742E004E20FE /* Mocks */ = {
@@ -1839,7 +1843,8 @@
 				3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */,
 				9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */,
 			);
-			path = PDKitTests;
+			name = PDKitTests;
+			path = Tests/PDKitTests;
 			sourceTree = "<group>";
 		};
 		B468F49F20D9BDBA007FC689 /* Frameworks */ = {
@@ -1866,7 +1871,8 @@
 				3397CC78426D1417ECADBDE0 /* DataSharing */,
 				9DE45370242FB93D0056AC94 /* PDCli.swift */,
 			);
-			path = PatchData;
+			name = PatchData;
+			path = Sources/PatchData;
 			sourceTree = "<group>";
 		};
 		B480EE2A21CC7554002C2238 /* PatchDataTests */ = {
@@ -1878,7 +1884,8 @@
 				3397C54DDFA7DF1E9C1EDECA /* PatchDataLoggingPlayground.swift */,
 				3397C534CF3A3A5AE69CFE11 /* Settings */,
 			);
-			path = PatchDataTests;
+			name = PatchDataTests;
+			path = Tests/PatchDataTests;
 			sourceTree = "<group>";
 		};
 		B480EE4121CC76FE002C2238 /* ManagedObjects */ = {
@@ -1934,7 +1941,8 @@
 				9D6E9AE5245623AA003BBCC9 /* PDTO.swift */,
 				3397C6F5443D715A5E3FFCCE /* Foundation+PatchDay.swift */,
 			);
-			path = PDKit;
+			name = PDKit;
+			path = Sources/PDKit;
 			sourceTree = "<group>";
 		};
 		B4E12EA421D018E80068AD2E /* Schedules */ = {
