@@ -2,8 +2,8 @@ version: 2.1
 
 jobs:
   build-and-test:
-    macos:
-      xcode: 12.2.0
+    docker:
+      - image: swiftdocker/swift
     steps:
       - checkout
       - run:
