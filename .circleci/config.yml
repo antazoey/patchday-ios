@@ -6,7 +6,7 @@ jobs:
       - image: dantoml/swiftlint:latest
     steps:
       - checkout
-      - run: swiftlint lint --reporter junit | tee result.xml
+      - run: make lint
       - store_artifacts:
           path: result.xml
       - store_test_results:
