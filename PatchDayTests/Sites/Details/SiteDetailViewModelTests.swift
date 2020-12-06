@@ -204,10 +204,10 @@ class SiteDetailViewModelTests: XCTestCase {
     func testHandleIfUnsaved_whenNoSelections_stillPops() {
         setupSite()
         let viewModel = createViewModel(index: 0)
-        let vc = UIViewController()
-        viewModel.handleIfUnsaved(vc)
+        let viewController = UIViewController()
+        viewModel.handleIfUnsaved(viewController)
         let nav = viewModel.nav as! MockNav
-        XCTAssertEqual(vc, nav.popCallArgs[0])
+        XCTAssertEqual(viewController, nav.popCallArgs[0])
     }
 
     func testGetAttributedSiteName_hasExpectedName() {

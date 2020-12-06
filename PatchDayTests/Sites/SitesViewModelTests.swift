@@ -199,9 +199,9 @@ class SitesViewModelTests: XCTestCase {
         let table = MockSitesTable()
         let dep = MockDependencies()
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
-        let vc = UIViewController()
-        viewModel.goToSiteDetails(siteIndex: 0, sitesViewController: vc)
-        XCTAssertEqual(PDTitleStrings.SitesTitle, vc.navigationItem.backBarButtonItem?.title)
+        let viewController = UIViewController()
+        viewModel.goToSiteDetails(siteIndex: 0, sitesViewController: viewController)
+        XCTAssertEqual(PDTitleStrings.SitesTitle, viewController.navigationItem.backBarButtonItem?.title)
     }
 
     func testGoToSiteDetails_navigates() {
@@ -210,7 +210,7 @@ class SitesViewModelTests: XCTestCase {
         let settings = dep.sdk?.settings as! MockSettings
         let nav = dep.nav as! MockNav
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
-        let vc = UIViewController()
+        let viewController = UIViewController()
         let deliveyMethod = DeliveryMethodUD(.Gel)
         let testSite = MockSite()
         let sites = dep.sdk?.sites as! MockSiteSchedule
@@ -221,7 +221,7 @@ class SitesViewModelTests: XCTestCase {
         sites.subscriptIndexReturnValue = testSite
         settings.deliveryMethod = deliveyMethod
 
-        viewModel.goToSiteDetails(siteIndex: testIndex, sitesViewController: vc)
+        viewModel.goToSiteDetails(siteIndex: testIndex, sitesViewController: viewController)
 
         let callArgs = nav.goToSiteDetailsCallArgs
         XCTAssertEqual(1, callArgs.count)
@@ -229,7 +229,7 @@ class SitesViewModelTests: XCTestCase {
         let actualVc = callArgs[0].1
         let params = callArgs[0].2
         XCTAssertEqual(testIndex, actualIndex)
-        XCTAssertEqual(vc, actualVc)
+        XCTAssertEqual(viewController, actualVc)
         XCTAssertEqual(.Gel, params.deliveryMethod)
         XCTAssertEqual(imageId, params.imageId)
     }
@@ -352,19 +352,19 @@ class SitesViewModelTests: XCTestCase {
         let table = MockSitesTable()
         table.isEditing = false
         let dep = MockDependencies()
-        let vc = UIViewController()
+        let viewController = UIViewController()
 
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
         let items = viewModel.createBarItems(
             insertAction: #selector(mockInsert),
             editAction: #selector(mockEdit),
-            sitesViewController: vc
+            sitesViewController: viewController
         )
         let insert = items[0]
         let edit = items[1]
 
         XCTAssertEqual(#selector(mockInsert), insert.action)
-        XCTAssertEqual(vc, insert.target as! UIViewController)
+        XCTAssertEqual(viewController, insert.target as! UIViewController)
         XCTAssertEqual(PDColors[.NewItem], insert.tintColor)
         XCTAssertNil(insert.title)
         let dummy = UIBarButtonItem(
@@ -375,7 +375,7 @@ class SitesViewModelTests: XCTestCase {
         XCTAssertEqual(dummy.image, insert.image)
 
         XCTAssertEqual(#selector(mockEdit), edit.action)
-        XCTAssertEqual(vc, edit.target as! UIViewController)
+        XCTAssertEqual(viewController, edit.target as! UIViewController)
         XCTAssertEqual("Edit", edit.title)
     }
 }

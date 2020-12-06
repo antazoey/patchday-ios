@@ -450,10 +450,10 @@ class HormonesViewModelTests: XCTestCase {
     func testGoToHormoneDetails_navigates() {
         let viewModel = setUpRealisticSchedule()
         let testIndex = 2
-        let vc = UIViewController()
-        viewModel.goToHormoneDetails(hormoneIndex: testIndex, vc)
+        let viewController = UIViewController()
+        viewModel.goToHormoneDetails(hormoneIndex: testIndex, viewController)
         let callArgs = (mockDeps.nav as! MockNav).goToHormoneDetailsCallArgs
         XCTAssertEqual(testIndex, callArgs[0].0)
-        XCTAssertEqual(vc, callArgs[0].1)
+        XCTAssertEqual(viewController, callArgs[0].1)
     }
 }

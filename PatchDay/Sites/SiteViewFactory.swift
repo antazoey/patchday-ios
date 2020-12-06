@@ -13,11 +13,15 @@ class SiteViewFactory {
     }
 
     static func createItemFromActionState(_ props: BarItemInitializationProperties) -> UIBarButtonItem {
-        let vc = props.sitesViewController
+        let viewController = props.sitesViewController
         if props.isEditing {
-            return SiteViewFactory.createResetItem(reset: props.reset, sitesViewController: vc)
+            return SiteViewFactory.createResetItem(
+                reset: props.reset, sitesViewController: viewController
+            )
         }
-        return SiteViewFactory.createInsertItem(insert: props.insert, sitesViewController: vc)
+        return SiteViewFactory.createInsertItem(
+            insert: props.insert, sitesViewController: viewController
+        )
     }
 
     static func createInsertItem(insert: Selector, sitesViewController: UIViewController) -> UIBarButtonItem {

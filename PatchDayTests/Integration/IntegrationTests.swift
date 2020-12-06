@@ -14,8 +14,6 @@ import PatchData
 @testable
 import PatchDay
 
-// These tests don't always work and better to be run individually. TODO: Make run serially.
-
 class IntegrationTests: XCTestCase {
 #if targetEnvironment(simulator)
 

@@ -550,9 +550,9 @@ class HormoneDetailViewModelTests: XCTestCase {
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
         viewModel.hormoneId = hormone.id
-        let vc = UIViewController()
-        viewModel.handleIfUnsaved(vc)
-        XCTAssertEqual(vc, (viewModel.nav! as! MockNav).popCallArgs[0])
+        let viewController = UIViewController()
+        viewModel.handleIfUnsaved(viewController)
+        XCTAssertEqual(viewController, (viewModel.nav! as! MockNav).popCallArgs[0])
     }
 
     func testExtractSiteNameFromTextField_whenTextFieldHasNoText_returnsEmptyString() {

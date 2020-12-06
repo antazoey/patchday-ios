@@ -91,16 +91,16 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     static func createPillDetailVC(
         _ source: UIViewController, _ index: Index
     ) -> PillDetailViewController? {
-        let vc = createPillDetailVC(source)
-        return vc?.initWithPillIndex(index)
+        let viewController = createPillDetailVC(source)
+        return viewController?.initWithPillIndex(index)
     }
 
     private static func createPillDetailVC(
         _ source: UIViewController
     ) -> PillDetailViewController? {
-        let id = ViewControllerIds.PillDetail
-        let vc = source.storyboard?.instantiateViewController(withIdentifier: id)
-        return vc as? PillDetailViewController
+        source.storyboard?.instantiateViewController(
+            withIdentifier: ViewControllerIds.PillDetail
+        ) as? PillDetailViewController
     }
 
     private func initWithPillIndex(_ index: Index) -> PillDetailViewController {

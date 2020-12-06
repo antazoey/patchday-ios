@@ -167,12 +167,12 @@ class NotificationsTests: XCTestCase {
     }
 
     func testRequestRangeOfExpiredHormoneNotifications_whenNotificationsIsOff_doesNotRequest() {
-       let sdk = createSDK(settings: createSettings(on: false))
-       let center = MockNotificationCenter()
-       let factory = createFactory()
-       let notifications = Notifications(sdk: sdk, center: center, factory: factory)
-       notifications.requestRangeOfExpiredHormoneNotifications(from: 18, to: 1)
-       XCTAssertEqual(0, mockNotification.requestCallCount)
+        let sdk = createSDK(settings: createSettings(on: false))
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        notifications.requestRangeOfExpiredHormoneNotifications(from: 18, to: 1)
+        XCTAssertEqual(0, mockNotification.requestCallCount)
     }
 
     func testRequestRangeOfExpiredHormoneNotifications_cancelsExpectedHormones() {

@@ -47,7 +47,7 @@ class DuePillNotificationTests: XCTestCase {
         pill.due = nil
         pill.name = "Cannabis"
         let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
-        DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
+        DuePillNotificationTests.testHandlerCallArgs = []
         not.request()
         XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
     }
@@ -59,7 +59,7 @@ class DuePillNotificationTests: XCTestCase {
         pill.times = [dueDate]
         pill.due = dueDate
         let not = DuePillNotification(for: pill, currentBadgeValue: 0, requestHandler: _testHandler)
-        DuePillNotificationTests.testHandlerCallArgs = []  // TODO: Make thread safe and test less fragile
+        DuePillNotificationTests.testHandlerCallArgs = []
         not.request()
         XCTAssertEqual(0, DuePillNotificationTests.testHandlerCallArgs.count)
     }

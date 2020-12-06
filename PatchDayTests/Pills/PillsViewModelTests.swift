@@ -251,10 +251,10 @@ class PillsViewModelTests: XCTestCase {
         let viewModel = createViewModel()
         let nav = deps.nav as! MockNav
         let pills = deps.sdk?.pills as! MockPillSchedule
-        let vc = UIViewController()
+        let viewController = UIViewController()
         pills.insertNewReturnValue = nil
         pills.indexOfReturnsValue = 1
-        viewModel.goToNewPillDetails(pillsViewController: vc)
+        viewModel.goToNewPillDetails(pillsViewController: viewController)
         let callArgs = nav.goToPillDetailsCallArgs
         XCTAssertEqual(0, callArgs.count)
     }
@@ -263,40 +263,40 @@ class PillsViewModelTests: XCTestCase {
         let viewModel = createViewModel()
         let nav = deps.nav as! MockNav
         let pills = deps.sdk?.pills as! MockPillSchedule
-        let vc = UIViewController()
+        let viewController = UIViewController()
         let newPill = MockPill()
         pills.insertNewReturnValue = newPill
         pills.indexOfReturnsValue = 1
         pills.all = [testPill, newPill]
-        viewModel.goToNewPillDetails(pillsViewController: vc)
+        viewModel.goToNewPillDetails(pillsViewController: viewController)
         let callArgs = nav.goToPillDetailsCallArgs
         XCTAssertEqual(1, callArgs.count)
         XCTAssertEqual(1, callArgs[0].0)
-        XCTAssertEqual(vc, callArgs[0].1)
+        XCTAssertEqual(viewController, callArgs[0].1)
     }
 
     func testGoToPillDetails_navigates() {
         let nav = deps.nav as! MockNav
         let viewModel = createViewModel()
-        let vc = UIViewController()
-        viewModel.goToPillDetails(pillIndex: 0, pillsViewController: vc)
+        let viewController = UIViewController()
+        viewModel.goToPillDetails(pillIndex: 0, pillsViewController: viewController)
         XCTAssertEqual(0, nav.goToPillDetailsCallArgs[0].0)
-        XCTAssertEqual(vc, nav.goToPillDetailsCallArgs[0].1)
+        XCTAssertEqual(viewController, nav.goToPillDetailsCallArgs[0].1)
     }
 
     func testGoToPillDetails_whenPillIndexNegative_doesNotNavigates() {
         let nav = deps.nav as! MockNav
         let viewModel = createViewModel()
-        let vc = UIViewController()
-        viewModel.goToPillDetails(pillIndex: -1, pillsViewController: vc)
+        let viewController = UIViewController()
+        viewModel.goToPillDetails(pillIndex: -1, pillsViewController: viewController)
         XCTAssertEqual(0, nav.goToPillDetailsCallArgs.count)
     }
 
     func testGoToPillDetails_whenPillIndexGreaterThanCount_doesNotNavigates() {
         let nav = deps.nav as! MockNav
         let viewModel = createViewModel()
-        let vc = UIViewController()
-        viewModel.goToPillDetails(pillIndex: 5, pillsViewController: vc)
+        let viewController = UIViewController()
+        viewModel.goToPillDetails(pillIndex: 5, pillsViewController: viewController)
         XCTAssertEqual(0, nav.goToPillDetailsCallArgs.count)
     }
 }

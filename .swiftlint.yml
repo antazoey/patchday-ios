@@ -1,5 +1,11 @@
 disabled_rules:
+  - closure_parameter_position
   - weak_delegate
+  - identifier_name
+  - force_cast
+  - file_length
+  - type_body_length
+
 opt_in_rules:
   - indentation_width 
 

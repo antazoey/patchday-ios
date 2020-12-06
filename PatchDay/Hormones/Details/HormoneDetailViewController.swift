@@ -73,21 +73,21 @@ class HormoneDetailViewController: UIViewController,
     static func create(
         _ source: UIViewController, _ index: Index
     ) -> HormoneDetailViewController? {
-        let vc = create(source)
-        return vc?.initWithHormoneIndex(index)
+        let viewController = create(source)
+        return viewController?.initWithHormoneIndex(index)
     }
 
     static func create(
         source: UIViewController, viewModel: HormoneDetailViewModel
     ) -> HormoneDetailViewController? {
-        let vc = create(source)
-        return vc?.initWithViewModel(viewModel)
+        let viewController = create(source)
+        return viewController?.initWithViewModel(viewModel)
     }
 
     private static func create(_ source: UIViewController) -> HormoneDetailViewController? {
-        let id = ViewControllerIds.HormoneDetail
-        let sb = source.storyboard
-        return sb?.instantiateViewController(withIdentifier: id) as? HormoneDetailViewController
+        source.storyboard?.instantiateViewController(
+            withIdentifier: ViewControllerIds.HormoneDetail
+        ) as? HormoneDetailViewController
     }
 
     private func initWithHormoneIndex(_ index: Index) -> HormoneDetailViewController {
