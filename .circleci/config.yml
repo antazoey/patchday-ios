@@ -11,6 +11,17 @@ jobs:
           path: result.xml
       - store_test_results:
           path: result.xml
+  
+  build-and-test:
+    docker:
+      - image: dantoml/swiftlint:latest
+    steps:
+      - checkout
+      - run: make test
+      - store_artifacts:
+          path: test_result.xml
+      - store_test_results:
+          path: test_result.xml
 
 workflows:
   build-test-lint:
