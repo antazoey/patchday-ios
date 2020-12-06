@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.2
+
+Fixed
+
+- Issue where pill notifications would re-schedule correctly.
+
 ## 3.2.1
 
 Fixed

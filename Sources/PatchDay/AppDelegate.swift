@@ -38,7 +38,7 @@ import WidgetKit
                 if let hormone = sdk.hormones[0] {
                     notifications.requestExpiredHormoneNotification(for: hormone)
                 }
-                if let pill = sdk.pills[0] {
+                for pill in sdk.pills.all where pill.name == "Notification Test" {
                     notifications.requestDuePillNotification(pill)
                 }
             }
