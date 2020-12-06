@@ -19,8 +19,6 @@ and Gel-based HRT. To learn more about how to set up the app, visit the support 
 * [PDKit](./Sources/PDKit/) - shared PatchDay app tools.
 * [NextHormoneWidget](./Sources/NextHormoneWidget/) - Displays when next the hormone is due as a widget.
 
-If you want to contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md)
-
 ## Schemes
 
 ### Notifications Test
@@ -28,7 +26,7 @@ If you want to contribute, see [CONTRIBUTING.md](./CONTRIBUTING.md)
 This target sets hormones that are about to expire. You can use this target to verify notification-based 
 behavior.  Run the target and then minimize the app and wait for notificaitons to appear.  The hormone notification occurs in a few seconds but the pill notification takes until the start of the next minute.
 
-See [Contributing].(./CONTRIBUTING.md)
+See [Contributing](./CONTRIBUTING.md).
 
 ### Debug
 
