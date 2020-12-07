@@ -1,8 +1,8 @@
 # PatchDay CONTRIBUTING.md
 
-## Environment
+## IDE
 
-Recommended to use Xcode. AppCode may also work (and may have some desired tooling).
+I recommend to just use Xcode, but AppCode may also work and may have some desired Jetbrains tooling.
 
 ## Linter
 
@@ -16,21 +16,84 @@ make lint
 
 `make autocorrect` works decently for correcting some errors.
 
-CircleCI will complain about certain lint errors for the project.
+Note: CircleCI will complain about certain lint errors for the project on PR builds.
 
 ## Testing
 
-### PDMock 
+### PDMock
+
 The project `PDMock` contains manual mocks for protocols defined in `PDKit.Protocols`. Use them, follow their patterns,
 create new ones if you need, modify them as you need. Mocks are mostly built and updates on a needs-basis, but the basic pattern is:
 
-* Does the mocked function contain arguments? Create a public variable containing the args and append them during calls. The 
-convention for the variable name is `<function-name>CallArgs`. If the function does not take arguments, simply create a 
-`<function-name>.CallCount` variable and increment it in the mock implementation.
+* If the method has no arguments and no return value, use a call count feature:
 
-* Does the mocked function have a return value? Create a variable named `<function-name>ReturnValue` and make it settable. Set it 
-during tests.
+```swift
+    public var fooCallCount = 0
+    public func foo() {
+        foo += 1
+    }
+```
 
-### Tests Scheme
+Have tests verify the call count:
 
-If you create a new tests project, make sure to add it to the shared testing scheme.
+```swift
+    XCTAssertEqual(1, mockObject.fooCallCount
+```
+
+* Does the mocked method contain arguments? Create a public variable containing the args and append them during calls. The 
+convention for the variable name is `<method-name>CallArgs`:
+
+```swift
+    public var fooCallArgs: [Int]] = []
+    public func foo(bar: Int) {
+        resetCallArgs.append(bar)
+    }
+```
+
+```swift
+    foo(bar: 6)
+    XCTAssertEqual(1, mockObject.fooCallArgs.count)
+    XCTAssertEqual(6, mockObject.fooCallArgs[0])
+```
+
+If there are mutliple args, use a tuple to track them in the list:
+
+```swift
+    public var fooCallArgs: [(Int, String)] = []
+    public func foo(bar: Int, jules: String) {
+        resetCallArgs.append((bar, jules))
+    }
+```
+
+* Does the mocked method have a return value? Create a variable named `<method-name>ReturnValue` and make it settable:
+
+Example:
+
+```swift
+    public var fooReturnValue = 0
+    public func foo() {
+        fooReturnValue
+    }
+```
+
+```swift
+    mockObject.fooReturnValue = 500
+    let actual = mockObject.foo()
+    XCTAssertEqual(500, actual)
+```
+
+* Is your method annoying complex? Well, just allow for a mock implementation, and make it settable
+
+```swift
+    public var fooMockImplementation: () -> () = { }
+    public func foo() {
+        fooMockImplementation()
+    }
+```
+
+```swift
+    var wasCalled = false
+    mockObject.fooMockImplementation = { wasCalled = true }
+    mockObject.foo()
+    XCTAssert(wasCalled)
+```
