@@ -262,6 +262,7 @@
 		9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */; };
 		9DC8C0562531139100F89DEF /* PillCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */; };
 		9DC8C0582531344100F89DEF /* SiteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */; };
+		9DCA364925C72D1A00941428 /* PillStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCA363925C72C6E00941428 /* PillStringsTests.swift */; };
 		9DCB086B2442163E00E80486 /* TabReflective.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CF930A5E66090BFA9C71 /* TabReflective.swift */; };
 		9DCF573525608A1B0066034C /* HormoneDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCF573425608A1B0066034C /* HormoneDatePicker.swift */; };
 		9DD5C2F5227F49BF009BAA25 /* PDTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */; };
@@ -707,6 +708,7 @@
 		9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModel.swift; sourceTree = "<group>"; };
 		9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModelTests.swift; sourceTree = "<group>"; };
 		9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModel.swift; sourceTree = "<group>"; };
+		9DCA363925C72C6E00941428 /* PillStringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStringsTests.swift; sourceTree = "<group>"; };
 		9DCF573425608A1B0066034C /* HormoneDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneDatePicker.swift; sourceTree = "<group>"; };
 		9DD5C2F4227F49BF009BAA25 /* PDTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDTypes.swift; sourceTree = "<group>"; };
 		9DD5C2FA228111F9009BAA25 /* SiteStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStrings.swift; sourceTree = "<group>"; };
@@ -1765,6 +1767,22 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		9DCA363725C72C5C00941428 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9DCA363825C72C6200941428 /* Strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9DCA363825C72C6200941428 /* Strings */ = {
+			isa = PBXGroup;
+			children = (
+				9DCA363925C72C6E00941428 /* PillStringsTests.swift */,
+			);
+			path = Strings;
+			sourceTree = "<group>";
+		};
 		9DDAB03323FAE5EA00E6EEF6 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1836,6 +1854,7 @@
 		B40CC9B021CCE614002364BB /* PDKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				9DCA363725C72C5C00941428 /* Resources */,
 				9D8F45E82496717900F2C39A /* Settings */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 				3397CCAEBFADEA0B9BDABB6A /* Dates */,
@@ -2474,6 +2493,7 @@
 				3397CBBD2DC40D8316E535A8 /* PDDateFormatterTests.swift in Sources */,
 				9D9C5FF5247B187900B3DA6A /* PDTOTests.swift in Sources */,
 				3397CCD131DBDF43FB2B0A5B /* ExpirationIntervalUDTests.swift in Sources */,
+				9DCA364925C72D1A00941428 /* PillStringsTests.swift in Sources */,
 				9D8F45EA2496718600F2C39A /* SettingsOptionsTests.swift in Sources */,
 				3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */,
 				3397C34B5CDE52B87B10C481 /* PatchDataLoggingPlayground.swift in Sources */,

@@ -55,7 +55,8 @@ public class PillStrings {
                 FirstTenDays,
                 LastTenDays,
                 FirstTwentyDays,
-                LastTwentyDays
+                LastTwentyDays,
+                XDaysOnXDaysOff
             ]
         }
 
@@ -79,6 +80,7 @@ public class PillStrings {
                 case LastTenDays: return .LastTenDays
                 case FirstTwentyDays: return .FirstTwentyDays
                 case LastTwentyDays: return .LastTwentyDays
+                case XDaysOnXDaysOff: return .XDaysOnXDaysOff
                 default: return nil
             }
         }

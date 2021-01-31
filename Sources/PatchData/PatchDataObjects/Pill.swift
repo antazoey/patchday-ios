@@ -97,7 +97,7 @@ public class Pill: Swallowable {
             case .LastTenDays: return dueDateForLastTenDays
             case .FirstTwentyDays: return dueDateForFirstTwentyDays
             case .LastTwentyDays: return dueDateForLastTwentyDays
-            case .XDaysOnXDaysOff: return Date()  // TODO
+            case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
         }
     }
 
@@ -243,5 +243,9 @@ public class Pill: Swallowable {
             return DateFactory.createTodayDate(at: time, now: _now)
         }
         return tomorrowAtTimeOne
+    }
+
+    private var dueDateForXDaysOnXDaysOff: Date? {
+        return Date()  // TODO
     }
 }
