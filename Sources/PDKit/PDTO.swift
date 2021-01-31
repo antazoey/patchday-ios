@@ -67,6 +67,7 @@ public struct PillAttributes {
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
+    public var daysOnDaysOff: Int?
 
     public init(
         name: String?,
@@ -74,7 +75,8 @@ public struct PillAttributes {
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
-        lastTaken: Date?
+        lastTaken: Date?,
+        daysOnDaysOff: Int?
     ) {
         self.name = name
         self.expirationInterval = expirationInterval
@@ -82,6 +84,7 @@ public struct PillAttributes {
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
+        self.daysOnDaysOff = daysOnDaysOff
     }
 
     public init() {
@@ -93,12 +96,12 @@ public struct PillAttributes {
         times != nil ||
         notify != nil ||
         timesTakenToday != nil ||
-        lastTaken != nil
+        lastTaken != nil ||
+        daysOnDaysOff != nil
     }
 }
 
 public struct SiteStruct {
-
     public var id: UUID
     public var hormoneRelationshipIds: [UUID]?
     public var imageIdentifier: String?

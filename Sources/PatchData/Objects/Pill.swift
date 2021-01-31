@@ -38,7 +38,8 @@ public class Pill: Swallowable {
             times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
-            lastTaken: lastTaken
+            lastTaken: lastTaken,
+            daysOnDaysOff: daysOnDaysOff
         )
     }
 
@@ -85,6 +86,16 @@ public class Pill: Swallowable {
     public var lastTaken: Date? {
         get { pillData.attributes.lastTaken }
         set { pillData.attributes.lastTaken = newValue }
+    }
+
+    public var daysOnDaysOff: Int? {
+        get {
+            guard expirationInterval == .XDaysOnXDaysOff else { return nil }
+            return pillData.attributes.daysOnDaysOff
+        }
+        set {
+            pillData.attributes.daysOnDaysOff = newValue
+        }
     }
 
     public var due: Date? {

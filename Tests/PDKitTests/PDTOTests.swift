@@ -13,6 +13,114 @@ import XCTest
 import PDKit
 import PDMock
 
+class PillAttributesTests: XCTestCase {
+
+    func testAnyAttributeExists_whenHasNoProps_returnsFalse() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            daysOnDaysOff: nil
+        )
+        XCTAssertFalse(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasName_returnsTrue() {
+        let attributes = PillAttributes(
+            name: "TEST",
+            expirationInterval: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            daysOnDaysOff: nil
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasExpirationInterval_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: PillExpirationInterval.EveryDay,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            daysOnDaysOff: nil
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasTimes_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: nil,
+            times: "12:30",
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            daysOnDaysOff: nil
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasNotify_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: nil,
+            times: nil,
+            notify: false,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            daysOnDaysOff: nil
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasTimesTakenToday_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: 0,
+            lastTaken: nil,
+            daysOnDaysOff: nil
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasLastTaken_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: Date(),
+            daysOnDaysOff: nil
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+
+    func testAnyAttributeExists_whenHasDaysOnDaysOff_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationInterval: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            daysOnDaysOff: 1
+        )
+        XCTAssert(attributes.anyAttributeExists)
+    }
+}
+
+
 class SiteImageDeterminationParametersTests: XCTestCase {
 
     func testInit_whenUsingHormoneWithImageId_setsImageIdToImageId() {

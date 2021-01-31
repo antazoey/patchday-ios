@@ -215,6 +215,50 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testLastTaken_returnsLastTakenFromAtttributes() {
+        var attrs = PillAttributes()
+        let testDate = Date()
+        attrs.lastTaken = testDate
+        let pill = createPill(attrs)
+        let actual = pill.lastTaken
+        XCTAssertEqual(testDate, actual)
+    }
+
+    func testLastTaken_isSettable() {
+        let testDate = Date()
+        let pill = createPill(PillAttributes())
+        pill.lastTaken = testDate
+        let actual = pill.lastTaken
+        XCTAssertEqual(testDate, actual)
+    }
+
+    func testDaysOnDaysOff_whenHasRequiredExpirationInterval_returnsDaysOnDaysOffFromAtttributes() {
+        var attrs = PillAttributes()
+        attrs.expirationInterval = PillExpirationInterval.XDaysOnXDaysOff
+        let testDaysOnDaysOff = 12
+        attrs.daysOnDaysOff = testDaysOnDaysOff
+        let pill = createPill(attrs)
+        let actual = pill.daysOnDaysOff
+        XCTAssertEqual(testDaysOnDaysOff, actual)
+    }
+
+    func testDaysOnDaysOff_whenDoesNotHaveRequiredExpirationInterval_returnsNil() {
+        var attrs = PillAttributes()
+        attrs.expirationInterval = PillExpirationInterval.EveryOtherDay
+        attrs.daysOnDaysOff = 12
+        let pill = createPill(attrs)
+        XCTAssertNil(pill.daysOnDaysOff)
+    }
+
+    func testDaysOnDaysOff_isSettable() {
+        let testDaysOnDaysOff = 5
+        let pill = createPill(PillAttributes())
+        pill.daysOnDaysOff = testDaysOnDaysOff
+        pill.expirationInterval = PillExpirationInterval.XDaysOnXDaysOff
+        let actual = pill.daysOnDaysOff
+        XCTAssertEqual(testDaysOnDaysOff, actual)
+    }
+
     func testDue_whenEveryDayAndNotYetTaken_returnsTodayAtTimeOne() {
         var attrs = PillAttributes()
         let now = Date()
