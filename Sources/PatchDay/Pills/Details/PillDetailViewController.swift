@@ -33,8 +33,11 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var expirationIntervalLabel: UILabel!
     @IBOutlet weak var expirationIntervalArrowButton: UIButton!
     @IBOutlet weak var lineUnderExpirationInterval: UIView!
-
     @IBOutlet weak var expirationIntervalPicker: UIPickerView!
+
+    @IBOutlet weak var expirationIntervalDaysStack: UIStackView!
+    @IBOutlet weak var daysOneLabel: UILabel!
+
     @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
     @IBOutlet weak var notificationSwitch: UISwitch!
     @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
@@ -282,6 +285,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func loadExpirationInterval() {
         expirationIntervalButton.setTitle(viewModel.expirationIntervalText)
+        expirationIntervalDaysStack.isHidden = viewModel.expirationIntervalUsesDays
     }
 
     private func openNamePicker() {

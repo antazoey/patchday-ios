@@ -258,10 +258,6 @@ public class Pill: Swallowable {
     }
 
     private var expirationIntervalUsesXDays: Bool {
-        expirationIntervalThatUseXDays.contains(expirationInterval)
-    }
-
-    private var expirationIntervalThatUseXDays: [PillExpirationInterval.Option] {
-        return [.FirstXDays, .LastXDays, .XDaysOnXDaysOff]
+        PillExpirationInterval.expirationIntervalUsesXDays(expirationInterval)
     }
 }

@@ -46,6 +46,17 @@ public class PillExpirationInterval {
     public var value: PillExpirationInterval.Option?
     public var xDaysLoadedFromDeprecatedValue: String?
 
+    public static func expirationIntervalUsesXDays(
+        _ interval: PillExpirationInterval.Option
+    ) -> Bool {
+        // TODO: Add tests
+        expirationIntervalThatUseXDays.contains(interval)
+    }
+
+    private static var expirationIntervalThatUseXDays: [PillExpirationInterval.Option] {
+        return [.FirstXDays, .LastXDays, .XDaysOnXDaysOff]
+    }
+
     public init(_ rawValue: String?) {
         if rawValue == "firstTenDays" {
             self.xDaysLoadedFromDeprecatedValue = "10"

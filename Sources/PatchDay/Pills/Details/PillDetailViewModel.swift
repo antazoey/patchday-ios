@@ -81,6 +81,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillStrings.Intervals.getStringFromInterval(expirationInterval)
     }
 
+    var expirationIntervalUsesDays: Bool {
+        // TODO: Add tests
+        PillExpirationInterval.expirationIntervalUsesXDays(expirationInterval)
+    }
+
     var expirationIntervalIsSelected: Bool {
         selections.expirationInterval != nil
     }

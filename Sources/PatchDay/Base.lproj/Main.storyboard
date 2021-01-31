@@ -417,7 +417,7 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="YF0-w6-5sp">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="642.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="692.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXT-VQ-vft">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="25"/>
@@ -540,7 +540,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="7Xl-DJ-gSE"/>
                                                 </constraints>
                                             </view>
-                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RQZ-DF-y7E">
+                                            <stackView opaque="NO" contentMode="scaleToFill" restorationIdentifier="expirationIntervalStackRestoreId" translatesAutoresizingMaskIntoConstraints="NO" id="RQZ-DF-y7E">
                                                 <rect key="frame" x="0.0" y="145" width="375" height="50"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Calendar Icon" translatesAutoresizingMaskIntoConstraints="NO" id="b3U-OV-iKG">
@@ -585,36 +585,50 @@
                                                     <constraint firstAttribute="height" constant="50" id="9cC-sL-bgy"/>
                                                 </constraints>
                                             </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q6V-kk-VgX">
+                                                <rect key="frame" x="0.0" y="195" width="375" height="50"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rfx-hl-V1m">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="50" id="iiv-Ud-gNL"/>
+                                                </constraints>
+                                            </stackView>
                                             <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ilc-SD-D8X">
-                                                <rect key="frame" x="0.0" y="195" width="375" height="0.0"/>
+                                                <rect key="frame" x="0.0" y="245" width="375" height="0.0"/>
                                             </pickerView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0oz-7u-4xe">
-                                                <rect key="frame" x="0.0" y="195" width="375" height="1"/>
+                                                <rect key="frame" x="0.0" y="245" width="375" height="1"/>
                                                 <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="c1b-XE-PzV"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hRx-Mi-FYL">
-                                                <rect key="frame" x="0.0" y="196" width="375" height="35"/>
+                                                <rect key="frame" x="0.0" y="246" width="375" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="kL2-e0-XbS"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How many per day:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UoZ-DT-gdz">
-                                                <rect key="frame" x="0.0" y="231" width="375" height="19.5"/>
+                                                <rect key="frame" x="0.0" y="281" width="375" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" name="Text"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="17P-Kr-o3S">
-                                                <rect key="frame" x="0.0" y="250.5" width="375" height="22"/>
+                                                <rect key="frame" x="0.0" y="300.5" width="375" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="22" id="aqt-ni-e1l"/>
                                                 </constraints>
                                             </view>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="4" translatesAutoresizingMaskIntoConstraints="NO" id="DuN-cY-yDQ">
-                                                <rect key="frame" x="-2" y="272.5" width="379" height="36"/>
+                                                <rect key="frame" x="-2" y="322.5" width="379" height="36"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="cB8-nP-AgZ"/>
                                                 </constraints>
@@ -625,13 +639,13 @@
                                                 </connections>
                                             </slider>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXx-ZH-7a7">
-                                                <rect key="frame" x="0.0" y="307.5" width="375" height="22"/>
+                                                <rect key="frame" x="0.0" y="357.5" width="375" height="22"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="22" id="a6Y-7N-Hcw"/>
                                                 </constraints>
                                             </view>
                                             <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-yd-DEk">
-                                                <rect key="frame" x="0.0" y="329.5" width="375" height="268"/>
+                                                <rect key="frame" x="0.0" y="379.5" width="375" height="268"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AdT-1d-QNd">
                                                         <rect key="frame" x="0.0" y="0.0" width="375" height="66"/>
@@ -803,14 +817,14 @@
                                                 </constraints>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aDS-4O-w6Y">
-                                                <rect key="frame" x="0.0" y="597.5" width="375" height="15"/>
+                                                <rect key="frame" x="0.0" y="647.5" width="375" height="15"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="15" id="WMe-wV-4hf"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XY7-Lb-cxD">
-                                                <rect key="frame" x="0.0" y="612.5" width="375" height="30"/>
+                                                <rect key="frame" x="0.0" y="662.5" width="375" height="30"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="esU-OG-RK7"/>
@@ -854,11 +868,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="daysOneLabel" destination="Rfx-hl-V1m" id="reZ-ie-00D"/>
                         <outlet property="detailStack" destination="YF0-w6-5sp" id="fOb-bB-ZyG"/>
                         <outlet property="detailsView" destination="MMA-J0-UE1" id="7jU-di-cle"/>
                         <outlet property="drugNameLabel" destination="O3N-cg-wSc" id="fi0-ab-qnF"/>
                         <outlet property="expirationIntervalArrowButton" destination="1wA-kW-Ajl" id="sTe-fc-DoA"/>
                         <outlet property="expirationIntervalButton" destination="DEs-dt-ycQ" id="0a2-Eo-WoH"/>
+                        <outlet property="expirationIntervalDaysStack" destination="Q6V-kk-VgX" id="f1H-Jt-Dot"/>
                         <outlet property="expirationIntervalIcon" destination="b3U-OV-iKG" id="EdZ-n3-8yY"/>
                         <outlet property="expirationIntervalLabel" destination="rOy-mq-EvS" id="oTL-jv-px6"/>
                         <outlet property="expirationIntervalPicker" destination="ilc-SD-D8X" id="9Kh-D2-CEF"/>
