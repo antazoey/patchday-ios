@@ -26,7 +26,7 @@ You can use this target to verify notification-based behavior.
 Run the target and then minimize the app and wait for notificaitons to appear. 
 The hormone notification occurs in a few seconds but the pill notification takes until the start of the next minute.
 
-See [Contributing](./CONTRIBUTING.md).
+See [Contributing](./CONTRIBUTING.md) to learn more about testing.
 
 ### Debug
 
