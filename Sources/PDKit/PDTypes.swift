@@ -74,7 +74,6 @@ public class PillExpirationInterval {
     }
 }
 
-
 // These strings cannot change - they are for retrieving from Core Data
 public enum PDSetting: String {
     case DeliveryMethod = "delivMethod"

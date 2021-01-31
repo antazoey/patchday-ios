@@ -120,7 +120,6 @@ class PillAttributesTests: XCTestCase {
     }
 }
 
-
 class SiteImageDeterminationParametersTests: XCTestCase {
 
     func testInit_whenUsingHormoneWithImageId_setsImageIdToImageId() {
