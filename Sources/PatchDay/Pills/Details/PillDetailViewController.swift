@@ -166,6 +166,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if viewModel.expirationIntervalIsSelected {
             enableSaveButton()
         }
+        hideOrUnhideDaysStack()
     }
 
     @IBAction func saveButtonTapped() {
@@ -285,7 +286,11 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func loadExpirationInterval() {
         expirationIntervalButton.setTitle(viewModel.expirationIntervalText)
-        expirationIntervalDaysStack.isHidden = viewModel.expirationIntervalUsesDays
+        hideOrUnhideDaysStack()
+    }
+
+    private func hideOrUnhideDaysStack() {
+        expirationIntervalDaysStack.isHidden = !viewModel.expirationIntervalUsesDays
     }
 
     private func openNamePicker() {
