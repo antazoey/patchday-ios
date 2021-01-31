@@ -25,24 +25,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         .LastTwentyDays
     ]
 
-    private var textToExpirationInterval: [String: PillExpirationInterval] = [
-        PillStrings.Intervals.EveryDay: .EveryDay,
-        PillStrings.Intervals.EveryOtherDay: .EveryOtherDay,
-        PillStrings.Intervals.FirstTenDays: .FirstTenDays,
-        PillStrings.Intervals.LastTenDays: .LastTenDays,
-        PillStrings.Intervals.FirstTwentyDays: .FirstTwentyDays,
-        PillStrings.Intervals.LastTwentyDays: .LastTwentyDays
-    ]
-
-    private var expirationIntervalToText: [PillExpirationInterval: String] = [
-        .EveryDay: PillStrings.Intervals.EveryDay,
-        .EveryOtherDay: PillStrings.Intervals.EveryOtherDay,
-        .FirstTenDays: PillStrings.Intervals.FirstTenDays,
-        .FirstTwentyDays: PillStrings.Intervals.FirstTwentyDays,
-        .LastTenDays: PillStrings.Intervals.LastTenDays,
-        .LastTwentyDays: PillStrings.Intervals.LastTwentyDays
-    ]
-
     init(_ pillIndex: Index) {
         self.index = pillIndex
         self.now = nil
@@ -97,7 +79,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationIntervalText: String {
-        expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
+        PillStrings.Intervals.getStringFromInterval(expirationInterval)
     }
 
     var expirationIntervalIsSelected: Bool {
@@ -198,7 +180,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func selectExpirationInterval(_ row: Index) {
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
-        let interval = textToExpirationInterval[rowString] ?? defaultInterval
+        let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
         selections.expirationInterval = interval
     }
 

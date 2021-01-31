@@ -246,6 +246,6 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForXDaysOnXDaysOff: Date? {
-        return Date()  // TODO
+        return Date() // TODO
     }
 }
