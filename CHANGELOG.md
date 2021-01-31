@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.3.0 (unreleased)
+
+Changed
+
+- Pill Expiration Intervals "First 10 Days", "First 20 Days", "Last 10 Days", and "Last 20 Days" were replaced 
+    with the new Pill Expiration Intervals "First X Days" and "Last X Days" and the new property "Pill Interval Days" with
+    a value of either 10 or 20.
+
+Added
+
+- The Pill Expiraton Interval "First X Days" where X Can be any number 1 - 25.
+- The Pill Expiration Interval "Last X Days" where X can be any number 1 - 25.
+
 ## 3.2.2
 
 Fixed
