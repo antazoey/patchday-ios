@@ -15,7 +15,7 @@ public class MockPill: Swallowable {
     public var name: String = ""
     public var times: [Time] = []
     public var notify: Bool = false
-    public var expirationInterval = PillExpirationInterval.EveryDay
+    public var expirationInterval = PillExpirationInterval.Option.EveryDay
     public var timesaday: Int = -1
     public var timesTakenToday: Int = -1
     public var lastTaken: Date?

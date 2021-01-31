@@ -17,49 +17,35 @@ class PillStringsTests: XCTestCase {
     func testGetIntervalFromString_whenEveryDay_returnsExpectedInterval() {
         let interval = PillStrings.Intervals.EveryDay
         let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.EveryDay
+        let expected = PillExpirationInterval.Option.EveryDay
         XCTAssertEqual(expected, actual)
     }
 
     func testGetIntervalFromString_whenEveryOtherDay_returnsExpectedInterval() {
         let interval = PillStrings.Intervals.EveryOtherDay
         let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.EveryOtherDay
+        let expected = PillExpirationInterval.Option.EveryOtherDay
         XCTAssertEqual(expected, actual)
     }
 
-    func testGetIntervalFromString_whenFirstTenDays_returnsExpectedInterval() {
-        let interval = PillStrings.Intervals.FirstTenDays
+    func testGetIntervalFromString_whenFirstXDays_returnsExpectedInterval() {
+        let interval = PillStrings.Intervals.FirstXDays
         let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.FirstTenDays
+        let expected = PillExpirationInterval.Option.FirstXDays
         XCTAssertEqual(expected, actual)
     }
 
-    func testGetIntervalFromString_whenFirstTwentyDays_returnsExpectedInterval() {
-        let interval = PillStrings.Intervals.FirstTwentyDays
+    func testGetIntervalFromString_whenLastXDays_returnsExpectedInterval() {
+        let interval = PillStrings.Intervals.LastXDays
         let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.FirstTwentyDays
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testGetIntervalFromString_whenLastTenDays_returnsExpectedInterval() {
-        let interval = PillStrings.Intervals.LastTenDays
-        let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.LastTenDays
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testGetIntervalFromString_whenLastTwentyDays_returnsExpectedInterval() {
-        let interval = PillStrings.Intervals.LastTwentyDays
-        let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.LastTwentyDays
+        let expected = PillExpirationInterval.Option.LastXDays
         XCTAssertEqual(expected, actual)
     }
 
     func testGetIntervalFromString_whenXDaysOnXDaysOff_returnsExpectedInterval() {
         let interval = PillStrings.Intervals.XDaysOnXDaysOff
         let actual = PillStrings.Intervals.getIntervalFromString(interval)
-        let expected = PillExpirationInterval.XDaysOnXDaysOff
+        let expected = PillExpirationInterval.Option.XDaysOnXDaysOff
         XCTAssertEqual(expected, actual)
     }
 }

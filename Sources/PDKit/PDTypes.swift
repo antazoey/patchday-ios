@@ -41,15 +41,39 @@ public enum ExpirationInterval {
     case EveryTwoWeeks
 }
 
-public enum PillExpirationInterval: String {
-    case EveryDay = "everyDay"
-    case EveryOtherDay = "everyOtherDay"
-    case FirstTenDays = "firstTenDays"
-    case LastTenDays = "lastTenDays"
-    case FirstTwentyDays = "firstTwentyDays"
-    case LastTwentyDays = "lastTwentyDays"
-    case XDaysOnXDaysOff = "xDaysOnXDaysOff"
+public class PillExpirationInterval {
+
+    public var value: PillExpirationInterval.Option?
+    public var xDaysLoadedFromDeprecatedValue: String?
+
+    public init(_ rawValue: String?) {
+        if rawValue == "firstTenDays" {
+            self.xDaysLoadedFromDeprecatedValue = "10"
+            self.value = Option(rawValue: Option.FirstXDays.rawValue)
+        } else if rawValue == "firstTwentyDays" {
+            self.xDaysLoadedFromDeprecatedValue = "20"
+            self.value = Option(rawValue: Option.FirstXDays.rawValue)
+        } else if rawValue == "lastTenDays" {
+            self.xDaysLoadedFromDeprecatedValue = "10"
+            self.value = Option(rawValue: Option.LastXDays.rawValue)
+        } else if rawValue == "lastTwentyDays" {
+            self.xDaysLoadedFromDeprecatedValue = "10"
+            self.value = Option(rawValue: Option.LastXDays.rawValue)
+        } else {
+            let defaultInterval = DefaultPillAttributes.expirationInterval
+            self.value = Option(rawValue: defaultInterval.rawValue)
+        }
+    }
+
+    public enum Option: String {
+        case EveryDay = "everyDay"
+        case EveryOtherDay = "everyOtherDay"
+        case FirstXDays = "firstXDays"
+        case LastXDays = "lastXDays"
+        case XDaysOnXDaysOff = "xDaysOnXDaysOff"
+    }
 }
+
 
 // These strings cannot change - they are for retrieving from Core Data
 public enum PDSetting: String {

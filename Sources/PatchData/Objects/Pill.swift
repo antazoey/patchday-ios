@@ -39,7 +39,7 @@ public class Pill: Swallowable {
             notify: notify,
             timesTakenToday: timesTakenToday,
             lastTaken: lastTaken,
-            daysOnDaysOff: daysOnDaysOff
+            xDays: xDays
         )
     }
 
@@ -48,7 +48,7 @@ public class Pill: Swallowable {
         set { pillData.attributes.name = newValue }
     }
 
-    public var expirationInterval: PillExpirationInterval {
+    public var expirationInterval: PillExpirationInterval.Option {
         get {
             let defaultInterval = DefaultPillAttributes.expirationInterval
             let storedInterval = pillData.attributes.expirationInterval
@@ -88,13 +88,16 @@ public class Pill: Swallowable {
         set { pillData.attributes.lastTaken = newValue }
     }
 
-    public var daysOnDaysOff: Int? {
+    public var xDays: String? {
         get {
-            guard expirationInterval == .XDaysOnXDaysOff else { return nil }
-            return pillData.attributes.daysOnDaysOff
+            guard expirationIntervalUsesXDays else { return nil }
+            return pillData.attributes.xDays
         }
         set {
-            pillData.attributes.daysOnDaysOff = newValue
+            if let newValue = newValue {
+                guard newValue.count <= 5 else { return }  // Don't set invalid values
+                pillData.attributes.xDays = newValue
+            }
         }
     }
 
@@ -104,11 +107,9 @@ public class Pill: Swallowable {
         switch expirationInterval {
             case .EveryDay: return nextDueTimeForEveryDaySchedule
             case .EveryOtherDay: return dueDateForEveryOtherDay
-            case .FirstTenDays: return dueDateForFirstTenDays
-            case .LastTenDays: return dueDateForLastTenDays
-            case .FirstTwentyDays: return dueDateForFirstTwentyDays
-            case .LastTwentyDays: return dueDateForLastTwentyDays
             case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
+            case .FirstXDays: return dueDateForFirstXDays
+            case .LastXDays: return dueDateForLastXDays
         }
     }
 
@@ -209,12 +210,14 @@ public class Pill: Swallowable {
         return nil
     }
 
-    private var dueDateForFirstTenDays: Date? {
-        dueDateBegin(10)
+    private var dueDateForFirstXDays: Date? {
+        guard let xDays = xDays, let days = Int(xDays) else { return nil }
+        return dueDateBegin(days)
     }
 
-    private var dueDateForFirstTwentyDays: Date? {
-        dueDateBegin(20)
+    private var dueDateForLastXDays: Date? {
+        guard let xDays = xDays, let days = Int(xDays) else { return nil }
+        return dueDateEnd(days - 1)
     }
 
     private func dueDateBegin(_ begin: Int) -> Date? {
@@ -224,14 +227,6 @@ public class Pill: Swallowable {
             return nextDueTimeForEveryDaySchedule
         }
         return beginningOfDueMonthAtTimeOne(lastTaken: lastTaken)
-    }
-
-    private var dueDateForLastTenDays: Date? {
-        dueDateEnd(9)
-    }
-
-    private var dueDateForLastTwentyDays: Date? {
-        dueDateEnd(19)
     }
 
     private func dueDateEnd(_ end: Int) -> Date? {
@@ -257,6 +252,16 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForXDaysOnXDaysOff: Date? {
-        return Date() // TODO
+//        guard let lastTaken = lastTaken else { return nil }
+//        let days = daysOnDaysOff
+        return Date() // TODO: Calc the date
+    }
+
+    private var expirationIntervalUsesXDays: Bool {
+        expirationIntervalThatUseXDays.contains(expirationInterval)
+    }
+
+    private var expirationIntervalThatUseXDays: [PillExpirationInterval.Option] {
+        return [.FirstXDays, .LastXDays, .XDaysOnXDaysOff]
     }
 }

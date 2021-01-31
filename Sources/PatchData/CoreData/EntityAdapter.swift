@@ -139,9 +139,14 @@ class EntityAdapter {
 
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
         let defaultInterval = DefaultPillAttributes.expirationInterval
-        var interval: PillExpirationInterval?
+        var interval: PillExpirationInterval.Option?
+        var xDays: String?
         if let intervalString = pill.expirationInterval {
-            interval = PillExpirationInterval(rawValue: intervalString)
+            let intervalObject = PillExpirationInterval(intervalString)
+            interval = intervalObject.value
+            if let days = intervalObject.xDaysLoadedFromDeprecatedValue {
+                xDays = days
+            }
         }
         return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
@@ -150,7 +155,7 @@ class EntityAdapter {
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),
             lastTaken: pill.lastTaken as Date?,
-            daysOnDaysOff: Int(pill.offOnDays)
+            xDays: xDays ?? pill.xDays
         )
     }
 }

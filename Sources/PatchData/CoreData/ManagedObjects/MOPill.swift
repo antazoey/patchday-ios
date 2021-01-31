@@ -17,7 +17,7 @@ public class MOPill: NSManagedObject {
     @NSManaged var lastTaken: NSDate?
     @NSManaged var name: String?
     @NSManaged var notify: Bool
-    @NSManaged var offOnDays: Int16
+    @NSManaged var xDays: String?
     @NSManaged var times: String?
     @NSManaged var timesaday: Int16
     @NSManaged var timesTakenToday: Int16

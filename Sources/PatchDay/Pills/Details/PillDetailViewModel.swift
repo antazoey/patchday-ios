@@ -16,13 +16,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var selections = PillAttributes()
     private let now: NowProtocol?
 
-    private var pillExpirationIntervals: [PillExpirationInterval] = [
+    private var pillExpirationIntervals: [PillExpirationInterval.Option] = [
         .EveryDay,
         .EveryOtherDay,
-        .FirstTenDays,
-        .FirstTwentyDays,
-        .LastTenDays,
-        .LastTwentyDays
+        .FirstXDays,
+        .LastXDays,
+        .XDaysOnXDaysOff
     ]
 
     init(_ pillIndex: Index) {
@@ -74,7 +73,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         return "\(prefix) \(timesaday)"
     }
 
-    var expirationInterval: PillExpirationInterval {
+    var expirationInterval: PillExpirationInterval.Option {
         selections.expirationInterval ?? pill.expirationInterval
     }
 

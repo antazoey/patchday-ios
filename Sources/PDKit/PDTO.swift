@@ -62,21 +62,21 @@ public struct PillAttributes {
 
     // Pill Properties
     public var name: String?
-    public var expirationInterval: PillExpirationInterval?
+    public var expirationInterval: PillExpirationInterval.Option?
     public var times: String?
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
-    public var daysOnDaysOff: Int?
+    public var xDays: String?
 
     public init(
         name: String?,
-        expirationInterval: PillExpirationInterval?,
+        expirationInterval: PillExpirationInterval.Option?,
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
         lastTaken: Date?,
-        daysOnDaysOff: Int?
+        xDays: String?
     ) {
         self.name = name
         self.expirationInterval = expirationInterval
@@ -84,7 +84,7 @@ public struct PillAttributes {
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
-        self.daysOnDaysOff = daysOnDaysOff
+        self.xDays = xDays
     }
 
     public init() {
@@ -97,7 +97,7 @@ public struct PillAttributes {
         notify != nil ||
         timesTakenToday != nil ||
         lastTaken != nil ||
-        daysOnDaysOff != nil
+        xDays != nil
     }
 }
 

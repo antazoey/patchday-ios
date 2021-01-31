@@ -17,7 +17,7 @@ public protocol PillDetailViewModelProtocol {
     var nameIsSelected: Bool { get }
     var nameOptions: [String] { get }
     var namePickerStartIndex: Index { get }
-    var expirationInterval: PillExpirationInterval { get }
+    var expirationInterval: PillExpirationInterval.Option { get }
     var expirationIntervalText: String { get }
     var expirationIntervalIsSelected: Bool { get }
     var expirationIntervalOptions: [String] { get }

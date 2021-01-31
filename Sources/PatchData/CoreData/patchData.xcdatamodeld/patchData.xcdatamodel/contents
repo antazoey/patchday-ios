@@ -12,12 +12,12 @@
         <attribute name="lastTaken" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notify" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="offOnDays" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="time1" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="time2" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="times" optional="YES" attributeType="String"/>
         <attribute name="timesaday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timesTakenToday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="xDays" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Site" representedClassName="MOSite" syncable="YES">
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
