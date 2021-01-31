@@ -44,6 +44,9 @@ public class PillStrings {
         public static var LastTwentyDays: String {
             NSLocalizedString("Last 20 Days / Month", comment: comment)
         }
+        public static var XDaysOnXDaysOff: String {
+            NSLocalizedString("X Days On, X Days Off", comment: comment)
+        }
 
         public static var all: [String] {
             [
@@ -64,6 +67,7 @@ public class PillStrings {
                 case .LastTenDays: return LastTenDays
                 case .FirstTwentyDays: return FirstTwentyDays
                 case .LastTwentyDays: return LastTwentyDays
+                case .XDaysOnXDaysOff: return XDaysOnXDaysOff
             }
         }
 

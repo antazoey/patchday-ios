@@ -48,6 +48,7 @@ public enum PillExpirationInterval: String {
     case LastTenDays = "lastTenDays"
     case FirstTwentyDays = "firstTwentyDays"
     case LastTwentyDays = "lastTwentyDays"
+    case XDaysOnXDaysOff = "xDaysOnXDaysOff"
 }
 
 // These strings cannot change - they are for retrieving from Core Data

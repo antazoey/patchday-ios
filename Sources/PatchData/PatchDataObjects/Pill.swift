@@ -91,12 +91,13 @@ public class Pill: Swallowable {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
         switch expirationInterval {
-            case PillExpirationInterval.EveryDay: return nextDueTimeForEveryDaySchedule
-            case PillExpirationInterval.EveryOtherDay: return dueDateForEveryOtherDay
-            case PillExpirationInterval.FirstTenDays: return dueDateForFirstTenDays
-            case PillExpirationInterval.LastTenDays: return dueDateForLastTenDays
-            case PillExpirationInterval.FirstTwentyDays: return dueDateForFirstTwentyDays
-            case PillExpirationInterval.LastTwentyDays: return dueDateForLastTwentyDays
+            case .EveryDay: return nextDueTimeForEveryDaySchedule
+            case .EveryOtherDay: return dueDateForEveryOtherDay
+            case .FirstTenDays: return dueDateForFirstTenDays
+            case .LastTenDays: return dueDateForLastTenDays
+            case .FirstTwentyDays: return dueDateForFirstTwentyDays
+            case .LastTwentyDays: return dueDateForLastTwentyDays
+            case .XDaysOnXDaysOff: return Date()  // TODO
         }
     }
 
