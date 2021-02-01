@@ -86,6 +86,23 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillExpirationInterval.expirationIntervalUsesXDays(expirationInterval)
     }
 
+    var daysOneLabelText: String? {
+        // TODO: Add tests
+        guard expirationIntervalUsesDays else { return nil }
+        if expirationInterval == .FirstXDays || expirationInterval == .LastXDays {
+            return NSLocalizedString("Days: ", comment: "on label")
+        }
+        // .XDaysOnXDaysOff
+        return "Days On:"
+    }
+
+    var daysTwoLabelText: String? {
+        // TODO: Add tests
+        guard expirationIntervalUsesDays else { return nil }
+        // .XDaysOnXDaysOff
+        return "Days Off:"
+    }
+
     var expirationIntervalIsSelected: Bool {
         selections.expirationInterval != nil
     }

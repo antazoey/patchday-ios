@@ -26,7 +26,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var lineUnderDrugNameStack: UIView!
     @IBOutlet weak var notificationsIcon: UIImageView!
     @IBOutlet weak var notificationsLabel: UILabel!
-
     @IBOutlet weak var lineUnderNotifications: UIView!
     @IBOutlet weak var expirationIntervalIcon: UIImageView!
     @IBOutlet weak var expirationIntervalButton: UIButton!
@@ -34,34 +33,23 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var expirationIntervalArrowButton: UIButton!
     @IBOutlet weak var lineUnderExpirationInterval: UIView!
     @IBOutlet weak var expirationIntervalPicker: UIPickerView!
-
-    @IBOutlet weak var expirationIntervalDaysStack: UIStackView!
+    @IBOutlet weak var expirationIntervalDaysOneStack: UIStackView!
     @IBOutlet weak var daysOneLabel: UILabel!
-
+    @IBOutlet weak var expirationIntervalDaysTwoStack: UIStackView!
+    @IBOutlet weak var daysTwoLabel: UILabel!
     @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
     @IBOutlet weak var notificationSwitch: UISwitch!
     @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
     @IBOutlet weak var timesadayLabel: UILabel!
     @IBOutlet weak var timesadaySlider: UISlider!
-
     @IBOutlet weak var timePickerOne: UIDatePicker!
     @IBOutlet weak var timePickerTwo: UIDatePicker!
     @IBOutlet weak var timePickerThree: UIDatePicker!
     @IBOutlet weak var timePickerFour: UIDatePicker!
-
     @IBOutlet weak var firstTimeLabel: UILabel!
     @IBOutlet weak var secondTimeLabel: UILabel!
     @IBOutlet weak var thirdTimeLabel: UILabel!
     @IBOutlet weak var fourthTimeLabel: UILabel!
-
-    private var timePickers: [UIDatePicker] {
-        [timePickerOne, timePickerTwo, timePickerThree, timePickerFour]
-    }
-
-    private var timeLabels: [UILabel] {
-        [firstTimeLabel, secondTimeLabel, thirdTimeLabel, fourthTimeLabel]
-    }
-
     private var selectedPicker: UIPickerView?
 
     override func viewDidLoad() {
@@ -98,38 +86,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return viewController?.initWithPillIndex(index)
     }
 
-    private static func createPillDetailVC(
-        _ source: UIViewController
-    ) -> PillDetailViewController? {
-        source.storyboard?.instantiateViewController(
-            withIdentifier: ViewControllerIds.PillDetail
-        ) as? PillDetailViewController
-    }
-
-    private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
-        viewModel = PillDetailViewModel(index)
-        return self
-    }
-
     @objc func back() {
         checkForUnsavedChanges()
-    }
-
-    private func checkForUnsavedChanges() {
-        guard let viewModel = viewModel else { return }
-        viewModel.handleIfUnsaved(self)
-    }
-
-    private func setBackButton() {
-        let newButton = UIBarButtonItem(
-            title: ActionStrings.Back,
-            style: UIBarButtonItem.Style.plain,
-            target: self,
-            action: #selector(back)
-        )
-        newButton.tintColor = PDColors[.Button]
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = newButton
     }
 
     // MARK: - Pill actions
@@ -166,7 +124,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if viewModel.expirationIntervalIsSelected {
             enableSaveButton()
         }
-        hideOrUnhideDaysStack()
+        loadExpirationInterval()
     }
 
     @IBAction func saveButtonTapped() {
@@ -286,11 +244,34 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func loadExpirationInterval() {
         expirationIntervalButton.setTitle(viewModel.expirationIntervalText)
+        loadExpirationIntervalDays()
+    }
+
+    private func loadExpirationIntervalDays() {
         hideOrUnhideDaysStack()
+        daysOneLabel.text = viewModel.daysOneLabelText
     }
 
     private func hideOrUnhideDaysStack() {
-        expirationIntervalDaysStack.isHidden = !viewModel.expirationIntervalUsesDays
+        expirationIntervalDaysOneStack.isHidden = !viewModel.expirationIntervalUsesDays
+        expirationIntervalDaysTwoStack.isHidden = viewModel.expirationInterval != .XDaysOnXDaysOff
+    }
+
+    private func checkForUnsavedChanges() {
+        guard let viewModel = viewModel else { return }
+        viewModel.handleIfUnsaved(self)
+    }
+
+    private func setBackButton() {
+        let newButton = UIBarButtonItem(
+            title: ActionStrings.Back,
+            style: UIBarButtonItem.Style.plain,
+            target: self,
+            action: #selector(back)
+        )
+        newButton.tintColor = PDColors[.Button]
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = newButton
     }
 
     private func openNamePicker() {
@@ -376,6 +357,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         viewModel.enableOrDisable(timePickers, timeLabels)
     }
 
+    private var timePickers: [UIDatePicker] {
+        [timePickerOne, timePickerTwo, timePickerThree, timePickerFour]
+    }
+
+    private var timeLabels: [UILabel] {
+        [firstTimeLabel, secondTimeLabel, thirdTimeLabel, fourthTimeLabel]
+    }
+
     private func loadTimePickerEventHandlers() {
         timePickerOne.addTarget(
             self, action: #selector(handleTimeOnePickerDone), for: .allEditingEvents
@@ -408,6 +397,19 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func segueToPillsVC() {
         guard let navCon = navigationController else { return }
         navCon.popViewController(animated: true)
+    }
+
+    private static func createPillDetailVC(
+        _ source: UIViewController
+    ) -> PillDetailViewController? {
+        source.storyboard?.instantiateViewController(
+            withIdentifier: ViewControllerIds.PillDetail
+        ) as? PillDetailViewController
+    }
+
+    private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
+        viewModel = PillDetailViewModel(index)
+        return self
     }
 
     private func applyTheme() {

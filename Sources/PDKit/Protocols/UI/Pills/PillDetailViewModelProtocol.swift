@@ -43,6 +43,12 @@ public protocol PillDetailViewModelProtocol {
     ///Whether `expirationInterval` uses X Days, like `.FirstXDays` or `.XDaysOnXDaysOff`.
     var expirationIntervalUsesDays: Bool { get }
 
+    /// The text to display in the label for the first days selection when ` expirationIntervalUsesDays`.
+    var daysOneLabelText: String? { get }
+
+    /// The text to display in the label for the second days selection when `expirationInterval == .XDaysOnXDaysOff`.
+    var daysTwoLabelText: String? { get }
+
     /// Whether there is a selection for `expirationInterval`.
     var expirationIntervalIsSelected: Bool { get }
 
