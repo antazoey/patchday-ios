@@ -93,14 +93,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             return NSLocalizedString("Days: ", comment: "on label")
         }
         // .XDaysOnXDaysOff
-        return "Days On:"
+        return NSLocalizedString("Days on:", comment: "on label")
     }
 
     var daysTwoLabelText: String? {
         // TODO: Add tests
         guard expirationIntervalUsesDays else { return nil }
         // .XDaysOnXDaysOff
-        return "Days Off:"
+        return NSLocalizedString("Days off:", comment: "on label")
     }
 
     var expirationIntervalIsSelected: Bool {

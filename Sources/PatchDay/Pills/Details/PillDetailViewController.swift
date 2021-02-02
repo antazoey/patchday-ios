@@ -12,6 +12,7 @@ import PDKit
 class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
 
     private var viewModel: PillDetailViewModelProtocol!
+    private var selectedPicker: UIPickerView?
 
     @IBOutlet var detailsView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -26,6 +27,10 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var lineUnderDrugNameStack: UIView!
     @IBOutlet weak var notificationsIcon: UIImageView!
     @IBOutlet weak var notificationsLabel: UILabel!
+    @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
+    @IBOutlet weak var notificationSwitch: UISwitch!
+    @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
+    @IBOutlet weak var timesadayLabel: UILabel!
     @IBOutlet weak var lineUnderNotifications: UIView!
     @IBOutlet weak var expirationIntervalIcon: UIImageView!
     @IBOutlet weak var expirationIntervalButton: UIButton!
@@ -33,14 +38,16 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var expirationIntervalArrowButton: UIButton!
     @IBOutlet weak var lineUnderExpirationInterval: UIView!
     @IBOutlet weak var expirationIntervalPicker: UIPickerView!
-    @IBOutlet weak var expirationIntervalDaysOneStack: UIStackView!
+    @IBOutlet weak var daysOneStack: UIStackView!
     @IBOutlet weak var daysOneLabel: UILabel!
-    @IBOutlet weak var expirationIntervalDaysTwoStack: UIStackView!
+    @IBOutlet weak var daysOneButton: UIButton!
+    @IBOutlet weak var daysOnArrowButton: UIButton!
+    @IBOutlet weak var lineUnderDaysOne: UIView!
+    @IBOutlet weak var daysTwoStack: UIStackView!
     @IBOutlet weak var daysTwoLabel: UILabel!
-    @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
-    @IBOutlet weak var notificationSwitch: UISwitch!
-    @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
-    @IBOutlet weak var timesadayLabel: UILabel!
+    @IBOutlet weak var daysTwoButton: UIButton!
+    @IBOutlet weak var daysTwoArrowButton: UIButton!
+    @IBOutlet weak var lineUnderDaysTwo: UIView!
     @IBOutlet weak var timesadaySlider: UISlider!
     @IBOutlet weak var timePickerOne: UIDatePicker!
     @IBOutlet weak var timePickerTwo: UIDatePicker!
@@ -50,7 +57,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var secondTimeLabel: UILabel!
     @IBOutlet weak var thirdTimeLabel: UILabel!
     @IBOutlet weak var fourthTimeLabel: UILabel!
-    private var selectedPicker: UIPickerView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,11 +256,17 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadExpirationIntervalDays() {
         hideOrUnhideDaysStack()
         daysOneLabel.text = viewModel.daysOneLabelText
+        daysTwoLabel.text = viewModel.daysTwoLabelText
     }
 
     private func hideOrUnhideDaysStack() {
-        expirationIntervalDaysOneStack.isHidden = !viewModel.expirationIntervalUsesDays
-        expirationIntervalDaysTwoStack.isHidden = viewModel.expirationInterval != .XDaysOnXDaysOff
+        let usesDays = viewModel.expirationIntervalUsesDays
+        let usesDaysOnDaysOff = viewModel.expirationInterval == .XDaysOnXDaysOff
+        daysOneStack.isHidden = !usesDays
+        daysTwoStack.isHidden = !usesDays
+        lineUnderDaysOne.isHidden = !usesDays
+        daysTwoStack.isHidden = !usesDaysOnDaysOff
+        lineUnderDaysTwo.isHidden = !usesDaysOnDaysOff
     }
 
     private func checkForUnsavedChanges() {
@@ -428,8 +440,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         lineUnderNotifications.backgroundColor = PDColors[.Border]
         expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(PDColors[.Text])
         expirationIntervalLabel.textColor = PDColors[.Text]
-        expirationIntervalButton.setTitleColor(PDColors[.Button])
         lineUnderExpirationInterval.backgroundColor = PDColors[.Border]
+        daysOneLabel.textColor = PDColors[.Text]
+        lineUnderDaysOne.backgroundColor = PDColors[.Border]
+        daysTwoLabel.textColor = PDColors[.Text]
+        lineUnderDaysTwo.backgroundColor = PDColors[.Border]
+        expirationIntervalButton.setTitleColor(PDColors[.Button])
         paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
         timesadaySlider.backgroundColor = UIColor.systemBackground
         paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground
