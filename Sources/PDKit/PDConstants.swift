@@ -38,6 +38,7 @@ public class DefaultPillAttributes {
     public static let timesTakenToday = 0
     public static let notify = true
     public static let expirationInterval = PillExpirationInterval.Option.EveryDay
+    public static let xDays = "12"
 }
 
 public class DefaultQuantities {

@@ -256,7 +256,9 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func loadExpirationIntervalDays() {
         hideOrUnhideDaysStack()
         daysOneLabel.text = viewModel.daysOneLabelText
+        daysOneButton.setTitle(viewModel.daysOn)
         daysTwoLabel.text = viewModel.daysTwoLabelText
+        daysTwoButton.setTitle(viewModel.daysOff)
     }
 
     private func hideOrUnhideDaysStack() {
@@ -446,6 +448,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         daysTwoLabel.textColor = PDColors[.Text]
         lineUnderDaysTwo.backgroundColor = PDColors[.Border]
         expirationIntervalButton.setTitleColor(PDColors[.Button])
+        daysOneButton.setTitleColor(PDColors[.Button])
+        daysTwoButton.setTitleColor(PDColors[.Button])
         paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
         timesadaySlider.backgroundColor = UIColor.systemBackground
         paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground

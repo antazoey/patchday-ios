@@ -1144,7 +1144,7 @@
 			path = Schedules;
 			sourceTree = "<group>";
 		};
-		9D003EB9233467F10070C964 /* PDObjects */ = {
+		9D003EB9233467F10070C964 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
 				9D003E9923231E880070C964 /* PDObjectified.swift */,
@@ -1152,7 +1152,7 @@
 				9D913BA122FF7B56001FC03C /* Hormonal.swift */,
 				9D913BA52304EF83001FC03C /* Swallowable.swift */,
 			);
-			path = PDObjects;
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		9D0177F92251983C00A24E48 /* Storyboards */ = {
@@ -1647,7 +1647,7 @@
 				9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */,
 				9D9978462367B01C009679FB /* SimpleProtocols.swift */,
 				9D003E9E232878CE0070C964 /* PatchDataSDK.swift */,
-				9D003EB9233467F10070C964 /* PDObjects */,
+				9D003EB9233467F10070C964 /* Objects */,
 				9D003EB7233467D20070C964 /* Schedules */,
 				9D003EB6233467C00070C964 /* Settings */,
 				9D59F8BA25056E8B00C0324E /* NowProtocol.swift */,

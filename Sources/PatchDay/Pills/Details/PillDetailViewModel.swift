@@ -86,13 +86,24 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillExpirationInterval.expirationIntervalUsesXDays(expirationInterval)
     }
 
+    var daysOn: String {
+        // TODO: Tests
+        parseDays().daysOn ?? String(DefaultPillAttributes.xDays)
+    }
+
+    var daysOff: String {
+        // TODO: Tests
+        parseDays().daysOff ?? String(DefaultPillAttributes.xDays)
+    }
+
     var daysOneLabelText: String? {
         // TODO: Add tests
         guard expirationIntervalUsesDays else { return nil }
-        if expirationInterval == .FirstXDays || expirationInterval == .LastXDays {
-            return NSLocalizedString("Days: ", comment: "on label")
+        if expirationInterval == .FirstXDays {
+            return NSLocalizedString("First X days of the month:", comment: "on label")
+        } else if expirationInterval == .LastXDays {
+            return NSLocalizedString("Last X days of the month:", comment: "on label")
         }
-        // .XDaysOnXDaysOff
         return NSLocalizedString("Days on:", comment: "on label")
     }
 
@@ -225,5 +236,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             pickers[i].isEnabled = false
             labels[i].isEnabled = false
         }
+    }
+
+    private func parseDays() -> (daysOn: String?, daysOff: String?) {
+        let xDays = selections.xDays ?? pill.xDays ?? DefaultPillAttributes.xDays
+        return PillExpirationInterval.parseDays(
+            xDays: xDays, expirationInterval: expirationInterval
+        )
     }
 }

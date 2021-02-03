@@ -33,10 +33,10 @@ public class PillStrings {
             NSLocalizedString("Every Other Day", comment: comment)
         }
         public static var FirstXDays: String {
-            NSLocalizedString("First X Days", comment: comment)
+            NSLocalizedString("First X Days of Month", comment: comment)
         }
         public static var LastXDays: String {
-            NSLocalizedString("Last X Days", comment: comment)
+            NSLocalizedString("Last X Days of Month", comment: comment)
         }
         public static var XDaysOnXDaysOff: String {
             NSLocalizedString("X Days On, X Days Off", comment: comment)

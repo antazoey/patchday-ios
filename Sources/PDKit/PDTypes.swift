@@ -58,6 +58,7 @@ public class PillExpirationInterval {
     }
 
     public init(_ rawValue: String?) {
+        // TODO: Add tests, test that it migrates
         if rawValue == "firstTenDays" {
             self.xDaysLoadedFromDeprecatedValue = "10"
             self.value = Option(rawValue: Option.FirstXDays.rawValue)
@@ -74,6 +75,24 @@ public class PillExpirationInterval {
             let defaultInterval = DefaultPillAttributes.expirationInterval
             self.value = Option(rawValue: defaultInterval.rawValue)
         }
+    }
+
+    public static func parseDays(
+        xDays: String, expirationInterval: Option
+    ) -> (daysOn: String?, daysOff: String?) {
+        // TODO: Add tests
+        if expirationInterval == .XDaysOnXDaysOff {
+            let days = xDays.split(separator: "-")
+            if days.count == 0 {
+                return (daysOn: nil, daysOff: nil)
+            } else if days.count == 1 {
+                return (daysOn: String(days[0]), daysOff: nil)
+            }
+            return (daysOn: String(days[0]), daysOff: String(days[1]))
+        } else if expirationInterval == .FirstXDays || expirationInterval == .LastXDays {
+            return (daysOn: xDays, daysOff: nil)
+        }
+        return (daysOn: nil, daysOff: nil)
     }
 
     public enum Option: String {
