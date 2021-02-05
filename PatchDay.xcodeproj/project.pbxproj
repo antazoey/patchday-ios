@@ -104,6 +104,8 @@
 		9D3E4C9622B730B500C82DAE /* ActionStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9522B730B500C82DAE /* ActionStrings.swift */; };
 		9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */; };
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
+		9D42109125CA338900087CDD /* PillExpirationInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D42109025CA338800087CDD /* PillExpirationInterval.swift */; };
+		9D42109A25CCD81100087CDD /* PillAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D42109925CCD81100087CDD /* PillAttributes.swift */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
 		9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
@@ -570,6 +572,8 @@
 		9D42105525C75C5B00087CDD /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		9D42105625C75C5B00087CDD /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		9D42105725C75C5B00087CDD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9D42109025CA338800087CDD /* PillExpirationInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillExpirationInterval.swift; sourceTree = "<group>"; };
+		9D42109925CCD81100087CDD /* PillAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributes.swift; sourceTree = "<group>"; };
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
 		9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NextHormoneWidget.entitlements; path = Sources/NextHormoneWidget/NextHormoneWidget.entitlements; sourceTree = SOURCE_ROOT; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
@@ -1274,6 +1278,15 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		9D4210A225CCD82600087CDD /* Pills */ = {
+			isa = PBXGroup;
+			children = (
+				9D42109025CA338800087CDD /* PillExpirationInterval.swift */,
+				9D42109925CCD81100087CDD /* PillAttributes.swift */,
+			);
+			path = Pills;
+			sourceTree = "<group>";
+		};
 		9D59F8B92503CE6300C0324E /* Stack */ = {
 			isa = PBXGroup;
 			children = (
@@ -1953,6 +1966,7 @@
 		B49A4A3F20DB2D4C00F24FC0 /* PDKit */ = {
 			isa = PBXGroup;
 			children = (
+				9D4210A225CCD82600087CDD /* Pills */,
 				9D78886C2558625500DC0F6D /* UI */,
 				9D788732254E0CB500DC0F6D /* Commands */,
 				9D6DB7CE2405FEA900C00711 /* Settings */,
@@ -2576,6 +2590,7 @@
 				9D78887B255862C000DC0F6D /* SiteDetailConstants.swift in Sources */,
 				9D8A982A23C7EED0004E20FE /* HormoneStoring.swift in Sources */,
 				9D7888642558624D00DC0F6D /* SiteImagePicker.swift in Sources */,
+				9D42109125CA338900087CDD /* PillExpirationInterval.swift in Sources */,
 				9D6DB7E02405FFD300C00711 /* SimpleSettings.swift in Sources */,
 				9DFD8EAD2500335900E7C3A8 /* DateFormatterFactory.swift in Sources */,
 				9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */,
@@ -2645,6 +2660,7 @@
 				9D7887D92558527600DC0F6D /* SiteCellProtocol.swift in Sources */,
 				9D78876C2553938600DC0F6D /* SiteImageRecording.swift in Sources */,
 				3397C115FF936D6A9736EE74 /* SingleValueTypeKeyStorables.swift in Sources */,
+				9D42109A25CCD81100087CDD /* PillAttributes.swift in Sources */,
 				9DDAB02E23FA050A00E6EEF6 /* PDAlerting.swift in Sources */,
 				9DDAB03E23FAF14C00E6EEF6 /* DeliveryMethodMutationAlertActionHandling.swift in Sources */,
 				3397C6FCF093000DD580D593 /* DateFactory.swift in Sources */,

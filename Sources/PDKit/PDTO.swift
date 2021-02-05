@@ -56,51 +56,6 @@ public class SiteImageDeterminationParameters {
     }
 }
 
-public struct PillAttributes {
-    private let defaultName = PillStrings.NewPill
-    public var description: String { "Pill DTO" }
-
-    // Pill Properties
-    public var name: String?
-    public var expirationInterval: PillExpirationInterval.Option?
-    public var times: String?
-    public var notify: Bool?
-    public var timesTakenToday: Int?
-    public var lastTaken: Date?
-    public var xDays: String?
-
-    public init(
-        name: String?,
-        expirationInterval: PillExpirationInterval.Option?,
-        times: String?,
-        notify: Bool?,
-        timesTakenToday: Int?,
-        lastTaken: Date?,
-        xDays: String?
-    ) {
-        self.name = name
-        self.expirationInterval = expirationInterval
-        self.times = times
-        self.notify = notify
-        self.timesTakenToday = timesTakenToday
-        self.lastTaken = lastTaken
-        self.xDays = xDays
-    }
-
-    public init() {
-    }
-
-    public var anyAttributeExists: Bool {
-        name != nil ||
-        expirationInterval != nil ||
-        times != nil ||
-        notify != nil ||
-        timesTakenToday != nil ||
-        lastTaken != nil ||
-        xDays != nil
-    }
-}
-
 public struct SiteStruct {
     public var id: UUID
     public var hormoneRelationshipIds: [UUID]?

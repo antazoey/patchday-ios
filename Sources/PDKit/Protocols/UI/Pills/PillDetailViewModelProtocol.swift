@@ -35,7 +35,7 @@ public protocol PillDetailViewModelProtocol {
     var namePickerStartIndex: Index { get }
 
     /// Either the selected option, `Pill.expirationInterval`, or some default.
-    var expirationInterval: PillExpirationInterval.Option { get }
+    var expirationInterval: PillExpirationIntervalSetting { get }
 
     /// The user-facing text representing `expirationInterval`.
     var expirationIntervalText: String { get }
@@ -49,6 +49,8 @@ public protocol PillDetailViewModelProtocol {
     /// The second days value for when `expirationInterval == .XDaysOnXDaysOff`.
     var daysOff: String { get }
 
+    var daysOptions: [String] { get }
+
     /// The text to display in the label for the first days selection when ` expirationIntervalUsesDays`.
     var daysOneLabelText: String? { get }
 
@@ -60,6 +62,15 @@ public protocol PillDetailViewModelProtocol {
 
     /// The available options to select for `expirationInterval`.
     var expirationIntervalOptions: [String] { get }
+
+    /// The start index for the days one picker.
+    var daysOneStartIndex: Index  { get }
+
+    /// The start index for the days two picker.
+    var daysTwoStartIndex: Index  { get }
+
+    /// Whether or not the days have been selected in the UI.
+    var daysSelected: Bool { get }
 
     /// The start index for the `expirationInterval` in the picker.
     var expirationIntervalStartIndex: Index { get }
@@ -96,6 +107,9 @@ public protocol PillDetailViewModelProtocol {
 
     /// Set the value for `expirationInterval`.
     func selectExpirationInterval(_ row: Index)
+
+    /// Select a days value for either daysOne or daysTwo, depending on the given days number.
+    func selectDays(_ row: Index, daysNumber: Int?)
 
     /// Enable or disable the provided pickers, based on `pill` data.
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel])

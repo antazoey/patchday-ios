@@ -16,14 +16,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var selections = PillAttributes()
     private let now: NowProtocol?
 
-    private var pillExpirationIntervals: [PillExpirationInterval.Option] = [
-        .EveryDay,
-        .EveryOtherDay,
-        .FirstXDays,
-        .LastXDays,
-        .XDaysOnXDaysOff
-    ]
-
     init(_ pillIndex: Index) {
         self.index = pillIndex
         self.now = nil
@@ -73,8 +65,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         return "\(prefix) \(timesaday)"
     }
 
-    var expirationInterval: PillExpirationInterval.Option {
-        selections.expirationInterval ?? pill.expirationInterval
+    var expirationInterval: PillExpirationIntervalSetting {
+        selections.expirationInterval ?? pill.expirationIntervalSetting
     }
 
     var expirationIntervalText: String {
@@ -83,17 +75,27 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     var expirationIntervalUsesDays: Bool {
         // TODO: Add tests
-        PillExpirationInterval.expirationIntervalUsesXDays(expirationInterval)
+        pill.expirationInterval.usesXDays
     }
 
     var daysOn: String {
         // TODO: Tests
-        parseDays().daysOn ?? String(DefaultPillAttributes.xDays)
+        guard let days = pill.expirationInterval.daysOne else {
+            return DefaultPillAttributes.xDaysString
+        }
+        return String(days)
     }
 
     var daysOff: String {
         // TODO: Tests
-        parseDays().daysOff ?? String(DefaultPillAttributes.xDays)
+        guard let days = pill.expirationInterval.daysTwo else {
+            return DefaultPillAttributes.xDaysString
+        }
+        return String(days)
+    }
+
+    var daysOptions: [String] {
+        (0...SupportedPillExpirationIntervalDaysLimit).map({ String($0) })
     }
 
     var daysOneLabelText: String? {
@@ -119,11 +121,27 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationIntervalStartIndex: Index {
-        pillExpirationIntervals.firstIndex(of: expirationInterval) ?? 0
+        PillExpirationInterval.options.firstIndex(of: expirationInterval) ?? 0
     }
 
     var expirationIntervalOptions: [String] {
         PillStrings.Intervals.all
+    }
+
+    var daysOneStartIndex: Index {
+        // TODO: Tests
+        guard let daysOne = selections.expirationIntervalObject.daysOne else { return  0 }
+        return daysOne - 1
+    }
+
+    var daysTwoStartIndex: Index {
+        // TODO: tests 
+        guard let daysTwo = selections.expirationIntervalObject.daysTwo else { return  0 }
+        return daysTwo - 1
+    }
+
+    var daysSelected: Bool {
+        selections.xDays != nil
     }
 
     var notify: Bool {
@@ -216,6 +234,18 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.expirationInterval = interval
     }
 
+    func selectDays(_ row: Index, daysNumber: Int?) {
+        // TODO: Add TEsts
+        guard expirationIntervalUsesDays else { return }
+        guard row >= 0 && row < daysOptions.count else { return }
+        guard let option = Int(daysOptions[row]) else { return }
+        if daysNumber == 1 {
+            selections.setDaysOne(option)
+        } else if daysNumber == 2 {
+            selections.setDaysTwo(option)
+        }
+    }
+
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         guard 1...pickers.count ~= timesaday else { return }
         guard 1...labels.count ~= timesaday else { return }
@@ -236,12 +266,5 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             pickers[i].isEnabled = false
             labels[i].isEnabled = false
         }
-    }
-
-    private func parseDays() -> (daysOn: String?, daysOff: String?) {
-        let xDays = selections.xDays ?? pill.xDays ?? DefaultPillAttributes.xDays
-        return PillExpirationInterval.parseDays(
-            xDays: xDays, expirationInterval: expirationInterval
-        )
     }
 }

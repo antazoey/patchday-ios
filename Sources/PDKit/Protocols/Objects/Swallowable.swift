@@ -18,8 +18,11 @@ public protocol Swallowable {
     /// The name of the pill.
     var name: String { get set }
 
+    /// The expiration interval of the pill as an object with additional helper methods.
+    var expirationInterval: PillExpirationInterval { get }
+
     /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
-    var expirationInterval: PillExpirationInterval.Option { get set }
+    var expirationIntervalSetting: PillExpirationIntervalSetting { get set }
 
     /// The times, in order, for which to take pills on a day in the schedule.
     var times: [Time] { get }
@@ -40,7 +43,13 @@ public protocol Swallowable {
     var lastTaken: Date? { get set }
 
     /// The days value used for certain expiration intervals, such as XDaysOnXDaysOff.
-    var xDays: String? { get set }
+    var xDays: String? { get }
+
+    /// Set the first days.
+    func setDaysOne(_ value: Int)
+
+    /// Set the second days.
+    func setDaysTwo(_ value: Int)
 
     /// The date when you should take this pill next.
     var due: Date? { get }

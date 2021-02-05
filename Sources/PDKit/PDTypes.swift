@@ -41,67 +41,12 @@ public enum ExpirationInterval {
     case EveryTwoWeeks
 }
 
-public class PillExpirationInterval {
-
-    public var value: PillExpirationInterval.Option?
-    public var xDaysLoadedFromDeprecatedValue: String?
-
-    public static func expirationIntervalUsesXDays(
-        _ interval: PillExpirationInterval.Option
-    ) -> Bool {
-        // TODO: Add tests
-        expirationIntervalThatUseXDays.contains(interval)
-    }
-
-    private static var expirationIntervalThatUseXDays: [PillExpirationInterval.Option] {
-        return [.FirstXDays, .LastXDays, .XDaysOnXDaysOff]
-    }
-
-    public init(_ rawValue: String?) {
-        // TODO: Add tests, test that it migrates
-        if rawValue == "firstTenDays" {
-            self.xDaysLoadedFromDeprecatedValue = "10"
-            self.value = Option(rawValue: Option.FirstXDays.rawValue)
-        } else if rawValue == "firstTwentyDays" {
-            self.xDaysLoadedFromDeprecatedValue = "20"
-            self.value = Option(rawValue: Option.FirstXDays.rawValue)
-        } else if rawValue == "lastTenDays" {
-            self.xDaysLoadedFromDeprecatedValue = "10"
-            self.value = Option(rawValue: Option.LastXDays.rawValue)
-        } else if rawValue == "lastTwentyDays" {
-            self.xDaysLoadedFromDeprecatedValue = "10"
-            self.value = Option(rawValue: Option.LastXDays.rawValue)
-        } else {
-            let defaultInterval = DefaultPillAttributes.expirationInterval
-            self.value = Option(rawValue: defaultInterval.rawValue)
-        }
-    }
-
-    public static func parseDays(
-        xDays: String, expirationInterval: Option
-    ) -> (daysOn: String?, daysOff: String?) {
-        // TODO: Add tests
-        if expirationInterval == .XDaysOnXDaysOff {
-            let days = xDays.split(separator: "-")
-            if days.count == 0 {
-                return (daysOn: nil, daysOff: nil)
-            } else if days.count == 1 {
-                return (daysOn: String(days[0]), daysOff: nil)
-            }
-            return (daysOn: String(days[0]), daysOff: String(days[1]))
-        } else if expirationInterval == .FirstXDays || expirationInterval == .LastXDays {
-            return (daysOn: xDays, daysOff: nil)
-        }
-        return (daysOn: nil, daysOff: nil)
-    }
-
-    public enum Option: String {
-        case EveryDay = "everyDay"
-        case EveryOtherDay = "everyOtherDay"
-        case FirstXDays = "firstXDays"
-        case LastXDays = "lastXDays"
-        case XDaysOnXDaysOff = "xDaysOnXDaysOff"
-    }
+public enum PillExpirationIntervalSetting: String {
+    case EveryDay = "everyDay"
+    case EveryOtherDay = "everyOtherDay"
+    case FirstXDays = "firstXDays"
+    case LastXDays = "lastXDays"
+    case XDaysOnXDaysOff = "xDaysOnXDaysOff"
 }
 
 // These strings cannot change - they are for retrieving from Core Data

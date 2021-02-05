@@ -31,7 +31,7 @@ class MOPillList: MOEntityList {
     }
 
     func createNewManagedPill(name: String, doSave: Bool = true) -> PillStruct? {
-        guard var newPill = createNewPill() else {
+        guard let newPill = createNewPill() else {
             logger.errorOnCreation()
             return nil
         }

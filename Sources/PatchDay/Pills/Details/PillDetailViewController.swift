@@ -13,6 +13,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private var viewModel: PillDetailViewModelProtocol!
     private var selectedPicker: UIPickerView?
+    private var selectedDaysNumber = 0
 
     @IBOutlet var detailsView: UIView!
     @IBOutlet weak var scrollView: UIScrollView!
@@ -47,6 +48,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var daysTwoLabel: UILabel!
     @IBOutlet weak var daysTwoButton: UIButton!
     @IBOutlet weak var daysTwoArrowButton: UIButton!
+    @IBOutlet weak var daysPicker: UIPickerView!
     @IBOutlet weak var lineUnderDaysTwo: UIView!
     @IBOutlet weak var timesadaySlider: UISlider!
     @IBOutlet weak var timePickerOne: UIDatePicker!
@@ -133,6 +135,40 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         loadExpirationInterval()
     }
 
+    @IBAction func daysOneButtonTapped(_ sender: Any) {
+        selectedPicker = daysPicker
+        selectedDaysNumber = 1
+        openDaysPicker()
+        daysOneButton.setTitle(ActionStrings.Done)
+        daysOneButton.replaceTarget(
+            self, newAction: #selector(doneWithDaysPickerTapped)
+        )
+    }
+
+    @IBAction func daysTwoButtonTapped(_ sender: Any) {
+        selectedPicker = daysPicker
+        selectedDaysNumber = 2
+        openDaysPicker()
+        daysTwoButton.setTitle(ActionStrings.Done)
+        daysTwoButton.replaceTarget(
+            self, newAction: #selector(doneWithDaysPickerTapped)
+        )
+    }
+
+    @objc func doneWithDaysPickerTapped() {
+        closeDaysPicker()
+        let daysOnText = viewModel.daysOn
+        let daysOffText = viewModel.daysOff
+        daysOneButton.setTitle(daysOnText)
+        daysOneButton.replaceTarget(self, newAction: #selector(daysOneButtonTapped))
+        daysTwoButton.setTitle(daysOffText)
+        daysTwoButton.replaceTarget(self, newAction: #selector(daysTwoButtonTapped))
+        if viewModel.daysSelected {
+            enableSaveButton()
+        }
+        loadExpirationIntervalDays()
+    }
+
     @IBAction func saveButtonTapped() {
         viewModel.save()
         segueToPillsVC()
@@ -166,8 +202,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if selectedPicker == namePicker {
             return viewModel.nameOptions.count
+        } else if selectedPicker == daysPicker {
+            return viewModel.daysOptions.count
+        } else if selectedPicker == expirationIntervalPicker {
+            return viewModel.expirationIntervalOptions.count
         }
-        return viewModel.expirationIntervalOptions.count
+        return DefaultNumberOfPickerComponents
     }
 
     func pickerView(
@@ -175,16 +215,23 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     ) -> String? {
         if selectedPicker == namePicker {
             return viewModel.nameOptions.tryGet(at: row)
+        } else if selectedPicker == expirationIntervalPicker {
+            return viewModel.expirationIntervalOptions.tryGet(at: row)
+        } else if selectedPicker == daysPicker {
+            return viewModel.daysOptions.tryGet(at: row)
         }
-        return viewModel.expirationIntervalOptions.tryGet(at: row)
+        return nil
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if selectedPicker == namePicker {
             viewModel.selectName(row)
             nameTextField.text = viewModel.name
-        } else {
+        } else if selectedPicker == expirationIntervalPicker {
             viewModel.selectExpirationInterval(row)
+        } else if selectedPicker == daysPicker {
+            viewModel.selectDays(row, daysNumber: selectedDaysNumber)
+            selectedDaysNumber = 0
         }
     }
 
@@ -289,15 +336,19 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func openNamePicker() {
-        selectedPicker = namePicker
-        startNamePickerActivation()
+        setNamePickerStartIndex()
         nameTextField.isEnabled = false
         unhideNamePicker()
     }
 
     private func openExpirationIntervalPicker() {
-        startExpirationPickerActivation()
+        setExpirationIntervalPickerStartIndex()
         expirationIntervalPicker.isHidden = false
+    }
+
+    private func openDaysPicker() {
+        setDaysPickerStartIndex()
+        daysPicker.isHidden = false
     }
 
     private func unhideNamePicker() {
@@ -318,26 +369,42 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         )
     }
 
-    private func startNamePickerActivation() {
+    private func setNamePickerStartIndex() {
         let nameIndex = viewModel.namePickerStartIndex
         namePicker.selectRow(nameIndex, inComponent: 0, animated: false)
     }
 
-    private func startExpirationPickerActivation() {
+    private func setExpirationIntervalPickerStartIndex() {
         let index = viewModel.expirationIntervalStartIndex
         expirationIntervalPicker.selectRow(index, inComponent: 0, animated: false)
     }
 
+    private func setDaysPickerStartIndex() {
+        var index = 0
+        if selectedDaysNumber == 1 {
+            index = viewModel.daysOneStartIndex
+        } else if selectedDaysNumber == 2 {
+            index = viewModel.daysTwoStartIndex
+        }
+        daysPicker.selectRow(index, inComponent: 0, animated: false)
+    }
+
     private func closeNamePicker() {
-        startNamePickerActivation()
+        setNamePickerStartIndex()
         nameTextField.isEnabled = true
         namePicker.isHidden = true
         selectedPicker = nil
     }
 
     private func closeExpirationIntervalPicker() {
-        startExpirationPickerActivation()
+        setExpirationIntervalPickerStartIndex()
         expirationIntervalPicker.isHidden = true
+        selectedPicker = nil
+    }
+
+    private func closeDaysPicker() {
+        setDaysPickerStartIndex()
+        daysPicker.isHidden = true
         selectedPicker = nil
     }
 

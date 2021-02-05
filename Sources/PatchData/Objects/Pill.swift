@@ -48,15 +48,14 @@ public class Pill: Swallowable {
         set { pillData.attributes.name = newValue }
     }
 
-    public var expirationInterval: PillExpirationInterval.Option {
-        get {
-            let defaultInterval = DefaultPillAttributes.expirationInterval
-            let storedInterval = pillData.attributes.expirationInterval
-            return storedInterval ?? defaultInterval
-        }
-        set {
-            pillData.attributes.expirationInterval = newValue
-        }
+    public var expirationInterval: PillExpirationInterval {
+        // TODO: tests
+        pillData.attributes.expirationIntervalObject
+    }
+
+    public var expirationIntervalSetting: PillExpirationIntervalSetting {
+        get { expirationInterval.value }
+        set { pillData.attributes.expirationInterval = newValue }
     }
 
     public var times: [Time] {
@@ -89,22 +88,22 @@ public class Pill: Swallowable {
     }
 
     public var xDays: String? {
-        get {
-            guard expirationIntervalUsesXDays else { return nil }
-            return pillData.attributes.xDays
-        }
-        set {
-            if let newValue = newValue {
-                guard newValue.count <= 5 else { return }  // Don't set invalid values
-                pillData.attributes.xDays = newValue
-            }
-        }
+        get { expirationInterval.days }
+        set { pillData.attributes.xDays = newValue }
+    }
+
+    public func setDaysOne(_ value: Int) {
+        pillData.attributes.setDaysOne(value)
+    }
+
+    public func setDaysTwo(_ value: Int) {
+        pillData.attributes.setDaysTwo(value)
     }
 
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
-        switch expirationInterval {
+        switch expirationInterval.value {
             case .EveryDay: return nextDueTimeForEveryDaySchedule
             case .EveryOtherDay: return dueDateForEveryOtherDay
             case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
@@ -135,10 +134,11 @@ public class Pill: Swallowable {
         name = attributes.name ?? name
         notify = attributes.notify ?? notify
         lastTaken = attributes.lastTaken ?? lastTaken
-        expirationInterval = attributes.expirationInterval ?? expirationInterval
+        expirationIntervalSetting = attributes.expirationInterval ?? expirationIntervalSetting
         pillData.attributes.times = attributes.times ?? pillData.attributes.times
         pillData.attributes.timesTakenToday = attributes.timesTakenToday
             ?? pillData.attributes.timesTakenToday
+        pillData.attributes.xDays = attributes.xDays
     }
 
     public func swallow() {
@@ -252,12 +252,6 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForXDaysOnXDaysOff: Date? {
-//        guard let lastTaken = lastTaken else { return nil }
-//        let days = daysOnDaysOff
-        return Date() // TODO: Calc the date
-    }
-
-    private var expirationIntervalUsesXDays: Bool {
-        PillExpirationInterval.expirationIntervalUsesXDays(expirationInterval)
+        return Date() // TODO
     }
 }

@@ -52,7 +52,7 @@ public class PillStrings {
             ]
         }
 
-        public static func getStringFromInterval(_ interval: PillExpirationInterval.Option) -> String {
+        public static func getStringFromInterval(_ interval: PillExpirationIntervalSetting) -> String {
             switch interval {
                 case .EveryDay: return EveryDay
                 case .EveryOtherDay: return EveryOtherDay
@@ -62,7 +62,7 @@ public class PillStrings {
             }
         }
 
-        public static func getIntervalFromString(_ string: String) -> PillExpirationInterval.Option? {
+        public static func getIntervalFromString(_ string: String) -> PillExpirationIntervalSetting? {
             switch string {
                 case EveryDay: return .EveryDay
                 case EveryOtherDay: return .EveryOtherDay

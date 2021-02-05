@@ -139,13 +139,15 @@ class EntityAdapter {
 
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
         let defaultInterval = DefaultPillAttributes.expirationInterval
-        var interval: PillExpirationInterval.Option?
+        var interval: PillExpirationIntervalSetting?
         var xDays: String?
         if let intervalString = pill.expirationInterval {
             let intervalObject = PillExpirationInterval(intervalString)
             interval = intervalObject.value
-            if let days = intervalObject.xDaysLoadedFromDeprecatedValue {
-                xDays = days
+
+            // If xDays got set from migrating an older value
+            if let days = intervalObject.daysOne {
+                xDays = String(days)
             }
         }
         return PillAttributes(
