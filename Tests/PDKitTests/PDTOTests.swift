@@ -44,7 +44,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasExpirationInterval_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: PillExpirationInterval.Option.EveryDay,
+            expirationInterval: PillExpirationIntervalSetting.EveryDay,
             times: nil,
             notify: nil,
             timesTakenToday: nil,

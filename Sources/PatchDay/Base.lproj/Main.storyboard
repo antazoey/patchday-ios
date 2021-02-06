@@ -634,7 +634,7 @@
                                                         <rect key="frame" x="61" y="0.0" width="284" height="50"/>
                                                         <state key="normal" title="Button"/>
                                                         <connections>
-                                                            <action selector="daysOnePickerTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="quD-JB-yKw"/>
+                                                            <action selector="daysOneButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Gjt-Yd-1xn"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iyr-SE-MH9">
@@ -643,7 +643,7 @@
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="daysOnePickerTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="f5E-6E-RKG"/>
+                                                            <action selector="daysOneButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Zdf-NY-XUX"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -678,7 +678,7 @@
                                                         <rect key="frame" x="62.5" y="0.0" width="282.5" height="50"/>
                                                         <state key="normal" title="Button"/>
                                                         <connections>
-                                                            <action selector="daysTwoPickerTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="Dql-Lb-SWF"/>
+                                                            <action selector="daysTwoButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="4ro-Ch-LFZ"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="247" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oy6-jv-i7L">
@@ -687,7 +687,7 @@
                                                             <color key="titleColor" red="0.50259078319999995" green="0.50522214850000002" blue="0.50522214850000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <action selector="daysTwoPickerTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="16J-Bm-JUh"/>
+                                                            <action selector="daysTwoButtonTapped:" destination="9mn-Be-MMV" eventType="touchUpInside" id="LYR-Xz-6Tw"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

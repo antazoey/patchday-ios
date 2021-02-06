@@ -15,7 +15,10 @@ public class MockPill: Swallowable {
     public var name: String = ""
     public var times: [Time] = []
     public var notify: Bool = false
-    public var expirationInterval = PillExpirationInterval.Option.EveryDay
+    public var expirationInterval = PillExpirationInterval(.EveryDay)
+    public var expirationIntervalSetting: PillExpirationIntervalSetting =
+        PillExpirationIntervalSetting.EveryDay
+    public var xDays: String?
     public var timesaday: Int = -1
     public var timesTakenToday: Int = -1
     public var lastTaken: Date?
@@ -45,5 +48,19 @@ public class MockPill: Swallowable {
     public var appendTimeCallArgs: [Time] = []
     public func appendTime(_ time: Time) {
         appendTimeCallArgs.append(time)
+    }
+
+    public var setDaysOneCallArgs: [Int] = []
+    public var setDaysOneCallCount = 0
+    public func setDaysOne(_ value: Int) {
+        setDaysOneCallArgs.append(value)
+        setDaysOneCallCount += 1
+    }
+
+    public var setDaysTwoCallArgs: [Int] = []
+    public var setDaysTwoCallCount = 0
+    public func setDaysTwo(_ value: Int) {
+        setDaysTwoCallArgs.append(value)
+        setDaysTwoCallCount += 1
     }
 }

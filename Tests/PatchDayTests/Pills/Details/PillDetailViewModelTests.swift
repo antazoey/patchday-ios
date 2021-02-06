@@ -146,9 +146,9 @@ class PillDetailViewModelTests: XCTestCase {
 
     func testExpirationInterval_returnsSelectedInterval() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.Option.FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.expirationInterval = PillExpirationInterval.Option.EveryOtherDay
+        viewModel.selections.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
         let actual = viewModel.expirationInterval
         let expected = viewModel.selections.expirationInterval
         XCTAssertEqual(expected, actual)
@@ -156,19 +156,19 @@ class PillDetailViewModelTests: XCTestCase {
 
     func testExpirationInterval_whenNothingSelected_returnsPillInterval() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.Option.FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = nil
         let actual = viewModel.expirationInterval
-        let expected = pill.expirationInterval
+        let expected = pill.expirationIntervalSetting
         XCTAssertEqual(expected, actual)
     }
 
     func testExpirationIntervalText_returnsSelectedIntervalText() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.Option.FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.expirationInterval = PillExpirationInterval.Option.EveryOtherDay
+        viewModel.selections.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
         let actual = viewModel.expirationIntervalText
         let expected = PillStrings.Intervals.EveryOtherDay
         XCTAssertEqual(expected, actual)
@@ -176,7 +176,7 @@ class PillDetailViewModelTests: XCTestCase {
 
     func testExpirationIntervalText_whenNothingSelected_returnsPillIntervalText() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.Option.FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = nil
         let actual = viewModel.expirationIntervalText
@@ -184,18 +184,52 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testDaysOptions_returnsAListOfStringIntegersFromOneToMax() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.daysOptions
+        let expected = [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25"
+        ]
+        XCTAssertEqual(expected, actual)
+    }
+
     func testExpirationIntervalPickerStartIndex_usesSelectedInterval() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.Option.FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.expirationInterval = PillExpirationInterval.Option.LastXDays
+        viewModel.selections.expirationInterval = PillExpirationIntervalSetting.LastXDays
         let actual = viewModel.expirationIntervalStartIndex
         XCTAssertEqual(3, actual)
     }
 
     func testExpirationIntervalPickerStartIndex_whenNothingSelected_usesPillInterval() {
         let pill = setupPill()
-        pill.expirationInterval = PillExpirationInterval.Option.FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = nil
         viewModel.selections.name = nil
@@ -459,7 +493,7 @@ class PillDetailViewModelTests: XCTestCase {
         let name = "Test"
         let time = PDDateFormatter.convertDatesToCommaSeparatedString([Time()])
         let notify = true
-        let interval = PillExpirationInterval.Option.EveryDay
+        let interval = PillExpirationIntervalSetting.EveryDay
         viewModel.selections.name = name
         viewModel.selections.times = time
         viewModel.selections.notify = notify
@@ -581,15 +615,15 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let getActual = { viewModel.selections.expirationInterval }
         viewModel.selectExpirationInterval(0)
-        XCTAssertEqual(PillExpirationInterval.Option.EveryDay, getActual())
+        XCTAssertEqual(PillExpirationIntervalSetting.EveryDay, getActual())
         viewModel.selectExpirationInterval(1)
-        XCTAssertEqual(PillExpirationInterval.Option.EveryOtherDay, getActual())
+        XCTAssertEqual(PillExpirationIntervalSetting.EveryOtherDay, getActual())
         viewModel.selectExpirationInterval(2)
-        XCTAssertEqual(PillExpirationInterval.Option.FirstXDays, getActual())
+        XCTAssertEqual(PillExpirationIntervalSetting.FirstXDays, getActual())
         viewModel.selectExpirationInterval(3)
-        XCTAssertEqual(PillExpirationInterval.Option.LastXDays, getActual())
+        XCTAssertEqual(PillExpirationIntervalSetting.LastXDays, getActual())
         viewModel.selectExpirationInterval(4)
-        XCTAssertEqual(PillExpirationInterval.Option.XDaysOnXDaysOff, getActual())
+        XCTAssertEqual(PillExpirationIntervalSetting.XDaysOnXDaysOff, getActual())
         viewModel.selectExpirationInterval(5)
     }
 
@@ -598,7 +632,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = .FirstXDays
         viewModel.selectExpirationInterval(-1)
-        let expected = PillExpirationInterval.Option.EveryDay
+        let expected = PillExpirationIntervalSetting.EveryDay
         let actual = viewModel.selections.expirationInterval
         XCTAssertEqual(expected, actual)
     }

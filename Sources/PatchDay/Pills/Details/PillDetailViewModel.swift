@@ -61,8 +61,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var timesadayText: String {
-        let prefix = NSLocalizedString("How many per day: ", comment: "Label prefix")
-        return "\(prefix) \(timesaday)"
+        "\(NSLocalizedString("How many per day: ", comment: "Label prefix")) \(timesaday)"
     }
 
     var expirationInterval: PillExpirationIntervalSetting {
@@ -75,7 +74,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     var expirationIntervalUsesDays: Bool {
         // TODO: Add tests
-        pill.expirationInterval.usesXDays
+        if expirationIntervalIsSelected {
+            return selections.expirationIntervalObject.usesXDays
+        }
+        return pill.expirationInterval.usesXDays
     }
 
     var daysOn: String {
@@ -95,7 +97,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysOptions: [String] {
-        (0...SupportedPillExpirationIntervalDaysLimit).map({ String($0) })
+        (1...SupportedPillExpirationIntervalDaysLimit).map({ String($0) })
     }
 
     var daysOneLabelText: String? {

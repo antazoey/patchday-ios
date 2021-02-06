@@ -42,6 +42,10 @@ public class PillExpirationInterval {
         }
     }
 
+    public convenience init(_ value: PillExpirationIntervalSetting) {
+        self.init(value, days: nil)
+    }
+
     public init(_ rawValue: String) {
         // Attempt to migrate an older value
         let newOptionForFirstXDays = PillExpirationIntervalSetting.FirstXDays.rawValue

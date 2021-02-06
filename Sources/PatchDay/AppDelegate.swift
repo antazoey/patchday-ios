@@ -1,6 +1,5 @@
 //
 //  AppDelegate.swift
-//  test
 //
 //  Created by Juliya Smith on 5/9/17.
 //  Copyright © 2018 Juliya Smith. All rights reserved.

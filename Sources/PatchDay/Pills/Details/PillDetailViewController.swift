@@ -256,6 +256,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         namePicker.delegate = self
         nameTextField.delegate = self
         expirationIntervalPicker.delegate = self
+        daysPicker.delegate = self
     }
 
     private func loadSelectNameButton() {

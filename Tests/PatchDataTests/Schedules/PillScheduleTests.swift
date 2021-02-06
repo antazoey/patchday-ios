@@ -243,7 +243,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingByIndex_updatesPill() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         let testDate = "18:30:30"
         attributes.times = testDate
@@ -255,7 +255,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingByIndex_savesChanges() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -264,7 +264,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingByIndex_sharedNextPillDue() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -275,7 +275,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingById_updatesPill() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -289,7 +289,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingById_savesChanges() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -300,7 +300,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingById_sharedNextPillDue() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
