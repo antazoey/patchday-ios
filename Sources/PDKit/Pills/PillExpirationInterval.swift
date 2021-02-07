@@ -44,7 +44,7 @@ public class PillExpirationInterval {
     /// Migrates older values such as `firstTenDays` ( and similar ones) to use the new model.
     public init(_ rawValue: String) {
         let newOptionForFirstXDays = PillExpirationIntervalSetting.FirstXDays.rawValue
-        let newOptionForLastDays = PillExpirationIntervalSetting.LastXDays.rawValue
+        let newOptionForLastXDays = PillExpirationIntervalSetting.LastXDays.rawValue
         var value: PillExpirationIntervalSetting?
         if rawValue == "firstTenDays" {
             self._daysOne = 10
@@ -54,10 +54,10 @@ public class PillExpirationInterval {
             value = PillExpirationIntervalSetting(rawValue: newOptionForFirstXDays)
         } else if rawValue == "lastTenDays" {
             self._daysOne = 10
-            value = PillExpirationIntervalSetting(rawValue: newOptionForLastDays)
+            value = PillExpirationIntervalSetting(rawValue: newOptionForLastXDays)
         } else if rawValue == "lastTwentyDays" {
             self._daysOne = 20
-            value = PillExpirationIntervalSetting(rawValue: newOptionForLastDays)
+            value = PillExpirationIntervalSetting(rawValue: newOptionForLastXDays)
         }
         self.value = value ?? DefaultPillAttributes.expirationInterval
     }
