@@ -22,7 +22,7 @@ public protocol PillDetailViewModelProtocol {
     /// The title of the view controller.
     var title: String { get }
 
-    /// Either the selected option, `pill.Name` or some default name.
+    /// Either the selected option, `pill.Name`, or some default name.
     var name: String { get }
 
     /// The user has made a selection in the UI for `name`.
