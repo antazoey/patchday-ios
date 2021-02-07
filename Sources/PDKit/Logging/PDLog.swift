@@ -11,6 +11,13 @@ public enum PDLogLevels {
     case NONE
 }
 
+/// Use for debuggingp purposes
+public func tprint(_ msg: Any?) {
+    print("\n\n____TEST____\n")
+    print(msg ?? "nil")
+    print("\n____TEST____\n\n")
+}
+
 /// Set to `LogLevel.DEBUG` to turn on loggers.
 public var PDLogLevel = PDLogLevels.NONE
 

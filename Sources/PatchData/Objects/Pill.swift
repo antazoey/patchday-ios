@@ -50,7 +50,6 @@ public class Pill: Swallowable {
     }
 
     public var expirationInterval: PillExpirationInterval {
-        // TODO: tests
         pillData.attributes.expirationInterval
     }
 

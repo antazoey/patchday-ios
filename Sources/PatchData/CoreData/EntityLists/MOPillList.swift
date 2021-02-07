@@ -145,6 +145,8 @@ class MOPillList: MOEntityList {
         managedPill.lastTaken = nil
         managedPill.timesTakenToday = -1
         managedPill.notify = false
+        managedPill.expirationInterval = nil
+        managedPill.xDays = nil
         // legacy
         managedPill.time1 = nil
         managedPill.time2 = nil

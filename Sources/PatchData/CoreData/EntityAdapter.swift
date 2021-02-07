@@ -80,6 +80,9 @@ class EntityAdapter {
         if let expirationInterval = pillData.attributes.expirationIntervalSetting {
             pill.expirationInterval = expirationInterval.rawValue
         }
+        if let days = pillData.attributes.xDays {
+            pill.xDays = days
+        }
     }
 
     // MARK: - Sites

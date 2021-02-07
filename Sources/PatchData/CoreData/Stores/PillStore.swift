@@ -26,7 +26,7 @@ class PillStore: EntityStore, PillStoring {
             if pill.times.count > 0 {
                 state = .Working
             } else {
-                // Fix Pill that for some reason don't have a single Time set.
+                // Fix Pill that for some reason doesn't have a single Time set.
                 pill.appendTime(Time())
                 pillsToSave.append(pill)
             }
@@ -48,10 +48,8 @@ class PillStore: EntityStore, PillStoring {
     }
 
     func createNewPill(name: String) -> Swallowable? {
-        guard let newPillDataFromStore = entities.createNewManagedPill(name: name) else {
-            return nil
-        }
-        return Pill(pillData: newPillDataFromStore)
+        guard let storedPill = entities.createNewManagedPill(name: name) else { return nil }
+        return Pill(pillData: storedPill)
     }
 
     func createNewPill() -> Swallowable? {
