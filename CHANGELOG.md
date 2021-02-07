@@ -19,6 +19,7 @@ Fixed
 - Bug in Hormones Details View where the date-button remains disabled after completing setting the 
     site.
 - Issues in the Pill Details View preventing all of the pickers from opening at the correct row.
+- Issue where the Pill expiration interval arrow button would allow re-opening the picker when it was already open.
 
 ## 3.2.2
 

@@ -347,6 +347,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if !daysPicker.isHidden {
             closeDaysPicker()
         }
+        expirationIntervalArrowButton.isEnabled = false
         daysOneButton.isEnabled = false
         daysTwoButton.isEnabled = false
         daysOneArrowButton.isEnabled = false
@@ -361,12 +362,13 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         if selectedDaysNumber == 1 {
             daysTwoButton.isEnabled = false
-            daysTwoArrowButton.isEnabled = false
+
         } else if selectedDaysNumber == 2 {
             daysOneButton.isEnabled = false
-            daysOneArrowButton.isEnabled = false
         }
 
+        daysOneArrowButton.isEnabled = false
+        daysTwoArrowButton.isEnabled = false
         expirationIntervalButton.isEnabled = false
         expirationIntervalArrowButton.isEnabled = false
         unhideDaysPicker()
@@ -425,6 +427,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         daysTwoButton.isEnabled = true
         daysOneArrowButton.isEnabled = true
         daysTwoArrowButton.isEnabled = true
+        expirationIntervalArrowButton.isEnabled = true
     }
 
     private func closeDaysPicker() {

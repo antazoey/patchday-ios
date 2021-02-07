@@ -9,10 +9,8 @@
 import Foundation
 
 public class PillAttributes {
-    private let defaultName = PillStrings.NewPill
-    public var description: String { "Pill DTO" }
 
-    // Pill Properties
+    private let defaultName = PillStrings.NewPill
     public var name: String?
     public var expirationIntervalSetting: PillExpirationIntervalSetting?
     public var times: String?
@@ -52,18 +50,20 @@ public class PillAttributes {
     public init() {
     }
 
-    public func anyAttributeExists(exceptions: PillAttributes? = nil) -> Bool {
+    /// Returns true if these attributes contain any non-nil attributes. Optionally pass in exceptions and it will also make sure
+    /// the attribute is not equal to the property in the exceptions.
+    public func anyAttributeExists(exclusions: PillAttributes? = nil) -> Bool {
         // TODO: Adjust tests
-        let exceptions = exceptions != nil ? exceptions! : PillAttributes()
-        let nameExists = name != nil && name != exceptions.name
+        let exclusions = exclusions != nil ? exclusions! : PillAttributes()
+        let nameExists = name != nil && name != exclusions.name
         let intervalExists = expirationIntervalSetting != nil
-            && expirationIntervalSetting != exceptions.expirationIntervalSetting
-        let timesExists = times != nil && times != exceptions.times
-        let notifyExists = notify != nil && notify != exceptions.notify
+            && expirationIntervalSetting != exclusions.expirationIntervalSetting
+        let timesExists = times != nil && times != exclusions.times
+        let notifyExists = notify != nil && notify != exclusions.notify
         let timesTakenTodayExists = timesTakenToday != nil
-            && timesTakenToday != exceptions.timesTakenToday
-        let lastTakenExists = lastTaken != nil && lastTaken != exceptions.lastTaken
-        let xDaysExists = xDays != nil && xDays != exceptions.xDays
+            && timesTakenToday != exclusions.timesTakenToday
+        let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
+        let xDaysExists = xDays != nil && xDays != exclusions.xDays
 
         return nameExists
             || intervalExists

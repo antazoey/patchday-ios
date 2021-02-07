@@ -40,10 +40,25 @@ class PillAttributesTests: XCTestCase {
         XCTAssert(attributes.anyAttributeExists())
     }
 
+    func testAnyAttributeExists_handlesExceptedName() {
+        let attributes = PillAttributes(
+            name: "TEST",
+            expirationIntervalSetting: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            xDays: nil
+        )
+        let exclusions = PillAttributes(attributes)
+        exclusions.name = "TEST"
+        XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
+    }
+
     func testAnyAttributeExists_whenHasExpirationInterval_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationIntervalSetting: PillExpirationIntervalSetting.EveryDay,
+            expirationIntervalSetting: .EveryDay,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
@@ -51,6 +66,21 @@ class PillAttributesTests: XCTestCase {
             xDays: nil
         )
         XCTAssert(attributes.anyAttributeExists())
+    }
+
+    func testAnyAttributeExists_handlesExceptedExpirationInterval() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationIntervalSetting: .EveryDay,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil,
+            xDays: nil
+        )
+        let exclusions = PillAttributes(attributes)
+        exclusions.expirationIntervalSetting = .EveryDay
+        XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
     }
 
     func testAnyAttributeExists_whenHasTimes_returnsTrue() {

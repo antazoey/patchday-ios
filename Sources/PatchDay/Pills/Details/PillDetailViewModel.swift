@@ -271,7 +271,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private var wereChanges: Bool {
-        selections.anyAttributeExists(exceptions: pill.attributes)
+        selections.anyAttributeExists(exclusions: pill.attributes)
             || pill.name == PillStrings.NewPill
     }
 }
