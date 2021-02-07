@@ -11,14 +11,14 @@ Changed
 Added
 
 - New Pill Expiration Interval "X Days On, X Days Off" for creating a schedule where you take a pill for a certain 
-    number of days and then stop taking it a certain number of days.  Set the "Days on" and "Days off" properties
-    accordingly when using this schedule.
+    number of days and then stop taking the pill for a certain number of days.  You can set the "Days on" and 
+    "Days off" properties accordingly to any numbers 1 - 25.
 
 Fixed
 
 - Bug in Hormones Details View where the date-button remains disabled after completing setting the 
     site.
-- Issues preventing the Picker from opening at the selected row in the Pill Details View.
+- Issues in the Pill Details View preventing all of the pickers from opening at the correct row.
 
 ## 3.2.2
 
