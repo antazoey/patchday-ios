@@ -1551,6 +1551,7 @@
 				9D8A982523C574C0004E20FE /* MockSettings */,
 				9D8A982023C57487004E20FE /* MockCoreData */,
 				3397C2AF275108F73193FF4C /* MockSchedules */,
+				9D8A983823C7FD12004E20FE /* MockObjects */,
 			);
 			path = Mocks;
 			sourceTree = "<group>";
@@ -1558,7 +1559,6 @@
 		9D8A982023C57487004E20FE /* MockCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				9D8A983823C7FD12004E20FE /* MockPatchDataObjects */,
 				9D8A983323C7F89B004E20FE /* MockStores */,
 				9D8A982123C57499004E20FE /* MockEntity.swift */,
 				9D8A982323C574B0004E20FE /* MockPatchData.swift */,
@@ -1617,14 +1617,14 @@
 			path = MockStores;
 			sourceTree = "<group>";
 		};
-		9D8A983823C7FD12004E20FE /* MockPatchDataObjects */ = {
+		9D8A983823C7FD12004E20FE /* MockObjects */ = {
 			isa = PBXGroup;
 			children = (
 				9D8A983923C7FD1F004E20FE /* MockHormone.swift */,
 				9D8A983B23CBC071004E20FE /* MockSite.swift */,
 				9D8A985023D160EB004E20FE /* MockPill.swift */,
 			);
-			path = MockPatchDataObjects;
+			path = MockObjects;
 			sourceTree = "<group>";
 		};
 		9D8A983D23CBF368004E20FE /* Objects */ = {

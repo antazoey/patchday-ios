@@ -13,7 +13,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         sdk!.pills[index]!
     }
     static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
-    var selections = PillAttributes()
+    var selections: PillAttributes = PillAttributes()
     private let now: NowProtocol?
 
     init(_ pillIndex: Index) {
@@ -81,14 +81,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysOn: String {
-        // TODO: Tests
         selections.expirationInterval.daysOn
             ?? pill.expirationInterval.daysOn
             ?? DefaultPillAttributes.xDaysString
     }
 
     var daysOff: String {
-        // TODO: Tests
         selections.expirationInterval.daysOff
             ?? pill.expirationInterval.daysOff
             ?? DefaultPillAttributes.xDaysString
@@ -186,7 +184,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         sdk?.pills.set(by: pill.id, with: selections)
         notifications?.requestDuePillNotification(pill)
         tabs?.reflectPills()
-        selections = PillAttributes()
+        selections.reset()
     }
 
     func handleIfUnsaved(_ viewController: UIViewController) {
@@ -195,13 +193,13 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             self.nav?.pop(source: viewController)
         }
         let discard: () -> Void = {
-            self.selections = PillAttributes()
+            self.selections.reset()
             if self.pill.name == PillStrings.NewPill {
                 self.sdk?.pills.delete(at: self.index)
             }
             self.nav?.pop(source: viewController)
         }
-        if selections.anyAttributeExists || pill.name == PillStrings.NewPill {
+        if wereChanges {
             self.alerts?.createUnsavedAlert(
                 viewController,
                 saveAndContinueHandler: save,
@@ -227,8 +225,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func selectDays(_ row: Index, daysNumber: Int?) {
         // TODO: Add TEsts
         guard expirationIntervalUsesDays else { return }
-        guard row >= 0 && row < daysOptions.count else { return }
+        guard (0..<daysOptions.count) ~= row else { return }
         guard let option = Int(daysOptions[row]) else { return }
+        selections.expirationIntervalSetting = selections.expirationIntervalSetting
+            ?? pill.expirationIntervalSetting
         if daysNumber == 1 {
             selections.expirationInterval.daysOne = option
         } else if daysNumber == 2 {
@@ -259,20 +259,19 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private var daysOne: Int {
-        var days: Int?
-        if daysSelected {
-            days = selections.expirationInterval.daysOne
-        }
-        days = pill.expirationInterval.daysOne
-        return days ?? DefaultPillAttributes.xDaysInt
+        selections.expirationInterval.daysOne
+            ?? pill.expirationInterval.daysOne
+            ?? DefaultPillAttributes.xDaysInt
     }
 
     private var daysTwo: Int {
-        var days: Int?
-        if daysSelected {
-            days = selections.expirationInterval.daysTwo
-        }
-        days = pill.expirationInterval.daysTwo
-        return days ?? DefaultPillAttributes.xDaysInt
+        selections.expirationInterval.daysTwo
+            ?? pill.expirationInterval.daysTwo
+            ?? DefaultPillAttributes.xDaysInt
+    }
+
+    private var wereChanges: Bool {
+        selections.anyAttributeExists(exceptions: pill.attributes)
+            || pill.name == PillStrings.NewPill
     }
 }

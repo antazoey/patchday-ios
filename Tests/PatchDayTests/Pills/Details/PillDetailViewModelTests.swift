@@ -27,6 +27,19 @@ class PillDetailViewModelTests: XCTestCase {
         return pill
     }
 
+    func testSelections_defaultToNotHavingAnyAttributesExceptExpirationInterval() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays, xDays: "5")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertNil(viewModel.selections.name)
+        XCTAssertNil(viewModel.selections.lastTaken)
+        XCTAssertNil(viewModel.selections.notify)
+        XCTAssertNil(viewModel.selections.times)
+        XCTAssertNil(viewModel.selections.xDays)
+        XCTAssertNil(viewModel.selections.expirationIntervalSetting)
+    }
+
     func testTitle_whenNew_returnsNewPillTitle() {
         let pill = setupPill()
         pill.isNew = true
@@ -183,6 +196,69 @@ class PillDetailViewModelTests: XCTestCase {
         let expected = PillStrings.Intervals.FirstXDays
         XCTAssertEqual(expected, actual)
     }
+
+    func testDaysOn_whenNothingSelected_returnsDaysOnFromPill() {
+        let pill = setupPill()
+        let expected = "5"
+        pill.expirationIntervalSetting = .FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays, xDays: expected)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.daysOn
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOn_whenHasSelectedRow_returnsSelectedValue() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays, xDays: "5")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "8"
+        viewModel.selections.xDays = expected
+        viewModel.selections.expirationIntervalSetting = .FirstXDays
+        let actual = viewModel.daysOn
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOn_whenNothingSelectedAndPillHasNone_returnsDefault() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = DefaultPillAttributes.xDaysString
+        let actual = viewModel.daysOn
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOff_whenNothingSelected_returnsDaysOffFromPill() {
+        let pill = setupPill()
+        let expected = "7"
+        pill.expirationIntervalSetting = .XDaysOnXDaysOff
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-\(expected)")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.daysOff
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOff_whenNothingSelectedAndPillHasNone_returnsDefault() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = DefaultPillAttributes.xDaysString
+        let actual = viewModel.daysOff
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOff_whenHasSelectedRow_returnsSelectedValue() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .XDaysOnXDaysOff
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "8"
+
+        // The UI has to also set the selected interval prior to being able to set the days.
+        viewModel.selections.expirationIntervalSetting = .XDaysOnXDaysOff
+        viewModel.selections.xDays = "5-\(expected)"
+        let actual = viewModel.daysOff
+        XCTAssertEqual(expected, actual)
+    }
+
 
     func testDaysOptions_returnsAListOfStringIntegersFromOneToMax() {
         setupPill()
@@ -577,7 +653,12 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.name = "Test"
         viewModel.save()
-        XCTAssertFalse(viewModel.selections.anyAttributeExists)
+        XCTAssertNil(viewModel.selections.name)
+        XCTAssertNil(viewModel.selections.lastTaken)
+        XCTAssertNil(viewModel.selections.notify)
+        XCTAssertNil(viewModel.selections.times)
+        XCTAssertNil(viewModel.selections.xDays)
+        XCTAssertNil(viewModel.selections.expirationIntervalSetting)
     }
 
     func testSave_callsSetPillWithSelections() {
@@ -591,9 +672,9 @@ class PillDetailViewModelTests: XCTestCase {
         viewModel.selections.times = time
         viewModel.selections.notify = notify
         viewModel.selections.expirationIntervalSetting = interval
-        viewModel.save()
         let pills = (viewModel.sdk?.pills as! MockPillSchedule)
-        XCTAssertEqual(pills.setIdCallArgs[0].0, pill.id)
+        viewModel.save()
+        XCTAssertEqual(pill.id, pills.setIdCallArgs[0].0)
         XCTAssertEqual(name, pills.setIdCallArgs[0].1.name)
         XCTAssertEqual(time, pills.setIdCallArgs[0].1.times)
         XCTAssertEqual(notify, pills.setIdCallArgs[0].1.notify)
@@ -624,6 +705,10 @@ class PillDetailViewModelTests: XCTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
+        if alerts.createUnsavedAlertCallArgs.count <= 0 {
+            XCTFail("Something might not be registering as change that needs to save.")
+            return
+        }
         let callArgs = alerts.createUnsavedAlertCallArgs[0]
         let returnValue = alerts.createUnsavedAlertReturnValue
         XCTAssertEqual(testViewController, callArgs.0)
@@ -637,6 +722,10 @@ class PillDetailViewModelTests: XCTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
+        if alerts.createUnsavedAlertCallArgs.count <= 0 {
+            XCTFail("Something might not be registering as change that needs to save.")
+            return
+        }
         let callArgs = alerts.createUnsavedAlertCallArgs[0]
         let returnValue = alerts.createUnsavedAlertReturnValue
         let handler = callArgs.1
@@ -652,6 +741,12 @@ class PillDetailViewModelTests: XCTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
+
+        if alerts.createUnsavedAlertCallArgs.count <= 0 {
+            XCTFail("Likely not catching something that needs to save")
+            return
+        }
+
         let callArgs = alerts.createUnsavedAlertCallArgs[0]
         let returnValue = alerts.createUnsavedAlertReturnValue
         let handler = callArgs.2
@@ -673,7 +768,10 @@ class PillDetailViewModelTests: XCTestCase {
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
         let alerts = viewModel.alerts! as! MockAlertFactory
-        XCTAssertEqual(1, alerts.createUnsavedAlertCallArgs.count)
+        if alerts.createUnsavedAlertCallArgs.count <= 0 {
+            XCTFail("The alert was not created.")
+            return
+        }
         let discard = alerts.createUnsavedAlertCallArgs[0].2
         discard()
         let actual = pills.deleteCallArgs[0]
@@ -681,12 +779,16 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(1, alerts.createUnsavedAlertReturnValue.presentCallCount)
     }
 
-    func testHandleIfUnsaved_whenNothingSelected_stillPops() {
+    func testHandleIfUnsaved_whenNothingSelected_popsNavigationWithoutAlertChoice() {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let nav = dependencies.nav as! MockNav
         let testViewController = UIViewController()
         viewModel.handleIfUnsaved(testViewController)
+        if nav.popCallArgs.count <= 0 {
+            XCTFail("Pill changes were falsely registered. An alert awaits a response.")
+            return
+        }
         XCTAssertEqual(testViewController, nav.popCallArgs[0])
     }
 

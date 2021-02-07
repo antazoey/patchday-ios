@@ -10,7 +10,7 @@ import Foundation
 
 public class PillExpirationInterval {
 
-    public var value: PillExpirationIntervalSetting
+    public var value: PillExpirationIntervalSetting?
     private var _daysOne: Int?
     private var _daysTwo: Int?
     private let _daysRange =  PillExpirationInterval.daysRange
@@ -59,7 +59,7 @@ public class PillExpirationInterval {
             self._daysOne = 20
             value = PillExpirationIntervalSetting(rawValue: newOptionForLastXDays)
         }
-        self.value = value ?? DefaultPillAttributes.expirationInterval
+        self.value = value
     }
 
     /// All of the available PillExpirationIntervalSetting enum values.
@@ -107,25 +107,27 @@ public class PillExpirationInterval {
     /// The string value of the first days property; only applies to expiration intervals that use X days.
     public var daysOn: String? {
         guard usesXDays else { return nil }
-        guard let days = daysOne else { return DefaultPillAttributes.xDaysString }
+        guard let days = daysOne else { return nil }
         return String(days)
     }
 
     /// The string value of the second days property; only applies to `.XDaysOnXDaysOff`.
     public var daysOff: String? {
         guard value == .XDaysOnXDaysOff else { return nil }
-        guard let days = daysTwo else { return  DefaultPillAttributes.xDaysString }
+        guard let days = daysTwo else { return nil }
         return String(days)
     }
 
     /// Returns `true` if `.value` involves the use of optional setting "days", such as "the first X days of the month".
     public var usesXDays: Bool {
-        _xDaysIntervals.contains(self.value)
+        guard let value = self.value else { return false }
+        return _xDaysIntervals.contains(value)
     }
 
     /// The combined days value that gets stored on disc, e.g. "5-12" meaning 5 days on, 12 days off.
     public var xDays: String? {
         guard let daysOn = daysOn else { return nil }
+        guard let value = self.value else { return nil }
         if _singleXDayIntervals.contains(value) {
             return daysOn
         } else if value == PillExpirationIntervalSetting.XDaysOnXDaysOff {
@@ -142,15 +144,14 @@ public class PillExpirationInterval {
         if interval == .XDaysOnXDaysOff {
             return parseMultipleDays(xDays)
         } else if singleXDayIntervals.contains(interval) {
-            let days = parseIntFromXDaysValue(xDays) ?? DefaultPillAttributes.xDaysInt
-            return (days, nil)
+            return (parseIntFromXDaysValue(xDays), nil)
         }
         return (nil, nil)
     }
 
     private static func parseMultipleDays(_ xDays: String) -> (Int?, Int?) {
-        var daysOne = DefaultPillAttributes.xDaysInt
-        var daysTwo = DefaultPillAttributes.xDaysInt
+        var daysOne: Int?
+        var daysTwo: Int?
 
         let daysList = xDays.split(separator: "-")
         if daysList.count > 0, let days = parseIntFromXDaysValue(String(daysList[0])) {

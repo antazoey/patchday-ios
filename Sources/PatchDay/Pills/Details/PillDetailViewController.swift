@@ -359,7 +359,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if !expirationIntervalPicker.isHidden {
             closeExpirationIntervalPicker()
         }
-
         if selectedDaysNumber == 1 {
             daysTwoButton.isEnabled = false
             daysTwoArrowButton.isEnabled = false

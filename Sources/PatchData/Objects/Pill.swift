@@ -54,7 +54,7 @@ public class Pill: Swallowable {
     }
 
     public var expirationIntervalSetting: PillExpirationIntervalSetting {
-        get { expirationInterval.value }
+        get { expirationInterval.value ?? DefaultPillAttributes.expirationInterval }
         set { pillData.attributes.expirationIntervalSetting = newValue }
     }
 
@@ -101,6 +101,7 @@ public class Pill: Swallowable {
             case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
             case .FirstXDays: return dueDateForFirstXDays
             case .LastXDays: return dueDateForLastXDays
+            case .none: return nextDueTimeForEveryDaySchedule
         }
     }
 

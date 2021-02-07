@@ -17,7 +17,7 @@ public protocol PillDetailViewModelProtocol {
     var pill: Swallowable { get }
 
     /// The user selections from the UI.
-    var selections: PillAttributes { get set }
+    var selections: PillAttributes { get }
 
     /// The title of the view controller.
     var title: String { get }

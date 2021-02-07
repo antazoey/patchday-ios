@@ -49,20 +49,20 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertEqual("20", interval.daysOn)
     }
 
-    func testInit_whenGivenFirstXDaysAndOutOfBoundsXDays_setsDaysOneToDefault() {
+    func testInit_whenGivenFirstXDaysAndOutOfBoundsXDays_setToNil() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "80")
         XCTAssertEqual(.FirstXDays, interval.value)
-        XCTAssertEqual(12, interval.daysOne)
-        XCTAssertEqual("12", interval.daysOn)
+        XCTAssertNil(interval.daysOne)
+        XCTAssertNil(interval.daysOn)
         XCTAssertNil(interval.daysTwo)
         XCTAssertNil(interval.daysOff)
     }
 
-    func testInit_whenGivenLastXDaysAndOutOfBoundsXDays_setsDaysOneToDefault() {
+    func testInit_whenGivenLastXDaysAndOutOfBoundsXDays_setsToNil() {
         let interval = PillExpirationInterval(.LastXDays, xDays: "80")
         XCTAssertEqual(.LastXDays, interval.value)
-        XCTAssertEqual(12, interval.daysOne)
-        XCTAssertEqual("12", interval.daysOn)
+        XCTAssertNil(interval.daysOne)
+        XCTAssertNil(interval.daysOff)
         XCTAssertNil(interval.daysTwo)
         XCTAssertNil(interval.daysOff)
     }
@@ -76,18 +76,18 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertEqual("8", interval.daysOff)
     }
 
-    func testInit_whenGivenXDaysOnXDaysOffAndDaysOneIncludesOutOfBoundsValue_usesDefaultValue() {
+    func testInit_whenGivenXDaysOnXDaysOffAndDaysOneIncludesOutOfBoundsValue_usesNil() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "50-8")
         XCTAssertEqual(.XDaysOnXDaysOff, interval.value)
-        XCTAssertEqual(12, interval.daysOne)
-        XCTAssertEqual("12", interval.daysOn)
+        XCTAssertNil(interval.daysOne)
+        XCTAssertNil(interval.daysOn)
     }
 
     func testInit_whenGivenXDaysOnXDaysOffAndDaysTwoIncludesOutOfBoundsValue_usesDefaultValue() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-80")
         XCTAssertEqual(.XDaysOnXDaysOff, interval.value)
-        XCTAssertEqual(12, interval.daysTwo)
-        XCTAssertEqual("12", interval.daysOff)
+        XCTAssertNil(interval.daysTwo)
+        XCTAssertNil(interval.daysOff)
     }
 
     func testInit_whenGivenXDaysOnXDaysOffAndXDaysWithOneValue_usesDefaultAsSecondValue() {
@@ -95,8 +95,8 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertEqual(.XDaysOnXDaysOff, interval.value)
         XCTAssertEqual(5, interval.daysOne)
         XCTAssertEqual("5", interval.daysOn)
-        XCTAssertEqual(DefaultPillAttributes.xDaysInt, interval.daysTwo)
-        XCTAssertEqual(DefaultPillAttributes.xDaysString, interval.daysOff)
+        XCTAssertNil(interval.daysTwo)
+        XCTAssertNil(interval.daysOff)
     }
 
     func testDaysOne_cannotBeSetOutsideLimit() {
@@ -174,9 +174,9 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testXDays_whenMultipleXDaysAndGivenSingle_usesDefaultForSecond() {
+    func testXDays_whenMultipleXDaysAndGivenSingle_doesNotIncludeSecond() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "8")
-        let expected = "8-12"
+        let expected = "8"
         let actual = interval.xDays
         XCTAssertEqual(expected, actual)
     }

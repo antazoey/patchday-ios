@@ -24,7 +24,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: nil
         )
-        XCTAssertFalse(attributes.anyAttributeExists)
+        XCTAssertFalse(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasName_returnsTrue() {
@@ -37,7 +37,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: nil
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasExpirationInterval_returnsTrue() {
@@ -50,7 +50,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: nil
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasTimes_returnsTrue() {
@@ -63,7 +63,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: nil
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasNotify_returnsTrue() {
@@ -76,7 +76,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: nil
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasTimesTakenToday_returnsTrue() {
@@ -89,7 +89,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: nil
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasLastTaken_returnsTrue() {
@@ -102,7 +102,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: Date(),
             xDays: nil
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
     }
 
     func testAnyAttributeExists_whenHasXDays_returnsTrue() {
@@ -115,6 +115,26 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil,
             xDays: "1"
         )
-        XCTAssert(attributes.anyAttributeExists)
+        XCTAssert(attributes.anyAttributeExists())
+    }
+
+    func testReset_resetsAllPropertiesToNil() {
+        let attributes = PillAttributes(
+            name: "name",
+            expirationIntervalSetting: .EveryDay,
+            times: "1200",
+            notify: true,
+            timesTakenToday: 4,
+            lastTaken: Date(),
+            xDays: "7"
+        )
+        attributes.reset()
+        XCTAssertNil(attributes.name)
+        XCTAssertNil(attributes.expirationIntervalSetting)
+        XCTAssertNil(attributes.times)
+        XCTAssertNil(attributes.notify)
+        XCTAssertNil(attributes.timesTakenToday)
+        XCTAssertNil(attributes.lastTaken)
+        XCTAssertNil(attributes.xDays)
     }
 }

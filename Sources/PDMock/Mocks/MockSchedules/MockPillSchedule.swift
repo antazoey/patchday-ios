@@ -48,12 +48,12 @@ public class MockPillSchedule: PillScheduling {
 
     public var setIndexCallArgs: [(Index, PillAttributes)] = []
     public func set(at index: Index, with attributes: PillAttributes) {
-        setIndexCallArgs.append((index, attributes))
+        setIndexCallArgs.append((index, PillAttributes(attributes)))
     }
 
     public var setIdCallArgs: [(UUID, PillAttributes)] = []
     public func set(by id: UUID, with attributes: PillAttributes) {
-        setIdCallArgs.append((id, attributes))
+        setIdCallArgs.append((id, PillAttributes(attributes)))
     }
 
     public var resetCallCount = 0
