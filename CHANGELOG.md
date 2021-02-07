@@ -18,6 +18,7 @@ Fixed
 
 - Bug in Hormones Details View where the date-button remains disabled after completing setting the 
     site.
+- Issues preventing the Picker from opening at the selected row in the Pill Details View.
 
 ## 3.2.2
 

@@ -338,19 +338,19 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func openNamePicker() {
-        setNamePickerStartIndex()
         nameTextField.isEnabled = false
         unhideNamePicker()
+        setNamePickerStartIndex()
     }
 
     private func openExpirationIntervalPicker() {
+        unhideExpirationIntervalPicker()
         setExpirationIntervalPickerStartIndex()
-        expirationIntervalPicker.isHidden = false
     }
 
     private func openDaysPicker() {
+        unhideDaysPicker()
         setDaysPickerStartIndex()
-        daysPicker.isHidden = false
     }
 
     private func unhideNamePicker() {
@@ -359,6 +359,10 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     private func unhideExpirationIntervalPicker() {
         PillDetailViewController.unhidePicker(expirationIntervalPicker)
+    }
+
+    private func unhideDaysPicker() {
+        PillDetailViewController.unhidePicker(daysPicker)
     }
 
     private static func unhidePicker(_ picker: UIPickerView) {
