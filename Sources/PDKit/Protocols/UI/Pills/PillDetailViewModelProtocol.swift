@@ -63,11 +63,8 @@ public protocol PillDetailViewModelProtocol {
     /// The available options to select for `expirationInterval`.
     var expirationIntervalOptions: [String] { get }
 
-    /// The start index for the days one picker.
-    var daysOneStartIndex: Index  { get }
-
-    /// The start index for the days two picker.
-    var daysTwoStartIndex: Index  { get }
+    /// Get the start index for the days picker.
+    func getStartIndexForDaysPicker(pickerNumber: Int) -> Index
 
     /// Whether or not the days have been selected in the UI.
     var daysSelected: Bool { get }

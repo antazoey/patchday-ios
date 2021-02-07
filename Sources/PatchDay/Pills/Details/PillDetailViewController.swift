@@ -381,12 +381,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func setDaysPickerStartIndex() {
-        var index = 0
-        if selectedDaysNumber == 1 {
-            index = viewModel.daysOneStartIndex
-        } else if selectedDaysNumber == 2 {
-            index = viewModel.daysTwoStartIndex
-        }
+        let index = viewModel.getStartIndexForDaysPicker(pickerNumber: selectedDaysNumber)
         daysPicker.selectRow(index, inComponent: 0, animated: false)
     }
 

@@ -82,18 +82,18 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     var daysOn: String {
         // TODO: Tests
-        guard let days = pill.expirationInterval.daysOne else {
-            return DefaultPillAttributes.xDaysString
+        if daysSelected {
+            return selections.expirationIntervalObject.daysOn
         }
-        return String(days)
+        return pill.expirationInterval.daysOn
     }
 
     var daysOff: String {
         // TODO: Tests
-        guard let days = pill.expirationInterval.daysTwo else {
-            return DefaultPillAttributes.xDaysString
+        if daysSelected {
+            return selections.expirationIntervalObject.daysOff
         }
-        return String(days)
+        return pill.expirationInterval.daysOff
     }
 
     var daysOptions: [String] {
@@ -130,16 +130,9 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillStrings.Intervals.all
     }
 
-    var daysOneStartIndex: Index {
-        // TODO: Tests
-        guard let daysOne = selections.expirationIntervalObject.daysOne else { return  0 }
-        return daysOne - 1
-    }
-
-    var daysTwoStartIndex: Index {
-        // TODO: tests 
-        guard let daysTwo = selections.expirationIntervalObject.daysTwo else { return  0 }
-        return daysTwo - 1
+    // TODO: TEST
+    func getStartIndexForDaysPicker(pickerNumber: Int) -> Index {
+        pickerNumber == 1 ? daysOne - 1 : daysTwo - 1
     }
 
     var daysSelected: Bool {
@@ -268,5 +261,23 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             pickers[i].isEnabled = false
             labels[i].isEnabled = false
         }
+    }
+
+    private var daysOne: Int {
+        var days: Int?
+        if daysSelected {
+            days = selections.expirationIntervalObject.daysOne
+        }
+        days = pill.expirationInterval.daysOne
+        return days ?? DefaultPillAttributes.xDaysInt
+    }
+
+    private var daysTwo: Int {
+        var days: Int?
+        if daysSelected {
+            days = selections.expirationIntervalObject.daysTwo
+        }
+        days = pill.expirationInterval.daysTwo
+        return days ?? DefaultPillAttributes.xDaysInt
     }
 }

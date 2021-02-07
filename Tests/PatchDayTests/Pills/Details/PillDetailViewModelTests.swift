@@ -218,6 +218,28 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testGetStartIndexForDaysPicker_whenGiven1AndNothingSelected_returnsDaysIndexFromPill() {
+        let pill = setupPill()
+        let xDays = "3-14"
+        pill.expirationIntervalSetting = .FirstXDays
+        pill.xDays = xDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays, xDays: xDays)
+        let expected = 2
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.getStartIndexForDaysPicker(pickerNumber: 1)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testGetStartIndexForDaysPicker_whenGiven2AndNothingSelected_returnsDaysIndexFromPill() {
+        let pill = setupPill()
+        pill.xDays = "3-14"
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
+        let expected = 13
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.getStartIndexForDaysPicker(pickerNumber: 2)
+        XCTAssertEqual(expected, actual)
+    }
+
     func testExpirationIntervalPickerStartIndex_usesSelectedInterval() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.FirstXDays)
