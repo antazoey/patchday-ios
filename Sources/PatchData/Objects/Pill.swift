@@ -93,11 +93,11 @@ public class Pill: Swallowable {
     }
 
     public func setDaysOne(_ value: Int) {
-        pillData.attributes.setDaysOne(value)
+        pillData.attributes.expirationInterval.daysOne = value
     }
 
     public func setDaysTwo(_ value: Int) {
-        pillData.attributes.setDaysTwo(value)
+        pillData.attributes.expirationInterval.daysTwo = value
     }
 
     public var due: Date? {

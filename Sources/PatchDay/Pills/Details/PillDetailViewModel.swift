@@ -232,9 +232,9 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         guard row >= 0 && row < daysOptions.count else { return }
         guard let option = Int(daysOptions[row]) else { return }
         if daysNumber == 1 {
-            selections.setDaysOne(option)
+            selections.expirationInterval.daysOne = option
         } else if daysNumber == 2 {
-            selections.setDaysTwo(option)
+            selections.expirationInterval.daysTwo = option
         }
     }
 

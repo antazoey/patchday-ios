@@ -57,23 +57,4 @@ public class PillAttributes {
         let interval = expirationIntervalSetting ?? defaultInterval
         return PillExpirationInterval(interval.rawValue, xDays: xDays)
     }
-
-    public func setDaysOne(_ value: Int) {
-        // TODO: Test
-        guard expirationInterval.usesXDays else { return }
-        guard value > 0 && value <= SupportedPillExpirationIntervalDaysLimit else { return }
-        if expirationIntervalSetting == .FirstXDays || expirationIntervalSetting == .LastXDays {
-            xDays = String(value)
-        } else if expirationIntervalSetting == .XDaysOnXDaysOff {
-            let daysTwo = expirationInterval.daysTwo ?? DefaultPillAttributes.xDaysInt
-            xDays = "\(value)-\(daysTwo)"
-        }
-    }
-
-    public func setDaysTwo(_ value: Int) {
-        // TODO: Test
-        guard value > 0 && value <= SupportedPillExpirationIntervalDaysLimit else { return }
-        let daysOne = expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
-        xDays = "\(daysOne)-\(value)"
-    }
 }

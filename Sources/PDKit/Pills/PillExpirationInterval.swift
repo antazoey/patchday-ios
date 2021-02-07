@@ -62,6 +62,18 @@ public class PillExpirationInterval {
         self.value = value ?? DefaultPillAttributes.expirationInterval
     }
 
+    public static var daysRange: ClosedRange<Int> {
+        1...SupportedPillExpirationIntervalDaysLimit
+    }
+
+    public static var singleXDayIntervals: [PillExpirationIntervalSetting] {
+        [.FirstXDays, .LastXDays]
+    }
+
+    public static var xDaysIntervals: [PillExpirationIntervalSetting] {
+        singleXDayIntervals + [.XDaysOnXDaysOff]
+    }
+
     public var daysOne: Int? {
         get { _daysOne }
         set {
@@ -122,18 +134,6 @@ public class PillExpirationInterval {
             .LastXDays,
             .XDaysOnXDaysOff
         ]
-    }
-
-    private static var daysRange: ClosedRange<Int> {
-        1...SupportedPillExpirationIntervalDaysLimit
-    }
-
-    private static var singleXDayIntervals: [PillExpirationIntervalSetting] {
-        [.FirstXDays, .LastXDays]
-    }
-
-    private static var xDaysIntervals: [PillExpirationIntervalSetting] {
-        singleXDayIntervals + [.XDaysOnXDaysOff]
     }
 
     private static func parseDays(
