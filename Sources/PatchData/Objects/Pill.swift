@@ -92,14 +92,6 @@ public class Pill: Swallowable {
         set { pillData.attributes.xDays = newValue }
     }
 
-    public func setDaysOne(_ value: Int) {
-        pillData.attributes.expirationInterval.daysOne = value
-    }
-
-    public func setDaysTwo(_ value: Int) {
-        pillData.attributes.expirationInterval.daysTwo = value
-    }
-
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }

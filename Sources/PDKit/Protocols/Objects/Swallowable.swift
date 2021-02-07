@@ -45,12 +45,6 @@ public protocol Swallowable {
     /// The days value used for certain expiration intervals, such as XDaysOnXDaysOff.
     var xDays: String? { get }
 
-    /// Set the first days.
-    func setDaysOne(_ value: Int)
-
-    /// Set the second days.
-    func setDaysTwo(_ value: Int)
-
     /// The date when you should take this pill next.
     var due: Date? { get }
 

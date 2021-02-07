@@ -49,18 +49,4 @@ public class MockPill: Swallowable {
     public func appendTime(_ time: Time) {
         appendTimeCallArgs.append(time)
     }
-
-    public var setDaysOneCallArgs: [Int] = []
-    public var setDaysOneCallCount = 0
-    public func setDaysOne(_ value: Int) {
-        setDaysOneCallArgs.append(value)
-        setDaysOneCallCount += 1
-    }
-
-    public var setDaysTwoCallArgs: [Int] = []
-    public var setDaysTwoCallCount = 0
-    public func setDaysTwo(_ value: Int) {
-        setDaysTwoCallArgs.append(value)
-        setDaysTwoCallCount += 1
-    }
 }
