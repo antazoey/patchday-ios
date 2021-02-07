@@ -17,7 +17,6 @@ public let HoursInHalfWeek = 84
 public let HoursInWeek = HoursInHalfWeek * 2
 public let HoursInTwoWeeks = HoursInWeek * 2
 
-
 public class DefaultSettings {
     public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
     public static let ExpirationIntervalRawValue = ExpirationIntervalUD.TwiceWeeklyKey
