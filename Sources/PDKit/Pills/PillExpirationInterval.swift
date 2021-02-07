@@ -17,7 +17,7 @@ public class PillExpirationInterval {
     private let _xDaysIntervals = PillExpirationInterval.xDaysIntervals
     private let _singleXDayIntervals = PillExpirationInterval.singleXDayIntervals
 
-    /// Either will initializer using a raw value normally, or migrate from the time before we had `xDays` available.
+    /// Either will initialize from a supported value or try to migrate an older value.
     public convenience init(_ rawValue: String, xDays: String?) {
         if let value = PillExpirationIntervalSetting(rawValue: rawValue) {
             self.init(value, xDays: xDays)
