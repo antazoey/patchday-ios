@@ -20,7 +20,6 @@ class HormoneDetailViewController: UIViewController,
     private var saveButton: UIBarButtonItem!
     @IBOutlet private weak var topConstraint: NSLayoutConstraint!
     @IBOutlet private weak var dateAndTimeAppliedHeader: UILabel!
-    @IBOutlet private weak var selectSiteTextField: UITextField!
     @IBOutlet private weak var lineUnderDateInputView: UIView!
     @IBOutlet private weak var datePicker: HormoneDatePicker!
     @IBOutlet private weak var lineUnderScheduleDate: UIView!
@@ -33,6 +32,7 @@ class HormoneDetailViewController: UIViewController,
     @IBOutlet private weak var horizontalLineAboveSite: UIView!
     @IBOutlet private weak var siteStackView: UIStackView!
     @IBOutlet private weak var siteLabel: UILabel!
+    @IBOutlet private weak var selectSiteTextField: UITextField!
     @IBOutlet private weak var verticalLineInSiteStack: UIView!
     @IBOutlet private weak var typeSiteButton: UIButton!
     @IBOutlet private weak var sitePicker: UIPickerView!
@@ -158,6 +158,7 @@ class HormoneDetailViewController: UIViewController,
 
     @objc func closeSitePicker() {
         sitePicker.isHidden = true
+        datePicker.isEnabled = true
         autofillButton.isEnabled = true
         selectSiteTextField.isEnabled = true
         selectSiteTextField.isHidden = false

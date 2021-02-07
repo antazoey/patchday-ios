@@ -16,7 +16,8 @@ Added
 
 Fixed
 
-- Bug in Hormones Details View where the date-button becomes unnecessarily disabled after setting.
+- Bug in Hormones Details View where the date-button remains disabled after completing setting the 
+    site.
 
 ## 3.2.2
 
