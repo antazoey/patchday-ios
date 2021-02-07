@@ -128,7 +128,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillStrings.Intervals.all
     }
 
-    // TODO: TEST
     func getStartIndexForDaysPicker(pickerNumber: Int) -> Index {
         pickerNumber == 1 ? daysOne - 1 : daysTwo - 1
     }

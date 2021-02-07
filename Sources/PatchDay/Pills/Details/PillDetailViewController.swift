@@ -100,7 +100,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     // MARK: - Pill actions
 
-    @objc func selectNameTapped() {
+    @IBAction func selectNameTapped() {
+        selectedPicker = namePicker
         openNamePicker()
         selectNameButton.setTitle(ActionStrings.Done)
         selectNameButton.replaceTarget(self, newAction: #selector(doneWithSelectNameTapped))

@@ -8,6 +8,16 @@ Changed
     with the new Pill Expiration Intervals "First X Days of the Month" and "Last X Days of the Month" and a 
     corresponding "days" property.  The days option is configurable and can be any number 1 - 25.
 
+Added
+
+- New Pill Expiration Interval "X Days On, X Days Off" for creating a schedule where you take a pill for a certain 
+    number of days and then stop taking it a certain number of days.  Set the "Days on" and "Days off" properties
+    accordingly when using this schedule.
+
+Fixed
+
+- Bug in Hormones Details View where the date-button becomes unnecessarily disabled after setting.
+
 ## 3.2.2
 
 Fixed
