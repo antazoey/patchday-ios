@@ -218,6 +218,60 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testDaysOneLabelText_whenNotUsingXDays_returnsNil() {
+        setupPill()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertNil(viewModel.daysOneLabelText)
+    }
+
+    func testDaysOneLabel_whenUsingFirstXDays_returnsExpectedText() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "First X days of the month:"
+        let actual = viewModel.daysOneLabelText
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOneLabel_whenUsingLastXDays_returnsExpectedText() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .LastXDays
+        pill.expirationInterval = PillExpirationInterval(.LastXDays)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "Last X days of the month:"
+        let actual = viewModel.daysOneLabelText
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysOneLabel_whenUsingXDaysOnXDaysOff_returnsExpectedText() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .XDaysOnXDaysOff
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "Days on:"
+        let actual = viewModel.daysOneLabelText
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testDaysTwoLabel_whenNotUsingXDaysOnXDaysOff_returnsNil() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .FirstXDays
+        pill.expirationInterval = PillExpirationInterval(.FirstXDays)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertNil(viewModel.daysTwoLabelText)
+    }
+
+    func testDaysTwoLabel_whenUsingXDaysOnXDaysOff_returnsExpectedText() {
+        let pill = setupPill()
+        pill.expirationIntervalSetting = .XDaysOnXDaysOff
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let expected = "Days off:"
+        let actual = viewModel.daysTwoLabelText
+        XCTAssertEqual(expected, actual)
+    }
+
     func testGetStartIndexForDaysPicker_whenFirstXDaysAndGiven1AndNothingSelected_returnsDaysIndexFromPill() {
         let pill = setupPill()
         let xDays = "3-14"
