@@ -25,7 +25,7 @@ public protocol PillDetailViewModelProtocol {
     /// Either the selected option, `pill.Name`, or some default name.
     var name: String { get }
 
-    /// The user has made a selection in the UI for `name`.
+    /// Is true if the user has made a selection in the UI for `name`.
     var nameIsSelected: Bool { get }
 
     /// The possible selections for `name`.
@@ -49,6 +49,7 @@ public protocol PillDetailViewModelProtocol {
     /// The second days value for when `expirationInterval == .XDaysOnXDaysOff`.
     var daysOff: String { get }
 
+    /// The available options for the days pickers.
     var daysOptions: [String] { get }
 
     /// The text to display in the label for the first days selection when ` expirationIntervalUsesDays`.

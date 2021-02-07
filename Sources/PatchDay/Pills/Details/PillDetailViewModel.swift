@@ -95,7 +95,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysOptions: [String] {
-        (1...SupportedPillExpirationIntervalDaysLimit).map({ String($0) })
+        PillExpirationInterval.daysRange.map({ String($0) })
     }
 
     var daysOneLabelText: String? {
