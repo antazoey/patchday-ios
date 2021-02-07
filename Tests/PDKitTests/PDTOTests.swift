@@ -18,7 +18,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasNoProps_returnsFalse() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
@@ -31,7 +31,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasName_returnsTrue() {
         let attributes = PillAttributes(
             name: "TEST",
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
@@ -44,7 +44,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasExpirationInterval_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: PillExpirationIntervalSetting.EveryDay,
+            expirationIntervalSetting: PillExpirationIntervalSetting.EveryDay,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
@@ -57,7 +57,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasTimes_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: "12:30",
             notify: nil,
             timesTakenToday: nil,
@@ -70,7 +70,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasNotify_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: nil,
             notify: false,
             timesTakenToday: nil,
@@ -83,7 +83,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasTimesTakenToday_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: nil,
             notify: nil,
             timesTakenToday: 0,
@@ -96,7 +96,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasLastTaken_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
@@ -109,7 +109,7 @@ class PillAttributesTests: XCTestCase {
     func testAnyAttributeExists_whenHasXDays_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
-            expirationInterval: nil,
+            expirationIntervalSetting: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,

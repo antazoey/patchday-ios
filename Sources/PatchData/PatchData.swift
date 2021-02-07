@@ -135,7 +135,7 @@ public class PatchData: NSObject, PatchDataSDK {
 
             let attrs = PillAttributes()
             let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-            attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+            attrs.expirationIntervalSetting = PillExpirationIntervalSetting.EveryDay
             attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
             attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
             attrs.notify = true

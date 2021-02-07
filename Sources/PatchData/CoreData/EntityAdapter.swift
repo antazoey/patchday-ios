@@ -77,7 +77,7 @@ class EntityAdapter {
         if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
             pill.timesTakenToday = Int16(timesTaken)
         }
-        if let expirationInterval = pillData.attributes.expirationInterval {
+        if let expirationInterval = pillData.attributes.expirationIntervalSetting {
             pill.expirationInterval = expirationInterval.rawValue
         }
     }
@@ -152,7 +152,7 @@ class EntityAdapter {
         }
         return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
-            expirationInterval: interval ?? defaultInterval,
+            expirationIntervalSetting: interval ?? defaultInterval,
             times: pill.times,
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),

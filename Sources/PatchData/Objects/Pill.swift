@@ -32,9 +32,10 @@ public class Pill: Swallowable {
 
     public var attributes: PillAttributes {
         let defaultInterval = DefaultPillAttributes.expirationInterval
+        let interval = pillData.attributes.expirationIntervalSetting ?? defaultInterval
         return PillAttributes(
             name: name,
-            expirationInterval: pillData.attributes.expirationInterval ?? defaultInterval,
+            expirationIntervalSetting: interval,
             times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
@@ -50,12 +51,12 @@ public class Pill: Swallowable {
 
     public var expirationInterval: PillExpirationInterval {
         // TODO: tests
-        pillData.attributes.expirationIntervalObject
+        pillData.attributes.expirationInterval
     }
 
     public var expirationIntervalSetting: PillExpirationIntervalSetting {
         get { expirationInterval.value }
-        set { pillData.attributes.expirationInterval = newValue }
+        set { pillData.attributes.expirationIntervalSetting = newValue }
     }
 
     public var times: [Time] {
@@ -88,7 +89,7 @@ public class Pill: Swallowable {
     }
 
     public var xDays: String? {
-        get { expirationInterval.days }
+        get { expirationInterval.xDays }
         set { pillData.attributes.xDays = newValue }
     }
 
@@ -134,7 +135,8 @@ public class Pill: Swallowable {
         name = attributes.name ?? name
         notify = attributes.notify ?? notify
         lastTaken = attributes.lastTaken ?? lastTaken
-        expirationIntervalSetting = attributes.expirationInterval ?? expirationIntervalSetting
+        expirationIntervalSetting = attributes.expirationIntervalSetting
+            ?? expirationIntervalSetting
         pillData.attributes.times = attributes.times ?? pillData.attributes.times
         pillData.attributes.timesTakenToday = attributes.timesTakenToday
             ?? pillData.attributes.timesTakenToday

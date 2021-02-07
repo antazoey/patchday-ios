@@ -58,7 +58,7 @@ public class PillTests: XCTestCase {
 
     func testExpirationInterval_whenNothingSet_returnsDefault() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = nil
+        attrs.expirationIntervalSetting = nil
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
         let expected = DefaultPillAttributes.expirationInterval
@@ -67,7 +67,7 @@ public class PillTests: XCTestCase {
 
     func testExpirationInterval_whenEveryDay_returnsExpectedInterval() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
         let expected = PillExpirationIntervalSetting.EveryDay
@@ -75,51 +75,51 @@ public class PillTests: XCTestCase {
 
         // Test set
         pill.expirationIntervalSetting = PillExpirationIntervalSetting.EveryDay
-        XCTAssertEqual(PillExpirationIntervalSetting.EveryDay, pill.expirationInterval.value)
+        XCTAssertEqual(.EveryDay, pill.expirationInterval.value)
     }
 
     func testExpirationInterval_whenEveryOtherDay_returnsExpectedInterval() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
-        XCTAssertEqual(PillExpirationIntervalSetting.EveryOtherDay, actual.value)
+        XCTAssertEqual(.EveryOtherDay, actual.value)
     }
 
     func testExpirationInterval_whenFirstTen_returnsExpectedInterval() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = PillExpirationIntervalSetting.FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "10"
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
-        XCTAssertEqual(PillExpirationIntervalSetting.FirstXDays, actual.value)
+        XCTAssertEqual(.FirstXDays, actual.value)
     }
 
     func testExpirationInterval_whenLastTen_returnsExpectedInterval() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = PillExpirationIntervalSetting.LastXDays
+        attrs.expirationIntervalSetting = .LastXDays
         attrs.xDays = "10"
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
-        XCTAssertEqual(PillExpirationIntervalSetting.LastXDays, actual.value)
+        XCTAssertEqual(.LastXDays, actual.value)
     }
 
     func testExpirationInterval_whenFirstTwenty_returnsExpectedInterval() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = PillExpirationIntervalSetting.FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "20"
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
-        XCTAssertEqual(PillExpirationIntervalSetting.FirstXDays, actual.value)
+        XCTAssertEqual(.FirstXDays, actual.value)
     }
 
     func testExpirationInterval_whenLastTwenty_returnsExpectedString() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = PillExpirationIntervalSetting.LastXDays
+        attrs.expirationIntervalSetting = .LastXDays
         attrs.xDays = "20"
         let pill = createPill(attrs)
         let actual = pill.expirationInterval
-        XCTAssertEqual(PillExpirationIntervalSetting.LastXDays, actual.value)
+        XCTAssertEqual(.LastXDays, actual.value)
     }
 
     func testTimes_whenNilInAttributes_returnsNil() {
@@ -238,7 +238,7 @@ public class PillTests: XCTestCase {
 
     func testXDays_whenHasSupportedExpirationInterval_returnsDaysOnDaysOffFromAtttributes() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .XDaysOnXDaysOff
+        attrs.expirationIntervalSetting = .XDaysOnXDaysOff
         let testDaysOnDaysOff = "12-12"
         attrs.xDays = testDaysOnDaysOff
         let pill = createPill(attrs)
@@ -248,7 +248,7 @@ public class PillTests: XCTestCase {
 
     func testXDays_whenHasUnsupportedExpirationInterval_returnsNil() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         attrs.xDays = "12"
         let pill = createPill(attrs)
         XCTAssertNil(pill.xDays)
@@ -267,7 +267,7 @@ public class PillTests: XCTestCase {
         let attrs = PillAttributes()
         let now = Date()
         let testTime = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
         attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
         attrs.notify = true
@@ -282,7 +282,7 @@ public class PillTests: XCTestCase {
         let attrs = PillAttributes()
         let now = Date()
         let testTime = DateFactory.createDate(byAddingSeconds: -61, to: now)!
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
         attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
         attrs.notify = true
@@ -299,7 +299,7 @@ public class PillTests: XCTestCase {
         now.now = DateFactory.createDate(byAddingMonths: 2, to: DateFactory.createDefaultDate())!
         let testTime = DateFactory.createDate(byAddingMinutes: -5, to: now.now)!
         attrs.lastTaken = DateFactory.createDate(byAddingSeconds: -1, to: now.now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
         let pill = createPill(attrs, now)
@@ -315,7 +315,7 @@ public class PillTests: XCTestCase {
         let testTime = DateFactory.createDate(byAddingMinutes: -5, to: now.now)!
         let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)
         attrs.lastTaken = DateFactory.createDate(byAddingSeconds: -1, to: now.now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
         let pill = createPill(attrs, now)
@@ -331,7 +331,7 @@ public class PillTests: XCTestCase {
         let testTime = DateFactory.createDate(byAddingMinutes: -5, to: now.now)!
         let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)
         attrs.lastTaken = DateFactory.createDate(byAddingSeconds: -1, to: now.now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.timesTakenToday = 2
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
         let pill = createPill(attrs, now)
@@ -350,7 +350,7 @@ public class PillTests: XCTestCase {
         let testTimeThree = DateFactory.createDate(byAddingSeconds: 100, to: testTime)!
         let times = [testTime, testTimeTwo, testTimeThree]
         attrs.lastTaken = DateFactory.createDate(byAddingSeconds: -1, to: now.now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.timesTakenToday = 2
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
         let pill = createPill(attrs, now)
@@ -369,7 +369,7 @@ public class PillTests: XCTestCase {
         let testTimeFour = DateFactory.createDate(byAddingSeconds: 250, to: testTime)!
         let times = [testTime, testTimeTwo, testTimeThree, testTimeFour]
         attrs.lastTaken = DateFactory.createDate(byAddingSeconds: -1, to: now.now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryDay
+        attrs.expirationIntervalSetting = .EveryDay
         attrs.timesTakenToday = 4
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
         let pill = createPill(attrs, now)
@@ -385,7 +385,7 @@ public class PillTests: XCTestCase {
         let testTime = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
         let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)
         attrs.lastTaken = DateFactory.createDate(byAddingSeconds: -1, to: now.now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         attrs.timesTakenToday = 0
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
         let pill = createPill(attrs, now)
@@ -400,7 +400,7 @@ public class PillTests: XCTestCase {
         now.now = DateFactory.createDate(byAddingMonths: 2, to: DateFactory.createDefaultDate())!
         let testTime = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
         attrs.lastTaken = DateFactory.createDate(daysFromNow: 0, now: now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
         let pill = createPill(attrs, now)
@@ -416,7 +416,7 @@ public class PillTests: XCTestCase {
         let testTime = DateFactory.createDate(byAddingMinutes: -5, to: now.now)!
         let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
         attrs.lastTaken = DateFactory.createDate(daysFromNow: 0, now: now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         attrs.timesTakenToday = 1
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
         let pill = createPill(attrs, now)
@@ -432,7 +432,7 @@ public class PillTests: XCTestCase {
         let testTime = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
         let testTimeTwo = DateFactory.createDate(byAddingSeconds: 1, to: testTime)!
         attrs.lastTaken = DateFactory.createDate(daysFromNow: 0, now: now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         attrs.timesTakenToday = 2
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime, testTimeTwo])
         let pill = createPill(attrs, now)
@@ -448,7 +448,7 @@ public class PillTests: XCTestCase {
         now.isInYesterdayReturnValue = true
         let testTime = DateFactory.createDate(byAddingMinutes: -5, to: now.now)!
         attrs.lastTaken = DateFactory.createDate(daysFromNow: -1, now: now)
-        attrs.expirationInterval = PillExpirationIntervalSetting.EveryOtherDay
+        attrs.expirationIntervalSetting = .EveryOtherDay
         attrs.timesTakenToday = 0
         attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([testTime])
         let pill = createPill(attrs, now)
@@ -459,7 +459,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenFirstTenDaysAndFinishedOnTenthDay_returnsFirstOfNextMonthAtTimeOne() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "10"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -489,7 +489,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenFirstTwelveDaysAndFinishedOnTwelvthDay_returnsFirstOfNextMonthAtTimeOne() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "12"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -519,7 +519,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenEveryFirstTenDaysAndIsDuringThoseTenDays_returnsExpectedDate() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "10"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -549,7 +549,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenEveryFirstTwelveDaysAndIsDuringThoseTwelveDays_returnsExpectedDate() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "12"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -579,7 +579,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenFirstTenDaysAndFinishedOnTwentiethDay_returnsFirstOfNextMonthAtTimeOne() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "10"
         attrs.timesTakenToday = 0
         let now = MockNow()
@@ -610,7 +610,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenFirstTwentyDaysAndFinishedOnTwentiethDay_returnsFirstOfNextMonthAtTimeOne() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "20"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -638,7 +638,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenFirstTwentyDaysAndNotYetFinishedOnNineteenthDay_returnsSameDayAtNextTime() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "20"
         attrs.timesTakenToday = 0
         let now = MockNow()
@@ -663,7 +663,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenFirstTwentyDaysAndFinishedOnNineteenthDay_returnsNextDayAtTimeOne() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .FirstXDays
+        attrs.expirationIntervalSetting = .FirstXDays
         attrs.xDays = "20"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -689,7 +689,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenLastTenDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .LastXDays
+        attrs.expirationIntervalSetting = .LastXDays
         attrs.xDays = "10"
         attrs.timesTakenToday = 1
         let now = MockNow()
@@ -720,7 +720,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenLastTenDaysAndIsFirstOfMonth_returnsExpectedDate() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .LastXDays
+        attrs.expirationIntervalSetting = .LastXDays
         attrs.xDays = "10"
         attrs.timesTakenToday = 0
         let now = MockNow()
@@ -751,7 +751,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenLastTakenTwentyDaysAndFinishedOnLastDayOfMonth_returnsExpectedDate() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .LastXDays
+        attrs.expirationIntervalSetting = .LastXDays
         attrs.xDays = "20"
         attrs.timesTakenToday = 0
         let now = MockNow()
@@ -782,7 +782,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenTakenLastTwentyDaysAndIsFirstOfMonth_returnsFirstOfLastTwentyDaysAtTimeOne() {
         let attrs = PillAttributes()
-        attrs.expirationInterval = .LastXDays
+        attrs.expirationIntervalSetting = .LastXDays
         attrs.xDays = "20"
         attrs.timesTakenToday = 0
         let now = MockNow()
@@ -992,7 +992,7 @@ public class PillTests: XCTestCase {
         newAttrs.times = timesString
         newAttrs.notify = true
         newAttrs.lastTaken = newLastTaken
-        newAttrs.expirationInterval = newExpiration
+        newAttrs.expirationIntervalSetting = newExpiration
         newAttrs.timesTakenToday = timesTakenToday
         pill.set(attributes: newAttrs)
         XCTAssertEqual(newName, pill.name)

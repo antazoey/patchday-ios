@@ -14,7 +14,7 @@ public class PillAttributes {
 
     // Pill Properties
     public var name: String?
-    public var expirationInterval: PillExpirationIntervalSetting?
+    public var expirationIntervalSetting: PillExpirationIntervalSetting?
     public var times: String?
     public var notify: Bool?
     public var timesTakenToday: Int?
@@ -23,7 +23,7 @@ public class PillAttributes {
 
     public init(
         name: String?,
-        expirationInterval: PillExpirationIntervalSetting?,
+        expirationIntervalSetting: PillExpirationIntervalSetting?,
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
@@ -31,7 +31,7 @@ public class PillAttributes {
         xDays: String?
     ) {
         self.name = name
-        self.expirationInterval = expirationInterval
+        self.expirationIntervalSetting = expirationIntervalSetting
         self.times = times
         self.notify = notify
         self.timesTakenToday = timesTakenToday
@@ -44,7 +44,7 @@ public class PillAttributes {
 
     public var anyAttributeExists: Bool {
         name != nil ||
-        expirationInterval != nil ||
+        expirationIntervalSetting != nil ||
         times != nil ||
         notify != nil ||
         timesTakenToday != nil ||
@@ -52,20 +52,20 @@ public class PillAttributes {
         xDays != nil
     }
 
-    public var expirationIntervalObject: PillExpirationInterval {
+    public var expirationInterval: PillExpirationInterval {
         let defaultInterval = DefaultPillAttributes.expirationInterval
-        let interval = expirationInterval ?? defaultInterval
+        let interval = expirationIntervalSetting ?? defaultInterval
         return PillExpirationInterval(interval.rawValue, xDays: xDays)
     }
 
     public func setDaysOne(_ value: Int) {
         // TODO: Test
-        guard expirationIntervalObject.usesXDays else { return }
+        guard expirationInterval.usesXDays else { return }
         guard value > 0 && value <= SupportedPillExpirationIntervalDaysLimit else { return }
-        if expirationInterval == .FirstXDays || expirationInterval == .LastXDays {
+        if expirationIntervalSetting == .FirstXDays || expirationIntervalSetting == .LastXDays {
             xDays = String(value)
-        } else if expirationInterval == .XDaysOnXDaysOff {
-            let daysTwo = expirationIntervalObject.daysTwo ?? DefaultPillAttributes.xDaysInt
+        } else if expirationIntervalSetting == .XDaysOnXDaysOff {
+            let daysTwo = expirationInterval.daysTwo ?? DefaultPillAttributes.xDaysInt
             xDays = "\(value)-\(daysTwo)"
         }
     }
@@ -73,7 +73,7 @@ public class PillAttributes {
     public func setDaysTwo(_ value: Int) {
         // TODO: Test
         guard value > 0 && value <= SupportedPillExpirationIntervalDaysLimit else { return }
-        let daysOne = expirationIntervalObject.daysOne ?? DefaultPillAttributes.xDaysInt
+        let daysOne = expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
         xDays = "\(daysOne)-\(value)"
     }
 }
