@@ -107,6 +107,7 @@
 		9D42109125CA338900087CDD /* PillExpirationInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D42109025CA338800087CDD /* PillExpirationInterval.swift */; };
 		9D42109A25CCD81100087CDD /* PillAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D42109925CCD81100087CDD /* PillAttributes.swift */; };
 		9D4210DE25CF6CD100087CDD /* PillExpirationIntervalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4210C725CF6CAE00087CDD /* PillExpirationIntervalTests.swift */; };
+		9D4210F625D06D8900087CDD /* PillAttributeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4210E625D06D1E00087CDD /* PillAttributeTests.swift */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
 		9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
@@ -576,6 +577,7 @@
 		9D42109025CA338800087CDD /* PillExpirationInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillExpirationInterval.swift; sourceTree = "<group>"; };
 		9D42109925CCD81100087CDD /* PillAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributes.swift; sourceTree = "<group>"; };
 		9D4210C725CF6CAE00087CDD /* PillExpirationIntervalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillExpirationIntervalTests.swift; sourceTree = "<group>"; };
+		9D4210E625D06D1E00087CDD /* PillAttributeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributeTests.swift; sourceTree = "<group>"; };
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
 		9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NextHormoneWidget.entitlements; path = Sources/NextHormoneWidget/NextHormoneWidget.entitlements; sourceTree = SOURCE_ROOT; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
@@ -1293,6 +1295,7 @@
 			isa = PBXGroup;
 			children = (
 				9D4210C725CF6CAE00087CDD /* PillExpirationIntervalTests.swift */,
+				9D4210E625D06D1E00087CDD /* PillAttributeTests.swift */,
 			);
 			path = Pills;
 			sourceTree = "<group>";
@@ -2524,6 +2527,7 @@
 				3397CDCED90F1674FD98CC06 /* DateExtensionTests.swift in Sources */,
 				3397C3B94D24638CA4091B71 /* DateFactoryTests.swift in Sources */,
 				3397CBBD2DC40D8316E535A8 /* PDDateFormatterTests.swift in Sources */,
+				9D4210F625D06D8900087CDD /* PillAttributeTests.swift in Sources */,
 				9D9C5FF5247B187900B3DA6A /* PDTOTests.swift in Sources */,
 				3397CCD131DBDF43FB2B0A5B /* ExpirationIntervalUDTests.swift in Sources */,
 				9DCA364925C72D1A00941428 /* PillStringsTests.swift in Sources */,
