@@ -994,6 +994,7 @@ public class PillTests: XCTestCase {
         newAttrs.lastTaken = newLastTaken
         newAttrs.expirationIntervalSetting = newExpiration
         newAttrs.timesTakenToday = timesTakenToday
+        newAttrs.xDays = "5"
         pill.set(attributes: newAttrs)
         XCTAssertEqual(newName, pill.name)
         XCTAssert(PDTest.sameTime(newTime1, pill.times[0]))
@@ -1002,6 +1003,7 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(newLastTaken, pill.lastTaken)
         XCTAssertEqual(newExpiration, pill.expirationInterval.value)
         XCTAssertEqual(timesTakenToday, pill.timesTakenToday)
+        XCTAssertEqual("5", pill.xDays)
     }
 
     func testSet_whenGivenNil_doesNotSet() {

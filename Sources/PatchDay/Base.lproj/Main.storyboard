@@ -984,7 +984,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="daysOnArrowButton" destination="iyr-SE-MH9" id="2CJ-Nb-vsP"/>
+                        <outlet property="daysOneArrowButton" destination="iyr-SE-MH9" id="2CJ-Nb-vsP"/>
                         <outlet property="daysOneButton" destination="uxd-9K-fkL" id="W5s-2F-Xng"/>
                         <outlet property="daysOneLabel" destination="Rfx-hl-V1m" id="reZ-ie-00D"/>
                         <outlet property="daysOneStack" destination="Q6V-kk-VgX" id="iyZ-OV-g6K"/>

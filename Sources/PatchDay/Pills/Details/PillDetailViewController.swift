@@ -42,7 +42,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var daysOneStack: UIStackView!
     @IBOutlet weak var daysOneLabel: UILabel!
     @IBOutlet weak var daysOneButton: UIButton!
-    @IBOutlet weak var daysOnArrowButton: UIButton!
+    @IBOutlet weak var daysOneArrowButton: UIButton!
     @IBOutlet weak var lineUnderDaysOne: UIView!
     @IBOutlet weak var daysTwoStack: UIStackView!
     @IBOutlet weak var daysTwoLabel: UILabel!
@@ -344,11 +344,32 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func openExpirationIntervalPicker() {
+        if !daysPicker.isHidden {
+            closeDaysPicker()
+        }
+        daysOneButton.isEnabled = false
+        daysTwoButton.isEnabled = false
+        daysOneArrowButton.isEnabled = false
+        daysTwoArrowButton.isEnabled = false
         unhideExpirationIntervalPicker()
         setExpirationIntervalPickerStartIndex()
     }
 
     private func openDaysPicker() {
+        if !expirationIntervalPicker.isHidden {
+            closeExpirationIntervalPicker()
+        }
+
+        if selectedDaysNumber == 1 {
+            daysTwoButton.isEnabled = false
+            daysTwoArrowButton.isEnabled = false
+        } else if selectedDaysNumber == 2 {
+            daysOneButton.isEnabled = false
+            daysOneArrowButton.isEnabled = false
+        }
+
+        expirationIntervalButton.isEnabled = false
+        expirationIntervalArrowButton.isEnabled = false
         unhideDaysPicker()
         setDaysPickerStartIndex()
     }
@@ -401,12 +422,22 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         setExpirationIntervalPickerStartIndex()
         expirationIntervalPicker.isHidden = true
         selectedPicker = nil
+        daysOneButton.isEnabled = true
+        daysTwoButton.isEnabled = true
+        daysOneArrowButton.isEnabled = true
+        daysTwoArrowButton.isEnabled = true
     }
 
     private func closeDaysPicker() {
         setDaysPickerStartIndex()
         daysPicker.isHidden = true
         selectedPicker = nil
+        expirationIntervalButton.isEnabled = true
+        expirationIntervalArrowButton.isEnabled = true
+        daysOneButton.isEnabled = true
+        daysOneArrowButton.isEnabled = true
+        daysTwoButton.isEnabled = true
+        daysTwoArrowButton.isEnabled = true
     }
 
     @objc private func handleTimeOnePickerDone() {

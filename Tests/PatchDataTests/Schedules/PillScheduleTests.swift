@@ -254,6 +254,20 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(callArgs.contains(where: {$0.name == "New Name" && $0.times == testDate}))
     }
 
+    public func testSet_whenPillExistsAndSettingExpirationIntervalDataByIndex_updatesPill() {
+        let attributes = PillAttributes()
+        attributes.expirationIntervalSetting = .XDaysOnXDaysOff
+        attributes.xDays = "5-5"
+        setUpThreePills()
+        pills.set(at: 0, with: attributes)
+        let pill = pills[0] as! MockPill
+        let callArgs = pill.setCallArgs
+        let testExpression = callArgs.contains(where: {
+            $0.expirationIntervalSetting == .XDaysOnXDaysOff && $0.xDays == "5-5"
+        })
+        XCTAssertTrue(testExpression)
+    }
+
     public func testSet_whenPillExistsAndSettingByIndex_savesChanges() {
         let attributes = PillAttributes()
         attributes.name = "New Name"
