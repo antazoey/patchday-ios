@@ -53,7 +53,6 @@ public class PillAttributes {
     /// Returns true if these attributes contain any non-nil attributes. Optionally pass in exceptions and it will also make sure
     /// the attribute is not equal to the property in the exceptions.
     public func anyAttributeExists(exclusions: PillAttributes? = nil) -> Bool {
-        // TODO: Adjust tests
         let exclusions = exclusions != nil ? exclusions! : PillAttributes()
         let nameExists = name != nil && name != exclusions.name
         let intervalExists = expirationIntervalSetting != nil
