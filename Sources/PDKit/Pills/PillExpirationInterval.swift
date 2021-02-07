@@ -62,6 +62,17 @@ public class PillExpirationInterval {
         self.value = value ?? DefaultPillAttributes.expirationInterval
     }
 
+    /// All of the available PillExpirationIntervalSetting enum values.
+    public static var options: [PillExpirationIntervalSetting] {
+        [
+            .EveryDay,
+            .EveryOtherDay,
+            .FirstXDays,
+            .LastXDays,
+            .XDaysOnXDaysOff
+        ]
+    }
+
     public static var daysRange: ClosedRange<Int> {
         1...SupportedPillExpirationIntervalDaysLimit
     }
@@ -123,17 +134,6 @@ public class PillExpirationInterval {
             }
         }
         return daysOn
-    }
-
-    /// All of the available PillExpirationIntervalSetting enum values.
-    public static var options: [PillExpirationIntervalSetting] {
-        [
-            .EveryDay,
-            .EveryOtherDay,
-            .FirstXDays,
-            .LastXDays,
-            .XDaysOnXDaysOff
-        ]
     }
 
     private static func parseDays(
