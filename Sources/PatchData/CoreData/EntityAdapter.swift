@@ -147,11 +147,7 @@ class EntityAdapter {
         if let intervalString = pill.expirationInterval {
             let intervalObject = PillExpirationInterval(intervalString)
             interval = intervalObject.value
-
-            // If xDays got set from migrating an older value
-            if let days = intervalObject.daysOne {
-                xDays = String(days)
-            }
+            xDays = intervalObject.daysOn
         }
         return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
