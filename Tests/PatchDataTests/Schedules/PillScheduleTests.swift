@@ -257,7 +257,8 @@ class PillScheduleTests: XCTestCase {
     public func testSet_whenPillExistsAndSettingExpirationIntervalDataByIndex_updatesPill() {
         let attributes = PillAttributes()
         attributes.expirationIntervalSetting = .XDaysOnXDaysOff
-        attributes.xDays = "5-5"
+        attributes.expirationInterval.daysOne = 5
+        attributes.expirationInterval.daysTwo = 5
         setUpThreePills()
         pills.set(at: 0, with: attributes)
         let pill = pills[0] as! MockPill

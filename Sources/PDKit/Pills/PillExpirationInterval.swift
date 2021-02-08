@@ -88,9 +88,9 @@ public class PillExpirationInterval {
     public var daysOne: Int? {
         get { _daysOne }
         set {
-            if let newValue = newValue {
-                guard _daysRange ~= newValue else { return }
-                self._daysOne = newValue
+            if let days = newValue {
+                guard _daysRange ~= days else { return }
+                self._daysOne = days
             }
         }
     }

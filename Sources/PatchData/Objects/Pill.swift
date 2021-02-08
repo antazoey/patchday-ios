@@ -119,15 +119,7 @@ public class Pill: Swallowable {
     }
 
     public func set(attributes: PillAttributes) {
-        pillData.attributes.name = attributes.name ?? name
-        pillData.attributes.notify = attributes.notify ?? notify
-        lastTaken = attributes.lastTaken ?? lastTaken
-        pillData.attributes.expirationIntervalSetting = attributes.expirationIntervalSetting
-            ?? expirationIntervalSetting
-        pillData.attributes.times = attributes.times ?? pillData.attributes.times
-        pillData.attributes.timesTakenToday = attributes.timesTakenToday
-            ?? pillData.attributes.timesTakenToday
-        pillData.attributes.xDays = attributes.xDays ?? pillData.attributes.xDays
+        pillData.attributes.apply(attributes)
     }
 
     public func swallow() {

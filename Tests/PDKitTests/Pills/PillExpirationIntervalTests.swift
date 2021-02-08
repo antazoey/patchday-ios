@@ -108,6 +108,14 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertEqual(3, interval.daysOne)
     }
 
+    func testDaysOne_canBeSetWithinTheLimit() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-13")
+        interval.daysOne = 3
+        XCTAssertEqual(3, interval.daysOne)
+        interval.daysOne = 4
+        XCTAssertEqual(4, interval.daysOne)
+    }
+
     func testDaysTwo_cannotBeSetOutsideLimit() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-13")
         interval.daysTwo = 3

@@ -223,17 +223,32 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func selectDays(_ row: Index, daysNumber: Int?) {
-        // TODO: Add TEsts
         guard expirationIntervalUsesDays else { return }
         guard (0..<daysOptions.count) ~= row else { return }
         guard let option = Int(daysOptions[row]) else { return }
-        selections.expirationIntervalSetting = selections.expirationIntervalSetting
-            ?? pill.expirationIntervalSetting
+
+        // Make sure interval i set prior to setting xDays
+        let currentInterval = selections.expirationIntervalSetting
+        selections.expirationIntervalSetting = currentInterval ?? pill.expirationIntervalSetting
+
         if daysNumber == 1 {
             selections.expirationInterval.daysOne = option
+
+            // Make sure daysTwo is set if not yet and is used.
+            if selections.expirationInterval.daysTwo == nil
+                && selections.expirationIntervalSetting == .XDaysOnXDaysOff {
+                selections.expirationInterval.daysTwo = pill.expirationInterval.daysTwo
+            }
         } else if daysNumber == 2 {
             selections.expirationInterval.daysTwo = option
+
+            // Make sure daysOne is set if not yet and is used.
+            if selections.expirationInterval.daysOne == nil {
+                selections.expirationInterval.daysOne = pill.expirationInterval.daysOne
+            }
         }
+        tprint(selections.xDays)
+        tprint(selections.expirationInterval.xDays)
     }
 
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {

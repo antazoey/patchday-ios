@@ -11,13 +11,14 @@ import Foundation
 public class PillAttributes {
 
     private let defaultName = PillStrings.NewPill
+    private var _xDays: String?
+    private var _expirationIntervalObject: PillExpirationInterval?
     public var name: String?
     public var expirationIntervalSetting: PillExpirationIntervalSetting?
     public var times: String?
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
-    public var xDays: String?
 
     public init(
         name: String?,
@@ -34,7 +35,10 @@ public class PillAttributes {
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
-        self.xDays = xDays
+        self._xDays = xDays
+        if self._xDays != nil {
+            _ = self.expirationInterval
+        }
     }
 
     public init(_ attributes: PillAttributes) {
@@ -44,7 +48,7 @@ public class PillAttributes {
         self.notify = attributes.notify
         self.timesTakenToday = attributes.timesTakenToday
         self.lastTaken = attributes.lastTaken
-        self.xDays = attributes.xDays
+        self._xDays = attributes.xDays
     }
 
     public init() {
@@ -62,7 +66,7 @@ public class PillAttributes {
         let timesTakenTodayExists = timesTakenToday != nil
             && timesTakenToday != exclusions.timesTakenToday
         let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
-        let xDaysExists = xDays != nil && xDays != exclusions.xDays
+        let xDaysExists = _xDays != nil && _xDays != exclusions.xDays
 
         return nameExists
             || intervalExists
@@ -74,10 +78,27 @@ public class PillAttributes {
             || xDaysExists
     }
 
+    public func apply(_ attributes: PillAttributes) {
+        name = attributes.name ?? name
+        expirationIntervalSetting = attributes.expirationIntervalSetting ?? expirationIntervalSetting
+        times = attributes.times ?? times
+        notify = attributes.notify != nil ? attributes.notify : notify
+        timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
+        lastTaken = attributes.lastTaken ?? lastTaken
+        _xDays = attributes.xDays ?? xDays
+    }
+
+    public var xDays: String? {
+        expirationInterval.xDays
+    }
+
     public var expirationInterval: PillExpirationInterval {
-        let defaultInterval = DefaultPillAttributes.expirationInterval
-        let interval = expirationIntervalSetting ?? defaultInterval
-        return PillExpirationInterval(interval.rawValue, xDays: xDays)
+        if _expirationIntervalObject == nil {
+            let defaultInterval = DefaultPillAttributes.expirationInterval
+            let interval = expirationIntervalSetting ?? defaultInterval
+            _expirationIntervalObject = PillExpirationInterval(interval.rawValue, xDays: _xDays)
+        }
+        return _expirationIntervalObject!
     }
 
     public func reset() {
@@ -87,6 +108,6 @@ public class PillAttributes {
         notify = nil
         timesTakenToday = nil
         lastTaken = nil
-        xDays = nil
+        _xDays = nil
     }
 }
