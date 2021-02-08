@@ -53,8 +53,7 @@ public class Pill: Swallowable {
     }
 
     public var expirationIntervalSetting: PillExpirationIntervalSetting {
-        get { expirationInterval.value ?? DefaultPillAttributes.expirationInterval }
-        set { pillData.attributes.expirationIntervalSetting = newValue }
+        expirationInterval.value ?? DefaultPillAttributes.expirationInterval
     }
 
     public var times: [Time] {
@@ -123,7 +122,7 @@ public class Pill: Swallowable {
         pillData.attributes.name = attributes.name ?? name
         pillData.attributes.notify = attributes.notify ?? notify
         lastTaken = attributes.lastTaken ?? lastTaken
-        expirationIntervalSetting = attributes.expirationIntervalSetting
+        pillData.attributes.expirationIntervalSetting = attributes.expirationIntervalSetting
             ?? expirationIntervalSetting
         pillData.attributes.times = attributes.times ?? pillData.attributes.times
         pillData.attributes.timesTakenToday = attributes.timesTakenToday

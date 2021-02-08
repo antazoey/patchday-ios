@@ -22,7 +22,7 @@ public protocol Swallowable {
     var expirationInterval: PillExpirationInterval { get }
 
     /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
-    var expirationIntervalSetting: PillExpirationIntervalSetting { get set }
+    var expirationIntervalSetting: PillExpirationIntervalSetting { get }
 
     /// The times, in order, for which to take pills on a day in the schedule.
     var times: [Time] { get }
