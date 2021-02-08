@@ -45,8 +45,7 @@ public class Pill: Swallowable {
     }
 
     public var name: String {
-        get { pillData.attributes.name ?? PillStrings.NewPill }
-        set { pillData.attributes.name = newValue }
+        pillData.attributes.name ?? PillStrings.NewPill
     }
 
     public var expirationInterval: PillExpirationInterval {
@@ -121,8 +120,8 @@ public class Pill: Swallowable {
     }
 
     public func set(attributes: PillAttributes) {
-        name = attributes.name ?? name
-        notify = attributes.notify ?? notify
+        pillData.attributes.name = attributes.name ?? name
+        pillData.attributes.notify = attributes.notify ?? notify
         lastTaken = attributes.lastTaken ?? lastTaken
         expirationIntervalSetting = attributes.expirationIntervalSetting
             ?? expirationIntervalSetting

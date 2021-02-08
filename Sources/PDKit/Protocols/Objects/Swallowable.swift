@@ -16,7 +16,7 @@ public protocol Swallowable {
     var attributes: PillAttributes { get }
 
     /// The name of the pill.
-    var name: String { get set }
+    var name: String { get }
 
     /// The expiration interval of the pill as an object with additional helper methods.
     var expirationInterval: PillExpirationInterval { get }
