@@ -72,10 +72,6 @@ public class PillTests: XCTestCase {
         let actual = pill.expirationInterval
         let expected = PillExpirationIntervalSetting.EveryDay
         XCTAssertEqual(expected, actual.value)
-
-        // Test set
-        pill.expirationIntervalSetting = PillExpirationIntervalSetting.EveryDay
-        XCTAssertEqual(.EveryDay, pill.expirationInterval.value)
     }
 
     func testExpirationInterval_whenEveryOtherDay_returnsExpectedInterval() {
@@ -252,15 +248,6 @@ public class PillTests: XCTestCase {
         attrs.xDays = "12"
         let pill = createPill(attrs)
         XCTAssertNil(pill.xDays)
-    }
-
-    func testXDays_isSettable() {
-        let testDaysOnDaysOff = "5"
-        let pill = createPill(PillAttributes())
-        pill.xDays = testDaysOnDaysOff
-        pill.expirationIntervalSetting = .FirstXDays
-        let actual = pill.xDays
-        XCTAssertEqual(testDaysOnDaysOff, actual)
     }
 
     func testDue_whenEveryDayAndNotYetTaken_returnsTodayAtTimeOne() {
@@ -1011,11 +998,15 @@ public class PillTests: XCTestCase {
         let testName = "NAME"
         let testDate = Date()
         let testTimeString = "12:00:00"
+        let testExpInterval = PillExpirationIntervalSetting.FirstXDays
+        let testXDays = "4"
         startAttrs.name = testName
         startAttrs.lastTaken = testDate
         startAttrs.times = testTimeString
         startAttrs.notify = true
         startAttrs.timesTakenToday = 2
+        startAttrs.expirationIntervalSetting = testExpInterval
+        startAttrs.xDays = testXDays
         let pill = createPill(startAttrs)
         let newAttrs = PillAttributes()
         newAttrs.name = nil
@@ -1023,6 +1014,7 @@ public class PillTests: XCTestCase {
         newAttrs.times = nil
         newAttrs.notify = nil
         newAttrs.timesTakenToday = nil
+        newAttrs.xDays = nil
         pill.set(attributes: newAttrs)
         XCTAssertEqual(testName, pill.name)
         XCTAssertEqual(testDate, pill.lastTaken)
@@ -1031,6 +1023,8 @@ public class PillTests: XCTestCase {
         )
         XCTAssert(pill.notify)
         XCTAssertEqual(2, pill.timesTakenToday)
+        XCTAssertEqual(testExpInterval, pill.expirationIntervalSetting)
+        XCTAssertEqual(testXDays, pill.xDays)
     }
 
     func testSwallow_whenTimesTakenTodayEqualToTimesaday_doesNotIncreaseTimesTakenToday() {

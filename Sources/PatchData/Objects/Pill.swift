@@ -127,7 +127,7 @@ public class Pill: Swallowable {
         pillData.attributes.times = attributes.times ?? pillData.attributes.times
         pillData.attributes.timesTakenToday = attributes.timesTakenToday
             ?? pillData.attributes.timesTakenToday
-        pillData.attributes.xDays = attributes.xDays
+        pillData.attributes.xDays = attributes.xDays ?? pillData.attributes.xDays
     }
 
     public func swallow() {
