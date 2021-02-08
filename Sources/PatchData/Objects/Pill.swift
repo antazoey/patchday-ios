@@ -87,10 +87,7 @@ public class Pill: Swallowable {
         set { pillData.attributes.lastTaken = newValue }
     }
 
-    public var xDays: String? {
-        get { expirationInterval.xDays }
-        set { pillData.attributes.xDays = newValue }
-    }
+    public var xDays: String? { expirationInterval.xDays }
 
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
