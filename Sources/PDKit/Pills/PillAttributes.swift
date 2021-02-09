@@ -75,7 +75,8 @@ public class PillAttributes {
             || xDaysExists
     }
 
-    public func apply(_ attributes: PillAttributes) {
+    /// Update this instance's properties with the given ones. This does not update if the given property is nil.
+    public func update(_ attributes: PillAttributes) {
         name = attributes.name ?? name
         times = attributes.times ?? times
         notify = attributes.notify != nil ? attributes.notify : notify

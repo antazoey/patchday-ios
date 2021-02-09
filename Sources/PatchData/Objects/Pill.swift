@@ -119,7 +119,7 @@ public class Pill: Swallowable {
     }
 
     public func set(attributes: PillAttributes) {
-        pillData.attributes.apply(attributes)
+        pillData.attributes.update(attributes)
     }
 
     public func swallow() {

@@ -18,11 +18,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: .FirstXDays,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         attributes.expirationInterval.daysOne = 4
         XCTAssertEqual("4", attributes.xDays)
@@ -32,11 +32,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         XCTAssertFalse(attributes.anyAttributeExists())
     }
@@ -45,11 +45,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: "TEST",
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         XCTAssert(attributes.anyAttributeExists())
     }
@@ -58,11 +58,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: "TEST",
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
         exclusions
@@ -74,11 +74,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: .EveryDay,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         XCTAssert(attributes.anyAttributeExists())
     }
@@ -87,11 +87,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: .EveryDay,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
         exclusions.expirationInterval.value = .EveryDay
@@ -102,11 +102,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: "12:30",
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         XCTAssert(attributes.anyAttributeExists())
     }
@@ -115,11 +115,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: "12:30",
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
         exclusions.times = "12:30"
@@ -130,11 +130,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: false,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         XCTAssert(attributes.anyAttributeExists())
     }
@@ -143,11 +143,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: false,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
         exclusions.notify = false
@@ -158,11 +158,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: 0,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         XCTAssert(attributes.anyAttributeExists())
     }
@@ -171,11 +171,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: 3,
-            lastTaken: nil,
-            xDays: nil
+            lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
         exclusions.timesTakenToday = 3
@@ -186,11 +186,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: Date(),
-            xDays: nil
+            lastTaken: Date()
         )
         XCTAssert(attributes.anyAttributeExists())
     }
@@ -200,11 +200,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
+            xDays: nil,
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: date,
-            xDays: nil
+            lastTaken: date
         )
         let exclusions = PillAttributes(attributes)
         exclusions.lastTaken = date
@@ -215,11 +215,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: .FirstXDays,
+            xDays: "1",
             times: nil,
             notify: nil,
             timesTakenToday: nil,
-            lastTaken: nil,
-            xDays: "1"
+            lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
         exclusions.expirationInterval.daysOne = 1
@@ -230,11 +230,11 @@ class PillAttributesTests: XCTestCase {
         let attributes = PillAttributes(
             name: "name",
             expirationIntervalSetting: .EveryDay,
+            xDays: "7",
             times: "1200",
             notify: true,
             timesTakenToday: 4,
-            lastTaken: Date(),
-            xDays: "7"
+            lastTaken: Date()
         )
         attributes.reset()
         XCTAssertNil(attributes.name)
