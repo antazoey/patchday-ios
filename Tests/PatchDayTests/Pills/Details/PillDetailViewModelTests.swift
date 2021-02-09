@@ -262,7 +262,6 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-
     func testDaysOptions_returnsAListOfStringIntegersFromOneToMax() {
         setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
