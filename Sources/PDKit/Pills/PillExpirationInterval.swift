@@ -63,6 +63,7 @@ public class PillExpirationInterval {
         self._value = value
     }
 
+    /// The value of the pill expiration interval, such as `.FirstXDays`.
     public var value: PillExpirationIntervalSetting? {
         get { _value }
         set {
@@ -93,18 +94,22 @@ public class PillExpirationInterval {
         ]
     }
 
+    /// The supported range for any days value, 1-25.
     public static var daysRange: ClosedRange<Int> {
         1...SupportedPillExpirationIntervalDaysLimit
     }
 
+    /// The intervals that only use `.daysOne` and not `.daysTwo`, namely: `.FirstXDays` and `.LastXDays`.
     public static var singleXDayIntervals: [PillExpirationIntervalSetting] {
         [.FirstXDays, .LastXDays]
     }
 
+    /// All of the expiraiton interval values hat use the secondary `xDays` property.
     public static var xDaysIntervals: [PillExpirationIntervalSetting] {
         singleXDayIntervals + [.XDaysOnXDaysOff]
     }
 
+    /// The integer version of the first days value in `xDays`; only applies to expiration intervals that use X days.
     public var daysOne: Int? {
         get { _daysOne }
         set {
@@ -116,6 +121,8 @@ public class PillExpirationInterval {
             }
         }
     }
+
+    /// The integer version of the second days value in `xDays`; only applies to `.XDaysOnXDaysOff`.
     public var daysTwo: Int? {
         get { _daysTwo }
         set {
@@ -161,6 +168,8 @@ public class PillExpirationInterval {
         }
         return daysOn
     }
+
+    // MARK: - Private
 
     private static func parseDays(
         _ interval: PillExpirationIntervalSetting, _ xDays: String
