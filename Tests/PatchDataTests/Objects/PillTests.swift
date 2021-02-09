@@ -60,9 +60,9 @@ public class PillTests: XCTestCase {
         let attrs = PillAttributes()
         attrs.expirationInterval.value = nil
         let pill = createPill(attrs)
-        let actual = pill.expirationInterval
+        let actual = pill.expirationIntervalSetting
         let expected = DefaultPillAttributes.expirationInterval
-        XCTAssertEqual(expected, actual.value)
+        XCTAssertEqual(expected, actual)
     }
 
     func testExpirationInterval_whenEveryDay_returnsExpectedInterval() {
@@ -980,7 +980,7 @@ public class PillTests: XCTestCase {
         newAttrs.times = timesString
         newAttrs.notify = true
         newAttrs.lastTaken = newLastTaken
-        newattrs.expirationInterval.value = newExpiration
+        newAttrs.expirationInterval.value = newExpiration
         newAttrs.timesTakenToday = timesTakenToday
         newAttrs.expirationInterval.daysOne = 5
         pill.set(attributes: newAttrs)
@@ -1006,7 +1006,7 @@ public class PillTests: XCTestCase {
         startAttrs.times = testTimeString
         startAttrs.notify = true
         startAttrs.timesTakenToday = 2
-        startattrs.expirationInterval.value = testExpInterval
+        startAttrs.expirationInterval.value = testExpInterval
         startAttrs.expirationInterval.daysOne = 4
         let pill = createPill(startAttrs)
         let newAttrs = PillAttributes()

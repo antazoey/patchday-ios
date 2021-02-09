@@ -119,7 +119,7 @@ public class PillExpirationInterval {
         get { _daysTwo }
         set {
             guard let val = value else { return }
-            guard _singleXDayIntervals.contains(val) else { return }
+            guard val == .XDaysOnXDaysOff else { return }
             if let newValue = newValue {
                 guard _daysRange ~= newValue else { return }
                 _daysTwo = newValue
