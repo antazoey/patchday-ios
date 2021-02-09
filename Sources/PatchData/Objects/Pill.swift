@@ -32,7 +32,7 @@ public class Pill: Swallowable {
 
     public var attributes: PillAttributes {
         let defaultInterval = DefaultPillAttributes.expirationInterval
-        let interval = pillData.attributes.expirationIntervalSetting ?? defaultInterval
+        let interval = pillData.attributes.expirationInterval.value ?? defaultInterval
         return PillAttributes(
             name: name,
             expirationIntervalSetting: interval,

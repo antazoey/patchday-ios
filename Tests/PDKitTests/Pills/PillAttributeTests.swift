@@ -238,7 +238,7 @@ class PillAttributesTests: XCTestCase {
         )
         attributes.reset()
         XCTAssertNil(attributes.name)
-        XCTAssertNil(attributes.expirationIntervalSetting)
+        XCTAssertNil(attributes.expirationInterval.value)
         XCTAssertNil(attributes.times)
         XCTAssertNil(attributes.notify)
         XCTAssertNil(attributes.timesTakenToday)

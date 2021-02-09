@@ -65,7 +65,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationInterval: PillExpirationIntervalSetting {
-        selections.expirationIntervalSetting ?? pill.expirationIntervalSetting
+        selections.expirationInterval.value ?? pill.expirationIntervalSetting
     }
 
     var expirationIntervalText: String {
@@ -113,7 +113,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationIntervalIsSelected: Bool {
-        selections.expirationIntervalSetting != nil
+        selections.expirationInterval.value != nil
     }
 
     var expirationIntervalStartIndex: Index {

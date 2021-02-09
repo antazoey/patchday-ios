@@ -264,7 +264,7 @@ class PillScheduleTests: XCTestCase {
         let pill = pills[0] as! MockPill
         let callArgs = pill.setCallArgs
         let testExpression = callArgs.contains(where: {
-            $0.expirationIntervalSetting == .XDaysOnXDaysOff && $0.xDays == "5-5"
+            $0.expirationInterval.value == .XDaysOnXDaysOff && $0.xDays == "5-5"
         })
         XCTAssertTrue(testExpression)
     }

@@ -43,7 +43,7 @@ public class PillAttributes {
         self.notify = attributes.notify
         self.timesTakenToday = attributes.timesTakenToday
         self.lastTaken = attributes.lastTaken
-        let interval = attributes.expirationIntervalSetting
+        let interval = attributes.expirationInterval.value
         self._expirationInterval = PillExpirationInterval(interval, xDays: attributes.xDays)
     }
 
@@ -56,8 +56,8 @@ public class PillAttributes {
     public func anyAttributeExists(exclusions: PillAttributes? = nil) -> Bool {
         let exclusions = exclusions != nil ? exclusions! : PillAttributes()
         let nameExists = name != nil && name != exclusions.name
-        let intervalExists = expirationIntervalSetting != nil
-            && expirationIntervalSetting != exclusions.expirationIntervalSetting
+        let intervalExists = expirationInterval.value != nil
+            && expirationInterval.value != exclusions.expirationInterval.value
         let timesExists = times != nil && times != exclusions.times
         let notifyExists = notify != nil && notify != exclusions.notify
         let timesTakenTodayExists = timesTakenToday != nil
@@ -83,14 +83,9 @@ public class PillAttributes {
         timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
         lastTaken = attributes.lastTaken ?? lastTaken
 
-        let interval = attributes.expirationIntervalSetting ?? expirationIntervalSetting
+        let interval = attributes.expirationInterval.value ?? expirationInterval.value
         let days = attributes.xDays ?? xDays
         _expirationInterval = PillExpirationInterval(interval, xDays: days)
-    }
-
-    /// The value of the expiration interval, such as `.EveryDay`.
-    public var expirationIntervalSetting: PillExpirationIntervalSetting? {
-       expirationInterval.value
     }
 
     /// The Days value for the expiration interval. Only applicable to intervals that use Days, such as .FirstXDays.
