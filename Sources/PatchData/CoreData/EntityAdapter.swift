@@ -52,6 +52,7 @@ class EntityAdapter {
             )
             return nil
         }
+        migratePill(pill)
         let attributes = createPillAttributes(pill)
         return PillStruct(pillId, attributes)
     }
@@ -141,22 +142,26 @@ class EntityAdapter {
     }
 
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
-        let defaultInterval = DefaultPillAttributes.expirationInterval
-        var interval: PillExpirationIntervalSetting?
-        var xDays: String?
-        if let intervalString = pill.expirationInterval {
-            let intervalObject = PillExpirationInterval(intervalString)
-            interval = intervalObject.value
-            xDays = intervalObject.daysOn
-        }
+        let defaultInterval = DefaultPillAttributes.expirationInterval.rawValue
+        let intervalString = pill.expirationInterval ?? defaultInterval
+        let interval = PillExpirationIntervalSetting(rawValue: intervalString)
         return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
-            expirationIntervalSetting: interval ?? defaultInterval,
-            xDays: xDays ?? pill.xDays,
+            expirationIntervalSetting: interval,
+            xDays: pill.xDays,
             times: pill.times,
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),
             lastTaken: pill.lastTaken as Date?
         )
+    }
+
+    private static func migratePill(_ pill: MOPill) {
+        if let intervalString = pill.expirationInterval {
+            // Set values after post-migration, in case that happens.
+            let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)
+            pill.expirationInterval = intervalObject.value?.rawValue
+            pill.xDays = intervalObject.xDays
+        }
     }
 }

@@ -18,7 +18,6 @@ class IntegrationTests: XCTestCase {
 #if targetEnvironment(simulator)
 
     private let sdk = PatchData()
-
     private let dummyViewController = UIViewController()
 
     override func setUp() {
