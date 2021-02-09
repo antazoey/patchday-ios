@@ -107,8 +107,6 @@ public class PillAttributes {
     public func reset() {
         name = nil
         _expirationInterval.value = nil
-        _expirationInterval.daysOne = nil
-        _expirationInterval.daysTwo = nil
         times = nil
         notify = nil
         timesTakenToday = nil

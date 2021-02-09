@@ -237,18 +237,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         guard (0..<daysOptions.count) ~= row else { return }
         guard let option = Int(daysOptions[row]) else { return }
 
-        // Make sure interval i set prior to setting xDays
-        let currentInterval = selections.expirationIntervalSetting
-        selections.expirationInterval.value = currentInterval ?? pill.expirationIntervalSetting
+        // Make sure interval is set prior to setting xDays
+        selections.expirationInterval.value = expirationInterval
 
         if daysNumber == 1 {
             selections.expirationInterval.daysOne = option
-
-            // Make sure daysTwo is set if not yet and is used.
-            if selections.expirationInterval.daysTwo == nil
-                && selections.expirationIntervalSetting == .XDaysOnXDaysOff {
-                selections.expirationInterval.daysTwo = pill.expirationInterval.daysTwo
-            }
         } else if daysNumber == 2 {
             selections.expirationInterval.daysTwo = option
 
