@@ -88,18 +88,22 @@ public class PillAttributes {
         _expirationInterval = PillExpirationInterval(interval, xDays: days)
     }
 
+    /// The value of the expiration interval, such as `.EveryDay`.
     public var expirationIntervalSetting: PillExpirationIntervalSetting? {
        expirationInterval.value
     }
 
+    /// The Days value for the expiration interval. Only applicable to intervals that use Days, such as .FirstXDays.
     public var xDays: String? {
         expirationInterval.xDays
     }
 
+    /// The expiration interval object.
     public var expirationInterval: PillExpirationInterval {
         _expirationInterval
     }
 
+    /// Set all properties to nil.
     public func reset() {
         name = nil
         _expirationInterval.value = nil
