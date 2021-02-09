@@ -21,20 +21,20 @@ public class PillAttributes {
     public init(
         name: String?,
         expirationIntervalSetting: PillExpirationIntervalSetting?,
+        xDays: String?,
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
-        lastTaken: Date?,
-        xDays: String?
+        lastTaken: Date?
     ) {
         self.name = name
+        self._expirationInterval = PillExpirationInterval(
+            expirationIntervalSetting, xDays: xDays
+        )
         self.times = times
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
-        self._expirationInterval = PillExpirationInterval(
-            expirationIntervalSetting, xDays: xDays
-        )
     }
 
     public init(_ attributes: PillAttributes) {

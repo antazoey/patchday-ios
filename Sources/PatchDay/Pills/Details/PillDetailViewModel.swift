@@ -257,8 +257,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
                 selections.expirationInterval.daysOne = pill.expirationInterval.daysOne
             }
         }
-        tprint(selections.xDays)
-        tprint(selections.expirationInterval.xDays)
     }
 
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {

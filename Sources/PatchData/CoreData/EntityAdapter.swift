@@ -152,11 +152,11 @@ class EntityAdapter {
         return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
             expirationIntervalSetting: interval ?? defaultInterval,
+            xDays: xDays ?? pill.xDays,
             times: pill.times,
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),
-            lastTaken: pill.lastTaken as Date?,
-            xDays: xDays ?? pill.xDays
+            lastTaken: pill.lastTaken as Date?
         )
     }
 }

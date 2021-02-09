@@ -36,11 +36,11 @@ public class Pill: Swallowable {
         return PillAttributes(
             name: name,
             expirationIntervalSetting: interval,
+            xDays: xDays,
             times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
-            lastTaken: lastTaken,
-            xDays: xDays
+            lastTaken: lastTaken
         )
     }
 
