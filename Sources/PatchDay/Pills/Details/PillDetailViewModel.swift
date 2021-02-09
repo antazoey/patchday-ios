@@ -219,7 +219,17 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
         let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
-        selections.expirationIntervalSetting = interval
+        selections.expirationInterval.value = interval
+
+        guard PillExpirationInterval.options.contains(interval) else { return }
+        if selections.expirationInterval.daysOne == nil {
+            let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
+            selections.expirationInterval.daysOne = days
+        }
+        if interval == .XDaysOnXDaysOff && selections.expirationInterval.daysTwo == nil {
+            let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
+            selections.expirationInterval.daysTwo = days
+        }
     }
 
     func selectDays(_ row: Index, daysNumber: Int?) {
@@ -229,7 +239,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
         // Make sure interval i set prior to setting xDays
         let currentInterval = selections.expirationIntervalSetting
-        selections.expirationIntervalSetting = currentInterval ?? pill.expirationIntervalSetting
+        selections.expirationInterval.value = currentInterval ?? pill.expirationIntervalSetting
 
         if daysNumber == 1 {
             selections.expirationInterval.daysOne = option
