@@ -22,7 +22,7 @@ public class PillExpirationInterval {
         if let value = PillExpirationIntervalSetting(rawValue: rawValue) {
             self.init(value, xDays: xDays)
         } else {
-            // Value not found. Try to migrate an older value...
+            // Value not found. Try to migrate an older value.
             self.init(rawValue)
         }
     }

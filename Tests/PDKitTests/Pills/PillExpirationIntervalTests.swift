@@ -188,4 +188,19 @@ class PillExpirationIntervalTests: XCTestCase {
         let actual = interval.xDays
         XCTAssertEqual(expected, actual)
     }
+
+    func testOptions_containsAllOptions() {
+        // WAIT: If this test did not compile for you, that means you are adding a new interval.
+        // I just want to remind you to make sure to also add that interval to the static list
+        // `PillExpirationInterval.options`.
+        for opt in PillExpirationInterval.options {
+            switch opt {
+                case .EveryDay: break
+                case .EveryOtherDay: break
+                case .FirstXDays: break
+                case .LastXDays: break
+                case .XDaysOnXDaysOff: break
+            }
+        }
+    }
 }
