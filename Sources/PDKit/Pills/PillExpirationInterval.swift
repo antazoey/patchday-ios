@@ -76,6 +76,7 @@ public class PillExpirationInterval {
                 _daysOne = nil
                 _daysTwo = nil
             } else if _singleXDayIntervals.contains(val) {
+                // .FirstXDays and .LastXDays
                 _daysTwo = nil
             }
         }
