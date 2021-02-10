@@ -65,6 +65,8 @@ public class PillExpirationIntervalXDays {
             if let newValue = newValue {
                 guard _daysRange ~= newValue else { return }
                 _two = newValue
+            } else {
+                _two = newValue
             }
         }
     }

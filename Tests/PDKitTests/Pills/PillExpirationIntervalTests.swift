@@ -51,21 +51,31 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertNil(interval.xDays?.daysOff)
     }
 
+    func testInit_whenNotUsingXDaysInterval_returnsInstanceWithNilXDays() {
+        let interval = PillExpirationInterval(.EveryDay, xDays: "5-5-on-1")
+        XCTAssertNil(interval.xDays)
+    }
+
     func testSetValue_setsValue() {
         let interval = PillExpirationInterval(.EveryDay)
         interval.value = .EveryOtherDay
         XCTAssertEqual(.EveryOtherDay, interval.value)
     }
 
-    func testInit_whenNotUsingXDaysInterval_returnsInstanceWithNilXDays() {
-        let interval = PillExpirationInterval(.EveryDay, xDays: "5-5-on-1")
-        XCTAssertNil(interval.xDays)
-    }
-
     func testSetValue_whenSettingToNonXDaysValue_setsXDaysInstanceToNil() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5-5-on-1")
         interval.value = .EveryDay
         XCTAssertNil(interval.xDays)
+    }
+
+    func testSetValue_whenSettingFromXDaysOnXDaysOffToSingleXDays_setsDaysTwoToNil() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-1")
+        interval.value = .FirstXDays
+        let xDays = interval.xDays!
+        XCTAssertNil(xDays.two)
+        XCTAssertNil(xDays.daysOff)
+        let expected = "5-on-1"
+        XCTAssertEqual(expected, xDays.value)
     }
 
     func testOptions_containsAllOptions() {

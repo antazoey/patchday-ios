@@ -68,14 +68,16 @@ public class PillExpirationInterval {
         get { _value }
         set {
             _value = newValue
-            if let val = newValue {
-                if !_xDaysIntervals.contains(val) {
-                    _xDays = nil
-                } else {
-                    _xDays = PillExpirationIntervalXDays(DefaultPillAttributes.xDaysString)
-                }
-            } else {
+
+            // Correct any xDays values
+            guard let val = newValue else { return }
+            guard _xDaysIntervals.contains(val) else {
                 _xDays = nil
+                return
+            }
+            _xDays = _xDays ?? PillExpirationIntervalXDays(DefaultPillAttributes.xDaysString)
+            if _singleXDayIntervals.contains(val) {
+                _xDays!.two = nil
             }
         }
     }
