@@ -44,7 +44,7 @@ public class PillAttributes {
         self.timesTakenToday = attributes.timesTakenToday
         self.lastTaken = attributes.lastTaken
         let interval = attributes.expirationInterval.value
-        self._expirationInterval = PillExpirationInterval(interval, xDays: attributes.xDays)
+        self._expirationInterval = PillExpirationInterval(interval, xDays: attributes.xDays?.value)
     }
 
     public init() {
@@ -63,7 +63,7 @@ public class PillAttributes {
         let timesTakenTodayExists = timesTakenToday != nil
             && timesTakenToday != exclusions.timesTakenToday
         let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
-        let xDaysExists = xDays != nil && xDays != exclusions.xDays
+        let xDaysExists = xDays != nil && xDays?.value != exclusions.xDays?.value
 
         return nameExists
             || intervalExists
@@ -85,12 +85,12 @@ public class PillAttributes {
 
         let interval = attributes.expirationInterval.value ?? expirationInterval.value
         let days = attributes.xDays ?? xDays
-        _expirationInterval = PillExpirationInterval(interval, xDays: days)
+        _expirationInterval = PillExpirationInterval(interval, xDays: days?.value)
     }
 
     /// The Days value for the expiration interval. Only applicable to intervals that use Days, such as .FirstXDays.
-    public var xDays: String? {
-        expirationInterval.xDays
+    public var xDays: PillExpirationIntervalXDays? {
+        _expirationInterval.xDays
     }
 
     /// The expiration interval object.

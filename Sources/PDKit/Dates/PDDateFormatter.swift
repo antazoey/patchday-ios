@@ -31,6 +31,7 @@ public class PDDateFormatter {
         return formatter.string(from: date)
     }
 
+    /// Format a date to be user-friendly and include the day of the week.
     public static func formatDay(_ day: Date) -> String {
         if let word = dateWord(from: day) {
             return getWordedDateString(from: day, word: word)
@@ -39,8 +40,8 @@ public class PDDateFormatter {
         return formatter.string(from: day)
     }
 
-    /// For migrating Pill times
-    public static func convertDatesToCommaSeparatedString(_ times: [Date?]) -> String {
+    /// Convert a list of times to a comma-separated string.
+    public static func convertTimesToCommaSeparatedString(_ times: [Time?]) -> String {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
         let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
             s in s != nil

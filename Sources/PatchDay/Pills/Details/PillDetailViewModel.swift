@@ -81,19 +81,19 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysOn: String {
-        selections.expirationInterval.daysOn
-            ?? pill.expirationInterval.daysOn
+        selections.expirationInterval.xDays?.daysOn
+            ?? pill.expirationInterval.xDays?.daysOn
             ?? DefaultPillAttributes.xDaysString
     }
 
     var daysOff: String {
-        selections.expirationInterval.daysOff
-            ?? pill.expirationInterval.daysOff
+        selections.expirationInterval.xDays?.daysOff
+            ?? pill.expirationInterval.xDays?.daysOff
             ?? DefaultPillAttributes.xDaysString
     }
 
     var daysOptions: [String] {
-        PillExpirationInterval.daysRange.map({ String($0) })
+        PillExpirationIntervalXDays.daysRange.map({ String($0) })
     }
 
     var daysOneLabelText: String? {
@@ -141,7 +141,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes, now: now)
         }
         // Sort, in case Swallowable impl doesn't
-        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(pill.times)
+        let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(pill.times)
         return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
     }
 
@@ -149,7 +149,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         var times = self.times
         guard index < times.count && index >= 0 else { return }
         times[index] = time
-        selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+        selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(times)
     }
 
     func setTimesaday(_ timesaday: Int) {
@@ -167,7 +167,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
                 timesCopy.removeLast()
             }
         }
-        let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
+        let newTimeString = PDDateFormatter.convertTimesToCommaSeparatedString(timesCopy)
         selections.times = newTimeString
     }
 
@@ -222,13 +222,13 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.expirationInterval.value = interval
 
         guard PillExpirationInterval.options.contains(interval) else { return }
-        if selections.expirationInterval.daysOne == nil {
-            let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
-            selections.expirationInterval.daysOne = days
+        if selections.expirationInterval.xDays?.one == nil {
+            let days = pill.expirationInterval.xDays?.one ?? DefaultPillAttributes.xDaysInt
+            selections.expirationInterval.xDays?.one = days
         }
-        if interval == .XDaysOnXDaysOff && selections.expirationInterval.daysTwo == nil {
-            let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
-            selections.expirationInterval.daysTwo = days
+        if interval == .XDaysOnXDaysOff && selections.expirationInterval.xDays?.two == nil {
+            let days = pill.expirationInterval.xDays?.one ?? DefaultPillAttributes.xDaysInt
+            selections.expirationInterval.xDays?.two = days
         }
     }
 
@@ -241,13 +241,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.expirationInterval.value = expirationInterval
 
         if daysNumber == 1 {
-            selections.expirationInterval.daysOne = option
+            selections.expirationInterval.xDays?.one = option
         } else if daysNumber == 2 {
-            selections.expirationInterval.daysTwo = option
+            selections.expirationInterval.xDays?.two = option
 
             // Make sure daysOne is set if not yet and is used.
-            if selections.expirationInterval.daysOne == nil {
-                selections.expirationInterval.daysOne = pill.expirationInterval.daysOne
+            if selections.expirationInterval.xDays?.one == nil {
+                let daysToSet = pill.expirationInterval.xDays?.one ?? DefaultPillAttributes.xDaysInt
+                selections.expirationInterval.xDays?.one = daysToSet
             }
         }
     }
@@ -275,14 +276,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private var daysOne: Int {
-        selections.expirationInterval.daysOne
-            ?? pill.expirationInterval.daysOne
+        selections.expirationInterval.xDays?.one
+            ?? pill.expirationInterval.xDays?.one
             ?? DefaultPillAttributes.xDaysInt
     }
 
     private var daysTwo: Int {
-        selections.expirationInterval.daysTwo
-            ?? pill.expirationInterval.daysTwo
+        selections.expirationInterval.xDays?.two
+            ?? pill.expirationInterval.xDays?.two
             ?? DefaultPillAttributes.xDaysInt
     }
 

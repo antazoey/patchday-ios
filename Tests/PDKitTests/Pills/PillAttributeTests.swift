@@ -14,20 +14,6 @@ import PDKit
 
 class PillAttributesTests: XCTestCase {
 
-    func testXDays_ifNilReturnsXDaysFromInterval() {
-        let attributes = PillAttributes(
-            name: nil,
-            expirationIntervalSetting: .FirstXDays,
-            xDays: nil,
-            times: nil,
-            notify: nil,
-            timesTakenToday: nil,
-            lastTaken: nil
-        )
-        attributes.expirationInterval.daysOne = 4
-        XCTAssertEqual("4", attributes.xDays)
-    }
-
     func testAnyAttributeExists_whenHasNoProps_returnsFalse() {
         let attributes = PillAttributes(
             name: nil,
@@ -222,7 +208,7 @@ class PillAttributesTests: XCTestCase {
             lastTaken: nil
         )
         let exclusions = PillAttributes(attributes)
-        exclusions.expirationInterval.daysOne = 1
+        exclusions.expirationInterval.xDays!.one = 1
         XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
     }
 

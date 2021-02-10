@@ -36,8 +36,8 @@ public class Pill: Swallowable {
         return PillAttributes(
             name: name,
             expirationIntervalSetting: interval,
-            xDays: xDays,
-            times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
+            xDays: expirationInterval.xDays?.value,
+            times: PDDateFormatter.convertTimesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
             lastTaken: lastTaken
@@ -65,7 +65,7 @@ public class Pill: Swallowable {
         var newTimes = times
         newTimes.append(time)
         newTimes = newTimes.filter { $0 != DateFactory.createDefaultDate() }
-        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
+        let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(newTimes)
         pillData.attributes.times = timeString
     }
 
@@ -84,8 +84,6 @@ public class Pill: Swallowable {
         get { pillData.attributes.lastTaken }
         set { pillData.attributes.lastTaken = newValue }
     }
-
-    public var xDays: String? { expirationInterval.xDays }
 
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
@@ -192,12 +190,12 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForFirstXDays: Date? {
-        guard let xDays = xDays, let days = Int(xDays) else { return nil }
+        guard let days = expirationInterval.xDays?.one else { return nil }
         return dueDateBegin(days)
     }
 
     private var dueDateForLastXDays: Date? {
-        guard let xDays = xDays, let days = Int(xDays) else { return nil }
+        guard let days = expirationInterval.xDays?.one else { return nil }
         return dueDateEnd(days - 1)
     }
 
@@ -233,6 +231,6 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForXDaysOnXDaysOff: Date? {
-        return Date() // TODO
+        Date() // TODO
     }
 }

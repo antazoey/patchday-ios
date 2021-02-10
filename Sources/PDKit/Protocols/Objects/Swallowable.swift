@@ -42,9 +42,6 @@ public protocol Swallowable {
     /// The date when you last took this pill.
     var lastTaken: Date? { get set }
 
-    /// The days value used for certain expiration intervals, such as XDaysOnXDaysOff.
-    var xDays: String? { get }
-
     /// The date when you should take this pill next.
     var due: Date? { get }
 
