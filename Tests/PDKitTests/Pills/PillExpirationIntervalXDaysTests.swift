@@ -100,6 +100,14 @@ class PillExpirationIntervalXDaysTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testValue_whenSettingSecondValue_retainsFirstValue() {
+        let xDays = PillExpirationIntervalXDays("5-13-on-1")
+        xDays.two = 4
+        let expected = "5-4-on-1"
+        let actual = xDays.value
+        XCTAssertEqual(expected, actual)
+    }
+
     func testDaysOne_cannotBeSetOutsideLimit() {
         let xDays = PillExpirationIntervalXDays("5-13")
         xDays.one = -1
