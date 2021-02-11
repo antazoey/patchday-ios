@@ -16,33 +16,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var selections = PillAttributes()
     private let now: NowProtocol?
 
-    private var pillExpirationIntervals: [PillExpirationInterval] = [
-        .EveryDay,
-        .EveryOtherDay,
-        .FirstTenDays,
-        .FirstTwentyDays,
-        .LastTenDays,
-        .LastTwentyDays
-    ]
-
-    private var textToExpirationInterval: [String: PillExpirationInterval] = [
-        PillStrings.Intervals.EveryDay: .EveryDay,
-        PillStrings.Intervals.EveryOtherDay: .EveryOtherDay,
-        PillStrings.Intervals.FirstTenDays: .FirstTenDays,
-        PillStrings.Intervals.LastTenDays: .LastTenDays,
-        PillStrings.Intervals.FirstTwentyDays: .FirstTwentyDays,
-        PillStrings.Intervals.LastTwentyDays: .LastTwentyDays
-    ]
-
-    private var expirationIntervalToText: [PillExpirationInterval: String] = [
-        .EveryDay: PillStrings.Intervals.EveryDay,
-        .EveryOtherDay: PillStrings.Intervals.EveryOtherDay,
-        .FirstTenDays: PillStrings.Intervals.FirstTenDays,
-        .FirstTwentyDays: PillStrings.Intervals.FirstTwentyDays,
-        .LastTenDays: PillStrings.Intervals.LastTenDays,
-        .LastTwentyDays: PillStrings.Intervals.LastTwentyDays
-    ]
-
     init(_ pillIndex: Index) {
         self.index = pillIndex
         self.now = nil
@@ -79,8 +52,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var namePickerStartIndex: Index {
-        let name = selections.name ?? pill.name
-        return nameOptions.firstIndex(of: name) ?? 0
+        nameOptions.firstIndex(of: selections.name ?? pill.name) ?? 0
     }
 
     var timesaday: Int {
@@ -88,8 +60,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var timesadayText: String {
-        let prefix = NSLocalizedString("How many per day: ", comment: "Label prefix")
-        return "\(prefix) \(timesaday)"
+        "\(NSLocalizedString("How many per day: ", comment: "Label prefix")) \(timesaday)"
     }
 
     var expirationInterval: PillExpirationInterval {
@@ -97,7 +68,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationIntervalText: String {
-        expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
+        PillStrings.Intervals.getStringFromInterval(expirationInterval)
+        //expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
     }
 
     var expirationIntervalIsSelected: Bool {
@@ -123,7 +95,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         let times = pill.times.count > 0 ? pill.times : [DefaultPillAttributes.time]
 
         // Sort, in case Swallowable impl doesn't
-        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+        let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(times)
         return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
     }
 
@@ -131,7 +103,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         var times = self.times
         guard index < times.count && index >= 0 else { return }
         times[index] = time
-        selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(times)
+        selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(times)
     }
 
     func setTimesaday(_ timesaday: Int) {
@@ -149,7 +121,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
                 timesCopy.removeLast()
             }
         }
-        let newTimeString = PDDateFormatter.convertDatesToCommaSeparatedString(timesCopy)
+        let newTimeString = PDDateFormatter.convertTimesToCommaSeparatedString(timesCopy)
         selections.times = newTimeString
     }
 
@@ -181,7 +153,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             }
             self.nav?.pop(source: viewController)
         }
-        if selections.anyAttributeExists || pill.name == PillStrings.NewPill {
+        if wereChanges{
             self.alerts?.createUnsavedAlert(
                 viewController,
                 saveAndContinueHandler: save,
@@ -200,8 +172,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func selectExpirationInterval(_ row: Index) {
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
-        let interval = textToExpirationInterval[rowString] ?? defaultInterval
-        selections.expirationInterval = interval
+        let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
+        selections.expirationInterval.value = interval
     }
 
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
@@ -224,5 +196,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             pickers[i].isEnabled = false
             labels[i].isEnabled = false
         }
+    }
+
+    private var wereChanges: Bool {
+        selections.anyAttributeExists(exclusions: pill.attributes)
+            || pill.name == PillStrings.NewPill
     }
 }

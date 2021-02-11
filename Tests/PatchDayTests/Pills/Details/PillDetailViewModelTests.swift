@@ -235,7 +235,7 @@ class PillDetailViewModelTests: XCTestCase {
         ]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(selectedTimes)
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(selectedTimes)
         XCTAssertEqual(selectedTimes.count, viewModel.timesaday)
     }
 
@@ -256,7 +256,7 @@ class PillDetailViewModelTests: XCTestCase {
         ]
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(selectedTimes)
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(selectedTimes)
         XCTAssertEqual(selectedTimes, viewModel.times)
     }
 
@@ -304,7 +304,7 @@ class PillDetailViewModelTests: XCTestCase {
         let newTime = Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: times[0])
         viewModel.selectTime(newTime!, 1)
         let expectedTimes = [times[0], newTime, times[2]]
-        let expected = PDDateFormatter.convertDatesToCommaSeparatedString(expectedTimes)
+        let expected = PDDateFormatter.convertTimesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)
     }
 
@@ -318,13 +318,13 @@ class PillDetailViewModelTests: XCTestCase {
             Calendar.current.date(bySettingHour: 10, minute: 10, second: 10, of: times[1]),
             Calendar.current.date(bySettingHour: 13, minute: 13, second: 13, of: times[2])
         ]
-        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(
             previousSelectedTimes
         )
         let newTime = Calendar.current.date(bySettingHour: 12, minute: 12, second: 12, of: times[0])
         viewModel.selectTime(newTime!, 1)
         let expectedTimes = [previousSelectedTimes[0], newTime, previousSelectedTimes[2]]
-        let expected = PDDateFormatter.convertDatesToCommaSeparatedString(expectedTimes)
+        let expected = PDDateFormatter.convertTimesToCommaSeparatedString(expectedTimes)
         XCTAssertEqual(expected, viewModel.selections.times)
     }
 
@@ -372,7 +372,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let previousSelectedTimes = [Time(), Time()]
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(
             previousSelectedTimes
         )
         viewModel.setTimesaday(3)
@@ -394,7 +394,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let previousSelectedTimes = [Time(), Time(), Time()]
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.selections.times = PDDateFormatter.convertDatesToCommaSeparatedString(
+        viewModel.selections.times = PDDateFormatter.convertTimesToCommaSeparatedString(
             previousSelectedTimes
         )
         viewModel.setTimesaday(1)
@@ -457,7 +457,7 @@ class PillDetailViewModelTests: XCTestCase {
         let pill = setupPill()
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let name = "Test"
-        let time = PDDateFormatter.convertDatesToCommaSeparatedString([Time()])
+        let time = PDDateFormatter.convertTimesToCommaSeparatedString([Time()])
         let notify = true
         let interval = PillExpirationInterval.EveryDay
         viewModel.selections.name = name

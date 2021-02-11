@@ -35,7 +35,7 @@ public class Pill: Swallowable {
         return PillAttributes(
             name: name,
             expirationInterval: pillData.attributes.expirationInterval ?? defaultInterval,
-            times: PDDateFormatter.convertDatesToCommaSeparatedString(times),
+            times: PDDateFormatter.convertTimesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
             lastTaken: lastTaken
@@ -67,7 +67,7 @@ public class Pill: Swallowable {
         var newTimes = times
         newTimes.append(time)
         newTimes = newTimes.filter { $0 != DateFactory.createDefaultDate() }
-        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(newTimes)
+        let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(newTimes)
         pillData.attributes.times = timeString
     }
 
