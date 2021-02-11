@@ -120,8 +120,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         if let selectedTimes = selections.times {
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes, now: now)
         }
+        let times = pill.times.count > 0 ? pill.times : [DefaultPillAttributes.time]
+
         // Sort, in case Swallowable impl doesn't
-        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(pill.times)
+        let timeString = PDDateFormatter.convertDatesToCommaSeparatedString(times)
         return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
     }
 

@@ -104,6 +104,10 @@
 		9D3E4C9622B730B500C82DAE /* ActionStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9522B730B500C82DAE /* ActionStrings.swift */; };
 		9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */; };
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
+		9D42114625D4AFD500087CDD /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D42114225D4AFD500087CDD /* CONTRIBUTING.md */; };
+		9D42114725D4AFD500087CDD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D42114325D4AFD500087CDD /* CHANGELOG.md */; };
+		9D42114825D4AFD500087CDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D42114425D4AFD500087CDD /* README.md */; };
+		9D42114925D4AFD500087CDD /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9D42114525D4AFD500087CDD /* Makefile */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
 		9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
@@ -565,6 +569,10 @@
 		9D3E4C9522B730B500C82DAE /* ActionStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionStrings.swift; sourceTree = "<group>"; };
 		9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsViewModelTests.swift; sourceTree = "<group>"; };
 		9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImagesTests.swift; sourceTree = "<group>"; };
+		9D42114225D4AFD500087CDD /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		9D42114325D4AFD500087CDD /* CHANGELOG.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		9D42114425D4AFD500087CDD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9D42114525D4AFD500087CDD /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
 		9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NextHormoneWidget.entitlements; path = Sources/NextHormoneWidget/NextHormoneWidget.entitlements; sourceTree = SOURCE_ROOT; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
@@ -831,6 +839,10 @@
 		137330E01E22BA3E0048F91E = {
 			isa = PBXGroup;
 			children = (
+				9D42114325D4AFD500087CDD /* CHANGELOG.md */,
+				9D42114225D4AFD500087CDD /* CONTRIBUTING.md */,
+				9D42114525D4AFD500087CDD /* Makefile */,
+				9D42114425D4AFD500087CDD /* README.md */,
 				137330EB1E22BA3E0048F91E /* PatchDay */,
 				B49A4A3F20DB2D4C00F24FC0 /* PDKit */,
 				B40CC9B021CCE614002364BB /* PDKitTests */,
@@ -2241,7 +2253,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */,
+				9D42114725D4AFD500087CDD /* CHANGELOG.md in Resources */,
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
+				9D42114825D4AFD500087CDD /* README.md in Resources */,
+				9D42114625D4AFD500087CDD /* CONTRIBUTING.md in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
 				3397C48DA7DB4EB8DD595319 /* SettingsAndSites.storyboard in Resources */,
 			);
@@ -2358,6 +2373,7 @@
 				3397CC13D997D7B96EB62086 /* SettingsViewController.swift in Sources */,
 				9D6E9AE42456231C003BBCC9 /* NotificationFactory.swift in Sources */,
 				9DCF573525608A1B0066034C /* HormoneDatePicker.swift in Sources */,
+				9D42114925D4AFD500087CDD /* Makefile in Sources */,
 				3397C04F9A077632D7814290 /* SitesTable.swift in Sources */,
 				3397CA6214D86DA38FC63503 /* SiteViewFactory.swift in Sources */,
 				3397C441E9F4A31C92F3A51F /* SiteCell.swift in Sources */,

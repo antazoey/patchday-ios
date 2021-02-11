@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.2.3
+
+Fixed
+
+- Issue where you could not edit the timesday or any of the Times values for new pills.
+- Bug in Hormones Details View preventing the user from setting the date if the site was set first.
+
 ## 3.2.2
 
 Fixed
