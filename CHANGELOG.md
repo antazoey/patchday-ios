@@ -4,8 +4,9 @@
 
 Fixed
 
-- Issue where you could not edit the timesday or any of the Times values for new pills.
-- Bug in Hormones Details View preventing the user from setting the date if the site was set first.
+- Issue that caused the app to crash when editing the timesaday values for a new pill.
+- Bug in the Hormones Details View preventing the user from setting the date if the site was set first.
+- Bug where the Pill Expiration Interval picker would open at the wrong index for some of the options.
 
 ## 3.2.2
 

@@ -69,7 +69,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     var expirationIntervalText: String {
         PillStrings.Intervals.getStringFromInterval(expirationInterval)
-        //expirationIntervalToText[expirationInterval] ?? PillStrings.Intervals.all[0]
     }
 
     var expirationIntervalIsSelected: Bool {
@@ -77,7 +76,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationIntervalStartIndex: Index {
-        pillExpirationIntervals.firstIndex(of: expirationInterval) ?? 0
+        _intervals.firstIndex(of: expirationInterval) ?? 0
     }
 
     var expirationIntervalOptions: [String] {
@@ -91,12 +90,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var times: [Time] {
         if let selectedTimes = selections.times {
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes, now: now)
+        } else if pill.times.count > 0 {
+            let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(pill.times)
+            return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
+        } else {
+            return DateFactory.createTimesFromCommaSeparatedString(
+                DefaultPillAttributes.time, now: now
+            )
         }
-        let times = pill.times.count > 0 ? pill.times : [DefaultPillAttributes.time]
-
-        // Sort, in case Swallowable impl doesn't
-        let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(times)
-        return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
     }
 
     func selectTime(_ time: Time, _ index: Index) {
@@ -128,7 +129,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func setPickerTimes(_ timePickers: [UIDatePicker]) {
         for i in 0..<timePickers.count {
             let picker = timePickers[i]
-            let startTime = times.tryGet(at: i) ?? Date()
+            let startTime = times.tryGet(at: i) ?? now?.now ?? Date()
             picker.setDate(startTime, animated: false)
         }
     }
@@ -173,7 +174,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
         let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
-        selections.expirationInterval.value = interval
+        selections.expirationInterval = interval
     }
 
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
@@ -183,6 +184,15 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         enablePickers(pickers, labels)
         disablePickers(pickers, labels)
     }
+
+    private var _intervals: [PillExpirationInterval] = [
+        .EveryDay,
+        .EveryOtherDay,
+        .FirstTenDays,
+        .LastTenDays,
+        .FirstTwentyDays,
+        .LastTwentyDays
+    ]
 
     private func enablePickers(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         for i in 0...timesaday - 1 {

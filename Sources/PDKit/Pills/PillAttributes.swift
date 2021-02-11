@@ -38,13 +38,26 @@ public class PillAttributes {
     public init() {
     }
 
-    public var anyAttributeExists: Bool {
-        name != nil ||
-        expirationInterval != nil ||
-        times != nil ||
-        notify != nil ||
-        timesTakenToday != nil ||
-        lastTaken != nil
+    /// Returns true if these attributes contain any non-nil attributes. Optionally pass in exceptions and it will also make sure
+    /// the attribute is not equal to the property in the exceptions.
+    public func anyAttributeExists(exclusions: PillAttributes? = nil) -> Bool {
+        let exclusions = exclusions != nil ? exclusions! : PillAttributes()
+        let nameExists = name != nil && name != exclusions.name
+        let intervalExists = expirationInterval != nil
+            && expirationInterval != exclusions.expirationInterval
+        let timesExists = times != nil && times != exclusions.times
+        let notifyExists = notify != nil && notify != exclusions.notify
+        let timesTakenTodayExists = timesTakenToday != nil
+            && timesTakenToday != exclusions.timesTakenToday
+        let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
+
+        return nameExists
+            || intervalExists
+            || timesExists
+            || timesTakenTodayExists
+            || notifyExists
+            || timesTakenTodayExists
+            || lastTakenExists
     }
 
     /// Set all properties to nil.

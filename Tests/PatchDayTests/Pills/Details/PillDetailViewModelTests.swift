@@ -190,7 +190,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.expirationInterval = PillExpirationInterval.LastTenDays
         let actual = viewModel.expirationIntervalStartIndex
-        XCTAssertEqual(4, actual)
+        XCTAssertEqual(3, actual)
     }
 
     func testExpirationIntervalPickerStartIndex_whenNothingSelected_usesPillInterval() {
@@ -426,15 +426,19 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expectedThree, actualThree)
     }
 
-    func testSetPickerTimes_whenNoTimeForIndex_usesCurrentDate() {
+    func testSetPickerTimes_whenNoTimeForIndex_usesDefault() {
         let pill = setupPill()
         let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
         pill.times = []  // No times
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let now = MockNow()
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies, now: now)
         viewModel.setPickerTimes(pickers)
-        for p in pickers {
-            XCTAssert(PDTest.equiv(Date(), p.date))
-        }
+
+        let expected = DateFactory.createTimesFromCommaSeparatedString(
+            DefaultPillAttributes.time, now: now
+        )[0]
+        XCTAssert(PDTest.equiv(expected, pickers[0].date))
+
     }
 
     func testSave_resetsPillAttributes() {
@@ -450,7 +454,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selections.name = "Test"
         viewModel.save()
-        XCTAssertFalse(viewModel.selections.anyAttributeExists)
+        XCTAssertFalse(viewModel.selections.anyAttributeExists())
     }
 
     func testSave_callsSetPillWithSelections() {
@@ -620,25 +624,6 @@ class PillDetailViewModelTests: XCTestCase {
 
         XCTAssertTrue(labels[0].isEnabled)
         XCTAssertTrue(labels[1].isEnabled)
-    }
-
-    func testEnableOrDisable_whenTimesadayZero_doesNotChangePickers() {
-        let pickers = [UIDatePicker(), UIDatePicker(), UIDatePicker(), UIDatePicker()]
-        let labels = [UILabel(), UILabel(), UILabel(), UILabel()]
-        let pill = setupPill()
-        pill.times = []
-        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        viewModel.enableOrDisable(pickers, labels)
-        // defaults to enabled
-        XCTAssertTrue(pickers[0].isEnabled)
-        XCTAssertTrue(pickers[1].isEnabled)
-        XCTAssertTrue(pickers[2].isEnabled)
-        XCTAssertTrue(pickers[3].isEnabled)
-
-        XCTAssertTrue(labels[0].isEnabled)
-        XCTAssertTrue(labels[1].isEnabled)
-        XCTAssertTrue(labels[2].isEnabled)
-        XCTAssertTrue(labels[3].isEnabled)
     }
 
     func testEnableOrDisable_whenTimesadayOne_enablesOrDisablesExpectedPickers() {

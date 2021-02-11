@@ -104,11 +104,8 @@
 		9D3E4C9622B730B500C82DAE /* ActionStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E4C9522B730B500C82DAE /* ActionStrings.swift */; };
 		9D3E653C24A8EEB00000D079 /* PillsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653B24A8EEB00000D079 /* PillsViewModelTests.swift */; };
 		9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3E653E24A8F4CD0000D079 /* SiteImagesTests.swift */; };
-		9D42114625D4AFD500087CDD /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D42114225D4AFD500087CDD /* CONTRIBUTING.md */; };
-		9D42114725D4AFD500087CDD /* CHANGELOG.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D42114325D4AFD500087CDD /* CHANGELOG.md */; };
-		9D42114825D4AFD500087CDD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D42114425D4AFD500087CDD /* README.md */; };
-		9D42114925D4AFD500087CDD /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9D42114525D4AFD500087CDD /* Makefile */; };
 		9D42116925D4B34100087CDD /* PillAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D42115225D4B2BD00087CDD /* PillAttributes.swift */; };
+		9D42117325D4B64300087CDD /* PillAttributeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D42117225D4B64300087CDD /* PillAttributeTests.swift */; };
 		9D468E39255C393A00FDD03C /* HormonesTableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D468E30255C392700FDD03C /* HormonesTableTests.swift */; };
 		9D4D05F1256F61D20037A2E6 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */; };
@@ -575,6 +572,7 @@
 		9D42114425D4AFD500087CDD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9D42114525D4AFD500087CDD /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9D42115225D4B2BD00087CDD /* PillAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributes.swift; sourceTree = "<group>"; };
+		9D42117225D4B64300087CDD /* PillAttributeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillAttributeTests.swift; sourceTree = "<group>"; };
 		9D468E30255C392700FDD03C /* HormonesTableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesTableTests.swift; sourceTree = "<group>"; };
 		9D4D061A256F6CAE0037A2E6 /* NextHormoneWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NextHormoneWidget.entitlements; path = Sources/NextHormoneWidget/NextHormoneWidget.entitlements; sourceTree = SOURCE_ROOT; };
 		9D53A68B25116BA200D4D712 /* NotificationStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationStringTests.swift; sourceTree = "<group>"; };
@@ -1286,6 +1284,14 @@
 			path = Pills;
 			sourceTree = "<group>";
 		};
+		9D42117125D4B63600087CDD /* Pills */ = {
+			isa = PBXGroup;
+			children = (
+				9D42117225D4B64300087CDD /* PillAttributeTests.swift */,
+			);
+			path = Pills;
+			sourceTree = "<group>";
+		};
 		9D59F8B92503CE6300C0324E /* Stack */ = {
 			isa = PBXGroup;
 			children = (
@@ -1858,6 +1864,7 @@
 		B40CC9B021CCE614002364BB /* PDKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				9D42117125D4B63600087CDD /* Pills */,
 				9D8F45E82496717900F2C39A /* Settings */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 				3397CCAEBFADEA0B9BDABB6A /* Dates */,
@@ -2264,10 +2271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				137330F71E22BA3E0048F91E /* LaunchScreen.storyboard in Resources */,
-				9D42114725D4AFD500087CDD /* CHANGELOG.md in Resources */,
 				137330F21E22BA3E0048F91E /* Main.storyboard in Resources */,
-				9D42114825D4AFD500087CDD /* README.md in Resources */,
-				9D42114625D4AFD500087CDD /* CONTRIBUTING.md in Resources */,
 				B440111321DF44DC00C94B76 /* Assets.xcassets in Resources */,
 				3397C48DA7DB4EB8DD595319 /* SettingsAndSites.storyboard in Resources */,
 			);
@@ -2374,6 +2378,7 @@
 				9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */,
 				9DE7483B2539072500282144 /* HormoneCellViewModel.swift in Sources */,
 				3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */,
+				9D42117325D4B64300087CDD /* PillAttributeTests.swift in Sources */,
 				3397C428EABB25D9695B2973 /* Navigation.swift in Sources */,
 				3397C8FDF0447D23136C68C4 /* SettingsViewModel.swift in Sources */,
 				9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */,
@@ -2384,7 +2389,6 @@
 				3397CC13D997D7B96EB62086 /* SettingsViewController.swift in Sources */,
 				9D6E9AE42456231C003BBCC9 /* NotificationFactory.swift in Sources */,
 				9DCF573525608A1B0066034C /* HormoneDatePicker.swift in Sources */,
-				9D42114925D4AFD500087CDD /* Makefile in Sources */,
 				3397C04F9A077632D7814290 /* SitesTable.swift in Sources */,
 				3397CA6214D86DA38FC63503 /* SiteViewFactory.swift in Sources */,
 				3397C441E9F4A31C92F3A51F /* SiteCell.swift in Sources */,
@@ -2811,7 +2815,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -2866,7 +2870,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -2887,12 +2891,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = Sources/PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2912,12 +2916,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = Sources/PatchDay/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2941,13 +2945,13 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/NextHormoneWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
@@ -2973,13 +2977,13 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/NextHormoneWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3002,7 +3006,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3032,7 +3036,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDayTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3066,7 +3070,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDMock/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3106,7 +3110,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDMock/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3137,7 +3141,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3164,7 +3168,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PDKitTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3196,13 +3200,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PatchData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
@@ -3234,13 +3238,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PatchData/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -3266,7 +3270,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3295,7 +3299,7 @@
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Tests/PatchDataTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -3329,13 +3333,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3366,13 +3370,13 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/PDKit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
