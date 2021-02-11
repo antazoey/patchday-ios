@@ -25,7 +25,7 @@ class LoggingPlayground: XCTestCase {
     }
 
     func logPill() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "Prolactin"
         attributes.notify = true
         attributes.lastTaken = Date(timeIntervalSinceNow: -2342652)

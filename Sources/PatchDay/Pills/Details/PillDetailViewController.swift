@@ -51,14 +51,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var thirdTimeLabel: UILabel!
     @IBOutlet weak var fourthTimeLabel: UILabel!
 
-    private var timePickers: [UIDatePicker] {
-        [timePickerOne, timePickerTwo, timePickerThree, timePickerFour]
-    }
-
-    private var timeLabels: [UILabel] {
-        [firstTimeLabel, secondTimeLabel, thirdTimeLabel, fourthTimeLabel]
-    }
-
     private var selectedPicker: UIPickerView?
 
     override func viewDidLoad() {
@@ -95,38 +87,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return viewController?.initWithPillIndex(index)
     }
 
-    private static func createPillDetailVC(
-        _ source: UIViewController
-    ) -> PillDetailViewController? {
-        source.storyboard?.instantiateViewController(
-            withIdentifier: ViewControllerIds.PillDetail
-        ) as? PillDetailViewController
-    }
-
-    private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
-        viewModel = PillDetailViewModel(index)
-        return self
-    }
-
     @objc func back() {
         checkForUnsavedChanges()
-    }
-
-    private func checkForUnsavedChanges() {
-        guard let viewModel = viewModel else { return }
-        viewModel.handleIfUnsaved(self)
-    }
-
-    private func setBackButton() {
-        let newButton = UIBarButtonItem(
-            title: ActionStrings.Back,
-            style: UIBarButtonItem.Style.plain,
-            target: self,
-            action: #selector(back)
-        )
-        newButton.tintColor = PDColors[.Button]
-        navigationItem.hidesBackButton = true
-        navigationItem.leftBarButtonItem = newButton
     }
 
     // MARK: - Pill actions
@@ -237,6 +199,23 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     // MARK: - Private loaders
 
+    private func checkForUnsavedChanges() {
+        guard let viewModel = viewModel else { return }
+        viewModel.handleIfUnsaved(self)
+    }
+
+    private func setBackButton() {
+        let newButton = UIBarButtonItem(
+            title: ActionStrings.Back,
+            style: UIBarButtonItem.Style.plain,
+            target: self,
+            action: #selector(back)
+        )
+        newButton.tintColor = PDColors[.Button]
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = newButton
+    }
+
     private func setPickerDelegates() {
         namePicker.delegate = self
         nameTextField.delegate = self
@@ -292,7 +271,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func openExpirationIntervalPicker() {
-        startExpirationPickerActivation()
+        setExpirationIntervalPickerStartIndex()
         expirationIntervalPicker.isHidden = false
     }
 
@@ -319,7 +298,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         namePicker.selectRow(nameIndex, inComponent: 0, animated: false)
     }
 
-    private func startExpirationPickerActivation() {
+    private func setExpirationIntervalPickerStartIndex() {
         let index = viewModel.expirationIntervalStartIndex
         expirationIntervalPicker.selectRow(index, inComponent: 0, animated: false)
     }
@@ -329,10 +308,11 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameTextField.isEnabled = true
         namePicker.isHidden = true
         selectedPicker = nil
+        expirationIntervalArrowButton.isEnabled = true
     }
 
     private func closeExpirationIntervalPicker() {
-        startExpirationPickerActivation()
+        setExpirationIntervalPickerStartIndex()
         expirationIntervalPicker.isHidden = true
         selectedPicker = nil
     }
@@ -351,6 +331,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @objc private func handleTimeFourPickerDone() {
         handleTimePickerDone(timePickerFour)
+    }
+
+    private var timePickers: [UIDatePicker] {
+        [timePickerOne, timePickerTwo, timePickerThree, timePickerFour]
+    }
+
+    private var timeLabels: [UILabel] {
+        [firstTimeLabel, secondTimeLabel, thirdTimeLabel, fourthTimeLabel]
     }
 
     @objc private func handleTimePickerDone(_ timePicker: UIDatePicker) {
@@ -399,6 +387,19 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func segueToPillsVC() {
         guard let navCon = navigationController else { return }
         navCon.popViewController(animated: true)
+    }
+
+    private static func createPillDetailVC(
+        _ source: UIViewController
+    ) -> PillDetailViewController? {
+        source.storyboard?.instantiateViewController(
+            withIdentifier: ViewControllerIds.PillDetail
+        ) as? PillDetailViewController
+    }
+
+    private func initWithPillIndex(_ index: Index) -> PillDetailViewController {
+        viewModel = PillDetailViewModel(index)
+        return self
     }
 
     private func applyTheme() {

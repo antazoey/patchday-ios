@@ -17,14 +17,14 @@ class DateIntegrationTests: XCTestCase {
     func testInternalTimes_string() {
         let timeString = "12:51:30"
         let timeArray = DateFactory.createTimesFromCommaSeparatedString(timeString)
-        let timeStringBack = PDDateFormatter.convertDatesToCommaSeparatedString(timeArray)
+        let timeStringBack = PDDateFormatter.convertTimesToCommaSeparatedString(timeArray)
         XCTAssertEqual(timeString, timeStringBack)
     }
 
     func testInternalTimes_date() {
         let timeString = "12:51:30"
         let time = DateFactory.createTimesFromCommaSeparatedString(timeString)[0]
-        let timeStringBack = PDDateFormatter.convertDatesToCommaSeparatedString([time])
+        let timeStringBack = PDDateFormatter.convertTimesToCommaSeparatedString([time])
         let timeAgain = DateFactory.createTimesFromCommaSeparatedString(timeStringBack)[0]
         XCTAssertEqual(time, timeAgain)
     }
@@ -32,7 +32,7 @@ class DateIntegrationTests: XCTestCase {
     func testInternalTimes_pm() {
         let timeString = "17:51:30"
         let timeArray = DateFactory.createTimesFromCommaSeparatedString(timeString)
-        let timeStringBack = PDDateFormatter.convertDatesToCommaSeparatedString(timeArray)
+        let timeStringBack = PDDateFormatter.convertTimesToCommaSeparatedString(timeArray)
         XCTAssertEqual(timeString, timeStringBack)
     }
 }

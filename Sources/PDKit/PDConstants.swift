@@ -33,7 +33,7 @@ public class DefaultSettings {
 
 public class DefaultPillAttributes {
 
-    public static let time = { Calendar.current.date(bySetting: .hour, value: 9, of: Date()) }()
+    public static let time = "8:00:00"
     public static let timesaday = 1
     public static let timesTakenToday = 0
     public static let notify = true

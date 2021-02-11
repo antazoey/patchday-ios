@@ -133,10 +133,10 @@ public class PatchData: NSObject, PatchDataSDK {
             let date = DateFactory.createDate(byAddingSeconds: -seconds, to: now)
             hormones.setDate(at: 0, with: date!)
 
-            var attrs = PillAttributes()
+            let attrs = PillAttributes()
             let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
             attrs.expirationInterval = PillExpirationInterval.EveryDay
-            attrs.times = PDDateFormatter.convertDatesToCommaSeparatedString([dueDate])
+            attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
             attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
             attrs.notify = true
             attrs.timesTakenToday = 0

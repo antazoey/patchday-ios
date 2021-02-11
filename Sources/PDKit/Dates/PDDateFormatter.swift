@@ -40,7 +40,7 @@ public class PDDateFormatter {
     }
 
     /// For migrating Pill times
-    public static func convertDatesToCommaSeparatedString(_ times: [Date?]) -> String {
+    public static func convertTimesToCommaSeparatedString(_ times: [Date?]) -> String {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
         let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
             s in s != nil
