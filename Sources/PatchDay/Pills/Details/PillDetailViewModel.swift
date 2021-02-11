@@ -239,6 +239,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
         // Make sure interval is set prior to setting xDays
         selections.expirationInterval.value = expirationInterval
+        if let currentOne = selections.expirationInterval.xDays?.one {
+            selections.expirationInterval.xDays?.one = currentOne
+        }
+        if let currentTwo = selections.expirationInterval.xDays?.two {
+            selections.expirationInterval.xDays?.two = currentTwo
+        }
 
         if daysNumber == 1 {
             selections.expirationInterval.xDays?.one = option

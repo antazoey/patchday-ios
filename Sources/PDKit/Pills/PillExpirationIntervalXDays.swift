@@ -10,15 +10,15 @@ import Foundation
 
 public class PillExpirationIntervalXDays {
 
-    private var _one: Int
+    private var _one: Int?
     private var _two: Int?
-    private var _isOn: Bool
-    private var _position: Int
+    private var _isOn: Bool?
+    private var _position: Int?
 
     init(_ xDays: String) {
         let daysList = xDays.split(separator: "-").map { String($0) }
         let daysResult = PillExpirationIntervalXDays.parseMultipleDays(daysList)
-        self._one = daysResult.0 ?? DefaultPillAttributes.xDaysInt
+        self._one = daysResult.0
         self._two = daysResult.1
 
         if daysList.count > 3 {
@@ -28,12 +28,15 @@ public class PillExpirationIntervalXDays {
             self._isOn = onOrOff == "on"
             return
         }
-        self._isOn = true
-        self._position = 1
+
+        // Only apply when `two` is used, suc has `.XDaysOnXDaysOff`.
+        self._isOn = nil
+        self._position = nil
     }
 
-    public var value: String {
-        var builder = "\(_one)"
+    public var value: String? {
+        guard let dayOne = _one else { return nil }
+        var builder = "\(dayOne)"
         if let dayTwo = _two {
             builder += "-\(dayTwo)"
         }
@@ -50,11 +53,16 @@ public class PillExpirationIntervalXDays {
     }
 
     /// The integer version of the first days value in `xDays`; only applies to expiration intervals that use X days.
-    public var one: Int {
+    public var one: Int? {
         get { _one }
         set {
-            guard _daysRange ~= newValue else { return }
-            self._one = newValue
+            if let newValue = newValue {
+                guard _daysRange ~= newValue else { return }
+                _one = newValue
+            } else {
+                // setting to nil is allowed
+                _one = newValue
+            }
         }
     }
 
@@ -66,6 +74,7 @@ public class PillExpirationIntervalXDays {
                 guard _daysRange ~= newValue else { return }
                 _two = newValue
             } else {
+                // setting to nil is allowed
                 _two = newValue
             }
         }
@@ -78,7 +87,10 @@ public class PillExpirationIntervalXDays {
     }
 
     /// The string value of the first days property; only applies to expiration intervals that use X days.
-    public var daysOn: String { String(one) }
+    public var daysOn: String? {
+        guard let days = two else { return nil }
+        return String(days)
+    }
 
     /// The supported range for any days value, 1-25.
     public static var daysRange: ClosedRange<Int> {

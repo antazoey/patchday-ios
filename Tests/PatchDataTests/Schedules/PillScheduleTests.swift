@@ -257,14 +257,14 @@ class PillScheduleTests: XCTestCase {
     public func testSet_whenPillExistsAndSettingExpirationIntervalDataByIndex_updatesPill() {
         let attributes = PillAttributes()
         attributes.expirationInterval.value = .XDaysOnXDaysOff
-        attributes.expirationInterval.daysOne = 5
-        attributes.expirationInterval.daysTwo = 5
+        attributes.expirationInterval.xDays!.one = 5
+        attributes.expirationInterval.xDays!.two = 5
         setUpThreePills()
         pills.set(at: 0, with: attributes)
         let pill = pills[0] as! MockPill
         let callArgs = pill.setCallArgs
         let testExpression = callArgs.contains(where: {
-            $0.expirationInterval.value == .XDaysOnXDaysOff && $0.xDays == "5-5"
+            $0.expirationInterval.value == .XDaysOnXDaysOff && $0.xDays?.value == "5-5-on-1"
         })
         XCTAssertTrue(testExpression)
     }

@@ -69,12 +69,12 @@ class PillExpirationIntervalTests: XCTestCase {
     }
 
     func testSetValue_whenSettingFromXDaysOnXDaysOffToSingleXDays_setsDaysTwoToNil() {
-        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-1")
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "3-5-on-1")
         interval.value = .FirstXDays
         let xDays = interval.xDays!
         XCTAssertNil(xDays.two)
         XCTAssertNil(xDays.daysOff)
-        let expected = "5-on-1"
+        let expected = "3-on-1"
         XCTAssertEqual(expected, xDays.value)
     }
 
