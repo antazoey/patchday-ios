@@ -154,7 +154,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             }
             self.nav?.pop(source: viewController)
         }
-        if wereChanges{
+        if wereChanges {
             self.alerts?.createUnsavedAlert(
                 viewController,
                 saveAndContinueHandler: save,
