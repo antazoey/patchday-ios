@@ -270,15 +270,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         disablePickers(pickers, labels)
     }
 
-    private var _intervals: [PillExpirationInterval] = [
-        .EveryDay,
-        .EveryOtherDay,
-        .FirstTenDays,
-        .LastTenDays,
-        .FirstTwentyDays,
-        .LastTwentyDays
-    ]
-
     private func enablePickers(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         for i in 0...timesaday - 1 {
             pickers[i].isEnabled = true

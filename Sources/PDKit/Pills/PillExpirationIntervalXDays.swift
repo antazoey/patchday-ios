@@ -40,15 +40,18 @@ public class PillExpirationIntervalXDays {
         if let dayTwo = _two {
             builder += "-\(dayTwo)"
         }
-        builder += (_isOn ? "-on" : "-off")
-        return "\(builder)-\(_position)"
+        if let isOn = _isOn, let pos = position {
+            let prefix = isOn ? "-on-" : "-off-"
+            builder += "\(prefix)-\(pos)"
+        }
+        return builder
     }
 
-    public var isOn: Bool {
+    public var isOn: Bool? {
         _isOn
     }
 
-    public var position: Int {
+    public var position: Int? {
         _position
     }
 
