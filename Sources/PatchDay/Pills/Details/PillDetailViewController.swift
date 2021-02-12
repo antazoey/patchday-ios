@@ -60,6 +60,11 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var thirdTimeLabel: UILabel!
     @IBOutlet weak var fourthTimeLabel: UILabel!
 
+<<<<<<< HEAD
+=======
+    private var selectedPicker: UIPickerView?
+
+>>>>>>> master
     override func viewDidLoad() {
         super.viewDidLoad()
         setPickerDelegates()
@@ -253,6 +258,23 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     // MARK: - Private loaders
 
+    private func checkForUnsavedChanges() {
+        guard let viewModel = viewModel else { return }
+        viewModel.handleIfUnsaved(self)
+    }
+
+    private func setBackButton() {
+        let newButton = UIBarButtonItem(
+            title: ActionStrings.Back,
+            style: UIBarButtonItem.Style.plain,
+            target: self,
+            action: #selector(back)
+        )
+        newButton.tintColor = PDColors[.Button]
+        navigationItem.hidesBackButton = true
+        navigationItem.leftBarButtonItem = newButton
+    }
+
     private func setPickerDelegates() {
         namePicker.delegate = self
         nameTextField.delegate = self
@@ -344,6 +366,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func openExpirationIntervalPicker() {
+<<<<<<< HEAD
         if !daysPicker.isHidden {
             closeDaysPicker()
         }
@@ -373,6 +396,10 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         expirationIntervalArrowButton.isEnabled = false
         unhideDaysPicker()
         setDaysPickerStartIndex()
+=======
+        setExpirationIntervalPickerStartIndex()
+        expirationIntervalPicker.isHidden = false
+>>>>>>> master
     }
 
     private func unhideNamePicker() {
@@ -417,6 +444,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameTextField.isEnabled = true
         namePicker.isHidden = true
         selectedPicker = nil
+        expirationIntervalArrowButton.isEnabled = true
     }
 
     private func closeExpirationIntervalPicker() {
@@ -456,6 +484,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @objc private func handleTimeFourPickerDone() {
         handleTimePickerDone(timePickerFour)
+    }
+
+    private var timePickers: [UIDatePicker] {
+        [timePickerOne, timePickerTwo, timePickerThree, timePickerFour]
+    }
+
+    private var timeLabels: [UILabel] {
+        [firstTimeLabel, secondTimeLabel, thirdTimeLabel, fourthTimeLabel]
     }
 
     @objc private func handleTimePickerDone(_ timePicker: UIDatePicker) {

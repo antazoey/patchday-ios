@@ -52,8 +52,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var namePickerStartIndex: Index {
-        let name = selections.name ?? pill.name
-        return nameOptions.firstIndex(of: name) ?? 0
+        nameOptions.firstIndex(of: selections.name ?? pill.name) ?? 0
     }
 
     var timesaday: Int {
@@ -139,10 +138,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var times: [Time] {
         if let selectedTimes = selections.times {
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes, now: now)
+        } else if pill.times.count > 0 {
+            let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(pill.times)
+            return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
+        } else {
+            return DateFactory.createTimesFromCommaSeparatedString(
+                DefaultPillAttributes.time, now: now
+            )
         }
-        // Sort, in case Swallowable impl doesn't
-        let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(pill.times)
-        return DateFactory.createTimesFromCommaSeparatedString(timeString, now: now)
     }
 
     func selectTime(_ time: Time, _ index: Index) {
@@ -174,7 +177,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     func setPickerTimes(_ timePickers: [UIDatePicker]) {
         for i in 0..<timePickers.count {
             let picker = timePickers[i]
-            let startTime = times.tryGet(at: i) ?? Date()
+            let startTime = times.tryGet(at: i) ?? now?.now ?? Date()
             picker.setDate(startTime, animated: false)
         }
     }
@@ -266,6 +269,15 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         enablePickers(pickers, labels)
         disablePickers(pickers, labels)
     }
+
+    private var _intervals: [PillExpirationInterval] = [
+        .EveryDay,
+        .EveryOtherDay,
+        .FirstTenDays,
+        .LastTenDays,
+        .FirstTwentyDays,
+        .LastTwentyDays
+    ]
 
     private func enablePickers(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         for i in 0...timesaday - 1 {

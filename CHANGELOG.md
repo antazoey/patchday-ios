@@ -14,11 +14,13 @@ Added
     number of days and then stop taking the pill for a certain number of days.  You can set the "Days on" and 
     "Days off" properties accordingly to any numbers 1 - 25.
 
+## 3.2.3
+
 Fixed
 
-- Bug in Hormones Details View preventing the user from setting the date if the site was set first.
-- Issues in the Pill Details View preventing all of the pickers from opening at the correct row.
-- Issue where the Pill expiration interval arrow button would allow re-opening the picker when it was already open.
+- Issue that caused the app to crash when editing the timesaday values for a new pill.
+- Bug in the Hormones Details View preventing the user from setting the date if the site was set first.
+- Bug where the Pill Expiration Interval picker would open at the wrong index for some of the options.
 
 ## 3.2.2
 

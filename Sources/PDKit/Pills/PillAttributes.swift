@@ -2,7 +2,7 @@
 //  PillAttributes.swift
 //  PDKit
 //
-//  Created by Juliya Smith on 2/4/21.
+//  Created by Juliya Smith on 2/2/21.
 //  Copyright © 2021 Juliya Smith. All rights reserved.
 //
 
