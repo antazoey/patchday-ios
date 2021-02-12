@@ -664,8 +664,8 @@
 		9D8A982B23C7EEDA004E20FE /* PillStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStoring.swift; sourceTree = "<group>"; };
 		9D8A982D23C7EEE4004E20FE /* SiteStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStoring.swift; sourceTree = "<group>"; };
 		9D8A983423C7F8A9004E20FE /* MockHormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneStore.swift; sourceTree = "<group>"; };
-		9D8A983923C7FD1F004E20FE /* MockHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormone.swift; sourceTree = "<group>"; };
-		9D8A983B23CBC071004E20FE /* MockSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSite.swift; sourceTree = "<group>"; };
+		9D8A983923C7FD1F004E20FE /* MockHormone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockHormone.swift; path = MockObjects/MockHormone.swift; sourceTree = "<group>"; };
+		9D8A983B23CBC071004E20FE /* MockSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockSite.swift; path = MockObjects/MockSite.swift; sourceTree = "<group>"; };
 		9D8A983E23CBF384004E20FE /* HormoneTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneTests.swift; sourceTree = "<group>"; };
 		9D8A984323CFFA6D004E20FE /* PillScheduleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillScheduleTests.swift; sourceTree = "<group>"; };
 		9D8A984623D13052004E20FE /* SiteScheduledTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteScheduledTests.swift; sourceTree = "<group>"; };
@@ -673,7 +673,7 @@
 		9D8A984A23D13093004E20FE /* MockSiteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSiteStore.swift; sourceTree = "<group>"; };
 		9D8A984C23D132EC004E20FE /* MockPatchDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPatchDataStore.swift; sourceTree = "<group>"; };
 		9D8A984E23D13613004E20FE /* PDObjectStoring.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDObjectStoring.swift; sourceTree = "<group>"; };
-		9D8A985023D160EB004E20FE /* MockPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockPill.swift; sourceTree = "<group>"; };
+		9D8A985023D160EB004E20FE /* MockPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MockPill.swift; path = MockObjects/MockPill.swift; sourceTree = "<group>"; };
 		9D8A985223D1682E004E20FE /* SiteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteTests.swift; sourceTree = "<group>"; };
 		9D8A985423D1683A004E20FE /* PillTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTests.swift; sourceTree = "<group>"; };
 		9D8A985923D16A17004E20FE /* PillDataSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillDataSharer.swift; sourceTree = "<group>"; };
@@ -1626,7 +1626,6 @@
 				9D8A985023D160EB004E20FE /* MockPill.swift */,
 			);
 			name = MockObjects;
-			path = MockCoreData/MockObjects;
 			sourceTree = "<group>";
 		};
 		9D8A983D23CBF368004E20FE /* PatchDataObjects */ = {
