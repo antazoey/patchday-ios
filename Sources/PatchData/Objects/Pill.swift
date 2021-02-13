@@ -260,11 +260,20 @@ public class Pill: Swallowable {
          */
         guard let isOn = expirationInterval.xDaysIsOn else { return nil }
         guard let pos = expirationInterval.xDaysPosition else { return nil }
-        guard let span = expirationInterval.daysTwo else { return nil }
+        guard let onSpan = expirationInterval.daysOne else { return nil }
+        guard let offSpan = expirationInterval.daysTwo else { return nil }
 
         if isOn {
-            return nextDueTimeForEveryDaySchedule
+            // If still needs taking in this on-cycle
+            if pos < onSpan || (pos == onSpan && !isDone) {
+                return nextDueTimeForEveryDaySchedule
+            }
+
+            // Has completed the current on-cycle
+            return getTimeOne(daysFromNow: offSpan + 1)
         }
-        return getTimeOne(daysFromNow: (span + 1) - pos)
+
+        // Is during off-cycle
+        return getTimeOne(daysFromNow: (offSpan + 1) - pos)
     }
 }

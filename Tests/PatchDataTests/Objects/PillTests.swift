@@ -862,7 +862,7 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testDue_whenXDaysOnXDaysOffAndIsOnLastOnDayTakeOnce_returnsThatDayAtTimeTwo() {
+    func testDue_whenXDaysOnXDaysOffAndIsOnLastOnDayAndTakenOnce_returnsLastDateAtTimeTwo() {
         let now = MockNow()
         let attrs = PillAttributes()
 
@@ -888,11 +888,143 @@ public class PillTests: XCTestCase {
         attrs.expirationInterval.xDaysIsOn = true
         attrs.expirationInterval.xDaysPosition = 12
         attrs.timesTakenToday = 1
-        attrs.expirationInterval.startPositioning()
         attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([testTimeOne, testTimeTwo])
         let pill = createPill(attrs, now)
 
-        let expected = createDueTime(testTimeOne, days: 1, now: now.now) // Tomorrow at time one
+        // Now date at time 2
+        let expected = DateFactory.createDate(on: now.now, at: testTimeTwo)!
+
+        if let actual = pill.due {
+            XCTAssertEqual(expected, actual)
+        } else {
+            XCTFail("Pill has no due date.")
+        }
+    }
+
+    func testDue_whenXDaysOnXDaysOffAndIsOnLastOnDayAndTakenTwice_returnsNextStartDateAtTimeOne() {
+        let now = MockNow()
+        let attrs = PillAttributes()
+        let daysOff = 4
+
+        // 01/01
+        let startDate = DateFactory.createDate(
+            byAddingHours: 12, to: DateFactory.createDefaultDate()
+        )!
+
+        // 02/01
+        now.now = DateFactory.createDate(byAddingHours: 24*31, to: startDate)!
+        let dateLastTaken = DateFactory.createDate(byAddingHours: -1, to: now.now)
+        attrs.lastTaken = dateLastTaken
+
+        // 02/06
+        let hours = 24 * (daysOff + 1)  // 5 days
+        let nextStartDate = DateFactory.createDate(byAddingHours: hours, to: now.now)!
+
+        // 01/31
+        attrs.lastTaken = DateFactory.createDate(byAddingHours: 24*30, to: startDate)!
+
+        let testTimeOne = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
+        let testTimeTwo = DateFactory.createDate(byAddingMinutes: 20, to: now.now)!
+
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 12
+        attrs.expirationInterval.daysTwo = daysOff
+        attrs.expirationInterval.xDaysIsOn = true
+        attrs.expirationInterval.xDaysPosition = 12
+        attrs.timesTakenToday = 2
+        attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([testTimeOne, testTimeTwo])
+        let pill = createPill(attrs, now)
+
+        // Now date at time 2
+        let expected = DateFactory.createDate(on: nextStartDate, at: testTimeOne)!
+
+        if let actual = pill.due {
+            XCTAssertEqual(expected, actual)
+        } else {
+            XCTFail("Pill has no due date.")
+        }
+    }
+
+    func testDue_whenXDaysOnXDaysOffAndIsOnFirstOffDay_returnsNextStartDateAtTimeOne() {
+        let now = MockNow()
+        let attrs = PillAttributes()
+        let daysOff = 4
+
+        // 01/01
+        let startDate = DateFactory.createDate(
+            byAddingHours: 12, to: DateFactory.createDefaultDate()
+        )!
+
+        // 02/01
+        now.now = DateFactory.createDate(byAddingHours: 24*31, to: startDate)!
+        let dateLastTaken = DateFactory.createDate(byAddingHours: -25, to: now.now)
+        attrs.lastTaken = dateLastTaken
+
+        // 02/05
+        let hours = 24 * daysOff  // +4 days
+        let nextStartDate = DateFactory.createDate(byAddingHours: hours, to: now.now)!
+
+        // 01/31
+        attrs.lastTaken = DateFactory.createDate(byAddingHours: 24*30, to: startDate)!
+
+        let testTimeOne = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
+        let testTimeTwo = DateFactory.createDate(byAddingMinutes: 20, to: now.now)!
+
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 12
+        attrs.expirationInterval.daysTwo = daysOff
+        attrs.expirationInterval.xDaysIsOn = false
+        attrs.expirationInterval.xDaysPosition = 1
+        attrs.timesTakenToday = 0
+        attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([testTimeOne, testTimeTwo])
+        let pill = createPill(attrs, now)
+
+        // Now date at time 2
+        let expected = DateFactory.createDate(on: nextStartDate, at: testTimeOne)!
+
+        if let actual = pill.due {
+            XCTAssertEqual(expected, actual)
+        } else {
+            XCTFail("Pill has no due date.")
+        }
+    }
+
+        func testDue_whenXDaysOnXDaysOffAndIsOnLastOffDay_returnsTomorrowTimeOne() {
+        let now = MockNow()
+        let attrs = PillAttributes()
+        let daysOff = 4
+
+        // 01/01
+        let startDate = DateFactory.createDate(
+            byAddingHours: 12, to: DateFactory.createDefaultDate()
+        )!
+
+        // 02/01
+        now.now = DateFactory.createDate(byAddingHours: 24*31, to: startDate)!
+        let dateLastTaken = DateFactory.createDate(byAddingHours: -25, to: now.now)
+        attrs.lastTaken = dateLastTaken
+
+        // 02/02
+        let hours = 24  // +1 days
+        let nextStartDate = DateFactory.createDate(byAddingHours: hours, to: now.now)!
+
+        // 01/31
+        attrs.lastTaken = DateFactory.createDate(byAddingHours: 24*30, to: startDate)!
+
+        let testTimeOne = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
+        let testTimeTwo = DateFactory.createDate(byAddingMinutes: 20, to: now.now)!
+
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 12
+        attrs.expirationInterval.daysTwo = daysOff
+        attrs.expirationInterval.xDaysIsOn = false
+        attrs.expirationInterval.xDaysPosition = 4
+        attrs.timesTakenToday = 0
+        attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([testTimeOne, testTimeTwo])
+        let pill = createPill(attrs, now)
+
+        // Now date at time 2
+        let expected = DateFactory.createDate(on: nextStartDate, at: testTimeOne)!
 
         if let actual = pill.due {
             XCTAssertEqual(expected, actual)
