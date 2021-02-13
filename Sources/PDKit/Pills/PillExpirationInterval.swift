@@ -126,7 +126,7 @@ public class PillExpirationInterval {
 
     public var xDaysIsOn: Bool? {
         get {
-            guard usesXDays else { return nil }
+            guard value == .XDaysOnXDaysOff else { return nil }
             return _xDays?.isOn
         }
         set {
@@ -135,8 +135,13 @@ public class PillExpirationInterval {
     }
 
     public var xDaysPosition: Int? {
-        guard usesXDays else { return nil }
-        return _xDays?.position
+        get {
+            guard value == .XDaysOnXDaysOff else { return nil }
+            return _xDays?.position
+        }
+        set {
+            _xDays?.position = newValue
+        }
     }
 
     public func startPositioning() {

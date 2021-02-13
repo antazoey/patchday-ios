@@ -864,6 +864,7 @@ public class PillTests: XCTestCase {
 
     func testDue_whenXDaysOnXDaysOffAndIsOnLastOnDayTakeOnce_returnsThatDayAtTimeTwo() {
         let now = MockNow()
+        let attrs = PillAttributes()
 
         // 01/01
         let startDate = DateFactory.createDate(
@@ -872,15 +873,21 @@ public class PillTests: XCTestCase {
 
         // 02/01
         now.now = DateFactory.createDate(byAddingHours: 24*31, to: startDate)!
+        let dateLastTaken = DateFactory.createDate(byAddingHours: -1, to: now.now)
+        attrs.lastTaken = dateLastTaken
+
+        // 01/31
+        attrs.lastTaken = DateFactory.createDate(byAddingHours: 24*30, to: startDate)!
 
         let testTimeOne = DateFactory.createDate(byAddingMinutes: 5, to: now.now)!
         let testTimeTwo = DateFactory.createDate(byAddingMinutes: 20, to: now.now)!
-        let attrs = PillAttributes()
 
         attrs.expirationInterval.value = .XDaysOnXDaysOff
         attrs.expirationInterval.daysOne = 12
         attrs.expirationInterval.daysTwo = 4
-        attrs.timesTakenToday = 2
+        attrs.expirationInterval.xDaysIsOn = true
+        attrs.expirationInterval.xDaysPosition = 12
+        attrs.timesTakenToday = 1
         attrs.expirationInterval.startPositioning()
         attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([testTimeOne, testTimeTwo])
         let pill = createPill(attrs, now)
