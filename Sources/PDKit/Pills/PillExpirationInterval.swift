@@ -125,8 +125,13 @@ public class PillExpirationInterval {
     }
 
     public var xDaysIsOn: Bool? {
-        guard usesXDays else { return nil }
-        return _xDays?.isOn
+        get {
+            guard usesXDays else { return nil }
+            return _xDays?.isOn
+        }
+        set {
+            _xDays?.isOn = newValue
+        }
     }
 
     public var xDaysPosition: Int? {

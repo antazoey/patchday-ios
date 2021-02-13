@@ -12,8 +12,9 @@ public class PillExpirationIntervalXDays {
 
     private var _one: Int?
     private var _two: Int?
-    private var _isOn: Bool?
-    private var _position: Int?
+
+    public var position: Int?
+    public var isOn: Bool?
 
     public init(_ xDays: String) {
         let daysList = xDays.split(separator: "-").map { String($0) }
@@ -30,14 +31,14 @@ public class PillExpirationIntervalXDays {
             let isOn = onOrOff == "on"
             guard let max = (isOn ? one : two) else { return }
             guard 1...max ~= position else { return }
-            self._position = position
-            self._isOn = isOn
+            self.position = position
+            self.isOn = isOn
             return
         }
 
         // Only apply when `two` is used, suc has `.XDaysOnXDaysOff`.
-        self._isOn = nil
-        self._position = nil
+        self.isOn = nil
+        self.position = nil
     }
 
     public var value: String? {
@@ -46,19 +47,11 @@ public class PillExpirationIntervalXDays {
         if let dayTwo = _two {
             builder += "-\(dayTwo)"
         }
-        if let isOn = _isOn, let pos = position {
+        if let isOn = isOn, let pos = position {
             let prefix = isOn ? "on" : "off"
             builder += "-\(prefix)-\(pos)"
         }
         return builder
-    }
-
-    public var isOn: Bool? {
-        _isOn
-    }
-
-    public var position: Int? {
-        _position
     }
 
     /// The integer version of the first days value in `xDays`; only applies to expiration intervals that use X days.
@@ -107,21 +100,18 @@ public class PillExpirationIntervalXDays {
     }
 
     public func startPositioning() {
-        _isOn = true
-        _position = 1
+        isOn = true
+        position = 1
     }
 
     public func incrementDayPosition() {
         guard let one = one else { return }
         guard let two = two else { return }
-        guard let isOn = _isOn else { return }
+        guard let isOnValue = isOn else { return }
         guard let pos = position else { return }
-        let nextPosition = (pos + 1) % (isOn ? one : two)
-        _position = nextPosition
-        _isOn = nextPosition < pos ? !isOn : isOn
-        if nextPosition < pos {
-            _isOn = !isOn
-        }
+        let nextPosition = (pos + 1) % (isOnValue ? one : two)
+        position = nextPosition
+        isOn = nextPosition < pos ? !isOnValue : isOn
     }
 
     private var _daysRange: ClosedRange<Int> {

@@ -92,9 +92,9 @@ public class Pill: Swallowable {
         switch val {
             case .EveryDay: return nextDueTimeForEveryDaySchedule
             case .EveryOtherDay: return dueDateForEveryOtherDay
-            case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
             case .FirstXDays: return dueDateForFirstXDays
             case .LastXDays: return dueDateForLastXDays
+            case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
         }
     }
 
