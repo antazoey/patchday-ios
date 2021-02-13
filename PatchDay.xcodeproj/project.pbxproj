@@ -1628,14 +1628,14 @@
 			name = MockObjects;
 			sourceTree = "<group>";
 		};
-		9D8A983D23CBF368004E20FE /* PatchDataObjects */ = {
+		9D8A983D23CBF368004E20FE /* Objects */ = {
 			isa = PBXGroup;
 			children = (
 				9D8A983E23CBF384004E20FE /* HormoneTests.swift */,
 				9D8A985223D1682E004E20FE /* SiteTests.swift */,
 				9D8A985423D1683A004E20FE /* PillTests.swift */,
 			);
-			path = PatchDataObjects;
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		9D8A985623D1692F004E20FE /* MockDataSharers */ = {
@@ -1908,7 +1908,7 @@
 		B480EE2A21CC7554002C2238 /* PatchDataTests */ = {
 			isa = PBXGroup;
 			children = (
-				9D8A983D23CBF368004E20FE /* PatchDataObjects */,
+				9D8A983D23CBF368004E20FE /* Objects */,
 				B4E12EA421D018E80068AD2E /* Schedules */,
 				B480EE2D21CC7554002C2238 /* Info.plist */,
 				3397C54DDFA7DF1E9C1EDECA /* PatchDataLoggingPlayground.swift */,

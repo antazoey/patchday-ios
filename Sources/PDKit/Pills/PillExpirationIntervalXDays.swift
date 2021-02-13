@@ -18,14 +18,20 @@ public class PillExpirationIntervalXDays {
     init(_ xDays: String) {
         let daysList = xDays.split(separator: "-").map { String($0) }
         let daysResult = PillExpirationIntervalXDays.parseMultipleDays(daysList)
-        self._one = daysResult.0
-        self._two = daysResult.1
+        let one = daysResult.0
+        let two = daysResult.1
+        self._one = one
+        self._two = two
 
         if daysList.count > 3 {
-            let position = PillExpirationIntervalXDays.parseIntFromXDaysValue(String(daysList[3]))
-            self._position = position ?? 1
+            let posArg = String(daysList[3])
+            let position = PillExpirationIntervalXDays.parseIntFromXDaysValue(posArg) ?? 1
             let onOrOff = daysList[2]
-            self._isOn = onOrOff == "on"
+            let isOn = onOrOff == "on"
+            guard let max = (isOn ? one : two) else { return }
+            guard 1...max ~= position else { return }
+            self._position = position
+            self._isOn = isOn
             return
         }
 
@@ -41,8 +47,8 @@ public class PillExpirationIntervalXDays {
             builder += "-\(dayTwo)"
         }
         if let isOn = _isOn, let pos = position {
-            let prefix = isOn ? "-on-" : "-off-"
-            builder += "\(prefix)-\(pos)"
+            let prefix = isOn ? "on" : "off"
+            builder += "-\(prefix)-\(pos)"
         }
         return builder
     }
@@ -91,7 +97,7 @@ public class PillExpirationIntervalXDays {
 
     /// The string value of the first days property; only applies to expiration intervals that use X days.
     public var daysOn: String? {
-        guard let days = two else { return nil }
+        guard let days = one else { return nil }
         return String(days)
     }
 
@@ -100,17 +106,22 @@ public class PillExpirationIntervalXDays {
         1...SupportedPillExpirationIntervalDaysLimit
     }
 
+    public func startPositioning() {
+        _isOn = true
+        _position = 1
+    }
+
     public func incrementDayPosition() {
-        /* TODO
-         start with `on-1` but dont increment until the user has taken the pill (or alternatively set a start date)
-
-         Once the pill is “done for the day”, increment `on-2` and so on.
-
-         Once you reach the end, on the last day, it will already be set to `6-6-on-6`, after taking the last for that day, it increments to `6-6-off-1`, and the cycle repeates.
-
-         lastTaken is used to determine the calculation along with the current date to get the next on due date
-
-         */
+        guard let one = one else { return }
+        guard let two = two else { return }
+        guard let isOn = _isOn else { return }
+        guard let pos = position else { return }
+        let nextPosition = (pos + 1) % (isOn ? one : two)
+        _position = nextPosition
+        _isOn = nextPosition < pos ? !isOn : isOn
+        if nextPosition < pos {
+            _isOn = !isOn
+        }
     }
 
     private var _daysRange: ClosedRange<Int> {

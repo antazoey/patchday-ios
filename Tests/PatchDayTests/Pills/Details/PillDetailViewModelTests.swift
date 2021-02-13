@@ -864,7 +864,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval.xDays?.one = 8
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectDays(0, daysNumber: 3)
-        XCTAssertEqual("8-on-1", viewModel.expirationInterval.xDays!.value)
+        XCTAssertEqual("8", viewModel.daysOn)
     }
 
     func testSelectDays_whenGivenValidIndexforValidIntervalForPicker1_sets() {
