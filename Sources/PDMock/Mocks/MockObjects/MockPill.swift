@@ -16,9 +16,6 @@ public class MockPill: Swallowable {
     public var times: [Time] = []
     public var notify: Bool = false
     public var expirationInterval = PillExpirationInterval(.EveryDay)
-    public var expirationIntervalSetting: PillExpirationIntervalSetting =
-        PillExpirationIntervalSetting.EveryDay
-    public var xDays: String?
     public var timesaday: Int = -1
     public var timesTakenToday: Int = -1
     public var lastTaken: Date?
@@ -29,6 +26,10 @@ public class MockPill: Swallowable {
     public var hasName: Bool = false
 
     public init() { }
+
+    public var expirationIntervalSetting: PillExpirationIntervalSetting {
+        expirationInterval.value!
+    }
 
     public var setCallArgs: [PillAttributes] = []
     public func set(attributes: PillAttributes) {

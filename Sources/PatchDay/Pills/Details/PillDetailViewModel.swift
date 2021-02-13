@@ -253,12 +253,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             selections.expirationInterval.xDays?.one = option
         } else if daysNumber == 2 {
             selections.expirationInterval.xDays?.two = option
-
-            // Make sure daysOne is set if not yet and is used.
-            if selections.expirationInterval.xDays?.one == nil {
-                let daysToSet = pill.expirationInterval.xDays?.one ?? DefaultPillAttributes.xDaysInt
-                selections.expirationInterval.xDays?.one = daysToSet
-            }
         }
     }
 

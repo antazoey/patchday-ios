@@ -15,7 +15,7 @@ public class PillExpirationIntervalXDays {
     private var _isOn: Bool?
     private var _position: Int?
 
-    init(_ xDays: String) {
+    public init(_ xDays: String) {
         let daysList = xDays.split(separator: "-").map { String($0) }
         let daysResult = PillExpirationIntervalXDays.parseMultipleDays(daysList)
         let one = daysResult.0
