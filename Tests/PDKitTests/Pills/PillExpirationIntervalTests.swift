@@ -21,98 +21,68 @@ class PillExpirationIntervalTests: XCTestCase {
 
     func testInit_whenNotUsingXDaysInterval_doesNotInitializeXDays() {
         let interval = PillExpirationInterval(.EveryDay)
-        XCTAssertNil(interval.xDays)
+        XCTAssertNil(interval.xDaysValue)
     }
 
     func testInit_whenNotUsingXDaysIntervalAndGivenXDays_doesNotInitializeXDays() {
         let interval = PillExpirationInterval(.EveryDay, xDays: "5")
-        XCTAssertNil(interval.xDays)
+        XCTAssertNil(interval.xDaysValue)
     }
 
     func testInit_whenUsingXDaysIntervalAndNotGivenXDays_doesNotInitializeXDays() {
         let interval = PillExpirationInterval(.FirstXDays)
-        XCTAssertNil(interval.xDays)
+        XCTAssertNil(interval.xDaysValue)
     }
 
     func testInit_whenUsingXDaysIntervalAndGivenXDays_initializesXDaysWithExpectedDays() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5")
-        XCTAssertNotNil(interval.xDays)
-        XCTAssertEqual("5", interval.xDays?.daysOn)
-        XCTAssertEqual(5, interval.xDays?.one)
+        assertDaysOne(5, interval)
     }
 
     func testInit_whenUsingXDaysIntervalAndGivenXDaysForOnAndOff_initializesXDaysWithExpectedDays() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5-8")
-        if interval.xDays == nil {
-            XCTFail("xDays did not initalize.")
-            return
-        }
-
-        let xDays = interval.xDays!
-        XCTAssertEqual("5", xDays.daysOn)
-        XCTAssertEqual(5, xDays.one)
-        XCTAssertEqual("8", xDays.daysOff)
-        XCTAssertEqual(8, xDays.two)
+        assertDaysOne(5, interval)
+        assertDaysTwo(8, interval)
     }
 
     func testInit_whenUsingXDaysIntervalAndGivenStartedXDaysForOnAndOff_initializesXDaysWithExpectedDays() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5-8-off-7")
-        if interval.xDays == nil {
-            XCTFail("xDays did not initalize.")
-            return
-        }
-
-        let xDays = interval.xDays!
-        XCTAssertEqual("5", xDays.daysOn)
-        XCTAssertEqual(5, xDays.one)
-        XCTAssertEqual("8", xDays.daysOff)
-        XCTAssertEqual(8, xDays.two)
-        XCTAssertFalse(xDays.isOn!)
-        XCTAssertEqual(7, xDays.position!)
+        assertDaysOne(5, interval)
+        assertDaysTwo(8, interval)
+        assertPosition(7, false, interval)
     }
 
     func testInit_whenGivenUnstartedXDays_returnsNilForExpectedProperties() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5-8")
-        if interval.xDays == nil {
-            XCTFail("xDays did not initalize.")
-            return
-        }
-
-        let xDays = interval.xDays!
-        XCTAssertNil(xDays.isOn)
-        XCTAssertNil(xDays.position)
+        assertNilPosition(interval)
     }
 
     func testInit_whenGivenLegacyFirst10Days_migrates() {
         let interval = PillExpirationInterval("firstTenDays")
         XCTAssertEqual(.FirstXDays, interval.value)
-        XCTAssertEqual(10, interval.xDays?.one)
-        XCTAssertEqual("10", interval.xDays?.daysOn)
-        XCTAssertNil(interval.xDays?.daysOff)
+        assertDaysOne(10, interval)
+        assertNilDaysTwo(interval)
     }
 
     func testInit_whenGivenLegacyFirst20Days_migrates() {
         let interval = PillExpirationInterval("firstTwentyDays")
         XCTAssertEqual(.FirstXDays, interval.value)
-        XCTAssertEqual(20, interval.xDays?.one)
-        XCTAssertEqual("20", interval.xDays?.daysOn)
-        XCTAssertNil(interval.xDays?.daysOff)
+        assertDaysOne(20, interval)
+        assertNilDaysTwo(interval)
     }
 
     func testInit_whenGivenLegacyLast10Days_migrates() {
         let interval = PillExpirationInterval("lastTenDays")
         XCTAssertEqual(.LastXDays, interval.value)
-        XCTAssertEqual(10, interval.xDays?.one)
-        XCTAssertEqual("10", interval.xDays?.daysOn)
-        XCTAssertNil(interval.xDays?.daysOff)
+        assertDaysOne(10, interval)
+        assertNilDaysTwo(interval)
     }
 
     func testInit_whenGivenLegacyLast20Days_migrates() {
         let interval = PillExpirationInterval("lastTwentyDays")
         XCTAssertEqual(.LastXDays, interval.value)
-        XCTAssertEqual(20, interval.xDays?.one)
-        XCTAssertEqual("20", interval.xDays?.daysOn)
-        XCTAssertNil(interval.xDays?.daysOff)
+        assertDaysOne(20, interval)
+        assertNilDaysTwo(interval)
     }
 
     func testSetValue_setsValue() {
@@ -124,17 +94,99 @@ class PillExpirationIntervalTests: XCTestCase {
     func testSetValue_whenSettingToNonXDaysValue_setsXDaysInstanceToNil() {
         let interval = PillExpirationInterval(.FirstXDays, xDays: "5-5-on-1")
         interval.value = .EveryDay
-        XCTAssertNil(interval.xDays)
+        XCTAssertNil(interval.xDaysValue)
     }
 
     func testSetValue_whenSettingFromXDaysOnXDaysOffToSingleXDays_setsDaysTwoToNil() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "3-5-on-1")
         interval.value = .FirstXDays
-        let xDays = interval.xDays!
-        XCTAssertNil(xDays.two)
-        XCTAssertNil(xDays.daysOff)
-        let expected = "3-on-1"
-        XCTAssertEqual(expected, xDays.value)
+        assertNilDaysTwo(interval)
+        XCTAssertEqual("3-on-1", interval.xDaysValue)
+    }
+
+    func testXDaysValue_whenNotUsingXDays_returnsNil() {
+        let interval = PillExpirationInterval(.EveryDay)
+        interval.daysOne = 3
+        XCTAssertNil(interval.xDaysValue)
+    }
+
+    func testXDaysValue_whenUsingXDays_returnsExpectedValue() {
+        let interval = PillExpirationInterval(.FirstXDays)
+        interval.daysOne = 3
+        XCTAssertEqual("3", interval.xDaysValue)
+    }
+
+    func testDaysOne_whenInitializedWithoutXDays_returnsNil() {
+        let interval = PillExpirationInterval(.FirstXDays)
+        XCTAssertNil(interval.daysOne)
+    }
+
+    func testDaysOne_whenInitializedWithXDaysButSwitchedToNotUsingXDays_returnsNil() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "6")
+        interval.value = .EveryDay
+        XCTAssertNil(interval.daysOne)
+    }
+
+    func testDaysOneSet_whenXDaysPreviouslyInitialized_sets() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "6")
+        interval.daysOne = 7
+        XCTAssertEqual(7, interval.daysOne)
+    }
+
+    func testDaysOneSet_whenXDaysNotPreviouslyInitialized_sets() {
+        let interval = PillExpirationInterval(.FirstXDays)
+        interval.daysOne = 7
+        XCTAssertEqual(7, interval.daysOne)
+    }
+
+    func testDaysOn_whenNotUsingXDays_returnsNil() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff)
+        XCTAssertNil(interval.daysOn)
+    }
+
+    func testDaysTwo_whenInitializedWithoutXDays_returnsNil() {
+        let interval = PillExpirationInterval(.FirstXDays)
+        XCTAssertNil(interval.daysTwo)
+    }
+
+    func testDaysTwo_whenInitializedWithXDaysButSwitchedToNotUsingXDays_returnsNil() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "6")
+        interval.value = .EveryDay
+        XCTAssertNil(interval.daysTwo)
+    }
+
+    func testDaysTwoSet_whenXDaysPreviouslyInitialized_sets() {
+        let interval = PillExpirationInterval(.FirstXDays, xDays: "6")
+        interval.daysTwo = 7
+        XCTAssertEqual(7, interval.daysTwo)
+    }
+
+    func testDaysTwoSet_whenXDaysNotPreviouslyInitializedAndSetsDaysOneFirst_sets() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff)
+        interval.daysOne = 3
+        interval.daysTwo = 7
+        XCTAssertEqual(7, interval.daysTwo)
+    }
+
+    func testDaysTwoSet_whenXDaysNotPreviouslyInitializedAndDoesNotSetDaysOneAtAll_setsDayOne() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff)
+        interval.daysTwo = 7
+        XCTAssertEqual(7, interval.daysOne)
+    }
+
+    func testDaysOff_whenNotUsingXDays_returnsNil() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff)
+        XCTAssertNil(interval.daysOff)
+    }
+
+    func testXDaysIsOn_whenNotUsingXDays_returnsNil() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff)
+        XCTAssertNil(interval.xDaysIsOn)
+    }
+
+    func testXDaysIsOnAndPosition_whenUsingXDaysAndSet_returnsExpectedValue() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-1")
+        assertPosition(1, true, interval)
     }
 
     func testOptions_containsAllOptions() {
@@ -150,5 +202,50 @@ class PillExpirationIntervalTests: XCTestCase {
                 case .XDaysOnXDaysOff: break
             }
         }
+    }
+
+    func assertDaysOne(_ expected: Int, _ interval: PillExpirationInterval) {
+        if interval.xDaysValue == nil {
+            XCTFail("xDays did not initalize.")
+            return
+        }
+
+        XCTAssertEqual(expected, interval.daysOne)
+        XCTAssertEqual("\(expected)", interval.daysOn)
+    }
+
+    func assertDaysTwo(_ expected: Int, _ interval: PillExpirationInterval) {
+        if interval.xDaysValue == nil {
+            XCTFail("xDays did not initalize.")
+            return
+        }
+
+        XCTAssertNotNil(interval.xDaysValue)
+        XCTAssertEqual(expected, interval.daysTwo)
+        XCTAssertEqual("\(expected)", interval.daysOff)
+    }
+
+    func assertNilDaysTwo(_ interval: PillExpirationInterval) {
+        XCTAssertNil(interval.daysTwo)
+        XCTAssertNil(interval.daysOff)
+    }
+
+    func assertPosition(
+        _ expectedPos: Int, _ expectedBool: Bool, _ interval: PillExpirationInterval
+    ) {
+        if interval.xDaysIsOn == nil {
+            XCTFail("XDays position is not turned on.")
+            return
+        } else if interval.xDaysPosition == nil {
+            XCTFail("XDays position is not initialized.")
+            return
+        }
+        XCTAssertEqual(expectedBool, interval.xDaysIsOn)
+        XCTAssertEqual(expectedPos, interval.xDaysPosition!)
+    }
+
+    func assertNilPosition(_ interval: PillExpirationInterval) {
+        XCTAssertNil(interval.xDaysIsOn)
+        XCTAssertNil(interval.xDaysPosition)
     }
 }

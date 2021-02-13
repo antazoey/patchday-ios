@@ -70,16 +70,68 @@ public class PillExpirationInterval {
             _value = newValue
 
             // Correct any xDays values
-            guard let val = newValue else { return }
-            guard _xDaysIntervals.contains(val) else {
+            guard let val = newValue, _xDaysIntervals.contains(val) else {
                 _xDays = nil
                 return
             }
-            _xDays = _xDays ?? PillExpirationIntervalXDays(DefaultPillAttributes.xDaysString)
+            guard let xDays = _xDays else {
+                return
+            }
             if _singleXDayIntervals.contains(val) {
-                _xDays!.two = nil
+                xDays.two = nil
             }
         }
+    }
+
+    public var xDaysValue: String? {
+        guard usesXDays else { return nil }
+        return _xDays?.value
+    }
+
+    public var daysOne: Int? {
+        get { _xDays?.one }
+        set {
+            if let xDays = _xDays {
+                xDays.one = newValue
+            } else if let val = newValue {
+                _xDays = PillExpirationIntervalXDays("\(val)")
+            }
+        }
+    }
+
+    public var daysOn: String? {
+        guard let val = value else { return nil }
+        guard _xDaysIntervals.contains(val) else { return nil }
+        return _xDays?.daysOn
+    }
+
+    public var daysTwo: Int? {
+        get {
+            guard usesXDays else { return nil }
+            return _xDays?.two
+        }
+        set {
+            if let xDays = _xDays {
+                xDays.two = newValue
+            } else if let val = newValue {
+                _xDays = PillExpirationIntervalXDays("\(val)")
+            }
+        }
+    }
+
+    public var daysOff: String? {
+        guard usesXDays else { return nil }
+        return _xDays?.daysOff
+    }
+
+    public var xDaysIsOn: Bool? {
+        guard usesXDays else { return nil }
+        return _xDays?.isOn
+    }
+
+    public var xDaysPosition: Int? {
+        guard usesXDays else { return nil }
+        return _xDays?.position
     }
 
     /// All of the available PillExpirationIntervalSetting enum values.
@@ -107,10 +159,5 @@ public class PillExpirationInterval {
     public var usesXDays: Bool {
         guard let value = self._value else { return false }
         return _xDaysIntervals.contains(value)
-    }
-
-    /// The combined days value that gets stored on disc, e.g. "5-12" meaning 5 days on, 12 days off.
-    public var xDays: PillExpirationIntervalXDays? {
-        _xDays
     }
 }

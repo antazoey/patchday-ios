@@ -81,7 +81,7 @@ class EntityAdapter {
         if let expirationInterval = pillData.attributes.expirationInterval.value {
             pill.expirationInterval = expirationInterval.rawValue
         }
-        if let days = pillData.attributes.xDays?.value {
+        if let days = pillData.attributes.expirationInterval.xDaysValue {
             pill.xDays = days
         }
     }
@@ -161,7 +161,7 @@ class EntityAdapter {
             // Set values after post-migration, in case that happens.
             let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)
             pill.expirationInterval = intervalObject.value?.rawValue
-            pill.xDays = intervalObject.xDays?.value
+            pill.xDays = intervalObject.xDaysValue
         }
     }
 }

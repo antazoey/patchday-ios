@@ -36,7 +36,7 @@ public class Pill: Swallowable {
         return PillAttributes(
             name: name,
             expirationIntervalSetting: interval,
-            xDays: expirationInterval.xDays?.value,
+            xDays: expirationInterval.xDaysValue,
             times: PDDateFormatter.convertTimesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
@@ -190,12 +190,12 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForFirstXDays: Date? {
-        guard let days = expirationInterval.xDays?.one else { return nil }
+        guard let days = expirationInterval.daysOne else { return nil }
         return dueDateBegin(days)
     }
 
     private var dueDateForLastXDays: Date? {
-        guard let days = expirationInterval.xDays?.one else { return nil }
+        guard let days = expirationInterval.daysOne else { return nil }
         return dueDateEnd(days - 1)
     }
 
