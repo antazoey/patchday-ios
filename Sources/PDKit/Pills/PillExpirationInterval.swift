@@ -134,6 +134,11 @@ public class PillExpirationInterval {
         return _xDays?.position
     }
 
+    public func startPositioning() {
+        guard usesXDays else { return }
+        _xDays?.startPositioning()
+    }
+
     /// All of the available PillExpirationIntervalSetting enum values.
     public static var options: [PillExpirationIntervalSetting] {
         [

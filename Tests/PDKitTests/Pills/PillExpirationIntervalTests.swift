@@ -189,6 +189,19 @@ class PillExpirationIntervalTests: XCTestCase {
         assertPosition(1, true, interval)
     }
 
+    func testStartPositioning_whenNotUsingXDays_doesNotStart() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
+        interval.value = .EveryDay
+        interval.startPositioning()
+        assertNilPosition(interval)
+    }
+
+    func testStartPositioning_whenUsingXDays_starts() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
+        interval.startPositioning()
+        assertPosition(1, true, interval)
+    }
+
     func testOptions_containsAllOptions() {
         // WAIT: If this test did not compile for you, that means you are adding a new interval.
         // I just want to remind you to make sure to also add that interval to the static list

@@ -1089,6 +1089,55 @@ public class PillTests: XCTestCase {
         XCTAssert(Date().timeIntervalSince(pill.lastTaken!) < 0.1)
     }
 
+    func testSwallow_whenLastTakenIsNilAndUsingXDaysOnXDaysOff_startsXDaysPositioning() {
+        let attrs = PillAttributes()
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 5
+        attrs.expirationInterval.daysTwo = 5
+        attrs.lastTaken = nil
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        let pill = createPill(attrs)
+        pill.swallow()
+        let interval = attrs.expirationInterval
+        if interval.xDaysPosition == nil || interval.xDaysIsOn == nil {
+            XCTFail("XDays positioning did not get initlaized.")
+            return
+        }
+        XCTAssertEqual(1, attrs.expirationInterval.xDaysPosition!)
+        XCTAssert(attrs.expirationInterval.xDaysIsOn!)
+    }
+
+    func testSwallow_whenLastTakenIsNilAndNotUsingXDaysOnXDaysOff_doesNotStartXDaysPositioning() {
+        let attrs = PillAttributes()
+        attrs.expirationInterval.value = .FirstXDays
+        attrs.expirationInterval.daysOne = 5
+        attrs.lastTaken = nil
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        let pill = createPill(attrs)
+        pill.swallow()
+        let interval = attrs.expirationInterval
+        XCTAssertNil(interval.xDaysPosition)
+        XCTAssertNil(interval.xDaysIsOn)
+    }
+
+    func testSwallow_wheHasLastTakenAndUsingXDaysOnXDaysOff_doesNotStartXDaysPositioning() {
+        let attrs = PillAttributes()
+        attrs.expirationInterval.value = .FirstXDays
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 5
+        attrs.expirationInterval.daysTwo = 5
+        attrs.lastTaken = Date()
+        attrs.times = "12:00:00"
+        attrs.timesTakenToday = 1
+        let pill = createPill(attrs)
+        pill.swallow()
+        let interval = attrs.expirationInterval
+        XCTAssertNil(interval.xDaysPosition)
+        XCTAssertNil(interval.xDaysIsOn)
+    }
+
     func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {
         let attrs = PillAttributes()
         attrs.timesTakenToday = 2
