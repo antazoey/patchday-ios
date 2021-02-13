@@ -14,6 +14,19 @@ import PDKit
 
 class PillAttributesTests: XCTestCase {
 
+    func testInit_whenGivenXDaysIntervalButNoXDays_doesNotInitializeXDays() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationIntervalSetting: .XDaysOnXDaysOff,
+            xDays: nil,
+            times: nil,
+            notify: nil,
+            timesTakenToday: nil,
+            lastTaken: nil
+        )
+        XCTAssertNil(attributes.xDays)
+    }
+
     func testAnyAttributeExists_whenHasNoProps_returnsFalse() {
         let attributes = PillAttributes(
             name: nil,
