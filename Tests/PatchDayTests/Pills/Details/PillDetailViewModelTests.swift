@@ -933,14 +933,9 @@ class PillDetailViewModelTests: XCTestCase {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-
-        XCTAssertEqual(viewModel.daysOn, "5")
-
-        viewModel.selectDays(5, daysNumber: 2)
-
-        XCTAssertEqual(viewModel.daysOn, "5")
-
-        //XCTAssertEqual("5-6", viewModel.selections.expirationInterval.xDays?.value)
+        viewModel.selectDays(10, daysNumber: 2)
+        XCTAssertEqual("5", viewModel.daysOn)
+        XCTAssertEqual("11", viewModel.daysOff)
     }
 
     func testEnableOrDisable_whenGivenUnevenLists_doesNotChangePickers() {

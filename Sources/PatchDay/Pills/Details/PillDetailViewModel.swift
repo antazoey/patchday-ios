@@ -236,19 +236,20 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     func selectDays(_ row: Index, daysNumber: Int?) {
         guard expirationIntervalUsesDays else { return }
-        guard (0..<daysOptions.count) ~= row else { return }
+        guard 0..<daysOptions.count ~= row else { return }
         guard let option = Int(daysOptions[row]) else { return }
 
         // If selecting a days, have to first select current dependent attributes from pill.
         selections.expirationInterval.value = expirationInterval
-        selections.expirationInterval.daysOne = daysOne
-        if expirationInterval == .XDaysOnXDaysOff {
-            selections.expirationInterval.daysTwo = daysTwo
-        }
-
         if daysNumber == 1 {
             selections.expirationInterval.daysOne = option
+            if expirationInterval == .XDaysOnXDaysOff {
+                selections.expirationInterval.daysTwo = daysTwo
+            }
         } else if daysNumber == 2 {
+            if selections.expirationInterval.daysOne == nil {
+                selections.expirationInterval.daysOne = daysOne
+            }
             selections.expirationInterval.daysTwo = option
         }
     }
