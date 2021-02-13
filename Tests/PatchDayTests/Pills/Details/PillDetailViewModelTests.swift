@@ -938,8 +938,6 @@ class PillDetailViewModelTests: XCTestCase {
 
         viewModel.selectDays(5, daysNumber: 2)
 
-
-
         XCTAssertEqual(viewModel.daysOn, "5")
 
         //XCTAssertEqual("5-6", viewModel.selections.expirationInterval.xDays?.value)

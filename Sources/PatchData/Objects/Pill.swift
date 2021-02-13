@@ -88,13 +88,13 @@ public class Pill: Swallowable {
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
-        switch expirationInterval.value {
+        guard let val = expirationInterval.value else { return nil }
+        switch val {
             case .EveryDay: return nextDueTimeForEveryDaySchedule
             case .EveryOtherDay: return dueDateForEveryOtherDay
             case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
             case .FirstXDays: return dueDateForFirstXDays
             case .LastXDays: return dueDateForLastXDays
-            case .none: return nextDueTimeForEveryDaySchedule
         }
     }
 
@@ -174,9 +174,8 @@ public class Pill: Swallowable {
         var startDay: Int
         guard let daysThisMonth = now.daysInMonth() else { return nil }
         if now.dayValue() == daysThisMonth {
-            if let daysNextMonth = DateFactory.createDate(
-                byAddingHours: 48, to: now
-            )?.daysInMonth() {
+            let daysNextMonth = DateFactory.createDate(byAddingHours: 48, to: now)?.daysInMonth()
+            if let daysNextMonth = daysNextMonth {
                 startDay = daysNextMonth - days
             } else {
                 return nil
@@ -234,7 +233,38 @@ public class Pill: Swallowable {
     }
 
     private var dueDateForXDaysOnXDaysOff: Date? {
-        
-        Date() // TODO
+        /*
+         X X X X X O O O O O O O O O X X X X X O O O O O O O O O
+         _ _ _ _ _ _ P _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+         # Constants
+
+         On = X, Off = O
+         Span = len(O[]) = 9
+
+         # Variables
+
+         Pos = P = 2     // Change position to calculate next due date
+
+         # Evaluation
+
+         Next = SPAN + 1         // The next start of "on" from "off" position 1
+         Next = 10               // Eval
+         Diff = Next - Pos       // The amount we are away from Next
+         Diff = 10 - 2           // Eval
+         Diff = 8                // Eval
+
+         # Conclusion
+
+         We are 8 days away from the next due date.
+         */
+        guard let isOn = expirationInterval.xDaysIsOn else { return nil }
+        guard let pos = expirationInterval.xDaysPosition else { return nil }
+        guard let span = expirationInterval.daysTwo else { return nil }
+
+        if isOn {
+            return nextDueTimeForEveryDaySchedule
+        }
+        return getTimeOne(daysFromNow: (span + 1) - pos)
     }
 }
