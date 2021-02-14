@@ -120,7 +120,9 @@ public class Pill: Swallowable {
 
     public func swallow() {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
-        if lastTaken == nil && expirationInterval.value == .XDaysOnXDaysOff {
+        if lastTaken == nil
+            && expirationInterval.value == .XDaysOnXDaysOff
+            && pillData.attributes.expirationInterval.xDaysIsOn == nil {
             pillData.attributes.expirationInterval.startPositioning()
         }
         let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
