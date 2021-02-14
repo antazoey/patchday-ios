@@ -453,10 +453,9 @@ class PillDetailViewModelTests: XCTestCase {
         let setting = PillExpirationIntervalSetting.LastXDays
         let xDays = "3-14"
         pill.expirationInterval = PillExpirationInterval(setting, xDays: xDays)
-        let expected = 2
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let actual = viewModel.getStartIndexForDaysPicker(pickerNumber: 1)
-        XCTAssertEqual(expected, actual)
+        XCTAssertEqual(2, actual)
     }
 
     func testGetStartIndexForDaysPicker_whenGiven2AndNothingSelected_returnsDaysIndexFromPill() {
@@ -464,10 +463,29 @@ class PillDetailViewModelTests: XCTestCase {
         let setting = PillExpirationIntervalSetting.XDaysOnXDaysOff
         let xDays = "3-3"
         pill.expirationInterval = PillExpirationInterval(setting, xDays: xDays)
-        let expected = 2
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let actual = viewModel.getStartIndexForDaysPicker(pickerNumber: 2)
-        XCTAssertEqual(expected, actual)
+        XCTAssertEqual(2, actual)
+    }
+
+    func testGetStartIndexForDaysPicker_whenGivenPicker0AndHasOnIndex_returnsExpectedIndex() {
+        let pill = setupPill()
+        let setting = PillExpirationIntervalSetting.XDaysOnXDaysOff
+        let xDays = "3-3-on-3"
+        pill.expirationInterval = PillExpirationInterval(setting, xDays: xDays)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.getStartIndexForDaysPicker(pickerNumber: 0)
+        XCTAssertEqual(2, actual)
+    }
+
+    func testGetStartIndexForDaysPicker_whenGivenPicker0AndHasOffIndex_returnsExpectedIndex() {
+        let pill = setupPill()
+        let setting = PillExpirationIntervalSetting.XDaysOnXDaysOff
+        let xDays = "3-3-off-2"
+        pill.expirationInterval = PillExpirationInterval(setting, xDays: xDays)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        let actual = viewModel.getStartIndexForDaysPicker(pickerNumber: 0)
+        XCTAssertEqual(4, actual)
     }
 
     func testExpirationIntervalPickerStartIndex_usesSelectedInterval() {

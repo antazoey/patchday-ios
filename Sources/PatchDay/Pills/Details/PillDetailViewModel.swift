@@ -96,16 +96,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     var positionOptions: [String] {
         guard expirationInterval == .XDaysOnXDaysOff else { return [] }
-
-        var positions: [String] = []
-        for i in 1...daysOne {
-            positions.append(getDaysOnPositionText(i))
-        }
-        for i in 1...daysTwo {
-            positions.append(getDaysOffPositionText(i))
-        }
-
-        return positions
+        return daysOnePositionOptions + daysTwoPositionOptions
     }
 
     var daysOneLabelText: String? {
@@ -145,7 +136,14 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func getStartIndexForDaysPicker(pickerNumber: Int) -> Index {
-        pickerNumber == 1 ? daysOne - 1 : daysTwo - 1
+        if pickerNumber == 0 {
+            return startIndexForPosition
+        } else if pickerNumber == 1 {
+            return daysOne - 1
+        } else if pickerNumber == 2 {
+            return daysTwo - 1
+        }
+        return 1
     }
 
     var daysSelected: Bool {
@@ -286,18 +284,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
     }
 
-    private func trySelectDaysOne() {
-        if selections.expirationInterval.daysOne == nil {
-            selections.expirationInterval.daysOne = daysOne
-        }
-    }
-
-    private func trySelectDaysTwo() {
-        if expirationInterval == .XDaysOnXDaysOff {
-            selections.expirationInterval.daysTwo = daysTwo
-        }
-    }
-
     func getOptionsForSelectedPicker(_ pickerNumber: Int) -> [String] {
         // Setting a days prop
         if pickerNumber == 1 || pickerNumber == 2 {
@@ -360,6 +346,20 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             || pill.name == PillStrings.NewPill
     }
 
+    private var startIndexForPosition: Int {
+        let pos = "\(daysPosition)"
+        var options: [String] = []
+        var start = 0
+        if daysIsOn {
+            options = daysOnePositionOptions
+        } else {
+            options = daysTwoPositionOptions
+            start = daysOne
+        }
+        let qualifyingPhrase = "\(pos) of"
+        return (options.firstIndex(where: { $0.contains(qualifyingPhrase) }) ?? 0) + start
+    }
+
     private func getDaysPositionText(isOn: Bool, position: Int) -> String {
         guard expirationInterval == .XDaysOnXDaysOff else { return "" }
         return isOn ? getDaysOnPositionText(position) : getDaysOffPositionText(position)
@@ -375,5 +375,33 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     private func getDaysPositionText(_ onOff: String, _ max: Int, _ position: Int) -> String {
         "\(position) of \(max) (\(onOff))"
+    }
+
+    private func trySelectDaysOne() {
+        if selections.expirationInterval.daysOne == nil {
+            selections.expirationInterval.daysOne = daysOne
+        }
+    }
+
+    private func trySelectDaysTwo() {
+        if expirationInterval == .XDaysOnXDaysOff {
+            selections.expirationInterval.daysTwo = daysTwo
+        }
+    }
+
+    private var daysOnePositionOptions: [String] {
+        var positions: [String] = []
+        for i in 1...daysOne {
+            positions.append(getDaysOnPositionText(i))
+        }
+        return positions
+    }
+
+    private var daysTwoPositionOptions: [String] {
+        var positions: [String] = []
+        for i in 1...daysTwo {
+            positions.append(getDaysOffPositionText(i))
+        }
+        return positions
     }
 }
