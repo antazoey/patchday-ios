@@ -49,7 +49,6 @@ class SiteCell: TableCell, SiteCellProtocol {
 
     private func reflectActionState() {
         guard let viewModel = viewModel else { return }
-        let isEditing = props.siteIsNewAndFirst ? false : self.isEditing
         let visibilityBools = viewModel.getVisibilityBools(cellIsInEditMode: isEditing)
         orderLabel.isHidden = visibilityBools.hideOrder
         arrowLabel.isHidden = visibilityBools.hideArrow

@@ -181,7 +181,7 @@ class SitesViewModelTests: XCTestCase {
         let dep = MockDependencies()
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
         viewModel.goToSiteDetails(siteIndex: 0, sitesViewController: UIViewController())
-        XCTAssertEqual(1, table.turnOffEditingModeCallCount)
+        XCTAssertFalse(table.toggleEditCallArgs[0])
     }
 
     func testGoToSiteDetails_ifNotInEditingMode_doesNotTurnOffEditingMode() {
@@ -190,7 +190,7 @@ class SitesViewModelTests: XCTestCase {
         let dep = MockDependencies()
         let viewModel = SitesViewModel(sitesTable: table, dependencies: dep)
         viewModel.goToSiteDetails(siteIndex: 0, sitesViewController: UIViewController())
-        XCTAssertEqual(0, table.turnOffEditingModeCallCount)
+        XCTAssertEqual(0, table.toggleEditCallArgs.count)
     }
 
     func testGoToSiteDetails_setsBarBackItem() {

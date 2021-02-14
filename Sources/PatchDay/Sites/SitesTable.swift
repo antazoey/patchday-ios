@@ -64,7 +64,6 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
 
         if let site = sites[siteIndex] {
             props.site = site
-            props.siteIsNewAndFirst = sites.count == 1 && site.name == SiteStrings.NewSite
         }
         return props
     }
