@@ -347,11 +347,11 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval.xDaysPosition = 4
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         let expected = [
-            "Days on - 1/2",
-            "Days on - 2/2",
-            "Days off - 1/3",
-            "Days off - 2/3",
-            "Days off - 3/3"
+            "1 of 2 (on)",
+            "2 of 2 (on)",
+            "1 of 3 (off)",
+            "2 of 3 (off)",
+            "3 of 3 (off)"
         ]
         let actual = viewModel.positionOptions
         XCTAssertEqual(expected, actual)
@@ -406,7 +406,7 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testDaysPositionText_whenNothingSelectedAndPillNotUsingXDaysOnXDaysOff_returnsExpectedStartLikeText() {
+    func testDaysPositionText_whenNothingSelectedAndPillNotUsingXDaysOnXDaysOff_returnsEmptyString() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
@@ -419,7 +419,7 @@ class PillDetailViewModelTests: XCTestCase {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-3")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let expected = "Days on - 3/5"
+        let expected = "Current position: 3 of 5 (on)"
         let actual = viewModel.daysPositionText
         XCTAssertEqual(expected, actual)
     }
@@ -434,7 +434,7 @@ class PillDetailViewModelTests: XCTestCase {
         viewModel.selections.expirationInterval.xDaysIsOn = false
         viewModel.selections.expirationInterval.xDaysPosition = 3
         let actual = viewModel.daysPositionText
-        let expected = "Days off - 3/3"
+        let expected = "Current position: 3 of 3 (off)"
         XCTAssertEqual(expected, actual)
     }
 

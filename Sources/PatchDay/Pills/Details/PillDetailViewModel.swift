@@ -124,11 +124,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysPositionText: String {
+        guard expirationInterval == .XDaysOnXDaysOff else { return "" }
         let prefix = NSLocalizedString(
             "Current position:", comment: "Appears on a label, preceeds a numeric variable"
         )
         let suffix = getDaysPositionText(isOn: daysIsOn, position: daysPosition).lowercased()
-        return "\(prefix)  \(suffix)"
+        return "\(prefix) \(suffix)"
     }
 
     var expirationIntervalIsSelected: Bool {
