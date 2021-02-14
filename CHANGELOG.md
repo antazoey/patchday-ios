@@ -13,10 +13,6 @@ Added
 - New Pill Expiration Interval "X Days On, X Days Off" for creating a schedule where you take a pill for a certain 
     number of days and then stop taking the pill for a certain number of days.  You can set the "Days on" and 
     "Days off" properties accordingly to any numbers 1 - 25.
-    
-Fixed
-
-- Bug where the rows in the Pill Details Pickers would disappear when in dark mode and scrolling a lot.
 
 ## 3.2.3
 

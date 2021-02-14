@@ -233,13 +233,14 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func pickerView(
         _ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int
     ) -> NSAttributedString? {
-        var title = ""
+        var title = "start_"
         if selectedPicker == namePicker {
             title = viewModel.nameOptions.tryGet(at: row) ?? ""
         } else if selectedPicker == expirationIntervalPicker {
             title = viewModel.expirationIntervalOptions.tryGet(at: row) ?? ""
         } else if selectedPicker == daysPicker {
-            title = viewModel.getOptionsForSelectedPicker(selectedDaysNumber).tryGet(at: row) ?? ""
+            let options = viewModel.getOptionsForSelectedPicker(selectedDaysNumber)
+            title = options.tryGet(at: row) ?? ""
         }
         return NSAttributedString(
             string: title, attributes: [NSAttributedString.Key.foregroundColor: PDColors[.Text]]
@@ -254,7 +255,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             viewModel.selectExpirationInterval(row)
         } else if selectedPicker == daysPicker {
             viewModel.selectFromDaysPicker(row, daysNumber: selectedDaysNumber)
-            selectedDaysNumber = -1
         }
     }
 
