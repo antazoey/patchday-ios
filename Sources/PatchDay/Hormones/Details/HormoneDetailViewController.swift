@@ -180,9 +180,8 @@ class HormoneDetailViewController: UIViewController,
         _ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int
     ) -> NSAttributedString? {
         guard let title = viewModel.getSiteName(at: row) else { return nil }
-        let textColor = PDColors[.Text]
         return NSAttributedString(
-            string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor]
+            string: title, attributes: [NSAttributedString.Key.foregroundColor: PDColors[.Text]]
         )
     }
 

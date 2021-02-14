@@ -124,7 +124,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysPositionText: String {
-        getDaysPositionText(isOn: daysIsOn, position: daysPosition)
+        let prefix = NSLocalizedString(
+            "Current position:", comment: "Appears on a label, preceeds a numeric variable"
+        )
+        let suffix = getDaysPositionText(isOn: daysIsOn, position: daysPosition).lowercased()
+        return "\(prefix)  \(suffix)"
     }
 
     var expirationIntervalIsSelected: Bool {
@@ -269,12 +273,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             }
         } else if daysNumber == 0 {
             guard let choice = positionOptions.tryGet(at: row) else { return }
-            let parts = choice.split(separator: "-")
-            let subparts = parts[1].split(separator: "/")
-            guard subparts.count == 2 else { return }
-            let isOn = parts[0].contains("on")
-            let posPart = subparts[0].filter { $0 != " " }
-            guard let pos = Int(posPart) else { return }
+            let parts = choice.split(separator: " ")
+            guard parts.count > 1 else { return }
+            let position = parts[0]
+            guard let pos = Int(position) else { return }
+            let isOn = choice.contains("on")
             trySelectDaysOne()
             trySelectDaysTwo()
             selections.expirationInterval.xDaysIsOn = isOn
@@ -370,6 +373,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private func getDaysPositionText(_ onOff: String, _ max: Int, _ position: Int) -> String {
-        "\(NSLocalizedString("Days \(onOff)", comment: "Part of label")) - \(position)/\(max)"
+        "\(position) of \(max) (\(onOff))"
     }
 }

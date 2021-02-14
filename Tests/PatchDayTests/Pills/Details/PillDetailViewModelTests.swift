@@ -994,7 +994,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9-on-5")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(12, daysNumber: 0)
-        XCTAssertEqual("Days off - 8/9", viewModel.daysPositionText)
+        XCTAssertEqual("Current position: 8 of 9 (off)", viewModel.daysPositionText)
     }
 
     func testSelectFromDaysPicker_whenGivenAbsurdIndex_doesNotSelectPosition() {
@@ -1002,7 +1002,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9-on-5")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(90032582305, daysNumber: 0)
-        XCTAssertEqual("Days on - 5/5", viewModel.daysPositionText)
+        XCTAssertEqual("Current position: 5 of 5 (on)", viewModel.daysPositionText)
     }
 
     func testGetOptionsForSelectedPicker_whenGiven1_returnsDaysOptions() {

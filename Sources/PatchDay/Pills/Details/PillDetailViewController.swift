@@ -163,6 +163,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @IBAction func daysPositionButtonTapped(_ sender: Any) {
         selectedPicker = daysPicker
+        selectedDaysNumber = 0
         openDaysPicker()
         daysPositionSetButton.setTitle(ActionStrings.Done)
         daysPositionSetButton.replaceTarget(
@@ -230,16 +231,19 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func pickerView(
-        _ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int
-    ) -> String? {
+        _ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int
+    ) -> NSAttributedString? {
+        var title = ""
         if selectedPicker == namePicker {
-            return viewModel.nameOptions.tryGet(at: row)
+            title = viewModel.nameOptions.tryGet(at: row) ?? ""
         } else if selectedPicker == expirationIntervalPicker {
-            return viewModel.expirationIntervalOptions.tryGet(at: row)
+            title = viewModel.expirationIntervalOptions.tryGet(at: row) ?? ""
         } else if selectedPicker == daysPicker {
-            return viewModel.getOptionsForSelectedPicker(selectedDaysNumber).tryGet(at: row)
+            title = viewModel.getOptionsForSelectedPicker(selectedDaysNumber).tryGet(at: row) ?? ""
         }
-        return nil
+        return NSAttributedString(
+            string: title, attributes: [NSAttributedString.Key.foregroundColor: PDColors[.Text]]
+        )
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -250,7 +254,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
             viewModel.selectExpirationInterval(row)
         } else if selectedPicker == daysPicker {
             viewModel.selectFromDaysPicker(row, daysNumber: selectedDaysNumber)
-            selectedDaysNumber = 0
+            selectedDaysNumber = -1
         }
     }
 
@@ -582,10 +586,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timesadaySlider.backgroundColor = UIColor.systemBackground
         paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground
         timesadayLabel.textColor = PDColors[.Text]
-        timePickerOne.backgroundColor = UIColor.systemBackground
-        timePickerTwo.backgroundColor = UIColor.systemBackground
-        timePickerThree.backgroundColor = UIColor.systemBackground
-        timePickerFour.backgroundColor = UIColor.systemBackground
     }
 }
 
