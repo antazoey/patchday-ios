@@ -171,7 +171,7 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
         assertTwoIsEqual(expected: 3, xDays)
     }
 
-    func testTwo_whenSettingBelowTheCurrentPosition_setsPositionToNewDaysOne() {
+    func testTwo_whenSettingBelowTheCurrentPosition_setsPositionToNewDaysTwo() {
         let xDays = PillExpirationIntervalXDays("5-13-off-4")
         xDays.two = 3
         XCTAssertEqual(3, xDays.position)
