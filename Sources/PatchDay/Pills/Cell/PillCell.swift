@@ -35,12 +35,6 @@ class PillCell: TableCell, PillCellProtocol {
         return self
     }
 
-    /// Set the "last taken" label to the current date as a string.
-    @discardableResult func stamp() -> PillCellProtocol {
-        lastTakenLabel?.text = PDDateFormatter.formatDate(Date())
-        return self
-    }
-
     func loadBackground() {
         backgroundColor = UIColor.systemBackground
         let backgroundView = UIView()

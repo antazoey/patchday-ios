@@ -54,13 +54,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         pills.swallow(pill.id) {
             self.notifications?.requestDuePillNotification(pill)
             let params = PillCellConfigurationParameters(pill: pill, index: index)
-            let cell = self.pillsTable[index]
-            cell.stamp().configure(params)
+            self.pillsTable[index].configure(params)
             self.pillsTable.reloadData()
             self.badge?.reflect()
-            if let pill = self.sdk?.pills[index] {
-                self.notifications?.requestDuePillNotification(pill)
-            }
+            self.notifications?.requestDuePillNotification(pill)
         }
         self.tabs?.reflectPills()
     }

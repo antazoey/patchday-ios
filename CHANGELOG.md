@@ -14,6 +14,10 @@ Added
     number of days and then stop taking the pill for a certain number of days.  You can set the "Days on" and 
     "Days off" properties accordingly to any numbers 1 - 25.
 
+Fixed
+
+- Issue where you could not take a newly added pill.
+
 ## 3.2.3
 
 Fixed

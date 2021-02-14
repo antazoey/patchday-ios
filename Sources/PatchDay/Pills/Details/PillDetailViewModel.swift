@@ -8,22 +8,26 @@ import PDKit
 
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDetailViewModelProtocol {
 
-    let index: Index
+    private let _index: Index
     var pill: Swallowable {
-        sdk!.pills[index]!
+        guard let _sdk = sdk, let pill = _sdk.pills[index] else {
+            sdk!.pills.reloadContext()
+            return sdk!.pills[index]!
+        }
+        return pill
     }
     static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
     var selections = PillAttributes()
     private let now: NowProtocol?
 
     init(_ pillIndex: Index) {
-        self.index = pillIndex
+        self._index = pillIndex
         self.now = nil
         super.init()
     }
 
     init(_ pillIndex: Index, dependencies: DependenciesProtocol, now: NowProtocol?=nil) {
-        self.index = pillIndex
+        self._index = pillIndex
         self.now = now
         super.init(
             sdk: dependencies.sdk,
@@ -33,6 +37,10 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             nav: dependencies.nav,
             badge: dependencies.badge
         )
+    }
+
+    var index: Index {
+        _index
     }
 
     var title: String {

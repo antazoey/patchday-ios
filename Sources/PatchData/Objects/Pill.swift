@@ -116,6 +116,20 @@ public class Pill: Swallowable {
 
     public func set(attributes: PillAttributes) {
         pillData.attributes.update(attributes)
+
+        // Prevent pills with 0 set times
+        if timesaday == 0 {
+            let timeString = DefaultPillAttributes.time
+            let defaultTime = DateFactory.createTimesFromCommaSeparatedString(timeString, now: _now)
+            self.appendTime(defaultTime[0])
+        }
+
+        let interval = attributes.expirationInterval
+        let wasGivenPosition = interval.xDaysPosition != nil || interval.xDaysIsOn != nil
+        if wasGivenPosition && lastTaken == nil {
+            // Set to arbitrary date in the past so it appears the schedule is in-progress.
+            lastTaken = DateFactory.createDate(byAddingHours: -24, to: now)
+        }
     }
 
     public func swallow() {
