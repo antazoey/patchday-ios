@@ -50,10 +50,10 @@ public protocol PillDetailViewModelProtocol {
     /// The available options for the days pickers.
     var daysOptions: [String] { get }
 
-    /// All the possible combinations of the days position. Only applicable to .XDaysOnXDaysOff.
+    /// All the possible combinations of the days position. Only applicable to `.XDaysOnXDaysOff`.
     var positionOptions: [String] { get }
 
-    /// The text to display in the label for the first days selection when ` expirationIntervalUsesDays`.
+    /// The text to display in the label for the first days selection when `expirationIntervalUsesDays`.
     var daysOneLabelText: String? { get }
 
     /// The text to display in the label for the second days selection when `expirationInterval == .XDaysOnXDaysOff`.
@@ -74,13 +74,13 @@ public protocol PillDetailViewModelProtocol {
     /// Whether or not the days have been selected in the UI.
     var daysSelected: Bool { get }
 
-    /// The start index for the `expirationInterval` in the picker.
+    /// The start index for the `expirationInterval` picker.
     var expirationIntervalStartIndex: Index { get }
 
     /// Either the selected option, `Pill.timeaday`, or the default `timesaday`.
     var timesaday: Int { get }
 
-    /// The user-facing text representing `timeaday`.
+    /// The user-facing text representing `timesaday`.
     var timesadayText: String { get }
 
     /// Either the selected option, `pill.notify`, or the default option.
@@ -89,10 +89,10 @@ public protocol PillDetailViewModelProtocol {
     /// Either the selected options, `pill.times`, or the defaul option.
     var times: [Time] { get }
 
-    /// Set one of the `times` so that can be saved.
+    /// Set one of the `times` so that it can be saved.
     func selectTime(_ time: Time, _ index: Index)
 
-    /// Set `timesaday` so it can be saved to the `pill`.
+    /// Set `timesaday` so that it can be saved.
     func setTimesaday(_ timesaday: Int)
 
     /// Set the `times` from an array of time pickers.
@@ -110,7 +110,7 @@ public protocol PillDetailViewModelProtocol {
     /// Set the value for `expirationInterval`.
     func selectExpirationInterval(_ row: Index)
 
-    /// Select a days value for either daysOne, daysTwo, or the position, depending on the given days number.
+    /// Select a days value for either `daysOne`, `daysTwo`, or the `position`, depending on the given days number.
     func selectFromDaysPicker(_ row: Index, daysNumber: Int?)
 
     /// Returns either the days options or the positions options, based on the picker number. [1,2] -> days, 0 -> positions.
