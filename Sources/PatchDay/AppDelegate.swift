@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //
 //  Created by Juliya Smith on 5/9/17.
-//  Copyright © 2021 Juliya Smith. All rights reserved.
+//  
 //
 
 import UIKit

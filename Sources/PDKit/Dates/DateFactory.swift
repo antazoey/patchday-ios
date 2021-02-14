@@ -3,7 +3,7 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 6/20/18.
-//  Copyright © 2021 Juliya Smith. All rights reserved.
+//  
 //
 
 public class DateFactory: NSObject {

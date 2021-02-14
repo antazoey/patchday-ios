@@ -3,7 +3,7 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 7/11/18.
-//  Copyright © 2021 Juliya Smith. All rights reserved.
+//  
 //
 
 import UIKit

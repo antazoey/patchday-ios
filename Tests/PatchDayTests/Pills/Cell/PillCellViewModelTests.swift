@@ -3,7 +3,7 @@
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 10/9/20.
-//  Copyright © 2021 Juliya Smith. All rights reserved.
+//  
 //
 
 import XCTest

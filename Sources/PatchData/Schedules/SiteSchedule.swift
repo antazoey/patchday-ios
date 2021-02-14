@@ -3,7 +3,7 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 7/4/18.
-//  Copyright © 2021 Juliya Smith. All rights reserved.
+//  
 //
 
 import Foundation
