@@ -15,12 +15,6 @@ public class MockPillCell: PillCellProtocol {
         return self
     }
 
-    public var stampCallCount = 0
-    public func stamp() -> PillCellProtocol {
-        stampCallCount += 1
-        return self
-    }
-
     public var loadBackgroundCallCount = 0
     public func loadBackground() {
         loadBackgroundCallCount += 1

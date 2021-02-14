@@ -92,13 +92,6 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(0, table.subscriptCallArgs[0])
     }
 
-    func testTakePill_stampsCell() {
-        let viewModel = createViewModel()
-        viewModel.takePill(at: 0)
-        (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
-        XCTAssertEqual(1, cell.stampCallCount)
-    }
-
     func testTakePill_configuresCell() {
         let viewModel = createViewModel()
         viewModel.takePill(at: 0)
@@ -209,21 +202,6 @@ class PillsViewModelTests: XCTestCase {
         handlers.takePill()
         (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
         XCTAssertEqual(0, table.subscriptCallArgs[0])
-    }
-
-    func testPresentPillActions_whenChoosesTakeAction_stampsCell() {
-        let viewModel = createViewModel()
-        let tabs = deps.tabs as! MockTabs
-        viewModel.presentPillActions(
-            at: 0,
-            viewController: UIViewController(),
-            takePillCompletion: {}
-        )
-        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
-        tabs.reflectPillsCallCount = 0  // reset prior to test
-        handlers.takePill()
-        (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
-        XCTAssertEqual(1, cell.stampCallCount)
     }
 
     func testPresentPillActions_whenChoosesTakeAction_configuresCell() {
