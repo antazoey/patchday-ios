@@ -22,7 +22,8 @@ class PillStore: EntityStore, PillStoring {
     var state: PillScheduleState {
         var state = PillScheduleState.Initial
         var pillsToSave: [Swallowable] = []
-        for pill in getStoredPills() {
+        let storedPills = getStoredPills()
+        for pill in storedPills {
             if pill.times.count > 0 {
                 state = .Working
             } else {

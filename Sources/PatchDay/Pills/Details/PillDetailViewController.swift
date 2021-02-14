@@ -48,6 +48,11 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBOutlet weak var daysTwoLabel: UILabel!
     @IBOutlet weak var daysTwoButton: UIButton!
     @IBOutlet weak var daysTwoArrowButton: UIButton!
+    @IBOutlet weak var daysPositionStack: UIStackView!
+    @IBOutlet weak var daysPositionLabel: UILabel!
+    @IBOutlet weak var daysPositionVerticalLine: UIView!
+    @IBOutlet weak var daysPositionSetButton: UIButton!
+    @IBOutlet weak var lineUnderDaysPosition: UIView!
     @IBOutlet weak var daysPicker: UIPickerView!
     @IBOutlet weak var lineUnderDaysTwo: UIView!
     @IBOutlet weak var timesadaySlider: UISlider!
@@ -156,17 +161,30 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         )
     }
 
+    @IBAction func daysPositionButtonTapped(_ sender: Any) {
+        selectedPicker = daysPicker
+        openDaysPicker()
+        daysPositionSetButton.setTitle(ActionStrings.Done)
+        daysPositionSetButton.replaceTarget(
+            self, newAction: #selector(doneWithDaysPickerTapped)
+        )
+    }
+
     @objc func doneWithDaysPickerTapped() {
         closeDaysPicker()
         let daysOnText = viewModel.daysOn
         let daysOffText = viewModel.daysOff
         daysOneButton.setTitle(daysOnText)
-        daysOneButton.replaceTarget(self, newAction: #selector(daysOneButtonTapped))
+        daysOneButton.replaceTarget(self, newAction: #selector(daysOneButtonTapped(_:)))
         daysTwoButton.setTitle(daysOffText)
-        daysTwoButton.replaceTarget(self, newAction: #selector(daysTwoButtonTapped))
+        daysTwoButton.replaceTarget(self, newAction: #selector(daysTwoButtonTapped(_:)))
         if viewModel.daysSelected {
             enableSaveButton()
         }
+        daysPositionSetButton.setTitle(
+            NSLocalizedString("Set", comment: "small button text")
+        )
+        daysPositionSetButton.replaceTarget(self, newAction: #selector(daysPositionButtonTapped(_:)))
         loadExpirationIntervalDays()
     }
 
@@ -203,10 +221,10 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if selectedPicker == namePicker {
             return viewModel.nameOptions.count
-        } else if selectedPicker == daysPicker {
-            return viewModel.daysOptions.count
         } else if selectedPicker == expirationIntervalPicker {
             return viewModel.expirationIntervalOptions.count
+        } else if selectedPicker == daysPicker {
+            return viewModel.getOptionsForSelectedPicker(selectedDaysNumber).count
         }
         return DefaultNumberOfPickerComponents
     }
@@ -219,7 +237,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         } else if selectedPicker == expirationIntervalPicker {
             return viewModel.expirationIntervalOptions.tryGet(at: row)
         } else if selectedPicker == daysPicker {
-            return viewModel.daysOptions.tryGet(at: row)
+            return viewModel.getOptionsForSelectedPicker(selectedDaysNumber).tryGet(at: row)
         }
         return nil
     }
@@ -231,7 +249,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         } else if selectedPicker == expirationIntervalPicker {
             viewModel.selectExpirationInterval(row)
         } else if selectedPicker == daysPicker {
-            viewModel.selectDays(row, daysNumber: selectedDaysNumber)
+            viewModel.selectFromDaysPicker(row, daysNumber: selectedDaysNumber)
             selectedDaysNumber = 0
         }
     }
@@ -308,6 +326,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         daysOneButton.setTitle(viewModel.daysOn)
         daysTwoLabel.text = viewModel.daysTwoLabelText
         daysTwoButton.setTitle(viewModel.daysOff)
+        daysPositionLabel.text = viewModel.daysPositionText
     }
 
     private func hideOrUnhideDaysStack() {
@@ -318,6 +337,8 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         lineUnderDaysOne.isHidden = !usesDays
         daysTwoStack.isHidden = !usesDaysOnDaysOff
         lineUnderDaysTwo.isHidden = !usesDaysOnDaysOff
+        daysPositionStack.isHidden = !usesDaysOnDaysOff
+        lineUnderDaysPosition.isHidden = !usesDaysOnDaysOff
     }
 
     private func checkForUnsavedChanges() {
@@ -553,6 +574,10 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         expirationIntervalButton.setTitleColor(PDColors[.Button])
         daysOneButton.setTitleColor(PDColors[.Button])
         daysTwoButton.setTitleColor(PDColors[.Button])
+        daysPositionSetButton.setTitleColor(PDColors[.Button])
+        daysPositionVerticalLine.backgroundColor = PDColors[.Border]
+        daysPositionLabel.textColor = PDColors[.Text]
+        lineUnderDaysPosition.backgroundColor = PDColors[.Border]
         paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
         timesadaySlider.backgroundColor = UIColor.systemBackground
         paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground

@@ -94,6 +94,20 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         PillExpirationIntervalXDays.daysRange.map({ String($0) })
     }
 
+    var positionOptions: [String] {
+        guard expirationInterval == .XDaysOnXDaysOff else { return [] }
+
+        var positions: [String] = []
+        for i in 1...daysOne {
+            positions.append(getDaysOnPositionText(i))
+        }
+        for i in 1...daysTwo {
+            positions.append(getDaysOffPositionText(i))
+        }
+
+        return positions
+    }
+
     var daysOneLabelText: String? {
         guard expirationIntervalUsesDays else { return nil }
         if expirationInterval == .FirstXDays {
@@ -106,8 +120,11 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     var daysTwoLabelText: String? {
         guard expirationInterval == .XDaysOnXDaysOff else { return nil }
-        // .XDaysOnXDaysOff
         return NSLocalizedString("Days off:", comment: "on label")
+    }
+
+    var daysPositionText: String {
+        getDaysPositionText(isOn: daysIsOn, position: daysPosition)
     }
 
     var expirationIntervalIsSelected: Bool {
@@ -234,24 +251,58 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
     }
 
-    func selectDays(_ row: Index, daysNumber: Int?) {
+    func selectFromDaysPicker(_ row: Index, daysNumber: Int?) {
         guard expirationIntervalUsesDays else { return }
-        guard 0..<daysOptions.count ~= row else { return }
-        guard let option = Int(daysOptions[row]) else { return }
 
         // If selecting a days, have to first select current dependent attributes from pill.
         selections.expirationInterval.value = expirationInterval
-        if daysNumber == 1 {
-            selections.expirationInterval.daysOne = option
-            if expirationInterval == .XDaysOnXDaysOff {
-                selections.expirationInterval.daysTwo = daysTwo
+
+        if daysNumber == 1 || daysNumber == 2 {
+            guard 0..<daysOptions.count ~= row else { return }
+            guard let option = Int(daysOptions[row]) else { return }
+            if daysNumber == 1 {
+                selections.expirationInterval.daysOne = option
+                trySelectDaysTwo()
+            } else if daysNumber == 2 {
+                trySelectDaysOne()
+                selections.expirationInterval.daysTwo = option
             }
-        } else if daysNumber == 2 {
-            if selections.expirationInterval.daysOne == nil {
-                selections.expirationInterval.daysOne = daysOne
-            }
-            selections.expirationInterval.daysTwo = option
+        } else if daysNumber == 0 {
+            guard let choice = positionOptions.tryGet(at: row) else { return }
+            let parts = choice.split(separator: "-")
+            let subparts = parts[1].split(separator: "/")
+            guard subparts.count == 2 else { return }
+            let isOn = parts[0].contains("on")
+            let posPart = subparts[0].filter { $0 != " " }
+            guard let pos = Int(posPart) else { return }
+            trySelectDaysOne()
+            trySelectDaysTwo()
+            selections.expirationInterval.xDaysIsOn = isOn
+            selections.expirationInterval.xDaysPosition = pos
         }
+    }
+
+    private func trySelectDaysOne() {
+        if selections.expirationInterval.daysOne == nil {
+            selections.expirationInterval.daysOne = daysOne
+        }
+    }
+
+    private func trySelectDaysTwo() {
+        if expirationInterval == .XDaysOnXDaysOff {
+            selections.expirationInterval.daysTwo = daysTwo
+        }
+    }
+
+    func getOptionsForSelectedPicker(_ pickerNumber: Int) -> [String] {
+        // Setting a days prop
+        if pickerNumber == 1 || pickerNumber == 2 {
+            return daysOptions
+        } else if pickerNumber == 0 {
+            // Settings the pos
+            return positionOptions
+        }
+        return []
     }
 
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
@@ -288,8 +339,37 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             ?? DefaultPillAttributes.xDaysInt
     }
 
+    private var daysIsOn: Bool {
+        selections.expirationInterval.xDaysIsOn
+            ?? pill.expirationInterval.xDaysIsOn
+            ?? true
+    }
+
+    private var daysPosition: Int {
+        selections.expirationInterval.xDaysPosition
+            ?? pill.expirationInterval.xDaysPosition
+            ?? 1
+    }
+
     private var wereChanges: Bool {
         selections.anyAttributeExists(exclusions: pill.attributes)
             || pill.name == PillStrings.NewPill
+    }
+
+    private func getDaysPositionText(isOn: Bool, position: Int) -> String {
+        guard expirationInterval == .XDaysOnXDaysOff else { return "" }
+        return isOn ? getDaysOnPositionText(position) : getDaysOffPositionText(position)
+    }
+
+    private func getDaysOnPositionText(_ position: Int) -> String {
+        getDaysPositionText("on", daysOne, position)
+    }
+
+    private func getDaysOffPositionText(_ position: Int) -> String {
+        getDaysPositionText("off", daysTwo, position)
+    }
+
+    private func getDaysPositionText(_ onOff: String, _ max: Int, _ position: Int) -> String {
+        "\(NSLocalizedString("Days \(onOff)", comment: "Part of label")) - \(position)/\(max)"
     }
 }
