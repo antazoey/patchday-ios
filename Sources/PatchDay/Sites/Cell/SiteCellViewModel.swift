@@ -24,12 +24,19 @@ class SiteCellViewModel: SiteCellViewModelProtocol {
 
     var orderText: String {
         guard let site = props.site else { return "" }
-        return "\(site.order + 1)."
+        let order = site.order
+        return "\(order + 1)."
     }
 
     /// Should hide if not the the next index.
-    func getVisibilityBools(cellIsInEditMode: Bool) -> (showNext: Bool, showOrder: Bool) {
-        guard let index = props.site?.order else { return (false, !cellIsInEditMode) }
-        return (props.nextSiteIndex == index && !cellIsInEditMode, !cellIsInEditMode)
+    func getVisibilityBools(
+        cellIsInEditMode: Bool) -> (hideNext: Bool, hideOrder: Bool, hideArrow: Bool
+    ) {
+        let index = props.site?.order ?? 0
+        let nextSiteIndex = props.nextSiteIndex
+        let hideNext = nextSiteIndex != index || cellIsInEditMode
+        let hideOrder = cellIsInEditMode
+        let hideArrow = !hideNext || cellIsInEditMode
+        return (hideNext, hideOrder, hideArrow)
     }
 }

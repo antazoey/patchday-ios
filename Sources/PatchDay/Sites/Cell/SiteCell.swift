@@ -32,17 +32,19 @@ class SiteCell: TableCell, SiteCellProtocol {
     }
 
     private func loadOrderDependentViews() {
-        orderLabel.text = viewModel?.orderText
+        if let orderText = viewModel?.orderText {
+            orderLabel.text = orderText
+        }
         reflectActionState()
     }
 
     public func reflectActionState() {
         guard let viewModel = viewModel else { return }
         let visibilityBools = viewModel.getVisibilityBools(cellIsInEditMode: isEditing)
-        orderLabel.isHidden = !visibilityBools.showOrder
-        arrowLabel.isHidden = visibilityBools.showNext
-        siteIndexImageView.isHidden = visibilityBools.showNext
-        nextLabel.isHidden = !visibilityBools.showNext
+        orderLabel.isHidden = visibilityBools.hideOrder
+        arrowLabel.isHidden = visibilityBools.hideArrow
+        siteIndexImageView.isHidden = !visibilityBools.hideNext
+        nextLabel.isHidden = visibilityBools.hideNext
     }
 
     private func reflectTheme(row: Index) {
