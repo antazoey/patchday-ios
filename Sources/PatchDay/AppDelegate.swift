@@ -2,8 +2,6 @@
 //  AppDelegate.swift
 //
 //  Created by Juliya Smith on 5/9/17.
-//  
-//
 
 import UIKit
 import UserNotifications

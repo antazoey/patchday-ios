@@ -3,8 +3,6 @@
 //  PDMock
 //
 //  Created by Juliya Smith on 5/16/20.
-//  
-//
 
 import Foundation
 import PDKit

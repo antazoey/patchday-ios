@@ -3,8 +3,6 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 9/2/19.
-//  
-//
 
 import Foundation
 import PDKit

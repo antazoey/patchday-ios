@@ -3,8 +3,6 @@
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 5/24/20.
-//  
-//
 
 import XCTest
 import PDKit

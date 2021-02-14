@@ -3,8 +3,6 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/27/19.
-//  
-//
 
 import Foundation
 import UserNotifications

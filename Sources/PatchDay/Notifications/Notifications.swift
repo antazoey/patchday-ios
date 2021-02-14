@@ -3,8 +3,6 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/6/17.
-//  
-//
 
 import UIKit
 import UserNotifications

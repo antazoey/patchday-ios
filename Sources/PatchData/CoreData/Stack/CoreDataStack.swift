@@ -3,8 +3,6 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 12/21/18.
-//  
-//
 
 import Foundation
 import CoreData

@@ -3,8 +3,6 @@
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 10/15/20.
-//  
-//
 
 import Foundation
 

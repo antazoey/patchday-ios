@@ -3,8 +3,6 @@
 //  PDKitTests
 //
 //  Created by Juliya Smith on 6/14/20.
-//  
-//
 
 import Foundation
 

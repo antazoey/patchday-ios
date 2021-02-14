@@ -3,8 +3,7 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 7/4/18.
-//  
-//
+
 //
 
 import Foundation

@@ -3,8 +3,6 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 6/3/17.
-//  
-//
 
 import UIKit
 import PDKit

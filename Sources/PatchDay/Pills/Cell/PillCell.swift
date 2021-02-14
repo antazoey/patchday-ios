@@ -3,8 +3,6 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 6/25/18.
-//  
-//
 
 import UIKit
 import PDKit

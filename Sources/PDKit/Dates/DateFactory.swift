@@ -3,8 +3,6 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 6/20/18.
-//  
-//
 
 public class DateFactory: NSObject {
 

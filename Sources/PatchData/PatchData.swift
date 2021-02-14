@@ -3,8 +3,6 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/13/17.
-//  
-//
 
 import Foundation
 import PDKit
