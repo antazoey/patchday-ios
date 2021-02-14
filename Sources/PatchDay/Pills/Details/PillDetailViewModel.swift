@@ -13,7 +13,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         sdk!.pills[index]!
     }
     static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
-    var selections: PillAttributes = PillAttributes()
+    var selections = PillAttributes()
     private let now: NowProtocol?
 
     init(_ pillIndex: Index) {
