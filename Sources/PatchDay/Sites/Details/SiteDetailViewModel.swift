@@ -67,7 +67,13 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
 
     var sitesCount: Int { sdk?.sites.count ?? 0 }
 
-    var siteNameOptions: [SiteName] { sdk?.sites.names ?? [] }
+    var siteNameOptions: [SiteName] {
+        // The reason this does not include any default names is because it can be odd if
+        // just renaming the same sites that the defaults, for example, having a custom site
+        // "Right Butt" and then still have the automatic default names "Right Glute" still
+        // appear in the picker.
+        sdk?.sites.names ?? []
+    }
 
     var siteNamePickerStartIndex: Index {
         if let startName = selections.selectedSiteName ?? siteName {
