@@ -3,8 +3,6 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 5/5/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 
@@ -41,13 +39,12 @@ public enum ExpirationInterval {
     case EveryTwoWeeks
 }
 
-public enum PillExpirationInterval: String {
+public enum PillExpirationIntervalSetting: String {
     case EveryDay = "everyDay"
     case EveryOtherDay = "everyOtherDay"
-    case FirstTenDays = "firstTenDays"
-    case LastTenDays = "lastTenDays"
-    case FirstTwentyDays = "firstTwentyDays"
-    case LastTwentyDays = "lastTwentyDays"
+    case FirstXDays = "firstXDays"
+    case LastXDays = "lastXDays"
+    case XDaysOnXDaysOff = "xDaysOnXDaysOff"
 }
 
 // These strings cannot change - they are for retrieving from Core Data

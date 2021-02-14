@@ -3,8 +3,6 @@
 //  PDKitTests
 //
 //  Created by Juliya Smith on 9/4/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import XCTest
 import Foundation

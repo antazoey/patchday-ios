@@ -3,8 +3,6 @@
 //  PDMock
 //
 //  Created by Juliya Smith on 1/16/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 import PDKit
@@ -15,7 +13,7 @@ public class MockPill: Swallowable {
     public var name: String = ""
     public var times: [Time] = []
     public var notify: Bool = false
-    public var expirationInterval = PillExpirationInterval.EveryDay
+    public var expirationInterval = PillExpirationInterval(.EveryDay)
     public var timesaday: Int = -1
     public var timesTakenToday: Int = -1
     public var lastTaken: Date?
@@ -26,6 +24,10 @@ public class MockPill: Swallowable {
     public var hasName: Bool = false
 
     public init() { }
+
+    public var expirationIntervalSetting: PillExpirationIntervalSetting {
+        expirationInterval.value!
+    }
 
     public var setCallArgs: [PillAttributes] = []
     public func set(attributes: PillAttributes) {

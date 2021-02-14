@@ -3,8 +3,6 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 8/14/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 
@@ -16,10 +14,13 @@ public protocol Swallowable {
     var attributes: PillAttributes { get }
 
     /// The name of the pill.
-    var name: String { get set }
+    var name: String { get }
+
+    /// The expiration interval of the pill as an object with additional helper methods.
+    var expirationInterval: PillExpirationInterval { get }
 
     /// The expiration interval of the pill, such as every day or first ten days of the month, etc.
-    var expirationInterval: PillExpirationInterval { get set }
+    var expirationIntervalSetting: PillExpirationIntervalSetting { get }
 
     /// The times, in order, for which to take pills on a day in the schedule.
     var times: [Time] { get }

@@ -3,8 +3,6 @@
 //  PatchDataTests
 //
 //  Created by Juliya Smith on 1/15/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import XCTest
 import PDKit
@@ -243,7 +241,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingByIndex_updatesPill() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         let testDate = "18:30:30"
         attributes.times = testDate
@@ -254,8 +252,24 @@ class PillScheduleTests: XCTestCase {
         XCTAssert(callArgs.contains(where: {$0.name == "New Name" && $0.times == testDate}))
     }
 
+    public func testSet_whenPillExistsAndSettingExpirationIntervalDataByIndex_updatesPill() {
+        let attributes = PillAttributes()
+        attributes.expirationInterval.value = .XDaysOnXDaysOff
+        attributes.expirationInterval.daysOne = 5
+        attributes.expirationInterval.daysTwo = 5
+        setUpThreePills()
+        pills.set(at: 0, with: attributes)
+        let pill = pills[0] as! MockPill
+        let callArgs = pill.setCallArgs
+        let testExpression = callArgs.contains(where: {
+            $0.expirationInterval.value == .XDaysOnXDaysOff
+                && $0.expirationInterval.xDaysValue == "5-5"
+        })
+        XCTAssertTrue(testExpression)
+    }
+
     public func testSet_whenPillExistsAndSettingByIndex_savesChanges() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -264,7 +278,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingByIndex_sharedNextPillDue() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -275,7 +289,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingById_updatesPill() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -289,7 +303,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingById_savesChanges() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()
@@ -300,7 +314,7 @@ class PillScheduleTests: XCTestCase {
     }
 
     public func testSet_whenPillExistsAndSettingById_sharedNextPillDue() {
-        var attributes = PillAttributes()
+        let attributes = PillAttributes()
         attributes.name = "New Name"
         attributes.times = PillTestsUtil.testTimeString
         let mockPills = setUpThreePills()

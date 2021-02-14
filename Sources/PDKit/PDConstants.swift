@@ -3,12 +3,13 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 11/20/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
+//  
 //
 
 import Foundation
 
 public let SupportedHormoneUpperQuantityLimit = 4
+public let SupportedPillExpirationIntervalDaysLimit = 25
 public let MaxPillTimesaday = 4
 
 public let HoursInADay = 24
@@ -32,12 +33,13 @@ public class DefaultSettings {
 }
 
 public class DefaultPillAttributes {
-
     public static let time = "8:00:00"
     public static let timesaday = 1
     public static let timesTakenToday = 0
     public static let notify = true
-    public static let expirationInterval = PillExpirationInterval.EveryDay
+    public static let expirationInterval = PillExpirationIntervalSetting.EveryDay
+    public static let xDaysInt = 12
+    public static let xDaysString = "\(xDaysInt)"
 }
 
 public class DefaultQuantities {

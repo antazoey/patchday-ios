@@ -3,8 +3,6 @@
 //  PDKitTests
 //
 //  Created by Juliya Smith on 1/4/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 

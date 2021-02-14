@@ -3,8 +3,6 @@
 //  PatchDay
 //
 //  Created by Juliya Smith on 5/13/17.
-//  Copyright © 2018 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 import PDKit
@@ -135,7 +133,7 @@ public class PatchData: NSObject, PatchDataSDK {
 
             let attrs = PillAttributes()
             let dueDate = DateFactory.createDate(byAddingSeconds: 61, to: now)!
-            attrs.expirationInterval = PillExpirationInterval.EveryDay
+            attrs.expirationInterval.value = .EveryDay
             attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
             attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
             attrs.notify = true

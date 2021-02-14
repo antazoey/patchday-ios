@@ -3,8 +3,6 @@
 //  PDMock
 //
 //  Created by Juliya Smith on 1/16/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 import PDKit
@@ -23,9 +21,11 @@ public class MockPillStore: MockPatchDataStore<Swallowable>, PillStoring {
     }
 
     public func createNewPill(name: String) -> Swallowable? {
-        var pill = newObjectFactory?()
-        pill?.name = name
-        return pill
+        if let mock = newObjectFactory?() as? MockPill {
+            mock.name = name
+            return mock
+        }
+        return nil
     }
 
     public func createNewPill() -> Swallowable? {

@@ -3,8 +3,6 @@
 //  NextHormoneWidget
 //
 //  Created by Juliya Smith on 11/23/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import WidgetKit
 import SwiftUI

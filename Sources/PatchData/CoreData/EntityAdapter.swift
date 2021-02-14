@@ -52,6 +52,7 @@ class EntityAdapter {
             )
             return nil
         }
+        migratePill(pill)
         let attributes = createPillAttributes(pill)
         return PillStruct(pillId, attributes)
     }
@@ -77,8 +78,11 @@ class EntityAdapter {
         if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
             pill.timesTakenToday = Int16(timesTaken)
         }
-        if let expirationInterval = pillData.attributes.expirationInterval {
+        if let expirationInterval = pillData.attributes.expirationInterval.value {
             pill.expirationInterval = expirationInterval.rawValue
+        }
+        if let days = pillData.attributes.expirationInterval.xDaysValue {
+            pill.xDays = days
         }
     }
 
@@ -138,18 +142,26 @@ class EntityAdapter {
     }
 
     private static func createPillAttributes(_ pill: MOPill) -> PillAttributes {
-        let defaultInterval = DefaultPillAttributes.expirationInterval
-        var interval: PillExpirationInterval?
-        if let intervalString = pill.expirationInterval {
-            interval = PillExpirationInterval(rawValue: intervalString)
-        }
+        let defaultInterval = DefaultPillAttributes.expirationInterval.rawValue
+        let intervalString = pill.expirationInterval ?? defaultInterval
+        let interval = PillExpirationIntervalSetting(rawValue: intervalString)
         return PillAttributes(
             name: pill.name ?? PillStrings.NewPill,
-            expirationInterval: interval ?? defaultInterval,
+            expirationIntervalSetting: interval,
+            xDays: pill.xDays,
             times: pill.times,
             notify: pill.notify,
             timesTakenToday: Int(pill.timesTakenToday),
             lastTaken: pill.lastTaken as Date?
         )
+    }
+
+    private static func migratePill(_ pill: MOPill) {
+        if let intervalString = pill.expirationInterval {
+            // Set values after post-migration, in case that happens.
+            let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)
+            pill.expirationInterval = intervalObject.value?.rawValue
+            pill.xDays = intervalObject.xDaysValue
+        }
     }
 }

@@ -3,8 +3,6 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 2/15/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 
@@ -26,55 +24,58 @@ public class PillStrings {
 
     public class Intervals {
         private static let comment = "Picker option."
+
         public static var EveryDay: String {
             NSLocalizedString("Every Day", comment: comment)
         }
+
         public static var EveryOtherDay: String {
             NSLocalizedString("Every Other Day", comment: comment)
         }
-        public static var FirstTenDays: String {
-            NSLocalizedString("First 10 Days / Month", comment: comment)
+
+        public static var FirstXDays: String {
+            NSLocalizedString("First X Days of Month", comment: comment)
         }
-        public static var LastTenDays: String {
-            NSLocalizedString("Last 10 Days / Month", comment: comment)
+
+        public static var LastXDays: String {
+            NSLocalizedString("Last X Days of Month", comment: comment)
         }
-        public static var FirstTwentyDays: String {
-            NSLocalizedString("First 20 Days / Month", comment: comment)
-        }
-        public static var LastTwentyDays: String {
-            NSLocalizedString("Last 20 Days / Month", comment: comment)
+
+        public static var XDaysOnXDaysOff: String {
+            NSLocalizedString("X Days On, X Days Off", comment: comment)
         }
 
         public static var all: [String] {
             [
                 EveryDay,
                 EveryOtherDay,
-                FirstTenDays,
-                LastTenDays,
-                FirstTwentyDays,
-                LastTwentyDays
+                FirstXDays,
+                LastXDays,
+                XDaysOnXDaysOff
             ]
         }
 
-        public static func getStringFromInterval(_ interval: PillExpirationInterval) -> String {
+        public static func getStringFromInterval(
+            _ interval: PillExpirationIntervalSetting
+        ) -> String {
             switch interval {
                 case .EveryDay: return EveryDay
                 case .EveryOtherDay: return EveryOtherDay
-                case .FirstTenDays: return FirstTenDays
-                case .LastTenDays: return LastTenDays
-                case .FirstTwentyDays: return FirstTwentyDays
-                case .LastTwentyDays: return LastTwentyDays
+                case .XDaysOnXDaysOff: return XDaysOnXDaysOff
+                case .FirstXDays: return FirstXDays
+                case .LastXDays: return LastXDays
             }
         }
 
-        public static func getIntervalFromString(_ string: String) -> PillExpirationInterval? {
+        public static func getIntervalFromString(
+            _ string: String
+        ) -> PillExpirationIntervalSetting? {
             switch string {
                 case EveryDay: return .EveryDay
                 case EveryOtherDay: return .EveryOtherDay
-                case FirstTenDays: return .FirstTenDays
-                case LastTenDays: return .LastTenDays
-                case FirstTwentyDays: return .FirstTwentyDays
-                case LastTwentyDays: return .LastTwentyDays
+                case FirstXDays: return .FirstXDays
+                case LastXDays: return .LastXDays
+                case XDaysOnXDaysOff: return .XDaysOnXDaysOff
                 default: return nil
             }
         }

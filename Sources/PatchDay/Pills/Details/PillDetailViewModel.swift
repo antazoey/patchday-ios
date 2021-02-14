@@ -63,24 +63,91 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         "\(NSLocalizedString("How many per day: ", comment: "Label prefix")) \(timesaday)"
     }
 
-    var expirationInterval: PillExpirationInterval {
-        selections.expirationInterval ?? pill.expirationInterval
+    var expirationInterval: PillExpirationIntervalSetting {
+        selections.expirationInterval.value ?? pill.expirationIntervalSetting
     }
 
     var expirationIntervalText: String {
         PillStrings.Intervals.getStringFromInterval(expirationInterval)
     }
 
+    var expirationIntervalUsesDays: Bool {
+        if expirationIntervalIsSelected {
+            return selections.expirationInterval.usesXDays
+        }
+        return pill.expirationInterval.usesXDays
+    }
+
+    var daysOn: String {
+        selections.expirationInterval.daysOn
+            ?? pill.expirationInterval.daysOn
+            ?? DefaultPillAttributes.xDaysString
+    }
+
+    var daysOff: String {
+        selections.expirationInterval.daysOff
+            ?? pill.expirationInterval.daysOff
+            ?? DefaultPillAttributes.xDaysString
+    }
+
+    var daysOptions: [String] {
+        PillExpirationIntervalXDays.daysRange.map({ String($0) })
+    }
+
+    var positionOptions: [String] {
+        guard expirationInterval == .XDaysOnXDaysOff else { return [] }
+        return daysOnePositionOptions + daysTwoPositionOptions
+    }
+
+    var daysOneLabelText: String? {
+        guard expirationIntervalUsesDays else { return nil }
+        if expirationInterval == .FirstXDays {
+            return NSLocalizedString("First X days of the month:", comment: "on label")
+        } else if expirationInterval == .LastXDays {
+            return NSLocalizedString("Last X days of the month:", comment: "on label")
+        }
+        return NSLocalizedString("Days on:", comment: "on label")
+    }
+
+    var daysTwoLabelText: String? {
+        guard expirationInterval == .XDaysOnXDaysOff else { return nil }
+        return NSLocalizedString("Days off:", comment: "on label")
+    }
+
+    var daysPositionText: String {
+        guard expirationInterval == .XDaysOnXDaysOff else { return "" }
+        let prefix = NSLocalizedString(
+            "Current position:", comment: "Appears on a label, preceeds a numeric variable"
+        )
+        let suffix = getDaysPositionText(isOn: daysIsOn, position: daysPosition).lowercased()
+        return "\(prefix) \(suffix)"
+    }
+
     var expirationIntervalIsSelected: Bool {
-        selections.expirationInterval != nil
+        selections.expirationInterval.value != nil
     }
 
     var expirationIntervalStartIndex: Index {
-        _intervals.firstIndex(of: expirationInterval) ?? 0
+        PillExpirationInterval.options.firstIndex(of: expirationInterval) ?? 0
     }
 
     var expirationIntervalOptions: [String] {
         PillStrings.Intervals.all
+    }
+
+    func getStartIndexForDaysPicker(pickerNumber: Int) -> Index {
+        if pickerNumber == 0 {
+            return startIndexForPosition
+        } else if pickerNumber == 1 {
+            return daysOne - 1
+        } else if pickerNumber == 2 {
+            return daysTwo - 1
+        }
+        return 1
+    }
+
+    var daysSelected: Bool {
+        selections.expirationInterval.xDaysValue != nil
     }
 
     var notify: Bool {
@@ -139,7 +206,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         sdk?.pills.set(by: pill.id, with: selections)
         notifications?.requestDuePillNotification(pill)
         tabs?.reflectPills()
-        selections = PillAttributes()
+        selections.reset()
     }
 
     func handleIfUnsaved(_ viewController: UIViewController) {
@@ -148,7 +215,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             self.nav?.pop(source: viewController)
         }
         let discard: () -> Void = {
-            self.selections = PillAttributes()
+            self.selections.reset()
             if self.pill.name == PillStrings.NewPill {
                 self.sdk?.pills.delete(at: self.index)
             }
@@ -174,7 +241,58 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
         let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
-        selections.expirationInterval = interval
+        selections.expirationInterval.value = interval
+
+        guard PillExpirationInterval.options.contains(interval) else { return }
+        if selections.expirationInterval.daysOne == nil {
+            let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
+            selections.expirationInterval.daysOne = days
+        }
+        if interval == .XDaysOnXDaysOff && selections.expirationInterval.daysTwo == nil {
+            let days = pill.expirationInterval.daysTwo ?? DefaultPillAttributes.xDaysInt
+            selections.expirationInterval.daysTwo = days
+        }
+    }
+
+    func selectFromDaysPicker(_ row: Index, daysNumber: Int?) {
+        guard expirationIntervalUsesDays else { return }
+
+        // If selecting a days, have to first select current dependent attributes from pill.
+        selections.expirationInterval.value = expirationInterval
+
+        if daysNumber == 1 || daysNumber == 2 {
+            guard 0..<daysOptions.count ~= row else { return }
+            guard let option = Int(daysOptions[row]) else { return }
+            if daysNumber == 1 {
+                selections.expirationInterval.daysOne = option
+                trySelectDaysTwo()
+            } else if daysNumber == 2 {
+                trySelectDaysOne()
+                selections.expirationInterval.daysTwo = option
+            }
+        } else if daysNumber == 0 {
+            guard let choice = positionOptions.tryGet(at: row) else { return }
+            let parts = choice.split(separator: " ")
+            guard parts.count > 1 else { return }
+            let position = parts[0]
+            guard let pos = Int(position) else { return }
+            let isOn = choice.contains("on")
+            trySelectDaysOne()
+            trySelectDaysTwo()
+            selections.expirationInterval.xDaysIsOn = isOn
+            selections.expirationInterval.xDaysPosition = pos
+        }
+    }
+
+    func getOptionsForSelectedPicker(_ pickerNumber: Int) -> [String] {
+        // Setting a days prop
+        if pickerNumber == 1 || pickerNumber == 2 {
+            return daysOptions
+        } else if pickerNumber == 0 {
+            // Settings the pos
+            return positionOptions
+        }
+        return []
     }
 
     func enableOrDisable(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
@@ -184,15 +302,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         enablePickers(pickers, labels)
         disablePickers(pickers, labels)
     }
-
-    private var _intervals: [PillExpirationInterval] = [
-        .EveryDay,
-        .EveryOtherDay,
-        .FirstTenDays,
-        .LastTenDays,
-        .FirstTwentyDays,
-        .LastTwentyDays
-    ]
 
     private func enablePickers(_ pickers: [UIDatePicker], _ labels: [UILabel]) {
         for i in 0...timesaday - 1 {
@@ -208,8 +317,91 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
     }
 
+    private var daysOne: Int {
+        selections.expirationInterval.daysOne
+            ?? pill.expirationInterval.daysOne
+            ?? DefaultPillAttributes.xDaysInt
+    }
+
+    private var daysTwo: Int {
+        selections.expirationInterval.daysTwo
+            ?? pill.expirationInterval.daysTwo
+            ?? DefaultPillAttributes.xDaysInt
+    }
+
+    private var daysIsOn: Bool {
+        selections.expirationInterval.xDaysIsOn
+            ?? pill.expirationInterval.xDaysIsOn
+            ?? true
+    }
+
+    private var daysPosition: Int {
+        selections.expirationInterval.xDaysPosition
+            ?? pill.expirationInterval.xDaysPosition
+            ?? 1
+    }
+
     private var wereChanges: Bool {
         selections.anyAttributeExists(exclusions: pill.attributes)
             || pill.name == PillStrings.NewPill
+    }
+
+    private var startIndexForPosition: Int {
+        let pos = "\(daysPosition)"
+        var options: [String] = []
+        var start = 0
+        if daysIsOn {
+            options = daysOnePositionOptions
+        } else {
+            options = daysTwoPositionOptions
+            start = daysOne
+        }
+        let qualifyingPhrase = "\(pos) of"
+        return (options.firstIndex(where: { $0.contains(qualifyingPhrase) }) ?? 0) + start
+    }
+
+    private func getDaysPositionText(isOn: Bool, position: Int) -> String {
+        guard expirationInterval == .XDaysOnXDaysOff else { return "" }
+        return isOn ? getDaysOnPositionText(position) : getDaysOffPositionText(position)
+    }
+
+    private func getDaysOnPositionText(_ position: Int) -> String {
+        getDaysPositionText("on", daysOne, position)
+    }
+
+    private func getDaysOffPositionText(_ position: Int) -> String {
+        getDaysPositionText("off", daysTwo, position)
+    }
+
+    private func getDaysPositionText(_ onOff: String, _ max: Int, _ position: Int) -> String {
+        "\(position) of \(max) (\(onOff))"
+    }
+
+    private func trySelectDaysOne() {
+        if selections.expirationInterval.daysOne == nil {
+            selections.expirationInterval.daysOne = daysOne
+        }
+    }
+
+    private func trySelectDaysTwo() {
+        if expirationInterval == .XDaysOnXDaysOff {
+            selections.expirationInterval.daysTwo = daysTwo
+        }
+    }
+
+    private var daysOnePositionOptions: [String] {
+        var positions: [String] = []
+        for i in 1...daysOne {
+            positions.append(getDaysOnPositionText(i))
+        }
+        return positions
+    }
+
+    private var daysTwoPositionOptions: [String] {
+        var positions: [String] = []
+        for i in 1...daysTwo {
+            positions.append(getDaysOffPositionText(i))
+        }
+        return positions
     }
 }

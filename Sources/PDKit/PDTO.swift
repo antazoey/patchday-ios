@@ -3,8 +3,6 @@
 //  PDKit
 //
 //  Created by Juliya Smith on 4/26/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 
@@ -57,7 +55,6 @@ public class SiteImageDeterminationParameters {
 }
 
 public struct SiteStruct {
-
     public var id: UUID
     public var hormoneRelationshipIds: [UUID]?
     public var imageIdentifier: String?

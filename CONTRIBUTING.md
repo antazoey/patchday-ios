@@ -2,7 +2,7 @@
 
 ## IDE
 
-I recommend to just use Xcode, but AppCode may also work and may have some desired Jetbrains tooling.
+I recommend to just use Xcode. However, AppCode may also work and have some desirable tooling.
 
 ## Linter
 

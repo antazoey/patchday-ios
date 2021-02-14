@@ -3,8 +3,6 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 12/21/18.
-//  Copyright © 2018 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 import CoreData
@@ -16,7 +14,6 @@ class CoreDataStack: NSObject {
     private static var log = PDLog<CoreDataStack>()
 
     static let persistentContainerKey = "patchData"
-    static let testContainerKey = "patchDataTest" // For experimental purposes
 
     static let hormoneProps = ["date", "id", "siteNameBackUp"]
     static let siteProps = ["order", "name", "imageIdentifier"]
@@ -30,7 +27,8 @@ class CoreDataStack: NSObject {
         "notify",
         "timesTakenToday",
         "lastTaken",
-        "expirationInterval"
+        "expirationInterval",
+        "xDays"
     ]
 
     struct EntityKey {

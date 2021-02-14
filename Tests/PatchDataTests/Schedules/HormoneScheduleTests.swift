@@ -3,7 +3,7 @@
 //  PatchDataTests
 //
 //  Created by Juliya Smith on 1/1/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
+//  
 
 import XCTest
 import PDKit
@@ -120,6 +120,7 @@ class HormoneScheduleTests: XCTestCase {
         XCTAssertEqual(1, hormones.totalExpired)
     }
 
+#if targetEnvironment(simulator)
     /// Integration
     func testTotalExpired_afterSettingDate_reflectsAccurately() {
         let mockSettings = MockSettings()
@@ -133,6 +134,7 @@ class HormoneScheduleTests: XCTestCase {
         let actual = hormones.totalExpired
         XCTAssertEqual(expected, actual)
     }
+#endif
 
     func testInsertNew_whenStoreReturnsNil_doesNotIncreaseHormoneCount() {
         setUpDefaultHormones(3)

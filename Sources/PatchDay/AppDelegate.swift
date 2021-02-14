@@ -1,10 +1,7 @@
 //
 //  AppDelegate.swift
-//  test
 //
 //  Created by Juliya Smith on 5/9/17.
-//  Copyright © 2018 Juliya Smith. All rights reserved.
-//
 
 import UIKit
 import UserNotifications
@@ -13,7 +10,7 @@ import PatchData
 import WidgetKit
 
 @UIApplicationMain
-    class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var notifications: NotificationScheduling?

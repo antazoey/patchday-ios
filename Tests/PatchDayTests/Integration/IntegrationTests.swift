@@ -3,8 +3,6 @@
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 5/24/20.
-//  Copyright © 2020 Juliya Smith. All rights reserved.
-//
 
 import XCTest
 import PDKit
@@ -18,7 +16,6 @@ class IntegrationTests: XCTestCase {
 #if targetEnvironment(simulator)
 
     private let sdk = PatchData()
-
     private let dummyViewController = UIViewController()
 
     override func setUp() {

@@ -3,8 +3,6 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 12/24/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 import PDKit
@@ -22,11 +20,12 @@ class PillStore: EntityStore, PillStoring {
     var state: PillScheduleState {
         var state = PillScheduleState.Initial
         var pillsToSave: [Swallowable] = []
-        for pill in getStoredPills() {
+        let storedPills = getStoredPills()
+        for pill in storedPills {
             if pill.times.count > 0 {
                 state = .Working
             } else {
-                // Fix Pill that for some reason don't have a single Time set.
+                // Fix Pill that for some reason doesn't have a single Time set.
                 pill.appendTime(Time())
                 pillsToSave.append(pill)
             }
@@ -48,10 +47,8 @@ class PillStore: EntityStore, PillStoring {
     }
 
     func createNewPill(name: String) -> Swallowable? {
-        guard let newPillDataFromStore = entities.createNewManagedPill(name: name) else {
-            return nil
-        }
-        return Pill(pillData: newPillDataFromStore)
+        guard let storedPill = entities.createNewManagedPill(name: name) else { return nil }
+        return Pill(pillData: storedPill)
     }
 
     func createNewPill() -> Swallowable? {

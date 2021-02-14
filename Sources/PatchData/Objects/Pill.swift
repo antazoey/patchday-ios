@@ -3,8 +3,6 @@
 //  PatchData
 //
 //  Created by Juliya Smith on 9/2/19.
-//  Copyright © 2019 Juliya Smith. All rights reserved.
-//
 
 import Foundation
 import PDKit
@@ -32,9 +30,11 @@ public class Pill: Swallowable {
 
     public var attributes: PillAttributes {
         let defaultInterval = DefaultPillAttributes.expirationInterval
+        let interval = pillData.attributes.expirationInterval.value ?? defaultInterval
         return PillAttributes(
             name: name,
-            expirationInterval: pillData.attributes.expirationInterval ?? defaultInterval,
+            expirationIntervalSetting: interval,
+            xDays: expirationInterval.xDaysValue,
             times: PDDateFormatter.convertTimesToCommaSeparatedString(times),
             notify: notify,
             timesTakenToday: timesTakenToday,
@@ -43,19 +43,15 @@ public class Pill: Swallowable {
     }
 
     public var name: String {
-        get { pillData.attributes.name ?? PillStrings.NewPill }
-        set { pillData.attributes.name = newValue }
+        pillData.attributes.name ?? PillStrings.NewPill
     }
 
     public var expirationInterval: PillExpirationInterval {
-        get {
-            let defaultInterval = DefaultPillAttributes.expirationInterval
-            let storedInterval = pillData.attributes.expirationInterval
-            return storedInterval ?? defaultInterval
-        }
-        set {
-            pillData.attributes.expirationInterval = newValue
-        }
+        pillData.attributes.expirationInterval
+    }
+
+    public var expirationIntervalSetting: PillExpirationIntervalSetting {
+        expirationInterval.value ?? DefaultPillAttributes.expirationInterval
     }
 
     public var times: [Time] {
@@ -90,13 +86,13 @@ public class Pill: Swallowable {
     public var due: Date? {
         // Schedule doesn't start until taken at least once.
         guard let lastTaken = lastTaken, !lastTaken.isDefault() else { return nil }
-        switch expirationInterval {
-            case PillExpirationInterval.EveryDay: return nextDueTimeForEveryDaySchedule
-            case PillExpirationInterval.EveryOtherDay: return dueDateForEveryOtherDay
-            case PillExpirationInterval.FirstTenDays: return dueDateForFirstTenDays
-            case PillExpirationInterval.LastTenDays: return dueDateForLastTenDays
-            case PillExpirationInterval.FirstTwentyDays: return dueDateForFirstTwentyDays
-            case PillExpirationInterval.LastTwentyDays: return dueDateForLastTwentyDays
+        guard let val = expirationInterval.value else { return nil }
+        switch val {
+            case .EveryDay: return nextDueTimeForEveryDaySchedule
+            case .EveryOtherDay: return dueDateForEveryOtherDay
+            case .FirstXDays: return dueDateForFirstXDays
+            case .LastXDays: return dueDateForLastXDays
+            case .XDaysOnXDaysOff: return dueDateForXDaysOnXDaysOff
         }
     }
 
@@ -119,17 +115,14 @@ public class Pill: Swallowable {
     }
 
     public func set(attributes: PillAttributes) {
-        name = attributes.name ?? name
-        notify = attributes.notify ?? notify
-        lastTaken = attributes.lastTaken ?? lastTaken
-        expirationInterval = attributes.expirationInterval ?? expirationInterval
-        pillData.attributes.times = attributes.times ?? pillData.attributes.times
-        pillData.attributes.timesTakenToday = attributes.timesTakenToday
-            ?? pillData.attributes.timesTakenToday
+        pillData.attributes.update(attributes)
     }
 
     public func swallow() {
         guard timesTakenToday < timesaday || lastTaken == nil else { return }
+        if lastTaken == nil && expirationInterval.value == .XDaysOnXDaysOff {
+            pillData.attributes.expirationInterval.startPositioning()
+        }
         let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
         pillData.attributes.timesTakenToday = currentTimesTaken + 1
         lastTaken = now
@@ -179,9 +172,8 @@ public class Pill: Swallowable {
         var startDay: Int
         guard let daysThisMonth = now.daysInMonth() else { return nil }
         if now.dayValue() == daysThisMonth {
-            if let daysNextMonth = DateFactory.createDate(
-                byAddingHours: 48, to: now
-            )?.daysInMonth() {
+            let daysNextMonth = DateFactory.createDate(byAddingHours: 48, to: now)?.daysInMonth()
+            if let daysNextMonth = daysNextMonth {
                 startDay = daysNextMonth - days
             } else {
                 return nil
@@ -197,12 +189,14 @@ public class Pill: Swallowable {
         return nil
     }
 
-    private var dueDateForFirstTenDays: Date? {
-        dueDateBegin(10)
+    private var dueDateForFirstXDays: Date? {
+        guard let days = expirationInterval.daysOne else { return nil }
+        return dueDateBegin(days)
     }
 
-    private var dueDateForFirstTwentyDays: Date? {
-        dueDateBegin(20)
+    private var dueDateForLastXDays: Date? {
+        guard let days = expirationInterval.daysOne else { return nil }
+        return dueDateEnd(days - 1)
     }
 
     private func dueDateBegin(_ begin: Int) -> Date? {
@@ -212,14 +206,6 @@ public class Pill: Swallowable {
             return nextDueTimeForEveryDaySchedule
         }
         return beginningOfDueMonthAtTimeOne(lastTaken: lastTaken)
-    }
-
-    private var dueDateForLastTenDays: Date? {
-        dueDateEnd(9)
-    }
-
-    private var dueDateForLastTwentyDays: Date? {
-        dueDateEnd(19)
     }
 
     private func dueDateEnd(_ end: Int) -> Date? {
@@ -242,5 +228,50 @@ public class Pill: Swallowable {
             return DateFactory.createTodayDate(at: time, now: _now)
         }
         return tomorrowAtTimeOne
+    }
+
+    private var dueDateForXDaysOnXDaysOff: Date? {
+        /*
+         X X X X X O O O O O O O O O X X X X X O O O O O O O O O
+         _ _ _ _ _ _ P _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+         # Constants
+
+         On = X, Off = O
+         Span = len(O[]) = 9
+
+         # Variables
+
+         Pos = P = 2     // Change position to calculate next due date
+
+         # Evaluation
+
+         Next = SPAN + 1         // The next start of "on" from "off" position 1
+         Next = 10               // Eval
+         Diff = Next - Pos       // The amount we are away from Next
+         Diff = 10 - 2           // Eval
+         Diff = 8                // Eval
+
+         # Conclusion
+
+         We are 8 days away from the next due date.
+         */
+        guard let isOn = expirationInterval.xDaysIsOn else { return nil }
+        guard let pos = expirationInterval.xDaysPosition else { return nil }
+        guard let onSpan = expirationInterval.daysOne else { return nil }
+        guard let offSpan = expirationInterval.daysTwo else { return nil }
+
+        if isOn {
+            // If still needs taking in this on-cycle
+            if pos < onSpan || (pos == onSpan && !isDone) {
+                return nextDueTimeForEveryDaySchedule
+            }
+
+            // Has completed the current on-cycle
+            return getTimeOne(daysFromNow: offSpan + 1)
+        }
+
+        // Is during off-cycle
+        return getTimeOne(daysFromNow: (offSpan + 1) - pos)
     }
 }
