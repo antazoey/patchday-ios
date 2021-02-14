@@ -12,7 +12,7 @@ public protocol PillDetailViewModelProtocol {
     var index: Index { get }
 
     /// The view model's `Pill`.
-    var pill: Swallowable { get }
+    var pill: Swallowable? { get }
 
     /// The user selections from the UI.
     var selections: PillAttributes { get }
