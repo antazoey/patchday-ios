@@ -24,18 +24,23 @@ public class PillStrings {
 
     public class Intervals {
         private static let comment = "Picker option."
+
         public static var EveryDay: String {
             NSLocalizedString("Every Day", comment: comment)
         }
+
         public static var EveryOtherDay: String {
             NSLocalizedString("Every Other Day", comment: comment)
         }
+
         public static var FirstXDays: String {
             NSLocalizedString("First X Days of Month", comment: comment)
         }
+
         public static var LastXDays: String {
             NSLocalizedString("Last X Days of Month", comment: comment)
         }
+
         public static var XDaysOnXDaysOff: String {
             NSLocalizedString("X Days On, X Days Off", comment: comment)
         }
