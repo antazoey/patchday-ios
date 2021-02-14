@@ -86,7 +86,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             site.order = count
             context.append(site)
             onSuccess?()
-            save() // Save name and order
+            save()
             return site
         }
         return nil

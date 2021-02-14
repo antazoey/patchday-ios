@@ -16,23 +16,20 @@ class SiteCellViewModel: SiteCellViewModelProtocol {
     }
 
     var siteNameText: String {
-        var name = self.props.site?.name
-        if name == "" {
-            name = SiteStrings.NewSite
+        if let site = props.site {
+            return site.name == "" ? SiteStrings.NewSite : site.name
         }
-        return name ?? SiteStrings.NewSite
+        return SiteStrings.NewSite
     }
 
     var orderText: String {
-        guard let site = props.site else {
-            return ""
-        }
+        guard let site = props.site else { return "" }
         return "\(site.order + 1)."
     }
 
     /// Should hide if not the the next index.
     func getVisibilityBools(cellIsInEditMode: Bool) -> (showNext: Bool, showOrder: Bool) {
         guard let index = props.site?.order else { return (false, !cellIsInEditMode) }
-        return (self.props.nextSiteIndex == index && !cellIsInEditMode, !cellIsInEditMode)
+        return (props.nextSiteIndex == index && !cellIsInEditMode, !cellIsInEditMode)
     }
 }
