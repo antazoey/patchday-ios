@@ -17,7 +17,7 @@ Added
 Fixed
 
 - Issue where you could not take a newly added pill.
-- Issue that causes the app to crash in situations when creating a new pill, then backgrounding the app, then 
+- Issue that causes the app to crash in situations when creating a new pill or site, then backgrounding the app, then 
     foregrounding again.
 
 ## 3.2.3

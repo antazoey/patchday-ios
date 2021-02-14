@@ -10,7 +10,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
 
     private let siteIndex: Index
 
-    private var site: Bodily { sdk!.sites[siteIndex]! }
+    private var site: Bodily? { sdk?.sites[siteIndex] }
     var selections = SiteSelectionState()
 
     var imagePickerDelegate: SiteImagePicker?
@@ -60,21 +60,25 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
 
     // MARK: - Public
 
-    var siteDetailViewControllerTitle: String { siteName }
-
-    var siteName: SiteName { site.name }
+    var siteName: SiteName? {
+        guard let site = site else { return nil }
+        return site.name
+    }
 
     var sitesCount: Int { sdk?.sites.count ?? 0 }
 
     var siteNameOptions: [SiteName] { sdk?.sites.names ?? [] }
 
     var siteNamePickerStartIndex: Index {
-        let startName = selections.selectedSiteName ?? siteName
-        return siteNameOptions.firstIndex(of: startName) ?? 0
+        if let startName = selections.selectedSiteName ?? siteName {
+            return siteNameOptions.firstIndex(of: startName) ?? 0
+        }
+        return 0
     }
 
     var siteImage: UIImage {
         guard let settings = sdk?.settings else { return UIImage() }
+        guard let site = site else { return UIImage() }
         let key = site.imageId
         let params = SiteImageDeterminationParameters(
             imageId: key, deliveryMethod: settings.deliveryMethod.value
@@ -92,17 +96,19 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     }
 
     func handleIfUnsaved(_ viewController: UIViewController) {
+        guard site != nil else { return }
         let save: () -> Void = {
             self.handleSave(siteDetailViewController: viewController)
         }
         let discard: () -> Void = {
             self.nav?.pop(source: viewController)
             // Delete site if it was new.
-            guard self.site.name == SiteStrings.NewSite else { return }
+            guard let site = self.site else { return }
+            guard site.name == SiteStrings.NewSite else { return }
             guard let sdk = self.sdk else { return }
             sdk.sites.delete(at: self.siteIndex)
         }
-        if hasSelections || site.name == SiteStrings.NewSite {
+        if hasSelections || siteName == SiteStrings.NewSite {
             self.alerts?.createUnsavedAlert(
                 viewController,
                 saveAndContinueHandler: save,
