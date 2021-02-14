@@ -44,7 +44,6 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @objc func willEnterForeground() {
         initViewModel()
-        viewModel.pills?.reloadContext()
         viewModel.pillsTable.reloadData()
         reloadInputViews()
         applyTheme()

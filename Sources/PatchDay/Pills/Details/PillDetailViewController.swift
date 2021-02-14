@@ -291,6 +291,15 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func reflectPillAttributes() {
+        guard viewModel.pill != nil else {
+            // Remove outdated observer
+            NotificationCenter.default.removeObserver(
+                self,
+                name: UIApplication.willEnterForegroundNotification,
+                object: nil
+            )
+            return
+        }
         loadName()
         loadTimes()
         loadNotify()

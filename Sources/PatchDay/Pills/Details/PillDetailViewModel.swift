@@ -258,13 +258,22 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.expirationInterval.value = interval
 
         guard PillExpirationInterval.options.contains(interval) else { return }
-        if selections.expirationInterval.daysOne == nil {
+        if PillExpirationInterval.singleXDayIntervals.contains(interval)
+            && selections.expirationInterval.daysOne == nil {
             let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
             selections.expirationInterval.daysOne = days
         }
-        if interval == .XDaysOnXDaysOff && selections.expirationInterval.daysTwo == nil {
-            let days = pill.expirationInterval.daysTwo ?? DefaultPillAttributes.xDaysInt
-            selections.expirationInterval.daysTwo = days
+        if interval == .XDaysOnXDaysOff {
+            if selections.expirationInterval.daysTwo == nil {
+                let days = pill.expirationInterval.daysTwo ?? DefaultPillAttributes.xDaysInt
+                selections.expirationInterval.daysTwo = days
+            }
+            if selections.expirationInterval.xDaysIsOn == nil {
+                selections.expirationInterval.xDaysIsOn = true
+            }
+            if selections.expirationInterval.xDaysPosition == nil {
+                selections.expirationInterval.xDaysPosition = 1
+            }
         }
     }
 
