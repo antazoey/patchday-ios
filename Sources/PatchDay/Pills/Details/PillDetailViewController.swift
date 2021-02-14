@@ -281,7 +281,6 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadSelectNameButton() {
-        selectNameButton.setTitleColor(UIColor.lightGray, for: .disabled)
         selectNameButton.replaceTarget(
             self, newAction: #selector(selectNameTapped), for: .touchUpInside
         )
@@ -561,37 +560,53 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func applyTheme() {
+        // Background spaces
         view.backgroundColor = UIColor.systemBackground
-        saveButton.tintColor = PDColors[.Button]
         detailStack.backgroundColor = UIColor.systemBackground
-        drugNameLabel.textColor = PDColors[.Text]
-        lineUnderDrugNameLabel.backgroundColor = PDColors[.Border]
-        nameTextField.textColor = PDColors[.Button]
-        verticalLineInDrugNameStack.backgroundColor = PDColors[.Border]
-        selectNameButton.setTitleColor(PDColors[.Button])
-        lineUnderDrugNameStack.backgroundColor = PDColors[.Border]
-        notificationsIcon.tintColor = PDColors[.Text]
+        paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
+        timesadaySlider.backgroundColor = UIColor.systemBackground
+        paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground
+
+        // Icons
         notificationsIcon.image = notificationsIcon.image?.withTintColor(PDColors[.Text])
-        notificationsLabel.textColor = PDColors[.Text]
-        lineUnderNotifications.backgroundColor = PDColors[.Border]
         expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(PDColors[.Text])
+        notificationsIcon.tintColor = PDColors[.Text]
+
+        // Labels
+        drugNameLabel.textColor = PDColors[.Text]
+        notificationsLabel.textColor = PDColors[.Text]
         expirationIntervalLabel.textColor = PDColors[.Text]
-        lineUnderExpirationInterval.backgroundColor = PDColors[.Border]
         daysOneLabel.textColor = PDColors[.Text]
-        lineUnderDaysOne.backgroundColor = PDColors[.Border]
         daysTwoLabel.textColor = PDColors[.Text]
+        daysPositionLabel.textColor = PDColors[.Text]
+        timesadayLabel.textColor = PDColors[.Text]
+
+        // Lines
+        lineUnderDrugNameLabel.backgroundColor = PDColors[.Border]
+        verticalLineInDrugNameStack.backgroundColor = PDColors[.Border]
+        lineUnderDrugNameStack.backgroundColor = PDColors[.Border]
+        lineUnderNotifications.backgroundColor = PDColors[.Border]
+        lineUnderExpirationInterval.backgroundColor = PDColors[.Border]
+        lineUnderDaysOne.backgroundColor = PDColors[.Border]
         lineUnderDaysTwo.backgroundColor = PDColors[.Border]
+        daysPositionVerticalLine.backgroundColor = PDColors[.Border]
+        lineUnderDaysPosition.backgroundColor = PDColors[.Border]
+
+        // Button enabled states
+        selectNameButton.setTitleColor(PDColors[.Button])
         expirationIntervalButton.setTitleColor(PDColors[.Button])
         daysOneButton.setTitleColor(PDColors[.Button])
         daysTwoButton.setTitleColor(PDColors[.Button])
         daysPositionSetButton.setTitleColor(PDColors[.Button])
-        daysPositionVerticalLine.backgroundColor = PDColors[.Border]
-        daysPositionLabel.textColor = PDColors[.Text]
-        lineUnderDaysPosition.backgroundColor = PDColors[.Border]
-        paddingAboveNotificationsSwitch.backgroundColor = UIColor.systemBackground
-        timesadaySlider.backgroundColor = UIColor.systemBackground
-        paddingBelowNotificationsSwitch.backgroundColor = UIColor.systemBackground
-        timesadayLabel.textColor = PDColors[.Text]
+        saveButton.tintColor = PDColors[.Button]
+        nameTextField.textColor = PDColors[.Button]
+
+        // Disabled button colors
+        selectNameButton.setTitleColor(PDColors[.Unselected], for: .disabled)
+        expirationIntervalButton.setTitleColor(PDColors[.Unselected], for: .disabled)
+        daysOneButton.setTitleColor(PDColors[.Unselected], for: .disabled)
+        daysTwoButton.setTitleColor(PDColors[.Unselected], for: .disabled)
+        daysPositionSetButton.setTitleColor(PDColors[.Unselected], for: .disabled)
     }
 }
 
