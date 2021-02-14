@@ -47,11 +47,6 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
         reloadData()
     }
 
-    func turnOffEditingMode() {
-        table.isEditing = false
-        reloadData()
-    }
-
     func deleteCell(indexPath: IndexPath) {
         table.beginUpdates()
         table.deleteRows(at: [indexPath], with: .fade)
@@ -66,8 +61,10 @@ class SitesTable: TableViewWrapper<SiteCell>, SitesTableProtocol {
         guard let sites = sites else { return props }
         props.nextSiteIndex = sites.nextIndex
         props.totalSiteCount = sites.count
+
         if let site = sites[siteIndex] {
             props.site = site
+            props.siteIsNewAndFirst = sites.count == 1 && site.name == SiteStrings.NewSite
         }
         return props
     }

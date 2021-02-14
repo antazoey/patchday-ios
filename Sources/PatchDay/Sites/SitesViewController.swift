@@ -38,6 +38,8 @@ class SitesViewController: UIViewController, UITableViewDataSource, UITableViewD
         applyTheme()
         viewModel.table.reloadData()
         loadBarButtons()
+        sitesTableView.isEditing = false
+        sitesTableView.reloadData()
     }
 
     // MARK: - Table and cell characteristics.

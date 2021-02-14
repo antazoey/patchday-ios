@@ -31,22 +31,6 @@ class SiteCell: TableCell, SiteCellProtocol {
         return self
     }
 
-    private func loadOrderDependentViews() {
-        if let orderText = viewModel?.orderText {
-            orderLabel.text = orderText
-        }
-        reflectActionState()
-    }
-
-    public func reflectActionState() {
-        guard let viewModel = viewModel else { return }
-        let visibilityBools = viewModel.getVisibilityBools(cellIsInEditMode: isEditing)
-        orderLabel.isHidden = visibilityBools.hideOrder
-        arrowLabel.isHidden = visibilityBools.hideArrow
-        siteIndexImageView.isHidden = !visibilityBools.hideNext
-        nextLabel.isHidden = visibilityBools.hideNext
-    }
-
     private func reflectTheme(row: Index) {
         orderLabel.textColor = PDColors[.Text]
         arrowLabel.textColor = PDColors[.Text]
@@ -54,6 +38,23 @@ class SiteCell: TableCell, SiteCellProtocol {
         nextLabel.textColor = PDColors[.NewItem]
         siteIndexImageView.tintColor = PDColors[.Text]
         backgroundColor = PDColors.Cell[row]
+    }
+
+    private func loadOrderDependentViews() {
+        if let orderText = viewModel?.orderText {
+            orderLabel.text = orderText
+        }
+        reflectActionState()
+    }
+
+    private func reflectActionState() {
+        guard let viewModel = viewModel else { return }
+        let isEditing = props.siteIsNewAndFirst ? false : self.isEditing
+        let visibilityBools = viewModel.getVisibilityBools(cellIsInEditMode: isEditing)
+        orderLabel.isHidden = visibilityBools.hideOrder
+        arrowLabel.isHidden = visibilityBools.hideArrow
+        siteIndexImageView.isHidden = !visibilityBools.hideNext
+        nextLabel.isHidden = visibilityBools.hideNext
     }
 
     private func prepareBackgroundSelectedView() {

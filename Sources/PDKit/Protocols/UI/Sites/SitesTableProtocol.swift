@@ -14,7 +14,6 @@ public protocol SitesTableProtocol {
     func reloadCells()
     subscript(index: Index) -> SiteCellProtocol { get }
     func toggleEdit(isEditing: Bool)
-    func turnOffEditingMode()
     func deleteCell(indexPath: IndexPath)
     func reloadData()
 }
