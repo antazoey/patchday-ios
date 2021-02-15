@@ -248,30 +248,30 @@ public class Pill: Swallowable {
 
     private var dueDateForXDaysOnXDaysOff: Date? {
         /*
-         X X X X X O O O O O O O O O X X X X X O O O O O O O O O
-         _ _ _ _ _ _ P _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+        X X X X X O O O O O O O O O X X X X X O O O O O O O O O
+        _ _ _ _ _ _ P _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
-         # Constants
+        # Constants
 
-         On = X, Off = O
-         Span = len(O[]) = 9
+        On = X, Off = O
+        Span = len(O[]) = 9
 
-         # Variables
+        # Variables
 
-         Pos = P = 2     // Change position to calculate next due date
+        Pos = P = 2     // Change position to calculate next due date
 
-         # Evaluation
+        # Evaluation
 
-         Next = SPAN + 1         // The next start of "on" from "off" position 1
-         Next = 10               // Eval
-         Diff = Next - Pos       // The amount we are away from Next
-         Diff = 10 - 2           // Eval
-         Diff = 8                // Eval
+        Next = SPAN + 1         // The next start of "on" from "off" position 1
+        Next = 10               // Eval
+        Diff = Next - Pos       // The amount we are away from Next
+        Diff = 10 - 2           // Eval
+        Diff = 8                // Eval
 
-         # Conclusion
+        # Conclusion
 
-         We are 8 days away from the next due date.
-         */
+        We are 8 days away from the next due date.
+        */
         guard let isOn = expirationInterval.xDaysIsOn else { return nil }
         guard let pos = expirationInterval.xDaysPosition else { return nil }
         guard let onSpan = expirationInterval.daysOne else { return nil }

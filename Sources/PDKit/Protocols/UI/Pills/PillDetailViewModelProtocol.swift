@@ -113,7 +113,8 @@ public protocol PillDetailViewModelProtocol {
     /// Select a days value for either `daysOne`, `daysTwo`, or the `position`, depending on the given days number.
     func selectFromDaysPicker(_ row: Index, daysNumber: Int?)
 
-    /// Returns either the days options or the positions options, based on the picker number. [1,2] -> days, 0 -> positions.
+    /// Returns either the days options or the positions options,
+    /// based on the picker number. [1,2] -> days, 0 -> positions.
     func getOptionsForSelectedPicker(_ pickerNumber: Int) -> [String]
 
     /// Enable or disable the provided pickers, based on `pill` data.

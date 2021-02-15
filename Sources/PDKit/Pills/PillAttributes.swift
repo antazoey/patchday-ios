@@ -50,7 +50,8 @@ public class PillAttributes {
         _expirationInterval = PillExpirationInterval(nil, xDays: nil)
     }
 
-    /// Returns true if these attributes contain any non-nil attributes. Optionally pass in exceptions and it will also make sure
+    /// Returns true if these attributes contain any non-nil attributes.
+    /// Optionally pass in exceptions and it will also make sure
     /// the attribute is not equal to the property in the exceptions.
     public func anyAttributeExists(exclusions: PillAttributes? = nil) -> Bool {
         let exclusions = exclusions != nil ? exclusions! : PillAttributes()

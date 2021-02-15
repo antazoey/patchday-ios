@@ -24,7 +24,8 @@ public class PillExpirationInterval {
     }
 
     /// The normal initializer that would exist if we did not have to include migrations.
-    /// It will take a `xDays` value and convert it to the days integer values. Call `.xDays` to form the new value for storing.
+    /// It will take a `xDays` value and convert it to the days integer values. Call `.xDays`
+    /// to form the new value for storing.
     public init(_ value: PillExpirationIntervalSetting?, xDays: String?) {
         self._value = value
         if let xDaysValue = xDays, let val = value, _xDaysIntervals.contains(val) {
