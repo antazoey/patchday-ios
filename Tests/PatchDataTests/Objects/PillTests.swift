@@ -1238,6 +1238,34 @@ public class PillTests: XCTestCase {
         XCTAssertFalse(pill.isDone)
     }
 
+    func testIsDone_whenXDaysOnXDaysOffAndOnOffMode_returnsTrue() {
+        let attrs = PillAttributes()
+        attrs.times = "12:00:00,12:00:10"
+        attrs.lastTaken = Date()
+        attrs.timesTakenToday = 0
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 1
+        attrs.expirationInterval.daysTwo = 1
+        attrs.expirationInterval.xDaysIsOn = false
+        attrs.expirationInterval.xDaysPosition = 1
+        let pill = createPill(attrs)
+        XCTAssertTrue(pill.isDone)
+    }
+
+    func testIsDone_whenXDaysOnXDaysOffAndOnOnModeAndStillHasTimesToTake_returnsFalse() {
+        let attrs = PillAttributes()
+        attrs.times = "12:00:00,12:00:10"
+        attrs.timesTakenToday = 0
+        attrs.lastTaken = Date()
+        attrs.expirationInterval.value = .XDaysOnXDaysOff
+        attrs.expirationInterval.daysOne = 1
+        attrs.expirationInterval.daysTwo = 1
+        attrs.expirationInterval.xDaysIsOn = true
+        attrs.expirationInterval.xDaysPosition = 1
+        let pill = createPill(attrs)
+        XCTAssertFalse(pill.isDone)
+    }
+
     func testSet_setsGivenAttributes() {
         let newName = "New Pill Name"
         let newTime1 = Date()
