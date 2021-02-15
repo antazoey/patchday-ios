@@ -979,7 +979,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(5, daysNumber: 1)
         assertDaysOne(6, viewModel)
-        XCTAssertEqual("6", viewModel.selections.expirationInterval.xDaysValue)
+        XCTAssertEqual("6-on-1", viewModel.selections.expirationInterval.xDaysValue)
         XCTAssertEqual("6", viewModel.daysOn)
     }
 
@@ -1032,6 +1032,19 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(90032582305, daysNumber: 0)
         XCTAssertEqual("Current position: 5 of 5 (on)", viewModel.daysPositionText)
+    }
+
+    func testSelectFromDaysPikcer_whenSelectingBelowThePosition_setsPositionToOffAtPosition1() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "12-12-on-2")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectFromDaysPicker(0, daysNumber: 1)
+
+        // Both daysOne and the position get to set to 1
+        let expected = "Current position: 1 of 12 (off)"
+        XCTAssertEqual(1, viewModel.selections.expirationInterval.xDaysPosition)
+        XCTAssertEqual(false, viewModel.selections.expirationInterval.xDaysIsOn)
+        XCTAssertEqual(expected, viewModel.daysPositionText)
     }
 
     func testGetOptionsForSelectedPicker_whenGiven1_returnsDaysOptions() {

@@ -145,7 +145,14 @@ public class PillExpirationInterval {
 
     public func startPositioning() {
         guard usesXDays else { return }
-        _xDays?.startPositioning()
+        if let xDays = _xDays {
+            xDays.startPositioning()
+        } else {
+            let def = DefaultPillAttributes.xDaysInt
+            let xDays = PillExpirationIntervalXDays("\(def)-\(def)")
+            xDays.startPositioning()
+            _xDays = xDays
+        }
     }
 
     public func incrementXDays() {

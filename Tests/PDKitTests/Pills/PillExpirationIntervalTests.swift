@@ -137,6 +137,12 @@ class PillExpirationIntervalTests: XCTestCase {
         XCTAssertEqual(7, interval.daysOne)
     }
 
+    func testDaysOneSet_whenSettingBelowThePosition_setsPositionToNewLimit() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "12-12-on-2")
+        interval.daysOne = 1
+        XCTAssertEqual(1, interval.xDaysPosition)
+    }
+
     func testDaysOn_whenNotUsingXDays_returnsNil() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff)
         XCTAssertNil(interval.daysOn)

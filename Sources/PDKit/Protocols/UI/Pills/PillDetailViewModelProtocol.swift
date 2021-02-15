@@ -111,7 +111,7 @@ public protocol PillDetailViewModelProtocol {
     func selectExpirationInterval(_ row: Index)
 
     /// Select a days value for either `daysOne`, `daysTwo`, or the `position`, depending on the given days number.
-    func selectFromDaysPicker(_ row: Index, daysNumber: Int?)
+    func selectFromDaysPicker(_ row: Index, daysNumber: Int)
 
     /// Returns either the days options or the positions options,
     /// based on the picker number. [1,2] -> days, 0 -> positions.

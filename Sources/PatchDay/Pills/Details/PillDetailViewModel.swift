@@ -267,33 +267,13 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
     }
 
-    func selectFromDaysPicker(_ row: Index, daysNumber: Int?) {
+    func selectFromDaysPicker(_ row: Index, daysNumber: Int) {
         guard expirationIntervalUsesDays else { return }
 
-        // If selecting a days, have to first select current dependent attributes from pill.
-        selections.expirationInterval.value = expirationInterval
-
         if daysNumber == 1 || daysNumber == 2 {
-            guard 0..<daysOptions.count ~= row else { return }
-            guard let option = Int(daysOptions[row]) else { return }
-            if daysNumber == 1 {
-                selections.expirationInterval.daysOne = option
-                trySelectDaysTwo()
-            } else if daysNumber == 2 {
-                trySelectDaysOne()
-                selections.expirationInterval.daysTwo = option
-            }
+            selectDaysValue(row, daysNumber)
         } else if daysNumber == 0 {
-            guard let choice = positionOptions.tryGet(at: row) else { return }
-            let parts = choice.split(separator: " ")
-            guard parts.count > 1 else { return }
-            let position = parts[0]
-            guard let pos = Int(position) else { return }
-            let isOn = choice.contains("on")
-            trySelectDaysOne()
-            trySelectDaysTwo()
-            selections.expirationInterval.xDaysIsOn = isOn
-            selections.expirationInterval.xDaysPosition = pos
+            selectPosition(row)
         }
     }
 
@@ -395,24 +375,73 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         "\(position) of \(max) (\(onOff))"
     }
 
-    private func trySelectDaysOne() {
-        if selections.expirationInterval.daysOne == nil {
-            selections.expirationInterval.daysOne = daysOne
+    private func selectDaysValue(_ row: Index, _ daysNumber: Int?) {
+        guard 0..<daysOptions.count ~= row else { return }
+        preselectDaysProperties()
+        guard let option = Int(daysOptions[row]) else { return }
+        if daysNumber == 1 {
+            selectDaysOne(option)
+        } else if daysNumber == 2 {
+            selectDaysTwo(option)
         }
     }
 
-    private func trySelectDaysTwo() {
-        if expirationInterval == .XDaysOnXDaysOff {
-            selections.expirationInterval.daysTwo = daysTwo
+    private func preselectDaysProperties() {
+        // Start with selected as pills
+        trySelectDaysOne()
+        trySelectDaysTwo()
+
+        // If selecting a days, have to first select current dependent attributes from pill.
+        selections.expirationInterval.value = expirationInterval
+
+        // Set to pill position to init
+        trySelectPosition()
+
+        // Start positioning if was not yet started yet in pill
+        if expirationInterval == .XDaysOnXDaysOff, selections.expirationInterval.xDaysIsOn == nil {
+            selections.expirationInterval.startPositioning()
         }
+    }
+
+    private func selectDaysOne(_ option: Int) {
+        tprint(option)
+        tprint(selections.expirationInterval.xDaysPosition)
+        selections.expirationInterval.daysOne = option
+    }
+
+    private func selectDaysTwo(_ option: Int) {
+        selections.expirationInterval.daysTwo = option
+    }
+
+    private func selectPosition(_ row: Index) {
+        guard let choice = positionOptions.tryGet(at: row) else { return }
+
+        let parts = choice.split(separator: " ")
+        guard parts.count > 1 else { return }
+        let position = parts[0]
+        guard let pos = Int(position) else { return }
+        let isOn = choice.contains("on")
+        preselectDaysProperties()
+        selections.expirationInterval.xDaysIsOn = isOn
+        selections.expirationInterval.xDaysPosition = pos
+    }
+
+    private func trySelectDaysOne() {
+        guard selections.expirationInterval.daysOne == nil else { return }
+        selections.expirationInterval.daysOne = daysOne
+    }
+
+    private func trySelectDaysTwo() {
+        guard expirationInterval == .XDaysOnXDaysOff else { return }
+        selections.expirationInterval.daysTwo = daysTwo
     }
 
     private func trySelectPosition() {
         if selections.expirationInterval.xDaysIsOn == nil {
-            selections.expirationInterval.xDaysIsOn = true
+            selections.expirationInterval.xDaysIsOn = daysIsOn
         }
         if selections.expirationInterval.xDaysPosition == nil {
-            selections.expirationInterval.xDaysPosition = 1
+            selections.expirationInterval.xDaysPosition = daysPosition
         }
     }
 
