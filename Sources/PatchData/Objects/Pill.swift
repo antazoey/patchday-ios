@@ -142,6 +142,11 @@ public class Pill: Swallowable {
         let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
         pillData.attributes.timesTakenToday = currentTimesTaken + 1
         lastTaken = now
+
+        // Increment XDays position if done for the day
+        if expirationInterval.value == .XDaysOnXDaysOff && isDone {
+            expirationInterval.incrementXDays()
+        }
     }
 
     public func awaken() {
