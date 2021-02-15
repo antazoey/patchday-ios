@@ -111,7 +111,11 @@ public class Pill: Swallowable {
     }
 
     public var isDone: Bool {
-        timesTakenToday >= timesaday && lastTaken != nil
+        var xDaysIsOff = false
+        if let isOnVal = expirationInterval.xDaysIsOn {
+            xDaysIsOff = !isOnVal
+        }
+        return (timesTakenToday >= timesaday && lastTaken != nil) || xDaysIsOff
     }
 
     public func set(attributes: PillAttributes) {
