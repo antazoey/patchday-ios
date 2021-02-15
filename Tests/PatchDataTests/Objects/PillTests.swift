@@ -1429,7 +1429,7 @@ public class PillTests: XCTestCase {
         XCTAssert(Date().timeIntervalSince(pill.lastTaken!) < 0.1)
     }
 
-    func testSwallow_whenLastTakenIsNilAndUsingXDaysOnXDaysOffAndPositioningHasNotYetStarted_startsXDaysPositioningAndIncrementsFromTaking() {
+    func testSwallow_whenLastTakenNilAndUsingXDaysOnXDaysOffAndPosHasNotStarted_startsPosAndIncrements() {
         let attrs = PillAttributes()
         attrs.expirationInterval.value = .XDaysOnXDaysOff
         attrs.expirationInterval.daysOne = 5
