@@ -64,6 +64,15 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     @objc func willEnterForeground() {
+        guard viewModel.siteName != nil else {
+            // Remove outdated observer
+            NotificationCenter.default.removeObserver(
+                self,
+                name: UIApplication.willEnterForegroundNotification,
+                object: nil
+            )
+            return
+        }
         loadName()
         loadImage()
         loadSave()
@@ -235,7 +244,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     private func loadTitle() {
-        title = viewModel.siteDetailViewControllerTitle
+        title = viewModel.siteName
     }
 
     private func setBackButton() {

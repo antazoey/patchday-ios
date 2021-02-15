@@ -75,11 +75,6 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel.createPillCellSwipeActions(index: indexPath)
     }
 
-    @IBAction func takeButtonTapped(_ sender: Any) {
-        guard let pillIndex = (sender as? UIButton)?.restoreSuffix() else { return }
-        viewModel.takePill(at: pillIndex)
-    }
-
     // MARK: - Private / Helpers
 
     private func initViewModel() {

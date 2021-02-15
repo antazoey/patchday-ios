@@ -8,22 +8,20 @@ import PDKit
 
 class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDetailViewModelProtocol {
 
-    let index: Index
-    var pill: Swallowable {
-        sdk!.pills[index]!
-    }
+    private let _index: Index
+    var pill: Swallowable? { sdk?.pills[index] }
     static let DefaultViewControllerTitle = PDTitleStrings.PillTitle
     var selections = PillAttributes()
     private let now: NowProtocol?
 
     init(_ pillIndex: Index) {
-        self.index = pillIndex
+        self._index = pillIndex
         self.now = nil
         super.init()
     }
 
     init(_ pillIndex: Index, dependencies: DependenciesProtocol, now: NowProtocol?=nil) {
-        self.index = pillIndex
+        self._index = pillIndex
         self.now = now
         super.init(
             sdk: dependencies.sdk,
@@ -35,12 +33,18 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         )
     }
 
+    var index: Index {
+        _index
+    }
+
     var title: String {
-        pill.isNew ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
+        guard let pill = pill else { return "" }
+        return pill.isNew ? PDTitleStrings.NewPillTitle : PDTitleStrings.EditPillTitle
     }
 
     var name: String {
-        selections.name ?? pill.name
+        guard let pill = pill else { return "" }
+        return selections.name ?? pill.name
     }
 
     var nameIsSelected: Bool {
@@ -52,7 +56,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var namePickerStartIndex: Index {
-        nameOptions.firstIndex(of: selections.name ?? pill.name) ?? 0
+        guard let pill = pill else { return 0 }
+        return nameOptions.firstIndex(of: selections.name ?? pill.name) ?? 0
     }
 
     var timesaday: Int {
@@ -64,7 +69,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationInterval: PillExpirationIntervalSetting {
-        selections.expirationInterval.value ?? pill.expirationIntervalSetting
+        guard let pill = pill else { return .EveryDay }
+        return selections.expirationInterval.value ?? pill.expirationIntervalSetting
     }
 
     var expirationIntervalText: String {
@@ -72,6 +78,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var expirationIntervalUsesDays: Bool {
+        guard let pill = pill else { return false }
         if expirationIntervalIsSelected {
             return selections.expirationInterval.usesXDays
         }
@@ -79,13 +86,15 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var daysOn: String {
-        selections.expirationInterval.daysOn
+        guard let pill = pill else { return "" }
+        return selections.expirationInterval.daysOn
             ?? pill.expirationInterval.daysOn
             ?? DefaultPillAttributes.xDaysString
     }
 
     var daysOff: String {
-        selections.expirationInterval.daysOff
+        guard let pill = pill else { return "" }
+        return selections.expirationInterval.daysOff
             ?? pill.expirationInterval.daysOff
             ?? DefaultPillAttributes.xDaysString
     }
@@ -151,10 +160,12 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     var notify: Bool {
-        selections.notify ?? pill.notify
+        guard let pill = pill else { return false }
+        return selections.notify ?? pill.notify
     }
 
     var times: [Time] {
+        guard let pill = pill else { return [] }
         if let selectedTimes = selections.times {
             return DateFactory.createTimesFromCommaSeparatedString(selectedTimes, now: now)
         } else if pill.times.count > 0 {
@@ -202,6 +213,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func save() {
+        guard let pill = pill else { return }
         notifications?.cancelDuePillNotification(pill)
         sdk?.pills.set(by: pill.id, with: selections)
         notifications?.requestDuePillNotification(pill)
@@ -209,6 +221,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         selections.reset()
     }
 
+    /// Conditionally saved changes based on alert response.
     func handleIfUnsaved(_ viewController: UIViewController) {
         let save: () -> Void = {
             self.save()
@@ -216,7 +229,7 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
         }
         let discard: () -> Void = {
             self.selections.reset()
-            if self.pill.name == PillStrings.NewPill {
+            if let pill = self.pill, pill.name == PillStrings.NewPill {
                 self.sdk?.pills.delete(at: self.index)
             }
             self.nav?.pop(source: viewController)
@@ -238,19 +251,19 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     func selectExpirationInterval(_ row: Index) {
-        let rowString = PillStrings.Intervals.all.tryGet(at: row) ?? PillStrings.Intervals.all[0]
+        guard pill != nil else { return }
+        let rowString = expirationIntervalOptions.tryGet(at: row) ?? PillStrings.Intervals.all[0]
         let defaultInterval = DefaultPillAttributes.expirationInterval
         let interval = PillStrings.Intervals.getIntervalFromString(rowString) ?? defaultInterval
         selections.expirationInterval.value = interval
 
         guard PillExpirationInterval.options.contains(interval) else { return }
-        if selections.expirationInterval.daysOne == nil {
-            let days = pill.expirationInterval.daysOne ?? DefaultPillAttributes.xDaysInt
-            selections.expirationInterval.daysOne = days
-        }
-        if interval == .XDaysOnXDaysOff && selections.expirationInterval.daysTwo == nil {
-            let days = pill.expirationInterval.daysTwo ?? DefaultPillAttributes.xDaysInt
-            selections.expirationInterval.daysTwo = days
+        if PillExpirationInterval.singleXDayIntervals.contains(interval) {
+            trySelectDaysOne()
+        } else if interval == .XDaysOnXDaysOff {
+            trySelectDaysOne()
+            trySelectDaysTwo()
+            trySelectPosition()
         }
     }
 
@@ -318,31 +331,36 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private var daysOne: Int {
-        selections.expirationInterval.daysOne
+        guard let pill = pill else { return 0 }
+        return selections.expirationInterval.daysOne
             ?? pill.expirationInterval.daysOne
             ?? DefaultPillAttributes.xDaysInt
     }
 
     private var daysTwo: Int {
-        selections.expirationInterval.daysTwo
+        guard let pill = pill else { return 0 }
+        return selections.expirationInterval.daysTwo
             ?? pill.expirationInterval.daysTwo
             ?? DefaultPillAttributes.xDaysInt
     }
 
     private var daysIsOn: Bool {
-        selections.expirationInterval.xDaysIsOn
+        guard let pill = pill else { return false }
+        return selections.expirationInterval.xDaysIsOn
             ?? pill.expirationInterval.xDaysIsOn
             ?? true
     }
 
     private var daysPosition: Int {
-        selections.expirationInterval.xDaysPosition
+        guard let pill = pill else { return 0 }
+        return selections.expirationInterval.xDaysPosition
             ?? pill.expirationInterval.xDaysPosition
             ?? 1
     }
 
     private var wereChanges: Bool {
-        selections.anyAttributeExists(exclusions: pill.attributes)
+        guard let pill = pill else { return false }
+        return selections.anyAttributeExists(exclusions: pill.attributes)
             || pill.name == PillStrings.NewPill
     }
 
@@ -386,6 +404,15 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     private func trySelectDaysTwo() {
         if expirationInterval == .XDaysOnXDaysOff {
             selections.expirationInterval.daysTwo = daysTwo
+        }
+    }
+
+    private func trySelectPosition() {
+        if selections.expirationInterval.xDaysIsOn == nil {
+            selections.expirationInterval.xDaysIsOn = true
+        }
+        if selections.expirationInterval.xDaysPosition == nil {
+            selections.expirationInterval.xDaysPosition = 1
         }
     }
 

@@ -63,6 +63,14 @@ public class PillExpirationIntervalXDays {
                 // setting to nil is allowed
                 _one = newValue
             }
+
+            // Set position to 1 if we are lowering the limit
+            guard let isOn = isOn, isOn else { return }
+            guard let one = _one else { return }
+            guard let pos = position else { return }
+            if one < pos {
+                position = one
+            }
         }
     }
 
@@ -76,6 +84,14 @@ public class PillExpirationIntervalXDays {
             } else {
                 // setting to nil is allowed
                 _two = newValue
+            }
+
+            // Set position to 1 if we are lowering the limit
+            guard let isOn = isOn, !isOn else { return }
+            guard let two = _two else { return }
+            guard let pos = position else { return }
+            if two < pos {
+                position = two
             }
         }
     }

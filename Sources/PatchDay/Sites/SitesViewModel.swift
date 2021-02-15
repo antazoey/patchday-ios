@@ -69,7 +69,7 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
         SitesViewModel.prepareBackButtonForNavigation(sitesViewController)
         guard let settings = sdk?.settings else { return }
         if table.isEditing {
-            table.turnOffEditingMode()
+            table.toggleEdit(isEditing: false)
         }
         let method = settings.deliveryMethod.value
         let params = SiteImageDeterminationParameters(deliveryMethod: method)

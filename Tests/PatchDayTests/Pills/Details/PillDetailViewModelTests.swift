@@ -934,6 +934,19 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertEqual(.EveryDay, actual)
     }
 
+    func testSelectExpirationInterval_whenSelectingXDaysOnXDaysOffAndSelectionsDoesContainPosition_selectsPosition() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval(.EveryDay)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectExpirationInterval(4)
+        let defaultDays = DefaultPillAttributes.xDaysInt
+        XCTAssertEqual(.XDaysOnXDaysOff, viewModel.selections.expirationInterval.value)
+        XCTAssertEqual(defaultDays, viewModel.selections.expirationInterval.daysOne)
+        XCTAssertEqual(defaultDays, viewModel.selections.expirationInterval.daysOne)
+        XCTAssertEqual(true, viewModel.selections.expirationInterval.xDaysIsOn)
+        XCTAssertEqual(1, viewModel.selections.expirationInterval.xDaysPosition)
+    }
+
     func testSelectFromDaysPicker_whenUsingNonDaysBasedInterval_doesNotSet() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.EveryDay)

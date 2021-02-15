@@ -32,7 +32,10 @@ public class SiteSchedule: NSObject, SiteScheduling {
 
     public var count: Int { all.count }
 
-    public var all: [Bodily] { context }
+    public var all: [Bodily] {
+        sort()
+        return context
+    }
 
     public var suggested: Bodily? {
         guard count > 0 else { return nil }
@@ -86,7 +89,7 @@ public class SiteSchedule: NSObject, SiteScheduling {
             site.order = count
             context.append(site)
             onSuccess?()
-            save() // Save name and order
+            save()
             return site
         }
         return nil

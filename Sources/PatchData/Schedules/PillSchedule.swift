@@ -135,6 +135,7 @@ public class PillSchedule: NSObject, PillScheduling {
         shareData()
     }
 
+    /// Awaken the properties that are relevant to the current date and time.
     private func awaken() {
         for pill in all {
             pill.awaken()

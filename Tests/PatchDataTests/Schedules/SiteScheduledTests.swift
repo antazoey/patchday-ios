@@ -557,6 +557,22 @@ class SiteScheduleTests: XCTestCase {
         XCTAssert(actual.contains(sites[1]!.id))
     }
 
+    public func testReorder_maintainsOrder() {
+        // Site starts with order ["Right Glute", "Left Glute", "Right Abdomen", "Left Abdomen"]
+        sites = SiteSchedule(store: mockStore, settings: mockSettings)
+
+        // Move Right Glute to the end, which swaps places with Left Abdomen
+        sites.reorder(at: 0, to: 3)
+        let expectedNames = ["Left Abdomen", "Left Glute", "Right Abdomen", "Right Glute"]
+
+        var order = 0
+        for site in sites.all {
+            XCTAssertEqual(order, site.order)
+            XCTAssertEqual(expectedNames[order], site.name)
+            order += 1
+        }
+    }
+
     public func testSetImageId_whenDeliveryMethodIsPatchesAndGivenADefaultSiteName_setsImageIdToSiteName() {
         mockSettings.deliveryMethod = DeliveryMethodUD(.Patches)
         sites = SiteSchedule(store: mockStore, settings: mockSettings)

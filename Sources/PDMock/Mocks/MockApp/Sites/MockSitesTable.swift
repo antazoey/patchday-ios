@@ -39,11 +39,6 @@ public class MockSitesTable: SitesTableProtocol {
         toggleEditCallArgs.append(isEditing)
     }
 
-    public var turnOffEditingModeCallCount = 0
-    public func turnOffEditingMode() {
-        turnOffEditingModeCallCount += 1
-    }
-
     public var deleteCellCallArgs: [IndexPath] = []
     public func deleteCell(indexPath: IndexPath) {
         deleteCellCallArgs.append(indexPath)

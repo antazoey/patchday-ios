@@ -6,7 +6,7 @@
 **/xcuserdata/
 
 # Test results files
-*result.yml
+result.xml
 
 # Files
 *.cer

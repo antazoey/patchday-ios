@@ -134,8 +134,8 @@ public struct SiteCellProperties {
     }
     public var row: Index
     public var site: Bodily?
-    public var totalSiteCount: Int = 0
-    public var nextSiteIndex: Int = 0
+    public var totalSiteCount = 0
+    public var nextSiteIndex = 0
 }
 
 public struct BarItemInitializationProperties {

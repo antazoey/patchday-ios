@@ -9,8 +9,7 @@ import Foundation
 public protocol SiteDetailViewModelProtocol {
     var selections: SiteSelectionState { get set }
     var imagePickerDelegate: SiteImagePicker? { get }
-    var siteDetailViewControllerTitle: String { get }
-    var siteName: SiteName { get }
+    var siteName: SiteName? { get }
     var sitesCount: Int { get }
     var siteNameOptions: [SiteName] { get }
     var siteNamePickerStartIndex: Index { get }

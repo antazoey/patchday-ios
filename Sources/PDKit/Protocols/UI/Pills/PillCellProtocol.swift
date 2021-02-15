@@ -8,6 +8,5 @@ import Foundation
 
 public protocol PillCellProtocol {
     @discardableResult func configure(_ params: PillCellConfigurationParameters) -> PillCellProtocol
-    @discardableResult func stamp() -> PillCellProtocol
     func loadBackground()
 }

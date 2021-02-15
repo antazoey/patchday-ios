@@ -72,19 +72,22 @@ class SiteCellViewModelTests: XCTestCase {
         props.nextSiteIndex = 2
         let viewModel = SiteCellViewModel(props)
         let actual = viewModel.getVisibilityBools(cellIsInEditMode: true)
-        XCTAssertFalse(actual.showNext)
-        XCTAssertFalse(actual.showOrder)
+
+        // It is because we are in editing mode that we hide the next label
+        XCTAssertTrue(actual.hideNext)
+        XCTAssertTrue(actual.hideOrder)
     }
 
     func testGetVisibilityBools_whenIsNotEditingAndSiteOrderIsNext_returnsExpectedBools() {
         var props = SiteCellProperties(row: 0)
         let site = MockSite()
         site.order = 2
+        props.site = site
         props.nextSiteIndex = 2
         let viewModel = SiteCellViewModel(props)
         let actual = viewModel.getVisibilityBools(cellIsInEditMode: false)
-        XCTAssertFalse(actual.showNext)
-        XCTAssert(actual.showOrder)
+        XCTAssertFalse(actual.hideNext)
+        XCTAssertFalse(actual.hideOrder)
     }
 
     func testGetVisibilityBools_whenEditingAndSiteOrderIsNotNext_returnsExpectedBools() {
@@ -94,8 +97,8 @@ class SiteCellViewModelTests: XCTestCase {
         props.nextSiteIndex = 3
         let viewModel = SiteCellViewModel(props)
         let actual = viewModel.getVisibilityBools(cellIsInEditMode: true)
-        XCTAssertFalse(actual.showNext)
-        XCTAssertFalse(actual.showOrder)
+        XCTAssertTrue(actual.hideNext)
+        XCTAssertTrue(actual.hideOrder)
     }
 
     func testGetVisibilityBools_whenIsNotEditingAndSiteOrderIsNotNext_returnsExpectedBools() {
@@ -105,7 +108,35 @@ class SiteCellViewModelTests: XCTestCase {
         props.nextSiteIndex = 3
         let viewModel = SiteCellViewModel(props)
         let actual = viewModel.getVisibilityBools(cellIsInEditMode: false)
-        XCTAssertFalse(actual.showNext)
-        XCTAssert(actual.showOrder)
+        XCTAssertTrue(actual.hideNext)
+        XCTAssertFalse(actual.hideOrder)
+    }
+
+    func testGetVisibilityBools_whenIsEditing_returnsExpectedHideArrowValue() {
+        let props = SiteCellProperties(row: 0)
+        let viewModel = SiteCellViewModel(props)
+        let actual = viewModel.getVisibilityBools(cellIsInEditMode: true)
+        XCTAssertTrue(actual.hideArrow)
+    }
+
+    func testGetVisibilityBools_whenSiteOrderIsNextAndNotEditing_saysDoNotHideArrow() {
+        var props = SiteCellProperties(row: 0)
+        let site = MockSite()
+        site.order = 3
+        props.nextSiteIndex = 3
+        props.site = site
+        let viewModel = SiteCellViewModel(props)
+        let actual = viewModel.getVisibilityBools(cellIsInEditMode: false)
+        XCTAssertTrue(actual.hideArrow)
+    }
+
+    func testGetVisibilityBools_whenSiteOrderIsNotNextAndNotEditing_doesNotToHideArrow() {
+        var props = SiteCellProperties(row: 0)
+        let site = MockSite()
+        site.order = 2
+        props.nextSiteIndex = 3
+        let viewModel = SiteCellViewModel(props)
+        let actual = viewModel.getVisibilityBools(cellIsInEditMode: false)
+        XCTAssertFalse(actual.hideArrow)
     }
 }
