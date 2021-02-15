@@ -229,6 +229,12 @@ class PillExpirationIntervalTests: XCTestCase {
         assertPosition(1, true, interval)
     }
 
+    func testStartPositioning_whenXDaysIsNil_initsAndStarts() {
+        let interval = PillExpirationInterval(.XDaysOnXDaysOff)
+        interval.startPositioning()
+        assertPosition(1, true, interval)
+    }
+
     func testIncrementXDays_whenXDaysOnXDaysOffAndStartedAlready_increments() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5-on-2")
         interval.incrementXDays()
@@ -241,7 +247,7 @@ class PillExpirationIntervalTests: XCTestCase {
         assertNilPosition(interval)
     }
 
-    func testIncrementXDays_whenXDaysOnXDaysOffAndNotYetStarted_increments() {
+    func testIncrementXDays_whenXDaysOnXDaysOffAndNotYetStarted_initsAndIncrements() {
         let interval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-5")
         interval.incrementXDays()
         assertPosition(2, true, interval)
