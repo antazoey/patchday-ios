@@ -40,4 +40,4 @@ Do
 make build
 ```
 
-Or build the PatchDay target.
+Or build the PatchDay target using your IDE.
