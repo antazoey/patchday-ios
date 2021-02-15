@@ -150,7 +150,18 @@ public class PillExpirationInterval {
 
     public func incrementXDays() {
         guard value == .XDaysOnXDaysOff else { return }
-        _xDays?.incrementDayPosition()
+        if let xDays = _xDays {
+            if xDays.isOn == nil {
+                xDays.startPositioning()
+            }
+            xDays.incrementDayPosition()
+        } else {
+            let days = DefaultPillAttributes.xDaysInt
+
+            // Start at 2 because we are incrementing now.
+            let defaultXDays = "\(days)-\(days)-on-2"
+            _xDays = PillExpirationIntervalXDays(defaultXDays)
+        }
     }
 
     /// All of the available PillExpirationIntervalSetting enum values.
