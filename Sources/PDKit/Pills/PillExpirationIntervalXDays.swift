@@ -64,12 +64,14 @@ public class PillExpirationIntervalXDays {
                 _one = newValue
             }
 
-            // Set position to 1 if we are lowering the limit
+            // Correct position if it has been put out of bounds
+            // Defaults to day 1 of off
             guard let isOn = isOn, isOn else { return }
             guard let one = _one else { return }
             guard let pos = position else { return }
             if one < pos {
-                position = one
+                position = 1
+                self.isOn = false
             }
         }
     }
@@ -86,12 +88,14 @@ public class PillExpirationIntervalXDays {
                 _two = newValue
             }
 
-            // Set position to 1 if we are lowering the limit
+            // Correct position if it has been put out of bounds
+            // Defaults to day 1 of on
             guard let isOn = isOn, !isOn else { return }
             guard let two = _two else { return }
             guard let pos = position else { return }
             if two < pos {
-                position = two
+                position = 1
+                self.isOn = true
             }
         }
     }

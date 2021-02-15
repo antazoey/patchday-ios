@@ -952,10 +952,10 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval = PillExpirationInterval(.EveryDay)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(0, daysNumber: 1)
-        XCTAssertNil(viewModel.selections.expirationInterval.xDaysValue)
+        assertNilPosition(viewModel)
     }
 
-    func testSelectFromDaysPicker_whenIndexNotInSupportRange_doesNotSet() {
+    func testSelectFromDaysPicker_whenSettingDaysValueAndIndexNotInSupportRange_doesNotSet() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
@@ -965,7 +965,7 @@ class PillDetailViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.selections.expirationInterval.xDaysValue)
     }
 
-    func testSelectFromDaysPicker_whenDaysNumberNot1Or2_doesNotSet() {
+    func testSelectFromDaysPicker_whenDaysNumberNotSupported_doesNotSet() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.FirstXDays, xDays: "8")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
@@ -979,8 +979,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(5, daysNumber: 1)
         assertDaysOne(6, viewModel)
-        XCTAssertEqual("6", viewModel.selections.expirationInterval.xDaysValue)
-        XCTAssertEqual("6", viewModel.daysOn)
+        XCTAssertEqual("6-on-1", viewModel.selections.expirationInterval.xDaysValue)
     }
 
     func testSelectFromDaysPicker_whenGivenValidIndexforValidIntervalForPicker2_sets() {
@@ -993,7 +992,7 @@ class PillDetailViewModelTests: XCTestCase {
             XCTFail("XDays did not properly get set; the object is uninitialized.")
             return
         }
-        XCTAssertEqual(6, viewModel.selections.expirationInterval.daysTwo)
+        assertDaysTwo(6, viewModel)
     }
 
     func testSelectFromDaysPicker_whenIntervalDoesNotStartOffSelected_selectsPillInterval() {
@@ -1006,7 +1005,7 @@ class PillDetailViewModelTests: XCTestCase {
 
         viewModel.selectFromDaysPicker(5, daysNumber: 1)
         XCTAssertEqual(.FirstXDays, viewModel.selections.expirationInterval.value)
-        XCTAssertEqual(.FirstXDays, viewModel.selections.expirationInterval.value)
+        XCTAssertEqual(.FirstXDays, viewModel.expirationInterval)
     }
 
     func testSelectFromDaysPicker_whenSettingsDays2AndDays1WasNotSelected_setsAndIncludesPillDaysOne() {
@@ -1014,24 +1013,78 @@ class PillDetailViewModelTests: XCTestCase {
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(10, daysNumber: 2)
+        assertDaysOne(5, viewModel)
+        assertDaysTwo(11, viewModel)
         XCTAssertEqual("5", viewModel.daysOn)
         XCTAssertEqual("11", viewModel.daysOff)
     }
 
-    func testSelectFromDaysPicker_whenGivenZero_selectsPosition() {
+    func testSelectFromDaysPicker_whenSettingsDays2AndDays1WasNotStarted_startsPositioning() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectFromDaysPicker(10, daysNumber: 2)
+
+        assertDaysOne(5, viewModel)
+        assertDaysTwo(11, viewModel)
+        assertPosition(1, true, viewModel)
+        XCTAssertEqual("5-11-on-1", viewModel.selections.expirationInterval.xDaysValue)
+    }
+
+    func testSelectFromDaysPicker_whenSelectingIntervalFromNonXDaysToXDaysOnOffThenSelectingPos_sets() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval(.EveryDay)
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        XCTAssertEqual(.EveryDay, viewModel.expirationInterval)
+
+        viewModel.selectExpirationInterval(4)
+        XCTAssertEqual(.XDaysOnXDaysOff, viewModel.expirationInterval)
+
+        viewModel.selectFromDaysPicker(6, daysNumber: 0)
+
+        assertDaysOne(12, viewModel)
+        assertDaysTwo(12, viewModel)
+        assertPosition(7, true, viewModel)
+        XCTAssertEqual("12-12-on-7", viewModel.selections.expirationInterval.xDaysValue)
+        XCTAssertEqual("Current position: 7 of 12 (on)", viewModel.daysPositionText)
+    }
+
+    func testSelectFromDaysPicker_whenGivenZeroAndStarted_selectsCurrentPosition() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9-on-5")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(12, daysNumber: 0)
+
+        assertPosition(8, false, viewModel)
         XCTAssertEqual("Current position: 8 of 9 (off)", viewModel.daysPositionText)
     }
 
-    func testSelectFromDaysPicker_whenGivenAbsurdIndex_doesNotSelectPosition() {
+    func testSelectFromDaysPicker_whenGivenAbsurdIndex_doesNotChangePosition() {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "5-9-on-5")
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectFromDaysPicker(90032582305, daysNumber: 0)
         XCTAssertEqual("Current position: 5 of 5 (on)", viewModel.daysPositionText)
+    }
+
+    func testSelectFromDaysPikcer_whenSelectingDaysOneBelowThePosition_setsPositionToOffAtPosition1() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "12-12-on-2")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectFromDaysPicker(0, daysNumber: 1)
+
+        assertPosition(1, false, viewModel)
+        XCTAssertEqual("Current position: 1 of 12 (off)", viewModel.daysPositionText)
+    }
+
+    func testSelectFromDaysPikcer_whenSelectingDaysTwoBelowThePosition_setsPositionToOffAtPosition1() {
+        let pill = setupPill()
+        pill.expirationInterval = PillExpirationInterval(.XDaysOnXDaysOff, xDays: "12-12-off-2")
+        let viewModel = PillDetailViewModel(0, dependencies: dependencies)
+        viewModel.selectFromDaysPicker(0, daysNumber: 2)
+
+        assertPosition(1, true, viewModel)
+        XCTAssertEqual("Current position: 1 of 12 (on)", viewModel.daysPositionText)
     }
 
     func testGetOptionsForSelectedPicker_whenGiven1_returnsDaysOptions() {
@@ -1162,5 +1215,23 @@ class PillDetailViewModelTests: XCTestCase {
     private func assertDaysOne(_ expected: Int, _ viewModel: PillDetailViewModel) {
         XCTAssertEqual(expected, viewModel.selections.expirationInterval.daysOne)
         XCTAssertEqual("\(expected)", viewModel.selections.expirationInterval.daysOn)
+        XCTAssertEqual("\(expected)", viewModel.daysOn)
+    }
+
+    private func assertDaysTwo(_ expected: Int, _ viewModel: PillDetailViewModel) {
+        XCTAssertEqual(expected, viewModel.selections.expirationInterval.daysTwo)
+        XCTAssertEqual("\(expected)", viewModel.selections.expirationInterval.daysOff)
+        XCTAssertEqual("\(expected)", viewModel.daysOff)
+    }
+
+    private func assertNilPosition(_ viewModel: PillDetailViewModel) {
+        XCTAssertNil(viewModel.selections.expirationInterval.xDaysValue)
+        XCTAssertNil(viewModel.selections.expirationInterval.xDaysPosition)
+        XCTAssertEqual("", viewModel.daysPositionText)
+    }
+
+    private func assertPosition(_ position: Int, _ isOn: Bool, _ viewModel: PillDetailViewModel) {
+        XCTAssertEqual(position, viewModel.selections.expirationInterval.xDaysPosition)
+        XCTAssertEqual(isOn, viewModel.selections.expirationInterval.xDaysIsOn)
     }
 }

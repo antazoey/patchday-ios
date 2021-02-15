@@ -130,10 +130,16 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
         assertOneIsEqual(expected: 2, xDays)
     }
 
-    func testOne_whenSettingBelowTheCurrentPosition_setsPositionToNewDaysOne() {
+    func testOne_whenSettingBelowTheCurrentPosition_setsPositionToDaysOffAt1() {
         let xDays = PillExpirationIntervalXDays("5-13-on-4")
         xDays.one = 3
-        XCTAssertEqual(3, xDays.position)
+        assertPosition(1, false, xDays)
+    }
+
+    func testOne_whenSettingAndOff_doesNotChangePosition() {
+        let xDays = PillExpirationIntervalXDays("5-13-off-2")
+        xDays.one = 1
+        XCTAssertEqual(2, xDays.position)
     }
 
     func testTwo_whenValueIsOutOfBounds_canNotBeSet() {
@@ -172,7 +178,7 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
     func testTwo_whenSettingBelowTheCurrentPosition_setsPositionToNewDaysTwo() {
         let xDays = PillExpirationIntervalXDays("5-13-off-4")
         xDays.two = 3
-        XCTAssertEqual(3, xDays.position)
+        assertPosition(1, true, xDays)
     }
 
     func testStartPositioning_setsExpectedProperties() {
@@ -247,6 +253,13 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
     private func assertNilPosition(_ xDays: PillExpirationIntervalXDays) {
         XCTAssertNil(xDays.isOn)
         XCTAssertNil(xDays.position)
+    }
+
+    private func assertPosition(
+        _ position: Int, _ isOn: Bool, _ xDays: PillExpirationIntervalXDays
+    ) {
+        XCTAssertEqual(position, xDays.position)
+        XCTAssertEqual(isOn, xDays.isOn)
     }
 
     private func assertOneIsEqual(expected: Int, _ xDays: PillExpirationIntervalXDays) {
