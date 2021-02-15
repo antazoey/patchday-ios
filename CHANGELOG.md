@@ -23,6 +23,7 @@ Fixed
 - Bug where if you create a site when you don't have any sites in the Site Schedule View, it would not load some 
     of the components in the cell.
 - Bug preventing reordering sites.
+- Display issue with Pill Cells causing longer dates to get truncated.
 
 ## 3.2.3
 

@@ -295,19 +295,19 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="KHr-Ka-MPu">
-                                                    <rect key="frame" x="16" y="65" width="343" height="70"/>
+                                                    <rect key="frame" x="16" y="65" width="343" height="90"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdX-t1-SRb">
-                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="35"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="343" height="45"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Last taken:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PD8-YQ-00g">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="45"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday, 10:00 PM" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cfQ-wk-dOK">
-                                                                    <rect key="frame" x="143" y="0.0" width="200" height="35"/>
+                                                                    <rect key="frame" x="143" y="0.0" width="200" height="45"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="0kj-U1-g7b"/>
                                                                     </constraints>
@@ -318,10 +318,10 @@
                                                             </subviews>
                                                         </stackView>
                                                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HTq-fb-mxV">
-                                                            <rect key="frame" x="0.0" y="35" width="343" height="35"/>
+                                                            <rect key="frame" x="0.0" y="45" width="343" height="45"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfE-Hn-eEY">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="35"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="143" height="45"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="xw6-TO-mFR"/>
                                                                     </constraints>
@@ -329,18 +329,18 @@
                                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today, 10:00 PM" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J63-bw-Kcr">
-                                                                    <rect key="frame" x="143" y="0.0" width="200" height="35"/>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today, 10:00 PM" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J63-bw-Kcr">
+                                                                    <rect key="frame" x="143" y="0.0" width="200" height="45"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Nqe-WM-3MV"/>
                                                                     </constraints>
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                     <nil key="textColor"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="35" id="7JP-sn-2zE"/>
+                                                                <constraint firstAttribute="height" constant="45" id="7JP-sn-2zE"/>
                                                                 <constraint firstItem="HfE-Hn-eEY" firstAttribute="leading" secondItem="HTq-fb-mxV" secondAttribute="leading" id="mSU-AB-wq7"/>
                                                             </constraints>
                                                         </stackView>
