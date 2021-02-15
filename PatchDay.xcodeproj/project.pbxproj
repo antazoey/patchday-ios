@@ -561,6 +561,9 @@
 		9D1BC5662275F3E700552BC1 /* KeyStorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyStorable.swift; sourceTree = "<group>"; };
 		9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptions.swift; sourceTree = "<group>"; };
 		9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriteHandling.swift; sourceTree = "<group>"; };
+		9D21796F25D9F7B600FC3187 /* .circleci */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .circleci; sourceTree = "<group>"; };
+		9D21797025D9F7B600FC3187 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		9D21797125D9F7B600FC3187 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeBehindDependencies.swift; sourceTree = "<group>"; };
 		9D226983237506BF00828B5F /* NotificationProducing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationProducing.swift; sourceTree = "<group>"; };
 		9D3E4C7D22B5AEA400C82DAE /* ExpiredHormoneOvernightNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiredHormoneOvernightNotification.swift; sourceTree = "<group>"; };
@@ -845,6 +848,9 @@
 		137330E01E22BA3E0048F91E = {
 			isa = PBXGroup;
 			children = (
+				9D21796F25D9F7B600FC3187 /* .circleci */,
+				9D21797025D9F7B600FC3187 /* .gitignore */,
+				9D21797125D9F7B600FC3187 /* .swiftlint.yml */,
 				9D42114325D4AFD500087CDD /* CHANGELOG.md */,
 				9D42114225D4AFD500087CDD /* CONTRIBUTING.md */,
 				9D42114525D4AFD500087CDD /* Makefile */,
