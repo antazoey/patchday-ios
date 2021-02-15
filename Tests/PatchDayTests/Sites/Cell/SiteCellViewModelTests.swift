@@ -119,19 +119,18 @@ class SiteCellViewModelTests: XCTestCase {
         XCTAssertTrue(actual.hideArrow)
     }
 
-    func testGetVisibilityBools_whenSiteOrderIsNextAndNotEditing_saysHidesArrow() {
+    func testGetVisibilityBools_whenSiteOrderIsNextAndNotEditing_saysDoNotHideArrow() {
         var props = SiteCellProperties(row: 0)
         let site = MockSite()
         site.order = 3
         props.nextSiteIndex = 3
+        props.site = site
         let viewModel = SiteCellViewModel(props)
         let actual = viewModel.getVisibilityBools(cellIsInEditMode: false)
-
-        XCTAssertTrue(actual.hideNext)
-        //XCTAssertTrue(actual.hideArrow)
+        XCTAssertTrue(actual.hideArrow)
     }
 
-    func testGetVisibilityBools_whenSiteOrderIsNotNextAndNotEditing_doesNotSayHideArrow() {
+    func testGetVisibilityBools_whenSiteOrderIsNotNextAndNotEditing_doesNotToHideArrow() {
         var props = SiteCellProperties(row: 0)
         let site = MockSite()
         site.order = 2
