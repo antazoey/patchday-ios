@@ -52,13 +52,12 @@ extension Date {
 
     /// Whether this date is between the hours of midnight and 6 am.
     public func isOvernight() -> Bool {
-        guard let sixAM = Calendar.current.date(
-            bySettingHour: 6, minute: 0, second: 0, of: self
-        ),
-            let midnight = Calendar.current.date(
-                bySettingHour: 0, minute: 0, second: 0, of: self
-            ) else {
-                return false
+        let cal = Calendar.current
+        guard let sixAM = cal.date(bySettingHour: 6, minute: 0, second: 0, of: self) else {
+            return false
+        }
+        guard let midnight = cal.date(bySettingHour: 0, minute: 0, second: 0, of: self) else {
+            return false
         }
         return self < sixAM && self > midnight
     }
