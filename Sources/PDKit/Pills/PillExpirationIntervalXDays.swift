@@ -127,7 +127,10 @@ public class PillExpirationIntervalXDays {
         guard let two = two else { return }
         guard let isOnValue = isOn else { return }
         guard let pos = position else { return }
-        let nextPosition = (pos + 1) % (isOnValue ? one : two)
+        var nextPosition = pos + 1
+        if nextPosition < 1 || nextPosition > (isOnValue ? one : two) {
+            nextPosition = 1
+        }
         position = nextPosition
         isOn = nextPosition < pos ? !isOnValue : isOn
     }

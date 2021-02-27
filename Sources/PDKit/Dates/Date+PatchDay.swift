@@ -34,8 +34,10 @@ extension Date {
     }
 
     /// Whether this date is today.
-    public func isInToday() -> Bool {
-        Calendar.current.isDateInToday(self)
+    public func isInToday(now: NowProtocol?=nil) -> Bool {
+        let nowFactory = now ?? PDNow()
+        let nowDate = nowFactory.now
+        return Calendar.current.isDate(nowDate, equalTo: self, toGranularity: .day)
     }
 
     /// Whether this date is tomorrow.
@@ -50,9 +52,12 @@ extension Date {
 
     /// Whether this date is between the hours of midnight and 6 am.
     public func isOvernight() -> Bool {
-        guard let sixAM = Calendar.current.date(bySettingHour: 6, minute: 0, second: 0, of: self),
-            let midnight = Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self) else {
-                return false
+        let cal = Calendar.current
+        guard let sixAM = cal.date(bySettingHour: 6, minute: 0, second: 0, of: self) else {
+            return false
+        }
+        guard let midnight = cal.date(bySettingHour: 0, minute: 0, second: 0, of: self) else {
+            return false
         }
         return self < sixAM && self > midnight
     }

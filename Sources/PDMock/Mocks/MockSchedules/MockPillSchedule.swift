@@ -85,4 +85,9 @@ public class MockPillSchedule: PillScheduling {
     public func delete(at index: Index) {
         deleteCallArgs.append(index)
     }
+
+    public var awakenCallCount = 0
+    public func awaken() {
+        awakenCallCount += 1
+    }
 }

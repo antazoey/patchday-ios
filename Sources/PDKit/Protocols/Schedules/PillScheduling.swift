@@ -50,4 +50,7 @@ public protocol PillScheduling: Schedule, Deleting {
 
     /// Share pill data with other applications that have permission, such as PatchDayToday.
     func shareData()
+
+    /// Awaken the properties that are relevant to the current date and time.
+    func awaken()
 }
