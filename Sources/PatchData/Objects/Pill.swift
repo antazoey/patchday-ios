@@ -11,7 +11,7 @@ public class Pill: Swallowable {
 
     private var pillData: PillStruct  // Stored data
     private lazy var log = PDLog<Pill>()
-    private let _now: NowProtocol
+    public var _now: NowProtocol
 
     private var now: Date { self._now.now }
 
@@ -156,7 +156,7 @@ public class Pill: Swallowable {
     public func awaken() {
         if timesTakenToday > 0,
             let lastDate = lastTaken as Date?,
-            !lastDate.isInToday() {
+            !lastDate.isInToday(now: _now) {
 
             pillData.attributes.timesTakenToday = 0
         }

@@ -17,11 +17,13 @@ public class PillSchedule: NSObject, PillScheduling {
     private let store: PillStoring
     private let sharer: PillDataSharing
     private var context: [Swallowable]
+    public var _now: NowProtocol
 
-    init(store: PillStoring, pillDataSharer: PillDataSharing) {
+    init(store: PillStoring, pillDataSharer: PillDataSharing, now: NowProtocol?=nil) {
         self.store = store
         self.sharer = pillDataSharer
         self.context = store.getStoredPills()
+        self._now = now ?? PDNow()
         super.init()
         if store.state == .Initial {
             log.info("Pill state is initial - Setting up default Pills")
@@ -90,7 +92,7 @@ public class PillSchedule: NSObject, PillScheduling {
             (currentPills: [Swallowable], name: String) -> [Swallowable] in
             if var pill = store.createNewPill(name: name) {
                 pill.notify = true
-                pill.appendTime(Date())
+                pill.appendTime(_now.now)
                 return currentPills + [pill]
             }
             return currentPills
@@ -127,20 +129,19 @@ public class PillSchedule: NSObject, PillScheduling {
         sharer.share(nextPill: next)
     }
 
+    public func awaken() {
+        for pill in all {
+            pill.awaken()
+        }
+        store.pushLocalChangesToManagedContext(all, doSave: true)
+    }
+
     // MARK: - Private
 
     private func set(_ pill: inout Swallowable, with attributes: PillAttributes) {
         pill.set(attributes: attributes)
         store.pushLocalChangesToManagedContext([pill], doSave: true)
         shareData()
-    }
-
-    /// Awaken the properties that are relevant to the current date and time.
-    private func awaken() {
-        for pill in all {
-            pill.awaken()
-        }
-        store.pushLocalChangesToManagedContext(all, doSave: true)
     }
 
     private func swallow(_ pill: Swallowable, _ onSuccess: (() -> Void)?) {

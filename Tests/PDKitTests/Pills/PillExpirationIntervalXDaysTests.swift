@@ -235,6 +235,20 @@ class PillIExpirationIntervalXDaysTests: XCTestCase {
         XCTAssertEqual(1, xDays.position)
     }
 
+    func testIncrementDaysPosition_whenIsPenultimateOn_setsToLastOn() {
+        let xDays = PillExpirationIntervalXDays("5-5-on-4")
+        xDays.incrementDayPosition()
+        XCTAssertTrue(xDays.isOn!)
+        XCTAssertEqual(5, xDays.position)
+    }
+
+    func testIncrementDaysPosition_whenIsPenultimateOff_setsToLastOff() {
+        let xDays = PillExpirationIntervalXDays("5-5-off-4")
+        xDays.incrementDayPosition()
+        XCTAssertFalse(xDays.isOn!)
+        XCTAssertEqual(5, xDays.position)
+    }
+
     private func assertAllNil(_ xDays: PillExpirationIntervalXDays) {
         assertOneIsNil(xDays)
         assertTwoIsNil(xDays)
