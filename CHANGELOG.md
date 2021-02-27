@@ -6,6 +6,7 @@ Fixed
 
 - Bug where the penultimate day in a Pill Schedule with an "X Days On, X Days Off" expiration interval would 
     incorrectly set the next date after taking.
+
 ## 3.3.0
 
 Changed
