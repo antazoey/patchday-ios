@@ -24,12 +24,12 @@ class IntegrationTests: XCTestCase {
 
     // Force synchronous execution
     func test() {
-        //runTest_whenChangingHormoneBadge_updatesCorrectly()
-        //runTest_whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity()
-        runTest_goesThroughCompleteCycleOfXDaysOnXDaysOffCorrectly()
+        whenChangingHormoneBadge_updatesCorrectly()
+        whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity()
+        cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly()
     }
 
-    func runTest_whenChangingHormoneBadge_updatesCorrectly() {
+    func whenChangingHormoneBadge_updatesCorrectly() {
         let badge = PDBadge(sdk: sdk)
         sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
         let ids = self.sdk.hormones.all.map({ $0.id })
@@ -48,7 +48,7 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(2, badge.value)
     }
 
-    func runTest_whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity() {
+    func whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity() {
         let tabs = TabReflector(
             tabBarController: UITabBarController(),
             viewControllers: [UIViewController()],
@@ -80,8 +80,10 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(3, sdk.settings.quantity.rawValue)
     }
 
-    /// PillExpiraionInterval XDaysOnXdaysOff test. This is a particularly complex schedule that warrants its own integration test.
-    func runTest_goesThroughCompleteCycleOfXDaysOnXDaysOffCorrectly() {
+// swiftlint:disable function_body_length
+    /// PillExpiraionInterval XDaysOnXdaysOff test.
+    /// This is a particularly complex schedule that warrants its own integration test.
+    func cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly() {
         let dependencies = MockDependencies()
         dependencies.sdk = sdk
         let now = MockNow()
@@ -159,5 +161,6 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual("Current position: 3 of 3 (on)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
     }
+// swiftlint:enable function_body_length
 #endif
 }
