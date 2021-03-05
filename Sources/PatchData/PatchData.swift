@@ -64,7 +64,7 @@ public class PatchData: NSObject, PatchDataSDK {
             hormoneDataSharer: hormoneDataSharer,
             settings: userDefaultsWriter
         )
-        let settings = PDSettings(
+        let settings = Settings(
             writer: userDefaultsWriter, hormones: hormones, sites: sites
         )
         #if DEBUG
@@ -111,7 +111,7 @@ public class PatchData: NSObject, PatchDataSDK {
     }
 
     private static func handleDebugMode(
-        _ settings: PDSettings, _ hormones: HormoneSchedule, _ pills: PillSchedule) {
+        _ settings: Settings, _ hormones: HormoneSchedule, _ pills: PillSchedule) {
 
         // ******************************************************
         // Debug mode

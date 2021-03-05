@@ -1,5 +1,5 @@
 //
-//  PDSettings.swift
+//  Settings.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 11/11/19.
@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class PDSettings: PDSettingsManaging {
+public class Settings: PDSettingsManaging {
 
     private let writer: UserDefaultsWriting
     private let hormones: HormoneScheduling
@@ -52,6 +52,8 @@ public class PDSettings: PDSettingsManaging {
         writer.replaceStoredDeliveryMethod(to: newMethod)
         sites.reset()
         hormones.shareData()
+        let defaultQuantity = DefaultQuantities.Hormone[newMethod]
+        setQuantity(to: defaultQuantity)
     }
 
     public func setQuantity(to newQuantity: Int) {

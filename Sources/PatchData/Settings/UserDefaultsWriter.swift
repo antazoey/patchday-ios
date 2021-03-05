@@ -9,9 +9,7 @@ import PDKit
 
 public class UserDefaultsWriter: UserDefaultsWriting {
 
-    // Dependencies
     private let handler: UserDefaultsWriteHandler
-
     private var sites: SiteStoring
 
     init(handler: UserDefaultsWriteHandler, siteStore: SiteStoring) {
@@ -29,7 +27,6 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         )
         replaceStoredMentionedDisclaimer(to: DefaultSettings.MentionedDisclaimerRawValue)
         replaceStoredSiteIndex(to: DefaultSettings.SiteIndexRawValue)
-
     }
 
     public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
@@ -86,12 +83,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         if siteCount == 0 {
             handler.replace(siteIndex, to: 0)
             return 0
-        }
-
-        if currentIndex < 0 || currentIndex >= siteCount {
+        } else if !(0..<siteCount ~= currentIndex) {
             return replaceStoredSiteIndex(to: 0)
         }
-        let incrementedIndex = (currentIndex + 1) % sites.siteCount
+        let incrementedIndex = currentIndex + 1
         return replaceStoredSiteIndex(to: incrementedIndex)
     }
 

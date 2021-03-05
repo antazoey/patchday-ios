@@ -10,18 +10,18 @@ import PDKit
 class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 
     var reflector: SettingsReflector
-    var saver: SettingsSavePoint
+    var saver: SettingsSaver
     var alertFactory: AlertProducing?
 
     convenience init(controls: SettingsControls) {
         let reflector = SettingsReflector(controls)
-        let saver = SettingsSavePoint(controls)
+        let saver = SettingsSaver(controls)
         self.init(reflector, saver, nil)
     }
 
     init(
         _ reflector: SettingsReflector,
-        _ saver: SettingsSavePoint,
+        _ saver: SettingsSaver,
         _ alertFactory: AlertProducing? = nil
     ) {
         self.reflector = reflector
@@ -35,7 +35,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
 
     init(
         _ reflector: SettingsReflector,
-        _ saver: SettingsSavePoint,
+        _ saver: SettingsSaver,
         _ alertFactory: AlertProducing,
         _ dependencies: DependenciesProtocol
     ) {

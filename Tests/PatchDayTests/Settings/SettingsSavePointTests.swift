@@ -1,5 +1,5 @@
 //
-//  SettingsSavePointTests.swift
+//  SettingsSaverTests.swift
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 5/10/20.
@@ -11,18 +11,18 @@ import PDMock
 @testable
 import PatchDay
 
-class SettingsSavePointTests: XCTestCase {
+class SettingsSaverTests: XCTestCase {
 
     private let dependencies = MockDependencies()
     private let helper = SettingsTestHelper()
     private var controls: SettingsControls! = nil
-    private var saver: SettingsSavePoint! = nil
+    private var saver: SettingsSaver! = nil
 
     override func setUp() {
         controls = helper.createControls()
         controls.deliveryMethodButton.setTitle("TEST")
         controls.quantityButton.setTitle("TEST")
-        saver = SettingsSavePoint(controls, dependencies)
+        saver = SettingsSaver(controls, dependencies)
     }
 
     func testSave_whenDeliveryMethodAndFreshSdk_sets() {

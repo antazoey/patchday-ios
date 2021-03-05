@@ -1,5 +1,5 @@
 //
-//  SettingsStateSaver.swift
+//  SettingsSaver.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/20/19.
@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
+class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
 
     private let controls: SettingsControls
 
@@ -34,7 +34,7 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
             case .DeliveryMethod: saveDeliveryMethodChange(selectedRow, alertFactory: alertFactory)
             case .Quantity: saveQuantity(selectedRow, alertFactory: alertFactory)
             case .ExpirationInterval: saveExpirationInterval(selectedRow)
-        default: log.error("Error: No picker for key \(key)")
+            default: log.error("Error: No picker for key \(key)")
         }
         notifications?.requestAllExpiredHormoneNotifications()
     }
@@ -42,11 +42,16 @@ class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
     private func saveDeliveryMethodChange(_ selectedRow: Index, alertFactory: AlertProducing) {
         guard let sdk = sdk else { return }
         let newMethod = SettingsOptions.getDeliveryMethod(at: selectedRow)
-        sdk.isFresh
-            ? sdk.settings.setDeliveryMethod(to: newMethod)
-            : presentDeliveryMethodMutationAlert(
+        let currentMethod = sdk.settings.deliveryMethod.value
+        guard newMethod != currentMethod else { return }
+        if sdk.isFresh {
+            sdk.settings.setDeliveryMethod(to: newMethod)
+        } else {
+            presentDeliveryMethodMutationAlert(
                 choice: newMethod, controls: controls, factory: alertFactory
-        )
+            )
+        }
+
         controls.reflect(method: newMethod)
         let defaultQuantity = DefaultQuantities.Hormone[newMethod]
         controls.quantityButton.setTitle("\(defaultQuantity)")

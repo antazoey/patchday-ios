@@ -1,6 +1,6 @@
 //
 // Created by Juliya Smith on 1/7/20.
-// Copyright (c) 2020 Juliya Smith. All rights reserved.
+// Copyright (c) 2021 Juliya Smith. All rights reserved.
 //
 
 import Foundation
@@ -32,25 +32,24 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         replaceSiteIndexMockReturnValue = 0
     }
 
-    public var replaceStoredDeliveryMethodCallArgs: [DeliveryMethod] = []
-    public var replaceStoredExpirationIntervalCallArgs: [ExpirationInterval] = []
-    public var replaceStoredQuantityCallArgs: [Quantity] = []
     public var resetCallArgs: [Int] = []
-    public var replaceSiteIndexMockReturnValue = 0
-
     public func reset(defaultSiteCount: Int) {
         resetCallArgs.append(defaultSiteCount)
     }
 
+    public var replaceStoredDeliveryMethodCallArgs: [DeliveryMethod] = []
     public func replaceStoredDeliveryMethod(to newMethod: DeliveryMethod) {
         replaceStoredDeliveryMethodCallArgs.append(newMethod)
     }
 
+    public var replaceStoredExpirationIntervalCallArgs: [ExpirationInterval] = []
     public func replaceStoredExpirationInterval(to newExpirationInterval: ExpirationInterval) {
         replaceStoredExpirationIntervalCallArgs.append(newExpirationInterval)
     }
 
+    public var replaceStoredQuantityCallArgs: [Int] = []
     public func replaceStoredQuantity(to newQuantity: Int) {
+        replaceStoredQuantityCallArgs.append(newQuantity)
         self.quantity = QuantityUD(newQuantity)
     }
 
@@ -68,6 +67,7 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         self.mentionedDisclaimer = MentionedDisclaimerUD(newMentionedDisclaimer)
     }
 
+    public var replaceSiteIndexMockReturnValue = 0
     public func replaceStoredSiteIndex(to i: Index) -> Index {
         self.siteIndex = SiteIndexUD(i)
         return i
