@@ -16,13 +16,13 @@ class SettingsSavePointTests: XCTestCase {
     private let dependencies = MockDependencies()
     private let helper = SettingsTestHelper()
     private var controls: SettingsControls! = nil
-    private var saver: SettingsSavePoint! = nil
+    private var saver: SettingsSaves! = nil
 
     override func setUp() {
         controls = helper.createControls()
         controls.deliveryMethodButton.setTitle("TEST")
         controls.quantityButton.setTitle("TEST")
-        saver = SettingsSavePoint(controls, dependencies)
+        saver = SettingsSaves(controls, dependencies)
     }
 
     func testSave_whenDeliveryMethodAndFreshSdk_sets() {

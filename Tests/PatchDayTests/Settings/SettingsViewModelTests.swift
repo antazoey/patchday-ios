@@ -20,7 +20,7 @@ class SettingsViewModelTests: XCTestCase {
     func testActivatePicker_whenPickerIsHidden_selectsActivator() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSavePoint(controls, dependencies)
+        let saver = SettingsSaves(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
@@ -36,7 +36,7 @@ class SettingsViewModelTests: XCTestCase {
     func testActivatePicker_whenPickerIsVisible_saves() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSavePoint(controls, dependencies)
+        let saver = SettingsSaves(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
@@ -52,7 +52,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsValue_whenNotificationsIsOff_doesNotMutate() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSavePoint(controls, dependencies)
+        let saver = SettingsSaves(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let settings = dependencies.sdk?.settings as! MockSettings
@@ -66,7 +66,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsValue_whenNewValueLessThanZero_doesNotMutate() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSavePoint(controls, dependencies)
+        let saver = SettingsSaves(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
@@ -79,7 +79,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsValue_cancelsAdnResendsAllNotifications() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSavePoint(controls, dependencies)
+        let saver = SettingsSaves(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let settings = dependencies.sdk?.settings as! MockSettings
@@ -95,7 +95,7 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsValue_sets() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
-        let saver = SettingsSavePoint(controls, dependencies)
+        let saver = SettingsSaves(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 

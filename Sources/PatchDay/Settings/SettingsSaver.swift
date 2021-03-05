@@ -1,5 +1,5 @@
 //
-//  SettingsStateSaver.swift
+//  SettingsSaver.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 11/20/19.
@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-class SettingsSavePoint: CodeBehindDependencies<SettingsSavePoint> {
+class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
 
     private let controls: SettingsControls
 
