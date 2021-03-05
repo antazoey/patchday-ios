@@ -123,7 +123,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     /// The settings buttons with pickers i.e. `deliveryMethodButton`, `quantityButton` all point here.
-    @IBAction func selectDefaultButtonTapped(_ sender: UIButton) {
+    @IBAction func selectSettingButtonTapped(_ sender: UIButton) {
         guard let setting = sender.tryGetSettingFromButtonMetadata() else { return }
         handlePickerActivation(setting)
     }
