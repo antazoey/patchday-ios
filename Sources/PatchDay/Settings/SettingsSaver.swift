@@ -43,7 +43,8 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         guard let sdk = sdk else { return }
         let newMethod = SettingsOptions.getDeliveryMethod(at: selectedRow)
         let currentMethod = sdk.settings.deliveryMethod.value
-        if sdk.isFresh || newMethod == currentMethod {
+        guard newMethod != currentMethod else { return }
+        if sdk.isFresh {
             sdk.settings.setDeliveryMethod(to: newMethod)
         } else {
             presentDeliveryMethodMutationAlert(
