@@ -1,5 +1,5 @@
 //
-//  PDSettings.swift
+//  Settings.swift
 //  PatchData
 //
 //  Created by Juliya Smith on 11/11/19.
@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class PDSettings: PDSettingsManaging {
+public class Settings: PDSettingsManaging {
 
     private let writer: UserDefaultsWriting
     private let hormones: HormoneScheduling

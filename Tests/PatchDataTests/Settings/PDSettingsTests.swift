@@ -10,20 +10,21 @@ import PDMock
 @testable
 import PatchData
 
-class PDSettingsTests: XCTestCase {
+class SettingsTests: XCTestCase {
 
     private let mockSettingsWriter = MockUserDefaultsWriter()
     private let mockHormones = MockHormoneSchedule()
     private let mockSites = MockSiteSchedule()
 
-    private func createSettings() -> PDSettings {
-        PDSettings(writer: mockSettingsWriter, hormones: mockHormones, sites: mockSites)
+    private func createSettings() -> Settings {
+        Settings(writer: mockSettingsWriter, hormones: mockHormones, sites: mockSites)
     }
 
     func testSetDeliveryMethod_replacesMethod() {
         let settings = createSettings() // Defaults to Patches
         settings.setDeliveryMethod(to: .Injections)
-        XCTAssert(mockSettingsWriter.replaceStoredDeliveryMethodCallArgs[0] == DeliveryMethod.Injections)
+        let actual = mockSettingsWriter.replaceStoredDeliveryMethodCallArgs[0]
+        XCTAssertEqual(.Injections, actual)
     }
 
     func testSetDeliveryMethod_sharedData() {
@@ -60,7 +61,8 @@ class PDSettingsTests: XCTestCase {
         settings.setQuantity(to: 2)
         settings.setQuantity(to: 4)
 
-        let expected = 4 // fillIn takes a count as the argument (it fills in hormones to reach the new count)
+        // fillIn takes a count as the argument (it fills in hormones to reach the new count)
+        let expected = 4
         let actual = mockHormones.fillInCallArgs[0]
         XCTAssertEqual(expected, actual)
     }
