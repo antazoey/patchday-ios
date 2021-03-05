@@ -42,11 +42,15 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
     private func saveDeliveryMethodChange(_ selectedRow: Index, alertFactory: AlertProducing) {
         guard let sdk = sdk else { return }
         let newMethod = SettingsOptions.getDeliveryMethod(at: selectedRow)
-        sdk.isFresh
-            ? sdk.settings.setDeliveryMethod(to: newMethod)
-            : presentDeliveryMethodMutationAlert(
+        let currentMethod = sdk.settings.deliveryMethod.value
+        if sdk.isFresh || newMethod == currentMethod {
+            sdk.settings.setDeliveryMethod(to: newMethod)
+        } else {
+            presentDeliveryMethodMutationAlert(
                 choice: newMethod, controls: controls, factory: alertFactory
-        )
+            )
+        }
+
         controls.reflect(method: newMethod)
         let defaultQuantity = DefaultQuantities.Hormone[newMethod]
         controls.quantityButton.setTitle("\(defaultQuantity)")
