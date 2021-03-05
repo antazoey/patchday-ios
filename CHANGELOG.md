@@ -4,9 +4,10 @@
 
 Fixed
 
-- Bug where the hormone Quantity setting would not reset when changing the Delivery Method setting.
-- Bug where you would receive a warning about the loss of data when changing the Delivery Method setting 
-    to the same setting that is already set.
+- Bug when setting the Delivery Method for the first time in an empty schedule would not adjust the Quantity
+    correctly.
+- Bug where you would receive a warning about the loss of data when changing the Delivery Method to the same 
+    setting that is already set.
 
 ## 3.3.1
 
