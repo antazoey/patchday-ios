@@ -1,6 +1,6 @@
 //
 // Created by Juliya Smith on 1/5/20.
-// Copyright (c) 2020 Juliya Smith. All rights reserved.
+// Copyright (c) 2021 Juliya Smith. All rights reserved.
 //
 
 import Foundation

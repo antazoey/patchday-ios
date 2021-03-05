@@ -1,6 +1,6 @@
 //
 // Created by Juliya Smith on 2/11/20.
-// Copyright (c) 2020 Juliya Smith. All rights reserved.
+// Copyright (c) 2021 Juliya Smith. All rights reserved.
 //
 
 import XCTest
@@ -38,7 +38,7 @@ class SettingsTests: XCTestCase {
     func testSetDeliveryMethod_resetsSites() {
         let settings = createSettings()
         settings.setDeliveryMethod(to: .Injections)
-        XCTAssert(mockSites.resetCallCount == 1)
+        XCTAssertEqual(1, mockSites.resetCallCount)
     }
 
     func testSetQuantity_whenQuantityNotInSupportedRange_doesNotReplaceQuantity() {
