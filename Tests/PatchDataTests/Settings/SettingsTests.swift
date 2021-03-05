@@ -41,6 +41,47 @@ class SettingsTests: XCTestCase {
         XCTAssertEqual(1, mockSites.resetCallCount)
     }
 
+    func testSetDeliveryMethod_whenSettingToPatches_setsQuantityToDefault() {
+        let settings = createSettings()
+        settings.setDeliveryMethod(to: .Injections)
+        mockSettingsWriter.resetMock()
+
+        settings.setDeliveryMethod(to: .Patches)
+
+        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        if callArgs.count < 1 {
+            XCTFail("Set quantity was never called")
+            return
+        }
+        XCTAssertEqual(DefaultQuantities.Hormone[.Patches], callArgs[0])
+    }
+
+    func testSetDeliveryMethod_whenSettingToInjections_setsQuantityToDefault() {
+        let settings = createSettings()
+
+        settings.setDeliveryMethod(to: .Injections)
+
+        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        if callArgs.count < 1 {
+            XCTFail("Set quantity was never called")
+            return
+        }
+        XCTAssertEqual(DefaultQuantities.Hormone[.Injections], callArgs[0])
+    }
+
+    func testSetDeliveryMethod_whenSettingToGel_setsQuantityToDefault() {
+        let settings = createSettings()
+
+        settings.setDeliveryMethod(to: .Gel)
+
+        let callArgs = mockSettingsWriter.replaceStoredQuantityCallArgs
+        if callArgs.count < 1 {
+            XCTFail("Set quantity was never called")
+            return
+        }
+        XCTAssertEqual(DefaultQuantities.Hormone[.Gel], callArgs[0])
+    }
+
     func testSetQuantity_whenQuantityNotInSupportedRange_doesNotReplaceQuantity() {
         let settings = createSettings()
         let badNewQuantity = SettingsOptions.quantities.count + 1

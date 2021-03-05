@@ -1,5 +1,5 @@
 //
-//  SettingsSavePointTests.swift
+//  SettingsSaverTests.swift
 //  PatchDayTests
 //
 //  Created by Juliya Smith on 5/10/20.
@@ -11,7 +11,7 @@ import PDMock
 @testable
 import PatchDay
 
-class SettingsSavePointTests: XCTestCase {
+class SettingsSaverTests: XCTestCase {
 
     private let dependencies = MockDependencies()
     private let helper = SettingsTestHelper()
