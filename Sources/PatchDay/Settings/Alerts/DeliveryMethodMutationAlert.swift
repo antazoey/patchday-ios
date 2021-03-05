@@ -26,8 +26,6 @@ class DeliveryMethodMutationAlert: PDAlert {
     lazy var continueHandler = {
         if let sdk = self.sdk {
             sdk.settings.setDeliveryMethod(to: self.newDeliveryMethod)
-            let defaultQuantity = DefaultQuantities.Hormone[self.newDeliveryMethod]
-            sdk.settings.setQuantity(to: defaultQuantity)
         }
         self.tabs?.reflectHormones()
     }

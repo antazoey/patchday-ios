@@ -52,6 +52,8 @@ public class Settings: PDSettingsManaging {
         writer.replaceStoredDeliveryMethod(to: newMethod)
         sites.reset()
         hormones.shareData()
+        let defaultQuantity = DefaultQuantities.Hormone[newMethod]
+        setQuantity(to: defaultQuantity)
     }
 
     public func setQuantity(to newQuantity: Int) {
