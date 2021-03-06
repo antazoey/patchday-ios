@@ -8,8 +8,9 @@ Fixed
     correctly.
 - Bug where you would receive a warning about the loss of data when changing the Delivery Method to the same 
     setting that is already set.
-- Issue where changing a Patch would make the Site Image invisible. This bug occurred when changing the 
-    delivery method away from Patches and then back to Patches and then setting a Patch for the first time.
+- Issue where changing a Patch would hide its Site Image unnecessarily. 
+    This bug occurred when changing the delivery method away from Patches and then back to Patches and then 
+    setting a Patch for the first time.
 
 ## 3.3.1
 
