@@ -124,14 +124,12 @@ class HormoneCell: TableCell, HormoneCellProtocol {
 
     private func animateSetSiteImage(_ image: UIImage?) {
         guard siteImageView.image != image else { return }
-        DispatchQueue.main.async {
-            UIView.transition(
-                with: self.siteImageView as UIView,
-                duration: 0.75,
-                options: .transitionCrossDissolve,
-                animations: { self.siteImageView.image = image },
-                completion: nil
-            )
-        }
+        UIView.transition(
+            with: self.siteImageView as UIView,
+            duration: 0.75,
+            options: .transitionCrossDissolve,
+            animations: { self.siteImageView.image = image; self.siteImageView.alpha = 1 },
+            completion: { _ in }
+        )
     }
 }

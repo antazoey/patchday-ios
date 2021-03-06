@@ -87,4 +87,10 @@ class SiteImageRecorderTests: XCTestCase {
         let expected = HormoneMutation.Remove
         XCTAssertEqual(expected, actual)
     }
+
+    func test() {
+        let recorder = SiteImageRecorder(0)
+        let image = UIImage()
+        recorder.push(image)
+    }
 }
