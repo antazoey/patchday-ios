@@ -46,7 +46,6 @@ public class SiteImageDeterminationParameters {
             self.imageId = SiteStrings.NewSite
         }
         self.deliveryMethod = hormone.deliveryMethod
-        return
     }
 
     public init(deliveryMethod: DeliveryMethod) {
