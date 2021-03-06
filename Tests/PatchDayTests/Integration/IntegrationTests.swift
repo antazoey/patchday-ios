@@ -34,7 +34,7 @@ class IntegrationTests: XCTestCase {
         sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
         let ids = self.sdk.hormones.all.map({ $0.id })
         if ids.count < 3 {
-            XCTFail("Hormone count did does not match delivery method")
+            XCTFail("Hormone count does not match delivery method")
             return
         }
         sdk.hormones.setDate(by: ids[0], with: DateFactory.createDate(daysFromNow: -20)!)

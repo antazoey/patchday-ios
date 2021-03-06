@@ -57,10 +57,10 @@ class SiteDetailViewModelTests: XCTestCase {
     func testInitInitsPicker() {
         setupSite()
         let viewModel = createViewModel()
-        XCTAssertNotNil(viewModel.imagePickerDelegate)
+        XCTAssertNotNil(viewModel.imagePicker)
     }
 
-    func testInitSelectCorrectStartIndexOfSiteImagePicker() {
+    func testInitSelectsCorrectStartIndexOfSiteImagePicker() {
         setupSite()
         let imgParams = SiteImageDeterminationParameters(
             imageId: SiteStrings.LeftQuad, deliveryMethod: .Injections
@@ -70,7 +70,7 @@ class SiteDetailViewModelTests: XCTestCase {
         let expected = SiteImages.injectionImages.firstIndex {
             $0.accessibilityIdentifier == SiteStrings.LeftQuad
         }
-        let actual = viewModel.imagePickerDelegate?._props.selectedImageIndex
+        let actual = viewModel.imagePicker?._props.selectedImageIndex
         XCTAssertEqual(expected, actual)
     }
 

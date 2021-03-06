@@ -43,7 +43,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
 
     init(
         _ siteIndex: Index,
-        _ imagePickerDelegate: SiteImagePicker,
+        _ imagePicker: SiteImagePicker,
         _ dependencies: DependenciesProtocol
     ) {
         self.siteIndex = siteIndex
@@ -147,7 +147,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     }
 
     private func saveSiteImageChanges() {
-        guard let row = imagePickerDelegate?.selectedRow else { return }
+        guard let row = imagePicker?.selectedRow else { return }
         guard let image = createImageStruct(selectedRow: row) else { return }
         sdk?.sites.setImageId(at: siteIndex, to: image.name)
     }
@@ -160,6 +160,6 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     }
 
     private var hasSelections: Bool {
-        selections.hasSelections || (imagePickerDelegate?.didSelectImage ?? false)
+        selections.hasSelections || (imagePicker?.didSelectImage ?? false)
     }
 }
