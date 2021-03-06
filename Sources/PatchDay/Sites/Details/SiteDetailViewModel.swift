@@ -13,7 +13,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     private var site: Bodily? { sdk?.sites[siteIndex] }
     var selections = SiteSelectionState()
 
-    var imagePickerDelegate: SiteImagePicker?
+    var imagePicker: SiteImagePicker?
 
     convenience init(_ params: SiteDetailViewModelConstructorParams) {
         let imageChoices = SiteImages.All[params.deliveryMethod]
@@ -31,13 +31,13 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     private convenience init(
         siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties
     ) {
-        let imagePickerDelegate = SiteImagePicker(props: imagePickerProps)
-        self.init(siteIndex, imagePickerDelegate: imagePickerDelegate)
+        let imagePicker = SiteImagePicker(props: imagePickerProps)
+        self.init(siteIndex, imagePicker: imagePicker)
     }
 
-    init(_ siteIndex: Index, imagePickerDelegate: SiteImagePicker) {
+    init(_ siteIndex: Index, imagePicker: SiteImagePicker) {
         self.siteIndex = siteIndex
-        self.imagePickerDelegate = imagePickerDelegate
+        self.imagePicker = imagePicker
         super.init()
     }
 
@@ -47,7 +47,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
         _ dependencies: DependenciesProtocol
     ) {
         self.siteIndex = siteIndex
-        self.imagePickerDelegate = imagePickerDelegate
+        self.imagePicker = imagePicker
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,
