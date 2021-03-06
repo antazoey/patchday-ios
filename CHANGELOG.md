@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.3.3 (unreleased)
+
+Fixed
+
+- Bug where if you had the Accessibility setting "Increase Contrast" enabled, Alert Buttons would have no text.
+
 ## 3.3.2
 
 Fixed
