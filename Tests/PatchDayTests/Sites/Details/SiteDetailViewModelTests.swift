@@ -29,7 +29,7 @@ class SiteDetailViewModelTests: XCTestCase {
     }
 
     private func createImagePicker(selectedSiteIndex: Int=0) -> SiteImagePicker {
-        let props = SiteImagePickerDelegateProperties(
+        let props = SiteImagePickerProperties(
             selectedSiteIndex: selectedSiteIndex,
             imageChoices: [UIImage()],
             views: relatedViews,

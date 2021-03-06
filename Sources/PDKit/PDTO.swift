@@ -181,7 +181,7 @@ public struct HormoneSelectionState {
     }
 }
 
-public struct SiteImagePickerDelegateProperties {
+public struct SiteImagePickerProperties {
     public init(
         selectedSiteIndex: Index?,
         imageChoices: [UIImage],

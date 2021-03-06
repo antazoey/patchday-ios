@@ -8,9 +8,9 @@ import UIKit
 
 public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    public var _props: SiteImagePickerDelegateProperties
+    public var _props: SiteImagePickerProperties
 
-    public init(props: SiteImagePickerDelegateProperties) {
+    public init(props: SiteImagePickerProperties) {
         self._props = props
         super.init()
     }
