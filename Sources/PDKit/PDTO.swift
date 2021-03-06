@@ -186,7 +186,7 @@ public struct SiteImagePickerDelegateProperties {
     public init(
         selectedSiteIndex: Index?,
         imageChoices: [UIImage],
-        views: SiteImagePickerDelegateRelatedViews?,
+        views: SiteImagePickerRelatedViews?,
         selectedImageIndex: Index?
     ) {
         self.selectedSiteIndex = selectedSiteIndex
@@ -196,11 +196,11 @@ public struct SiteImagePickerDelegateProperties {
     }
     public var selectedSiteIndex: Index?
     public var imageChoices: [UIImage] = []
-    public var views: SiteImagePickerDelegateRelatedViews?
+    public var views: SiteImagePickerRelatedViews?
     public var selectedImageIndex: Index?
 }
 
-public struct SiteImagePickerDelegateRelatedViews {
+public struct SiteImagePickerRelatedViews {
     public init(
         getPicker: @escaping () -> UIPickerView,
         getImageView: @escaping () -> UIImageView,
@@ -217,13 +217,13 @@ public struct SiteImagePickerDelegateRelatedViews {
 public struct SiteDetailViewModelConstructorParams {
     public var siteIndex: Index
     public var imageSelectionParams: SiteImageDeterminationParameters
-    public var relatedViews: SiteImagePickerDelegateRelatedViews
+    public var relatedViews: SiteImagePickerRelatedViews
     public var deliveryMethod: DeliveryMethod
 
     public init(
         _ siteIndex: Index,
         _ imageParams: SiteImageDeterminationParameters,
-        _ relateViews: SiteImagePickerDelegateRelatedViews
+        _ relateViews: SiteImagePickerRelatedViews
     ) {
         self.siteIndex = siteIndex
         self.imageSelectionParams = imageParams

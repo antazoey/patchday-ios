@@ -90,7 +90,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func initWithSiteIndex(
         _ index: Index, imageParams: SiteImageDeterminationParameters
     ) -> SiteDetailViewController {
-        let relatedViews = SiteImagePickerDelegateRelatedViews(
+        let relatedViews = SiteImagePickerRelatedViews(
             getPicker: { self.imagePicker },
             getImageView: { self.siteImageView },
             getSaveButton: { self.saveButton }

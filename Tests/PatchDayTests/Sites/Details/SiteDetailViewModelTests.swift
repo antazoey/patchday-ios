@@ -20,8 +20,8 @@ class SiteDetailViewModelTests: XCTestCase {
     private let imageView = UIImageView()
     private let saveButton = UIBarButtonItem()
 
-    private var relatedViews: SiteImagePickerDelegateRelatedViews {
-        SiteImagePickerDelegateRelatedViews(
+    private var relatedViews: SiteImagePickerRelatedViews {
+        SiteImagePickerRelatedViews(
             getPicker: { self.picker },
             getImageView: { self.imageView },
             getSaveButton: { self.saveButton }
