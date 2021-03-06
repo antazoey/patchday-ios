@@ -5,6 +5,7 @@
 Fixed
 
 - Bug where if you had the Accessibility setting "Increase Contrast" enabled, Alert Buttons would have no text.
+- Bug where if you had the Accessibility setting "Bold Text" enabled, the Tab title texts would be cut-off.
 
 ## 3.3.2
 
