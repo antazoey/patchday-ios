@@ -128,13 +128,14 @@ public struct PillStruct {
 }
 
 public struct SiteCellProperties {
-    public init(row: Index) {
-        self.row = row
-    }
     public var row: Index
     public var site: Bodily?
     public var totalSiteCount = 0
     public var nextSiteIndex = 0
+
+    public init(row: Index) {
+        self.row = row
+    }
 }
 
 public struct BarItemInitializationProperties {
@@ -182,6 +183,11 @@ public struct HormoneSelectionState {
 }
 
 public struct SiteImagePickerProperties {
+    public var selectedSiteIndex: Index?
+    public var imageChoices: [UIImage] = []
+    public var views: SiteImagePickerRelatedViews?
+    public var selectedImageIndex: Index?
+
     public init(
         selectedSiteIndex: Index?,
         imageChoices: [UIImage],
@@ -193,13 +199,13 @@ public struct SiteImagePickerProperties {
         self.views = views
         self.selectedImageIndex = selectedImageIndex
     }
-    public var selectedSiteIndex: Index?
-    public var imageChoices: [UIImage] = []
-    public var views: SiteImagePickerRelatedViews?
-    public var selectedImageIndex: Index?
 }
 
 public struct SiteImagePickerRelatedViews {
+    public var getPicker: () -> UIPickerView
+    public var getImageView: () -> UIImageView
+    public var getSaveButton: () -> UIBarButtonItem
+
     public init(
         getPicker: @escaping () -> UIPickerView,
         getImageView: @escaping () -> UIImageView,
@@ -208,9 +214,6 @@ public struct SiteImagePickerRelatedViews {
         self.getImageView = getImageView
         self.getSaveButton = getSaveButton
     }
-    public var getPicker: () -> UIPickerView
-    public var getImageView: () -> UIImageView
-    public var getSaveButton: () -> UIBarButtonItem
 }
 
 public struct SiteDetailViewModelConstructorParams {
@@ -232,17 +235,19 @@ public struct SiteDetailViewModelConstructorParams {
 }
 
 public struct SiteImageStruct {
+    public let image: UIImage
+    public let name: SiteName
+
     public init(image: UIImage, name: SiteName) {
         self.image = image
         self.name = name
     }
-    public let image: UIImage
-    public let name: SiteName
 }
 
 public struct SiteSelectionState {
-    public init() {}
     public var selectedSiteName: SiteName?
+    public init() {}
+
     // Image propety is not tracked here - see SiteImagePicker.swift
 
     public var hasSelections: Bool {
