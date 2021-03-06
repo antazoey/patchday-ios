@@ -20,8 +20,8 @@ class SiteDetailViewModelTests: XCTestCase {
     private let imageView = UIImageView()
     private let saveButton = UIBarButtonItem()
 
-    private var relatedViews: SiteImagePickerDelegateRelatedViews {
-        SiteImagePickerDelegateRelatedViews(
+    private var relatedViews: SiteImagePickerRelatedViews {
+        SiteImagePickerRelatedViews(
             getPicker: { self.picker },
             getImageView: { self.imageView },
             getSaveButton: { self.saveButton }
@@ -29,7 +29,7 @@ class SiteDetailViewModelTests: XCTestCase {
     }
 
     private func createImagePicker(selectedSiteIndex: Int=0) -> SiteImagePicker {
-        let props = SiteImagePickerDelegateProperties(
+        let props = SiteImagePickerProperties(
             selectedSiteIndex: selectedSiteIndex,
             imageChoices: [UIImage()],
             views: relatedViews,
@@ -57,10 +57,10 @@ class SiteDetailViewModelTests: XCTestCase {
     func testInitInitsPicker() {
         setupSite()
         let viewModel = createViewModel()
-        XCTAssertNotNil(viewModel.imagePickerDelegate)
+        XCTAssertNotNil(viewModel.imagePicker)
     }
 
-    func testInitSelectCorrectStartIndexOfSiteImagePicker() {
+    func testInitSelectsCorrectStartIndexOfSiteImagePicker() {
         setupSite()
         let imgParams = SiteImageDeterminationParameters(
             imageId: SiteStrings.LeftQuad, deliveryMethod: .Injections
@@ -70,7 +70,7 @@ class SiteDetailViewModelTests: XCTestCase {
         let expected = SiteImages.injectionImages.firstIndex {
             $0.accessibilityIdentifier == SiteStrings.LeftQuad
         }
-        let actual = viewModel.imagePickerDelegate?._props.selectedImageIndex
+        let actual = viewModel.imagePicker?._props.selectedImageIndex
         XCTAssertEqual(expected, actual)
     }
 

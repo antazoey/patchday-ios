@@ -57,8 +57,7 @@ class TabReflector: TabReflective {
         sdk.pills.reloadContext()
         let expiredCount = sdk.pills.totalDue
         item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
-        let log = PDLog<TabReflector>()
-        log.info("Settings pills tab to \(item.badgeValue ?? "nil")")
+        pillsViewController.tabBarItem = nil  // Set to nil first to force redraw
         pillsViewController.tabBarItem = item
         pillsViewController.awakeFromNib()
     }

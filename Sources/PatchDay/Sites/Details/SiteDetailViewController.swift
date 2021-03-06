@@ -90,7 +90,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private func initWithSiteIndex(
         _ index: Index, imageParams: SiteImageDeterminationParameters
     ) -> SiteDetailViewController {
-        let relatedViews = SiteImagePickerDelegateRelatedViews(
+        let relatedViews = SiteImagePickerRelatedViews(
             getPicker: { self.imagePicker },
             getImageView: { self.siteImageView },
             getSaveButton: { self.saveButton }
@@ -126,7 +126,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     @IBAction func imageButtonTapped(_ sender: Any) {
-        guard let picker = viewModel.imagePickerDelegate else { return }
+        guard let picker = viewModel.imagePicker else { return }
         siteImageView.isHidden = true
         imageButton.isEnabled = false
         picker.openPicker {
@@ -233,8 +233,8 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.delegate = self
         namePicker.delegate = self
         namePicker.dataSource = self
-        imagePicker.delegate = viewModel.imagePickerDelegate
-        imagePicker.dataSource = viewModel.imagePickerDelegate
+        imagePicker.delegate = viewModel.imagePicker
+        imagePicker.dataSource = viewModel.imagePicker
     }
 
     private func setRuntimeViewProps() {

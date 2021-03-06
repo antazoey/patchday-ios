@@ -23,30 +23,27 @@ class PDAlertController: UIAlertController {
     }
 
     func show(animated: Bool = true) {
-        alertWindow = UIWindow(frame: UIScreen.main.bounds)
-        alertWindow?.rootViewController = UIViewController()
-
-        if let window = UIApplication.shared.delegate?.window {
-            alertWindow?.tintColor = window?.tintColor
-        }
-
-        alertWindow?.windowLevel = UIApplication.shared.windows.last!.windowLevel + 1
-        alertWindow?.makeKeyAndVisible()
-        alertWindow?.rootViewController?.present(self, animated: animated, completion: nil)
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        window.rootViewController = UIViewController()
+        window.windowLevel = UIApplication.shared.windows.last!.windowLevel + 1
+        window.makeKeyAndVisible()
+        window.rootViewController?.present(self, animated: animated, completion: nil)
+        alertWindow = window
     }
 }
 
 class PDAlert: PDAlerting {
 
     let alert: PDAlertController
-    static var style: UIAlertController.Style = {
-        AppDelegate.isPad ? .alert : .actionSheet
-    }()
 
     init(title: String, message: String, style: UIAlertController.Style) {
         let _style = AppDelegate.isPad ? .alert : style
         self.alert = PDAlertController(title: title, message: message, preferredStyle: _style)
     }
+
+    static var style: UIAlertController.Style = {
+        AppDelegate.isPad ? .alert : .actionSheet
+    }()
 
     func present(actions: [UIAlertAction]) {
         if alert.actions.count == 0 {

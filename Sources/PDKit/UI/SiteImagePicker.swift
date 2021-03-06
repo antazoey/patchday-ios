@@ -8,9 +8,9 @@ import UIKit
 
 public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSource {
 
-    public var _props: SiteImagePickerDelegateProperties
+    public var _props: SiteImagePickerProperties
 
-    public init(props: SiteImagePickerDelegateProperties) {
+    public init(props: SiteImagePickerProperties) {
         self._props = props
         super.init()
     }
@@ -24,9 +24,13 @@ public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSo
 
     public var options: [UIImage?] { _props.imageChoices }
 
-    public var selectedRow: Index? { _props.selectedImageIndex ?? picker.selectedRow(inComponent: 0) }
+    public var selectedRow: Index? {
+        _props.selectedImageIndex ?? picker.selectedRow(inComponent: 0)
+    }
 
-    public func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    public func pickerView(
+        _ pickerView: UIPickerView, numberOfRowsInComponent component: Int
+    ) -> Int {
         _props.imageChoices.count
     }
 
@@ -34,11 +38,15 @@ public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSo
         DefaultNumberOfPickerComponents
     }
 
-    public func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+    public func pickerView(
+        _ pickerView: UIPickerView, rowHeightForComponent component: Int
+    ) -> CGFloat {
         SiteDetailConstants.SiteImageRowHeight
     }
 
-    public func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+    public func pickerView(
+        _ pickerView: UIPickerView, widthForComponent component: Int
+    ) -> CGFloat {
         SiteDetailConstants.SiteImageRowWidth
     }
 
@@ -56,7 +64,9 @@ public class SiteImagePicker: NSObject, UIPickerViewDelegate, UIPickerViewDataSo
         return UIImageView()
     }
 
-    public func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    public func pickerView(
+        _ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int
+    ) {
         _props.selectedImageIndex = row
         if let imageView = _props.views?.getImageView() {
             imageView.image = getImage(at: row)

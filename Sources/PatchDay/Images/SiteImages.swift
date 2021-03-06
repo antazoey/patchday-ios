@@ -126,10 +126,10 @@ public class SiteImages: NSObject {
     }
 
     static subscript(params: SiteImageDeterminationParameters) -> UIImage {
-        provided(from: params) ?? custom(from: params) ?? placeholder(params)
+        provided(params) ?? custom(params) ?? placeholder(params)
     }
 
-    private static func provided(from params: SiteImageDeterminationParameters) -> UIImage? {
+    private static func provided(_ params: SiteImageDeterminationParameters) -> UIImage? {
         guard let siteName = params.imageId else { return nil }
         switch params.deliveryMethod {
             case .Patches: return siteNameToPatchImageDict[siteName]
@@ -138,7 +138,7 @@ public class SiteImages: NSObject {
         }
     }
 
-    private static func custom(from params: SiteImageDeterminationParameters) -> UIImage? {
+    private static func custom(_ params: SiteImageDeterminationParameters) -> UIImage? {
         guard params.imageId != nil else { return nil }
         switch params.deliveryMethod {
             case .Patches: return customPatch

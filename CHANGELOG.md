@@ -4,11 +4,13 @@
 
 Fixed
 
+- Bug where if you had the Accessibility setting "Increase Contrast" enabled, Alert Buttons would have no text.
 - Bug when setting the Delivery Method for the first time in an empty schedule would not adjust the Quantity
     correctly.
 - Bug where you would receive a warning about the loss of data when changing the Delivery Method to the same 
     setting that is already set.
-- Issue where changing a Patch would hide its Site Image unnecessarily. 
+- Bug where if you had the Accessibility setting "Bold Text" enabled, the Tab title texts would be cut-off.
+- Issue where changing a Patch would hide its Site Image unnecessarily.
     This bug occurred when changing the delivery method away from Patches and then back to Patches and then 
     setting a Patch for the first time.
 

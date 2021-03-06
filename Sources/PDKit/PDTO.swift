@@ -46,7 +46,6 @@ public class SiteImageDeterminationParameters {
             self.imageId = SiteStrings.NewSite
         }
         self.deliveryMethod = hormone.deliveryMethod
-        return
     }
 
     public init(deliveryMethod: DeliveryMethod) {
@@ -129,13 +128,14 @@ public struct PillStruct {
 }
 
 public struct SiteCellProperties {
-    public init(row: Index) {
-        self.row = row
-    }
     public var row: Index
     public var site: Bodily?
     public var totalSiteCount = 0
     public var nextSiteIndex = 0
+
+    public init(row: Index) {
+        self.row = row
+    }
 }
 
 public struct BarItemInitializationProperties {
@@ -182,11 +182,16 @@ public struct HormoneSelectionState {
     }
 }
 
-public struct SiteImagePickerDelegateProperties {
+public struct SiteImagePickerProperties {
+    public var selectedSiteIndex: Index?
+    public var imageChoices: [UIImage] = []
+    public var views: SiteImagePickerRelatedViews?
+    public var selectedImageIndex: Index?
+
     public init(
         selectedSiteIndex: Index?,
         imageChoices: [UIImage],
-        views: SiteImagePickerDelegateRelatedViews?,
+        views: SiteImagePickerRelatedViews?,
         selectedImageIndex: Index?
     ) {
         self.selectedSiteIndex = selectedSiteIndex
@@ -194,13 +199,13 @@ public struct SiteImagePickerDelegateProperties {
         self.views = views
         self.selectedImageIndex = selectedImageIndex
     }
-    public var selectedSiteIndex: Index?
-    public var imageChoices: [UIImage] = []
-    public var views: SiteImagePickerDelegateRelatedViews?
-    public var selectedImageIndex: Index?
 }
 
-public struct SiteImagePickerDelegateRelatedViews {
+public struct SiteImagePickerRelatedViews {
+    public var getPicker: () -> UIPickerView
+    public var getImageView: () -> UIImageView
+    public var getSaveButton: () -> UIBarButtonItem
+
     public init(
         getPicker: @escaping () -> UIPickerView,
         getImageView: @escaping () -> UIImageView,
@@ -209,21 +214,18 @@ public struct SiteImagePickerDelegateRelatedViews {
         self.getImageView = getImageView
         self.getSaveButton = getSaveButton
     }
-    public var getPicker: () -> UIPickerView
-    public var getImageView: () -> UIImageView
-    public var getSaveButton: () -> UIBarButtonItem
 }
 
 public struct SiteDetailViewModelConstructorParams {
     public var siteIndex: Index
     public var imageSelectionParams: SiteImageDeterminationParameters
-    public var relatedViews: SiteImagePickerDelegateRelatedViews
+    public var relatedViews: SiteImagePickerRelatedViews
     public var deliveryMethod: DeliveryMethod
 
     public init(
         _ siteIndex: Index,
         _ imageParams: SiteImageDeterminationParameters,
-        _ relateViews: SiteImagePickerDelegateRelatedViews
+        _ relateViews: SiteImagePickerRelatedViews
     ) {
         self.siteIndex = siteIndex
         self.imageSelectionParams = imageParams
@@ -233,17 +235,19 @@ public struct SiteDetailViewModelConstructorParams {
 }
 
 public struct SiteImageStruct {
+    public let image: UIImage
+    public let name: SiteName
+
     public init(image: UIImage, name: SiteName) {
         self.image = image
         self.name = name
     }
-    public let image: UIImage
-    public let name: SiteName
 }
 
 public struct SiteSelectionState {
-    public init() {}
     public var selectedSiteName: SiteName?
+    public init() {}
+
     // Image propety is not tracked here - see SiteImagePicker.swift
 
     public var hasSelections: Bool {

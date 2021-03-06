@@ -1186,7 +1186,7 @@
             <objects>
                 <tabBarController modalTransitionStyle="crossDissolve" id="pvq-bf-Bhb" userLabel="Tabs" sceneMemberID="viewController">
                     <value key="contentSizeForViewInPopover" type="size" width="0.0" height="100"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="nDz-5d-SUj">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" itemPositioning="centered" id="nDz-5d-SUj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1318,7 +1318,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mpM-BR-8sz"/>
+        <segue reference="uH0-Pp-56s"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" name="Purple"/>
     <resources>

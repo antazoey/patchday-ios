@@ -13,13 +13,13 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     private var site: Bodily? { sdk?.sites[siteIndex] }
     var selections = SiteSelectionState()
 
-    var imagePickerDelegate: SiteImagePicker?
+    var imagePicker: SiteImagePicker?
 
     convenience init(_ params: SiteDetailViewModelConstructorParams) {
         let imageChoices = SiteImages.All[params.deliveryMethod]
         let image = SiteImages[params.imageSelectionParams]
         let imageIndex = imageChoices.firstIndex(where: { $0 == image })
-        let pickerDelegateProps = SiteImagePickerDelegateProperties(
+        let pickerDelegateProps = SiteImagePickerProperties(
             selectedSiteIndex: params.siteIndex,
             imageChoices: imageChoices,
             views: params.relatedViews,
@@ -29,25 +29,25 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     }
 
     private convenience init(
-        siteIndex: Index, imagePickerProps: SiteImagePickerDelegateProperties
+        siteIndex: Index, imagePickerProps: SiteImagePickerProperties
     ) {
-        let imagePickerDelegate = SiteImagePicker(props: imagePickerProps)
-        self.init(siteIndex, imagePickerDelegate: imagePickerDelegate)
+        let imagePicker = SiteImagePicker(props: imagePickerProps)
+        self.init(siteIndex, imagePicker: imagePicker)
     }
 
-    init(_ siteIndex: Index, imagePickerDelegate: SiteImagePicker) {
+    init(_ siteIndex: Index, imagePicker: SiteImagePicker) {
         self.siteIndex = siteIndex
-        self.imagePickerDelegate = imagePickerDelegate
+        self.imagePicker = imagePicker
         super.init()
     }
 
     init(
         _ siteIndex: Index,
-        _ imagePickerDelegate: SiteImagePicker,
+        _ imagePicker: SiteImagePicker,
         _ dependencies: DependenciesProtocol
     ) {
         self.siteIndex = siteIndex
-        self.imagePickerDelegate = imagePickerDelegate
+        self.imagePicker = imagePicker
         super.init(
             sdk: dependencies.sdk,
             tabs: dependencies.tabs,
@@ -147,7 +147,7 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     }
 
     private func saveSiteImageChanges() {
-        guard let row = imagePickerDelegate?.selectedRow else { return }
+        guard let row = imagePicker?.selectedRow else { return }
         guard let image = createImageStruct(selectedRow: row) else { return }
         sdk?.sites.setImageId(at: siteIndex, to: image.name)
     }
@@ -160,6 +160,6 @@ class SiteDetailViewModel: CodeBehindDependencies<SiteDetailViewModel>, SiteDeta
     }
 
     private var hasSelections: Bool {
-        selections.hasSelections || (imagePickerDelegate?.didSelectImage ?? false)
+        selections.hasSelections || (imagePicker?.didSelectImage ?? false)
     }
 }

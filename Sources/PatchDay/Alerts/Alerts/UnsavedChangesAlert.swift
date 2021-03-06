@@ -12,7 +12,6 @@ class UnsavedChangesAlert: PDAlert {
     let title = NSLocalizedString("Unsaved Changes", comment: "Title of alert")
     let saveAndContinueTitle = NSLocalizedString("Save and continue", comment: "Alert action")
     let discardAndContinue = NSLocalizedString("Continue without saving", comment: "Alert action")
-
     let saveAndContinueHandler: () -> Void
     let discardChangesHandler: () -> Void
 
