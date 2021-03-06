@@ -19,7 +19,11 @@ extension UIControl {
         isHidden = true
     }
 
-    func replaceTarget(_ baseTarget: Any?, newAction: Selector, for event: UIControl.Event = .touchUpInside) {
+    func replaceTarget(
+        _ baseTarget: Any?,
+        newAction: Selector,
+        for event: UIControl.Event = .touchUpInside
+    ) {
         removeTarget(nil, action: nil, for: .allEvents)
         addTarget(baseTarget, action: newAction, for: event)
     }
