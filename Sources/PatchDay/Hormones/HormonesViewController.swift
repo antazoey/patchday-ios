@@ -42,7 +42,6 @@ class HormonesViewController: UIViewController, UITableViewDataSource, UITableVi
         viewModel.presentDisclaimerAlertIfFirstLaunch()
         loadTitle()
         viewModel.table.reloadData()
-        viewModel.updateSiteImages()
         applyTheme()
         WidgetCenter.shared.reloadAllTimelines()
     }
