@@ -6,7 +6,8 @@ I recommend to just use Xcode. However, AppCode may also work and have some desi
 
 ## Linter
 
-Use [SwiftLint](https://github.com/realm/SwiftLint). Follow the install instructions - make sure `swiftlint` is in your path.
+Use [SwiftLint](https://github.com/realm/SwiftLint). Follow the install instructions - make sure `swiftlint` is in 
+your path.
 
 To check lint errors, do:
 
@@ -22,8 +23,9 @@ Note: CircleCI will complain about certain lint errors for the project on PR bui
 
 ### PDMock
 
-The project `PDMock` contains manual mocks for protocols defined in `PDKit.Protocols`. Use them, follow their patterns,
-create new ones if you need, modify them as you need. Mocks are mostly built and updates on a needs-basis, but the basic pattern is:
+The project `PDMock` contains manual mocks for protocols defined in `PDKit.Protocols`. Use them, follow their 
+patterns, create new ones if you need, modify them as you need. Mocks are mostly built and updates on a 
+needs-basis, but the basic pattern is:
 
 * If the method has no arguments and no return value, use a call count feature:
 
@@ -40,8 +42,8 @@ Have tests verify the call count:
     XCTAssertEqual(1, mockObject.fooCallCount
 ```
 
-* Does the mocked method contain arguments? Create a public variable containing the args and append them during calls. The 
-convention for the variable name is `<method-name>CallArgs`:
+* Does the mocked method contain arguments? Create a public variable containing the args and append them 
+during calls. The convention for the variable name is `<method-name>CallArgs`:
 
 ```swift
     public var fooCallArgs: [Int]] = []
@@ -65,7 +67,8 @@ If there are mutliple args, use a tuple to track them in the list:
     }
 ```
 
-* Does the mocked method have a return value? Create a variable named `<method-name>ReturnValue` and make it settable:
+* Does the mocked method have a return value? Create a variable named `<method-name>ReturnValue` and 
+make it settable:
 
 Example:
 
