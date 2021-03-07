@@ -18,7 +18,7 @@ class PillCellViewModel: PillCellViewModelProtocol {
     }
 
     var lastTakenText: String {
-        if let lastTaken = self.pill.lastTaken {
+        if let lastTaken = pill.lastTaken {
             return PDDateFormatter.formatDate(lastTaken)
         } else {
             return PillStrings.NotYetTaken
