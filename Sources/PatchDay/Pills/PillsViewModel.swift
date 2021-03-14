@@ -39,6 +39,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     var pillsCount: Int { pills?.count ?? 0 }
 
+    var pillsEnabled: Bool { sdk?.settings.pillsEnabled.rawValue ?? true }
+
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
         let title = ActionStrings.Delete
         let delete = UIContextualAction(style: .normal, title: title) {
@@ -94,6 +96,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         guard let pills = pills else { return }
         guard pillIndex >= 0 && pillIndex < pills.count else { return }
         nav?.goToPillDetails(pillIndex, source: pillsViewController)
+    }
+
+    func togglePillsEnabled(_ toggledOn: Bool) {
+        sdk?.settings.setPillsEnabled(to: toggledOn)
     }
 
     // MARK: - Private

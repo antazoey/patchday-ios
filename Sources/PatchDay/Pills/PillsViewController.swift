@@ -25,6 +25,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         pillsTableView.delegate = self
         pillsTableView.dataSource = self
         loadBarButtons()
+        loadPillsEnabled()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -52,6 +53,8 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     @IBAction func enablePillsSwitchToggled(_ sender: Any) {
+        guard let switchObj = sender as? UISwitch else { return }
+        viewModel.togglePillsEnabled(switchObj.isOn)
     }
 
     // MARK: - Table Delegate Methods
@@ -105,5 +108,9 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @objc private func handleInsertNewPill() {
         viewModel.goToNewPillDetails(pillsViewController: self)
+    }
+
+    private func loadPillsEnabled() {
+        enablePillsSwitch.isOn = viewModel.pillsEnabled
     }
 }

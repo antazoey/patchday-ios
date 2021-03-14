@@ -92,6 +92,10 @@ public class Settings: PDSettingsManaging {
         writer.replaceStoredMentionedDisclaimer(to: newValue)
     }
 
+    public func setPillsEnabled(to newValue: Bool) {
+        writer.replaceStoredPillsEnabled(to: newValue)
+    }
+
     public func reset(defaultSiteCount: Int) {
         writer.reset(defaultSiteCount: defaultSiteCount)
     }
