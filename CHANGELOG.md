@@ -4,7 +4,7 @@
 
 Changed
 
-- You can no longer create sites that have names longer than 30 characters.
+- You can no longer create Sites or Pills that have names longer than 30 characters.
 
 ## 3.3.2
 

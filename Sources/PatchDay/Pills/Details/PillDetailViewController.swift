@@ -271,6 +271,18 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return true
     }
 
+    /// Prevents the text field from exceededing a reasonable limit of characters.
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        let maxLength = SanitationConstants.MaxSiteNameCharacters
+        let currentString = (textField.text ?? "") as NSString
+        let newString = currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+    }
+
     // MARK: - Private loaders
 
     private func setPickerDelegates() {
