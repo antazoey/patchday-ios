@@ -8,15 +8,35 @@
 
 import Foundation
 
+/// The maximum number of supported hormones in a schedule.
 public let SupportedHormoneUpperQuantityLimit = 4
+
+/// The maximum number of days in a pill expiration interval that supports days.
 public let SupportedPillExpirationIntervalDaysLimit = 25
+
+/// The maximum number of supported pill times for a single pill.
 public let MaxPillTimesaday = 4
 
-public let HoursInADay = 24
-public let HoursInHalfWeek = 84
-public let HoursInWeek = HoursInHalfWeek * 2
-public let HoursInTwoWeeks = HoursInWeek * 2
+/// Constants that are hours.
+public class Hours {
+    /// The number of hours that are in a single day (on Earth).
+    public static let InDay = 24
 
+    /// The number of hours that are in 3.5 Earth days.
+    public static let InHalfWeek = 84
+
+    /// The number of hours that are in a single Earth week.
+    public static var InWeek: Int {
+        InHalfWeek * 2
+    }
+
+    /// The number of hours that are in two Earth weeks.
+    public static var InTwoWeeks: Int {
+        InWeek * 2
+    }
+}
+
+/// Default hormone settings.
 public class DefaultSettings {
     public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly
     public static let ExpirationIntervalRawValue = ExpirationIntervalUD.TwiceWeeklyKey
@@ -32,6 +52,7 @@ public class DefaultSettings {
     public static let MaxSupportedNotificationsMinutesBefore = 120
 }
 
+/// Default properties to assign to pills when they are not given any.
 public class DefaultPillAttributes {
     public static let time = "8:00:00"
     public static let timesaday = 1
@@ -42,6 +63,7 @@ public class DefaultPillAttributes {
     public static let xDaysString = "\(xDaysInt)"
 }
 
+/// The default hormone quantities per delivery method.
 public class DefaultQuantities {
 
     public class Hormone {
@@ -65,10 +87,18 @@ public class DefaultQuantities {
     }
 }
 
+/// A localized placeholder string.
 public var DotDotDot: String {
     NSLocalizedString("...", comment: "Instruction for empty patch")
 }
 
+/// The number of components for most (currently all) pickers.
 public let DefaultNumberOfPickerComponents = 1
 
+/// The name of the group for saving shared User Defaults.
 public let PDSharedDataGroupName: String = "group.com.patchday.todaydata"
+
+/// Constants for sanitizing user input.
+public class SanitationConstants {
+    public let MaxSiteNameCharacters = 30
+}

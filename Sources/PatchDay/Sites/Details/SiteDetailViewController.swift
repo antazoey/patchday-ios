@@ -147,7 +147,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         // Close to save the current name in the text if changed
         // The save button is tempting to tap right away if you are quickly just changing a name
         // ... normally you have to tap the Done button first on picker to set the selection.
-        closeTextField()
+        closeSiteTextField()
         viewModel.handleSave(siteDetailViewController: self)
     }
 
@@ -169,11 +169,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        closeTextField()
+        closeSiteTextField()
         return true
     }
 
-    @objc func closeTextField() {
+    @objc func closeSiteTextField() {
         view.endEditing(true)
         viewModel.selections.selectedSiteName = nameText.text
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
