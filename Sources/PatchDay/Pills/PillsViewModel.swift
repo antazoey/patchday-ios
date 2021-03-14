@@ -37,9 +37,12 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     var pills: PillScheduling? { sdk?.pills }
 
-    var pillsCount: Int { pills?.count ?? 0 }
+    var pillsCount: Int {
+        guard enabled else { return 0 }
+        return pills?.count ?? 0
+    }
 
-    var pillsEnabled: Bool { sdk?.settings.pillsEnabled.rawValue ?? true }
+    var enabled: Bool { sdk?.settings.pillsEnabled.rawValue ?? true }
 
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
         let title = ActionStrings.Delete
@@ -100,6 +103,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     func togglePillsEnabled(_ toggledOn: Bool) {
         sdk?.settings.setPillsEnabled(to: toggledOn)
+    }
+
+    func setBackgroundView() {
+        pillsTable.setBackgroundView(isEnabled: enabled)
     }
 
     // MARK: - Private

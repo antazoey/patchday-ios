@@ -21,7 +21,7 @@ public protocol PillsViewModelProtocol {
     var pillsCount: Int { get }
 
     /// Whether the pills are enabled or not.
-    var pillsEnabled: Bool { get }
+    var enabled: Bool { get }
 
     /// A factory method for cell swip actions.
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration
@@ -45,4 +45,7 @@ public protocol PillsViewModelProtocol {
 
     /// Changes the `pillsEnabled` setting.
     func togglePillsEnabled(_ toggledOn: Bool)
+
+    /// Set the table background view accordingly depending on the value of `enabled`.
+    func setBackgroundView()
 }

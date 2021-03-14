@@ -1,5 +1,5 @@
 //
-//  PillsVC.swift
+//  PillsViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 12/16/17.
@@ -25,7 +25,6 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         pillsTableView.delegate = self
         pillsTableView.dataSource = self
         loadBarButtons()
-        loadPillsEnabled()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -49,12 +48,15 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel.pillsTable.reloadData()
         reloadInputViews()
         applyTheme()
+        loadPillsEnabled()
         WidgetCenter.shared.reloadAllTimelines()
     }
 
     @IBAction func enablePillsSwitchToggled(_ sender: Any) {
         guard let switchObj = sender as? UISwitch else { return }
         viewModel.togglePillsEnabled(switchObj.isOn)
+        pillsTableView.reloadData()
+        setTableBackgroundView()
     }
 
     // MARK: - Table Delegate Methods
@@ -111,6 +113,12 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     private func loadPillsEnabled() {
-        enablePillsSwitch.isOn = viewModel.pillsEnabled
+        enablePillsSwitch.isOn = viewModel.enabled
+        setTableBackgroundView()
+    }
+
+    private func setTableBackgroundView() {
+        pillsTableView.reloadData()
+        viewModel.setBackgroundView()
     }
 }
