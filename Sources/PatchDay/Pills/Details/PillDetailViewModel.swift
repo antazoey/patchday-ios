@@ -404,8 +404,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private func selectDaysOne(_ option: Int) {
-        tprint(option)
-        tprint(selections.expirationInterval.xDaysPosition)
         selections.expirationInterval.daysOne = option
     }
 

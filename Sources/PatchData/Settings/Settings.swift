@@ -35,6 +35,7 @@ public class Settings: PDSettingsManaging {
     }
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
+    public var pillsEnabled: PillsEnabledUD { writer.pillsEnabled }
 
     public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
         switch setting {
@@ -45,6 +46,7 @@ public class Settings: PDSettingsManaging {
             case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
             case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
             case .SiteIndex: return siteIndex.displayableString
+            case .PillsEnabled: return pillsEnabled.displayableString
         }
     }
 

@@ -2,6 +2,10 @@
 
 ## 3.4.0 (unreleased)
 
+Added
+
+- You can now disable Pills altogether from the toggle of a switch at the top of the Pills View.
+
 Changed
 
 - You can no longer create Sites or Pills that have names longer than 30 characters.

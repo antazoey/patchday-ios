@@ -37,4 +37,7 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     /// Accepts 0..<siteCount. Returns the index after trying to set.
     @discardableResult
     func replaceStoredSiteIndex(to i: Index) -> Index
+
+    /// Replaced the value that indicates whether pills are activated.
+    func replaceStoredPillsEnabled(to newValue: Bool)
 }

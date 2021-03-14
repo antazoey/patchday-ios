@@ -16,6 +16,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @IBOutlet var pillsView: UIView!
     @IBOutlet weak var pillsTableView: UITableView!
+    @IBOutlet weak var enablePillsSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,11 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         applyTheme()
         WidgetCenter.shared.reloadAllTimelines()
     }
+
+    @IBAction func enablePillsSwitchToggled(_ sender: Any) {
+    }
+
+    // MARK: - Table Delegate Methods
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.pillsCount
