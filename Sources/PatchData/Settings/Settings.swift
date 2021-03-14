@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class Settings: PDSettingsManaging {
+public class Settings: SettingsManaging {
 
     private let writer: UserDefaultsWriting
     private let hormones: HormoneScheduling

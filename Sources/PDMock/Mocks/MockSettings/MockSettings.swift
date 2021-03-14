@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class MockSettings: PDSettingsManaging {
+public class MockSettings: SettingsManaging {
 
     public var deliveryMethod: DeliveryMethodUD = DeliveryMethodUD()
     public var expirationInterval: ExpirationIntervalUD = ExpirationIntervalUD()

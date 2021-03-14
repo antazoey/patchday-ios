@@ -17,7 +17,7 @@ public class PatchData: NSObject, PatchDataSDK {
     let coreData: PDCoreDataWrapping
     let hormoneDataSharer: HormoneDataSharing
 
-    public var settings: PDSettingsManaging
+    public var settings: SettingsManaging
     public var hormones: HormoneScheduling
     public var sites: SiteScheduling
     public var pills: PillScheduling
@@ -25,7 +25,7 @@ public class PatchData: NSObject, PatchDataSDK {
     public let commandFactory: PDCommandFactory
 
     public init(
-        settings: PDSettingsManaging,
+        settings: SettingsManaging,
         dataSharer: UserDefaultsProtocol,
         hormones: HormoneScheduling,
         pills: PillScheduling,
@@ -56,17 +56,20 @@ public class PatchData: NSObject, PatchDataSDK {
             handler: UserDefaultsWriteHandler(dataSharer: dataSharer),
             siteStore: siteStore
         )
-        let pills = PillSchedule(store: pillStore, pillDataSharer: pillDataSharer)
-        let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
         let hormoneDataSharer = HormoneDataSharer(baseSharer: dataSharer)
         let hormones = HormoneSchedule(
             store: hormoneStore,
             hormoneDataSharer: hormoneDataSharer,
             settings: userDefaultsWriter
         )
+        let sites = SiteSchedule(store: siteStore, settings: userDefaultsWriter)
         let settings = Settings(
             writer: userDefaultsWriter, hormones: hormones, sites: sites
         )
+        let pills = PillSchedule(
+            store: pillStore, pillDataSharer: pillDataSharer, settings: settings
+        )
+
         #if DEBUG
         // ******************************************************
         // Nuke mode: Resets app like it's fresh

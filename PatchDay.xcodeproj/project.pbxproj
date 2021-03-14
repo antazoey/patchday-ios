@@ -255,7 +255,7 @@
 		9D913BB6231F3EB5001FC03C /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BB5231F3EB5001FC03C /* Site.swift */; };
 		9D9397B7237884DA00FDF290 /* HormonesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397B6237884DA00FDF290 /* HormonesViewModel.swift */; };
 		9D9397BD2379444300FDF290 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BC2379444300FDF290 /* Settings.swift */; };
-		9D9397C02379473B00FDF290 /* PDSettingsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */; };
+		9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BE2379471A00FDF290 /* SettingsManaging.swift */; };
 		9D9397C22379476F00FDF290 /* UserDefaultsReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */; };
 		9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978462367B01C009679FB /* SimpleProtocols.swift */; };
 		9D9C5FF3247AE4FD00B3DA6A /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FF2247AE4FD00B3DA6A /* IntegrationTests.swift */; };
@@ -710,7 +710,7 @@
 		9D913BB5231F3EB5001FC03C /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		9D9397B6237884DA00FDF290 /* HormonesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesViewModel.swift; sourceTree = "<group>"; };
 		9D9397BC2379444300FDF290 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSettingsManaging.swift; sourceTree = "<group>"; };
+		9D9397BE2379471A00FDF290 /* SettingsManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManaging.swift; sourceTree = "<group>"; };
 		9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsReading.swift; sourceTree = "<group>"; };
 		9D9946CC2377266C00CF3C96 /* PDBadgeReflective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDBadgeReflective.swift; sourceTree = "<group>"; };
 		9D9978462367B01C009679FB /* SimpleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleProtocols.swift; sourceTree = "<group>"; };
@@ -1139,7 +1139,7 @@
 		9D003EB6233467C00070C964 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */,
+				9D9397BE2379471A00FDF290 /* SettingsManaging.swift */,
 				9D1BC5662275F3E700552BC1 /* KeyStorable.swift */,
 				9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */,
 				9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */,
@@ -2642,7 +2642,7 @@
 				9D7887F52558569C00DC0F6D /* PillCellProtocol.swift in Sources */,
 				9D788815255857B200DC0F6D /* PillCellViewModelProtocol.swift in Sources */,
 				9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */,
-				9D9397C02379473B00FDF290 /* PDSettingsManaging.swift in Sources */,
+				9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D78883E25585F1700DC0F6D /* SiteDetailViewModelProtocol.swift in Sources */,
 				9D7888832558636800DC0F6D /* ImageResizer.swift in Sources */,

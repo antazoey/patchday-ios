@@ -18,7 +18,7 @@ public class MockSDK: PatchDataSDK {
     }
 
     public var isFresh: Bool = false
-    public var settings: PDSettingsManaging
+    public var settings: SettingsManaging
     public var hormones: HormoneScheduling
     public var sites: SiteScheduling
     public var pills: PillScheduling
