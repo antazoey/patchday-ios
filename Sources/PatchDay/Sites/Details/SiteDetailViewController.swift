@@ -159,7 +159,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if textField.restorationIdentifier == SiteDetailConstants.TypeId {
             nameText.isEnabled = true
             textField.restorationIdentifier = SiteDetailConstants.SelectId
-            typeNameButton.replaceTarget(self, newAction: #selector(closeTextField))
+            typeNameButton.replaceTarget(self, newAction: #selector(closeSiteTextField))
         } else if textField.restorationIdentifier == SiteDetailConstants.SelectId {
             view.endEditing(true)
             nameText.isEnabled = false
@@ -182,7 +182,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         loadImage()
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
-        nameText.removeTarget(self, action: #selector(closeTextField))
+        nameText.removeTarget(self, action: #selector(closeSiteTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
     }
 
