@@ -7,7 +7,8 @@
 import UIKit
 import PDKit
 
-// My Hero @Umair Aamir: https://stackoverflow.com/questions/48307833/alert-is-not-displayed-in-tableviewcontroller
+// My Hero Umair Aamir:
+// https://stackoverflow.com/questions/48307833/alert-is-not-displayed-in-tableviewcontroller
 class PDAlertController: UIAlertController {
 
     var alertWindow: UIWindow?
