@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.0
+
+Changed
+
+- You can no longer create sites that have names longer than 30 characters.
+
 ## 3.3.2
 
 Fixed

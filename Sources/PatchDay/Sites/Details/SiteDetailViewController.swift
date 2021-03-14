@@ -143,6 +143,18 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.becomeFirstResponder()
     }
 
+    /// Prevents the text field from exceededing a reasonable limit of characters.
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        let maxLength = SanitationConstants.MaxSiteNameCharacters
+        let currentString = (textField.text ?? "") as NSString
+        let newString = currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+    }
+
     @objc func saveButtonTapped(_ sender: Any) {
         // Close to save the current name in the text if changed
         // The save button is tempting to tap right away if you are quickly just changing a name

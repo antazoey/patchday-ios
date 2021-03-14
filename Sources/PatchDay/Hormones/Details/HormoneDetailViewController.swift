@@ -115,6 +115,18 @@ class HormoneDetailViewController: UIViewController,
         }
     }
 
+    /// Prevents the text field from exceededing a reasonable limit of characters.
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        let maxLength = SanitationConstants.MaxSiteNameCharacters
+        let currentString = (textField.text ?? "") as NSString
+        let newString = currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
+    }
+
     @objc func closeSiteTextField() {
         guard let viewModel = viewModel else { return }
         let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
