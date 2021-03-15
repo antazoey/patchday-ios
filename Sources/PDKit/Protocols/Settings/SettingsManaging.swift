@@ -20,13 +20,13 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// Enable notifications globally for hormones.
     func setNotifications(to newValue: Bool)
 
-    /// Set the minutes to receive a notification before hormone expiration.
+    /// Set the minutes-before to receive a notification before hormone expiration.
     func setNotificationsMinutesBefore(to newMinutes: Int)
 
     /// Indicate that the disclaimer has been presented to the user at least once (so it is not presented again).
     func setMentionedDisclaimer(to newValue: Bool)
 
-    /// Enabled pills functionality.
+    /// Enable pills functionality.
     func setPillsEnabled(to newValue: Bool)
 
     /// Set the current site index.
