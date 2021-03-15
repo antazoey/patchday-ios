@@ -32,6 +32,6 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// Set the current site index.
     @discardableResult func setSiteIndex(to newIndex: Index) -> Index
 
-    /// Reset all settings to their default state.
+    /// Reset all settings to their default values.
     func reset(defaultSiteCount: Int)
 }
