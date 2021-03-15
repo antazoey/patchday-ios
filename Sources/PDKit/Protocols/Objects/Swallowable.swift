@@ -8,6 +8,7 @@ import Foundation
 
 public protocol Swallowable {
 
+    /// The unique identifier of the pill.
     var id: UUID { get set }
 
     /// The pill attributes DTO formed from this pill's attributes.
@@ -25,7 +26,7 @@ public protocol Swallowable {
     /// The times, in order, for which to take pills on a day in the schedule.
     var times: [Time] { get }
 
-    /// Adds a new pill time.
+    /// Add a new pill time.
     func appendTime(_ time: Time)
 
     /// Whether you want to be notified when due.
@@ -55,12 +56,12 @@ public protocol Swallowable {
     /// If you are done taking this pill today.
     var isDone: Bool { get }
 
-    /// Sets this pill's attributes using the given DTO.
+    /// Set this pill's attributes using the given DTO.
     func set(attributes: PillAttributes)
 
-    /// Simulates taking the pill.
+    /// Simulate taking the pill.
     func swallow()
 
-    /// Configures properties that depend on a day-to-day basis, such as timesTakenToday.
+    /// Configure properties that depend on a day-to-day basis, such as timesTakenToday.
     func awaken()
 }

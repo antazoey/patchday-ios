@@ -17,13 +17,13 @@ public protocol TabReflective {
     /// The Sites View Controller.
     var sitesViewController: UIViewController? { get }
 
-    /// Sets the Hormones and Pills tabs to their respective expired counts.
+    /// Set the Hormones and Pills tabs to their respective expired counts.
     func reflect()
 
-    /// Sets the Hormones tab badge value to the total expired hormones.
+    /// Set the Hormones tab badge value to the total expired hormones.
     func reflectHormones()
 
-    /// Sets the Pills tab badge value to the total expired pills.
+    /// Set the Pills tab badge value to the total expired pills.
     func reflectPills()
 
     /// Remove the expired pill tab badge.
