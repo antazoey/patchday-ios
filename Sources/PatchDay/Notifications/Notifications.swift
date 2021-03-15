@@ -94,6 +94,7 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Request a pill notification.
     func requestDuePillNotification(_ pill: Swallowable) {
+        guard pillsEnabled else { return }
         guard pill.notify else { return }
         cancelDuePillNotification(pill)
         factory.createDuePillNotification(pill).request()
@@ -102,9 +103,15 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Requests notifications for all pills in the schedule.
     func requestAllDuePillNotifications() {
+        guard pillsEnabled else { return }
         for pill in sdk.pills.all {
             requestDuePillNotification(pill)
         }
+    }
+
+    /// Cancels a pill notification.
+    func cancelDuePillNotification(_ pill: Swallowable) {
+        center.removeNotifications(with: [pill.id.uuidString])
     }
 
     /// Cancels all notifications for all pills.
@@ -112,11 +119,6 @@ class Notifications: NSObject, NotificationScheduling {
         for pill in sdk.pills.all {
             cancelDuePillNotification(pill)
         }
-    }
-
-    /// Cancels a pill notification.
-    func cancelDuePillNotification(_ pill: Swallowable) {
-        center.removeNotifications(with: [pill.id.uuidString])
     }
 
     // MARK: - Other
@@ -129,5 +131,9 @@ class Notifications: NSObject, NotificationScheduling {
             return
         }
         factory.createOvernightExpiredHormoneNotification(date: notificationTime).request()
+    }
+
+    private var pillsEnabled: Bool {
+        sdk.settings.pillsEnabled.rawValue
     }
 }
