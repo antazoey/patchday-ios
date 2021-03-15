@@ -9,6 +9,8 @@ import PDKit
 
 public class MockPillsTable: PillsTableProtocol {
 
+    public init() {}
+
     public var subscriptCallArgs: [Index] = []
     public var subscriptReturnValue = MockPillCell()
     public subscript(index: Index) -> PillCellProtocol {
@@ -26,5 +28,8 @@ public class MockPillsTable: PillsTableProtocol {
         reloadDataCallCount += 1
     }
 
-    public init() {}
+    public var setBackgroundViewCallArgs: [Bool] = []
+    public func setBackgroundView(isEnabled: Bool) {
+        setBackgroundViewCallArgs.append(isEnabled)
+    }
 }

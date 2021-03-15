@@ -286,6 +286,7 @@
 		9DE08C5725F2F7610098F593 /* DeliveryMethodMutationAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE08C4E25F2F6210098F593 /* DeliveryMethodMutationAlertTests.swift */; };
 		9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */; };
 		9DE1190425FEE3FA00D08F97 /* PDWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118FB25FEE3E900D08F97 /* PDWidget.swift */; };
+		9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1192825FFA46C00D08F97 /* MockWidget.swift */; };
 		9DE4536F242FA4920056AC94 /* SiteImageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */; };
 		9DE45371242FB93D0056AC94 /* PDCli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE45370242FB93D0056AC94 /* PDCli.swift */; };
 		9DE748392539042500282144 /* SiteCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE748382539042500282144 /* SiteCellViewModelTests.swift */; };
@@ -746,6 +747,7 @@
 		9DE08C4E25F2F6210098F593 /* DeliveryMethodMutationAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryMethodMutationAlertTests.swift; sourceTree = "<group>"; };
 		9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidgetProtocol.swift; sourceTree = "<group>"; };
 		9DE118FB25FEE3E900D08F97 /* PDWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidget.swift; sourceTree = "<group>"; };
+		9DE1192825FFA46C00D08F97 /* MockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWidget.swift; sourceTree = "<group>"; };
 		9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageHistory.swift; sourceTree = "<group>"; };
 		9DE45370242FB93D0056AC94 /* PDCli.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCli.swift; sourceTree = "<group>"; };
 		9DE748382539042500282144 /* SiteCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModelTests.swift; sourceTree = "<group>"; };
@@ -1240,6 +1242,7 @@
 				9D1908E92468388B00E95244 /* MockNav.swift */,
 				9D78877B2553993200DC0F6D /* MockSiteImageRecorder.swift */,
 				9D788784255399EC00DC0F6D /* MockSiteImageHistory.swift */,
+				9DE1192825FFA46C00D08F97 /* MockWidget.swift */,
 			);
 			path = MockApp;
 			sourceTree = "<group>";
@@ -2493,6 +2496,7 @@
 				9D8A984B23D13093004E20FE /* MockSiteStore.swift in Sources */,
 				9D1908F6247029E800E95244 /* PDTest.swift in Sources */,
 				9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */,
+				9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */,
 				9D7888D82558781100DC0F6D /* MockHormoneCell.swift in Sources */,
 				9D8A982423C574B0004E20FE /* MockPatchData.swift in Sources */,
 				9D8A984923D1308A004E20FE /* MockPillStore.swift in Sources */,
