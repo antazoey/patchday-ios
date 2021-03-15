@@ -1026,22 +1026,6 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
-		3397C9A82AF03A520AC4BE35 /* Complex */ = {
-			isa = PBXGroup;
-			children = (
-				3397C155FE16DE4D7AFF6ECE /* ExpirationIntervalUDTests.swift */,
-			);
-			path = Complex;
-			sourceTree = "<group>";
-		};
-		3397CA2A1FA7E9C203CE03ED /* UserDefaults */ = {
-			isa = PBXGroup;
-			children = (
-				3397C9A82AF03A520AC4BE35 /* Complex */,
-			);
-			path = UserDefaults;
-			sourceTree = "<group>";
-		};
 		3397CB13E4C554A7E1BA95B1 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -1678,6 +1662,7 @@
 		9D8F45E82496717900F2C39A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9DE1194025FFA9AA00D08F97 /* Complex */,
 				9D8F45E92496718600F2C39A /* SettingsOptionsTests.swift */,
 			);
 			path = Settings;
@@ -1841,6 +1826,14 @@
 			path = Alerts;
 			sourceTree = "<group>";
 		};
+		9DE1194025FFA9AA00D08F97 /* Complex */ = {
+			isa = PBXGroup;
+			children = (
+				3397C155FE16DE4D7AFF6ECE /* ExpirationIntervalUDTests.swift */,
+			);
+			path = Complex;
+			sourceTree = "<group>";
+		};
 		9DE748372539041500282144 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1895,7 +1888,6 @@
 				9D8F45E82496717900F2C39A /* Settings */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 				3397CCAEBFADEA0B9BDABB6A /* Dates */,
-				3397CA2A1FA7E9C203CE03ED /* UserDefaults */,
 				3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */,
 				9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */,
 			);
