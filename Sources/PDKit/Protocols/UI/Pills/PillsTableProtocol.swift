@@ -14,7 +14,7 @@ public protocol PillsTableProtocol {
     /// Delete a cell.
     func deleteCell(at indexPath: IndexPath, pillsCount: Int)
 
-    /// Reload data from source.
+    /// Reload data from the table data-source.
     /// Note:  It is usually better to just call this from the view controller on the actual `UITableView`.
     func reloadData()
 
