@@ -24,7 +24,7 @@ class PillsViewModelTests: XCTestCase {
         (deps.sdk?.pills as! MockPillSchedule).all = [testPill]
         table.subscriptReturnValue = cell
         return PillsViewModel(
-            pillsTableView: self.tableView, alertFactory: alerts, table: table, dependencies: deps
+            pillsTableView: tableView, alertFactory: alerts, table: table, dependencies: deps
         )
     }
 
@@ -58,6 +58,23 @@ class PillsViewModelTests: XCTestCase {
         (deps.sdk?.pills as! MockPillSchedule).all = [testPill, testPill, testPill, testPill]
         let actual = viewModel.pillsCount
         XCTAssertEqual(0, actual)
+    }
+
+    func testEnabled_returnsValueFromSettings() {
+        let viewModel = createViewModel()
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(false)
+        XCTAssertFalse(viewModel.enabled)
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(true)
+        XCTAssertTrue(viewModel.enabled)
+    }
+
+    func testEnabled_whenNilSdk_returnsTrue() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = PillsViewModel(
+            pillsTableView: tableView, alertFactory: alerts, table: table, dependencies: deps
+        )
+        XCTAssertTrue(viewModel.enabled)
     }
 
     func testCreatePillCellSwipeActions_whenCalled_deletesPill() {
