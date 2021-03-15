@@ -28,4 +28,7 @@ public protocol UserDefaultsReading {
 
     /// The index of the next suggested site.
     var siteIndex: SiteIndexUD { get }
+
+    /// Whether pills are enabled.
+    var pillsEnabled: PillsEnabledUD { get }
 }

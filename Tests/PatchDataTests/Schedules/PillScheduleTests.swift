@@ -15,6 +15,7 @@ class PillScheduleTests: XCTestCase {
 
     private var mockStore: MockPillStore!
     private var mockDataSharer: MockPillDataSharer!
+    private var mockSettings: MockSettings!
     private var pills: PillSchedule!
     private var util: PillTestsUtil!
 
@@ -23,13 +24,18 @@ class PillScheduleTests: XCTestCase {
     override func setUp() {
         mockStore = MockPillStore()
         mockDataSharer = MockPillDataSharer()
+        mockSettings = MockSettings()
         util = PillTestsUtil(mockStore, mockDataSharer)
     }
 
     // MARK: - Setup helpers
 
     private func setUpPills() {
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
     }
 
     @discardableResult
@@ -41,7 +47,11 @@ class PillScheduleTests: XCTestCase {
 
     private func setUpPills(_ mockPills: [MockPill]) {
         mockStore.getStoredCollectionReturnValues = [mockPills]
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
     }
 
     private func setUpPills(insertPillFactory: (() -> MockPill)?) {
@@ -60,10 +70,37 @@ class PillScheduleTests: XCTestCase {
 
     // MARK: - Tests
 
-    public func testInit_whenGivenInitialState_resetsToPillCountToTwo() {
+    public func testInit_whenGivenInitialStateAndEnabled_resetsToPillCountToTwo() {
         mockStore.state = .Initial
-        pills = PillSchedule(store: mockStore, pillDataSharer: mockDataSharer)
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
         XCTAssertEqual(2, pills.count)
+    }
+
+    public func testInit_whenGivenInitialButPillsDisabled_doesNotResetPills() {
+        mockStore.state = .Initial
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
+        XCTAssertEqual(0, pills.count)
+    }
+
+    public func testInit_whenNotInitial_doesNotResetPills() {
+        mockStore.state = .Working
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
+        XCTAssertEqual(0, pills.count)
     }
 
     public func testNextDue_returnsPillsWithOldestDueDate() {

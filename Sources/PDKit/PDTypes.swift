@@ -56,6 +56,7 @@ public enum PDSetting: String {
     case NotificationsMinutesBefore = "remindMeUpon"
     case MentionedDisclaimer = "mentioned"
     case SiteIndex = "site_i"
+    case PillsEnabled = "pillsEnabled"
 }
 
 public enum PDEntity: String, CaseIterable {

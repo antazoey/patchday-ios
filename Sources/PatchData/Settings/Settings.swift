@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class Settings: PDSettingsManaging {
+public class Settings: SettingsManaging {
 
     private let writer: UserDefaultsWriting
     private let hormones: HormoneScheduling
@@ -35,6 +35,7 @@ public class Settings: PDSettingsManaging {
     }
     public var mentionedDisclaimer: MentionedDisclaimerUD { writer.mentionedDisclaimer }
     public var siteIndex: SiteIndexUD { writer.siteIndex }
+    public var pillsEnabled: PillsEnabledUD { writer.pillsEnabled }
 
     public func getSettingAsDisplayableString(for setting: PDSetting) -> String {
         switch setting {
@@ -45,6 +46,7 @@ public class Settings: PDSettingsManaging {
             case .NotificationsMinutesBefore: return notificationsMinutesBefore.displayableString
             case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
             case .SiteIndex: return siteIndex.displayableString
+            case .PillsEnabled: return pillsEnabled.displayableString
         }
     }
 
@@ -88,6 +90,10 @@ public class Settings: PDSettingsManaging {
 
     public func setMentionedDisclaimer(to newValue: Bool) {
         writer.replaceStoredMentionedDisclaimer(to: newValue)
+    }
+
+    public func setPillsEnabled(to newValue: Bool) {
+        writer.replaceStoredPillsEnabled(to: newValue)
     }
 
     public func reset(defaultSiteCount: Int) {

@@ -13,6 +13,7 @@ public protocol HormonesViewModelProtocol {
     var title: String { get }
     var expiredHormoneBadgeValue: String? { get }
     var hormones: HormoneScheduling? { get }
+    func setWidget()
     func presentDisclaimerAlertIfFirstLaunch()
     func updateSiteImages()
     func handleRowTapped(

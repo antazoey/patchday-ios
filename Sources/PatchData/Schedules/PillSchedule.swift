@@ -16,16 +16,23 @@ public class PillSchedule: NSObject, PillScheduling {
 
     private let store: PillStoring
     private let sharer: PillDataSharing
+    private let settings: SettingsManaging
     private var context: [Swallowable]
     public var _now: NowProtocol
 
-    init(store: PillStoring, pillDataSharer: PillDataSharing, now: NowProtocol?=nil) {
+    init(
+        store: PillStoring,
+        pillDataSharer: PillDataSharing,
+        settings: SettingsManaging,
+        now: NowProtocol?=nil
+    ) {
         self.store = store
         self.sharer = pillDataSharer
+        self.settings = settings
         self.context = store.getStoredPills()
         self._now = now ?? PDNow()
         super.init()
-        if store.state == .Initial {
+        if shouldSetDefaultPills {
             log.info("Pill state is initial - Setting up default Pills")
             self.reset()
         }
@@ -155,5 +162,13 @@ public class PillSchedule: NSObject, PillScheduling {
     private func deleteAll() {
         context.forEach { (_ p: Swallowable) -> Void in store.delete(p) }
         context = []
+    }
+
+    private var isEnabled: Bool {
+        settings.pillsEnabled.rawValue
+    }
+
+    private var shouldSetDefaultPills: Bool {
+        store.state == .Initial && isEnabled
     }
 }

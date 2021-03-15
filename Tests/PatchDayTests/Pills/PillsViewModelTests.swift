@@ -24,7 +24,7 @@ class PillsViewModelTests: XCTestCase {
         (deps.sdk?.pills as! MockPillSchedule).all = [testPill]
         table.subscriptReturnValue = cell
         return PillsViewModel(
-            pillsTableView: self.tableView, alertFactory: alerts, table: table, dependencies: deps
+            pillsTableView: tableView, alertFactory: alerts, table: table, dependencies: deps
         )
     }
 
@@ -44,11 +44,121 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(0, viewModel.pillsCount)
     }
 
-    func testPillsCount_returnsPillsCount() {
+    func testPillsCount_whenEnbabled_returnsPillsCount() {
         let viewModel = createViewModel()
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(true)
         (deps.sdk?.pills as! MockPillSchedule).all = [testPill, testPill, testPill, testPill]
         let actual = viewModel.pillsCount
         XCTAssertEqual(4, actual)
+    }
+
+    func testPillsCount_whenDisabled_returnsZero() {
+        let viewModel = createViewModel()
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(false)
+        (deps.sdk?.pills as! MockPillSchedule).all = [testPill, testPill, testPill, testPill]
+        let actual = viewModel.pillsCount
+        XCTAssertEqual(0, actual)
+    }
+
+    func testEnabled_returnsValueFromSettings() {
+        let viewModel = createViewModel()
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(false)
+        XCTAssertFalse(viewModel.enabled)
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(true)
+        XCTAssertTrue(viewModel.enabled)
+    }
+
+    func testEnabled_whenNilSdk_returnsTrue() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = PillsViewModel(
+            pillsTableView: tableView, alertFactory: alerts, table: table, dependencies: deps
+        )
+        XCTAssertTrue(viewModel.enabled)
+    }
+
+    func testTogglePillsEnabled_whenSettingToTrueAndIsAlreadyTrue_doesNotSet() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        viewModel.togglePillsEnabled(true)
+        let callArgs = mockSettings.setPillsEnabledCallArgs
+        XCTAssertEqual(0, callArgs.count)
+    }
+
+    func testTogglePillsEnabled_whenSettingToFalseAndIsAlreadyFalse_doesNotSet() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+        viewModel.togglePillsEnabled(false)
+        let callArgs = mockSettings.setPillsEnabledCallArgs
+        XCTAssertEqual(0, callArgs.count)
+    }
+
+    func testTogglePillsEnabled_whenSettingToTrue_setsToTrue() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+        viewModel.togglePillsEnabled(true)
+        let didSetToTrue = mockSettings.setPillsEnabledCallArgs[0]
+        XCTAssert(didSetToTrue)
+    }
+
+    func testTogglePillsEnabled_whenSettingToFalse_setsToFalse() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        viewModel.togglePillsEnabled(false)
+        let didSetToTrue = mockSettings.setPillsEnabledCallArgs[0]
+        XCTAssertFalse(didSetToTrue)
+    }
+
+    func testTogglePillsEnabled_whenSettingToTrue_callsTabsReflectPills() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+        let tabs = deps.tabs as! MockTabs
+        tabs.reflectPillsCallCount = 0  // Reset mock
+        viewModel.togglePillsEnabled(true)
+        XCTAssertEqual(1, tabs.reflectPillsCallCount)
+    }
+
+    func testTogglePillsEnabled_whenSettingToFalse_callsTabsClearPills() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        let tabs = deps.tabs as! MockTabs
+        viewModel.togglePillsEnabled(false)
+        XCTAssertEqual(1, tabs.clearPillsCallCount)
+    }
+
+    func testTogglePillsEnabled_whenSettingToTrue_cancelsAndReRequestsAllPillNotifications() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+        let notifications = deps.notifications as! MockNotifications
+        viewModel.togglePillsEnabled(true)
+        XCTAssertEqual(1, notifications.cancelAllDuePillNotificationsCallCount)
+        XCTAssertEqual(1, notifications.requestAllDuePillNotificationsCallCount)
+    }
+
+    func testTogglePillsEnabled_whenSettingToFalse_cancelsAndNotDoesReRequestAllPillNotifications() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        let notifications = deps.notifications as! MockNotifications
+        viewModel.togglePillsEnabled(false)
+        XCTAssertEqual(1, notifications.cancelAllDuePillNotificationsCallCount)
+        XCTAssertEqual(0, notifications.requestAllDuePillNotificationsCallCount)
+    }
+
+    func testTogglePillsEnabled_setsWidget() {
+        let viewModel = createViewModel()
+        let mockSettings = deps.sdk?.settings as! MockSettings
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        let widget = deps.widget as! MockWidget
+        viewModel.togglePillsEnabled(false)
+        XCTAssertEqual(1, widget.setCallCount)
     }
 
     func testCreatePillCellSwipeActions_whenCalled_deletesPill() {

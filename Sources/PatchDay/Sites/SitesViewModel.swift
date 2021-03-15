@@ -20,7 +20,8 @@ class SitesViewModel: CodeBehindDependencies<SitesViewModel>, SitesViewModelProt
                 notifications: dep.notifications,
                 alerts: dep.alerts,
                 nav: dep.nav,
-                badge: dep.badge
+                badge: dep.badge,
+                widget: dep.widget
             )
         } else {
             super.init()

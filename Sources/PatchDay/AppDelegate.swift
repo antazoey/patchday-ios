@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tabs: TabReflective?
     var nav: NavigationHandling?
     var badge: PDBadgeReflective?
+    var widget: PDWidgetProtocol?
 
     private var sessionInitialized = false
 
@@ -53,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let badge = PDBadge(sdk: sdk)
         self.badge = badge
         self.notifications = Notifications(sdk: sdk, appBadge: badge)
+        self.widget = PDWidget()
         reflectBadges()
         WidgetCenter.shared.reloadAllTimelines()
     }

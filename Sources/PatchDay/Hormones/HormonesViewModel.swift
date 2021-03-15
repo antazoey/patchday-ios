@@ -45,7 +45,8 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
             notifications: dependencies.notifications,
             alerts: dependencies.alerts,
             nav: dependencies.nav,
-            badge: dependencies.badge
+            badge: dependencies.badge,
+            widget: dependencies.widget
         )
         finishInit()
     }
@@ -60,6 +61,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     var expiredHormoneBadgeValue: String? {
         guard let count = hormones?.totalExpired, count > 0 else { return nil }
         return "\(count)"
+    }
+
+    func setWidget() {
+        widget?.set()
     }
 
     func updateSiteImages() {

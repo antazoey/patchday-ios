@@ -143,11 +143,22 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.becomeFirstResponder()
     }
 
+    /// Prevents the text field from exceededing a reasonable limit of characters.
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        MaxString.canSet(
+            currentString: textField.text ?? "", replacementString: string, range: range
+        )
+    }
+
     @objc func saveButtonTapped(_ sender: Any) {
         // Close to save the current name in the text if changed
         // The save button is tempting to tap right away if you are quickly just changing a name
         // ... normally you have to tap the Done button first on picker to set the selection.
-        closeTextField()
+        closeSiteTextField()
         viewModel.handleSave(siteDetailViewController: self)
     }
 
@@ -159,7 +170,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         if textField.restorationIdentifier == SiteDetailConstants.TypeId {
             nameText.isEnabled = true
             textField.restorationIdentifier = SiteDetailConstants.SelectId
-            typeNameButton.replaceTarget(self, newAction: #selector(closeTextField))
+            typeNameButton.replaceTarget(self, newAction: #selector(closeSiteTextField))
         } else if textField.restorationIdentifier == SiteDetailConstants.SelectId {
             view.endEditing(true)
             nameText.isEnabled = false
@@ -169,11 +180,11 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        closeTextField()
+        closeSiteTextField()
         return true
     }
 
-    @objc func closeTextField() {
+    @objc func closeSiteTextField() {
         view.endEditing(true)
         viewModel.selections.selectedSiteName = nameText.text
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
@@ -182,7 +193,7 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         }
         loadImage()
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
-        nameText.removeTarget(self, action: #selector(closeTextField))
+        nameText.removeTarget(self, action: #selector(closeSiteTextField))
         typeNameButton.addTarget(self, action: #selector(typeTapped(_:)))
     }
 

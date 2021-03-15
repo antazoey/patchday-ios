@@ -15,6 +15,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
     var alerts: AlertProducing?
     let nav: NavigationHandling?
     let badge: PDBadgeReflective?
+    let widget: PDWidgetProtocol?
 
     lazy var log = PDLog<CodeBehindDependencies>()
     lazy var contextClass = String(describing: T.self)
@@ -25,7 +26,8 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
         notifications: NotificationScheduling?,
         alerts: AlertProducing?,
         nav: NavigationHandling?,
-        badge: PDBadgeReflective?
+        badge: PDBadgeReflective?,
+        widget: PDWidgetProtocol?
     ) {
         self.sdk = sdk
         self.tabs = tabs
@@ -33,6 +35,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
         self.alerts = alerts
         self.nav = nav
         self.badge = badge
+        self.widget = widget
     }
 
     init() {
@@ -43,6 +46,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
             self.alerts = app.alerts
             self.nav = app.nav
             self.badge = app.badge
+            self.widget = app.widget
         } else {
             self.sdk = nil
             self.tabs = nil
@@ -50,6 +54,7 @@ class CodeBehindDependencies<T>: DependenciesProtocol {
             self.alerts = nil
             self.nav = nil
             self.badge = nil
+            self.widget = nil
             log.error("App is not yet initialized before \(contextClass)")
         }
     }

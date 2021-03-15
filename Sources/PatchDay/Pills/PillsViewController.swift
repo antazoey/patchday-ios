@@ -1,5 +1,5 @@
 //
-//  PillsVC.swift
+//  PillsViewController.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 12/16/17.
@@ -16,6 +16,7 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @IBOutlet var pillsView: UIView!
     @IBOutlet weak var pillsTableView: UITableView!
+    @IBOutlet weak var enablePillsSwitch: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,8 +48,18 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
         viewModel.pillsTable.reloadData()
         reloadInputViews()
         applyTheme()
+        loadPillsEnabled()
         WidgetCenter.shared.reloadAllTimelines()
     }
+
+    @IBAction func enablePillsSwitchToggled(_ sender: Any) {
+        guard let switchObj = sender as? UISwitch else { return }
+        viewModel.togglePillsEnabled(switchObj.isOn)
+        pillsTableView.reloadData()
+        setTableBackgroundView()
+    }
+
+    // MARK: - Table Delegate Methods
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         viewModel.pillsCount
@@ -99,5 +110,15 @@ class PillsViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     @objc private func handleInsertNewPill() {
         viewModel.goToNewPillDetails(pillsViewController: self)
+    }
+
+    private func loadPillsEnabled() {
+        enablePillsSwitch.isOn = viewModel.enabled
+        setTableBackgroundView()
+    }
+
+    private func setTableBackgroundView() {
+        pillsTableView.reloadData()
+        viewModel.setBackgroundView()
     }
 }

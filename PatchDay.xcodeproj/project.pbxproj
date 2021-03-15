@@ -14,7 +14,7 @@
 		139754BE1EDA8C4D006C82B8 /* HormonesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139754BD1EDA8C4D006C82B8 /* HormonesViewController.swift */; };
 		3397C04F9A077632D7814290 /* SitesTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C609A733531CFC1C82A1 /* SitesTable.swift */; };
 		3397C05456061252A20D0EC4 /* HormoneDetailValueTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C44F655B05A9959614A9 /* HormoneDetailValueTypes.swift */; };
-		3397C0686E3133FEE6967ACB /* PDAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C8B360B6B1582B2DC97C /* PDAlert.swift */; };
+		3397C0686E3133FEE6967ACB /* PDAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C8B360B6B1582B2DC97C /* PDAlertController.swift */; };
 		3397C115FF936D6A9736EE74 /* SingleValueTypeKeyStorables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C0B64890296742265A9E /* SingleValueTypeKeyStorables.swift */; };
 		3397C13BC1CDD2621E6E239C /* DeliveryMethodMutationAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C1C060A400B13F4C03DC /* DeliveryMethodMutationAlert.swift */; };
 		3397C23AD8485783F292353A /* PDBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDE752EBD157A3E2CDE7 /* PDBadgeButton.swift */; };
@@ -255,7 +255,7 @@
 		9D913BB6231F3EB5001FC03C /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BB5231F3EB5001FC03C /* Site.swift */; };
 		9D9397B7237884DA00FDF290 /* HormonesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397B6237884DA00FDF290 /* HormonesViewModel.swift */; };
 		9D9397BD2379444300FDF290 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BC2379444300FDF290 /* Settings.swift */; };
-		9D9397C02379473B00FDF290 /* PDSettingsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */; };
+		9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BE2379471A00FDF290 /* SettingsManaging.swift */; };
 		9D9397C22379476F00FDF290 /* UserDefaultsReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */; };
 		9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9978462367B01C009679FB /* SimpleProtocols.swift */; };
 		9D9C5FF3247AE4FD00B3DA6A /* IntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FF2247AE4FD00B3DA6A /* IntegrationTests.swift */; };
@@ -284,6 +284,11 @@
 		9DDF13D4229CC9E7001E8A8A /* NotificationStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF13D3229CC9E7001E8A8A /* NotificationStrings.swift */; };
 		9DDF47E1234D670C005AA467 /* PillNotificationActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E0234D670C005AA467 /* PillNotificationActionHandler.swift */; };
 		9DE08C5725F2F7610098F593 /* DeliveryMethodMutationAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE08C4E25F2F6210098F593 /* DeliveryMethodMutationAlertTests.swift */; };
+		9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */; };
+		9DE1190425FEE3FA00D08F97 /* PDWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118FB25FEE3E900D08F97 /* PDWidget.swift */; };
+		9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1192825FFA46C00D08F97 /* MockWidget.swift */; };
+		9DE1196825FFC90000D08F97 /* MaxString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1196725FFC90000D08F97 /* MaxString.swift */; };
+		9DE1198725FFCB2B00D08F97 /* MaxStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */; };
 		9DE4536F242FA4920056AC94 /* SiteImageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */; };
 		9DE45371242FB93D0056AC94 /* PDCli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE45370242FB93D0056AC94 /* PDCli.swift */; };
 		9DE748392539042500282144 /* SiteCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE748382539042500282144 /* SiteCellViewModelTests.swift */; };
@@ -510,7 +515,7 @@
 		3397C83CA26AB9993A1C43D2 /* HormoneDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDetailViewController.swift; sourceTree = "<group>"; };
 		3397C86680B1CBEBCAA0DC3E /* MockSiteSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSiteSchedule.swift; sourceTree = "<group>"; };
 		3397C87675CCA6733B03EBB1 /* PillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillsViewController.swift; sourceTree = "<group>"; };
-		3397C8B360B6B1582B2DC97C /* PDAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlert.swift; sourceTree = "<group>"; };
+		3397C8B360B6B1582B2DC97C /* PDAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDAlertController.swift; sourceTree = "<group>"; };
 		3397C91D80B0294A38B737EC /* PDDateFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDDateFormatter.swift; sourceTree = "<group>"; };
 		3397C92B22AD98FD011DCE92 /* HormoneDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDetailViewModel.swift; sourceTree = "<group>"; };
 		3397C9451ED30B689F8D7E30 /* MOEntities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MOEntities.swift; sourceTree = "<group>"; };
@@ -710,7 +715,7 @@
 		9D913BB5231F3EB5001FC03C /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		9D9397B6237884DA00FDF290 /* HormonesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormonesViewModel.swift; sourceTree = "<group>"; };
 		9D9397BC2379444300FDF290 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDSettingsManaging.swift; sourceTree = "<group>"; };
+		9D9397BE2379471A00FDF290 /* SettingsManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManaging.swift; sourceTree = "<group>"; };
 		9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsReading.swift; sourceTree = "<group>"; };
 		9D9946CC2377266C00CF3C96 /* PDBadgeReflective.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDBadgeReflective.swift; sourceTree = "<group>"; };
 		9D9978462367B01C009679FB /* SimpleProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleProtocols.swift; sourceTree = "<group>"; };
@@ -742,6 +747,11 @@
 		9DDF47E0234D670C005AA467 /* PillNotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillNotificationActionHandler.swift; sourceTree = "<group>"; };
 		9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStrings.swift; sourceTree = "<group>"; };
 		9DE08C4E25F2F6210098F593 /* DeliveryMethodMutationAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryMethodMutationAlertTests.swift; sourceTree = "<group>"; };
+		9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidgetProtocol.swift; sourceTree = "<group>"; };
+		9DE118FB25FEE3E900D08F97 /* PDWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidget.swift; sourceTree = "<group>"; };
+		9DE1192825FFA46C00D08F97 /* MockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWidget.swift; sourceTree = "<group>"; };
+		9DE1196725FFC90000D08F97 /* MaxString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxString.swift; sourceTree = "<group>"; };
+		9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxStringTests.swift; sourceTree = "<group>"; };
 		9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageHistory.swift; sourceTree = "<group>"; };
 		9DE45370242FB93D0056AC94 /* PDCli.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCli.swift; sourceTree = "<group>"; };
 		9DE748382539042500282144 /* SiteCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModelTests.swift; sourceTree = "<group>"; };
@@ -888,10 +898,11 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
+				9DE118FB25FEE3E900D08F97 /* PDWidget.swift */,
 				3397CB13E4C554A7E1BA95B1 /* Alerts */,
 				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
-				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */,
+				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				9D22698B23750E5300828B5F /* Notifications */,
 				9D0177F92251983C00A24E48 /* Storyboards */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
@@ -1019,27 +1030,11 @@
 			path = Tabs;
 			sourceTree = "<group>";
 		};
-		3397C9A82AF03A520AC4BE35 /* Complex */ = {
-			isa = PBXGroup;
-			children = (
-				3397C155FE16DE4D7AFF6ECE /* ExpirationIntervalUDTests.swift */,
-			);
-			path = Complex;
-			sourceTree = "<group>";
-		};
-		3397CA2A1FA7E9C203CE03ED /* UserDefaults */ = {
-			isa = PBXGroup;
-			children = (
-				3397C9A82AF03A520AC4BE35 /* Complex */,
-			);
-			path = UserDefaults;
-			sourceTree = "<group>";
-		};
 		3397CB13E4C554A7E1BA95B1 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
 				3397CC199B959B4215CCB571 /* Alerts */,
-				3397C8B360B6B1582B2DC97C /* PDAlert.swift */,
+				3397C8B360B6B1582B2DC97C /* PDAlertController.swift */,
 				3397C3FEA855E6D94AB288AD /* AlertStrings.swift */,
 				9D8F45DD24965FDB00F2C39A /* AlertFactory.swift */,
 			);
@@ -1139,7 +1134,7 @@
 		9D003EB6233467C00070C964 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9D9397BE2379471A00FDF290 /* PDSettingsManaging.swift */,
+				9D9397BE2379471A00FDF290 /* SettingsManaging.swift */,
 				9D1BC5662275F3E700552BC1 /* KeyStorable.swift */,
 				9D1C2998236D2CB800488564 /* UserDefaultsWriteHandling.swift */,
 				9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */,
@@ -1235,6 +1230,7 @@
 				9D1908E92468388B00E95244 /* MockNav.swift */,
 				9D78877B2553993200DC0F6D /* MockSiteImageRecorder.swift */,
 				9D788784255399EC00DC0F6D /* MockSiteImageHistory.swift */,
+				9DE1192825FFA46C00D08F97 /* MockWidget.swift */,
 			);
 			path = MockApp;
 			sourceTree = "<group>";
@@ -1495,6 +1491,7 @@
 				3397CA12B098B78F4EF41902 /* ImageResizer.swift */,
 				3397C429190FB7BFA67C7CB2 /* SiteDetailConstants.swift */,
 				3397C77F4C999C35C9771AFC /* SiteImagePicker.swift */,
+				9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1669,6 +1666,7 @@
 		9D8F45E82496717900F2C39A /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9DE1194025FFA9AA00D08F97 /* Complex */,
 				9D8F45E92496718600F2C39A /* SettingsOptionsTests.swift */,
 			);
 			path = Settings;
@@ -1832,6 +1830,14 @@
 			path = Alerts;
 			sourceTree = "<group>";
 		};
+		9DE1194025FFA9AA00D08F97 /* Complex */ = {
+			isa = PBXGroup;
+			children = (
+				3397C155FE16DE4D7AFF6ECE /* ExpirationIntervalUDTests.swift */,
+			);
+			path = Complex;
+			sourceTree = "<group>";
+		};
 		9DE748372539041500282144 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1886,9 +1892,9 @@
 				9D8F45E82496717900F2C39A /* Settings */,
 				B40CC9B321CCE614002364BB /* Info.plist */,
 				3397CCAEBFADEA0B9BDABB6A /* Dates */,
-				3397CA2A1FA7E9C203CE03ED /* UserDefaults */,
 				3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */,
 				9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */,
+				9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */,
 			);
 			name = PDKitTests;
 			path = Tests/PDKitTests;
@@ -1988,6 +1994,7 @@
 				9D78A9E02386354F00058AD9 /* PDConstants.swift */,
 				9D6E9AE5245623AA003BBCC9 /* PDTO.swift */,
 				3397C6F5443D715A5E3FFCCE /* Foundation+PatchDay.swift */,
+				9DE1196725FFC90000D08F97 /* MaxString.swift */,
 			);
 			name = PDKit;
 			path = Sources/PDKit;
@@ -2377,6 +2384,7 @@
 				3397C4C2E415FD8B9097A348 /* UIKit+PatchDay.swift in Sources */,
 				3397C3EF27D567221BCBBAA3 /* SiteImages.swift in Sources */,
 				9DDAB03223FAE5DD00E6EEF6 /* NewSiteAlertActionHandler.swift in Sources */,
+				9DE1190425FEE3FA00D08F97 /* PDWidget.swift in Sources */,
 				3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */,
 				3397C7AA5FCCF3F70851A96C /* PillCell.swift in Sources */,
 				3397C6153828AAF32DFBA6B2 /* PillsViewModel.swift in Sources */,
@@ -2392,7 +2400,7 @@
 				3397C3B21DCF1D12D472CD83 /* QuantityMutationAlert.swift in Sources */,
 				3397C4B72A3807FC1B7437E3 /* NewSiteAlert.swift in Sources */,
 				9DDAB03C23FAF13400E6EEF6 /* DeliveryMethodMutationAlertActionHandler.swift in Sources */,
-				3397C0686E3133FEE6967ACB /* PDAlert.swift in Sources */,
+				3397C0686E3133FEE6967ACB /* PDAlertController.swift in Sources */,
 				9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */,
 				9DE7483B2539072500282144 /* HormoneCellViewModel.swift in Sources */,
 				3397CF0C4FF37F05832E75B0 /* AlertStrings.swift in Sources */,
@@ -2486,6 +2494,7 @@
 				9D8A984B23D13093004E20FE /* MockSiteStore.swift in Sources */,
 				9D1908F6247029E800E95244 /* PDTest.swift in Sources */,
 				9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */,
+				9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */,
 				9D7888D82558781100DC0F6D /* MockHormoneCell.swift in Sources */,
 				9D8A982423C574B0004E20FE /* MockPatchData.swift in Sources */,
 				9D8A984923D1308A004E20FE /* MockPillStore.swift in Sources */,
@@ -2526,6 +2535,7 @@
 				9D8F45EA2496718600F2C39A /* SettingsOptionsTests.swift in Sources */,
 				9D42128C25D60E1200087CDD /* PillExpirationIntervalTests.swift in Sources */,
 				3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */,
+				9DE1198725FFCB2B00D08F97 /* MaxStringTests.swift in Sources */,
 				3397C34B5CDE52B87B10C481 /* PatchDataLoggingPlayground.swift in Sources */,
 				9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */,
 				9D42127D25D60E0700087CDD /* PillAttributeTests.swift in Sources */,
@@ -2607,6 +2617,7 @@
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
 				9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */,
 				9D42116925D4B34100087CDD /* PillAttributes.swift in Sources */,
+				9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */,
 				9D913B9C22FF5497001FC03C /* SiteScheduling.swift in Sources */,
 				9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */,
 				9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */,
@@ -2642,7 +2653,8 @@
 				9D7887F52558569C00DC0F6D /* PillCellProtocol.swift in Sources */,
 				9D788815255857B200DC0F6D /* PillCellViewModelProtocol.swift in Sources */,
 				9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */,
-				9D9397C02379473B00FDF290 /* PDSettingsManaging.swift in Sources */,
+				9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */,
+				9DE1196825FFC90000D08F97 /* MaxString.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D78883E25585F1700DC0F6D /* SiteDetailViewModelProtocol.swift in Sources */,
 				9D7888832558636800DC0F6D /* ImageResizer.swift in Sources */,
@@ -2910,7 +2922,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources/PatchDay/PatchDay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = Sources/PatchDay/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -2918,7 +2930,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2935,7 +2947,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources/PatchDay/PatchDay.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				INFOPLIST_FILE = Sources/PatchDay/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -2943,7 +2955,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2964,7 +2976,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources/NextHormoneWidget/NextHormoneWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/NextHormoneWidget/Info.plist;
@@ -2974,7 +2986,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
@@ -2997,7 +3009,7 @@
 				CODE_SIGN_ENTITLEMENTS = Sources/NextHormoneWidget/NextHormoneWidget.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Sources/NextHormoneWidget/Info.plist;
@@ -3007,7 +3019,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PatchDay.NextHormoneWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3215,7 +3227,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3230,7 +3242,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
@@ -3253,7 +3265,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3268,7 +3280,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = JuliyaSmith.PatchData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -3348,7 +3360,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3363,7 +3375,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -3385,7 +3397,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 8U33TMB35U;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -3400,7 +3412,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.3.2;
+				MARKETING_VERSION = 3.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Yingthi.PDKit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

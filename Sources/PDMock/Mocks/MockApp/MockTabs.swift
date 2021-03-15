@@ -12,9 +12,7 @@ public class MockTabs: TabReflective {
     public init() {}
 
     public var hormonesViewController: UIViewController?
-
     public var pillsViewController: UIViewController?
-
     public var sitesViewController: UIViewController?
 
     public var reflectCallCount = 0
@@ -30,5 +28,10 @@ public class MockTabs: TabReflective {
     public var reflectPillsCallCount = 0
     public func reflectPills() {
         reflectPillsCallCount += 1
+    }
+
+    public var clearPillsCallCount = 0
+    public func clearPills() {
+        clearPillsCallCount += 1
     }
 }

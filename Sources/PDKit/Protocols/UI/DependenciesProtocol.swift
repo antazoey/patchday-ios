@@ -13,4 +13,5 @@ public protocol DependenciesProtocol {
     var nav: NavigationHandling? { get }
     var alerts: AlertProducing? {get }
     var badge: PDBadgeReflective? { get }
+    var widget: PDWidgetProtocol? { get }
 }

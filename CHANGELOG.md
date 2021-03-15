@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.4.0
+
+Added
+
+- The ability to disable Pills entirely using a switch at the top of the Pills View.
+
+Changed
+
+- You can no longer create Sites or Pills that have names longer than 30 characters.
+- The Hormone Widget will no longer mention anything about pills if you are not using them.
+
 ## 3.3.2
 
 Fixed

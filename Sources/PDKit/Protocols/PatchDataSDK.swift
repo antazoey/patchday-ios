@@ -12,7 +12,7 @@ public protocol PatchDataSDK {
     var isFresh: Bool { get }
 
     /// The UserDefaults manager.
-    var settings: PDSettingsManaging { get }
+    var settings: SettingsManaging { get }
 
     /// Hormones schedule.
     var hormones: HormoneScheduling { get }
@@ -26,9 +26,9 @@ public protocol PatchDataSDK {
     /// The expired hormones count plus the due pills count.
     var totalAlerts: Int { get }
 
-    /// Creates reusable commands that are common in PatchData.
+    /// Create reusable commands that are common in PatchData.
     var commandFactory: PDCommandFactory { get }
 
-    /// Resets each schedule and the settings back to defaults.
+    /// Reset each schedule and the settings back to defaults.
     func resetAll()
 }

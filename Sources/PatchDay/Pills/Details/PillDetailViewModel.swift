@@ -29,7 +29,8 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
             notifications: dependencies.notifications,
             alerts: dependencies.alerts,
             nav: dependencies.nav,
-            badge: dependencies.badge
+            badge: dependencies.badge,
+            widget: dependencies.widget
         )
     }
 
@@ -404,8 +405,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     }
 
     private func selectDaysOne(_ option: Int) {
-        tprint(option)
-        tprint(selections.expirationInterval.xDaysPosition)
         selections.expirationInterval.daysOne = option
     }
 
@@ -415,7 +414,6 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
 
     private func selectPosition(_ row: Index) {
         guard let choice = positionOptions.tryGet(at: row) else { return }
-
         let parts = choice.split(separator: " ")
         guard parts.count > 1 else { return }
         let position = parts[0]

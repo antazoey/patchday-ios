@@ -37,3 +37,11 @@ public class SiteIndexUD: PDUserDefault<Int, Int>, IntKeyStorable {
         self.init(DefaultSettings.SiteIndexRawValue)
     }
 }
+
+public class PillsEnabledUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
+    public var setting: PDSetting = .PillsEnabled
+
+    public convenience init() {
+        self.init(DefaultSettings.PillsEnabledRawValue)
+    }
+}

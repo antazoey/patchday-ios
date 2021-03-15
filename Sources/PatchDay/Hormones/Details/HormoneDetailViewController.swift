@@ -115,7 +115,18 @@ class HormoneDetailViewController: UIViewController,
         }
     }
 
-    @objc func closeTextField() {
+    /// Prevents the text field from exceededing a reasonable limit of characters.
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        MaxString.canSet(
+            currentString: textField.text ?? "", replacementString: string, range: range
+        )
+    }
+
+    @objc func closeSiteTextField() {
         guard let viewModel = viewModel else { return }
         let siteNameTyped = viewModel.extractSiteNameFromTextField(selectSiteTextField)
         typeSiteButton.setTitle(ActionStrings._Type)
@@ -134,7 +145,7 @@ class HormoneDetailViewController: UIViewController,
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        closeTextField()
+        closeSiteTextField()
         return true
     }
 
@@ -287,7 +298,7 @@ class HormoneDetailViewController: UIViewController,
         selectSiteTextField.isEnabled = true
         selectSiteTextField.text = ""
         textField.restorationIdentifier = TextFieldButtonSenderType.PickerActivator.rawValue
-        typeButton.replaceTarget(self, newAction: #selector(closeTextField))
+        typeButton.replaceTarget(self, newAction: #selector(closeSiteTextField))
     }
 
     private func handleTextFieldButtonOpeningPicker(typeButton: UIButton) {

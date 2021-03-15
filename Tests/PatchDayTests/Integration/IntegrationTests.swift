@@ -30,6 +30,7 @@ class IntegrationTests: XCTestCase {
     }
 
     func whenChangingHormoneBadge_updatesCorrectly() {
+        sdk.resetAll()
         let badge = PDBadge(sdk: sdk)
         sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
         let ids = self.sdk.hormones.all.map({ $0.id })

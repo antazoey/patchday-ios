@@ -43,10 +43,10 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
 
     public var hours: Int {
         switch value {
-            case .OnceDaily: return HoursInADay
-            case .TwiceWeekly: return HoursInHalfWeek
-            case .OnceWeekly: return HoursInWeek
-            case .EveryTwoWeeks: return HoursInTwoWeeks
+            case .OnceDaily: return Hours.InDay
+            case .TwiceWeekly: return Hours.InHalfWeek
+            case .OnceWeekly: return Hours.InWeek
+            case .EveryTwoWeeks: return Hours.InTwoWeeks
         }
     }
 

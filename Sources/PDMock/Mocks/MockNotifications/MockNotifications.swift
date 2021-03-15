@@ -60,4 +60,14 @@ public class MockNotifications: NotificationScheduling {
     public func requestDuePillNotification(_ pill: Swallowable) {
         requestDuePillNotificationCallArgs.append(pill)
     }
+
+    public var cancelAllDuePillNotificationsCallCount = 0
+    public func cancelAllDuePillNotifications() {
+        cancelAllDuePillNotificationsCallCount += 1
+    }
+
+    public var requestAllDuePillNotificationsCallCount = 0
+    public func requestAllDuePillNotifications() {
+        requestAllDuePillNotificationsCallCount += 1
+    }
 }

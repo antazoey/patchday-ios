@@ -21,6 +21,7 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         DefaultSettings.MentionedDisclaimerRawValue
     )
     public var siteIndex = SiteIndexUD(DefaultSettings.SiteIndexRawValue)
+    public var pillsEnabled = PillsEnabledUD(DefaultSettings.PillsEnabledRawValue)
 
     public init() { }
 
@@ -78,5 +79,10 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         incrementStoredSiteIndexCallArgs.append(start)
         self.siteIndex = SiteIndexUD(self.siteIndex.rawValue + 1)
         return self.siteIndex.rawValue + 1
+    }
+
+    public var replaceStoredPillsEnabledCallArgs: [Bool] = []
+    public func replaceStoredPillsEnabled(to newValue: Bool) {
+        replaceStoredPillsEnabledCallArgs.append(newValue)
     }
 }

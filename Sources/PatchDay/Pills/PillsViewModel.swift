@@ -29,7 +29,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
             notifications: dependencies.notifications,
             alerts: dependencies.alerts,
             nav: dependencies.nav,
-            badge: dependencies.badge
+            badge: dependencies.badge,
+            widget: dependencies.widget
         )
         self.pillsTable = table
         self.finishInit()
@@ -37,7 +38,12 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     var pills: PillScheduling? { sdk?.pills }
 
-    var pillsCount: Int { pills?.count ?? 0 }
+    var pillsCount: Int {
+        guard enabled else { return 0 }
+        return pills?.count ?? 0
+    }
+
+    var enabled: Bool { sdk?.settings.pillsEnabled.rawValue ?? true }
 
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration {
         let title = ActionStrings.Delete
@@ -94,6 +100,24 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         guard let pills = pills else { return }
         guard pillIndex >= 0 && pillIndex < pills.count else { return }
         nav?.goToPillDetails(pillIndex, source: pillsViewController)
+    }
+
+    func togglePillsEnabled(_ toggledOn: Bool) {
+        guard enabled != toggledOn else { return }
+        sdk?.settings.setPillsEnabled(to: toggledOn)
+        if toggledOn {
+            tabs?.reflectPills()
+            notifications?.cancelAllDuePillNotifications()
+            notifications?.requestAllDuePillNotifications()
+        } else {
+            tabs?.clearPills()
+            notifications?.cancelAllDuePillNotifications()
+        }
+        widget?.set()
+    }
+
+    func setBackgroundView() {
+        pillsTable.setBackgroundView(isEnabled: enabled)
     }
 
     // MARK: - Private

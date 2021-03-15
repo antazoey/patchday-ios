@@ -55,6 +55,10 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         handler.replace(mentionedDisclaimer, to: newValue)
     }
 
+    public func replaceStoredPillsEnabled(to newValue: Bool) {
+        handler.replace(pillsEnabled, to: newValue)
+    }
+
     @discardableResult
     public func replaceStoredSiteIndex(to newValue: Index) -> Index {
         let storedSites = sites.getStoredSites()
@@ -132,5 +136,11 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         let def = DefaultSettings.SiteIndexRawValue
         let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
         return SiteIndexUD(siteIndex)
+    }
+
+    public var pillsEnabled: PillsEnabledUD {
+        let def = DefaultSettings.PillsEnabledRawValue
+        let pillsEnabled = handler.load(setting: .PillsEnabled, defaultValue: def)
+        return PillsEnabledUD(pillsEnabled)
     }
 }

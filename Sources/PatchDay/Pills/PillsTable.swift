@@ -36,6 +36,23 @@ class PillsTable: TableViewWrapper<PillCell>, PillsTableProtocol {
         table.reloadData()
     }
 
+    func setBackgroundView(isEnabled: Bool) {
+        if isEnabled {
+            table.backgroundView = nil
+            table.separatorStyle = .singleLine
+        } else {
+            table.separatorStyle = .none
+            let label = UILabel()
+            label.numberOfLines = 2
+            label.textColor = PDColors[.Text]
+            let comment = "Text for an empty table view."
+            let body = "Pills are currently disabled.\n Use the switch at the top to enable."
+            label.text = NSLocalizedString(body, comment: comment)
+            label.textAlignment = .center
+            table.backgroundView = label
+        }
+    }
+
     private func applyTheme() {
         table.backgroundColor = UIColor.systemBackground
         table.separatorColor = PDColors[.Border]

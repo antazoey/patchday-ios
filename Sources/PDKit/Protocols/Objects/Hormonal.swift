@@ -8,7 +8,7 @@ import Foundation
 
 public protocol Hormonal: PDObjectified {
 
-    /// Applies the given settings to the hormone instance and returns itself.
+    /// Apply the given settings to the hormone instance and returns itself.
     func from(_ settings: UserDefaultsReading) -> Hormonal
 
     var id: UUID { get set }
@@ -37,7 +37,7 @@ public protocol Hormonal: PDObjectified {
     /// Whether it is past this hormone's expiration date.
     var isExpired: Bool { get }
 
-    // Whether it is past the time to alert for this hormone's expiration date.
+    /// Whether it is past the time to alert for this hormone's expiration date.
     var isPastNotificationTime: Bool { get }
 
     /// Whether the hormone expires between the hours of midnight and 6 am.
@@ -55,9 +55,9 @@ public protocol Hormonal: PDObjectified {
     /// If this hormone has a date.
     var hasDate: Bool { get }
 
-    /// Sets the date to now.
+    /// Set the date to now.
     func stamp()
 
-    /// Creates a would-be expiration date for the given start date using this hormone's expiration interval.
+    /// Create a would-be expiration date for the given start date using this hormone's expiration interval.
     func createExpirationDate(from startDate: Date) -> Date?
 }

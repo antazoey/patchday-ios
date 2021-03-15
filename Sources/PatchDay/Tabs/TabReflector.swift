@@ -54,11 +54,18 @@ class TabReflector: TabReflective {
         guard let pillsViewController = pillsViewController else { return }
         guard let sdk = sdk else { return }
         guard let item = pillsViewController.tabBarItem else { return }
+        guard sdk.settings.pillsEnabled.rawValue else { return }
         sdk.pills.reloadContext()
         let expiredCount = sdk.pills.totalDue
         item.badgeValue = expiredCount > 0 ? "\(expiredCount)" : nil
         pillsViewController.tabBarItem = nil  // Set to nil first to force redraw
         pillsViewController.tabBarItem = item
+        pillsViewController.awakeFromNib()
+    }
+
+    func clearPills() {
+        guard let pillsViewController = pillsViewController else { return }
+        pillsViewController.tabBarItem.badgeValue = nil
         pillsViewController.awakeFromNib()
     }
 

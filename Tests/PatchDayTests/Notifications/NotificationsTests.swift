@@ -224,6 +224,62 @@ class NotificationsTests: XCTestCase {
         XCTAssertEqual(1, mockNotification.requestCallCount)
     }
 
+    func testRequestDuePillNotification_whenPillIsDueAndNotifiedButPillsAreDisabled_doesNotRequest() {
+        let sdk = createSDK(totalExpired: 3)
+        (sdk.settings as! MockSettings).pillsEnabled = PillsEnabledUD(false)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        let pill = createTestPill(isDue: true, notify: true)
+        notifications.requestDuePillNotification(pill)
+        XCTAssertEqual(0, factory.createDuePillNotificationCallArgs.count)
+        XCTAssertEqual(0, mockNotification.requestCallCount)
+    }
+
+    func testRequestAllDuePillNotifications_requestsForEachPillWithNotifyAsTrue() {
+        let sdk = createSDK(totalExpired: 3)
+        (sdk.settings as! MockSettings).pillsEnabled = PillsEnabledUD(true)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+
+        // 2/3 pills want notifications
+        let pills = sdk.pills as! MockPillSchedule
+        pills.all = [
+            createTestPill(isDue: true, notify: true),
+            createTestPill(isDue: true, notify: false),
+            createTestPill(isDue: true, notify: true)
+        ]
+
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        notifications.requestAllDuePillNotifications()
+
+        let callArgs = factory.createDuePillNotificationCallArgs
+        XCTAssertEqual(2, callArgs.count)
+        XCTAssertEqual(2, mockNotification.requestCallCount)
+    }
+
+    func testRequestAllDuePillNotifications_whenPillsDisabled_requestsZeroTimes() {
+        let sdk = createSDK(totalExpired: 3)
+        (sdk.settings as! MockSettings).pillsEnabled = PillsEnabledUD(false)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+
+        // 2/3 pills want notifications but does not matter because pills are disableds.
+        let pills = sdk.pills as! MockPillSchedule
+        pills.all = [
+            createTestPill(isDue: true, notify: true),
+            createTestPill(isDue: true, notify: false),
+            createTestPill(isDue: true, notify: true)
+        ]
+
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        notifications.requestAllDuePillNotifications()
+
+        let callArgs = factory.createDuePillNotificationCallArgs
+        XCTAssertEqual(0, callArgs.count)
+        XCTAssertEqual(0, mockNotification.requestCallCount)
+    }
+
     func testCancelDuePillNotification_cancels() {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
@@ -232,6 +288,24 @@ class NotificationsTests: XCTestCase {
         let pill = createTestPill(isDue: true, notify: true)
         notifications.cancelDuePillNotification(pill)
         XCTAssertEqual([pill.id.uuidString], center.removeNotificationsCallArgs[0])
+    }
+
+    func testCancelAllDuePillNotifications_cancelsOncePerPill() {
+        let sdk = createSDK(totalExpired: 3)
+        let center = MockNotificationCenter()
+        let factory = createFactory()
+
+        // 3 total pills to try and cancel.
+        let pills = sdk.pills as! MockPillSchedule
+        pills.all = [
+            createTestPill(isDue: true, notify: true),
+            createTestPill(isDue: true, notify: false),
+            createTestPill(isDue: true, notify: true)
+        ]
+
+        let notifications = Notifications(sdk: sdk, center: center, factory: factory)
+        notifications.cancelAllDuePillNotifications()
+        XCTAssertEqual(3, center.removeNotificationsCallArgs.count)
     }
 
     func testRequestOvernightExpirationNotification_whenHormoneDoesNotExpire_doesNotRequest() {
