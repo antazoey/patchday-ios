@@ -76,9 +76,21 @@ class TabReflectorTests: XCTestCase {
     func testReflectPills_reflectsBadgeValue() {
         let pills = sdk.pills as! MockPillSchedule
         pills.totalDue = 1
+        let settings = (sdk.settings as! MockSettings)
+        settings.pillsEnabled = PillsEnabledUD(true)
         let tabs = createTabs()
         tabs.reflectPills()
         XCTAssertEqual("1", pillsViewController.tabBarItem.badgeValue)
+    }
+
+    func testReflectPills_whenPillsDisabled_doesNotSetBadgeValue() {
+        let pills = sdk.pills as! MockPillSchedule
+        pills.totalDue = 1
+        let settings = (sdk.settings as! MockSettings)
+        settings.pillsEnabled = PillsEnabledUD(false)
+        let tabs = createTabs()
+        tabs.reflectPills()
+        XCTAssertNil(pillsViewController.tabBarItem.badgeValue)
     }
 
     func testClearPills_clearsBadgeValueForPillsIcon() {
