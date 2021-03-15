@@ -46,7 +46,7 @@ class PillsTable: TableViewWrapper<PillCell>, PillsTableProtocol {
             label.numberOfLines = 2
             label.textColor = PDColors[.Text]
             let comment = "Text for an empty table view."
-            let body = "Pills are currently Disabled.\n Use the switch at the top to enable."
+            let body = "Pills are currently disabled.\n Use the switch at the top to enable."
             label.text = NSLocalizedString(body, comment: comment)
             label.textAlignment = .center
             table.backgroundView = label
