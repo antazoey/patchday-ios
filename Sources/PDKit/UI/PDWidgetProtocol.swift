@@ -1,5 +1,5 @@
 //
-//  Widgety.swift
+//  PDWidgetProtocol.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 3/14/21.
