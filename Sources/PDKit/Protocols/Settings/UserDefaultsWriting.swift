@@ -38,6 +38,6 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     @discardableResult
     func replaceStoredSiteIndex(to i: Index) -> Index
 
-    /// Replaced the value that indicates whether pills are activated.
+    /// Replace the value that indicates whether pills are activated.
     func replaceStoredPillsEnabled(to newValue: Bool)
 }
