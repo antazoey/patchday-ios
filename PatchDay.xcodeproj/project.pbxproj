@@ -287,6 +287,8 @@
 		9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */; };
 		9DE1190425FEE3FA00D08F97 /* PDWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118FB25FEE3E900D08F97 /* PDWidget.swift */; };
 		9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1192825FFA46C00D08F97 /* MockWidget.swift */; };
+		9DE1196825FFC90000D08F97 /* MaxString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1196725FFC90000D08F97 /* MaxString.swift */; };
+		9DE1198725FFCB2B00D08F97 /* MaxStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */; };
 		9DE4536F242FA4920056AC94 /* SiteImageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */; };
 		9DE45371242FB93D0056AC94 /* PDCli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE45370242FB93D0056AC94 /* PDCli.swift */; };
 		9DE748392539042500282144 /* SiteCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE748382539042500282144 /* SiteCellViewModelTests.swift */; };
@@ -748,6 +750,8 @@
 		9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidgetProtocol.swift; sourceTree = "<group>"; };
 		9DE118FB25FEE3E900D08F97 /* PDWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidget.swift; sourceTree = "<group>"; };
 		9DE1192825FFA46C00D08F97 /* MockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWidget.swift; sourceTree = "<group>"; };
+		9DE1196725FFC90000D08F97 /* MaxString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxString.swift; sourceTree = "<group>"; };
+		9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaxStringTests.swift; sourceTree = "<group>"; };
 		9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageHistory.swift; sourceTree = "<group>"; };
 		9DE45370242FB93D0056AC94 /* PDCli.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCli.swift; sourceTree = "<group>"; };
 		9DE748382539042500282144 /* SiteCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModelTests.swift; sourceTree = "<group>"; };
@@ -1890,6 +1894,7 @@
 				3397CCAEBFADEA0B9BDABB6A /* Dates */,
 				3397CCE3EDABEB6409353DBD /* ArrayExtensionTests.swift */,
 				9D9C5FF4247B187900B3DA6A /* PDTOTests.swift */,
+				9DE1197025FFCAD700D08F97 /* MaxStringTests.swift */,
 			);
 			name = PDKitTests;
 			path = Tests/PDKitTests;
@@ -1989,6 +1994,7 @@
 				9D78A9E02386354F00058AD9 /* PDConstants.swift */,
 				9D6E9AE5245623AA003BBCC9 /* PDTO.swift */,
 				3397C6F5443D715A5E3FFCCE /* Foundation+PatchDay.swift */,
+				9DE1196725FFC90000D08F97 /* MaxString.swift */,
 			);
 			name = PDKit;
 			path = Sources/PDKit;
@@ -2529,6 +2535,7 @@
 				9D8F45EA2496718600F2C39A /* SettingsOptionsTests.swift in Sources */,
 				9D42128C25D60E1200087CDD /* PillExpirationIntervalTests.swift in Sources */,
 				3397C9CEB7D0A26B46F66F4F /* ArrayExtensionTests.swift in Sources */,
+				9DE1198725FFCB2B00D08F97 /* MaxStringTests.swift in Sources */,
 				3397C34B5CDE52B87B10C481 /* PatchDataLoggingPlayground.swift in Sources */,
 				9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */,
 				9D42127D25D60E0700087CDD /* PillAttributeTests.swift in Sources */,
@@ -2647,6 +2654,7 @@
 				9D788815255857B200DC0F6D /* PillCellViewModelProtocol.swift in Sources */,
 				9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */,
 				9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */,
+				9DE1196825FFC90000D08F97 /* MaxString.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D78883E25585F1700DC0F6D /* SiteDetailViewModelProtocol.swift in Sources */,
 				9D7888832558636800DC0F6D /* ImageResizer.swift in Sources */,

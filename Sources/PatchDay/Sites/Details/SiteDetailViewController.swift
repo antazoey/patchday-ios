@@ -149,10 +149,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        let maxLength = SanitationConstants.MaxSiteNameCharacters
-        let currentString = (textField.text ?? "") as NSString
-        let newString = currentString.replacingCharacters(in: range, with: string) as NSString
-        return newString.length <= maxLength
+        MaxString.canSet(
+            currentString: textField.text ?? "", replacementString: string, range: range
+        )
     }
 
     @objc func saveButtonTapped(_ sender: Any) {

@@ -101,5 +101,5 @@ public let PDSharedDataGroupName: String = "group.com.patchday.todaydata"
 
 /// Constants for sanitizing user input.
 public class SanitationConstants {
-    public static let MaxSiteNameCharacters = 30
+    public static let MaxResourceNameCharacters = 30
 }
