@@ -23,7 +23,7 @@ public protocol PillsViewModelProtocol {
     /// Whether the pills are enabled or not.
     var enabled: Bool { get }
 
-    /// A factory method for cell swip actions.
+    /// A factory method for cell swipe actions.
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration
 
     /// Take a pill for the day.
