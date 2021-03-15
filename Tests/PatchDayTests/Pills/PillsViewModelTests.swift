@@ -44,11 +44,20 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(0, viewModel.pillsCount)
     }
 
-    func testPillsCount_returnsPillsCount() {
+    func testPillsCount_whenEnbabled_returnsPillsCount() {
         let viewModel = createViewModel()
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(true)
         (deps.sdk?.pills as! MockPillSchedule).all = [testPill, testPill, testPill, testPill]
         let actual = viewModel.pillsCount
         XCTAssertEqual(4, actual)
+    }
+
+    func testPillsCount_whenDisabled_returnsZero() {
+        let viewModel = createViewModel()
+        (deps.sdk?.settings as! MockSettings).pillsEnabled = PillsEnabledUD(false)
+        (deps.sdk?.pills as! MockPillSchedule).all = [testPill, testPill, testPill, testPill]
+        let actual = viewModel.pillsCount
+        XCTAssertEqual(0, actual)
     }
 
     func testCreatePillCellSwipeActions_whenCalled_deletesPill() {
