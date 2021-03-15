@@ -11,13 +11,13 @@ public protocol PillsTableProtocol {
     /// Get a cell.
     subscript(index: Index) -> PillCellProtocol { get }
 
-    /// Deletes a cell.
+    /// Delete a cell.
     func deleteCell(at indexPath: IndexPath, pillsCount: Int)
 
-    /// Reloads the data.
+    /// Reload data from source.
     /// Note:  It is usually better to just call this from the view controller on the actual `UITableView`.
     func reloadData()
 
-    /// Sets a label as the empty view or blank when not empty.
+    /// Set a label as the empty view or blank when not empty.
     func setBackgroundView(isEnabled: Bool)
 }

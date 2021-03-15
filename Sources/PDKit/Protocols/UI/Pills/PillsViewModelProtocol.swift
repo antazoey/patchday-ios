@@ -26,24 +26,24 @@ public protocol PillsViewModelProtocol {
     /// A factory method for cell swip actions.
     func createPillCellSwipeActions(index: IndexPath) -> UISwipeActionsConfiguration
 
-    /// Takes a pill for the day.
+    /// Take a pill for the day.
     func takePill(at index: Index)
 
-    /// Deletes a pill from the schedule.
+    /// Delete a pill from the schedule.
     func deletePill(at index: IndexPath)
 
-    /// Presents actions (an alert) that you can take on a pill.
+    /// Present actions (an alert) that you can take on a pill.
     func presentPillActions(
         at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void
     )
 
-    /// Navigates to the details view of a new pill.
+    /// Navigate to the details view of a new pill.
     func goToNewPillDetails(pillsViewController: UIViewController)
 
-    /// Navigates to the Details view of a pill.
+    /// Navigate to the Details view of a pill.
     func goToPillDetails(pillIndex: Index, pillsViewController: UIViewController)
 
-    /// Changes the `pillsEnabled` setting.
+    /// Change the `pillsEnabled` setting.
     func togglePillsEnabled(_ toggledOn: Bool)
 
     /// Set the table background view accordingly depending on the value of `enabled`.

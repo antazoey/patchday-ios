@@ -24,28 +24,28 @@ public protocol PillScheduling: Schedule, Deleting {
     @discardableResult
     func insertNew(onSuccess: (() -> Void)?) -> Swallowable?
 
-    /// Returns the pill at the given index.
+    /// Get the pill at the given index.
     subscript(index: Index) -> Swallowable? { get }
 
-    /// Returns the pill for the given ID.
+    /// Get the pill for the given ID.
     subscript(id: UUID) -> Swallowable? { get }
 
-    /// Sets the pill at the given index with the given attributes.
+    /// Set the pill at the given index with the given attributes.
     func set(at index: Index, with attributes: PillAttributes)
 
-    /// Sets the pill for the givne ID with the given attributes.
+    /// Set the pill for the givne ID with the given attributes.
     func set(by id: UUID, with attributes: PillAttributes)
 
-    /// Resets all pill attributes to their default.
+    /// Reset all pill attributes to their default.
     func reset()
 
-    /// Swallows the pill.
+    /// Swallow the pill.
     func swallow(_ id: UUID, onSuccess: (() -> Void)?)
 
-    /// Swallows the next pill due.
+    /// Swallow the next pill due.
     func swallow(onSuccess: (() -> Void)?)
 
-    /// Gets the first index of the given pill.
+    /// Get the first index of the given pill.
     func indexOf(_ pill: Swallowable) -> Index?
 
     /// Share pill data with other applications that have permission, such as PatchDayToday.

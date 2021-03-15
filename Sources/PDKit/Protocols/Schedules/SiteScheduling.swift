@@ -26,25 +26,25 @@ public protocol SiteScheduling: Schedule, Sorting, Deleting, Resetting {
     /// Force reload context from database.
     func reloadContext()
 
-    /// Inserts a new site into the schedule.
+    /// Insert a new site into the schedule.
     @discardableResult
     func insertNew(name: String, onSuccess: (() -> Void)?) -> Bodily?
 
-    /// Returns the site at the given index.
+    /// Get the site at the given index.
     subscript(index: Index) -> Bodily? { get }
 
-    /// Returns the site for the given ID.
+    /// Get the site for the given ID.
     subscript(id: UUID) -> Bodily? { get }
 
-    /// Changes the name of a site.
+    /// Change the name of a site.
     func rename(at index: Index, to name: SiteName)
 
-    /// Changes the order of the site at the given index and adjusts the order of the other sites.
+    /// Change the order of the site at the given index and adjusts the order of the other sites.
     func reorder(at index: Index, to newOrder: Int)
 
-    /// Sets the image ID of the site at the given index.
+    /// Set the image ID of the site at the given index.
     func setImageId(at index: Index, to newId: String)
 
-    /// Returns the first first index of the given site.
+    /// Get the first first index of the given site.
     func indexOf(_ site: Bodily) -> Index?
 }
