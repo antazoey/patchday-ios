@@ -168,7 +168,7 @@ struct NextHormoneWidgetView: View {
     var nextPillView: StringTextWidgetView? {
         guard entry.hormone.pillsEnabled else { return nil }
         guard let pill = entry.hormone.pill else { return nil }
-        guard let _ = entry.hormone.pillDue else { return nil }
+        guard entry.hormone.pillDue != nil else { return nil }
         let text = NSLocalizedString("Next \(pill)", comment: "Widget view")
         return StringTextWidgetView(text: text)
     }

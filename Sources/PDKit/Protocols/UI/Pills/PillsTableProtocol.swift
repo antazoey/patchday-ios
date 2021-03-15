@@ -14,7 +14,8 @@ public protocol PillsTableProtocol {
     /// Deletes a cell.
     func deleteCell(at indexPath: IndexPath, pillsCount: Int)
 
-    /// Reloads the data. Note:  It is usually better to just call this from the view controller on the actual `UITableView`.
+    /// Reloads the data.
+    /// Note:  It is usually better to just call this from the view controller on the actual `UITableView`.
     func reloadData()
 
     /// Sets a label as the empty view or blank when not empty.

@@ -45,4 +45,3 @@ public class PillsEnabledUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
         self.init(DefaultSettings.PillsEnabledRawValue)
     }
 }
-
