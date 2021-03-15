@@ -80,4 +80,14 @@ class TabReflectorTests: XCTestCase {
         tabs.reflectPills()
         XCTAssertEqual("1", pillsViewController.tabBarItem.badgeValue)
     }
+
+    func testClearPills_clearsBadgeValueForPillsIcon() {
+        let pills = sdk.pills as! MockPillSchedule
+        pills.totalDue = 1
+        let tabs = createTabs()
+        tabs.reflectPills()  // Causes a badge value to exist
+
+        tabs.clearPills()
+        XCTAssertNil(pillsViewController.tabBarItem.badgeValue)
+    }
 }

@@ -64,7 +64,7 @@ class TabReflector: TabReflective {
 
     func clearPills() {
         guard let pillsViewController = pillsViewController else { return }
-        pillsViewController.tabBarItem = nil
+        pillsViewController.tabBarItem.badgeValue = nil
         pillsViewController.awakeFromNib()
     }
 
