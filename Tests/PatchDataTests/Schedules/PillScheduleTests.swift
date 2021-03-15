@@ -70,14 +70,37 @@ class PillScheduleTests: XCTestCase {
 
     // MARK: - Tests
 
-    public func testInit_whenGivenInitialState_resetsToPillCountToTwo() {
+    public func testInit_whenGivenInitialStateAndEnabled_resetsToPillCountToTwo() {
         mockStore.state = .Initial
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
         pills = PillSchedule(
             store: mockStore,
             pillDataSharer: mockDataSharer,
             settings: mockSettings
         )
         XCTAssertEqual(2, pills.count)
+    }
+
+    public func testInit_whenGivenInitialButPillsDisabled_doesNotResetPills() {
+        mockStore.state = .Initial
+        mockSettings.pillsEnabled = PillsEnabledUD(false)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
+        XCTAssertEqual(0, pills.count)
+    }
+
+    public func testInit_whenNotInitial_doesNotResetPills() {
+        mockStore.state = .Working
+        mockSettings.pillsEnabled = PillsEnabledUD(true)
+        pills = PillSchedule(
+            store: mockStore,
+            pillDataSharer: mockDataSharer,
+            settings: mockSettings
+        )
+        XCTAssertEqual(0, pills.count)
     }
 
     public func testNextDue_returnsPillsWithOldestDueDate() {
