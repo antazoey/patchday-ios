@@ -37,7 +37,8 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
             notifications: dependencies.notifications,
             alerts: dependencies.alerts,
             nav: dependencies.nav,
-            badge: dependencies.badge
+            badge: dependencies.badge,
+            widget: dependencies.widget
         )
     }
 

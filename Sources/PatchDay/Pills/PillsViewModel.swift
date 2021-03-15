@@ -29,7 +29,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
             notifications: dependencies.notifications,
             alerts: dependencies.alerts,
             nav: dependencies.nav,
-            badge: dependencies.badge
+            badge: dependencies.badge,
+            widget: dependencies.widget
         )
         self.pillsTable = table
         self.finishInit()
@@ -103,6 +104,15 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     func togglePillsEnabled(_ toggledOn: Bool) {
         sdk?.settings.setPillsEnabled(to: toggledOn)
+        if toggledOn {
+            tabs?.reflectPills()
+            notifications?.cancelAllDuePillNotifications()
+            notifications?.requestAllDuePillNotifications()
+        } else {
+            tabs?.clearPills()
+            notifications?.cancelAllDuePillNotifications()
+        }
+        widget?.set()
     }
 
     func setBackgroundView() {

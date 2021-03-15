@@ -25,4 +25,7 @@ public protocol TabReflective {
 
     /// Sets the Pills tab badge value to the total expired pills.
     func reflectPills()
+
+    /// Remove the expired pill tab badge.
+    func clearPills()
 }

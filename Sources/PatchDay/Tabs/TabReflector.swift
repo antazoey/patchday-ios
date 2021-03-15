@@ -62,6 +62,12 @@ class TabReflector: TabReflective {
         pillsViewController.awakeFromNib()
     }
 
+    func clearPills() {
+        guard let pillsViewController = pillsViewController else { return }
+        pillsViewController.tabBarItem = nil
+        pillsViewController.awakeFromNib()
+    }
+
     private func loadViewControllerTabTextAttributes() {
         let size: CGFloat = AppDelegate.isPad ? 25 : 9
         for i in 0..<viewControllers.count {

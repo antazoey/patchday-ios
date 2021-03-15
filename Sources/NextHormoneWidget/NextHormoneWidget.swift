@@ -10,6 +10,7 @@ import PDKit
 
 struct NextHormone {
     let hormoneExpirationDate: Date?
+    let pillsEnabled: Bool
     let pill: String?
     let pillDue: Date?
     let deliveryMethod: DeliveryMethod?
@@ -26,6 +27,7 @@ struct NextHormoneLoader {
     static func fetch(completion: @escaping (NextHormone) -> Void) {
         let next = NextHormone(
             hormoneExpirationDate: nextHormoneExpirationDate,
+            pillsEnabled: pillsEnabled,
             pill: nextPillName,
             pillDue: nextPillDate,
             deliveryMethod: deliveryMethod
@@ -45,6 +47,10 @@ struct NextHormoneLoader {
         defaults?.object(forKey: SharedDataKey.NextHormoneDate.rawValue) as? Date
     }
 
+    private static var pillsEnabled: Bool {
+        defaults?.bool(forKey: PDSetting.PillsEnabled.rawValue) ?? false
+    }
+
     private static var nextPillName: String? {
         defaults?.string(forKey: SharedDataKey.NextPillToTake.rawValue)
     }
@@ -60,6 +66,7 @@ struct NextHormoneTimeline: TimelineProvider {
     func placeholder(in context: Context) -> NextHormoneEntry {
         let fakeHormone = NextHormone(
             hormoneExpirationDate: Date(),
+            pillsEnabled: true,
             pill: PillStrings.DefaultPills[0],
             pillDue: Date(),
             deliveryMethod: .Patches
@@ -159,12 +166,15 @@ struct NextHormoneWidgetView: View {
     }
 
     var nextPillView: StringTextWidgetView? {
+        guard entry.hormone.pillsEnabled else { return nil }
         guard let pill = entry.hormone.pill else { return nil }
+        guard let _ = entry.hormone.pillDue else { return nil }
         let text = NSLocalizedString("Next \(pill)", comment: "Widget view")
         return StringTextWidgetView(text: text)
     }
 
     var nextPillDueView: DateTextWidgetView? {
+        guard entry.hormone.pillsEnabled else { return nil }
         guard let date = entry.hormone.pillDue else { return nil }
         return DateTextWidgetView(date: date)
     }

@@ -284,6 +284,8 @@
 		9DDF13D4229CC9E7001E8A8A /* NotificationStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF13D3229CC9E7001E8A8A /* NotificationStrings.swift */; };
 		9DDF47E1234D670C005AA467 /* PillNotificationActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E0234D670C005AA467 /* PillNotificationActionHandler.swift */; };
 		9DE08C5725F2F7610098F593 /* DeliveryMethodMutationAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE08C4E25F2F6210098F593 /* DeliveryMethodMutationAlertTests.swift */; };
+		9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */; };
+		9DE1190425FEE3FA00D08F97 /* PDWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE118FB25FEE3E900D08F97 /* PDWidget.swift */; };
 		9DE4536F242FA4920056AC94 /* SiteImageHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */; };
 		9DE45371242FB93D0056AC94 /* PDCli.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE45370242FB93D0056AC94 /* PDCli.swift */; };
 		9DE748392539042500282144 /* SiteCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE748382539042500282144 /* SiteCellViewModelTests.swift */; };
@@ -742,6 +744,8 @@
 		9DDF47E0234D670C005AA467 /* PillNotificationActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillNotificationActionHandler.swift; sourceTree = "<group>"; };
 		9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStrings.swift; sourceTree = "<group>"; };
 		9DE08C4E25F2F6210098F593 /* DeliveryMethodMutationAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryMethodMutationAlertTests.swift; sourceTree = "<group>"; };
+		9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidgetProtocol.swift; sourceTree = "<group>"; };
+		9DE118FB25FEE3E900D08F97 /* PDWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDWidget.swift; sourceTree = "<group>"; };
 		9DE4536E242FA4920056AC94 /* SiteImageHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteImageHistory.swift; sourceTree = "<group>"; };
 		9DE45370242FB93D0056AC94 /* PDCli.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCli.swift; sourceTree = "<group>"; };
 		9DE748382539042500282144 /* SiteCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModelTests.swift; sourceTree = "<group>"; };
@@ -888,10 +892,11 @@
 		137330EB1E22BA3E0048F91E /* PatchDay */ = {
 			isa = PBXGroup;
 			children = (
+				9DE118FB25FEE3E900D08F97 /* PDWidget.swift */,
 				3397CB13E4C554A7E1BA95B1 /* Alerts */,
 				3397C46296174AEBD22741E7 /* PDAppConstants.swift */,
-				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				9D21A5C823860FBF00EC2A03 /* CodeBehindDependencies.swift */,
+				137330EC1E22BA3E0048F91E /* AppDelegate.swift */,
 				9D22698B23750E5300828B5F /* Notifications */,
 				9D0177F92251983C00A24E48 /* Storyboards */,
 				137330F31E22BA3E0048F91E /* Assets.xcassets */,
@@ -1495,6 +1500,7 @@
 				3397CA12B098B78F4EF41902 /* ImageResizer.swift */,
 				3397C429190FB7BFA67C7CB2 /* SiteDetailConstants.swift */,
 				3397C77F4C999C35C9771AFC /* SiteImagePicker.swift */,
+				9DE118F225FEE3BF00D08F97 /* PDWidgetProtocol.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -2377,6 +2383,7 @@
 				3397C4C2E415FD8B9097A348 /* UIKit+PatchDay.swift in Sources */,
 				3397C3EF27D567221BCBBAA3 /* SiteImages.swift in Sources */,
 				9DDAB03223FAE5DD00E6EEF6 /* NewSiteAlertActionHandler.swift in Sources */,
+				9DE1190425FEE3FA00D08F97 /* PDWidget.swift in Sources */,
 				3397CEAD0DAC7BBEE355ED19 /* HormonesTable.swift in Sources */,
 				3397C7AA5FCCF3F70851A96C /* PillCell.swift in Sources */,
 				3397C6153828AAF32DFBA6B2 /* PillsViewModel.swift in Sources */,
@@ -2607,6 +2614,7 @@
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
 				9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */,
 				9D42116925D4B34100087CDD /* PillAttributes.swift in Sources */,
+				9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */,
 				9D913B9C22FF5497001FC03C /* SiteScheduling.swift in Sources */,
 				9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */,
 				9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */,

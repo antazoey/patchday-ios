@@ -100,10 +100,26 @@ class Notifications: NSObject, NotificationScheduling {
         log.info("Pill notification has been requested")
     }
 
+    /// Requests notifications for all pills in the schedule.
+    func requestAllDuePillNotifications() {
+        for pill in sdk.pills.all {
+            requestDuePillNotification(pill)
+        }
+    }
+
+    /// Cancels all notifications for all pills.
+    func cancelAllDuePillNotifications() {
+        for pill in sdk.pills.all {
+            cancelDuePillNotification(pill)
+        }
+    }
+
     /// Cancels a pill notification.
     func cancelDuePillNotification(_ pill: Swallowable) {
         center.removeNotifications(with: [pill.id.uuidString])
     }
+
+    // MARK: - Other
 
     /// Request a hormone notification that occurs when it's due overnight.
     func requestOvernightExpirationNotification(for hormone: Hormonal) {

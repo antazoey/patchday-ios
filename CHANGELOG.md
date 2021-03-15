@@ -4,11 +4,12 @@
 
 Added
 
-- You can now disable Pills altogether from the toggle of a switch at the top of the Pills View.
+- You can now disable Pills altogether using a switch at the top of the Pills View.
 
 Changed
 
 - You can no longer create Sites or Pills that have names longer than 30 characters.
+- The Horrmone Widget no longer says anything about pills if you are not using them.
 
 ## 3.3.2
 
