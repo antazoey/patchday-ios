@@ -17,7 +17,7 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// Set the expiration interval for when hormones expire.
     func setExpirationInterval(to newInterval: String)
 
-    /// Enabled notifications globally for hormones.
+    /// Enable notifications globally for hormones.
     func setNotifications(to newValue: Bool)
 
     /// Set the minutes to receive a notification before hormone expiration.
