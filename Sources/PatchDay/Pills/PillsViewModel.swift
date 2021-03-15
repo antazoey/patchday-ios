@@ -103,6 +103,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     }
 
     func togglePillsEnabled(_ toggledOn: Bool) {
+        guard enabled != toggledOn else { return }
         sdk?.settings.setPillsEnabled(to: toggledOn)
         if toggledOn {
             tabs?.reflectPills()
