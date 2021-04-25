@@ -106,7 +106,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return initWithViewModel(viewModel)
     }
 
-    private func initWithViewModel(_ viewModel: SiteDetailViewModelProtocol) -> SiteDetailViewController {
+    private func initWithViewModel(
+        _ viewModel: SiteDetailViewModelProtocol
+    ) -> SiteDetailViewController {
         self.viewModel = viewModel
         return self
     }
@@ -149,9 +151,15 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        MaxString.canSet(
-            currentString: textField.text ?? "", replacementString: string, range: range
+        let currentText = textField.text ?? ""
+        let result = TextFieldHelper.canSet(
+            currentString: currentText, replacementString: string, range: range
         )
+        if result.canReplace {
+            viewModel.selections.selectedSiteName = result.updatedText
+            enableSave()
+        }
+        return result.canReplace
     }
 
     @objc func saveButtonTapped(_ sender: Any) {
@@ -233,7 +241,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closeNamePicker), for: .touchUpInside)
-        self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
+        self.typeNameButton.addTarget(
+            self, action: #selector(self.typeTapped(_:)), for: .touchUpInside
+        )
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
     }

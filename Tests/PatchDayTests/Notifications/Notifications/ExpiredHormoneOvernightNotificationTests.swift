@@ -14,7 +14,7 @@ import PatchDay
 class ExpiredHormoneOvernightNotificationTests: XCTestCase {
 
     private static var testHandlerCallCount = 0
-    private let _testHandler: (Double, String) -> Void = { v, id in testHandlerCallCount += 1}
+    private let _testHandler: (Double, String) -> Void = { _, _ in testHandlerCallCount += 1}
 
     func testInit_whenUsingPatches_hasExpectedProperties() {
         let not = ExpiredHormoneOvernightNotification(

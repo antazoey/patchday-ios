@@ -19,7 +19,6 @@ class HormonesViewModelTests: XCTestCase {
     private let mockHistory = MockSiteImageHistory()
     private let mockTable = MockHormonesTable()
     private let mockDeps = MockDependencies()
-
     private let deliveryMethodToSiteNames: [DeliveryMethod: [String]] = [
         .Patches: [
             SiteStrings.LeftAbdomen,
@@ -325,10 +324,16 @@ class HormonesViewModelTests: XCTestCase {
         changeAction()  // Simulates user selecting "Change" from the alert
         let mockHormones = mockDeps.sdk!.hormones as! MockHormoneSchedule
         let tabsReloaded = (mockDeps.tabs as! MockTabs).reflectHormonesCallCount == 1
-        XCTAssertTrue(tabsReloaded)
-        XCTAssertTrue(handleCalled)
+        let badgeReflected = (mockDeps.badge as! MockBadge).reflectCallCount == 1
+        let notificationCallArgs = (mockDeps.notifications as! MockNotifications)
+            .requestExpiredHormoneNotificationCallArgs
         let setDateCallArgs = mockHormones.setDateByIdCallArgs
         let setSiteCallArgs = mockHormones.setSiteByIdCallArgs
+        XCTAssertTrue(tabsReloaded)
+        XCTAssertTrue(handleCalled)
+        XCTAssertTrue(badgeReflected)
+        XCTAssertEqual(1, notificationCallArgs.count)
+        XCTAssertEqual(notificationCallArgs[0].id, expectedHormone.id)
         XCTAssertEqual(1, setDateCallArgs.count)
         XCTAssertEqual(1, setSiteCallArgs.count)
     }

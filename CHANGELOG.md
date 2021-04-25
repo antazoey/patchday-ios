@@ -1,5 +1,19 @@
 # Changelog
 
+## 3.4.1
+
+Fixed
+
+- Issue where you would still get an Expired-Notification after changing a hormone prior to its expiration.
+- Clipping issue with time number labels in the Pill Details view.
+- Issue where the save button in the Pill Details View was the wrong color for Dark mode.
+
+Changed
+
+- You can now save typed Pill name changes without having to close the text field.
+- You can now save typed Site name changes without having to close the text field.
+- You can now save custom site name changes for hormones without having to close the text field.
+
 ## 3.4.0
 
 Added
@@ -17,9 +31,9 @@ Fixed
 
 - Bug where if you had the Accessibility setting "Increase Contrast" enabled, Alert Buttons would have no text.
 - Bug when setting the Delivery Method for the first time in an empty schedule would not adjust the Quantity
-    correctly.
-- Bug where you would receive a warning about the loss of data when changing the Delivery Method to the same 
-    setting that is already set.
+correctly.
+- Bug where you would receive a warning about the loss of data when changing the Delivery Method to the 
+    same setting that is already set.
 - Bug where if you had the Accessibility setting "Bold Text" enabled, the Tab title texts would be cut-off.
 - Issue where changing a Patch would hide its Site Image unnecessarily.
     This bug occurred when changing the delivery method away from Patches and then back to Patches and then 
@@ -49,11 +63,12 @@ Added
 Fixed
 
 - Issue where you could not take a newly added pill.
-- Issue that caused the app to crash in situations when creating a new pill or site, then backgrounding the app, then 
-    foregrounding again.
+- Issue that caused the app to crash in situations when creating a new pill or site, then backgrounding the app, 
+    then foregrounding again.
 - Bug preventing reordering sites.
 - Issue where an arrow component in the Site Schedule View would not hide during editing mode.
-- Bug where if you create a site in an empty Sites schedule, it would not load some of the components in the cell.
+- Bug where if you create a site in an empty Sites schedule, it would not load some of the components in the 
+    cell.
 - Display issue with Pill Cells causing longer dates to get truncated.
 
 ## 3.2.3
@@ -97,19 +112,20 @@ Fixed
 
 Removed
 
-- The PatchDayToday today widget was removed, as it is now deprecated in iOS 14. Use the Next Hormone Widget instead!
+- The PatchDayToday today widget was removed, as it is now deprecated in iOS 14. Use the Next Hormone 
+    Widget instead!
 
 Changed
 
 - iPad font size for Hormone Cell text was decreased.
 - Using new UI Date Picker compact style from iOS 14 for both hormone details date and pill times.
 - On the Pill details view:
-	- Times are now enumerated as rows.
-	- The view scrolls when necessary.
+    - Times are now enumerated as rows.
+    - The view scrolls when necessary.
 - The data for the new Next Hormone Widget (formerly, the Today app) has changed:
-	- Now, only the expiration date and the delivery method (Patch, Gel, etc.) are shown for expired Hormones,
-	e.g. "Next Patch: Tomorrow at 12:00". This is to make it less confusing about which date is shown and to focus on
-	information that is most relevant.
+    - Now, only the expiration date and the delivery method (Patch, Gel, etc.) are shown for expired Hormones,
+        e.g. "Next Patch: Tomorrow at 12:00". This is to make it less confusing about which date is shown and to 
+        focus on information that is most relevant.
 - Changed Next date text for pills to be "Take to start" in the Pill Schedule View, to fix a clipping issue.
 
 ## 3.1.1
@@ -132,13 +148,16 @@ Added
 
 Fixed
 
-- A bug with the Hormone Detail screen where changing both the Date and the Site would change the site of the wrong Hormone.
+- A bug with the Hormone Detail screen where changing both the Date and the Site would change the site of the 
+    wrong Hormone.
 - An issue that prevented Pill expiration-interval changes from saving.
 - A bug where the Pill expiration interval "First twenty days" mistakenly used "First ten days".
-- Bugs preventing pill expiration intervals "Last Twenty Days" or "Last Ten Days" from working properly after it's initial use.
+- Bugs preventing pill expiration intervals "Last Twenty Days" or "Last Ten Days" from working properly after it's
+    initial use.
 - A bug where "Last Twenty Days" and "Last Ten Days" did one more day than expected.
 - Mistake in Pill Detail view title where it said "New Pill" for the initial pills created.
-- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the initial next-due dates. It now says a more helpful message.more helpful message.
+- An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the initial next-due dates.
+    It now says a more helpful message.
 
 ## 3.0.4
 
@@ -181,23 +200,23 @@ Added
 
 - Dark mode.
 - Estro-Gel hormonal delivery method support with site choices:
-	- Arms
-	Supports custom sites.
+- Arms
+Supports custom sites.
 - The concept of "Pill Schedules" with choices:
-	- Every Day (previously was only one supported)
-	- Every Other Day
-	- First 10 Days of the Month
-	- First 20 Days of the Month
-	- Last 10 Days of the Month
-	- Last 20 Days of the Month
-	Available by editing a pill in the Pill Schedule.
+    - Every Day (previously was only one supported)
+    - Every Other Day
+    - First 10 Days of the Month
+    - First 20 Days of the Month
+    - Last 10 Days of the Month
+    - Last 20 Days of the Month
+    Available by editing a pill in the Pill Schedule.
 - Hormone Cell Actions, useful for quickly changing Hormones.
 - Warning for when leaving views without saving changes.
-	- Leaving Hormone Details View.
-	- Leaving Pill Details View.
+- Leaving Hormone Details View.
+- Leaving Pill Details View.
 - Icon improvements.
 - Increased sizes.
-	- Changed Site Schedule tab icon.
+- Changed Site Schedule tab icon.
 - A Moon icon now displays in the top right of a Hormone Cell for overnight Hormones.
 
 Changed
@@ -209,3 +228,4 @@ Changed
 Fixed
 
 - Bug with custom sites not being scheduled correctly.
+

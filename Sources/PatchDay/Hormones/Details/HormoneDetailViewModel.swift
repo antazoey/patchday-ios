@@ -14,14 +14,10 @@ enum TextFieldButtonSenderType: String {
 
 class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, HormoneDetailViewModelProtocol {
 
+    private var alertFactory: AlertProducing?
     var hormoneId: UUID?  // Determined after PatchData SDK available
-    var hormone: Hormonal? {
-        guard let id = hormoneId else { return nil }
-        return sdk?.hormones[id]
-    }
     lazy var selections = HormoneSelectionState()
     let handleInterfaceUpdatesFromNewSite: () -> Void
-    private var alertFactory: AlertProducing?
 
     init(
         _ hormoneIndex: Index,
@@ -49,6 +45,11 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
             self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
             self.hormoneId = sdk.hormones[hormoneIndex]?.id
         }
+    }
+
+    var hormone: Hormonal? {
+        guard let id = hormoneId else { return nil }
+        return sdk?.hormones[id]
     }
 
     /// Returns the date selected from the UI. If no date has been selected, returns the hormones date.
