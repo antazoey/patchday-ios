@@ -127,11 +127,11 @@ public class PillSchedule: NSObject, PillScheduling {
         swallow(pill, onSuccess)
     }
 
-    public func unswallow(_ id: UUID, onSuccess: (() -> Void)?) {
+    public func unswallow(_ id: UUID, lastTaken: Date?, onSuccess: (() -> Void)?) {
         guard let pill = self[id] else { return }
         guard pill.timesTakenToday >= 1 else { return }
         guard pill.lastTaken != nil else { return }
-        pill.unswallow()
+        pill.unswallow(realLastTaken: lastTaken)
         store.pushLocalChangesToManagedContext([pill], doSave: true)
         onSuccess?()
         shareData()

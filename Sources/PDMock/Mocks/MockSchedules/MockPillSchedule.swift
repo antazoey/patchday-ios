@@ -69,9 +69,9 @@ public class MockPillSchedule: PillScheduling {
         swallowCallArgs.append(onSuccess)
     }
 
-    public var unswallowCallArgs: [(UUID, (() -> Void)?)] = []
-    public func unswallow(_ id: UUID, onSuccess: (() -> Void)?) {
-        unswallowCallArgs.append((id, onSuccess))
+    public var unswallowCallArgs: [(UUID, Date?, (() -> Void)?)] = []
+    public func unswallow(_ id: UUID, lastTaken: Date?, onSuccess: (() -> Void)?) {
+        unswallowCallArgs.append((id, lastTaken, onSuccess))
     }
 
     public var indexOfCallArgs: [Swallowable] = []

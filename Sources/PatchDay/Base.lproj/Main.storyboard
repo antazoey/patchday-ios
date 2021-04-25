@@ -407,6 +407,7 @@
                                             <outlet property="nameLabel" destination="Eds-VZ-0h6" id="erR-Z2-KWy"/>
                                             <outlet property="nextDueDateLabel" destination="J63-bw-Kcr" id="G3V-Ti-9JG"/>
                                             <outlet property="nextHeaderLabel" destination="HfE-Hn-eEY" id="4iP-IF-pCk"/>
+                                            <outlet property="timesTakenTodayLabel" destination="5Kh-St-oZZ" id="SXe-3u-MY3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -1529,7 +1529,7 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = 0
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
-        pill.unswallow()
+        pill.unswallow(realLastTaken: nil)
         XCTAssertEqual(0, pill.timesTakenToday)
     }
 
@@ -1538,7 +1538,7 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = 2
         attrs.lastTaken = nil
         let pill = createPill(attrs)
-        pill.unswallow()
+        pill.unswallow(realLastTaken: nil)
         XCTAssertEqual(2, pill.timesTakenToday)
     }
 
@@ -1547,8 +1547,18 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = 2
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
-        pill.unswallow()
+        pill.unswallow(realLastTaken: nil)
         XCTAssertEqual(1, pill.timesTakenToday)
+    }
+
+    func testUnswallow_resetsLastTaken() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = 2
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        let restoreDate = Date()
+        pill.unswallow(realLastTaken: restoreDate)
+        XCTAssertEqual(restoreDate, pill.lastTaken)
     }
 
     func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {

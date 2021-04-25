@@ -79,6 +79,9 @@
 		9D003EA92331DE390070C964 /* CoreDataStackWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */; };
 		9D003EC1233599A90070C964 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC0233599A90070C964 /* Schedule.swift */; };
 		9D003EC323359B2D0070C964 /* PDCoreDataWrapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */; };
+		9D0CE8BD2635DE6600B3FCB7 /* PillTimesQuotient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE8BC2635DE6600B3FCB7 /* PillTimesQuotient.swift */; };
+		9D0CE8CE2635F95600B3FCB7 /* PillUndoState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE8C52635F92600B3FCB7 /* PillUndoState.swift */; };
+		9D0CE8E62635FF3D00B3FCB7 /* PillTimesQuotientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE8DD2635FF1500B3FCB7 /* PillTimesQuotientTests.swift */; };
 		9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */; };
 		9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* HormoneStringsTests.swift */; };
 		9D1908D62466F5AB00E95244 /* UserDefaultsWriterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */; };
@@ -551,6 +554,9 @@
 		9D003EA82331DE390070C964 /* CoreDataStackWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStackWrapper.swift; sourceTree = "<group>"; };
 		9D003EC0233599A90070C964 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataWrapping.swift; sourceTree = "<group>"; };
+		9D0CE8BC2635DE6600B3FCB7 /* PillTimesQuotient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTimesQuotient.swift; sourceTree = "<group>"; };
+		9D0CE8C52635F92600B3FCB7 /* PillUndoState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillUndoState.swift; sourceTree = "<group>"; };
+		9D0CE8DD2635FF1500B3FCB7 /* PillTimesQuotientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTimesQuotientTests.swift; sourceTree = "<group>"; };
 		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
 		9D1908D72466F66000E95244 /* PDUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUserDefaults.swift; sourceTree = "<group>"; };
 		9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserDefaults.swift; sourceTree = "<group>"; };
@@ -1000,6 +1006,7 @@
 				3397C6E2BC39EA33203730DE /* PillsViewModel.swift */,
 				3397C5E1286D48758418CA9A /* PillsTable.swift */,
 				3397C87675CCA6733B03EBB1 /* PillsViewController.swift */,
+				9D0CE8C52635F92600B3FCB7 /* PillUndoState.swift */,
 			);
 			path = Pills;
 			sourceTree = "<group>";
@@ -1293,6 +1300,7 @@
 				9D42125025D60BBB00087CDD /* PillExpirationInterval.swift */,
 				9D42125125D60BBB00087CDD /* PillExpirationIntervalXDays.swift */,
 				9D42115225D4B2BD00087CDD /* PillAttributes.swift */,
+				9D0CE8BC2635DE6600B3FCB7 /* PillTimesQuotient.swift */,
 			);
 			path = Pills;
 			sourceTree = "<group>";
@@ -1303,6 +1311,7 @@
 				9D42125C25D60BFD00087CDD /* PillAttributeTests.swift */,
 				9D42125D25D60BFD00087CDD /* PillExpirationIntervalTests.swift */,
 				9D42125B25D60BFD00087CDD /* PillExpirationIntervalXDaysTests.swift */,
+				9D0CE8DD2635FF1500B3FCB7 /* PillTimesQuotientTests.swift */,
 			);
 			path = Pills;
 			sourceTree = "<group>";
@@ -2429,6 +2438,7 @@
 				3397C85BF35A4285872BE0CD /* TabReflector.swift in Sources */,
 				3397C3EB83CDE6EE91871810 /* PDIcons.swift in Sources */,
 				3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */,
+				9D0CE8CE2635F95600B3FCB7 /* PillUndoState.swift in Sources */,
 				3397C23AD8485783F292353A /* PDBadgeButton.swift in Sources */,
 				3397C39300E0DC7A3FF82DE8 /* UINavigationController+PatchDay.swift in Sources */,
 			);
@@ -2538,6 +2548,7 @@
 				9DE1198725FFCB2B00D08F97 /* MaxStringTests.swift in Sources */,
 				3397C34B5CDE52B87B10C481 /* PatchDataLoggingPlayground.swift in Sources */,
 				9D59F8B825028AD900C0324E /* DateIntegrationTests.swift in Sources */,
+				9D0CE8E62635FF3D00B3FCB7 /* PillTimesQuotientTests.swift in Sources */,
 				9D42127D25D60E0700087CDD /* PillAttributeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2620,6 +2631,7 @@
 				9DE118F325FEE3BF00D08F97 /* PDWidgetProtocol.swift in Sources */,
 				9D913B9C22FF5497001FC03C /* SiteScheduling.swift in Sources */,
 				9D1908E3246835E900E95244 /* DependenciesProtocol.swift in Sources */,
+				9D0CE8BD2635DE6600B3FCB7 /* PillTimesQuotient.swift in Sources */,
 				9D1C2999236D2CB800488564 /* UserDefaultsWriteHandling.swift in Sources */,
 				9D8A985F23D3B9EC004E20FE /* PillDataSharing.swift in Sources */,
 				9D913BA022FF697F001FC03C /* Bodily.swift in Sources */,

@@ -240,10 +240,6 @@ class PillsViewModelTests: XCTestCase {
         XCTAssertEqual(testPill.id, creationParams[0].0.id)
     }
 
-
-
-
-
     func testPresentPillActions_whenChoosesTakeAction_callsCompleter() {
         let viewModel = createViewModel()
         var completerCalled = false
@@ -391,7 +387,7 @@ class PillsViewModelTests: XCTestCase {
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
         handlers.undoTakePill()
-        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
+        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].2!()  // Call closure
         let notifications = viewModel.notifications as! MockNotifications
         XCTAssertEqual(testPill.id, notifications.requestDuePillNotificationCallArgs[0].id)
     }
@@ -407,7 +403,7 @@ class PillsViewModelTests: XCTestCase {
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
         handlers.undoTakePill()
-        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
+        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].2!()  // Call closure
         XCTAssertEqual(0, table.subscriptCallArgs[0])
     }
 
@@ -422,7 +418,7 @@ class PillsViewModelTests: XCTestCase {
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
         handlers.undoTakePill()
-        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
+        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].2!()  // Call closure
         let callArgs = cell.configureCallArgs
         XCTAssertEqual(1, callArgs.count)
         let params = callArgs[0]

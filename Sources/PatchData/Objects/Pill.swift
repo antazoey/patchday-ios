@@ -11,7 +11,6 @@ public class Pill: Swallowable {
 
     private var pillData: PillStruct  // Stored data
     private lazy var log = PDLog<Pill>()
-    private var previousLastTakens: [Date?] = []
     public var _now: NowProtocol
 
     private var now: Date { self._now.now }
@@ -145,7 +144,6 @@ public class Pill: Swallowable {
             pillData.attributes.expirationInterval.startPositioning()
         }
         pillData.attributes.timesTakenToday = timesTakenToday + 1
-        previousLastTakens.append(lastTaken)
         lastTaken = now
 
         // Increment XDays position if done for the day.
@@ -154,12 +152,10 @@ public class Pill: Swallowable {
         }
     }
 
-    public func unswallow() {
+    public func unswallow(realLastTaken: Date?) {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
-        if let previousLastTaken = previousLastTakens.popLast() {
-            pillData.attributes.lastTaken = previousLastTaken
-        }
+        pillData.attributes.lastTaken = realLastTaken
         pillData.attributes.timesTakenToday = timesTakenToday - 1
     }
 

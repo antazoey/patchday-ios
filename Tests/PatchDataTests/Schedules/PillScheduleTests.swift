@@ -503,8 +503,8 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].timesTakenToday = 0
         mockPills[1].lastTaken = Date()
 
-        pills.unswallow(mockPills[1].id, onSuccess: {})
-        XCTAssertEqual(0, mockPills[1].unswallowCallCount)
+        pills.unswallow(mockPills[1].id, lastTaken: nil, onSuccess: {})
+        XCTAssertEqual(0, mockPills[1].unswallowCallArgs.count)
     }
 
     public func testUnswallow_lastTakenIsNil_doesNothing() {
@@ -513,8 +513,8 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].timesTakenToday = 1
         mockPills[1].lastTaken = nil
 
-        pills.unswallow(mockPills[1].id, onSuccess: {})
-        XCTAssertEqual(0, mockPills[1].unswallowCallCount)
+        pills.unswallow(mockPills[1].id, lastTaken: nil, onSuccess: {})
+        XCTAssertEqual(0, mockPills[1].unswallowCallArgs.count)
     }
 
     public func testUnswallow_unswallowsPill() {
@@ -523,8 +523,8 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].timesTakenToday = 10
         mockPills[1].lastTaken = Date()
 
-        pills.unswallow(mockPills[1].id, onSuccess: nil)
-        XCTAssertEqual(1, mockPills[1].unswallowCallCount)
+        pills.unswallow(mockPills[1].id, lastTaken: nil, onSuccess: nil)
+        XCTAssertEqual(1, mockPills[1].unswallowCallArgs.count)
     }
 
     public func testUnswallow_callsOnSuccess() {
@@ -535,7 +535,7 @@ class PillScheduleTests: XCTestCase {
 
         var didCall = false
         let comp = { () in didCall = true }
-        pills.unswallow(mockPills[1].id, onSuccess: comp)
+        pills.unswallow(mockPills[1].id, lastTaken: nil, onSuccess: comp)
         XCTAssertTrue(didCall)
     }
 
@@ -545,8 +545,21 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].timesTakenToday = 10
         mockPills[1].lastTaken = Date()
 
-        pills.unswallow(mockPills[1].id, onSuccess: {})
+        pills.unswallow(mockPills[1].id, lastTaken: nil, onSuccess: {})
         XCTAssertEqual(1, mockDataSharer.shareCallArgs.count)
         XCTAssertEqual(mockPills[1].id, mockDataSharer.shareCallArgs[0].id)
+    }
+
+    public func testUnswallow_passesLastTakenToPillUnswallow() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].lastTaken = Date()
+
+        let realLastTaken = Date()
+        pills.unswallow(mockPills[1].id, lastTaken: realLastTaken, onSuccess: nil)
+        let actual = mockPills[1].unswallowCallArgs[0]
+        let expected = realLastTaken
+        XCTAssertEqual(expected, actual)
     }
 }

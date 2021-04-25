@@ -10,6 +10,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
 
     var pillsTable: PillsTableProtocol! = nil
 
+    private let undoState = PillUndoState()
+
     init(pillsTableView: UITableView) {
         super.init()
         let tableWrapper = PillsTable(pillsTableView, pills: pills)
@@ -57,6 +59,10 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     func takePill(at index: Index) {
         guard let pills = pills else { return }
         guard let pill = pills[index] else { return }
+
+        // Cache old lastTaken for undo-ing
+        undoState.set(at: index, lastTaken: pill.lastTaken)
+
         pills.swallow(pill.id) {
             self.handlePillTakenTimesChanged(at: index, for: pill)
         }
@@ -66,7 +72,8 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     func undoTakePill(at index: Index) {
         guard let pills = pills else { return }
         guard let pill = pills[index] else { return }
-        pills.unswallow(pill.id) {
+        let lastLastTaken = undoState.popLastTaken(index: index)
+        pills.unswallow(pill.id, lastTaken: lastLastTaken) {
             self.handlePillTakenTimesChanged(at: index, for: pill)
         }
         self.tabs?.reflectPills()

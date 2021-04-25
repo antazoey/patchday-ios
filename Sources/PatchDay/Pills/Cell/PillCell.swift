@@ -11,13 +11,11 @@ class PillCell: TableCell, PillCellProtocol {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
-
+    @IBOutlet weak var timesTakenTodayLabel: UILabel!
     @IBOutlet weak var lastTakenHeaderLabel: UILabel!
     @IBOutlet weak var lastTakenLabel: UILabel!
-
     @IBOutlet weak var nextHeaderLabel: UILabel!
     @IBOutlet weak var nextDueDateLabel: UILabel!
-    @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
     static let RowHeight: CGFloat = 170.0
@@ -25,10 +23,14 @@ class PillCell: TableCell, PillCellProtocol {
 
     @discardableResult
     public func configure(_ params: PillCellConfigurationParameters) -> PillCellProtocol {
-        self.viewModel = PillCellViewModel(pill: params.pill)
-        lastTakenLabel?.text = viewModel?.lastTakenText
+        let viewModel = PillCellViewModel(pill: params.pill)
+        self.viewModel = viewModel
+        let quotientText = viewModel.timesQuotientText
+        let lastTakenText = viewModel.lastTakenText
+        timesTakenTodayLabel?.text = quotientText
+        lastTakenLabel?.text = lastTakenText
         nameLabel?.text = params.pill.name
-        nextDueDateLabel?.text = viewModel?.dueDateText
+        nextDueDateLabel?.text = viewModel.dueDateText
         loadBackground()
         loadBadge(params.pill)
         applyTheme(at: params.index)
