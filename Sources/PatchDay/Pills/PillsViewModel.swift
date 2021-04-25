@@ -69,6 +69,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         pills.unswallow(pill.id) {
             self.handlePillTakenTimesChanged(at: index, for: pill)
         }
+        self.tabs?.reflectPills()
     }
 
     func deletePill(at index: IndexPath) {
