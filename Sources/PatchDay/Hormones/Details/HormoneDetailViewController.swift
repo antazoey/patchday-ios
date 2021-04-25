@@ -121,10 +121,15 @@ class HormoneDetailViewController: UIViewController,
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        let currentString = textField.text ?? ""
-        return MaxString.canSet(
-            currentString: currentString, replacementString: string, range: range
+        let currentText = textField.text ?? ""
+        let result = TextFieldHelper.canSet(
+            currentString: currentText, replacementString: string, range: range
         )
+        if result.canReplace {
+            viewModel.selections.siteName = result.updatedText
+            saveButton.isEnabled = true
+        }
+        return result.canReplace
     }
 
     @objc func closeSiteTextField() {

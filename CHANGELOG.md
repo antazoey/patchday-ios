@@ -8,6 +8,12 @@ Fixed
 - Clipping issue with time number labels in the Pill Details view.
 - Issue where the save button in the Pill Details View was the wrong color for Dark mode.
 
+Changed
+
+- You can now save typed Pill name changes without having to close the text field.
+- You can now save typed Site name changes without having to close the text field.
+- You can now save custom site name changes for hormones without having to close the text field.
+
 ## 3.4.0
 
 Added

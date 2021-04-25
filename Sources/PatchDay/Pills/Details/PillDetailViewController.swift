@@ -277,9 +277,15 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        MaxString.canSet(
-            currentString: textField.text ?? "", replacementString: string, range: range
+        let currentText = textField.text ?? ""
+        let result = TextFieldHelper.canSet(
+            currentString: currentText, replacementString: string, range: range
         )
+        if result.canReplace {
+            viewModel.selections.name = result.updatedText
+            enableSave()
+        }
+        return result.canReplace
     }
 
     // MARK: - Private loaders
