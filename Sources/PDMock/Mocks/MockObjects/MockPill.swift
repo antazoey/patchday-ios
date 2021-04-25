@@ -39,6 +39,11 @@ public class MockPill: Swallowable {
         swallowCallCount += 1
     }
 
+    public var unswallowCallCount = 0
+    public func unswallow() {
+        unswallowCallCount += 1
+    }
+
     public var awakenCallCount = 0
     public func awaken() {
         awakenCallCount += 1

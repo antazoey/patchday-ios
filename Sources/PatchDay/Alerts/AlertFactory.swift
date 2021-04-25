@@ -55,7 +55,9 @@ class AlertFactory: AlertProducing {
         )
     }
 
-    func createPillActions(_ pill: Swallowable, _ handlers: PillCellActionHandling) -> PDAlerting {
+    func createPillActions(
+        _ pill: Swallowable, _ handlers: PillCellActionHandling
+    ) -> PDAlerting {
         PillCellActionAlert(pill: pill, handlers: handlers)
     }
 

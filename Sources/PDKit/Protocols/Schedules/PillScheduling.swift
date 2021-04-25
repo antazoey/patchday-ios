@@ -45,6 +45,9 @@ public protocol PillScheduling: Schedule, Deleting {
     /// Swallow the next pill due.
     func swallow(onSuccess: (() -> Void)?)
 
+    /// Undo swallowing a pill.
+    func unswallow(_ id: UUID, onSuccess: (() -> Void)?)
+
     /// Get the first index of the given pill.
     func indexOf(_ pill: Swallowable) -> Index?
 

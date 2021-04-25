@@ -34,7 +34,7 @@ public protocol PillsViewModelProtocol {
 
     /// Present actions (an alert) that you can take on a pill.
     func presentPillActions(
-        at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void
+        at index: Index, viewController: UIViewController, reloadViews: @escaping () -> Void
     )
 
     /// Navigate to the details view of a new pill.

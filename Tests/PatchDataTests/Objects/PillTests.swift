@@ -1524,6 +1524,14 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(false, interval.xDaysIsOn)
     }
 
+    func testUnswallow_whenTimesTakenTodayIsZero_doesNothing() {
+        let attrs = PillAttributes()
+        attrs.timesTakenToday = 0
+        let pill = createPill(attrs)
+        pill.unswallow()
+        XCTAssertEqual(0, pill.timesTakenToday)
+    }
+
     func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {
         let attrs = PillAttributes()
         attrs.timesTakenToday = 2

@@ -62,6 +62,9 @@ public protocol Swallowable {
     /// Simulate taking the pill.
     func swallow()
 
+    /// Undo swallowing a pill (cough it up?).
+    func unswallow()
+
     /// Configure properties that depend on a day-to-day basis, such as timesTakenToday.
     func awaken()
 }
