@@ -9,6 +9,9 @@
 import Foundation
 
 public class TextFieldHelper {
+
+    /// Determines if the updated text is okay to be set by not exceeding the max size.
+    /// Returns a boolean indicating if it can be set as well as the updated text after replacement.
     public static func canSet(
         currentString: String,
         replacementString: String,
