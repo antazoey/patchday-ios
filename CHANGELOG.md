@@ -4,6 +4,7 @@
 
 Fixed
 
+- Issue where you would still get an Expired-Notification after changing a hormone prior to its expiration.
 - Clipping issue with time number labels in the Pill Details view.
 
 ## 3.4.0
