@@ -85,7 +85,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
 
     @objc func willEnterForeground() {
         loadSelectNameButton()
-        disableSaveButton()
+        disableSave()
         reflectPillAttributes()
         applyTheme()
     }
@@ -115,7 +115,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         selectNameButton.setTitle(ActionStrings.Select)
         selectNameButton.replaceTarget(self, newAction: #selector(selectNameTapped))
         if viewModel.nameIsSelected {
-            enableSaveButton()
+            enableSave()
         }
     }
 
@@ -134,7 +134,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         expirationIntervalButton.setTitle(intervalText)
         expirationIntervalButton.replaceTarget(self, newAction: #selector(expirationIntervalTapped))
         if viewModel.expirationIntervalIsSelected {
-            enableSaveButton()
+            enableSave()
         }
         loadExpirationInterval()
     }
@@ -178,7 +178,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         daysTwoButton.setTitle(daysOffText)
         daysTwoButton.replaceTarget(self, newAction: #selector(daysTwoButtonTapped(_:)))
         if viewModel.daysSelected {
-            enableSaveButton()
+            enableSave()
         }
         daysPositionSetButton.setTitle(
             NSLocalizedString("Set", comment: "small button text")
@@ -195,7 +195,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     @IBAction func notificationSwitched(_ sender: Any) {
         guard let _switch = sender as? UISwitch else { return }
         viewModel.selections.notify = _switch.isOn
-        enableSaveButton()
+        enableSave()
     }
 
     @IBAction func timesadaySliderValueChanged(_ sender: Any) {
@@ -208,7 +208,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         updateTimesdayValueLabel()
         viewModel.enableOrDisable(timePickers, timeLabels)
         viewModel.setPickerTimes(timePickers)
-        enableSaveButton()
+        enableSave()
     }
 
     // MARK: - Picker functions
@@ -267,7 +267,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameTextField.text = nameTextField.text == "" ? PillStrings.NewPill : nameTextField.text
         selectNameButton.isEnabled = true
         viewModel.selections.name = nameTextField.text
-        enableSaveButton()
+        enableSave()
         return true
     }
 
@@ -511,7 +511,7 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     }
 
     @objc private func handleTimePickerDone(_ timePicker: UIDatePicker) {
-        enableSaveButton()
+        enableSave()
         let timeIndex = timePickers.firstIndex(of: timePicker) ?? 0
         let newTime = timePicker.date
         viewModel.selectTime(newTime, timeIndex)
@@ -551,14 +551,12 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         timePickerFour.preferredDatePickerStyle = .compact
     }
 
-    private func enableSaveButton() {
-        saveButton.isEnabled = true
-        saveButton.tintColor = UIColor.blue
+    private func enableSave() {
+        navigationItem.rightBarButtonItem?.isEnabled = true
     }
 
-    private func disableSaveButton() {
-        saveButton.isEnabled = false
-        saveButton.tintColor = UIColor.lightGray
+    private func disableSave() {
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
 
     private func segueToPillsVC() {

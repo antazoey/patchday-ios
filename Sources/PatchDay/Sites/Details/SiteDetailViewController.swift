@@ -106,7 +106,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         return initWithViewModel(viewModel)
     }
 
-    private func initWithViewModel(_ viewModel: SiteDetailViewModelProtocol) -> SiteDetailViewController {
+    private func initWithViewModel(
+        _ viewModel: SiteDetailViewModelProtocol
+    ) -> SiteDetailViewController {
         self.viewModel = viewModel
         return self
     }
@@ -233,7 +235,9 @@ class SiteDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
         nameText.restorationIdentifier = SiteDetailConstants.SelectId
         typeNameButton.setTitle(ActionStrings._Type, for: .normal)
         nameText.removeTarget(self, action: #selector(closeNamePicker), for: .touchUpInside)
-        self.typeNameButton.addTarget(self, action: #selector(self.typeTapped(_:)), for: .touchUpInside)
+        self.typeNameButton.addTarget(
+            self, action: #selector(self.typeTapped(_:)), for: .touchUpInside
+        )
         self.nameText.isEnabled = true
         self.navigationItem.rightBarButtonItem?.isEnabled = true
     }

@@ -6,6 +6,7 @@ Fixed
 
 - Issue where you would still get an Expired-Notification after changing a hormone prior to its expiration.
 - Clipping issue with time number labels in the Pill Details view.
+- Issue where the save button in the Pill Details View was the wrong color for Dark mode.
 
 ## 3.4.0
 
