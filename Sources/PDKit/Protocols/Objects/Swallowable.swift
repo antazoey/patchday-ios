@@ -62,8 +62,8 @@ public protocol Swallowable {
     /// Simulate taking the pill.
     func swallow()
 
-    /// Undo swallowing a pill. Must pass back in the old last taken or it will be set to nil.
-    func unswallow(realLastTaken: Date?)
+    /// Undo swallowing a pill.
+    func unswallow()
 
     /// Configure properties that depend on a day-to-day basis, such as timesTakenToday.
     func awaken()

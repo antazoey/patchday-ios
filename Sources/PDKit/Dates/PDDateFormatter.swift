@@ -41,10 +41,13 @@ public class PDDateFormatter {
     /// Convert a list of times to a comma-separated string.
     public static func convertTimesToCommaSeparatedString(_ times: [Time?]) -> String {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
-        let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
-            s in s != nil
-        } as! [String]
-        return dateStrings.joined(separator: ",")
+        return convertDateListToCommaSeparatedString(times, formatter: formatter)
+    }
+
+    /// Convert a list of dates to a comma-separated string.
+    public static func convertDatesToCommaSeparatedString(_ times: [Date?]) -> String {
+        let formatter = DateFormatterFactory.createDateFormatter()
+        return convertDateListToCommaSeparatedString(times, formatter: formatter)
     }
 
     private static func getWordedDateString(from date: Date, word: String) -> String {
@@ -64,5 +67,14 @@ public class PDDateFormatter {
             return tomorrowString
         }
         return nil
+    }
+
+    private static func convertDateListToCommaSeparatedString(
+        _ times: [Time?], formatter: DateFormatter
+    ) -> String {
+        let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
+            s in s != nil
+        } as! [String]
+        return dateStrings.joined(separator: ",")
     }
 }

@@ -15,6 +15,7 @@ public class PillAttributes {
     public var notify: Bool?
     public var timesTakenToday: Int?
     public var lastTaken: Date?
+    public var todayLastTakensString: String?
 
     public init(
         name: String?,
@@ -23,7 +24,8 @@ public class PillAttributes {
         times: String?,
         notify: Bool?,
         timesTakenToday: Int?,
-        lastTaken: Date?
+        lastTaken: Date?,
+        todayLastTakensString: String?
     ) {
         self.name = name
         self._expirationInterval = PillExpirationInterval(
@@ -33,6 +35,7 @@ public class PillAttributes {
         self.notify = notify
         self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
+        self.todayLastTakensString = todayLastTakensString
     }
 
     public init(_ attributes: PillAttributes) {
@@ -44,6 +47,7 @@ public class PillAttributes {
         let interval = attributes.expirationInterval.value
         let xDaysValue = attributes.expirationInterval.xDaysValue
         self._expirationInterval = PillExpirationInterval(interval, xDays: xDaysValue)
+        self.todayLastTakensString = attributes.todayLastTakensString
     }
 
     public init() {
@@ -63,6 +67,8 @@ public class PillAttributes {
         let timesTakenTodayExists = timesTakenToday != nil
             && timesTakenToday != exclusions.timesTakenToday
         let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
+        let todayLastTakensStringExists = todayLastTakensString != nil
+            && todayLastTakensString != exclusions.todayLastTakensString
 
         return nameExists
             || intervalExists
@@ -71,6 +77,7 @@ public class PillAttributes {
             || notifyExists
             || timesTakenTodayExists
             || lastTakenExists
+            || todayLastTakensStringExists
     }
 
     /// Update this instance's properties with the given ones. This does not update if the given property is nil.
@@ -80,6 +87,7 @@ public class PillAttributes {
         notify = attributes.notify != nil ? attributes.notify : notify
         timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
         lastTaken = attributes.lastTaken ?? lastTaken
+        todayLastTakensString = attributes.todayLastTakensString ?? todayLastTakensString
 
         let interval = attributes.expirationInterval.value ?? expirationInterval.value
         let days = attributes.expirationInterval.xDaysValue ?? expirationInterval.xDaysValue
@@ -99,5 +107,6 @@ public class PillAttributes {
         notify = nil
         timesTakenToday = nil
         lastTaken = nil
+        todayLastTakensString = nil
     }
 }

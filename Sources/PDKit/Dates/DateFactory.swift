@@ -34,7 +34,9 @@ public class DateFactory: NSObject {
     }
 
     /// Creates a Date at the given time calculated by adding days from today.
-    public static func createDate(at time: Time, daysFromToday: Int, now: NowProtocol?=nil) -> Date? {
+    public static func createDate(
+        at time: Time, daysFromToday: Int, now: NowProtocol?=nil
+    ) -> Date? {
         var componentsToAdd = DateComponents()
         componentsToAdd.day = daysFromToday
         let now = now?.now ?? Date()
@@ -67,23 +69,24 @@ public class DateFactory: NSObject {
         createDate(byAddingHours: expirationInterval.hours, to: date)
     }
 
+    public static func createDatesFromCommaSeparatedString(
+        _ dateString: String, _ now: NowProtocol?=nil
+    ) -> [Date] {
+        let formatter = DateFormatterFactory.createDateFormatter()
+        return createDateListFromCommaSeparatedString(dateString, formatter: formatter, now: now)
+    }
+
     public static func createTimesFromCommaSeparatedString(
-        _ dateString: String, now: NowProtocol?=nil
+        _ timeString: String, now: NowProtocol?=nil
     ) -> [Time] {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
-        let dates = dateString.split(separator: ",").map {
-            formatter.date(from: String($0))
-        }.filter { $0 != nil }
-        let times = dates as! [Time]
-        let now = now?.now ?? Date()
-        let timesWithSameDate = times.map {
-            DateFactory.createDate(on: now, at: $0)
-        }.filter { $0 != nil } as! [Time]
-        return timesWithSameDate.sorted()
+        return createDateListFromCommaSeparatedString(timeString, formatter: formatter, now: now)
     }
 
     /// Creates a time interval by adding the given hours to the given date.
-    public static func createTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
+    public static func createTimeInterval(
+        fromAddingHours hours: Int, to date: Date
+    ) -> TimeInterval? {
         guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {
             return nil
         }
@@ -109,5 +112,19 @@ public class DateFactory: NSObject {
 
     private static func createDayBefore(_ date: Date) -> Date? {
         calendar.date(byAdding: .day, value: -1, to: date)
+    }
+
+    private static func createDateListFromCommaSeparatedString(
+        _ timeString: String, formatter: DateFormatter, now: NowProtocol?=nil
+    ) -> [Time] {
+        let datesFromStrings = timeString.split(separator: ",").map {
+            formatter.date(from: String($0))
+        }.filter { $0 != nil }
+        let dates = datesFromStrings as! [Time]
+        let now = now?.now ?? Date()
+        let timesWithSameDate = dates.map {
+            DateFactory.createDate(on: now, at: $0)
+        }.filter { $0 != nil } as! [Time]
+        return timesWithSameDate.sorted()
     }
 }

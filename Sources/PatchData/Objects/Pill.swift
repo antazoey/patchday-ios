@@ -35,10 +35,11 @@ public class Pill: Swallowable {
             name: name,
             expirationIntervalSetting: interval,
             xDays: expirationInterval.xDaysValue,
-            times: PDDateFormatter.convertTimesToCommaSeparatedString(times),
+            times: pillData.attributes.times,
             notify: notify,
             timesTakenToday: timesTakenToday,
-            lastTaken: lastTaken
+            lastTaken: lastTaken,
+            todayLastTakensString: pillData.attributes.todayLastTakensString
         )
     }
 
@@ -81,6 +82,10 @@ public class Pill: Swallowable {
     public var lastTaken: Date? {
         get { pillData.attributes.lastTaken }
         set { pillData.attributes.lastTaken = newValue }
+    }
+
+    public var todayLastTakens: PillTodayLastTakens {
+        PillTodayLastTakens(dateString: pillData.attributes.todayLastTakensString)
     }
 
     public var due: Date? {
@@ -144,6 +149,8 @@ public class Pill: Swallowable {
             pillData.attributes.expirationInterval.startPositioning()
         }
         pillData.attributes.timesTakenToday = timesTakenToday + 1
+
+        cacheLastTaken()
         lastTaken = now
 
         // Increment XDays position if done for the day.
@@ -152,10 +159,12 @@ public class Pill: Swallowable {
         }
     }
 
-    public func unswallow(realLastTaken: Date?) {
+    public func unswallow() {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
-        pillData.attributes.lastTaken = realLastTaken
+        let (lastLastTaken, newTodayLastTakens) = todayLastTakens.splitLast()
+        pillData.attributes.lastTaken = lastLastTaken
+        pillData.attributes.todayLastTakensString = newTodayLastTakens
         pillData.attributes.timesTakenToday = timesTakenToday - 1
     }
 
@@ -166,6 +175,11 @@ public class Pill: Swallowable {
 
             pillData.attributes.timesTakenToday = 0
         }
+    }
+
+    private func cacheLastTaken() {
+        let newString = todayLastTakens.combineWith(lastTaken: lastTaken)
+        pillData.attributes.todayLastTakensString = newString
     }
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {

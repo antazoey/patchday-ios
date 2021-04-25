@@ -27,6 +27,6 @@ class PillUndoState {
     }
 
     func popLastTaken(index: Index) -> Date? {
-        return lastTakenMap[index]?.popLast() ?? nil
+        lastTakenMap[index]?.popLast() ?? nil
     }
 }

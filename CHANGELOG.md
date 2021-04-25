@@ -2,6 +2,10 @@
 
 ## 3.5.0 (Unreleased)
 
+Added
+
+- The ability to undo taking a pill.
+
 Fixed
 
 - Issue where you would still get an Expired-Notification after changing a hormone prior to its expiration.
