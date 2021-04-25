@@ -61,7 +61,7 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         guard let pill = pills[index] else { return }
 
         // Cache old lastTaken for undo-ing
-        undoState.set(at: index, lastTaken: pill.lastTaken)
+        undoState.put(at: index, lastTaken: pill.lastTaken)
 
         pills.swallow(pill.id) {
             self.handlePillTakenTimesChanged(at: index, for: pill)

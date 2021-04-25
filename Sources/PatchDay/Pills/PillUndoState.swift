@@ -11,17 +11,22 @@ import PDKit
 
 class PillUndoState {
 
-    private var lastTakenMap: [Int: [Date?]] = [:]
+    var lastTakenMap: [Int: [Date?]] = [:]
 
-    func popLastTaken(index: Index) -> Date? {
-        return lastTakenMap[index]?.popLast() ?? nil
+    subscript(index: Index) -> [Date?]? {
+        lastTakenMap[index] ?? nil
     }
 
-    func set(at index: Index, lastTaken: Date?) {
+    func put(at index: Index, lastTaken: Date?) {
         if var lastTakenList = lastTakenMap[index] {
             lastTakenList.append(lastTaken)
+            lastTakenMap[index] = lastTakenList
         } else {
             lastTakenMap[index] = [lastTaken]
         }
+    }
+
+    func popLastTaken(index: Index) -> Date? {
+        return lastTakenMap[index]?.popLast() ?? nil
     }
 }
