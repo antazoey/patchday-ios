@@ -1,5 +1,5 @@
 //
-//  MaxString.swift
+//  TextFieldHelper.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 3/15/21.
