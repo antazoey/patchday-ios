@@ -15,11 +15,10 @@ public class MaxString {
         range: NSRange,
         max: Int = SanitationConstants.MaxResourceNameCharacters
     ) -> Bool {
-        let maxLength = SanitationConstants.MaxResourceNameCharacters
         let currentString = currentString as NSString
         let newString = currentString.replacingCharacters(
             in: range, with: replacementString
         ) as NSString
-        return newString.length <= maxLength
+        return newString.length <= max
     }
 }

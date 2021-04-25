@@ -121,8 +121,9 @@ class HormoneDetailViewController: UIViewController,
         shouldChangeCharactersIn range: NSRange,
         replacementString string: String
     ) -> Bool {
-        MaxString.canSet(
-            currentString: textField.text ?? "", replacementString: string, range: range
+        let currentString = textField.text ?? ""
+        return MaxString.canSet(
+            currentString: currentString, replacementString: string, range: range
         )
     }
 
