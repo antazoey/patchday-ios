@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.4.1
+
+Fixed
+
+- Clipping issue with time number labels in the Pill Details view.
+
 ## 3.4.0
 
 Added
