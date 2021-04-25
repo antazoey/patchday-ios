@@ -48,12 +48,6 @@ class PillCell: TableCell, PillCellProtocol {
     }
 
     private func applyTheme(at index: Index) {
-        nameLabel?.textColor = PDColors[.Purple]
-        arrowLabel?.textColor = PDColors[.Purple]
-        lastTakenHeaderLabel?.textColor = PDColors[.Text]
-        lastTakenLabel?.textColor = PDColors[.Text]
-        nextHeaderLabel?.textColor = PDColors[.Text]
-        nextDueDateLabel?.textColor = PDColors[.Button]
         backgroundColor = PDColors.Cell[index]
         selectedBackgroundView = UIView()
         selectedBackgroundView?.backgroundColor = PDColors[.Selected]
