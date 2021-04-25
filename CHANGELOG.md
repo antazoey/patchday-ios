@@ -36,29 +36,29 @@ correctly.
     same setting that is already set.
 - Bug where if you had the Accessibility setting "Bold Text" enabled, the Tab title texts would be cut-off.
 - Issue where changing a Patch would hide its Site Image unnecessarily.
-This bug occurred when changing the delivery method away from Patches and then back to Patches and then 
-setting a Patch for the first time.
+    This bug occurred when changing the delivery method away from Patches and then back to Patches and then 
+    setting a Patch for the first time.
 
 ## 3.3.1
 
 Fixed
 
 - Bug where the penultimate day in a Pill Schedule with an "X Days On, X Days Off" expiration interval would 
-incorrectly set the next date after taking.
+    incorrectly set the next date after taking.
 
 ## 3.3.0
 
 Changed
 
 - Pill Expiration Intervals "First 10 Days", "First 20 Days", "Last 10 Days", and "Last 20 Days" were replaced 
-with the new Pill Expiration Intervals "First X Days of the Month" and "Last X Days of the Month" and a 
-corresponding "days" property.  The days option is configurable and can be any number 1 - 25.
+    with the new Pill Expiration Intervals "First X Days of the Month" and "Last X Days of the Month" and a 
+    corresponding "days" property.  The days option is configurable and can be any number 1 - 25.
 
 Added
 
 - New Pill Expiration Interval "X Days On, X Days Off" for creating a schedule where you take a pill for a certain 
-number of days and then stop taking the pill for a certain number of days.  You can set the "Days on" and 
-"Days off" properties accordingly to any numbers 1 - 25.
+    number of days and then stop taking the pill for a certain number of days.  You can set the "Days on" and 
+    "Days off" properties accordingly to any numbers 1 - 25.
 
 Fixed
 
