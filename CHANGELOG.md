@@ -120,12 +120,12 @@ Changed
 - iPad font size for Hormone Cell text was decreased.
 - Using new UI Date Picker compact style from iOS 14 for both hormone details date and pill times.
 - On the Pill details view:
-- Times are now enumerated as rows.
-- The view scrolls when necessary.
+    - Times are now enumerated as rows.
+    - The view scrolls when necessary.
 - The data for the new Next Hormone Widget (formerly, the Today app) has changed:
-- Now, only the expiration date and the delivery method (Patch, Gel, etc.) are shown for expired Hormones,
-e.g. "Next Patch: Tomorrow at 12:00". This is to make it less confusing about which date is shown and to focus 
-    on information that is most relevant.
+    - Now, only the expiration date and the delivery method (Patch, Gel, etc.) are shown for expired Hormones,
+        e.g. "Next Patch: Tomorrow at 12:00". This is to make it less confusing about which date is shown and to 
+        focus on information that is most relevant.
 - Changed Next date text for pills to be "Take to start" in the Pill Schedule View, to fix a clipping issue.
 
 ## 3.1.1
@@ -157,7 +157,7 @@ Fixed
 - A bug where "Last Twenty Days" and "Last Ten Days" did one more day than expected.
 - Mistake in Pill Detail view title where it said "New Pill" for the initial pills created.
 - An anomaly in the Pills list where a fresh a Pill schedule would say 10:00 for the initial next-due dates.
-It now says a more helpful message.
+    It now says a more helpful message.
 
 ## 3.0.4
 
@@ -203,13 +203,13 @@ Added
 - Arms
 Supports custom sites.
 - The concept of "Pill Schedules" with choices:
-- Every Day (previously was only one supported)
-- Every Other Day
-- First 10 Days of the Month
-- First 20 Days of the Month
-- Last 10 Days of the Month
-- Last 20 Days of the Month
-Available by editing a pill in the Pill Schedule.
+    - Every Day (previously was only one supported)
+    - Every Other Day
+    - First 10 Days of the Month
+    - First 20 Days of the Month
+    - Last 10 Days of the Month
+    - Last 20 Days of the Month
+    Available by editing a pill in the Pill Schedule.
 - Hormone Cell Actions, useful for quickly changing Hormones.
 - Warning for when leaving views without saving changes.
 - Leaving Hormone Details View.
