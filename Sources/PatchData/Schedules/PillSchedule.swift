@@ -132,9 +132,9 @@ public class PillSchedule: NSObject, PillScheduling {
         guard pill.timesTakenToday >= 1 else { return }
         guard pill.lastTaken != nil else { return }
         pill.unswallow()
-        if let onSuccess = onSuccess {
-            onSuccess()
-        }
+        store.pushLocalChangesToManagedContext([pill], doSave: true)
+        onSuccess?()
+        shareData()
     }
 
     public func indexOf(_ pill: Swallowable) -> Index? {
