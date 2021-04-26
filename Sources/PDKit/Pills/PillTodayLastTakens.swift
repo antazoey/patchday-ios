@@ -17,7 +17,7 @@ public class PillTodayLastTakens {
 
     public var dates: [Date] {
         guard let lastTakensString = dateString else { return [] }
-        return DateFactory.createDatesFromSeparatedString(lastTakensString)
+        return DateFactory.createDatesFromCommaSeparatedString(lastTakensString)
     }
 
     public func splitLast() -> (Date?, String?) {
@@ -32,6 +32,6 @@ public class PillTodayLastTakens {
         guard let lastTaken = lastTaken else { return nil }
         let formattedDate = PDDateFormatter.formatDate(lastTaken)
         guard let original = dateString else { return formattedDate }
-        return "\(original)_\(formattedDate)"
+        return "\(original),\(formattedDate)"
     }
 }

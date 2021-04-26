@@ -69,20 +69,29 @@ public class DateFactory: NSObject {
         createDate(byAddingHours: expirationInterval.hours, to: date)
     }
 
-    public static func createDatesFromSeparatedString(
-        _ dateString: String, _ now: NowProtocol?=nil
-    ) -> [Date] {
-        let formatter = DateFormatterFactory.createDateFormatter()
-        return createDatesFromSeparatedString(
-            dateString, formatter: formatter, now: now, separator: "_"
-        )
+    public static func createDatesFromCommaSeparatedString(_ dateString: String) -> [Date] {
+        let formatter = ISO8601DateFormatter()
+        return dateString.split(separator: ",").map {
+            formatter.date(from: String($0))
+        }.filter { $0 != nil } as! [Date]
     }
 
     public static func createTimesFromCommaSeparatedString(
         _ timeString: String, now: NowProtocol?=nil
     ) -> [Time] {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
-        return createDatesFromSeparatedString(timeString, formatter: formatter, now: now)
+
+        let dates = timeString.split(separator: ",").map {
+            formatter.date(from: String($0))
+        }.filter { $0 != nil } as! [Time]
+
+        let now = now?.now ?? Time()
+
+        // Convert all dates to today for sake of soft-converting to Times.
+        let timesWithSameDate = dates.map {
+            DateFactory.createDate(on: now, at: $0)
+        }.filter { $0 != nil } as! [Time]
+        return timesWithSameDate.sorted()
     }
 
     /// Creates a time interval by adding the given hours to the given date.
@@ -114,22 +123,5 @@ public class DateFactory: NSObject {
 
     private static func createDayBefore(_ date: Date) -> Date? {
         calendar.date(byAdding: .day, value: -1, to: date)
-    }
-
-    private static func createDatesFromSeparatedString(
-        _ timeString: String,
-        formatter: DateFormatter,
-        now: NowProtocol?=nil,
-        separator: Character=","
-    ) -> [Time] {
-        let datesFromStrings = timeString.split(separator: separator).map {
-            formatter.date(from: String($0))
-        }.filter { $0 != nil }
-        let dates = datesFromStrings as! [Time]
-        let now = now?.now ?? Date()
-        let timesWithSameDate = dates.map {
-            DateFactory.createDate(on: now, at: $0)
-        }.filter { $0 != nil } as! [Time]
-        return timesWithSameDate.sorted()
     }
 }
