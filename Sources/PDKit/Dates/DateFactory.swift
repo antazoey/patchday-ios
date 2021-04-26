@@ -89,14 +89,14 @@ public class DateFactory: NSObject {
     public static func createTimeInterval(
         fromAddingHours hours: Int, to date: Date
     ) -> TimeInterval? {
-        guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {
-            return nil
-        }
+        guard !date.isDefault() else { return nil }
+        guard let newDate = createDate(byAddingHours: hours, to: date) else { return nil }
+
         // Find start and end between date and now (handling negative hours)
-        var range = [Date(), dateWithAddedHours]
+        var range = [Date(), newDate]
         range.sort()
         let interval = DateInterval(start: range[0], end: range[1]).duration
-        return range[1] == dateWithAddedHours ? interval : -interval
+        return range[1] == newDate ? interval : -interval
     }
 
     public static func createDateBeforeAtEightPM(of date: Date) -> Date? {
