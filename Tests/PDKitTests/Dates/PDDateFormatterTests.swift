@@ -37,6 +37,13 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testFormatDate_whenTodayAndUseWordsIsFalse_excludesDateWord() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let now = Date()
+        let actual = PDDateFormatter.formatDate(now, useWords: false)
+        XCTAssertFalse(actual.contains("Today"))
+    }
+
     func testFormatDate_whenYesterday_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: -86499, since: Date())
@@ -45,12 +52,26 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testFormatDate_whenYesterdayAndUseWordsIsFalse_excludesDateWord() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let yesterday = Date(timeInterval: -86499, since: Date())
+        let actual = PDDateFormatter.formatDate(yesterday, useWords: false)
+        XCTAssertFalse(actual.contains("Yesterday"))
+    }
+
     func testFormatDate_whenTomorrow_returnsExpecteDstring() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let expected = "Tomorrow, " + formatter.string(from: yesterday)
         let actual = PDDateFormatter.formatDate(yesterday)
         XCTAssertEqual(expected, actual)
+    }
+
+    func testFormatDate_whenTomorrowAndUseWordsIsFalse_returnsExpecteDstring() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let yesterday = Date(timeInterval: 86499, since: Date())
+        let actual = PDDateFormatter.formatDate(yesterday, useWords: false)
+        XCTAssertFalse(actual.contains("Tomorrow"))
     }
 
     func testFormatDay_whenNotToday_returnsExpectedString() {
