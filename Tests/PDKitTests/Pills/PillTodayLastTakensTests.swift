@@ -12,7 +12,6 @@ import XCTest
 @testable
 import PDKit
 
-
 class PillTodayLastTakensTests: XCTestCase {
     func testDates_returnsDatesCalculatedFromInitString() {
         let testDateOne = Date()
