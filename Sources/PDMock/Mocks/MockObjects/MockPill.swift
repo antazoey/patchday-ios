@@ -39,9 +39,9 @@ public class MockPill: Swallowable {
         swallowCallCount += 1
     }
 
-    public var unswallowCallArgs: [Date?] = []
-    public func unswallow(realLastTaken: Date?) {
-        unswallowCallArgs.append(realLastTaken)
+    public var unswallowCallCount = 0
+    public func unswallow() {
+        unswallowCallCount += 1
     }
 
     public var awakenCallCount = 0

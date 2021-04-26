@@ -42,6 +42,21 @@ class DateFactoryTests: XCTestCase {
         XCTAssert(PDTest.equiv(expected, actual))
     }
 
+    func testCreateDatesFromCommaSeparatedString_handlesSingleDate() {
+        let dateStringOne = "Sunday, April 25, 7:17 PM"
+        let dateStringTwo = "Sunday, April 25, 9:17 PM"
+        let dateString = "\(dateStringOne)_\(dateStringTwo)"
+        let actual = DateFactory.createDatesFromSeparatedString(dateString)
+        XCTAssertEqual(2, actual.count)
+    }
+
+    func testCreateDatesFromCommaSeparatedString_handlesMultipleDates() {
+        let dateString = "Sunday, April 25, 7:17 PM"
+        let actual = DateFactory.createDatesFromSeparatedString(dateString)
+        XCTAssertNotNil(actual)
+        XCTAssertEqual(1, actual.count)
+    }
+
     func testCreateTimesFromCommaSeparatedString_handlesSingleDate() {
         let actual = DateFactory.createTimesFromCommaSeparatedString("06:05:04")
         XCTAssertNotNil(actual)

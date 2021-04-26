@@ -1529,7 +1529,7 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = 0
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
-        pill.unswallow(realLastTaken: nil)
+        pill.unswallow()
         XCTAssertEqual(0, pill.timesTakenToday)
     }
 
@@ -1538,7 +1538,7 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = 2
         attrs.lastTaken = nil
         let pill = createPill(attrs)
-        pill.unswallow(realLastTaken: nil)
+        pill.unswallow()
         XCTAssertEqual(2, pill.timesTakenToday)
     }
 
@@ -1547,18 +1547,21 @@ public class PillTests: XCTestCase {
         attrs.timesTakenToday = 2
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
-        pill.unswallow(realLastTaken: nil)
+        pill.unswallow()
         XCTAssertEqual(1, pill.timesTakenToday)
     }
 
     func testUnswallow_resetsLastTaken() {
         let attrs = PillAttributes()
+        let lastTaken = Date()
+        let originalDate = DateFactory.createDate(byAddingHours: -1, to: lastTaken)!
+        let originalDateString = PDDateFormatter.formatDate(originalDate)
         attrs.timesTakenToday = 2
-        attrs.lastTaken = Date()
+        attrs.todayLastTakensString = originalDateString
+        attrs.lastTaken = lastTaken
         let pill = createPill(attrs)
-        let restoreDate = Date()
-        pill.unswallow(realLastTaken: restoreDate)
-        XCTAssertEqual(restoreDate, pill.lastTaken)
+        pill.unswallow()
+        XCTAssertEqual(originalDate, pill.lastTaken)
     }
 
     func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {

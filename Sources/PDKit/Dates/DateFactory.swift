@@ -69,18 +69,20 @@ public class DateFactory: NSObject {
         createDate(byAddingHours: expirationInterval.hours, to: date)
     }
 
-    public static func createDatesFromCommaSeparatedString(
+    public static func createDatesFromSeparatedString(
         _ dateString: String, _ now: NowProtocol?=nil
     ) -> [Date] {
         let formatter = DateFormatterFactory.createDateFormatter()
-        return createDateListFromCommaSeparatedString(dateString, formatter: formatter, now: now)
+        return createDatesFromSeparatedString(
+            dateString, formatter: formatter, now: now, separator: "_"
+        )
     }
 
     public static func createTimesFromCommaSeparatedString(
         _ timeString: String, now: NowProtocol?=nil
     ) -> [Time] {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
-        return createDateListFromCommaSeparatedString(timeString, formatter: formatter, now: now)
+        return createDatesFromSeparatedString(timeString, formatter: formatter, now: now)
     }
 
     /// Creates a time interval by adding the given hours to the given date.
@@ -114,10 +116,13 @@ public class DateFactory: NSObject {
         calendar.date(byAdding: .day, value: -1, to: date)
     }
 
-    private static func createDateListFromCommaSeparatedString(
-        _ timeString: String, formatter: DateFormatter, now: NowProtocol?=nil
+    private static func createDatesFromSeparatedString(
+        _ timeString: String,
+        formatter: DateFormatter,
+        now: NowProtocol?=nil,
+        separator: Character=","
     ) -> [Time] {
-        let datesFromStrings = timeString.split(separator: ",").map {
+        let datesFromStrings = timeString.split(separator: separator).map {
             formatter.date(from: String($0))
         }.filter { $0 != nil }
         let dates = datesFromStrings as! [Time]

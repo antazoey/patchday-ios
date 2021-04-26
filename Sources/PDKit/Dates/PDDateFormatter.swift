@@ -21,8 +21,8 @@ public class PDDateFormatter {
     }
 
     /// Gives String for the given Date.
-    public static func formatDate(_ date: Date) -> String {
-        if let word = dateWord(from: date) {
+    public static func formatDate(_ date: Date, useWords: Bool=true) -> String {
+        if useWords, let word = dateWord(from: date) {
             return getWordedDateString(from: date, word: word)
         }
         let formatter = DateFormatterFactory.createDateFormatter()
