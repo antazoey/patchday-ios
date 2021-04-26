@@ -129,7 +129,7 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertTimesToCommaSeparatedString() {
+    func testConvertTimesToCommaSeparatedString_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let testDate = Calendar.current.date(bySettingHour: 12, minute: 51, second: 30, of: Date())!
         let actual = PDDateFormatter.convertTimesToCommaSeparatedString([testDate])
@@ -161,7 +161,7 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertDatesToCommaSeparatedString() {
+    func testConvertDatesToCommaSeparatedString_returnsExpectedString() {
         let defaultDate = DateFactory.createDefaultDate()
         let testDateOne = DateFactory.createDate(byAddingHours: 452322, to: defaultDate)
         let testDateTwo = DateFactory.createDate(byAddingHours: 452342, to: defaultDate)
