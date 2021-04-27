@@ -57,32 +57,31 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual(2, actual.count)
     }
 
-    func testSplitLast_decreasesCount() {
+    func testPopLast_decreasesCount() {
         let testDateString = "2021-04-27T20:48:26+00:00,2021-04-27T20:48:26+00:00"
         let lastTakens = PillLastTakenList(dateString: testDateString)
-        lastTakens.splitLast()
+        lastTakens.popLast()
         XCTAssertEqual(1, lastTakens.count)
     }
 
-    func testSplitLast_returnsExpectedStringAndLastDate() {
+    func testPopLast_returnsLastDate() {
         let initString = "\(testDateOneString),\(testDateTwoString)"
         let lastTakens = PillLastTakenList(dateString: initString)
-        let result = lastTakens.splitLast()
+        let actual = lastTakens.popLast()
 
-        guard let actualDate = result.0 else {
+        guard let actualDate = actual else {
             XCTFail("actualDate should not be nil")
             return
         }
 
         let failureMessage = "\(actualDate) is not equal to \(testDateOne)"
         XCTAssert(isDateTwo(actualDate), failureMessage)
-        XCTAssertEqual(testDateOneString, result.1)
     }
 
-    func testSplitLast_maintainsCorrectDatesAndDateStringAfter() {
+    func testPopLast_maintainsCorrectDatesAndDateStringAfter() {
         let initString = "\(testDateOneString),\(testDateTwoString)"
         let lastTakens = PillLastTakenList(dateString: initString)
-        lastTakens.splitLast()
+        lastTakens.popLast()
         let dates = lastTakens.dates
         XCTAssertEqual(1, dates.count)
         XCTAssert(isDateOne(dates[0]))

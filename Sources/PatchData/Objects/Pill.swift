@@ -162,9 +162,9 @@ public class Pill: Swallowable {
     public func unswallow() {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
-        let (lastLastTaken, newTodayLastTakens) = todayLastTakens.splitLast()
+        let lastLastTaken = todayLastTakens.popLast()
         pillData.attributes.lastTaken = lastLastTaken
-        pillData.attributes.todayLastTakensString = newTodayLastTakens
+        pillData.attributes.todayLastTakensString = todayLastTakens.dateString
         pillData.attributes.timesTakenToday = timesTakenToday - 1
     }
 

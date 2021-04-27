@@ -33,16 +33,16 @@ public class PillLastTakenList {
         _dates.count
     }
 
-    /// Extract the last date off the list and get a tuple of that date and the new date string.
+    /// Pop the last date off the list
     @discardableResult
-    public func splitLast() -> (Date?, String?) {
+    public func popLast() -> Date? {
         let last = _dates.popLast()
         let newString = PDDateFormatter.convertDatesToCommaSeparatedString(_dates)
         self._dateString = newString
-        return (last, newString)
+        return last
     }
 
-    /// Append a date to the last takens list and comma-separated date string.
+    /// Append a date to the list and get the resulting date string.
     @discardableResult
     public func combineWith(lastTaken: Date?) -> String? {
         guard dates.count < MaxPillTimesaday else { return nil }
