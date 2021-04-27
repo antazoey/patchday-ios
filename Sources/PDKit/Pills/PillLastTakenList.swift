@@ -48,10 +48,15 @@ public class PillLastTakenList {
         guard dates.count < MaxPillTimesaday else { return nil }
         guard let lastTaken = lastTaken else { return nil }
         let formattedDate = ISO8601DateFormatter().string(from: lastTaken)
-        guard let original = _dateString else { return formattedDate }
-        let newDateString = "\(original),\(formattedDate)"
-        self._dateString = newDateString
-        self._dates = DateFactory.createDatesFromCommaSeparatedString(newDateString)
-        return newDateString
+        let original = _dateString ?? ""
+        var builder = original
+        if original.isEmpty {
+            builder += formattedDate
+        } else {
+            builder += ",\(formattedDate)"
+        }
+        self._dateString = builder
+        self._dates = DateFactory.createDatesFromCommaSeparatedString(builder)
+        return builder
     }
 }

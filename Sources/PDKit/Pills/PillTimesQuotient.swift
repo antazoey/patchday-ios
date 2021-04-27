@@ -25,7 +25,7 @@ public class PillTimesQuotient {
     }
 
     private var timesaday: Int {
-        if (_timesaday < 0) {
+        if _timesaday < 0 {
             _timesaday = 1
         }
         return _timesaday

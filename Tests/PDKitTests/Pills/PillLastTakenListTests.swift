@@ -88,6 +88,18 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual(testDateOneString, lastTakens.dateString)
     }
 
+    func testPopLast_whenInitWithEmptyString_returnsNil() {
+        let lastTakens = PillLastTakenList(dateString: "")
+        let actual = lastTakens.popLast()
+        XCTAssertNil(actual)
+    }
+
+    func testPopLast_whenInitWithNil_returnsNil() {
+        let lastTakens = PillLastTakenList(dateString: nil)
+        let actual = lastTakens.popLast()
+        XCTAssertNil(actual)
+    }
+
     func testCombineWith_incrementsCount() {
         let lastTakens = PillLastTakenList(dateString: testDateOneString)
         lastTakens.combineWith(lastTaken: testDateTwo)
@@ -106,6 +118,25 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual("\(testDateOneString),\(testDateTwoString)", lastTakens.dateString)
         XCTAssert(isDateOne(lastTakens.dates[0]))
         XCTAssert(isDateTwo(lastTakens.dates[1]))
+    }
+
+    func testCombineWith_whenAddingFirstDate_returnsExpectedString() {
+        let lastTakens = PillLastTakenList(dateString: nil)
+        let actual = lastTakens.combineWith(lastTaken: testDateOne)
+        XCTAssertEqual("\(testDateOneString)", actual)
+    }
+
+    func testCombineWith_whenAddingFirstDate_maintainsStatefulProperties() {
+        let lastTakens = PillLastTakenList(dateString: nil)
+        lastTakens.combineWith(lastTaken: testDateOne)
+
+        if lastTakens.count != 1 {
+            XCTFail("Did not calculate enough dates.")
+            return
+        }
+
+        XCTAssertEqual("\(testDateOneString)", lastTakens.dateString)
+        XCTAssert(isDateOne(lastTakens.dates[0]))
     }
 
     private func isDateOne(_ actual: Date) -> Bool {
