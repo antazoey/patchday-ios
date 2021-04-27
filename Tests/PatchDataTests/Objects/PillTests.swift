@@ -54,6 +54,29 @@ public class PillTests: XCTestCase {
         return attrs
     }
 
+    func testAttributes_returnsExpectedName() {
+        let attrs = PillAttributes()
+        attrs.name = "TestName"
+        let pill = createPill(attrs)
+        XCTAssertEqual("TestName", pill.attributes.name)
+    }
+
+    func testAttributes_returnsExpectedInterval() {
+        let attrs = PillAttributes()
+        attrs.expirationInterval.value = PillExpirationIntervalSetting.FirstXDays
+        let pill = createPill(attrs)
+        let actual = pill.attributes.expirationInterval.value
+        XCTAssertEqual(PillExpirationIntervalSetting.FirstXDays, actual)
+    }
+
+    func testAttributes_returnsExpectedTimes() {
+        let attrs = PillAttributes()
+        attrs.times = "12:00:00,06:40:00"
+        let pill = createPill(attrs)
+        let actual = pill.attributes.times
+        XCTAssertEqual("12:00:00,06:40:00", actual)
+    }
+
     func testExpirationInterval_whenNothingSet_returnsDefault() {
         let attrs = PillAttributes()
         attrs.expirationInterval.value = nil
