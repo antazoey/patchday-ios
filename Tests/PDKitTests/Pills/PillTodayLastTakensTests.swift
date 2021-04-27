@@ -11,13 +11,22 @@ import Foundation
 import XCTest
 @testable
 import PDKit
+import PDMock
 
 class PillTodayLastTakensTests: XCTestCase {
+
+    func testDates_whenNoDateString_returnsZeroItems() {
+        let lastTakensObject = PillTodayLastTakens(dateString: nil)
+        let actual = lastTakensObject.dates
+        XCTAssertEqual(0, actual.count)
+    }
+
     func testDates_returnsDatesCalculatedFromInitString() {
         let testDateOne = Date()
         let testDateTwo = DateFactory.createDate(byAddingMinutes: 5, to: testDateOne)!
-        let testDateOneString = PDDateFormatter.formatDate(testDateOne)
-        let testDateTwoString = PDDateFormatter.formatDate(testDateTwo)
+        let formatter = ISO8601DateFormatter()
+        let testDateOneString = formatter.string(from: testDateOne)
+        let testDateTwoString = formatter.string(from: testDateTwo)
         let initString = "\(testDateOneString),\(testDateTwoString)"
         let lastTakensObject = PillTodayLastTakens(dateString: initString)
         let actual = lastTakensObject.dates
@@ -27,7 +36,11 @@ class PillTodayLastTakensTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual(testDateOne, actual[0])
-        XCTAssertEqual(testDateTwo, actual[1])
+        XCTAssert(PDTest.equiv(testDateOne, actual[0]))
+        XCTAssert(PDTest.equiv(testDateTwo, actual[1]))
+    }
+
+    func testSplitLast_decreasesCount() {
+        
     }
 }
