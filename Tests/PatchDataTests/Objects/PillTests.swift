@@ -253,6 +253,11 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(testDate, actual)
     }
 
+    func testTodayLastTakenList_returnsObjectWithExpectedDates() {
+        let attrs = PillAttributes()
+        attrs.todayLastTakensString = "2021-04-27T20:48:26+00:00,2021-04-27T20:48:26+00:00"
+    }
+
     func testXDays_whenHasSupportedExpirationInterval_returnsDaysOnDaysOffFromAtttributes() {
         let attrs = PillAttributes()
         attrs.expirationInterval.value = .XDaysOnXDaysOff

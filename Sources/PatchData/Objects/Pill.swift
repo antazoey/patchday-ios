@@ -84,7 +84,7 @@ public class Pill: Swallowable {
         set { pillData.attributes.lastTaken = newValue }
     }
 
-    public var todayLastTakens: PillLastTakenList {
+    public var todayLastTakenList: PillLastTakenList {
         PillLastTakenList(dateString: pillData.attributes.todayLastTakensString)
     }
 
@@ -162,9 +162,9 @@ public class Pill: Swallowable {
     public func unswallow() {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
-        let lastLastTaken = todayLastTakens.popLast()
+        let lastLastTaken = todayLastTakenList.popLast()
         pillData.attributes.lastTaken = lastLastTaken
-        pillData.attributes.todayLastTakensString = todayLastTakens.dateString
+        pillData.attributes.todayLastTakensString = todayLastTakenList.dateString
         pillData.attributes.timesTakenToday = timesTakenToday - 1
     }
 
@@ -178,7 +178,7 @@ public class Pill: Swallowable {
     }
 
     private func cacheLastTaken() {
-        let newString = todayLastTakens.combineWith(lastTaken: lastTaken)
+        let newString = todayLastTakenList.combineWith(lastTaken: lastTaken)
         pillData.attributes.todayLastTakensString = newString
     }
 
