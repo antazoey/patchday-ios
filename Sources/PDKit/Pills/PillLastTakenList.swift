@@ -33,7 +33,7 @@ public class PillLastTakenList {
         _dates.count
     }
 
-    /// Pop the last date off the list
+    /// Pop the last date off the list.
     @discardableResult
     public func popLast() -> Date? {
         let last = _dates.popLast()
