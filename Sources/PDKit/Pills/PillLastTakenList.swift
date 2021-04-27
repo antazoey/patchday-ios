@@ -47,16 +47,21 @@ public class PillLastTakenList {
     public func combineWith(lastTaken: Date?) -> String? {
         guard dates.count < MaxPillTimesaday else { return nil }
         guard let lastTaken = lastTaken else { return nil }
-        let formattedDate = ISO8601DateFormatter().string(from: lastTaken)
+        let newDateString = getCombinedDateString(lastTaken)
+        setDateString(newDateString)
+        return newDateString
+    }
+
+    private func getCombinedDateString(_ newDate: Date) -> String {
+        let formattedDate = ISO8601DateFormatter().string(from: newDate)
         let original = _dateString ?? ""
         var builder = original
-        if original.isEmpty {
-            builder += formattedDate
-        } else {
-            builder += ",\(formattedDate)"
-        }
-        self._dateString = builder
-        self._dates = DateFactory.createDatesFromCommaSeparatedString(builder)
+        builder += original.isEmpty ? formattedDate :",\(formattedDate)"
         return builder
+    }
+
+    private func setDateString(_ newDateString: String) {
+        self._dateString = newDateString
+        self._dates = DateFactory.createDatesFromCommaSeparatedString(newDateString)
     }
 }
