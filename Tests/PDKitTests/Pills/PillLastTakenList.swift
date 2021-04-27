@@ -13,10 +13,10 @@ import XCTest
 import PDKit
 import PDMock
 
-class PillTodayLastTakensTests: XCTestCase {
+class PillLastTakenListTests: XCTestCase {
 
     func testDates_whenNoDateString_returnsZeroItems() {
-        let lastTakensObject = PillTodayLastTakens(dateString: nil)
+        let lastTakensObject = PillLastTakenList(dateString: nil)
         let actual = lastTakensObject.dates
         XCTAssertEqual(0, actual.count)
     }
@@ -28,7 +28,7 @@ class PillTodayLastTakensTests: XCTestCase {
         let testDateOneString = formatter.string(from: testDateOne)
         let testDateTwoString = formatter.string(from: testDateTwo)
         let initString = "\(testDateOneString),\(testDateTwoString)"
-        let lastTakensObject = PillTodayLastTakens(dateString: initString)
+        let lastTakensObject = PillLastTakenList(dateString: initString)
         let actual = lastTakensObject.dates
 
         if actual.count != 2 {

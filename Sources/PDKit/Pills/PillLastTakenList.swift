@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PillTodayLastTakens {
+public class PillLastTakenList {
     private let dateString: String?
 
     public init(dateString: String?) {

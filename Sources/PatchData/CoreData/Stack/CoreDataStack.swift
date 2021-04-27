@@ -10,6 +10,7 @@ import PDKit
 
 class CoreDataStack: NSObject {
 
+    private static var log = PDLog<CoreDataStack>()
     private static var _container: NSPersistentContainer?
 
     private static var container: NSPersistentContainer {
@@ -22,10 +23,7 @@ class CoreDataStack: NSObject {
         }
     }
 
-    private static var log = PDLog<CoreDataStack>()
-
     static let persistentContainerKey = "patchData"
-
     static let hormoneProps = ["date", "id", "siteNameBackUp"]
     static let siteProps = ["order", "name", "imageIdentifier"]
     static let pillProps = [
