@@ -12,11 +12,11 @@ public class PillTodayLastTakenList {
     private var _timeString: String?
     private var _times: [Date]
 
-    public var timeString: String {
+    public var asString: String {
         _timeString ?? ""
     }
 
-    public var times: [Date] {
+    public var asList: [Date] {
         _times
     }
 

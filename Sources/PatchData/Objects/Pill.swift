@@ -85,7 +85,7 @@ public class Pill: Swallowable {
     }
 
     public var todayLastTakenList: PillTodayLastTakenList {
-        PillTodayLastTakenList(dateString: pillData.attributes.todayLastTakensString)
+        PillTodayLastTakenList(timeString: pillData.attributes.todayLastTakensString)
     }
 
     public var due: Date? {
@@ -164,7 +164,7 @@ public class Pill: Swallowable {
         guard lastTaken != nil else { return }
         let lastLastTaken = todayLastTakenList.popLast()
         pillData.attributes.lastTaken = lastLastTaken
-        pillData.attributes.todayLastTakensString = todayLastTakenList.dateString
+        pillData.attributes.todayLastTakensString = todayLastTakenList.asString
         pillData.attributes.timesTakenToday = timesTakenToday - 1
     }
 

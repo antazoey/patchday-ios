@@ -67,8 +67,8 @@ public class PDDateFormatter {
         return nil
     }
 
-    private static func convertDatesToString(_ times: [Time?], formatter: Formatter) -> String {
-        ((times
+    private static func convertDatesToString(_ dates: [Date?], formatter: Formatter) -> String {
+        ((dates
             .map({d in formatter.string(for: d)})
             .filter {s in s != nil}) as! [String])
             .joined(separator: ",")

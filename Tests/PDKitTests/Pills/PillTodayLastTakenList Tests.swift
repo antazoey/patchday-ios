@@ -29,17 +29,17 @@ class PillLastTakenListTests: XCTestCase {
         PDDateFormatter.formatInternalTime(testTimeTwo)
     }
 
-    func testTimes_whenNotimeString_returnsZeroItems() {
+    func testAsList_whenNotimeString_returnsZeroItems() {
         let lastTakensObject = PillTodayLastTakenList(timeString: nil)
-        let actual = lastTakensObject.times
+        let actual = lastTakensObject.asList
         XCTAssertEqual(0, actual.count)
     }
 
-    func testTimes_returnstimesCalculatedFromInitString() {
+    func testAsList_returnstimesCalculatedFromInitString() {
         let initString = "\(testTimeOneString),\(testTimeTwoString)"
         tprint(initString)
         let lastTakens = PillTodayLastTakenList(timeString: initString)
-        let actual = lastTakens.times
+        let actual = lastTakens.asList
 
         if actual.count < 2 {
             XCTFail("Did not calculate enough times.")
@@ -50,10 +50,10 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssert(isTimeTwo(actual[1]))
     }
 
-    func testtimes_returnsExpectedNumberOftimes() {
+    func testAsList_returnsExpectedNumberOftimes() {
         let testtimeString = "12:00:10,12:00:20"
         let lastTakens = PillTodayLastTakenList(timeString: testtimeString)
-        let actual = lastTakens.times
+        let actual = lastTakens.asList
         XCTAssertEqual(2, actual.count)
     }
 
@@ -82,7 +82,7 @@ class PillLastTakenListTests: XCTestCase {
         let initString = "\(testTimeOneString),\(testTimeTwoString)"
         let lastTakens = PillTodayLastTakenList(timeString: initString)
         lastTakens.popLast()
-        let times = lastTakens.times
+        let times = lastTakens.asList
         XCTAssertEqual(1, times.count)
 
         if lastTakens.count < 1 {
@@ -91,7 +91,7 @@ class PillLastTakenListTests: XCTestCase {
         }
 
         XCTAssert(isTimeOne(times[0]))
-        XCTAssertEqual(testTimeOneString, lastTakens.timeString)
+        XCTAssertEqual(testTimeOneString, lastTakens.asString)
     }
 
     func testPopLast_whenInitWithEmptyString_returnsNil() {
@@ -121,15 +121,15 @@ class PillLastTakenListTests: XCTestCase {
     func testCombineWith_maintainsCorrecttimesAndtimeStringAfter() {
         let lastTakens = PillTodayLastTakenList(timeString: testTimeOneString)
         lastTakens.combineWith(lastTaken: testTimeTwo)
-        XCTAssertEqual("\(testTimeOneString),\(testTimeTwoString)", lastTakens.timeString)
+        XCTAssertEqual("\(testTimeOneString),\(testTimeTwoString)", lastTakens.asString)
 
         if lastTakens.count < 2 {
             XCTFail("Does not have enough times.")
             return
         }
 
-        XCTAssert(isTimeOne(lastTakens.times[0]))
-        XCTAssert(isTimeTwo(lastTakens.times[1]))
+        XCTAssert(isTimeOne(lastTakens.asList[0]))
+        XCTAssert(isTimeTwo(lastTakens.asList[1]))
     }
 
     func testCombineWith_whenAddingFirsttime_returnsExpectedString() {
@@ -147,8 +147,8 @@ class PillLastTakenListTests: XCTestCase {
             return
         }
 
-        XCTAssertEqual("\(testTimeOneString)", lastTakens.timeString)
-        XCTAssert(isTimeOne(lastTakens.times[0]))
+        XCTAssertEqual("\(testTimeOneString)", lastTakens.asString)
+        XCTAssert(isTimeOne(lastTakens.asList[0]))
     }
 
     private func isTimeOne(_ actual: Time) -> Bool {
