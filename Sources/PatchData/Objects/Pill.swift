@@ -84,8 +84,8 @@ public class Pill: Swallowable {
         set { pillData.attributes.lastTaken = newValue }
     }
 
-    public var todayLastTakenList: PillLastTakenList {
-        PillLastTakenList(dateString: pillData.attributes.todayLastTakensString)
+    public var todayLastTakenList: PillTodayLastTakenList {
+        PillTodayLastTakenList(dateString: pillData.attributes.todayLastTakensString)
     }
 
     public var due: Date? {

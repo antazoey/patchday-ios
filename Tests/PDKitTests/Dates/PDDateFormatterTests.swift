@@ -135,37 +135,4 @@ class PDDateFormatterTests: XCTestCase {
         let actual = PDDateFormatter.convertTimesToCommaSeparatedString([testDate])
         XCTAssertEqual("12:51:30", actual)
     }
-
-    func testConvertDatesToCommaSeparatedString_whenGivenSingleDate_returnsExpectedString() {
-        let formatter = ISO8601DateFormatter()
-        let date = Date()
-        let expected = formatter.string(from: date)
-        let actual = PDDateFormatter.convertDatesToCommaSeparatedString([date])
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testConvertDatesToCommaSeparatedString_whenGivenMultipleDates_returnsExpectedString() {
-        let formatter = ISO8601DateFormatter()
-        let dateOne = Date()
-        let dateTwo = DateFactory.createDate(byAddingHours: -3, to: dateOne)
-        let expected = "\(formatter.string(from: dateOne)),\(formatter.string(from: dateTwo!))"
-        let actual = PDDateFormatter.convertDatesToCommaSeparatedString([dateOne, dateTwo])
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testConvertDatesTimesToCommaSeparatedString_ignoresNils() {
-        let formatter = ISO8601DateFormatter()
-        let date = Date()
-        let expected = formatter.string(from: date)
-        let actual = PDDateFormatter.convertDatesToCommaSeparatedString([nil, date, nil])
-        XCTAssertEqual(expected, actual)
-    }
-
-    func testConvertDatesToCommaSeparatedString_returnsExpectedString() {
-        let defaultDate = DateFactory.createDefaultDate()
-        let testDateOne = DateFactory.createDate(byAddingHours: 452322, to: defaultDate)
-        let testDateTwo = DateFactory.createDate(byAddingHours: 452342, to: defaultDate)
-        let actual = PDDateFormatter.convertDatesToCommaSeparatedString([testDateOne, testDateTwo])
-        XCTAssertEqual("2021-08-07T18:00:00Z,2021-08-08T14:00:00Z", actual)
-    }
 }

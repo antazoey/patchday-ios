@@ -20,6 +20,11 @@ public class PDDateFormatter {
         return formatter.string(from: time)
     }
 
+    public static func formatInternalTime(_ time: Time) -> String {
+        let formatter = DateFormatterFactory.createInternalTimeFormatter()
+        return formatter.string(from: time)
+    }
+
     /// Gives String for the given Date.
     public static func formatDate(_ date: Date, useWords: Bool=true) -> String {
         if useWords, let word = dateWord(from: date) {
@@ -41,11 +46,6 @@ public class PDDateFormatter {
     /// Convert a list of times to a comma-separated string.
     public static func convertTimesToCommaSeparatedString(_ times: [Time?]) -> String {
         convertDatesToString(times, formatter: DateFormatterFactory.createInternalTimeFormatter())
-    }
-
-    /// Convert a list of dates to a comma-separated string.
-    public static func convertDatesToCommaSeparatedString(_ times: [Date?]) -> String {
-        convertDatesToString(times, formatter: ISO8601DateFormatter())
     }
 
     private static func getWordedDateString(from date: Date, word: String) -> String {

@@ -69,13 +69,6 @@ public class DateFactory: NSObject {
         createDate(byAddingHours: expirationInterval.hours, to: date)
     }
 
-    public static func createDatesFromCommaSeparatedString(_ dateString: String) -> [Date] {
-        let formatter = ISO8601DateFormatter()
-        return dateString.split(separator: ",").map {
-            formatter.date(from: String($0))
-        }.filter { $0 != nil } as! [Date]
-    }
-
     public static func createTimesFromCommaSeparatedString(
         _ timeString: String, now: NowProtocol?=nil
     ) -> [Time] {

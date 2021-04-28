@@ -42,35 +42,6 @@ class DateFactoryTests: XCTestCase {
         XCTAssert(PDTest.equiv(expected, actual))
     }
 
-    func testCreateDatesFromCommaSeparatedString_handlesSingleDate() {
-        let dateStringOne = "2020-03-13T14:29:52Z"
-        let dateStringTwo = "2020-03-13T15:29:52Z"
-        let dateString = "\(dateStringOne),\(dateStringTwo)"
-        let actual = DateFactory.createDatesFromCommaSeparatedString(dateString)
-        XCTAssertEqual(2, actual.count)
-    }
-
-    func testCreateDatesFromCommaSeparatedString_handlesMultipleDates() {
-        let dateString = "2020-03-13T14:29:52Z"
-        let actual = DateFactory.createDatesFromCommaSeparatedString(dateString)
-        XCTAssertNotNil(actual)
-        XCTAssertEqual(1, actual.count)
-    }
-
-    func testCreateDatesFromCommaSeparatedString_returnsExpectedDates() {
-        let dateStringOne = "2020-03-13T14:29:52Z"
-        let dateStringTwo = "2020-03-13T15:29:52Z"
-        let dateString = "\(dateStringOne),\(dateStringTwo)"
-        let actual = DateFactory.createDatesFromCommaSeparatedString(dateString)
-
-        let formatter = ISO8601DateFormatter()
-        let expectedOne = formatter.date(from: dateStringOne)
-        let expectedTwo = formatter.date(from: dateStringTwo)
-
-        XCTAssertEqual(expectedOne, actual[0])
-        XCTAssertEqual(expectedTwo, actual[1])
-    }
-
     func testCreateTimesFromCommaSeparatedString_handlesSingleDate() {
         let actual = DateFactory.createTimesFromCommaSeparatedString("06:05:04")
         XCTAssertNotNil(actual)
