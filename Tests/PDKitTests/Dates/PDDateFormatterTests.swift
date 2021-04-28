@@ -23,6 +23,12 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testFormatInternalTime_returnsExpectedString() {
+        let expected = "07:46:40"
+        let actual = PDDateFormatter.formatInternalTime(Date(timeIntervalSince1970: 1000000))
+        XCTAssertEqual(expected, actual)
+    }
+
     func testFormatDate_whenNotTodayYesterdayOrTomorrow_returnsExpectedString() {
         let expected = "Monday, January 12, 7:46 AM"
         let actual = PDDateFormatter.formatDate(Date(timeIntervalSince1970: 1000000))
