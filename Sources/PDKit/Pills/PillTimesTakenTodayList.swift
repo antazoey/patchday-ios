@@ -20,8 +20,8 @@ public class PillTimesTakenTodayList {
         _times
     }
 
-    public init(timeString: String?) {
-        self._timeString = timeString
+    public init(timeString: String?=nil) {
+        self._timeString = timeString ?? ""
         if let timeString = timeString {
             self._times = DateFactory.createTimesFromCommaSeparatedString(timeString)
         } else {
