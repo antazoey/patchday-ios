@@ -14,7 +14,6 @@ import PDKit
 import PDMock
 
 class PillLastTakenListTests: XCTestCase {
-
     private let testTimeOne = Time()
 
     private var testTimeTwo: Time {

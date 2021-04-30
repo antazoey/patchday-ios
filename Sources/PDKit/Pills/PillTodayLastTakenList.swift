@@ -9,6 +9,7 @@
 import Foundation
 
 public class PillTodayLastTakenList {
+
     private var _timeString: String?
     private var _times: [Time]
 
