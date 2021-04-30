@@ -63,6 +63,25 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual(1, lastTakens.count)
     }
 
+    func testUndoLast_whenOnlyOne_decreasesCountToZero() {
+        let testtimeString = "12:00:10"
+        let lastTakens = PillTimesTakenTodayList(timeString: testtimeString)
+        lastTakens.undoLast()
+        XCTAssertEqual(0, lastTakens.count)
+    }
+
+    func testUndoLast_whenInitWithEmptyString_returnsNil() {
+        let lastTakens = PillTimesTakenTodayList(timeString: "")
+        let actual = lastTakens.undoLast()
+        XCTAssertNil(actual)
+    }
+
+    func testUndoLast_whenInitWithNil_returnsNil() {
+        let lastTakens = PillTimesTakenTodayList(timeString: nil)
+        let actual = lastTakens.undoLast()
+        XCTAssertNil(actual)
+    }
+
     func testUndoLast_returnsPenultimateTime() {
         let initString = "\(testTimeOneString),\(testTimeTwoString)"
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
@@ -93,18 +112,6 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual(testTimeOneString, lastTakens.asString)
     }
 
-    func testUndoLast_whenInitWithEmptyString_returnsNil() {
-        let lastTakens = PillTimesTakenTodayList(timeString: "")
-        let actual = lastTakens.undoLast()
-        XCTAssertNil(actual)
-    }
-
-    func testUndoLast_whenInitWithNil_returnsNil() {
-        let lastTakens = PillTimesTakenTodayList(timeString: nil)
-        let actual = lastTakens.undoLast()
-        XCTAssertNil(actual)
-    }
-
     func testCombineWith_incrementsCount() {
         let lastTakens = PillTimesTakenTodayList(timeString: testTimeOneString)
         lastTakens.combineWith(testTimeTwo)
@@ -131,13 +138,19 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssert(isTimeTwo(lastTakens.asList[1]))
     }
 
-    func testCombineWith_whenAddingFirsttime_returnsExpectedString() {
+    func testCombineWith_whenInitWithNil_returnsExpectedString() {
         let lastTakens = PillTimesTakenTodayList(timeString: nil)
         let actual = lastTakens.combineWith(testTimeOne)
         XCTAssertEqual("\(testTimeOneString)", actual)
     }
 
-    func testCombineWith_whenAddingFirsttime_maintainsStatefulProperties() {
+    func testCombineWith_whenInitWithEmptyString_returnsExpectedString() {
+        let lastTakens = PillTimesTakenTodayList(timeString: "")
+        let actual = lastTakens.combineWith(testTimeOne)
+        XCTAssertEqual("\(testTimeOneString)", actual)
+    }
+
+    func testCombineWith_whenAddingFirstTime_maintainsStatefulProperties() {
         let lastTakens = PillTimesTakenTodayList(timeString: nil)
         lastTakens.combineWith(testTimeOne)
 
