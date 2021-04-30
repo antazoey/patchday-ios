@@ -9,11 +9,11 @@
 import Foundation
 
 public class PillTimesTakenTodayList {
-    private var _timeString: String?
+    private var _timeString: String
     private var _times: [Time]
 
     public var asString: String {
-        _timeString ?? ""
+        _timeString
     }
 
     public var asList: [Time] {
@@ -59,10 +59,8 @@ public class PillTimesTakenTodayList {
 
     private func combineTimes(_ newTime: Time) -> String {
         let formattedTime = PDDateFormatter.formatInternalTime(newTime)
-        let original = _timeString ?? ""
-        var builder = original
-        builder += original.isEmpty ? formattedTime :",\(formattedTime)"
-        return builder
+        let addition = _timeString.isEmpty ? formattedTime :",\(formattedTime)"
+        return "\(_timeString)\(addition)"
     }
 
     private func setTimeString(_ newTimeString: String) {
