@@ -160,8 +160,7 @@ public class Pill: Swallowable {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
         let timesTakenToday = timesTakenTodayList
-        timesTakenToday.popLast()
-        pillData.attributes.lastTaken = timesTakenToday[timesTakenToday.count - 1]
+        pillData.attributes.lastTaken = timesTakenToday.undoLast()
         pillData.attributes.timesTakenToday = timesTakenToday.asString
     }
 

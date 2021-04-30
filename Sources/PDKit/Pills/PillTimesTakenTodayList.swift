@@ -37,13 +37,14 @@ public class PillTimesTakenTodayList {
         _times[index]
     }
 
-    /// Pop the last date off the list.
+    /// Remove the last time from the list and optionally return the new last.
     @discardableResult
-    public func popLast() -> Time? {
-        let last = _times.popLast()
+    public func undoLast() -> Time? {
+        guard count > 0 else { return nil }
+        _times.removeLast()
         let newString = PDDateFormatter.convertTimesToCommaSeparatedString(_times)
         self._timeString = newString
-        return last
+        return asList.tryGet(at: count - 1)
     }
 
     /// Append a date to the list and get the resulting date string.

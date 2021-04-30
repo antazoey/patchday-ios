@@ -56,17 +56,17 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual(2, actual.count)
     }
 
-    func testPopLast_decreasesCount() {
+    func testUndoLast_decreasesCount() {
         let testtimeString = "12:00:10,12:00:20"
         let lastTakens = PillTimesTakenTodayList(timeString: testtimeString)
-        lastTakens.popLast()
+        lastTakens.undoLast()
         XCTAssertEqual(1, lastTakens.count)
     }
 
-    func testPopLast_returnsLasttime() {
+    func testUndoLast_returnsPenultimateTime() {
         let initString = "\(testTimeOneString),\(testTimeTwoString)"
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
-        let actual = lastTakens.popLast()
+        let actual = lastTakens.undoLast()
 
         guard let actualtime = actual else {
             XCTFail("actual should not be nil")
@@ -74,13 +74,13 @@ class PillLastTakenListTests: XCTestCase {
         }
 
         let failureMessage = "\(actualtime) is not equal to \(testTimeOne)"
-        XCTAssert(isTimeTwo(actualtime), failureMessage)
+        XCTAssert(isTimeOne(actualtime), failureMessage)
     }
 
-    func testPopLast_maintainsCorrectTimesAndTimeStringAfter() {
+    func testUndoLast_maintainsCorrectTimesAndTimeStringAfter() {
         let initString = "\(testTimeOneString),\(testTimeTwoString)"
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
-        lastTakens.popLast()
+        lastTakens.undoLast()
         let times = lastTakens.asList
         XCTAssertEqual(1, times.count)
 
@@ -93,15 +93,15 @@ class PillLastTakenListTests: XCTestCase {
         XCTAssertEqual(testTimeOneString, lastTakens.asString)
     }
 
-    func testPopLast_whenInitWithEmptyString_returnsNil() {
+    func testUndoLast_whenInitWithEmptyString_returnsNil() {
         let lastTakens = PillTimesTakenTodayList(timeString: "")
-        let actual = lastTakens.popLast()
+        let actual = lastTakens.undoLast()
         XCTAssertNil(actual)
     }
 
-    func testPopLast_whenInitWithNil_returnsNil() {
+    func testUndoLast_whenInitWithNil_returnsNil() {
         let lastTakens = PillTimesTakenTodayList(timeString: nil)
-        let actual = lastTakens.popLast()
+        let actual = lastTakens.undoLast()
         XCTAssertNil(actual)
     }
 
