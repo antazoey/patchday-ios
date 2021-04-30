@@ -10,13 +10,13 @@ import Foundation
 
 public class PillTodayLastTakenList {
     private var _timeString: String?
-    private var _times: [Date]
+    private var _times: [Time]
 
     public var asString: String {
         _timeString ?? ""
     }
 
-    public var asList: [Date] {
+    public var asList: [Time] {
         _times
     }
 
@@ -35,7 +35,7 @@ public class PillTodayLastTakenList {
 
     /// Pop the last date off the list.
     @discardableResult
-    public func popLast() -> Date? {
+    public func popLast() -> Time? {
         let last = _times.popLast()
         let newString = PDDateFormatter.convertTimesToCommaSeparatedString(_times)
         self._timeString = newString
@@ -44,9 +44,9 @@ public class PillTodayLastTakenList {
 
     /// Append a date to the list and get the resulting date string.
     @discardableResult
-    public func combineWith(lastTaken: Date?) -> String? {
+    public func combineWith(lastTakenTime: Time?) -> String? {
         guard count < MaxPillTimesaday else { return nil }
-        guard let lastTaken = lastTaken else { return nil }
+        guard let lastTaken = lastTakenTime else { return nil }
         let newTimeString = combineTimes(lastTaken)
         setTimeString(newTimeString)
         return newTimeString
