@@ -22,11 +22,7 @@ public class PillTimesTakenTodayList {
 
     public init(timeString: String?=nil) {
         self._timeString = timeString ?? ""
-        if let timeString = timeString {
-            self._times = DateFactory.createTimesFromCommaSeparatedString(timeString)
-        } else {
-            self._times = []
-        }
+        self._times = DateFactory.createTimesFromCommaSeparatedString(self._timeString)
     }
 
     public var count: Int {
