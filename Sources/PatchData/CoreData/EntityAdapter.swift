@@ -74,9 +74,12 @@ class EntityAdapter {
         if let times = pillData.attributes.times as String?, times != "" {
             pill.times = times
         }
-        let pillTimesTaken = pill.timesTakenToday
+
+        // timesTakenToday was repurposed as a list rather than a counter
+        // todayLastTakens refers to the model name, the model name timesTakenToday is deprecated.
+        let pillTimesTaken = pill.todayLastTakens
         if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
-            pill.timesTakenToday = Int16(timesTaken)
+            pill.todayLastTakens = timesTaken
         }
         if let expirationInterval = pillData.attributes.expirationInterval.value {
             pill.expirationInterval = expirationInterval.rawValue
@@ -151,9 +154,8 @@ class EntityAdapter {
             xDays: pill.xDays,
             times: pill.times,
             notify: pill.notify,
-            timesTakenToday: Int(pill.timesTakenToday),
             lastTaken: pill.lastTaken as Date?,
-            todayLastTakensString: pill.todayLastTakens
+            timesTakenToday: pill.todayLastTakens
         )
     }
 

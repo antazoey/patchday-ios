@@ -22,6 +22,7 @@ public class MockPill: Swallowable {
     public var isNew: Bool = false
     public var isDone: Bool = false
     public var hasName: Bool = false
+    public var timesTakenTodayList = PillTimesTakenTodayList(timeString: "")
 
     public init() { }
 

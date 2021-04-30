@@ -35,11 +35,14 @@ public protocol Swallowable {
     /// The number of times you should take this pill a day.
     var timesaday: Int { get }
 
-    /// The number of times you took this pill today.
-    var timesTakenToday: Int { get }
-
     /// The date when you last took this pill.
     var lastTaken: Date? { get set }
+
+    /// The times taken today as a list of times.
+    var timesTakenTodayList: PillTimesTakenTodayList { get }
+
+    /// The number of times you took this pill today.
+    var timesTakenToday: Int { get }
 
     /// The date when you should take this pill next.
     var due: Date? { get }

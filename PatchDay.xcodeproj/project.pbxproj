@@ -81,7 +81,7 @@
 		9D003EC323359B2D0070C964 /* PDCoreDataWrapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */; };
 		9D0CE8BD2635DE6600B3FCB7 /* PillTimesQuotient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE8BC2635DE6600B3FCB7 /* PillTimesQuotient.swift */; };
 		9D0CE8E62635FF3D00B3FCB7 /* PillTimesQuotientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE8DD2635FF1500B3FCB7 /* PillTimesQuotientTests.swift */; };
-		9D0CE90726362E6600B3FCB7 /* PillTodayLastTakenList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE90626362E6600B3FCB7 /* PillTodayLastTakenList.swift */; };
+		9D0CE90726362E6600B3FCB7 /* PillTimesTakenTodayList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE90626362E6600B3FCB7 /* PillTimesTakenTodayList.swift */; };
 		9D0CE92626363AF700B3FCB7 /* PillTodayLastTakenListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0CE91626363ACC00B3FCB7 /* PillTodayLastTakenListTests.swift */; };
 		9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DDF47E2234D6EE2005AA467 /* HormoneStrings.swift */; };
 		9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C98618024DF7B376CFBB /* HormoneStringsTests.swift */; };
@@ -557,7 +557,7 @@
 		9D003EC223359B2D0070C964 /* PDCoreDataWrapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDCoreDataWrapping.swift; sourceTree = "<group>"; };
 		9D0CE8BC2635DE6600B3FCB7 /* PillTimesQuotient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTimesQuotient.swift; sourceTree = "<group>"; };
 		9D0CE8DD2635FF1500B3FCB7 /* PillTimesQuotientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTimesQuotientTests.swift; sourceTree = "<group>"; };
-		9D0CE90626362E6600B3FCB7 /* PillTodayLastTakenList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTodayLastTakenList.swift; sourceTree = "<group>"; };
+		9D0CE90626362E6600B3FCB7 /* PillTimesTakenTodayList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTimesTakenTodayList.swift; sourceTree = "<group>"; };
 		9D0CE91626363ACC00B3FCB7 /* PillTodayLastTakenListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillTodayLastTakenListTests.swift; sourceTree = "<group>"; };
 		9D1908D52466F5AB00E95244 /* UserDefaultsWriterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsWriterTests.swift; sourceTree = "<group>"; };
 		9D1908D72466F66000E95244 /* PDUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDUserDefaults.swift; sourceTree = "<group>"; };
@@ -1302,7 +1302,7 @@
 				9D42125125D60BBB00087CDD /* PillExpirationIntervalXDays.swift */,
 				9D42115225D4B2BD00087CDD /* PillAttributes.swift */,
 				9D0CE8BC2635DE6600B3FCB7 /* PillTimesQuotient.swift */,
-				9D0CE90626362E6600B3FCB7 /* PillTodayLastTakenList.swift */,
+				9D0CE90626362E6600B3FCB7 /* PillTimesTakenTodayList.swift */,
 			);
 			path = Pills;
 			sourceTree = "<group>";
@@ -2679,7 +2679,7 @@
 				9DDAB02C23F8D84D00E6EEF6 /* PillStrings.swift in Sources */,
 				9D7888052558575D00DC0F6D /* PillsTableProtocol.swift in Sources */,
 				9D913B8722FF43AB001FC03C /* KeyStorable.swift in Sources */,
-				9D0CE90726362E6600B3FCB7 /* PillTodayLastTakenList.swift in Sources */,
+				9D0CE90726362E6600B3FCB7 /* PillTimesTakenTodayList.swift in Sources */,
 				9D59F8BB25056E8B00C0324E /* NowProtocol.swift in Sources */,
 				9D788733254E0CC500DC0F6D /* PDCommandFactory.swift in Sources */,
 				9D6E9AE6245623AA003BBCC9 /* PDTO.swift in Sources */,

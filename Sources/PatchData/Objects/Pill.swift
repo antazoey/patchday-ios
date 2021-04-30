@@ -8,7 +8,6 @@ import Foundation
 import PDKit
 
 public class Pill: Swallowable {
-
     private var pillData: PillStruct  // Stored data
     private lazy var log = PDLog<Pill>()
     public var _now: NowProtocol
@@ -37,9 +36,8 @@ public class Pill: Swallowable {
             xDays: expirationInterval.xDaysValue,
             times: pillData.attributes.times,
             notify: notify,
-            timesTakenToday: timesTakenToday,
             lastTaken: lastTaken,
-            todayLastTakensString: pillData.attributes.todayLastTakensString
+            timesTakenToday: pillData.attributes.timesTakenToday
         )
     }
 
@@ -75,17 +73,17 @@ public class Pill: Swallowable {
 
     public var timesaday: Int { times.count }
 
-    public var timesTakenToday: Int {
-        pillData.attributes.timesTakenToday ?? DefaultPillAttributes.timesTakenToday
-    }
-
     public var lastTaken: Date? {
         get { pillData.attributes.lastTaken }
         set { pillData.attributes.lastTaken = newValue }
     }
 
-    public var todayLastTakenList: PillTodayLastTakenList {
-        PillTodayLastTakenList(timeString: pillData.attributes.todayLastTakensString)
+    public var timesTakenTodayList: PillTimesTakenTodayList {
+        PillTimesTakenTodayList(timeString: pillData.attributes.timesTakenToday)
+    }
+
+    public var timesTakenToday: Int {
+        timesTakenTodayList.count
     }
 
     public var due: Date? {
@@ -148,10 +146,9 @@ public class Pill: Swallowable {
             && pillData.attributes.expirationInterval.xDaysIsOn == nil {
             pillData.attributes.expirationInterval.startPositioning()
         }
-        pillData.attributes.timesTakenToday = timesTakenToday + 1
 
-        cacheLastTaken()
         lastTaken = now
+        appendLastTaken()
 
         // Increment XDays position if done for the day.
         if expirationInterval.value == .XDaysOnXDaysOff && isDone {
@@ -162,10 +159,10 @@ public class Pill: Swallowable {
     public func unswallow() {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
-        let lastLastTaken = todayLastTakenList.popLast()
-        pillData.attributes.lastTaken = lastLastTaken
-        pillData.attributes.todayLastTakensString = todayLastTakenList.asString
-        pillData.attributes.timesTakenToday = timesTakenToday - 1
+        let timesTakenToday = timesTakenTodayList
+        timesTakenToday.popLast()
+        pillData.attributes.lastTaken = timesTakenToday[timesTakenToday.count - 1]
+        pillData.attributes.timesTakenToday = timesTakenToday.asString
     }
 
     public func awaken() {
@@ -173,13 +170,15 @@ public class Pill: Swallowable {
             let lastDate = lastTaken as Date?,
             !lastDate.isInToday(now: _now) {
 
-            pillData.attributes.timesTakenToday = 0
+            pillData.attributes.timesTakenToday = ""  // 0 times taken
         }
     }
 
-    private func cacheLastTaken() {
-        let newString = todayLastTakenList.combineWith(lastTaken: lastTaken)
-        pillData.attributes.todayLastTakensString = newString
+    private func appendLastTaken() {
+        tprint(lastTaken)
+        let newString = timesTakenTodayList.combineWith(lastTaken)
+        tprint(newString)
+        pillData.attributes.timesTakenToday = newString
     }
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {

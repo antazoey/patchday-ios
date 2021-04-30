@@ -24,8 +24,8 @@ test-patchday: build-for-tests
 lint:
 	@swiftlint lint $(LINT_PATHS) $(LINT_FLAGS)
 
-autocorrect:
-	@swiftlint autocorrect $(LINT_PATHS)
+fix:
+	@swiftlint fix $(LINT_PATHS)
 
 
 .PHONY: build build-for-tests test test-pdkit test-patchdata test-patchday lint autocorrect

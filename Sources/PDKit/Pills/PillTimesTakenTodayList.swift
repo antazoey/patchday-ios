@@ -1,5 +1,5 @@
 //
-//  PillTodayLastTakenList.swift
+//  PillTimesTakenTodayList.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 4/25/21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class PillTodayLastTakenList {
+public class PillTimesTakenTodayList {
     private var _timeString: String?
     private var _times: [Time]
 
@@ -33,6 +33,10 @@ public class PillTodayLastTakenList {
         _times.count
     }
 
+    public subscript(_ index: Index) -> Time {
+        _times[index]
+    }
+
     /// Pop the last date off the list.
     @discardableResult
     public func popLast() -> Time? {
@@ -44,7 +48,7 @@ public class PillTodayLastTakenList {
 
     /// Append a date to the list and get the resulting date string.
     @discardableResult
-    public func combineWith(lastTakenTime: Time?) -> String? {
+    public func combineWith(_ lastTakenTime: Time?) -> String? {
         guard count < MaxPillTimesaday else { return nil }
         guard let lastTaken = lastTakenTime else { return nil }
         let newTimeString = combineTimes(lastTaken)
