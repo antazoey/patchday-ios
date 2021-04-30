@@ -43,7 +43,7 @@ public class PillTimesTakenTodayList {
         return asList.tryGet(at: count - 1)
     }
 
-    /// Append a date to the list and get the resulting date string.
+    /// Append a time to the list and get the resulting time string.
     @discardableResult
     public func combineWith(_ lastTakenTime: Time?) -> String? {
         guard count < MaxPillTimesaday else { return nil }
