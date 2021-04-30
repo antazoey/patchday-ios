@@ -55,7 +55,7 @@ public class PillTimesTakenTodayList {
 
     private func combineTimes(_ newTime: Time) -> String {
         let formattedTime = PDDateFormatter.formatInternalTime(newTime)
-        let addition = _timeString.isEmpty ? formattedTime :",\(formattedTime)"
+        let addition = _timeString.isEmpty ? formattedTime : ",\(formattedTime)"
         return "\(_timeString)\(addition)"
     }
 

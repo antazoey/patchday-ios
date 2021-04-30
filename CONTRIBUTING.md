@@ -15,7 +15,7 @@ To check lint errors, do:
 make lint
 ```
 
-`make autocorrect` works decently for correcting some errors.
+`make fix` works decently for correcting some errors.
 
 Note: CircleCI will complain about certain lint errors for the project on PR builds.
 
