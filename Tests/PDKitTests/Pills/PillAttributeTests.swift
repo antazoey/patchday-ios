@@ -137,6 +137,19 @@ class PillAttributesTests: XCTestCase {
         XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
     }
 
+    func testAnyAttributeExists_whenHasLastTaken_returnsTrue() {
+        let attributes = PillAttributes(
+            name: nil,
+            expirationIntervalSetting: nil,
+            xDays: nil,
+            times: nil,
+            notify: nil,
+            lastTaken: Date(),
+            timesTakenToday: nil
+        )
+        XCTAssert(attributes.anyAttributeExists())
+    }
+
     func testAnyAttributeExists_whenHasTimesTakenToday_returnsTrue() {
         let attributes = PillAttributes(
             name: nil,
@@ -164,19 +177,6 @@ class PillAttributesTests: XCTestCase {
         XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
     }
 
-    func testAnyAttributeExists_whenHasLastTaken_returnsTrue() {
-        let attributes = PillAttributes(
-            name: nil,
-            expirationIntervalSetting: nil,
-            xDays: nil,
-            times: nil,
-            notify: nil,
-            lastTaken: Date(),
-            timesTakenToday: nil
-        )
-        XCTAssert(attributes.anyAttributeExists())
-    }
-
     func testAnyAttributeExists_handlesExcludedLastTaken() {
         let date = Date()
         let attributes = PillAttributes(
@@ -197,21 +197,6 @@ class PillAttributesTests: XCTestCase {
             name: nil,
             expirationIntervalSetting: .FirstXDays,
             xDays: "1",
-            times: nil,
-            notify: nil,
-            lastTaken: nil,
-            timesTakenToday: nil
-        )
-        let exclusions = PillAttributes(attributes)
-        XCTAssertFalse(attributes.anyAttributeExists(exclusions: exclusions))
-    }
-
-    func testAnyAttributeExists_handlesExcludedTodayLastTakens() {
-        let lastTakensString = PDDateFormatter.formatDate(Date())
-        let attributes = PillAttributes(
-            name: nil,
-            expirationIntervalSetting: nil,
-            xDays: nil,
             times: nil,
             notify: nil,
             lastTaken: nil,
