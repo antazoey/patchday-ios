@@ -163,5 +163,10 @@ class EntityAdapter {
             pill.expirationInterval = intervalObject.value?.rawValue
             pill.xDays = intervalObject.xDaysValue
         }
+
+        if pill.timesTakenToday > 0, let lastTaken = pill.lastTaken as Date? {
+            pill.timesTakenTodayList = PDDateFormatter.formatInternalTime(lastTaken)
+            pill.timesTakenToday = 0
+        }
     }
 }
