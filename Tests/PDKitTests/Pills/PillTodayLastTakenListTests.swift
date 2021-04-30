@@ -1,5 +1,5 @@
 //
-//  PillTodayLastTakensTests.swift
+//  PillLastTakenListTests.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 4/25/21.

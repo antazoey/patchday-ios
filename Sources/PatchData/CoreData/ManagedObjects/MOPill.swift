@@ -16,12 +16,12 @@ public class MOPill: NSManagedObject {
     @NSManaged var notify: Bool
     @NSManaged var xDays: String?
     @NSManaged var times: String?
-    @NSManaged var timesTakenToday: Int16
     @NSManaged var id: UUID?
-    @NSManaged var todayLastTakens: String?
+    @NSManaged var timesTakenTodayList: String?
 
     // Deprecated - only for migration
     @NSManaged var timesaday: Int16
     @NSManaged var time1: NSDate?
     @NSManaged var time2: NSDate?
+    @NSManaged var timesTakenToday: Int16
 }

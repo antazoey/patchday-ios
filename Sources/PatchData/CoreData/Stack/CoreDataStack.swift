@@ -37,7 +37,8 @@ class CoreDataStack: NSObject {
         "timesTakenToday",
         "lastTaken",
         "expirationInterval",
-        "xDays"
+        "xDays",
+        "timesTakenTodayList"
     ]
 
     struct EntityKey {
