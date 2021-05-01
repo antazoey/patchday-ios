@@ -28,7 +28,7 @@ class PillCellViewModel: PillCellViewModelProtocol {
         if let lastTaken = pill.lastTaken, !lastTaken.isDefault() {
             return PDDateFormatter.formatDate(lastTaken)
         } else {
-            return PillStrings.NotYetTaken
+            return PlaceholderStrings.Hyphen
         }
     }
 

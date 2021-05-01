@@ -66,7 +66,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
     }
 
     var dateSelectedText: String {
-        guard let date = dateSelected else { return DotDotDot }
+        guard let date = dateSelected else { return PlaceholderStrings.DotDotDot }
         return PDDateFormatter.formatDate(date)
     }
 
@@ -83,13 +83,13 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
     }
 
     var expirationDateText: String {
-        guard let hormone = hormone else { return DotDotDot }
+        guard let hormone = hormone else { return PlaceholderStrings.DotDotDot }
         let expInt = hormone.expirationInterval
-        guard let date = dateSelected else { return DotDotDot }
+        guard let date = dateSelected else { return PlaceholderStrings.DotDotDot }
         if let expDate = DateFactory.createExpirationDate(expirationInterval: expInt, to: date) {
             return PDDateFormatter.formatDay(expDate)
         }
-        return DotDotDot
+        return PlaceholderStrings.DotDotDot
     }
 
     var siteStartRow: Index {
@@ -118,7 +118,7 @@ class HormoneDetailViewModel: CodeBehindDependencies<HormoneDetailViewModel>, Ho
         if let hormone = hormone, let date = hormone.createExpirationDate(from: Date()) {
             return PDDateFormatter.formatDay(date)
         }
-        return DotDotDot
+        return PlaceholderStrings.DotDotDot
     }
 
     func handleIfUnsaved(_ viewController: UIViewController) {

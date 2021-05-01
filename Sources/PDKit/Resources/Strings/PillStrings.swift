@@ -12,12 +12,6 @@ public class PillStrings {
         NSLocalizedString("New Pill", comment: "Displayed under a button with medium room.")
     }
 
-    public static var NotYetTaken: String {
-        NSLocalizedString(
-            " - ", comment: "Short as possible. Replace with just '...' if too long."
-        )
-    }
-
     public static var DefaultPills: [String] { ["T-Blocker", "Progesterone"] }
 
     public static var ExtraPills: [String] { ["Estrogen", "Prolactin"] }
