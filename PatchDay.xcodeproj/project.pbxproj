@@ -130,7 +130,7 @@
 		9D69B1EA256C7B2400213E79 /* NextHormoneWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9D6D786923FE270100FF150C /* NavigationHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CAEE96FD2E7313A42BA2 /* NavigationHandling.swift */; };
 		9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */; };
-		9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */; };
+		9D6D786F23FE2DE200FF150C /* PillCellActionHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6D786E23FE2DE200FF150C /* PillCellActionHandling.swift */; };
 		9D6DB7D22405FED600C00711 /* PDUserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D12405FED600C00711 /* PDUserDefault.swift */; };
 		9D6DB7DB2405FEF200C00711 /* QuantityUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D72405FEF200C00711 /* QuantityUD.swift */; };
 		9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */; };
@@ -615,7 +615,7 @@
 		9D69B1E3256C7B2400213E79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D69B1E5256C7B2400213E79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
-		9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlings.swift; sourceTree = "<group>"; };
+		9D6D786E23FE2DE200FF150C /* PillCellActionHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandling.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = Sources/PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7D72405FEF200C00711 /* QuantityUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantityUD.swift; path = Sources/PDKit/Settings/Complex/QuantityUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryMethodUD.swift; path = Sources/PDKit/Settings/Complex/DeliveryMethodUD.swift; sourceTree = SOURCE_ROOT; };
@@ -1843,7 +1843,7 @@
 				9DDAB03623FAE61300E6EEF6 /* QuantityMutationAlertActionHandling.swift */,
 				9DDAB03423FAE60000E6EEF6 /* NewSiteAlertActionHandling.swift */,
 				9DDAB03D23FAF14C00E6EEF6 /* DeliveryMethodMutationAlertActionHandling.swift */,
-				9D6D786E23FE2DE200FF150C /* PillCellActionHandlings.swift */,
+				9D6D786E23FE2DE200FF150C /* PillCellActionHandling.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -2689,7 +2689,7 @@
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D78883E25585F1700DC0F6D /* SiteDetailViewModelProtocol.swift in Sources */,
 				9D7888832558636800DC0F6D /* ImageResizer.swift in Sources */,
-				9D6D786F23FE2DE200FF150C /* PillCellActionHandlings.swift in Sources */,
+				9D6D786F23FE2DE200FF150C /* PillCellActionHandling.swift in Sources */,
 				9D913B7D22FF3BEA001FC03C /* HormoneScheduling.swift in Sources */,
 				9DCB086B2442163E00E80486 /* TabReflective.swift in Sources */,
 				9DDAB02C23F8D84D00E6EEF6 /* PillStrings.swift in Sources */,
