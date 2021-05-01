@@ -27,13 +27,6 @@ class PillCell: TableCell, PillCellProtocol {
         self.viewModel = viewModel
         timesTakenTodayLabel?.text = viewModel.timesQuotientText
         lastTakenLabel?.text = viewModel.lastTakenText
-
-        // TODO: Remove
-        if params.index == 0 {
-            tprint("TEST")
-            tprint(lastTakenLabel?.text)
-        }
-
         nameLabel?.text = params.pill.name
         nextDueDateLabel?.text = viewModel.dueDateText
         loadBackground()
