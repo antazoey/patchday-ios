@@ -160,23 +160,22 @@ public class Pill: Swallowable {
         guard timesTakenToday >= 1 else { return }
         guard lastTaken != nil else { return }
         let timesTakenToday = timesTakenTodayList
-        pillData.attributes.lastTaken = timesTakenToday.undoLast()
+        let newLastTaken = timesTakenToday.undoLast() ?? DateFactory.createDefaultDate()
+        pillData.attributes.lastTaken = newLastTaken
         pillData.attributes.timesTakenToday = timesTakenToday.asString
     }
 
     public func awaken() {
-        if timesTakenToday > 0,
-            let lastDate = lastTaken as Date?,
-            !lastDate.isInToday(now: _now) {
+        if let lastDate = lastTaken as Date?,
+           (!lastDate.isInToday(now: _now) || timesTakenToday == 0) {
 
-            pillData.attributes.timesTakenToday = ""  // 0 times taken
+            pillData.attributes.timesTakenToday = ""
+            pillData.attributes.lastTaken = DateFactory.createDefaultDate()
         }
     }
 
     private func appendLastTaken() {
-        tprint(lastTaken)
         let newString = timesTakenTodayList.combineWith(lastTaken)
-        tprint(newString)
         pillData.attributes.timesTakenToday = newString
     }
 

@@ -25,10 +25,15 @@ class PillCell: TableCell, PillCellProtocol {
     public func configure(_ params: PillCellConfigurationParameters) -> PillCellProtocol {
         let viewModel = PillCellViewModel(pill: params.pill)
         self.viewModel = viewModel
-        let quotientText = viewModel.timesQuotientText
-        let lastTakenText = viewModel.lastTakenText
-        timesTakenTodayLabel?.text = quotientText
-        lastTakenLabel?.text = lastTakenText
+        timesTakenTodayLabel?.text = viewModel.timesQuotientText
+        lastTakenLabel?.text = viewModel.lastTakenText
+
+        // TODO: Remove
+        if params.index == 0 {
+            tprint("TEST")
+            tprint(lastTakenLabel?.text)
+        }
+
         nameLabel?.text = params.pill.name
         nextDueDateLabel?.text = viewModel.dueDateText
         loadBackground()

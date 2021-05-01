@@ -14,7 +14,7 @@ public class PillStrings {
 
     public static var NotYetTaken: String {
         NSLocalizedString(
-            "Not yet taken", comment: "Short as possible. Replace with just '...' if too long."
+            " - ", comment: "Short as possible. Replace with just '...' if too long."
         )
     }
 

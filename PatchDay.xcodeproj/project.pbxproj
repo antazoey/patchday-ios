@@ -123,6 +123,7 @@
 		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
 		9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */; };
 		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
+		9D618793263D9E4E00B284CF /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -257,7 +258,6 @@
 		9D913BA62304EF83001FC03C /* Swallowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BA52304EF83001FC03C /* Swallowable.swift */; };
 		9D913BA823065676001FC03C /* PDError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BA723065676001FC03C /* PDError.swift */; };
 		9D913BAC230CD5C9001FC03C /* Hormone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAB230CD5C9001FC03C /* Hormone.swift */; };
-		9D913BAE231D89AD001FC03C /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
 		9D913BB6231F3EB5001FC03C /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BB5231F3EB5001FC03C /* Site.swift */; };
 		9D9397B7237884DA00FDF290 /* HormonesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397B6237884DA00FDF290 /* HormonesViewModel.swift */; };
 		9D9397BD2379444300FDF290 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9397BC2379444300FDF290 /* Settings.swift */; };
@@ -2598,11 +2598,11 @@
 				B480EE4021CC7602002C2238 /* SiteSchedule.swift in Sources */,
 				9D8A980123B290C4004E20FE /* SiteStore.swift in Sources */,
 				B4C69F0E21E56CD7004EABC4 /* MOHormone.swift in Sources */,
+				9D618793263D9E4E00B284CF /* Pill.swift in Sources */,
 				9D8A97FA23B28EAA004E20FE /* EntityStore.swift in Sources */,
 				9DFD8EA524FF340F00E7C3A8 /* MOHormoneList.swift in Sources */,
 				9DFD8EA924FFD09B00E7C3A8 /* MOSiteList.swift in Sources */,
 				9D8A985A23D16A17004E20FE /* PillDataSharer.swift in Sources */,
-				9D913BAE231D89AD001FC03C /* Pill.swift in Sources */,
 				3397C35C32581F075D01A3FD /* HormoneDataSharer.swift in Sources */,
 				3397C27B78F0991995D3FF47 /* MOEntities.swift in Sources */,
 				3397C2EBC38271B62A7AAAA7 /* HormoneSchedule.swift in Sources */,

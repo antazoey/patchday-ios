@@ -36,7 +36,6 @@ class PillLastTakenListTests: XCTestCase {
 
     func testAsList_returnstimesCalculatedFromInitString() {
         let initString = "\(testTimeOneString),\(testTimeTwoString)"
-        tprint(initString)
         let lastTakens = PillTimesTakenTodayList(timeString: initString)
         let actual = lastTakens.asList
 
