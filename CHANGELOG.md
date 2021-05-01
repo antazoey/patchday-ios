@@ -15,6 +15,7 @@ Fixed
 Changed
 
 - Pill Cells now display the times taken today out of the total times per day.
+- Pill Cells now don't display a Last Taken date when the pill was not yet taken that day.
 - You can now save typed Pill name changes without having to close the text field.
 - You can now save typed Site name changes without having to close the text field.
 - You can now save custom site name changes for hormones without having to close the text field.
