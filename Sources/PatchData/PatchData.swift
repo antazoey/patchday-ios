@@ -140,7 +140,7 @@ public class PatchData: NSObject, PatchDataSDK {
             attrs.times = PDDateFormatter.convertTimesToCommaSeparatedString([dueDate])
             attrs.lastTaken = DateFactory.createDate(byAddingHours: -23, to: now)!
             attrs.notify = true
-            attrs.timesTakenToday = nil
+            attrs.timesTakenToday = ""
             attrs.name = "Notification Test"
             pills.set(at: 0, with: attrs)
         }
