@@ -1627,21 +1627,28 @@ public class PillTests: XCTestCase {
         }
     }
 
-    func testAwaken_whenLastTakenWasToday_doesNotSetTimesTakenTodayToZero() {
+    func testAwaken_whenLastTakenWasToday_doesNotClearTimesTakenToday() {
         let attrs = PillAttributes()
-        attrs.timesTakenToday = "12:00:00,01:10:10"
+        let timeString = "12:00:00,01:10:10"
+        attrs.timesTakenToday = timeString
         attrs.lastTaken = Date()
         let pill = createPill(attrs)
         pill.awaken()
-        XCTAssertEqual(2, pill.timesTakenToday)
+        let expected = DateFactory.createTimesFromCommaSeparatedString(timeString)
+        let expectedCount = 2
+        XCTAssertEqual(expectedCount, pill.timesTakenToday)
+        XCTAssertEqual(expectedCount, pill.timesTakenTodayList.count)
+        XCTAssertEqual(expected[0], pill.timesTakenTodayList[0])
+        XCTAssertEqual(expected[1], pill.timesTakenTodayList[1])
     }
 
-    func testAwaken_whenLastTakenWasYesterday_setsTimesTakenTodayToZero() {
+    func testAwaken_whenLastTakenWasYesterday_clearsTimesTakenToday() {
         let attrs = PillAttributes()
         attrs.timesTakenToday = "12:00:00,01:10:10"
         attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
         let pill = createPill(attrs)
         pill.awaken()
         XCTAssertEqual(0, pill.timesTakenToday)
+        XCTAssertEqual(0, pill.timesTakenTodayList.count)
     }
 }
