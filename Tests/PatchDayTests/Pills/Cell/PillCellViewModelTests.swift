@@ -13,6 +13,16 @@ import PatchDay
 
 class PillCellViewModelTests: XCTestCase {
 
+    func testTimesQuotientTests_returnsExpectedText() {
+        let pill = MockPill()
+        pill.timesTakenToday = 2
+        pill.timesaday = 3
+        let viewModel = PillCellViewModel(pill: pill)
+        let expected = "2 of 3"
+        let actual = viewModel.timesQuotientText
+        XCTAssertEqual(expected, actual)
+    }
+
     func testLastTakenText_whenPillHasLastTaken_returnsFormattedLastTakenText() {
         let pill = MockPill()
         let lastTaken = Date()
