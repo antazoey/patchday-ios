@@ -24,6 +24,7 @@ class IntegrationTests: XCTestCase {
 
     // Force synchronous execution
     func test() {
+        whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate()
         whenChangingHormoneBadge_updatesCorrectly()
         whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity()
         cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly()
@@ -166,6 +167,50 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual("Current position: 3 of 3 (on)", detailsViewModel.daysPositionText)
         XCTAssertEqual(1, detailsViewModel.pill!.timesTakenToday)
     }
+
+    func whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate() {
+        sdk.resetAll()
+
+        guard let hormone = sdk.hormones[0] else {
+            XCTFail("This test required a hormone.")
+            return
+        }
+
+        let notifications = MockNotifications()
+        let alerts = MockAlertFactory()
+        let testDate = Date()
+        let now = PDNow()
+        let style = UIUserInterfaceStyle.dark
+        let table = HormonesTable(UITableView(), sdk, style)
+        let imageHistory = SiteImageHistory()
+        let dependencies = MockDependencies()
+        dependencies.sdk = sdk
+        dependencies.notifications = notifications
+        dependencies.alerts = alerts
+
+        // Start off a hormone with a date.
+        sdk.hormones.setDate(by: hormone.id, with: testDate)
+
+        let hormonesViewModel = HormonesViewModel(
+            siteImageHistory: imageHistory,
+            style: style,
+            table: table,
+            dependencies: dependencies,
+            now: now
+        )
+
+        hormonesViewModel.handleRowTapped(at: 0, dummyViewController) {}
+        guard let hormoneAfterTest = sdk.hormones[hormone.id] else {
+            XCTFail("Hormone somehow disappeared during test.")
+            return
+        }
+
+        let changeAction = alerts.createHormoneActionsCallArgs[0].2
+        changeAction()  // Simulates user selecting "Change" from the alert
+
+        XCTAssertNotEqual(testDate, hormoneAfterTest.date)
+    }
+
 // swiftlint:enable function_body_length
 #endif
 }
