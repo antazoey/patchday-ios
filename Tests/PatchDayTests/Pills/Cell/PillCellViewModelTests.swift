@@ -33,11 +33,11 @@ class PillCellViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testLastTakenText_whenPillDoesNotHaveLastTaken_returnsNotYetTakenString() {
+    func testLastTakenText_whenPillDoesNotHaveLastTaken_returnsPlaceholder() {
         let pill = MockPill()
         pill.lastTaken = nil
         let viewModel = PillCellViewModel(pill: pill)
-        let expected = PillStrings.NotYetTaken
+        let expected = PlaceholderStrings.Hyphen
         let actual = viewModel.lastTakenText
         XCTAssertEqual(expected, actual)
     }

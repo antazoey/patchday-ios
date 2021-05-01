@@ -176,7 +176,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         viewModel.hormoneId = hormone.id
         viewModel.selections.date = nil
 
-        let expected = DotDotDot
+        let expected = PlaceholderStrings.DotDotDot
         let actual = viewModel.expirationDateText
         XCTAssertEqual(expected, actual)
     }
@@ -311,7 +311,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         let alertFactory = MockAlertFactory()
         let viewModel = HormoneDetailViewModel(0, handler, alertFactory, dependencies)
         let actual = viewModel.autoPickedExpirationDateText
-        let expected = DotDotDot
+        let expected = PlaceholderStrings.DotDotDot
         XCTAssertEqual(expected, actual)
     }
 

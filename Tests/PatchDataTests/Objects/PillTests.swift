@@ -1627,7 +1627,7 @@ public class PillTests: XCTestCase {
         }
     }
 
-    func testAwaken_whenLastTakenWasToday_doesNotClearTimesTakenToday() {
+    func testAwaken_whenLastTakenWasToday_doesNotClear() {
         let attrs = PillAttributes()
         let timeString = "12:00:00,01:10:10"
         attrs.timesTakenToday = timeString
@@ -1642,12 +1642,37 @@ public class PillTests: XCTestCase {
         XCTAssertEqual(expected[1], pill.timesTakenTodayList[1])
     }
 
-    func testAwaken_whenLastTakenWasYesterday_clearsTimesTakenToday() {
+    func testAwaken_whenHasNoLastTaken_clears() {
+        let attrs = PillAttributes()
+        attrs.lastTaken = nil
+        let timeString = "12:00:00,01:10:10"
+        attrs.timesTakenToday = timeString
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
+        XCTAssertEqual(0, pill.timesTakenToday)
+        XCTAssertEqual(0, pill.timesTakenTodayList.count)
+    }
+
+    func testAwaken_whenTimesTakenTodayIsZero_clears() {
+        let attrs = PillAttributes()
+        let timeString = ""  // 0 times taken today
+        attrs.timesTakenToday = timeString
+        attrs.lastTaken = Date()
+        let pill = createPill(attrs)
+        pill.awaken()
+        XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
+        XCTAssertEqual(0, pill.timesTakenToday)
+        XCTAssertEqual(0, pill.timesTakenTodayList.count)
+    }
+
+    func testAwaken_whenLastTakenWasYesterday_clears() {
         let attrs = PillAttributes()
         attrs.timesTakenToday = "12:00:00,01:10:10"
         attrs.lastTaken = Date(timeIntervalSinceNow: -86400)
         let pill = createPill(attrs)
         pill.awaken()
+        XCTAssertEqual(DateFactory.createDefaultDate(), pill.lastTaken)
         XCTAssertEqual(0, pill.timesTakenToday)
         XCTAssertEqual(0, pill.timesTakenTodayList.count)
     }
