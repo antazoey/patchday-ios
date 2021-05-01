@@ -165,7 +165,17 @@ class EntityAdapter {
         }
 
         if pill.timesTakenToday > 0, let lastTaken = pill.lastTaken as Date? {
-            pill.timesTakenTodayList = PDDateFormatter.formatInternalTime(lastTaken)
+
+            // Get enough of a lastTaken count, even though dates are not honest.
+            let datesWithEnoughCount = (0..<pill.timesTakenToday).map {
+                _ in lastTaken
+            }
+            let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(
+                datesWithEnoughCount
+            )
+            pill.timesTakenTodayList = timeString
+
+            // Clear out deprecated value
             pill.timesTakenToday = 0
         }
     }
