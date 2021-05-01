@@ -122,6 +122,7 @@
 		9D59F8BD25056EC500C0324E /* PDNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BC25056EC500C0324E /* PDNow.swift */; };
 		9D59F8BF250570CC00C0324E /* MockNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59F8BE250570CC00C0324E /* MockNow.swift */; };
 		9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */; };
+		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -606,6 +607,7 @@
 		9D59F8BC25056EC500C0324E /* PDNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNow.swift; sourceTree = "<group>"; };
 		9D59F8BE250570CC00C0324E /* MockNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNow.swift; sourceTree = "<group>"; };
 		9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertTests.swift; sourceTree = "<group>"; };
+		9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertHandlersTests.swift; sourceTree = "<group>"; };
 		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1334,6 +1336,7 @@
 			isa = PBXGroup;
 			children = (
 				9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */,
+				9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -2485,6 +2488,7 @@
 				9D8F45D0248B324A00F2C39A /* SiteDetailViewModelTests.swift in Sources */,
 				9D1908EF24684B5400E95244 /* SettingsReflectorTests.swift in Sources */,
 				9D9C5FF3247AE4FD00B3DA6A /* IntegrationTests.swift in Sources */,
+				9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */,
 				9DC8C0562531139100F89DEF /* PillCellViewModelTests.swift in Sources */,
 				9D6E9B2D245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift in Sources */,
 				9D6E9B212457A5A5003BBCC9 /* ExpiredHormoneNotificationTests.swift in Sources */,
