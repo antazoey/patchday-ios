@@ -127,6 +127,16 @@ public class PillSchedule: NSObject, PillScheduling {
         swallow(pill, onSuccess)
     }
 
+    public func unswallow(_ id: UUID, onSuccess: (() -> Void)?) {
+        guard let pill = self[id] else { return }
+        guard pill.timesTakenToday >= 1 else { return }
+        guard pill.lastTaken != nil else { return }
+        pill.unswallow()
+        store.pushLocalChangesToManagedContext([pill], doSave: true)
+        onSuccess?()
+        shareData()
+    }
+
     public func indexOf(_ pill: Swallowable) -> Index? {
         all.firstIndex { (_ p: Swallowable) -> Bool in p.id == pill.id }
     }

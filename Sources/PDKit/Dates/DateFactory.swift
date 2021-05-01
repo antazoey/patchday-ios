@@ -34,7 +34,9 @@ public class DateFactory: NSObject {
     }
 
     /// Creates a Date at the given time calculated by adding days from today.
-    public static func createDate(at time: Time, daysFromToday: Int, now: NowProtocol?=nil) -> Date? {
+    public static func createDate(
+        at time: Time, daysFromToday: Int, now: NowProtocol?=nil
+    ) -> Date? {
         var componentsToAdd = DateComponents()
         componentsToAdd.day = daysFromToday
         let now = now?.now ?? Date()
@@ -68,30 +70,35 @@ public class DateFactory: NSObject {
     }
 
     public static func createTimesFromCommaSeparatedString(
-        _ dateString: String, now: NowProtocol?=nil
+        _ timeString: String, now: NowProtocol?=nil
     ) -> [Time] {
         let formatter = DateFormatterFactory.createInternalTimeFormatter()
-        let dates = dateString.split(separator: ",").map {
+
+        let dates = timeString.split(separator: ",").map {
             formatter.date(from: String($0))
-        }.filter { $0 != nil }
-        let times = dates as! [Time]
-        let now = now?.now ?? Date()
-        let timesWithSameDate = times.map {
+        }.filter { $0 != nil } as! [Time]
+
+        let now = now?.now ?? Time()
+
+        // Convert all dates to today for sake of soft-converting to Times.
+        let timesWithSameDate = dates.map {
             DateFactory.createDate(on: now, at: $0)
         }.filter { $0 != nil } as! [Time]
         return timesWithSameDate.sorted()
     }
 
     /// Creates a time interval by adding the given hours to the given date.
-    public static func createTimeInterval(fromAddingHours hours: Int, to date: Date) -> TimeInterval? {
-        guard !date.isDefault(), let dateWithAddedHours = createDate(byAddingHours: hours, to: date) else {
-            return nil
-        }
+    public static func createTimeInterval(
+        fromAddingHours hours: Int, to date: Date
+    ) -> TimeInterval? {
+        guard !date.isDefault() else { return nil }
+        guard let newDate = createDate(byAddingHours: hours, to: date) else { return nil }
+
         // Find start and end between date and now (handling negative hours)
-        var range = [Date(), dateWithAddedHours]
+        var range = [Date(), newDate]
         range.sort()
         let interval = DateInterval(start: range[0], end: range[1]).duration
-        return range[1] == dateWithAddedHours ? interval : -interval
+        return range[1] == newDate ? interval : -interval
     }
 
     public static func createDateBeforeAtEightPM(of date: Date) -> Date? {

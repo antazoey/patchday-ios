@@ -74,9 +74,9 @@ class EntityAdapter {
         if let times = pillData.attributes.times as String?, times != "" {
             pill.times = times
         }
-        let pillTimesTaken = pill.timesTakenToday
-        if let timesTaken = pillData.attributes.timesTakenToday, timesTaken != pillTimesTaken {
-            pill.timesTakenToday = Int16(timesTaken)
+        if let timesTaken = pillData.attributes.timesTakenToday,
+           timesTaken != pill.timesTakenTodayList {
+            pill.timesTakenTodayList = timesTaken
         }
         if let expirationInterval = pillData.attributes.expirationInterval.value {
             pill.expirationInterval = expirationInterval.rawValue
@@ -151,8 +151,8 @@ class EntityAdapter {
             xDays: pill.xDays,
             times: pill.times,
             notify: pill.notify,
-            timesTakenToday: Int(pill.timesTakenToday),
-            lastTaken: pill.lastTaken as Date?
+            lastTaken: pill.lastTaken as Date?,
+            timesTakenToday: pill.timesTakenTodayList
         )
     }
 
@@ -162,6 +162,21 @@ class EntityAdapter {
             let intervalObject = PillExpirationInterval(intervalString, xDays: pill.xDays)
             pill.expirationInterval = intervalObject.value?.rawValue
             pill.xDays = intervalObject.xDaysValue
+        }
+
+        if pill.timesTakenToday > 0, let lastTaken = pill.lastTaken as Date? {
+
+            // Get enough of a lastTaken count, even though dates are not honest.
+            let datesWithEnoughCount = (0..<pill.timesTakenToday).map {
+                _ in lastTaken
+            }
+            let timeString = PDDateFormatter.convertTimesToCommaSeparatedString(
+                datesWithEnoughCount
+            )
+            pill.timesTakenTodayList = timeString
+
+            // Clear out deprecated value
+            pill.timesTakenToday = 0
         }
     }
 }

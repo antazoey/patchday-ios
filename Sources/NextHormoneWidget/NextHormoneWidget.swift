@@ -109,7 +109,7 @@ struct NextHormoneWidget: Widget {
 
 struct PlaceholderView: View {
     var body: some View {
-        Text(DotDotDot)
+        Text(PlaceholderStrings.DotDotDot)
     }
 }
 

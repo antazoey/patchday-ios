@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20E232" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Estrogen" representedClassName="MOHormone" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
@@ -17,6 +17,7 @@
         <attribute name="times" optional="YES" attributeType="String"/>
         <attribute name="timesaday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timesTakenToday" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timesTakenTodayList" optional="YES" attributeType="String"/>
         <attribute name="xDays" optional="YES" attributeType="String"/>
     </entity>
     <entity name="Site" representedClassName="MOSite" syncable="YES">
@@ -28,7 +29,7 @@
     </entity>
     <elements>
         <element name="Estrogen" positionX="-36" positionY="54" width="128" height="103"/>
-        <element name="Pill" positionX="-27" positionY="63" width="128" height="194"/>
+        <element name="Pill" positionX="-27" positionY="63" width="128" height="209"/>
         <element name="Site" positionX="-27" positionY="63" width="128" height="118"/>
     </elements>
 </model>

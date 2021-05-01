@@ -17,11 +17,18 @@ class PillCellViewModel: PillCellViewModelProtocol {
         self.pill = pill
     }
 
+    var timesQuotientText: String {
+        let quotient = PillTimesQuotient(
+            timesTakenToday: pill.timesTakenToday, timesaday: pill.timesaday
+        )
+        return quotient.toString()
+    }
+
     var lastTakenText: String {
-        if let lastTaken = pill.lastTaken {
+        if let lastTaken = pill.lastTaken, !lastTaken.isDefault() {
             return PDDateFormatter.formatDate(lastTaken)
         } else {
-            return PillStrings.NotYetTaken
+            return PlaceholderStrings.Hyphen
         }
     }
 

@@ -461,7 +461,7 @@ class PillScheduleTests: XCTestCase {
         XCTAssertFalse(didCall)
     }
 
-    public func testSwallow_whenLastTakenIsNil_swallowsPill() {
+    public func testSwallow_swallowsPill() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
 
         mockPills[1].timesTakenToday = 10
@@ -469,10 +469,10 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].lastTaken = nil // Key to test
 
         pills.swallow(mockPills[1].id, onSuccess: nil)
-        XCTAssert(mockPills[1].swallowCallCount == 1)
+        XCTAssertEqual(1, mockPills[1].swallowCallCount)
     }
 
-    public func testSwallow_whenLastTakenIsNil_callsOnSuccess() {
+    public func testSwallow_callsOnSuccess() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
 
         mockPills[1].timesTakenToday = 10
@@ -485,7 +485,7 @@ class PillScheduleTests: XCTestCase {
         XCTAssertTrue(didCall)
     }
 
-    public func testSwallow_inCaseWhereTakes_sharesData() {
+    public func testSwallow_sharesData() {
         let mockPills = setUpThreePillsWithMiddleOneNextDue()
 
         mockPills[1].timesTakenToday = 10
@@ -493,6 +493,65 @@ class PillScheduleTests: XCTestCase {
         mockPills[1].lastTaken = nil // Key to test
 
         pills.swallow(mockPills[1].id, onSuccess: {})
+        XCTAssertEqual(1, mockDataSharer.shareCallArgs.count)
+        XCTAssertEqual(mockPills[1].id, mockDataSharer.shareCallArgs[0].id)
+    }
+
+    public func testUnswallow_whenPillDoesNotExist_doesNothing() {
+        setUpThreePillsWithMiddleOneNextDue()
+        mockStore.pushLocalChangesCallArgs = []
+        pills.unswallow(UUID(), onSuccess: {})
+        XCTAssertEqual(0, mockStore.pushLocalChangesCallArgs.count)
+    }
+
+    public func testUnswallow_saves() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].lastTaken = Date()
+        mockStore.pushLocalChangesCallArgs = []
+        pills.unswallow(mockPills[1].id, onSuccess: {})
+        XCTAssertEqual(1, mockStore.pushLocalChangesCallArgs.count)
+    }
+
+    public func testUnswallow_whenPillNotTakenToday_doesNothing() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 0
+        mockPills[1].lastTaken = Date()
+        pills.unswallow(mockPills[1].id, onSuccess: {})
+        XCTAssertEqual(0, mockPills[1].unswallowCallCount)
+    }
+
+    public func testUnswallow_lastTakenIsNil_doesNothing() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 1
+        mockPills[1].lastTaken = nil
+        pills.unswallow(mockPills[1].id, onSuccess: {})
+        XCTAssertEqual(0, mockPills[1].unswallowCallCount)
+    }
+
+    public func testUnswallow_unswallowsPill() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].lastTaken = Date()
+        pills.unswallow(mockPills[1].id, onSuccess: nil)
+        XCTAssertEqual(1, mockPills[1].unswallowCallCount)
+    }
+
+    public func testUnswallow_callsOnSuccess() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].lastTaken = Date()
+        var didCall = false
+        let comp = { () in didCall = true }
+        pills.unswallow(mockPills[1].id, onSuccess: comp)
+        XCTAssertTrue(didCall)
+    }
+
+    public func testUnswallow_sharesData() {
+        let mockPills = setUpThreePillsWithMiddleOneNextDue()
+        mockPills[1].timesTakenToday = 10
+        mockPills[1].lastTaken = Date()
+        pills.unswallow(mockPills[1].id, onSuccess: {})
         XCTAssertEqual(1, mockDataSharer.shareCallArgs.count)
         XCTAssertEqual(mockPills[1].id, mockDataSharer.shareCallArgs[0].id)
     }

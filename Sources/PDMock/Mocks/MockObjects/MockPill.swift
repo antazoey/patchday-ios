@@ -22,6 +22,7 @@ public class MockPill: Swallowable {
     public var isNew: Bool = false
     public var isDone: Bool = false
     public var hasName: Bool = false
+    public var timesTakenTodayList = PillTimesTakenTodayList()
 
     public init() { }
 
@@ -37,6 +38,11 @@ public class MockPill: Swallowable {
     public var swallowCallCount = 0
     public func swallow() {
         swallowCallCount += 1
+    }
+
+    public var unswallowCallCount = 0
+    public func unswallow() {
+        unswallowCallCount += 1
     }
 
     public var awakenCallCount = 0

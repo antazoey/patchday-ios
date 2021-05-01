@@ -23,6 +23,12 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testFormatInternalTime_returnsExpectedString() {
+        let expected = "07:46:40"
+        let actual = PDDateFormatter.formatInternalTime(Date(timeIntervalSince1970: 1000000))
+        XCTAssertEqual(expected, actual)
+    }
+
     func testFormatDate_whenNotTodayYesterdayOrTomorrow_returnsExpectedString() {
         let expected = "Monday, January 12, 7:46 AM"
         let actual = PDDateFormatter.formatDate(Date(timeIntervalSince1970: 1000000))
@@ -37,6 +43,13 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testFormatDate_whenTodayAndUseWordsIsFalse_excludesDateWord() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let now = Date()
+        let actual = PDDateFormatter.formatDate(now, useWords: false)
+        XCTAssertFalse(actual.contains("Today"))
+    }
+
     func testFormatDate_whenYesterday_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: -86499, since: Date())
@@ -45,12 +58,26 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testFormatDate_whenYesterdayAndUseWordsIsFalse_excludesDateWord() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let yesterday = Date(timeInterval: -86499, since: Date())
+        let actual = PDDateFormatter.formatDate(yesterday, useWords: false)
+        XCTAssertFalse(actual.contains("Yesterday"))
+    }
+
     func testFormatDate_whenTomorrow_returnsExpecteDstring() {
         formatter.dateFormat = DateFormatterFactory.timeFormat
         let yesterday = Date(timeInterval: 86499, since: Date())
         let expected = "Tomorrow, " + formatter.string(from: yesterday)
         let actual = PDDateFormatter.formatDate(yesterday)
         XCTAssertEqual(expected, actual)
+    }
+
+    func testFormatDate_whenTomorrowAndUseWordsIsFalse_returnsExpecteDstring() {
+        formatter.dateFormat = DateFormatterFactory.timeFormat
+        let yesterday = Date(timeInterval: 86499, since: Date())
+        let actual = PDDateFormatter.formatDate(yesterday, useWords: false)
+        XCTAssertFalse(actual.contains("Tomorrow"))
     }
 
     func testFormatDay_whenNotToday_returnsExpectedString() {
@@ -83,7 +110,7 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertDatesToCommaSeparatedString_whenGivenSingleDate_returnsExpectedString() {
+    func testConvertTimesToCommaSeparatedString_whenGivenSingleDate_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let date = Date()
         let expected = formatter.string(from: date)
@@ -91,7 +118,7 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertDatesToCommaSeparatedString_whenGivenMultipleDates_returnsExpectedString() {
+    func testConvertTimesToCommaSeparatedString_whenGivenMultipleDates_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let dateOne = Date()
         let dateTwo = DateFactory.createDate(byAddingHours: -3, to: dateOne)
@@ -100,7 +127,7 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertDatesToCommaSeparatedString_ignoresNils() {
+    func testConvertTimesToCommaSeparatedString_ignoresNils() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let date = Date()
         let expected = formatter.string(from: date)
@@ -108,7 +135,7 @@ class PDDateFormatterTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    func testConvertDatesToCommaSeparatedString() {
+    func testConvertTimesToCommaSeparatedString_returnsExpectedString() {
         formatter.dateFormat = DateFormatterFactory.internalTimeFormat
         let testDate = Calendar.current.date(bySettingHour: 12, minute: 51, second: 30, of: Date())!
         let actual = PDDateFormatter.convertTimesToCommaSeparatedString([testDate])

@@ -231,7 +231,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: {}
+            reloadViews: {}
         )
         let alerts = deps.alerts as! MockAlertFactory
         XCTAssertEqual(1, alerts.createPillActionsReturnValue.presentCallCount)
@@ -247,7 +247,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: completer
+            reloadViews: completer
         )
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         handlers.takePill()
@@ -260,7 +260,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: {}
+            reloadViews: {}
         )
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
@@ -274,7 +274,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: {}
+            reloadViews: {}
         )
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
@@ -289,7 +289,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: {}
+            reloadViews: {}
         )
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
@@ -305,7 +305,7 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: {}
+            reloadViews: {}
         )
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
@@ -320,12 +320,106 @@ class PillsViewModelTests: XCTestCase {
         viewModel.presentPillActions(
             at: 0,
             viewController: UIViewController(),
-            takePillCompletion: {}
+            reloadViews: {}
         )
         let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
         tabs.reflectPillsCallCount = 0  // reset prior to test
         handlers.takePill()
         (viewModel.pills as! MockPillSchedule).swallowIdCallArgs[0].1!()  // Call closure
+        let callArgs = cell.configureCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        let params = callArgs[0]
+        XCTAssertEqual(testPill.id, params.pill.id)
+        XCTAssertEqual(0, params.index)
+    }
+
+    func testPresentPillActions_whenChoosesUntakeAction_callsCompleter() {
+        let viewModel = createViewModel()
+        var completerCalled = false
+        let completer = { completerCalled = true }
+        viewModel.presentPillActions(
+            at: 0,
+            viewController: UIViewController(),
+            reloadViews: completer
+        )
+        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
+        handlers.undoTakePill()
+        XCTAssert(completerCalled)
+    }
+
+    func testPresentPillActions_whenChoosesUntakeAction_reflectsTabs() {
+        let viewModel = createViewModel()
+        let tabs = deps.tabs as! MockTabs
+        viewModel.presentPillActions(
+            at: 0,
+            viewController: UIViewController(),
+            reloadViews: {}
+        )
+        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
+        tabs.reflectPillsCallCount = 0  // reset prior to test
+        handlers.undoTakePill()
+        XCTAssertEqual(1, tabs.reflectPillsCallCount)
+    }
+
+    func testPresentPillActions_whenChoosesUntakeAction_callsUnswallow() {
+        let viewModel = createViewModel()
+        let tabs = deps.tabs as! MockTabs
+        viewModel.presentPillActions(
+            at: 0,
+            viewController: UIViewController(),
+            reloadViews: {}
+        )
+        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
+        tabs.reflectPillsCallCount = 0  // reset prior to test
+        handlers.undoTakePill()
+        let pills = viewModel.sdk?.pills as! MockPillSchedule
+        XCTAssertEqual(1, pills.unswallowCallArgs.count)
+        XCTAssertEqual(testPill.id, pills.unswallowCallArgs[0].0)
+    }
+
+    func testPresentPillActions_whenChoosesUntakeAction_requestsNotification() {
+        let viewModel = createViewModel()
+        let tabs = deps.tabs as! MockTabs
+        viewModel.presentPillActions(
+            at: 0,
+            viewController: UIViewController(),
+            reloadViews: {}
+        )
+        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
+        tabs.reflectPillsCallCount = 0  // reset prior to test
+        handlers.undoTakePill()
+        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
+        let notifications = viewModel.notifications as! MockNotifications
+        XCTAssertEqual(testPill.id, notifications.requestDuePillNotificationCallArgs[0].id)
+    }
+
+    func testPresentPillActions_whenChoosesUntakeAction_subscriptsCorrectCell() {
+        let viewModel = createViewModel()
+        let tabs = deps.tabs as! MockTabs
+        viewModel.presentPillActions(
+            at: 0,
+            viewController: UIViewController(),
+            reloadViews: {}
+        )
+        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
+        tabs.reflectPillsCallCount = 0  // reset prior to test
+        handlers.undoTakePill()
+        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
+        XCTAssertEqual(0, table.subscriptCallArgs[0])
+    }
+
+    func testPresentPillActions_whenChoosesUntakeAction_configuresCell() {
+        let viewModel = createViewModel()
+        let tabs = deps.tabs as! MockTabs
+        viewModel.presentPillActions(
+            at: 0,
+            viewController: UIViewController(),
+            reloadViews: {}
+        )
+        let handlers = (viewModel.alerts as! MockAlertFactory).createPillActionsCallArgs[0].1
+        tabs.reflectPillsCallCount = 0  // reset prior to test
+        handlers.undoTakePill()
+        (viewModel.pills as! MockPillSchedule).unswallowCallArgs[0].1!()  // Call closure
         let callArgs = cell.configureCallArgs
         XCTAssertEqual(1, callArgs.count)
         let params = callArgs[0]

@@ -8,7 +8,6 @@ import Foundation
 import PDKit
 
 public class Pill: Swallowable {
-
     private var pillData: PillStruct  // Stored data
     private lazy var log = PDLog<Pill>()
     public var _now: NowProtocol
@@ -35,10 +34,10 @@ public class Pill: Swallowable {
             name: name,
             expirationIntervalSetting: interval,
             xDays: expirationInterval.xDaysValue,
-            times: PDDateFormatter.convertTimesToCommaSeparatedString(times),
+            times: pillData.attributes.times,
             notify: notify,
-            timesTakenToday: timesTakenToday,
-            lastTaken: lastTaken
+            lastTaken: lastTaken,
+            timesTakenToday: pillData.attributes.timesTakenToday
         )
     }
 
@@ -74,13 +73,17 @@ public class Pill: Swallowable {
 
     public var timesaday: Int { times.count }
 
-    public var timesTakenToday: Int {
-        pillData.attributes.timesTakenToday ?? DefaultPillAttributes.timesTakenToday
-    }
-
     public var lastTaken: Date? {
         get { pillData.attributes.lastTaken }
         set { pillData.attributes.lastTaken = newValue }
+    }
+
+    public var timesTakenTodayList: PillTimesTakenTodayList {
+        PillTimesTakenTodayList(timeString: pillData.attributes.timesTakenToday)
+    }
+
+    public var timesTakenToday: Int {
+        timesTakenTodayList.count
     }
 
     public var due: Date? {
@@ -143,23 +146,44 @@ public class Pill: Swallowable {
             && pillData.attributes.expirationInterval.xDaysIsOn == nil {
             pillData.attributes.expirationInterval.startPositioning()
         }
-        let currentTimesTaken = pillData.attributes.timesTakenToday ?? 0
-        pillData.attributes.timesTakenToday = currentTimesTaken + 1
-        lastTaken = now
 
-        // Increment XDays position if done for the day
+        lastTaken = now
+        appendLastTaken()
+
+        // Increment XDays position if done for the day.
         if expirationInterval.value == .XDaysOnXDaysOff && isDone {
             expirationInterval.incrementXDays()
         }
     }
 
-    public func awaken() {
-        if timesTakenToday > 0,
-            let lastDate = lastTaken as Date?,
-            !lastDate.isInToday(now: _now) {
+    public func unswallow() {
+        guard timesTakenToday >= 1 else { return }
+        guard lastTaken != nil else { return }
+        let timesTakenToday = timesTakenTodayList
+        let newLastTaken = timesTakenToday.undoLast() ?? DateFactory.createDefaultDate()
+        pillData.attributes.lastTaken = newLastTaken
+        pillData.attributes.timesTakenToday = timesTakenToday.asString
+    }
 
-            pillData.attributes.timesTakenToday = 0
+    public func awaken() {
+        guard let lastDate = lastTaken as Date? else {
+            resetLastTaken()
+            return
         }
+
+        if !lastDate.isInToday(now: _now) || timesTakenToday == 0 {
+            resetLastTaken()
+        }
+    }
+
+    private func resetLastTaken() {
+        pillData.attributes.timesTakenToday = ""
+        pillData.attributes.lastTaken = DateFactory.createDefaultDate()
+    }
+
+    private func appendLastTaken() {
+        let newString = timesTakenTodayList.combineWith(lastTaken)
+        pillData.attributes.timesTakenToday = newString
     }
 
     private var pillDueDateFinderParams: PillDueDateFinderParams {

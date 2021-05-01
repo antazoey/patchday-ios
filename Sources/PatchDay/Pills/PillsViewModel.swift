@@ -57,13 +57,9 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     func takePill(at index: Index) {
         guard let pills = pills else { return }
         guard let pill = pills[index] else { return }
+
         pills.swallow(pill.id) {
-            self.notifications?.requestDuePillNotification(pill)
-            let params = PillCellConfigurationParameters(pill: pill, index: index)
-            self.pillsTable[index].configure(params)
-            self.pillsTable.reloadData()
-            self.badge?.reflect()
-            self.notifications?.requestDuePillNotification(pill)
+            self.handlePillTakenTimesChanged(at: index, for: pill)
         }
         self.tabs?.reflectPills()
     }
@@ -75,7 +71,9 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     }
 
     func presentPillActions(
-        at index: Index, viewController: UIViewController, takePillCompletion: @escaping () -> Void
+        at index: Index,
+        viewController: UIViewController,
+        reloadViews: @escaping () -> Void
     ) {
         guard let pill = sdk?.pills[index] else { return }
         let goToDetails = {
@@ -83,11 +81,18 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         }
         let takePill = {
             self.takePill(at: index)
-            takePillCompletion()
+            reloadViews()
         }
-        let handlers = PillCellActionHandlers(goToDetails: goToDetails, takePill: takePill)
-        let alert = self.alerts?.createPillActions(pill, handlers)
-        alert?.present()
+        let undoTake = {
+            self.undoTakePill(at: index)
+            reloadViews()
+        }
+        let handlers = PillCellActionHandlers(
+            goToDetails: goToDetails, takePill: takePill, undoTakePill: undoTake
+        )
+        if let alert = self.alerts?.createPillActions(pill, handlers) {
+            alert.present()
+        }
     }
 
     func goToNewPillDetails(pillsViewController: UIViewController) {
@@ -137,5 +142,23 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
     @objc private func reloadDataFromBackgroundUpdate() {
         pillsTable.reloadData()
         tabs?.reflect()
+    }
+
+    private func handlePillTakenTimesChanged(at index: Index, for pill: Swallowable) {
+        self.notifications?.requestDuePillNotification(pill)
+        let params = PillCellConfigurationParameters(pill: pill, index: index)
+        self.pillsTable[index].configure(params)
+        self.pillsTable.reloadData()
+        self.badge?.reflect()
+        self.notifications?.requestDuePillNotification(pill)
+    }
+
+    private func undoTakePill(at index: Index) {
+        guard let pills = pills else { return }
+        guard let pill = pills[index] else { return }
+        pills.unswallow(pill.id) {
+            self.handlePillTakenTimesChanged(at: index, for: pill)
+        }
+        self.tabs?.reflectPills()
     }
 }

@@ -11,13 +11,11 @@ class PillCell: TableCell, PillCellProtocol {
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var arrowLabel: UILabel!
-
+    @IBOutlet weak var timesTakenTodayLabel: UILabel!
     @IBOutlet weak var lastTakenHeaderLabel: UILabel!
     @IBOutlet weak var lastTakenLabel: UILabel!
-
     @IBOutlet weak var nextHeaderLabel: UILabel!
     @IBOutlet weak var nextDueDateLabel: UILabel!
-    @IBOutlet weak var imageViewContainer: UIView!
     @IBOutlet weak var badgeButton: PDBadgeButton!
 
     static let RowHeight: CGFloat = 170.0
@@ -25,10 +23,12 @@ class PillCell: TableCell, PillCellProtocol {
 
     @discardableResult
     public func configure(_ params: PillCellConfigurationParameters) -> PillCellProtocol {
-        self.viewModel = PillCellViewModel(pill: params.pill)
-        lastTakenLabel?.text = viewModel?.lastTakenText
+        let viewModel = PillCellViewModel(pill: params.pill)
+        self.viewModel = viewModel
+        timesTakenTodayLabel?.text = viewModel.timesQuotientText
+        lastTakenLabel?.text = viewModel.lastTakenText
         nameLabel?.text = params.pill.name
-        nextDueDateLabel?.text = viewModel?.dueDateText
+        nextDueDateLabel?.text = viewModel.dueDateText
         loadBackground()
         loadBadge(params.pill)
         applyTheme(at: params.index)
@@ -48,12 +48,6 @@ class PillCell: TableCell, PillCellProtocol {
     }
 
     private func applyTheme(at index: Index) {
-        nameLabel?.textColor = PDColors[.Purple]
-        arrowLabel?.textColor = PDColors[.Purple]
-        lastTakenHeaderLabel?.textColor = PDColors[.Text]
-        lastTakenLabel?.textColor = PDColors[.Text]
-        nextHeaderLabel?.textColor = PDColors[.Text]
-        nextDueDateLabel?.textColor = PDColors[.Button]
         backgroundColor = PDColors.Cell[index]
         selectedBackgroundView = UIView()
         selectedBackgroundView?.backgroundColor = PDColors[.Selected]

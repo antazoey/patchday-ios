@@ -88,11 +88,6 @@ public class DefaultQuantities {
     }
 }
 
-/// A localized placeholder string.
-public var DotDotDot: String {
-    NSLocalizedString("...", comment: "Instruction for empty patch")
-}
-
 /// The number of components for most (currently all) pickers.
 public let DefaultNumberOfPickerComponents = 1
 

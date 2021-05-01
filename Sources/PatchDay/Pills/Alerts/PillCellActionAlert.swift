@@ -28,15 +28,28 @@ class PillCellActionAlert: PDAlert {
     }
 
     private var takeAction: UIAlertAction? {
-        !pill.isDone ? UIAlertAction(title: ActionStrings.Take, style: .default) {
+        guard !pill.isDone else { return nil }
+        return UIAlertAction(title: ActionStrings.Take, style: .default) {
             _ in self.handlers.takePill()
-        } : nil
+        }
+    }
+
+    private var undoTakeAction: UIAlertAction? {
+        guard pill.timesTakenToday >= 1 else { return nil }
+        guard pill.lastTaken != nil else { return nil }
+        let title = NSLocalizedString("Undo Take", comment: "Notification button string")
+        return UIAlertAction(title: title, style: .default) {
+            _ in self.handlers.undoTakePill()
+        }
     }
 
     override func present() {
         var actions = [pillDetailsAction, cancelAction]
         if let take = takeAction {
             actions.append(take)
+        }
+        if let undo = undoTakeAction {
+            actions.append(undo)
         }
         super.present(actions: actions)
     }

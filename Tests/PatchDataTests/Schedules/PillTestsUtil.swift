@@ -1,5 +1,5 @@
 //
-//  PillScheduleTestsUtil.swift
+//  PillTestsUtil.swift
 //  PatchDataTests
 //
 //  Created by Juliya Smith on 1/22/20.

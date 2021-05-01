@@ -9,4 +9,5 @@ import Foundation
 public protocol PillCellActionHandling {
     func goToDetails()
     func takePill()
+    func undoTakePill()
 }

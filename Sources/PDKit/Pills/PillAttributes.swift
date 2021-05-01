@@ -13,8 +13,8 @@ public class PillAttributes {
     public var name: String?
     public var times: String?
     public var notify: Bool?
-    public var timesTakenToday: Int?
     public var lastTaken: Date?
+    public var timesTakenToday: String?
 
     public init(
         name: String?,
@@ -22,8 +22,8 @@ public class PillAttributes {
         xDays: String?,
         times: String?,
         notify: Bool?,
-        timesTakenToday: Int?,
-        lastTaken: Date?
+        lastTaken: Date?,
+        timesTakenToday: String?
     ) {
         self.name = name
         self._expirationInterval = PillExpirationInterval(
@@ -31,16 +31,16 @@ public class PillAttributes {
         )
         self.times = times
         self.notify = notify
-        self.timesTakenToday = timesTakenToday
         self.lastTaken = lastTaken
+        self.timesTakenToday = timesTakenToday
     }
 
     public init(_ attributes: PillAttributes) {
         self.name = attributes.name
         self.times = attributes.times
         self.notify = attributes.notify
-        self.timesTakenToday = attributes.timesTakenToday
         self.lastTaken = attributes.lastTaken
+        self.timesTakenToday = attributes.timesTakenToday
         let interval = attributes.expirationInterval.value
         let xDaysValue = attributes.expirationInterval.xDaysValue
         self._expirationInterval = PillExpirationInterval(interval, xDays: xDaysValue)
@@ -60,17 +60,17 @@ public class PillAttributes {
             && expirationInterval.value != exclusions.expirationInterval.value
         let timesExists = times != nil && times != exclusions.times
         let notifyExists = notify != nil && notify != exclusions.notify
+        let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
         let timesTakenTodayExists = timesTakenToday != nil
             && timesTakenToday != exclusions.timesTakenToday
-        let lastTakenExists = lastTaken != nil && lastTaken != exclusions.lastTaken
 
         return nameExists
             || intervalExists
             || timesExists
             || timesTakenTodayExists
             || notifyExists
-            || timesTakenTodayExists
             || lastTakenExists
+            || timesTakenTodayExists
     }
 
     /// Update this instance's properties with the given ones. This does not update if the given property is nil.
@@ -78,8 +78,8 @@ public class PillAttributes {
         name = attributes.name ?? name
         times = attributes.times ?? times
         notify = attributes.notify != nil ? attributes.notify : notify
-        timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
         lastTaken = attributes.lastTaken ?? lastTaken
+        timesTakenToday = attributes.timesTakenToday ?? timesTakenToday
 
         let interval = attributes.expirationInterval.value ?? expirationInterval.value
         let days = attributes.expirationInterval.xDaysValue ?? expirationInterval.xDaysValue
@@ -97,7 +97,7 @@ public class PillAttributes {
         _expirationInterval.value = nil
         times = nil
         notify = nil
-        timesTakenToday = nil
         lastTaken = nil
+        timesTakenToday = nil
     }
 }

@@ -30,7 +30,7 @@ class LoggingPlayground: XCTestCase {
         attributes.notify = true
         attributes.lastTaken = Date(timeIntervalSinceNow: -2342652)
         attributes.times = "12:00:00,5:00:00"
-        attributes.timesTakenToday = 0
+        attributes.timesTakenToday = "12:00:01"
         let pill = Pill(pillData: PillStruct(UUID(), attributes))
         PDObjectLogger.logPill(pill)
     }

@@ -20,9 +20,14 @@ public class PDDateFormatter {
         return formatter.string(from: time)
     }
 
+    public static func formatInternalTime(_ time: Time) -> String {
+        let formatter = DateFormatterFactory.createInternalTimeFormatter()
+        return formatter.string(from: time)
+    }
+
     /// Gives String for the given Date.
-    public static func formatDate(_ date: Date) -> String {
-        if let word = dateWord(from: date) {
+    public static func formatDate(_ date: Date, useWords: Bool=true) -> String {
+        if useWords, let word = dateWord(from: date) {
             return getWordedDateString(from: date, word: word)
         }
         let formatter = DateFormatterFactory.createDateFormatter()
@@ -40,11 +45,7 @@ public class PDDateFormatter {
 
     /// Convert a list of times to a comma-separated string.
     public static func convertTimesToCommaSeparatedString(_ times: [Time?]) -> String {
-        let formatter = DateFormatterFactory.createInternalTimeFormatter()
-        let dateStrings = times.map({ d in formatter.string(for: d) }).filter {
-            s in s != nil
-        } as! [String]
-        return dateStrings.joined(separator: ",")
+        convertDatesToString(times, formatter: DateFormatterFactory.createInternalTimeFormatter())
     }
 
     private static func getWordedDateString(from date: Date, word: String) -> String {
@@ -64,5 +65,12 @@ public class PDDateFormatter {
             return tomorrowString
         }
         return nil
+    }
+
+    private static func convertDatesToString(_ dates: [Date?], formatter: Formatter) -> String {
+        ((dates
+            .map({d in formatter.string(for: d)})
+            .filter {s in s != nil}) as! [String])
+            .joined(separator: ",")
     }
 }

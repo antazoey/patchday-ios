@@ -10,11 +10,20 @@ import PDKit
 
 class CoreDataStack: NSObject {
 
-    private static var container: NSPersistentContainer?
     private static var log = PDLog<CoreDataStack>()
+    private static var _container: NSPersistentContainer?
+
+    private static var container: NSPersistentContainer {
+        if let con = _container {
+            return con
+        } else {
+            let con = NSPersistentContainer(name: persistentContainerKey)
+            _container = con
+            return con
+        }
+    }
 
     static let persistentContainerKey = "patchData"
-
     static let hormoneProps = ["date", "id", "siteNameBackUp"]
     static let siteProps = ["order", "name", "imageIdentifier"]
     static let pillProps = [
@@ -28,7 +37,8 @@ class CoreDataStack: NSObject {
         "timesTakenToday",
         "lastTaken",
         "expirationInterval",
-        "xDays"
+        "xDays",
+        "timesTakenTodayList"
     ]
 
     struct EntityKey {
@@ -44,10 +54,6 @@ class CoreDataStack: NSObject {
     // MARK: - Internal
 
     static var persistentContainer: NSPersistentContainer = {
-        if container == nil {
-            container = NSPersistentContainer(name: persistentContainerKey)
-        }
-        let container = CoreDataStack.container!
         container.loadPersistentStores(completionHandler: {
             (_, error) in
             if let error = error as NSError? {

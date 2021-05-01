@@ -7,6 +7,7 @@
 import Foundation
 
 public protocol PillCellViewModelProtocol {
+    var timesQuotientText: String { get }
     var lastTakenText: String { get }
     var dueDateText: String { get }
 }
