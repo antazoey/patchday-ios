@@ -64,15 +64,6 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         self.tabs?.reflectPills()
     }
 
-    func undoTakePill(at index: Index) {
-        guard let pills = pills else { return }
-        guard let pill = pills[index] else { return }
-        pills.unswallow(pill.id) {
-            self.handlePillTakenTimesChanged(at: index, for: pill)
-        }
-        self.tabs?.reflectPills()
-    }
-
     func deletePill(at index: IndexPath) {
         pills?.delete(at: index.row)
         let pillsCount = pills?.count ?? 0
@@ -160,5 +151,14 @@ class PillsViewModel: CodeBehindDependencies<PillsViewModel>, PillsViewModelProt
         self.pillsTable.reloadData()
         self.badge?.reflect()
         self.notifications?.requestDuePillNotification(pill)
+    }
+
+    private func undoTakePill(at index: Index) {
+        guard let pills = pills else { return }
+        guard let pill = pills[index] else { return }
+        pills.unswallow(pill.id) {
+            self.handlePillTakenTimesChanged(at: index, for: pill)
+        }
+        self.tabs?.reflectPills()
     }
 }

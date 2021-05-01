@@ -374,9 +374,10 @@ class PillsViewModelTests: XCTestCase {
         handlers.undoTakePill()
         let pills = viewModel.sdk?.pills as! MockPillSchedule
         XCTAssertEqual(1, pills.unswallowCallArgs.count)
+        XCTAssertEqual(testPill.id, pills.unswallowCallArgs[0].0)
     }
 
-    func testPresentPillActions_whenChoosesUntakeAction_requestNotification() {
+    func testPresentPillActions_whenChoosesUntakeAction_requestsNotification() {
         let viewModel = createViewModel()
         let tabs = deps.tabs as! MockTabs
         viewModel.presentPillActions(
