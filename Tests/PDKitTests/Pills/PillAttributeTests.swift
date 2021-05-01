@@ -163,7 +163,7 @@ class PillAttributesTests: XCTestCase {
         XCTAssert(attributes.anyAttributeExists())
     }
 
-    func testAnyAttributeExists_handlesExcludesTimesTakenToday() {
+    func testAnyAttributeExists_handlesExcludedTimesTakenToday() {
         let attributes = PillAttributes(
             name: nil,
             expirationIntervalSetting: nil,
