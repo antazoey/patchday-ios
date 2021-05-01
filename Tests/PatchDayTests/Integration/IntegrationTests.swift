@@ -12,6 +12,7 @@ import PatchData
 @testable
 import PatchDay
 
+// swiftlint:disable function_body_length
 class IntegrationTests: XCTestCase {
 #if targetEnvironment(simulator)
 
@@ -22,16 +23,32 @@ class IntegrationTests: XCTestCase {
         sdk.resetAll()
     }
 
-    // Force synchronous execution
-    func test() {
-        whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate()
-        whenChangingHormoneBadge_updatesCorrectly()
-        whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity()
-        cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly()
+    func beforeEach() {
+        sdk.resetAll()
     }
 
+    // MARK: -  ADD INTEGRATION TESTS HERE
+    // ***********************************
+    var tests: [() -> Void] {
+        [
+            whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate,
+            whenChangingHormoneBadge_updatesCorrectly,
+            whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity,
+            cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly
+        ]
+    }
+
+    // MARK: - Synchronous Test Runner
+    func test_runAll() {
+        for test in tests {
+            beforeEach()
+            test()
+        }
+    }
+
+    // MARK: - Integration Test Implementations
+
     func whenChangingHormoneBadge_updatesCorrectly() {
-        sdk.resetAll()
         let badge = PDBadge(sdk: sdk)
         sdk.settings.setDeliveryMethod(to: .Patches)  // Should trigger reset to 3 patches
         let ids = self.sdk.hormones.all.map({ $0.id })
@@ -86,7 +103,6 @@ class IntegrationTests: XCTestCase {
         XCTAssertEqual(3, sdk.settings.quantity.rawValue)
     }
 
-// swiftlint:disable function_body_length
     /// PillExpiraionInterval XDaysOnXdaysOff test.
     /// This is a particularly complex schedule that warrants its own integration test.
     func cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly() {
@@ -169,8 +185,6 @@ class IntegrationTests: XCTestCase {
     }
 
     func whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate() {
-        sdk.resetAll()
-
         guard let hormone = sdk.hormones[0] else {
             XCTFail("This test required a hormone.")
             return
@@ -211,6 +225,6 @@ class IntegrationTests: XCTestCase {
         XCTAssertNotEqual(testDate, hormoneAfterTest.date)
     }
 
-// swiftlint:enable function_body_length
 #endif
 }
+// swiftlint:enable function_body_length
