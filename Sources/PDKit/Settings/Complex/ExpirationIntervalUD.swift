@@ -13,11 +13,9 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     public static var OnceWeeklyKey = { "One week" }()
     public static var EveryTwoWeeksKey = { "Two weeks" }()
     public static var EveryXDaysKey = { "Every x-days" }()
-
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
     public let setting: PDSetting = .ExpirationInterval
-
     public var xDays = XDays()
 
     public convenience init() {
