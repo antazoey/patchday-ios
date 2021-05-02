@@ -29,7 +29,7 @@ public protocol HormonesViewModelProtocol {
     /// Present the disclaimer alert that appears on first launch.
     func presentDisclaimerAlertIfFirstLaunch()
 
-    /// Reflect hormone site changes in the pill cell site images.
+    /// Reflect hormone site changes in cell images.
     func updateSiteImages()
 
     /// Handle the user tapping a row by presenting alert actions.
