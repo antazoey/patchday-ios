@@ -27,6 +27,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // StackViews
     @IBOutlet private weak var deliveryMethodStack: UIStackView!
     @IBOutlet private weak var expirationIntervalStack: UIStackView!
+    @IBOutlet weak var xDaysStack: UIStackView!
     @IBOutlet private weak var quantityStack: UIStackView!
     @IBOutlet private weak var notificationsStack: UIStackView!
     @IBOutlet private weak var notificationsMinutesBeforeStack: UIStackView!
@@ -34,6 +35,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // Labels
     @IBOutlet private weak var deliveryMethodLabel: UILabel!
     @IBOutlet private weak var expirationIntervalLabel: UILabel!
+
+    @IBOutlet weak var xDaysLabel: UILabel!
     @IBOutlet private weak var quantityLabel: UILabel!
     @IBOutlet private weak var notificationsLabel: UILabel!
     @IBOutlet private weak var notificationsMinutesBeforeLabel: UILabel!
@@ -47,12 +50,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // Buttons
     @IBOutlet private weak var deliveryMethodButton: UIButton!
     @IBOutlet private weak var expirationIntervalButton: UIButton!
+    @IBOutlet weak var xDaysButton: UIButton!
     @IBOutlet private weak var quantityButton: UIButton!
     @IBOutlet private weak var quantityArrowButton: UIButton!
 
     // Icons
     @IBOutlet private weak var deliveryMethodIcon: UIImageView!
     @IBOutlet private weak var expirationIntervalIcon: UIImageView!
+    @IBOutlet weak var xDaysIcon: UIImageView!
     @IBOutlet private weak var quantityIcon: UIImageView!
     @IBOutlet private weak var notificationsIcon: UIImageView!
     @IBOutlet private weak var notificationsMinutesBeforeIcon: UIImageView!
@@ -64,6 +69,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // Views
     @IBOutlet private weak var deliveryMethodSideView: UIView!
     @IBOutlet private weak var expirationIntervalSideView: UIView!
+
+    @IBOutlet weak var xDaysSideView: UIView!
     @IBOutlet private weak var quantitySideView: UIView!
     @IBOutlet private weak var notificationsSideView: UIView!
     @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
@@ -204,46 +211,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     private func applyTheme() {
         let textColor = PDColors[.Text]
-        let bgColor = UIColor.systemBackground
-
-        // Labels
-        deliveryMethodLabel.textColor = textColor
-        expirationIntervalLabel.textColor = textColor
-        quantityLabel.textColor = textColor
-        notificationsLabel.textColor = textColor
-        notificationsMinutesBeforeLabel.textColor = textColor
-        notificationsMinutesBeforeValueLabel.textColor = textColor
-
-        // Containers
-        settingsView.backgroundColor = bgColor
-        view.backgroundColor = bgColor
-        settingsStack.backgroundColor = bgColor
-        notificationsSwitchContainer.backgroundColor = bgColor
-        expirationMinutesSliderContainer.backgroundColor = bgColor
-
-        // Buttons
-        deliveryMethodButton.setTitleColor(textColor)
-        quantityButton.setTitleColor(textColor)
-        expirationIntervalButton.setTitleColor(textColor)
-
-        // Side views
-        deliveryMethodSideView.backgroundColor = bgColor
-        expirationIntervalSideView.backgroundColor = bgColor
-        quantitySideView.backgroundColor = bgColor
-
-        // Icons
+        view.backgroundColor = UIColor.systemBackground
         deliveryMethodIcon.image = deliveryMethodIcon.image?.withTintColor(textColor)
         expirationIntervalIcon.image = expirationIntervalIcon.image?.withTintColor(textColor)
+        xDaysIcon.image = xDaysIcon.image?.withTintColor(textColor)
         quantityIcon.image = quantityIcon.image?.withTintColor(textColor)
         notificationsIcon.image = notificationsIcon.image?.withTintColor(textColor)
         let tintedImage = notificationsMinutesBeforeIcon.image?.withTintColor(textColor)
         notificationsMinutesBeforeIcon.image = tintedImage
-
-        // Misc
-        notificationsSwitch.backgroundColor = bgColor
-        notificationsSideView.backgroundColor = bgColor
-        notificationsMinutesBeforeSlider.backgroundColor = bgColor
-        notificationsMinutesBeforeSideView.backgroundColor = bgColor
         view.setNeedsDisplay()
     }
 
