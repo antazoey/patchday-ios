@@ -61,10 +61,11 @@ public class SettingsOptions {
         let comment1 = "Displayed on a button and in a picker."
         let comment2 = "Displayed in a picker."
         return [
-            NSLocalizedString("Once daily", tableName: nil, comment: comment1),
-            NSLocalizedString("Twice weekly", tableName: nil, comment: comment1),
-            NSLocalizedString("Once weekly", tableName: nil, comment: comment1),
-            NSLocalizedString("Once every two weeks", comment: comment1)
+            NSLocalizedString("Once Daily", tableName: nil, comment: comment1),
+            NSLocalizedString("Twice Weekly", tableName: nil, comment: comment1),
+            NSLocalizedString("Once Weekly", tableName: nil, comment: comment1),
+            NSLocalizedString("Once Every Two Weeks", comment: comment1),
+            NSLocalizedString("Every X days", comment: comment1)
         ]
     }()
 
@@ -74,6 +75,7 @@ public class SettingsOptions {
             case .TwiceWeekly: return expirationIntervals[1]
             case .OnceWeekly: return expirationIntervals[2]
             case .EveryTwoWeeks: return expirationIntervals[3]
+            case .EveryXDays: return expirationIntervals[4]
         }
     }
 

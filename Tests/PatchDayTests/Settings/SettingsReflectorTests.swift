@@ -31,7 +31,7 @@ class SettingsReflectorTests: XCTestCase {
         SettingsReflector(controls, dependencies).reflect()
 
         XCTAssertEqual(controls.deliveryMethodButton.titleLabel?.text, "Patches")
-        XCTAssertEqual(controls.expirationIntervalButton.titleLabel?.text, "Once weekly")
+        XCTAssertEqual(controls.expirationIntervalButton.titleLabel?.text, "Once Weekly")
         XCTAssertEqual(controls.quantityButton.titleLabel?.text, "3")
         XCTAssertTrue(controls.notificationsSwitch.isOn)
     }

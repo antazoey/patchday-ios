@@ -37,6 +37,7 @@ public enum ExpirationInterval {
     case TwiceWeekly
     case OnceWeekly
     case EveryTwoWeeks
+    case EveryXDays
 }
 
 public enum PillExpirationIntervalSetting: String {

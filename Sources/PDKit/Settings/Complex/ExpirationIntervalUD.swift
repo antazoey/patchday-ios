@@ -12,10 +12,13 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     public static var TwiceWeeklyKey = { "One half-week" }()
     public static var OnceWeeklyKey = { "One week" }()
     public static var EveryTwoWeeksKey = { "Two weeks" }()
+    public static var EveryXDaysKey = { "Every x-days" }()
 
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
     public let setting: PDSetting = .ExpirationInterval
+
+    public var xDaysValue: Int?
 
     public convenience init() {
         self.init(DefaultSettings.ExpirationIntervalValue)
@@ -47,6 +50,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case .TwiceWeekly: return Hours.InHalfWeek
             case .OnceWeekly: return Hours.InWeek
             case .EveryTwoWeeks: return Hours.InTwoWeeks
+            case .EveryXDays: return xDaysValue ?? DefaultSettings.ExpirationIntervalHours
         }
     }
 
@@ -58,6 +62,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case .TwiceWeekly: str = options.tryGet(at: 1) ?? str
             case .OnceWeekly: str = options.tryGet(at: 2) ?? str
             case .EveryTwoWeeks: str = options.tryGet(at: 3) ?? str
+            case .EveryXDays: str = options.tryGet(at: 4) ?? str
         }
         return str
     }
@@ -68,6 +73,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case .TwiceWeekly: return TwiceWeeklyKey
             case .OnceWeekly: return OnceWeeklyKey
             case .EveryTwoWeeks: return EveryTwoWeeksKey
+            case .EveryXDays: return EveryXDaysKey
         }
     }
 }
