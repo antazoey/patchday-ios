@@ -8,7 +8,6 @@ import Foundation
 
 public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
 
-
     public static var OnceDailyKey = { "Once daily" }()
     public static var TwiceWeeklyKey = { "One half-week" }()
     public static var OnceWeeklyKey = { "One week" }()

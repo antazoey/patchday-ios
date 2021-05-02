@@ -19,7 +19,7 @@ public protocol SettingsPickerViewing {
     /// The available picker options that the user can select.
     var options: [String]? { get }
 
-    /// The number of available options
+    /// The number of available options.
     var count: Int { get }
 
     /// The current selected option.
@@ -37,7 +37,7 @@ public protocol SettingsPickerViewing {
     /// Close the picker after the user selects on option.
     func close(setSelectedRow: Bool)
 
-    /// The method from setting picker views.
+    /// The method for selecting a row in a UIPickerView.
     func selectedRow(inComponent component: Int) -> Int
 
     /// Handle a user selecting a row.
