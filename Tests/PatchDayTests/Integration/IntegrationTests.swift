@@ -32,9 +32,9 @@ class IntegrationTests: XCTestCase {
     var tests: [() -> Void] {
         [
             whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate,
-            whenChangingHormoneBadge_updatesCorrectly,
-            whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity,
-            cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly
+            //whenChangingHormoneBadge_updatesCorrectly,
+            //whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity,
+            //cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly
         ]
     }
 
@@ -222,7 +222,7 @@ class IntegrationTests: XCTestCase {
         let changeAction = alerts.createHormoneActionsCallArgs[0].2
         changeAction()  // Simulates user selecting "Change" from the alert
 
-        XCTAssertNotEqual(testDate, hormoneAfterTest.date)
+        XCTAssertFalse(PDTest.equiv(testDate, hormoneAfterTest.date))
     }
 
 #endif

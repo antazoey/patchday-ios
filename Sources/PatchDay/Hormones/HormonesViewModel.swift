@@ -13,7 +13,6 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     private let style: UIUserInterfaceStyle
     private let now: NowProtocol
     var table: HormonesTableProtocol! = nil
-    var hormones: HormoneScheduling? { sdk?.hormones }
 
     init(
         siteImageHistory: SiteImageHistorical,
@@ -59,7 +58,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
     }
 
     var expiredHormoneBadgeValue: String? {
-        guard let count = hormones?.totalExpired, count > 0 else { return nil }
+        guard let count = sdk?.hormones.totalExpired, count > 0 else { return nil }
         return "\(count)"
     }
 
@@ -99,7 +98,10 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
             reload()
             self.tabs?.reflectHormones()
             self.badge?.reflect()
-            self.notifications?.requestExpiredHormoneNotification(for: hormone)
+
+            if let hormoneAfterChange = sdk.hormones[hormone.id] {
+                self.notifications?.requestExpiredHormoneNotification(for: hormoneAfterChange)
+            }
         }
         alerts.createHormoneActions(
             hormone.siteName,
