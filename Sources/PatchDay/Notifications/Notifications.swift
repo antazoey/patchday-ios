@@ -13,6 +13,8 @@ class Notifications: NSObject, NotificationScheduling {
     private let sdk: PatchDataSDK
     private let center: NotificationCenterDelegate
     private let factory: NotificationProducing
+    private let hormoneLogType = "Expired Hormone"
+    private let pillLogType = "Due Pill"
     private lazy var log = PDLog<Notifications>()
 
     init(
@@ -44,7 +46,7 @@ class Notifications: NSObject, NotificationScheduling {
 
     func cancelExpiredHormoneNotification(for hormone: Hormonal) {
         let id = hormone.id.uuidString
-        center.removeNotifications(with: [id])
+        cancelHormoneNotifications([id])
     }
 
     func cancelAllExpiredHormoneNotifications() {
@@ -62,7 +64,7 @@ class Notifications: NSObject, NotificationScheduling {
             }
         }
         if ids.count > 0 {
-            center.removeNotifications(with: ids)
+            cancelHormoneNotifications(ids)
         }
     }
 
@@ -70,8 +72,7 @@ class Notifications: NSObject, NotificationScheduling {
     func requestExpiredHormoneNotification(for hormone: Hormonal) {
         guard sdk.settings.notifications.value else { return }
         cancelExpiredHormoneNotification(for: hormone)
-        let notification = factory.createExpiredHormoneNotification(hormone: hormone)
-        notification.request()
+        requestHormoneNotification(hormone)
     }
 
     func requestAllExpiredHormoneNotifications() {
@@ -86,7 +87,7 @@ class Notifications: NSObject, NotificationScheduling {
         cancelRangeOfExpiredHormoneNotifications(from: begin, to: end)
         for i in begin...end {
             guard let hormone = sdk.hormones[i] else { break }
-            factory.createExpiredHormoneNotification(hormone: hormone).request()
+            requestHormoneNotification(hormone)
         }
     }
 
@@ -97,8 +98,7 @@ class Notifications: NSObject, NotificationScheduling {
         guard pillsEnabled else { return }
         guard pill.notify else { return }
         cancelDuePillNotification(pill)
-        factory.createDuePillNotification(pill).request()
-        log.info("Pill notification has been requested")
+        requestPillNotification(pill)
     }
 
     /// Requests notifications for all pills in the schedule.
@@ -111,14 +111,13 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Cancels a pill notification.
     func cancelDuePillNotification(_ pill: Swallowable) {
-        center.removeNotifications(with: [pill.id.uuidString])
+        cancelPillNotifications([pill.id.uuidString])
     }
 
     /// Cancels all notifications for all pills.
     func cancelAllDuePillNotifications() {
-        for pill in sdk.pills.all {
-            cancelDuePillNotification(pill)
-        }
+        let ids = sdk.pills.all.map { $0.id.uuidString }
+        cancelPillNotifications(ids)
     }
 
     // MARK: - Other
@@ -126,14 +125,51 @@ class Notifications: NSObject, NotificationScheduling {
     /// Request a hormone notification that occurs when it's due overnight.
     func requestOvernightExpirationNotification(for hormone: Hormonal) {
         guard hormone.expiresOvernight else { return }
+        requestOvernightHormoneNotification(hormone)
+    }
+
+    private var pillsEnabled: Bool {
+        sdk.settings.pillsEnabled.rawValue
+    }
+
+    // MARK: - Private Request
+
+    private func requestHormoneNotification(_ hormone: Hormonal) {
+        factory.createExpiredHormoneNotification(hormone: hormone).request()
+        logRequest(hormoneLogType)
+    }
+
+    private func requestOvernightHormoneNotification(_ hormone: Hormonal) {
         guard let expiration = hormone.expiration else { return }
         guard let notificationTime = DateFactory.createDateBeforeAtEightPM(of: expiration) else {
             return
         }
         factory.createOvernightExpiredHormoneNotification(date: notificationTime).request()
+        logRequest("Overnight")
     }
 
-    private var pillsEnabled: Bool {
-        sdk.settings.pillsEnabled.rawValue
+    private func requestPillNotification(_ pill: Swallowable) {
+        factory.createDuePillNotification(pill).request()
+        logRequest(pillLogType)
+    }
+
+    // MARK: - Private Cancelation
+
+    private func cancelHormoneNotifications(_ hormoneIds: [String]) {
+        center.removeNotifications(with: hormoneIds)
+        logCancel(hormoneLogType)
+    }
+
+    private func cancelPillNotifications(_ pillIds: [String]) {
+        center.removeNotifications(with: pillIds)
+        logCancel(pillLogType)
+    }
+
+    private func logRequest(_ message: String) {
+        log.info("NOTIFICATION REQUESTED - \(message)")
+    }
+
+    private func logCancel(_ message: String) {
+        log.info("NOTIFICATION CANCELED - \(message)")
     }
 }

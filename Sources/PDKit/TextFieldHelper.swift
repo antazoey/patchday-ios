@@ -20,8 +20,8 @@ public class TextFieldHelper {
     ) -> (canReplace: Bool, updatedText: String) {
         let newString = (currentString as NSString).replacingCharacters(
             in: range, with: replacementString
-        ) as NSString
-        let canSet = newString.length <= max
+        )
+        let canSet = newString.count <= max
 
         if canSet, let textRange = Range(range, in: currentString) {
             let newString = currentString.replacingCharacters(

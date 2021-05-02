@@ -13,6 +13,10 @@ public class ChangeHormoneCommand: PDCommandProtocol {
     private let hormoneId: UUID
     private let now: NowProtocol?
 
+    private var nowDate: Date {
+        now?.now ?? Date()
+    }
+
     init(
         hormones: HormoneScheduling,
         sites: SiteScheduling,
@@ -26,7 +30,7 @@ public class ChangeHormoneCommand: PDCommandProtocol {
     }
 
     public func execute() {
-        hormones.setDate(by: hormoneId, with: self.now?.now ?? Date())
+        hormones.setDate(by: hormoneId, with: nowDate)
         if let site = sites.suggested {
             hormones.setSite(by: hormoneId, with: site)
         }
