@@ -19,6 +19,9 @@ public protocol Hormonal: PDObjectified {
     /// The user default representing the length of time until the hormone expired.
     var expirationInterval: ExpirationIntervalUD { get set }
 
+    /// The number of days in a custom expiration interval.
+    var xDays: XDays { get }
+
     /// The ID of the site this hormone applies to.
     var siteId: UUID? { get set }
 

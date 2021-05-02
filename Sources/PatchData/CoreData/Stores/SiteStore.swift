@@ -85,7 +85,8 @@ class SiteStore: EntityStore, SiteStoring {
             site.name,
             site.imageIdentifier,
             hormone.date as Date?,
-            hormone.siteNameBackUp
+            hormone.siteNameBackUp,
+            hormone.xDays
         )
     }
 }

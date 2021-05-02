@@ -29,7 +29,8 @@ class EntityAdapter {
             hormone.siteName,
             hormone.siteImageId,
             hormone.date,
-            hormone.siteNameBackUp
+            hormone.siteNameBackUp,
+            hormone.xDays.rawValue
         )
     }
 
@@ -125,7 +126,8 @@ class EntityAdapter {
             hormone.siteRelationship?.name,
             hormone.siteRelationship?.imageIdentifier,
             hormone.date as Date?,
-            hormone.siteNameBackUp
+            hormone.siteNameBackUp,
+            hormone.xDays
         )
     }
 

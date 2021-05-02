@@ -8,6 +8,7 @@ import Foundation
 
 public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
 
+
     public static var OnceDailyKey = { "Once daily" }()
     public static var TwiceWeeklyKey = { "One half-week" }()
     public static var OnceWeeklyKey = { "One week" }()
@@ -18,7 +19,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     public typealias RawValue = String
     public let setting: PDSetting = .ExpirationInterval
 
-    public var xDaysValue: Int?
+    public var xDays = XDays()
 
     public convenience init() {
         self.init(DefaultSettings.ExpirationIntervalValue)
@@ -50,7 +51,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case .TwiceWeekly: return Hours.InHalfWeek
             case .OnceWeekly: return Hours.InWeek
             case .EveryTwoWeeks: return Hours.InTwoWeeks
-            case .EveryXDays: return xDaysValue ?? DefaultSettings.ExpirationIntervalHours
+            case .EveryXDays: return xDays.value ?? DefaultSettings.ExpirationIntervalHours
         }
     }
 

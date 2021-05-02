@@ -125,6 +125,7 @@
 		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
 		9D618793263D9E4E00B284CF /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
 		9D618796263DA5DD00B284CF /* PlaceholderStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618794263DA54000B284CF /* PlaceholderStrings.swift */; };
+		9D618798263EF39800B284CF /* XDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618797263EF39800B284CF /* XDays.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -610,6 +611,7 @@
 		9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertTests.swift; sourceTree = "<group>"; };
 		9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertHandlersTests.swift; sourceTree = "<group>"; };
 		9D618794263DA54000B284CF /* PlaceholderStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderStrings.swift; sourceTree = "<group>"; };
+		9D618797263EF39800B284CF /* XDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDays.swift; sourceTree = "<group>"; };
 		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1374,6 +1376,7 @@
 				9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */,
 				9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */,
 				9D6DB7D72405FEF200C00711 /* QuantityUD.swift */,
+				9D618797263EF39800B284CF /* XDays.swift */,
 			);
 			path = Complex;
 			sourceTree = "<group>";
@@ -2729,6 +2732,7 @@
 				3397C8BC572ADE0631DBFC1B /* Date+PatchDay.swift in Sources */,
 				3397CC5CF788FF31C6741016 /* Foundation+PatchDay.swift in Sources */,
 				3397CCB077DDE1351B04EBBC /* PDLog.swift in Sources */,
+				9D618798263EF39800B284CF /* XDays.swift in Sources */,
 				9D7887A52558453A00DC0F6D /* HormoneCellProtocol.swift in Sources */,
 				3397C7E5E191E210E1B8FA85 /* PDObjectLogger.swift in Sources */,
 			);

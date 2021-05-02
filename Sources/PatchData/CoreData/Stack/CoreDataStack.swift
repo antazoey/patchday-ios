@@ -24,7 +24,7 @@ class CoreDataStack: NSObject {
     }
 
     static let persistentContainerKey = "patchData"
-    static let hormoneProps = ["date", "id", "siteNameBackUp"]
+    static let hormoneProps = ["date", "id", "siteNameBackUp", "xDays"]
     static let siteProps = ["order", "name", "imageIdentifier"]
     static let pillProps = [
         "id",
