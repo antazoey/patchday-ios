@@ -32,9 +32,9 @@ class IntegrationTests: XCTestCase {
     var tests: [() -> Void] {
         [
             whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate,
-            //whenChangingHormoneBadge_updatesCorrectly,
-            //whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity,
-            //cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly
+            whenChangingHormoneBadge_updatesCorrectly,
+            whenContinuingOnChangeDeliveryMethodAlert_addsOrRemoveHormonesToGetToDefaultQuantity,
+            cyclesThroughPillExpirationIntervalXDaysOnXDaysOffCorrectly
         ]
     }
 
@@ -192,7 +192,7 @@ class IntegrationTests: XCTestCase {
 
         let notifications = MockNotifications()
         let alerts = MockAlertFactory()
-        let testDate = Date()
+        let testDate = DateFactory.createDate(byAddingHours: -2, to: Date())!
         let now = PDNow()
         let style = UIUserInterfaceStyle.dark
         let table = HormonesTable(UITableView(), sdk, style)
@@ -222,7 +222,9 @@ class IntegrationTests: XCTestCase {
         let changeAction = alerts.createHormoneActionsCallArgs[0].2
         changeAction()  // Simulates user selecting "Change" from the alert
 
-        XCTAssertFalse(PDTest.equiv(testDate, hormoneAfterTest.date))
+        let actual = hormoneAfterTest.date
+        let failMessage = "\(testDate) is equivalent to \(actual)"
+        XCTAssertFalse(PDTest.equiv(testDate, actual), failMessage)
     }
 
 #endif

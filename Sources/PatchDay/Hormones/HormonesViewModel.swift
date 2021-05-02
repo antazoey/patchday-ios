@@ -98,10 +98,7 @@ class HormonesViewModel: CodeBehindDependencies<HormonesViewModel>, HormonesView
             reload()
             self.tabs?.reflectHormones()
             self.badge?.reflect()
-
-            if let hormoneAfterChange = sdk.hormones[hormone.id] {
-                self.notifications?.requestExpiredHormoneNotification(for: hormoneAfterChange)
-            }
+            self.notifications?.requestExpiredHormoneNotification(for: hormone)
         }
         alerts.createHormoneActions(
             hormone.siteName,
