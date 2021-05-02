@@ -7,11 +7,11 @@
 import UIKit
 import PDKit
 
-class SettingsPickerView: UIPickerView {
+class SettingsPickerView: UIPickerView, SettingsPickerViewing {
 
     private var _activator: UIButton?
-
     public var setting: PDSetting?
+
     public var activator: UIButton {
         get { _activator ?? UIButton() }
         set {
@@ -19,12 +19,29 @@ class SettingsPickerView: UIPickerView {
             _activator = newValue
         }
     }
+
+    public subscript(_ index: Index) -> NSAttributedString {
+        let title = options?.tryGet(at: index) ?? ""
+        let textColor = PDColors[.Text]
+        return NSAttributedString(
+            string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor]
+        )
+    }
+
     public var getStartRow: () -> Index = { 0 }
 
     public var options: [String]?
 
+    public var count: Int {
+        options?.count ?? 0
+    }
+
     public var selected: String? {
         options?.tryGet(at: selectedRow(inComponent: 0))
+    }
+
+    public var view: UIPickerView {
+        self as UIPickerView
     }
 
     public func open() {
@@ -33,7 +50,7 @@ class SettingsPickerView: UIPickerView {
         selectStartRow()
     }
 
-    public func close(setSelectedRow: Bool=true) {
+    public func close(setSelectedRow: Bool) {
         isHidden = true
         guard let button = _activator else { return }
         button.isSelected = false
@@ -42,6 +59,10 @@ class SettingsPickerView: UIPickerView {
             button.setTitle(selected)
             button.setNeedsDisplay()
         }
+    }
+
+    public func select(_ row: Index) {
+        activator.setTitle(self[row].string)
     }
 
     private func selectStartRow() {

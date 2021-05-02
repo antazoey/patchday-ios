@@ -13,7 +13,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         "The view controller for configuring Application settings."
     }
 
-    private var viewModel: SettingsViewModel?
+    private var viewModel: SettingsViewModelProtocol?
     private lazy var log = PDLog<SettingsViewController>()
 
     // Containers
@@ -27,7 +27,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // StackViews
     @IBOutlet private weak var deliveryMethodStack: UIStackView!
     @IBOutlet private weak var expirationIntervalStack: UIStackView!
-    @IBOutlet weak var xDaysStack: UIStackView!
+    @IBOutlet private weak var xDaysStack: UIStackView!
     @IBOutlet private weak var quantityStack: UIStackView!
     @IBOutlet private weak var notificationsStack: UIStackView!
     @IBOutlet private weak var notificationsMinutesBeforeStack: UIStackView!
@@ -36,7 +36,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var deliveryMethodLabel: UILabel!
     @IBOutlet private weak var expirationIntervalLabel: UILabel!
 
-    @IBOutlet weak var xDaysLabel: UILabel!
+    @IBOutlet private weak var xDaysLabel: UILabel!
     @IBOutlet private weak var quantityLabel: UILabel!
     @IBOutlet private weak var notificationsLabel: UILabel!
     @IBOutlet private weak var notificationsMinutesBeforeLabel: UILabel!
@@ -50,14 +50,14 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // Buttons
     @IBOutlet private weak var deliveryMethodButton: UIButton!
     @IBOutlet private weak var expirationIntervalButton: UIButton!
-    @IBOutlet weak var xDaysButton: UIButton!
+    @IBOutlet private weak var xDaysButton: UIButton!
     @IBOutlet private weak var quantityButton: UIButton!
     @IBOutlet private weak var quantityArrowButton: UIButton!
 
     // Icons
     @IBOutlet private weak var deliveryMethodIcon: UIImageView!
     @IBOutlet private weak var expirationIntervalIcon: UIImageView!
-    @IBOutlet weak var xDaysIcon: UIImageView!
+    @IBOutlet private weak var xDaysIcon: UIImageView!
     @IBOutlet private weak var quantityIcon: UIImageView!
     @IBOutlet private weak var notificationsIcon: UIImageView!
     @IBOutlet private weak var notificationsMinutesBeforeIcon: UIImageView!
@@ -70,7 +70,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var deliveryMethodSideView: UIView!
     @IBOutlet private weak var expirationIntervalSideView: UIView!
 
-    @IBOutlet weak var xDaysSideView: UIView!
+    @IBOutlet private weak var xDaysSideView: UIView!
     @IBOutlet private weak var quantitySideView: UIView!
     @IBOutlet private weak var notificationsSideView: UIView!
     @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
@@ -99,20 +99,29 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         quantityPicker.isHidden = true
         assignSelfAsDelegateForPickers()
         initViewModel()
-        viewModel?.reflector.reflect()
+        viewModel?.reflect()
+        hideViewsIfNeeded()
         applyTheme()
         loadButtonDisabledStates()
     }
 
     private var controlsStruct: SettingsControls {
         SettingsControls(
-            deliveryMethodButton: self.deliveryMethodButton,
-            quantityButton: self.quantityButton,
-            quantityArrowButton: self.quantityArrowButton,
-            expirationIntervalButton: self.expirationIntervalButton,
-            notificationsSwitch: self.notificationsSwitch,
-            notificationsMinutesBeforeSlider: self.notificationsMinutesBeforeSlider,
-            notificationsMinutesBeforeValueLabel: self.notificationsMinutesBeforeValueLabel
+            deliveryMethodButton: deliveryMethodButton,
+            quantityButton: quantityButton,
+            quantityArrowButton: quantityArrowButton,
+            expirationIntervalButton: expirationIntervalButton,
+            notificationsSwitch: notificationsSwitch,
+            notificationsMinutesBeforeSlider: notificationsMinutesBeforeSlider,
+            notificationsMinutesBeforeValueLabel: notificationsMinutesBeforeValueLabel
+        )
+    }
+
+    private var pickers: SettingsPickerList {
+        SettingsPickerList(
+            quantityPicker: quantityPicker,
+            deliveryMethodPicker: deliveryMethodPicker,
+            expirationIntervalPicker: expirationIntervalPicker
         )
     }
 
@@ -124,9 +133,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     // MARK: - Actions
 
     @IBAction func notificationsMinutesBeforeValueChanged(_ sender: Any) {
-        let newValue = notificationsMinutesBeforeSlider.value.rounded()
-        viewModel?.handleNewNotificationsValue(newValue)
-        notificationsMinutesBeforeValueLabel.text = String(newValue)
+        let newValue = notificationsMinutesBeforeSlider.value
+        let titleString = viewModel?.handleNewNotificationsMinutesValue(newValue)
+        notificationsMinutesBeforeValueLabel.text = titleString
     }
 
     /// The settings buttons with pickers i.e. `deliveryMethodButton`, `quantityButton` all point here.
@@ -137,7 +146,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     @IBAction func notificationsSwitched(_ sender: Any) {
         reflectNotificationSwitchInNotificationButtons()
-        viewModel?.sdk?.settings.setNotifications(to: notificationsSwitch.isOn)
+        viewModel?.setNotifications(notificationsSwitch.isOn)
     }
 
     // MARK: - Picker Delegate Functions
@@ -147,8 +156,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        guard let settingsPicker = pickerView as? SettingsPickerView else { return 0 }
-        return settingsPicker.options?.count ?? 0
+        (pickerView as? SettingsPickerViewing)?.count ?? 0
     }
 
     func pickerView(
@@ -156,27 +164,24 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         attributedTitleForRow row: Int,
         forComponent component: Int
     ) -> NSAttributedString? {
-        let settingsPicker = pickerView as? SettingsPickerView
-        let title = settingsPicker?.options?.tryGet(at: row) ?? ""
-        let textColor = PDColors[.Text]
-        return NSAttributedString(
-            string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor]
-        )
+        (pickerView as? SettingsPickerView)?[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        guard let settingsPicker = pickerView as? SettingsPickerView else { return }
-        let title = settingsPicker.options?.tryGet(at: row) ?? ""
-        settingsPicker.activator.setTitle(title)
+        (pickerView as? SettingsPickerViewing)?.select(row)
     }
 
     private func initViewModel() {
-        self.viewModel = SettingsViewModel(controls: controlsStruct)
+        viewModel = SettingsViewModel(controls: controlsStruct)
+    }
+
+    private func hideViewsIfNeeded() {
+        xDaysStack.isHidden = viewModel?.usesXDays ?? true  // Hide by default
     }
 
     private func handlePickerActivation(_ setting: PDSetting) {
         guard let viewModel = viewModel else { return }
-        guard let picker = selectPicker(setting: setting) else { return }
+        guard let picker = pickers.select(setting) else { return }
         viewModel.activatePicker(picker)
     }
 
@@ -193,7 +198,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     private func disableNotificationButtons() {
         let disabledValue = 0
-        viewModel?.sdk?.settings.setNotificationsMinutesBefore(to: disabledValue)
+        viewModel?.setNotificationsMinutes(disabledValue)
         notificationsMinutesBeforeSlider.isEnabled = false
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = String(disabledValue)
@@ -231,31 +236,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         quantityPicker.dataSource = self
     }
 
-    private func selectPicker(setting: PDSetting) -> SettingsPickerView? {
-        var picker: SettingsPickerView?
-        switch setting {
-            case.Quantity: picker = quantityPicker
-            case .DeliveryMethod: picker = deliveryMethodPicker
-            case .ExpirationInterval: picker = expirationIntervalPicker
-            default:
-                log.error("No picker for given setting \(setting)")
-                return nil
-        }
-        if let picker = picker {
-            deselectOtherPickers(besides: picker)
-        }
-        return picker
-    }
-
-    private func deselectOtherPickers(besides selectedPicker: UIPickerView) {
-        let pickers = [quantityPicker, deliveryMethodPicker, expirationIntervalPicker]
-        for picker in pickers where picker != selectedPicker {
-            picker?.close(setSelectedRow: false)
-        }
-    }
-
     private func setPickers() {
-        guard let viewModel = self.viewModel else { return }
+        guard let viewModel = viewModel else { return }
         setPicker(
             deliveryMethodPicker,
             .DeliveryMethod,

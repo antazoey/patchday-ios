@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
+class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsViewModelProtocol {
 
     var reflector: SettingsReflector
     var saver: SettingsSaver
@@ -65,22 +65,46 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel> {
         sdk?.settings.expirationInterval.currentIndex ?? 0
     }
 
-    func activatePicker(_ picker: SettingsPickerView) {
+    var usesXDays: Bool {
+        sdk?.settings.expirationInterval.value == .EveryXDays
+    }
+
+    func activatePicker(_ picker: SettingsPickerViewing) {
         picker.isHidden ? picker.open() : close(picker)
     }
 
-    func handleNewNotificationsValue(_ newValue: Float) {
-        guard let sdk = sdk else { return }
-        guard sdk.settings.notifications.value else { return }
-        guard newValue >= 0 else { return }
+    func handleNewNotificationsMinutesValue(_ newValue: Float) -> String {
+        let newValue = newValue.rounded()
+        let titleString = "\(newValue)"
+        guard let sdk = sdk else { return titleString }
+        guard sdk.settings.notifications.value else { return titleString }
+        guard newValue >= 0 else { return titleString }
         notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(newValue)
-        sdk.settings.setNotificationsMinutesBefore(to: newMinutesBeforeValue)
+        setNotificationsMinutes(newMinutesBeforeValue)
         notifications?.requestAllExpiredHormoneNotifications()
+        return titleString
     }
 
-    private func close(_ picker: SettingsPickerView) {
-        picker.close()
+    func reflect() {
+        reflector.reflect()
+    }
+
+    func setNotifications(_ newValue: Bool) {
+        sdk?.settings.setNotifications(to: newValue)
+        if !newValue {
+            notifications?.cancelAllExpiredHormoneNotifications()
+        } else {
+            notifications?.requestAllExpiredHormoneNotifications()
+        }
+    }
+
+    func setNotificationsMinutes(_ newValue: Int) {
+        sdk?.settings.setNotificationsMinutesBefore(to: newValue)
+    }
+
+    private func close(_ picker: SettingsPickerViewing) {
+        picker.close(setSelectedRow: true)
         guard let setting = picker.setting else { return }
         let row = picker.selectedRow(inComponent: 0)
         if let factory = alertFactory {
