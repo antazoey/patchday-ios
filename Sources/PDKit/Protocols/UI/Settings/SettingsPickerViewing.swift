@@ -25,7 +25,7 @@ public protocol SettingsPickerViewing {
     /// The current selected option.
     var selected: String? { get }
 
-    /// The property from UIView.
+    /// The property from UIView meaning if the view is on or off the screen.
     var isHidden: Bool { get set }
 
     /// The associated UIPickerView.
