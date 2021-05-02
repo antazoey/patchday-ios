@@ -104,4 +104,17 @@ class SettingsViewModelTests: XCTestCase {
         let settings = dependencies.sdk?.settings as! MockSettings
         XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
+
+    func testHandleNewNotificationsMinutesValue_returnsExpectedTitleString() {
+        let controls = helper.createControls()
+        let reflector = SettingsReflector(controls, dependencies)
+        let saver = SettingsSaver(controls, dependencies)
+        let alertFactory = MockAlertFactory()
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+
+        let actual = viewModel.handleNewNotificationsMinutesValue(23)
+        let expected = "23.0"
+
+        XCTAssertEqual(expected, actual)
+    }
 }
