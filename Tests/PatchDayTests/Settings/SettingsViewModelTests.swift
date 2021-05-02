@@ -49,7 +49,7 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(SettingsOptions.expirationIntervals[0], settings.setExpirationIntervalCallArgs[0])
     }
 
-    func testHandleNewNotificationsValue_whenNotificationsIsOff_doesNotMutate() {
+    func testHandleNewNotificationsMinutesValue_whenNotificationsIsOff_doesNotMutate() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
         let saver = SettingsSaver(controls, dependencies)
@@ -58,25 +58,25 @@ class SettingsViewModelTests: XCTestCase {
         let settings = dependencies.sdk?.settings as! MockSettings
         settings.notifications = NotificationsUD(false)
 
-        viewModel.handleNewNotificationsValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23)
 
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
-    func testHandleNewNotificationsValue_whenNewValueLessThanZero_doesNotMutate() {
+    func testHandleNewNotificationsMinutesValue_whenNewValueLessThanZero_doesNotMutate() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
         let saver = SettingsSaver(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
-        viewModel.handleNewNotificationsValue(-23)
+        viewModel.handleNewNotificationsMinutesValue(-23)
 
         let settings = dependencies.sdk?.settings as! MockSettings
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
-    func testHandleNewNotificationsValue_cancelsAdnResendsAllNotifications() {
+    func testHandleNewNotificationsMinutesValue_cancelsAdnResendsAllNotifications() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
         let saver = SettingsSaver(controls, dependencies)
@@ -85,21 +85,21 @@ class SettingsViewModelTests: XCTestCase {
         let settings = dependencies.sdk?.settings as! MockSettings
         settings.notifications = NotificationsUD(true)
 
-        viewModel.handleNewNotificationsValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23)
 
         let nots = dependencies.notifications as! MockNotifications
         XCTAssertEqual(1, nots.cancelAllExpiredHormoneNotificationsCallCount)
         XCTAssertEqual(1, nots.requestAllExpiredHormoneNotificationCallCount)
     }
 
-    func testHandleNewNotificationsValue_sets() {
+    func testHandleNewNotificationsMinutesValue_sets() {
         let controls = helper.createControls()
         let reflector = SettingsReflector(controls, dependencies)
         let saver = SettingsSaver(controls, dependencies)
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
-        viewModel.handleNewNotificationsValue(23)
+        viewModel.handleNewNotificationsMinutesValue(23)
 
         let settings = dependencies.sdk?.settings as! MockSettings
         XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)

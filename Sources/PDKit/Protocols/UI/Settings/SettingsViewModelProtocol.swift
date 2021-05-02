@@ -26,6 +26,7 @@ public protocol SettingsViewModelProtocol {
     func activatePicker(_ picker: SettingsPickerViewing)
 
     /// Set the new notifications value and execute other app side-effects. Returns a stringified version of the new value.
+    @discardableResult
     func handleNewNotificationsMinutesValue(_ newValue: Float) -> String
 
     /// Set UI properties using stored values.

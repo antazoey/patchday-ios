@@ -73,6 +73,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         picker.isHidden ? picker.open() : close(picker)
     }
 
+    @discardableResult
     func handleNewNotificationsMinutesValue(_ newValue: Float) -> String {
         let newValue = newValue.rounded()
         let titleString = "\(newValue)"
