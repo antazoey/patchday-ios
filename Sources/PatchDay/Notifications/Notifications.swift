@@ -109,7 +109,7 @@ class Notifications: NSObject, NotificationScheduling {
 
     /// Cancels a pill notification.
     func cancelDuePillNotification(_ pill: Swallowable) {
-        cancelPillNotifications(pill.id.uuidString)
+        cancelPillNotifications([pill.id.uuidString])
     }
 
     /// Cancels all notifications for all pills.
@@ -152,10 +152,6 @@ class Notifications: NSObject, NotificationScheduling {
     private func cancelHormoneNotifications(_ hormoneIds: [String]) {
         center.removeNotifications(with: hormoneIds)
         log.info("NOTIFICATION CANCELED - Expired Hormone")
-    }
-
-    private func cancelPillNotifications(_ pillId: String) {
-        self.cancelPillNotifications([pillId])
     }
 
     private func cancelPillNotifications(_ pillIds: [String]) {
