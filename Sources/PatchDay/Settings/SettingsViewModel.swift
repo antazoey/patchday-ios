@@ -54,15 +54,15 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
     }
 
     var deliveryMethodStartIndex: Index {
-        sdk?.settings.deliveryMethod.currentIndex ?? 0
+        sdk?.settings.deliveryMethod.choiceIndex ?? 0
     }
 
     var quantityStartIndex: Index {
-        sdk?.settings.quantity.currentIndex ?? 0
+        sdk?.settings.quantity.choiceIndex ?? 0
     }
 
     var expirationIntervalStartIndex: Index {
-        sdk?.settings.expirationInterval.currentIndex ?? 0
+        sdk?.settings.expirationInterval.choiceIndex ?? 0
     }
 
     var usesXDays: Bool {
