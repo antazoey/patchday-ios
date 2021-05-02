@@ -27,8 +27,8 @@ class IntegrationTests: XCTestCase {
         sdk.resetAll()
     }
 
-    // MARK: -  ADD INTEGRATION TESTS HERE
-    // ***********************************
+    // MARK: - ADD INTEGRATION TESTS HERE
+
     var tests: [() -> Void] {
         [
             whenTakingHormoneFromActionAlert_setsNotificationWithUpdatedDate,
@@ -39,6 +39,7 @@ class IntegrationTests: XCTestCase {
     }
 
     // MARK: - Synchronous Test Runner
+
     func test_runAll() {
         for test in tests {
             beforeEach()

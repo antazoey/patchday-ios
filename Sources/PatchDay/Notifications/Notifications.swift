@@ -13,6 +13,8 @@ class Notifications: NSObject, NotificationScheduling {
     private let sdk: PatchDataSDK
     private let center: NotificationCenterDelegate
     private let factory: NotificationProducing
+    private let hormoneLogType = "Expired Hormone"
+    private let pillLogType = "Due Pill"
     private lazy var log = PDLog<Notifications>()
 
     init(
@@ -130,9 +132,11 @@ class Notifications: NSObject, NotificationScheduling {
         sdk.settings.pillsEnabled.rawValue
     }
 
+    // MARK: - Private Request
+
     private func requestHormoneNotification(_ hormone: Hormonal) {
         factory.createExpiredHormoneNotification(hormone: hormone).request()
-        log.info("NOTIFICATION REQUEST - Expired Hormone")
+        logRequest(hormoneLogType)
     }
 
     private func requestOvernightHormoneNotification(_ hormone: Hormonal) {
@@ -141,21 +145,31 @@ class Notifications: NSObject, NotificationScheduling {
             return
         }
         factory.createOvernightExpiredHormoneNotification(date: notificationTime).request()
-        log.info("NOTIFICATION REQUEST- Overnight Hormone")
+        logRequest("Overnight")
     }
 
     private func requestPillNotification(_ pill: Swallowable) {
         factory.createDuePillNotification(pill).request()
-        log.info("NOTIFICATION REQUEST - Due Pill")
+        logRequest(pillLogType)
     }
+
+    // MARK: - Private Cancelation
 
     private func cancelHormoneNotifications(_ hormoneIds: [String]) {
         center.removeNotifications(with: hormoneIds)
-        log.info("NOTIFICATION CANCELED - Expired Hormone")
+        logCancel(hormoneLogType)
     }
 
     private func cancelPillNotifications(_ pillIds: [String]) {
         center.removeNotifications(with: pillIds)
-        log.info("NOTIFICATION CANCELED - Due Pill")
+        logCancel(pillLogType)
+    }
+
+    private func logRequest(_ message: String) {
+        log.info("NOTIFICATION REQUESTED - \(message)")
+    }
+
+    private func logCancel(_ message: String) {
+        log.info("NOTIFICATION CANCELED - \(message)")
     }
 }
