@@ -290,7 +290,7 @@ class NotificationsTests: XCTestCase {
         XCTAssertEqual([pill.id.uuidString], center.removeNotificationsCallArgs[0])
     }
 
-    func testCancelAllDuePillNotifications_cancelsOncePerPill() {
+    func testCancelAllDuePillNotifications_cancelsAllPills() {
         let sdk = createSDK(totalExpired: 3)
         let center = MockNotificationCenter()
         let factory = createFactory()
@@ -305,7 +305,9 @@ class NotificationsTests: XCTestCase {
 
         let notifications = Notifications(sdk: sdk, center: center, factory: factory)
         notifications.cancelAllDuePillNotifications()
-        XCTAssertEqual(3, center.removeNotificationsCallArgs.count)
+
+        let expected = pills.all.map { $0.id.uuidString }
+        XCTAssertEqual(expected, center.removeNotificationsCallArgs[0])
     }
 
     func testRequestOvernightExpirationNotification_whenHormoneDoesNotExpire_doesNotRequest() {
