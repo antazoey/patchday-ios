@@ -7,6 +7,20 @@
 import Foundation
 
 public class SettingsOptions {
+    public static let comment = "Displayed on a button and in a picker."
+    public static let OnceDaily = NSLocalizedString(
+        "Once Daily", tableName: nil, comment: comment
+    )
+    public static let TwiceWeekly = NSLocalizedString(
+        "Twice Weekly", tableName: nil, comment: comment
+    )
+    public static let OnceWeekly = NSLocalizedString(
+        "Once Weekly", tableName: nil, comment: comment
+    )
+    public static let OnceEveryTwoWeeks = NSLocalizedString(
+        "Once Every Two Weeks", comment: comment
+    )
+    public static let EveryXDays = NSLocalizedString("Every X Days", comment: comment)
 
     public static var deliveryMethods: [String] {
         let comment = "Displayed on a button and in a picker."
@@ -39,8 +53,8 @@ public class SettingsOptions {
         }
     }
 
-    public static func getQuantity(at i: Index) -> Quantity {
-        if let quantityString = quantities.tryGet(at: i),
+    public static func getQuantity(at index: Index) -> Quantity {
+        if let quantityString = quantities.tryGet(at: index),
             let quantityInt = Int(quantityString),
             let quantity = Quantity(rawValue: quantityInt) {
             return quantity
@@ -57,17 +71,9 @@ public class SettingsOptions {
         }
     }
 
-    public static let expirationIntervals: [String] = {
-        let comment1 = "Displayed on a button and in a picker."
-        let comment2 = "Displayed in a picker."
-        return [
-            NSLocalizedString("Once Daily", tableName: nil, comment: comment1),
-            NSLocalizedString("Twice Weekly", tableName: nil, comment: comment1),
-            NSLocalizedString("Once Weekly", tableName: nil, comment: comment1),
-            NSLocalizedString("Once Every Two Weeks", comment: comment1),
-            NSLocalizedString("Every X days", comment: comment1)
-        ]
-    }()
+    public static var expirationIntervals: [String] {
+        [OnceDaily, TwiceWeekly, OnceWeekly, OnceEveryTwoWeeks, EveryXDays]
+    }
 
     public static func getExpirationInterval(for interval: ExpirationInterval) -> String {
         switch interval {
@@ -85,6 +91,7 @@ public class SettingsOptions {
             case expirationIntervals[1]: return .TwiceWeekly
             case expirationIntervals[2]: return .OnceWeekly
             case expirationIntervals[3]: return .EveryTwoWeeks
+            case expirationIntervals[4]: return .EveryXDays
             default: return DefaultSettings.ExpirationIntervalValue
         }
     }
