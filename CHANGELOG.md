@@ -4,6 +4,8 @@
 
 Added
 
+- Hormone expiration interval "Every X Days" with a settable X value. The days option is configurable and can be 
+    any number 1 - 25.
 - The ability to undo taking a pill.
 
 Fixed
