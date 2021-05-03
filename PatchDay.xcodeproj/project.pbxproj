@@ -132,6 +132,8 @@
 		9D6187A3263F449E00B284CF /* XDaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A1263F444800B284CF /* XDaysTests.swift */; };
 		9D6187A6263F643700B284CF /* SettingsPickerListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */; };
 		9D6187A9263F66DB00B284CF /* MockSettingsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A8263F66DB00B284CF /* MockSettingsPickerView.swift */; };
+		9D6187AD2640BDE200B284CF /* SettingsReflecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */; };
+		9D6187AF2640BE3200B284CF /* MockSettingsReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -624,6 +626,8 @@
 		9D6187A1263F444800B284CF /* XDaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDaysTests.swift; sourceTree = "<group>"; };
 		9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerListTests.swift; sourceTree = "<group>"; };
 		9D6187A8263F66DB00B284CF /* MockSettingsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsPickerView.swift; sourceTree = "<group>"; };
+		9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReflecting.swift; sourceTree = "<group>"; };
+		9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsReflector.swift; sourceTree = "<group>"; };
 		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1170,6 +1174,7 @@
 				9D913B7922FF3A0B001FC03C /* UserDefaultsWriting.swift */,
 				9D9397C12379476F00FDF290 /* UserDefaultsReading.swift */,
 				3397C0B64890296742265A9E /* SingleValueTypeKeyStorables.swift */,
+				9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1642,6 +1647,7 @@
 				9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */,
 				9D6E9AFC24563454003BBCC9 /* MockSettings.swift */,
 				9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */,
+				9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */,
 			);
 			path = MockSettings;
 			sourceTree = "<group>";
@@ -2573,6 +2579,7 @@
 				9D7888AC2558727A00DC0F6D /* MockSiteCell.swift in Sources */,
 				9D6E9B0224564501003BBCC9 /* MockBadge.swift in Sources */,
 				9D78889A25586CBC00DC0F6D /* MockHormonesTable.swift in Sources */,
+				9D6187AF2640BE3200B284CF /* MockSettingsReflector.swift in Sources */,
 				9D1908E62468369700E95244 /* MockTabs.swift in Sources */,
 				9D6E9B1824564A2F003BBCC9 /* MockNotificationFactory.swift in Sources */,
 				9D8A983A23C7FD1F004E20FE /* MockHormone.swift in Sources */,
@@ -2759,6 +2766,7 @@
 				9D6E9ADA2456219A003BBCC9 /* NotificationProducing.swift in Sources */,
 				9D8A986323D3BAFE004E20FE /* UserDefaultsProtocol.swift in Sources */,
 				3397C05456061252A20D0EC4 /* HormoneDetailValueTypes.swift in Sources */,
+				9D6187AD2640BDE200B284CF /* SettingsReflecting.swift in Sources */,
 				9D7887D92558527600DC0F6D /* SiteCellProtocol.swift in Sources */,
 				9D78876C2553938600DC0F6D /* SiteImageRecording.swift in Sources */,
 				3397C115FF936D6A9736EE74 /* SingleValueTypeKeyStorables.swift in Sources */,

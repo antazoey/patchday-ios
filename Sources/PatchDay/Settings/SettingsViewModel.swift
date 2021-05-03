@@ -9,7 +9,7 @@ import PDKit
 
 class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsViewModelProtocol {
 
-    var reflector: SettingsReflector
+    var reflector: SettingsReflecting
     var saver: SettingsSaver
     var alertFactory: AlertProducing?
 
@@ -20,7 +20,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
     }
 
     init(
-        _ reflector: SettingsReflector,
+        _ reflector: SettingsReflecting,
         _ saver: SettingsSaver,
         _ alertFactory: AlertProducing? = nil
     ) {
@@ -34,7 +34,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
     }
 
     init(
-        _ reflector: SettingsReflector,
+        _ reflector: SettingsReflecting,
         _ saver: SettingsSaver,
         _ alertFactory: AlertProducing,
         _ dependencies: DependenciesProtocol
@@ -83,7 +83,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         notifications?.cancelAllExpiredHormoneNotifications()
         let newMinutesBeforeValue = Int(newValue)
         setNotificationsMinutes(newMinutesBeforeValue)
-        notifications?.requestAllExpiredHormoneNotifications()
         return titleString
     }
 
@@ -93,15 +92,18 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
 
     func setNotifications(_ newValue: Bool) {
         sdk?.settings.setNotifications(to: newValue)
-        if !newValue {
-            notifications?.cancelAllExpiredHormoneNotifications()
-        } else {
+        if newValue {
             notifications?.requestAllExpiredHormoneNotifications()
+        } else {
+            // disabling
+            notifications?.cancelAllExpiredHormoneNotifications()
+            setNotificationsMinutes(0)
         }
     }
 
-    func setNotificationsMinutes(_ newValue: Int) {
+    private func setNotificationsMinutes(_ newValue: Int) {
         sdk?.settings.setNotificationsMinutesBefore(to: newValue)
+        notifications?.requestAllExpiredHormoneNotifications()
     }
 
     private func close(_ picker: SettingsPickerViewing) {

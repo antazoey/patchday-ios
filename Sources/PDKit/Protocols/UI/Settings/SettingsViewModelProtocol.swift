@@ -34,7 +34,4 @@ public protocol SettingsViewModelProtocol {
 
     /// Set the notifications setting.
     func setNotifications(_ newValue: Bool)
-
-    /// Set the notifications-before-minutes setting.
-    func setNotificationsMinutes(_ newValue: Int)
 }

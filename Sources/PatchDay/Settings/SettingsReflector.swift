@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-class SettingsReflector: CodeBehindDependencies<SettingsReflector> {
+class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsReflecting {
 
     private let controls: SettingsControls
 

@@ -198,11 +198,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     private func disableNotificationButtons() {
         let disabledValue = 0
-        viewModel?.setNotificationsMinutes(disabledValue)
         notificationsMinutesBeforeSlider.isEnabled = false
+        notificationsMinutesBeforeSlider.value = Float(disabledValue)
         notificationsMinutesBeforeValueLabel.textColor = UIColor.lightGray
         notificationsMinutesBeforeValueLabel.text = String(disabledValue)
-        notificationsMinutesBeforeSlider.value = Float(disabledValue)
     }
 
     private func loadButtonDisabledStates() {

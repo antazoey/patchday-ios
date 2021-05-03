@@ -172,4 +172,60 @@ class SettingsViewModelTests: XCTestCase {
         let expected = "23.0"
         XCTAssertEqual(expected, actual)
     }
+
+    func testReflect_callsReflectorReflect() {
+        let mockReflector = MockSettingsReflector()
+        let viewModel = SettingsViewModel(mockReflector, saver, alertFactory, dependencies)
+        viewModel.reflect()
+        XCTAssertEqual(1, mockReflector.reflectCallCount)
+    }
+
+    func testSetNotifications_sets() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(true)
+        viewModel.setNotifications(false)
+        let callArgs = settings.setNotificationsCallArgs
+        XCTAssertEqual(2, callArgs.count)
+        XCTAssertTrue(callArgs[0])
+        XCTAssertFalse(callArgs[1])
+    }
+
+    func testSetNotifications_whenSettingToTrue_requestsAllNotifications() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(true)
+        let notifications = dependencies.notifications as! MockNotifications
+        let requestCallCount = notifications.requestAllExpiredHormoneNotificationCallCount
+        let cancelCallCount = notifications.cancelAllExpiredHormoneNotificationsCallCount
+        XCTAssertEqual(1, requestCallCount)
+        XCTAssertEqual(0, cancelCallCount)
+    }
+
+    func testSetNotifications_whenSettingsToFalse_cancelsAllNotifications() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(false)
+        let notifications = dependencies.notifications as! MockNotifications
+        let requestCallCount = notifications.requestAllExpiredHormoneNotificationCallCount
+        let cancelCallCount = notifications.cancelAllExpiredHormoneNotificationsCallCount
+        XCTAssertEqual(0, requestCallCount)
+        XCTAssertEqual(1, cancelCallCount)
+    }
+
+    func testSetNotifications_whenNotifcationsIsNil_doesNothingWithNotifications() {
+        let deps = MockDependencies()
+        deps.notifications = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        viewModel.setNotifications(false)
+        let notifications = dependencies.notifications as! MockNotifications
+        let requestCallCount = notifications.requestAllExpiredHormoneNotificationCallCount
+        let cancelCallCount = notifications.cancelAllExpiredHormoneNotificationsCallCount
+        XCTAssertEqual(0, requestCallCount)
+        XCTAssertEqual(0, cancelCallCount)
+    }
+
+    func testSetNotifications_whenSettingsToFalse_clearsNotificationsMinutesBefore() {
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        viewModel.setNotifications(false)
+        let callArgs = settings.setNotificationsMinutesBeforeCallArgs
+        XCTAssertEqual([0], callArgs)
+    }
 }
