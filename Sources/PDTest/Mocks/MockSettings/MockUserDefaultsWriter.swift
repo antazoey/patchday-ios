@@ -6,7 +6,7 @@
 import Foundation
 import PDKit
 
-public class MockUserDefaultsWriter: PDTesting, UserDefaultsWriting {
+public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
 
     public var deliveryMethod = DeliveryMethodUD(DefaultSettings.DeliveryMethodRawValue)
     public var expirationInterval = ExpirationIntervalUD(

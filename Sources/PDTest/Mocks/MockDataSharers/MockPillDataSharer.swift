@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class MockPillDataSharer: PDTesting, PillDataSharing {
+public class MockPillDataSharer: PDMocking, PillDataSharing {
 
     public var shareCallArgs: [Swallowable] = []
 

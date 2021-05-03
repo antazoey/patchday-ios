@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class MockHormone: Hormonal, PDTesting {
+public class MockHormone: Hormonal, PDMocking {
     public var siteImageId: SiteName = ""
     public var id = UUID()
     public var deliveryMethod = DeliveryMethod.Patches

@@ -6,7 +6,7 @@
 
 import Foundation
 
-public class MockPatchDataStore<T>: PDTesting {
+public class MockPatchDataStore<T>: PDMocking {
 
     public var getStoredCollectionReturnValues: [[T]] = []
     public var newObjectFactory: (() -> T)?

@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class MockSite: Bodily, PDTesting {
+public class MockSite: Bodily, PDMocking {
 
     // Mock-related properties
     public var isOccupiedCallArgs: [Int] = []

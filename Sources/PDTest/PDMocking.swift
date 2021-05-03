@@ -5,7 +5,7 @@
 
 import Foundation
 
-public protocol PDTesting {
+public protocol PDMocking {
 
     /// Clears the mock's invocations
     func resetMock()
