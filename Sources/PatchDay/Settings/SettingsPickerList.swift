@@ -44,6 +44,7 @@ class SettingsPickerList {
         }
     }
 
+    @discardableResult
     func select(_ setting: PDSetting) -> SettingsPickerViewing? {
         guard let selectedPicker = self[setting] else { return nil }
         for picker in all where picker.view != selectedPicker.view {

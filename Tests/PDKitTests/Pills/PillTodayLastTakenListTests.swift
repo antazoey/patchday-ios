@@ -163,10 +163,10 @@ class PillLastTakenListTests: XCTestCase {
     }
 
     private func isTimeOne(_ actual: Time) -> Bool {
-        PDTest.equiv(testTimeOne, actual)
+        PDAssert.equiv(testTimeOne, actual)
     }
 
     private func isTimeTwo(_ actual: Time) -> Bool {
-        PDTest.equiv(testTimeTwo, actual)
+        PDAssert.equiv(testTimeTwo, actual)
     }
 }

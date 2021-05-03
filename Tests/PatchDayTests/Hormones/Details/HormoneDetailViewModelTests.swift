@@ -76,7 +76,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         viewModel.hormoneId = hormone.id
         let actual = viewModel.datePickerDate
         let expected = Date()
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 
     func testDatePickerDate_whenDateSelectedFromSelections_returnsSelectedDate() {
@@ -433,7 +433,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         viewModel.hormoneId = hormone.id
         viewModel.trySelectSite(at: 3)
         let actual = viewModel.selections.date!
-        XCTAssert(PDTest.equiv(actual, Date()))
+        XCTAssert(PDAssert.equiv(actual, Date()))
     }
 
     func testTrySelectSite_whenHormoneHasDateAndNoneSelected_doesNotSelectNow() {
@@ -461,7 +461,7 @@ class HormoneDetailViewModelTests: XCTestCase {
         viewModel.selections.date = DateFactory.createDate(daysFromNow: -8)
         viewModel.trySelectSite(at: 3)
         let actual = viewModel.selections.date!
-        XCTAssertFalse(PDTest.equiv(actual, Date()))
+        XCTAssertFalse(PDAssert.equiv(actual, Date()))
     }
 
     func testSaveSelections_whenDateSelected_callsSetHormoneDate() {

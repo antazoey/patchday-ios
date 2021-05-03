@@ -225,7 +225,7 @@ class IntegrationTests: XCTestCase {
 
         let actual = hormoneAfterTest.date
         let failMessage = "\(testDate) is equivalent to \(actual)"
-        XCTAssertFalse(PDTest.equiv(testDate, actual), failMessage)
+        XCTAssertFalse(PDAssert.equiv(testDate, actual), failMessage)
     }
 
 #endif

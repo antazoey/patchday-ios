@@ -547,7 +547,7 @@ class PillDetailViewModelTests: XCTestCase {
         pill.times = times
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         XCTAssertEqual(times.count, viewModel.times.count)
-        XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
+        XCTAssert(PDAssert.sameTime(times[0], viewModel.times[0]))
     }
 
     func testTimes_whenTimesSelected_returnsSelectedTimes() {
@@ -637,7 +637,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.selectTime(Time(), 1)
         XCTAssertEqual(1, viewModel.times.count)
-        XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
+        XCTAssert(PDAssert.sameTime(times[0], viewModel.times[0]))
     }
 
     func testSetTimesday_whenSettingToZero_doesNotSet() {
@@ -656,7 +656,7 @@ class PillDetailViewModelTests: XCTestCase {
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
         viewModel.setTimesaday(1)
         XCTAssertEqual(1, viewModel.times.count)
-        XCTAssert(PDTest.sameTime(times[0], viewModel.times[0]))
+        XCTAssert(PDAssert.sameTime(times[0], viewModel.times[0]))
     }
 
     func testSetTimesaday_whenIncreasingAndNoTimeSelected_addsNewTime() {
@@ -739,7 +739,7 @@ class PillDetailViewModelTests: XCTestCase {
         let expected = DateFactory.createTimesFromCommaSeparatedString(
             DefaultPillAttributes.time, now: now
         )[0]
-        XCTAssert(PDTest.equiv(expected, pickers[0].date))
+        XCTAssert(PDAssert.equiv(expected, pickers[0].date))
 
     }
 

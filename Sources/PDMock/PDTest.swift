@@ -7,7 +7,7 @@
 import Foundation
 import PDKit
 
-public class PDTest {
+public class PDAssert {
 
     public static func equiv(_ d1: Date, _ d2: Date) -> Bool {
         Calendar.current.isDate(d1, equalTo: d2, toGranularity: .nanosecond)

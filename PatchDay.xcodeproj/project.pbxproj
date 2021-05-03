@@ -130,6 +130,8 @@
 		9D61879D263F2DD000B284CF /* SettingsPickerViewing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61879C263F2DD000B284CF /* SettingsPickerViewing.swift */; };
 		9D6187A0263F3E5C00B284CF /* SettingsPickerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61879E263F3E0600B284CF /* SettingsPickerList.swift */; };
 		9D6187A3263F449E00B284CF /* XDaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A1263F444800B284CF /* XDaysTests.swift */; };
+		9D6187A6263F643700B284CF /* SettingsPickerListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */; };
+		9D6187A9263F66DB00B284CF /* MockSettingsPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A8263F66DB00B284CF /* MockSettingsPickerView.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -620,6 +622,8 @@
 		9D61879C263F2DD000B284CF /* SettingsPickerViewing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerViewing.swift; sourceTree = "<group>"; };
 		9D61879E263F3E0600B284CF /* SettingsPickerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerList.swift; sourceTree = "<group>"; };
 		9D6187A1263F444800B284CF /* XDaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDaysTests.swift; sourceTree = "<group>"; };
+		9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerListTests.swift; sourceTree = "<group>"; };
+		9D6187A8263F66DB00B284CF /* MockSettingsPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsPickerView.swift; sourceTree = "<group>"; };
 		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1239,6 +1243,7 @@
 				9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */,
 				9D1908F024684BC900E95244 /* SettingsTestHelper.swift */,
 				9D1908F22468564100E95244 /* SettingsViewModelTests.swift */,
+				9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1246,6 +1251,7 @@
 		9D1908E42468368100E95244 /* MockApp */ = {
 			isa = PBXGroup;
 			children = (
+				9D6187A7263F66CB00B284CF /* Settings */,
 				9D7888BD2558736A00DC0F6D /* Pills */,
 				9D7888B52558728900DC0F6D /* Hormones */,
 				9D7888B42558727F00DC0F6D /* Sites */,
@@ -1360,6 +1366,14 @@
 			children = (
 				9D618799263F2CF900B284CF /* SettingsViewModelProtocol.swift */,
 				9D61879C263F2DD000B284CF /* SettingsPickerViewing.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9D6187A7263F66CB00B284CF /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9D6187A8263F66DB00B284CF /* MockSettingsPickerView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2503,6 +2517,7 @@
 				9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */,
 				9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */,
 				9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */,
+				9D6187A6263F643700B284CF /* SettingsPickerListTests.swift in Sources */,
 				9D9C600024829F5000B3DA6A /* PillDetailViewModelTests.swift in Sources */,
 				9D6E9AF92456256F003BBCC9 /* NotificationsTests.swift in Sources */,
 				9D3E653F24A8F4CD0000D079 /* SiteImagesTests.swift in Sources */,
@@ -2671,6 +2686,7 @@
 				9DFD8EAD2500335900E7C3A8 /* DateFormatterFactory.swift in Sources */,
 				9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */,
 				9D6E9ADF24562272003BBCC9 /* PDNotificationProtocol.swift in Sources */,
+				9D6187A9263F66DB00B284CF /* MockSettingsPickerView.swift in Sources */,
 				9D913BA62304EF83001FC03C /* Swallowable.swift in Sources */,
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
 				9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */,

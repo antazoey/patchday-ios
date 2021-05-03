@@ -37,7 +37,7 @@ class DuePillNotificationTests: XCTestCase {
         not.request()
         let expected = dueDate.timeIntervalSince(Date())
         let actual = DuePillNotificationTests.testHandlerCallArgs[0].0
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 
     func testRequest_whenDueDateIsNil_doesNotRequest() {

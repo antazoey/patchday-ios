@@ -438,6 +438,6 @@ class HormoneTests: XCTestCase {
         hormone.expirationInterval = interval
         let actual = hormone.createExpirationDate(from: testDate)!
         let expected = Calendar.current.date(byAdding: .hour, value: interval.hours, to: testDateThatIsNow)!
-        XCTAssert(PDTest.equiv(expected, actual))
+        XCTAssert(PDAssert.equiv(expected, actual))
     }
 }
