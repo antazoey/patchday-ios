@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  PDAssert.swift
 //  PDTest
 //
 //  Created by Juliya Smith on 5/16/20.
@@ -9,14 +9,17 @@ import PDKit
 
 public class PDAssert {
 
+    /// Returns true if the dates are within a nanosecond of each other.
     public static func equiv(_ d1: Date, _ d2: Date) -> Bool {
         Calendar.current.isDate(d1, equalTo: d2, toGranularity: .nanosecond)
     }
 
+    /// Returns true if two doubles are equivalent.
     public static func equiv(_ d1: Double, _ d2: Double, _ granularity: Double = 0.01) -> Bool {
         abs(d1 - d2) < granularity
     }
 
+    /// Returns true if two dates have the same hour, minute, and second.
     public static func sameTime(_ t1: Date, _ t2: Date) -> Bool {
         let c1 = Calendar.current.dateComponents([.hour, .minute, .second], from: t1)
         let c2 = Calendar.current.dateComponents([.hour, .minute, .second], from: t2)
