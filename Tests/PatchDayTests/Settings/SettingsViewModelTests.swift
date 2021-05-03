@@ -29,8 +29,11 @@ class SettingsViewModelTests: XCTestCase {
         SettingsSaver(controls, dependencies)
     }
 
+    private var settings: MockSettings {
+        dependencies.sdk?.settings as! MockSettings
+    }
+
     func testDeliveryMethodStartIndex_returnsIndexOfSetMethod() {
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.deliveryMethod = DeliveryMethodUD(.Gel)
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let actual = viewModel.deliveryMethodStartIndex
@@ -38,8 +41,14 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testDeliveryMethodStartIndex_whenSdkIsNil_returnsZero() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        XCTAssertEqual(0, viewModel.deliveryMethodStartIndex)
+    }
+
     func testQuantityStartIndex_returnsIndexOfSetQuantity() {
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.quantity = QuantityUD(2)
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let actual = viewModel.quantityStartIndex
@@ -47,13 +56,56 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    func testQuantityStartIndex_whenSdkIsNil_returnsZero() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        XCTAssertEqual(0, viewModel.quantityStartIndex)
+    }
+
     func testExpirationIntervalStartIndex_returnsIndexOfSetInterval() {
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.expirationInterval = ExpirationIntervalUD(.EveryTwoWeeks)
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let actual = viewModel.expirationIntervalStartIndex
         let expected = 3
         XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationIntervalStartIndex_whenSdkIsNil_returnsZero() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        XCTAssertEqual(0, viewModel.expirationIntervalStartIndex)
+    }
+
+    func testUsesXDays_whenExpirationIntervalIsEveryXDays_returnsTrue() {
+        settings.expirationInterval = ExpirationIntervalUD(.EveryXDays)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        XCTAssertTrue(viewModel.usesXDays)
+    }
+
+    func testUsesXDays_whenExpirationIntervalIsOnceDaily_returnsFalse() {
+        settings.expirationInterval = ExpirationIntervalUD(.OnceDaily)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        XCTAssertFalse(viewModel.usesXDays)
+    }
+
+    func testUsesXDays_whenExpirationIntervalIsTwiceWeekly_returnsFalse() {
+        settings.expirationInterval = ExpirationIntervalUD(.TwiceWeekly)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        XCTAssertFalse(viewModel.usesXDays)
+    }
+
+    func testUsesXDays_whenExpirationIntervalIsOnceWeekly_returnsFalse() {
+        settings.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        XCTAssertFalse(viewModel.usesXDays)
+    }
+
+    func testUsesXDays_whenExpirationIntervalIsEveryTwoWeeks_returnsFalse() {
+        settings.expirationInterval = ExpirationIntervalUD(.EveryTwoWeeks)
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
+        XCTAssertFalse(viewModel.usesXDays)
     }
 
     func testActivatePicker_whenPickerIsHidden_selectsActivator() {
@@ -77,8 +129,7 @@ class SettingsViewModelTests: XCTestCase {
         picker.setting = .ExpirationInterval
         picker.isHidden = false
         viewModel.activatePicker(picker)
-        let sdk = dependencies.sdk as! MockSDK
-        let settings = sdk.settings as! MockSettings
+
         let expected = SettingsOptions.expirationIntervals[0]
         let actual = settings.setExpirationIntervalCallArgs[0]
         XCTAssertEqual(expected, actual)
@@ -86,7 +137,6 @@ class SettingsViewModelTests: XCTestCase {
 
     func testHandleNewNotificationsMinutesValue_whenNotificationsIsOff_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.notifications = NotificationsUD(false)
         viewModel.handleNewNotificationsMinutesValue(23)
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
@@ -95,13 +145,11 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsMinutesValue_whenNewValueLessThanZero_doesNotMutate() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(-23)
-        let settings = dependencies.sdk?.settings as! MockSettings
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
     func testHandleNewNotificationsMinutesValue_cancelsAdnResendsAllNotifications() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        let settings = dependencies.sdk?.settings as! MockSettings
         settings.notifications = NotificationsUD(true)
         viewModel.handleNewNotificationsMinutesValue(23)
         let nots = dependencies.notifications as! MockNotifications
@@ -112,7 +160,6 @@ class SettingsViewModelTests: XCTestCase {
     func testHandleNewNotificationsMinutesValue_sets() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         viewModel.handleNewNotificationsMinutesValue(23)
-        let settings = dependencies.sdk?.settings as! MockSettings
         XCTAssertEqual(1, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 

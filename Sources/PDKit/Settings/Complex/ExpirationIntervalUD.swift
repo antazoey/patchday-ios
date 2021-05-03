@@ -8,11 +8,11 @@ import Foundation
 
 public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, KeyStorable {
 
-    public static var OnceDailyKey = { "Once daily" }()
-    public static var TwiceWeeklyKey = { "One half-week" }()
-    public static var OnceWeeklyKey = { "One week" }()
-    public static var EveryTwoWeeksKey = { "Two weeks" }()
-    public static var EveryXDaysKey = { "Every x-days" }()
+    public static var OnceDailyKey = "Once daily"
+    public static var TwiceWeeklyKey = "One half-week"
+    public static var OnceWeeklyKey = "One week"
+    public static var EveryTwoWeeksKey = "Two weeks"
+    public static var EveryXDaysKey = "Every x-days"
     public typealias Value = ExpirationInterval
     public typealias RawValue = String
     public let setting: PDSetting = .ExpirationInterval
@@ -38,6 +38,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
             case ExpirationIntervalUD.TwiceWeeklyKey: return .TwiceWeekly
             case ExpirationIntervalUD.OnceWeeklyKey: return .OnceWeekly
             case ExpirationIntervalUD.EveryTwoWeeksKey: return .EveryTwoWeeks
+            case ExpirationIntervalUD.EveryXDaysKey: return .EveryXDays
             default: return DefaultSettings.ExpirationIntervalValue
         }
     }
@@ -53,16 +54,7 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     }
 
     public override var displayableString: String {
-        let options = SettingsOptions.expirationIntervals
-        var str = ""
-        switch value {
-            case .OnceDaily: str = options.tryGet(at: 0) ?? str
-            case .TwiceWeekly: str = options.tryGet(at: 1) ?? str
-            case .OnceWeekly: str = options.tryGet(at: 2) ?? str
-            case .EveryTwoWeeks: str = options.tryGet(at: 3) ?? str
-            case .EveryXDays: str = options.tryGet(at: 4) ?? str
-        }
-        return str
+        SettingsOptions.getExpirationInterval(for: value)
     }
 
     public static func getRawValue(for value: ExpirationInterval) -> String {
