@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable
 import PDKit
-import PDMock
+import PDTest
 
 class PillLastTakenListTests: XCTestCase {
     private let testTimeOne = Time()

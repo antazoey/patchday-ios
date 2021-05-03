@@ -5,7 +5,7 @@
 //  Created by Juliya Smith on 12/21/18.
 
 import XCTest
-import PDMock
+import PDTest
 
 @testable
 import PDKit
@@ -79,7 +79,7 @@ class DateFactoryTests: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Tests a PDMock test method
+    /// Tests a PDTest test method
     public func testSameTime() {
         let time = Date()
         let d1 = DateFactory.createDate(at: time, daysFromToday: 5)!

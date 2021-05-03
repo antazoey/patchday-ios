@@ -6,7 +6,7 @@
 
 import XCTest
 import PDKit
-import PDMock
+import PDTest
 import PatchData
 
 @testable

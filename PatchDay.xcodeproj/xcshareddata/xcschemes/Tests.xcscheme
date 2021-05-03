@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9D8A981023C573B3004E20FE"
-               BuildableName = "PDMock.framework"
-               BlueprintName = "PDMock"
+               BuildableName = "PDTest.framework"
+               BlueprintName = "PDTest"
                ReferencedContainer = "container:PatchDay.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

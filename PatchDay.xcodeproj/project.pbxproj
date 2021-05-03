@@ -168,9 +168,9 @@
 		9D6E9B2D245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B2C245DB413003BBCC9 /* PillNotificationActionHandlerTests.swift */; };
 		9D6E9B2E245DBD45003BBCC9 /* PatchData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B480EE1C21CC7553002C2238 /* PatchData.framework */; };
 		9D6E9B2F245DBD45003BBCC9 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
-		9D6E9B30245DBD45003BBCC9 /* PDMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8A981123C573B3004E20FE /* PDMock.framework */; };
-		9D6E9B33245DBD5B003BBCC9 /* PDMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8A981123C573B3004E20FE /* PDMock.framework */; };
-		9D6E9B34245DBD65003BBCC9 /* PDMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8A981123C573B3004E20FE /* PDMock.framework */; };
+		9D6E9B30245DBD45003BBCC9 /* PDTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8A981123C573B3004E20FE /* PDTest.framework */; };
+		9D6E9B33245DBD5B003BBCC9 /* PDTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8A981123C573B3004E20FE /* PDTest.framework */; };
+		9D6E9B34245DBD65003BBCC9 /* PDTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8A981123C573B3004E20FE /* PDTest.framework */; };
 		9D6E9B35245DBD6B003BBCC9 /* PDKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B49A4A3E20DB2D4C00F24FC0 /* PDKit.framework */; };
 		9D6E9B37245DBF84003BBCC9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D6E9B36245DBF84003BBCC9 /* XCTest.framework */; };
 		9D6E9B3B245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6E9B3A245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift */; };
@@ -215,7 +215,7 @@
 		9D8A97FF23B290BC004E20FE /* PillStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A97FE23B290BC004E20FE /* PillStore.swift */; };
 		9D8A980123B290C4004E20FE /* SiteStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A980023B290C4004E20FE /* SiteStore.swift */; };
 		9D8A980B23C56121004E20FE /* HormoneDataSharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C4E72B97FAB79FE3636F /* HormoneDataSharing.swift */; };
-		9D8A981523C573B3004E20FE /* PDMock.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D8A981323C573B3004E20FE /* PDMock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9D8A981523C573B3004E20FE /* PDTest.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D8A981323C573B3004E20FE /* PDTest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A981C23C57448004E20FE /* PDMocking.swift */; };
 		9D8A981F23C57473004E20FE /* MockHormoneDataSharer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A981E23C57473004E20FE /* MockHormoneDataSharer.swift */; };
 		9D8A982223C57499004E20FE /* MockEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8A982123C57499004E20FE /* MockEntity.swift */; };
@@ -369,7 +369,7 @@
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9D8A981023C573B3004E20FE;
-			remoteInfo = PDMock;
+			remoteInfo = PDTest;
 		};
 		9D6E9B0B245646E0003BBCC9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -404,14 +404,14 @@
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9D8A981023C573B3004E20FE;
-			remoteInfo = PDMock;
+			remoteInfo = PDTest;
 		};
 		9D6E9B31245DBD53003BBCC9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 137330E11E22BA3E0048F91E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 9D8A981023C573B3004E20FE;
-			remoteInfo = PDMock;
+			remoteInfo = PDTest;
 		};
 		B40CC9B521CCE614002364BB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -689,8 +689,8 @@
 		9D8A97FC23B28F6E004E20FE /* HormoneStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HormoneStore.swift; sourceTree = "<group>"; };
 		9D8A97FE23B290BC004E20FE /* PillStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillStore.swift; sourceTree = "<group>"; };
 		9D8A980023B290C4004E20FE /* SiteStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteStore.swift; sourceTree = "<group>"; };
-		9D8A981123C573B3004E20FE /* PDMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D8A981323C573B3004E20FE /* PDMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDMock.h; sourceTree = "<group>"; };
+		9D8A981123C573B3004E20FE /* PDTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PDTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D8A981323C573B3004E20FE /* PDTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PDTest.h; sourceTree = "<group>"; };
 		9D8A981423C573B3004E20FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9D8A981C23C57448004E20FE /* PDMocking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDMocking.swift; sourceTree = "<group>"; };
 		9D8A981E23C57473004E20FE /* MockHormoneDataSharer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHormoneDataSharer.swift; sourceTree = "<group>"; };
@@ -835,7 +835,7 @@
 			files = (
 				9D6E9B37245DBF84003BBCC9 /* XCTest.framework in Frameworks */,
 				9D6E9B2F245DBD45003BBCC9 /* PDKit.framework in Frameworks */,
-				9D6E9B30245DBD45003BBCC9 /* PDMock.framework in Frameworks */,
+				9D6E9B30245DBD45003BBCC9 /* PDTest.framework in Frameworks */,
 				9D6E9B2E245DBD45003BBCC9 /* PatchData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,7 +852,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D6E9B33245DBD5B003BBCC9 /* PDMock.framework in Frameworks */,
+				9D6E9B33245DBD5B003BBCC9 /* PDTest.framework in Frameworks */,
 				B40CC9B421CCE614002364BB /* PDKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -870,7 +870,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D6E9B35245DBD6B003BBCC9 /* PDKit.framework in Frameworks */,
-				9D6E9B34245DBD65003BBCC9 /* PDMock.framework in Frameworks */,
+				9D6E9B34245DBD65003BBCC9 /* PDTest.framework in Frameworks */,
 				B480EE2521CC7554002C2238 /* PatchData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -900,7 +900,7 @@
 				B40CC9B021CCE614002364BB /* PDKitTests */,
 				B480EE1D21CC7553002C2238 /* PatchData */,
 				B480EE2A21CC7554002C2238 /* PatchDataTests */,
-				9D8A981223C573B3004E20FE /* PDMock */,
+				9D8A981223C573B3004E20FE /* PDTest */,
 				9D6E9AEF2456253A003BBCC9 /* PatchDayTests */,
 				9D69B1DF256C7B2200213E79 /* NextHormoneWidget */,
 				B468F49F20D9BDBA007FC689 /* Frameworks */,
@@ -916,7 +916,7 @@
 				B480EE1C21CC7553002C2238 /* PatchData.framework */,
 				B480EE2421CC7554002C2238 /* PatchDataTests.xctest */,
 				B40CC9AF21CCE614002364BB /* PDKitTests.xctest */,
-				9D8A981123C573B3004E20FE /* PDMock.framework */,
+				9D8A981123C573B3004E20FE /* PDTest.framework */,
 				9D6E9AEE2456253A003BBCC9 /* PatchDayTests.xctest */,
 				9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */,
 			);
@@ -1597,17 +1597,17 @@
 			path = Stores;
 			sourceTree = "<group>";
 		};
-		9D8A981223C573B3004E20FE /* PDMock */ = {
+		9D8A981223C573B3004E20FE /* PDTest */ = {
 			isa = PBXGroup;
 			children = (
 				9D8A981C23C57448004E20FE /* PDMocking.swift */,
 				9D8A981B23C5742E004E20FE /* Mocks */,
-				9D8A981323C573B3004E20FE /* PDMock.h */,
+				9D8A981323C573B3004E20FE /* PDTest.h */,
 				9D8A981423C573B3004E20FE /* Info.plist */,
 				9D1908F5247029E800E95244 /* PDAssert.swift */,
 			);
-			name = PDMock;
-			path = Sources/PDMock;
+			name = PDTest;
+			path = Sources/PDTest;
 			sourceTree = "<group>";
 		};
 		9D8A981B23C5742E004E20FE /* Mocks */ = {
@@ -2084,7 +2084,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D8A981523C573B3004E20FE /* PDMock.h in Headers */,
+				9D8A981523C573B3004E20FE /* PDTest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2168,9 +2168,9 @@
 			productReference = 9D6E9AEE2456253A003BBCC9 /* PatchDayTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9D8A981023C573B3004E20FE /* PDMock */ = {
+		9D8A981023C573B3004E20FE /* PDTest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D8A981623C573B3004E20FE /* Build configuration list for PBXNativeTarget "PDMock" */;
+			buildConfigurationList = 9D8A981623C573B3004E20FE /* Build configuration list for PBXNativeTarget "PDTest" */;
 			buildPhases = (
 				9D8A980C23C573B3004E20FE /* Headers */,
 				9D8A980D23C573B3004E20FE /* Sources */,
@@ -2182,9 +2182,9 @@
 			dependencies = (
 				9D6E9B0E245646E6003BBCC9 /* PBXTargetDependency */,
 			);
-			name = PDMock;
-			productName = PDMock;
-			productReference = 9D8A981123C573B3004E20FE /* PDMock.framework */;
+			name = PDTest;
+			productName = PDTest;
+			productReference = 9D8A981123C573B3004E20FE /* PDTest.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B40CC9AE21CCE614002364BB /* PDKitTests */ = {
@@ -2349,7 +2349,7 @@
 				B480EE1B21CC7553002C2238 /* PatchData */,
 				B480EE2321CC7554002C2238 /* PatchDataTests */,
 				B40CC9AE21CCE614002364BB /* PDKitTests */,
-				9D8A981023C573B3004E20FE /* PDMock */,
+				9D8A981023C573B3004E20FE /* PDTest */,
 				9D6E9AED2456253A003BBCC9 /* PatchDayTests */,
 				9D69B1D9256C7B2200213E79 /* NextHormoneWidget */,
 			);
@@ -2803,7 +2803,7 @@
 		};
 		9D6E9B0A245646E0003BBCC9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D8A981023C573B3004E20FE /* PDMock */;
+			target = 9D8A981023C573B3004E20FE /* PDTest */;
 			targetProxy = 9D6E9B09245646E0003BBCC9 /* PBXContainerItemProxy */;
 		};
 		9D6E9B0C245646E0003BBCC9 /* PBXTargetDependency */ = {
@@ -2828,12 +2828,12 @@
 		};
 		9D6E9B1424564703003BBCC9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D8A981023C573B3004E20FE /* PDMock */;
+			target = 9D8A981023C573B3004E20FE /* PDTest */;
 			targetProxy = 9D6E9B1324564703003BBCC9 /* PBXContainerItemProxy */;
 		};
 		9D6E9B32245DBD53003BBCC9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9D8A981023C573B3004E20FE /* PDMock */;
+			target = 9D8A981023C573B3004E20FE /* PDTest */;
 			targetProxy = 9D6E9B31245DBD53003BBCC9 /* PBXContainerItemProxy */;
 		};
 		B40CC9B621CCE614002364BB /* PBXTargetDependency */ = {
@@ -3184,7 +3184,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = Sources/PDMock/Info.plist;
+				INFOPLIST_FILE = Sources/PDTest/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3195,7 +3195,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				NEW_SETTING = "";
-				PRODUCT_BUNDLE_IDENTIFIER = PatchDay.PDMock;
+				PRODUCT_BUNDLE_IDENTIFIER = PatchDay.PDTest;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -3224,7 +3224,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = Sources/PDMock/Info.plist;
+				INFOPLIST_FILE = Sources/PDTest/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -3234,7 +3234,7 @@
 				);
 				MTL_FAST_MATH = YES;
 				NEW_SETTING = "";
-				PRODUCT_BUNDLE_IDENTIFIER = PatchDay.PDMock;
+				PRODUCT_BUNDLE_IDENTIFIER = PatchDay.PDTest;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
@@ -3543,7 +3543,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D8A981623C573B3004E20FE /* Build configuration list for PBXNativeTarget "PDMock" */ = {
+		9D8A981623C573B3004E20FE /* Build configuration list for PBXNativeTarget "PDTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D8A981723C573B3004E20FE /* Debug */,

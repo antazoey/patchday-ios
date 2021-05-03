@@ -21,9 +21,9 @@ Note: CircleCI will complain about certain lint errors for the project on PR bui
 
 ## Testing
 
-### PDMock
+### PDTest
 
-The project `PDMock` contains manual mocks for protocols defined in `PDKit.Protocols`. Use them, follow their 
+The project `PDTest` contains manual mocks for protocols defined in `PDKit.Protocols`. Use them, follow their 
 patterns, create new ones if you need, modify them as you need. Mocks are mostly built and updates on a 
 needs-basis, but the basic pattern is:
 
