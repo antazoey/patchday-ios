@@ -12,20 +12,20 @@ import PDKit
 class ExpirationIntervalUDTests: XCTestCase {
 
     func testValue_whenInitWithOnceDailyKey_returnsOnceDaily() {
-        let rv = ExpirationIntervalUD.getRawValue(for: .OnceDaily)
-        let expiration = ExpirationIntervalUD(rv)
+        let rawValue = ExpirationIntervalUD.getRawValue(for: .OnceDaily)
+        let expiration = ExpirationIntervalUD(rawValue)
         XCTAssertEqual(.OnceDaily, expiration.value)
     }
 
     func testValue_whenInitWithTwiceWeeklyKey_returnsTwiceWeekly() {
-        let rv = ExpirationIntervalUD.getRawValue(for: .TwiceWeekly)
-        let expiration = ExpirationIntervalUD(rv)
+        let rawValue = ExpirationIntervalUD.getRawValue(for: .TwiceWeekly)
+        let expiration = ExpirationIntervalUD(rawValue)
         XCTAssertEqual(.TwiceWeekly, expiration.value)
     }
 
     func testValue_whenInitWithOnceWeeklyKey_returnsOnceWeekly() {
-        let rv = ExpirationIntervalUD.getRawValue(for: .OnceWeekly)
-        let expiration = ExpirationIntervalUD(rv)
+        let rawValue = ExpirationIntervalUD.getRawValue(for: .OnceWeekly)
+        let expiration = ExpirationIntervalUD(rawValue)
         XCTAssertEqual(.OnceWeekly, expiration.value)
     }
 
