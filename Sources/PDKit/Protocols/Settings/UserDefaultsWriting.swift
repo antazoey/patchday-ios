@@ -23,7 +23,7 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     /// Replace the value of `quantity` with the given one. Accepts 1, 2, 3, 4.
     func replaceStoredQuantity(to newQuantity: Int)
 
-    /// Replace the value of `notifications'`with the given one.
+    /// Replace the value of `notifications`with the given one.
     func replaceStoredNotifications(to newNotifications: Bool)
 
     /// Replace the value of `notificationsMinutesBefore` with the given one.
