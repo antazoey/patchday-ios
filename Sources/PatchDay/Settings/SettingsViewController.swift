@@ -111,6 +111,8 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             quantityButton: quantityButton,
             quantityArrowButton: quantityArrowButton,
             expirationIntervalButton: expirationIntervalButton,
+            xDaysStack: xDaysStack,
+            xDaysButton: xDaysButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsMinutesBeforeSlider,
             notificationsMinutesBeforeValueLabel: notificationsMinutesBeforeValueLabel

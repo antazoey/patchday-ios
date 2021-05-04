@@ -43,8 +43,14 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsRefl
     }
 
     private func loadExpirationInterval() {
-        guard let interval = sdk?.settings.expirationInterval.displayableString else { return }
-        controls.expirationIntervalButton.setTitle(interval)
+        guard let interval = sdk?.settings.expirationInterval else { return }
+        controls.expirationIntervalButton.setTitle(interval.displayableString)
+        if let xDays = interval.xDays.value {
+            controls.xDaysStack.isHidden = false
+            controls.xDaysButton.setTitle("\(xDays)")
+        } else {
+            controls.xDaysStack.isHidden = true
+        }
     }
 
     private func loadQuantity() {

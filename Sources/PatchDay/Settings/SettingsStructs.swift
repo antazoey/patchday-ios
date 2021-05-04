@@ -12,6 +12,8 @@ struct SettingsControls {
     let quantityButton: UIButton
     let quantityArrowButton: UIButton
     let expirationIntervalButton: UIButton
+    let xDaysStack: UIStackView
+    let xDaysButton: UIButton
     let notificationsSwitch: UISwitch
     let notificationsMinutesBeforeSlider: UISlider
     let notificationsMinutesBeforeValueLabel: UILabel

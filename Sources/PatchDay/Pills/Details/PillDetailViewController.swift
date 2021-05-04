@@ -13,55 +13,55 @@ class PillDetailViewController: UIViewController, UIPickerViewDelegate, UIPicker
     private var selectedPicker: UIPickerView?
     private var selectedDaysNumber = 0
 
-    @IBOutlet var detailsView: UIView!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    @IBOutlet weak var detailStack: UIStackView!
-    @IBOutlet weak var drugNameLabel: UILabel!
-    @IBOutlet weak var lineUnderDrugNameLabel: UIView!
-    @IBOutlet weak var nameTextField: UITextField!
-    @IBOutlet weak var verticalLineInDrugNameStack: UIView!
-    @IBOutlet weak var selectNameButton: UIButton!
-    @IBOutlet weak var namePicker: UIPickerView!
-    @IBOutlet weak var lineUnderDrugNameStack: UIView!
-    @IBOutlet weak var notificationsIcon: UIImageView!
-    @IBOutlet weak var notificationsLabel: UILabel!
-    @IBOutlet weak var paddingAboveNotificationsSwitch: UIView!
-    @IBOutlet weak var notificationSwitch: UISwitch!
-    @IBOutlet weak var paddingBelowNotificationsSwitch: UIView!
-    @IBOutlet weak var timesadayLabel: UILabel!
-    @IBOutlet weak var lineUnderNotifications: UIView!
-    @IBOutlet weak var expirationIntervalIcon: UIImageView!
-    @IBOutlet weak var expirationIntervalButton: UIButton!
-    @IBOutlet weak var expirationIntervalLabel: UILabel!
-    @IBOutlet weak var expirationIntervalArrowButton: UIButton!
-    @IBOutlet weak var lineUnderExpirationInterval: UIView!
-    @IBOutlet weak var expirationIntervalPicker: UIPickerView!
-    @IBOutlet weak var daysOneStack: UIStackView!
-    @IBOutlet weak var daysOneLabel: UILabel!
-    @IBOutlet weak var daysOneButton: UIButton!
-    @IBOutlet weak var daysOneArrowButton: UIButton!
-    @IBOutlet weak var lineUnderDaysOne: UIView!
-    @IBOutlet weak var daysTwoStack: UIStackView!
-    @IBOutlet weak var daysTwoLabel: UILabel!
-    @IBOutlet weak var daysTwoButton: UIButton!
-    @IBOutlet weak var daysTwoArrowButton: UIButton!
-    @IBOutlet weak var daysPositionStack: UIStackView!
-    @IBOutlet weak var daysPositionLabel: UILabel!
-    @IBOutlet weak var daysPositionVerticalLine: UIView!
-    @IBOutlet weak var daysPositionSetButton: UIButton!
-    @IBOutlet weak var lineUnderDaysPosition: UIView!
-    @IBOutlet weak var daysPicker: UIPickerView!
-    @IBOutlet weak var lineUnderDaysTwo: UIView!
-    @IBOutlet weak var timesadaySlider: UISlider!
-    @IBOutlet weak var timePickerOne: UIDatePicker!
-    @IBOutlet weak var timePickerTwo: UIDatePicker!
-    @IBOutlet weak var timePickerThree: UIDatePicker!
-    @IBOutlet weak var timePickerFour: UIDatePicker!
-    @IBOutlet weak var firstTimeLabel: UILabel!
-    @IBOutlet weak var secondTimeLabel: UILabel!
-    @IBOutlet weak var thirdTimeLabel: UILabel!
-    @IBOutlet weak var fourthTimeLabel: UILabel!
+    @IBOutlet private var detailsView: UIView!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var saveButton: UIBarButtonItem!
+    @IBOutlet private weak var detailStack: UIStackView!
+    @IBOutlet private weak var drugNameLabel: UILabel!
+    @IBOutlet private weak var lineUnderDrugNameLabel: UIView!
+    @IBOutlet private weak var nameTextField: UITextField!
+    @IBOutlet private weak var verticalLineInDrugNameStack: UIView!
+    @IBOutlet private weak var selectNameButton: UIButton!
+    @IBOutlet private weak var namePicker: UIPickerView!
+    @IBOutlet private weak var lineUnderDrugNameStack: UIView!
+    @IBOutlet private weak var notificationsIcon: UIImageView!
+    @IBOutlet private weak var notificationsLabel: UILabel!
+    @IBOutlet private weak var paddingAboveNotificationsSwitch: UIView!
+    @IBOutlet private weak var notificationSwitch: UISwitch!
+    @IBOutlet private weak var paddingBelowNotificationsSwitch: UIView!
+    @IBOutlet private weak var timesadayLabel: UILabel!
+    @IBOutlet private weak var lineUnderNotifications: UIView!
+    @IBOutlet private weak var expirationIntervalIcon: UIImageView!
+    @IBOutlet private weak var expirationIntervalButton: UIButton!
+    @IBOutlet private weak var expirationIntervalLabel: UILabel!
+    @IBOutlet private weak var expirationIntervalArrowButton: UIButton!
+    @IBOutlet private weak var lineUnderExpirationInterval: UIView!
+    @IBOutlet private weak var expirationIntervalPicker: UIPickerView!
+    @IBOutlet private weak var daysOneStack: UIStackView!
+    @IBOutlet private weak var daysOneLabel: UILabel!
+    @IBOutlet private weak var daysOneButton: UIButton!
+    @IBOutlet private weak var daysOneArrowButton: UIButton!
+    @IBOutlet private weak var lineUnderDaysOne: UIView!
+    @IBOutlet private weak var daysTwoStack: UIStackView!
+    @IBOutlet private weak var daysTwoLabel: UILabel!
+    @IBOutlet private weak var daysTwoButton: UIButton!
+    @IBOutlet private weak var daysTwoArrowButton: UIButton!
+    @IBOutlet private weak var daysPositionStack: UIStackView!
+    @IBOutlet private weak var daysPositionLabel: UILabel!
+    @IBOutlet private weak var daysPositionVerticalLine: UIView!
+    @IBOutlet private weak var daysPositionSetButton: UIButton!
+    @IBOutlet private weak var lineUnderDaysPosition: UIView!
+    @IBOutlet private weak var daysPicker: UIPickerView!
+    @IBOutlet private weak var lineUnderDaysTwo: UIView!
+    @IBOutlet private weak var timesadaySlider: UISlider!
+    @IBOutlet private weak var timePickerOne: UIDatePicker!
+    @IBOutlet private weak var timePickerTwo: UIDatePicker!
+    @IBOutlet private weak var timePickerThree: UIDatePicker!
+    @IBOutlet private weak var timePickerFour: UIDatePicker!
+    @IBOutlet private weak var firstTimeLabel: UILabel!
+    @IBOutlet private weak var secondTimeLabel: UILabel!
+    @IBOutlet private weak var thirdTimeLabel: UILabel!
+    @IBOutlet private weak var fourthTimeLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
