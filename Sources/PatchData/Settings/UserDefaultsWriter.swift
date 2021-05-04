@@ -17,6 +17,56 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         self.sites = siteStore
     }
 
+    public var deliveryMethod: DeliveryMethodUD {
+        let def = DefaultSettings.DeliveryMethodRawValue
+        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: def)
+        return DeliveryMethodUD(deliveryMethod)
+    }
+
+    public var expirationInterval: ExpirationIntervalUD {
+        let def = DefaultSettings.ExpirationIntervalRawValue
+        let expirationInterval = handler.load(setting: .ExpirationInterval, defaultValue: def)
+        return ExpirationIntervalUD(expirationInterval)
+    }
+
+    public var quantity: QuantityUD {
+        let def = DefaultSettings.QuantityRawValue
+        let quantity = handler.load(setting: .Quantity, defaultValue: def)
+        return QuantityUD(quantity)
+    }
+
+    public var notifications: NotificationsUD {
+        let def = DefaultSettings.NotificationsRawValue
+        let notifications = handler.load(setting: .Notifications, defaultValue: def)
+        return NotificationsUD(notifications)
+    }
+
+    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
+        let def = DefaultSettings.NotificationsMinutesBeforeRawValue
+        let notificationsMinutesBefore = handler.load(
+            setting: .NotificationsMinutesBefore, defaultValue: def
+        )
+        return NotificationsMinutesBeforeUD(notificationsMinutesBefore)
+    }
+
+    public var mentionedDisclaimer: MentionedDisclaimerUD {
+        let def = DefaultSettings.MentionedDisclaimerRawValue
+        let mentionedDisclaimer = handler.load(setting: .MentionedDisclaimer, defaultValue: def)
+        return MentionedDisclaimerUD(mentionedDisclaimer)
+    }
+
+    public var siteIndex: SiteIndexUD {
+        let def = DefaultSettings.SiteIndexRawValue
+        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
+        return SiteIndexUD(siteIndex)
+    }
+
+    public var pillsEnabled: PillsEnabledUD {
+        let def = DefaultSettings.PillsEnabledRawValue
+        let pillsEnabled = handler.load(setting: .PillsEnabled, defaultValue: def)
+        return PillsEnabledUD(pillsEnabled)
+    }
+
     public func reset(defaultSiteCount: Int = 4) {
         replaceStoredDeliveryMethod(to: DefaultSettings.DeliveryMethodValue)
         replaceStoredExpirationInterval(to: DefaultSettings.ExpirationIntervalValue)
@@ -96,55 +146,5 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         }
         let incrementedIndex = currentIndex + 1
         return replaceStoredSiteIndex(to: incrementedIndex)
-    }
-
-    public var deliveryMethod: DeliveryMethodUD {
-        let def = DefaultSettings.DeliveryMethodRawValue
-        let deliveryMethod = handler.load(setting: .DeliveryMethod, defaultValue: def)
-        return DeliveryMethodUD(deliveryMethod)
-    }
-
-    public var expirationInterval: ExpirationIntervalUD {
-        let def = DefaultSettings.ExpirationIntervalRawValue
-        let expirationInterval = handler.load(setting: .ExpirationInterval, defaultValue: def)
-        return ExpirationIntervalUD(expirationInterval)
-    }
-
-    public var quantity: QuantityUD {
-        let def = DefaultSettings.QuantityRawValue
-        let quantity = handler.load(setting: .Quantity, defaultValue: def)
-        return QuantityUD(quantity)
-    }
-
-    public var notifications: NotificationsUD {
-        let def = DefaultSettings.NotificationsRawValue
-        let notifications = handler.load(setting: .Notifications, defaultValue: def)
-        return NotificationsUD(notifications)
-    }
-
-    public var notificationsMinutesBefore: NotificationsMinutesBeforeUD {
-        let def = DefaultSettings.NotificationsMinutesBeforeRawValue
-        let notificationsMinutesBefore = handler.load(
-            setting: .NotificationsMinutesBefore, defaultValue: def
-        )
-        return NotificationsMinutesBeforeUD(notificationsMinutesBefore)
-    }
-
-    public var mentionedDisclaimer: MentionedDisclaimerUD {
-        let def = DefaultSettings.MentionedDisclaimerRawValue
-        let mentionedDisclaimer = handler.load(setting: .MentionedDisclaimer, defaultValue: def)
-        return MentionedDisclaimerUD(mentionedDisclaimer)
-    }
-
-    public var siteIndex: SiteIndexUD {
-        let def = DefaultSettings.SiteIndexRawValue
-        let siteIndex = handler.load(setting: .SiteIndex, defaultValue: def)
-        return SiteIndexUD(siteIndex)
-    }
-
-    public var pillsEnabled: PillsEnabledUD {
-        let def = DefaultSettings.PillsEnabledRawValue
-        let pillsEnabled = handler.load(setting: .PillsEnabled, defaultValue: def)
-        return PillsEnabledUD(pillsEnabled)
     }
 }

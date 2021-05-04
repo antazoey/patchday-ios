@@ -39,13 +39,13 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     }
 
     public var replaceStoredDeliveryMethodCallArgs: [DeliveryMethod] = []
-    public func replaceStoredDeliveryMethod(to newMethod: DeliveryMethod) {
-        replaceStoredDeliveryMethodCallArgs.append(newMethod)
+    public func replaceStoredDeliveryMethod(to newValue: DeliveryMethod) {
+        replaceStoredDeliveryMethodCallArgs.append(newValue)
     }
 
     public var replaceStoredExpirationIntervalCallArgs: [ExpirationInterval] = []
-    public func replaceStoredExpirationInterval(to newExpirationInterval: ExpirationInterval) {
-        replaceStoredExpirationIntervalCallArgs.append(newExpirationInterval)
+    public func replaceStoredExpirationInterval(to newValue: ExpirationInterval) {
+        replaceStoredExpirationIntervalCallArgs.append(newValue)
     }
 
     public var replaceStoredXDaysCallArgs: [String] = []
@@ -54,29 +54,37 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
     }
 
     public var replaceStoredQuantityCallArgs: [Int] = []
-    public func replaceStoredQuantity(to newQuantity: Int) {
-        replaceStoredQuantityCallArgs.append(newQuantity)
-        self.quantity = QuantityUD(newQuantity)
+    public func replaceStoredQuantity(to newValue: Int) {
+        replaceStoredQuantityCallArgs.append(newValue)
+        self.quantity = QuantityUD(newValue)
     }
 
-    public func replaceStoredNotifications(to newNotitifications: Bool) {
-        self.notifications = NotificationsUD(newNotitifications)
+    public var replaceStoredNotificationsCallArgs: [Bool] = []
+    public func replaceStoredNotifications(to newValue: Bool) {
+        replaceStoredNotificationsCallArgs.append(newValue)
+        self.notifications = NotificationsUD(newValue)
     }
 
-    public func replaceStoredNotificationsMinutesBefore(to newNotificationsMinutesBefore: Int) {
+    public var replaceStoredNotificationsMinutesBeforeCallArgs: [Int] = []
+    public func replaceStoredNotificationsMinutesBefore(to newValue: Int) {
+        replaceStoredNotificationsMinutesBeforeCallArgs.append(newValue)
         self.notificationsMinutesBefore = NotificationsMinutesBeforeUD(
-            newNotificationsMinutesBefore
+            newValue
         )
     }
 
-    public func replaceStoredMentionedDisclaimer(to newMentionedDisclaimer: Bool) {
-        self.mentionedDisclaimer = MentionedDisclaimerUD(newMentionedDisclaimer)
+    public var replaceStoredMentionedDisclaimerCallArgs: [Bool] = []
+    public func replaceStoredMentionedDisclaimer(to newValue: Bool) {
+        replaceStoredMentionedDisclaimerCallArgs.append(newValue)
+        self.mentionedDisclaimer = MentionedDisclaimerUD(newValue)
     }
 
     public var replaceSiteIndexMockReturnValue = 0
-    public func replaceStoredSiteIndex(to i: Index) -> Index {
-        self.siteIndex = SiteIndexUD(i)
-        return i
+    public var replaceStoredSiteIndexCallArgs: [Index] = []
+    public func replaceStoredSiteIndex(to newValue: Index) -> Index {
+        replaceStoredSiteIndexCallArgs.append(newValue)
+        self.siteIndex = SiteIndexUD(newValue)
+        return newValue
     }
 
     public var incrementStoredSiteIndexCallArgs: [Int?] = []

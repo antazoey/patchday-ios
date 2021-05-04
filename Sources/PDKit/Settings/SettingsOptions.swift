@@ -8,9 +8,7 @@ import Foundation
 
 public class SettingsOptions {
     public static let comment = "Displayed on a button and in a picker."
-    public static let OnceDaily = NSLocalizedString(
-        "Once Daily", tableName: nil, comment: comment
-    )
+    public static let OnceDaily = NSLocalizedString("Once Daily", tableName: nil, comment: comment)
     public static let TwiceWeekly = NSLocalizedString(
         "Twice Weekly", tableName: nil, comment: comment
     )
@@ -33,6 +31,10 @@ public class SettingsOptions {
 
     public static var xDaysValues: [String] {
         (1...SupportedExpirationIntervalDaysLimit).map { "\($0)" }
+    }
+
+    public static var expirationIntervals: [String] {
+        [OnceDaily, TwiceWeekly, OnceWeekly, OnceEveryTwoWeeks, EveryXDays]
     }
 
     public static func getDeliveryMethod(at i: Index) -> DeliveryMethod {
@@ -73,10 +75,6 @@ public class SettingsOptions {
             case .ExpirationInterval: return expirationIntervals.tryGet(at: row)
         default: return nil
         }
-    }
-
-    public static var expirationIntervals: [String] {
-        [OnceDaily, TwiceWeekly, OnceWeekly, OnceEveryTwoWeeks, EveryXDays]
     }
 
     public static func getExpirationInterval(for interval: ExpirationInterval) -> String {

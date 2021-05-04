@@ -107,4 +107,75 @@ class SettingsTests: XCTestCase {
         let actual = mockHormones.fillInCallArgs[0]
         XCTAssertEqual(expected, actual)
     }
+
+    func testSetExpirationInterval_setsIntervalUsingExpectedValue() {
+        let settings = createSettings()
+
+        // Testing 3 calls
+        settings.setExpirationInterval(to: SettingsOptions.OnceEveryTwoWeeks)
+        settings.setExpirationInterval(to: SettingsOptions.EveryXDays)
+        settings.setExpirationInterval(to: SettingsOptions.OnceWeekly)
+
+        let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
+        XCTAssertEqual(3, callArgs.count)
+        XCTAssertEqual(.EveryTwoWeeks, callArgs[0])
+        XCTAssertEqual(.EveryXDays, callArgs[1])
+        XCTAssertEqual(.OnceWeekly, callArgs[2])
+    }
+
+    func testSetXDays_setsXDays() {
+        let settings = createSettings()
+        settings.setXDays(to: "3")
+        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual("3", callArgs[0])
+    }
+
+    func testSetSiteIndex_setsSiteIndex() {
+        let settings = createSettings()
+        settings.setSiteIndex(to: 3)
+        let callArgs = mockSettingsWriter.replaceStoredSiteIndexCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(3, callArgs[0])
+    }
+
+    func testSetNotifications_setsNotifications() {
+        let settings = createSettings()
+        settings.setNotifications(to: false)
+        let callArgs = mockSettingsWriter.replaceStoredNotificationsCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(false, callArgs[0])
+    }
+
+    func testSetNotificationsMinutesBefore_setsNotificationsMinutesBefore() {
+        let settings = createSettings()
+        settings.setNotificationsMinutesBefore(to: 32)
+        let callArgs = mockSettingsWriter.replaceStoredNotificationsMinutesBeforeCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(32, callArgs[0])
+    }
+
+    func testSetMentionedDisclaimer_setsMentionedDisclaimer() {
+        let settings = createSettings()
+        settings.setMentionedDisclaimer(to: true)
+        let callArgs = mockSettingsWriter.replaceStoredMentionedDisclaimerCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(true, callArgs[0])
+    }
+
+    func testSetPillsEnabled_setsPillsEnabled() {
+        let settings = createSettings()
+        settings.setPillsEnabled(to: false)
+        let callArgs = mockSettingsWriter.replaceStoredPillsEnabledCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(false, callArgs[0])
+    }
+
+    func testReset_resets() {
+        let settings = createSettings()
+        settings.reset(defaultSiteCount: 2)
+        let callArgs = mockSettingsWriter.resetCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(2, callArgs[0])
+    }
 }

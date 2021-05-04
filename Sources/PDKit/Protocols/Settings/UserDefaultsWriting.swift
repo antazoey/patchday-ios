@@ -15,22 +15,22 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     func replaceStoredDeliveryMethod(to newMethod: DeliveryMethod)
 
     /// Replace the value of `expirationInterval` with the given one.
-    func replaceStoredExpirationInterval(to newExpirationInterval: ExpirationInterval)
+    func replaceStoredExpirationInterval(to newValue: ExpirationInterval)
 
     /// Replace the value of `XDays` with the given one. Accepts 1...25.
     func replaceStoredXDays(to newValue: String)
 
     /// Replace the value of `quantity` with the given one. Accepts 1, 2, 3, 4.
-    func replaceStoredQuantity(to newQuantity: Int)
+    func replaceStoredQuantity(to newValue: Int)
 
     /// Replace the value of `notifications` with the given one.
     func replaceStoredNotifications(to newNotifications: Bool)
 
     /// Replace the value of `notificationsMinutesBefore` with the given one.
-    func replaceStoredNotificationsMinutesBefore(to newNotificationsMinutesBefore: Int)
+    func replaceStoredNotificationsMinutesBefore(to newValue: Int)
 
     /// Replace the value of `mentionedDisclaimer` with the given one.
-    func replaceStoredMentionedDisclaimer(to newMentionedDisclaimer: Bool)
+    func replaceStoredMentionedDisclaimer(to newValue: Bool)
 
     /// Increment the site index modularly. Use `start` when changing sites outside of schedule order.
     @discardableResult
@@ -39,7 +39,7 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     /// Replace the value of `siteIndex` with the given one.
     /// Accepts `0..<siteCount`. Returns the index after trying to set.
     @discardableResult
-    func replaceStoredSiteIndex(to i: Index) -> Index
+    func replaceStoredSiteIndex(to newValue: Index) -> Index
 
     /// Replace the value that indicates whether pills are activated.
     func replaceStoredPillsEnabled(to newValue: Bool)
