@@ -97,7 +97,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         } else {
             // disabling
             notifications?.cancelAllExpiredHormoneNotifications()
-            setNotificationsMinutes(0)
+            sdk?.settings.setNotificationsMinutesBefore(to: 0)
         }
     }
 

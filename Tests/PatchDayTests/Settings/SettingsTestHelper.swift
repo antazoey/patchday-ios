@@ -14,6 +14,7 @@ class SettingsTestHelper {
     private let methodButton = UIButton()
     private let quantityButton = UIButton()
     private let quantityArrowButton = UIButton()
+    private let xDaysButton = UIButton()
     private let expirationButton = UIButton()
     private let notificationsSwitch = UISwitch()
     private let notificationsSlider = UISlider()
@@ -25,6 +26,7 @@ class SettingsTestHelper {
             quantityButton: quantityButton,
             quantityArrowButton: quantityArrowButton,
             expirationIntervalButton: expirationButton,
+            xDaysButton: xDaysButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsSlider,
             notificationsMinutesBeforeValueLabel: notificationsMinutesLabel
