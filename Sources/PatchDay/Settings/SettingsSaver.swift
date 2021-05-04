@@ -35,6 +35,7 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
             case .DeliveryMethod: saveDeliveryMethodChange(selectedRow, alertFactory: alertFactory)
             case .Quantity: saveQuantity(selectedRow, alertFactory: alertFactory)
             case .ExpirationInterval: saveExpirationInterval(selectedRow)
+            case .XDays: saveXDays(selectedRow)
             default: log.error("Error: No picker for key \(key)")
         }
         notifications?.requestAllExpiredHormoneNotifications()
@@ -142,5 +143,10 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
             return
         }
         sdk?.settings.setExpirationInterval(to: newInterval)
+    }
+
+    private func saveXDays(_ selectedRow: Index) {
+        guard let newDays = SettingsOptions.xDaysValues.tryGet(at: selectedRow) else { return }
+        sdk?.settings.setXDays(to: newDays)
     }
 }

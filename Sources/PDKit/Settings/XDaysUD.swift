@@ -17,6 +17,10 @@ public class XDays {
         set { xDaysValue = newValue }
     }
 
+    public var ud: XDaysUD {
+        XDaysUD(rawValue ?? DefaultSettings.XDaysRawValue)
+    }
+
     public var value: Int? {
         get {
             guard let val = xDaysValue else { return nil }

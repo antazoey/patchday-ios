@@ -45,3 +45,11 @@ public class PillsEnabledUD: PDUserDefault<Bool, Bool>, BooleanKeyStorable {
         self.init(DefaultSettings.PillsEnabledRawValue)
     }
 }
+
+public class XDaysUD: PDUserDefault<String, String>, StringKeyStorable {
+    public var setting: PDSetting = .XDays
+
+    public convenience init() {
+        self.init(DefaultSettings.XDaysRawValue)
+    }
+}

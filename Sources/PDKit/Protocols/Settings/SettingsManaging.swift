@@ -17,6 +17,9 @@ public protocol SettingsManaging: UserDefaultsReading {
     /// Set the expiration interval for when hormones expire.
     func setExpirationInterval(to newInterval: String)
 
+    /// Set the expiration interval X-Days value for intervals that support a custom days value.
+    func setXDays(to newDays: String)
+
     /// Enable notifications globally for hormones.
     func setNotifications(to newValue: Bool)
 

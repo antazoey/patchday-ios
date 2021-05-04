@@ -31,6 +31,10 @@ public class SettingsOptions {
         ]
     }
 
+    public static var xDaysValues: [String] {
+        (1...SupportedExpirationIntervalDaysLimit).map { "\($0)" }
+    }
+
     public static func getDeliveryMethod(at i: Index) -> DeliveryMethod {
         let choice = deliveryMethods.tryGet(at: i)
         return getDeliveryMethod(for: choice)

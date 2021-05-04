@@ -125,7 +125,7 @@
 		9D618792263D949A00B284CF /* PillCellActionAlertHandlersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */; };
 		9D618793263D9E4E00B284CF /* Pill.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D913BAD231D89AD001FC03C /* Pill.swift */; };
 		9D618796263DA5DD00B284CF /* PlaceholderStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618794263DA54000B284CF /* PlaceholderStrings.swift */; };
-		9D618798263EF39800B284CF /* XDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618797263EF39800B284CF /* XDays.swift */; };
+		9D618798263EF39800B284CF /* XDaysUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618797263EF39800B284CF /* XDaysUD.swift */; };
 		9D61879A263F2CF900B284CF /* SettingsViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D618799263F2CF900B284CF /* SettingsViewModelProtocol.swift */; };
 		9D61879D263F2DD000B284CF /* SettingsPickerViewing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61879C263F2DD000B284CF /* SettingsPickerViewing.swift */; };
 		9D6187A0263F3E5C00B284CF /* SettingsPickerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61879E263F3E0600B284CF /* SettingsPickerList.swift */; };
@@ -619,7 +619,7 @@
 		9D61878F263D927500B284CF /* PillCellActionAlertTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertTests.swift; sourceTree = "<group>"; };
 		9D618791263D949A00B284CF /* PillCellActionAlertHandlersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionAlertHandlersTests.swift; sourceTree = "<group>"; };
 		9D618794263DA54000B284CF /* PlaceholderStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderStrings.swift; sourceTree = "<group>"; };
-		9D618797263EF39800B284CF /* XDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDays.swift; sourceTree = "<group>"; };
+		9D618797263EF39800B284CF /* XDaysUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XDaysUD.swift; sourceTree = "<group>"; };
 		9D618799263F2CF900B284CF /* SettingsViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelProtocol.swift; sourceTree = "<group>"; };
 		9D61879C263F2DD000B284CF /* SettingsPickerViewing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerViewing.swift; sourceTree = "<group>"; };
 		9D61879E263F3E0600B284CF /* SettingsPickerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerList.swift; sourceTree = "<group>"; };
@@ -1400,6 +1400,7 @@
 			children = (
 				9D6DB7D62405FEEB00C00711 /* Complex */,
 				9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */,
+				9D618797263EF39800B284CF /* XDaysUD.swift */,
 				9D6DB7D12405FED600C00711 /* PDUserDefault.swift */,
 				9D7F1443240C4486001577A1 /* ComplexSetting.swift */,
 				9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */,
@@ -1413,7 +1414,6 @@
 				9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */,
 				9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */,
 				9D6DB7D72405FEF200C00711 /* QuantityUD.swift */,
-				9D618797263EF39800B284CF /* XDays.swift */,
 			);
 			path = Complex;
 			sourceTree = "<group>";
@@ -2780,7 +2780,7 @@
 				3397C8BC572ADE0631DBFC1B /* Date+PatchDay.swift in Sources */,
 				3397CC5CF788FF31C6741016 /* Foundation+PatchDay.swift in Sources */,
 				3397CCB077DDE1351B04EBBC /* PDLog.swift in Sources */,
-				9D618798263EF39800B284CF /* XDays.swift in Sources */,
+				9D618798263EF39800B284CF /* XDaysUD.swift in Sources */,
 				9D7887A52558453A00DC0F6D /* HormoneCellProtocol.swift in Sources */,
 				3397C7E5E191E210E1B8FA85 /* PDObjectLogger.swift in Sources */,
 			);

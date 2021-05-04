@@ -45,6 +45,10 @@ class SettingsPickerListTests: XCTestCase {
         XCTAssertEqual(expirationIntervalPicker, actual)
     }
 
+    func testSubscript_whenGivenXDays_returnsExpirationIntervalPicker() {
+        XCTAssertEqual(expirationIntervalPicker, list[.XDays] as! MockSettingsPickerView)
+    }
+
     func testSubscript_whenGivenSettingsWithNoPicker_returnsNil() {
         XCTAssertNil(list[.Notifications])
         XCTAssertNil(list[.NotificationsMinutesBefore])

@@ -11,8 +11,8 @@ import Foundation
 /// The maximum number of supported hormones in a schedule.
 public let SupportedHormoneUpperQuantityLimit = 4
 
-/// The maximum number of days in a pill expiration interval that supports days.
-public let SupportedPillExpirationIntervalDaysLimit = 25
+/// The maximum number of days in an expiration interval that supports days, including pill expiration intervals.
+public let SupportedExpirationIntervalDaysLimit = 25
 
 /// The maximum number of supported pill times for a single pill.
 public let MaxPillTimesaday = 4
@@ -51,7 +51,7 @@ public class DefaultSettings {
     public static let SiteIndexRawValue = 0
     public static let MaxSupportedNotificationsMinutesBefore = 120
     public static let PillsEnabledRawValue = true
-    public static let XDays = 10
+    public static let XDaysRawValue = "10"
 }
 
 /// Default properties to assign to pills when they are not given any.

@@ -38,6 +38,7 @@ class SettingsPickerList {
             case .Quantity: return quantityPicker
             case .DeliveryMethod: return deliveryMethodPicker
             case .ExpirationInterval: return expirationIntervalPicker
+            case .XDays: return expirationIntervalPicker
             default:
                 log.error("No picker for given setting \(setting)")
                 return nil
