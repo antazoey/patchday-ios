@@ -17,7 +17,7 @@ public protocol UserDefaultsWriting: UserDefaultsReading {
     /// Replace the value of `expirationInterval` with the given one.
     func replaceStoredExpirationInterval(to newExpirationInterval: ExpirationInterval)
 
-    /// Replace the value of `XDays` with the given one.
+    /// Replace the value of `XDays` with the given one. Accepts 1...25.
     func replaceStoredXDays(to newValue: String)
 
     /// Replace the value of `quantity` with the given one. Accepts 1, 2, 3, 4.
