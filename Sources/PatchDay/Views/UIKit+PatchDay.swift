@@ -86,7 +86,8 @@ extension UIButton {
             "notifications": .Notifications,
             "notificationsminutesbefore": .NotificationsMinutesBefore,
             "mentioneddisclaimer": .MentionedDisclaimer,
-            "siteindex": .SiteIndex
+            "siteindex": .SiteIndex,
+            "xdays": .XDays
         ]
     }
 }

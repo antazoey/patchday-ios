@@ -51,6 +51,7 @@ public class DefaultSettings {
     public static let SiteIndexRawValue = 0
     public static let MaxSupportedNotificationsMinutesBefore = 120
     public static let PillsEnabledRawValue = true
+    public static let XDays = 10
 }
 
 /// Default properties to assign to pills when they are not given any.

@@ -58,6 +58,7 @@ public enum PDSetting: String {
     case MentionedDisclaimer = "mentioned"
     case SiteIndex = "site_i"
     case PillsEnabled = "pillsEnabled"
+    case XDays = "expIntXDays"
 }
 
 public enum PDEntity: String, CaseIterable {
