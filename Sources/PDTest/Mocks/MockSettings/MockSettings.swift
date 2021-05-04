@@ -35,6 +35,11 @@ public class MockSettings: SettingsManaging {
         setExpirationIntervalCallArgs.append(newInterval)
     }
 
+    public var setXDaysCallArgs: [String] = []
+    public func setXDays(to newDays: String) {
+        setXDaysCallArgs.append(newDays)
+    }
+
     public var setNotificationsCallArgs: [Bool] = []
     public func setNotifications(to newValue: Bool) {
         setNotificationsCallArgs.append(newValue)

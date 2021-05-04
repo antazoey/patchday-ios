@@ -48,6 +48,11 @@ public class MockUserDefaultsWriter: PDMocking, UserDefaultsWriting {
         replaceStoredExpirationIntervalCallArgs.append(newExpirationInterval)
     }
 
+    public var replaceStoredXDaysCallArgs: [String] = []
+    public func replaceStoredXDays(to newValue: String) {
+        replaceStoredXDaysCallArgs.append(newValue)
+    }
+
     public var replaceStoredQuantityCallArgs: [Int] = []
     public func replaceStoredQuantity(to newQuantity: Int) {
         replaceStoredQuantityCallArgs.append(newQuantity)
