@@ -46,10 +46,9 @@ class SettingsReflector: CodeBehindDependencies<SettingsReflector>, SettingsRefl
         guard let interval = sdk?.settings.expirationInterval else { return }
         controls.expirationIntervalButton.setTitle(interval.displayableString)
         if let xDays = interval.xDays.value {
-            controls.xDaysStack.isHidden = false
             controls.xDaysButton.setTitle("\(xDays)")
         } else {
-            controls.xDaysStack.isHidden = true
+            controls.xDaysButton.setTitle("")
         }
     }
 

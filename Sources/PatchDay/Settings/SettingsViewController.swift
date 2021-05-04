@@ -72,6 +72,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     @IBOutlet private weak var xDaysSideView: UIView!
     @IBOutlet private weak var quantitySideView: UIView!
+    @IBOutlet private weak var lineBelowXDaysStack: UIView!
     @IBOutlet private weak var notificationsSideView: UIView!
     @IBOutlet private weak var notificationsMinutesBeforeSideView: UIView!
 
@@ -98,9 +99,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @objc func willEnterForeground() {
         quantityPicker.isHidden = true
         assignSelfAsDelegateForPickers()
-        initViewModel()
-        viewModel?.reflect()
-        hideViewsIfNeeded()
+        let viewModel = initViewModel()
+        viewModel.reflect()
+        hideOrUnhideViews()
         applyTheme()
         loadButtonDisabledStates()
     }
@@ -111,7 +112,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             quantityButton: quantityButton,
             quantityArrowButton: quantityArrowButton,
             expirationIntervalButton: expirationIntervalButton,
-            xDaysStack: xDaysStack,
             xDaysButton: xDaysButton,
             notificationsSwitch: notificationsSwitch,
             notificationsMinutesBeforeSlider: notificationsMinutesBeforeSlider,
@@ -173,18 +173,28 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         (pickerView as? SettingsPickerViewing)?.select(row)
     }
 
-    private func initViewModel() {
-        viewModel = SettingsViewModel(controls: controlsStruct)
+    private func initViewModel() -> SettingsViewModel {
+        let viewModel = SettingsViewModel(controls: controlsStruct)
+        self.viewModel = viewModel
+        return viewModel
     }
 
-    private func hideViewsIfNeeded() {
-        xDaysStack.isHidden = viewModel?.usesXDays ?? true  // Hide by default
+    private func hideOrUnhideViews() {
+        guard let viewModel = viewModel else { return }
+        if viewModel.usesXDays {
+            xDaysStack.isHidden = false
+            lineBelowXDaysStack.isHidden = false
+        } else {
+            xDaysStack.isHidden = true
+            lineBelowXDaysStack.isHidden = true
+        }
     }
 
     private func handlePickerActivation(_ setting: PDSetting) {
         guard let viewModel = viewModel else { return }
         guard let picker = pickers.select(setting) else { return }
         viewModel.activatePicker(picker)
+        hideOrUnhideViews()
     }
 
     // MARK: - View loading and altering
