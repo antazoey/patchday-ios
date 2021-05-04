@@ -13,6 +13,14 @@ import XCTest
 import PDKit
 
 class XDaysTests: XCTestCase {
+
+    func testUd_returnsUserDefaultObjectWithRawValue() {
+        let obj = XDays()
+        obj.rawValue = "2"
+        let actual = obj.ud.value
+        XCTAssertEqual("2", actual)
+    }
+
     func testValue_whenRawValueCanBeInt_returnsInt() {
         let obj = XDays()
         obj.rawValue = "45"
