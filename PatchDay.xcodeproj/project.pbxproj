@@ -20,7 +20,7 @@
 		3397C23AD8485783F292353A /* PDBadgeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397CDE752EBD157A3E2CDE7 /* PDBadgeButton.swift */; };
 		3397C254B10A052A62F5E011 /* PDBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C15569EB6EC92C438D45 /* PDBadge.swift */; };
 		3397C25AE996E55A7FA08DCC /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C657E8FDF0438CBDF5E1 /* TableCell.swift */; };
-		3397C270073E6E9F1E9E1E6D /* SettingsStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C53545234920B507958D /* SettingsStructs.swift */; };
+		3397C270073E6E9F1E9E1E6D /* SettingsControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C53545234920B507958D /* SettingsControls.swift */; };
 		3397C27B78F0991995D3FF47 /* MOEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C9451ED30B689F8D7E30 /* MOEntities.swift */; };
 		3397C2EBC38271B62A7AAAA7 /* HormoneSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C26B67F3687429A274AE /* HormoneSchedule.swift */; };
 		3397C34B5CDE52B87B10C481 /* PatchDataLoggingPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3397C54DDFA7DF1E9C1EDECA /* PatchDataLoggingPlayground.swift */; };
@@ -135,6 +135,7 @@
 		9D6187AD2640BDE200B284CF /* SettingsReflecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */; };
 		9D6187AF2640BE3200B284CF /* MockSettingsReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */; };
 		9D6187B22642072700B284CF /* SettingsPickerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */; };
+		9D6187B52642328C00B284CF /* SettingsControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B32642328300B284CF /* SettingsControlsTests.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -511,7 +512,7 @@
 		3397C4E72B97FAB79FE3636F /* HormoneDataSharing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HormoneDataSharing.swift; sourceTree = "<group>"; };
 		3397C4F5D8AADC9C5B2831CA /* PillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PillCell.swift; sourceTree = "<group>"; };
 		3397C53074C244CBAB4010FD /* DateFactoryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFactoryTests.swift; sourceTree = "<group>"; };
-		3397C53545234920B507958D /* SettingsStructs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStructs.swift; sourceTree = "<group>"; };
+		3397C53545234920B507958D /* SettingsControls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsControls.swift; sourceTree = "<group>"; };
 		3397C54DDFA7DF1E9C1EDECA /* PatchDataLoggingPlayground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDataLoggingPlayground.swift; sourceTree = "<group>"; };
 		3397C57BEA067330611A888C /* PDIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDIcons.swift; sourceTree = "<group>"; };
 		3397C5BF42C6720C632A84B3 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -630,6 +631,7 @@
 		9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReflecting.swift; sourceTree = "<group>"; };
 		9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsReflector.swift; sourceTree = "<group>"; };
 		9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerViewTests.swift; sourceTree = "<group>"; };
+		9D6187B32642328300B284CF /* SettingsControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsControlsTests.swift; sourceTree = "<group>"; };
 		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1018,7 +1020,7 @@
 				9D6DB7E12406002B00C00711 /* SettingsPickerView.swift */,
 				3397C7DB5907E297804FE42B /* SettingsViewModel.swift */,
 				3397CBAEECDFB0997BB88263 /* SettingsSaver.swift */,
-				3397C53545234920B507958D /* SettingsStructs.swift */,
+				3397C53545234920B507958D /* SettingsControls.swift */,
 				3397CB18E77D8048782F165F /* SettingsReflector.swift */,
 				3397C5BF42C6720C632A84B3 /* SettingsViewController.swift */,
 				9D61879E263F3E0600B284CF /* SettingsPickerList.swift */,
@@ -1252,6 +1254,7 @@
 				9D1908F22468564100E95244 /* SettingsViewModelTests.swift */,
 				9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */,
 				9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */,
+				9D6187B32642328300B284CF /* SettingsControlsTests.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2485,7 +2488,7 @@
 				9D1908CF2460C2F500E95244 /* HormoneStrings.swift in Sources */,
 				9D6DB7E22406002B00C00711 /* SettingsPickerView.swift in Sources */,
 				3397C9103C3BF3CE2A887203 /* SettingsSaver.swift in Sources */,
-				3397C270073E6E9F1E9E1E6D /* SettingsStructs.swift in Sources */,
+				3397C270073E6E9F1E9E1E6D /* SettingsControls.swift in Sources */,
 				3397CB4DDE8099EDD871BBB7 /* SettingsReflector.swift in Sources */,
 				3397CC13D997D7B96EB62086 /* SettingsViewController.swift in Sources */,
 				9D6E9AE42456231C003BBCC9 /* NotificationFactory.swift in Sources */,
@@ -2536,6 +2539,7 @@
 				9D1908DF2468315F00E95244 /* SettingsSaverTests.swift in Sources */,
 				9DE748392539042500282144 /* SiteCellViewModelTests.swift in Sources */,
 				9D9C5FFB2482970E00B3DA6A /* TabReflectorTests.swift in Sources */,
+				9D6187B52642328C00B284CF /* SettingsControlsTests.swift in Sources */,
 				9D6E9B3B245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift in Sources */,
 				9D8F45D0248B324A00F2C39A /* SiteDetailViewModelTests.swift in Sources */,
 				9D1908EF24684B5400E95244 /* SettingsReflectorTests.swift in Sources */,
