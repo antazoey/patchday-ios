@@ -110,7 +110,7 @@ class SettingsViewModelTests: XCTestCase {
 
     func testActivatePicker_whenPickerIsHidden_selectsActivator() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        let picker = SettingsPickerView()
+        let picker = SettingsPicker()
         picker.isHidden = true
         let activator = UIButton()
         activator.isSelected = false
@@ -125,7 +125,7 @@ class SettingsViewModelTests: XCTestCase {
         let alertFactory = MockAlertFactory()
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
 
-        let picker = SettingsPickerView()
+        let picker = SettingsPicker()
         picker.setting = .ExpirationInterval
         picker.isHidden = false
         viewModel.activatePicker(picker)

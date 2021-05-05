@@ -14,9 +14,9 @@ import PDTest
 import PatchDay
 
 class SettingsPickerListTests: XCTestCase {
-    private let quantityPicker = MockSettingsPickerView()
-    private let deliveryMethodPicker = MockSettingsPickerView()
-    private let expirationIntervalPicker = MockSettingsPickerView()
+    private let quantityPicker = MockSettingsPicker()
+    private let deliveryMethodPicker = MockSettingsPicker()
+    private let expirationIntervalPicker = MockSettingsPicker()
 
     public var list: SettingsPickerList {
         SettingsPickerList(
@@ -27,26 +27,26 @@ class SettingsPickerListTests: XCTestCase {
     }
 
     func testAll_returnsPickersFromInit() {
-        XCTAssertEqual(quantityPicker, list.all[0] as! MockSettingsPickerView)
-        XCTAssertEqual(deliveryMethodPicker, list.all[1] as! MockSettingsPickerView)
-        XCTAssertEqual(expirationIntervalPicker, list.all[2] as! MockSettingsPickerView)
+        XCTAssertEqual(quantityPicker, list.all[0] as! MockSettingsPicker)
+        XCTAssertEqual(deliveryMethodPicker, list.all[1] as! MockSettingsPicker)
+        XCTAssertEqual(expirationIntervalPicker, list.all[2] as! MockSettingsPicker)
     }
 
     func testSubscript_whenGivenQuantity_returnsQuantityPicker() {
-        XCTAssertEqual(quantityPicker, list[.Quantity] as! MockSettingsPickerView)
+        XCTAssertEqual(quantityPicker, list[.Quantity] as! MockSettingsPicker)
     }
 
     func testSubscript_whenGivenDeliveryMethod_returnsDeliveryMethodPicker() {
-        XCTAssertEqual(deliveryMethodPicker, list[.DeliveryMethod] as! MockSettingsPickerView)
+        XCTAssertEqual(deliveryMethodPicker, list[.DeliveryMethod] as! MockSettingsPicker)
     }
 
     func testSubscript_whenGivenExpirationInterval_returnsExpirationIntervalPicker() {
-        let actual = list[.ExpirationInterval] as! MockSettingsPickerView
+        let actual = list[.ExpirationInterval] as! MockSettingsPicker
         XCTAssertEqual(expirationIntervalPicker, actual)
     }
 
     func testSubscript_whenGivenXDays_returnsExpirationIntervalPicker() {
-        XCTAssertEqual(expirationIntervalPicker, list[.XDays] as! MockSettingsPickerView)
+        XCTAssertEqual(expirationIntervalPicker, list[.XDays] as! MockSettingsPicker)
     }
 
     func testSubscript_whenGivenSettingsWithNoPicker_returnsNil() {
@@ -75,7 +75,7 @@ class SettingsPickerListTests: XCTestCase {
     }
 
     func testSelect_returnsPickerForSetting() {
-        let actual = list.select(.DeliveryMethod) as! MockSettingsPickerView
+        let actual = list.select(.DeliveryMethod) as! MockSettingsPicker
         let expected = deliveryMethodPicker
         XCTAssertEqual(expected, actual)
     }

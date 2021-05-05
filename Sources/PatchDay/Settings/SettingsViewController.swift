@@ -43,9 +43,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var notificationsMinutesBeforeValueLabel: UILabel!
 
     // Pickers
-    @IBOutlet private weak var deliveryMethodPicker: SettingsPickerView!
-    @IBOutlet private weak var expirationIntervalPicker: SettingsPickerView!
-    @IBOutlet private weak var quantityPicker: SettingsPickerView!
+    @IBOutlet private weak var deliveryMethodPicker: SettingsPicker!
+    @IBOutlet private weak var expirationIntervalPicker: SettingsPicker!
+    @IBOutlet private weak var quantityPicker: SettingsPicker!
 
     // Buttons
     @IBOutlet private weak var deliveryMethodButton: UIButton!
@@ -158,7 +158,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        (pickerView as? SettingsPickerViewing)?.count ?? 0
+        (pickerView as? SettingsPicking)?.count ?? 0
     }
 
     func pickerView(
@@ -166,11 +166,11 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         attributedTitleForRow row: Int,
         forComponent component: Int
     ) -> NSAttributedString? {
-        (pickerView as? SettingsPickerView)?[row]
+        (pickerView as? SettingsPicker)?[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        (pickerView as? SettingsPickerViewing)?.select(row)
+        (pickerView as? SettingsPicking)?.select(row)
     }
 
     private func initViewModel() -> SettingsViewModel {
@@ -267,7 +267,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     }
 
     private func setPicker(
-        _ picker: SettingsPickerView,
+        _ picker: SettingsPicker,
         _ setting: PDSetting,
         _ button: UIButton,
         _ getStartRow: @escaping () -> (Index)

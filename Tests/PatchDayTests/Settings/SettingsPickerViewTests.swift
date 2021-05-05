@@ -1,5 +1,5 @@
 //
-//  SettingsPickerViewTests.swift
+//  SettingsPickerTests.swift
 //  PDTest
 //
 //  Created by Juliya Smith on 5/4/21.
@@ -15,10 +15,10 @@ import PDTest
 @testable
 import PatchDay
 
-class SettingsPickerViewTests: XCTestCase {
+class SettingsPickerTests: XCTestCase {
 
     func testSubscript_returnsOptionAtIndex() {
-        let pickerView = SettingsPickerView()
+        let pickerView = SettingsPicker()
         pickerView.options = ["foo", "bar"]
         XCTAssertEqual("foo", pickerView[0].string)
         XCTAssertEqual("bar", pickerView[1].string)
@@ -27,7 +27,7 @@ class SettingsPickerViewTests: XCTestCase {
     func testOpen_selectsActivator() {
         let activator = UIButton()
         activator.isSelected = false
-        let pickerView = SettingsPickerView()
+        let pickerView = SettingsPicker()
         pickerView.activator = activator
         pickerView.open()
         XCTAssertTrue(activator.isSelected)

@@ -214,6 +214,6 @@ class SettingsSaverTests: XCTestCase {
         let settings = sdk.settings as! MockSettings
         let callArgs = settings.setXDaysCallArgs
         XCTAssertEqual(1, callArgs.count)
-        XCTAssertEqual("4", callArgs[0])
+        XCTAssertEqual("5", callArgs[0])
     }
 }

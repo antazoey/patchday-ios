@@ -10,22 +10,22 @@ import Foundation
 import PDKit
 
 class SettingsPickerList {
-    private let quantityPicker: SettingsPickerViewing
-    private let deliveryMethodPicker: SettingsPickerViewing
-    private let expirationIntervalPicker: SettingsPickerViewing
+    private let quantityPicker: SettingsPicking
+    private let deliveryMethodPicker: SettingsPicking
+    private let expirationIntervalPicker: SettingsPicking
     private lazy var log = PDLog<SettingsPickerList>()
 
     init(
-        quantityPicker: SettingsPickerViewing,
-        deliveryMethodPicker: SettingsPickerViewing,
-        expirationIntervalPicker: SettingsPickerViewing
+        quantityPicker: SettingsPicking,
+        deliveryMethodPicker: SettingsPicking,
+        expirationIntervalPicker: SettingsPicking
     ) {
         self.quantityPicker = quantityPicker
         self.deliveryMethodPicker = deliveryMethodPicker
         self.expirationIntervalPicker = expirationIntervalPicker
     }
 
-    var all: [SettingsPickerViewing] {
+    var all: [SettingsPicking] {
         [
             quantityPicker,
             deliveryMethodPicker,
@@ -33,12 +33,16 @@ class SettingsPickerList {
         ]
     }
 
-    subscript(_ setting: PDSetting) -> SettingsPickerViewing? {
+    subscript(_ setting: PDSetting) -> SettingsPicking? {
         switch setting {
             case .Quantity: return quantityPicker
             case .DeliveryMethod: return deliveryMethodPicker
-            case .ExpirationInterval: return expirationIntervalPicker
-            case .XDays: return expirationIntervalPicker
+            case .ExpirationInterval:
+
+                return expirationIntervalPicker
+            case .XDays:
+                //expirationIntervalPicker.options = SettingsOptions.xDaysValues
+                return expirationIntervalPicker
             default:
                 log.error("No picker for given setting \(setting)")
                 return nil
@@ -46,7 +50,7 @@ class SettingsPickerList {
     }
 
     @discardableResult
-    func select(_ setting: PDSetting) -> SettingsPickerViewing? {
+    func select(_ setting: PDSetting) -> SettingsPicking? {
         guard let selectedPicker = self[setting] else { return nil }
         for picker in all where picker.view != selectedPicker.view {
             picker.close(setSelectedRow: false)

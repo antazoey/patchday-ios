@@ -70,7 +70,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         sdk?.settings.expirationInterval.value == .EveryXDays
     }
 
-    func activatePicker(_ picker: SettingsPickerViewing) {
+    func activatePicker(_ picker: SettingsPicking) {
         picker.isHidden ? picker.open() : close(picker)
     }
 
@@ -107,7 +107,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         notifications?.requestAllExpiredHormoneNotifications()
     }
 
-    private func close(_ picker: SettingsPickerViewing) {
+    private func close(_ picker: SettingsPicking) {
         picker.close(setSelectedRow: true)
         guard let setting = picker.setting else { return }
         let row = picker.selectedRow(inComponent: 0)

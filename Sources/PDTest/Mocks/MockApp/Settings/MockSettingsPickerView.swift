@@ -1,5 +1,5 @@
 //
-//  MockSettingsPickerView.swift
+//  MockSettingsPicker.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 5/2/21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class MockSettingsPickerView: SettingsPickerViewing, Equatable {
+public class MockSettingsPicker: SettingsPicking, Equatable {
 
     public init() {}
 
@@ -20,7 +20,7 @@ public class MockSettingsPickerView: SettingsPickerViewing, Equatable {
     public var isHidden: Bool = false
     public var view: UIPickerView = UIPickerView()
 
-    public static func == (lhs: MockSettingsPickerView, rhs: MockSettingsPickerView) -> Bool {
+    public static func == (lhs: MockSettingsPicker, rhs: MockSettingsPicker) -> Bool {
         lhs.view == rhs.view
     }
 

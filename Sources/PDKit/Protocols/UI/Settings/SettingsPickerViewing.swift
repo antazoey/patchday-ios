@@ -1,5 +1,5 @@
 //
-//  SettingsPickerViewing.swift
+//  SettingsPicking.swift
 //  PDKit
 //
 //  Created by Juliya Smith on 5/2/21.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol SettingsPickerViewing {
+public protocol SettingsPicking {
 
     /// The setting this picker is for.
     var setting: PDSetting? { get }
