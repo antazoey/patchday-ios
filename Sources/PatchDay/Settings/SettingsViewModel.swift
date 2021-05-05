@@ -15,7 +15,7 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
 
     convenience init(controls: SettingsControls) {
         let reflector = SettingsReflector(controls)
-        let saver = SettingsSaver(controls)
+        let saver = SettingsSaver(controls: controls)
         self.init(reflector, saver, nil)
     }
 
@@ -28,9 +28,10 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         self.saver = saver
         self.alertFactory = alertFactory
         super.init()
-        if self.alertFactory == nil, let sdk = sdk {
-            self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
-        }
+        // TODO: IS this really needed?!
+//        if self.alertFactory == nil, let sdk = sdk {
+//            self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
+//        }
     }
 
     init(
@@ -110,8 +111,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         picker.close(setSelectedRow: true)
         guard let setting = picker.setting else { return }
         let row = picker.selectedRow(inComponent: 0)
-        if let factory = alertFactory {
-            saver.save(setting, selectedRow: row, alertFactory: factory)
-        }
+        saver.save(setting, selectedRow: row)
     }
 }

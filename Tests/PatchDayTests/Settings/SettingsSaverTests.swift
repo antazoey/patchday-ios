@@ -25,12 +25,18 @@ class SettingsSaverTests: XCTestCase {
         saver = SettingsSaver(controls, dependencies)
     }
 
+    private var sdk: MockSDK {
+        dependencies.sdk as! MockSDK
+    }
+
+    private var alerts: MockAlertFactory {
+        dependencies.alerts as! MockAlertFactory
+    }
+
     func testSave_whenDeliveryMethodAndFreshSdk_sets() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 1
         sdk.isFresh = true
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
 
         let expected = SettingsOptions.getDeliveryMethod(at: testIndex)
         let actual = (sdk.settings as! MockSettings).setDeliveryMethodCallArgs[0]
@@ -38,169 +44,147 @@ class SettingsSaverTests: XCTestCase {
     }
 
     func testSave_whenDeliveryMethodAndNotFreshSdk_presentsAlertWithExpectedMethod() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 2
         sdk.isFresh = false
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
         let expected = SettingsOptions.getDeliveryMethod(at: testIndex)
-        let actual = alertFactory.createDeliveryMethodMutationAlertCallArgs[0].0
+        let actual = alerts.createDeliveryMethodMutationAlertCallArgs[0].0
         XCTAssertEqual(expected, actual)
         XCTAssertEqual(
-            1, alertFactory.createDeliveryMethodMutationAlertReturnValue.presentCallCount
+            1, alerts.createDeliveryMethodMutationAlertReturnValue.presentCallCount
         )
     }
 
     func testSave_whenDeliveryMethodAndNotFreshSdk_presentsAlertWithDeclineActionThatResetsButton() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 2
         sdk.isFresh = false
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
-        let handlers = alertFactory.createDeliveryMethodMutationAlertCallArgs[0].1
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
+        let handlers = alerts.createDeliveryMethodMutationAlertCallArgs[0].1
         handlers.handleDecline(originalMethod: .Patches, originalQuantity: 3)
         let expected = SettingsOptions.getDeliveryMethodString(for: .Patches)
         let actual = controls.deliveryMethodButton.titleLabel?.text
         XCTAssertEqual(expected, actual)
         XCTAssertEqual(
-            1, alertFactory.createDeliveryMethodMutationAlertReturnValue.presentCallCount
+            1, alerts.createDeliveryMethodMutationAlertReturnValue.presentCallCount
         )
     }
 
     func testSave_whenDeliveryMethodAndNotFreshSdkAndToldDecline_doesNotSet() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 2
         sdk.isFresh = false
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
-        let handlers = alertFactory.createDeliveryMethodMutationAlertCallArgs[0].1
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
+        let handlers = alerts.createDeliveryMethodMutationAlertCallArgs[0].1
         handlers.handleDecline(originalMethod: .Patches, originalQuantity: 3)
         let actual = (sdk.settings as! MockSettings).setDeliveryMethodCallArgs.count
         XCTAssertEqual(0, actual)
         XCTAssertEqual(
-            1, alertFactory.createDeliveryMethodMutationAlertReturnValue.presentCallCount
+            1, alerts.createDeliveryMethodMutationAlertReturnValue.presentCallCount
         )
     }
 
     func testSave_whenDeliveryMethodAndNotFreshSdkAndToldDeclineWithPatches_enablesQuantityButton() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 2
         sdk.isFresh = false
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
         controls.quantityButton.isEnabled = false
         controls.quantityArrowButton.isEnabled = false
-        let handlers = alertFactory.createDeliveryMethodMutationAlertCallArgs[0].1
+        let handlers = alerts.createDeliveryMethodMutationAlertCallArgs[0].1
         handlers.handleDecline(originalMethod: .Patches, originalQuantity: 3)
         XCTAssertTrue(controls.quantityButton.isEnabled)
         XCTAssertTrue(controls.quantityArrowButton.isEnabled)
         XCTAssertEqual(
-            1, alertFactory.createDeliveryMethodMutationAlertReturnValue.presentCallCount
+            1, alerts.createDeliveryMethodMutationAlertReturnValue.presentCallCount
         )
     }
 
     func testSave_whenDeliveryMethodAndNotFreshSdkAndToldDeclineWithInjections_disablesQuantityButton() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 2
         sdk.isFresh = false
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
         controls.quantityButton.isEnabled = true
         controls.quantityArrowButton.isEnabled = true
-        let handlers = alertFactory.createDeliveryMethodMutationAlertCallArgs[0].1
+        let handlers = alerts.createDeliveryMethodMutationAlertCallArgs[0].1
         handlers.handleDecline(originalMethod: .Injections, originalQuantity: 3)
         XCTAssertFalse(controls.quantityButton.isEnabled)
         XCTAssertFalse(controls.quantityArrowButton.isEnabled)
         XCTAssertEqual(
-            1, alertFactory.createDeliveryMethodMutationAlertReturnValue.presentCallCount
+            1, alerts.createDeliveryMethodMutationAlertReturnValue.presentCallCount
         )
     }
 
     func testSave_whenDeliveryMethodAndNotFreshSdkAndToldDeclineWithGel_disablesQuantityButton() {
-        let sdk = dependencies.sdk! as! MockSDK
         let testIndex = 2
         sdk.isFresh = false
-        let alertFactory = MockAlertFactory()
-        saver.save(.DeliveryMethod, selectedRow: testIndex, alertFactory: alertFactory)
+        saver.save(.DeliveryMethod, selectedRow: testIndex)
         controls.quantityButton.isEnabled = true
         controls.quantityArrowButton.isEnabled = true
-        let handlers = alertFactory.createDeliveryMethodMutationAlertCallArgs[0].1
+        let handlers = alerts.createDeliveryMethodMutationAlertCallArgs[0].1
         handlers.handleDecline(originalMethod: .Gel, originalQuantity: 3)
 
         XCTAssertFalse(controls.quantityButton.isEnabled)
         XCTAssertFalse(controls.quantityArrowButton.isEnabled)
         XCTAssertEqual(
-            1, alertFactory.createDeliveryMethodMutationAlertReturnValue.presentCallCount
+            1, alerts.createDeliveryMethodMutationAlertReturnValue.presentCallCount
         )
     }
 
     func testSave_whenQuantity_presentsAlertUsingExpectedQuantities() {
-        let sdk = dependencies.sdk! as! MockSDK
         let oldQ = 3
         let newQ = 2
         (sdk.settings as! MockSettings).quantity = QuantityUD(oldQ)
-        let alertFactory = MockAlertFactory()
-        saver.save(.Quantity, selectedRow: newQ - 1, alertFactory: alertFactory) // Use index
-        let callArgs = alertFactory.createQuantityMutationAlertCallArgs[0]
+        saver.save(.Quantity, selectedRow: newQ - 1) // Use index
+        let callArgs = alerts.createQuantityMutationAlertCallArgs[0]
         XCTAssertEqual(oldQ, callArgs.1)
         XCTAssertEqual(newQ, callArgs.2)
-        XCTAssertEqual(1, alertFactory.createQuantityMutationAlertReturnValue.presentCallCount)
+        XCTAssertEqual(1, alerts.createQuantityMutationAlertReturnValue.presentCallCount)
     }
 
     func testSave_whenQuantity_presentsAlertWithDeclineActionThatResetsButtonTitle() {
-        let sdk = dependencies.sdk! as! MockSDK
         let oldQ = 3
         let newQ = 2
         (sdk.settings as! MockSettings).quantity = QuantityUD(oldQ)
-        let alertFactory = MockAlertFactory()
-        saver.save(.Quantity, selectedRow: newQ - 1, alertFactory: alertFactory) // Use index
-        let callArgs = alertFactory.createQuantityMutationAlertCallArgs[0]
+        saver.save(.Quantity, selectedRow: newQ - 1) // Use index
+        let callArgs = alerts.createQuantityMutationAlertCallArgs[0]
         let handlers = callArgs.0
         handlers.handleDecline(oldQuantity: oldQ)
         XCTAssertEqual("3", controls.quantityButton.titleLabel?.text)
-        XCTAssertEqual(1, alertFactory.createQuantityMutationAlertReturnValue.presentCallCount)
+        XCTAssertEqual(1, alerts.createQuantityMutationAlertReturnValue.presentCallCount)
     }
 
     func testSave_whenQuantity_presentsAlertWithContinueActionThatDeletesAfterNewQuantity() {
-        let sdk = dependencies.sdk! as! MockSDK
         let oldQ = 3
         let newQ = 2
         let settings = sdk.settings as! MockSettings
         settings.quantity = QuantityUD(oldQ)
-        let alertFactory = MockAlertFactory()
-        saver.save(.Quantity, selectedRow: newQ - 1, alertFactory: alertFactory) // Use index
-        let callArgs = alertFactory.createQuantityMutationAlertCallArgs[0]
+        saver.save(.Quantity, selectedRow: newQ - 1) // Use index
+        let callArgs = alerts.createQuantityMutationAlertCallArgs[0]
         let handlers = callArgs.0
         handlers.handleContinue(newQuantity: newQ)
         XCTAssertEqual(newQ, settings.setQuantityCallArgs[0])
-        XCTAssertEqual(1, alertFactory.createQuantityMutationAlertReturnValue.presentCallCount)
+        XCTAssertEqual(1, alerts.createQuantityMutationAlertReturnValue.presentCallCount)
     }
 
     func testSave_whenQuantity_presentsAlertWithContinueActionThatReflectsTabs() {
-        let sdk = dependencies.sdk! as! MockSDK
         let oldQ = 3
         let newQ = 2
         let settings = sdk.settings as! MockSettings
         settings.quantity = QuantityUD(oldQ)
-        let alertFactory = MockAlertFactory()
-        saver.save(.Quantity, selectedRow: newQ - 1, alertFactory: alertFactory) // Use index
-        let callArgs = alertFactory.createQuantityMutationAlertCallArgs[0]
+        saver.save(.Quantity, selectedRow: newQ - 1) // Use index
+        let callArgs = alerts.createQuantityMutationAlertCallArgs[0]
         let handlers = callArgs.0
         handlers.handleContinue(newQuantity: newQ)
         let tabs = saver.tabs as! MockTabs
         XCTAssertEqual(1, tabs.reflectHormonesCallCount)
-        XCTAssertEqual(1, alertFactory.createQuantityMutationAlertReturnValue.presentCallCount)
+        XCTAssertEqual(1, alerts.createQuantityMutationAlertReturnValue.presentCallCount)
     }
 
     func testSave_whenQuantity_presentsAlertWithContinueActionThatRemovesUnneededNotifications() {
-        let sdk = dependencies.sdk! as! MockSDK
         let oldQ = 3
         let newQ = 2
         let settings = sdk.settings as! MockSettings
         settings.quantity = QuantityUD(oldQ)
-        let alertFactory = MockAlertFactory()
-        saver.save(.Quantity, selectedRow: newQ - 1, alertFactory: alertFactory) // Use index
-        let callArgs = alertFactory.createQuantityMutationAlertCallArgs[0]
+        saver.save(.Quantity, selectedRow: newQ - 1) // Use index
+        let callArgs = alerts.createQuantityMutationAlertCallArgs[0]
         let handlers = callArgs.0
         handlers.handleContinue(newQuantity: newQ)
         let nots = saver.notifications as! MockNotifications
@@ -208,6 +192,28 @@ class SettingsSaverTests: XCTestCase {
         // Indices
         XCTAssertEqual(newQ - 1, nots.cancelRangeOfExpiredHormoneNotificationsCallArgs[0].0)
         XCTAssertEqual(oldQ - 1, nots.cancelRangeOfExpiredHormoneNotificationsCallArgs[0].1)
-        XCTAssertEqual(1, alertFactory.createQuantityMutationAlertReturnValue.presentCallCount)
+        XCTAssertEqual(1, alerts.createQuantityMutationAlertReturnValue.presentCallCount)
+    }
+
+    func testSave_whenExpirationInterval_savesExpectedInterval() {
+        saver.save(.ExpirationInterval, selectedRow: 0)
+        saver.save(.ExpirationInterval, selectedRow: 1)
+        saver.save(.ExpirationInterval, selectedRow: 2)
+
+        let settings = sdk.settings as! MockSettings
+        let callArgs = settings.setExpirationIntervalCallArgs
+
+        XCTAssertEqual(3, callArgs.count)
+        XCTAssertEqual(SettingsOptions.OnceDaily, callArgs[0])
+        XCTAssertEqual(SettingsOptions.TwiceWeekly, callArgs[1])
+        XCTAssertEqual(SettingsOptions.OnceWeekly, callArgs[2])
+    }
+
+    func testSave_whenXDays_saves() {
+        saver.save(.XDays, selectedRow: 4)
+        let settings = sdk.settings as! MockSettings
+        let callArgs = settings.setXDaysCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual("4", callArgs[0])
     }
 }

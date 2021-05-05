@@ -11,7 +11,7 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
 
     private let controls: SettingsControls
 
-    init(_ controls: SettingsControls) {
+    init(controls: SettingsControls) {
         self.controls = controls
         super.init()
     }
@@ -29,11 +29,11 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         )
     }
 
-    public func save(_ key: PDSetting, selectedRow: Index, alertFactory: AlertProducing) {
+    public func save(_ key: PDSetting, selectedRow: Index) {
         notifications?.cancelAllExpiredHormoneNotifications()
         switch key {
-            case .DeliveryMethod: saveDeliveryMethodChange(selectedRow, alertFactory: alertFactory)
-            case .Quantity: saveQuantity(selectedRow, alertFactory: alertFactory)
+            case .DeliveryMethod: saveDeliveryMethodChange(selectedRow)
+            case .Quantity: saveQuantity(selectedRow)
             case .ExpirationInterval: saveExpirationInterval(selectedRow)
             case .XDays: saveXDays(selectedRow)
             default: log.error("Error: No picker for key \(key)")
@@ -41,7 +41,7 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         notifications?.requestAllExpiredHormoneNotifications()
     }
 
-    private func saveDeliveryMethodChange(_ selectedRow: Index, alertFactory: AlertProducing) {
+    private func saveDeliveryMethodChange(_ selectedRow: Index) {
         guard let sdk = sdk else { return }
         let newMethod = SettingsOptions.getDeliveryMethod(at: selectedRow)
         let currentMethod = sdk.settings.deliveryMethod.value
@@ -49,9 +49,7 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         if sdk.isFresh {
             sdk.settings.setDeliveryMethod(to: newMethod)
         } else {
-            presentDeliveryMethodMutationAlert(
-                choice: newMethod, controls: controls, factory: alertFactory
-            )
+            presentDeliveryMethodMutationAlert(choice: newMethod, controls: controls)
         }
 
         controls.reflect(method: newMethod)
@@ -60,7 +58,7 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
     }
 
     private func presentDeliveryMethodMutationAlert(
-        choice: DeliveryMethod, controls: SettingsControls, factory: AlertProducing
+        choice: DeliveryMethod, controls: SettingsControls
     ) {
         // Put view logic here that reflects the state of the delivery method in the Settings view.
         let decline = { (_ originalMethod: DeliveryMethod, _ originalQuantity: Int) -> Void in
@@ -77,23 +75,22 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
             }
         }
         let handlers = DeliveryMethodMutationAlertActionHandler(decline: decline)
-        let alert = factory.createDeliveryMethodMutationAlert(
+        guard let alerts = alerts else { return }
+        let alert = alerts.createDeliveryMethodMutationAlert(
             newDeliveryMethod: choice, handlers: handlers
         )
         alert.present()
     }
 
-    private func saveQuantity(_ selectedRow: Index, alertFactory: AlertProducing) {
+    private func saveQuantity(_ selectedRow: Index) {
         let decline: (Int) -> Void = {
             oldQuantity in self.controls.quantityButton.setTitle("\(oldQuantity)")
         }
         let newQuantity = SettingsOptions.getQuantity(at: selectedRow).rawValue
-        setQuantity(to: newQuantity, decline: decline, factory: alertFactory)
+        setQuantity(to: newQuantity, decline: decline)
     }
 
-    private func setQuantity(
-        to newQuantity: Int, decline: @escaping (Int) -> Void, factory: AlertProducing
-    ) {
+    private func setQuantity(to newQuantity: Int, decline: @escaping (Int) -> Void) {
         guard let sdk = sdk else { return }
         let oldQuantity = sdk.settings.quantity.rawValue
         if newQuantity >= oldQuantity {
@@ -117,22 +114,21 @@ class SettingsSaver: CodeBehindDependencies<SettingsSaver> {
         presentQuantityMutationAlert(
             oldQuantity: oldQuantity,
             newQuantity: newQuantity,
-            handlers: handler,
-            factory: factory
+            handlers: handler
         )
     }
 
     private func presentQuantityMutationAlert(
         oldQuantity: Int,
         newQuantity: Int,
-        handlers: QuantityMutationAlertActionHandling,
-        factory: AlertProducing
+        handlers: QuantityMutationAlertActionHandling
     ) {
         if newQuantity > oldQuantity {
             handlers.setQuantityWithoutAlert(newQuantity: newQuantity)
             return
         }
-        let alert = factory.createQuantityMutationAlert(
+        guard let alerts = alerts else { return }
+        let alert = alerts.createQuantityMutationAlert(
             handlers: handlers, oldQuantity: oldQuantity, newQuantity: newQuantity
         )
         alert.present()
