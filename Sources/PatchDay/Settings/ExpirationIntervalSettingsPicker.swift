@@ -9,16 +9,17 @@
 import Foundation
 import PDKit
 
-class ExpirationInteravlSettingsPicker: ExpirationIntervalSettingsPicking {
+class ExpirationInteravlSettingsPicker: SettingsPicker, ExpirationIntervalSettingsPicking {
 
-    var forXDays: SettingPicking {
-        self.
-        self.options = SettingsOptions.xDaysValues
+    var forIntervals: SettingsPicking {
+        setting = .ExpirationInterval
+        options = SettingsOptions.expirationIntervals
         return self
     }
 
-    var forIntervals: SettingsPicking {
-        self.options = SettingsOptions.expirationIntervals
+    var forXDays: SettingsPicking {
+        self.setting = .XDays
+        self.options = SettingsOptions.xDaysValues
         return self
     }
 }

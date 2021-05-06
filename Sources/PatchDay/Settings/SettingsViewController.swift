@@ -44,7 +44,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     // Pickers
     @IBOutlet private weak var deliveryMethodPicker: SettingsPicker!
-    @IBOutlet private weak var expirationIntervalPicker: SettingsPicker!
+    @IBOutlet private weak var expirationIntervalPicker: ExpirationInteravlSettingsPicker!
     @IBOutlet private weak var quantityPicker: SettingsPicker!
 
     // Buttons

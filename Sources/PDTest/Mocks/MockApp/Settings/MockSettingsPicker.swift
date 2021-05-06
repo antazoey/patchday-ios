@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import PDKit
 
 public class MockSettingsPicker: SettingsPicking, Equatable {
 

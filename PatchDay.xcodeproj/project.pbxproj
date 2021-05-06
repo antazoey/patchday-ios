@@ -131,13 +131,14 @@
 		9D6187A0263F3E5C00B284CF /* SettingsPickerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D61879E263F3E0600B284CF /* SettingsPickerList.swift */; };
 		9D6187A3263F449E00B284CF /* XDaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A1263F444800B284CF /* XDaysTests.swift */; };
 		9D6187A6263F643700B284CF /* SettingsPickerListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */; };
-		9D6187A9263F66DB00B284CF /* MockSettingsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A8263F66DB00B284CF /* MockSettingsPicker.swift */; };
 		9D6187AD2640BDE200B284CF /* SettingsReflecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */; };
 		9D6187AF2640BE3200B284CF /* MockSettingsReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */; };
 		9D6187B22642072700B284CF /* SettingsPickerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */; };
 		9D6187B52642328C00B284CF /* SettingsControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B32642328300B284CF /* SettingsControlsTests.swift */; };
 		9D6187B826437B5F00B284CF /* ExpirationIntervalSettingsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B626437B3C00B284CF /* ExpirationIntervalSettingsPicker.swift */; };
 		9D6187BB26437C5C00B284CF /* ExpirationIntervalSettingsPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B926437C5100B284CF /* ExpirationIntervalSettingsPicking.swift */; };
+		9D6187BD26437EB600B284CF /* MockExpirationIntervalPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187BC26437EB600B284CF /* MockExpirationIntervalPicker.swift */; };
+		9D6187BE26437F0800B284CF /* MockSettingsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A8263F66DB00B284CF /* MockSettingsPicker.swift */; };
 		9D69B1DC256C7B2200213E79 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DB256C7B2200213E79 /* WidgetKit.framework */; };
 		9D69B1DE256C7B2200213E79 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D69B1DD256C7B2200213E79 /* SwiftUI.framework */; };
 		9D69B1E1256C7B2200213E79 /* NextHormoneWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69B1E0256C7B2200213E79 /* NextHormoneWidget.swift */; };
@@ -636,6 +637,7 @@
 		9D6187B32642328300B284CF /* SettingsControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsControlsTests.swift; sourceTree = "<group>"; };
 		9D6187B626437B3C00B284CF /* ExpirationIntervalSettingsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationIntervalSettingsPicker.swift; sourceTree = "<group>"; };
 		9D6187B926437C5100B284CF /* ExpirationIntervalSettingsPicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationIntervalSettingsPicking.swift; sourceTree = "<group>"; };
+		9D6187BC26437EB600B284CF /* MockExpirationIntervalPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockExpirationIntervalPicker.swift; sourceTree = "<group>"; };
 		9D69B1DA256C7B2200213E79 /* NextHormoneWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NextHormoneWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D69B1DB256C7B2200213E79 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		9D69B1DD256C7B2200213E79 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -1390,7 +1392,9 @@
 		9D6187A7263F66CB00B284CF /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */,
 				9D6187A8263F66DB00B284CF /* MockSettingsPicker.swift */,
+				9D6187BC26437EB600B284CF /* MockExpirationIntervalPicker.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1659,7 +1663,6 @@
 				9D8A982623C574F5004E20FE /* MockUserDefaultsWriter.swift */,
 				9D6E9AFC24563454003BBCC9 /* MockSettings.swift */,
 				9D1908DB2466FD7D00E95244 /* MockUserDefaults.swift */,
-				9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */,
 			);
 			path = MockSettings;
 			sourceTree = "<group>";
@@ -2587,6 +2590,7 @@
 				9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */,
 				9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */,
 				9D7888D82558781100DC0F6D /* MockHormoneCell.swift in Sources */,
+				9D6187BD26437EB600B284CF /* MockExpirationIntervalPicker.swift in Sources */,
 				9D8A982423C574B0004E20FE /* MockPatchData.swift in Sources */,
 				9D8A984923D1308A004E20FE /* MockPillStore.swift in Sources */,
 				9D78877C2553993200DC0F6D /* MockSiteImageRecorder.swift in Sources */,
@@ -2606,6 +2610,7 @@
 				9D8F45E72496632600F2C39A /* MockAlert.swift in Sources */,
 				9D7888A3255870D100DC0F6D /* MockSitesTable.swift in Sources */,
 				9D8A982223C57499004E20FE /* MockEntity.swift in Sources */,
+				9D6187BE26437F0800B284CF /* MockSettingsPicker.swift in Sources */,
 				9D1908EA2468388B00E95244 /* MockNav.swift in Sources */,
 				9D6E9AFD24563454003BBCC9 /* MockSettings.swift in Sources */,
 				9D6E9AFF2456376B003BBCC9 /* MockPillSchedule.swift in Sources */,
@@ -2708,7 +2713,6 @@
 				9DFD8EAD2500335900E7C3A8 /* DateFormatterFactory.swift in Sources */,
 				9D1BC57E2277F45F00552BC1 /* SettingsOptions.swift in Sources */,
 				9D6E9ADF24562272003BBCC9 /* PDNotificationProtocol.swift in Sources */,
-				9D6187A9263F66DB00B284CF /* MockSettingsPicker.swift in Sources */,
 				9D913BA62304EF83001FC03C /* Swallowable.swift in Sources */,
 				9D913BA823065676001FC03C /* PDError.swift in Sources */,
 				9D6DB7DC2405FEF200C00711 /* DeliveryMethodUD.swift in Sources */,

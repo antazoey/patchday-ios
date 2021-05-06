@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol ExpirationIntervalSettingsPicking {
+public protocol ExpirationIntervalSettingsPicking: SettingsPicking {
 
     /// This instance in a mode for picking expiration interval values.
     var forIntervals: SettingsPicking { get }

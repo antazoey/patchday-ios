@@ -12,13 +12,13 @@ import PDKit
 class SettingsPickerList {
     private let quantityPicker: SettingsPicking
     private let deliveryMethodPicker: SettingsPicking
-    private let expirationIntervalPicker: ExpirationInteravlSettingsPicking
+    private let expirationIntervalPicker: ExpirationIntervalSettingsPicking
     private lazy var log = PDLog<SettingsPickerList>()
 
     init(
         quantityPicker: SettingsPicking,
         deliveryMethodPicker: SettingsPicking,
-        expirationIntervalPicker: SettingsPicking
+        expirationIntervalPicker: ExpirationIntervalSettingsPicking
     ) {
         self.quantityPicker = quantityPicker
         self.deliveryMethodPicker = deliveryMethodPicker
@@ -37,7 +37,7 @@ class SettingsPickerList {
         switch setting {
             case .Quantity: return quantityPicker
             case .DeliveryMethod: return deliveryMethodPicker
-            case .ExpirationInterval: return expirationIntervalPicker
+            case .ExpirationInterval: return expirationIntervalPicker.forIntervals
             case .XDays: return expirationIntervalPicker.forXDays
             default:
                 log.error("No picker for given setting \(setting)")

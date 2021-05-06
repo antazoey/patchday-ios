@@ -212,7 +212,7 @@
                                                     <constraint firstItem="2BB-gE-EUv" firstAttribute="firstBaseline" secondItem="eut-BV-7bu" secondAttribute="firstBaseline" id="YoJ-6y-rCW"/>
                                                 </constraints>
                                             </stackView>
-                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzl-1c-YdT" customClass="SettingsPicker" customModule="PatchDay" customModuleProvider="target">
+                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzl-1c-YdT" customClass="ExpirationInteravlSettingsPicker" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="122" width="359" height="180"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="AzK-7v-qfK"/>
