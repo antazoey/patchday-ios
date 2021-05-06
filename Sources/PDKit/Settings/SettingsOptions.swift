@@ -7,7 +7,7 @@
 import Foundation
 
 public class SettingsOptions {
-    public static let comment = "Displayed on a button and in a picker."
+    private static let comment = "Displayed on a button and in a picker."
     public static let OnceDaily = NSLocalizedString("Once Daily", tableName: nil, comment: comment)
     public static let TwiceWeekly = NSLocalizedString(
         "Twice Weekly", tableName: nil, comment: comment
@@ -21,8 +21,7 @@ public class SettingsOptions {
     public static let EveryXDays = NSLocalizedString("Every X Days", comment: comment)
 
     public static var deliveryMethods: [String] {
-        let comment = "Displayed on a button and in a picker."
-        return [
+        [
             NSLocalizedString("Patches", comment: comment),
             NSLocalizedString("Injections", comment: comment),
             NSLocalizedString("Gel", comment: comment)
@@ -73,7 +72,7 @@ public class SettingsOptions {
             case .DeliveryMethod: return deliveryMethods.tryGet(at: row)
             case .Quantity: return quantities.tryGet(at: row)
             case .ExpirationInterval: return expirationIntervals.tryGet(at: row)
-        default: return nil
+            default: return nil
         }
     }
 
@@ -104,7 +103,7 @@ public class SettingsOptions {
             case .DeliveryMethod: return deliveryMethods
             case .ExpirationInterval: return expirationIntervals
             case .Quantity: return quantities
-        default: return []
+            default: return []
         }
     }
 

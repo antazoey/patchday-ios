@@ -12,11 +12,11 @@ public class MockSettingsPicker: SettingsPicking, Equatable {
 
     public init() {}
 
-    public var setting: PDSetting? = nil
+    public var setting: PDSetting?
     public var getStartRow: () -> Index = { 0 }
-    public var options: [String]? = nil
+    public var options: [String]?
     public var count: Int { options?.count ?? 0 }
-    public var selected: String? = nil
+    public var selected: String?
     public var isHidden: Bool = false
     public var view: UIPickerView = UIPickerView()
 
