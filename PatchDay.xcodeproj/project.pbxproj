@@ -647,9 +647,9 @@
 		9D6D786C23FE2BAD00FF150C /* PillCellActionHandlers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandlers.swift; sourceTree = "<group>"; };
 		9D6D786E23FE2DE200FF150C /* PillCellActionHandling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellActionHandling.swift; sourceTree = "<group>"; };
 		9D6DB7D12405FED600C00711 /* PDUserDefault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PDUserDefault.swift; path = Sources/PDKit/Settings/PDUserDefault.swift; sourceTree = SOURCE_ROOT; };
-		9D6DB7D72405FEF200C00711 /* QuantityUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantityUD.swift; path = Sources/PDKit/Settings/Complex/QuantityUD.swift; sourceTree = SOURCE_ROOT; };
-		9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryMethodUD.swift; path = Sources/PDKit/Settings/Complex/DeliveryMethodUD.swift; sourceTree = SOURCE_ROOT; };
-		9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpirationIntervalUD.swift; path = Sources/PDKit/Settings/Complex/ExpirationIntervalUD.swift; sourceTree = SOURCE_ROOT; };
+		9D6DB7D72405FEF200C00711 /* QuantityUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = QuantityUD.swift; path = Sources/PDKit/Settings/Choice/QuantityUD.swift; sourceTree = SOURCE_ROOT; };
+		9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeliveryMethodUD.swift; path = Sources/PDKit/Settings/Choice/DeliveryMethodUD.swift; sourceTree = SOURCE_ROOT; };
+		9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpirationIntervalUD.swift; path = Sources/PDKit/Settings/Choice/ExpirationIntervalUD.swift; sourceTree = SOURCE_ROOT; };
 		9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleSettings.swift; sourceTree = "<group>"; };
 		9D6DB7E12406002B00C00711 /* SettingsPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsPicker.swift; sourceTree = "<group>"; };
 		9D6E9AD524562155003BBCC9 /* MockNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNotificationCenter.swift; sourceTree = "<group>"; };
@@ -1414,9 +1414,8 @@
 		9D6DB7CE2405FEA900C00711 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9D6DB7D62405FEEB00C00711 /* Complex */,
+				9D6DB7D62405FEEB00C00711 /* Choice */,
 				9D6DB7DF2405FFD300C00711 /* SimpleSettings.swift */,
-				9D618797263EF39800B284CF /* XDaysUD.swift */,
 				9D6DB7D12405FED600C00711 /* PDUserDefault.swift */,
 				9D7F1443240C4486001577A1 /* ComplexSetting.swift */,
 				9D1BC57D2277F45F00552BC1 /* SettingsOptions.swift */,
@@ -1424,14 +1423,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		9D6DB7D62405FEEB00C00711 /* Complex */ = {
+		9D6DB7D62405FEEB00C00711 /* Choice */ = {
 			isa = PBXGroup;
 			children = (
+				9D618797263EF39800B284CF /* XDaysUD.swift */,
 				9D6DB7D82405FEF200C00711 /* DeliveryMethodUD.swift */,
 				9D6DB7DA2405FEF200C00711 /* ExpirationIntervalUD.swift */,
 				9D6DB7D72405FEF200C00711 /* QuantityUD.swift */,
 			);
-			path = Complex;
+			path = Choice;
 			sourceTree = "<group>";
 		};
 		9D6E9AD424562145003BBCC9 /* MockNotifications */ = {

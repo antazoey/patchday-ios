@@ -47,7 +47,7 @@ public class Settings: SettingsManaging {
             case .MentionedDisclaimer: return mentionedDisclaimer.displayableString
             case .SiteIndex: return siteIndex.displayableString
             case .PillsEnabled: return pillsEnabled.displayableString
-            case .XDays: return expirationInterval.xDays.rawValue ?? ""
+            case .XDays: return expirationInterval.xDays.displayableString
         }
     }
 

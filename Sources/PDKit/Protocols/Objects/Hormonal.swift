@@ -20,7 +20,7 @@ public protocol Hormonal: PDObjectified {
     var expirationInterval: ExpirationIntervalUD { get set }
 
     /// The number of days in a custom expiration interval.
-    var xDays: XDays { get }
+    var xDays: XDaysUD { get }
 
     /// The ID of the site this hormone applies to.
     var siteId: UUID? { get set }

@@ -14,7 +14,7 @@ public protocol SettingsPicking {
     var setting: PDSetting? { get }
 
     /// A method that returns the start index.
-    var getStartRow: () -> Index { get }
+    var getStartRow: (PDSetting) -> Index { get }
 
     /// The available picker options that the user can select.
     var options: [String]? { get }

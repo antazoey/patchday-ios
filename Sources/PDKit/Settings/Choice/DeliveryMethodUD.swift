@@ -21,8 +21,8 @@ public class DeliveryMethodUD: ComplexSetting<DeliveryMethod, String>, KeyStorab
     }
 
     public convenience init(_ value: DeliveryMethod) {
-        let rv = DeliveryMethodUD.getRawValue(for: value)
-        self.init(rv)
+        let rawValue = DeliveryMethodUD.getRawValue(for: value)
+        self.init(rawValue)
     }
 
     public required init(_ rawValue: String) {

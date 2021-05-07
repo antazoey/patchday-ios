@@ -28,10 +28,6 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         self.saver = saver
         self.alertFactory = alertFactory
         super.init()
-        // TODO: IS this really needed?!
-//        if self.alertFactory == nil, let sdk = sdk {
-//            self.alertFactory = AlertFactory(sdk: sdk, tabs: self.tabs)
-//        }
     }
 
     init(
@@ -64,6 +60,10 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
 
     var expirationIntervalStartIndex: Index {
         sdk?.settings.expirationInterval.choiceIndex ?? 0
+    }
+
+    var xDaysStartIndex: Index {
+        sdk?.settings.expirationInterval.xDays.choiceIndex ?? 0
     }
 
     var usesXDays: Bool {

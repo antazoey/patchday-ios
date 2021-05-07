@@ -36,7 +36,7 @@ public class Hormone: Hormonal {
         set { hormoneData.id = newValue }
     }
 
-    public var xDays: XDays {
+    public var xDays: XDaysUD {
         expirationInterval.xDays
     }
 

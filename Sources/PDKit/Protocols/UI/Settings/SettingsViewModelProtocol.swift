@@ -19,6 +19,9 @@ public protocol SettingsViewModelProtocol {
     /// The index to open the expiration interval picker at.
     var expirationIntervalStartIndex: Index { get }
 
+    /// The index to open the X-Days picker at.
+    var xDaysStartIndex: Index { get }
+
     /// Whether the expiration interval involves the use of the xDays property.
     var usesXDays: Bool { get }
 

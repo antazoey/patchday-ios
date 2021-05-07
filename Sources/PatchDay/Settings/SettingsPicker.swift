@@ -1,5 +1,5 @@
 //
-//  PDSettingsPicker.swift
+//  SettingsPicker.swift
 //  PatchDay
 //
 //  Created by Juliya Smith on 2/22/20.
@@ -28,7 +28,7 @@ class SettingsPicker: UIPickerView, SettingsPicking {
         )
     }
 
-    public var getStartRow: () -> Index = { 0 }
+    public var getStartRow: (PDSetting) -> Index = { _ in 0 }
 
     public var options: [String]?
 
@@ -66,7 +66,8 @@ class SettingsPicker: UIPickerView, SettingsPicking {
     }
 
     private func selectStartRow() {
-        selectRow(getStartRow(), inComponent: 0, animated: true)
+        guard let setting = setting else { return }
+        selectRow(getStartRow(setting), inComponent: 0, animated: true)
     }
 
     private func show() {

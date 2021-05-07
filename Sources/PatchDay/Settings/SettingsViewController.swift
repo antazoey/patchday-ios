@@ -252,17 +252,21 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         setPicker(
             deliveryMethodPicker,
             .DeliveryMethod,
-            deliveryMethodButton, { viewModel.deliveryMethodStartIndex }
+            deliveryMethodButton, { _ in viewModel.deliveryMethodStartIndex }
         )
         setPicker(
             expirationIntervalPicker,
             .ExpirationInterval,
-            expirationIntervalButton, { viewModel.expirationIntervalStartIndex }
+            expirationIntervalButton, {
+                s in s == .ExpirationInterval
+                    ? viewModel.expirationIntervalStartIndex
+                    : viewModel.xDaysStartIndex
+            }
         )
         setPicker(
             quantityPicker,
             .Quantity,
-            quantityButton, { viewModel.quantityStartIndex }
+            quantityButton, { _ in viewModel.quantityStartIndex }
         )
     }
 
@@ -270,7 +274,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         _ picker: SettingsPicker,
         _ setting: PDSetting,
         _ button: UIButton,
-        _ getStartRow: @escaping () -> (Index)
+        _ getStartRow: @escaping (PDSetting) -> (Index)
     ) {
         picker.setting = setting
         picker.activator = button
