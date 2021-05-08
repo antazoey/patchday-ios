@@ -28,7 +28,7 @@ class SettingsPicker: UIPickerView, SettingsPicking {
         )
     }
 
-    public var getStartRow: (PDSetting) -> Index = { _ in 0 }
+    public var getStartRow: (_ self: SettingsPicking) -> Index = { _ in 0 }
 
     public var options: [String]?
 
@@ -66,8 +66,7 @@ class SettingsPicker: UIPickerView, SettingsPicking {
     }
 
     private func selectStartRow() {
-        guard let setting = setting else { return }
-        selectRow(getStartRow(setting), inComponent: 0, animated: true)
+        selectRow(getStartRow(self), inComponent: 0, animated: true)
     }
 
     private func show() {

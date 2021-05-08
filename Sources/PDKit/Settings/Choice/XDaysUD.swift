@@ -16,6 +16,10 @@ public class XDaysUD: ComplexSetting<String, String>, KeyStorable {
         self.init(DefaultSettings.XDaysRawValue)
     }
 
+    public convenience init(_ intValue: Int) {
+        self.init("\(intValue)")
+    }
+
     public required init(_ rawValue: String) {
         super.init(rawValue)
         self.choices = SettingsOptions.xDaysValues

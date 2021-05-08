@@ -258,7 +258,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
             expirationIntervalPicker,
             .ExpirationInterval,
             expirationIntervalButton, {
-                s in s == .ExpirationInterval
+                p in p.setting == .ExpirationInterval
                     ? viewModel.expirationIntervalStartIndex
                     : viewModel.xDaysStartIndex
             }
@@ -274,7 +274,7 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         _ picker: SettingsPicker,
         _ setting: PDSetting,
         _ button: UIButton,
-        _ getStartRow: @escaping (PDSetting) -> (Index)
+        _ getStartRow: @escaping (SettingsPicking) -> (Index)
     ) {
         picker.setting = setting
         picker.activator = button
