@@ -140,7 +140,7 @@ class SettingsReflectorTests: XCTestCase {
         settings.expirationInterval.xDays = XDaysUD(5)
         controls = helper.createControls()
         SettingsReflector(controls, dependencies).reflect()
-        XCTAssertEqual("Every X Days", controls.expirationIntervalButton.titleLabel?.text)
+        XCTAssertEqual("Every \"X\" Days", controls.expirationIntervalButton.titleLabel?.text)
         XCTAssertEqual("5", controls.xDaysButton.titleLabel?.text)
     }
 }

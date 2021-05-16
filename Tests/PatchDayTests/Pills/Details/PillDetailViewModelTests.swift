@@ -365,7 +365,7 @@ class PillDetailViewModelTests: XCTestCase {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.FirstXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let expected = "First X days of the month:"
+        let expected = "First \"X\" days of the month:"
         let actual = viewModel.daysOneLabelText
         XCTAssertEqual(expected, actual)
     }
@@ -374,7 +374,7 @@ class PillDetailViewModelTests: XCTestCase {
         let pill = setupPill()
         pill.expirationInterval = PillExpirationInterval(.LastXDays)
         let viewModel = PillDetailViewModel(0, dependencies: dependencies)
-        let expected = "Last X days of the month:"
+        let expected = "Last \"X\" days of the month:"
         let actual = viewModel.daysOneLabelText
         XCTAssertEqual(expected, actual)
     }
