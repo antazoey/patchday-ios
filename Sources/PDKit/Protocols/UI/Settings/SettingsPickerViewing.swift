@@ -13,6 +13,9 @@ public protocol SettingsPicking {
     /// The setting this picker is for.
     var setting: PDSetting? { get }
 
+    /// The button that opens and closes the picker.
+    var activator: UIButton { get set }
+
     /// A method that returns the start index.
     var getStartRow: (_ self: SettingsPicking) -> Index { get }
 
