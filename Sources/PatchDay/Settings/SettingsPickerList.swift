@@ -1,6 +1,6 @@
 //
 //  SettingsPickerList.swift
-//  PDKit
+//  PatchDay
 //
 //  Created by Juliya Smith on 5/2/21.
 //  Copyright © 2021 Juliya Smith. All rights reserved.
@@ -10,10 +10,16 @@ import Foundation
 import PDKit
 
 class SettingsPickerList {
+
+    private lazy var log = PDLog<SettingsPickerList>()
+
+    // MARK: - Individual Pickers
+
     private let quantityPicker: SettingsPicking
     private let deliveryMethodPicker: SettingsPicking
     private let expirationIntervalPicker: ExpirationIntervalSettingsPicking
-    private lazy var log = PDLog<SettingsPickerList>()
+
+    // MARK: - Ctor
 
     init(
         quantityPicker: SettingsPicking,
@@ -25,6 +31,8 @@ class SettingsPickerList {
         self.expirationIntervalPicker = expirationIntervalPicker
     }
 
+    // MARK: - All Pickers
+
     var all: [SettingsPicking] {
         [
             quantityPicker,
@@ -32,6 +40,8 @@ class SettingsPickerList {
             expirationIntervalPicker
         ]
     }
+
+    // MARK: - Methods
 
     subscript(_ setting: PDSetting) -> SettingsPicking? {
         switch setting {
