@@ -12,7 +12,7 @@ import Foundation
 public let SupportedHormoneUpperQuantityLimit = 4
 
 /// The maximum number of days in an expiration interval that supports days, including pill expiration intervals.
-public let SupportedExpirationIntervalDaysLimit = 25
+public let ExpirationIntervalDaysLastInteger = 25
 
 /// The maximum number of supported pill times for a single pill.
 public let MaxPillTimesaday = 4

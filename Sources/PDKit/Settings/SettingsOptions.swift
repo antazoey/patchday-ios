@@ -29,7 +29,10 @@ public class SettingsOptions {
     }
 
     public static var xDaysValues: [String] {
-        (1...SupportedExpirationIntervalDaysLimit).map { "\($0)" }
+        let range = 1...ExpirationIntervalDaysLastInteger
+        return range.reduce([]) {
+            $0 + ["\(Float($1))", "\(Float($1) + 0.5)"]
+        }
     }
 
     public static var expirationIntervals: [String] {
