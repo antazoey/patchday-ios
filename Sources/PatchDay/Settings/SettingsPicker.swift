@@ -22,10 +22,8 @@ class SettingsPicker: UIPickerView, SettingsPicking {
 
     public subscript(_ index: Index) -> NSAttributedString {
         let title = options?.tryGet(at: index) ?? ""
-        let textColor = PDColors[.Text]
-        return NSAttributedString(
-            string: title, attributes: [NSAttributedString.Key.foregroundColor: textColor]
-        )
+        let attributes = [NSAttributedString.Key.foregroundColor: PDColors[.Text]]
+        return NSAttributedString(string: title, attributes: attributes)
     }
 
     public var getStartRow: (_ self: SettingsPicking) -> Index = { _ in 0 }
