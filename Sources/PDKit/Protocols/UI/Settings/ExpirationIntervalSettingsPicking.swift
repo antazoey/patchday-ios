@@ -1,6 +1,5 @@
 //
 //  ExpirationIntervalSettingsPicking.swift
-//  PDTest
 //
 //  Created by Juliya Smith on 5/5/21.
 //  Copyright © 2021 Juliya Smith. All rights reserved.
