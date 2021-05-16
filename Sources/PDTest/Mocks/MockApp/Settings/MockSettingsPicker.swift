@@ -14,6 +14,7 @@ public class MockSettingsPicker: SettingsPicking, Equatable {
     public init() {}
 
     public var setting: PDSetting?
+    public var activator: UIButton = UIButton()
     public var getStartRow: (SettingsPicking) -> Index = { _ in 0 }
     public var options: [String]?
     public var count: Int { options?.count ?? 0 }
