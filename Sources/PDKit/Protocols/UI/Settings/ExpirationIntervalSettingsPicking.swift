@@ -14,4 +14,10 @@ public protocol ExpirationIntervalSettingsPicking: SettingsPicking {
 
     /// This instance in a mode for picking XDays values.
     var forXDays: SettingsPicking { get }
+
+    /// The button that activates the picker in expiration interval mode.
+    var expirationIntervalButton: UIButton { get set }
+
+    /// The button that activates the picker in x-days mode.
+    var xDaysButton: UIButton { get set }
 }

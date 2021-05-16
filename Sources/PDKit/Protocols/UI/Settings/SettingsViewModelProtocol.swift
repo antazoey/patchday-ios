@@ -8,19 +8,7 @@
 
 import Foundation
 
-public protocol SettingsViewModelProtocol {
-
-    /// The index to open the delivery method picker at.
-    var deliveryMethodStartIndex: Index { get }
-
-    /// The index to open the quantity picker at.
-    var quantityStartIndex: Index { get }
-
-    /// The index to open the expiration interval picker at.
-    var expirationIntervalStartIndex: Index { get }
-
-    /// The index to open the X-Days picker at.
-    var xDaysStartIndex: Index { get }
+public protocol SettingsViewModelProtocol: SettingsPickerIndexing {
 
     /// Whether the expiration interval involves the use of the xDays property.
     var usesXDays: Bool { get }

@@ -103,6 +103,7 @@ public class SettingsOptions {
             case .DeliveryMethod: return deliveryMethods
             case .ExpirationInterval: return expirationIntervals
             case .Quantity: return quantities
+            case .XDays: return xDaysValues
             default: return []
         }
     }

@@ -11,6 +11,7 @@ import XCTest
 import PDKit
 
 class SettingsOptionsTests: XCTestCase {
+
     func testGetExpirationInterval_whenGivenOnceDaily_returnsExpectedInterval() {
         let actual = SettingsOptions.getExpirationInterval(for: SettingsOptions.OnceDaily)
         XCTAssertEqual(.OnceDaily, actual)
@@ -60,5 +61,29 @@ class SettingsOptionsTests: XCTestCase {
     func testGetExpirationInterval_whenGivenEveryXDays_returnsExpectedString() {
         let expected = SettingsOptions.EveryXDays
         XCTAssertEqual(expected, SettingsOptions.getExpirationInterval(for: .EveryXDays))
+    }
+
+    func testSubscript_whenGivenDeliveryMethod_returnsDeliveryMethodOptions() {
+        let expected = SettingsOptions.deliveryMethods
+        let actual = SettingsOptions[.DeliveryMethod]
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testSubscript_whenGivenExpirationInterval_returnsExpirationIntervals() {
+        let expected = SettingsOptions.expirationIntervals
+        let actual = SettingsOptions[.ExpirationInterval]
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testSubscript_whenGivenQuantity_returnsQuantities() {
+        let expected = SettingsOptions.quantities
+        let actual = SettingsOptions[.Quantity]
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testSubscript_whenGivenXDays_returnsXDaysValues() {
+        let expected = SettingsOptions.xDaysValues
+        let actual = SettingsOptions[.XDays]
+        XCTAssertEqual(expected, actual)
     }
 }

@@ -17,11 +17,20 @@ import PatchDay
 
 class SettingsPickerTests: XCTestCase {
 
+    func testSetActivator_setsSaveTitleForSelectedState() {
+        let picker = SettingsPicker()
+        let button = UIButton()
+        picker.activator = button
+        let expected = "Save"
+        let actual = button.title(for: .selected)
+        XCTAssertEqual(expected, actual)
+    }
+
     func testSubscript_returnsOptionAtIndex() {
-        let pickerView = SettingsPicker()
-        pickerView.options = ["foo", "bar"]
-        XCTAssertEqual("foo", pickerView[0].string)
-        XCTAssertEqual("bar", pickerView[1].string)
+        let picker = SettingsPicker()
+        picker.setting = .Quantity
+        XCTAssertEqual("1", picker[0].string)
+        XCTAssertEqual("2", picker[1].string)
     }
 
     func testOpen_selectsActivator() {

@@ -10,7 +10,8 @@ import PDKit
 class SettingsPicker: UIPickerView, SettingsPicking {
 
     private var _activator: UIButton?
-    public var setting: PDSetting?
+    var setting: PDSetting?
+    var indexer: SettingsPickerIndexing?
 
     public var activator: UIButton {
         get { _activator ?? UIButton() }
@@ -20,35 +21,33 @@ class SettingsPicker: UIPickerView, SettingsPicking {
         }
     }
 
-    public subscript(_ index: Index) -> NSAttributedString {
-        let title = options?.tryGet(at: index) ?? ""
+    subscript(_ index: Index) -> NSAttributedString {
+        let title = options.tryGet(at: index) ?? ""
         let attributes = [NSAttributedString.Key.foregroundColor: PDColors[.Text]]
         return NSAttributedString(string: title, attributes: attributes)
     }
 
-    public var getStartRow: (_ self: SettingsPicking) -> Index = { _ in 0 }
+    var getStartRow: () -> Index = { 0 }
 
-    public var options: [String]?
-
-    public var count: Int {
-        options?.count ?? 0
+    var options: [String] {
+        SettingsOptions[setting]
     }
 
-    public var selected: String? {
-        options?.tryGet(at: selectedRow(inComponent: 0))
+    var count: Int {
+        options.count
     }
 
-    public var view: UIPickerView {
+    var view: UIPickerView {
         self as UIPickerView
     }
 
-    public func open() {
+    func open() {
         _activator?.isSelected = true
         show()
         selectStartRow()
     }
 
-    public func close(setSelectedRow: Bool) {
+    func close(setSelectedRow: Bool) {
         isHidden = true
         guard let button = _activator else { return }
         button.isSelected = false
@@ -59,12 +58,16 @@ class SettingsPicker: UIPickerView, SettingsPicking {
         }
     }
 
-    public func select(_ row: Index) {
+    func select(_ row: Index) {
         activator.setTitle(self[row].string)
     }
 
+    private var selected: String? {
+        options.tryGet(at: selectedRow(inComponent: 0))
+    }
+
     private func selectStartRow() {
-        selectRow(getStartRow(self), inComponent: 0, animated: true)
+        selectRow(getStartRow(), inComponent: 0, animated: true)
     }
 
     private func show() {

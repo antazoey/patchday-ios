@@ -133,7 +133,7 @@
 		9D6187A6263F643700B284CF /* SettingsPickerListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */; };
 		9D6187AD2640BDE200B284CF /* SettingsReflecting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */; };
 		9D6187AF2640BE3200B284CF /* MockSettingsReflector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */; };
-		9D6187B22642072700B284CF /* SettingsPickerViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */; };
+		9D6187B22642072700B284CF /* SettingsPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B02642072000B284CF /* SettingsPickerTests.swift */; };
 		9D6187B52642328C00B284CF /* SettingsControlsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B32642328300B284CF /* SettingsControlsTests.swift */; };
 		9D6187B826437B5F00B284CF /* ExpirationIntervalSettingsPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B626437B3C00B284CF /* ExpirationIntervalSettingsPicker.swift */; };
 		9D6187BB26437C5C00B284CF /* ExpirationIntervalSettingsPicking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6187B926437C5100B284CF /* ExpirationIntervalSettingsPicking.swift */; };
@@ -285,6 +285,10 @@
 		9D9C600024829F5000B3DA6A /* PillDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C5FFF24829F5000B3DA6A /* PillDetailViewModelTests.swift */; };
 		9D9C60042489B75600B3DA6A /* UnsavedChangesAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9C60032489B75600B3DA6A /* UnsavedChangesAlert.swift */; };
 		9DA3A903233AFE6F00DAF350 /* PDNotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */; };
+		9DB1E3922651A23200EA1F0D /* DeliveryMethodPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3912651A23200EA1F0D /* DeliveryMethodPicker.swift */; };
+		9DB1E3942651A26900EA1F0D /* QuantityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3932651A26900EA1F0D /* QuantityPicker.swift */; };
+		9DB1E3962651A64500EA1F0D /* SettingsPickerIndexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3952651A64500EA1F0D /* SettingsPickerIndexing.swift */; };
+		9DB1E3992651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3982651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift */; };
 		9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */; };
 		9DC8C0562531139100F89DEF /* PillCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */; };
 		9DC8C0582531344100F89DEF /* SiteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */; };
@@ -633,7 +637,7 @@
 		9D6187A8263F66DB00B284CF /* MockSettingsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsPicker.swift; sourceTree = "<group>"; };
 		9D6187AC2640BDE200B284CF /* SettingsReflecting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReflecting.swift; sourceTree = "<group>"; };
 		9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsReflector.swift; sourceTree = "<group>"; };
-		9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerViewTests.swift; sourceTree = "<group>"; };
+		9D6187B02642072000B284CF /* SettingsPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerTests.swift; sourceTree = "<group>"; };
 		9D6187B32642328300B284CF /* SettingsControlsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsControlsTests.swift; sourceTree = "<group>"; };
 		9D6187B626437B3C00B284CF /* ExpirationIntervalSettingsPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationIntervalSettingsPicker.swift; sourceTree = "<group>"; };
 		9D6187B926437C5100B284CF /* ExpirationIntervalSettingsPicking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationIntervalSettingsPicking.swift; sourceTree = "<group>"; };
@@ -769,6 +773,10 @@
 		9DA3A900233AFD4D00DAF350 /* PDNotificationCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenterDelegate.swift; sourceTree = "<group>"; };
 		9DA3A902233AFE6F00DAF350 /* PDNotificationCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDNotificationCenter.swift; sourceTree = "<group>"; };
 		9DA3A904233C4B6300DAF350 /* NotificationScheduling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduling.swift; sourceTree = "<group>"; };
+		9DB1E3912651A23200EA1F0D /* DeliveryMethodPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeliveryMethodPicker.swift; sourceTree = "<group>"; };
+		9DB1E3932651A26900EA1F0D /* QuantityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPicker.swift; sourceTree = "<group>"; };
+		9DB1E3952651A64500EA1F0D /* SettingsPickerIndexing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerIndexing.swift; sourceTree = "<group>"; };
+		9DB1E3982651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationIntervalPickerTests.swift; sourceTree = "<group>"; };
 		9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModel.swift; sourceTree = "<group>"; };
 		9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModelTests.swift; sourceTree = "<group>"; };
 		9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModel.swift; sourceTree = "<group>"; };
@@ -1022,15 +1030,14 @@
 		3397C37F978FFB434BFF4FDE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9DB1E3902651A12000EA1F0D /* Pickers */,
 				9D029FC124A8397A00F4BC67 /* Alerts */,
-				9D6DB7E12406002B00C00711 /* SettingsPicker.swift */,
 				3397C7DB5907E297804FE42B /* SettingsViewModel.swift */,
 				3397CBAEECDFB0997BB88263 /* SettingsSaver.swift */,
 				3397C53545234920B507958D /* SettingsControls.swift */,
 				3397CB18E77D8048782F165F /* SettingsReflector.swift */,
 				3397C5BF42C6720C632A84B3 /* SettingsViewController.swift */,
 				9D61879E263F3E0600B284CF /* SettingsPickerList.swift */,
-				9D6187B626437B3C00B284CF /* ExpirationIntervalSettingsPicker.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1254,13 +1261,13 @@
 		9D1908DD2468310800E95244 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9DB1E3972651AF5B00EA1F0D /* Pickers */,
 				9DE08C4D25F2F6000098F593 /* Alerts */,
 				9D1908DE2468315F00E95244 /* SettingsSaverTests.swift */,
 				9D1908EE24684B5400E95244 /* SettingsReflectorTests.swift */,
 				9D1908F024684BC900E95244 /* SettingsTestHelper.swift */,
 				9D1908F22468564100E95244 /* SettingsViewModelTests.swift */,
 				9D6187A4263F643100B284CF /* SettingsPickerListTests.swift */,
-				9D6187B02642072000B284CF /* SettingsPickerViewTests.swift */,
 				9D6187B32642328300B284CF /* SettingsControlsTests.swift */,
 			);
 			path = Settings;
@@ -1385,6 +1392,7 @@
 				9D618799263F2CF900B284CF /* SettingsViewModelProtocol.swift */,
 				9D61879C263F2DD000B284CF /* SettingsPickerViewing.swift */,
 				9D6187B926437C5100B284CF /* ExpirationIntervalSettingsPicking.swift */,
+				9DB1E3952651A64500EA1F0D /* SettingsPickerIndexing.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1859,6 +1867,26 @@
 				9D8F45CF248B324A00F2C39A /* SiteDetailViewModelTests.swift */,
 			);
 			path = Details;
+			sourceTree = "<group>";
+		};
+		9DB1E3902651A12000EA1F0D /* Pickers */ = {
+			isa = PBXGroup;
+			children = (
+				9D6DB7E12406002B00C00711 /* SettingsPicker.swift */,
+				9D6187B626437B3C00B284CF /* ExpirationIntervalSettingsPicker.swift */,
+				9DB1E3912651A23200EA1F0D /* DeliveryMethodPicker.swift */,
+				9DB1E3932651A26900EA1F0D /* QuantityPicker.swift */,
+			);
+			path = Pickers;
+			sourceTree = "<group>";
+		};
+		9DB1E3972651AF5B00EA1F0D /* Pickers */ = {
+			isa = PBXGroup;
+			children = (
+				9D6187B02642072000B284CF /* SettingsPickerTests.swift */,
+				9DB1E3982651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift */,
+			);
+			path = Pickers;
 			sourceTree = "<group>";
 		};
 		9DC8C05325310F6400F89DEF /* Cell */ = {
@@ -2479,6 +2507,7 @@
 				9D9C60042489B75600B3DA6A /* UnsavedChangesAlert.swift in Sources */,
 				3397C668E73AC0792D0D161E /* PillsViewController.swift in Sources */,
 				3397C543630D8BC42FD09ABA /* PillDetailViewModel.swift in Sources */,
+				9DB1E3922651A23200EA1F0D /* DeliveryMethodPicker.swift in Sources */,
 				3397C57D9D9E5531F14F6806 /* PillDetailViewController.swift in Sources */,
 				9D6D786D23FE2BAD00FF150C /* PillCellActionHandlers.swift in Sources */,
 				3397C13BC1CDD2621E6E239C /* DeliveryMethodMutationAlert.swift in Sources */,
@@ -2513,6 +2542,7 @@
 				9DE4536F242FA4920056AC94 /* SiteImageHistory.swift in Sources */,
 				9DDAB03A23FAEFF500E6EEF6 /* QuantityMutationAlertActionHandler.swift in Sources */,
 				9D6187B826437B5F00B284CF /* ExpirationIntervalSettingsPicker.swift in Sources */,
+				9DB1E3942651A26900EA1F0D /* QuantityPicker.swift in Sources */,
 				9D8A984223CEAA7E004E20FE /* SitesViewController.swift in Sources */,
 				9DDAB02F23FA051500E6EEF6 /* PillCellActionAlert.swift in Sources */,
 				3397C85BF35A4285872BE0CD /* TabReflector.swift in Sources */,
@@ -2537,7 +2567,7 @@
 			files = (
 				9D6E9B23245CD8DF003BBCC9 /* ExpiredHormoneOvernightNotificationTests.swift in Sources */,
 				9D1908D12460C41E00E95244 /* HormoneStringsTests.swift in Sources */,
-				9D6187B22642072700B284CF /* SettingsPickerViewTests.swift in Sources */,
+				9D6187B22642072700B284CF /* SettingsPickerTests.swift in Sources */,
 				9D53A68C25116BA200D4D712 /* NotificationStringTests.swift in Sources */,
 				9D618790263D927500B284CF /* PillCellActionAlertTests.swift in Sources */,
 				9D6187A6263F643700B284CF /* SettingsPickerListTests.swift in Sources */,
@@ -2548,6 +2578,7 @@
 				9D8F45D82495694A00F2C39A /* SitesViewModelTests.swift in Sources */,
 				9D1908DF2468315F00E95244 /* SettingsSaverTests.swift in Sources */,
 				9DE748392539042500282144 /* SiteCellViewModelTests.swift in Sources */,
+				9DB1E3992651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift in Sources */,
 				9D9C5FFB2482970E00B3DA6A /* TabReflectorTests.swift in Sources */,
 				9D6187B52642328C00B284CF /* SettingsControlsTests.swift in Sources */,
 				9D6E9B3B245DCD5E003BBCC9 /* HormoneDetailViewModelTests.swift in Sources */,
@@ -2758,6 +2789,7 @@
 				9D7F1444240C4486001577A1 /* ComplexSetting.swift in Sources */,
 				9D9397C02379473B00FDF290 /* SettingsManaging.swift in Sources */,
 				9DE1196825FFC90000D08F97 /* TextFieldHelper.swift in Sources */,
+				9DB1E3962651A64500EA1F0D /* SettingsPickerIndexing.swift in Sources */,
 				9D9978472367B01C009679FB /* SimpleProtocols.swift in Sources */,
 				9D78883E25585F1700DC0F6D /* SiteDetailViewModelProtocol.swift in Sources */,
 				9D7888832558636800DC0F6D /* ImageResizer.swift in Sources */,

@@ -17,16 +17,13 @@ public protocol SettingsPicking {
     var activator: UIButton { get set }
 
     /// A method that returns the start index.
-    var getStartRow: (_ self: SettingsPicking) -> Index { get }
+    var getStartRow: () -> Index { get }
 
     /// The available picker options that the user can select.
-    var options: [String]? { get }
+    var options: [String] { get }
 
     /// The number of available options.
     var count: Int { get }
-
-    /// The current selected option.
-    var selected: String? { get }
 
     /// The property from UIView meaning if the view is on or off the screen.
     var isHidden: Bool { get set }

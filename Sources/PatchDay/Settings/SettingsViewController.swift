@@ -43,9 +43,9 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     @IBOutlet private weak var notificationsMinutesBeforeValueLabel: UILabel!
 
     // Pickers
-    @IBOutlet private weak var deliveryMethodPicker: SettingsPicker!
+    @IBOutlet private weak var deliveryMethodPicker: DeliveryMethodPicker!
     @IBOutlet private weak var expirationIntervalPicker: ExpirationInteravlSettingsPicker!
-    @IBOutlet private weak var quantityPicker: SettingsPicker!
+    @IBOutlet private weak var quantityPicker: QuantityPicker!
 
     // Buttons
     @IBOutlet private weak var deliveryMethodButton: UIButton!
@@ -249,37 +249,13 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
 
     private func setPickers() {
         guard let viewModel = viewModel else { return }
-        setPicker(
-            deliveryMethodPicker,
-            .DeliveryMethod,
-            deliveryMethodButton, { _ in viewModel.deliveryMethodStartIndex }
-        )
-        setPicker(
-            expirationIntervalPicker,
-            .ExpirationInterval,
-            expirationIntervalButton, {
-                p in p.setting == .ExpirationInterval
-                    ? viewModel.expirationIntervalStartIndex
-                    : viewModel.xDaysStartIndex
-            }
-        )
-        setPicker(
-            quantityPicker,
-            .Quantity,
-            quantityButton, { _ in viewModel.quantityStartIndex }
-        )
-    }
-
-    private func setPicker(
-        _ picker: SettingsPicker,
-        _ setting: PDSetting,
-        _ button: UIButton,
-        _ getStartRow: @escaping (SettingsPicking) -> (Index)
-    ) {
-        picker.setting = setting
-        picker.activator = button
-        picker.getStartRow = getStartRow
-        picker.options = SettingsOptions[setting]
+        deliveryMethodPicker.activator = deliveryMethodButton
+        deliveryMethodPicker.indexer = viewModel
+        quantityPicker.activator = quantityButton
+        quantityPicker.indexer = viewModel
+        expirationIntervalPicker.indexer = viewModel
+        expirationIntervalPicker.expirationIntervalButton = expirationIntervalButton
+        expirationIntervalPicker.xDaysButton = xDaysButton
     }
 }
 

@@ -1,6 +1,6 @@
 //
 //  MockSettingsPicker.swift
-//  PDKit
+//  PDTest
 //
 //  Created by Juliya Smith on 5/2/21.
 //  Copyright © 2021 Juliya Smith. All rights reserved.
@@ -15,9 +15,9 @@ public class MockSettingsPicker: SettingsPicking, Equatable {
 
     public var setting: PDSetting?
     public var activator: UIButton = UIButton()
-    public var getStartRow: (SettingsPicking) -> Index = { _ in 0 }
-    public var options: [String]?
-    public var count: Int { options?.count ?? 0 }
+    public var getStartRow: () -> Index = { 0 }
+    public var options: [String] = []
+    public var count: Int { options.count }
     public var selected: String?
     public var isHidden: Bool = false
     public var view: UIPickerView = UIPickerView()

@@ -87,7 +87,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="wS8-cn-fxd"/>
                                                 </constraints>
                                             </view>
-                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajI-Up-RPe" customClass="SettingsPicker" customModule="PatchDay" customModuleProvider="target">
+                                            <pickerView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ajI-Up-RPe" customClass="DeliveryMethodPicker" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="61" width="359" height="180"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="180" id="ev5-LR-JHl"/>
@@ -280,7 +280,7 @@
                                                     <constraint firstAttribute="height" constant="60" id="sHV-dz-bap"/>
                                                 </constraints>
                                             </stackView>
-                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9L4-RC-IWw" customClass="SettingsPicker" customModule="PatchDay" customModuleProvider="target">
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9L4-RC-IWw" customClass="QuantityPicker" customModule="PatchDay" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="183" width="359" height="216"/>
                                             </pickerView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xUU-gZ-927">
