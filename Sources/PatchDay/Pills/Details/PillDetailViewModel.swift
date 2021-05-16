@@ -112,9 +112,9 @@ class PillDetailViewModel: CodeBehindDependencies<PillDetailViewModel>, PillDeta
     var daysOneLabelText: String? {
         guard expirationIntervalUsesDays else { return nil }
         if expirationInterval == .FirstXDays {
-            return NSLocalizedString("First X days of the month:", comment: "on label")
+            return NSLocalizedString("First \"X\" days of the month:", comment: "on label")
         } else if expirationInterval == .LastXDays {
-            return NSLocalizedString("Last X days of the month:", comment: "on label")
+            return NSLocalizedString("Last \"X\" days of the month:", comment: "on label")
         }
         return NSLocalizedString("Days on:", comment: "on label")
     }

@@ -21,6 +21,8 @@ Changed
 - You can now save typed Pill name changes without having to close the text field.
 - You can now save typed Site name changes without having to close the text field.
 - You can now save custom site name changes for hormones without having to close the text field.
+- X days-based pill expiration intervals now have quotes around the "X" so that it does not seem like the 
+    Roman-numeral 10.
 
 ## 3.4.0
 

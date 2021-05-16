@@ -18,7 +18,7 @@ public class SettingsOptions {
     public static let OnceEveryTwoWeeks = NSLocalizedString(
         "Once Every Two Weeks", comment: comment
     )
-    public static let EveryXDays = NSLocalizedString("Every X Days", comment: comment)
+    public static let EveryXDays = NSLocalizedString("Every \"X\" Days", comment: comment)
 
     public static var deliveryMethods: [String] {
         [
