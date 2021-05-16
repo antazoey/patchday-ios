@@ -94,7 +94,7 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public func replaceStoredXDays(to newValue: String) {
-        handler.replace(expirationInterval.xDays    , to: newValue)
+        handler.replace(expirationInterval.xDays, to: newValue)
     }
 
     public func replaceStoredNotifications(to newValue: Bool) {

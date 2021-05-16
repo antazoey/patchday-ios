@@ -76,7 +76,7 @@ class EntityAdapter {
             pill.times = times
         }
         if let timesTaken = pillData.attributes.timesTakenToday,
-           timesTaken != pill.timesTakenTodayList {
+            timesTaken != pill.timesTakenTodayList {
             pill.timesTakenTodayList = timesTaken
         }
         if let expirationInterval = pillData.attributes.expirationInterval.value {

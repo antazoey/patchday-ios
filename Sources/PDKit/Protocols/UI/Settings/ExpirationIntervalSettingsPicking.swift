@@ -11,7 +11,7 @@ public protocol ExpirationIntervalSettingsPicking: SettingsPicking {
 
     /// This instance in a mode for picking expiration interval values.
     var forIntervals: SettingsPicking { get }
-    
+
     /// This instance in a mode for picking XDays values.
     var forXDays: SettingsPicking { get }
 }
