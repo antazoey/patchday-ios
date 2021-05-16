@@ -37,7 +37,7 @@ public protocol SettingsPicking {
     /// Open the picker so the user can select an option.
     func open()
 
-    /// Close the picker after the user selects on option.
+    /// Close the picker after the user selects an option.
     func close(setSelectedRow: Bool)
 
     /// The method for selecting a row in a UIPickerView.
