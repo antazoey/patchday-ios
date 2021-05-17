@@ -10,9 +10,6 @@ import Foundation
 
 public protocol SettingsViewModelProtocol: SettingsPickerIndexing {
 
-    /// Whether the expiration interval involves the use of the xDays property.
-    var usesXDays: Bool { get }
-
     /// Close or open a picker.
     func activatePicker(_ picker: SettingsPicking)
 

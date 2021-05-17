@@ -78,36 +78,6 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(0, viewModel.expirationIntervalStartIndex)
     }
 
-    func testUsesXDays_whenExpirationIntervalIsEveryXDays_returnsTrue() {
-        settings.expirationInterval = ExpirationIntervalUD(.EveryXDays)
-        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        XCTAssertTrue(viewModel.usesXDays)
-    }
-
-    func testUsesXDays_whenExpirationIntervalIsOnceDaily_returnsFalse() {
-        settings.expirationInterval = ExpirationIntervalUD(.OnceDaily)
-        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        XCTAssertFalse(viewModel.usesXDays)
-    }
-
-    func testUsesXDays_whenExpirationIntervalIsTwiceWeekly_returnsFalse() {
-        settings.expirationInterval = ExpirationIntervalUD(.TwiceWeekly)
-        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        XCTAssertFalse(viewModel.usesXDays)
-    }
-
-    func testUsesXDays_whenExpirationIntervalIsOnceWeekly_returnsFalse() {
-        settings.expirationInterval = ExpirationIntervalUD(.OnceWeekly)
-        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        XCTAssertFalse(viewModel.usesXDays)
-    }
-
-    func testUsesXDays_whenExpirationIntervalIsEveryTwoWeeks_returnsFalse() {
-        settings.expirationInterval = ExpirationIntervalUD(.EveryTwoWeeks)
-        let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
-        XCTAssertFalse(viewModel.usesXDays)
-    }
-
     func testActivatePicker_whenPickerIsHidden_selectsActivator() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         let picker = SettingsPicker()

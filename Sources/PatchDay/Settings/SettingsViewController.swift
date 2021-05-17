@@ -101,7 +101,6 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         assignSelfAsDelegateForPickers()
         let viewModel = initViewModel()
         viewModel.reflect()
-        hideOrUnhideViews()
         applyTheme()
         loadButtonDisabledStates()
     }
@@ -179,22 +178,10 @@ class SettingsViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         return viewModel
     }
 
-    private func hideOrUnhideViews() {
-        guard let viewModel = viewModel else { return }
-        if viewModel.usesXDays {
-            xDaysStack.isHidden = false
-            lineBelowXDaysStack.isHidden = false
-        } else {
-            xDaysStack.isHidden = true
-            lineBelowXDaysStack.isHidden = true
-        }
-    }
-
     private func handlePickerActivation(_ setting: PDSetting) {
         guard let viewModel = viewModel else { return }
         guard let picker = pickers.select(setting) else { return }
         viewModel.activatePicker(picker)
-        hideOrUnhideViews()
     }
 
     // MARK: - View loading and altering
