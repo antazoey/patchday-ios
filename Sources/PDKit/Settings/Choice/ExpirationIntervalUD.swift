@@ -84,9 +84,10 @@ public class ExpirationIntervalUD: ComplexSetting<ExpirationInterval, String>, K
     }
 
     public static func extractDays(from intervalString: String) -> String {
-        // TODO: Test
         let stringList = intervalString.split(separator: " ")
-        guard stringList.count > 1 else { return "" }
+        guard stringList.count == 3 else { return "" }
+        guard stringList[0] == "Every" else { return "" }
+        guard stringList[2] == "Days" else { return "" }
         return String(stringList[1])
     }
 }

@@ -123,6 +123,22 @@ class SettingsTests: XCTestCase {
         XCTAssertEqual(.OnceWeekly, callArgs[2])
     }
 
+    func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedInterval() {
+        let settings = createSettings()
+        settings.setExpirationInterval(to: "Every 4.5 Days")
+        let callArgs = mockSettingsWriter.replaceStoredExpirationIntervalCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual(.EveryXDays, callArgs[0])
+    }
+
+    func testSetExpirationInterval_whenSettingACustomInterval_setsExpectedIntervalDays() {
+        let settings = createSettings()
+        settings.setExpirationInterval(to: "Every 4.5 Days")
+        let callArgs = mockSettingsWriter.replaceStoredXDaysCallArgs
+        XCTAssertEqual(1, callArgs.count)
+        XCTAssertEqual("4.5", callArgs[0])
+    }
+
     func testSetXDays_setsXDays() {
         let settings = createSettings()
         settings.setXDays(to: "3")

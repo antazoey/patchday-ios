@@ -54,4 +54,18 @@ class ExpirationIntervalUDTests: XCTestCase {
         let expiration = ExpirationIntervalUD(.TwiceWeekly)
         XCTAssertEqual(84, expiration.hours)
     }
+
+    func testExtractDays_extractsDays() {
+        let testString = "Every 5.0 Days"
+        let expected = "5.0"
+        let actual = ExpirationIntervalUD.extractDays(from: testString)
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExtractDays_whenGivenInvalidString_returnsEmptyString() {
+        let testString = "Blipity Blop"
+        let expected = ""
+        let actual = ExpirationIntervalUD.extractDays(from: testString)
+        XCTAssertEqual(expected, actual)
+    }
 }
