@@ -92,18 +92,20 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
     }
 
     func setNotifications(_ newValue: Bool) {
-        sdk?.settings.setNotifications(to: newValue)
+        guard let sdk = sdk else { return }
+        sdk.settings.setNotifications(to: newValue)
         if newValue {
             notifications?.requestAllExpiredHormoneNotifications()
         } else {
             // disabling
             notifications?.cancelAllExpiredHormoneNotifications()
-            sdk?.settings.setNotificationsMinutesBefore(to: 0)
+            sdk.settings.setNotificationsMinutesBefore(to: 0)
         }
     }
 
     private func setNotificationsMinutes(_ newValue: Int) {
-        sdk?.settings.setNotificationsMinutesBefore(to: newValue)
+        guard let sdk = sdk else { return }
+        sdk.settings.setNotificationsMinutesBefore(to: newValue)
         notifications?.requestAllExpiredHormoneNotifications()
     }
 
@@ -111,6 +113,8 @@ class SettingsViewModel: CodeBehindDependencies<SettingsViewModel>, SettingsView
         picker.close(setSelectedRow: true)
         guard let setting = picker.setting else { return }
         let row = picker.selectedRow(inComponent: 0)
+
+        // Replacing value for Setting.
         saver.save(setting, selectedRow: row)
     }
 }

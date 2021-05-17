@@ -148,13 +148,23 @@ class SettingsViewModelTests: XCTestCase {
         XCTAssertEqual(0, settings.setNotificationsMinutesBeforeCallArgs.count)
     }
 
-    func testHandleNewNotificationsMinutesValue_cancelsAdnResendsAllNotifications() {
+    func testHandleNewNotificationsMinutesValue_cancelsAndResendsAllNotifications() {
         let viewModel = SettingsViewModel(reflector, saver, alertFactory, dependencies)
         settings.notifications = NotificationsUD(true)
         viewModel.handleNewNotificationsMinutesValue(23)
         let nots = dependencies.notifications as! MockNotifications
         XCTAssertEqual(1, nots.cancelAllExpiredHormoneNotificationsCallCount)
         XCTAssertEqual(1, nots.requestAllExpiredHormoneNotificationCallCount)
+    }
+
+    func testHandleNewNotificationsMinutesBeforeValue_whenNilSdk_doesNotCancelOrRequestNotifications() {
+        let deps = MockDependencies()
+        deps.sdk = nil
+        let viewModel = SettingsViewModel(reflector, saver, alertFactory, deps)
+        viewModel.handleNewNotificationsMinutesValue(23)
+        let nots = deps.notifications as! MockNotifications
+        XCTAssertEqual(0, nots.cancelAllExpiredHormoneNotificationsCallCount)
+        XCTAssertEqual(0, nots.requestAllExpiredHormoneNotificationCallCount)
     }
 
     func testHandleNewNotificationsMinutesValue_sets() {
