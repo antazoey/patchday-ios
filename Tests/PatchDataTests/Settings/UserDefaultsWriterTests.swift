@@ -50,12 +50,12 @@ class UserDefaultsWriterTests: XCTestCase {
     }
 
     func testDeliveryMethod_whenLoadsValue_usesLoadedValue() {
-        defaults.mockObjectMap[PDSetting.DeliveryMethod.rawValue] = "Gel"
+        defaults.mockObjectMap[PDSetting.DeliveryMethod.rawValue] = DeliveryMethodUD.GelKey
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.deliveryMethod.rawValue
-        let expected = "Gel"
+        let expected = DeliveryMethodUD.GelKey
         XCTAssertEqual(expected, actual)
     }
 
@@ -65,17 +65,18 @@ class UserDefaultsWriterTests: XCTestCase {
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.deliveryMethod.rawValue
-        let expected = "Patches"
+        let expected = DeliveryMethodUD.PatchesKey
         XCTAssertEqual(expected, actual)
     }
 
     func testExpirationInterval_whenLoadsValue_usesLoadedValue() {
-        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = "Two weeks"
+        let key = ExpirationIntervalUD.EveryTwoWeeksKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = key
         let writer = UserDefaultsWriter(
             handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
         )
         let actual = writer.expirationInterval.rawValue
-        let expected = "Two weeks"
+        let expected = ExpirationIntervalUD.EveryTwoWeeksKey
         XCTAssertEqual(expected, actual)
     }
 
@@ -86,6 +87,90 @@ class UserDefaultsWriterTests: XCTestCase {
         )
         let actual = writer.expirationInterval.rawValue
         let expected = DefaultSettings.ExpirationIntervalRawValue
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenHasStoredXDaysValueAndIsEveryXDaysInterval_setsXDays() {
+        let xDaysExp = ExpirationIntervalUD.EveryXDaysKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
+        defaults.mockObjectMap[PDSetting.XDays.rawValue] = "11.5"
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        let actual = writer.expirationInterval.xDays.value
+        let expected = "11.5"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenDoesNotHaveStoredXDaysValueAndIsEveryXDaysInterval_usesDefault() {
+        let xDaysExp = ExpirationIntervalUD.EveryXDaysKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
+        defaults.mockObjectMap[PDSetting.XDays.rawValue] = nil  // Does not have
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        let actual = writer.expirationInterval.xDays.value
+        let expected = DefaultSettings.XDaysRawValue
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenIsOnceDaily_setsToOne() {
+        let xDaysExp = ExpirationIntervalUD.OnceDailyKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
+
+        // Set stored value to prove that it doesn't matter.
+        defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
+
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        let actual = writer.expirationInterval.xDays.value
+        let expected = "1.0"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenIsTwiceWeekly_setsToThreePointFive() {
+        let xDaysExp = ExpirationIntervalUD.TwiceWeeklyKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
+
+        // Set stored value to prove that it doesn't matter.
+        defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
+
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        let actual = writer.expirationInterval.xDays.value
+        let expected = "3.5"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenIsOnceWeekly_setsToSeven() {
+        let xDaysExp = ExpirationIntervalUD.OnceWeeklyKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
+
+        // Set stored value to prove that it doesn't matter.
+        defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
+
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        let actual = writer.expirationInterval.xDays.value
+        let expected = "7.0"
+        XCTAssertEqual(expected, actual)
+    }
+
+    func testExpirationInterval_whenIsEveryTwoWeeks_setsToFourteen() {
+        let xDaysExp = ExpirationIntervalUD.EveryTwoWeeksKey
+        defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = xDaysExp
+
+        // Set stored value to prove that it doesn't matter.
+        defaults.mockObjectMap[PDSetting.XDays.rawValue] = "2.5"
+
+        let writer = UserDefaultsWriter(
+            handler: handler, siteStore: createMockSiteStore(count: 4, freeHormoneIndex: 0)
+        )
+        let actual = writer.expirationInterval.xDays.value
+        let expected = "14.0"
         XCTAssertEqual(expected, actual)
     }
 
@@ -248,7 +333,7 @@ class UserDefaultsWriterTests: XCTestCase {
         defaults.mockObjectMap[PDSetting.DeliveryMethod.rawValue] = 2  // Not default
         writer.replaceStoredDeliveryMethod(to: .Patches)
         defaults.assertSettingWasSet(
-            expected: "Patches", setting: .DeliveryMethod
+            expected: DeliveryMethodUD.PatchesKey, setting: .DeliveryMethod
         )
     }
 
@@ -267,7 +352,8 @@ class UserDefaultsWriterTests: XCTestCase {
         )
         defaults.mockObjectMap[PDSetting.ExpirationInterval.rawValue] = "not default"
         writer.replaceStoredExpirationInterval(to: ExpirationInterval.EveryTwoWeeks)
-        defaults.assertSettingWasSet(expected: "Two weeks", setting: .ExpirationInterval)
+        let expected = ExpirationIntervalUD.EveryTwoWeeksKey
+        defaults.assertSettingWasSet(expected: expected, setting: .ExpirationInterval)
     }
 
     func testReplaceStoredXDays_replaces() {

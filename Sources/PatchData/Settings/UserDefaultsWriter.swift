@@ -24,9 +24,13 @@ public class UserDefaultsWriter: UserDefaultsWriting {
     }
 
     public var expirationInterval: ExpirationIntervalUD {
-        let def = DefaultSettings.ExpirationIntervalRawValue
-        let expirationInterval = handler.load(setting: .ExpirationInterval, defaultValue: def)
-        return ExpirationIntervalUD(expirationInterval)
+        let defaultInterval = DefaultSettings.ExpirationIntervalRawValue
+        let expirationInterval = handler.load(
+            setting: .ExpirationInterval, defaultValue: defaultInterval
+        )
+        let expirationIntervalUserDefault = ExpirationIntervalUD(expirationInterval)
+        expirationIntervalUserDefault.xDays.rawValue = getXDays(expirationIntervalUserDefault)
+        return expirationIntervalUserDefault
     }
 
     public var quantity: QuantityUD {
@@ -146,5 +150,12 @@ public class UserDefaultsWriter: UserDefaultsWriting {
         }
         let incrementedIndex = currentIndex + 1
         return replaceStoredSiteIndex(to: incrementedIndex)
+    }
+
+    private func getXDays(_ expirationInterval: ExpirationIntervalUD) -> String {
+        let defaultXDays = "\(expirationInterval.days)"
+        return expirationInterval.value == .EveryXDays
+            ? handler.load(setting: .XDays, defaultValue: defaultXDays)
+            : defaultXDays
     }
 }

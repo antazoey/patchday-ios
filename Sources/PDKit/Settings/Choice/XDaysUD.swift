@@ -25,11 +25,12 @@ public class XDaysUD: ComplexSetting<String, String>, KeyStorable {
         self.choices = SettingsOptions.xDaysValues
     }
 
-    public var days: Int {
-        Int(rawValue) ?? DefaultSettings.XDaysRawValueInt
+    public var days: Double {
+        Double(rawValue) ?? DefaultSettings.XDaysRawValueDouble
     }
 
     public var hours: Int {
-        Hours.InDay * days
+        let daysDouble = Double(Hours.InDay)
+        return Int(daysDouble * days)  // Should always be a whole number.
     }
 }

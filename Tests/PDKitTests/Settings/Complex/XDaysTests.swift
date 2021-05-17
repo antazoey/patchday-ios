@@ -16,7 +16,7 @@ class XDaysUDTests: XCTestCase {
     func testDays_returnsExpectedValue() {
         let xDays = XDaysUD("23")
         let actual = xDays.days
-        let expected = 23
+        let expected = 23.0
         XCTAssertEqual(expected, actual)
     }
 

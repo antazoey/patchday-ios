@@ -36,6 +36,18 @@ public class Hours {
     }
 }
 
+/// Constants that are days.
+public class Days {
+    /// The number of days in 1/2 of a week.
+    public static let InHalfWeek = 3.5
+
+    /// The number of days that are in a week.
+    public static let InWeek = 7.0
+
+    /// The number of days that are in two weeks.
+    public static let InTwoWeeks = 14.0
+}
+
 /// Default hormone settings.
 public class DefaultSettings {
     public static let ExpirationIntervalValue = ExpirationInterval.TwiceWeekly

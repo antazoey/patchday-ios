@@ -137,10 +137,10 @@ class SettingsReflectorTests: XCTestCase {
         let sdk = dependencies.sdk as! MockSDK
         let settings = sdk.settings as! MockSettings
         settings.expirationInterval = ExpirationIntervalUD(.EveryXDays)
-        settings.expirationInterval.value = "5"
+        settings.expirationInterval.rawValue = "5.0"
         controls = helper.createControls()
         SettingsReflector(controls, dependencies).reflect()
         XCTAssertEqual("Every \"X\" Days", controls.expirationIntervalButton.titleLabel?.text)
-        XCTAssertEqual("5", controls.xDaysButton.titleLabel?.text)
+        XCTAssertEqual("5.0", controls.xDaysButton.titleLabel?.text)
     }
 }
