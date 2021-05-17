@@ -51,7 +51,8 @@ public class DefaultSettings {
     public static let SiteIndexRawValue = 0
     public static let MaxSupportedNotificationsMinutesBefore = 120
     public static let PillsEnabledRawValue = true
-    public static let XDaysRawValue = "10"
+    public static let XDaysRawValue = "10.0"
+    public static let XDaysRawValueDouble = 10.0
     public static let XDaysRawValueInt = 10
 }
 

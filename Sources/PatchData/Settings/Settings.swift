@@ -13,8 +13,8 @@ public class Settings: SettingsManaging {
     private let hormones: HormoneScheduling
     private let sites: SiteScheduling
 
-    /// For Settings logic that requires the use of dependencies, such as the Schedules.
-    /// For all other Settings logic that does not require using dependencies, use the Writer class.
+    /// For settings logic that requires the use of dependencies, such as side effects in schedules.
+    /// For all other settings logic that does not require using dependencies, use `UserDefaultsWriter`.
 
     init(
         writer: UserDefaultsWriting,
