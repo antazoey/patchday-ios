@@ -27,6 +27,6 @@ public class MockUserDefaults: UserDefaultsProtocol {
         PDSetting.MentionedDisclaimer.rawValue: DefaultSettings.MentionedDisclaimerRawValue
     ]
     public func object(for key: String) -> Any? {
-        mockObjectMap[key]!
+        mockObjectMap[key] ?? nil  // Coerces from double-nil
     }
 }

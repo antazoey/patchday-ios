@@ -289,6 +289,7 @@
 		9DB1E3942651A26900EA1F0D /* QuantityPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3932651A26900EA1F0D /* QuantityPicker.swift */; };
 		9DB1E3962651A64500EA1F0D /* SettingsPickerIndexing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3952651A64500EA1F0D /* SettingsPickerIndexing.swift */; };
 		9DB1E3992651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E3982651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift */; };
+		9DB1E39C2651F6F100EA1F0D /* MockSettingsPickerIndexer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E39A2651F6A200EA1F0D /* MockSettingsPickerIndexer.swift */; };
 		9DC8C05225310F4100F89DEF /* PillCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */; };
 		9DC8C0562531139100F89DEF /* PillCellViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */; };
 		9DC8C0582531344100F89DEF /* SiteCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */; };
@@ -777,6 +778,7 @@
 		9DB1E3932651A26900EA1F0D /* QuantityPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuantityPicker.swift; sourceTree = "<group>"; };
 		9DB1E3952651A64500EA1F0D /* SettingsPickerIndexing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPickerIndexing.swift; sourceTree = "<group>"; };
 		9DB1E3982651AF8400EA1F0D /* ExpirationIntervalPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationIntervalPickerTests.swift; sourceTree = "<group>"; };
+		9DB1E39A2651F6A200EA1F0D /* MockSettingsPickerIndexer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSettingsPickerIndexer.swift; sourceTree = "<group>"; };
 		9DC8C05125310F4100F89DEF /* PillCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModel.swift; sourceTree = "<group>"; };
 		9DC8C0552531139100F89DEF /* PillCellViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillCellViewModelTests.swift; sourceTree = "<group>"; };
 		9DC8C0572531344100F89DEF /* SiteCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteCellViewModel.swift; sourceTree = "<group>"; };
@@ -1403,6 +1405,7 @@
 				9D6187AE2640BE3200B284CF /* MockSettingsReflector.swift */,
 				9D6187A8263F66DB00B284CF /* MockSettingsPicker.swift */,
 				9D6187BC26437EB600B284CF /* MockExpirationIntervalPicker.swift */,
+				9DB1E39A2651F6A200EA1F0D /* MockSettingsPickerIndexer.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2619,6 +2622,7 @@
 				9D8A984B23D13093004E20FE /* MockSiteStore.swift in Sources */,
 				9D1908F6247029E800E95244 /* PDAssert.swift in Sources */,
 				9D8A981D23C57448004E20FE /* PDMocking.swift in Sources */,
+				9DB1E39C2651F6F100EA1F0D /* MockSettingsPickerIndexer.swift in Sources */,
 				9DE1193825FFA47800D08F97 /* MockWidget.swift in Sources */,
 				9D7888D82558781100DC0F6D /* MockHormoneCell.swift in Sources */,
 				9D6187BD26437EB600B284CF /* MockExpirationIntervalPicker.swift in Sources */,
